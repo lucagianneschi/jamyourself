@@ -1,0 +1,1 @@
+questa è la cartella generale delle immagini del sito; in questa cartella non viene salvato niente in modo diretto, si salvano le immagini nelle rispettive sottocartelle

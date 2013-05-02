@@ -1,0 +1,1 @@
+In questa cartella si salvano le immagini caricate dagli User come cover degli album di immagini; la property XX delle istanze della classe Photo puntano ad immagini contenute in questa cartella.

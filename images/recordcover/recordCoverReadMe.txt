@@ -1,0 +1,1 @@
+In questa cartella si salvano le thumb delle cover dei record

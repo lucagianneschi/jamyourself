@@ -1,0 +1,1 @@
+In questa cartella si salva il codice di utilità, cioè quel codice che viene riutilizzato in diverse sezioni del sito. E' una libreria di utilità di codice

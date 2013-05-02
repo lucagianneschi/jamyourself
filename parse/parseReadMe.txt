@@ -1,0 +1,1 @@
+In questa cartella si salva SDK e libreria per interagire con DB

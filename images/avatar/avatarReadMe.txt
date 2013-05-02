@@ -1,0 +1,1 @@
+In questa cartella si salvano gli avatar degli utenti; la property avatar delle istanze della classe User puntano ad immagini contenute in questa cartella.
