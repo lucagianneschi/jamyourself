@@ -1,6 +1,6 @@
 <?php
 
-class pointerParse {
+class PointerParse {
 	
 	private $parsePointer;
 	

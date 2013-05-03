@@ -1,6 +1,6 @@
 <?php
 
-class imageAlbum{
+class ImageAlbum{
 
 	private $objectId;
 	private $fromUser;

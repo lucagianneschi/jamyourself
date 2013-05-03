@@ -3,7 +3,7 @@
 define('CLASS_DIR', './');
 include_once CLASS_DIR.'geoPointParse.class.php';
 
-class comment {
+class Comment {
 	
 	private $objectId;
 	private $active;

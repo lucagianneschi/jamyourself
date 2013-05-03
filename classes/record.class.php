@@ -1,6 +1,6 @@
 <?php
 
-class record{
+class Record{
 
 	private	$objectId;
 	private	$fromUser;

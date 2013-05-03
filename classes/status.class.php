@@ -1,6 +1,6 @@
 <?php
 
-class status{
+class Status{
 	//proprie di Parse
 	private $objectId;
 	

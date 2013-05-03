@@ -1,6 +1,6 @@
 <?php
 
-class activity{
+class Activity{
 
 	private $objectId; 	//String
 	private $event;		//Event

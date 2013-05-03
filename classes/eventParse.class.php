@@ -7,7 +7,7 @@ include_once CLASS_DIR.'event.class.php';
 include_once CLASS_DIR.'geoPointParse.class.php';
 include_once CLASS_DIR.'pointerParse.class.php';
 
-class eventParse {
+class EventParse {
 		
 	private $parseQuery;
 

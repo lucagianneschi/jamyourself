@@ -1,6 +1,6 @@
 <?php
 
-class question {
+class Question {
 	
 	private $objectId;
 	private $answer;

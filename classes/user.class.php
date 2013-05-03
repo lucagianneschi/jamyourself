@@ -2,7 +2,7 @@
 
 require_once'settings.php';
 
-class user{
+class User{
 
 	//questi dati sono aggiornati solo dopo aver fatto save/userLogin/update
 

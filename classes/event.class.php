@@ -3,7 +3,7 @@
 define('CLASS_DIR', '../classes/');
 include_once CLASS_DIR.'geoPointParse.class.php';
 
-class event {
+class Event {
 	
 	private $objectId;
 	private $attendee;				//Array di utenti che partecipano all'evento

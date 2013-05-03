@@ -7,7 +7,7 @@ include_once ROOT.CLASS_DIR.'faq.class.php';
 include_once ROOT.CLASS_DIR.'error.class.php';
 include_once ROOT.CLASS_DIR.'errorParse.class.php';
  
-class faqParse {
+class FaqParse {
  
 	private $parseQuery;
  

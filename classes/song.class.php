@@ -1,6 +1,6 @@
 <?php
 
-class song{
+class Song{
 
 	private $objectId;
 

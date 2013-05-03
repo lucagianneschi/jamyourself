@@ -1,6 +1,6 @@
 <?php
 
-class faq {
+class Faq {
 	
 	private $objectId;
 	private $area;

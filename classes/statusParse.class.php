@@ -1,6 +1,6 @@
 <?php
 
-class statusParse{
+class StatusParse{
 
 	private $parseQuery;
 

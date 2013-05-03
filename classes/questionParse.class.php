@@ -5,7 +5,7 @@ define('CLASS_DIR', './');
 include_once PARSE_DIR.'parse.php';
 include_once CLASS_DIR.'Question.class.php';
 
-class questionParse {
+class QuestionParse {
 	
 	private $parseQuery;
 	

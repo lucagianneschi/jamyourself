@@ -7,7 +7,7 @@ include_once CLASS_DIR.'comment.class.php';
 include_once CLASS_DIR.'geoPointParse.class.php';
 include_once CLASS_DIR.'pointerParse.class.php';
 
-class commentParse {
+class CommentParse {
 	
 	private $parseQuery;
 	

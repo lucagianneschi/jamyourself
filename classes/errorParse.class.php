@@ -3,7 +3,7 @@ define('PARSE_DIR', '../parse/');
 define('CLASS_DIR', './');
 include_once PARSE_DIR.'parse.php';
 
-class errorParse {
+class ErrorParse {
 	
 	private $parseQuery;
 	

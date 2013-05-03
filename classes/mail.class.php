@@ -1,6 +1,6 @@
 <?php
 
-class mail {
+class Mail {
 	
 	private $to;
 	private $subject;

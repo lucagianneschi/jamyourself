@@ -1,7 +1,6 @@
 <?php
 
-class image{ //rinomicare il nome della classe in "photo"??
-
+class Image{ 
 	private $fromUser;	
 	private $description;	
 	private $album;	

@@ -3,7 +3,7 @@
 define('UTILITY_DIR', '../utilities/');
 include_once UTILITY_DIR.'recaptchalib.php';
 
-class recaptcha {
+class Recaptcha {
 	
 	private $privateKey;
 	private $publicKey;

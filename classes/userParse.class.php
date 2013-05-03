@@ -1,6 +1,6 @@
 <?php
 
-class userParse{
+class UserParse{
 
 	private $parseQuery;
 

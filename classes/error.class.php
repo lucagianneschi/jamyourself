@@ -1,6 +1,6 @@
 <?php
 
-class error {
+class Error {
 	
 	private $objectId;
 	private $errorClass;

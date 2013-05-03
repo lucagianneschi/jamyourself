@@ -1,6 +1,6 @@
 <?php
 
-class video{
+class Video{
 
 	private $objectId;
 	private $createdAt;

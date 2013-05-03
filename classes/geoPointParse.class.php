@@ -3,7 +3,7 @@
 define('PARSE_DIR', '../parse/');
 include_once PARSE_DIR.'parse.php';
 
-class geoPointParse {
+class GeoPointParse {
 	
 	private $parseGeoPoint;
 	
