@@ -43,12 +43,12 @@ class UserParse{
 		if($user->getEta()){
 			//eta è un tipo DateTime
 			$data = $user->getEta();
-			$parse->eta = $parse->dataType("date", $data->format('Y-m-d H:i:s'));	
+			$parse->eta = $parse->dataType("date", $data->format('r'));	
 		}
 
 		$parse->lastname = $user->getLastname();
 		$parse->profilePicture = $user->getProfilePicture();
-		$parse->thumbnail = $user->getProfileThumbnail();
+		$parse->profileThumbnail = $user->getProfileThumbnail();
 		
 		if($user->getStatus() ){
 			//status è di tipo Status, deve essere un Pointer
@@ -68,7 +68,12 @@ class UserParse{
 		$parse->music = $user->getMusic();
 		$parse->background = $user->getBackground();
 		$parse->customField = $user->getCustomField();
-		$parse->geoCoding = $user->getGeoCoding();//è un geopoint? spero di si...
+		$parse->premium = $user->getPremium();
+		
+		if($user->getGeoCoding()){
+			$geo = $user->getGeoCoding();			
+			$parse->geoCoding = $geo->location;//è un geopoint? spero di si...
+		}
 		$parse->settings = $user->getSettings();
 		$parse->level = $user->getLevel();
 
@@ -79,12 +84,17 @@ class UserParse{
 			try{
 				
 				$ret = $parse->update($user->getObjectId(), $user->getSessionToken());
-					
-				$user = $this->parseToUser($ret);					
+
+				/** esempio di risposta:
+				 *  $ret->updatedAt "2013-05-04T15:03:03.151Z";
+				 */
+				$user->setUpdatedAt(new DateTime($ret->updatedAt, new DateTimeZone("America/Los_Angeles")));		
 					
 			}
 			catch(ParseLibraryException $error){
-				return null;
+
+				return false;
+				
 			}
 				
 				
@@ -95,13 +105,27 @@ class UserParse{
 			$parse->password = $user->getPassword();
 
 			try{
-				$ret = $parse->signup($user->getUsername(),$user->getPassword());
 				
-				$user = $this->parseToUser($ret);					
+				$ret = $parse->signup($user->getUsername(),$user->getPassword());
+			
+				/**
+				 * Esempio di risposta: un oggetto di tipo stdObj così fatto:
+				 * $ret->emailVerified = true/false
+				 * $ret->createdAt = "2013-05-04T12:04:45.535Z"
+				 * $ret->objectId = "OLwLSZQtNF"
+				 * $ret->sessionToken = "qeutglxlz2k7cgzm3vgc038bf"
+				 */
+				
+				$user->setEmailVerified($ret->emailVerified);
+				$user->setCreatedAt(new DateTime($ret->createdAt,new DateTimeZone("America/Los_Angeles")));
+				$user->setUpdatedAt(new DateTime($ret->createdAt,new DateTimeZone("America/Los_Angeles")));
+				$user->setObjectId($ret->objectId);
+				$user->setSessionToken($ret->sessionToken);				
 					
 			}
 			catch(ParseLibraryException $error){
-				return null;
+				echo $error;
+				return false;
 			}
 				
 		}
@@ -281,104 +305,10 @@ class UserParse{
 		
 		return $user;		
 	}
-
-	/**
-	 * 
-	 * @param User $user
-	 * @return string
-	 */
-	public function toString(User $user){
-
-		$string = "";
-
-		if(isset($user)){
-
-			$string .= "Tipo Profilo : ". $user->getType()."<br>";
-
-			$string .= "ObjectId : ".$user->getObjectId()."<br>";
-
-			$string .= "SessionToken : ".$user->getSessionToken()."<br>";
-
-			$string .= "Username : ". $user->getUsername()."<br>";
-
-			//$string .= "Password : ". $user->getPassword()."<br>";
-
-			$string .= "Email : ". $user->getEmail()."<br>";
-
-			$string .= "EmailVerified : ". $user->getEmailVerified()."<br>";
-
-			$string .= "Nome : ". $user->getFirstname()."<br>";
-
-			$string .= "Cognome : ". $user->getLastname()."<br>";
-
-			$string .= "Sex : ". $user->getSex()."<br>";
-
-			$string .= "Giorno di Nascita : ". $user->getEta()."<br>";
-
-			$string .= "UpdatedAt : ".$user->getUpdatedAt()."<br>";
-
-			$string .= "CreatedAt : ". $user->getCreatedAt()."<br>";
-
-			$string .= "GeoCoding : ". $user->getGeoCoding()."<br>";
-
-			//$string .= "Settings : ". $user->getSettings()."<br>";
-
-			$string .= "Foto Profilo : ". $user->getProfilePicture()."<br>";
-
-			$string .= "Thumbnail Profilo : ". $user->getProfileThumbnail()."<br>";
-
-			$string .= "Status : ". $user->getStatus()."<br>";
-
-			$string .= "Sito Web : ". $user->getWebsite()."<br>";
-
-			$string .= "Id Facebook : ". $user->getFacebookId()."<br>";
-
-			$string .= "Pagina Facebook : ". $user->getFbPage()."<br>";
-
-			$string .= "Pagina Twitter : ". $user->getTwitterPage()."<br>";
-
-			$string .= "Canale Youtube : ". $user->getYoutubeChannel()."<br>";
-
-			$string .= "Stato : ". $user->getCountry()."<br>";
-
-			$string .= "Citta' : ". $user->getCity()."<br>";
-
-			$string .= "Descrizione : ". $user->getDescription()."<br>";
-
-			$string .= "Musica : ". implode(",", $user->getMusic())."<br>";
-
-			$string .= "AuthData : ". $user->getAuthData()."<br>";
-
-			$string .= "Background : ". $user->getBackground()."<br>";
-
-			$string .= "Custom Field : ". $user->getCustomField()."<br>";
-
-			$string .= "Level : ". $user->getLevel()."<br>";
-
-			if($user->getType() == "JAMMER" )  $string .= "Members : ". $user->getMembers()."<br>";
-
-			if($user->getType() == "VENUE" ){
-
-				$string .= "Address : ". $user->getAddress()."<br>";
-
-				$string .= "LocalType : ". $user->getLocalType()."<br>";
-
-			}
-
-			return $string;
-
-		}
-		else{
-
-			return "NULL";
-
-		}
-	}
 	
 	public function parseToUser(stdClass $parseObj){
-		
+				
 		$user = null;
-		
 		
 		if($parseObj && isset($parseObj->type)){
 		
@@ -415,11 +345,12 @@ class UserParse{
 			if( isset($parseObj->username ) )$user->setUsername($parseObj->username);
 			if( isset($parseObj->sex) )$user->setSex($parseObj->sex);
 			if( isset($parseObj->firstname) ) $user->setFirstname($parseObj->firstname);
-			if( isset($parseObj->eta) ) $user->setEta($parseObj->eta);
+			if( isset($parseObj->premium) ) $user->setPremium($parseObj->premium);
+			if( isset($parseObj->eta) ) $user->setEta(new DateTime($parseObj->eta->iso, new DateTimeZone("America/Los_Angeles")));
 			if( isset($parseObj->lastname) ) $user->setLastname($parseObj->lastname);
 			if( isset($parseObj->profilePicture) ) $user->setProfilePicture($parseObj->profilePicture);
 			if( isset($parseObj->profileThumbnail) ) $user->setProfileThumbnail($parseObj->profileThumbnail);
-			
+			if( isset($parseObj->level) ) $user->setLevel($parseObj->level);
 			if( isset($parseObj->status) ){
 				//recupero il pointer
 				$pointer_status = $parseObj->status;
@@ -462,8 +393,8 @@ class UserParse{
 			if( isset($parseObj->objectId) ) $user->setObjectId($parseObj->objectId);
 			if( isset($parseObj->sessionToken) ) $user->setSessionToken($parseObj->sessionToken);
 			//createdAt e updatedAt parsati come oggetti! Yo!
-			if( isset($parseObj->createdAt) ) $user->setCreatedAt(new DateTime($parseObj->createdAt));
-			if( isset($parseObj->updatedAt) ) $user->setUpdatedAt(new DateTime($parseObj->updatedAt));
+			if( isset($parseObj->createdAt) ) $user->setCreatedAt(new DateTime($parseObj->createdAt,new DateTimeZone("America/Los_Angeles")));
+			if( isset($parseObj->updatedAt) ) $user->setUpdatedAt(new DateTime($parseObj->updatedAt,new DateTimeZone("America/Los_Angeles")));
 			
 			if( isset($parseObj->emailVerified) ) $user->setEmailVerified($parseObj->emailVerified);
 				

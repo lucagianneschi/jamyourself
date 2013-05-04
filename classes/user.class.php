@@ -380,6 +380,53 @@ class User{
 	
 		return $this->premium;
 	}
+	
+	public function __toString(){
+	
+		$string ="";
+		$string.="Tipo profilo: ".$this->getType()."<br>";
+		$string.="Username : ".$this->getUsername()."<br>";
+		$string.="E-mail : ".$this->getEmail()."<br>";
+		$verStr="";
+		if($this->getEmailVerified()) $verStr = "SI";
+		else $verStr = "NO";
+		$string.="Mail Verificata : ".$verStr."<br>";
+		$string.="Id utente : ".$this->getObjectId()."<br>";
+		$string.="Session Token : ".$this->getSessionToken()."<br>";
+		if($this->getUpdatedAt())$string.="Ultimo aggiornamento : ".$this->getUpdatedAt()->format('d/m/Y H:i:s')."<br>";
+		if($this->getCreatedAt())$string.="Data Creazione : ".$this->getCreatedAt()->format('d/m/Y H:i:s')."<br>";
+		$string.="Nome : ".$this->getFirstname()."<br>";
+		$string.="Cognome : ".$this->getLastname()."<br>";
+		$string.="Sesso : ".$this->getSex()."<br>";
+		$string.="Giorno di nascita : ".$this->getEta()->format('d/m/Y')."<br>";		
+		$parseGeopoint = $this->getGeoCoding();
+		if($this->getGeoCoding())$string.="Geolocalizzazione : ".$parseGeopoint->__toString()."<br>";
+		//$string.=" : ".$this->getPassword()."<br>";
+		$string.="Livello : ".$this->getLevel()."<br>";
+		$string.="Url foto : ".$this->getProfilePicture()."<br>";
+		$string.="Url thumbnail : ".$this->getProfileThumbnail()."<br>";
+		//$string.=" : ".$this->getStatus()."<br>";
+		$string.="Sito WEB : ".$this->getWebsite()."<br>";
+		$string.="Facebook : ".$this->getFbPage()."<br>";
+		$string.="Twitter : ".$this->getTwitterPage()."<br>";
+		$string.="Youtube : ".$this->getYoutubeChannel()."<br>";
+		$string.="Id Facebook : ".$this->getFacebookId()."<br>";
+		$string.="Città : ".$this->getCity()."<br>";
+		$string.="Descrizione : ".$this->getDescription()."<br>";
+		if($this->getMusic())$string.="Gusti musiali : ".implode(" , ",$this->getMusic())."<br>";
+		//$string.=" : ".$this->getAuthData()."<br>";
+		//$string.=" : ".$this->getBackground()."<br>";
+		//$string.=" : ".$this->getCustomField()."<br>";
+		$premium="";
+		if($this->getPremium() )$premium="SI";
+		else $premium = "NO";
+		$string.="Premium: ".$premium."<br>";
+	
+		//$string." :".$this->getSettings()."<br>";
+	
+		return $string;
+	
+	}
 
 }
 
@@ -419,6 +466,16 @@ class Venue extends User{
 		return $this->localType;
 		
 	}
+	
+	public function __toString(){
+	
+		$string = parent::__toString();
+	
+		$string.="Indirizzo Locale: ".$this->getAddress();
+		$string.="Tipologia Locale: ".$this->getLocalType();
+		
+		return $string;
+	}
 
 }
 
@@ -443,6 +500,15 @@ class Jammer extends User{
 		
 		return $this->members;
 		
+	}
+	
+	public function __toString(){
+		
+		$string = parent::__toString();
+		
+		$string.="Membri della band: ".implode(" , ", $this->getMembers());		
+		
+		return $string;
 	}
 
 }
