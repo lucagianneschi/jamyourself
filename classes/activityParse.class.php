@@ -100,6 +100,35 @@ class ActivityParse {
 		return $activity;
 
 	}
+	
+	/**
+	 * 
+	 * @param string $activityId
+	 * @return boolean|Activity
+	 */
+	public function getActivity($activityId){
+		
+		$activity = false;
+		
+		$this->parseQuery->where('objectId', $activityId);
+		
+		$result = $this->parseQuery->find();
+
+		if (is_array($result->results) && count($result->results)>0){
+
+			$ret = $result->results[0];
+
+			if($ret){
+
+				//recupero l'utente
+				$activity = $this->parseToActivity($ret);
+
+			}
+
+		}
+		
+		return $activity;
+	}
 
 	/**
 	 * 
