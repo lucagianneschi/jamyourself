@@ -20,16 +20,40 @@ class StatusParse{
 	 * @return NULL|unknown
 	 */
 	public function save($status){
+		
 		$parse = new parseObject("Status");
 		$parse->fromUser = $status->getfromUser();
 		$parse->counter = $status->getCounter();
-		$parse->location = $status->getLocation();
+		
+		//geopoint
+		if($geoPoint = $status->getLocation()){
+			$parse->location = $geoPoint->location;			
+		}
+
 		$parse->active = $status->getActive();
 		$parse->text = $status->getText();
 		$parse->img = $status->getImg();
-		$parse->song = $status->getSong();
-		$parse->users = $status->getUsers();
-		$parse->event = $status->getEvent();
+		
+		//puntatore a song
+		if($song = $status->getSong()){
+			$parse->song = array("__type" => "Pointer", "className" => "Song", "objectId" => $song->getObjectId());
+		}
+
+		//utenti taggati: salvo gli Id
+		if( $users = $status->getUsers()  && count($status->getUsers())){
+			
+			$parse->users = array();
+			
+			foreach ($users as $user){
+				array_push($parse->users, $user->getObjectId());
+			}			
+		}
+
+		//puntatore ad un evento
+		if($event = $status->getEvent()){
+			$parse->event = array("__type" => "Pointer", "className" => "Event", "objectId" => $event->getObjectId());			
+		}
+		;
 		//$parse->ACL = $status->getACL();
 
 		//se esiste l'objectId vuol dire che devo aggiornare
@@ -37,16 +61,16 @@ class StatusParse{
 		if(( $status->getObjectId())!=null ){
 			//update
 			try{
-
+				//update
 				$result = $parse->update($status->getObjectId());
-
-				$status->setUpdatedAt($result->updatedAt);
-
+				
+				//aggiorno l'update
+				$status->setUpdatedAt(new DateTime($result->updatedAt, new DateTimeZone("America/Los_Angeles")));
 					
 			}
 			catch(ParseLibraryException $e){
 
-				return null;
+				return false;
 
 			}
 
@@ -55,35 +79,32 @@ class StatusParse{
 		}else{
 				
 			try{
-
+				//salvo
 				$result = $parse->save();
 
+				//aggiorno i dati per la creazione
 				$status->setObjectId($result->objectId);
-
-				$status->setCreatedAt($result->createdAt);
-
-				$status->setUpdatedAt($result->createdAt);
-
+				$user->setCreatedAt(new DateTime($result->createdAt,new DateTimeZone("America/Los_Angeles")));
+				$user->setUpdatedAt(new DateTime($result->createdAt,new DateTimeZone("America/Los_Angeles")));
 			}
 			catch(ParseLibraryException $e){
 
-				echo $e;
-
-				return null;
+				return false;
 
 			}
 
 		}
 
-
+		//restituisco status aggiornato
 		return $status;
 	}
 
 	public function delete($status){
 
-		$status->setActive("NO");
+		$status->setActive(false);
 
-		$this->save($status);
+		if($this->save($status)) return true;
+		else return false;
 			
 	}
 
@@ -150,22 +171,9 @@ class StatusParse{
 		//recupero objectId
 		if(isset( $parseObj->objectId ) )$status->setObjectId($parseObj->objectId);
 	 	
-	 	//creo la data di tipo DateTime per createdAt
-	 	if(isset( $parseObj->createdAt ) ){
-	 		
-	 		$createdAt = new DateTime($parseObj->createdAt);
-	 		
-	 		$status->setCreatedAt($createdAt);
-		}
-		
-		//creo la data di tipo DateTime per updatedAt
-	 	if(isset( $parseObj->updatedAt ) ){
-	 		
-	 		$updatedAt = new DateTime( $parseObj->updatedAt );
-	 		
-	 		$status->setCreatedAt($updatedAt);
-	 		
-	 	}
+	 	//creo la data di tipo DateTime per createdAt e updatedAt
+		if( isset($parseObj->createdAt) ) $status->setCreatedAt(new DateTime($parseObj->createdAt,new DateTimeZone("America/Los_Angeles")));
+		if( isset($parseObj->updatedAt) ) $status->setUpdatedAt(new DateTime($parseObj->updatedAt,new DateTimeZone("America/Los_Angeles")));
 	 	
 	 	//recupero l'utente che ha pubblicato lo status che è un Pointer
 	 	if(isset( $parseObj->fromUser ) ){

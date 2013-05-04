@@ -124,7 +124,6 @@ class UserParse{
 					
 			}
 			catch(ParseLibraryException $error){
-				echo $error;
 				return false;
 			}
 				
