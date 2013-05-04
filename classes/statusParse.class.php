@@ -242,7 +242,7 @@ class StatusParse{
 	 		//parse ha in ->event un puntatore 
 	 		
 	 		//creo un nuovo parseEvent per fare la query su Eventi
-	 		$parseEvent = new eventParse();
+	 		$parseEvent = new EventParse();
 	 		
 	 		//recupero il puntatore all'evento
 	 		$eventPointer = $parseObj->event;

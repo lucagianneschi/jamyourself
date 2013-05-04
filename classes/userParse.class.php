@@ -428,7 +428,7 @@ class UserParse{
 				$id_status = $pointer_status->objectId;
 				
 				//recupero lo status
-				$parseStatus = new statusParse();
+				$parseStatus = new StatusParse();
 				$status = $parseStatus->getStatus($id_status);
 				
 				//aggiungo lo status

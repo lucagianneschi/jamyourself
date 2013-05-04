@@ -145,7 +145,7 @@ class ActivityParse {
 
 		if(isset($parseObj->event)){
 				
-			$parseEvent = new eventParse();
+			$parseEvent = new EventParse();
 			$parsEvent = $parseObj->event;
 			$event = $parseEvent->getEvent($parsEvent->objectId);
 				
