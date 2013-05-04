@@ -162,7 +162,7 @@ class ActivityParse {
 		}
 
 		if(isset($parseObj->status)){
-			$parseStatus = new statusParse();
+			$parseStatus = new StatusParse();
 				
 			$parseStatus = $parseObj->status;
 			$status  = $parseStatus->parseToStatus($parseStatus->objectId);				
