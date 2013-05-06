@@ -66,8 +66,6 @@ function init_common_settings($language,$localTime,$imgProfile){
 
 	}
 	$settings[11] = "YES";
-	
-	$settings[11] = "YES";
 
 	$settings[13] = "PUBLIC";
 
@@ -205,7 +203,7 @@ function init_venue_settings($settings){
  * impostarli nel form della modifica
  *
  * @param unknown $set array dei settings dell'utente
- * @param unknown $index indice di cui si vuole controllare se è "checked"
+ * @param unknown $index indice di cui si vuole controllare se ï¿½ "checked"
  * @param unknown $value valore da confrontare
  */
 function checked($set, $index, $value){
@@ -219,7 +217,7 @@ function checked($set, $index, $value){
  * impostarli nel form della modifica
  *
  * @param unknown $set array dei settings dell'utente
- * @param unknown $index indice di cui si vuole controllare se è "selected"
+ * @param unknown $index indice di cui si vuole controllare se ï¿½ "selected"
  * @param unknown $value valore da confrontare
  */
 function selected($set, $index, $value){
