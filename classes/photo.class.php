@@ -1,6 +1,6 @@
 <?php
 
-class Image{ 
+class Photo{ 
 	private $fromUser;	
 	private $description;	
 	private $album;	
