@@ -24,9 +24,11 @@ class UserParse{
 		//inizializzo l'utente a seconda del profilo
 		if($user->getType()=="JAMMER"){
 			$parse->members = $user->getMembers();
+			$parse->jammerType = $user->getJammerType();
 		}
 		if($user->getType()=="VENUE"){
 			$parse->address = $user->getAddress();
+						
 			$parse->localType = $user->getLocalType();
 		}
 		//poi recupero i dati fondamentali (che appartengono a tutti gli utenti)
@@ -40,10 +42,10 @@ class UserParse{
 		//è un tipo DateTime
 		
 		//formatto l'anno di nascita 
-		if($user->getEta()){
-			//eta è un tipo DateTime
-			$data = $user->getEta();
-			$parse->eta = $parse->dataType("date", $data->format('r'));	
+		if($user->getBirthDay()){
+			//birthDay è un tipo DateTime
+			$data = $user->getBirthDay();
+			$parse->birthDay = $parse->dataType("date", $data->format('r'));	
 		}
 
 		$parse->lastname = $user->getLastname();
@@ -69,6 +71,7 @@ class UserParse{
 		$parse->background = $user->getBackground();
 		$parse->customField = $user->getCustomField();
 		$parse->premium = $user->getPremium();
+		$parse->active = $user->getActive();
 		
 		if($user->getGeoCoding()){
 			$geo = $user->getGeoCoding();			
@@ -115,7 +118,6 @@ class UserParse{
 				 * $ret->objectId = "OLwLSZQtNF"
 				 * $ret->sessionToken = "qeutglxlz2k7cgzm3vgc038bf"
 				 */
-				
 				$user->setEmailVerified($ret->emailVerified);
 				$user->setCreatedAt(new DateTime($ret->createdAt,new DateTimeZone("America/Los_Angeles")));
 				$user->setUpdatedAt(new DateTime($ret->createdAt,new DateTimeZone("America/Los_Angeles")));
@@ -234,13 +236,10 @@ class UserParse{
 
 		//solo l'utente corrente può cancellare se stesso
 		if($user){
-
-			$temp =  new parseUser();
-
-			$temp->delete($user->getObjectId(),$user->getSessionToken());
-
-			return true;
-
+			$user->setActive(false);
+			
+			if( $this->save($user) ) return true;
+			else return false;
 		}
 		else return false;
 
@@ -325,14 +324,26 @@ class UserParse{
 					$user = new Jammer();
 		
 					if( isset($parseObj->members) )$user->setMembers($parseObj->members);
-		
+					if( isset($parseObj->jammerType) )$user->setJammerType($parseObj->jammerType);
 					break;
 		
 				case "VENUE":
 		
 					$user = new Venue();
-		
-					if( isset($parseObj->address) ) $user->setAddress($parseObj->address);
+
+					/*visto che deve essere un geopoint*/
+					if( isset($parseObj->address) ){
+						
+						//recupero il GeoPoint
+						$geoParse = $parseObj->address;
+						
+						$geoPoint = new parseGeoPoint($geoParse->latitude, $geoParse->longitude);				
+						
+						//aggiungo lo status
+						$user->setAddress($geoPoint);				
+
+					}
+					
 					if( isset($parseObj->localType) ) $user->setLocalType($parseObj->localType);
 		
 					break;
@@ -345,7 +356,7 @@ class UserParse{
 			if( isset($parseObj->sex) )$user->setSex($parseObj->sex);
 			if( isset($parseObj->firstname) ) $user->setFirstname($parseObj->firstname);
 			if( isset($parseObj->premium) ) $user->setPremium($parseObj->premium);
-			if( isset($parseObj->eta) ) $user->setEta(new DateTime($parseObj->eta->iso, new DateTimeZone("America/Los_Angeles")));
+			if( isset($parseObj->birthDay) ) $user->setBirthDay(new DateTime($parseObj->birthDay->iso, new DateTimeZone("America/Los_Angeles")));
 			if( isset($parseObj->lastname) ) $user->setLastname($parseObj->lastname);
 			if( isset($parseObj->profilePicture) ) $user->setProfilePicture($parseObj->profilePicture);
 			if( isset($parseObj->profileThumbnail) ) $user->setProfileThumbnail($parseObj->profileThumbnail);
@@ -364,7 +375,7 @@ class UserParse{
 				//aggiungo lo status
 				$user->setStatus($parseObj->status);
 			}
-			
+			if( isset($parseObj->active)) $user->setActive($parseObj->active);
 			if( isset($parseObj->website) ) $user->setWebsite($parseObj->website);
 			if( isset($parseObj->fbPage) ) $user->setFbPage($parseObj->fbPage);
 			if( isset($parseObj->twitterPage) ) $user->setTwitterPage($parseObj->twitterPage);

@@ -16,10 +16,10 @@ class User{
 	private $username;
 	private $password;
 
-	//non obbligatori
+	private $active;
+	private $birthDay;
 	private $sex;
 	private $firstname;
-	private $eta;
 	private $lastname;
 	private $profilePicture;
 	private $profileThumbnail;
@@ -88,12 +88,23 @@ class User{
 		$this->email = $email;
 		
 	}
+	
+	public function setBirthDay(DateTime $birthDay){
+		
+		$this->birthDay = $birthDay;
+		
+	}
 
 	public function setUsername($username){
 
 		$this->username = $username;
 	}
 
+	public function setActive($active){
+	
+		$this->active = $active;
+	}
+	
 	public function setPassword($password){
 
 		$this->password = $password;
@@ -122,11 +133,6 @@ class User{
 	public function setFirstname($firstname){
 
 		$this->firstname = $firstname;
-	}
-
-	public function setEta(DateTime $eta){
-
-		$this->eta = $eta;
 	}
 	
 	public function setLastname($lastname){
@@ -232,6 +238,12 @@ class User{
 		
 	}
 	
+	public function setBirthDay(){
+	
+		return $this->birthDay;
+	
+	}
+	
 	public function getCreatedAt(){
 		
 		return $this->createdAt;
@@ -255,6 +267,13 @@ class User{
 		return $this->email;
 	}
 
+	
+	public function getActive(){
+	
+		$this->active = $active;
+	}
+	
+	
 	public function getUsername(){
 
 		return $this->username;
@@ -291,10 +310,6 @@ class User{
 		return $this->firstname;
 	}
 
-	public function getEta(){
-
-		return $this->eta;
-	}
 
 	public function getLastname(){
 
@@ -398,7 +413,7 @@ class User{
 		$string.="Nome : ".$this->getFirstname()."<br>";
 		$string.="Cognome : ".$this->getLastname()."<br>";
 		$string.="Sesso : ".$this->getSex()."<br>";
-		$string.="Giorno di nascita : ".$this->getEta()->format('d/m/Y')."<br>";		
+		$string.="Giorno di nascita : ".$this->getBirthDay()->format('d/m/Y')."<br>";		
 		$parseGeopoint = $this->getGeoCoding();
 		if($this->getGeoCoding())$string.="Geolocalizzazione : ".$parseGeopoint->__toString()."<br>";
 		//$string.=" : ".$this->getPassword()."<br>";
@@ -443,7 +458,7 @@ class Venue extends User{
 
 	}
 	
-	public function setAddress($address){
+	public function setAddress(parseGeoPoint $address){
 		
 		$this->address  = $address;
 		
@@ -484,6 +499,7 @@ class Jammer extends User{
 	//solo jammer
 
 	private $members;
+	private $jammerType;
 
 	public function __construct()
 	{
@@ -495,11 +511,23 @@ class Jammer extends User{
 		$this->members = $members;
 		
 	}
+	
+	public function setMembers(array $jammerType){
+	
+		$this->jammerType = $jammerType;
+	
+	}
 
+	public function getJammerType($jammerType){
+		
+		return $this->jammerType;
+		
+	}
+	
 	public function getMembers(){
-		
+	
 		return $this->members;
-		
+	
 	}
 	
 	public function __toString(){

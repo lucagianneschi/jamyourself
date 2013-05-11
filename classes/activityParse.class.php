@@ -36,7 +36,7 @@ class ActivityParse {
 
 			$user = $activity->getFromUser();
 
-			$parseObj->fromUser = array("__type" => "Pointer", "className" => "Event", "objectId" => $user->getObjectId());
+			$parseObj->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $user->getObjectId());
 		}
 
 		//puntatore allo status
@@ -45,7 +45,7 @@ class ActivityParse {
 
 			$status = $activity->getStatus();
 
-			$parseObj->status = array("__type" => "Pointer", "className" => "Event", "objectId" => $status->getObjectId());
+			$parseObj->status = array("__type" => "Pointer", "className" => "Status", "objectId" => $status->getObjectId());
 
 		}
 
@@ -55,7 +55,43 @@ class ActivityParse {
 
 			$user = $activity->getToUser();
 
-			$parseObj->toUser = array("__type" => "Pointer", "className" => "Event", "objectId" => $user->getObjectId());
+			$parseObj->toUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $user->getObjectId());
+		}
+		
+		if( $activity->getSong() != null ){
+			
+			$song = $activity->getSong();
+			
+			$parseObj->toUser = array("__type" => "Pointer", "className" => "Song", "objectId" => $song->getObjectId());
+				
+
+		}
+		
+		if( $activity->getPhoto() != null ){
+			
+			$photo = $activity->getPhoto();
+			
+			$parseObj->toUser = array("__type" => "Pointer", "className" => "Photo", "objectId" => $photo->getObjectId());
+				
+		
+		}
+		
+		if( $activity->getPhotoAlbum() != null ){
+			
+			$photoAlbum = $activity->getPhotoAlbum();
+			
+			$parseObj->toUser = array("__type" => "Pointer", "className" => "PhotoAlbum", "objectId" => $photoAlbum->getObjectId());
+				
+		
+		}
+		
+		if( $activity->getAlbum() != null ){
+			
+			$album = $activity->getAlbum();
+			
+			$parseObj->toUser = array("__type" => "Pointer", "className" => "Album", "objectId" => $album->getObjectId());
+				
+		
 		}
 
 		//Stringa type
