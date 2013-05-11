@@ -12,6 +12,7 @@ class Activity{
 	private $song;
 	private $photoAlbum;
 	private $photo;
+	private $read;
 	private $createdAt;	//DateTime
 	private $updatedAt;	//DateTime
 	private $ACL;		//ACL
@@ -85,6 +86,10 @@ class Activity{
 		$this->toUser = $toUser;
 	}
 
+	public function setRead($read){
+		$this->read = $read;
+	}
+	
 	/**
 	 *
 	 * @param string $type
@@ -162,6 +167,10 @@ class Activity{
 
 		return $this->photoAlbum;
 
+	}
+	
+	public function getRead(){
+		return $this->read;
 	}
 
 	public function getPhoto(){

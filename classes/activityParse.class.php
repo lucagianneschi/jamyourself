@@ -97,6 +97,7 @@ class ActivityParse {
 		//Stringa type
 		$parseObj->type = $activity->getType();
 		//$parseObj->ACL = $activity->getACL();
+		$parseObj->read = $activity->getRead();
 
 		//caso update
 		if( isset($activity->getObjectId()) && $activity->getObjectId()!=null ){
@@ -179,6 +180,8 @@ class ActivityParse {
 
 		if(isset($parseObj->objectId)) $activity->setObjectId($parseObj->objectId) ;
 
+		if(isset($parseObj->read)) $activity->setRead($parseObj->read);
+		
 		if(isset($parseObj->event)){
 				
 			$parseEvent = new EventParse();
