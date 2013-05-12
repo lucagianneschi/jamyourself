@@ -1,6 +1,13 @@
 <?php
-
-class PhotoAlbum{
+/**
+ * 
+ * @author Stefano
+ *
+ * Questa classe si occupa di gestire un ALBUM FOTOGRAFICO - corrisponde ad una riga
+ * della tabella Album in Parse
+ * 
+ */
+class Album{
 
 	private $objectId;
 	private $fromUser;		//autore

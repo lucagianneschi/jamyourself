@@ -231,7 +231,12 @@ class UserParse{
 		return $array;
 				
 	}
-	
+
+	/**
+	 * Cancellazione utente: imposta il flag active a false
+	 * @param User $user l'utente da cancellare
+	 * @return boolean true in caso di successo, false in caso di fallimento
+	 */
 	function delete(User $user){
 
 		//solo l'utente corrente può cancellare se stesso

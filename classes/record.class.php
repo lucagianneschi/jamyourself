@@ -3,6 +3,9 @@
  * 
  * @author Stefano
  *
+ * Questa classe si occupa di gestire un "record" cioè un ALBUM MUSICALE
+ * Il Db corrispondente è Record
+ * 
  */
 class Record{
 

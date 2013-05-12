@@ -19,7 +19,7 @@ class StatusParse{
 	 * @param unknown $status
 	 * @return NULL|unknown
 	 */
-	public function save($status){
+	public function save(Status $status){
 		
 		$parse = new parseObject("Status");
 		$parse->fromUser = $status->getfromUser();
@@ -84,8 +84,8 @@ class StatusParse{
 
 				//aggiorno i dati per la creazione
 				$status->setObjectId($result->objectId);
-				$user->setCreatedAt(new DateTime($result->createdAt,new DateTimeZone("America/Los_Angeles")));
-				$user->setUpdatedAt(new DateTime($result->createdAt,new DateTimeZone("America/Los_Angeles")));
+				$status->setCreatedAt(new DateTime($result->createdAt,new DateTimeZone("America/Los_Angeles")));
+				$status->setUpdatedAt(new DateTime($result->createdAt,new DateTimeZone("America/Los_Angeles")));
 			}
 			catch(ParseLibraryException $e){
 
@@ -99,7 +99,7 @@ class StatusParse{
 		return $status;
 	}
 
-	public function delete($status){
+	public function delete(Status $status){
 
 		$status->setActive(false);
 
