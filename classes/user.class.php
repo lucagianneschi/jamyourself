@@ -40,6 +40,7 @@ class User{
 	private $settings;
 	private $level;
 	private $premium;
+	private $view;
 
 	//COSTRUTTORE
 
@@ -81,6 +82,12 @@ class User{
 		
 			$this->geoCoding = $geoCoding;
 
+	}
+	
+	public function setView($view ){
+	
+		$this->view = $view;
+	
 	}
 
 	public function setEmail($email){
@@ -267,6 +274,11 @@ class User{
 		return $this->email;
 	}
 
+	public function getView(){
+	
+		return $this->view;
+	
+	}
 	
 	public function getActive(){
 	

@@ -50,6 +50,7 @@ class UserParse{
 
 		$parse->lastname = $user->getLastname();
 		$parse->profilePicture = $user->getProfilePicture();
+		$parse->view = $user->getView();
 		$parse->profileThumbnail = $user->getProfileThumbnail();
 		
 		if($user->getStatus() ){
@@ -366,6 +367,7 @@ class UserParse{
 			if( isset($parseObj->profilePicture) ) $user->setProfilePicture($parseObj->profilePicture);
 			if( isset($parseObj->profileThumbnail) ) $user->setProfileThumbnail($parseObj->profileThumbnail);
 			if( isset($parseObj->level) ) $user->setLevel($parseObj->level);
+			if( isset($parseObj->view) )$user->setView($parseObj->view);
 			if( isset($parseObj->status) ){
 				//recupero il pointer
 				$pointer_status = $parseObj->status;
