@@ -3,29 +3,18 @@
 class Song{
 
 	private $objectId;
-
 	private $createdAt;
-
 	private $updatedAt;
-
+	private $active;
 	private $authorId;				//l'autore del media -> l'utente che ha caricato il file
-
 	private $title;					//titolo del file
-
 	private $duration;				//Durata del brano (da vedere come calcolarla)
-
 	private $genre;					//genere musicale -> obbligatorio
-
 	private $filePath;				//path relativo del file
-
 	private $description;			//Opzionale = descrizione del file
-
 	private $albumId;				//Album in cui è inserito il brano
-
 	private $label;					//Opzionale : etichetta discografica
-
 	private $location;				//Opzionale = geopoint di Parse.Geopoint
-
 	private $featuring;				//array di Parse.User
 
 	//SETTERS
@@ -46,6 +35,10 @@ class Song{
 		$this->authorId = $authorId;
 	}
 
+	public function setActive($active){
+		$this->active = $active;
+	}
+		
 	public function setTitle($title){
 		$this->title = $title;
 	}
@@ -92,12 +85,19 @@ class Song{
 		return $this->createdAt ;
 	}
 
+	public function getActive(){
+		return $this->active;
+	}
 	public function getUpdatedAt(){
 		return $this->updatedAt ;
 	}
 
 	public function getAuthorId(){
 		return $this->authorId ;
+	}
+	
+	public function getActive(){
+		return $this->active;
 	}
 
 	public function getTitle(){

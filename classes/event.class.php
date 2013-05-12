@@ -20,6 +20,7 @@ class Event {
 	private $tag; 					//categorizzazione dell'evento: inserito da utente - opzionale
 	private $thumbnail; 			//thumbnail della locandina: opzionale
 	private $title;					//titolo dell'evento: inserito da utente - obbligatorio
+	private $active;
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;		
@@ -86,6 +87,10 @@ class Event {
 		return $this->title;
 	}
 
+	public function getActive(){
+		return $this->active;
+	}
+	
 	public function getCreatedAt() {
 		return $this->createdAt;
 	}	
@@ -149,6 +154,10 @@ class Event {
 		$this->author = $value;
 		
 		
+	}
+	
+	public function setActive($active){
+		$this->active = $active;
 	}
 	
 	public function setCounter($value) {

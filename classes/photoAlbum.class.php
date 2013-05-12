@@ -3,14 +3,15 @@
 class PhotoAlbum{
 
 	private $objectId;
-	private $fromUser;
-	private $title;
-	private $description;
-	private $location;
-	private $cover;
-	private $thumbnailCover;
-	private $featuring;
-	private $tag;
+	private $fromUser;		//autore
+	private $active;		//attiva?
+	private $title;			//titolo
+	private $description;	//descrizione
+	private $location;		//location
+	private $cover;			//cpver
+	private $thumbnailCover;//thumbnailCover
+	private $featuring;		//featuring
+	private $tag;			//tag
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;
@@ -49,6 +50,10 @@ class PhotoAlbum{
 	public function getFeaturing(){
 		return $this->featuring  ;
 	}
+	
+	public function getActive(){
+		return $this->active;
+	}
 
 	public function getTag(){
 		return $this->tag  ;
@@ -79,6 +84,9 @@ class PhotoAlbum{
 	
 	public function setTitle($title){
 		$this->title  = $title ;
+	}
+	public function setActive($active){
+		$this->active = $active;
 	}
 	
 	public function setDescription($description){

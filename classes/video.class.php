@@ -5,7 +5,7 @@ class Video{
 	private $objectId;
 	private $createdAt;
 	private $updatedAt;
-	
+	private $active;
 	private $URL;	
 	private $uploader;
 	private $author;
@@ -36,6 +36,11 @@ class Video{
 
 	}
 
+	
+	public function getActive(){
+		return $this->active;
+	}
+	
 	public function getURL(){
 
 		return $this->URL;
@@ -143,6 +148,10 @@ class Video{
 		$this->thumbnail = $thubmnail;
 	}
 
+	public function setActive($active){
+		$this->active = $active;
+	}
+	
 	public function setTags($tags){
 
 		$this->tags = $tags;

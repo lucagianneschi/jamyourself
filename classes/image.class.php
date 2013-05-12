@@ -1,6 +1,7 @@
 <?php
 
-class Photo{ 
+class Image{ 
+	private $objectId;
 	private $fromUser;	
 	private $description;	
 	private $album;	
@@ -11,13 +12,33 @@ class Photo{
 	private $genre;	
 	private $label;
 	private $duration;
-
+	private $createdAt;
+	private $updatedAt;
+	private $ACL;
+	private $active;
+	
 	//costruttore
 	public function __construct(){
 		
 	}
 	
 	//setters
+	public function setOjectId($objectId){
+		$this->objectId = $objectId;	
+	}
+	public function setCreatedAt(DateTime $createdAt){
+		$this->createdAt = $createdAt;	
+	}
+	public function setUpdatedAt(DateTime $updatedAt){
+		$this->updatedAt = $updatedAt;	
+	}
+	public function setACL($ACL){
+		$this->ACL = $ACL ;	
+	}
+	public function setActive($active){
+		$this->active = $active;	
+	}
+	
 	public function setFromUser(User $fromUser){		
 		$this->fromUser = $fromUser;		
 	}
@@ -59,6 +80,23 @@ class Photo{
 	}
 	
 	//getters
+	public function getOjectId(){
+		return $this->objectId;	
+	}
+	public function getCreatedAt(){
+		return $this->createdAt;	
+	}
+	public function getUpdatedAt(){
+		return $this->updatedAt;	
+	}
+	public function getACL(){
+		return $this->ACL;	
+	}
+	public function getActive(){
+		return $this->active;	
+	}
+
+	
 	public function getFromUser(){
 		return $this->fromUser ;
 	}
