@@ -115,7 +115,7 @@ class StatusParse{
 	 */
 	public function getStatus($statusId){
 
-		$status = new status();
+		$status = new Status();
 			
 		$parseStatus = new parseObject("Status");
 

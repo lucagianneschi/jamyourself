@@ -14,13 +14,13 @@ class Record{
 	private $fromUser;		//autore
 	private $active;		//attiva?
 	private $title;			//titolo
-	private $date;			//data (de che??)
 	private $description;	//descrizione
 	private $location;		//location
 	private $cover;			//cpver
 	private $thumbnailCover;//thumbnailCover
 	private $featuring;		//featuring
 	private $keywords;		//parole chiave
+	private $counter;
 	
 	private $createdAt;
 	private $updatedAt;
@@ -39,13 +39,13 @@ class Record{
 	public function getFromUser(){ return $this->fromUser  ; }		
 	public function getActive(){ return $this->active  ; }		
 	public function getTitle(){ return $this->title  ; }		
-	public function getDate(){ return $this->date  ; }	
 	public function getDescription(){ return $this->description  ; }	
 	public function getLocation(){ return $this->location  ; }		
 	public function getCover(){ return $this->cover  ; }			
 	public function getThumbnailCover(){ return $this->thumbnailCover  ; }
 	public function getFeaturing(){ return $this->featuring  ; }		
 	public function getKeywords(){ return $this->keywords  ; }		
+	public function getCounter(){ return $this->counter  ; }
 
 	public function getCreatedAt(){ return $this->createdAt; }
 	public function getUpdatedAt(){ return $this->updatedAt; }
@@ -57,13 +57,13 @@ class Record{
 	public function setFromUser(User $fromUser){ $this->fromUser  = $fromUser  ; }		
 	public function setActive($active){ $this->active  = $active ; }		
 	public function setTitle($title){ $this->title = $title ; }			
-	public function setDate(DateTime $date){ $this->date = $date ; }
 	public function setDescription($description){ $this->description  = $description ; }	
 	public function setLocation(parseGeoPoint $location){ $this->location  = $location ; }		
 	public function setCover($cover){ $this->cover  = $cover ; }			
 	public function setThumbnailCover($thumbnailCover){ $this->thumbnailCover  = $thumbnailCover ; }
 	public function setFeaturing(array $featuring){ $this->featuring  = $featuring ; }		
 	public function setKeywords(array $keywords){ $this->keywords  = $keywords ; }	
+	public function setCounter($counter){ $this->counter  = $counter ; }
 	
 	public function setCreatedAt(DateTime $createdAt){$this->createdAt = $createdAt;  }
 	public function setUpdatedAt(DateTime $updatedAt){$this->updatedAt = $updatedAt;  }

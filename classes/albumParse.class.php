@@ -33,7 +33,13 @@ class AlbumParse{
 		
 		$parseObj->cover = $album->getCover();
 		$parseObj->thumbnailCover = $album->getThumbnailCover();
-		$parseObj->featuring = $album->getFeaturing();
+		
+		//array di utenti
+		$parseObj->featuring = array();		
+		foreach ($album->getFeaturing() as $user){
+			array_push($parseObj->featuring, $user->getObjectId());
+		}
+		
 		$parseObj->tag = $album->getTag();
 			
 			
@@ -141,7 +147,15 @@ class AlbumParse{
 			
 		if(isset($parseObj->cover ) )$album->setCover($parseObj->cover);
 		if(isset($parseObj->thumbnailCover ) )$album->setThumbnailCover($parseObj->thumbnailCover);
-		if(isset($parseObj->featuring ) )$album->setFeaturing($parseObj->featuring);
+		if(isset($parseObj->featuring ) ){
+			
+			$parseUser = new UserParse();
+
+			$featuring = $parseUser->getUserArrayById($parseObj->featuring);
+
+			$album->setFeaturing($featuring);
+			
+		}
 		if(isset($parseObj->tag ) )$album->setTag($parseObj->tag);
 		
 		//generali

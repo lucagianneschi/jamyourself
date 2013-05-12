@@ -25,8 +25,10 @@ class VideoParse{
 		$parse->URL = $video->getURL();
 		$parse->uploader = $video->getUploader();
 		
-		$author = $video->getAuthor();
-		$parse->author = array("__type" => "Pointer", "className" => "_User", "objectId" => $author->getObjectId() );
+		if( ( $author = $video->getAuthor() ) != null ) {
+			$parse->author = array("__type" => "Pointer", "className" => "_User", "objectId" => $author->getObjectId() );			
+		}
+
 		
 		
 		$parse->title = $video->getTitle();
@@ -35,7 +37,11 @@ class VideoParse{
 		$parse->tags = $video->getTags();
 		$parse->duration = $video->getDuration();
 		$parse->counter = $video->getCounter();
-		$parse->featuring = $video->getFeaturing();
+		
+		$parse->featuring = array();
+		foreach($video->getFeaturing() as $user){
+			array_push($parse->featuring, $user);
+		}
 		
 		//$parse->ACL = $video->getACL();
 
@@ -172,9 +178,14 @@ class VideoParse{
 		if(isset($parseObj->description) )  $video->setDescription($parseObj->description) ;
 		if(isset($parseObj->thumbnail) )  $video->setThumbnail($parseObj->thubmnail) ;
 			
-			//array
+			//array di stringhe
 		if(isset($parseObj->tags) )  $video->setTags($parseObj->parseObj->tags) ;
-		if(isset($parseObj->featuring) )  $video->setFeaturing($parseObj->featuring) ;
+			//array di id
+		if(isset($parseObj->featuring) ){
+			$parseUser = new UserParse();
+			$featuring = $parseUser->getUserArrayById($parseObj->featuring);
+			$video->setFeaturing($featuring) ;
+		}
 				
 			//integer
 		if(isset($parseObj->duration) )  $video->setDuration($parseObj->duration) ;

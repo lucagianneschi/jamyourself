@@ -8,10 +8,9 @@ class Image{
 	private $filePath;	
 	private $location;	
 	private $featuring;	
-	private $title;	
-	private $genre;	
-	private $label;
-	private $duration;
+	private $tag;
+	private $counter;
+
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;
@@ -31,6 +30,9 @@ class Image{
 	}
 	public function setUpdatedAt(DateTime $updatedAt){
 		$this->updatedAt = $updatedAt;	
+	}
+	public function setCounter($counter){
+		$this->counter = $counter;
 	}
 	public function setACL($ACL){
 		$this->ACL = $ACL ;	
@@ -63,20 +65,9 @@ class Image{
 		$this->featuring = $featuring;
 	}
 	
-	public function setTitle($title){
-		$this->title = title;
-	}
 	
-	public function setGenre($genre){
-		$this->genre = $genre;
-	}
-	
-	public function setLabel($label){
-		$this->label = $label;
-	}
-	
-	public function setDuration(DateInterval $duration){
-		$this->duration = $duration;
+	public function setTag(array $tag){
+		$this->tag = $tag;
 	}
 	
 	//getters
@@ -85,6 +76,9 @@ class Image{
 	}
 	public function getCreatedAt(){
 		return $this->createdAt;	
+	}
+	public function getCounter(){
+		return $this->counter;
 	}
 	public function getUpdatedAt(){
 		return $this->updatedAt;	
@@ -95,7 +89,6 @@ class Image{
 	public function getActive(){
 		return $this->active;	
 	}
-
 	
 	public function getFromUser(){
 		return $this->fromUser ;
@@ -120,20 +113,9 @@ class Image{
 		return $this->featuring ;
 	}
 	
-	public function getTitle(){
-		return $this->title ;
+	public function getTag(){
+		return $this->tag ;
 	}
-	
-	public function getGenre(){
-		return $this->genre ;
-	}
-	
-	public function getLabel(){
-		return $this->label ;
-	}
-	
-	public function getDuration(){
-		return $this->duration ;
-	}    
+	  
 }
 ?>

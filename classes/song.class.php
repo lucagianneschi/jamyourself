@@ -5,17 +5,20 @@ class Song{
 	private $objectId;
 	private $createdAt;
 	private $updatedAt;
+	private $ACL;
+	
 	private $active;
-	private $authorId;				//l'autore del media -> l'utente che ha caricato il file
-	private $title;					//titolo del file
-	private $duration;				//Durata del brano (da vedere come calcolarla)
-	private $genre;					//genere musicale -> obbligatorio
-	private $filePath;				//path relativo del file
-	private $description;			//Opzionale = descrizione del file
-	private $albumId;				//Album in cui è inserito il brano
-	private $label;					//Opzionale : etichetta discografica
-	private $location;				//Opzionale = geopoint di Parse.Geopoint
-	private $featuring;				//array di Parse.User
+	private $counter;
+	private $fromUser;				
+	private $title;					
+	private $duration;				
+	private $genre;					
+	private $filePath;				
+	private $description;			
+	private $album;				
+	private $label;					
+	private $location;				
+	private $featuring;				
 
 	//SETTERS
 
@@ -23,16 +26,16 @@ class Song{
 		$this->objectId = $objectId;
 	}
 
-	public function setCreatedAt($createdAt){
+	public function setCreatedAt(DateTime $createdAt){
 		$this->createdAt = $createdAt;
 	}
 
-	public function setUpdatedAt($updatedAt){
+	public function setUpdatedAt(DateTime $updatedAt){
 		$this->updatedAt = $updatedAt;
 	}
 
-	public function setAuthorId($authorId){
-		$this->authorId = $authorId;
+	public function setFromUser(User $fromUser){
+		$this->fromUser = $fromUser;
 	}
 
 	public function setActive($active){
@@ -59,22 +62,29 @@ class Song{
 		$this->description = $description;
 	}
 
-	public function setAlbumId($albumId){
-		$this->albumId = $albumId;
+	public function setAlbum(Record $album){
+		$this->album = $album;
 	}
 
 	public function setLabel($label){
 		$this->label = $label;
 	}
 
-	public function setLocation($location){
+	public function setLocation(parseGeoPoint $location){
 		$this->location = $location;
 	}
 
-	public function setFeaturing($featuring){
+	public function setFeaturing(array $featuring){
 		$this->featuring = $featuring;
 	}
 
+	public function setCounter(array $counter){
+		$this->counter = $counter;
+	}
+	
+	public function setACL(array $ACL){
+		$this->ACL = $ACL;
+	}
 	//GETTERS
 
 	public function getObjectId(){
@@ -92,8 +102,8 @@ class Song{
 		return $this->updatedAt ;
 	}
 
-	public function getAuthorId(){
-		return $this->authorId ;
+	public function getFromUser(){
+		return $this->fromUser ;
 	}
 	
 	public function getActive(){
@@ -120,8 +130,8 @@ class Song{
 		return $this->description ;
 	}
 
-	public function getAlbumId(){
-		return $this->albumId ;
+	public function getAlbum(){
+		return $this->album ;
 	}
 
 	public function getLabel(){
@@ -134,5 +144,13 @@ class Song{
 
 	public function getFeaturing(){
 		return $this->featuring ;
+	}
+	
+	public function getCounter(){
+		return $this->counter ;
+	}
+	
+	public function getACL(){
+		return $this->ACL ;
 	}
 }

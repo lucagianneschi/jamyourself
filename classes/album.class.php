@@ -19,6 +19,9 @@ class Album{
 	private $thumbnailCover;//thumbnailCover
 	private $featuring;		//featuring
 	private $tag;			//tag
+	private $counter;		//counter
+	
+	
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;
@@ -66,6 +69,8 @@ class Album{
 		return $this->tag  ;
 	}
 	
+	public function getCounter(){ return $this->counter  ; }
+	
 	public function getCreatedAt(){
 		return $this->createdAt  ;
 	}
@@ -88,6 +93,8 @@ class Album{
 	public function setFromUser(User $fromUser){
 		$this->fromUser  = $fromUser ;
 	}
+	
+	public function setCounter($counter){ $this->counter  = $counter ; }
 	
 	public function setTitle($title){
 		$this->title  = $title ;
