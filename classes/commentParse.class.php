@@ -17,7 +17,7 @@ class CommentParse {
 	
 	public function getComment($objectId) {
 		//creo un nuovo oggetto Comment
-		$cmt = new comment();
+		$cmt = new Comment();
 		//carico il Comment richiesta
 		$parseObject = new parseObject('Comment');
 		$res = $parseObject->get($objectId);
@@ -25,15 +25,6 @@ class CommentParse {
 		//inizializzo l'oggetto
 		$cmt->setObjectId($res->objectId);
 		$cmt->setActive($res->active);
-		$pointerParse = new pointerParse($res->albumBrano->className, $res->albumBrano->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setAlbumBrano($pointer);
-		$pointerParse = new pointerParse($res->albumImmagine->className, $res->albumImmagine->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setAlbumImmagine($pointer);
-		$pointerParse = new pointerParse($res->brano->className, $res->brano->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setBrano($pointer);
 		$cmt->setCounter($res->counter);
 		$pointerParse = new pointerParse($res->event->className, $res->event->objectId);
 		$pointer = $pointerParse->getPointer();
@@ -41,13 +32,22 @@ class CommentParse {
 		$pointerParse = new pointerParse($res->fromUser->className, $res->fromUser->objectId);
 		$pointer = $pointerParse->getPointer();
 		$cmt->setFromUser($pointer);
-		$pointerParse = new pointerParse($res->immagine->className, $res->immagine->objectId);
+		$pointerParse = new pointerParse($res->image->className, $res->image->objectId);
 		$pointer = $pointerParse->getPointer();
-		$cmt->setImmagine($pointer);
+		$cmt->setImage($pointer);
 		$geoPointParse = new GeoPoint_Parse($res->location->latitude, $res->location->longitude);
 		$geoPoint = $geoPointParse->getGeoPoint();
 		$cmt->setLocation($geoPoint);
 		$cmt->setOpinions($res->opinions);
+		$pointerParse = new pointerParse($res->photoAlbum->className, $res->photoAlbum->objectId);
+		$pointer = $pointerParse->getPointer();
+		$cmt->setPhotoAlbum($pointer);
+		$pointerParse = new pointerParse($res->record->className, $res->record->objectId);
+		$pointer = $pointerParse->getPointer();
+		$cmt->setRecord($pointer);
+		$pointerParse = new pointerParse($res->song->className, $res->song->objectId);
+		$pointer = $pointerParse->getPointer();
+		$cmt->setSong($pointer);
 		$cmt->setTag($res->tag);
 		$cmt->setText($res->text);
 		$pointerParse = new pointerParse($res->toUser->className, $res->toUser->objectId);
@@ -72,15 +72,15 @@ class CommentParse {
 		$parseObject = new parseObject('Comment');
 		
 		$parseObject->active = 			$cmt->getActive();
-		$parseObject->albumBrano = 		$cmt->getAlbumBrano();
-		$parseObject->albumImmagine = 	$cmt->getAlbumImmagine();
-		$parseObject->brano = 			$cmt->getBrano();
 		$parseObject->counter = 		$cmt->getCounter();
 		$parseObject->event = 			$cmt->getEvent();
 		$parseObject->fromUser = 		$cmt->getFromUser();
-		$parseObject->immagine = 		$cmt->getImmagine();
+		$parseObject->image = 			$cmt->getImage();
 		$parseObject->location = 		$cmt->getLocation();
 		$parseObject->opinions = 		$cmt->getOpinions();
+		$parseObject->photoAlbum = 		$cmt->getPhotoAlbum();
+		$parseObject->record = 			$cmt->getRecord();
+		$parseObject->song = 			$cmt->getSong();
 		$parseObject->tag = 			$cmt->getTag();
 		$parseObject->text = 			$cmt->getText();
 		$parseObject->toUser = 			$cmt->getToUser();
