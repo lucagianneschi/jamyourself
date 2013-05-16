@@ -82,6 +82,53 @@ class PlaylistParse{
 	}
 	
 	/**
+	 * 
+	 * @param Playlist $playlist
+	 * @return boolean
+	 */
+	function delete(Playlist $playlist){
+		
+		if(!$playlist) return false;
+		
+			$playlist->setActive(false);
+			
+			if($this->save($playlist)) return true;
+			
+			else return false;
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * @param string $playlistId
+	 * @return Ambigous <NULL, Playlist>
+	 */
+	function getPlaylist($playlistId){
+	
+		$playlist = null;
+	
+		$this->parseQuery->where('objectId', $playlistId);
+	
+		$result = $this->parseQuery->find();
+	
+		if (is_array($result->results) && count($result->results)>0){
+	
+			$ret = $result->results[0];
+	
+			if($ret){
+	
+				//recupero l'utente
+				$playlist = $this->parseToPlaylist($ret);
+	
+			}
+	
+		}
+	
+		return $playlist;
+	}
+	
+	/**
 	 *
 	 * @param Playlist $playlist
 	 * @return boolean
@@ -96,6 +143,11 @@ class PlaylistParse{
 		else return false;
 	}
 	
+	/**
+	 * 
+	 * @param stdClass $parseObj
+	 * @return Playlist
+	 */
 	function parseToPlaylist(stdClass $parseObj){
 	
 		$playlist = new Playlist();
