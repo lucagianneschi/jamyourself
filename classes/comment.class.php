@@ -7,15 +7,15 @@ class Comment {
 	
 	private $objectId;
 	private $active;
-	private $albumBrano;
-	private $albumImmagine;
-	private $brano;
 	private $counter;
 	private $event;
 	private $fromUser;
-	private $immagine;
+	private $image;
 	private $location;
 	private $opinions;
+	private $photoAlbum;
+	private $record;
+	private $song;
 	private $tag;
 	private $text;
 	private $toUser;
@@ -25,7 +25,7 @@ class Comment {
 	private $vote;
 	private $createdAt;
 	private $updatedAt;
-	//private $ACL;
+	private $ACL;
 	
 	public function getObjectId() {
 		return $this->objectId;
@@ -33,18 +33,6 @@ class Comment {
 	
 	public function getActive() {
 		return $this->active;
-	}
-	
-	public function getAlbumBrano() {
-		return $this->albumBrano;
-	}
-	
-	public function getAlbumImmagine() {	
-		return $this->albumImmagine;
-	}
-	
-	public function getBrano() {	
-		return $this->brano;
 	}
 	
 	public function getCounter() {	
@@ -59,7 +47,7 @@ class Comment {
 		return $this->fromUser;
 	}
 	
-	public function getImmagine() {	
+	public function getImage() {	
 		return $this->immagine;
 	}
 	
@@ -70,6 +58,18 @@ class Comment {
 	
 	public function getOpinions() {	
 		return $this->opinions;
+	}
+	
+	public function getPhotoAlbum() {	
+		return $this->photoAlbum;
+	}
+	
+	public function getRecord() {	
+		return $this->record;
+	}
+	
+	public function getSong() {	
+		return $this->song;
 	}
 	
 	public function getTag() {	
@@ -108,31 +108,32 @@ class Comment {
 		return $this->updatedAt;
 	}
 	
+	public function getACL() {
+		return $this->ACL;
+	}
+	
 	public function printComment() {
 		echo '[objectId] => ' . $this->getObjectId() . '<br />';
 		echo '[active] => ' . $this->getActive() . '<br />';
-		$ab = $this->getAlbumBrano();
-		echo '[albumBrano] => ' . $ab['className'] . ' -> ' . $ab['objectId'] . '<br/>';
-		$ai = $this->getAlbumImmagine();
-		echo '[albumImmagine] => ' . $ai['className'] . ' -> ' . $ai['objectId'] . '<br/>';
-		$br = $this->getBrano();
-		echo '[brano] => ' . $br['className'] . ' -> ' . $br['objectId'] . '<br/>';
 		echo '[counter] => ' . $this->getCounter() . '<br />';
 		$ev = $this->getEvent();
 		echo '[event] => ' . $ev['className'] . ' -> ' . $ev['objectId'] . '<br/>';
 		$fu = $this->getFromUser();
 		echo '[fromUser] => ' . $fu['className'] . ' -> ' . $fu['objectId'] . '<br/>';
-		$im = $this->getImmagine();
-		echo '[immagine] => ' . $im['className'] . ' -> ' . $im['objectId'] . '<br/>';
-		
+		$im = $this->getImage();
+		echo '[image] => ' . $im['className'] . ' -> ' . $im['objectId'] . '<br/>';
 		$geoCoding = $this->getLocation();
-		echo '[location] => ' . $geoCoding['latitude'] . ', ' . 
-								$geoCoding['longitude'] . '<br />';
-								 
+		echo '[location] => ' . $geoCoding['latitude'] . ', ' . $geoCoding['longitude'] . '<br />';
 		foreach ($this->getOpinions() as $op) {
 			echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			echo '[opinions] => ' . $opinion . '<br />';
 		}
+		$pa = $this->getPhotoAlbum();
+		echo '[photoAlbum] => ' . $pa['className'] . ' -> ' . $pa['objectId'] . '<br/>';
+		$re = $this->getRecord();
+		echo '[record] => ' . $re['className'] . ' -> ' . $re['objectId'] . '<br/>';
+		$so = $this->getSong();
+		echo '[song] => ' . $so['className'] . ' -> ' . $so['objectId'] . '<br/>';
 		foreach ($this->getTag() as $tg) {
 			echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			echo '[tag] => ' . $tg . '<br />';
@@ -148,87 +149,92 @@ class Comment {
 		echo '[vote] => ' . $this->getVote() . '<br />';
 		echo '[createdAt] => ' . $this->getCreatedAt() . '<br />';
 		echo '[updatedAt] => ' . $this->getUpdatedAt() . '<br />';
+		echo '[ACL] => ' . $this->getACL() . '<br />';
 	}
 	
-	public function setObjectId($value) {
-		$this->objectId = $value;
+	public function setObjectId($objectId) {
+		$this->objectId = $objectId;
 	}
 	
-	public function setActive($value) {
-		$this->active = $value;
+	public function setActive($active) {
+		$this->active = $active;
 	}
 	
-	public function setAlbumBrano($value) {
-		$this->albumBrano = $value;
+	public function setCounter($counter) {	
+		$this->counter = $counter;
 	}
 	
-	public function setAlbumImmagine($value) {
-		$this->albumImmagine = $value;
+	public function setEvent($event) {	
+		$this->event = $event;
 	}
 	
-	public function setBrano($value) {	
-		$this->brano = $value;
+	public function setFromUser($fromUser) {	
+		$this->fromUser = $fromUser;
 	}
 	
-	public function setCounter($value) {	
-		$this->counter = $value;
+	public function setImage($image) {	
+		$this->image = $image;
 	}
 	
-	public function setEvent($value) {	
-		$this->event = $value;
-	}
-	
-	public function setFromUser($value) {	
-		$this->fromUser = $value;
-	}
-	
-	public function setImmagine($value) {	
-		$this->immagine = $value;
-	}
-	
-	public function setLocation($value) {
-		$geoPointParse = new geoPointParse($value['latitude'], $value['longitude']);
+	public function setLocation($location) {
+		$geoPointParse = new geoPointParse($location['latitude'], $location['longitude']);
 		$this->location = $geoPointParse->getGeoPoint();
 	}
 	
-	public function setOpinions($value) {	
-		$this->opinions = $value;
+	public function setOpinions($opinions) {	
+		$this->opinions = $opinions;
 	}
 	
-	public function setTag($value) {	
-		$this->tag = $value;
+	public function setPhotoAlbum($photoAlbum) {	
+		$this->photoAlbum = $photoAlbum;
 	}
 	
-	public function setText($value) {	
-		$this->text = $value;
+	public function setRecord($record) {	
+		$this->record = $record;
 	}
 	
-	public function setToUser($value) {	
-		$this->toUser = $value;
+	public function setSong($song) {	
+		$this->song = $song;
 	}
 	
-	public function setType($value) {	
-		$this->type = $value;
+	public function setTag($tag) {	
+		$this->tag = $tag;
 	}
 	
-	public function setUser($value) {	
-		$this->user = $value;
+	public function setText($text) {	
+		$this->text = $text;
 	}
 	
-	public function setVideo($value) {	
-		$this->video = $value;
+	public function setToUser($toUser) {	
+		$this->toUser = $toUser;
 	}
 	
-	public function setVote($value) {	
-		$this->vote = $value;
+	public function setType($type) {	
+		$this->type = $type;
 	}
 	
-	public function setCreatedAt($value) {
-		$this->createdAt = $value;
+	public function setUser($user) {	
+		$this->user = $user;
 	}
 	
-	public function setUpdatedAt($value) {
-		$this->updatedAt = $value;
+	public function setVideo($video) {	
+		$this->video = $video;
+	}
+	
+	public function setVote($vote) {	
+		$this->vote = $vote;
+	}
+	
+	public function setCreatedAt($createdAt) {
+		$this->createdAt = $createdAt;
+	}
+	
+	public function setUpdatedAt($updatedAt) {
+		$this->updatedAt = $updatedAt;
+	}
+	
+	public function setACL($ACL) {
+		$this->ACL = $ACL;
 	}
 	
 }
