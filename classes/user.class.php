@@ -245,7 +245,7 @@ class User{
 		
 	}
 	
-	public function setBirthDay(){
+	public function getBirthDay(){
 	
 		return $this->birthDay;
 	
@@ -524,7 +524,7 @@ class Jammer extends User{
 		
 	}
 	
-	public function setMembers(array $jammerType){
+	public function setJammerType(array $jammerType){
 	
 		$this->jammerType = $jammerType;
 	
