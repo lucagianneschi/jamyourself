@@ -1,4 +1,3 @@
-
 function login(){
 	//recupero i valori
 	var username = $("#username").val();
@@ -15,7 +14,7 @@ function login(){
 	//invio la richiesta
 	$risp = $.ajax({
 		type : "POST",
-		url : "../../controllers/user/loginController.php",
+		url : "../controllers/user/loginController.php",
 		data : json,
 		dataType : json,
 		async : false
@@ -33,8 +32,8 @@ function login(){
 	obj = JSON.parse($risp['responseText']);
 	session = obj.userId;
 	
-	
-	postHome(session);
+	//inizializzo la sessione
+	starSession(session);
 	
 
 }
@@ -67,6 +66,17 @@ function starSession(session){
 	//invio il form
 	document.forms['login'].submit();
 
+}
+
+function endSession(){
+	//creo un form fittizzio e passo session come post value
+	$html = "<form action=''  name='logout' method='post' style='display:none;'>";
+	$html +="<input type='hidden' name='logout'/>";
+	$html +="</form>";	
+	$('#logout').html($html);
+	
+	//invio il form
+	document.forms['logout'].submit();	
 }
 
 $().ready(function() {	
