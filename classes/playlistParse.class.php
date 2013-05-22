@@ -95,8 +95,8 @@ class PlaylistParse{
 		if($this->save($playlist)) return true;
 			
 		else return false;
-	}
 
+	}
 
 
 	/**
@@ -200,5 +200,3 @@ class PlaylistParse{
 		return $playlist;
 	}
 }
-
-?>

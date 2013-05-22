@@ -154,10 +154,9 @@ class UserParse{
 
 		try{
 
-			$ret = $parse->login();
-			
 			if($ret){
-								
+				$ret = $parse->login();
+				
 				$user = $this->parseToUser($ret);
 				
 			}
