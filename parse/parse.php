@@ -6,7 +6,6 @@ include 'parseUser.php';
 include 'parseFile.php';
 include 'parsePush.php';
 include 'parseGeoPoint.php';
-include 'parseACL.php';
 
 class parseRestClient{
 
@@ -26,7 +25,7 @@ class parseRestClient{
     	$this->_restkey = $parseConfig::RESTKEY;
     	$this->_parseurl = $parseConfig::PARSEURL;
 
-		if(empty($this->_appid) || empty($this->_restkey) || empty($this->_masterkey)){			
+		if(empty($this->_appid) || empty($this->_restkey) || empty($this->_masterkey)){
 			$this->throwError('You must set your Application ID, Master Key and REST API Key');
 		}
 	}
@@ -36,16 +35,13 @@ class parseRestClient{
 	 * 
 	 *
 	 */	
-	public function request($args){		
+	public function request($args){
 		$isFile = false;
 		$c = curl_init();
 		curl_setopt($c, CURLOPT_TIMEOUT, 30);
 		curl_setopt($c, CURLOPT_USERAGENT, 'parse.com-php-library/2.0');
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($c, CURLINFO_HEADER_OUT, true);	
-		
-		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, FALSE); //<-------------------------- DISATTIVA CERTIFICATO SSL
-		
+		curl_setopt($c, CURLINFO_HEADER_OUT, true);
 		if(substr($args['requestUrl'],0,5) == 'files'){
 			curl_setopt($c, CURLOPT_HTTPHEADER, array(
 				'Content-Type: '.$args['contentType'],
@@ -62,15 +58,13 @@ class parseRestClient{
     			'X-Parse-Session-Token: '.$args['sessionToken']
     		));
 		}
-		else{			
+		else{
 			curl_setopt($c, CURLOPT_HTTPHEADER, array(
 				'Content-Type: application/json',
 				'X-Parse-Application-Id: '.$this->_appid,
-				'X-Parse-REST-API-Key: '.$this->_restkey,
-				'X-Parse-Master-Key: '.$this->_masterkey
+				'X-Parse-REST-API-Key: '.$this->_restkey
 			));	
-		}	
-		
+		}
 		curl_setopt($c, CURLOPT_CUSTOMREQUEST, $args['method']);
 		$url = $this->_parseurl . $args['requestUrl'];
 
@@ -84,7 +78,7 @@ class parseRestClient{
 			
 			curl_setopt($c, CURLOPT_POSTFIELDS, $postData );
 		}
-		
+
 		if($args['requestUrl'] == 'login'){
 			$urlParams = http_build_query($args['data'], '', '&');
 			$url = $url.'?'.$urlParams;
@@ -95,10 +89,8 @@ class parseRestClient{
 		}
 
 		curl_setopt($c, CURLOPT_URL, $url);
-		
-	//	echo  curl_getinfo($c,CURLINFO_EFFECTIVE_URL )."</br>";
+
 		$response = curl_exec($c);
-		
 		$responseCode = curl_getinfo($c, CURLINFO_HTTP_CODE);
 
 		$expectedCode = '200';
@@ -108,8 +100,8 @@ class parseRestClient{
 		
 		if($expectedCode != $responseCode){
 			//BELOW HELPS WITH DEBUGGING
-		//	print_r($response);
-		//	print_r($args);		
+			//print_r($response);
+			//print_r($args);		
 		}
 		
 		return $this->checkResponse($response,$responseCode,$expectedCode);
@@ -176,7 +168,6 @@ class parseRestClient{
 	}
 
 	private function checkResponse($response,$responseCode,$expectedCode){
-		
 		//TODO: Need to also check for response for a correct result from parse.com
 		if($responseCode != $expectedCode){
 			$error = json_decode($response);

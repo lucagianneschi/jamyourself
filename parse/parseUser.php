@@ -147,24 +147,6 @@ class parseUser extends parseRestClient{
 
 	}
 	
-	public function requestPasswordReset($email){
-		if(!empty($email)){
-			$request = $this->request(array(
-					'method' => 'POST',
-					'requestUrl' => 'requestPasswordReset',
-					'data' => $this->data,
-					'email'=>$email
-			));
-				
-			return $request;
-				
-		}
-		else{
-			$this->throwError('email is required for the requestPasswordReset method');
-		}
-	
-	}
-	
 }
 
 ?>
