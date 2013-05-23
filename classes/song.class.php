@@ -9,6 +9,7 @@ class Song{
 	
 	private $active;
 	private $counter;
+	private $counter; //aggiunta per tenere conto del numero di azioni di love
 	private $fromUser;				
 	private $title;					
 	private $duration;				
@@ -82,6 +83,10 @@ class Song{
 		$this->counter = $counter;
 	}
 	
+	public function setLoveCounter(array $loveCounter){
+		$this->loveCounter = $loveCounter;
+	}
+	
 	public function setACL(array $ACL){
 		$this->ACL = $ACL;
 	}
@@ -148,6 +153,10 @@ class Song{
 	
 	public function getCounter(){
 		return $this->counter ;
+	}
+	
+	public function getLoveCounter(){
+		return $this->loveCounter ;
 	}
 	
 	public function getACL(){
