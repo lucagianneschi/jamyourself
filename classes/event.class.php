@@ -9,6 +9,7 @@ class Event {
 	private $attendee;				//Array di utenti che partecipano all'evento
 	private $author;				//id user che ha effettuato l'evento: obbligatorio			
 	private $counter;				//contatore per il gradimento dell'utente
+	private $loveCounter;                            //contatore per il numero di azioni love
 	private $description;			//descrizione dell'evento: inserito da utente - obbligatorio
 	private $eventDate;				//data di quando sara' l'evento: inserito da utente - obbligatorio
 	private $featuring; 			//elenco di utente presenti all'evento: inserito da utente - obbligatorio
@@ -39,6 +40,10 @@ class Event {
 
 	public function getCounter() {
 		return $this->counter;
+	}
+	
+	public function getLoveCounter() {
+		return $this->loveCounter;
 	}
 	
 	public function getDescription() {
@@ -162,6 +167,10 @@ class Event {
 	
 	public function setCounter($value) {
 		$this->counter = $value;
+	}
+	
+	public function setLoveCounter($value) {
+		$this->loveCounter = $value;
 	}
 
 	public function setDescription($value) {
