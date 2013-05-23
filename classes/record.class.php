@@ -3,8 +3,8 @@
  * 
  * @author Stefano
  *
- * Questa classe si occupa di gestire un "record" cioè un ALBUM MUSICALE
- * Il Db corrispondente è Record
+ * Questa classe si occupa di gestire un "record" cioï¿½ un ALBUM MUSICALE
+ * Il Db corrispondente ï¿½ Record
  * 
  */
 class Record{
@@ -21,6 +21,7 @@ class Record{
 	private $featuring;		//featuring
 	private $keywords;		//parole chiave
 	private $counter;
+	private $loveCounter;           //aggiunto per tenere conto del numero di love
 	
 	private $createdAt;
 	private $updatedAt;
@@ -46,6 +47,7 @@ class Record{
 	public function getFeaturing(){ return $this->featuring  ; }		
 	public function getKeywords(){ return $this->keywords  ; }		
 	public function getCounter(){ return $this->counter  ; }
+	public function getLoveCounter(){ return $this->loveCounter  ; }
 
 	public function getCreatedAt(){ return $this->createdAt; }
 	public function getUpdatedAt(){ return $this->updatedAt; }
@@ -64,6 +66,7 @@ class Record{
 	public function setFeaturing(array $featuring){ $this->featuring  = $featuring ; }		
 	public function setKeywords(array $keywords){ $this->keywords  = $keywords ; }	
 	public function setCounter($counter){ $this->counter  = $counter ; }
+	public function setLoveCounter($loveCounter){ $this->loveCounter  = $loveCounter ; }
 	
 	public function setCreatedAt(DateTime $createdAt){$this->createdAt = $createdAt;  }
 	public function setUpdatedAt(DateTime $updatedAt){$this->updatedAt = $updatedAt;  }
