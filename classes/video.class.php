@@ -188,7 +188,7 @@ class Video{
 		
 	}
 	
-		public function setCounter($loveCounter){
+	public function setLoveCounter($loveCounter){
 		
 		$this->loveCounter = $loveCounter;
 		
