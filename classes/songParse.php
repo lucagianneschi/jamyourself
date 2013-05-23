@@ -15,6 +15,7 @@ class SongParse{
 		
 		$parse->active = $song->getActive();
 		$parse->counter = $song->getCounter();
+		$parse->loveCounter = $song->getLoveCounter(); //contatore per tenere conto dei love
 		
 		if( ( $fromUser = $song->getFromUser() ) != null ) {
 			$parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $author->getObjectId() );			
@@ -115,6 +116,7 @@ class SongParse{
 		
 		//boolean
 		if(isset($parseObj->counter))  $song->setCounter($parseObj->counter);
+		if(isset($parseObj->loveCounter))  $song->setLoveCounter($parseObj->loveCounter); //aggiunto per tenere conto del numero di love
 		if(isset($parseObj->fromUser)){
 			$parseUser = new UserParse();
 			$pointer = $parseObj->fromUser;
