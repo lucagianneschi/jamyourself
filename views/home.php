@@ -26,7 +26,7 @@ else if(isset($_SESSION['userId'])){
 ?>
 <html>
 <head>
-<title>Login</title>
+<title>Home</title>
 
 <style type="text/css">
 .error {
@@ -47,6 +47,7 @@ else if(isset($_SESSION['userId'])){
 
 </head>
 <body>
+	<!-- div di avviso  -->
 	<div id="error" class='error'></div>
 	<div id="message" class='message'></div>
 	<div id="login" style="display: none"></div>
@@ -84,6 +85,10 @@ else if(isset($_SESSION['userId'])){
 					value="logout">
 		</form>
 
+	</div>
+	
+	<div id="link">
+	<a href="./playlist">Playlist </a>
 	</div>
 	<?php 
 	}

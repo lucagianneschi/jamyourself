@@ -1,0 +1,344 @@
+[20:59:04] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[20:59:06] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[20:59:28] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[20:59:29] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:00:03] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:00:16] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:00:16] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:00:24] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:00:50] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:00:51] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:01:26] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:01:27] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:01:55] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:01:56] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:03:03] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:03:04] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:03:06] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:03:09] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:04:08] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:04:09] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:04:28] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:04:32] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:05:14] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:05:16] [playlistController] - Risultato call_user_func_array: object(Response)#4 (3) {
+  ["message"]=>
+  NULL
+  ["error"]=>
+  string(19) "Account non premium"
+  ["data"]=>
+  NULL
+}
+
+[21:07:44] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:07:44] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:07:44] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:07:46] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw -ERRORE: Account non premium
+[21:07:51] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:07:51] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:07:51] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:07:52] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw -ERRORE: Account non premium
+[21:09:00] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:09:00] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:09:00] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:09:02] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw -ERRORE: Account non premium
+[21:11:06] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:11:06] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:11:06] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:11:08] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw -ERRORE: Account non premium
+[21:11:27] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:11:27] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:11:27] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:11:28] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw -ERRORE: Account non premium
+[21:12:32] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:12:32] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:12:32] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:13:17] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:13:17] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:13:17] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:15:00] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:15:00] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:15:00] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:16:36] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:16:36] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:16:36] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:17:35] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:17:35] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:17:35] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:17:55] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:17:55] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:17:55] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:18:50] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:18:50] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:18:50] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:19:32] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:19:32] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:19:32] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:19:35] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 
+[21:35:52] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:35:52] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:35:52] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:35:54] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 
+[21:36:48] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:36:48] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:36:48] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:36:51] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 
+[21:42:10] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[21:42:10] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[21:42:10] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[21:42:12] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 
+[22:13:31] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[22:13:31] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (0) {
+}
+
+[22:13:31] [playlistController - playlistCreate] - userId: 
+[22:14:23] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[22:14:23] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
+  ["userId"]=>
+  string(10) "n1TXVlIqHw"
+}
+
+[22:14:23] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[22:14:28] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 

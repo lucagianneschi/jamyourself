@@ -32,10 +32,14 @@ class PlaylistParse{
 		}
 
 		//Array di Song
-		$parseObj->songs = array();
-		foreach($playlist->getSongs() as $song){
-			$pointerParse = new PointerParse("Song", $song->getObjectId());
-			array_push($parseObj->songs, $pointerParse->getPointer());
+		$parseObj->songs = array();		
+
+		if($playlist->getSongs()){
+			$songList = $playlist->getSongs();
+			foreach($songList as $song){
+				$pointerParse = new PointerParse("Song", $song->getObjectId());
+				array_push($parseObj->songs, $pointerParse->getPointer());
+			}
 		}
 
 		//boolean
@@ -48,11 +52,11 @@ class PlaylistParse{
 			try{
 				$ret = $parseObj->update($playlist->getObjectId());
 					
-				$event->setObjectId($playlist->objectId);
+				$playlist->setObjectId($playlist->objectId);
 					
-				$event->setUpdatedAt($playlist->createdAt);
+				$playlist->setUpdatedAt($playlist->createdAt);
 					
-				$event->setCreatedAt($playlist->createdAt);
+				$playlist->setCreatedAt($playlist->createdAt);
 			}
 			catch(ParseLibraryException $e){
 					
@@ -67,7 +71,7 @@ class PlaylistParse{
 
 				$ret = $parseObj->save();
 					
-				$playlist->setUpdatedAt($ret->updatedAt);
+				$playlist->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
 					
 			}
 			catch(ParseLibraryException $e){
