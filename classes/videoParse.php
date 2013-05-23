@@ -37,6 +37,7 @@ class VideoParse{
 		$parse->tags = $video->getTags();
 		$parse->duration = $video->getDuration();
 		$parse->counter = $video->getCounter();
+		$parse->loveCounter = $video->getCounter();
 		
 		$parse->featuring = array();
 		foreach($video->getFeaturing() as $user){
@@ -190,7 +191,7 @@ class VideoParse{
 			//integer
 		if(isset($parseObj->duration) )  $video->setDuration($parseObj->duration) ;
 		if(isset($parseObj->counter) )  $video->setCounter($parseObj->counter) ;
-
+                if(isset($parseObj->loveCounter) )  $video->setLoveCounter($parseObj->loveCounter) ;
 			//ACL
 	 	if(isset( $parseObj->ACL ) ){
  		

@@ -161,7 +161,7 @@ class AlbumParse{
 		//generali
 		
 		if(isset($parseObj->objectId)) $album->setObjectId($parseObj->objectId) ;
-		if(isset($parseObj->type)) $album->setType($parseObj->type)  ;
+
 		
 		if(isset($parseObj->createdAt)){
 		

@@ -10,6 +10,7 @@ class Image{
 	private $featuring;	
 	private $tag;
 	private $counter;
+	private $loveCounter;  //contatore per tenere conto delle sole attività di love
 
 	private $createdAt;
 	private $updatedAt;
@@ -33,6 +34,9 @@ class Image{
 	}
 	public function setCounter($counter){
 		$this->counter = $counter;
+	}
+	public function setLoveCounter($loveCounter){
+		$this->loveCounter = $loveCounter;
 	}
 	public function setACL($ACL){
 		$this->ACL = $ACL ;	
@@ -79,6 +83,9 @@ class Image{
 	}
 	public function getCounter(){
 		return $this->counter;
+	}
+	public function getLoveCounter(){
+		return $this->loveCounter;
 	}
 	public function getUpdatedAt(){
 		return $this->updatedAt;	

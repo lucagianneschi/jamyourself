@@ -27,6 +27,7 @@ class EventParse {
 	    
 		$event->setAuthor($res->author);
 		$event->setCounter($res->counter);
+		$event->setLoveCounter($res->loveCounter); //aggiunta per il contatore di love
 		$event->setDescription($res->description);
 		//$date = new DateTime($res->eventDate->iso);
 		$event->setEventDate($res->eventDate);
@@ -58,6 +59,7 @@ class EventParse {
 			$pointer = $pointerParse->getPointer();
 			$event->setAuthor($pointer);
 			$event->setCounter($obj->counter);
+			$event->setLoveCounter($obj->loveCounter);//aggiunta per il contatore di love
 			$event->setDescription($obj->description);
 		//	$date = new DateTime($obj->eventDate->iso);
 			$event->setEventDate($obj->eventDate);
@@ -86,6 +88,7 @@ class EventParse {
 		$parseObject->attendee = $event->getAttendee();		
 		$parseObject->author = $event->getAuthor();			
 		$parseObject->counter = $event->getCounter();
+		$parseObject->loveCounter = $event->getLoveCounter();//aggiunta per il contatore di love
 		$parseObject->description = $event->getDescription();		
 		$parseObject->eventDate = $event->getEventDate();		
 		$parseObject->featuring = $event->getFeaturing();		
@@ -108,6 +111,7 @@ class EventParse {
 		$parseObject->attendee = $event->getAttendee();
 		$parseObject->author = $event->getAuthor();		
 		$parseObject->counter = $event->getCounter();
+		$parseObject->loveCounter = $event->getLoveCounter();//aggiunta per il contatore di love
 		$parseObject->description = $event->getDescription();		
 		$parseObject->eventDate = $event->getEventDate();		
 		$parseObject->featuring = $event->getFeaturing();		

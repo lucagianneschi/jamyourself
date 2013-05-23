@@ -6,13 +6,15 @@ class Status{
 	
 	private $fromUser; 	// settarlo come il currentUser;
 	private $counter; 	// inizializzare a 0;
-	private $location; 	// lasciamolo empty, useremo questo campo solo per le applicazioni (non sarebbe comodo mettere il form don le coordinate etc, il commento è una cosa veloce);
+	private $location; 	// lasciamolo empty, useremo questo campo solo per le applicazioni (non sarebbe comodo mettere il form don le coordinate etc, il commento ï¿½ una cosa veloce);
 	private $active; 	//impostarlo a YES;
 	private $text;
 	private $img;
 	private $song;
 	private $users;
 	private $event;
+	
+	private $loveCounter;  //counter per tenere conto delle sole azioni di love
 	
 	private $createdAt;
 	private $updatedAt;
@@ -44,6 +46,12 @@ class Status{
 	public function setCounter($counter){
 		
 		$this->counter = $counter;
+		
+	}
+	
+	public function setLoveCounter($loveCounter){
+		
+		$this->loveCounter = $loveCounter;
 		
 	}
 	
@@ -104,7 +112,7 @@ class Status{
 	}
 	public function setEvent(Event $event){
 	
-		//event è un oggetto di tipo Event, recupoer l'objectId e creo il puntatore
+		//event ï¿½ un oggetto di tipo Event, recupoer l'objectId e creo il puntatore
 		
 		$this->events = $event;
 	
@@ -135,6 +143,12 @@ class Status{
 	public function getCounter(){
 		
 		return $this->counter;
+		
+	}
+	
+	public function getLoveCounter(){
+		
+		return $this->loveCounter;
 		
 	}
 	
@@ -200,6 +214,7 @@ class Status{
 		$string.="updatedAt: " .$this->updatedAt."<br>";		
 		$string.="fromUser: " .$this->fromUser['objectId']."<br>"; 	
 		$string.="counter: ". $this->counter."<br>"; 
+		$string.="loveCounter: ". $this->loveCounter."<br>"; 
 		//$string.="location: " .$this->location."<br>"; 	
 		$string.="active: " .$this->active."<br>"; 	
 		//$string.="ACL: " .$this->ACL."<br>"; 		

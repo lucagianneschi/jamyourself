@@ -31,7 +31,7 @@ class Playlist{
 	public function getActive(){
 		return $this->active;
 	}
-	public function getTSongs(){
+	public function getSongs(){
 		return $this->songs;
 	}
 	public function getUnlimited(){
@@ -55,16 +55,16 @@ class Playlist{
 		$this->objectId = $objectId;  
 	}
 	
-	public function getToUser(User $toUser){
+	public function setToUser(User $toUser){
 		$this->toUser;
 	}
-	public function getActive($active){
+	public function setActive($active){
 		$this->active;
 	}
-	public function getTSongs(array $songs){
+	public function setSongs(array $songs){
 		$this->songs;
 	}
-	public function getUnlimited($unlimited){
+	public function setUnlimited($unlimited){
 		$this->unlimited;
 	}
 	
@@ -84,8 +84,12 @@ class Playlist{
 		$string ="";
 		$string.="objectId -> ".$this->objectId."<br>";
 		
+
 		$string.="toUser -> ".$this->toUser->getUsername()."<br>";
-		$string.="unlimited -> ".$this->unlimited."<br>";
+		
+		$converted_res = ($this->unlimited) ? 'true' : 'false';
+		
+		$string.="unlimited -> ".$converted_res."<br>";
 
 		$i=0;
 		foreach($this->songs as $song){
@@ -93,7 +97,9 @@ class Playlist{
 			$i++;
 		}
 		
-		$string.="active-> ".$this->active."<br>";		
+		$converted_res = ($this->active) ? 'true' : 'false';
+		$string.="active-> ".$converted_res."<br>";	
+			
 		if($this->getUpdatedAt())$string.="updatedAt -> ".$this->getUpdatedAt()->format('d/m/Y H:i:s')."<br>";
 		if($this->getCreatedAt())$string.="createdAt -> ".$this->getCreatedAt()->format('d/m/Y H:i:s')."<br>";
 		//$string.="-> ".$this->ACL;

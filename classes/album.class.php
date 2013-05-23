@@ -20,7 +20,7 @@ class Album{
 	private $featuring;		//featuring
 	private $tag;			//tag
 	private $counter;		//counter
-	
+	private $counter;		//counter per le azioni di love
 	
 	private $createdAt;
 	private $updatedAt;
@@ -70,6 +70,7 @@ class Album{
 	}
 	
 	public function getCounter(){ return $this->counter  ; }
+	public function getLoveCounter(){ return $this->loveCounter  ; }
 	
 	public function getCreatedAt(){
 		return $this->createdAt  ;
@@ -95,6 +96,7 @@ class Album{
 	}
 	
 	public function setCounter($counter){ $this->counter  = $counter ; }
+	public function setLoveCounter($loveCounter){ $this->loveCounter  = $loveCounter ; }
 	
 	public function setTitle($title){
 		$this->title  = $title ;

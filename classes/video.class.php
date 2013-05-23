@@ -15,6 +15,7 @@ class Video{
 	private $tags;
 	private $duration;
 	private $counter;
+	private $loveCounter;
 	private $featuring;
 	private $ACL;
 
@@ -184,6 +185,12 @@ class Video{
 	public function setCounter($counter){
 		
 		$this->counter = $counter;
+		
+	}
+	
+	public function setLoveCounter($loveCounter){
+		
+		$this->loveCounter = $loveCounter;
 		
 	}
 	

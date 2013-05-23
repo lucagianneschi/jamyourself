@@ -31,6 +31,7 @@ class RecordParse{
 		}
 
 		$parseObj->counter = $record->getCounter();
+		$parseObj->loveCounter = $record->getLoveCounter(); //aggiunta per tenere conto del numero di love
 		$parseObj->cover = $record->getCover();
 		$parseObj->thumbnailCover = $record->getThumbnailCover();
 		$parseObj->featuring = $record->getFeaturing();
@@ -148,6 +149,7 @@ class RecordParse{
 			
 		if(isset($parseObj->cover ) )$record->setCover($parseObj->cover);
 		if(isset($parseObj->counter ) )$record->setCounter($parseObj->counter);
+		if(isset($parseObj->loveCounter ) )$record->setLoveCounter($parseObj->loveCounter);
 		if(isset($parseObj->thumbnailCover ) )$record->setThumbnailCover($parseObj->thumbnailCover);
 		
 		if(isset($parseObj->featuring ) ){

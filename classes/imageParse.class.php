@@ -15,6 +15,7 @@ class ImageParse{
 		
 		$parse->active = $image->getActive();
 		$parse->counter = $image->getCounter();
+		$parse->loveCounter = $image->getLoveCounter(); //aggiunta per il contatore di love
 		
 		if( ( $fromUser = $image->getFromUser() ) != null ) {
 			$parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $author->getObjectId() );			
@@ -112,6 +113,7 @@ class ImageParse{
 		
 		//boolean
 		if(isset($parseObj->counter))  $image->setCounter($parseObj->counter);
+		if(isset($parseObj->loveCounter))  $image->setLoveCounter($parseObj->loveCounter); //aggiunta per il contatore di love
 		if(isset($parseObj->fromUser)){
 			$parseUser = new UserParse();
 			$pointer = $parseObj->fromUser;

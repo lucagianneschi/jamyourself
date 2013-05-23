@@ -11,10 +11,10 @@ class StatusParse{
 	}
 
 	/**
-	 * Ho deciso di unificare la save e l'update così da poter effettuare semplicemente il salvataggio
-	 * dell'oggetto senza paranoie se esiste già o meno su Parse
-	 * Il test viene fatto sull'objectId dello status, che naturalmente è nullo se
-	 * l'oggetto è creato per la prima volta
+	 * Ho deciso di unificare la save e l'update cosï¿½ da poter effettuare semplicemente il salvataggio
+	 * dell'oggetto senza paranoie se esiste giï¿½ o meno su Parse
+	 * Il test viene fatto sull'objectId dello status, che naturalmente ï¿½ nullo se
+	 * l'oggetto ï¿½ creato per la prima volta
 	 *
 	 * @param unknown $status
 	 * @return NULL|unknown
@@ -24,6 +24,8 @@ class StatusParse{
 		$parse = new parseObject("Status");
 		$parse->fromUser = $status->getfromUser();
 		$parse->counter = $status->getCounter();
+		//aggiungo funzione per il richiamo del love counter
+		$parse->loveCounter = $status->getLoveCounter();
 		
 		//geopoint
 		if($geoPoint = $status->getLocation()){
@@ -128,7 +130,7 @@ class StatusParse{
 
 	/**
 	 * Restituisce tutti gli status dell'utente
-	 * (il limite delle query è impostato a 100 dalla parse.lib)
+	 * (il limite delle query ï¿½ impostato a 100 dalla parse.lib)
 	 * @param User $user
 	 * @return Ambigous <multitype:, NULL>
 	 */
@@ -175,7 +177,7 @@ class StatusParse{
 		if( isset($parseObj->createdAt) ) $status->setCreatedAt(new DateTime($parseObj->createdAt,new DateTimeZone("America/Los_Angeles")));
 		if( isset($parseObj->updatedAt) ) $status->setUpdatedAt(new DateTime($parseObj->updatedAt,new DateTimeZone("America/Los_Angeles")));
 	 	
-	 	//recupero l'utente che ha pubblicato lo status che è un Pointer
+	 	//recupero l'utente che ha pubblicato lo status che ï¿½ un Pointer
 	 	if(isset( $parseObj->fromUser ) ){
 	 		
 	 		//userParse per fare la query sulla tabella Utenti
