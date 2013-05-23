@@ -2,6 +2,7 @@
 
 define('CLASS_DIR', './');
 include_once CLASS_DIR.'geoPointParse.class.php';
+include_once CLASS_DIR.'pointerParse.class.php';
 
 class Comment {
 	
@@ -40,15 +41,17 @@ class Comment {
 	}
 	
 	public function getEvent() {	
-		return $this->event;
+		$pointerParse = new PointerParse($this->event['className'], $this->event['objectId']);
+		return $pointerParse->isNullPointer() ? NULL : $this->event;
 	}
 	
 	public function getFromUser() {	
 		return $this->fromUser;
 	}
 	
-	public function getImage() {	
-		return $this->immagine;
+	public function getImage() {
+		$pointerParse = new PointerParse($this->image['className'], $this->image['objectId']);
+		return $pointerParse->isNullPointer() ? NULL : $this->image;
 	}
 	
 	public function getLocation() {
@@ -61,15 +64,18 @@ class Comment {
 	}
 	
 	public function getPhotoAlbum() {	
-		return $this->photoAlbum;
+		$pointerParse = new PointerParse($this->photoAlbum['className'], $this->photoAlbum['objectId']);
+		return $pointerParse->isNullPointer() ? NULL : $this->photoAlbum;
 	}
 	
 	public function getRecord() {	
-		return $this->record;
+		$pointerParse = new PointerParse($this->record['className'], $this->record['objectId']);
+		return $pointerParse->isNullPointer() ? NULL : $this->record;
 	}
 	
 	public function getSong() {	
-		return $this->song;
+		$pointerParse = new PointerParse($this->song['className'], $this->song['objectId']);
+		return $pointerParse->isNullPointer() ? NULL : $this->song;
 	}
 	
 	public function getTag() {	
@@ -81,7 +87,8 @@ class Comment {
 	}
 	
 	public function getToUser() {	
-		return $this->toUser;
+		$pointerParse = new PointerParse($this->toUser['className'], $this->toUser['objectId']);
+		return $pointerParse->isNullPointer() ? NULL : $this->toUser;
 	}
 	
 	public function getType() {	
@@ -89,11 +96,13 @@ class Comment {
 	}
 	
 	public function getUser() {	
-		return $this->user;
+		$pointerParse = new PointerParse($this->user['className'], $this->user['objectId']);
+		return $pointerParse->isNullPointer() ? NULL : $this->user;
 	}
 	
 	public function getVideo() {	
-		return $this->video;
+		$pointerParse = new PointerParse($this->video['className'], $this->video['objectId']);
+		return $pointerParse->isNullPointer() ? NULL : $this->video;
 	}
 	
 	public function getVote() {	
