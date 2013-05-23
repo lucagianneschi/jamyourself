@@ -43,7 +43,7 @@ class PlaylistParse{
 
 			
 			
-		if( isset($playlist->getObjectId()) && $playlist->getObjectId()!=null ){
+		if( $playlist->getObjectId()!=null ){
 
 			try{
 				$ret = $parseObj->update($playlist->getObjectId());
@@ -80,23 +80,6 @@ class PlaylistParse{
 			
 		return $playlist;
 	}
-
-	/**
-	 *
-	 * @param Playlist $playlist
-	 * @return boolean
-	 */
-	function delete(Playlist $playlist){
-
-		if(!$playlist) return false;
-
-		$playlist->setActive(false);
-			
-		if($this->save($playlist)) return true;
-			
-		else return false;
-	}
-
 
 
 	/**

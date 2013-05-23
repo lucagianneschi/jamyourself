@@ -21,8 +21,8 @@ $userId = $_SESSION['userId'];
 <body>
 
 	<!-- nuova playlist -->
-	<div id="newPlaylist" style="display:none">
-		
+	<div id="newPlaylist">
+	<button id="new-playlist-button" onclick="javascript:newPlaylist()">Crea Nuova Playlist</button>
 	</div>
 	
 	<!-- 	Inclusione javascript -->

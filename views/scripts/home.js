@@ -29,7 +29,7 @@ function login(){
 //	var risposta = $risp['responseText'];
 	
 	
-	obj = JSON.parse($risp['responseText']);
+	var obj = JSON.parse($risp['responseText']);
 	session = obj.userId;
 	
 	//inizializzo la sessione

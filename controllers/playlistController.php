@@ -1,10 +1,12 @@
 <?php
+require_once '../parse/parse.php';
 require_once '../classes/activity.class.php';
 require_once '../classes/activityParse.class.php';
 require_once '../classes/user.class.php';
 require_once '../classes/userParse.class.php';
 require_once '../classes/playlist.class.php';
 require_once '../classes/playlistParse.class.php';
+
 
 if(isset($_POST['action']) && $_POST['param']){
 	

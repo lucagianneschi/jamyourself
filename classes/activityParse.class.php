@@ -100,7 +100,7 @@ class ActivityParse {
 		$parseObj->read = $activity->getRead();
 
 		//caso update
-		if( isset($activity->getObjectId()) && $activity->getObjectId()!=null ){
+		if( $activity->getObjectId()!=null ){
 
 			try{
 				$ret = $parseObj->update($activity->getObjectId());
