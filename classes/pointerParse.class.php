@@ -12,6 +12,12 @@ class PointerParse {
 		return $this->parsePointer;
 	}
 	
+	public function isNullPointer() {
+		$className = $this->parsePointer['className'];
+		$objectId =  $this->parsePointer['objectId'];
+		return ($className == '' || $objectId == '') ? true : false;
+	}
+	
 	public function printPointer() {
 		foreach ($this->parsePointer as $key => $value) {
 			echo '[' . $key . '] => ' . $value . '<br/>';
