@@ -40,7 +40,7 @@ class User{
 	private $settings;
 	private $level;
 	private $premium;
-	private $view;
+	private $levelValue; //modificato nome della property da view a levelValue
 
 	//COSTRUTTORE
 
@@ -84,9 +84,9 @@ class User{
 
 	}
 	
-	public function setView($view ){
+	public function setLevelValue($levelValue ){
 	
-		$this->view = $view;
+		$this->view = $levelValue;
 	
 	}
 
@@ -274,9 +274,9 @@ class User{
 		return $this->email;
 	}
 
-	public function getView(){
+	public function getLevelValue(){
 	
-		return $this->view;
+		return $this->levelValue;
 	
 	}
 	
@@ -438,7 +438,7 @@ class User{
 		$string.="Twitter : ".$this->getTwitterPage()."<br>";
 		$string.="Youtube : ".$this->getYoutubeChannel()."<br>";
 		$string.="Id Facebook : ".$this->getFacebookId()."<br>";
-		$string.="Città : ".$this->getCity()."<br>";
+		$string.="Cittï¿½ : ".$this->getCity()."<br>";
 		$string.="Descrizione : ".$this->getDescription()."<br>";
 		if($this->getMusic())$string.="Gusti musiali : ".implode(" , ",$this->getMusic())."<br>";
 		//$string.=" : ".$this->getAuthData()."<br>";

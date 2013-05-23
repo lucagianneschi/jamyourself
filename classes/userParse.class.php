@@ -39,22 +39,22 @@ class UserParse{
 
 		$parse->sex = $user->getSex();
 		$parse->firstname = $user->getFirstname();
-		//è un tipo DateTime
+		//ï¿½ un tipo DateTime
 		
 		//formatto l'anno di nascita 
 		if($user->getBirthDay()){
-			//birthDay è un tipo DateTime
+			//birthDay ï¿½ un tipo DateTime
 			$data = $user->getBirthDay();
 			$parse->birthDay = $parse->dataType("date", $data->format('r'));	
 		}
 
 		$parse->lastname = $user->getLastname();
 		$parse->profilePicture = $user->getProfilePicture();
-		$parse->view = $user->getView();
+		$parse->levelValue= $user->getLevelValue();
 		$parse->profileThumbnail = $user->getProfileThumbnail();
 		
 		if($user->getStatus() ){
-			//status è di tipo Status, deve essere un Pointer
+			//status ï¿½ di tipo Status, deve essere un Pointer
 			$status = $user->getStatus();
 			
 			$parse->status = array("__type" => "Pointer", "className" => "Status", "objectId" => $status->getObjectId());
@@ -76,7 +76,7 @@ class UserParse{
 		
 		if($user->getGeoCoding()){
 			$geo = $user->getGeoCoding();			
-			$parse->geoCoding = $geo->location;//è un geopoint? spero di si...
+			$parse->geoCoding = $geo->location;//ï¿½ un geopoint? spero di si...
 		}
 		$parse->settings = $user->getSettings();
 		$parse->level = $user->getLevel();
@@ -113,7 +113,7 @@ class UserParse{
 				$ret = $parse->signup($user->getUsername(),$user->getPassword());
 			
 				/**
-				 * Esempio di risposta: un oggetto di tipo stdObj così fatto:
+				 * Esempio di risposta: un oggetto di tipo stdObj cosï¿½ fatto:
 				 * $ret->emailVerified = true/false
 				 * $ret->createdAt = "2013-05-04T12:04:45.535Z"
 				 * $ret->objectId = "OLwLSZQtNF"
@@ -137,7 +137,7 @@ class UserParse{
 	}
 
 	/**
-	 * Effettua il login dell'utente fornendo un utente che deve avere qualche parametro impostato, dopodiché creo uno User specifico
+	 * Effettua il login dell'utente fornendo un utente che deve avere qualche parametro impostato, dopodichï¿½ creo uno User specifico
 	 * e lo restituisco.
 	 */
 	function login(User $user){
@@ -174,7 +174,7 @@ class UserParse{
 
 	/**
 	 * La funzione di Logout non ha effetti nel DB, probabilmente
-	 * si dovrà agire probabilmente sulle Activity
+	 * si dovrï¿½ agire probabilmente sulle Activity
 	 *
 	 */
 	function logout(){
@@ -241,7 +241,7 @@ class UserParse{
 	 */
 	function delete(User $user){
 
-		//solo l'utente corrente può cancellare se stesso
+		//solo l'utente corrente puï¿½ cancellare se stesso
 		if($user){
 			$user->setActive(false);
 			
@@ -368,7 +368,7 @@ class UserParse{
 			if( isset($parseObj->profilePicture) ) $user->setProfilePicture($parseObj->profilePicture);
 			if( isset($parseObj->profileThumbnail) ) $user->setProfileThumbnail($parseObj->profileThumbnail);
 			if( isset($parseObj->level) ) $user->setLevel($parseObj->level);
-			if( isset($parseObj->view) )$user->setView($parseObj->view);
+			if( isset($parseObj->levelValue) )$user->setLevelValue($parseObj->levelValue);
 			if( isset($parseObj->status) ){
 				//recupero il pointer
 				$pointer_status = $parseObj->status;
