@@ -127,8 +127,10 @@ class Record {
 		echo '[thumbnailCover] => ' . $this->getThumbnailCover() . '<br />';
 		echo '[title] => ' . $this->getTitle() . '<br />';
 		echo '[year] => ' . $this->getYear() . '<br />';
-		echo '[createdAt] => ' . $this->getCreatedAt() . '<br />';
-		echo '[updatedAt] => ' . $this->getUpdatedAt() . '<br />';
+		$dateTime = $this->getCreatedAt();
+		echo '[createdAt] => ' . $dateTime->format('Y-m-d H:i:s') . '<br />';
+		$dateTime = $this->getUpdatedAt();
+		echo '[updatedAt] => ' . $dateTime->format('Y-m-d H:i:s') . '<br />';
 		echo '[ACL] => ' . $this->getACL() . '<br />';
 	}
 	
@@ -177,7 +179,7 @@ class Record {
 	}
 	
 	public function setLocation($location) {
-		$geoPointParse = new geoPointParse($value['latitude'], $value['longitude']);
+		$geoPointParse = new geoPointParse($location['latitude'], $location['longitude']);
 		$this->location = $geoPointParse->getGeoPoint();
 	}
 	
