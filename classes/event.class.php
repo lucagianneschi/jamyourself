@@ -1,5 +1,8 @@
 <?php
 
+//definizione della classe: http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:event
+//api:http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:event
+
 define('CLASS_DIR', '../classes/');
 include_once CLASS_DIR.'geoPointParse.class.php';
 
