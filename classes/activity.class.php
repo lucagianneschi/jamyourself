@@ -24,7 +24,8 @@ class Activity{
 	private $playlist;      //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     #17
     private $image;			//Image (Parse Object): Istanza della classe Image associata all'activity           #18	
 	private $event;			//Event (Parse Object): Istanza della classe Event associata all'activity           #19
-
+    private $video;         //Video (Parse Object):Istanza della classe Video associata all'activity            #20
+	private $accepted;      //BOOL: da definire																	#21
 
 	//COSTRUTTORE
 
@@ -87,6 +88,7 @@ class Activity{
 	public function setRead($read){
 		$this->read = $read;
 	}
+
 	/**
 	 *
 	 * @param DateTime $createdAt	#8
@@ -184,6 +186,23 @@ class Activity{
 	public function setEvent(Event $event){
 		$this->event = $event;
 	}
+
+	/**
+	 *
+	 * @param Video $video	#20
+	 */
+	public function setVideo(Video $video){
+		$this->video = $video;
+	}
+
+     /**
+	 *
+	 * @param BOOL $accepted	#21
+	 */
+	public function setAccepted($accepted){
+		$this->accepted = $accepted;
+	}
+
 
 	//FUNZIONI GET
 	/**
@@ -336,5 +355,21 @@ class Activity{
 	 */
 	public function getEvent(){
 		return $this->event;
+	}
+
+	/**
+	 *
+	 * @param Video $video	#20
+	 */
+	public function getVideo(){
+		return $this->video;
+	}
+
+	/**
+	 *
+	 * @param BOOL $accepted	#21
+	 */
+	public function getAccepted(){
+		return $this->accepted;
 	}
 }

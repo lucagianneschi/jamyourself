@@ -142,7 +142,16 @@ class ActivityParse {
 
 			$parseObj->event = array("__type" => "Pointer", "className" => "Event", "objectId" => $event->getObjectId());
 		}
+        //Video (Parse Object):Istanza della classe Video associata all'activity            #20
+		if( $activity->getVideo() != null ){
 
+			$video = $activity->getVideo();
+
+			$parseObj->video = array("__type" => "Pointer", "className" => "Video", "objectId" => $event->getObjectId());
+		}
+
+      //accepted BOOL: da definire																	#21
+      $parseObj->accepted = $activity->getAccepted();
 
 		//caso update
 		if( $activity->getObjectId()!=null ){
@@ -345,6 +354,17 @@ class ActivityParse {
 			$event = $parseEvent->getEvent($parseEvent->objectId);
 			$activity->setEvent($event);
 		}
+
+       //Video (Parse Object):Istanza della classe Video associata all'activity            #20
+		if(isset($parseObj->video)){
+			$parseVideo = new VideoParse();
+			$parseVideo = $parseObj->video;
+			$video = $parseEvent->getVideo($parseVideo->objectId);
+			$activity->setVideo($video);
+		} 
+
+ 		//accepted BOOL: da definire	
+        if(isset($parseObj->accepted)) $activity->setAccepted($parseObj->accepted);
 
 		return $activity;
 	}
