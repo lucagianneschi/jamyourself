@@ -241,7 +241,7 @@ class Event {
 	}
 }
 	
-	public function printEvent() {
+	function printEvent() {
 		echo '[objectId] => ' . $this->getObjectId() . '<br />';
 		foreach ($this->getAttendee() as $at) {
 			echo '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';

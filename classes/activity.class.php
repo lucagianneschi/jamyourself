@@ -160,7 +160,7 @@ class Activity{
 	 * @param Question question	#16
 	 */
 	public function setQuestion(Question $question){
-		$this->question = $question
+		$this->question = $question;
     }
 
 	/**
@@ -168,7 +168,7 @@ class Activity{
 	 * @param Playlist $playlist	#17
 	 */
 	public function setPlaylist(Playlist $playlist){
-		$this->playlist = $playlist
+		$this->playlist = $playlist;
     }
 
 	/**
@@ -176,7 +176,7 @@ class Activity{
 	 * @param Image $image	#18
 	 */
 	public function setImage(Image $image){
-		$this->image = $image
+		$this->image = $image;
 	}
 	
 	/**
