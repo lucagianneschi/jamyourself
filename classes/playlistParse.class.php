@@ -114,6 +114,26 @@ class PlaylistParse{
 
 		return $playlist;
 	}
+	
+	public function getUserPlaylists(User $user){
+		
+		$this->parseQuery->wherePointer('fromUser','_User', $user->getObjectId());
+		
+		$result = $this->parseQuery->find();
+		
+		if (is_array($result->results) && count($result->results)>0){
+			$ret = array();
+		
+			foreach($result->results as $playlist){
+				
+				array_push($ret,  $this->parseToPlaylist($playlist));
+			}
+		
+		}
+		
+		return $ret;
+	}
+
 
 	/**
 	 *
