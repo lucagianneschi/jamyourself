@@ -1,0 +1,44 @@
+[00:02:25] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
+NULL
+
+[00:05:11] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
+NULL
+
+[00:07:14] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
+NULL
+
+[00:07:43] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
+NULL
+
+[00:09:31] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
+NULL
+
+[00:11:19] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
+NULL
+
+[00:11:19] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (0) {
+}
+
+[00:11:19] [playlistController - playlistCreate] - userId: 
+[00:11:28] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
+NULL
+
+[00:11:28] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (0) {
+}
+
+[00:11:28] [playlistController - playlistCreate] - userId: 
+[00:12:52] [playlistController] - ACTION: playlistCreate - PARAM: <br />
+<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
+NULL
+
+[00:12:52] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (0) {
+}
+
+[00:12:52] [playlistController - playlistCreate] - userId: 

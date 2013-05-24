@@ -38,11 +38,18 @@ var userId = "<?php echo $userId?>";
 	<div id="error" class='error'></div>
 	<div id="message" class='message'></div>
 	
+	<!-- Buttons -->
+	
 	<!-- nuova playlist -->
-	<div id="newPlaylist">
-		<button id="new-playlist-button" onclick="javascript:newPlaylist(userId)">Crea Nuova Playlist</button>
+	<div id="newPlaylist-button">
+		<button id="new-playlist-button" onclick="javascript:newPlaylist()">Crea Nuova Playlist</button>
 	</div>
 	
+	<div id="userPlaylist-button">
+		<button id="new-playlist-button" onclick="javascript:showUserPlaylists()">Visualizza le mie playlist</button>
+	</div>
+	
+	<!-- div -->
 	<!-- lista playlist utente -->
 	<div id="your-playlists">
 	

@@ -8,7 +8,6 @@ class Song{
 	private $ACL;
 	
 	private $active;
-	private $counter;
 	private $counter; //aggiunta per tenere conto del numero di azioni di love
 	private $fromUser;				
 	private $title;					
@@ -100,9 +99,6 @@ class Song{
 		return $this->createdAt ;
 	}
 
-	public function getActive(){
-		return $this->active;
-	}
 	public function getUpdatedAt(){
 		return $this->updatedAt ;
 	}
