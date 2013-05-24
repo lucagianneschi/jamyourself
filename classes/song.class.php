@@ -39,56 +39,72 @@ class Song{
 		$this->counter = $counter;
 	}
 
+	//string: Descrizione della Song data dall'utente     			#4
 	public function setDescription($description){
 		$this->description = $description;
 	}
 
+	//number: Durata della Song										#5
 	public function setDuration($duration){
 		$this->duration = $duration;
 	}
 
+	//array: presenza di altri Utenti								#6
 	public function setFeaturing(array $featuring){
 		$this->featuring = $featuring;
 	}
-
+	
+	//string: Indirizzo del file									#7
 	public function setFilePath($filePath){
 		$this->filePath = $filePath;
 	}
+
+	//User: Utente che effettua la creazione della Song				#8
 	public function setFromUser(User $fromUser){
 		$this->fromUser = $fromUser;
 	}
 
+	//string: Genere della Song										#9
 	public function setGenre($genre){
 		$this->genre = $genre;
 	}
 
+	//string: Etichetta di produzione								#10
 	public function setLabel($label){
 		$this->label = $label;
 	}
 
+	//geoPoint: coordinate di localizzazione della canzone			#11
 	public function setLocation(parseGeoPoint $location){
 		$this->location = $location;
 	}
 
+	//number: per tenere conto del numero di azioni love			#17
 	public function setLoveCounter(array $loveCounter){
 		$this->loveCounter = $loveCounter;
 	}
 
+	//Record (Parse Object): disco di appartenenza della song       #12
 	public function setRecord(Record $record){
 		$this->album = $record;
 	}
 
+	//string: titolo della song  									#13
 	public function setTitle($title){
 		$this->title = $title;
 	}
 
+	//DateTime: data e tempo di upload								#14
 	public function setCreatedAt(DateTime $createdAt){
 		$this->createdAt = $createdAt;
 	}
 
+	//DateTime: data e tempo di ultima modifica					    #15
 	public function setUpdatedAt(DateTime $updatedAt){
 		$this->updatedAt = $updatedAt;
 	}
+
+	//Access Control list										    #16
 	public function setACL(array $ACL){
 		$this->ACL = $ACL;
 	}
@@ -96,70 +112,88 @@ class Song{
 
 	//GETTERS
 
+	//string: objectId su Parse									    #1
 	public function getObjectId(){
-		return $this->objectId ;
+		return $this->objectId;
 	}
 
+	//BOOL: attiva/disattiva l'istanza della classe  				#2
 	public function getActive(){
 		return $this->active;
 	}
+
+	//number: Contatore di gradimento 								#3
 	public function getCounter(){
-		return $this->counter ;
+		return $this->counter;
 	}
 
+	//string: Descrizione della Song data dall'utente     			#4
 	public function getDescription(){
-		return $this->description ;
+		return $this->description;
 	}
 
+	//number: Durata della Song										#5
 	public function getDuration(){
-		return $this->duration ;
+		return $this->duration;
 	}
 
+	//array: presenza di altri Utenti								#6
 	public function getFeaturing(){
-		return $this->featuring ;
+		return $this->featuring;
 	}
 
+	//string: Indirizzo del file									#7
 	public function getFilePath(){
-		return $this->filePath ;
+		return $this->filePath;
 	}
 
+	//User: Utente che effettua la creazione della Song				#8
 	public function getFromUser(){
-		return $this->fromUser ;
+		return $this->fromUser;
 	}
 
+	//string: Genere della Song										#9
 	public function getGenre(){
-		return $this->genre ;
+		return $this->genre;
 	}
 
+	//string: Etichetta di produzione								#10
 	public function getLabel(){
-		return $this->label ;
+		return $this->label;
 	}
 
+	//number: per tenere conto del numero di azioni love			#17
 	public function getLoveCounter(){
-		return $this->loveCounter ;
+		return $this->loveCounter;
 	}	
 
+	//geoPoint: coordinate di localizzazione della canzone			#11
 	public function getLocation(){
-		return $this->location ;
+		return $this->location;
 	}
 
+	//Record (Parse Object): disco di appartenenza della song       #12
 	public function getRecord(){
-		return $this->record ;
+		return $this->record;
 	}
 
+	//string: titolo della song  									#13
 	public function getTitle(){
-		return $this->title ;
+		return $this->title;
 	}
 
+	//DateTime: data e tempo di upload								#14
 	public function getCreatedAt(){
-		return $this->createdAt ;
+		return $this->createdAt;
 	}
 
+	//DateTime: data e tempo di ultima modifica					    #15
 	public function getUpdatedAt(){
-		return $this->updatedAt ;
+		return $this->updatedAt;
 	}
 
+	//Access Control list										    #16
 	public function getACL(){
-		return $this->ACL ;
+		return $this->ACL;
 	}
 }
