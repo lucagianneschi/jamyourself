@@ -6,6 +6,8 @@ require_once '../classes/user.class.php';
 require_once '../classes/userParse.class.php';
 require_once '../classes/playlist.class.php';
 require_once '../classes/playlistParse.class.php';
+require_once '../classes/song.class.php';
+require_once '../classes/songParse.class.php';
 require_once '../log/log.php';
 
 
@@ -25,30 +27,35 @@ if(isset($_POST['action']) && $_POST['data']){
 	// 	richiamo la funzione richiesta
 	switch($_POST['action']){
 		case "playlistCreate" :
-				
+
 			$return = playlistCreate($data);
-				
+
 			break;
-		
+
 		case "playlistAddSong" :
-			
+				
 			$return = playlistAddSong($data);
+			break;
+				
+		case "getUserPlaylists" :
+				
+			$return = getUserPlaylists($data);
 			break;
 
 		default :
-				
+
 			$return = new Response();
 			$return->setError("No action defined for \"".$function."\"");
 
 			break;
-				
+
 	}
 
 	//per il log
-// 	ob_start();
-// 	var_dump($return);
-// 	$param = ob_get_clean();
-// 	stampaLog("[playlistController] - Risultato call_user_func_array: ".$param);
+	// 	ob_start();
+	// 	var_dump($return);
+	// 	$param = ob_get_clean();
+	// 	stampaLog("[playlistController] - Risultato call_user_func_array: ".$param);
 
 	//fornisco la risposta all'utente
 	echo json_encode($return);
@@ -129,7 +136,7 @@ function playlistCreate($data){
 }
 
 
-function playlistAddSong($json){
+function playlistAddSong($data){
 	//variabili locali
 	$userParse = null;
 	$user = null;
@@ -148,7 +155,7 @@ function playlistAddSong($json){
 	$songParse = new SongParse();
 	$maxSongNumber = 20;
 
-	if(!$json || !isset( $json['userId']) || !isset($json['songId']) || !isset($json['playlistId']) ){
+	if(!$data || !isset( $data['userId']) || !isset($data['songId']) || !isset($data['playlistId']) ){
 		//errore
 		$return->setError("Bad Request");
 
@@ -156,7 +163,7 @@ function playlistAddSong($json){
 	}
 
 	//decodifico l'oggetto
-	if( !( $param = json_decode($json) ) ){
+	if( !( $param = json_decode($data) ) ){
 		//errore
 		$return->setError("Impossibile interpreatare i parametri");
 
@@ -165,7 +172,7 @@ function playlistAddSong($json){
 	}
 
 	//recupero l'utente che ha effettuato la richiesta
-	if( !($user = $userParse->getUserById($json['userId'])) ){
+	if( !($user = $userParse->getUserById($data['userId'])) ){
 
 		//errore
 		$return->setError("Impossibile recuperare l'utente");
@@ -209,9 +216,9 @@ function playlistAddSong($json){
 		// all’indice 19 (l’ultima, la più vecchia) e shifti di 1 tutte le
 		// song dalla 0 alla 18
 		if(count($song) == $maxSongNumber){
-				
+
 			array_pop($songs);
-				
+
 		}
 
 	}
@@ -235,7 +242,83 @@ function playlistAddSong($json){
 	return $return;
 }
 
+function getUserPlaylists($data){
 
+	//variabili locali
+	$userParse = null;
+	$user = null;
+	$return = null;
+	$playlists = null;
+	$playlistParse = null;
+	$param = null;
+	$song = null;
+	$songParse = null;
+	$returnlist = null;
+
+	//inizializzazione valori
+	$userParse = new UserParse();
+	$return = new Response();
+	$playlistParse = new PlaylistParse();
+	$songParse = new SongParse();
+	$maxSongNumber = 20;
+
+// 	if(!$json || !isset( $json['userId']) || !isset($json['songId']) || !isset($json['playlistId']) ){
+// 		//errore
+// 		$return->setError("Bad Request");
+
+// 		return $return;
+// 	}
+
+	//decodifico l'oggetto
+	if( !( $param = json_decode($data) ) ){
+		//errore
+		$return->setError("Impossibile interpreatare i parametri");
+
+		return $return;
+
+	}
+
+	//recupero l'utente che ha effettuato la richiesta
+	if( !($user = $userParse->getUserById($data['userId'])) ){
+
+		//errore
+		$return->setError("Impossibile recuperare l'utente");
+
+		return $return;
+	}
+
+
+	//recupero la playlist
+
+	if( !$playlists = $playlistParse->getUserPlaylists($user) ){
+
+		$return->setError("Impossibile recuperare la playlist");
+
+		return $return;
+
+	}
+
+	$returnlist = array();
+
+	foreach($playlists as $playlist){
+
+		$jsonSinglePlaylist = array(	
+										array("title",	$playlist->getObjectId()),
+										array("id", 	$playlist->getObjectId())
+									);
+
+		array_push($returnList, $jsonSinglePlaylist);
+
+	}
+
+	//return
+
+	$return->setMessage("Playlists caricate correttamente");
+	$return->setData($returnlist);
+	return $return;
+
+
+}
 
 /**
  * Una semplice classe per i messaggi di risposta

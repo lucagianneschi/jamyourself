@@ -88,7 +88,7 @@ else if(isset($_SESSION['userId'])){
 	</div>
 	
 	<div id="link">
-	<a href="./playlist">Playlist </a>
+	<a href="./playlist.php">Playlist </a>
 	</div>
 	<?php 
 	}

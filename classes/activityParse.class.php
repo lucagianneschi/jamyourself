@@ -91,7 +91,7 @@ class ActivityParse {
 		
 		if( $activity->getComment() != null ){
 			
-			$comment = $activity->getComment()();
+			$comment = $activity->getComment();
 			
 			$parseObj->toUser = array("__type" => "Pointer", "className" => "Comment", "objectId" => $comment->getObjectId());
 				
