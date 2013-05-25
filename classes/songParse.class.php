@@ -99,6 +99,7 @@ class SongParse{
 		if(isset( $parseObj->objectId ) )$song->setObjectId($parseObj->objectId);
 		
 		//boolean
+        if(isset($parseObj->active))  $song->setActive($parseObj->active);
 		if(isset($parseObj->counter))  $song->setCounter($parseObj->counter);
 		if(isset($parseObj->description))  $song->setDescription($parseObj->description);
 		if(isset($parseObj->duration))  $song->setDuration($parseObj->duration);
@@ -113,7 +114,7 @@ class SongParse{
 			$parseUser = new UserParse();
 			$pointer = $parseObj->fromUser;
 			$fromUser = $parseUser->getUserById($pointer->objectId);
-			$song->setActive($fromUser);
+			$song->setFromUser($fromUser);
 		}
 
 		if(isset($parseObj->genre))  $song->setGenre($parseObj->genre);
@@ -128,7 +129,7 @@ class SongParse{
 		if(isset($parseObj->record)){
 			$parseRecord = new RecordParse();
 			$pointer = $parseObj->record;
-			$song->setActive($parseRecord->getRecord($pointer->objectId));
+			$song->setRecord($parseRecord->getRecord($pointer->objectId));
 		}
 
 		if(isset($parseObj->title))  $song->setTitle($parseObj->title);
