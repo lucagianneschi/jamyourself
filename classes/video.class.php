@@ -1,7 +1,7 @@
 <?php
 
 //descrizione della classe:http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:video
-//api: DA FARE!!
+//api: http://www.socialmusicdiscovering.com/dokuwiki/doku.php??id=documentazione:api:video
 
 class Video{
 
