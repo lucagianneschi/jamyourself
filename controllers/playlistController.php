@@ -8,6 +8,7 @@ require_once '../classes/playlist.class.php';
 require_once '../classes/playlistParse.class.php';
 require_once '../classes/song.class.php';
 require_once '../classes/songParse.class.php';
+require_once '../classes/pointerParse.class.php';
 require_once '../log/log.php';
 
 
@@ -115,8 +116,9 @@ function playlistCreate($data){
 
 	//creo la playlist
 	$playlist = new Playlist();
-	$playlist->setToUser($user);
+	$playlist->setFromUser($user);
 	$playlist->setUnlimited(false);
+	$playlist->setName("Playlist");
 
 	//salvo la playlist
 	$playlistParse = new PlaylistParse();
@@ -136,7 +138,7 @@ function playlistCreate($data){
 }
 
 
-function playlistAddSong($data){
+function playlistAddSong($json){
 	//variabili locali
 	$userParse = null;
 	$user = null;
@@ -155,7 +157,7 @@ function playlistAddSong($data){
 	$songParse = new SongParse();
 	$maxSongNumber = 20;
 
-	if(!$data || !isset( $data['userId']) || !isset($data['songId']) || !isset($data['playlistId']) ){
+	if(!$json || !isset( $json['userId']) || !isset($json['songId']) || !isset($json['playlistId']) ){
 		//errore
 		$return->setError("Bad Request");
 
@@ -163,7 +165,7 @@ function playlistAddSong($data){
 	}
 
 	//decodifico l'oggetto
-	if( !( $param = json_decode($data) ) ){
+	if( !( $param = json_decode($json) ) ){
 		//errore
 		$return->setError("Impossibile interpreatare i parametri");
 
@@ -172,7 +174,7 @@ function playlistAddSong($data){
 	}
 
 	//recupero l'utente che ha effettuato la richiesta
-	if( !($user = $userParse->getUserById($data['userId'])) ){
+	if( !($user = $userParse->getUserById($json['userId'])) ){
 
 		//errore
 		$return->setError("Impossibile recuperare l'utente");
@@ -244,46 +246,41 @@ function playlistAddSong($data){
 
 function getUserPlaylists($data){
 
+	ob_start();
+	var_dump($data);
+	$param = ob_get_clean();
+	stampaLog("[playlistController - playlistCreate] - JSON: ".$param);
+
 	//variabili locali
 	$userParse = null;
 	$user = null;
+	$userId = "";
 	$return = null;
-	$playlists = null;
+	$playlist = null;
 	$playlistParse = null;
 	$param = null;
-	$song = null;
-	$songParse = null;
-	$returnlist = null;
 
 	//inizializzazione valori
+	$playlistParse = new PlaylistParse();
 	$userParse = new UserParse();
 	$return = new Response();
-	$playlistParse = new PlaylistParse();
-	$songParse = new SongParse();
-	$maxSongNumber = 20;
 
-// 	if(!$json || !isset( $json['userId']) || !isset($json['songId']) || !isset($json['playlistId']) ){
-// 		//errore
-// 		$return->setError("Bad Request");
-
-// 		return $return;
-// 	}
-
-	//decodifico l'oggetto
-	if( !( $param = json_decode($data) ) ){
-		//errore
-		$return->setError("Impossibile interpreatare i parametri");
-
+	if($data == null){
+		stampaLog("[playlistController - playlistCreate] - ERRORE: Il parametro JSON è NULL");
+		$return->setError("Param is NULL");
 		return $return;
 
 	}
 
+
+	$userId = $data->userId;
+	stampaLog("[playlistController - playlistCreate] - userId: ".$userId);
+
 	//recupero l'utente che ha effettuato la richiesta
-	if( !($user = $userParse->getUserById($data['userId'])) ){
-
+	if( !($user = $userParse->getUserById($userId)) ){
 		//errore
+		stampaLog("[playlistController - playlistCreate] - JSON[userId]: ".$userId."  - ERRORE: Impossibile recuperare l'utente");
 		$return->setError("Impossibile recuperare l'utente");
-
 		return $return;
 	}
 
@@ -302,12 +299,10 @@ function getUserPlaylists($data){
 
 	foreach($playlists as $playlist){
 
-		$jsonSinglePlaylist = array(	
-										array("title",	$playlist->getObjectId()),
-										array("id", 	$playlist->getObjectId())
-									);
+		$jsonSinglePlaylist['title'] = $playlist->getName();	
+		$jsonSinglePlaylist['id'] = $playlist->getObjectId();
 
-		array_push($returnList, $jsonSinglePlaylist);
+		array_push($returnlist, $jsonSinglePlaylist);
 
 	}
 

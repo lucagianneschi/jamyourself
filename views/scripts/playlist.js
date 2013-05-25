@@ -1,13 +1,12 @@
 
 $().ready(function() {	
 	
-	var playlist = Array();
-	
+	console.log("UserId :" + userId);
 //	playlist = getUserPlaylists();
 	
 });
 
-function newPlaylist(userId){
+function newPlaylist(){
 	//preparo l'oggetto
 	var data ={};
 	

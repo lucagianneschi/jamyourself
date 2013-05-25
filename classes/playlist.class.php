@@ -4,10 +4,11 @@ class Playlist{
 	
 	private $objectId;
 	
-	private $toUser;
+	private $fromUser;
 	private $unlimited;
 	private $songs;
 	private $active;
+	private $name;
 	
 	private $createdAt;
 	private $updatedAt;
@@ -25,11 +26,14 @@ class Playlist{
 		return $this->objectId;  
 	}
 	
-	public function getToUser(){
-		return $this->toUser;
+	public function getFromUser(){
+		return $this->fromUser;
 	}
 	public function getActive(){
 		return $this->active;
+	}
+	public function getName(){
+		return $this->name;
 	}
 	public function getSongs(){
 		return $this->songs;
@@ -55,17 +59,20 @@ class Playlist{
 		$this->objectId = $objectId;  
 	}
 	
-	public function setToUser(User $toUser){
-		$this->toUser;
+	public function setFromUser(User $fromUser){
+		$this->fromUser = $fromUser;
 	}
 	public function setActive($active){
-		$this->active;
+		$this->active = $active;
+	}
+	public function setName($name){
+		$this->name = $name;
 	}
 	public function setSongs(array $songs){
-		$this->songs;
+		$this->songs = $songs;
 	}
 	public function setUnlimited($unlimited){
-		$this->unlimited;
+		$this->unlimited = $unlimited;
 	}
 	
 	public function setCreatedAt(DateTime $createdAt){
@@ -77,7 +84,7 @@ class Playlist{
 	}
 	
 	public function setACL($ACL){
-		$this->ACL = ACL; 
+		$this->ACL = $ACL; 
 	}
 	
 	public function __toString(){
@@ -85,16 +92,20 @@ class Playlist{
 		$string.="objectId -> ".$this->objectId."<br>";
 		
 
-		$string.="toUser -> ".$this->toUser->getUsername()."<br>";
+		$string.="fromUser -> ".$this->fromUser->getUsername()."<br>";
+
+		$string.="name -> ".$this->getName()."<br>";
 		
 		$converted_res = ($this->unlimited) ? 'true' : 'false';
 		
 		$string.="unlimited -> ".$converted_res."<br>";
 
 		$i=0;
-		foreach($this->songs as $song){
-			$string.="songs[".$i."] -> ".$song->getTitle()." - ".$song->getTitle()."<br>";			
-			$i++;
+		if($this->songs){
+			foreach($this->songs as $song){
+				$string.="songs[".$i."] -> ".$song->getTitle()." - ".$song->getTitle()."<br>";			
+				$i++;
+			}
 		}
 		
 		$converted_res = ($this->active) ? 'true' : 'false';

@@ -17,18 +17,19 @@ class PlaylistParse{
 	function save(Playlist $playlist){
 			
 		//creo un'istanza dell'oggetto della libreria ParseLib
-		$parseObj = new parseObject("Album");
+		$parseObj = new parseObject("Playlist");
 			
 		//inizializzo le properties
 
 		//boolean
 		$parseObj->active = $playlist->getActive();
 
+		$parseObj->name = $playlist->getName();
 		//User
-		if($playlist->getToUser()){
-			$toUser = $playlist->getToUser();
-			$pointerParse = new PointerParse("_User", $toUser->getObjectId());
-			$parseObj->toUser = $pointerParse->getPointer();
+		if($playlist->getFromUser()){
+			$fromUser = $playlist->getFromUser();
+			$pointerParse = new PointerParse("_User", $fromUser->getObjectId());
+			$parseObj->fromUser = $pointerParse->getPointer();
 		}
 
 		//Array di Song
@@ -47,16 +48,18 @@ class PlaylistParse{
 
 			
 			
-		if( $playlist->getObjectId()!=null ){
+		if( $playlist->getObjectId()==null ){
 
 			try{
-				$ret = $parseObj->update($playlist->getObjectId());
+				//caso save
+				$ret = $parseObj->save();
 					
-				$playlist->setObjectId($playlist->objectId);
+				$playlist->setObjectId($ret->objectId);
 					
-				$playlist->setUpdatedAt($playlist->createdAt);
+				
+				$playlist->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
 					
-				$playlist->setCreatedAt($playlist->createdAt);
+				$playlist->setCreatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
 			}
 			catch(ParseLibraryException $e){
 					
@@ -66,12 +69,12 @@ class PlaylistParse{
 
 		}
 		else{
-			//caso save
+			//caso update
 			try{
 
-				$ret = $parseObj->save();
+				$ret = $parseObj->update($playlist->getObjectId());
 					
-				$playlist->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
+				$playlist->setUpdatedAt(new DateTime($ret->updatedAt, new DateTimeZone("America/Los_Angeles")));
 					
 			}
 			catch(ParseLibraryException $e){
@@ -82,6 +85,7 @@ class PlaylistParse{
 
 		}
 			
+
 		return $playlist;
 	}
 
@@ -160,14 +164,15 @@ class PlaylistParse{
 		$playlist = new Playlist();
 
 		//specifiche
-
-		if(isset($parseObj->toUser ) ){
+		
+		if(isset($parseObj->fromUser ) ){
 			$parseUser = new UserParse();
-			$pointer = $parseObj->toUser;
-			$toUser = $parseUser->getUserById($pointer->getObjectId());
-			$playlist->setToUser($toUser);
+			$pointer = $parseObj->fromUser;
+			$fromUser = $parseUser->getUserById($pointer->objectId);
+			$playlist->setFromUser($fromUser);
 		}
 		if(isset($parseObj->active ) )$playlist->setActive($parseObj->active);
+		if(isset($parseObj->name ) )$playlist->setName($parseObj->name);
 		if(isset($parseObj->unlimited ) )$playlist->setUnlimited($parseObj->unlimited);
 
 		if(isset($parseObj->song ) ){
