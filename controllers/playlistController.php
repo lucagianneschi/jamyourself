@@ -18,19 +18,11 @@ if(isset($_POST['action']) && $_POST['data']){
 	$function = $_POST['action']; 	//stringa col nome della funzione da chiamare
 	$data = json_decode($_POST['data']);	//parametri per la funzione (ad esempio un oggetto JSON)
 
-
-	//per il log
-	ob_start();
-	var_dump($json);
-	$param = ob_get_clean();
-	stampaLog("[playlistController] - ACTION: ".$function." - PARAM: ".$param);
-
 	// 	richiamo la funzione richiesta
 	switch($_POST['action']){
 		case "playlistCreate" :
 
 			$return = playlistCreate($data);
-
 			break;
 
 		case "playlistAddSong" :
@@ -41,8 +33,18 @@ if(isset($_POST['action']) && $_POST['data']){
 		case "getUserPlaylists" :
 				
 			$return = getUserPlaylists($data);
+			break;			
+			
+		case "getPlaylist" :
+		
+			$return = getPlaylist($data);
 			break;
 
+			case "getSongList" :
+			
+				$return = getSongList($data);
+				break;
+			
 		default :
 
 			$return = new Response();
@@ -51,12 +53,6 @@ if(isset($_POST['action']) && $_POST['data']){
 			break;
 
 	}
-
-	//per il log
-	// 	ob_start();
-	// 	var_dump($return);
-	// 	$param = ob_get_clean();
-	// 	stampaLog("[playlistController] - Risultato call_user_func_array: ".$param);
 
 	//fornisco la risposta all'utente
 	echo json_encode($return);
@@ -67,10 +63,6 @@ if(isset($_POST['action']) && $_POST['data']){
  * @param unknown $json
  */
 function playlistCreate($data){
-	ob_start();
-	var_dump($data);
-	$param = ob_get_clean();
-	stampaLog("[playlistController - playlistCreate] - JSON: ".$param);
 
 	//variabili locali
 	$userParse = null;
@@ -79,7 +71,6 @@ function playlistCreate($data){
 	$return = null;
 	$playlist = null;
 	$playlistParse = null;
-	$param = null;
 
 	//inizializzazione valori
 	$userParse = new UserParse();
@@ -138,118 +129,114 @@ function playlistCreate($data){
 }
 
 
-function playlistAddSong($json){
-	//variabili locali
-	$userParse = null;
-	$user = null;
-	$return = null;
-	$playlist = null;
-	$playlistParse = null;
-	$param = null;
-	$song = null;
-	$songParse = null;
-	$songs = null;
+// function playlistAddSong($json){
+// 	//variabili locali
+// 	$userParse = null;
+// 	$user = null;
+// 	$return = null;
+// 	$playlist = null;
+// 	$playlistParse = null;
+// 	$song = null;
+// 	$songParse = null;
+// 	$songs = null;
 
-	//inizializzazione valori
-	$userParse = new UserParse();
-	$return = new Response();
-	$playlistParse = new PlaylistParse();
-	$songParse = new SongParse();
-	$maxSongNumber = 20;
+// 	//inizializzazione valori
+// 	$userParse = new UserParse();
+// 	$return = new Response();
+// 	$playlistParse = new PlaylistParse();
+// 	$songParse = new SongParse();
+// 	$maxSongNumber = 20;
 
-	if(!$json || !isset( $json['userId']) || !isset($json['songId']) || !isset($json['playlistId']) ){
-		//errore
-		$return->setError("Bad Request");
+// 	if(!$json || !isset( $json['userId']) || !isset($json['songId']) || !isset($json['playlistId']) ){
+// 		//errore
+// 		$return->setError("Bad Request");
 
-		return $return;
-	}
+// 		return $return;
+// 	}
 
-	//decodifico l'oggetto
-	if( !( $param = json_decode($json) ) ){
-		//errore
-		$return->setError("Impossibile interpreatare i parametri");
+// 	//decodifico l'oggetto
+// 	if( !( $param = json_decode($json) ) ){
+// 		//errore
+// 		$return->setError("Impossibile interpreatare i parametri");
 
-		return $return;
+// 		return $return;
 
-	}
+// 	}
 
-	//recupero l'utente che ha effettuato la richiesta
-	if( !($user = $userParse->getUserById($json['userId'])) ){
+// 	//recupero l'utente che ha effettuato la richiesta
+// 	if( !($user = $userParse->getUserById($json['userId'])) ){
 
-		//errore
-		$return->setError("Impossibile recuperare l'utente");
+// 		//errore
+// 		$return->setError("Impossibile recuperare l'utente");
 
-		return $return;
-	}
+// 		return $return;
+// 	}
 
 
-	//recupero la playlist
+// 	//recupero la playlist
 
-	if( !$playlist = $playlistParse->getPlaylist($json['playlistId']) ){
+// 	if( !$playlist = $playlistParse->getPlaylist($json['playlistId']) ){
 
-		$return->setError("Impossibile recuperare la playlist");
+// 		$return->setError("Impossibile recuperare la playlist");
 
-		return $return;
+// 		return $return;
 
-	}
+// 	}
 
-	//recupero la canzone
-	if( !$song = $songParse->getSong($json['songId']) ){
+// 	//recupero la canzone
+// 	if( !$song = $songParse->getSong($json['songId']) ){
 
-		$return->setError("Impossibile recuperare la canzone");
+// 		$return->setError("Impossibile recuperare la canzone");
 
-		return $return;
+// 		return $return;
 
-	}
+// 	}
 
-	//recupero la lista delle canzoni
-	if( ! $songs = $playlist->getSongs() ){
+// 	//recupero la lista delle canzoni
+// 	if( ! $songs = $playlist->getSongs() ){
 
-		$return->setError("Impossibile recuperare la lista delle canzoni");
+// 		$return->setError("Impossibile recuperare la lista delle canzoni");
 
-		return $return;
-	}
+// 		return $return;
+// 	}
 
-	//verifico se la playlist è unlimited
-	if($playlist->getUnlimited() == false){
-		//rimuovo la più vecchia canzone
+// 	//verifico se la playlist è unlimited
+// 	if($playlist->getUnlimited() == false){
+// 		//rimuovo la più vecchia canzone
 
-		// si fa un count dell’array “songs”, se è ==20, allora rimuovi la song
-		// all’indice 19 (l’ultima, la più vecchia) e shifti di 1 tutte le
-		// song dalla 0 alla 18
-		if(count($song) == $maxSongNumber){
+// 		// si fa un count dell’array “songs”, se è ==20, allora rimuovi la song
+// 		// all’indice 19 (l’ultima, la più vecchia) e shifti di 1 tutte le
+// 		// song dalla 0 alla 18
+// 		if(count($song) == $maxSongNumber){
 
-			array_pop($songs);
+// 			array_pop($songs);
 
-		}
+// 		}
 
-	}
+// 	}
 
-	//aggiungo la canzone in posizione [0]
-	array_unshift($songs, $song);
+// 	//aggiungo la canzone in posizione [0]
+// 	array_unshift($songs, $song);
 
-	//update della playlist
-	$playlist->setSongs($songs);
+// 	//update della playlist
+// 	$playlist->setSongs($songs);
 
-	if( !$playlistParse->save($playlist) ){
+// 	if( !$playlistParse->save($playlist) ){
 
-		$return->setError("Impossibile aggiornare la playlist");
+// 		$return->setError("Impossibile aggiornare la playlist");
 
-		return $return;
-	}
+// 		return $return;
+// 	}
 
-	//return
-	$return->setMessage("Playlist salvata correttamente");
-	$return->setData($playlist->getObjectId());
-	return $return;
-}
+// 	//return
+// 	$return->setMessage("Playlist salvata correttamente");
+// 	$return->setData($playlist->getObjectId());
+// 	return $return;
+// }
 
 function getUserPlaylists($data){
 
-	ob_start();
-	var_dump($data);
-	$param = ob_get_clean();
-	stampaLog("[playlistController - playlistCreate] - JSON: ".$param);
+	stampaLog("[playlistController - getUserPlaylists] - INIZIO");
 
 	//variabili locali
 	$userParse = null;
@@ -258,7 +245,6 @@ function getUserPlaylists($data){
 	$return = null;
 	$playlist = null;
 	$playlistParse = null;
-	$param = null;
 
 	//inizializzazione valori
 	$playlistParse = new PlaylistParse();
@@ -266,11 +252,153 @@ function getUserPlaylists($data){
 	$return = new Response();
 
 	if($data == null){
-		stampaLog("[playlistController - playlistCreate] - ERRORE: Il parametro JSON è NULL");
+		stampaLog("[playlistController - getUserPlaylists] - ERRORE: Il parametro Data è NULL");
 		$return->setError("Param is NULL");
+		return $return;
+	}
+	
+	
+
+	$userId = $data->userId;
+	stampaLog("[playlistController - playlistCreate] - userId: ".$userId);
+
+	//recupero l'utente che ha effettuato la richiesta
+	if( !($user = $userParse->getUserById($userId)) ){
+		//errore
+		stampaLog("[playlistController - getUserPlaylists] - JSON[userId]: ".$userId."  - ERRORE: Impossibile recuperare l'utente");
+		$return->setError("Impossibile recuperare l'utente");
+		return $return;
+	}
+	
+	stampaLog("[playlistController - getUserPlaylists] - UserId: ".$user->getObjectId());
+
+
+	//recupero la lista delle playlist
+
+	if( !$playlists = $playlistParse->getUserPlaylists($user) ){
+		stampaLog("[playlistController - getUserPlaylists] - JSON[userId]: ".$userId."  - ERRORE: Impossibile recuperare le playlists");
+		
+		$return->setError("Impossibile recuperare la playlist");
+
 		return $return;
 
 	}
+
+	$returnlist = array();
+	$i=0;
+	foreach($playlists as $playlist){
+
+		$jsonSinglePlaylist['title'] = $playlist->getName();	
+		$jsonSinglePlaylist['id'] = $playlist->getObjectId();
+
+		stampaLog("[playlistController - getUserPlaylists] - Playlist[".$i."]: ID => ".$playlist->getObjectId()." - Titolo => ".$playlist->getName());
+		
+		array_push($returnlist, json_encode($jsonSinglePlaylist));
+		$i++;
+	}
+
+	//return
+	stampaLog("[playlistController - getUserPlaylists] - FINE");
+	$return->setMessage("Playlists caricate correttamente");
+	$return->setData($returnlist);
+	return $return;
+
+
+}
+
+
+function getPlaylist($data){
+	
+	$playlistParse = null;
+	$return = null;
+	$songList = null;
+	
+	stampaLog("[playlistController - getPlaylist] - INIZIO");
+
+	
+	if(!$data){
+		stampaLog("[playlistController - getUserPlaylists] - ERRORE: Il parametro Data è NULL");
+		$return->setError("Param is NULL");
+		return $return;
+	}
+	
+	//inizializzazione valori
+	$playlistParse = new PlaylistParse();
+	$return = new Response();
+	
+	//recupero l'id della playlist da caricare
+	$playlistId = $data->playlistId;
+	
+	stampaLog("[playlistController - getPlaylist] - IdPlaylist :".$playlistId);
+	
+	//recupero l'oggetto playlist
+	if ( ($playlist = $playlistParse->getPlaylist($playlistId)) ){
+		
+		stampaLog("[playlistController - getPlaylist] - Playlist : ID => ".$playlist->getObjectId()." - Titolo => ".$playlist->getName());
+		
+		//recupero la lista delle canzoni delle playlist
+		if($songList = $playlist->getSongs() ){
+			
+			$i=0;
+			//creo un oggetto JSON per ogni canzone da inserire in un array per la risposta
+			foreach($songList as $song){
+			
+				$jsonSingleSong['title'] = $song->getTitle();
+				$jsonSingleSong['id'] = $song->getObjectId();
+			
+				stampaLog("[playlistController - getPlaylist] - Song[".$i."]: ID => ".$song->getObjectId()." - Titolo => ".$song->getTitle());
+				
+				//aggiungo all'array di risposta
+				array_push($songList, json_encode($jsonSinglePlaylist));
+				$i++;
+			}
+		}
+		
+		//preparo l'oggetto per la risposta
+		$jsonPlaylist = array();
+		$jsonPlaylist['name'] = $playlist->getName();
+		$jsonPlaylist['id'] = $playlist->getObjectId();
+		$jsonPlaylist['songs'] = $songList;
+		
+		//JSON encodizzo
+		$return->setData(json_encode($jsonPlaylist));
+		//setto un messaggio di conferma
+		$return->setMessage("Playlist caricata correttamente! Numero Canzoni: ".count($songList));
+		
+		
+	}else{
+		$return->setError("Impossibile recuperare la playlist richiesta");
+		return $return;
+	}
+	
+	//restituisco!
+	return $return;
+
+}
+
+function getSongList($data){
+
+	stampaLog("[playlistController - getUserPlaylists] - INIZIO");
+
+	//variabili locali
+	$userParse = null;
+	$user = null;
+	$userId = "";
+	$return = null;
+	$playlist = null;
+	$playlistParse = null;
+
+	//inizializzazione valori
+	$playlistParse = new PlaylistParse();
+	$userParse = new UserParse();
+	$return = new Response();
+
+	if($data == null){
+		stampaLog("[playlistController - getUserPlaylists] - ERRORE: Il parametro Data è NULL");
+		$return->setError("Param is NULL");
+		return $return;
+	}
+
 
 
 	$userId = $data->userId;
@@ -279,15 +407,18 @@ function getUserPlaylists($data){
 	//recupero l'utente che ha effettuato la richiesta
 	if( !($user = $userParse->getUserById($userId)) ){
 		//errore
-		stampaLog("[playlistController - playlistCreate] - JSON[userId]: ".$userId."  - ERRORE: Impossibile recuperare l'utente");
+		stampaLog("[playlistController - getUserPlaylists] - JSON[userId]: ".$userId."  - ERRORE: Impossibile recuperare l'utente");
 		$return->setError("Impossibile recuperare l'utente");
 		return $return;
 	}
 
+	stampaLog("[playlistController - getUserPlaylists] - UserId: ".$user->getObjectId());
 
-	//recupero la playlist
+
+	//recupero la lista delle playlist
 
 	if( !$playlists = $playlistParse->getUserPlaylists($user) ){
+		stampaLog("[playlistController - getUserPlaylists] - JSON[userId]: ".$userId."  - ERRORE: Impossibile recuperare le playlists");
 
 		$return->setError("Impossibile recuperare la playlist");
 
@@ -296,25 +427,26 @@ function getUserPlaylists($data){
 	}
 
 	$returnlist = array();
-
+	$i=0;
 	foreach($playlists as $playlist){
 
-		$jsonSinglePlaylist['title'] = $playlist->getName();	
+		$jsonSinglePlaylist['title'] = $playlist->getName();
 		$jsonSinglePlaylist['id'] = $playlist->getObjectId();
 
-		array_push($returnlist, $jsonSinglePlaylist);
+		stampaLog("[playlistController - getUserPlaylists] - Playlist[".$i."]: ID => ".$playlist->getObjectId()." - Titolo => ".$playlist->getName());
 
+		array_push($returnlist, json_encode($jsonSinglePlaylist));
+		$i++;
 	}
 
 	//return
-
+	stampaLog("[playlistController - getUserPlaylists] - FINE");
 	$return->setMessage("Playlists caricate correttamente");
 	$return->setData($returnlist);
 	return $return;
 
 
 }
-
 /**
  * Una semplice classe per i messaggi di risposta
  * alle chiamate Ajax

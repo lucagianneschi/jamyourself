@@ -1,221 +1,103 @@
-[00:02:25] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>21</b><br />
-NULL
-
-[00:05:11] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:07:14] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:07:43] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:09:31] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:11:19] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:11:19] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (0) {
-}
-
-[00:11:19] [playlistController - playlistCreate] - userId: 
-[00:11:28] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:11:28] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (0) {
-}
-
-[00:11:28] [playlistController - playlistCreate] - userId: 
-[00:12:52] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:12:52] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (0) {
-}
-
-[00:12:52] [playlistController - playlistCreate] - userId: 
-[00:32:37] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:32:37] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[00:32:37] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[00:32:39] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 
-[00:42:06] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:42:06] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[00:42:06] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[00:42:08] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 
-[00:42:14] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:42:14] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[00:42:14] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[00:42:15] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 
-[00:50:23] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:50:23] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[00:50:23] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[00:52:33] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:52:33] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[00:52:33] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[00:52:57] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:52:57] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[00:52:57] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[00:55:12] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>23</b><br />
-NULL
-
-[00:55:12] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[00:55:12] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[00:55:13] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 
-[01:48:10] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:48:10] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:48:10] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[01:48:12] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: Dday2OMx7Y
-[01:48:15] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:48:15] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:48:15] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[01:49:56] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:49:56] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:49:56] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[01:50:59] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:50:59] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:50:59] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[01:51:24] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:51:24] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:51:24] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[01:51:26] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: 1DKJPurNvr
-[01:54:43] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:54:43] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:54:43] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[01:54:54] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:54:54] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:54:54] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[01:56:51] [playlistController] - ACTION: playlistCreate - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:56:51] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:56:51] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[01:56:53] [playlistController - playlistCreate] - JSON[userId]: n1TXVlIqHw - PlaylistId: WTgfG4m7Ej
-[01:57:52] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:57:52] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:57:52] [playlistController - playlistCreate] - userId: n1TXVlIqHw
-[01:58:38] [playlistController] - ACTION: getUserPlaylists - PARAM: <br />
-<b>Notice</b>:  Undefined variable: json in <b>D:\EasyPHP\www\Jamyourself\jamyourself\controllers\playlistController.php</b> on line <b>24</b><br />
-NULL
-
-[01:58:38] [playlistController - playlistCreate] - JSON: object(stdClass)#1 (1) {
-  ["userId"]=>
-  string(10) "n1TXVlIqHw"
-}
-
-[01:58:38] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[16:33:23] [playlistController - getUserPlaylists] - INIZIO
+[16:33:23] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[16:33:24] [playlistController - getUserPlaylists] - UserId: n1TXVlIqHw
+[16:33:29] [playlistController - getUserPlaylists] - Playlist[0]: ID => U6TfU7yVuv - Titolo => Playlist Test
+[16:33:29] [playlistController - getUserPlaylists] - Playlist[1]: ID => jqUNdq6pYD - Titolo => Playlist Test 1
+[16:33:29] [playlistController - getUserPlaylists] - Playlist[2]: ID => xncKc2aJSs - Titolo => Playlist Test 2
+[16:33:29] [playlistController - getUserPlaylists] - Playlist[3]: ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[16:33:29] [playlistController - getUserPlaylists] - Playlist[4]: ID => Dday2OMx7Y - Titolo => Playlist
+[16:33:29] [playlistController - getUserPlaylists] - Playlist[5]: ID => WTgfG4m7Ej - Titolo => Playlist
+[16:33:29] [playlistController - getUserPlaylists] - FINE
+[16:33:31] [playlistController - getPlaylist] - INIZIO
+[16:33:31] [playlistController - getPlaylist] - IdPlaylist :5szXHP7qdd
+[16:34:29] [playlistController - getUserPlaylists] - INIZIO
+[16:34:29] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[16:34:30] [playlistController - getUserPlaylists] - UserId: n1TXVlIqHw
+[16:34:37] [playlistController - getUserPlaylists] - Playlist[0]: ID => U6TfU7yVuv - Titolo => Playlist Test
+[16:34:37] [playlistController - getUserPlaylists] - Playlist[1]: ID => jqUNdq6pYD - Titolo => Playlist Test 1
+[16:34:37] [playlistController - getUserPlaylists] - Playlist[2]: ID => xncKc2aJSs - Titolo => Playlist Test 2
+[16:34:37] [playlistController - getUserPlaylists] - Playlist[3]: ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[16:34:37] [playlistController - getUserPlaylists] - Playlist[4]: ID => Dday2OMx7Y - Titolo => Playlist
+[16:34:37] [playlistController - getUserPlaylists] - Playlist[5]: ID => WTgfG4m7Ej - Titolo => Playlist
+[16:34:37] [playlistController - getUserPlaylists] - FINE
+[16:34:54] [playlistController - getPlaylist] - INIZIO
+[16:34:54] [playlistController - getPlaylist] - IdPlaylist :5szXHP7qdd
+[16:34:55] [playlistController - getPlaylist] - Playlist : ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[16:50:51] [playlistController - getUserPlaylists] - INIZIO
+[16:50:51] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[16:50:52] [playlistController - getUserPlaylists] - UserId: n1TXVlIqHw
+[16:50:57] [playlistController - getUserPlaylists] - Playlist[0]: ID => U6TfU7yVuv - Titolo => Playlist Test
+[16:50:57] [playlistController - getUserPlaylists] - Playlist[1]: ID => jqUNdq6pYD - Titolo => Playlist Test 1
+[16:50:57] [playlistController - getUserPlaylists] - Playlist[2]: ID => xncKc2aJSs - Titolo => Playlist Test 2
+[16:50:57] [playlistController - getUserPlaylists] - Playlist[3]: ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[16:50:57] [playlistController - getUserPlaylists] - Playlist[4]: ID => Dday2OMx7Y - Titolo => Playlist
+[16:50:57] [playlistController - getUserPlaylists] - Playlist[5]: ID => WTgfG4m7Ej - Titolo => Playlist
+[16:50:57] [playlistController - getUserPlaylists] - FINE
+[16:51:00] [playlistController - getPlaylist] - INIZIO
+[16:51:00] [playlistController - getPlaylist] - IdPlaylist :WTgfG4m7Ej
+[16:51:01] [playlistController - getPlaylist] - Playlist : ID => WTgfG4m7Ej - Titolo => Playlist
+[16:55:59] [playlistController - getUserPlaylists] - INIZIO
+[16:55:59] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[16:56:00] [playlistController - getUserPlaylists] - UserId: n1TXVlIqHw
+[16:56:06] [playlistController - getUserPlaylists] - Playlist[0]: ID => U6TfU7yVuv - Titolo => Playlist Test
+[16:56:06] [playlistController - getUserPlaylists] - Playlist[1]: ID => jqUNdq6pYD - Titolo => Playlist Test 1
+[16:56:06] [playlistController - getUserPlaylists] - Playlist[2]: ID => xncKc2aJSs - Titolo => Playlist Test 2
+[16:56:06] [playlistController - getUserPlaylists] - Playlist[3]: ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[16:56:06] [playlistController - getUserPlaylists] - Playlist[4]: ID => Dday2OMx7Y - Titolo => Playlist
+[16:56:06] [playlistController - getUserPlaylists] - Playlist[5]: ID => WTgfG4m7Ej - Titolo => Playlist
+[16:56:06] [playlistController - getUserPlaylists] - FINE
+[16:56:07] [playlistController - getPlaylist] - INIZIO
+[16:56:07] [playlistController - getPlaylist] - IdPlaylist :WTgfG4m7Ej
+[16:56:09] [playlistController - getPlaylist] - Playlist : ID => WTgfG4m7Ej - Titolo => Playlist
+[16:57:06] [playlistController - getUserPlaylists] - INIZIO
+[16:57:06] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[16:57:06] [playlistController - getUserPlaylists] - UserId: n1TXVlIqHw
+[16:57:13] [playlistController - getUserPlaylists] - Playlist[0]: ID => U6TfU7yVuv - Titolo => Playlist Test
+[16:57:13] [playlistController - getUserPlaylists] - Playlist[1]: ID => jqUNdq6pYD - Titolo => Playlist Test 1
+[16:57:13] [playlistController - getUserPlaylists] - Playlist[2]: ID => xncKc2aJSs - Titolo => Playlist Test 2
+[16:57:13] [playlistController - getUserPlaylists] - Playlist[3]: ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[16:57:13] [playlistController - getUserPlaylists] - Playlist[4]: ID => Dday2OMx7Y - Titolo => Playlist
+[16:57:13] [playlistController - getUserPlaylists] - Playlist[5]: ID => WTgfG4m7Ej - Titolo => Playlist
+[16:57:13] [playlistController - getUserPlaylists] - FINE
+[16:57:14] [playlistController - getPlaylist] - INIZIO
+[16:57:14] [playlistController - getPlaylist] - IdPlaylist :WTgfG4m7Ej
+[16:57:15] [playlistController - getPlaylist] - Playlist : ID => WTgfG4m7Ej - Titolo => Playlist
+[17:08:05] [playlistController - getUserPlaylists] - INIZIO
+[17:08:05] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[17:08:06] [playlistController - getUserPlaylists] - UserId: n1TXVlIqHw
+[17:08:11] [playlistController - getUserPlaylists] - Playlist[0]: ID => U6TfU7yVuv - Titolo => Playlist Test
+[17:08:11] [playlistController - getUserPlaylists] - Playlist[1]: ID => jqUNdq6pYD - Titolo => Playlist Test 1
+[17:08:11] [playlistController - getUserPlaylists] - Playlist[2]: ID => xncKc2aJSs - Titolo => Playlist Test 2
+[17:08:11] [playlistController - getUserPlaylists] - Playlist[3]: ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[17:08:11] [playlistController - getUserPlaylists] - Playlist[4]: ID => Dday2OMx7Y - Titolo => Playlist
+[17:08:11] [playlistController - getUserPlaylists] - Playlist[5]: ID => WTgfG4m7Ej - Titolo => Playlist
+[17:08:11] [playlistController - getUserPlaylists] - FINE
+[17:08:12] [playlistController - getPlaylist] - INIZIO
+[17:08:12] [playlistController - getPlaylist] - IdPlaylist :5szXHP7qdd
+[17:08:14] [playlistController - getPlaylist] - Playlist : ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[17:08:47] [playlistController - getUserPlaylists] - INIZIO
+[17:08:47] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[17:08:48] [playlistController - getUserPlaylists] - UserId: n1TXVlIqHw
+[17:08:53] [playlistController - getUserPlaylists] - Playlist[0]: ID => U6TfU7yVuv - Titolo => Playlist Test
+[17:08:53] [playlistController - getUserPlaylists] - Playlist[1]: ID => jqUNdq6pYD - Titolo => Playlist Test 1
+[17:08:53] [playlistController - getUserPlaylists] - Playlist[2]: ID => xncKc2aJSs - Titolo => Playlist Test 2
+[17:08:53] [playlistController - getUserPlaylists] - Playlist[3]: ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[17:08:53] [playlistController - getUserPlaylists] - Playlist[4]: ID => Dday2OMx7Y - Titolo => Playlist
+[17:08:53] [playlistController - getUserPlaylists] - Playlist[5]: ID => WTgfG4m7Ej - Titolo => Playlist
+[17:08:53] [playlistController - getUserPlaylists] - FINE
+[17:08:54] [playlistController - getPlaylist] - INIZIO
+[17:08:54] [playlistController - getPlaylist] - IdPlaylist :WTgfG4m7Ej
+[17:08:56] [playlistController - getPlaylist] - Playlist : ID => WTgfG4m7Ej - Titolo => Playlist
+[17:10:24] [playlistController - getUserPlaylists] - INIZIO
+[17:10:24] [playlistController - playlistCreate] - userId: n1TXVlIqHw
+[17:10:25] [playlistController - getUserPlaylists] - UserId: n1TXVlIqHw
+[17:10:30] [playlistController - getUserPlaylists] - Playlist[0]: ID => U6TfU7yVuv - Titolo => Playlist Test
+[17:10:30] [playlistController - getUserPlaylists] - Playlist[1]: ID => jqUNdq6pYD - Titolo => Playlist Test 1
+[17:10:30] [playlistController - getUserPlaylists] - Playlist[2]: ID => xncKc2aJSs - Titolo => Playlist Test 2
+[17:10:30] [playlistController - getUserPlaylists] - Playlist[3]: ID => 5szXHP7qdd - Titolo => Playlist Test 3
+[17:10:30] [playlistController - getUserPlaylists] - Playlist[4]: ID => Dday2OMx7Y - Titolo => Playlist
+[17:10:30] [playlistController - getUserPlaylists] - Playlist[5]: ID => WTgfG4m7Ej - Titolo => Playlist
+[17:10:30] [playlistController - getUserPlaylists] - FINE
+[17:10:31] [playlistController - getPlaylist] - INIZIO
+[17:10:31] [playlistController - getPlaylist] - IdPlaylist :5szXHP7qdd
+[17:10:33] [playlistController - getPlaylist] - Playlist : ID => 5szXHP7qdd - Titolo => Playlist Test 3
