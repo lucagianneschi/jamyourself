@@ -46,7 +46,7 @@ var userId = "<?php echo $userId?>";
 	</div>
 	
 	<div id="userPlaylist-button">
-		<button id="new-playlist-button" onclick="javascript:showUserPlaylists()">Visualizza le mie playlist</button>
+		<button id="new-playlist-button" onclick="javascript:getUserPlaylists()">Visualizza le mie playlist</button>
 	</div>
 	
 	<!-- div -->
