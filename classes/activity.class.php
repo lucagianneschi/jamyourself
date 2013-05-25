@@ -6,26 +6,26 @@
 class Activity{
 
 	private $objectId;		//String:objectId su Parse 															#1
-    private $fromUser;		//User:Utente che effettua l'azione 												#2
-    private $toUser;		//User:Utente che riceve l'azione 													#3
-    private $status;		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    #4
-    private $type;			//string:Indica la tipologia di attività 											#5
+	private $accepted;      //BOOL: da definire																	#21
 	private $active;		//BOOL:Indica se l'istanza della classe è attiva 									#6
-    private $read;			//BOOL:Indica se l'istanza della classe è stata letta o meno 						#7
+	private $album;         //Album (Parse Object): Istanza della classe Album associata all'activity 			#15
+	private $comment; 		//Comment (Parse Object): Istanza della classe Comment associata all'activity		#14
+	private $event;			//Event (Parse Object): Istanza della classe Event associata all'activity           #19
+    private $fromUser;		//User:Utente che effettua l'azione 												#2
+	private $image;			//Image (Parse Object): Istanza della classe Image associata all'activity           #18	
+    private $playlist;      //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     #17
+    private $question;      //Question (Parse Object): Istanza della classe Question associata all'activity     #16
+	private $read;			//BOOL:Indica se l'istanza della classe è stata letta o meno 						#7
+	private $record;        //Record (Parse Object): Istanza della classe Record associata all'activity 		#13
+    private $status;		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    #4
+	private $song;          //Song (Parse Object): Istanza della classe Song associata all'activity 			#12
+    private $type;			//string:Indica la tipologia di attività 											#5
+	private $toUser;		//User:Utente che riceve l'azione 													#3
+    private $userStatus;    //Status(Parse Object): Istanza della classe Status associata all'activity 			#11
+    private $video;         //Video (Parse Object):Istanza della classe Video associata all'activity            #20
 	private $createdAt;		//DateTime:Data di inserimento attività 											#8
 	private $updatedAt;		//DateTime:Data di ultimo update attività 											#9
     private $ACL;			//ACL:access control list, determina le politiche di accesso alla classe 			#10
-    private $userStatus;    //Status(Parse Object): Istanza della classe Status associata all'activity 			#11
-    private $song;          //Song (Parse Object): Istanza della classe Song associata all'activity 			#12
-    private $record;        //Record (Parse Object): Istanza della classe Record associata all'activity 		#13
-    private $comment; 		//Comment (Parse Object): Istanza della classe Comment associata all'activity		#14
-	private $album;         //Album (Parse Object): Istanza della classe Album associata all'activity 			#15
-    private $question;      //Question (Parse Object): Istanza della classe Question associata all'activity     #16
-	private $playlist;      //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     #17
-    private $image;			//Image (Parse Object): Istanza della classe Image associata all'activity           #18	
-	private $event;			//Event (Parse Object): Istanza della classe Event associata all'activity           #19
-    private $video;         //Video (Parse Object):Istanza della classe Video associata all'activity            #20
-	private $accepted;      //BOOL: da definire																	#21
 
 	//COSTRUTTORE
 
@@ -41,6 +41,46 @@ class Activity{
 		$this->objectId = $objectId;
 	}
 
+     /**
+	 *
+	 * @param BOOL $accepted	#21
+	 */
+	public function setAccepted($accepted){
+		$this->accepted = $accepted;
+	}
+
+	/**
+	 *
+	 * @param BOOL $active	#6
+	 */
+	public function setActive($active){
+		$this->read = $active;
+	}
+
+	/**
+	 *
+	 * @param Album $album	#15
+	 */
+	public function setAlbum(Album $album){
+		$this->album = $album;
+	}
+
+	/**
+	 *
+	 * @param Comment $comment	#14
+	 */
+	public function setComment(Comment $comment){
+		$this->comment = $comment;
+	}
+
+	/**
+	 *
+	 * @param Event $event	#19
+	 */
+	public function setEvent(Event $event){
+		$this->event = $event;
+	}
+
 	/**
 	 *
 	 * @param User $fromUser	#2
@@ -51,12 +91,51 @@ class Activity{
 
 	/**
 	 *
-	 * @param User $toUser	#3
+	 * @param Image $image	#18
 	 */
-	public function setToUser(User $toUser){
-		$this->toUser = $toUser;
+	public function setImage(Image $image){
+		$this->image = $image;
 	}
 
+	/**
+	 *
+	 * @param Playlist $playlist	#17
+	 */
+	public function setPlaylist(Playlist $playlist){
+		$this->playlist = $playlist;
+    }
+
+	/**
+	 *
+	 * @param Question question	#16
+	 */
+	public function setQuestion(Question $question){
+		$this->question = $question;
+    }
+
+     /**
+	 *
+	 * @param BOOL $read	#7
+	 */
+	public function setRead($read){
+		$this->read = $read;
+	}
+
+	/**
+	 *
+	 * @param Record $record	#13
+	 */
+	public function setRecord(Record $record){
+		$this->record = $record;
+	}
+
+	/**
+	 *
+	 * @param Song $song	#12
+	 */
+	public function setSong(Song $song){
+		$this->song = $song;
+	}
 	/**
 	 *
 	 * @param string $status	#4
@@ -75,18 +154,26 @@ class Activity{
 
 	/**
 	 *
-	 * @param BOOL $active	#6
+	 * @param User $toUser	#3
 	 */
-	public function setActive($active){
-		$this->read = $active;
+	public function setToUser(User $toUser){
+		$this->toUser = $toUser;
 	}
 
-     /**
+	/**
 	 *
-	 * @param BOOL $read	#7
+	 * @param Status $status	#11
 	 */
-	public function setRead($read){
-		$this->read = $read;
+	public function setUserStatus(Status $userStatus){
+		$this->userStatus = $userStatus;
+	}
+
+	/**
+	 *
+	 * @param Video $video	#20
+	 */
+	public function setVideo(Video $video){
+		$this->video = $video;
 	}
 
 	/**
@@ -111,98 +198,9 @@ class Activity{
 	 *
 	 * @param ACL $ACL	#10
 	 */
-	public function setACL( $ACL){  //perchè manca il tipo??
+	public function setACL($ACL){  
 		$this->ACL = $ACL;
 	}
-
-	/**
-	 *
-	 * @param Status $status	#11
-	 */
-	public function setUserStatus(Status $userStatus){
-		$this->userStatus = $userStatus;
-	}
-
-	/**
-	 *
-	 * @param Song $song	#12
-	 */
-	public function setSong(Song $song){
-		$this->song = $song;
-	}
-
-	/**
-	 *
-	 * @param Record $record	#13
-	 */
-	public function setRecord(Record $record){
-		$this->record = $record;
-	}
-
-	/**
-	 *
-	 * @param Comment $comment	#14
-	 */
-	public function setComment(Comment $comment){
-		$this->comment = $comment;
-	}
-
-	/**
-	 *
-	 * @param Album $album	#15
-	 */
-	public function setAlbum(Album $album){
-		$this->album = $album;
-	}
-
-	/**
-	 *
-	 * @param Question question	#16
-	 */
-	public function setQuestion(Question $question){
-		$this->question = $question;
-    }
-
-	/**
-	 *
-	 * @param Playlist $playlist	#17
-	 */
-	public function setPlaylist(Playlist $playlist){
-		$this->playlist = $playlist;
-    }
-
-	/**
-	 *
-	 * @param Image $image	#18
-	 */
-	public function setImage(Image $image){
-		$this->image = $image;
-	}
-	
-	/**
-	 *
-	 * @param Event $event	#19
-	 */
-	public function setEvent(Event $event){
-		$this->event = $event;
-	}
-
-	/**
-	 *
-	 * @param Video $video	#20
-	 */
-	public function setVideo(Video $video){
-		$this->video = $video;
-	}
-
-     /**
-	 *
-	 * @param BOOL $accepted	#21
-	 */
-	public function setAccepted($accepted){
-		$this->accepted = $accepted;
-	}
-
 
 	//FUNZIONI GET
 	/**
@@ -215,17 +213,100 @@ class Activity{
 
 	/**
 	 *
+	 * @param BOOL $active	#6
+	 */
+	public function getActive(){
+		return $this->active;
+	}
+
+	/**
+	 *
+	 * @param BOOL $accepted	#21
+	 */
+	public function getAccepted(){
+		return $this->accepted;
+	}
+
+	/**
+	 *
+	 * @param Album $album	#15
+	 */
+
+	public function getAlbum(){
+		return $this->album;
+	}
+
+	/**
+	 *
+	 * @param Comment $comment	#14
+	 */
+	public function getComment(){
+		return $this->comment;
+	}
+
+	/**
+	 *
+	 * @param Event $event	#19
+	 */
+	public function getEvent(){
+		return $this->event;
+	}
+
+	/**
+	 *
 	 * @param User $fromUser	#2
 	 */
 	public function getFromUser(){
 		return $this->fromUser;
 	}
+
 	/**
 	 *
-	 * @param User $toUser	#3
+	 * @param Image $image	#18
 	 */
-	public function getToUser(){
-		return $this->toUser;
+	public function getImage(){
+		return $this->image;
+	}
+
+	/**
+	 *
+	 * @param Playlist $playlist	#17
+	 */
+	public function getPlaylist(){
+		return $this->playlist;
+	}
+
+	/**
+	 *
+	 * @param Question $question	#16
+	 */
+
+	public function getQuestion(){
+		return $this->question;
+	}
+
+     /**
+	 *
+	 * @param BOOL $read	#7
+	 */
+	public function getRead(){
+		return $this->read;
+	}
+
+	/**
+	 *
+	 * @param Record $record	#13
+	 */
+	public function getRecord(){
+		return $this->record;
+	}
+
+	/**
+	 *
+	 * @param Song $song	#12
+	 */
+	public function getSong(){
+		return $this->song;
 	}
 
 	/**
@@ -246,18 +327,26 @@ class Activity{
 
 	/**
 	 *
-	 * @param BOOL $active	#6
+	 * @param User $toUser	#3
 	 */
-	public function getActive(){
-		return $this->active;
+	public function getToUser(){
+		return $this->toUser;
 	}
 
-     /**
+	/**
 	 *
-	 * @param BOOL $read	#7
+	 * @param Status $status	#11
 	 */
-	public function getRead(){
-		return $this->read;
+	public function getUserStatus(){
+		return $this->userStatus;
+	}
+
+	/**
+	 *
+	 * @param Video $video	#20
+	 */
+	public function getVideo(){
+		return $this->video;
 	}
 
 	/**
@@ -282,94 +371,5 @@ class Activity{
 	 */
 	public function getACL(){
 		return $this->ACL;
-	}
-
-	/**
-	 *
-	 * @param Status $status	#11
-	 */
-	public function getUserStatus(){
-		return $this->userStatus;
-	}
-
-	/**
-	 *
-	 * @param Song $song	#12
-	 */
-	public function getSong(){
-		return $this->song;
-	}
-
-	/**
-	 *
-	 * @param Record $record	#13
-	 */
-	public function getRecord(){
-		return $this->record;
-	}
-	/**
-	 *
-	 * @param Comment $comment	#14
-	 */
-	public function getComment(){
-		return $this->comment;
-	}
-
-	/**
-	 *
-	 * @param Album $album	#15
-	 */
-
-	public function getAlbum(){
-		return $this->album;
-	}
-
-	/**
-	 *
-	 * @param Question $question	#16
-	 */
-
-	public function getQuestion(){
-		return $this->question;
-	}
-
-	/**
-	 *
-	 * @param Playlist $playlist	#17
-	 */
-	public function getPlaylist(){
-		return $this->playlist;
-	}
-
-	/**
-	 *
-	 * @param Image $image	#18
-	 */
-	public function getImage(){
-		return $this->image;
-	}
-
-	/**
-	 *
-	 * @param Event $event	#19
-	 */
-	public function getEvent(){
-		return $this->event;
-	}
-
-	/**
-	 *
-	 * @param Video $video	#20
-	 */
-	public function getVideo(){
-		return $this->video;
-	}
-
-	/**
-	 *
-	 * @param BOOL $accepted	#21
-	 */
-	public function getAccepted(){
-		return $this->accepted;
 	}
 }
