@@ -227,7 +227,7 @@ class UserParse{
 		$array = array();
 		
 		foreach($userArray as $user_id){
-			array_push($array, getUserById($user_id));
+			array_push($array, $this->getUserById($user_id));
 		}
 		
 		return $array;

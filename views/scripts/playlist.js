@@ -4,23 +4,41 @@ $().ready(function() {
 	hideError();
 	console.log("UserId :" + userId);
 	// playlist = getUserPlaylists();
+	
+	
+	
+	//riempo il div delle canzoni di test
+	var listaCanzoniTest = new Array(
+			"nBF3KVDGxZ",
+			"68eX5oxAOe",
+			"74AlhXh9PZ",
+			"35Y35naEiK",
+			"39HTHaZxew",
+			"aSrReDuIW1",
+			"0Ih7nd1rLX",
+			"q1fVHDRD7V",
+			"sE0ZfulSIa"
+			);
+	
+	var text="";
+	$.each(listaCanzoniTest, function(key, value) {
+		id = value;
+		text += "<div id='testsont-" + id
+				+ "'><a href='javascript:choosePlaylistFor(\"" + userId + "\",\"" + id + "\")'>"
+				+ id + "</a></div>";
+	});
+	
+	$("#test-song-list").html(text);
+	
 
 });
 
-var listaCanzoniTest = array(
-							"nBF3KVDGxZ",
-							"68eX5oxAOe",
-							"74AlhXh9PZ",
-							"35Y35naEiK",
-							"39HTHaZxew",
-							"aSrReDuIW1",
-							"0Ih7nd1rLX",
-							"q1fVHDRD7V",
-							"sE0ZfulSIa"
-							);
 
-
-function newPlaylist() {
+/**
+ * 
+ * @param userId
+ */
+function newPlaylist(userId) {
 	hideMessage();
 	hideError();
 	// preparo l'oggetto
@@ -58,7 +76,12 @@ function newPlaylist() {
 
 }
 
-function getUserPlaylists() {
+/**
+ * 
+ */
+
+
+function getUserPlaylists(userId) {
 	hideMessage();
 	hideError();
 	var data = null;
@@ -82,40 +105,59 @@ function getUserPlaylists() {
 		url : "../controllers/playlistController.php",
 		data : request,
 		dataType : "json",
-		async : true,
-		success : showUserPlaylists,
+		async : false,
 		error : function(data) {
 			showError("Errore di rete");
 		}
 	});
-}
-
-function showUserPlaylists(data) {
-	hideMessage();
-	hideError();
-	var text = "";
-	// pulisco il div di destinazione
-	$("#your-playlists").html("");
-
-	if (data.error != null) {
-		showError(data.error);
-		return;
+	
+	data = risp['responseText'];
+	
+	//decodifico
+	json = JSON.parse(data);
+	
+	if (json.error != null) {
+		showError(json.error);
+		return null;
+	}
+	else{
+		showMessage(json.message);
+		return json.data;
 	}
 
-	playlistArray = data.data;
+}
 
+
+function showUserPlaylists(userId) {
+	hideMessage();
+	hideError();
+	var playlistArray = null;
+	var text = "<i>Le mie playlist</i>";
+	
+	hideMessage();
+	hideError();
+	
+	//avviso l'utente sul caricamento
+	$("#your-playlists").html("Loading...");
+	
+	//carico le playlist dell'utente
+	playlistArray = getUserPlaylists(userId);
+
+	//mostro le playlist dell'utente nel div
 	if (playlistArray != null) {
 		$.each(playlistArray, function(key, value) {
 			json = JSON.parse(value);
 			title = json.title;
 			id = json.id;
 			text += "<div id='playlist_" + id
-					+ "'><a href='javascript:getPlaylist(\"" + id + "\")'>"
+					+ "'><a href='javascript:showPlaylist(\"" + id + "\")'>"
 					+ json.title + "</a></div>";
 		});
-		showMessage(data.message);
+		//scrivo nel div
 		$("#your-playlists").html(text);
+		
 	} else {
+		//in caso di errore
 		showError("Nessuna playlist trovata");
 	}
 
@@ -137,8 +179,6 @@ function getPlaylist(playlistId) {
 	request['action'] = "getPlaylist";
 	request['data'] = json;
 
-	$("#show-playlist").html("Loading...");
-
 	// jquery per recuperare la playlist
 
 	risp = $.ajax({
@@ -146,31 +186,41 @@ function getPlaylist(playlistId) {
 		url : "../controllers/playlistController.php",
 		data : request,
 		dataType : "json",
-		async : true,
-		success : showPlaylist,
+		async : false,
 		error : function(data) {
 			showError("Errore di rete");
 		}
 	});
+	
+	data = risp['responseText'];
+	
+	//decodifico
+	json = JSON.parse(data);
+	
+	if (json.error != null) {
+		showError(json.error);
+		return null;
+	}
+	else{
+		showMessage(json.message);
+		//json.data è un oggetto->devo parsarlo
+		return JSON.parse(json.data);
+	}
 
 }
 
-function showPlaylist(data) {
+function showPlaylist(playlistId) {
 	hideMessage();
 	hideError();
 	var text = "";
+	
 	// pulisco il div di destinazione
-	$("#show-playlist").html("");
+	$("#show-playlist").html("Loading...");
 
-	if (data.error != null) {
-		showError(data.error);
-		return;
-	}
-
-	playlist = JSON.parse(data.data);
+	playlist = getPlaylist(playlistId);
 
 	if (playlist != null) {
-		text += "<div id='title-playlist'>" + playlist.name + "</div>";
+		text += "<div id='title-playlist'><i>" + playlist.name + "</i></div>";
 		text += "<div id='playlist-songs'>";
 		if (playlist.songs) {
 			
@@ -196,6 +246,71 @@ function showPlaylist(data) {
 	$("#show-playlist").html(text);
 }
 
+function choosePlaylistFor(userId,songId){
+	hideMessage();
+	hideError();
+	var text="<i>Seleziona una playlist su cui aggiungere la canzone</i>";
+	$("#test-song-playlist").html("Loading....");
+	
+	playlistArray = getUserPlaylists(userId);
+
+	//mostro le playlist dell'utente nel div
+	if (playlistArray != null) {
+		$.each(playlistArray, function(key, value) {
+			json = JSON.parse(value);
+			title = json.title;
+			id = json.id;
+			text += "<div id='playlist_" + id
+					+ "'><a href='javascript:addSongToPlaylist(\"" + id + "\",\"" + songId + "\",\"" + userId + "\")'>"
+					+ json.title + "</a></div>";
+		});
+		//scrivo nel div
+		$("#test-song-playlist").html(text);
+		
+	} else {
+		//in caso di errore
+		showError("Nessuna playlist trovata");
+	}
+	
+}
+
+function addSongToPlaylist(playlistId,songId,userId){
+	hideMessage();
+	hideError();	
+	
+	var data = null;
+	var request = null;
+	data = {};
+
+	data['playlistId'] = playlistId;
+	data['songId'] = songId;
+	data['userId'] = userId;
+	
+	json = JSON.stringify(data);
+
+	// preparo la richiesta
+	request = {};
+	request['action'] = "addSongToPlaylist";
+	request['data'] = json;
+
+	// jquery per recuperare la playlist
+
+	risp = $.ajax({
+		type : "POST",
+		url : "../controllers/playlistController.php",
+		data : request,
+		dataType : "json",
+		async : false,
+		error : function(data) {
+			showError("Errore di rete");
+		}
+	});
+	
+	data = risp['responseText'];	
+	console.debug(data);
+	
+}
+	
 function showError(text) {
 	$("#error").html("<span>" + text + "</span>");
 }

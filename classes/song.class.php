@@ -35,7 +35,7 @@ class Song{
 	}
 
 	//number: Contatore di gradimento 								#3
-	public function setCounter(array $counter){
+	public function setCounter($counter){
 		$this->counter = $counter;
 	}
 
