@@ -162,15 +162,15 @@ class Song{
 		return $this->label;
 	}
 
-	//number: per tenere conto del numero di azioni love			#17
-	public function getLoveCounter(){
-		return $this->loveCounter;
-	}	
-
 	//geoPoint: coordinate di localizzazione della canzone			#11
 	public function getLocation(){
 		return $this->location;
 	}
+	
+	//number: per tenere conto del numero di azioni love			#17
+	public function getLoveCounter(){
+		return $this->loveCounter;
+	}	
 
 	//Record (Parse Object): disco di appartenenza della song       #12
 	public function getRecord(){
