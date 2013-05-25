@@ -373,3 +373,4 @@ class Activity{
 		return $this->ACL;
 	}
 }
+?>
