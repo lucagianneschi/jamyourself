@@ -338,3 +338,4 @@ class ActivityParse {
 		return $activity;
 	}
 }
+?>
