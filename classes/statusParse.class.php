@@ -268,4 +268,4 @@ class StatusParse{
 
 	}
 }
-
+?> aggiunto al termine della pagina
