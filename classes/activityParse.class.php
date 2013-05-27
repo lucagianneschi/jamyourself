@@ -97,10 +97,6 @@ class ActivityParse {
         //string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    #4
         $parseObj->status = $activity->getStatus();
 
-		//Stringa type
-        //string:Indica la tipologia di attività 											#5
-		$parseObj->type = $activity->getType();
-
 		//puntatore al toUser
         //User:Utente che riceve l'azione 													#3
 		if( $activity->getToUser() != null ){
@@ -108,6 +104,9 @@ class ActivityParse {
 			$parseObj->toUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $user->getObjectId());
 		}
 
+		//Stringa type
+        //string:Indica la tipologia di attività 											#5
+		$parseObj->type = $activity->getType();
 
        //ACL:access control list, determina le politiche di accesso alla classe 			#10
 	   //$parseObj->ACL = $activity->getACL();   //perchè non la prendi?????
@@ -280,12 +279,6 @@ class ActivityParse {
 			$activity->setRecord($record);
 		}
 
- 		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    #4
-		if(isset($parseObj->stutus)) $activity->setStatus($parseObj->status);
-
-        //string:Indica la tipologia di attività 											#5
-		if(isset($parseObj->type)) $activity->setType($parseObj->type);
-
  		//Song (Parse Object): Istanza della classe Song associata all'activity 			#12
 		if(isset($parseObj->song)){
 			$parseSong = new SongParse();
@@ -293,14 +286,9 @@ class ActivityParse {
 			$song = $parseSong->getSong($parseSong->objectId);
 			$activity->setSong($song);
 		}
- 
-       //Status(Parse Object): Istanza della classe Status associata all'activity 			#11
-		if(isset($parseObj->userStatus)){
-			$parseUserStatus = new StatusParse();
-			$parseUserStatus = $parseObj->userStatus;
-			$userStatus  = $parseUserStatus->parseToStatus($parseUserStatus->objectId);				
-			$activity->setUserStatus($userStatus);
-		}
+
+ 		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    #4
+		if(isset($parseObj->stutus)) $activity->setStatus($parseObj->status);
 
 		//User:Utente che riceve l'azione 													#3
 		if(isset($parseObj->toUser)){
@@ -309,6 +297,18 @@ class ActivityParse {
 			$toUser = $parseUser->parseToUser($toUserParse->objectId);
 			$activity->setToUser($toUser);
 		}
+
+        //string:Indica la tipologia di attività 											#5
+		if(isset($parseObj->type)) $activity->setType($parseObj->type);
+
+       //Status(Parse Object): Istanza della classe Status associata all'activity 			#11
+		if(isset($parseObj->userStatus)){
+			$parseUserStatus = new StatusParse();
+			$parseUserStatus = $parseObj->userStatus;
+			$userStatus  = $parseUserStatus->parseToStatus($parseUserStatus->objectId);				
+			$activity->setUserStatus($userStatus);
+		}
+
 
         //Video (Parse Object):Istanza della classe Video associata all'activity            #20
 		if(isset($parseObj->video)){

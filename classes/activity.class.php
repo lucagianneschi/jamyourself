@@ -19,8 +19,8 @@ class Activity{
 	private $record;        //Record (Parse Object): Istanza della classe Record associata all'activity 		#13
     private $status;		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    #4
 	private $song;          //Song (Parse Object): Istanza della classe Song associata all'activity 			#12
-    private $type;			//string:Indica la tipologia di attività 											#5
 	private $toUser;		//User:Utente che riceve l'azione 													#3
+	private $type;			//string:Indica la tipologia di attività 											#5
     private $userStatus;    //Status(Parse Object): Istanza della classe Status associata all'activity 			#11
     private $video;         //Video (Parse Object):Istanza della classe Video associata all'activity            #20
 	private $createdAt;		//DateTime:Data di inserimento attività 											#8
@@ -146,18 +146,18 @@ class Activity{
 
 	/**
 	 *
-	 * @param string $type	#5
-	 */
-	public function setType($type){
-		$this->type = $type;
-	}
-
-	/**
-	 *
 	 * @param User $toUser	#3
 	 */
 	public function setToUser(User $toUser){
 		$this->toUser = $toUser;
+	}
+
+	/**
+	 *
+	 * @param string $type	#5
+	 */
+	public function setType($type){
+		$this->type = $type;
 	}
 
 	/**
@@ -317,13 +317,6 @@ class Activity{
 		return $this->status;
 	}
 
-	/**
-	 *
-	 * @param string $type	#5
-	 */
-	public function getType(){
-		return $this->type;
-	}
 
 	/**
 	 *
@@ -332,6 +325,16 @@ class Activity{
 	public function getToUser(){
 		return $this->toUser;
 	}
+
+	/**
+	 *
+	 * @param string $type	#5
+	 */
+	public function getType(){
+		return $this->type;
+	}
+
+
 
 	/**
 	 *
