@@ -8,236 +8,253 @@ include_once CLASS_DIR.'geoPointParse.class.php';
 
 class Event {
 	
-	private $objectId;              //string: objectId su Parse											#1
-	private $fromUser;				//User: User che crea l’evento										#2
-    private $title;                 //string: Nome dell’evento											#3
-	private $description;			//string: Descrizione breve dell’evento 							#4
-    private $eventDate;             //DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento) #5
-    private $location;				//GeoPoint: Luogo in cui si svolge l’evento                         #6
-    private $locationName;			//string: Nome del locale in cui si svolge l’evento					#7
-    private $image;					//string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento #8
-    private $thumbnail;				//string: Stringa per il percorso di immagazzinamento della thumbnail #9
-    private $featuring;             //array: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano…)  #10
-    private $tag;                   //string: Categorizzazione dell’evento 								#11
-	private $counter;				//number: counter per votazione dell'evento       					#12
-	private $invited;				//array: Array che contiene puntatori ad utenti invitati all'evento  #13
-    private $attendee;				//array: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento	#14
-    private $refused;				//array: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento #15
-	private $active;				//BOOL: attiva/disattiva l'evento									#16
-	private $createdAt;				//DataTime: data di registrazione dell'evento						#17
-	private $updatedAt;				//DataTime: data di ultimo update dell'evento						#18
-	private $ACL;					//Access control list, definisce le politiche di accesso all'evento #19
-	//private $featuring;			sostituirà #10: Dovrà essere impostata come RELATION dopo aggiornamento della libreria #20
-    //private $invited;				sostituirà #13: Dovrà essere impostata come RELATION dopo aggiornamento della libreria #21	
-	//private $attendee;			sostituirà #14: Dovrà essere impostata come RELATION dopo aggiornamento della libreria #22
-	//private $refused;				sostituirà #15: Dovrà essere impostata come RELATION dopo aggiornamento della libreria #23
-    private $loveCounter; 			//number:counter per gestire le azioni love sull'evento             #24
+	private $objectId;              //string: objectId su Parse		
+	private $active;				//BOOL: attiva/disattiva l'evento
+	private $attendee;				//relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento
+	private $commentators;			//relation: Array che contiene puntatori ad utenti che hanno compiuto azione commento
+	private $counter;				//number: counter per votazione dell'evento 
+	private $description;			//string: Descrizione breve dell’evento
+	private $eventDate;             //DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento)
+	private $featuring;             //relation: Presenza di altri utenti all’evento  
+	private $fromUser;				//User: User che crea l’evento	
+ 	private $image;					//string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+	private $invited;				//relation: Array che contiene puntatori ad utenti invitati all'evento
+    private $location;				//GeoPoint: Luogo in cui si svolge l’evento                         
+    private $locationName;			//string: Nome del locale in cui si svolge l’evento	
+ 	private $loveCounter; 			//number:counter per gestire le azioni love sull'evento 
+	private $lovers;				//relation: Array che contiene puntatori ad utenti che hanno compiuto azione love
+	private $refused;				//relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento 									 
+    private $tags;                  //array: Categorizzazione dell’evento 								
+	private $thumbnail;				//string: Stringa per il percorso di immagazzinamento della thumbnail	
+	private $title;                 //string: Nome dell’evento
+	private $createdAt;				//DataTime: data di registrazione dell'evento					
+	private $updatedAt;				//DataTime: data di ultimo update dell'evento						
+	private $ACL;					//Access control list, definisce le politiche di accesso all'evento 
+
+
 	
 	//DEFINIZIONE DELLE FUNZIONI GET
 
-	//string: objectId su Parse											#1
+	//string: objectId su Parse											
 	public function getObjectId() {
 		return $this->objectId;
 	}
 
-	//User: User che crea l’evento										#2
-	public function getFromUser() {
-		return $this->fromuser;
-	}
-
-	//string: Nome dell’evento											#3
-	public function getTitle() {
-		return $this->title;
-	}
-
-    //string: Descrizione breve dell’evento 							#4
-	public function getDescription() {
-		return $this->description;
-	}
-
- 	//DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento) #5
-	public function getEventDate() {
-		return $this->eventDate;
-	}
-
-	//GeoPoint: Luogo in cui si svolge l’evento                         #6
-	public function getLocation() {
-		return $this->location;
-	//	$geoPointParse = new geoPointParse($this->location['latitude'], $this->location['longitude']);
-	//	return $geoPointParse->getGeoPoint();
-	}
-
-	//string: Nome del locale in cui si svolge l’evento					#7
-	public function getLocationName() {
-		return $this->locationName;
-	}
-
-	//string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento #8
-	public function getImage() {
-		return $this->image;
-	}
-
-    //string: Stringa per il percorso di immagazzinamento della thumbnail #9
-	public function getThumbnail() {
-		return $this->thumbnail;
-	}
-
-	//array: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano…)  #10
-	public function getFeaturing() {
-		return $this->featuring;
-	}
-
-    //string: Categorizzazione dell’evento 								#11
-	public function getTag() {
-		return $this->tag;
-	}
-
-	//number: counter per votazione dell'evento       					#12
-	public function getCounter() {
-		return $this->counter;
-	}
-
-	//array: Array che contiene puntatori ad utenti invitati all'evento  #13
-		public function getInvited() {
-		return $this->invited;
-	}
-
-   //array: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento	#14
-	public function getAttendee() {
-		return $this->attendee;
-	}
-
-   //array: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento #15
-	public function getRefused() {
-		return $this->refused;
-	}
-	
-	//BOOL: attiva/disattiva l'evento									#16
+	//BOOL: attiva/disattiva l'evento									
 	public function getActive(){
 		return $this->active;
 	}
 
-	//DataTime: data di registrazione dell'evento						#17
-	public function getCreatedAt() {
-		return $this->createdAt;
-	}	
-
-	//DataTime: data di ultimo update dell'evento						#18
-	public function getUpdatedAt() {
-		return $this->updatedAt;
+    //relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento	
+	public function getAttendee() {
+		return $this->attendee;
 	}
 
-    //Access control list, definisce le politiche di accesso all'evento #19
-	public function getACL(){
-		return $this->ACL;
+	//relation: Array che contiene puntatori ad utenti che hanno compiuto azione commento									
+	public function getCommentators() {
+		return $this->commentators;
 	}
 
-	//number:counter per gestire le azioni love sull'evento             #24
+	//number: counter per votazione dell'evento       					
+	public function getCounter() {
+		return $this->counter;
+	}
+
+    //string: Descrizione breve dell’evento 						
+	public function getDescription() {
+		return $this->description;
+	}
+
+ 	//DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento) 
+	public function getEventDate() {
+		return $this->eventDate;
+	}
+
+	//relation: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano…)  
+	public function getFeaturing() {
+		return $this->featuring;
+	}
+
+	//User: User che crea l’evento									
+	public function getFromUser() {
+		return $this->fromuser;
+	}
+
+	//string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+	public function getImage() {
+		return $this->image;
+	}
+
+	//relation: Array che contiene puntatori ad utenti invitati all'evento  
+		public function getInvited() {
+		return $this->invited;
+	}
+
+	//GeoPoint: Luogo in cui si svolge l’evento                        
+	public function getLocation() {
+		return $this->location;
+	}
+
+	//number:counter per gestire le azioni love sull'evento             
 	public function getLoveCounter() {
 		return $this->loveCounter;
 	}
 
+	//number:counter per gestire le azioni love sull'evento            
+	public function getLovers() {
+		return $this->lovers;
+	}
+
+	//string: Nome del locale in cui si svolge l’evento					
+	public function getLocationName() {
+		return $this->locationName;
+	}
+
+    //relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento 
+	public function getRefused() {
+		return $this->refused;
+	}
+	
+    //array: Categorizzazione dell’evento 								
+	public function getTags() {
+		return $this->tags;
+	}
+
+    //string: Stringa per il percorso di immagazzinamento della thumbnail
+	public function getThumbnail() {
+		return $this->thumbnail;
+	}
+
+	//string: Nome dell’evento										
+	public function getTitle() {
+		return $this->title;
+	}
+
+	//DataTime: data di registrazione dell'evento						
+	public function getCreatedAt() {
+		return $this->createdAt;
+	}	
+
+	//DataTime: data di ultimo update dell'evento						
+	public function getUpdatedAt() {
+		return $this->updatedAt;
+	}
+
+    //Access control list, definisce le politiche di accesso all'evento 
+	public function getACL(){
+		return $this->ACL;
+	}
+
 	//DEFINIZIONE DELLE FUNZIONI SET
-	//string: objectId su Parse											#1
+	//string: objectId su Parse											
     public function setObjectId($value) {
 		$this->objectId = $value;
 	}
-	
-   //User: User che crea l’evento										#2
-	public function setFromUser($value) {
-		$this->fromUser = $value;	
+
+	//BOOL: attiva/disattiva l'evento									
+	public function setActive($active){
+		$this->active = $active;
 	}
 
-	//string: Nome dell’evento											#3
-	public function setTitle($value) {
-		$this->title = $value;
+	//relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento	
+	public function setAttendee($value) {
+		$this->attendee = $value;
 	}
 
-   //string: Descrizione breve dell’evento 							#4
-	public function setDescription($value) {
-		$this->description = $value;
+	//relation: Array che contiene puntatori ad utenti che hanno effettuato commento
+	public function setCommentators($value) {
+		$this->commentators = $value;
 	}
 
-	//DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento) #5
-	public function setEventDate($value) {
-		$this->eventDate = $value;
-	}
-
-	//GeoPoint: Luogo in cui si svolge l’evento                         #6
-	public function setLocation($value) {
-		//$geoPointParse = new geoPointParse($value['latitude'], $value['longitude']);
-		//$this->location = $geoPointParse->getGeoPoint();
-		$this->location = $value;
-	}
-
-    //string: Nome del locale in cui si svolge l’evento					#7
-	public function setLocationName($value) {
-		$this->locationName = $value;
-	}
-
-   //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento #8
-	public function setImage($value) {
-		$this->image = $value;
-	}
-
-   //string: Stringa per il percorso di immagazzinamento della thumbnail #9
-	public function setThumbnail($value) {
-		$this->thumbnail = $value;
-	}
-
-   //array: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano…)  #10
-	public function setFeaturing($value) {
-		$this->featuring = $value;
-	}
-
-	//string: Categorizzazione dell’evento 								#11
-	public function setTag($value) {
-		$this->tag = $value;
-	}
-
-   //number: counter per votazione dell'evento       					#12
+   //number: counter per votazione dell'evento       					
 	public function setCounter($value) {
 		$this->counter = $value;
 	}
 
-	//array: Array che contiene puntatori ad utenti invitati all'evento  #13
+  	//string: Descrizione breve dell’evento 							
+	public function setDescription($value) {
+		$this->description = $value;
+	}
+
+	//DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento) 
+	public function setEventDate($value) {
+		$this->eventDate = $value;
+	}
+
+  	//relation: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano…)  #10
+	public function setFeaturing($value) {
+		$this->featuring = $value;
+	}
+
+    //User: User che crea l’evento										#2
+	public function setFromUser($value) {
+		$this->fromUser = $value;	
+	}
+
+   //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+	public function setImage($value) {
+		$this->image = $value;
+	}
+
+	//relation: Array che contiene puntatori ad utenti invitati all'evento  
 	public function setInvited($value) {
 		$this->invited = $value;
 	}
 
-	//array: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento	#14
-	public function setAttendee($value) {
-		$this->attendee = $value;
+	//GeoPoint: Luogo in cui si svolge l’evento                        
+	public function setLocation($value) {
+		$this->location = $value;
 	}
- 
-	//array: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento #15
+
+    //string: Nome del locale in cui si svolge l’evento				
+	public function setLocationName($value) {
+		$this->locationName = $value;
+	}
+
+	//number:counter per gestire le azioni love sull'evento             
+	public function setLoveCounter($value) {
+		$this->loveCounter = $value;
+	}
+
+	//number:counter per gestire le azioni love sull'evento             
+	public function setLovers($value) {
+		$this->lovers = $value;
+	}
+
+
+	//relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento #15
 	public function setRefused($value) {
 		$this->refused = $value;
 	}
 
-	//BOOL: attiva/disattiva l'evento									#16
-	public function setActive($active){
-		$this->active = $active;
+	//array: Categorizzazione dell’evento 								
+	public function setTags($value) {
+		$this->tags = $value;
 	}
-	
-   //DataTime: data di registrazione dell'evento						#17  serve??
+
+    //string: Stringa per il percorso di immagazzinamento della thumbnail
+	public function setThumbnail($value) {
+		$this->thumbnail = $value;
+	}
+
+ 	//string: Nome dell’evento										
+	public function setTitle($value) {
+		$this->title = $value;
+	}
+
+   //DataTime: data di registrazione dell'evento						
 	public function setCreatedAt($value) {
 		$this->createdAt = $value;
 	}
 
-	//DataTime: data di ultimo update dell'evento						#18  serve??
+	//DataTime: data di ultimo update dell'evento						
 	public function setUpdatedAt($value) {
 		$this->updatedAt = $value;
 	}
 	
-    //Access control list, definisce le politiche di accesso all'evento #19
+    //Access control list, definisce le politiche di accesso all'evento 
 	public function setACL($value){
 		$this->ACL = $value;
-	}
-
-	//number:counter per gestire le azioni love sull'evento             #24
-	public function setLoveCounter($value) {
-		$this->loveCounter = $value;
 	}
 }
 	
