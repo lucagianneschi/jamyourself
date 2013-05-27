@@ -22,40 +22,49 @@ class StatusParse{
 	public function save(Status $status){
 		
 		$parse = new parseObject("Status");
-		$parse->fromUser = $status->getfromUser();
-		$parse->counter = $status->getCounter();
-		//aggiungo funzione per il richiamo del love counter
-		$parse->loveCounter = $status->getLoveCounter();
+		$parse->active = $status->getActive();
 		
-		//geopoint
+		foreach($status->getCommentators() as $user){
+			$parse->data->commentators->__op = "AddRelation";
+			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}
+
+		$parse->counter = $status->getCounter();
+		//puntatore ad un evento
+		if($event = $status->getEvent()){
+			$parse->event = array("__type" => "Pointer", "className" => "Event", "objectId" => $event->getObjectId());			
+		};
+
+		$parse->fromUser = $status->getfromUser();
+		$parse->image = $status->getImage();
 		if($geoPoint = $status->getLocation()){
 			$parse->location = $geoPoint->location;			
 		}
+		$parse->loveCounter = $status->getLoveCounter();
 
-		$parse->active = $status->getActive();
-		$parse->text = $status->getText();
-		$parse->img = $status->getImg();
-		
-		//puntatore a song
+		foreach($status->getLovers() as $user){
+			$parse->data->lovers->__op = "AddRelation";
+			$parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}
+
 		if($song = $status->getSong()){
 			$parse->song = array("__type" => "Pointer", "className" => "Song", "objectId" => $song->getObjectId());
 		}
 
+		foreach($status->getTaggedUsers() as $user){
+			$parse->data->taggedUsers->__op = "AddRelation";
+			$parse->data->taggedUsers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}
+		
+		$parse->text = $status->getText();
+		
+		//SOSTITUITE DA 54-57
 		//utenti taggati: salvo gli Id
-		if( $users = $status->getUsers()  && count($status->getUsers())){
-			
-			$parse->users = array();
-			
-			foreach ($users as $user){
-				array_push($parse->users, $user->getObjectId());
-			}			
-		}
+		//if( $users = $status->getUsers()  && count($status->getUsers())){
+			//$parse->users = array();
+			//foreach ($users as $user){
+				//array_push($parse->users, $user->getObjectId());}}
 
-		//puntatore ad un evento
-		if($event = $status->getEvent()){
-			$parse->event = array("__type" => "Pointer", "className" => "Event", "objectId" => $event->getObjectId());			
-		}
-		;
 		//$parse->ACL = $status->getACL();
 
 		//se esiste l'objectId vuol dire che devo aggiornare
@@ -68,16 +77,10 @@ class StatusParse{
 				
 				//aggiorno l'update
 				$status->setUpdatedAt(new DateTime($result->updatedAt, new DateTimeZone("America/Los_Angeles")));
-					
 			}
 			catch(ParseLibraryException $e){
-
 				return false;
-
 			}
-
-
-
 		}else{
 				
 			try{
@@ -172,11 +175,38 @@ class StatusParse{
 		
 		//recupero objectId
 		if(isset( $parseObj->objectId ) )$status->setObjectId($parseObj->objectId);
+
+	 	//recupero Active
+	 	if(isset( $parseObj->active ) )$status->setActive($parseObj->active);
 	 	
-	 	//creo la data di tipo DateTime per createdAt e updatedAt
-		if( isset($parseObj->createdAt) ) $status->setCreatedAt(new DateTime($parseObj->createdAt,new DateTimeZone("America/Los_Angeles")));
-		if( isset($parseObj->updatedAt) ) $status->setUpdatedAt(new DateTime($parseObj->updatedAt,new DateTimeZone("America/Los_Angeles")));
-	 	
+		//DA MODIFICARE
+		if(isset($parseObj->commentators)){
+			$parseUser = new UserParse();
+			$commentators = $parseUser->getUserArrayById($parseObj->commentators);
+			$status->setCommentators($commentators) ;
+		}
+
+	 	//recupero il counter
+	 	if(isset( $parseObj->counter ) )$status->setCounter($parseObj->counter);
+
+		if(isset( $parseObj->event ) ){
+	 		
+	 		//parse ha in ->event un puntatore 
+	 		
+	 		//creo un nuovo parseEvent per fare la query su Eventi
+	 		$parseEvent = new EventParse();
+	 		
+	 		//recupero il puntatore all'evento
+	 		$eventPointer = $parseObj->event;
+	 		
+	 		//recupero l'evento con una query su parse
+	 		$parseEvent->getEvent($eventPointer->objectId);	 		
+	 		
+	 		//setto l'evento in status
+	 		$status->setEvent($event);
+	 	}
+
+
 	 	//recupero l'utente che ha pubblicato lo status che � un Pointer
 	 	if(isset( $parseObj->fromUser ) ){
 	 		
@@ -193,9 +223,8 @@ class StatusParse{
 	 		$status->setFromUser($fromUser);
 	 	}
 	 	
-	 	//recupero il counter
-	 	if(isset( $parseObj->counter ) )$status->setCounter($parseObj->counter);
-	 	
+		if(isset( $parseObj->image ) )$status->setImage($parseObj->image);
+
 	 	//recupero il geoPoint
 	 	if(isset( $parseObj->location ) ){
 	 		
@@ -208,29 +237,32 @@ class StatusParse{
 	 		//salvo sullo status
 	 		$status->setLocation($geoPoint);
 	 	}
-	 	
-	 	//recupero Active
-	 	if(isset( $parseObj->active ) )$status->setActive($parseObj->active);
-	 	
-	 	//recupero l'ACL
-	 	if(isset( $parseObj->ACL ) ){
-	 		
-	 		$ACL = null;
-	 		
-	 		$status->setACL($ACL);
-	 	}
-	 	
-	 	//queste son tutte stringhe:
+
+	 	//recupero il loveCounter
+	 	if(isset( $parseObj->loveCounter ) )$status->setCounter($parseObj->loveCounter);
+
+	 	//DA MODIFICARE
+		if(isset($parseObj->lovers)){
+			$parseUser = new UserParse();
+			$lovers = $parseUser->getUserArrayById($parseObj->lovers);
+			$status->setLovers($lovers) ;
+		}
+
+		if(isset( $parseObj->song ) )$status->setSong($parseObj->song);
 	 	
 	 	if(isset( $parseObj->text ) )$status->setText($parseObj->text);
 	 	
-	 	if(isset( $parseObj->img ) )$status->setImg($parseObj->img);
+	 	//DA MODIFICARE
+		if(isset($parseObj->taggedUsers)){
+			$parseUser = new UserParse();
+			$taggedUsers = $parseUser->getUserArrayById($parseObj->taggedUsers);
+			$status->setTaggedUsers($taggedUsers) ;
+		}
 	 	
-	 	if(isset( $parseObj->song ) )$status->setSong($parseObj->song);
-	 	
+	 	//SOSTITUITO da 261 in poi
+	 	/* 
 	 	//recupero gli utenti taggati
 	 	if(isset( $parseObj->users ) ){
-	 		
 	 		//per fare la query su User
 	 		$parseUser = new userParse();
 	 		
@@ -245,27 +277,19 @@ class StatusParse{
 	 		}
 	 		//salvo su status
 	 		$status->setUser($users);
-	 		
 	 	}
-	 	if(isset( $parseObj->event ) ){
-	 		
-	 		//parse ha in ->event un puntatore 
-	 		
-	 		//creo un nuovo parseEvent per fare la query su Eventi
-	 		$parseEvent = new EventParse();
-	 		
-	 		//recupero il puntatore all'evento
-	 		$eventPointer = $parseObj->event;
-	 		
-	 		//recupero l'evento con una query su parse
-	 		$parseEvent->getEvent($eventPointer->objectId);	 		
-	 		
-	 		//setto l'evento in status
-	 		$status->setEvent($event);
-	 	}
+        */
 	 	
+	 	//creo la data di tipo DateTime per createdAt e updatedAt
+		if( isset($parseObj->createdAt) ) $status->setCreatedAt(new DateTime($parseObj->createdAt,new DateTimeZone("America/Los_Angeles")));
+		if( isset($parseObj->updatedAt) ) $status->setUpdatedAt(new DateTime($parseObj->updatedAt,new DateTimeZone("America/Los_Angeles")));
+	 	
+	 	//recupero l'ACL
+	 	if(isset( $parseObj->ACL ) ){
+	 		$ACL = null;
+	 		$status->setACL($ACL);
+	 	}
 	 	return $status;
-
 	}
 }
-?> aggiunto al termine della pagina
+?> 
