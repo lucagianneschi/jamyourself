@@ -8,12 +8,14 @@ class Video{
 	private $objectId;  		//string: objectId su Parse  								#1
 	private $active;    		//BOOL: segnala se l'istanza della classe è attiva o no 	#17
 	private $author;			//string: Utente che ha girato il video 					#4
-    private $counter;			//number: Contatore per il gradimento 						#11
+    private $commentators;      //relation: array di puntatori ad User che hanno commentators #18
+	private $counter;			//number: Contatore per il gradimento 						#11
 	private $description;		//string: Descrizione del video data dall'utente  			#7
-	private $duration;			//number: Durata del video									#10
+	private $duration;			//number: Durata del video in secondi						#10
 	private $fromUser;   		//User: Punta allo user che effettua l'embed del video  	#3
-	private $featuring;			//array: per segnalare la presenza di altri utenti 			#12 
+	private $featuring;			//Relation (with Parse User): segnala presenza altri utenti #12 
 	private $loveCounter;		//number: Contatore per il numero di azioni love 			#16
+    private $lovers;            //relation: array di puntatori ad User che hanno commentato #18
 	private $tags;				//array: stringhe per la categorizzazione del video 		#9
 	private $thumbnail;  		//string: Percorso immagine del thumbnail del video 		#8
 	private $title;				//string:Titolo del video  									#5
@@ -41,6 +43,11 @@ class Video{
 	public function getAuthor(){
 		return $this->author;
 	}
+ 
+	//relation: array di puntatori ad User che hanno commentators #18
+	public function getCommentators(){
+		return $this->commentators;
+	}
 
 	//number: Contatore per il gradimento 						#11
 	public function getCounter(){
@@ -57,7 +64,6 @@ class Video{
 		return $this->duration;
 	}
 
-	
 	//array: per segnalare la presenza di altri utenti 			#12
 	public function getFeaturing(){
 		return $this->featuring;
@@ -71,6 +77,11 @@ class Video{
 	//number: Contatore per il numero di azioni love 			#16
 	public function getLoveCounter(){
 		return $this->loveCounter;
+	}
+ 
+	//relation: array di puntatori ad User che hanno commentato #18
+	public function getLovers(){
+		return $this->lovers;
 	}
 
 	//array: stringhe per la categorizzazione del video 		#9
@@ -125,6 +136,11 @@ class Video{
 		$this->author = $author;
 	}
 
+	//relation: array di puntatori ad User che hanno commentators #18
+	public function setCommentators(Relation $commentators){
+		$this->commentators = $commentators;
+	}
+
 	//number: Contatore per il gradimento 						#11
 	public function setCounter($counter){
 		$this->counter = $counter;
@@ -141,13 +157,18 @@ class Video{
 	}
 
 	//array: per segnalare la presenza di altri utenti 			#12
-	public function setFeaturing(array $featuring){
+	public function setFeaturing(Relation $featuring){
 		$this->featuring = $featuring;
 	}
 
 	//User: Punta allo user che effettua l'embed del video  	#3
 	public function setFromUser(User $fromUser){
 		$this->fromUser = $fromUser;
+	}
+
+	//relation: array di puntatori ad User che hanno commentato #18
+	public function setLovers(Relation $lovers){
+		$this->lovers = $lovers;
 	}
 
 	//number: Contatore per il numero di azioni love 			#16
@@ -190,5 +211,4 @@ class Video{
 		$this->ACL = ACL;
 	}
 }
-
 ?>
