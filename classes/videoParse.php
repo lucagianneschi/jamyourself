@@ -25,8 +25,8 @@ class VideoParse{
 		$parse->author = $video->getAuthor();
 		
 		foreach($video->getCommentators() as $user){
-			$parse->data->lovers->__op = "AddRelation";
-			$parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$parse->data->commentators->__op = "AddRelation";
+			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
 		}
 
 		$parse->counter = $video->getCounter();
