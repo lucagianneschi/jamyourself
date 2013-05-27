@@ -6,7 +6,6 @@ class PlaylistParse{
 	function __construct(){
 			
 		$this->parseQuery = new ParseQuery("Playlist");
-			
 	}
 
 	/**
@@ -23,8 +22,6 @@ class PlaylistParse{
 
 		//boolean
 		$parseObj->active = $playlist->getActive();
-
-		$parseObj->name = $playlist->getName();
 		//User
 		if($playlist->getFromUser()){
 			$fromUser = $playlist->getFromUser();
@@ -32,22 +29,19 @@ class PlaylistParse{
 			$parseObj->fromUser = $pointerParse->getPointer();
 		}
 
-		//Array di Song
-		$parseObj->songs = array();		
+		$parseObj->name = $playlist->getName();		
 
 		if($playlist->getSongs()){
 			$songList = $playlist->getSongs();
 			foreach($songList as $song){
-				$pointerParse = new PointerParse("Song", $song->getObjectId());
-				array_push($parseObj->songs, $pointerParse->getPointer());
+				$parseObj->data->songs->__op = "AddRelation";
+				$parseObj->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId()));
 			}
 		}
 
 		//boolean
 		$parseObj->unlimited = $playlist->getUnlimited();
 
-			
-			
 		if( $playlist->getObjectId()==null ){
 
 			try{
@@ -56,7 +50,6 @@ class PlaylistParse{
 					
 				$playlist->setObjectId($ret->objectId);
 					
-				
 				$playlist->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
 					
 				$playlist->setCreatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
@@ -72,20 +65,15 @@ class PlaylistParse{
 			//caso update
 			try{
 
-				$ret = $parseObj->update($playlist->getObjectId());
-					
+				$ret = $parseObj->update($playlist->getObjectId());	
 				$playlist->setUpdatedAt(new DateTime($ret->updatedAt, new DateTimeZone("America/Los_Angeles")));
 					
 			}
 			catch(ParseLibraryException $e){
 					
-				return false;
-					
+				return false;		
 			}
-
 		}
-			
-
 		return $playlist;
 	}
 
@@ -163,32 +151,29 @@ class PlaylistParse{
 
 		$playlist = new Playlist();
 
-		//specifiche
-		
+		if(isset($parseObj->objectId)) $playlist->setObjectId($parseObj->objectId) ;
+	
+		if(isset($parseObj->active ) )$playlist->setActive($parseObj->active);
+
 		if(isset($parseObj->fromUser ) ){
 			$parseUser = new UserParse();
 			$pointer = $parseObj->fromUser;
 			$fromUser = $parseUser->getUserById($pointer->objectId);
 			$playlist->setFromUser($fromUser);
 		}
-		if(isset($parseObj->active ) )$playlist->setActive($parseObj->active);
+		
 		if(isset($parseObj->name ) )$playlist->setName($parseObj->name);
+
 		if(isset($parseObj->unlimited ) )$playlist->setUnlimited($parseObj->unlimited);
 
-		if(isset($parseObj->song ) ){
-			$parseSong =  new SongParse();
-			$songs = array();
-			foreach ($parseObj->songs as $songId){
-				$song = $parseSong->getSong($songId);
-				array_push($array, $var);
+		if(isset($parseObj->songs ) ){
+			foreach ($parseObj->songs as $song){
+				$playlist->data->songs->__op = "AddRelation";
+				$playlist->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId()));
 			}
-			$playlist->setSongs($songs);
 		}
-			
 
 		//generali
-
-		if(isset($parseObj->objectId)) $playlist->setObjectId($parseObj->objectId) ;
 
 		if(isset($parseObj->createdAt)){
 
@@ -199,16 +184,12 @@ class PlaylistParse{
 
 		if(isset($parseObj->updatedAt)){
 			$updatedAt = new DateTime( $parseObj->updatedAt );
-
 			$playlist->setUpdatedAt($updatedAt)  ;
 		}
 		if(isset($parseObj->ACL)){
-
 			$ACL = null;
-
 			$playlist->setACL($ACL)  ;
 		}
-
 		return $playlist;
 	}
 }
