@@ -2,208 +2,187 @@
 
 class Status{
 	//proprie di Parse
-	private $objectId;
-	
-	private $fromUser; 	// settarlo come il currentUser;
-	private $counter; 	// inizializzare a 0;
-	private $location; 	// lasciamolo empty, useremo questo campo solo per le applicazioni (non sarebbe comodo mettere il form don le coordinate etc, il commento � una cosa veloce);
-	private $active; 	//impostarlo a YES;
-	private $text;
-	private $image;
-	private $song;
-	private $taggedUsers;
-	private $event;
-	
-	private $loveCounter;  //counter per tenere conto delle sole azioni di love
-	
-	private $createdAt;
-	private $updatedAt;
-	private $ACL;
+	private $objectId;  				//string: object ID Parse      
+	private $active; 					//BOOL: indica se la classe è attiva o meno
+    private $commentators;				//relation: array di puntatori a Parse Users
+	private $counter; 					//number: contatore che serve per gradimento dello status
+	private $event;   					//Parse Object Event: evento associato allo status
+	private $fromUser; 					//Parse User: utente che pubblica lo status
+	private $image;						//Parse Object Image: image associata allo status
+	private $location; 					//GeoPoint: lat e long per localizzazione dello status (inutilizzato)
+	private $loveCounter;  				//number: counter per tenere conto delle sole azioni di love
+	private $lovers; 					//relation: array di puntatori a Parse Users
+	private $song;						//Parse Object Song: song associata allo status
+	private $taggedUsers;				//relation: array di puntatori a Parse Users
+	private $text;						//string: testo inserito dall'utente per il proprio status
+	private $createdAt;					//DataTime: data di creazione dello status						
+	private $updatedAt;					//DataTime: data di update dello status						
+	private $ACL;						//Access Control List										
 
-	public function __construct(){		
-	}
+	//public function __construct(){}
 	
 	//FUNZIONI SET	
 	
+	//string: object ID Parse 
 	public function setObjectId($objectId){
-	
 		$this->objectId = $objectId;
-	
-	}
-	
-	public function setFromUser(User $fromUser){
-		
-		$this->fromUser = $fromUser;
-		
-	}
-	
-	public function setACL($ACL){
-		
-		$this->ACL = $ACL;
-		
-	}
-	
-	public function setCounter($counter){
-		
-		$this->counter = $counter;
-		
-	}
-	
-	public function setLoveCounter($loveCounter){
-		
-		$this->loveCounter = $loveCounter;
-		
-	}
-	
-	public function setLocation(parseGeoPoint $location){
-		
-		$this->location = $location;
-		
-	}
-	
-	public function setActive($active){
-		
-		$this->active = $active;
-		
-	}
-	
-	public function setCreatedAt(DataTime $createdAt){
-		
-		$this->createdAt = $createdAt;
-		
-	}
-	
-	public function setUpdatedAt(DataTime $updatedAt){
-		
-		$this->updatedAt = $updatedAt;
-		
 	}
 
-	
-	public function setText($text){
-	
-		$this->text = $text;
-	
+	//BOOL: indica se la classe è attiva o meno
+	public function setActive($active){
+		$this->active = $active;
 	}
-	public function setImage($image){
-	
-		$this->image = $image;
-	
+
+    //relation: array di puntatori a Parse Users
+	public function setCommentators(Relation $commentators){
+		$this->commentators = $commentators;
 	}
-	public function setSong($song){
-	
-		$this->song = $song;
-	
+
+	//number: contatore che serve per gradimento dello status
+	public function setCounter($counter){
+		$this->counter = $counter;
 	}
-	public function setTaggedUsers(array $taggedUsers){
-		
-		$userIdArray;
-		
-		$i = 0;
-	
-		foreach($taggedUsers as $user){
-			
-			$userIdArray[$i] = $user->getObjectId();
-			
-			$i++;
-		}
-		$this->users = $userIdArray;
-	
-	}
-	public function setEvent(Event $event){
-	
-		//event � un oggetto di tipo Event, recupoer l'objectId e creo il puntatore
-		
+
+	//Parse Object Event: evento associato allo status
+	public function setEvent($event){
 		$this->events = $event;
-	
 	}
 	
+	//Parse User: utente che pubblica lo status
+	public function setFromUser(User $fromUser){
+		$this->fromUser = $fromUser;
+	}
 	
+	//Parse Object Image: image associata allo status
+	public function setImage($image){ 
+		$this->image = $image;
+	}
+
+	//GeoPoint: lat e long per localizzazione dello status (inutilizzato)
+	public function setLocation(parseGeoPoint $location){
+		$this->location = $location;
+	}
+
+	//number: counter per tenere conto delle sole azioni di love
+	public function setLoveCounter($loveCounter){
+		$this->loveCounter = $loveCounter;	
+	}
+
+    //relation: array di puntatori a Parse Users
+	public function setLovers(Relation $lovers){
+		$this->lovers = $lovers;
+	}
 	
+	//Parse Object Song: song associata allo status
+	public function setSong($song){
+		$this->song = $song;
+	}
+
+	//relation: array di puntatori a Parse Users
+	public function setTaggedUsers(Relation $taggedUsers){
+		$this->taggedUsers = $taggedUsers;
+	}
+
+	//string: testo inserito dall'utente per il proprio status
+	public function setText($text){
+		$this->text = $text;
+	}
+
+	//DataTime: data di creazione dello status
+	public function setCreatedAt(DataTime $createdAt){
+		$this->createdAt = $createdAt;
+	}
+	
+	//DataTime: data di update dello status	
+	public function setUpdatedAt(DataTime $updatedAt){
+		$this->updatedAt = $updatedAt;
+	}
+
+	//Access Control List
+	public function setACL($ACL){
+		$this->ACL = $ACL;
+	}
+
 	//FUNZIONI GET
 	
-	public function getText(){
-		
-		return $this->text;
-		
-	}
-	
-	public function getACL(){
-		
-		return $this->ACL;
-		
-	}
-	
-	public function getfromUser(){
-		
-		return $this->fromUser;
-		
-	}
-	
-	public function getCounter(){
-		
-		return $this->counter;
-		
-	}
-	
-	public function getLoveCounter(){
-		
-		return $this->loveCounter;
-		
-	}
-	
-	public function getLocation(){
-		
-		return $this->location;
-		
-	}
-	
-	public function getActive(){
-		
-		return $this->active;
-		
-	}
-	
-	public function getCreatedAt(){
-		
-		return $this->createdAt;
-		
-	}
-	
-	public function getUpdatedAt(){
-		
-		return $this->updatedAt;
-		
-	}
-	
+	//string: object ID Parse 
 	public function getObjectId(){
-		
 		return $this->objectId;
-		
 	}
-	
 
-	public function getImage(){
-	
-		return $this->image;
-	
+	//BOOL: indica se la classe è attiva o meno
+	public function getActive(){
+		return $this->active;
 	}
-	public function getSong(){
-	
-		return $this->song;
-	
+
+	//relation: array di puntatori a Parse Users
+	public function getCommentators(){
+		return $this->commentators;
 	}
-	public function getTaggedUsers(){
-	
-		return $this->taggedUsers;
-	
+
+	//number: contatore che serve per gradimento dello status
+	public function getCounter(){
+		return $this->counter;
 	}
+
+	//Parse Object Event: evento associato allo status
 	public function getEvent(){
-	
 		return $this->event;
+	}
 	
+	//Parse User: utente che pubblica lo status
+	public function getfromUser(){
+		return $this->fromUser;
+	}
+	
+	//Parse Object Image: image associata allo status
+	public function getImage(){
+		return $this->image;
 	}
 
+	//GeoPoint: lat e long per localizzazione dello status (inutilizzato)
+	public function getLocation(){
+		return $this->location;
+	}
+	
+	//number: counter per tenere conto delle sole azioni di love
+	public function getLoveCounter(){
+		return $this->loveCounter;
+	}
+
+	//relation: array di puntatori a Parse Users
+	public function getLovers(){
+		return $this->lovers;
+	}
+	
+	//Parse Object Song: song associata allo status
+	public function getSong(){
+		return $this->song;
+	}
+
+	//relation: array di puntatori a Parse Users
+	public function getTaggedUsers(){
+		return $this->taggedUsers;
+	}
+
+	//string: testo inserito dall'utente per il proprio status
+	public function getText(){
+		return $this->text;
+	}
+
+	//DataTime: data di creazione dello status
+	public function getCreatedAt(){
+		return $this->createdAt;
+	}
+
+	//DataTime: data di update dello status
+	public function getUpdatedAt(){
+		return $this->updatedAt;
+	}
+	//Access Control List
+	public function getACL(){
+		return $this->ACL;
+	}
 	
 	
 	public function __toString(){
