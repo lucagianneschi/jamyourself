@@ -7,13 +7,11 @@ class Song{
 	private $objectId;		//string: objectId su Parse									    #1
 	private $active;		//BOOL: attiva/disattiva l'istanza della classe  				#2
 	private $counter;		//number: Contatore di gradimento 								#3
-	private $description;   //string: Descrizione della Song data dall'utente     			#4
 	private $duration;		//number: Durata della Song										#5
 	private $featuring;		//array: presenza di altri Utenti								#6
 	private $filePath;		//string: Indirizzo del file									#7
 	private $fromUser;		//User: Utente che effettua la creazione della Song				#8
 	private $genre;			//string: Genere della Song										#9
-	private $label;			//string: Etichetta di produzione								#10
 	private $location;      //geoPoint: coordinate di localizzazione della canzone			#11  //DA RIMUOVERE(?)
 	private $loveCounter;   //number: per tenere conto del numero di azioni love			#17
 	private $record;		//Record (Parse Object): disco di appartenenza della song       #12
@@ -39,11 +37,6 @@ class Song{
 		$this->counter = $counter;
 	}
 
-	//string: Descrizione della Song data dall'utente     			#4
-	public function setDescription($description){
-		$this->description = $description;
-	}
-
 	//number: Durata della Song										#5
 	public function setDuration($duration){
 		$this->duration = $duration;
@@ -67,11 +60,6 @@ class Song{
 	//string: Genere della Song										#9
 	public function setGenre($genre){
 		$this->genre = $genre;
-	}
-
-	//string: Etichetta di produzione								#10
-	public function setLabel($label){
-		$this->label = $label;
 	}
 
 	//geoPoint: coordinate di localizzazione della canzone			#11
@@ -127,11 +115,6 @@ class Song{
 		return $this->counter;
 	}
 
-	//string: Descrizione della Song data dall'utente     			#4
-	public function getDescription(){
-		return $this->description;
-	}
-
 	//number: Durata della Song										#5
 	public function getDuration(){
 		return $this->duration;
@@ -155,11 +138,6 @@ class Song{
 	//string: Genere della Song										#9
 	public function getGenre(){
 		return $this->genre;
-	}
-
-	//string: Etichetta di produzione								#10
-	public function getLabel(){
-		return $this->label;
 	}
 
 	//geoPoint: coordinate di localizzazione della canzone			#11

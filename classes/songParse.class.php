@@ -18,7 +18,6 @@ class SongParse{
 		
 		$parse->active = $song->getActive();
 		$parse->counter = $song->getCounter();
-		$parse->description = $song->getDescription();
 		$parse->duration = $song->getDuration();
 		//array di utenti
 		$parse->featuring = array();
@@ -30,7 +29,6 @@ class SongParse{
 			$parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId() );			
 		}
 		$parse->genre = $song->getGenre();
-		$parse->label = $song->getLabel();
 		if( ($geoPoint = $song->getLocation() ) != null ){
 			$parse->location = $geoPoint->location;			
 		}
@@ -101,7 +99,6 @@ class SongParse{
 		//boolean
         if(isset($parseObj->active))  $song->setActive($parseObj->active);
 		if(isset($parseObj->counter))  $song->setCounter($parseObj->counter);
-		if(isset($parseObj->description))  $song->setDescription($parseObj->description);
 		if(isset($parseObj->duration))  $song->setDuration($parseObj->duration);
 		if(isset($parseObj->featuring)){
 			$parseUser = new UserParse();
@@ -118,7 +115,6 @@ class SongParse{
 		}
 
 		if(isset($parseObj->genre))  $song->setGenre($parseObj->genre);
-		if(isset($parseObj->label))  $song->setLabel($parseObj->label);
 		if(isset($parseObj->location)){
 			$geoParse = $parseObj->location;			
 			$geoPoint = new parseGeoPoint($geoParse->latitude, $geoParse->longitude);
