@@ -20,7 +20,7 @@ class Album{
 	private $featuring;		//featuring
 	private $tag;			//tag
 	private $counter;		//counter
-	private $counter;		//counter per le azioni di love
+	private $loveCounter;		//counter per le azioni di love
 	
 	private $createdAt;
 	private $updatedAt;
