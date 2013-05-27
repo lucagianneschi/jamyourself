@@ -23,18 +23,32 @@ class VideoParse{
 		$parse = new parseObject("Video");
 		$parse->active = $video->getActive();
 		$parse->author = $video->getAuthor();
+		
+		foreach($video->getCommentators() as $user){
+			$parse->data->lovers->__op = "AddRelation";
+			$parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}
+
 		$parse->counter = $video->getCounter();
 		$parse->description = $video->getDescription();
 		$parse->duration = $video->getDuration();
 		$parse->fromUser = $video->getFromUser();
-		if( ( $fromUser = $video->getFromUser() ) != null ) {
+		if( ($fromUser = $video->getFromUser() ) != null ) {
 			$parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId() );			
 		}
-		$parse->featuring = array();
+
 		foreach($video->getFeaturing() as $user){
-			array_push($parse->featuring, $user);
+			$parse->data->featuring->__op = "AddRelation";
+			$parse->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
 		}
+
 		$parse->loveCounter = $video->getLoveCounter();
+
+		foreach($video->getLovers() as $user){
+			$parse->data->lovers->__op = "AddRelation";
+			$parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}
+
 		$parse->tags = $video->getTags();
 		$parse->title = $video->getTitle();
 		$parse->thumbnail = $video->getThumbnail();
@@ -150,6 +164,13 @@ class VideoParse{
 		//string author
 		if(isset($parseObj->author))  $video->setAuthor($parseObj->author);
 
+		//DA MODIFICARE
+		if(isset($parseObj->commentators)){
+			$parseUser = new UserParse();
+			$commentators = $parseUser->getUserArrayById($parseObj->commentators);
+			$video->setCommentators($commentators) ;
+		}
+
 		//integer counter
 		if(isset($parseObj->counter))  $video->setCounter($parseObj->counter);
 
@@ -159,6 +180,7 @@ class VideoParse{
 		//integer duration
 		if(isset($parseObj->duration))  $video->setDuration($parseObj->duration);
 
+        ///MODIFICARE questo!!!
 		//array di id
 		if(isset($parseObj->featuring)){
 			$parseUser = new UserParse();
@@ -176,6 +198,14 @@ class VideoParse{
 
 		//integer counter
 		if(isset($parseObj->loveCounter))  $video->setLoveCounter($parseObj->loveCounter) ;
+
+		//Lovers DA MODIFICARE
+		if(isset($parseObj->lovers)){
+			$parseUser = new UserParse();
+			$userPointer = $parseObj->lovers;
+			$lovers = $parseUser->getUserById($userPointer->objectId);
+			$video->setLovers($lovers);
+		}
 
 		//array di stringhe tags
 		if(isset($parseObj->tags))  $video->setTags($parseObj->parseObj->tags);
