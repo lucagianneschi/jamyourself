@@ -166,8 +166,8 @@ class Video{
 	}
 
 	//string: Percorso immagine del thumbnail del video 		#8
-	public function setThumbnail($thubmnail){
-		$this->thumbnail = $thubmnail;
+	public function setThumbnail($thumbnail){
+		$this->thumbnail = $thumbnail;
 	}
 
 	//string: URL del video  									#2
