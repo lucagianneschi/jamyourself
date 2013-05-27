@@ -21,27 +21,55 @@ class EventParse {
 		$res = $parseObject->get($objectId);
 		//inizializzo l'oggetto
 		$event->setObjectId($res->objectId);
-		$event->setAttendee($res->attendee);
-	//	$pointerParse = new pointerParse($res->author->className, $res->author->objectId);
-	//	$pointer = $pointerParse->getPointer();
-	    
-		$event->setAuthor($res->author);
+		$event->setActive($res->active);
+        
+		foreach($res->getAttendee() as $user){
+			$event->data->attendee->__op = "AddRelation";
+			$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}
+
+		foreach($res->getCommentators() as $user){
+			$event->data->commentators->__op = "AddRelation";
+			$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}
+
 		$event->setCounter($res->counter);
-		$event->setLoveCounter($res->loveCounter); //aggiunta per il contatore di love
 		$event->setDescription($res->description);
-		//$date = new DateTime($res->eventDate->iso);
-		$event->setEventDate($res->eventDate);
-		$event->setFeaturing($res->featuring);
-		$event->setInvited($res->invited);		
+ 		$event->setEventDate($res->eventDate);
+
+		foreach($res->getFeaturing() as $user){
+			$event->data->featuring->__op = "AddRelation";
+			$event->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}		
+
+		$event->setFromUser($res->fromUser);
+		$event->setImage($res->image);
+
+		foreach($res->getInvited() as $user){
+			$event->data->invited->__op = "AddRelation";
+			$event->data->invited->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}	
+		
 		$event->setLocation($res->location);
 		$event->setLocationName($res->locationName);
-		$event->setPhoto($res->photo);
-		$event->setRefused($res->refused);
-		$event->setTag($res->tag);
+		$event->setLoveCounter($res->loveCounter);
+
+		foreach($res->getLovers() as $user){
+			$event->data->lovers->__op = "AddRelation";
+			$event->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}	
+		
+		foreach($res->getRefused() as $user){
+			$event->data->refused->__op = "AddRelation";
+			$event->data->refused->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}
+		
+		$event->setTags($res->tags);
 		$event->setThumbnail($res->thumbnail);
 		$event->setTitle($res->title);
 		$event->setCreatedAt($res->createdAt);
 		$event->setUpdatedAt($res->updatedAt);
+       // $event->setACL($res->ACL); si può mettere??
 		return $event;
 	}	
 
@@ -54,29 +82,57 @@ class EventParse {
 		foreach ($res->results as $obj) {
 			$event = new event();
 			$event->setObjectId($obj->objectId);
-			$event->setAttendee($obj->attendee);
-			$pointerParse = new pointerParse($obj->author->className, $obj->author->objectId);
-			$pointer = $pointerParse->getPointer();
-			$event->setAuthor($pointer);
+
+			$event->setActive($obj->active);
+
+			foreach($obj->getAttendee() as $user){
+			$event->data->attendee->__op = "AddRelation";
+			$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			}
+
+			foreach($obj->getCommentators() as $user){
+			$event->data->commentators->__op = "AddRelation";
+			$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			}
+
 			$event->setCounter($obj->counter);
-			$event->setLoveCounter($obj->loveCounter);//aggiunta per il contatore di love
 			$event->setDescription($obj->description);
-		//	$date = new DateTime($obj->eventDate->iso);
 			$event->setEventDate($obj->eventDate);
-			$event->setFeaturing($obj->featuring);
-			$event->setInvited($obj->invited);
-		//	$geoPointParse = new geoPointParse($obj->location->latitude, $obj->location->longitude);
-		//	$geoPoint = $geoPointParse->getGeoPoint();
+
+			foreach($obj->getFeaturing() as $user){
+				$event->data->featuring->__op = "AddRelation";
+				$event->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			}	
+
+			$pointerParse = new pointerParse($obj->fromUser->className, $obj->fromUser->objectId);
+			$pointer = $pointerParse->getPointer();
+			$event->setFromUser($pointer);
+			$event->setImage($obj->image);
+
+			foreach($obj->getInvited() as $user){
+				$event->data->invited->__op = "AddRelation";
+				$event->data->invited->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			}	
 			$event->setLocation($obj->location);
 			$event->setLocationName($obj->locationName);
-			$event->setPhoto($obj->photo);
-			$event->setRefused($obj->refused);
-			$event->setTag($obj->tag);
+			$event->setLoveCounter($obj->loveCounter);
+
+			foreach($obj->getLovers() as $user){
+				$event->data->lovers->__op = "AddRelation";
+				$event->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			}	
+		
+			foreach($obj->getRefused() as $user){
+				$event->data->refused->__op = "AddRelation";
+				$event->data->refused->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			}
+
+			$event->setTags($obj->tags);
 			$event->setThumbnail($obj->thumbnail);
 			$event->setTitle($obj->title);
 			$event->setCreatedAt($obj->createdAt);
 			$event->setUpdatedAt($obj->updatedAt);
-			
+			// $event->setACL($obj->ACL); si può mettere??
 			$events[$obj->objectId] = $event;
 		}
 		return $events;
@@ -85,19 +141,22 @@ class EventParse {
 	public function saveEvent($event) {
 		$parseObject = new parseObject('Event');
 		
-		$parseObject->attendee = $event->getAttendee();		
-		$parseObject->author = $event->getAuthor();			
+		$parseObject->active = $event->getActive();
+		$parseObject->attendee = $event->getAttendee();	
+        $parseObject->commentators = $event->getCommentators();
 		$parseObject->counter = $event->getCounter();
-		$parseObject->loveCounter = $event->getLoveCounter();//aggiunta per il contatore di love
-		$parseObject->description = $event->getDescription();		
-		$parseObject->eventDate = $event->getEventDate();		
-		$parseObject->featuring = $event->getFeaturing();		
-		$parseObject->invited = $event->getInvited();		
+		$parseObject->description = $event->getDescription();
+		$parseObject->eventDate = $event->getEventDate();
+		$parseObject->featuring = $event->getFeaturing();
+		$parseObject->fromUser = $event->getFromUser();			
+		$parseObject->image = $event->getImage();
+		$parseObject->invited = $event->getInvited();
 		$parseObject->location = $event->getLocation();		
 		$parseObject->locationName = $event->getLocationName();
-		$parseObject->photo = $event->getPhoto();		
+		$parseObject->loveCounter = $event->getLoveCounter();
+		$parseObject->lovers = $event->getLovers();
 		$parseObject->refused = $event->getRefused();			
-		$parseObject->tag = $event->getTag();		
+		$parseObject->tags = $event->getTags();		
 		$parseObject->thumbnail = $event->getThumbnail();		
 		$parseObject->title = $event->getTitle();
 		
@@ -108,19 +167,22 @@ class EventParse {
 	public function updateEvent($event){			
 		$parseObject = new parseObject('Event');
 		
+		$parseObject->active = $event->getActive();
 		$parseObject->attendee = $event->getAttendee();
-		$parseObject->author = $event->getAuthor();		
+		$parseObject->commentators = $event->getCommentators();
 		$parseObject->counter = $event->getCounter();
-		$parseObject->loveCounter = $event->getLoveCounter();//aggiunta per il contatore di love
-		$parseObject->description = $event->getDescription();		
-		$parseObject->eventDate = $event->getEventDate();		
-		$parseObject->featuring = $event->getFeaturing();		
+		$parseObject->description = $event->getDescription();
+		$parseObject->eventDate = $event->getEventDate();
+		$parseObject->featuring = $event->getFeaturing();
+		$parseObject->fromUser = $event->getFromUser();				
+		$parseObject->image = $event->getImage();	
 		$parseObject->invited = $event->getInvited();		
-		$parseObject->location = $event->getLocation();		
+		$parseObject->location = $event->getLocation();
 		$parseObject->locationName = $event->getLocationName();
-		$parseObject->photo = $event->getPhoto();		
+		$parseObject->loveCounter = $event->getLoveCounter();
+		$parseObject->lovers = $event->getLovers();
 		$parseObject->refused = $event->getRefused();			
-		$parseObject->tag = $event->getTag();		
+		$parseObject->tags = $event->getTags();		
 		$parseObject->thumbnail = $event->getThumbnail();		
 		$parseObject->title = $event->getTitle();
 		
@@ -133,14 +195,16 @@ class EventParse {
 	public function delete($event){		
 		//prima cancellare tutti file relativi a quest album		
 		$parseObject = new parseObject('Event');		
-		if(!strstr($event->getPhoto(), '../images/default/eventcover.jpg')){			
-			unlink($event->getPhoto());
+		if(!strstr($event->getImage(), '../images/default/eventcover.jpg')){			
+			unlink($event->getImage());
 		}
 		
 		if(!strstr($event->getThumbnail(), '../images/default/eventcoverthumb.jpg')){			
 			unlink($event->getThumbnail());
 		}	
-		$parseObject->delete($event->getObjectId());		//cancello
+        $event->setActive(false);
+        $parseObject->active = $event->getActive(); 
+		$parseObject->update($event->getObjectId());
 	}
 	
 	public function getCount() {
