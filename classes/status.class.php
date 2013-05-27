@@ -9,9 +9,9 @@ class Status{
 	private $location; 	// lasciamolo empty, useremo questo campo solo per le applicazioni (non sarebbe comodo mettere il form don le coordinate etc, il commento � una cosa veloce);
 	private $active; 	//impostarlo a YES;
 	private $text;
-	private $img;
+	private $image;
 	private $song;
-	private $users;
+	private $taggedUsers;
 	private $event;
 	
 	private $loveCounter;  //counter per tenere conto delle sole azioni di love
@@ -85,9 +85,9 @@ class Status{
 		$this->text = $text;
 	
 	}
-	public function setImg($img){
+	public function setImage($image){
 	
-		$this->img = $img;
+		$this->image = $image;
 	
 	}
 	public function setSong($song){
@@ -95,13 +95,13 @@ class Status{
 		$this->song = $song;
 	
 	}
-	public function setUser(array $users){
+	public function setTaggedUsers(array $taggedUsers){
 		
 		$userIdArray;
 		
 		$i = 0;
 	
-		foreach($users as $user){
+		foreach($taggedUsers as $user){
 			
 			$userIdArray[$i] = $user->getObjectId();
 			
@@ -183,9 +183,9 @@ class Status{
 	}
 	
 
-	public function getImg(){
+	public function getImage(){
 	
-		return $this->img;
+		return $this->image;
 	
 	}
 	public function getSong(){
@@ -193,9 +193,9 @@ class Status{
 		return $this->song;
 	
 	}
-	public function getUsers(){
+	public function getTaggedUsers(){
 	
-		return $this->users;
+		return $this->taggedUsers;
 	
 	}
 	public function getEvent(){
@@ -222,7 +222,7 @@ class Status{
 		//$string.="img: " .$this->img."<br>";
 		//$string.="song: " .$this->song."<br>";
 		$i=0;
-		foreach($this->users as $user){
+		foreach($this->taggedUsers as $user){
 			
 			$string.="users[$i]: " .$user."<br>";
 			
@@ -230,11 +230,8 @@ class Status{
 		}
 		$string.="event: " .$this->event."<br>";
 		
-		return $string;
-		
+		return $string;	
 	}
-
-
 }
 
 ?>
