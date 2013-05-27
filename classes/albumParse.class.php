@@ -21,6 +21,8 @@ class AlbumParse{
 			$parseObj->fromUser = $parseObj->event = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId());;			
 		}
 
+		$parseObj->counter = $album->getCounter();
+		$parseObj->loveCounter = $album->getLoveCounter();
 		$parseObj->active = $album->getActive() ;
 		$parseObj->title = $album->getTitle();
 		$parseObj->description = $album->getDescription();
@@ -144,7 +146,10 @@ class AlbumParse{
 			$album->setLocation($geoPoint);
 		
 		}
-			
+		
+		if(isset($parseObj->counter ) )$album->setCounter($parseObj->counter);
+		if(isset($parseObj->loveCounter ) )$album->setLoveCounter($parseObj->loveCounter);
+
 		if(isset($parseObj->cover ) )$album->setCover($parseObj->cover);
 		if(isset($parseObj->thumbnailCover ) )$album->setThumbnailCover($parseObj->thumbnailCover);
 		if(isset($parseObj->featuring ) ){
