@@ -15,26 +15,32 @@ class AlbumParse{
 		$parseObj = new parseObject("Album");
 			
 		//inizializzo le properties
+		$parseObj->active = $album->getActive();
+		$parseObj->counter = $album->getCounter();
+		$parseObj->cover = $album->getCover();
+		$parseObj->description = $album->getDescription();
 
 		if($album->getFromUser() != null){
 			$fromUser = $album->getFromUser();
 			$parseObj->fromUser = $parseObj->event = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId());;			
 		}
-
-		$parseObj->counter = $album->getCounter();
-		$parseObj->loveCounter = $album->getLoveCounter();
-		$parseObj->active = $album->getActive() ;
-		$parseObj->title = $album->getTitle();
-		$parseObj->description = $album->getDescription();
 		
 		if($album->getLocation()!=null){
 			$geoPoint =  $album->getLocation();
 			$parseObj->location = $geoPoint->location;			
 		}
+		
+		$parseObj->loveCounter = $album->getLoveCounter();
+		
+		
+		
+		
+	
 
 		
-		$parseObj->cover = $album->getCover();
+		
 		$parseObj->thumbnailCover = $album->getThumbnailCover();
+		$parseObj->title = $album->getTitle();
 		
 		//array di utenti
 		$parseObj->featuring = array();		
@@ -42,7 +48,7 @@ class AlbumParse{
 			array_push($parseObj->featuring, $user->getObjectId());
 		}
 		
-		$parseObj->tag = $album->getTag();
+		$parseObj->tag = $album->getTags();
 			
 			
 		if( isset($album->getObjectId()) && $album->getObjectId()!=null ){
