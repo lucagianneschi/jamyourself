@@ -1,1 +1,0 @@
-In questa cartella verra' inserito il codice relativo alle Classi rispettando la logica del MVC
