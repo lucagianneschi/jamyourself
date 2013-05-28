@@ -1,6 +1,7 @@
 <?php
 /**
- * 
+ * definizione classe: http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:album
+ * api: http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:album
  * @author Stefano
  *
  * Questa classe si occupa di gestire un ALBUM FOTOGRAFICO - corrisponde ad una riga
@@ -10,18 +11,19 @@
 class Album{
 
 	private $objectId;
-	private $fromUser;		//autore
-	private $active;		//attiva?
-	private $title;			//titolo
-	private $description;	//descrizione
-	private $location;		//location
-	private $cover;			//cpver
-	private $thumbnailCover;//thumbnailCover
-	private $featuring;		//featuring
-	private $tag;			//tag
-	private $counter;		//counter
-	private $loveCounter;		//counter per le azioni di love
-	
+	private $active;
+	private $commentators;
+	private $counter;
+	private $cover;	
+	private $description;
+	private $featuring;
+	private $fromUser;		
+	private $location;
+	private $loveCounter;
+	private $lovers;		
+	private $tag;	
+	private $thumbnailCover;
+	private $title;				
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;
@@ -35,98 +37,127 @@ class Album{
 	public function getObjectId(){
 		return $this->objectId;
 	}
-	public function getFromUser(){
-		return $this->fromUser  ;
-	}
-	public function getTitle(){
-		return $this->title  ;
-	}
-	public function getDescription(){
-		return $this->description  ;
-	}
-
-	public function getLocation(){
-		return $this->location  ;
-	}
-
-	public function getCover(){		
-		return $this->cover  ;
-	}
-
-	public function getThumbnailCover(){
-		return $this->thumbnailCover  ;
-	}
-
-	public function getFeaturing(){
-		return $this->featuring  ;
-	}
 	
 	public function getActive(){
 		return $this->active;
 	}
-
-	public function getTag(){
-		return $this->tag  ;
+	
+	public function getCommentators(){
+		return $this->commentators;
 	}
 	
-	public function getCounter(){ return $this->counter  ; }
-	public function getLoveCounter(){ return $this->loveCounter  ; }
+	public function getCover(){		
+		return $this->cover;
+	}
 	
+	public function getCounter(){ 
+		return $this->counter;
+	}
+	
+	public function getDescription(){
+		return $this->description;
+	}
+	
+	public function getFeaturing(){
+		return $this->featuring;
+	}
+	
+	public function getFromUser(){
+		return $this->fromUser;
+	}
+	
+	public function getLocation(){
+		return $this->location;
+	}
+	
+	public function getLoveCounter(){
+		return $this->loveCounter; 
+	}
+	
+	public function getLovers(){
+		return $this->lovers;
+	}
+
+	public function getTags(){
+		return $this->tags;
+	}
+	
+	public function getThumbnailCover(){
+		return $this->thumbnailCover;
+	}
+
+	public function getTitle(){
+		return $this->title;
+	}
+
 	public function getCreatedAt(){
-		return $this->createdAt  ;
+		return $this->createdAt;
 	}
 	
 	public function getUpdatedAt(){
-		return $this->updatedAt  ;
+		return $this->updatedAt;
 	}
 	
 	public function getACL(){
-		return $this->ACL  ;
+		return $this->ACL;
 	}
-
-
+	
 	//setters
 
 	public function setObjectId($objectId){
-		$this->objectId=$objectId  ;
+		$this->objectId=$objectId ;
 	}
 	
-	public function setFromUser(User $fromUser){
-		$this->fromUser  = $fromUser ;
-	}
-	
-	public function setCounter($counter){ $this->counter  = $counter ; }
-	public function setLoveCounter($loveCounter){ $this->loveCounter  = $loveCounter ; }
-	
-	public function setTitle($title){
-		$this->title  = $title ;
-	}
 	public function setActive($active){
 		$this->active = $active;
 	}
 	
-	public function setDescription($description){
-		$this->description  = $description ;
+	public function setCommentators(Relation $commentators){
+		$this->commentators  = $commentators;
 	}
 	
-	public function setLocation(parseGeoPoint $location){
-		$this->location  = $location ;
+	public function setCounter($counter){ 
+		$this->counter  = $counter;
 	}
 	
 	public function setCover($cover){
-		$this->cover  = $cover ;
+		$this->cover  = $cover;
 	}
 	
-	public function setThumbnailCover($thumbnailCover){
-		$this->thumbnailCover  = $thumbnailCover ;
+	public function setDescription($description){
+		$this->description  = $description;
 	}
 	
-	public function setFeaturing(array $featuring){
+	public function setFeaturing(Relation $featuring){
 		$this->featuring  = $featuring ;
 	}
 	
-	public function setTag(array $tag){
-		$this->tag  = $tag ;
+	public function setFromUser(User $fromUser){
+		$this->fromUser  = $fromUser;
+	}
+	
+	public function setLocation(parseGeoPoint $location){
+		$this->location  = $location;
+	}
+	
+	public function setLoveCounter($loveCounter){
+		$this->loveCounter  = $loveCounter; 
+	}
+	
+	public function setLovers($lovers){
+		$this->lovers  = $lovers; 
+	}
+	
+	public function setTitle($title){
+		$this->title  = $title ;
+	}
+
+	public function setThumbnailCover($thumbnailCover){
+		$this->thumbnailCover  = $thumbnailCover ;
+	}
+
+	public function setTags(array $tags){
+		$this->tag  = $tags;
 	}
 	
 	public function setCreatedAt(DateTime $createdAt){
@@ -140,6 +171,5 @@ class Album{
 	public function setACL($ACL){
 		$this->ACL  = $ACL ;
 	}
-
 }
 ?>
