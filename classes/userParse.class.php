@@ -21,65 +21,150 @@ class UserParse{
 			
 		$parse = new parseUser();
 
+
 		//inizializzo l'utente a seconda del profilo
 		if($user->getType()=="JAMMER"){
+			foreach($user->getCollaboration() as $collaborator){
+				$parse->data->collaboration->__op = "AddRelation";
+				$parse->data->collaboration->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($collaborator ->getObjectId()));
+			}
+
+			foreach($user->getEvents() as $event){
+				$parse->data->events->__op = "AddRelation";
+				$parse->data->events->objects = array(array("__type" => "Pointer", "className" => "Event", "objectId" => ($event ->getObjectId()));
+			}
+
 			$parse->members = $user->getMembers();
+
+			foreach($user->getRecords() as $record){
+				$parse->data->records->__op = "AddRelation";
+				$parse->data->records->objects = array(array("__type" => "Pointer", "className" => "Record", "objectId" => ($record ->getObjectId()));
+			}
+
+			foreach($user->getSongs() as $song){
+				$parse->data->songs->__op = "AddRelation";
+				$parse->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId()));
+			}
+
 			$parse->jammerType = $user->getJammerType();
 		}
-		if($user->getType()=="VENUE"){
-			$parse->address = $user->getAddress();
-						
-			$parse->localType = $user->getLocalType();
-		}
-		//poi recupero i dati fondamentali (che appartengono a tutti gli utenti)
 
-		$parse->type = $user->getType();
-		$parse->email = $user->getEmail();
-		$parse->username = $user->getUsername();
 
-		$parse->sex = $user->getSex();
-		$parse->firstname = $user->getFirstname();
-		//� un tipo DateTime
+		if($user->getType()=="SPOTTER"){
 		
 		//formatto l'anno di nascita 
 		if($user->getBirthDay()){
 			//birthDay � un tipo DateTime
 			$data = $user->getBirthDay();
 			$parse->birthDay = $parse->dataType("date", $data->format('r'));	
-		}
+			}
+
+		$parse->facebookId = $user->getFacebookId();
+		$parse->firstname = $user->getFirstname();
+
+		foreach($user->getFollowing() as $user){
+				$parse->data->following->__op = "AddRelation";
+				$parse->data->following->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			}
+
+		foreach($user->getFriendship() as $user){
+				$parse->data->friendship->__op = "AddRelation";
+				$parse->data->friendship->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			}
 
 		$parse->lastname = $user->getLastname();
-		$parse->profilePicture = $user->getProfilePicture();
-		$parse->levelValue= $user->getLevelValue();
-		$parse->profileThumbnail = $user->getProfileThumbnail();
-		
-		if($user->getStatus() ){
-			//status � di tipo Status, deve essere un Pointer
-			$status = $user->getStatus();
-			
-			$parse->status = array("__type" => "Pointer", "className" => "Status", "objectId" => $status->getObjectId());
-			
+		$parse->sex = $user->getSex();
+
 		}
-		$parse->website = $user->getWebsite();
-		$parse->fbPage = $user->getFbPage();
-		$parse->twitterPage = $user->getTwitterPage();
-		$parse->youtubeChannel = $user->getYoutubeChannel();
-		$parse->country = $user->getCountry();
-		$parse->city = $user->getCity();
-		$parse->description = $user->getDescription();
-		$parse->facebookId = $user->getFacebookId();
-		$parse->music = $user->getMusic();
-		$parse->background = $user->getBackground();
-		$parse->customField = $user->getCustomField();
-		$parse->premium = $user->getPremium();
+
+		if($user->getType()=="VENUE"){
+			$parse->address = $user->getAddress();
+
+			foreach($user->getCollaboration() as $collaborator){
+				$parse->data->collaboration->__op = "AddRelation";
+				$parse->data->collaboration->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($collaborator ->getObjectId()));
+			}
+
+			foreach($user->getEvents() as $event){
+				$parse->data->events->__op = "AddRelation";
+				$parse->data->events->objects = array(array("__type" => "Pointer", "className" => "Event", "objectId" => ($event ->getObjectId()));
+			}
+						
+			$parse->localType = $user->getLocalType();
+		}
+	
+		//poi recupero i dati fondamentali (che appartengono a tutti gli utenti)
+		$parse->username = $user->getUsername();
+        //$parse->password = $user->getPassword(); VANNO MESSI?
+    	//$parse->authData; = $user->getAuthData;(); VANNO MESSI?
+		$parse->ID = $user->getID();
 		$parse->active = $user->getActive();
+
+		foreach($user->getAlbums() as $album){
+				$parse->data->albums->__op = "AddRelation";
+				$parse->data->albums->objects = array(array("__type" => "Pointer", "className" => "Album", "objectId" => ($album ->getObjectId()));
+			}
+
+		$parse->background = $user->getBackground();
+		$parse->city = $user->getCity();
 		
+		foreach($user->getComments() as $comment){
+				$parse->data->comments->__op = "AddRelation";
+				$parse->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
+			}
+
+		$parse->country = $user->getCountry();
+		$parse->description = $user->getDescription();
+		$parse->email = $user->getEmail();
+		$parse->fbPage = $user->getFbPage();
+
 		if($user->getGeoCoding()){
 			$geo = $user->getGeoCoding();			
 			$parse->geoCoding = $geo->location;//� un geopoint? spero di si...
 		}
-		$parse->settings = $user->getSettings();
+
+		foreach($user->getImages() as $image){
+				$parse->data->images->__op = "AddRelation";
+				$parse->data->images->objects = array(array("__type" => "Pointer", "className" => "Image", "objectId" => ($image ->getObjectId()));
+			}
+
 		$parse->level = $user->getLevel();
+		$parse->levelValue= $user->getLevelValue();
+
+		foreach($user->getLoveSongs() as $song){
+				$parse->data->loveSongs->__op = "AddRelation";
+				$parse->data->loveSongs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId()));
+			}
+
+		$parse->music = $user->getMusic();
+
+		foreach($user->getPlaylists() as $playlist){
+				$parse->data->playlists->__op = "AddRelation";
+				$parse->data->playlists->objects = array(array("__type" => "Pointer", "className" => "Playlist", "objectId" => ($playlist ->getObjectId()));
+			}
+
+		$parse->premium = $user->getPremium();
+		$parse->premiumExpirationDate = $user->getPremiumExpirationDate();
+		$parse->profilePicture = $user->getProfilePicture();
+		$parse->profileThumbnail = $user->getProfileThumbnail();
+		$parse->settings = $user->getSettings();
+
+		foreach($user->getStatuses() as $status){
+				$parse->data->statuses->__op = "AddRelation";
+				$parse->data->statuses->objects = array(array("__type" => "Pointer", "className" => "Status", "objectId" => ($status ->getObjectId()));
+			}
+
+		$parse->type = $user->getType();
+		$parse->twitterPage = $user->getTwitterPage();
+		
+		foreach($user->getVideos() as $video){
+				$parse->data->videos->__op = "AddRelation";
+				$parse->data->videos->objects = array(array("__type" => "Pointer", "className" => "Video", "objectId" => ($video ->getObjectId()));
+			}
+
+
+		$parse->website = $user->getWebsite();
+		$parse->youtubeChannel = $user->getYoutubeChannel();
 
 		if($user->getObjectId() != null){
 				
@@ -96,12 +181,8 @@ class UserParse{
 					
 			}
 			catch(ParseLibraryException $error){
-
 				return false;
-				
-			}
-				
-				
+			}		
 		}
 		else{
 			//registrazione
@@ -120,20 +201,20 @@ class UserParse{
 				 * $ret->sessionToken = "qeutglxlz2k7cgzm3vgc038bf"
 				 */
 				$user->setEmailVerified($ret->emailVerified);
+				$user->setSessionToken($ret->sessionToken);
 				$user->setCreatedAt(new DateTime($ret->createdAt,new DateTimeZone("America/Los_Angeles")));
 				$user->setUpdatedAt(new DateTime($ret->createdAt,new DateTimeZone("America/Los_Angeles")));
 				$user->setObjectId($ret->objectId);
-				$user->setSessionToken($ret->sessionToken);				
+				//$user->setACL($ret->ACL);
+								
 					
 			}
 			catch(ParseLibraryException $error){
 				return false;
 			}
 				
-		}
-			
+		}	
 		return $user;
-
 	}
 
 	/**
@@ -319,18 +400,29 @@ class UserParse{
 		
 			//inizializzo l'utente a seconda del profilo
 		
-		
 			switch($parseObj->type){
 				case "SPOTTER":
 		
 					$user = new Spotter();
-		
+
+					if( isset($parseObj->birthDay) ) $user->setBirthDay(new DateTime($parseObj->birthDay->iso, new DateTimeZone("America/Los_Angeles")));
+					if( isset($parseObj->facebookId) ) $user->setFacebookId($parseObj->facebookId);
+					if( isset($parseObj->firstname) ) $user->setFirstname($parseObj->firstname);
+					if( isset($parseObj->following) ) $user->setFollowing($parseObj->following);//MODIFICARE
+					if( isset($parseObj->friendship) ) $user->setFriendship($parseObj->friendship);//MODIFICARE
+					if( isset($parseObj->lastname) ) $user->setLastname($parseObj->lastname);
+					if( isset($parseObj->sex) )$user->setSex($parseObj->sex);
 					break;
+
 				case "JAMMER":
 		
 					$user = new Jammer();
-		
+
+					if( isset($parseObj->collaboration) )$user->setCollaboration($parseObj->collaboration);//MODIFICARE
+					if( isset($parseObj->events) )$user->setEvents($parseObj->events);
 					if( isset($parseObj->members) )$user->setMembers($parseObj->members);
+					if( isset($parseObj->records) )$user->setRecords($parseObj->records);//MODIFICARE
+					if( isset($parseObj->songs) )$user->setSongs($parseObj->songs);//MODIFICARE
 					if( isset($parseObj->jammerType) )$user->setJammerType($parseObj->jammerType);
 					break;
 		
@@ -338,91 +430,68 @@ class UserParse{
 		
 					$user = new Venue();
 
-					/*visto che deve essere un geopoint*/
+					/*visto che deve essere un geopoint*/ //questo è sbagliato! dalla stringa si ricavano le coordinate e si mettono dentro la property geoCoding!
+					//MODIFICARE!
 					if( isset($parseObj->address) ){
-						
 						//recupero il GeoPoint
 						$geoParse = $parseObj->address;
-						
 						$geoPoint = new parseGeoPoint($geoParse->latitude, $geoParse->longitude);				
-						
 						//aggiungo lo status
 						$user->setAddress($geoPoint);				
 
 					}
-					
+
+					if( isset($parseObj->collaboration) )$user->setCollaboration($parseObj->collaboration);//MODIFICARE
+					if( isset($parseObj->events) )$user->setEvents($parseObj->events);//MODIFICARE
 					if( isset($parseObj->localType) ) $user->setLocalType($parseObj->localType);
 		
 					break;
 			}
 		
 			//poi recupero i dati fondamentali (che appartengono a tutti gli utenti)
-		
-			if( isset($parseObj->email) )$user->setEmail($parseObj->email);
+			if( isset($parseObj->objectId) ) $user->setObjectId($parseObj->objectId);
 			if( isset($parseObj->username ) )$user->setUsername($parseObj->username);
-			if( isset($parseObj->sex) )$user->setSex($parseObj->sex);
-			if( isset($parseObj->firstname) ) $user->setFirstname($parseObj->firstname);
-			if( isset($parseObj->premium) ) $user->setPremium($parseObj->premium);
-			if( isset($parseObj->birthDay) ) $user->setBirthDay(new DateTime($parseObj->birthDay->iso, new DateTimeZone("America/Los_Angeles")));
-			if( isset($parseObj->lastname) ) $user->setLastname($parseObj->lastname);
-			if( isset($parseObj->profilePicture) ) $user->setProfilePicture($parseObj->profilePicture);
-			if( isset($parseObj->profileThumbnail) ) $user->setProfileThumbnail($parseObj->profileThumbnail);
-			if( isset($parseObj->level) ) $user->setLevel($parseObj->level);
-			if( isset($parseObj->levelValue) )$user->setLevelValue($parseObj->levelValue);
-			if( isset($parseObj->status) ){
-				//recupero il pointer
-				$pointer_status = $parseObj->status;
-				
-				//recupero l'id
-				$id_status = $pointer_status->objectId;
-				
-				//recupero lo status
-				$parseStatus = new StatusParse();
-				$status = $parseStatus->getStatus($id_status);
-				
-				//aggiungo lo status
-				$user->setStatus($parseObj->status);
-			}
+			//if( isset($parseObj->password ) )$user->setPassword($parseObj->password); VA MESSO??
+			//if( isset($parseObj->authData ) )$user->setAuthData($parseObj->authData); VA MESSO??
+			if( isset($parseObj->emailVerified) ) $user->setEmailVerified($parseObj->emailVerified);
+			if( isset($parseObj->ID) ) $user->setID($parseObj->ID);//RIMUOVERE DOPO ALLINEAMENTO DB
 			if( isset($parseObj->active)) $user->setActive($parseObj->active);
-			if( isset($parseObj->website) ) $user->setWebsite($parseObj->website);
-			if( isset($parseObj->fbPage) ) $user->setFbPage($parseObj->fbPage);
-			if( isset($parseObj->twitterPage) ) $user->setTwitterPage($parseObj->twitterPage);
-			if( isset($parseObj->youtubeChannel) ) $user->setYoutubeChannel($parseObj->youtubeChannel);
-			if( isset($parseObj->country) ) $user->setCountry($parseObj->country);
-			if( isset($parseObj->city) ) $user->setCity($parseObj->city);
-			if( isset($parseObj->description) ) $user->setDescription($parseObj->description);
-			if( isset($parseObj->facebookId) ) $user->setFacebookId($parseObj->facebookId);
-			if( isset($parseObj->music) ) $user->setMusic($parseObj->music);
+			if( isset($parseObj->albums ) )$user->setAlbums($parseObj->albums);//MODIFICARE
 			if( isset($parseObj->background) ) $user->setBackground($parseObj->background);
-			if( isset($parseObj->customField) ) $user->setCustomField($parseObj->customField);
-			
+			if( isset($parseObj->city) ) $user->setCity($parseObj->city);
+			if( isset($parseObj->country) ) $user->setCountry($parseObj->country);
+			if( isset($parseObj->description) ) $user->setDescription($parseObj->description);
+			if( isset($parseObj->email) )$user->setEmail($parseObj->email);
+			if( isset($parseObj->fbPage) ) $user->setFbPage($parseObj->fbPage);
 			if( isset($parseObj->geoCoding) ){
 				//recupero il GeoPoint
 				$geoParse = $parseObj->geoCoding;
-				
 				$geoPoint = new parseGeoPoint($geoParse->latitude, $geoParse->longitude);				
-				
 				//aggiungo lo status
 				$user->setGeoCoding($geoPoint);				
-
 			}
-			
+			if( isset($parseObj->images) ) $user->setImages($parseObj->images);//MODIFICARE
+			if( isset($parseObj->level) ) $user->setLevel($parseObj->level);
+			if( isset($parseObj->levelValue) )$user->setLevelValue($parseObj->levelValue);
+			if( isset($parseObj->loveSongs) )$user->setLoveSongs($parseObj->loveSongs);
+			if( isset($parseObj->music) ) $user->setMusic($parseObj->music);
+			if( isset($parseObj->playlists) ) $user->setPlaylists($parseObj->playlists);//MODIFICARE
+			if( isset($parseObj->premium) ) $user->setPremium($parseObj->premium);
+			if( isset($parseObj->premiumExpirationDate) ) $user->setPremiumExpirationDate($parseObj->premiumExpirationDate);
+			if( isset($parseObj->profilePicture) ) $user->setProfilePicture($parseObj->profilePicture);
+			if( isset($parseObj->profileThumbnail) ) $user->setProfileThumbnail($parseObj->profileThumbnail);
 			if( isset($parseObj->settings) ) $user->setSettings($parseObj->settings);
-			if( isset($parseObj->objectId) ) $user->setObjectId($parseObj->objectId);
+            if( isset($parseObj->statuses) ) $user->setStatuses($parseObj->statuses);//MODIFICARE
+			if( isset($parseObj->twitterPage) ) $user->setTwitterPage($parseObj->twitterPage);
+			if( isset($parseObj->website) ) $user->setWebsite($parseObj->website);
+			if( isset($parseObj->youtubeChannel) ) $user->setYoutubeChannel($parseObj->youtubeChannel);
 			if( isset($parseObj->sessionToken) ) $user->setSessionToken($parseObj->sessionToken);
-			//createdAt e updatedAt parsati come oggetti! Yo!
 			if( isset($parseObj->createdAt) ) $user->setCreatedAt(new DateTime($parseObj->createdAt,new DateTimeZone("America/Los_Angeles")));
 			if( isset($parseObj->updatedAt) ) $user->setUpdatedAt(new DateTime($parseObj->updatedAt,new DateTimeZone("America/Los_Angeles")));
-			
-			if( isset($parseObj->emailVerified) ) $user->setEmailVerified($parseObj->emailVerified);
-				
+			if( isset($parseObj->ACL) ) $user->setACL($parseObj->ACL);	//OK?
 		}
 		
-		return $user;		
-		
+		return $user;			
 	}
-
 }
-
-
 ?>
