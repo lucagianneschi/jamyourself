@@ -21,7 +21,7 @@ class Album{
 	private $location;
 	private $loveCounter;
 	private $lovers;		
-	private $tag;	
+	private $tags;	
 	private $thumbnailCover;
 	private $title;				
 	private $createdAt;
