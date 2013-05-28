@@ -14,27 +14,29 @@ class ImageParse{
 		$parse = new parseObject("Image");
 		
 		$parse->active = $image->getActive();
-		$parse->counter = $image->getCounter();
-		$parse->loveCounter = $image->getLoveCounter(); //aggiunta per il contatore di love
-		
-		if( ( $fromUser = $image->getFromUser() ) != null ) {
-			$parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $author->getObjectId() );			
-		}
-		
-		$parse->tag = $image->getTag();
-		$parse->filePath = $image->getFilePath();
-		$parse->description = $image->getDescription();
 		$parse->album = $image->getAlbum();
-		
+		$parse->counter = $image->getCounter();
+		$parse->description = $image->getDescription();
+
 		//array di utenti
 		$parse->featuring = array();
 		foreach ($image->getFeaturing() as $user){
 			array_push($parse->featuring, $user->getObjectId());
 		}
-				
+
+		$parse->filePath = $image->getFilePath();
+		
+		if( ( $fromUser = $image->getFromUser() ) != null ) {
+			$parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $author->getObjectId() );			
+		}
+		
+		$parse->loveCounter = $image->getLoveCounter(); 
 		if( ($geoPoint = $image->getLocation() ) != null ){
 			$parse->location = $geoPoint->location;			
 		}
+		
+		$parse->tag = $image->getTags();	
+
 		
 		//$parse->ACL = $image->getACL();
 		
@@ -95,7 +97,7 @@ class ImageParse{
 		$parseImage = new parseObject("Image");
 		
 		$res = $parseImage->get($imageId);
-		
+	
 		$image = $this->parseToImage($res);
 		
 		return $image;		
@@ -106,27 +108,28 @@ class ImageParse{
 		$image = new Image();
 		//recupero objectId
 		if(isset( $parseObj->objectId ) )$image->setObjectId($parseObj->objectId);
-			
-		//creo la data di tipo DateTime per createdAt e updatedAt
-		if( isset($parseObj->createdAt) ) $image->setCreatedAt(new DateTime($parseObj->createdAt,new DateTimeZone("America/Los_Angeles")));
-		if( isset($parseObj->updatedAt) ) $image->setUpdatedAt(new DateTime($parseObj->updatedAt,new DateTimeZone("America/Los_Angeles")));
+		if(isset($parseObj->album)){
+			$parseAlbum = new AlbumParse();
+			$pointer = $parseObj->album;
+			$image->setActive($parseAlbum->getAlbum($pointer->objectId));
+		}
+				
 		
-		//boolean
 		if(isset($parseObj->counter))  $image->setCounter($parseObj->counter);
-		if(isset($parseObj->loveCounter))  $image->setLoveCounter($parseObj->loveCounter); //aggiunta per il contatore di love
+		if(isset($parseObj->description))  $image->setDescription($parseObj->description);
+
+		if(isset($parseObj->featuring)){
+			$parseUser = new UserParse();
+			$featuring = $parseUser->getUserArrayById($parseObj->featuring);
+			$image->setFeaturing($featuring);
+		}
+		if(isset($parseObj->filePath))  $image->setFilePath($parseObj->filePath);
+		
 		if(isset($parseObj->fromUser)){
 			$parseUser = new UserParse();
 			$pointer = $parseObj->fromUser;
 			$fromUser = $parseUser->getUserById($pointer->objectId);
 			$image->setActive($fromUser);
-		}
-		if(isset($parseObj->tag))  $image->setTag($parseObj->tag);
-		if(isset($parseObj->filePath))  $image->setFilePath($parseObj->filePath);
-		if(isset($parseObj->description))  $image->setDescription($parseObj->description);
-		if(isset($parseObj->album)){
-			$parseAlbum = new AlbumParse();
-			$pointer = $parseObj->album;
-			$image->setActive($parseAlbum->getAlbum($pointer->objectId));
 		}
 
 		if(isset($parseObj->location)){
@@ -135,12 +138,14 @@ class ImageParse{
 			$image->setLocation($geoPoint);
 
 		}
+		if(isset($parseObj->loveCounter))  $image->setLoveCounter($parseObj->loveCounter); //aggiunta per il contatore di love
 
-		if(isset($parseObj->featuring)){
-			$parseUser = new UserParse();
-			$featuring = $parseUser->getUserArrayById($parseObj->featuring);
-			$image->setFeaturing($featuring);
-		}
+
+		if(isset($parseObj->tags))  $image->setTags($parseObj->tag);
+
+		//creo la data di tipo DateTime per createdAt e updatedAt
+		if( isset($parseObj->createdAt) ) $image->setCreatedAt(new DateTime($parseObj->createdAt,new DateTimeZone("America/Los_Angeles")));
+		if( isset($parseObj->updatedAt) ) $image->setUpdatedAt(new DateTime($parseObj->updatedAt,new DateTimeZone("America/Los_Angeles")));
 
 		//ACL
 		if(isset( $parseObj->ACL ) ){
