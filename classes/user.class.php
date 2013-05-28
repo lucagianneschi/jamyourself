@@ -1,46 +1,53 @@
 <?php
+//definizione classe:
+//api:
 
 require_once'settings.php';
 
 class User{
 
 	//questi dati sono aggiornati solo dopo aver fatto save/userLogin/update
-
-	private $objectId;					//id di Parse (si aggiorna quando recupero l'utente dal DB)
-	private $sessionToken;		//sessionToken relativo all'utente (fornito da Parse)
-	private $createdAt;			//data creazione utente (fornito da Parse)
-	private $updatedAt;			//data ultimo aggiornamento stato utente (fornito da Parse)
-	
-	private $emailVerified;		//TRUE se l'utente ha verificato la propria mail (fornito da Parse)
-	private $email;
+	private $objectId;	
 	private $username;
 	private $password;
-
+    private $authData;
+	private $emailVerified;
+	private $ID;//DA RIMUOVERE DOPO ALLINEAMENTO DB
 	private $active;
-	private $birthDay;
-	private $sex;
-	private $firstname;
-	private $lastname;
+	private $albums;
+	private $background;
+	private $city;
+	private $comments;
+	private $country;
+	private $description;	
+	private $email;
+	private $fbPage;
+	private $geoCoding;
+	private $images;
+	private $level;
+	private $levelValue;//si lascia per tutti, per ora si usa solo per lo spotter
+	private $loveSongs;
+	private $music;
+    private $playlists;
+	private $premium;
+	private $premiumExpirationDate;
 	private $profilePicture;
 	private $profileThumbnail;
-	private $status;
-	private $website;
-	private $fbPage;
-	private $twitterPage;
-	private $youtubeChannel;
-	private $country;
-	private $city;
-	private $description;
-	private $facebookId;
-	private $music;
-	private $authData;
-	private $background;
-	private $customField;
-	private $geoCoding;
+	private $sessionToken;
 	private $settings;
-	private $level;
-	private $premium;
-	private $levelValue; //modificato nome della property da view a levelValue
+	private $statuses;
+	private $type;
+	private $twitterPage;
+	private $videos;
+  	private $website;
+	private $youtubeChannel;
+	private $createdAt;			
+	private $updatedAt;	
+    private $ACL;
+
+	//PROPERTY RELATION DA DISTRIBUIRE SECONDO IL TIPO!
+	private $collaboration;//JAMMER e VENUE
+	private $events;//JAMMER e VENUE
 
 	//COSTRUTTORE
 
@@ -50,364 +57,304 @@ class User{
 
 	//****** FUNZIONI SET ***************************************************//
 	public function setObjectId($objectId){
-	
 		$this->objectId = $objectId;
 	}
 	
-
-	public function setSessionToken($sessionToken){
-	
-		$this->sessionToken = $sessionToken;
-	}
-	
-	public function setUpdatedAt(DateTime $updatedAt){
-	
-		$this->updatedAt = $updatedAt;
-	
-	}
-	
-	public function setCreatedAt(DateTime $createdAt){
-	
-		$this->createdAt = $createdAt;
-	
-	}
-	
-	public function setEmailVerified($emailVerified){
-		
-		$this->emailVerified = $emailVerified;
-		
-	}
-	
-	public function setGeoCoding(parseGeoPoint $geoCoding){
-		
-			$this->geoCoding = $geoCoding;
-
-	}
-	
-	public function setLevelValue($levelValue ){
-	
-		$this->view = $levelValue;
-	
-	}
-
-	public function setEmail($email){
-		
-		$this->email = $email;
-		
-	}
-	
-	public function setBirthDay(DateTime $birthDay){
-		
-		$this->birthDay = $birthDay;
-		
-	}
-
 	public function setUsername($username){
-
 		$this->username = $username;
 	}
 
-	public function setActive($active){
-	
-		$this->active = $active;
-	}
-	
 	public function setPassword($password){
-
 		$this->password = $password;
 	}
 
-	public function setType($type){
+	public function setAuthData($authData){
+		$this->authData = $authData;
+	}
 
-		$this->type = $type;
+	public function setEmailVerified($emailVerified){
+		$this->emailVerified = $emailVerified;
+	}
+
+	public function setID($ID){
+		$this->ID = $ID;
+	}
+
+	public function setActive($active){
+		$this->active = $active;
+	}
+
+	public function setAlbums(Relation $albums){
+			$this->albums = $albums;
+	}
+
+	public function setBackground($background){
+		$this->background = $background;
+	}
+
+	public function setCity($city){
+		$this->city = $city;
+	}
+
+	public function setComments(Relation $comments){
+			$this->comments = $comments;
+	}
+
+	public function setCountry($country){
+		$this->country = $country;
+	}
+
+	public function setDescription($description){
+		$this->description = $description;
+	}
+
+	public function setEmail($email){
+		$this->email = $email;
+	}
+
+	public function setFbPage($fbPage){
+		$this->fbPage = $fbPage;
+	}
+
+	public function setGeoCoding(parseGeoPoint $geoCoding){
+			$this->geoCoding = $geoCoding;
+	}
+
+	public function setImages(Relation $images){
+			$this->images = $images;
 	}
 
 	public function setLevel($level){
-
 		$this->level = $level;
 	}
 
-	public function setSettings(array $settings){
-
-		$this->settings = $settings;
+	public function setLevelValue($levelValue ){
+		$this->view = $levelValue;
 	}
 
-	public function setSex($sex){
-
-		$this->sex = $sex;
+	public function setLoveSongs(Relation $loveSongs){
+		$this->loveSongs = $loveSongs;
 	}
 
-	public function setFirstname($firstname){
-
-		$this->firstname = $firstname;
+	public function setMusic(array $music){
+		$this->music = $music;
 	}
-	
-	public function setLastname($lastname){
 
-		$this->lastname = $lastname;
+	public function setPlaylists(Relation $playlists){
+			$this->playlists = $playlists;
+	}
+
+	public function setPremium($premium){
+		$this->premium = $premium;
+	}
+
+	public function setPremium(DateTime $premiumExpirationDate){
+		$this->premiumExpirationDate = $premiumExpirationDate;
 	}
 
 	public function setProfilePicture($profilePicture){
-
 		$this->profilePicture = $profilePicture;
 	}
 
 	public function setProfileThumbnail($profileThumbnail){
-
 		$this->profileThumbnail = $profileThumbnail;
 	}
 
-	public function setStatus(Status $status){
-
-		$this->status = $status;
+	public function setSettings(array $settings){
+		$this->settings = $settings;
 	}
 
-	public function setWebsite($website){
-
-		$this->website = $website;
+	public function setStatuses(Relation $status){
+		$this->statuses = $statuses;
 	}
 
-	public function setFbPage($fbPage){
-
-		$this->fbPage = $fbPage;
+	public function setType($type){
+		$this->type = $type;
 	}
 
 	public function setTwitterPage($twitterPage){
-
 		$this->twitterPage = $twitterPage;
 	}
 
-	public function setYoutubeChannel($youtubeChannel){
+	public function setVideos(Relation $videos){
+		$this->videos = $videos;
+	}
 
+	public function setWebsite($website){
+		$this->website = $website;
+	}
+
+	public function setYoutubeChannel($youtubeChannel){
 		$this->youtubeChannel = $youtubeChannel;
 	}
 
-	public function setCountry($country){
-
-		$this->country = $country;
+	public function setSessionToken($sessionToken){
+		$this->sessionToken = $sessionToken;
 	}
-
-	public function setCity($city){
-
-		$this->city = $city;
-	}
-
-	public function setDescription($description){
-
-		$this->description = $description;
-	}
-
-	public function setFacebookId($facebookId){
-
-		$this->facebookId = $facebookId;
-	}
-
-	public function setMusic(array $music){
-
-		$this->music = $music;
-	}
-
-	public function setAuthData($authData){
-
-		$this->authData = $authData;
-	}
-
-	public function setBackground($background){
-
-		$this->background = $background;
-	}
-
-	public function setCustomField($customField){
-
-		$this->customField = $customField;
-	}
-
 	
-	public function setPremium($premium){
-		
-		$this->premium = $premium;
+	public function setUpdatedAt(DateTime $updatedAt){
+		$this->updatedAt = $updatedAt;
 	}
+	
+	public function setCreatedAt(DateTime $createdAt){
+		$this->createdAt = $createdAt;
+	}
+
+	public function setACL($ACL){
+		$this->ACL = $ACL;
+	}
+
 	//****** FUNZIONI GET ***************************************************//
 
 	public function getObjectId(){
-	
 		return $this->objectId;
 	}
-	
-	public function getSessionToken(){
-	
-		return $this->sessionToken;
-	}
-	
-	public function getUpdatedAt(){
-		
-		return $this->updatedAt;
-		
-	}
-	
-	public function getBirthDay(){
-	
-		return $this->birthDay;
-	
-	}
-	
-	public function getCreatedAt(){
-		
-		return $this->createdAt;
-		
-	}
-	
-	public function getEmailVerified(){
-		
-		return $this->emailVerified;
-		
-	}
-	
-	public function getGeoCoding(){
 
-		return $this->geoCoding;
-		
-	}
-
-	public function getEmail(){
-
-		return $this->email;
-	}
-
-	public function getLevelValue(){
-	
-		return $this->levelValue;
-	
-	}
-	
-	public function getActive(){
-	
-		$this->active = $active;
-	}
-	
-	
 	public function getUsername(){
-
 		return $this->username;
 	}
 
 	public function getPassword(){
-
 		return $this->password;
 	}
 
-	public function getType(){
+	public function getAuthData(){
+		return $this->authData;
+	}
 
-		return $this->type;
+	public function getEmailVerified(){
+		return $this->emailVerified;
+	}
+
+	public function getID(){
+		return $this->ID;
+	}
+
+	public function getActive(){
+		retun $this->active;
+	}
+	
+	public function getAlbums(){
+		retun $this->albums;
+	}
+
+	public function getBackground(){
+		return $this->background;
+	}
+
+	public function getCity(){
+		return $this->city;
+	}
+
+	public function getComments(){
+		return $this->comments;
+	}
+
+	public function getCountry(){
+		return $this->country;
+	}
+
+	public function getDescription(){
+		return $this->description;
+	}
+
+	public function getEmail(){
+		return $this->email;
+	}
+
+	public function getFbPage(){
+		return $this->fbPage;
+	}
+
+	public function getGeoCoding(){
+		return $this->geoCoding;	
+	}
+
+	public function getImages(){
+		return $this->images;
 	}
 
 	public function getLevel(){
-
 		return $this->level;
 	}
 
-	public function getSettings(){
-
-		return $this->settings;
-
+	public function getLevelValue(){
+		return $this->levelValue;
 	}
 
-	public function getSex(){
-
-		return $this->sex;
+	public function getLoveSongs(){
+		return $this->loveSongs;
 	}
 
-	public function getFirstname(){
-
-		return $this->firstname;
+	public function getMusic(){
+		return $this->music;
 	}
 
+	public function getPlaylists(){
+		return $this->playlists;
+	}
 
-	public function getLastname(){
+	public function getPremium(){
+		return $this->premium;
+	}
 
-		return $this->lastname;
+	public function getPremiumExpiringDate(){
+		return $this->premiumExpiringDate;
 	}
 
 	public function getProfilePicture(){
-
 		return $this->profilePicture;
 	}
 
 	public function getProfileThumbnail(){
-
 		return $this->profileThumbnail;
 	}
 
-	public function getStatus(){
-
-		return $this->status;
+	public function getSettings(){
+		return $this->settings;
 	}
 
-	public function getWebsite(){
-
-		return $this->website;
+	public function getStatuses(){
+		return $this->statuses;
 	}
 
-	public function getFbPage(){
-
-		return $this->fbPage;
+	public function getType(){
+		return $this->type;
 	}
 
 	public function getTwitterPage(){
-
 		return $this->twitterPage;
 	}
 
-	public function getYoutubeChannel(){
+	public function getVideos(){
+		return $this->videos;
+	}
 
+	public function getWebsite(){
+		return $this->website;
+	}
+
+	public function getYoutubeChannel(){
 		return $this->youtubeChannel;
 	}
 
-	public function getCountry(){
 
-		return $this->country;
-	}
-
-	public function getCity(){
-
-		return $this->city;
-	}
-
-	public function getDescription(){
-
-		return $this->description;
-	}
-
-	public function getFacebookId(){
-
-		return $this->facebookId;
-	}
-
-	public function getMusic(){
-
-		return $this->music;
-	}
-
-	public function getAuthData(){
-
-		return $this->authData;
-	}
-
-	public function getBackground(){
-
-		return $this->background;
-	}
-
-	public function getCustomField(){
-
-		return $this->customField;
+	public function getSessionToken(){
+		return $this->sessionToken;
 	}
 	
-	public function getPremium(){
-	
-		return $this->premium;
+	public function getCreatedAt(){
+		return $this->createdAt;
 	}
-	
+
+	public function getUpdatedAt(){
+		return $this->updatedAt;
+	}
+
+	public function getACL(){
+		return $this->ACL;
+	}
+
 	public function __toString(){
 	
 		$string ="";
@@ -443,7 +390,7 @@ class User{
 		if($this->getMusic())$string.="Gusti musiali : ".implode(" , ",$this->getMusic())."<br>";
 		//$string.=" : ".$this->getAuthData()."<br>";
 		//$string.=" : ".$this->getBackground()."<br>";
-		//$string.=" : ".$this->getCustomField()."<br>";
+		
 		$premium="";
 		if($this->getPremium() )$premium="SI";
 		else $premium = "NO";
@@ -469,29 +416,21 @@ class Venue extends User{
 		$this->setType("VENUE");
 
 	}
-	
+	//perchè geoPoint?? è una stringa dalla quale ricavi poi il geoPoint. NON POSSONO ESISTERE 2 GEOPOINT NELLA STESSA CLASSE
 	public function setAddress(parseGeoPoint $address){
-		
 		$this->address  = $address;
-		
 	}
 	
 	public function setLocalType($localType){
-		
 		$this->localType = $localType;
-		
 	}
 	
 	public function getAddress(){
-		
 		return $this->address;
-		
 	}
 	
 	public function getLocalType(){
-		
 		return $this->localType;
-		
 	}
 	
 	public function __toString(){
@@ -511,6 +450,8 @@ class Jammer extends User{
 	//solo jammer
 
 	private $members;
+	private $records;
+	private $songs;
 	private $jammerType;
 
 	public function __construct()
@@ -519,29 +460,38 @@ class Jammer extends User{
 	}
 
 	public function setMembers(array $members){
-		
 		$this->members = $members;
-		
 	}
-	
-	public function setJammerType(array $jammerType){
-	
+
+	public function setRecords(Relation $records){
+		$this->records = $records;
+	}
+
+	public function setSongs(Relation $songs){
+		$this->songs = $songs;
+	}
+
+	public function setJammerType(array $jammerType){//perchè array??? stringa?
 		$this->jammerType = $jammerType;
-	
+	}
+
+	public function getMembers(){
+		return $this->members;
+	}
+
+	public function getRecords(){
+		return $this->records;
+	}
+
+	public function getSongs(){
+		return $this->songs;
 	}
 
 	public function getJammerType($jammerType){
-		
 		return $this->jammerType;
-		
 	}
-	
-	public function getMembers(){
-	
-		return $this->members;
-	
-	}
-	
+
+
 	public function __toString(){
 		
 		$string = parent::__toString();
@@ -555,10 +505,75 @@ class Jammer extends User{
 
 class Spotter extends User{
 
+	private $birthDay;
+	private $facebookId;
+	private $firstname;
+	private $following;
+	private $friendship;
+	private $lastname;
+	private $sex;
+
 	public function __construct()
 	{
 		$this->setType("SPOTTER");
-	}	
-	
+	}
+
+	//SETTER
+	public function setBirthDay(DateTime $birthDay){
+		$this->birthDay = $birthDay;	
+	}
+
+	public function setFacebookId($facebookId){
+		$this->facebookId = $facebookId;
+	}
+
+	public function setFirstname($firstname){
+		$this->firstname = $firstname;
+	}
+	public function setFollowing(Relation $following){
+		$this->following = $following;
+	}
+
+	public function setFriendship(Relation $friendship){
+		$this->friendship = $friendship;
+	}
+
+	public function setLastname($lastname){
+		$this->lastname = $lastname;
+	}
+
+	public function setSex($sex){
+		$this->sex = $sex;
+	}
+
+	//GETTER
+
+	public function getBirthDay(){
+		return $this->birthDay;
+	}
+
+	public function getFacebookId(){
+		return $this->facebookId;
+	}
+
+	public function getFirstname(){
+		return $this->firstname;
+	}
+
+	public function getFollowing(){
+		return $this->following;
+	}
+
+	public function getFriendship(){
+		return $this->friendship;
+	}
+
+	public function getLastname(){
+		return $this->lastname;
+	}
+
+	public function getSex(){
+		return $this->sex;
+	}
 }
 ?>
