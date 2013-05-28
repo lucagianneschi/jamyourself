@@ -20,6 +20,12 @@ class AlbumParse{
 		$parseObj->cover = $album->getCover();
 		$parseObj->description = $album->getDescription();
 
+		//array di utenti
+		$parseObj->featuring = array();		
+		foreach ($album->getFeaturing() as $user){
+			array_push($parseObj->featuring, $user->getObjectId());
+		}
+
 		if($album->getFromUser() != null){
 			$fromUser = $album->getFromUser();
 			$parseObj->fromUser = $parseObj->event = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId());;			
@@ -31,26 +37,10 @@ class AlbumParse{
 		}
 		
 		$parseObj->loveCounter = $album->getLoveCounter();
-		
-		
-		
-		
-	
-
-		
-		
+		$parseObj->tag = $album->getTags();
 		$parseObj->thumbnailCover = $album->getThumbnailCover();
 		$parseObj->title = $album->getTitle();
-		
-		//array di utenti
-		$parseObj->featuring = array();		
-		foreach ($album->getFeaturing() as $user){
-			array_push($parseObj->featuring, $user->getObjectId());
-		}
-		
-		$parseObj->tag = $album->getTags();
-			
-			
+
 		if( isset($album->getObjectId()) && $album->getObjectId()!=null ){
 				
 			try{
@@ -131,29 +121,30 @@ class AlbumParse{
 		
 		$album = new Album();
 
-		//specifiche
-		
+		if(isset($parseObj->objectId)) $album->setObjectId($parseObj->objectId) ;
+		if(isset($parseObj->active ) )$album->setActive($parseObj->active);
+		if(isset($parseObj->counter ) )$album->setCounter($parseObj->counter);
+		if(isset($parseObj->description ) )$album->setDescription($parseObj->description);
+
 		if(isset($parseObj->fromUser ) ){
 			$parseUser = new UserParse();
 			$pointer = $parseObj->fromUser;
 			$fromUser = $parseUser->getUserById($pointer->getObjectId());
 			$album->setFromUser($fromUser);
 		}	
-		if(isset($parseObj->active ) )$album->setActive($parseObj->active);
+		
 		if(isset($parseObj->title ) )$album->setTitle($parseObj->title);
-		if(isset($parseObj->description ) )$album->setDescription($parseObj->description);
+		
 
 		if( isset($parseObj->location) ){
 			//recupero il GeoPoint
 			$geoParse = $parseObj->location;
-		
 			$geoPoint = new parseGeoPoint($geoParse->latitude, $geoParse->longitude);
-
 			$album->setLocation($geoPoint);
 		
 		}
 		
-		if(isset($parseObj->counter ) )$album->setCounter($parseObj->counter);
+		
 		if(isset($parseObj->loveCounter ) )$album->setLoveCounter($parseObj->loveCounter);
 
 		if(isset($parseObj->cover ) )$album->setCover($parseObj->cover);
@@ -171,7 +162,7 @@ class AlbumParse{
 		
 		//generali
 		
-		if(isset($parseObj->objectId)) $album->setObjectId($parseObj->objectId) ;
+		
 
 		
 		if(isset($parseObj->createdAt)){
@@ -187,9 +178,7 @@ class AlbumParse{
 			$album->setUpdatedAt($updatedAt)  ;
 		}
 		if(isset($parseObj->ACL)){
-		
 			$ACL = null;
-		
 			$album->setACL($ACL)  ;
 		}
 		
