@@ -1,6 +1,6 @@
 <?php
-//definizione classe:
-//api:
+//definizione classe:http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:user
+//api:http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:user
 
 require_once'settings.php';
 
@@ -44,10 +44,6 @@ class User{
 	private $createdAt;			
 	private $updatedAt;	
     private $ACL;
-
-	//PROPERTY RELATION DA DISTRIBUIRE SECONDO IL TIPO!
-	private $collaboration;//JAMMER e VENUE
-	private $events;//JAMMER e VENUE
 
 	//COSTRUTTORE
 
@@ -407,6 +403,8 @@ class User{
 class Venue extends User{
 
 	private $address;
+	private $collaboration;
+	private $events;
 	private $localType;
 	
 	public function __construct()
@@ -420,6 +418,14 @@ class Venue extends User{
 	public function setAddress(parseGeoPoint $address){
 		$this->address  = $address;
 	}
+
+	public function setCollaboration(Relation $collaboration){
+    	$this->collaboration = $collaboration;
+	}
+
+	public function setEvents(Relation $events){
+    	$this->events = $events;
+	}
 	
 	public function setLocalType($localType){
 		$this->localType = $localType;
@@ -427,6 +433,14 @@ class Venue extends User{
 	
 	public function getAddress(){
 		return $this->address;
+	}
+
+	public function getCollaboration(){
+		return $this->collaboration;
+	}
+
+	public function getEvents(){
+		return $this->events;
 	}
 	
 	public function getLocalType(){
@@ -448,7 +462,8 @@ class Venue extends User{
 class Jammer extends User{
 
 	//solo jammer
-
+	private $collaboration;
+	private $events;
 	private $members;
 	private $records;
 	private $songs;
@@ -457,6 +472,14 @@ class Jammer extends User{
 	public function __construct()
 	{
 		$this->setType("JAMMER");
+	}
+
+	public function setCollaboration(Relation $collaboration){
+    	$this->collaboration = $collaboration;
+	}
+
+	public function setEvents(Relation $events){
+    	$this->events = $events;
 	}
 
 	public function setMembers(array $members){
@@ -473,6 +496,14 @@ class Jammer extends User{
 
 	public function setJammerType(array $jammerType){//perchè array??? stringa?
 		$this->jammerType = $jammerType;
+	}
+
+	public function getCollaboration(){
+		return $this->collaboration;
+	}
+
+	public function getEvents(){
+		return $this->events;
 	}
 
 	public function getMembers(){
