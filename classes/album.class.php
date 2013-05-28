@@ -144,7 +144,7 @@ class Album{
 		$this->loveCounter  = $loveCounter; 
 	}
 	
-	public function setLovers($lovers){
+	public function setLovers(Relation $lovers){
 		$this->lovers  = $lovers; 
 	}
 	
