@@ -164,7 +164,7 @@ class PlaylistParse{
 		
 		if(isset($parseObj->name ) )$playlist->setName($parseObj->name);
 
-		if(isset($parseObj->unlimited ) )$playlist->setUnlimited($parseObj->unlimited);
+		
 
 		if(isset($parseObj->songs ) ){
 			foreach ($parseObj->songs as $song){
@@ -173,6 +173,7 @@ class PlaylistParse{
 			}
 		}
 
+		if(isset($parseObj->unlimited ) )$playlist->setUnlimited($parseObj->unlimited);
 		//generali
 
 		if(isset($parseObj->createdAt)){

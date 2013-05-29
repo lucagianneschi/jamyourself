@@ -6,8 +6,8 @@ class Playlist{
 	private $active;  			//BOOL: classe attiva/non attiva
 	private $fromUser;			//Pointer to Parse User, utente a cui appartiene la playlist
 	private $name;				//string: nome della playlist
-	private $unlimited; 		//BOOL: indica se il numero di canzoni da mettere nella playlist è illimitato o meno
 	private $songs;     		//relation: lista delle canzoni inserite dall'utente nella playslit
+	private $unlimited; 		//BOOL: indica se il numero di canzoni da mettere nella playlist è illimitato o meno
 	private $createdAt; 		//DateTime: data e ora di creazione dell'istanza della playlist
 	private $updatedAt; 		//DateTime: data e ora di update dell'istanza della playlist
 	private $ACL;				//Access Control List
@@ -36,15 +36,15 @@ class Playlist{
 	public function getName(){
 		return $this->name;
 	}
-
-	//BOOL: indica se il numero di canzoni da mettere nella playlist è illimitato o meno
-	public function getUnlimited(){
-		return $this->unlimited;
-	}
 		
 	//relation: lista delle canzoni inserite dall'utente nella playslit
 	public function getSongs(){
 		return $this->songs;
+	}
+
+	//BOOL: indica se il numero di canzoni da mettere nella playlist è illimitato o meno
+	public function getUnlimited(){
+		return $this->unlimited;
 	}
 
 	//DateTime: data e ora di creazione dell'istanza della playlist
