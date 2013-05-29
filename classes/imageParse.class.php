@@ -15,7 +15,11 @@ class ImageParse{
 		
 		$parse->active = $image->getActive();
 		$parse->album = $image->getAlbum();
-		$parse->comments = $image->getComments();
+		foreach($parse->getComments() as $comment){
+			$parse->data->comments->__op = "AddRelation";
+			$parse->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
+		}
+
 		$parse->counter = $image->getCounter();
 		$parse->description = $image->getDescription();
 
