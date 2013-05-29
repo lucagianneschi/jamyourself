@@ -13,11 +13,13 @@ class Album{
 	private $objectId;
 	private $active;
 	private $commentators;
+	private $comments
 	private $counter;
 	private $cover;	
 	private $description;
 	private $featuring;
-	private $fromUser;		
+	private $fromUser;	
+    private $images;
 	private $location;
 	private $loveCounter;
 	private $lovers;		
@@ -45,6 +47,10 @@ class Album{
 	public function getCommentators(){
 		return $this->commentators;
 	}
+
+	public function getComments(){
+		return $this->comments;
+	}
 	
 	public function getCover(){		
 		return $this->cover;
@@ -64,6 +70,10 @@ class Album{
 	
 	public function getFromUser(){
 		return $this->fromUser;
+	}
+
+	public function getImages(){
+		return $this->images;
 	}
 	
 	public function getLocation(){
@@ -104,7 +114,7 @@ class Album{
 	
 	//setters
 
-	public function setObjectId($objectId){
+	public function setObjectId(string $objectId){
 		$this->objectId=$objectId ;
 	}
 	
@@ -115,16 +125,20 @@ class Album{
 	public function setCommentators(Relation $commentators){
 		$this->commentators  = $commentators;
 	}
+
+	public function setComments(Relation $comments){
+		$this->comments  = $comments;
+	}
 	
 	public function setCounter($counter){ 
 		$this->counter  = $counter;
 	}
 	
-	public function setCover($cover){
+	public function setCover(string $cover){
 		$this->cover  = $cover;
 	}
 	
-	public function setDescription($description){
+	public function setDescription(string $description){
 		$this->description  = $description;
 	}
 	
@@ -135,7 +149,11 @@ class Album{
 	public function setFromUser(User $fromUser){
 		$this->fromUser  = $fromUser;
 	}
-	
+
+	public function setImages(Relation $images){
+		$this->images  = $images; 
+	}
+
 	public function setLocation(parseGeoPoint $location){
 		$this->location  = $location;
 	}
@@ -148,11 +166,11 @@ class Album{
 		$this->lovers  = $lovers; 
 	}
 	
-	public function setTitle($title){
-		$this->title  = $title ;
+	public function setTitle(string $title){
+		$this->title  = $title;
 	}
 
-	public function setThumbnailCover($thumbnailCover){
+	public function setThumbnailCover(string $thumbnailCover){
 		$this->thumbnailCover  = $thumbnailCover ;
 	}
 
