@@ -27,9 +27,9 @@ class Video{
 	private $comments;          //relation: array di puntatori a Comment
 	private $counter;			//number: Contatore per il gradimento 						
 	private $description;		//string: Descrizione del video data dall'utente  			
-	private $duration;			//number: Durata del video in secondi						
-	private $fromUser;   		//User: Punta allo user che effettua l'embed del video  
+	private $duration;			//number: Durata del video in secondi	
 	private $featuring;			//Relation (with Parse User): segnala presenza altri utenti 
+	private $fromUser;   		//User: Punta allo user che effettua l'embed del video  
 	private $loveCounter;		//number: Contatore per il numero di azioni love 			
     private $lovers;            //relation: array di puntatori ad User che hanno commentato 
 	private $tags;				//array: stringhe per la categorizzazione del video 	
