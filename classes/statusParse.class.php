@@ -191,9 +191,10 @@ class StatusParse{
 			$status->setCommentators($commentators) ;
 		}
 
-	if(isset($parseObj->comments)){
+	//DA MODIFICARE!!!
+		if(isset($parseObj->comments)){
 			$parseComment = new UserParse();
-			$comments = $parseUser->getUserArrayById($parseObj->comments);
+			$comments = $parseComment->getUserArrayById($parseObj->comments);
 			$status->setCommentators($commentators) ;
 		}
 

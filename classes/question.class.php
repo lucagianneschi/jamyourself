@@ -12,7 +12,7 @@ class Question {
 	private $text;
 	private $createdAt;
 	private $updatedAt;
-	//private $ACL;
+	//private $ACL; //perchè non si setta??
 	
 	public function getObjectId() {
 		return $this->objectId;
