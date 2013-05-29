@@ -33,6 +33,11 @@ class EventParse {
 			$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
 		}
 
+		foreach($res->getComments() as $comment){
+			$event->data->comments->__op = "AddRelation";
+			$event->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
+		}
+
 		$event->setCounter($res->counter);
 		$event->setDescription($res->description);
  		$event->setEventDate($res->eventDate);
@@ -81,18 +86,23 @@ class EventParse {
 		
 		foreach ($res->results as $obj) {
 			$event = new event();
-			$event->setObjectId($obj->objectId);
 
+			$event->setObjectId($obj->objectId);
 			$event->setActive($obj->active);
 
 			foreach($obj->getAttendee() as $user){
-			$event->data->attendee->__op = "AddRelation";
-			$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$event->data->attendee->__op = "AddRelation";
+				$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
 			}
 
 			foreach($obj->getCommentators() as $user){
-			$event->data->commentators->__op = "AddRelation";
-			$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$event->data->commentators->__op = "AddRelation";
+				$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			}
+
+			foreach($obj->getComments() as $comment){
+				$event->data->comments->__op = "AddRelation";
+				$event->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
 			}
 
 			$event->setCounter($obj->counter);
@@ -144,6 +154,7 @@ class EventParse {
 		$parseObject->active = $event->getActive();
 		$parseObject->attendee = $event->getAttendee();	
         $parseObject->commentators = $event->getCommentators();
+		$parseObject->comments = $event->getComments();
 		$parseObject->counter = $event->getCounter();
 		$parseObject->description = $event->getDescription();
 		$parseObject->eventDate = $event->getEventDate();
@@ -170,6 +181,7 @@ class EventParse {
 		$parseObject->active = $event->getActive();
 		$parseObject->attendee = $event->getAttendee();
 		$parseObject->commentators = $event->getCommentators();
+		$parseObject->comments = $event->getComments();
 		$parseObject->counter = $event->getCounter();
 		$parseObject->description = $event->getDescription();
 		$parseObject->eventDate = $event->getEventDate();

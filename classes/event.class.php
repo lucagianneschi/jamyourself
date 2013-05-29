@@ -12,6 +12,7 @@ class Event {
 	private $active;				//BOOL: attiva/disattiva l'evento
 	private $attendee;				//relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento
 	private $commentators;			//relation: Array che contiene puntatori ad utenti che hanno compiuto azione commento
+    private $comments;			    //relation: Array che contiene puntatori a Comment
 	private $counter;				//number: counter per votazione dell'evento 
 	private $description;			//string: Descrizione breve dell’evento
 	private $eventDate;             //DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento)
@@ -23,7 +24,7 @@ class Event {
     private $locationName;			//string: Nome del locale in cui si svolge l’evento	
  	private $loveCounter; 			//number:counter per gestire le azioni love sull'evento 
 	private $lovers;				//relation: Array che contiene puntatori ad utenti che hanno compiuto azione love
-	private $refused;				//relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento 									 
+	private $refused;				//relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento
     private $tags;                  //array: Categorizzazione dell’evento 								
 	private $thumbnail;				//string: Stringa per il percorso di immagazzinamento della thumbnail	
 	private $title;                 //string: Nome dell’evento
@@ -31,8 +32,6 @@ class Event {
 	private $updatedAt;				//DataTime: data di ultimo update dell'evento						
 	private $ACL;					//Access control list, definisce le politiche di accesso all'evento 
 
-
-	
 	//DEFINIZIONE DELLE FUNZIONI GET
 
 	//string: objectId su Parse											
@@ -53,6 +52,11 @@ class Event {
 	//relation: Array che contiene puntatori ad utenti che hanno compiuto azione commento									
 	public function getCommentators() {
 		return $this->commentators;
+	}
+
+	//relation: Array che contiene puntatori a Comment									
+	public function getComments() {
+		return $this->comments;
 	}
 
 	//number: counter per votazione dell'evento       					
@@ -164,6 +168,11 @@ class Event {
 	//relation: Array che contiene puntatori ad utenti che hanno effettuato commento
 	public function setCommentators($value) {
 		$this->commentators = $value;
+	}
+
+	//relation: Array che contiene puntatori ad utenti che hanno effettuato commento
+	public function setComments($value) {
+		$this->comments = $value;
 	}
 
    //number: counter per votazione dell'evento       					
