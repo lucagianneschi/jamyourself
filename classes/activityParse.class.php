@@ -21,21 +21,21 @@ class ActivityParse {
 
 		//inizializzo le properties
 
-       //accepted BOOL: da definire																	#21
+       //accepted BOOL: da definire																	
        $parseObj->accepted = $activity->getAccepted();
 
-       //BOOL:Indica se l'istanza della classe è attiva 									#6
+       //BOOL:Indica se l'istanza della classe è attiva 									
 		$parseObj->active = $activity->getActive();
 
         //puntatore alla album
-		//Album (Parse Object): Istanza della classe Album associata all'activity 			#15
+		//Album (Parse Object): Istanza della classe Album associata all'activity 			
 		if( $activity->getAlbum() != null ){
 			$album = $activity->getAlbum();
 			$parseObj->toUser = array("__type" => "Pointer", "className" => "Album", "objectId" => $album->getObjectId());
 		}
 
        //puntatore alla comment
-       //Comment (Parse Object): Istanza della classe Comment associata all'activity		#14
+       //Comment (Parse Object): Istanza della classe Comment associata all'activity		
 		
 		if( $activity->getComment() != null ){
 			$comment = $activity->getComment();
@@ -43,82 +43,82 @@ class ActivityParse {
 		}
 
 		//puntatore al fromUser
-		//User:Utente che effettua l'azione 												#2
+		//User:Utente che effettua l'azione 												
 		if( $activity->getFromUser() != null ){
 			$user = $activity->getFromUser();
 			$parseObj->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $user->getObjectId());
 		}
 
 		//puntatore all'evento
-		//Event (Parse Object): Istanza della classe Event associata all'activity           #19
+		//Event (Parse Object): Istanza della classe Event associata all'activity           
 		if( $activity->getEvent() != null ){
 			$event = $activity->getEvent();
 			$parseObj->event = array("__type" => "Pointer", "className" => "Event", "objectId" => $event->getObjectId());
 		}
 
 		//puntatore all'image
-        //Image (Parse Object): Istanza della classe Image associata all'activity           #18	
+        //Image (Parse Object): Istanza della classe Image associata all'activity           
 		if( $activity->getImage() != null ){
 			$image = $activity->getImage();
 			$parseObj->image = array("__type" => "Pointer", "className" => "Image", "objectId" => $image->getObjectId());
 		}
 
        //puntatore alla question
-       //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     #17
+       //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     
         if( $activity->getPlaylist() != null ){
 			$playlist = $activity->getPlaylist();
 			$parseObj->playlist = array("__type" => "Pointer", "className" => "Playlist", "objectId" => $playlist->getObjectId());
 		}
 
         //puntatore alla question
-        //Question (Parse Object): Istanza della classe Question associata all'activity     #16
+        //Question (Parse Object): Istanza della classe Question associata all'activity     
         if( $activity->getQuestion() != null ){
 			$question = $activity->getQuestion();
 			$parseObj->question = array("__type" => "Pointer", "className" => "Question", "objectId" => $question->getObjectId());
 		}
 
 
-        //BOOL:Indica se l'istanza della classe è stata letta o meno 						#7
+        //BOOL:Indica se l'istanza della classe è stata letta o meno 						
 		$parseObj->read = $activity->getRead();
 
         //puntatore alla song
-        //Record (Parse Object): Istanza della classe Record associata all'activity 		#13
+        //Record (Parse Object): Istanza della classe Record associata all'activity 		
 		if( $activity->getRecord() != null ){
 			$record = $activity->getRecord();
 			$parseObj->toUser = array("__type" => "Pointer", "className" => "Record", "objectId" => $record->getObjectId());
 		}
 
         //puntatore alla song
-        //Song (Parse Object): Istanza della classe Song associata all'activity 			#12
+        //Song (Parse Object): Istanza della classe Song associata all'activity 			
 		if( $activity->getSong() != null ){
 			$song = $activity->getSong();
 			$parseObj->toUser = array("__type" => "Pointer", "className" => "Song", "objectId" => $song->getObjectId());
 		}
-        //string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    #4
+        //string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    
         $parseObj->status = $activity->getStatus();
 
 		//puntatore al toUser
-        //User:Utente che riceve l'azione 													#3
+        //User:Utente che riceve l'azione 													
 		if( $activity->getToUser() != null ){
 			$user = $activity->getToUser();
 			$parseObj->toUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $user->getObjectId());
 		}
 
 		//Stringa type
-        //string:Indica la tipologia di attività 											#5
+        //string:Indica la tipologia di attività 											
 		$parseObj->type = $activity->getType();
 
-       //ACL:access control list, determina le politiche di accesso alla classe 			#10
+       //ACL:access control list, determina le politiche di accesso alla classe 			
 	   //$parseObj->ACL = $activity->getACL();   //perchè non la prendi?????
 
-		//puntatore allo status
-        //Status(Parse Object): Istanza della classe Status associata all'activity 			#11
+		//puntatore allo stato
+        //Status(Parse Object): Istanza della classe Status associata all'activity 			
 		if( $activity->getUserStatus() != null ){
 			$status = $activity->getUserStatus();
 			$parseObj->userStatus = array("__type" => "Pointer", "className" => "Status", "objectId" => $status->getObjectId());
 		}
 
-        //Video (Parse Object):Istanza della classe Video associata all'activity            #20
+        //Video (Parse Object):Istanza della classe Video associata all'activity            
 		if( $activity->getVideo() != null ){
 			$video = $activity->getVideo();
 			$parseObj->video = array("__type" => "Pointer", "className" => "Video", "objectId" => $video->getObjectId());
@@ -203,16 +203,16 @@ class ActivityParse {
 
 		$activity = new activity(); //
 
-		//String:objectId su Parse 															#1
+		//String:objectId su Parse 															
 		if(isset($parseObj->objectId)) $activity->setObjectId($parseObj->objectId);
 
-        //BOOL:Indica se l'istanza della classe è attiva 									#6
+        //BOOL:Indica se l'istanza della classe è attiva 									
 		if(isset($parseObj->active)) $activity->setActive($parseObj->active);
 
 		//accepted BOOL: da definire	
         if(isset($parseObj->accepted)) $activity->setAccepted($parseObj->accepted);
 
-	    //Album (Parse Object): Istanza della classe Album associata all'activity 			#15
+	    //Album (Parse Object): Istanza della classe Album associata all'activity 			
 		if(isset($parseObj->album)){
 			$parseAlbum = new AlbumParse();
 			$parseAlbum = $parseObj->album;
@@ -220,7 +220,7 @@ class ActivityParse {
 			$activity->setAlbum($album);
 		}
 
-    	//Comment (Parse Object): Istanza della classe Comment associata all'activity		#14
+    	//Comment (Parse Object): Istanza della classe Comment associata all'activity		
 		if(isset($parseObj->comment)){
 			$parseComment = new CommentParse();
 			$parseComment = $parseObj->comment;
@@ -228,7 +228,7 @@ class ActivityParse {
 			$activity->setComment($comment);
 		}
 
-		//User:Utente che effettua l'azione 												#2
+		//User:Utente che effettua l'azione 											
 		if(isset($parseObj->fromUser)){	
 			$parseUser = new userParse();
 			$parseUser = $parseObj->fromUser;
@@ -236,7 +236,7 @@ class ActivityParse {
 			$activity->setFromUser($fromUser);	
 		}
 
-		//Event (Parse Object): Istanza della classe Event associata all'activity           #19
+		//Event (Parse Object): Istanza della classe Event associata all'activity           
 		if(isset($parseObj->event)){
 			$parseEvent = new EventParse();
 			$parseEvent = $parseObj->event;
@@ -244,7 +244,7 @@ class ActivityParse {
 			$activity->setEvent($event);
 		}
 
-   		//Image (Parse Object): Istanza della classe Image associata all'activity           #18
+   		//Image (Parse Object): Istanza della classe Image associata all'activity           
 		if(isset($parseObj->image)){
 			$parseImage = new ImageParse();
 			$parseImage = $parseObj->image;
@@ -252,7 +252,7 @@ class ActivityParse {
 			$activity->setImage($image);
 		}
 
-	    //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     #17
+	    //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     
 		if(isset($parseObj->playlist)){
 			$parsePlaylist = new PlaylistParse();
 			$parsePlaylist = $parseObj->playlist;
@@ -260,7 +260,7 @@ class ActivityParse {
 			$activity->setPlaylist($playlist);
 		}
 
-        //Question (Parse Object): Istanza della classe Question associata all'activity     #16
+        //Question (Parse Object): Istanza della classe Question associata all'activity     
 		if(isset($parseObj->question)){
 			$parseQuestion = new QuestionParse();
 			$parseQuestion = $parseObj->question;
@@ -268,10 +268,10 @@ class ActivityParse {
 			$activity->setQuestion($question);
 		}
 
-		//BOOL:Indica se l'istanza della classe è stata letta o meno 						#7
+		//BOOL:Indica se l'istanza della classe è stata letta o meno 						
 		if(isset($parseObj->read)) $activity->setRead($parseObj->read);
 
-       //Record (Parse Object): Istanza della classe Record associata all'activity 		     #13
+       //Record (Parse Object): Istanza della classe Record associata all'activity 		     
 		if(isset($parseObj->record)){
 			$parseRecord = new RecordParse();
 			$parseRecord = $parseObj->record;
@@ -279,7 +279,7 @@ class ActivityParse {
 			$activity->setRecord($record);
 		}
 
- 		//Song (Parse Object): Istanza della classe Song associata all'activity 			#12
+ 		//Song (Parse Object): Istanza della classe Song associata all'activity 			
 		if(isset($parseObj->song)){
 			$parseSong = new SongParse();
 			$parseSong = $parseObj->song;
@@ -287,10 +287,10 @@ class ActivityParse {
 			$activity->setSong($song);
 		}
 
- 		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    #4
+ 		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto   
 		if(isset($parseObj->stutus)) $activity->setStatus($parseObj->status);
 
-		//User:Utente che riceve l'azione 													#3
+		//User:Utente che riceve l'azione 													
 		if(isset($parseObj->toUser)){
 			$parseUser = new userParse();
 			$toUserParse = $parseObj->toUser;
@@ -298,10 +298,10 @@ class ActivityParse {
 			$activity->setToUser($toUser);
 		}
 
-        //string:Indica la tipologia di attività 											#5
+        //string:Indica la tipologia di attività 											
 		if(isset($parseObj->type)) $activity->setType($parseObj->type);
 
-       //Status(Parse Object): Istanza della classe Status associata all'activity 			#11
+       //Status(Parse Object): Istanza della classe Status associata all'activity 			
 		if(isset($parseObj->userStatus)){
 			$parseUserStatus = new StatusParse();
 			$parseUserStatus = $parseObj->userStatus;
@@ -310,7 +310,7 @@ class ActivityParse {
 		}
 
 
-        //Video (Parse Object):Istanza della classe Video associata all'activity            #20
+        //Video (Parse Object):Istanza della classe Video associata all'activity            
 		if(isset($parseObj->video)){
 			$parseVideo = new VideoParse();
 			$parseVideo = $parseObj->video;
@@ -318,19 +318,19 @@ class ActivityParse {
 			$activity->setVideo($video);
 		} 
 
-		//DateTime:Data di inserimento attività 											#8
+		//DateTime:Data di inserimento attività 											
 		if(isset($parseObj->createdAt)){
 			$createdAt = new DateTime($parseObj->createdAt);
 			$activity->setCreatedAt($createdAt);
 		}
 		
-		//DateTime:Data di ultimo update attività 											#9
+		//DateTime:Data di ultimo update attività 											
 		if(isset($parseObj->updatedAt)){
 			$updatedAt = new DateTime($parseObj->updatedAt);
 			$activity->setUpdatedAt($updatedAt);
 		}
  
-       //ACL:access control list, determina le politiche di accesso alla classe 			#10
+       //ACL:access control list, determina le politiche di accesso alla classe 			
 		if(isset($parseObj->ACL)){	
 			$ACL = null;
 			$activity->setACL($ACL);

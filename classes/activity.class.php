@@ -5,27 +5,27 @@
 
 class Activity{
 
-	private $objectId;		//String:objectId su Parse 															#1
-	private $accepted;      //BOOL: da definire																	#21
-	private $active;		//BOOL:Indica se l'istanza della classe è attiva 									#6
-	private $album;         //Album (Parse Object): Istanza della classe Album associata all'activity 			#15
-	private $comment; 		//Comment (Parse Object): Istanza della classe Comment associata all'activity		#14
-	private $event;			//Event (Parse Object): Istanza della classe Event associata all'activity           #19
-    private $fromUser;		//User:Utente che effettua l'azione 												#2
-	private $image;			//Image (Parse Object): Istanza della classe Image associata all'activity           #18	
-    private $playlist;      //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     #17
-    private $question;      //Question (Parse Object): Istanza della classe Question associata all'activity     #16
-	private $read;			//BOOL:Indica se l'istanza della classe è stata letta o meno 						#7
-	private $record;        //Record (Parse Object): Istanza della classe Record associata all'activity 		#13
-    private $status;		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto    #4
-	private $song;          //Song (Parse Object): Istanza della classe Song associata all'activity 			#12
-	private $toUser;		//User:Utente che riceve l'azione 													#3
-	private $type;			//string:Indica la tipologia di attività 											#5
-    private $userStatus;    //Status(Parse Object): Istanza della classe Status associata all'activity 			#11
-    private $video;         //Video (Parse Object):Istanza della classe Video associata all'activity            #20
-	private $createdAt;		//DateTime:Data di inserimento attività 											#8
-	private $updatedAt;		//DateTime:Data di ultimo update attività 											#9
-    private $ACL;			//ACL:access control list, determina le politiche di accesso alla classe 			#10
+	private $objectId;		//String:objectId su Parse 															
+	private $accepted;      //BOOL: da definire																	
+	private $active;		//BOOL:Indica se l'istanza della classe è attiva 									
+	private $album;         //Album (Parse Object): Istanza della classe Album associata all'activity 			
+	private $comment; 		//Comment (Parse Object): Istanza della classe Comment associata all'activity		
+	private $event;			//Event (Parse Object): Istanza della classe Event associata all'activity           
+    private $fromUser;		//User:Utente che effettua l'azione 												
+	private $image;			//Image (Parse Object): Istanza della classe Image associata all'activity           	
+    private $playlist;      //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     
+    private $question;      //Question (Parse Object): Istanza della classe Question associata all'activity 
+	private $read;			//BOOL:Indica se l'istanza della classe è stata letta o meno 						
+	private $record;        //Record (Parse Object): Istanza della classe Record associata all'activity
+	private $song;          //Song (Parse Object): Istanza della classe Song associata all'activity
+	private $status;		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto
+	private $toUser;		//User:Utente che riceve l'azione 												
+	private $type;			//string:Indica la tipologia di attività 											
+    private $userStatus;    //Status(Parse Object): Istanza della classe Status associata all'activity 			
+    private $video;         //Video (Parse Object):Istanza della classe Video associata all'activity            
+	private $createdAt;		//DateTime:Data di inserimento attività 											
+	private $updatedAt;		//DateTime:Data di ultimo update attività 											
+    private $ACL;			//ACL:access control list, determina le politiche di accesso alla classe 			
 
 	//COSTRUTTORE
 
@@ -35,7 +35,7 @@ class Activity{
 	//FUNZIONI SET
 	/**
 	 *
-	 * @param string $objectId	#1
+	 * @param string $objectId	
 	 */
 	public function setObjectId($objectId){
 		$this->objectId = $objectId;
@@ -43,7 +43,7 @@ class Activity{
 
      /**
 	 *
-	 * @param BOOL $accepted	#21
+	 * @param BOOL $accepted	
 	 */
 	public function setAccepted($accepted){
 		$this->accepted = $accepted;
@@ -51,7 +51,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param BOOL $active	#6
+	 * @param BOOL $active	
 	 */
 	public function setActive($active){
 		$this->read = $active;
@@ -59,7 +59,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Album $album	#15
+	 * @param Album $album	
 	 */
 	public function setAlbum(Album $album){
 		$this->album = $album;
@@ -67,7 +67,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Comment $comment	#14
+	 * @param Comment $comment	
 	 */
 	public function setComment(Comment $comment){
 		$this->comment = $comment;
@@ -75,7 +75,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Event $event	#19
+	 * @param Event $event	
 	 */
 	public function setEvent(Event $event){
 		$this->event = $event;
@@ -83,7 +83,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param User $fromUser	#2
+	 * @param User $fromUser	
 	 */
 	public function setFromUser(User $fromUser){
 		$this->fromUser = $fromUser;
@@ -91,7 +91,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Image $image	#18
+	 * @param Image $image	
 	 */
 	public function setImage(Image $image){
 		$this->image = $image;
@@ -99,7 +99,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Playlist $playlist	#17
+	 * @param Playlist $playlist	
 	 */
 	public function setPlaylist(Playlist $playlist){
 		$this->playlist = $playlist;
@@ -107,7 +107,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Question question	#16
+	 * @param Question question	
 	 */
 	public function setQuestion(Question $question){
 		$this->question = $question;
@@ -115,7 +115,7 @@ class Activity{
 
      /**
 	 *
-	 * @param BOOL $read	#7
+	 * @param BOOL $read	
 	 */
 	public function setRead($read){
 		$this->read = $read;
@@ -123,30 +123,32 @@ class Activity{
 
 	/**
 	 *
-	 * @param Record $record	#13
+	 * @param Record $record	
 	 */
 	public function setRecord(Record $record){
 		$this->record = $record;
 	}
 
+
 	/**
 	 *
-	 * @param Song $song	#12
+	 * @param string $status	
 	 */
-	public function setSong(Song $song){
-		$this->song = $song;
-	}
-	/**
-	 *
-	 * @param string $status	#4
-	 */
-	public function setStatus($status){
+	public function setStatus(string $status){
 		$this->objectId = $status;
 	}
 
 	/**
 	 *
-	 * @param User $toUser	#3
+	 * @param Song $song	
+	 */
+	public function setSong(Song $song){
+		$this->song = $song;
+	}
+
+	/**
+	 *
+	 * @param User $toUser	
 	 */
 	public function setToUser(User $toUser){
 		$this->toUser = $toUser;
@@ -154,7 +156,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param string $type	#5
+	 * @param string $type	
 	 */
 	public function setType($type){
 		$this->type = $type;
@@ -162,7 +164,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Status $status	#11
+	 * @param Status $status	
 	 */
 	public function setUserStatus(Status $userStatus){
 		$this->userStatus = $userStatus;
@@ -170,7 +172,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Video $video	#20
+	 * @param Video $video	
 	 */
 	public function setVideo(Video $video){
 		$this->video = $video;
@@ -178,7 +180,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param DateTime $createdAt	#8
+	 * @param DateTime $createdAt	
 	 */
 	public function setCreatedAt(DateTime $createdAt){
 
@@ -187,7 +189,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param DateTime $updatedAt	#9
+	 * @param DateTime $updatedAt	
 	 */
 	public function setUpdatedAt(DateTime $updatedAt){
 		$this->updatedAt = $updatedAt;
@@ -196,7 +198,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param ACL $ACL	#10
+	 * @param ACL $ACL	
 	 */
 	public function setACL($ACL){  
 		$this->ACL = $ACL;
@@ -205,7 +207,7 @@ class Activity{
 	//FUNZIONI GET
 	/**
 	 *
-	 * @param string $objectId	#1
+	 * @param string $objectId	
 	 */
 	public function getObjectId(){
 		return $this->objectId;
@@ -213,7 +215,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param BOOL $active	#6
+	 * @param BOOL $active	
 	 */
 	public function getActive(){
 		return $this->active;
@@ -221,7 +223,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param BOOL $accepted	#21
+	 * @param BOOL $accepted	
 	 */
 	public function getAccepted(){
 		return $this->accepted;
@@ -229,7 +231,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Album $album	#15
+	 * @param Album $album	
 	 */
 
 	public function getAlbum(){
@@ -238,7 +240,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Comment $comment	#14
+	 * @param Comment $comment	
 	 */
 	public function getComment(){
 		return $this->comment;
@@ -246,7 +248,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Event $event	#19
+	 * @param Event $event	
 	 */
 	public function getEvent(){
 		return $this->event;
@@ -254,7 +256,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param User $fromUser	#2
+	 * @param User $fromUser	
 	 */
 	public function getFromUser(){
 		return $this->fromUser;
@@ -262,7 +264,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Image $image	#18
+	 * @param Image $image	
 	 */
 	public function getImage(){
 		return $this->image;
@@ -270,7 +272,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Playlist $playlist	#17
+	 * @param Playlist $playlist	
 	 */
 	public function getPlaylist(){
 		return $this->playlist;
@@ -278,7 +280,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Question $question	#16
+	 * @param Question $question	
 	 */
 
 	public function getQuestion(){
@@ -287,7 +289,7 @@ class Activity{
 
      /**
 	 *
-	 * @param BOOL $read	#7
+	 * @param BOOL $read	
 	 */
 	public function getRead(){
 		return $this->read;
@@ -295,7 +297,15 @@ class Activity{
 
 	/**
 	 *
-	 * @param Record $record	#13
+	 * @param string $status	
+	 */
+	public function getStatus(){
+		return $this->status;
+	}
+
+	/**
+	 *
+	 * @param Record $record	
 	 */
 	public function getRecord(){
 		return $this->record;
@@ -303,7 +313,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Song $song	#12
+	 * @param Song $song	
 	 */
 	public function getSong(){
 		return $this->song;
@@ -311,16 +321,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param string $status	#4
-	 */
-	public function getStatus(){
-		return $this->status;
-	}
-
-
-	/**
-	 *
-	 * @param User $toUser	#3
+	 * @param User $toUser
 	 */
 	public function getToUser(){
 		return $this->toUser;
@@ -328,17 +329,15 @@ class Activity{
 
 	/**
 	 *
-	 * @param string $type	#5
+	 * @param string $type	
 	 */
 	public function getType(){
 		return $this->type;
 	}
 
-
-
 	/**
 	 *
-	 * @param Status $status	#11
+	 * @param Status $status	
 	 */
 	public function getUserStatus(){
 		return $this->userStatus;
@@ -346,7 +345,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param Video $video	#20
+	 * @param Video $video	
 	 */
 	public function getVideo(){
 		return $this->video;
@@ -354,7 +353,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param DateTime $createdAt	#8
+	 * @param DateTime $createdAt	
 	 */
 	public function getCreatedAt(){
 		return $this->createdAt;
@@ -362,7 +361,7 @@ class Activity{
 
 	/**
 	 *
-	 * @param DateTime $updatedAt	#9
+	 * @param DateTime $updatedAt	
 	 */
 	public function getUpdatedAt(){
 		return $this->updatedAt;
@@ -370,7 +369,7 @@ class Activity{
    
     /**
 	 *
-	 * @param ACL $ACL	#10
+	 * @param ACL $ACL	
 	 */
 	public function getACL(){
 		return $this->ACL;
