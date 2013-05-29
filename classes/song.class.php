@@ -13,8 +13,8 @@ class Song{
 	private $filePath;		//string: Indirizzo del file									
 	private $fromUser;		//User: Utente che effettua la creazione della Song				
 	private $genre;			//string: Genere della Song										
-	private $location;      //geoPoint: coordinate di localizzazione della canzone			#11  //DA RIMUOVERE(?)
-	private $loveCounter;   //number: per tenere conto del numero di azioni love			
+	private $location;      //geoPoint: coordinate di localizzazione della canzone			
+    private $loveCounter;   //number: per tenere conto del numero di azioni love			
 	private $record;		//Record (Parse Object): disco di appartenenza della song       
 	private $title;			//string: titolo della song  											
 	private $createdAt;		//DateTime: data e tempo di upload								
@@ -34,7 +34,7 @@ class Song{
 	}
 
 	//relation: puntatori ad oggetti Comment
-	public function setComments($comments){
+	public function setComments(Relation $comments){
 		$this->comments = $comments;
 	}
 

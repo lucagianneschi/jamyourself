@@ -17,6 +17,7 @@ class SongParse{
 		$parse = new parseObject("Song");
 		
 		$parse->active = $song->getActive();
+		$parse->counter = $song->getComments();
 		$parse->counter = $song->getCounter();
 		$parse->duration = $song->getDuration();
 		//array di utenti
@@ -98,6 +99,7 @@ class SongParse{
 		
 		//boolean
         if(isset($parseObj->active))  $song->setActive($parseObj->active);
+		if(isset($parseObj->comments))  $song->setActive($parseObj->comments);
 		if(isset($parseObj->counter))  $song->setCounter($parseObj->counter);
 		if(isset($parseObj->duration))  $song->setDuration($parseObj->duration);
 		if(isset($parseObj->featuring)){
