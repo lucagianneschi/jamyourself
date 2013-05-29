@@ -15,6 +15,7 @@ class ImageParse{
 		
 		$parse->active = $image->getActive();
 		$parse->album = $image->getAlbum();
+		$parse->comments = $image->getComments();
 		$parse->counter = $image->getCounter();
 		$parse->description = $image->getDescription();
 
@@ -114,7 +115,7 @@ class ImageParse{
 			$image->setActive($parseAlbum->getAlbum($pointer->objectId));
 		}
 				
-		
+		if(isset($parseObj->comments))  $image->setCounter($parseObj->comments);//DA MODIFICARE??
 		if(isset($parseObj->counter))  $image->setCounter($parseObj->counter);
 		if(isset($parseObj->description))  $image->setDescription($parseObj->description);
 

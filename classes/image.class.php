@@ -3,6 +3,7 @@
 class Image{ 
 	private $objectId;
     private $active;
+    private $comments;
 	private $fromUser;	
 	private $description;	
 	private $album;	
@@ -26,21 +27,20 @@ class Image{
 	public function setOjectId($objectId){
 		$this->objectId = $objectId;	
 	}
-	public function setCreatedAt(DateTime $createdAt){
-		$this->createdAt = $createdAt;	
+
+
+	public function setComments(Relation $comments){
+		$this->counter = $comments;
 	}
-	public function setUpdatedAt(DateTime $updatedAt){
-		$this->updatedAt = $updatedAt;	
-	}
+
 	public function setCounter($counter){
 		$this->counter = $counter;
 	}
 	public function setLoveCounter($loveCounter){
 		$this->loveCounter = $loveCounter;
 	}
-	public function setACL($ACL){
-		$this->ACL = $ACL ;	
-	}
+
+
 	public function setActive($active){
 		$this->active = $active;	
 	}
@@ -73,26 +73,35 @@ class Image{
 	public function setTags(array $tags){
 		$this->tags = $tags;
 	}
+
+	public function setCreatedAt(DateTime $createdAt){
+		$this->createdAt = $createdAt;	
+	}
+	public function setUpdatedAt(DateTime $updatedAt){
+		$this->updatedAt = $updatedAt;	
+	}
+	public function setACL($ACL){
+		$this->ACL = $ACL ;	
+	}
 	
 	//getters
 	public function getOjectId(){
 		return $this->objectId;	
 	}
-	public function getCreatedAt(){
-		return $this->createdAt;	
+
+	public function getComments(){
+		return $this->comments;
 	}
+
 	public function getCounter(){
 		return $this->counter;
 	}
+
 	public function getLoveCounter(){
 		return $this->loveCounter;
 	}
-	public function getUpdatedAt(){
-		return $this->updatedAt;	
-	}
-	public function getACL(){
-		return $this->ACL;	
-	}
+
+
 	public function getActive(){
 		return $this->active;	
 	}
@@ -124,5 +133,14 @@ class Image{
 		return $this->tags ;
 	}
 	  
+	public function getCreatedAt(){
+		return $this->createdAt;	
+	}
+	public function getUpdatedAt(){
+		return $this->updatedAt;	
+	}
+	public function getACL(){
+		return $this->ACL;	
+	}
 }
 ?>
