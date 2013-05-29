@@ -1,4 +1,22 @@
 <?php
+/*! \par Info Generali:
+ *  \author    Stefano Muscas
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par Info Classe:
+ *  \brief     Video Class
+ *  \details   Classe che contiene i video presi da Vimeo e Youtube e segnalati dagli utenti 
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:video">Descrizione della classe</a>
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php??id=documentazione:api:video">API</a>
+ */
 
 class VideoParse{
 	
@@ -27,6 +45,11 @@ class VideoParse{
 		foreach($video->getCommentators() as $user){
 			$parse->data->commentators->__op = "AddRelation";
 			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+		}
+
+		foreach($video->getCommentators() as $comment){
+			$parse->data->comments->__op = "AddRelation";
+			$parse->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
 		}
 
 		$parse->counter = $video->getCounter();
