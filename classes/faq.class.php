@@ -3,10 +3,10 @@
 class Faq {
 	
 	private $objectId;
-	private $area;
 	private $answer;
-	private $question;
+	private $area;
 	private $position;
+	private $question;
 	private $tag;
 	private $createdAt;
 	private $updatedAt;
@@ -16,20 +16,20 @@ class Faq {
 		return $this->objectId;
 	}
 	
+	public function getAnswer() {
+		return $this->answer;
+	}
+
 	public function getArea() {
 		return $this->area;
 	}
-	
-	public function getAnswer() {
-		return $this->answer;
+
+	public function getPosition() {
+		return $this->position;
 	}
 	
 	public function getQuestion() {
 		return $this->question;
-	}
-	
-	public function getPosition() {
-		return $this->position;
 	}
 	
 	public function getTag() {
@@ -69,20 +69,20 @@ class Faq {
 		$this->objectId = $objectId;
 	}
 	
+	public function setAnswer($answer) {
+		$this->answer = $answer;
+	}
+
 	public function setArea($area) {
 		$this->area = $area;
 	}
-	
-	public function setAnswer($answer) {
-		$this->answer = $answer;
+
+	public function setPosition($position) {
+		$this->position = $position;
 	}
 	
 	public function setQuestion($question) {
 		$this->question = $question;
-	}
-	
-	public function setPosition($position) {
-		$this->position = $position;
 	}
 	
 	public function setTag($tag) {
@@ -102,5 +102,4 @@ class Faq {
 	}
 	
 }
-
 ?>

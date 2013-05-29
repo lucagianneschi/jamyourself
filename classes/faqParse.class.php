@@ -25,10 +25,10 @@ class FaqParse {
  
 			//inizializzo l'oggetto
 			$faq->setObjectId($res->objectId);
-			$faq->setArea($res->area);
 			$faq->setAnswer($res->answer);
-			$faq->setQuestion($res->question);
+			$faq->setArea($res->area);
 			$faq->setPosition($res->position);
+			$faq->setQuestion($res->question);
 			$faq->setTag($res->tag);
 			$dateTimeC = new DateTime($res->createdAt);
 			$faq->setCreatedAt($dateTimeC);
@@ -56,11 +56,10 @@ class FaqParse {
 	public function saveFaq($faq) {
 		//creo la "connessione" con Parse
 		$parseObject = new parseObject('FAQ');
- 
+ 		$parseObject->answer = 		$faq->getAnswer();
 		$parseObject->area = 		$faq->getArea();
-		$parseObject->answer = 		$faq->getAnswer();
-		$parseObject->question = 	$faq->getQuestion();
 		$parseObject->position = 	$faq->getPosition();
+		$parseObject->question = 	$faq->getQuestion();
 		$parseObject->tag = 		$faq->getTag();
  
 		$parseObject->save();
@@ -77,10 +76,10 @@ class FaqParse {
 			$faq = new faq();
  
 			$faq->setObjectId($obj->objectId);
-			$faq->setArea($obj->area);
 			$faq->setAnswer($obj->answer);
-			$faq->setQuestion($obj->question);
+			$faq->setArea($obj->area);
 			$faq->setPosition($obj->position);
+			$faq->setQuestion($obj->question);
 			$faq->setTag($obj->tag);
 			$dateTimeC = new DateTime($res->createdAt);
 			$faq->setCreatedAt($dateTimeC);
