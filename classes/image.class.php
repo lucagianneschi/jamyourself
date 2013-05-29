@@ -2,20 +2,20 @@
 
 class Image{ 
 	private $objectId;
+    private $active;
 	private $fromUser;	
 	private $description;	
 	private $album;	
 	private $filePath;	
 	private $location;	
 	private $featuring;	
-	private $tag;
+	private $tags;
 	private $counter;
 	private $loveCounter;  //contatore per tenere conto delle sole attività di love
-
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;
-	private $active;
+	
 	
 	//costruttore
 	public function __construct(){
@@ -70,8 +70,8 @@ class Image{
 	}
 	
 	
-	public function setTag(array $tag){
-		$this->tag = $tag;
+	public function setTags(array $tags){
+		$this->tags = $tags;
 	}
 	
 	//getters
@@ -120,8 +120,8 @@ class Image{
 		return $this->featuring ;
 	}
 	
-	public function getTag(){
-		return $this->tag ;
+	public function getTags(){
+		return $this->tags ;
 	}
 	  
 }
