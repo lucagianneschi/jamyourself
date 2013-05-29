@@ -194,6 +194,13 @@ class VideoParse{
 			$video->setCommentators($commentators) ;
 		}
 
+		//DA MODIFICARE
+		if(isset($parseObj->comments)){
+			$parseComments = new Comment();
+			$commentators = $parseUser->getUserArrayById($parseObj->commentators);
+			$video->setCommentators($commentators) ;
+		}
+
 		//integer counter
 		if(isset($parseObj->counter))  $video->setCounter($parseObj->counter);
 
