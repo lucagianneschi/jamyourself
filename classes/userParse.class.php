@@ -154,8 +154,8 @@ class UserParse{
 				$parse->data->statuses->objects = array(array("__type" => "Pointer", "className" => "Status", "objectId" => ($status ->getObjectId()));
 			}
 
-		$parse->type = $user->getType();
 		$parse->twitterPage = $user->getTwitterPage();
+		$parse->type = $user->getType();
 		
 		foreach($user->getVideos() as $video){
 				$parse->data->videos->__op = "AddRelation";

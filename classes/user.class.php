@@ -36,8 +36,8 @@ class User{
 	private $sessionToken;
 	private $settings;
 	private $statuses;
-	private $type;
 	private $twitterPage;
+	private $type;
 	private $videos;
   	private $website;
 	private $youtubeChannel;
@@ -164,12 +164,12 @@ class User{
 		$this->statuses = $statuses;
 	}
 
-	public function setType($type){
-		$this->type = $type;
-	}
-
 	public function setTwitterPage($twitterPage){
 		$this->twitterPage = $twitterPage;
+	}
+
+	public function setType($type){
+		$this->type = $type;
 	}
 
 	public function setVideos(Relation $videos){
@@ -314,13 +314,14 @@ class User{
 		return $this->statuses;
 	}
 
+	public function getTwitterPage(){
+		return $this->twitterPage;
+	}
+
 	public function getType(){
 		return $this->type;
 	}
 
-	public function getTwitterPage(){
-		return $this->twitterPage;
-	}
 
 	public function getVideos(){
 		return $this->videos;
@@ -333,7 +334,6 @@ class User{
 	public function getYoutubeChannel(){
 		return $this->youtubeChannel;
 	}
-
 
 	public function getSessionToken(){
 		return $this->sessionToken;
