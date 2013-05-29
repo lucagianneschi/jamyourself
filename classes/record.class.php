@@ -8,6 +8,7 @@ class Record {
 	private $objectId;
 	private $active;
 	private $buyLink;
+	private $comments;      //relation: puntatori ad oggetti Comment
 	private $counter;
 	private $cover;
 	private $description;
@@ -37,6 +38,11 @@ class Record {
 	
 	public function getBuyLink() {
 		return $this->buyLink;
+	}
+
+	//relation: puntatori ad oggetti Comment 								
+	public function getComments(){
+		return $this->comments;
 	}
 
 	public function getCounter() {
@@ -144,6 +150,11 @@ class Record {
 	
 	public function setBuyLink($buyLink) {
 		$this->buyLink = $buyLink;
+	}
+
+	//relation: puntatori ad oggetti Comment
+	public function setComments(Relation $comments){
+		$this->comments = $comments;
 	}
 		
 	public function setCounter($counter) {
