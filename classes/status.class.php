@@ -5,6 +5,7 @@ class Status{
 	private $objectId;  				//string: object ID Parse      
 	private $active; 					//BOOL: indica se la classe è attiva o meno
     private $commentators;				//relation: array di puntatori a Parse Users
+    private $comments;					//relation: array di puntatori a Comment
 	private $counter; 					//number: contatore che serve per gradimento dello status
 	private $event;   					//Parse Object Event: evento associato allo status
 	private $fromUser; 					//Parse User: utente che pubblica lo status
@@ -36,6 +37,11 @@ class Status{
     //relation: array di puntatori a Parse Users
 	public function setCommentators(Relation $commentators){
 		$this->commentators = $commentators;
+	}
+
+   //relation: array di puntatori a Parse Users
+	public function setCommentators(Relation $comments){
+		$this->comments = $comments;
 	}
 
 	//number: contatore che serve per gradimento dello status
@@ -118,6 +124,11 @@ class Status{
 	//relation: array di puntatori a Parse Users
 	public function getCommentators(){
 		return $this->commentators;
+	}
+
+	//relation: array di puntatori a Parse Users
+	public function getComments(){
+		return $this->comments;
 	}
 
 	//number: contatore che serve per gradimento dello status

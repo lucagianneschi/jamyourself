@@ -29,6 +29,11 @@ class StatusParse{
 			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
 		}
 
+	foreach($status->getComments() as $comment){
+			$parse->data->commentators->__op = "AddRelation";
+			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
+		}
+
 		$parse->counter = $status->getCounter();
 		//puntatore ad un evento
 		if($event = $status->getEvent()){
@@ -183,6 +188,12 @@ class StatusParse{
 		if(isset($parseObj->commentators)){
 			$parseUser = new UserParse();
 			$commentators = $parseUser->getUserArrayById($parseObj->commentators);
+			$status->setCommentators($commentators) ;
+		}
+
+	if(isset($parseObj->comments)){
+			$parseComment = new UserParse();
+			$comments = $parseUser->getUserArrayById($parseObj->comments);
 			$status->setCommentators($commentators) ;
 		}
 
