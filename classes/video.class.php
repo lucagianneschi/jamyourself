@@ -31,7 +31,7 @@ class Video{
 	private $featuring;			//Relation (with Parse User): segnala presenza altri utenti 
 	private $fromUser;   		//User: Punta allo user che effettua l'embed del video  
 	private $loveCounter;		//number: Contatore per il numero di azioni love 			
-    private $lovers;            //relation: array di puntatori ad User che hanno commentato 
+    private $lovers;            //relation: array di puntatori ad User che hanno effettuato azioni love 
 	private $tags;				//array: stringhe per la categorizzazione del video 	
 	private $thumbnail;  		//string: Percorso immagine del thumbnail del video 		
 	private $title;				//string:Titolo del video  									
@@ -85,7 +85,7 @@ class Video{
 		return $this->duration;
 	}
 
-	//array: per segnalare la presenza di altri utenti 			
+	//Relation (with Parse User): segnala presenza altri utenti 			
 	public function getFeaturing(){
 		return $this->featuring;
 	}
@@ -100,7 +100,7 @@ class Video{
 		return $this->loveCounter;
 	}
  
-	//relation: array di puntatori ad User che hanno commentato 
+	//relation: array di puntatori ad User che hanno effettuato azioni love
 	public function getLovers(){
 		return $this->lovers;
 	}
@@ -182,7 +182,7 @@ class Video{
 		$this->duration = $duration;
 	}
 
-	//array: per segnalare la presenza di altri utenti 			
+	//Relation (with Parse User): segnala presenza altri utenti			
 	public function setFeaturing(Relation $featuring){
 		$this->featuring = $featuring;
 	}
