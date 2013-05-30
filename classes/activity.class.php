@@ -135,7 +135,7 @@ class Activity{
 	 * @param string $status	
 	 */
 	public function setStatus(string $status){
-		$this->objectId = $status;
+		$this->status = $status;
 	}
 
 	/**
