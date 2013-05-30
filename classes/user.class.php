@@ -144,7 +144,7 @@ class User{
 		$this->premium = $premium;
 	}
 
-	public function setPremium(DateTime $premiumExpirationDate){
+	public function setPremiumExpirationDate(DateTime $premiumExpirationDate){
 		$this->premiumExpirationDate = $premiumExpirationDate;
 	}
 
@@ -160,7 +160,7 @@ class User{
 		$this->settings = $settings;
 	}
 
-	public function setStatuses(Relation $status){
+	public function setStatuses(Relation $statuses){
 		$this->statuses = $statuses;
 	}
 
@@ -294,8 +294,8 @@ class User{
 		return $this->premium;
 	}
 
-	public function getPremiumExpiringDate(){
-		return $this->premiumExpiringDate;
+	public function getPremiumExpirationDate(){
+		return $this->PremiumExpirationDate;
 	}
 
 	public function getProfilePicture(){
