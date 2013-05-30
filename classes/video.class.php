@@ -192,7 +192,7 @@ class Video{
 		$this->fromUser = $fromUser;
 	}
 
-	//relation: array di puntatori ad User che hanno commentato 
+	//relation: array di puntatori ad User che hanno effettuato azioni love  
 	public function setLovers(Relation $lovers){
 		$this->lovers = $lovers;
 	}
