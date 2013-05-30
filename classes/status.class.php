@@ -39,8 +39,8 @@ class Status{
 		$this->commentators = $commentators;
 	}
 
-   //relation: array di puntatori a Parse Users
-	public function setCommentators(Relation $comments){
+     //relation: array di puntatori a Parse Comment
+	public function setComments(Relation $comments){
 		$this->comments = $comments;
 	}
 
