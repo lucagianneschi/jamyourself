@@ -104,7 +104,7 @@ class Event {
 		return $this->loveCounter;
 	}
 
-	//number:counter per gestire le azioni love sull'evento            
+	//relation: Array che contiene puntatori ad utenti che hanno effettuato love sull'evento          
 	public function getLovers() {
 		return $this->lovers;
 	}
@@ -170,12 +170,12 @@ class Event {
 		$this->commentators = $value;
 	}
 
-	//relation: Array che contiene puntatori ad utenti che hanno effettuato commento
+	//relation: Array che contiene puntatori a Comment
 	public function setComments($value) {
 		$this->comments = $value;
 	}
 
-   //number: counter per votazione dell'evento       					
+       //number: counter per votazione dell'evento       					
 	public function setCounter($value) {
 		$this->counter = $value;
 	}
@@ -225,7 +225,7 @@ class Event {
 		$this->loveCounter = $value;
 	}
 
-	//number:counter per gestire le azioni love sull'evento             
+	//relation: Array che contiene puntatori ad utenti che hanno compiuto azione love            
 	public function setLovers($value) {
 		$this->lovers = $value;
 	}
