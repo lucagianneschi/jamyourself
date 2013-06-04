@@ -44,12 +44,12 @@ class VideoParse{
 		
 		foreach($video->getCommentators() as $user){
 			$parse->data->commentators->__op = "AddRelation";
-			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}
 
 		foreach($video->getComments() as $comment){
 			$parse->data->comments->__op = "AddRelation";
-			$parse->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
+			$parse->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
 		}
 
 		$parse->counter = $video->getCounter();
@@ -59,7 +59,7 @@ class VideoParse{
 
 		foreach($video->getFeaturing() as $user){
 			$parse->data->featuring->__op = "AddRelation";
-			$parse->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$parse->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}
 
 		if( ($fromUser = $video->getFromUser() ) != null ) {
@@ -70,7 +70,7 @@ class VideoParse{
 
 		foreach($video->getLovers() as $user){
 			$parse->data->lovers->__op = "AddRelation";
-			$parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}
 
 		$parse->tags = $video->getTags();
