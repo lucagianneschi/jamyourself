@@ -35,7 +35,7 @@ class PlaylistParse{
 			$songList = $playlist->getSongs();
 			foreach($songList as $song){
 				$parseObj->data->songs->__op = "AddRelation";
-				$parseObj->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId()));
+				$parseObj->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId())));
 			}
 		}
 
@@ -169,7 +169,7 @@ class PlaylistParse{
 		if(isset($parseObj->songs ) ){
 			foreach ($parseObj->songs as $song){
 				$playlist->data->songs->__op = "AddRelation";
-				$playlist->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId()));
+				$playlist->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId())));
 			}
 		}
 

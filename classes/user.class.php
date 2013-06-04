@@ -227,11 +227,11 @@ class User{
 	}
 
 	public function getActive(){
-		retun $this->active;
+		return $this->active;
 	}
 	
 	public function getAlbums(){
-		retun $this->albums;
+		return $this->albums;
 	}
 
 	public function getBackground(){

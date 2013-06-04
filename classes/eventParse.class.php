@@ -25,17 +25,17 @@ class EventParse {
         
 		foreach($res->getAttendee() as $user){
 			$event->data->attendee->__op = "AddRelation";
-			$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}
 
 		foreach($res->getCommentators() as $user){
 			$event->data->commentators->__op = "AddRelation";
-			$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}
 
 		foreach($res->getComments() as $comment){
 			$event->data->comments->__op = "AddRelation";
-			$event->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
+			$event->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
 		}
 
 		$event->setCounter($res->counter);
@@ -44,7 +44,7 @@ class EventParse {
 
 		foreach($res->getFeaturing() as $user){
 			$event->data->featuring->__op = "AddRelation";
-			$event->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$event->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}		
 
 		$event->setFromUser($res->fromUser);
@@ -52,7 +52,7 @@ class EventParse {
 
 		foreach($res->getInvited() as $user){
 			$event->data->invited->__op = "AddRelation";
-			$event->data->invited->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$event->data->invited->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}	
 		
 		$event->setLocation($res->location);
@@ -61,12 +61,12 @@ class EventParse {
 
 		foreach($res->getLovers() as $user){
 			$event->data->lovers->__op = "AddRelation";
-			$event->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$event->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}	
 		
 		foreach($res->getRefused() as $user){
 			$event->data->refused->__op = "AddRelation";
-			$event->data->refused->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$event->data->refused->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}
 		
 		$event->setTags($res->tags);
@@ -92,17 +92,17 @@ class EventParse {
 
 			foreach($obj->getAttendee() as $user){
 				$event->data->attendee->__op = "AddRelation";
-				$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}
 
 			foreach($obj->getCommentators() as $user){
 				$event->data->commentators->__op = "AddRelation";
-				$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}
 
 			foreach($obj->getComments() as $comment){
 				$event->data->comments->__op = "AddRelation";
-				$event->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
+				$event->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
 			}
 
 			$event->setCounter($obj->counter);
@@ -111,7 +111,7 @@ class EventParse {
 
 			foreach($obj->getFeaturing() as $user){
 				$event->data->featuring->__op = "AddRelation";
-				$event->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$event->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}	
 
 			$pointerParse = new pointerParse($obj->fromUser->className, $obj->fromUser->objectId);
@@ -121,7 +121,7 @@ class EventParse {
 
 			foreach($obj->getInvited() as $user){
 				$event->data->invited->__op = "AddRelation";
-				$event->data->invited->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$event->data->invited->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}	
 			$event->setLocation($obj->location);
 			$event->setLocationName($obj->locationName);
@@ -129,12 +129,12 @@ class EventParse {
 
 			foreach($obj->getLovers() as $user){
 				$event->data->lovers->__op = "AddRelation";
-				$event->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$event->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}	
 		
 			foreach($obj->getRefused() as $user){
 				$event->data->refused->__op = "AddRelation";
-				$event->data->refused->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$event->data->refused->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}
 
 			$event->setTags($obj->tags);

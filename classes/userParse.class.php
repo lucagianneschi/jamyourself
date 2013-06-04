@@ -26,24 +26,24 @@ class UserParse{
 		if($user->getType()=="JAMMER"){
 			foreach($user->getCollaboration() as $collaborator){
 				$parse->data->collaboration->__op = "AddRelation";
-				$parse->data->collaboration->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($collaborator ->getObjectId()));
+				$parse->data->collaboration->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($collaborator ->getObjectId())));
 			}
 
 			foreach($user->getEvents() as $event){
 				$parse->data->events->__op = "AddRelation";
-				$parse->data->events->objects = array(array("__type" => "Pointer", "className" => "Event", "objectId" => ($event ->getObjectId()));
+				$parse->data->events->objects = array(array("__type" => "Pointer", "className" => "Event", "objectId" => ($event ->getObjectId())));
 			}
 
 			$parse->members = $user->getMembers();
 
 			foreach($user->getRecords() as $record){
 				$parse->data->records->__op = "AddRelation";
-				$parse->data->records->objects = array(array("__type" => "Pointer", "className" => "Record", "objectId" => ($record ->getObjectId()));
+				$parse->data->records->objects = array(array("__type" => "Pointer", "className" => "Record", "objectId" => ($record ->getObjectId())));
 			}
 
 			foreach($user->getSongs() as $song){
 				$parse->data->songs->__op = "AddRelation";
-				$parse->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId()));
+				$parse->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId())));
 			}
 
 			$parse->jammerType = $user->getJammerType();
@@ -64,12 +64,12 @@ class UserParse{
 
 		foreach($user->getFollowing() as $user){
 				$parse->data->following->__op = "AddRelation";
-				$parse->data->following->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$parse->data->following->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}
 
 		foreach($user->getFriendship() as $user){
 				$parse->data->friendship->__op = "AddRelation";
-				$parse->data->friendship->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+				$parse->data->friendship->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}
 
 		$parse->lastname = $user->getLastname();
@@ -82,12 +82,12 @@ class UserParse{
 
 			foreach($user->getCollaboration() as $collaborator){
 				$parse->data->collaboration->__op = "AddRelation";
-				$parse->data->collaboration->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($collaborator ->getObjectId()));
+				$parse->data->collaboration->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($collaborator ->getObjectId())));
 			}
 
 			foreach($user->getEvents() as $event){
 				$parse->data->events->__op = "AddRelation";
-				$parse->data->events->objects = array(array("__type" => "Pointer", "className" => "Event", "objectId" => ($event ->getObjectId()));
+				$parse->data->events->objects = array(array("__type" => "Pointer", "className" => "Event", "objectId" => ($event ->getObjectId())));
 			}
 						
 			$parse->localType = $user->getLocalType();
@@ -102,7 +102,7 @@ class UserParse{
 
 		foreach($user->getAlbums() as $album){
 				$parse->data->albums->__op = "AddRelation";
-				$parse->data->albums->objects = array(array("__type" => "Pointer", "className" => "Album", "objectId" => ($album ->getObjectId()));
+				$parse->data->albums->objects = array(array("__type" => "Pointer", "className" => "Album", "objectId" => ($album ->getObjectId())));
 			}
 
 		$parse->background = $user->getBackground();
@@ -110,7 +110,7 @@ class UserParse{
 		
 		foreach($user->getComments() as $comment){
 				$parse->data->comments->__op = "AddRelation";
-				$parse->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
+				$parse->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
 			}
 
 		$parse->country = $user->getCountry();
@@ -125,7 +125,7 @@ class UserParse{
 
 		foreach($user->getImages() as $image){
 				$parse->data->images->__op = "AddRelation";
-				$parse->data->images->objects = array(array("__type" => "Pointer", "className" => "Image", "objectId" => ($image ->getObjectId()));
+				$parse->data->images->objects = array(array("__type" => "Pointer", "className" => "Image", "objectId" => ($image ->getObjectId())));
 			}
 
 		$parse->level = $user->getLevel();
@@ -133,14 +133,14 @@ class UserParse{
 
 		foreach($user->getLoveSongs() as $song){
 				$parse->data->loveSongs->__op = "AddRelation";
-				$parse->data->loveSongs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId()));
+				$parse->data->loveSongs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId())));
 			}
 
 		$parse->music = $user->getMusic();
 
 		foreach($user->getPlaylists() as $playlist){
 				$parse->data->playlists->__op = "AddRelation";
-				$parse->data->playlists->objects = array(array("__type" => "Pointer", "className" => "Playlist", "objectId" => ($playlist ->getObjectId()));
+				$parse->data->playlists->objects = array(array("__type" => "Pointer", "className" => "Playlist", "objectId" => ($playlist ->getObjectId())));
 			}
 
 		$parse->premium = $user->getPremium();
@@ -151,7 +151,7 @@ class UserParse{
 
 		foreach($user->getStatuses() as $status){
 				$parse->data->statuses->__op = "AddRelation";
-				$parse->data->statuses->objects = array(array("__type" => "Pointer", "className" => "Status", "objectId" => ($status ->getObjectId()));
+				$parse->data->statuses->objects = array(array("__type" => "Pointer", "className" => "Status", "objectId" => ($status ->getObjectId())));
 			}
 
 		$parse->twitterPage = $user->getTwitterPage();
@@ -159,7 +159,7 @@ class UserParse{
 		
 		foreach($user->getVideos() as $video){
 				$parse->data->videos->__op = "AddRelation";
-				$parse->data->videos->objects = array(array("__type" => "Pointer", "className" => "Video", "objectId" => ($video ->getObjectId()));
+				$parse->data->videos->objects = array(array("__type" => "Pointer", "className" => "Video", "objectId" => ($video ->getObjectId())));
 			}
 
 

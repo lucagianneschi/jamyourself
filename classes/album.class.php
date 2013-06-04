@@ -13,7 +13,7 @@ class Album{
 	private $objectId;
 	private $active;
 	private $commentators;
-	private $comments
+	private $comments;
 	private $counter;
 	private $cover;	
 	private $description;

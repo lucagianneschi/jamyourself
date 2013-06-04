@@ -26,12 +26,12 @@ class StatusParse{
 		
 		foreach($status->getCommentators() as $user){
 			$parse->data->commentators->__op = "AddRelation";
-			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}
 
 	foreach($status->getComments() as $comment){
 			$parse->data->commentators->__op = "AddRelation";
-			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId()));
+			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
 		}
 
 		$parse->counter = $status->getCounter();
@@ -49,7 +49,7 @@ class StatusParse{
 
 		foreach($status->getLovers() as $user){
 			$parse->data->lovers->__op = "AddRelation";
-			$parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}
 
 		if($song = $status->getSong()){
@@ -58,7 +58,7 @@ class StatusParse{
 
 		foreach($status->getTaggedUsers() as $user){
 			$parse->data->taggedUsers->__op = "AddRelation";
-			$parse->data->taggedUsers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId()));
+			$parse->data->taggedUsers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 		}
 		
 		$parse->text = $status->getText();
