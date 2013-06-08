@@ -62,7 +62,6 @@ class User {
     private $ACL;
 
     //COSTRUTTORE
-
     public function __construct() {
         
     }
@@ -359,57 +358,68 @@ class User {
     }
 
     public function __toString() {
-
-        $string = "";
-        $string.="Tipo profilo: " . $this->getType() . "<br>";
-        $string.="Username : " . $this->getUsername() . "<br>";
-        $string.="E-mail : " . $this->getEmail() . "<br>";
-        $verStr = "";
-        if ($this->getEmailVerified())
-            $verStr = "SI";
-        else
-            $verStr = "NO";
-        $string.="Mail Verificata : " . $verStr . "<br>";
-        $string.="Id utente : " . $this->getObjectId() . "<br>";
-        $string.="Session Token : " . $this->getSessionToken() . "<br>";
-        if ($this->getUpdatedAt())
-            $string.="Ultimo aggiornamento : " . $this->getUpdatedAt()->format('d/m/Y H:i:s') . "<br>";
-        if ($this->getCreatedAt())
-            $string.="Data Creazione : " . $this->getCreatedAt()->format('d/m/Y H:i:s') . "<br>";
-        $string.="Nome : " . $this->getFirstname() . "<br>";
-        $string.="Cognome : " . $this->getLastname() . "<br>";
-        $string.="Sesso : " . $this->getSex() . "<br>";
-        $string.="Giorno di nascita : " . $this->getBirthDay()->format('d/m/Y') . "<br>";
-        $parseGeopoint = $this->getGeoCoding();
-        if ($this->getGeoCoding())
-            $string.="Geolocalizzazione : " . $parseGeopoint->__toString() . "<br>";
-        //$string.=" : ".$this->getPassword()."<br>";
-        $string.="Livello : " . $this->getLevel() . "<br>";
-        $string.="Url foto : " . $this->getProfilePicture() . "<br>";
-        $string.="Url thumbnail : " . $this->getProfileThumbnail() . "<br>";
-        //$string.=" : ".$this->getStatus()."<br>";
-        $string.="Sito WEB : " . $this->getWebsite() . "<br>";
-        $string.="Facebook : " . $this->getFbPage() . "<br>";
-        $string.="Twitter : " . $this->getTwitterPage() . "<br>";
-        $string.="Youtube : " . $this->getYoutubeChannel() . "<br>";
-        $string.="Id Facebook : " . $this->getFacebookId() . "<br>";
-        $string.="Citt� : " . $this->getCity() . "<br>";
-        $string.="Descrizione : " . $this->getDescription() . "<br>";
-        if ($this->getMusic())
-            $string.="Gusti musiali : " . implode(" , ", $this->getMusic()) . "<br>";
-        //$string.=" : ".$this->getAuthData()."<br>";
-        //$string.=" : ".$this->getBackground()."<br>";
-
-        $premium = "";
-        if ($this->getPremium())
-            $premium = "SI";
-        else
-            $premium = "NO";
-        $string.="Premium: " . $premium . "<br>";
-
-        //$string." :".$this->getSettings()."<br>";
-
-        return $string;
+		
+        $string = ''
+		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+		$string .= '[username] => ' . $this->getUsername() . '<br />';
+		$string .= '[password] => ' . $this->getPassword() . '<br />';
+		$string .= '[authData] => ' . $this->getAuthData() . '<br />';
+		$string .= '[emailVerified] => ' . $this->getEmailVerified() . '<br />';
+		$string .= '[active] => ' . $this->getActive() . '<br />';
+		//TODO
+		//$string .= '[albums] => ' . $this->getAlbums() . '<br />';
+		$string .= '[background] => ' . $this->getBackground() . '<br />';
+		$string .= '[city] => ' . $this->getCity() . '<br />';
+		//TODO
+		//$string .= '[comments] => ' . $this->getComments() . '<br />';
+		$string .= '[country] => ' . $this->getCountry() . '<br />';
+		$string .= '[description] => ' . $this->getDescription() . '<br />';
+		$string .= '[email] => ' . $this->getEmail() . '<br />';
+		$string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
+		$parseGeoPoint = $this->getGeoCoding();
+        $string .= '[geoCoding] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+		//TODO
+		//$string .= '[images] => ' . $this->getImages() . '<br />';
+		$string .= '[level] => ' . $this->getLevel() . '<br />';
+		$string .= '[levelValue] => ' . $this->getLevelValue() . '<br />';
+		//TODO
+		//$string .= '[loveSongs] => ' . $this->getLoveSongs() . '<br />';
+		foreach ($this->getMusic() as $music) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[music] => ' . $music . '<br />';
+        }
+		//TODO
+		//$string .= '[playlists] => ' . $this->getPlaylists() . '<br />';
+		$string .= '[premium] => ' . $this->getPremium() . '<br />';
+		$string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
+		$string .= '[profilePicture] => ' . $this->getProfilePicture() . '<br />';
+		$string .= '[profileThumbnail] => ' . $this->getProfileThumbnail() . '<br />';
+		$string .= '[sessionToken] => ' . $this->getSessionToken() . '<br />';
+		foreach ($this->getSettings() as $settings) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[settings] => ' . $settings . '<br />';
+        }
+		//TODO
+		//$string .= '[statuses] => ' . $this->getStatuses() . '<br />';
+		$string .= '[twitterPage] => ' . $this->getTwitterPage() . '<br />';
+		$string .= '[type] => ' . $this->getType() . '<br />';
+		//TODO
+		//$string .= '[videos] => ' . $this->getVideos() . '<br />';
+		$string .= '[website] => ' . $this->getWebsite() . '<br />';
+		$string .= '[youtubeChannel] => ' . $this->getYoutubeChannel() . '<br />';
+		$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+		$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+		foreach ($this->getACL()->acl as $key => $acl) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[key] => ' . $key . '<br />';
+            foreach ($acl as $access => $value) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+            }
+        }
+		
+		return $string;
     }
 
 }
@@ -423,7 +433,6 @@ class Venue extends User {
 
     public function __construct() {
         parent::__construct();
-
         $this->setType("VENUE");
     }
 
@@ -463,8 +472,8 @@ class Venue extends User {
         $string = parent::__toString();
         
         //TODO
-        //$string.="[ collaboration ] => " . $this->getCollaboration() . "<br />";
-        //$string.="[ events ] => " . $this->getEvents() . "<br />";
+        //$string.="[collaboration] => " . $this->getCollaboration() . "<br />";
+        //$string.="[events] => " . $this->getEvents() . "<br />";
         $string.="[address] => " . $this->getAddress();
         $string.="[localType] => " . $this->getLocalType();
 
@@ -538,18 +547,16 @@ class Jammer extends User {
     public function __toString() {
         $string = parent::__toString();
         //TODO
-        //$string.="[ collaboration ] => " . $this->getCollaboration() . "<br />";
-        //$string.="[ events ] => " . $this->getEvents() . "<br />";
-        $string.="[ jammerType ] => " . $this->getJammerType() . "<br />";
-            
+        //$string.="[collaboration] => " . $this->getCollaboration() . "<br />";
+        //$string.="[events] => " . $this->getEvents() . "<br />";
+        $string.="[jammerType] => " . $this->getJammerType() . "<br />";
         foreach ($this->getMembers() as $member) {
             $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
-            $string.="[ members ] => " . $member . "<br />";
+            $string.="[members] => " . $member . "<br />";
         }
-        
         //TODO
-        //$string.="[ records ] => " . $this->getRecords() . "<br />";
-        //$string.="[ songs ] => " . $this->getSongs() . "<br />";
+        //$string.="[records] => " . $this->getRecords() . "<br />";
+        //$string.="[songs] => " . $this->getSongs() . "<br />";
         
         return $string;
     }
@@ -632,15 +639,17 @@ class Spotter extends User {
     public function __toString() {
         $string = parent::__toString();
 
-        $string .= "[ birthDay ] => " . $this->this->getBirthDay()->format("d-m-Y") . "<br />";
-        $string .= "[ facebookId ]" . $this->getFacebookId() . "<br />";
-        $string .= "[ firstname ]" . $this->getFirstname() . "<br />";
+        $string .= "[birthDay] => " . $this->this->getBirthDay()->format("d-m-Y") . "<br />";
+        $string .= "[facebookId]" . $this->getFacebookId() . "<br />";
+        $string .= "[firstname]" . $this->getFirstname() . "<br />";
         //TODO
-//        $string .= "[ following ]".$this->getFollowing()."<br />";
+		//$string .= "[following]".$this->getFollowing()."<br />";
         //TODO
-//        $string .= "[ friendship ]".$this->getFriendship()."<br />";
-        $string .= "[ lastname ]" . $this->getLastname() . "<br />";
-        $string .= "[ sex ]" . $this->getSex() . "<br />";
+		//$string .= "[friendship]".$this->getFriendship()."<br />";
+        $string .= "[lastname]" . $this->getLastname() . "<br />";
+        $string .= "[sex]" . $this->getSex() . "<br />";
+		
+		return $string;
     }
 
 }
