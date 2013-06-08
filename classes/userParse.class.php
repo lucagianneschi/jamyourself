@@ -616,6 +616,98 @@ class UserParse {
         return $user;
     }
 
+    public function getCount() {
+       $this->parseQuery->getCount(); 
+    }
+
+    public function setLimit($int) {
+        $this->parseQuery->setLimit($int);
+    }
+
+    public function setSkip($int) {
+        $this->parseQuery->setSkip($int);
+    }
+
+    public function orderBy($field) {
+        $this->parseQuery->orderBy($field);
+    }
+
+    public function orderByAscending($value) {
+        $this->parseQuery->orderByAscending($value);
+    }
+
+    public function orderByDescending($value) {
+        $this->parseQuery->orderByDescending($value);
+    }
+
+    public function whereInclude($value) {
+        $this->parseQuery->whereInclude($value);
+    }
+
+    public function where($key, $value) {
+        $this->parseQuery->where($key, $value);
+    }
+
+    public function whereEqualTo($key, $value) {
+        $this->parseQuery->whereEqualTo($key, $value);
+    }
+
+    public function whereNotEqualTo($key, $value) {
+        $this->parseQuery->whereNotEqualTo($key, $value);
+    }
+
+    public function whereGreaterThan($key, $value) {
+        $this->parseQuery->whereGreaterThan($key, $value);
+    }
+
+    public function whereLessThan($key, $value) {
+        $this->parseQuery->whereLessThan($key, $value);
+    }
+
+    public function whereGreaterThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
+    }
+
+    public function whereLessThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
+    }
+
+    public function whereContainedIn($key, $value) {
+        $this->parseQuery->whereContainedIn($key, $value);
+    }
+
+    public function whereNotContainedIn($key, $value) {
+       $this->parseQuery->whereNotContainedIn($key, $value);
+    }
+
+    public function whereExists($key) {
+        $this->parseQuery->whereExists($key);
+    }
+
+    public function whereDoesNotExist($key) {
+        $this->parseQuery->whereDoesNotExist($key);
+    }
+
+    public function whereRegex($key, $value, $options = '') {
+        $this->parseQuery->whereRegex($key, $value, $options = '');
+    }
+
+    public function wherePointer($key, $className, $objectId) {
+        $this->parseQuery->wherePointer($key, $className, $objectId);
+    }
+
+    public function whereInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereInQuery($key, $className, $inQuery);
+    }
+
+    public function whereNotInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereNotInQuery($key, $className, $inQuery);
+    }
+
+    public function whereRelatedTo($key, $className, $objectId) {
+        $this->parseQuery->whereRelatedTo($key, $className, $objectId);
+    }
+
 }
 
 ?>
