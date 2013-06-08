@@ -2,25 +2,25 @@
 
 class Status{
 	//proprie di Parse
-	private $objectId;  				//string: object ID Parse      
-	private $active; 					//BOOL: indica se la classe è attiva o meno
-    private $commentators;				//relation: array di puntatori a Parse Users
-    private $comments;					//relation: array di puntatori a Comment
-	private $counter; 					//number: contatore che serve per gradimento dello status
-	private $event;   					//Parse Object Event: evento associato allo status
-	private $fromUser; 					//Parse User: utente che pubblica lo status
-	private $image;						//Parse Object Image: image associata allo status
-	private $location; 					//GeoPoint: lat e long per localizzazione dello status (inutilizzato)
-	private $loveCounter;  				//number: counter per tenere conto delle sole azioni di love
-	private $lovers; 					//relation: array di puntatori a Parse Users
-	private $song;						//Parse Object Song: song associata allo status
-	private $taggedUsers;				//relation: array di puntatori a Parse Users
-	private $text;						//string: testo inserito dall'utente per il proprio status
-	private $createdAt;					//DataTime: data di creazione dello status						
-	private $updatedAt;					//DataTime: data di update dello status						
-	private $ACL;						//Access Control List										
+    private $objectId;      //string: object ID Parse      
+    private $active;      //BOOL: indica se la classe è attiva o meno
+    private $commentators;    //relation: array di puntatori a Parse Users
+    private $comments;     //relation: array di puntatori a Comment
+    private $counter;      //number: contatore che serve per gradimento dello status
+    private $event;        //Parse Object Event: evento associato allo status
+    private $fromUser;      //Parse User: utente che pubblica lo status
+    private $image;      //Parse Object Image: image associata allo status
+    private $location;      //GeoPoint: lat e long per localizzazione dello status (inutilizzato)
+    private $loveCounter;      //number: counter per tenere conto delle sole azioni di love
+    private $lovers;      //relation: array di puntatori a Parse Users
+    private $song;      //Parse Object Song: song associata allo status
+    private $taggedUsers;    //relation: array di puntatori a Parse Users
+    private $text;      //string: testo inserito dall'utente per il proprio status
+    private $createdAt;     //DataTime: data di creazione dello status						
+    private $updatedAt;     //DataTime: data di update dello status						
+    private $ACL;      //Access Control List										
 
-	//public function __construct(){}
+    //public function __construct(){}
 	
 	//FUNZIONI SET	
 	
@@ -35,12 +35,12 @@ class Status{
 	}
 
     //relation: array di puntatori a Parse Users
-	public function setCommentators(Relation $commentators){
+	public function setCommentators(array $commentators){
 		$this->commentators = $commentators;
 	}
 
      //relation: array di puntatori a Parse Comment
-	public function setComments(Relation $comments){
+	public function setComments(array $comments){
 		$this->comments = $comments;
 	}
 
@@ -60,7 +60,7 @@ class Status{
 	}
 	
 	//Parse Object Image: image associata allo status
-	public function setImage($image){ 
+	public function setImage(Image $image){ 
 		$this->image = $image;
 	}
 
@@ -75,17 +75,17 @@ class Status{
 	}
 
     //relation: array di puntatori a Parse Users
-	public function setLovers(Relation $lovers){
+	public function setLovers(array $lovers){
 		$this->lovers = $lovers;
 	}
 	
 	//Parse Object Song: song associata allo status
-	public function setSong($song){
+	public function setSong(Song $song){
 		$this->song = $song;
 	}
 
 	//relation: array di puntatori a Parse Users
-	public function setTaggedUsers(Relation $taggedUsers){
+	public function setTaggedUsers(array $taggedUsers){
 		$this->taggedUsers = $taggedUsers;
 	}
 

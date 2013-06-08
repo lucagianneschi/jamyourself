@@ -4,22 +4,22 @@
 
 class Song{
 
-	private $objectId;		//string: objectId su Parse									   
-	private $active;		//BOOL: attiva/disattiva l'istanza della classe 
-	private $comments;      //relation: puntatori ad oggetti Comment
-	private $counter;		//number: Contatore di gradimento 								
-	private $duration;		//number: Durata della Song										
-	private $featuring;		//array: presenza di altri Utenti								
-	private $filePath;		//string: Indirizzo del file									
-	private $fromUser;		//User: Utente che effettua la creazione della Song				
-	private $genre;			//string: Genere della Song										
-	private $location;      //geoPoint: coordinate di localizzazione della canzone			
+    private $objectId;  //string: objectId su Parse									   
+    private $active;  //BOOL: attiva/disattiva l'istanza della classe 
+    private $comments;      //relation: puntatori ad oggetti Comment
+    private $counter;  //number: Contatore di gradimento 								
+    private $duration;  //number: Durata della Song										
+    private $featuring;  //array: presenza di altri Utenti								
+    private $filePath;  //string: Indirizzo del file									
+    private $fromUser;  //User: Utente che effettua la creazione della Song				
+    private $genre;   //string: Genere della Song										
+    private $location;      //geoPoint: coordinate di localizzazione della canzone			
     private $loveCounter;   //number: per tenere conto del numero di azioni love			
-	private $record;		//Record (Parse Object): disco di appartenenza della song       
-	private $title;			//string: titolo della song  											
-	private $createdAt;		//DateTime: data e tempo di upload								
-	private $updatedAt;		//DateTime: data e tempo di ultima modifica						
-	private $ACL;			//Access Control list										    
+    private $record;  //Record (Parse Object): disco di appartenenza della song       
+    private $title;   //string: titolo della song  											
+    private $createdAt;  //DateTime: data e tempo di upload								
+    private $updatedAt;  //DateTime: data e tempo di ultima modifica						
+    private $ACL;   //Access Control list										    
 
 	//SETTERS
 
@@ -34,7 +34,7 @@ class Song{
 	}
 
 	//relation: puntatori ad oggetti Comment
-	public function setComments(Relation $comments){
+	public function setComments(array $comments){
 		$this->comments = $comments;
 	}
 
@@ -74,7 +74,7 @@ class Song{
 	}
 
 	//number: per tenere conto del numero di azioni love			
-	public function setLoveCounter(array $loveCounter){
+	public function setLoveCounter($loveCounter){
 		$this->loveCounter = $loveCounter;
 	}
 
@@ -99,7 +99,7 @@ class Song{
 	}
 
 	//Access Control list										    
-	public function setACL(array $ACL){
+	public function setACL(parseACL $ACL){
 		$this->ACL = $ACL;
 	}
 

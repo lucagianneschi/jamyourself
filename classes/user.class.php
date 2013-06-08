@@ -6,43 +6,43 @@ require_once'settings.php';
 
 class User{
 
-	//questi dati sono aggiornati solo dopo aver fatto save/userLogin/update
-	private $objectId;	
-	private $username;
-	private $password;
+    //questi dati sono aggiornati solo dopo aver fatto save/userLogin/update
+    private $objectId;
+    private $username;
+    private $password;
     private $authData;
-	private $emailVerified;
-	private $ID;//DA RIMUOVERE DOPO ALLINEAMENTO DB
-	private $active;
-	private $albums;
-	private $background;
-	private $city;
-	private $comments;
-	private $country;
-	private $description;	
-	private $email;
-	private $fbPage;
-	private $geoCoding;
-	private $images;
-	private $level;
-	private $levelValue;//si lascia per tutti, per ora si usa solo per lo spotter
-	private $loveSongs;
-	private $music;
+    private $emailVerified;
+    private $ID; //DA RIMUOVERE DOPO ALLINEAMENTO DB
+    private $active;
+    private $albums;
+    private $background;
+    private $city;
+    private $comments;
+    private $country;
+    private $description;
+    private $email;
+    private $fbPage;
+    private $geoCoding;
+    private $images;
+    private $level;
+    private $levelValue; //si lascia per tutti, per ora si usa solo per lo spotter
+    private $loveSongs;
+    private $music;
     private $playlists;
-	private $premium;
-	private $premiumExpirationDate;
-	private $profilePicture;
-	private $profileThumbnail;
-	private $sessionToken;
-	private $settings;
-	private $statuses;
-	private $twitterPage;
-	private $type;
-	private $videos;
-  	private $website;
-	private $youtubeChannel;
-	private $createdAt;			
-	private $updatedAt;	
+    private $premium;
+    private $premiumExpirationDate;
+    private $profilePicture;
+    private $profileThumbnail;
+    private $sessionToken;
+    private $settings;
+    private $statuses;
+    private $twitterPage;
+    private $type;
+    private $videos;
+    private $website;
+    private $youtubeChannel;
+    private $createdAt;
+    private $updatedAt;
     private $ACL;
 
 	//COSTRUTTORE
@@ -80,7 +80,7 @@ class User{
 		$this->active = $active;
 	}
 
-	public function setAlbums(Relation $albums){
+	public function setAlbums(arry $albums){
 			$this->albums = $albums;
 	}
 

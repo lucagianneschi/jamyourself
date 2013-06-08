@@ -153,7 +153,7 @@ class Record {
 	}
 
 	//relation: puntatori ad oggetti Comment
-	public function setComments(Relation $comments){
+	public function setComments(array $comments){
 		$this->comments = $comments;
 	}
 		
@@ -173,11 +173,11 @@ class Record {
 		$this->duration = $duration;
 	}
 	
-	public function setFeaturing($featuring) {
+	public function setFeaturing(array $featuring) {
 		$this->featuring = $featuring;
 	}
 	
-	public function setFromUser($fromUser) {
+	public function setFromUser(User $fromUser) {
 		$this->fromUser = $fromUser;
 	}
 	
@@ -189,7 +189,7 @@ class Record {
 		$this->label = $label;
 	}
 	
-	public function setLocation($location) {
+	public function setLocation( $location) {
 		$geoPointParse = new geoPointParse($location['latitude'], $location['longitude']);
 		$this->location = $geoPointParse->getGeoPoint();
 	}
@@ -210,11 +210,11 @@ class Record {
 		$this->year = $year;
 	}
 	
-	public function setCreatedAt($createdAt) {
+	public function setCreatedAt(DateTime $createdAt) {
 		$this->createdAt = $createdAt;
 	}
 	
-	public function setUpdatedAt($updatedAt) {
+	public function setUpdatedAt(DateTime $updatedAt) {
 		$this->updatedAt = $updatedAt;
 	}
 	
