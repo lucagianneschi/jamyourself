@@ -17,12 +17,13 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:event">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:event">API</a>
  */
+
 define('PARSE_DIR', '../parse/');
-define('CLASS_DIR', '../classes/');
+define('CLASS_DIR', './');
 include_once PARSE_DIR.'parse.php';
 include_once CLASS_DIR.'event.class.php';
 include_once CLASS_DIR.'geoPointParse.class.php';
-include_once CLASS_DIR.'pointerParse.class.php';
+//include_once 'pointerParse.class.php';
 
 class EventParse {
 		
@@ -169,24 +170,23 @@ class EventParse {
 		$parseObject = new parseObject('Event');
 		
 		$parseObject->active = $event->getActive();
-		$parseObject->attendee = $event->getAttendee();	
-        $parseObject->commentators = $event->getCommentators();
-		$parseObject->comments = $event->getComments();
 		$parseObject->counter = $event->getCounter();
 		$parseObject->description = $event->getDescription();
-		$parseObject->eventDate = $event->getEventDate();
-		$parseObject->featuring = $event->getFeaturing();
-		$parseObject->fromUser = $event->getFromUser();			
+		
+		//NUOVO
+		$parseObject->eventDate = $parseObject->dataType('date', $event->getEventDate()->format('Y-m-d H:i:s'));
+		
+		//NUOVO
+		$parseObject->fromUser = $parseObject->dataType('pointer', array('_User', 'aAbBcCdD'));
+		
 		$parseObject->image = $event->getImage();
-		$parseObject->invited = $event->getInvited();
-		$parseObject->location = $event->getLocation();		
+		$parseObject->location = $event->getLocation()->location;
 		$parseObject->locationName = $event->getLocationName();
 		$parseObject->loveCounter = $event->getLoveCounter();
-		$parseObject->lovers = $event->getLovers();
-		$parseObject->refused = $event->getRefused();			
 		$parseObject->tags = $event->getTags();		
 		$parseObject->thumbnail = $event->getThumbnail();		
 		$parseObject->title = $event->getTitle();
+		$parseObject->ACL = $event->getACL()->acl;
 		
 		$res = $parseObject->save();
 		$event->setObjectId($res->objectId);	
