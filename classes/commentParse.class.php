@@ -1,5 +1,21 @@
 <?php
- 
+ /*! \par Info Generali:
+ *  \author    Daniele Caldelli
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par Info Classe:
+ *  \brief     Comment 
+ *  \details   Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI 
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:comment">Descrizione della classe</a>
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:comment">API</a>
+ */
 define('PARSE_DIR', '../parse/');
 define('CLASS_DIR', './');
 include_once PARSE_DIR.'parse.php';

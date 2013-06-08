@@ -1,13 +1,23 @@
 <?php
-/**
- * definizione classe: http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:album
- * api: http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:album
- * @author Stefano
+/*! \par Info Generali:
+ *  \author    Maria Laura Fresu
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
  *
- * Questa classe si occupa di gestire un ALBUM FOTOGRAFICO - corrisponde ad una riga
- * della tabella Album in Parse
- * 
+ *  \par Info Classe:
+ *  \brief     Album
+ *  \details   Classe raccoglitore per immagini
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:album">Descrizione della classe</a>
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:album">API</a>
  */
+
 class Album{
 
 	private $objectId;

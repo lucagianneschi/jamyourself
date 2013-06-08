@@ -1,4 +1,22 @@
 <?php
+/*! \par Info Generali:
+ *  \author    Maria Laura Fresu
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par Info Classe:
+ *  \brief     Image
+ *  \details   Classe per la singola immagine caricata dall'utente
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:image">Descrizione della classe</a>
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:image">API</a>
+ */
 
 class ImageParse{
 	

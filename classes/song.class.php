@@ -1,6 +1,23 @@
 <?php
-//definizione: http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:song
-//api: http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:song
+/*! \par Info Generali:
+ *  \author    Stefano Muscas
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par Info Classe:
+ *  \brief     Song Class
+ *  \details   Classe dedicata al singolo brano, pu˜ essere istanziata solo da Jammer
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:song">Descrizione della classe</a>
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:song">API</a>
+ */
+
 
 class Song{
 

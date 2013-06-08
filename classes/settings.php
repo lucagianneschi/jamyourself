@@ -1,4 +1,23 @@
 <?php
+/*! \par Info Generali:
+ *  \author    Stefano Muscas
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par Info Classe:
+ *  \brief     Settings
+ *  \details   Definisce un array di settings da impostare per i vari tipi di User
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  
+ *  
+ */
+
 
 //array dei settings
 

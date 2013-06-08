@@ -1,4 +1,22 @@
 <?php
+/*! \par Info Generali:
+ *  \author    Stefano Muscas
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par Info Classe:
+ *  \brief     Record Class
+ *  \details   Classe dedicata ad un album di brani musicali, pu˜ essere istanziata solo da Jammer
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:record">Descrizione della classe</a>
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:record">API</a>
+ */
 
 define('CLASS_DIR', './');
 include_once CLASS_DIR.'geoPointParse.class.php';
@@ -16,13 +34,11 @@ class Record {
 	private $featuring;
 	private $fromUser;
 	private $genre;
-	//private $ID;
 	private $label;
 	private $location;
 	private $loveCounter;
 	private $thumbnailCover;
 	private $title;
-	//private $USERID;
 	private $year;
 	private $createdAt;
 	private $updatedAt;

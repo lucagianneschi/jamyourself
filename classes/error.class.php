@@ -1,4 +1,22 @@
 <?php
+/*! \par Info Generali:
+ *  \author    Daniele Caldelli
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par Info Classe:
+ *  \brief     Error
+ *  \details   Classe Error per la gestione degli errori
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ * 
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:error:faq">API</a>
+ */
 
 class Error {
 	

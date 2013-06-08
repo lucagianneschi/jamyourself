@@ -1,4 +1,22 @@
 <?php
+/*! \par Info Generali:
+ *  \author    Daniele Caldelli
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par Info Classe:
+ *  \brief     Question
+ *  \details   Classe dedicata alle domande e alle risposte tra utenti e amministrazione
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:question">Descrizione della classe</a>
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:question">API</a>
+ */
 
 class Question {
 	
