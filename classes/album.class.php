@@ -27,6 +27,7 @@ class Album {
     private $comments;
     private $counter;
     private $cover;
+    //private $coverFile;
     private $description;
     private $featuring;
     private $fromUser;
@@ -66,6 +67,11 @@ class Album {
     public function getCover() {
         return $this->cover;
     }
+    /*
+     public function getCoverFile() {
+        return $this->coverFile;
+    }
+    */
 
     public function getCounter() {
         return $this->counter;
@@ -148,6 +154,11 @@ class Album {
     public function setCover(string $cover) {
         $this->cover = $cover;
     }
+    /*
+     public function setCoverFile(parseFile $coverFile) {
+        $this->cover = $coverFile;
+    }
+     */
 
     public function setDescription(string $description) {
         $this->description = $description;
@@ -200,7 +211,5 @@ class Album {
     public function setACL($ACL) {
         $this->ACL = $ACL;
     }
-
 }
-
 ?>

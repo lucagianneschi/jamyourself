@@ -207,7 +207,7 @@ class User{
 		$this->createdAt = $createdAt;
 	}
 
-	public function setACL($ACL){
+	public function setACL(parseACL $ACL){
 		$this->ACL = $ACL;
 	}
 
@@ -501,7 +501,7 @@ class Jammer extends User{
 		$this->songs = $songs;
 	}
 
-	public function setJammerType($jammerType){//perchè array??? stringa?
+	public function setJammerType($jammerType){
 		$this->jammerType = $jammerType;
 	}
 
@@ -525,7 +525,7 @@ class Jammer extends User{
 		return $this->songs;
 	}
 
-	public function getJammerType($jammerType){
+	public function getJammerType(){
 		return $this->jammerType;
 	}
 

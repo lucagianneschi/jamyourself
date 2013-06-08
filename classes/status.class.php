@@ -27,6 +27,7 @@ class Status{
     private $event;        //Parse Object Event: evento associato allo status
     private $fromUser;      //Parse User: utente che pubblica lo status
     private $image;      //Parse Object Image: image associata allo status
+    //private $imageFile;      //Parse Object File: file associata allo status
     private $location;      //GeoPoint: lat e long per localizzazione dello status (inutilizzato)
     private $loveCounter;      //number: counter per tenere conto delle sole azioni di love
     private $lovers;      //relation: array di puntatori a Parse Users
@@ -51,12 +52,12 @@ class Status{
 		$this->active = $active;
 	}
 
-    //relation: array di puntatori a Parse Users
+       //relation: array di puntatori a Parse Users
 	public function setCommentators(array $commentators){
 		$this->commentators = $commentators;
 	}
 
-     //relation: array di puntatori a Parse Comment
+        //relation: array di puntatori a Parse Comment
 	public function setComments(array $comments){
 		$this->comments = $comments;
 	}
@@ -67,7 +68,7 @@ class Status{
 	}
 
 	//Parse Object Event: evento associato allo status
-	public function setEvent($event){
+	public function setEvent(Event $event){
 		$this->events = $event;
 	}
 	
@@ -80,6 +81,12 @@ class Status{
 	public function setImage(Image $image){ 
 		$this->image = $image;
 	}
+        /*
+         ////Parse Object Image: image associata allo status
+	public function setImageFile(parseFile $image){ 
+		$this->image = $image;
+	}
+         */
 
 	//GeoPoint: lat e long per localizzazione dello status (inutilizzato)
 	public function setLocation(parseGeoPoint $location){
@@ -122,7 +129,7 @@ class Status{
 	}
 
 	//Access Control List
-	public function setACL($ACL){
+	public function setACL(parseACL $ACL){
 		$this->ACL = $ACL;
 	}
 
@@ -167,6 +174,13 @@ class Status{
 	public function getImage(){
 		return $this->image;
 	}
+        
+        /*
+        //Parse Object Image: image associata allo status
+	public function getImageFile(){
+		return $this->imageFile;
+	}
+         */
 
 	//GeoPoint: lat e long per localizzazione dello status (inutilizzato)
 	public function getLocation(){

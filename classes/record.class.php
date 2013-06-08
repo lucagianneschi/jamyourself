@@ -7,7 +7,7 @@
  *
  *  \par Info Classe:
  *  \brief     Record Class
- *  \details   Classe dedicata ad un album di brani musicali, pu˜ essere istanziata solo da Jammer
+ *  \details   Classe dedicata ad un album di brani musicali, puï¿½ essere istanziata solo da Jammer
  *  
  *  \par Commenti:
  *  \warning
@@ -234,10 +234,8 @@ class Record {
 		$this->updatedAt = $updatedAt;
 	}
 	
-	public function setACL($ACL) {
+	public function setACL(parseACL $ACL) {
 		$this->ACL = $ACL;
-	}
-	
+	}	
 }
-
 ?>
