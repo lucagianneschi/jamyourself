@@ -42,37 +42,51 @@ class VideoParse{
 		$parse->active = $video->getActive();
 		$parse->author = $video->getAuthor();
 		
-		foreach($video->getCommentators() as $user){
-			$parse->data->commentators->__op = "AddRelation";
-			$parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}
-
-		foreach($video->getComments() as $comment){
-			$parse->data->comments->__op = "AddRelation";
-			$parse->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
-		}
-
+                if(count($video->getCommentators())>0){
+                
+                    foreach($video->getCommentators() as $user){
+                            $parse->data->commentators->__op = "AddRelation";
+                            $parse->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+                    }
+                }
+                
+                if(count($video->getComments())>0){
+                    
+                    foreach($video->getComments() as $comment){
+                            $parse->data->comments->__op = "AddRelation";
+                            $parse->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
+                    }
+                
+                }
+                
 		$parse->counter = $video->getCounter();
 		$parse->description = $video->getDescription();
 		$parse->duration = $video->getDuration();
 		$parse->fromUser = $video->getFromUser();
 
-		foreach($video->getFeaturing() as $user){
-			$parse->data->featuring->__op = "AddRelation";
-			$parse->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}
-
+                if(count($video->getFeaturing())>0){
+                    
+                    foreach($video->getFeaturing() as $user){
+                            $parse->data->featuring->__op = "AddRelation";
+                            $parse->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+                    }
+                    
+                }
+                
 		if( ($fromUser = $video->getFromUser() ) != null ) {
 			$parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId() );			
 		}
 
 		$parse->loveCounter = $video->getLoveCounter();
-
-		foreach($video->getLovers() as $user){
-			$parse->data->lovers->__op = "AddRelation";
-			$parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}
-
+                
+                if(count($video->getLovers())>0){
+                    
+                    foreach($video->getLovers() as $user){
+                            $parse->data->lovers->__op = "AddRelation";
+                            $parse->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+                    }
+                    
+                }
 		$parse->tags = $video->getTags();
 		$parse->title = $video->getTitle();
 		$parse->thumbnail = $video->getThumbnail();
@@ -133,13 +147,11 @@ class VideoParse{
 	 */
 	public function getVideo($videoId){
 	
-		$video = new Video();
-			
 		$parseVideo = new parseObject("Video");
 	
 		$res = $parseVideo->get($videoId);
 	
-		$status = $this->parseToVideo($res);
+		$video = $this->parseToVideo($res);
 	
 		return $video;
 	}

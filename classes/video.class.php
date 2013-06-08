@@ -143,27 +143,27 @@ class Video{
 	/** FUNZIONI SET */
 	
 	//string: objectId su Parse  								
-	public function setObjectId(string $objecId){
+	public function setObjectId($objecId){
 		$this->objectId = $objecId;
 	}
 
 	//BOOL: segnala se l'istanza della classe è attiva o no 	
-	public function setActive(bool $active){
+	public function setActive($active){
 		$this->active = $active;
 	}
 
 	//string: Utente che ha girato il video 					
-	public function setAuthor(string $author){
+	public function setAuthor($author){
 		$this->author = $author;
 	}
 
-	//relation: array di puntatori ad User che hanno commentators 
-	public function setCommentators(Relation $commentators){
+	//relation: array di User che hanno commentators 
+	public function setCommentators(array $commentators){
 		$this->commentators = $commentators;
 	}
 
-	//relation: array di puntatori a Comment 
-	public function setCommentators(Relation $comments){
+	//relation: array di Comment 
+	public function setComments(array $comments){
 		$this->comments = $comments;
 	}
 
@@ -173,7 +173,7 @@ class Video{
 	}
 
 	//string: Descrizione del video data dall'utente  			
-	public function setDescription(string $description){
+	public function setDescription($description){
 		$this->description = $description;
 	}
 
@@ -183,7 +183,7 @@ class Video{
 	}
 
 	//Relation (with Parse User): segnala presenza altri utenti			
-	public function setFeaturing(Relation $featuring){
+	public function setFeaturing(array $featuring){
 		$this->featuring = $featuring;
 	}
 
@@ -193,7 +193,7 @@ class Video{
 	}
 
 	//relation: array di puntatori ad User che hanno effettuato azioni love  
-	public function setLovers(Relation $lovers){
+	public function setLovers(array $lovers){
 		$this->lovers = $lovers;
 	}
 
@@ -208,7 +208,7 @@ class Video{
 	}
 
 	//string:Titolo del video  									
-	public function setTitle(string $title){
+	public function setTitle($title){
 		$this->title = $title;
 	}
 
@@ -218,7 +218,7 @@ class Video{
 	}
 
 	//string: URL del video  									
-	public function setURL(string $URL){
+	public function setURL($URL){
 		$this->URL = $URL;
 	}
 
@@ -233,7 +233,7 @@ class Video{
 	}
 
 	//Access Control List										
-	public function setACL(ACL $ACL){
+	public function setACL(parseACL $ACL){
 		$this->ACL = ACL;
 	}
 }

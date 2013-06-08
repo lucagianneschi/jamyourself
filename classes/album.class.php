@@ -142,7 +142,7 @@ class Album{
 		$this->description  = $description;
 	}
 	
-	public function setFeaturing(Relation $featuring){
+	public function setFeaturing(array $featuring){
 		$this->featuring  = $featuring ;
 	}
 	

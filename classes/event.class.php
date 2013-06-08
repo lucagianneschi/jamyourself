@@ -161,17 +161,17 @@ class Event {
 	}
 
 	//relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento	
-	public function setAttendee($value) {
+	public function setAttendee(array $value) {
 		$this->attendee = $value;
 	}
 
 	//relation: Array che contiene puntatori ad utenti che hanno effettuato commento
-	public function setCommentators($value) {
+	public function setCommentators(array $value) {
 		$this->commentators = $value;
 	}
 
 	//relation: Array che contiene puntatori a Comment
-	public function setComments($value) {
+	public function setComments(array $value) {
 		$this->comments = $value;
 	}
 
@@ -186,32 +186,32 @@ class Event {
 	}
 
 	//DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento) 
-	public function setEventDate($value) {
+	public function setEventDate(DataTime $value) {
 		$this->eventDate = $value;
 	}
 
   	//relation: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano…)  #10
-	public function setFeaturing($value) {
+	public function setFeaturing(array $value) {
 		$this->featuring = $value;
 	}
 
     //User: User che crea l’evento										#2
-	public function setFromUser($value) {
+	public function setFromUser(User $value) {
 		$this->fromUser = $value;	
 	}
 
    //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
-	public function setImage($value) {
+	public function setImage(Image $value) {
 		$this->image = $value;
 	}
 
 	//relation: Array che contiene puntatori ad utenti invitati all'evento  
-	public function setInvited($value) {
+	public function setInvited(array $value) {
 		$this->invited = $value;
 	}
 
 	//GeoPoint: Luogo in cui si svolge l’evento                        
-	public function setLocation($value) {
+	public function setLocation(parseGeoPoint $value) {
 		$this->location = $value;
 	}
 
@@ -226,18 +226,18 @@ class Event {
 	}
 
 	//relation: Array che contiene puntatori ad utenti che hanno compiuto azione love            
-	public function setLovers($value) {
+	public function setLovers(array $value) {
 		$this->lovers = $value;
 	}
 
 
 	//relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento #15
-	public function setRefused($value) {
+	public function setRefused(array $value) {
 		$this->refused = $value;
 	}
 
 	//array: Categorizzazione dell’evento 								
-	public function setTags($value) {
+	public function setTags(array $value) {
 		$this->tags = $value;
 	}
 
@@ -252,17 +252,17 @@ class Event {
 	}
 
    //DataTime: data di registrazione dell'evento						
-	public function setCreatedAt($value) {
+	public function setCreatedAt(DataTime $value) {
 		$this->createdAt = $value;
 	}
 
 	//DataTime: data di ultimo update dell'evento						
-	public function setUpdatedAt($value) {
+	public function setUpdatedAt(DataTime $value) {
 		$this->updatedAt = $value;
 	}
 	
     //Access control list, definisce le politiche di accesso all'evento 
-	public function setACL($value){
+	public function setACL(parseACL $value){
 		$this->ACL = $value;
 	}
 }
