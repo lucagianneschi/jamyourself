@@ -87,10 +87,6 @@ class User{
 		$this->emailVerified = $emailVerified;
 	}
 
-	public function setID($ID){
-		$this->ID = $ID;
-	}
-
 	public function setActive($active){
 		$this->active = $active;
 	}
@@ -235,10 +231,6 @@ class User{
 
 	public function getEmailVerified(){
 		return $this->emailVerified;
-	}
-
-	public function getID(){
-		return $this->ID;
 	}
 
 	public function getActive(){
