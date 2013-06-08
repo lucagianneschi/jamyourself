@@ -125,7 +125,7 @@ class parseRestClient {
                 case 'relation':
                     $return = array(
                         "__op" => "AddRelation",
-                        "objects" => array( $this->dataType('pointer', $params))
+                        "objects" => $params
                     );
                     break;
 
@@ -173,7 +173,7 @@ class parseRestClient {
                         "amount" => $params[0]
                     );
                     break;
-                
+
                 case 'relatedTo':
                     $return = array(
                         "object" => $params[0], // pointer
