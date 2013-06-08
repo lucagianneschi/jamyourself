@@ -65,7 +65,7 @@ class parseUser extends parseRestClient{
 		}
 		
 	}
-
+	//TODO: should make the parseUser contruct accept the objectId and update and delete would only require the sessionToken
 	public function update($objectId,$sessionToken){
 		if(!empty($objectId) || !empty($sessionToken)){
 			$request = $this->request(array(
@@ -146,24 +146,25 @@ class parseUser extends parseRestClient{
 		}		
 
 	}
-	
+
 	public function requestPasswordReset($email){
 		if(!empty($email)){
+			$this->email - $email;
 			$request = $this->request(array(
-					'method' => 'POST',
-					'requestUrl' => 'requestPasswordReset',
-					'data' => $this->data,
-					'email'=>$email
+			'method' => 'POST',
+			'requestUrl' => 'requestPasswordReset',
+			'email' => $email,
+			'data' => $this->data
 			));
-				
+
 			return $request;
-				
 		}
 		else{
 			$this->throwError('email is required for the requestPasswordReset method');
 		}
-	
-	}
+
+}
+
 	
 }
 

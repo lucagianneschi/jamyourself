@@ -103,7 +103,7 @@ class Image{
 	}
 	
 	//getters
-	public function getOjectId(){
+	public function getObjectId(){
 		return $this->objectId;	
 	}
 
