@@ -103,7 +103,7 @@ class User{
 		$this->city = $city;
 	}
 
-	public function setComments(Relation $comments){
+	public function setComments(array $comments){
 			$this->comments = $comments;
 	}
 
@@ -127,7 +127,7 @@ class User{
 			$this->geoCoding = $geoCoding;
 	}
 
-	public function setImages(Relation $images){
+	public function setImages(array $images){
 			$this->images = $images;
 	}
 
@@ -139,7 +139,7 @@ class User{
 		$this->view = $levelValue;
 	}
 
-	public function setLoveSongs(Relation $loveSongs){
+	public function setLoveSongs(array $loveSongs){
 		$this->loveSongs = $loveSongs;
 	}
 
@@ -147,7 +147,7 @@ class User{
 		$this->music = $music;
 	}
 
-	public function setPlaylists(Relation $playlists){
+	public function setPlaylists(array $playlists){
 			$this->playlists = $playlists;
 	}
 
@@ -171,7 +171,7 @@ class User{
 		$this->settings = $settings;
 	}
 
-	public function setStatuses(Relation $statuses){
+	public function setStatuses(array $statuses){
 		$this->statuses = $statuses;
 	}
 
@@ -183,7 +183,7 @@ class User{
 		$this->type = $type;
 	}
 
-	public function setVideos(Relation $videos){
+	public function setVideos(array $videos){
 		$this->videos = $videos;
 	}
 
@@ -426,11 +426,11 @@ class Venue extends User{
 		$this->address  = $address;
 	}
 
-	public function setCollaboration(Relation $collaboration){
+	public function setCollaboration(array $collaboration){
     	$this->collaboration = $collaboration;
 	}
 
-	public function setEvents(Relation $events){
+	public function setEvents(array $events){
     	$this->events = $events;
 	}
 	
@@ -481,11 +481,11 @@ class Jammer extends User{
 		$this->setType("JAMMER");
 	}
 
-	public function setCollaboration(Relation $collaboration){
+	public function setCollaboration(array $collaboration){
     	$this->collaboration = $collaboration;
 	}
 
-	public function setEvents(Relation $events){
+	public function setEvents(array $events){
     	$this->events = $events;
 	}
 
@@ -493,15 +493,15 @@ class Jammer extends User{
 		$this->members = $members;
 	}
 
-	public function setRecords(Relation $records){
+	public function setRecords(array $records){
 		$this->records = $records;
 	}
 
-	public function setSongs(Relation $songs){
+	public function setSongs(array $songs){
 		$this->songs = $songs;
 	}
 
-	public function setJammerType(array $jammerType){//perchè array??? stringa?
+	public function setJammerType($jammerType){//perchè array??? stringa?
 		$this->jammerType = $jammerType;
 	}
 
@@ -568,11 +568,11 @@ class Spotter extends User{
 	public function setFirstname($firstname){
 		$this->firstname = $firstname;
 	}
-	public function setFollowing(Relation $following){
+	public function setFollowing(array $following){
 		$this->following = $following;
 	}
 
-	public function setFriendship(Relation $friendship){
+	public function setFriendship(array $friendship){
 		$this->friendship = $friendship;
 	}
 

@@ -21,27 +21,27 @@
 
 class Activity{
 
-	private $objectId;		//String:objectId su Parse 															
-	private $accepted;      //BOOL: da definire																	
-	private $active;		//BOOL:Indica se l'istanza della classe è attiva 									
-	private $album;         //Album (Parse Object): Istanza della classe Album associata all'activity 			
-	private $comment; 		//Comment (Parse Object): Istanza della classe Comment associata all'activity		
-	private $event;			//Event (Parse Object): Istanza della classe Event associata all'activity           
-    private $fromUser;		//User:Utente che effettua l'azione 												
-	private $image;			//Image (Parse Object): Istanza della classe Image associata all'activity           	
+    private $objectId;  //String:objectId su Parse 															
+    private $accepted;      //BOOL: da definire																	
+    private $active;  //BOOL:Indica se l'istanza della classe è attiva 									
+    private $album;         //Album (Parse Object): Istanza della classe Album associata all'activity 			
+    private $comment;   //Comment (Parse Object): Istanza della classe Comment associata all'activity		
+    private $event;   //Event (Parse Object): Istanza della classe Event associata all'activity           
+    private $fromUser;  //User:Utente che effettua l'azione 												
+    private $image;   //Image (Parse Object): Istanza della classe Image associata all'activity           	
     private $playlist;      //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     
     private $question;      //Question (Parse Object): Istanza della classe Question associata all'activity 
-	private $read;			//BOOL:Indica se l'istanza della classe è stata letta o meno 						
-	private $record;        //Record (Parse Object): Istanza della classe Record associata all'activity
-	private $song;          //Song (Parse Object): Istanza della classe Song associata all'activity
-	private $status;		//string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto
-	private $toUser;		//User:Utente che riceve l'azione 												
-	private $type;			//string:Indica la tipologia di attività 											
+    private $read;   //BOOL:Indica se l'istanza della classe è stata letta o meno 						
+    private $record;        //Record (Parse Object): Istanza della classe Record associata all'activity
+    private $song;          //Song (Parse Object): Istanza della classe Song associata all'activity
+    private $status;  //string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto
+    private $toUser;  //User:Utente che riceve l'azione 												
+    private $type;   //string:Indica la tipologia di attività 											
     private $userStatus;    //Status(Parse Object): Istanza della classe Status associata all'activity 			
     private $video;         //Video (Parse Object):Istanza della classe Video associata all'activity            
-	private $createdAt;		//DateTime:Data di inserimento attività 											
-	private $updatedAt;		//DateTime:Data di ultimo update attività 											
-    private $ACL;			//ACL:access control list, determina le politiche di accesso alla classe 			
+    private $createdAt;  //DateTime:Data di inserimento attività 											
+    private $updatedAt;  //DateTime:Data di ultimo update attività 											
+    private $ACL;   //ACL:access control list, determina le politiche di accesso alla classe 			
 
 	//COSTRUTTORE
 
