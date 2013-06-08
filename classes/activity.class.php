@@ -410,7 +410,15 @@ class Activity {
         if($this->type != NULL )$string .= " [ type ] => ".$this->type."<br>";   											
         if($this->userStatus != NULL )$string .= " [ userStatus ] => ".$this->userStatus->getObjectId()."<br>";   		
         if($this->video != NULL )$string .= " [ video ] => ".$this->video->getObjectId()."<br>";                     											
-        if($this->ACL != NULL )$string .= " [ ACL ] => ".$this->ACL."<br>";
+        foreach ($this->getACL()->acl as $key => $acl) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[key] => ' . $key . '<br />';
+            foreach ($acl as $access => $value) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+            }
+        }
         if($this->createdAt != NULL )$string.="[ updatedAt ] => ".$this->createdAt->format('d/m/Y H:i:s')."<br>";
         if($this->updatedAt != NULL )$string.="[ CreatedAt ] => ".$this->updatedAt->format('d/m/Y H:i:s')."<br>";
         
