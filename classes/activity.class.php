@@ -1,5 +1,6 @@
 <?php
-/*! \par Info Generali:
+
+/* ! \par Info Generali:
  *  \author    Stefano Muscas
  *  \version   1.0
  *  \date      2013
@@ -18,8 +19,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:activity">API</a>
  */
 
-
-class Activity{
+class Activity {
 
     private $objectId;  //String:objectId su Parse 															
     private $accepted;      //BOOL: da definire																	
@@ -43,352 +43,387 @@ class Activity{
     private $updatedAt;  //DateTime:Data di ultimo update attività 											
     private $ACL;   //ACL:access control list, determina le politiche di accesso alla classe 			
 
-	//COSTRUTTORE
+    //COSTRUTTORE
 
-	public function __construct(){
-	}
-
-	//FUNZIONI SET
-	/**
-	 *
-	 * @param string $objectId	
-	 */
-	public function setObjectId($objectId){
-		$this->objectId = $objectId;
-	}
-
-     /**
-	 *
-	 * @param BOOL $accepted	
-	 */
-	public function setAccepted($accepted){
-		$this->accepted = $accepted;
-	}
-
-	/**
-	 *
-	 * @param BOOL $active	
-	 */
-	public function setActive($active){
-		$this->read = $active;
-	}
-
-	/**
-	 *
-	 * @param Album $album	
-	 */
-	public function setAlbum(Album $album){
-		$this->album = $album;
-	}
-
-	/**
-	 *
-	 * @param Comment $comment	
-	 */
-	public function setComment(Comment $comment){
-		$this->comment = $comment;
-	}
-
-	/**
-	 *
-	 * @param Event $event	
-	 */
-	public function setEvent(Event $event){
-		$this->event = $event;
-	}
-
-	/**
-	 *
-	 * @param User $fromUser	
-	 */
-	public function setFromUser(User $fromUser){
-		$this->fromUser = $fromUser;
-	}
-
-	/**
-	 *
-	 * @param Image $image	
-	 */
-	public function setImage(Image $image){
-		$this->image = $image;
-	}
-
-	/**
-	 *
-	 * @param Playlist $playlist	
-	 */
-	public function setPlaylist(Playlist $playlist){
-		$this->playlist = $playlist;
+    public function __construct() {
+        
     }
 
-	/**
-	 *
-	 * @param Question question	
-	 */
-	public function setQuestion(Question $question){
-		$this->question = $question;
-    }
-
-     /**
-	 *
-	 * @param BOOL $read	
-	 */
-	public function setRead($read){
-		$this->read = $read;
-	}
-
-	/**
-	 *
-	 * @param Record $record	
-	 */
-	public function setRecord(Record $record){
-		$this->record = $record;
-	}
-
-
-	/**
-	 *
-	 * @param string $status	
-	 */
-	public function setStatus($status){
-		$this->status = $status;
-	}
-
-	/**
-	 *
-	 * @param Song $song	
-	 */
-	public function setSong(Song $song){
-		$this->song = $song;
-	}
-
-	/**
-	 *
-	 * @param User $toUser	
-	 */
-	public function setToUser(User $toUser){
-		$this->toUser = $toUser;
-	}
-
-	/**
-	 *
-	 * @param string $type	
-	 */
-	public function setType($type){
-		$this->type = $type;
-	}
-
-	/**
-	 *
-	 * @param Status $status	
-	 */
-	public function setUserStatus(Status $userStatus){
-		$this->userStatus = $userStatus;
-	}
-
-	/**
-	 *
-	 * @param Video $video	
-	 */
-	public function setVideo(Video $video){
-		$this->video = $video;
-	}
-
-	/**
-	 *
-	 * @param DateTime $createdAt	
-	 */
-	public function setCreatedAt(DateTime $createdAt){
-
-		$this->createdAt = $createdAt;
-	}
-
-	/**
-	 *
-	 * @param DateTime $updatedAt	
-	 */
-	public function setUpdatedAt(DateTime $updatedAt){
-		$this->updatedAt = $updatedAt;
-
-	}
-
-	/**
-	 *
-	 * @param ACL $ACL	
-	 */
-	public function setACL(parseACL $ACL){  
-		$this->ACL = $ACL;
-	}
-
-	//FUNZIONI GET
-	/**
-	 *
-	 * @param string $objectId	
-	 */
-	public function getObjectId(){
-		return $this->objectId;
-	}
-
-	/**
-	 *
-	 * @param BOOL $active	
-	 */
-	public function getActive(){
-		return $this->active;
-	}
-
-	/**
-	 *
-	 * @param BOOL $accepted	
-	 */
-	public function getAccepted(){
-		return $this->accepted;
-	}
-
-	/**
-	 *
-	 * @param Album $album	
-	 */
-
-	public function getAlbum(){
-		return $this->album;
-	}
-
-	/**
-	 *
-	 * @param Comment $comment	
-	 */
-	public function getComment(){
-		return $this->comment;
-	}
-
-	/**
-	 *
-	 * @param Event $event	
-	 */
-	public function getEvent(){
-		return $this->event;
-	}
-
-	/**
-	 *
-	 * @param User $fromUser	
-	 */
-	public function getFromUser(){
-		return $this->fromUser;
-	}
-
-	/**
-	 *
-	 * @param Image $image	
-	 */
-	public function getImage(){
-		return $this->image;
-	}
-
-	/**
-	 *
-	 * @param Playlist $playlist	
-	 */
-	public function getPlaylist(){
-		return $this->playlist;
-	}
-
-	/**
-	 *
-	 * @param Question $question	
-	 */
-
-	public function getQuestion(){
-		return $this->question;
-	}
-
-     /**
-	 *
-	 * @param BOOL $read	
-	 */
-	public function getRead(){
-		return $this->read;
-	}
-
-	/**
-	 *
-	 * @param string $status	
-	 */
-	public function getStatus(){
-		return $this->status;
-	}
-
-	/**
-	 *
-	 * @param Record $record	
-	 */
-	public function getRecord(){
-		return $this->record;
-	}
-
-	/**
-	 *
-	 * @param Song $song	
-	 */
-	public function getSong(){
-		return $this->song;
-	}
-
-	/**
-	 *
-	 * @param User $toUser
-	 */
-	public function getToUser(){
-		return $this->toUser;
-	}
-
-	/**
-	 *
-	 * @param string $type	
-	 */
-	public function getType(){
-		return $this->type;
-	}
-
-	/**
-	 *
-	 * @param Status $status	
-	 */
-	public function getUserStatus(){
-		return $this->userStatus;
-	}
-
-	/**
-	 *
-	 * @param Video $video	
-	 */
-	public function getVideo(){
-		return $this->video;
-	}
-
-	/**
-	 *
-	 * @param DateTime $createdAt	
-	 */
-	public function getCreatedAt(){
-		return $this->createdAt;
-	}
-
-	/**
-	 *
-	 * @param DateTime $updatedAt	
-	 */
-	public function getUpdatedAt(){
-		return $this->updatedAt;
-	}
-   
+    //FUNZIONI SET
     /**
-	 *
-	 * @param ACL $ACL	
-	 */
-	public function getACL(){
-		return $this->ACL;
-	}
+     *
+     * @param string $objectId	
+     */
+    public function setObjectId($objectId) {
+        $this->objectId = $objectId;
+    }
+
+    /**
+     *
+     * @param BOOL $accepted	
+     */
+    public function setAccepted($accepted) {
+        $this->accepted = $accepted;
+    }
+
+    /**
+     *
+     * @param BOOL $active	
+     */
+    public function setActive($active) {
+        $this->read = $active;
+    }
+
+    /**
+     *
+     * @param Album $album	
+     */
+    public function setAlbum(Album $album) {
+        $this->album = $album;
+    }
+
+    /**
+     *
+     * @param Comment $comment	
+     */
+    public function setComment(Comment $comment) {
+        $this->comment = $comment;
+    }
+
+    /**
+     *
+     * @param Event $event	
+     */
+    public function setEvent(Event $event) {
+        $this->event = $event;
+    }
+
+    /**
+     *
+     * @param User $fromUser	
+     */
+    public function setFromUser(User $fromUser) {
+        $this->fromUser = $fromUser;
+    }
+
+    /**
+     *
+     * @param Image $image	
+     */
+    public function setImage(Image $image) {
+        $this->image = $image;
+    }
+
+    /**
+     *
+     * @param Playlist $playlist	
+     */
+    public function setPlaylist(Playlist $playlist) {
+        $this->playlist = $playlist;
+    }
+
+    /**
+     *
+     * @param Question question	
+     */
+    public function setQuestion(Question $question) {
+        $this->question = $question;
+    }
+
+    /**
+     *
+     * @param BOOL $read	
+     */
+    public function setRead($read) {
+        $this->read = $read;
+    }
+
+    /**
+     *
+     * @param Record $record	
+     */
+    public function setRecord(Record $record) {
+        $this->record = $record;
+    }
+
+    /**
+     *
+     * @param string $status	
+     */
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+    /**
+     *
+     * @param Song $song	
+     */
+    public function setSong(Song $song) {
+        $this->song = $song;
+    }
+
+    /**
+     *
+     * @param User $toUser	
+     */
+    public function setToUser(User $toUser) {
+        $this->toUser = $toUser;
+    }
+
+    /**
+     *
+     * @param string $type	
+     */
+    public function setType($type) {
+        $this->type = $type;
+    }
+
+    /**
+     *
+     * @param Status $status	
+     */
+    public function setUserStatus(Status $userStatus) {
+        $this->userStatus = $userStatus;
+    }
+
+    /**
+     *
+     * @param Video $video	
+     */
+    public function setVideo(Video $video) {
+        $this->video = $video;
+    }
+
+    /**
+     *
+     * @param DateTime $createdAt	
+     */
+    public function setCreatedAt(DateTime $createdAt) {
+
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     *
+     * @param DateTime $updatedAt	
+     */
+    public function setUpdatedAt(DateTime $updatedAt) {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     *
+     * @param ACL $ACL	
+     */
+    public function setACL(parseACL $ACL) {
+        $this->ACL = $ACL;
+    }
+
+    //FUNZIONI GET
+    /**
+     *
+     * @param string $objectId	
+     */
+    public function getObjectId() {
+        return $this->objectId;
+    }
+
+    /**
+     *
+     * @param BOOL $active	
+     */
+    public function getActive() {
+        return $this->active;
+    }
+
+    /**
+     *
+     * @param BOOL $accepted	
+     */
+    public function getAccepted() {
+        return $this->accepted;
+    }
+
+    /**
+     *
+     * @param Album $album	
+     */
+    public function getAlbum() {
+        return $this->album;
+    }
+
+    /**
+     *
+     * @param Comment $comment	
+     */
+    public function getComment() {
+        return $this->comment;
+    }
+
+    /**
+     *
+     * @param Event $event	
+     */
+    public function getEvent() {
+        return $this->event;
+    }
+
+    /**
+     *
+     * @param User $fromUser	
+     */
+    public function getFromUser() {
+        return $this->fromUser;
+    }
+
+    /**
+     *
+     * @param Image $image	
+     */
+    public function getImage() {
+        return $this->image;
+    }
+
+    /**
+     *
+     * @param Playlist $playlist	
+     */
+    public function getPlaylist() {
+        return $this->playlist;
+    }
+
+    /**
+     *
+     * @param Question $question	
+     */
+    public function getQuestion() {
+        return $this->question;
+    }
+
+    /**
+     *
+     * @param BOOL $read	
+     */
+    public function getRead() {
+        return $this->read;
+    }
+
+    /**
+     *
+     * @param string $status	
+     */
+    public function getStatus() {
+        return $this->status;
+    }
+
+    /**
+     *
+     * @param Record $record	
+     */
+    public function getRecord() {
+        return $this->record;
+    }
+
+    /**
+     *
+     * @param Song $song	
+     */
+    public function getSong() {
+        return $this->song;
+    }
+
+    /**
+     *
+     * @param User $toUser
+     */
+    public function getToUser() {
+        return $this->toUser;
+    }
+
+    /**
+     *
+     * @param string $type	
+     */
+    public function getType() {
+        return $this->type;
+    }
+
+    /**
+     *
+     * @param Status $status	
+     */
+    public function getUserStatus() {
+        return $this->userStatus;
+    }
+
+    /**
+     *
+     * @param Video $video	
+     */
+    public function getVideo() {
+        return $this->video;
+    }
+
+    /**
+     *
+     * @param DateTime $createdAt	
+     */
+    public function getCreatedAt() {
+        return $this->createdAt;
+    }
+
+    /**
+     *
+     * @param DateTime $updatedAt	
+     */
+    public function getUpdatedAt() {
+        return $this->updatedAt;
+    }
+
+    /**
+     *
+     * @param ACL $ACL	
+     */
+    public function getACL() {
+        return $this->ACL;
+    }
+
+    public function __toString() {
+        
+        $string = "";
+        
+        if($this->objectId != NULL )$string .= "[ objectId ] => ".$this->objectId."<br>"; 															
+        if($this->accepted != NULL )$string .= "[ accepted ] => ".$this->accepted."<br>";     																
+        if($this->active != NULL )$string .= "[ active ] => ".$this->active."<br>"; 									
+        if($this->album != NULL )$string .= " [ album ] => ".$this->album->getObjectId()."<br>";         			
+        if($this->comment != NULL )$string .= " [ comment ] => ".$this->comment->getObjectId()."<br>";   		
+        if($this->event != NULL )$string .= " [ event ] => ".$this->event->getObjectId()."<br>";             
+        if($this->fromUser != NULL )$string .= " [ fromUser ] => ".$this->fromUser->getObjectId()."<br>";  												
+        if($this->image != NULL )$string .= " [ image ] => ".$this->image->getObjectId()."<br>";           	
+        if($this->playlist != NULL )$string .= " [ playlist ] => ".$this->playlist->getObjectId()."<br>";      
+        if($this->question != NULL )$string .= " [ question ] => ".$this->question->getObjectId()."<br>";     
+        if($this->read != NULL )$string .= " [ read ] => ".$this->read."<br>";  						
+        if($this->record != NULL )$string .= " [ record ] => ".$this->record->getObjectId()."<br>";        
+        if($this->song != NULL )$string .= " [ song ] => ".$this->song->getObjectId()."<br>";        
+        if($this->status != NULL )$string .= " [ status ] => ".$this->status->getObjectId()."<br>";  
+        if($this->toUser != NULL )$string .= " [ toUser ] => ".$this->toUser->getObjectId()."<br>";  												
+        if($this->type != NULL )$string .= " [ type ] => ".$this->type."<br>";   											
+        if($this->userStatus != NULL )$string .= " [ userStatus ] => ".$this->userStatus->getObjectId()."<br>";   		
+        if($this->video != NULL )$string .= " [ video ] => ".$this->video->getObjectId()."<br>";                     											
+        foreach ($this->getACL()->acl as $key => $acl) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[key] => ' . $key . '<br />';
+            foreach ($acl as $access => $value) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+            }
+        }
+        if($this->createdAt != NULL )$string.="[ updatedAt ] => ".$this->createdAt->format('d/m/Y H:i:s')."<br>";
+        if($this->updatedAt != NULL )$string.="[ CreatedAt ] => ".$this->updatedAt->format('d/m/Y H:i:s')."<br>";
+        
+        return $string;
+    }
 }
+
 ?>
