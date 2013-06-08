@@ -1,5 +1,6 @@
 <?php
-/*! \par Info Generali:
+
+/* ! \par Info Generali:
  *  \author    Maria Laura Fresu
  *  \version   1.0
  *  \date      2013
@@ -17,83 +18,123 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:event">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:event">API</a>
  */
+
 define('PARSE_DIR', '../parse/');
-define('CLASS_DIR', '../classes/');
-include_once PARSE_DIR.'parse.php';
-include_once CLASS_DIR.'event.class.php';
-include_once CLASS_DIR.'geoPointParse.class.php';
-include_once CLASS_DIR.'pointerParse.class.php';
+define('CLASS_DIR', './');
+include_once PARSE_DIR . 'parse.php';
+include_once CLASS_DIR . 'event.class.php';
+include_once CLASS_DIR . 'geoPointParse.class.php';
+
+//include_once 'pointerParse.class.php';
 
 class EventParse {
-		
-	private $parseQuery;
 
-	public function __construct() {
-		$this->parseQuery = new parseQuery('Event');
-	}
-	
-	public function getEvent($objectId) {
-		$event = new event();
-		$parseObject = new parseObject('Event');
-		$res = $parseObject->get($objectId);
-		//inizializzo l'oggetto
-		$event->setObjectId($res->objectId);
-		$event->setActive($res->active);
+    private $parseQuery;
+
+    public function __construct() {
+        $this->parseQuery = new parseQuery('Event');
+    }
+
+    public function getEvent($objectId) {
+        $event = new event();
+        $parseObject = new parseObject('Event');
+        $res = $parseObject->get($objectId);
+        //inizializzo l'oggetto
+        $event->setObjectId($res->objectId);
+        $event->setActive($res->active);
+
+        if ($res->getAttendee() != null || count($res->getAttendee()) > 0) {
+            foreach ($res->getAttendee() as $user) {
+                $event->data[attendee]->__op = "AddRelation";
+                $event->data[attendee]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+            }
+        } else {
+            $event->data[attendee] = null;
+        }
+
+        if ($res->getCommentators() != null || count($res->getCommentators()) > 0) {
+            foreach ($res->getCommentators() as $user) {
+                $event->data[commentators]->__op = "AddRelation";
+                $event->data[commentators]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+            }
+        } else {
+            $event->data[commentators] = null;
+        }
+
+        if ($res->getComments() != null || count($res->getComments()) > 0) {
+            foreach ($res->getComments() as $comment) {
+                $event->data[comments]->__op = "AddRelation";
+                $event->data[comments]->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment->getObjectId())));
+            }
+        } else {
+            $event->data[comments] = null;
+        }
+
+        $event->setCounter($res->counter);
+        $event->setDescription($res->description);
+        $event->setEventDate($res->eventDate);
+
+        if ($res->getFeaturing() != null || count($res->getFeaturing()) > 0) {
+            foreach ($res->getFeaturing() as $user) {
+                $event->data[featuring]->__op = "AddRelation";
+                $event->data[featuring]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+            }
+        } else {
+            $event->data[featuring] = null;
+        }
+
+        $event->setFromUser($res->fromUser);
+        $event->setImage($res->image);
+
+        if ($res->getInvited() != null || count($res->getInvited()) > 0) {
+            foreach ($res->getInvited() as $user) {
+                $event->data[invited]->__op = "AddRelation";
+                $event->data[invited]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+            }
+        } else {
+            $event->data[invited] = null;
+        }
+
+        $event->setLocation($res->location);
+        $event->setLocationName($res->locationName);
+        $event->setLoveCounter($res->loveCounter);
+
+        if ($res->getLovers() != null || count($res->getLovers()) > 0) {
+            foreach ($res->getLovers() as $user) {
+                $event->data[lovers]->__op = "AddRelation";
+                $event->data[lovers]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+            }
+        } else {
+            $event->data[lovers] = null;
+        }
+
+        if ($res->getRefused() != null || count($res->getRefused()) > 0) {
+            foreach ($res->getRefused() as $user) {
+                $event->data[refused]->__op = "AddRelation";
+                $event->data[refused]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+            }
+        } else {
+            $event->data[refused] = null;
+        }
+
+        if ($res->getTags() != null || count($res->getTags()) > 0) {
+            $event->setTags($res->tags);
+        } else {
+            $event->tags = null;
+        }
         
-		foreach($res->getAttendee() as $user){
-			$event->data->attendee->__op = "AddRelation";
-			$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}
+        $event->setThumbnail($res->thumbnail);
+        $event->setTitle($res->title);
+        $event->setCreatedAt($res->createdAt);
+        $event->setUpdatedAt($res->updatedAt);
 
-		foreach($res->getCommentators() as $user){
-			$event->data->commentators->__op = "AddRelation";
-			$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}
+        $acl = new parseACL();
+        $acl->setPublicReadAccess(true);
+        $acl->setPublicWriteAccess(true);
+        $event->setACL($acl);
 
-		foreach($res->getComments() as $comment){
-			$event->data->comments->__op = "AddRelation";
-			$event->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
-		}
-
-		$event->setCounter($res->counter);
-		$event->setDescription($res->description);
- 		$event->setEventDate($res->eventDate);
-
-		foreach($res->getFeaturing() as $user){
-			$event->data->featuring->__op = "AddRelation";
-			$event->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}		
-
-		$event->setFromUser($res->fromUser);
-		$event->setImage($res->image);
-
-		foreach($res->getInvited() as $user){
-			$event->data->invited->__op = "AddRelation";
-			$event->data->invited->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}	
-		
-		$event->setLocation($res->location);
-		$event->setLocationName($res->locationName);
-		$event->setLoveCounter($res->loveCounter);
-
-		foreach($res->getLovers() as $user){
-			$event->data->lovers->__op = "AddRelation";
-			$event->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}	
-		
-		foreach($res->getRefused() as $user){
-			$event->data->refused->__op = "AddRelation";
-			$event->data->refused->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}
-		
-		$event->setTags($res->tags);
-		$event->setThumbnail($res->thumbnail);
-		$event->setTitle($res->title);
-		$event->setCreatedAt($res->createdAt);
-		$event->setUpdatedAt($res->updatedAt);
-       // $event->setACL($res->ACL); si può mettere??
-		return $event;
-	}	
+        return $event;
+    }	
 
 	public function getEvents() {
 		//creo un contenitore di Events
@@ -108,18 +149,18 @@ class EventParse {
 			$event->setActive($obj->active);
 
 			foreach($obj->getAttendee() as $user){
-				$event->data->attendee->__op = "AddRelation";
-				$event->data->attendee->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+				$event->data[attendee]->__op = "AddRelation";
+				$event->data[attendee]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}
 
 			foreach($obj->getCommentators() as $user){
-				$event->data->commentators->__op = "AddRelation";
-				$event->data->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+				$event->data[commentators]->__op = "AddRelation";
+				$event->data[commentators]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}
 
 			foreach($obj->getComments() as $comment){
-				$event->data->comments->__op = "AddRelation";
-				$event->data->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
+				$event->data[comments]->__op = "AddRelation";
+				$event->data[comments]->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
 			}
 
 			$event->setCounter($obj->counter);
@@ -127,8 +168,8 @@ class EventParse {
 			$event->setEventDate($obj->eventDate);
 
 			foreach($obj->getFeaturing() as $user){
-				$event->data->featuring->__op = "AddRelation";
-				$event->data->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+				$event->data[featuring]->__op = "AddRelation";
+				$event->data[featuring]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}	
 
 			$pointerParse = new pointerParse($obj->fromUser->className, $obj->fromUser->objectId);
@@ -137,21 +178,21 @@ class EventParse {
 			$event->setImage($obj->image);
 
 			foreach($obj->getInvited() as $user){
-				$event->data->invited->__op = "AddRelation";
-				$event->data->invited->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+				$event->data[invited]->__op = "AddRelation";
+				$event->data[invited]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}	
 			$event->setLocation($obj->location);
 			$event->setLocationName($obj->locationName);
 			$event->setLoveCounter($obj->loveCounter);
 
 			foreach($obj->getLovers() as $user){
-				$event->data->lovers->__op = "AddRelation";
-				$event->data->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+				$event->data[lovers]->__op = "AddRelation";
+				$event->data[lovers]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}	
 		
 			foreach($obj->getRefused() as $user){
-				$event->data->refused->__op = "AddRelation";
-				$event->data->refused->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+				$event->data[refused]->__op = "AddRelation";
+				$event->data[refused]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
 			}
 
 			$event->setTags($obj->tags);
@@ -159,7 +200,9 @@ class EventParse {
 			$event->setTitle($obj->title);
 			$event->setCreatedAt($obj->createdAt);
 			$event->setUpdatedAt($obj->updatedAt);
-			// $event->setACL($obj->ACL); si può mettere??
+                        
+                        
+			$event->setACL($obj->ACL); 
 			$events[$obj->objectId] = $event;
 		}
 		return $events;
@@ -169,24 +212,23 @@ class EventParse {
 		$parseObject = new parseObject('Event');
 		
 		$parseObject->active = $event->getActive();
-		$parseObject->attendee = $event->getAttendee();	
-        $parseObject->commentators = $event->getCommentators();
-		$parseObject->comments = $event->getComments();
 		$parseObject->counter = $event->getCounter();
 		$parseObject->description = $event->getDescription();
-		$parseObject->eventDate = $event->getEventDate();
-		$parseObject->featuring = $event->getFeaturing();
-		$parseObject->fromUser = $event->getFromUser();			
+		
+		//NUOVO
+		$parseObject->eventDate = $parseObject->dataType('date', $event->getEventDate()->format('Y-m-d H:i:s'));
+		
+		//NUOVO
+		$parseObject->fromUser = $parseObject->dataType('pointer', array('_User', 'aAbBcCdD'));
+		
 		$parseObject->image = $event->getImage();
-		$parseObject->invited = $event->getInvited();
-		$parseObject->location = $event->getLocation();		
+		$parseObject->location = $event->getLocation()->location;
 		$parseObject->locationName = $event->getLocationName();
 		$parseObject->loveCounter = $event->getLoveCounter();
-		$parseObject->lovers = $event->getLovers();
-		$parseObject->refused = $event->getRefused();			
 		$parseObject->tags = $event->getTags();		
 		$parseObject->thumbnail = $event->getThumbnail();		
 		$parseObject->title = $event->getTitle();
+		$parseObject->ACL = $event->getACL()->acl;
 		
 		$res = $parseObject->save();
 		$event->setObjectId($res->objectId);	

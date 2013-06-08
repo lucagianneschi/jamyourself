@@ -216,7 +216,7 @@ class Event {
 	}
 
    //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
-	public function setImage(Image $image) {
+	public function setImage($image) {
 		$this->image = $image;
 	}
 
@@ -226,7 +226,7 @@ class Event {
 	}
 
 	//GeoPoint: Luogo in cui si svolge l’evento
-	public function setLocation(parseGeoPoint $location) {
+	public function setLocation($location) {
 		$this->location = $location;
 	}
 
@@ -282,7 +282,7 @@ class Event {
 	
 	function __toString() {
 		
-		$stringa = '';
+		$string = '';
 		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
 		$string .= '[active] => ' . $this->getActive() . '<br />';
 		//$this->getAttendee()
@@ -294,8 +294,7 @@ class Event {
 		//$this->getFeaturing()
 		$fu = $this->getFromUser();
 		$string .= '[fromUser] => ' . get_class($fu) . ' -> ' . $fu->getObjectId() . '<br/>';
-		$im = $this->getImage();
-		$string .= '[image] => ' . get_class($im) . ' -> ' . $im->getObjectId() . '<br/>';
+		$string .= '[image] => ' . $this->getImage() . '<br />';
 		//$this->getInvited()
 		$parseGeoPoint = $this->getLocation();
 		$string .= '[location] => ' . $parseGeoPoint->lat . ', ' .  $parseGeoPoint->long . '<br />';
