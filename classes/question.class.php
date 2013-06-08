@@ -12,7 +12,7 @@ class Question {
 	private $text;
 	private $createdAt;
 	private $updatedAt;
-	//private $ACL; //perchè non si setta??
+	private $ACL; //perchè non si setta??
 	
 	public function getObjectId() {
 		return $this->objectId;
@@ -98,15 +98,18 @@ class Question {
 	public function setText($value) {
 		$this->text = $value;
 	}
-	
-	public function setCreatedAt($value) {
+	 
+	public function setCreatedAt(DateTime $value) {
 		$this->createdAt = $value;
 	}
 	
-	public function setUpdatedAt($value) {
+	public function setUpdatedAt(DateTime $value) {
 		return $this->updatedAt = $value;
 	}
-	
+        
+        public function setACL(parseACL $value) {
+		return $this->ACL = $value;
+	}
 }
 
 ?>
