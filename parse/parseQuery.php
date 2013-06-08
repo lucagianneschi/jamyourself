@@ -283,6 +283,30 @@ class parseQuery extends parseRestClient{
 		}
 		
 	}
+        
+    /**
+    * Example - to find users with a particular role id
+    * ES: per trovare gli Utenti in relazione con un Album, dove
+    * nella tabella album abbiamo una colonna "userRelation"
+    * la query si fa su : $query->parseQuery('_User);
+    * $query->whereRelatedTo('users', '_Role', $roleId);
+    * 
+    * @param type $key = nome colonna del tipo relazione
+    * @param type $className = classe di cui si cerca la relazione
+    * @param type $objectId = id dell'oggetto di cui si cercano le relazioni
+    */
+        public function whereRelatedTo($key,$className,$objectId) {
+            if(isset($key) && isset($className) && isset($objectId)){
+                if($className === 'Role')
+                    $className = '_Role';
+                if($className === 'User')
+                    $className = '_User';
+                $pointer = $this->dataType('pointer', array($className, $objectId));
+                $this->_query['$relatedTo'] = $this->dataType('relatedTo', array($pointer, $key));
+            } else {
+		$this->throwError('the $key and $classname and $objectId parameters must be set when setting a "whereRelatedTo" query method');		
+            }
+        }        
 }
 
 ?>
