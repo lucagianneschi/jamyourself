@@ -84,7 +84,7 @@ class Playlist{
 	}
 
 	//relation: lista delle canzoni inserite dall'utente nella playslit
-	public function setSongs(Relation $songs){
+	public function setSongs(array $songs){
 		$this->songs = $songs;
 	}
 
@@ -104,12 +104,13 @@ class Playlist{
 	}
 	
 	//Access Control List
-	public function setACL($ACL){
+	public function setACL(parseACL $ACL){
 		$this->ACL = $ACL; 
 	}
 	
 	public function __toString(){
 		$string ="";
+                
 		$string.="objectId -> ".$this->objectId."<br>";
 		
 
@@ -130,10 +131,13 @@ class Playlist{
 		}
 		
 		$converted_res = ($this->active) ? 'true' : 'false';
+                
 		$string.="active-> ".$converted_res."<br>";	
 			
 		if($this->getUpdatedAt())$string.="updatedAt -> ".$this->getUpdatedAt()->format('d/m/Y H:i:s')."<br>";
+                
 		if($this->getCreatedAt())$string.="createdAt -> ".$this->getCreatedAt()->format('d/m/Y H:i:s')."<br>";
+                
 		//$string.="-> ".$this->ACL;
 		
 		return $string;

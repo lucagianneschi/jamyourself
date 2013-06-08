@@ -82,11 +82,11 @@ class Error {
 		$this->errorFunctionParameter = $errorFunctionParameter;
 	}
 	
-	public function setCreatedAt($createdAt) {
+	public function setCreatedAt(DateTime $createdAt) {
 		$this->createdAt = $createdAt;
 	}
 	
-	public function setUpdatedAt($updatedAt) {
+	public function setUpdatedAt(DateTime $updatedAt) {
 		return $this->updatedAt = $updatedAt;
 	}
 	

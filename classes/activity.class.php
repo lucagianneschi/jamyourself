@@ -134,7 +134,7 @@ class Activity{
 	 *
 	 * @param string $status	
 	 */
-	public function setStatus(string $status){
+	public function setStatus($status){
 		$this->status = $status;
 	}
 
@@ -200,7 +200,7 @@ class Activity{
 	 *
 	 * @param ACL $ACL	
 	 */
-	public function setACL($ACL){  
+	public function setACL(parseACL $ACL){  
 		$this->ACL = $ACL;
 	}
 

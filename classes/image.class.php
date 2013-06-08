@@ -29,7 +29,7 @@ class Image{
 	}
 
 
-	public function setComments(Relation $comments){
+	public function setComments(array $comments){
 		$this->counter = $comments;
 	}
 
@@ -53,7 +53,7 @@ class Image{
 		$this->description = $description;		
 	}
 	
-	public function setAlbum(imageAlbum $album){
+	public function setAlbum(Album $album){
 		$this->album = $album;		
 	}
 	
@@ -80,7 +80,7 @@ class Image{
 	public function setUpdatedAt(DateTime $updatedAt){
 		$this->updatedAt = $updatedAt;	
 	}
-	public function setACL($ACL){
+	public function setACL(parseACL $ACL){
 		$this->ACL = $ACL ;	
 	}
 	

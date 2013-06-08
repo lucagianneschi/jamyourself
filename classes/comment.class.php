@@ -177,11 +177,11 @@ class Comment {
 		$this->event = $event;
 	}
 	
-	public function setFromUser($fromUser) {	
+	public function setFromUser(User $fromUser) {	
 		$this->fromUser = $fromUser;
 	}
 	
-	public function setImage($image) {	
+	public function setImage(Image $image) {	
 		$this->image = $image;
 	}
 	
@@ -194,15 +194,15 @@ class Comment {
 		$this->opinions = $opinions;
 	}
 	
-	public function setPhotoAlbum($photoAlbum) {	
+	public function setPhotoAlbum(Album $photoAlbum) {	
 		$this->photoAlbum = $photoAlbum;
 	}
 	
-	public function setRecord($record) {	
+	public function setRecord(Record $record) {	
 		$this->record = $record;
 	}
 	
-	public function setSong($song) {	
+	public function setSong(Song $song) {	
 		$this->song = $song;
 	}
 	
@@ -214,7 +214,7 @@ class Comment {
 		$this->text = $text;
 	}
 	
-	public function setToUser($toUser) {	
+	public function setToUser(User $toUser) {	
 		$this->toUser = $toUser;
 	}
 	
@@ -222,11 +222,11 @@ class Comment {
 		$this->type = $type;
 	}
 	
-	public function setUser($user) {	
+	public function setUser(User $user) {	
 		$this->user = $user;
 	}
 	
-	public function setVideo($video) {	
+	public function setVideo(Video $video) {	
 		$this->video = $video;
 	}
 	
@@ -234,15 +234,15 @@ class Comment {
 		$this->vote = $vote;
 	}
 	
-	public function setCreatedAt($createdAt) {
+	public function setCreatedAt(DateTime $createdAt) {
 		$this->createdAt = $createdAt;
 	}
 	
-	public function setUpdatedAt($updatedAt) {
+	public function setUpdatedAt(DateTime $updatedAt) {
 		$this->updatedAt = $updatedAt;
 	}
 	
-	public function setACL($ACL) {
+	public function setACL(parseACL $ACL) {
 		$this->ACL = $ACL;
 	}
 	
