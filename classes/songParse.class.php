@@ -33,22 +33,50 @@ class SongParse{
 		$parse = new parseObject("Song");
 		
 		$parse->active = $song->getActive();
-		$parse->counter = $song->getComments();
+                
+                if($song->getCommentators() != null || count($song->getCommentators())>0){
+                    foreach($song->getCommentators() as $user){
+                            $parse->commentators->__op = "AddRelation";
+                            $parse->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+                    }
+                } else {
+                    $parse->commentators = null;  
+                }
+                
+                if($song->getComments() != null || count($song->getComments())>0){
+                    foreach($song->getComments() as $comment){
+                            $parse->comments->__op = "AddRelation";
+                            $parse->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
+                    }
+                } else {
+                    $parse->comments = null;
+                }
+                
 		$parse->counter = $song->getCounter();
 		$parse->duration = $song->getDuration();
-		//array di utenti
-		$parse->featuring = array();
-		foreach ($song->getFeaturing() as $user){
-			array_push($parse->featuring, $user->getObjectId());
-		}
+	
+
+                //array di puntori ad utenti
+                if($song->getFeaturing() != null || count($song->getFeaturing())>0){
+                    foreach($song->getFeaturing() as $user){
+                            $parse->featuring->__op = "AddRelation";
+                            $parse->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+                    }
+                } else {
+                    $parse->featuring = null;
+                }
+ 
 		$parse->filePath = $song->getFilePath();
 		if( ( $fromUser = $song->getFromUser() ) != null ) {
 			$parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId() );			
 		}
+                
 		$parse->genre = $song->getGenre();
+                
 		if( ($geoPoint = $song->getLocation() ) != null ){
 			$parse->location = $geoPoint->location;			
 		}
+                
 		$parse->loveCounter = $song->getLoveCounter(); //contatore per tenere conto dei love
 		$parse->record = $song->getRecord();
 		$parse->title = $song->getTitle();
@@ -95,8 +123,6 @@ class SongParse{
 	}
 	
 	function getSong($songId){
-		
-		$song = new Song();
 			
 		$parseSong = new parseObject("Song");
 		

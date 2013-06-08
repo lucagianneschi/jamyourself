@@ -49,13 +49,16 @@ class PlaylistParse{
 
 		$parseObj->name = $playlist->getName();		
 
-		if($playlist->getSongs()){
+                
+                if($playlist->getSongs() != null || count($playlist->getSongs())>0){
 			$songList = $playlist->getSongs();
 			foreach($songList as $song){
-				$parseObj->data->songs->__op = "AddRelation";
-				$parseObj->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId())));
+				$parseObj->songs->__op = "AddRelation";
+				$parseObj->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId())));
 			}
-		}
+		} else {
+                    $parseObj->tags = null;   
+                }
 
 		//boolean
 		$parseObj->unlimited = $playlist->getUnlimited();
@@ -182,12 +185,10 @@ class PlaylistParse{
 		
 		if(isset($parseObj->name ) )$playlist->setName($parseObj->name);
 
-		
-
 		if(isset($parseObj->songs ) ){
 			foreach ($parseObj->songs as $song){
-				$playlist->data->songs->__op = "AddRelation";
-				$playlist->data->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId())));
+				$playlist->songs->__op = "AddRelation";
+				$playlist->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId())));
 			}
 		}
 

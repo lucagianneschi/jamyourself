@@ -19,7 +19,6 @@
  */
 
 class Status{
-	//proprie di Parse
     private $objectId;      //string: object ID Parse      
     private $active;      //BOOL: indica se la classe è attiva o meno
     private $commentators;    //relation: array di puntatori a Parse Users

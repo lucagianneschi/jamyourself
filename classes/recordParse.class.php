@@ -104,16 +104,45 @@ class RecordParse{
 
 		return $record;
 	}
-	/*
+        
 	function save(Record $record) {
 		$parseObj = new parseObject("Record");
 
 		//inizializzo le properties
 		$parseObj->active = $record->getActive();
-		$parseObj->counter = $record->getCounter();
+                
+                if($record->getCommentators() != null || count($record->getCommentators())>0){
+                    foreach($record->getCommentators() as $user){
+                            $parse->commentators->__op = "AddRelation";
+                            $parse->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+                    }
+                } else {
+                    $parse->commentators = null;  
+                }
+                
+                if($record->getComments() != null || count($record->getComments())>0){
+                    foreach($record->getComments() as $comment){
+                            $parse->comments->__op = "AddRelation";
+                            $parse->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
+                    }
+                } else {
+                    $parse->comments = null;
+                }
+                
+		$parse->counter = $record->getCounter();
 		$parseObj->cover = $record->getCover();
 		$parseObj->description = $record->getDescription();
-		$parseObj->featuring = $record->getFeaturing();
+                
+                  //array di puntori ad utenti
+                if($record->getFeaturing() != null || count($record->getFeaturing())>0){
+                    foreach($record->getFeaturing() as $user){
+                            $parse->featuring->__op = "AddRelation";
+                            $parse->featuring->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
+                    }
+                } else {
+                    $parse->featuring = null;
+                }
+           
 		if($record->getFromUser() != null){
 			$fromUser = $record->getFromUser();
 			$parseObj->fromUser = $parseObj->event = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId());;
@@ -128,10 +157,10 @@ class RecordParse{
 		
 		if( isset($record->getObjectId()) && $record->getObjectId() != null ) {
 			try{
-				$ret = $parseObj->update($record->getObjectId());
-				$event->setObjectId($record->objectId);
-				$event->setUpdatedAt($record->createdAt);
-				$event->setCreatedAt($record->createdAt);
+				$result = $parseObj->update($record->getObjectId());
+                                $record->setObjectId($result->objectId);
+				$record->setCreatedAt(new DateTime($result->createdAt,new DateTimeZone("America/Los_Angeles")));
+				$record->setUpdatedAt(new DateTime($result->createdAt,new DateTimeZone("America/Los_Angeles")));
 			}
 			catch(ParseLibraryException $e) {
 				return false;
@@ -139,14 +168,12 @@ class RecordParse{
 		} else {
 			//caso save
 			try{
-				$ret = $parseObj->save();
-				$record->setUpdatedAt($ret->updatedAt);
+				$result = $parseObj->save();
+				$record->setUpdatedAt($result->updatedAt);
 			} catch(ParseLibraryException $e) {
 				return false;
 			}
 		}
 		return $record;
 	}
-	*/
-
 }
