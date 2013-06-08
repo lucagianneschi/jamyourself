@@ -19,13 +19,10 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:event">API</a>
  */
 
-define('PARSE_DIR', '../parse/');
-define('CLASS_DIR', './');
+include_once '../config.php';
 include_once PARSE_DIR . 'parse.php';
 include_once CLASS_DIR . 'event.class.php';
 include_once CLASS_DIR . 'geoPointParse.class.php';
-
-//include_once 'pointerParse.class.php';
 
 class EventParse {
 
@@ -40,6 +37,32 @@ class EventParse {
         $parseObject = new parseObject('Event');
         $res = $parseObject->get($objectId);
         //inizializzo l'oggetto
+		
+		attendee;    
+		commentators;
+		comments;    
+		counter;    /
+		description; 
+		eventDate;   
+		featuring;   
+		fromUser;    
+		image;       
+		 $imageFile;
+		invited;    /
+		location;    
+		locationName;
+		loveCounter; 
+		lovers;    //
+		refused;    /
+		tags;     //a
+		thumbnail;   
+		title;     //
+		createdAt;   
+		updatedAt;   
+		ACL;     //Ac
+		
+		
+		
         $event->setObjectId($res->objectId);
         $event->setActive($res->active);
 
