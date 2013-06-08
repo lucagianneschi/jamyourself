@@ -89,7 +89,7 @@ class Status{
          */
 
 	//GeoPoint: lat e long per localizzazione dello status (inutilizzato)
-	public function setLocation(parseGeoPoint $location){
+	public function setLocation($location){
 		$this->location = $location;
 	}
 
@@ -129,7 +129,7 @@ class Status{
 	}
 
 	//Access Control List
-	public function setACL(parseACL $ACL){
+	public function setACL($ACL){
 		$this->ACL = $ACL;
 	}
 

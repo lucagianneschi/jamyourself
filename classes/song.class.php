@@ -7,7 +7,7 @@
  *
  *  \par Info Classe:
  *  \brief     Song Class
- *  \details   Classe dedicata al singolo brano, pu˜ essere istanziata solo da Jammer
+ *  \details   Classe dedicata al singolo brano, puï¿½ essere istanziata solo da Jammer
  *  
  *  \par Commenti:
  *  \warning
@@ -86,7 +86,7 @@ class Song{
 	}
 
 	//geoPoint: coordinate di localizzazione della canzone			
-	public function setLocation(parseGeoPoint $location){
+	public function setLocation($location){
 		$this->location = $location;
 	}
 
@@ -116,10 +116,9 @@ class Song{
 	}
 
 	//Access Control list										    
-	public function setACL(parseACL $ACL){
+	public function setACL($ACL){
 		$this->ACL = $ACL;
 	}
-
 
 	//GETTERS
 

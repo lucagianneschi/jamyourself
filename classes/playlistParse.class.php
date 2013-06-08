@@ -50,7 +50,7 @@ class PlaylistParse{
 		$parseObj->name = $playlist->getName();		
 
                 
-                if($playlist->getSongs() != null || count($playlist->getSongs())>0){
+                if($playlist->getSongs() != null && count($playlist->getSongs())>0){
 			$songList = $playlist->getSongs();
 			foreach($songList as $song){
 				$parseObj->songs->__op = "AddRelation";

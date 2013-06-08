@@ -233,7 +233,7 @@ class Video{
 	}
 
 	//Access Control List										
-	public function setACL(parseACL $ACL){
+	public function setACL($ACL){
 		$this->ACL = ACL;
 	}
 }
