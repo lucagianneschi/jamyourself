@@ -1,6 +1,22 @@
 <?php
-//definizione classe:http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:user
-//api:http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:user
+/*! \par Info Generali:
+ *  \author    Stefano Muscas
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par Info Classe:
+ *  \brief     User Class
+ *  \details   Classe utente
+ *  
+ *  \par Commenti:
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:user">Descrizione della classe</a>
+ *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:user">API</a>
+ */
 
 require_once'settings.php';
 
@@ -12,7 +28,6 @@ class User{
     private $password;
     private $authData;
     private $emailVerified;
-    private $ID; //DA RIMUOVERE DOPO ALLINEAMENTO DB
     private $active;
     private $albums;
     private $background;
