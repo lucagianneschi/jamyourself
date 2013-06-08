@@ -24,82 +24,108 @@ class UserParse {
     private $parseQuery;
 
     public function __construct() {
-
         $this->parseQuery = new ParseQuery("_User");
     }
-
-    /**
+	
+	public function getUser($objectId) {
+		$res = $this->parseQuery->get($objectId);
+		$user = $this->parseToUser($res);
+		return $user;
+	}
+	
+	public function getUsers() {
+		$users = array();
+		$res = $this->parseQuery->find();
+		foreach ($res->results as $obj) {
+			$users[] = $this->parseToUser($obj);
+		}
+		return $users;
+	}
+	
+	/**
      * Effettua la registrazione dell'utente
      * fondamentali esistano e effettuo il salvataggio nel DB
      *
      */
-    function save(User $user) {
+    function saveUser(User $user) {
 
         if ($user == null)
             return null;
 
-        $parse = new parseUser();
+        $parseUser = new parseUser();
 
 
         //inizializzo l'utente a seconda del profilo
         if ($user->getType() == "JAMMER") {
 
-            if ($user->getCollaboration() != null || count($user->getCollaboration()) > 0) {
-                foreach ($user->getCollaboration() as $collaborator) {
-                    $parse->collaboration->__op = "AddRelation";
-                    $parse->collaboration->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($collaborator->getObjectId())));
+            if ($user->getCollaboration() != null && count($user->getCollaboration()) > 0) {
+				$arrayPointer = array();
+                foreach ($user->getCollaboration() as $collaboration) {
+					$pointer = $parseUser->dataType('pointer', array('_User', $collaboration->getObjectId()));
+					$arrayPointer[] = $pointer;
                 }
+				$parseUser->dataType("relation", $arrayPointer);
             } else {
-                $parse->collaboration = null;
+                $parseUser->collaboration = null;
             }
 
-            if ($user->getEvents() != null || count($user->getEvents()) > 0) {
+			if ($user->getEvents() != null && count($user->getEvents()) > 0) {
+				$arrayPointer = array();
                 foreach ($user->getEvents() as $event) {
-                    $parse->events->__op = "AddRelation";
-                    $parse->events->objects = array(array("__type" => "Pointer", "className" => "Event", "objectId" => ($event->getObjectId())));
+					$pointer = $parseUser->dataType('pointer', array('Event', $event->getObjectId()));
+					$arrayPointer[] = $pointer;
                 }
+				$parseUser->dataType("relation", $arrayPointer);
             } else {
-                $parse->event = null;
+                $parseUser->events = null;
             }
-
-            if ($user->getMembers() != null || count($user->getMembers()) > 0) {
+			
+			if ($user->getMembers() != null && count($user->getMembers()) > 0) {
                 $parse->members = $user->getMembers();
             } else {
                 $parse->members = null;
             }
 
-            if ($user->getRecords() != null || count($user->getRecords()) > 0) {
+			if ($user->getRecords() != null && count($user->getRecords()) > 0) {
+				$arrayPointer = array();
                 foreach ($user->getRecords() as $record) {
-                    $parse->records->__op = "AddRelation";
-                    $parse->records->objects = array(array("__type" => "Pointer", "className" => "Record", "objectId" => ($record->getObjectId())));
+					$pointer = $parseUser->dataType('pointer', array('Record', $record->getObjectId()));
+					$arrayPointer[] = $pointer;
                 }
+				$parseUser->dataType("relation", $arrayPointer);
             } else {
-                $parse->records = null;
+                $parseUser->records = null;
             }
-
-            if ($user->getSongs() != null || count($user->getSongs()) > 0) {
+			
+			if ($user->getSongs() != null && count($user->getSongs()) > 0) {
+				$arrayPointer = array();
                 foreach ($user->getSongs() as $song) {
-                    $parse->songs->__op = "AddRelation";
-                    $parse->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song->getObjectId())));
+					$pointer = $parseUser->dataType('pointer', array('Song', $song->getObjectId()));
+					$arrayPointer[] = $pointer;
                 }
+				$parseUser->dataType("relation", $arrayPointer);
             } else {
-                $parse->songs = null;
+                $parseUser->songs = null;
             }
 
-            $parse->jammerType = $user->getJammerType();
+			$parseUser->jammerType = $user->getJammerType();
         }
 
 
         if ($user->getType() == "SPOTTER") {
 
             //formatto l'anno di nascita
-            if ($user->getBirthDay()) {
-                //birthDay � un tipo DateTime
-                $data = $user->getBirthDay();
-                $parse->birthDay = $parse->dataType("date", $data->format('r'));
-            }
+            if ($user->getBirthDay() != null) {
+                //birthDay e' un tipo DateTime
+				$user->birthDay = $parseUser->dataType('date', $user->getBirthDay()->format('r'));
+            } else {
+				$user->birthDay() = null;
+			}
 
-            $parse->facebookId = $user->getFacebookId();
+			$parseUser->facebookId = $user->getFacebookId();
+			
+			###################### QUI ######################
+			
             $parse->firstname = $user->getFirstname();
 
             if ($user->getFollowing() != null || count($user->getFollowing()) > 0) {
@@ -614,6 +640,98 @@ class UserParse {
         }
 
         return $user;
+    }
+
+    public function getCount() {
+       $this->parseQuery->getCount(); 
+    }
+
+    public function setLimit($int) {
+        $this->parseQuery->setLimit($int);
+    }
+
+    public function setSkip($int) {
+        $this->parseQuery->setSkip($int);
+    }
+
+    public function orderBy($field) {
+        $this->parseQuery->orderBy($field);
+    }
+
+    public function orderByAscending($value) {
+        $this->parseQuery->orderByAscending($value);
+    }
+
+    public function orderByDescending($value) {
+        $this->parseQuery->orderByDescending($value);
+    }
+
+    public function whereInclude($value) {
+        $this->parseQuery->whereInclude($value);
+    }
+
+    public function where($key, $value) {
+        $this->parseQuery->where($key, $value);
+    }
+
+    public function whereEqualTo($key, $value) {
+        $this->parseQuery->whereEqualTo($key, $value);
+    }
+
+    public function whereNotEqualTo($key, $value) {
+        $this->parseQuery->whereNotEqualTo($key, $value);
+    }
+
+    public function whereGreaterThan($key, $value) {
+        $this->parseQuery->whereGreaterThan($key, $value);
+    }
+
+    public function whereLessThan($key, $value) {
+        $this->parseQuery->whereLessThan($key, $value);
+    }
+
+    public function whereGreaterThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
+    }
+
+    public function whereLessThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
+    }
+
+    public function whereContainedIn($key, $value) {
+        $this->parseQuery->whereContainedIn($key, $value);
+    }
+
+    public function whereNotContainedIn($key, $value) {
+       $this->parseQuery->whereNotContainedIn($key, $value);
+    }
+
+    public function whereExists($key) {
+        $this->parseQuery->whereExists($key);
+    }
+
+    public function whereDoesNotExist($key) {
+        $this->parseQuery->whereDoesNotExist($key);
+    }
+
+    public function whereRegex($key, $value, $options = '') {
+        $this->parseQuery->whereRegex($key, $value, $options = '');
+    }
+
+    public function wherePointer($key, $className, $objectId) {
+        $this->parseQuery->wherePointer($key, $className, $objectId);
+    }
+
+    public function whereInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereInQuery($key, $className, $inQuery);
+    }
+
+    public function whereNotInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereNotInQuery($key, $className, $inQuery);
+    }
+
+    public function whereRelatedTo($key, $className, $objectId) {
+        $this->parseQuery->whereRelatedTo($key, $className, $objectId);
     }
 
 }
