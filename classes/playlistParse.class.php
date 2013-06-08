@@ -77,8 +77,7 @@ class PlaylistParse{
 			}
 			catch(ParseLibraryException $e){
 					
-				return false;
-					
+				return false;		
 			}
 
 		}
@@ -147,7 +146,6 @@ class PlaylistParse{
 		return $ret;
 	}
 
-
 	/**
 	 *
 	 * @param Playlist $playlist
@@ -183,7 +181,7 @@ class PlaylistParse{
 			$playlist->setFromUser($fromUser);
 		}
 		
-		if(isset($parseObj->name ) )$playlist->setName($parseObj->name);
+                if(isset($parseObj->name)) $playlist->setName($parseObj->name);
 
 		if(isset($parseObj->songs ) ){
 			foreach ($parseObj->songs as $song){
@@ -213,5 +211,4 @@ class PlaylistParse{
 		return $playlist;
 	}
 }
-
 ?>
