@@ -96,7 +96,7 @@ class Event {
 
 	//User: User che crea l’evento
 	public function getFromUser() {
-		return $this->fromuser;
+		return $this->fromUser;
 	}
 
 	//string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
@@ -166,8 +166,8 @@ class Event {
 
 	//DEFINIZIONE DELLE FUNZIONI SET
 	//string: objectId su Parse
-    public function setObjectId($value) {
-		$this->objectId = $value;
+    public function setObjectId($objectId) {
+		$this->objectId = $objectId;
 	}
 
 	//BOOL: attiva/disattiva l'evento
@@ -176,108 +176,108 @@ class Event {
 	}
 
 	//relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento
-	public function setAttendee(array $value) {
-		$this->attendee = $value;
+	public function setAttendee(array $attendee) {
+		$this->attendee = $attendee;
 	}
 
 	//relation: Array che contiene puntatori ad utenti che hanno effettuato commento
-	public function setCommentators(array $value) {
-		$this->commentators = $value;
+	public function setCommentators(array $commentators) {
+		$this->commentators = $commentators;
 	}
 
 	//relation: Array che contiene puntatori a Comment
-	public function setComments(array $value) {
-		$this->comments = $value;
+	public function setComments(array $comments) {
+		$this->comments = $comments;
 	}
 
        //number: counter per votazione dell'evento
-	public function setCounter($value) {
-		$this->counter = $value;
+	public function setCounter($counter) {
+		$this->counter = $counter;
 	}
 
   	//string: Descrizione breve dell’evento
-	public function setDescription($value) {
-		$this->description = $value;
+	public function setDescription($description) {
+		$this->description = $description;
 	}
 
 	//DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento)
-	public function setEventDate(DataTime $value) {
-		$this->eventDate = $value;
+	public function setEventDate($eventDate) {
+		$this->eventDate = $eventDate;
 	}
 
   	//relation: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano...)
-	public function setFeaturing(array $value) {
-		$this->featuring = $value;
+	public function setFeaturing(array $featuring) {
+		$this->featuring = $featuring;
 	}
 
     //User: User che crea l’evento
-	public function setFromUser(User $value) {
-		$this->fromUser = $value;
+	public function setFromUser(User $fromUser) {
+		$this->fromUser = $fromUser;
 	}
 
    //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
-	public function setImage(Image $value) {
-		$this->image = $value;
+	public function setImage(Image $image) {
+		$this->image = $image;
 	}
 
 	//relation: Array che contiene puntatori ad utenti invitati all'evento
-	public function setInvited(array $value) {
-		$this->invited = $value;
+	public function setInvited(array $invited) {
+		$this->invited = $invited;
 	}
 
 	//GeoPoint: Luogo in cui si svolge l’evento
-	public function setLocation(parseGeoPoint $value) {
-		$this->location = $value;
+	public function setLocation(parseGeoPoint $location) {
+		$this->location = $location;
 	}
 
     //string: Nome del locale in cui si svolge l’evento
-	public function setLocationName($value) {
-		$this->locationName = $value;
+	public function setLocationName($locationName) {
+		$this->locationName = $locationName;
 	}
 
 	//number:counter per gestire le azioni love sull'evento
-	public function setLoveCounter($value) {
-		$this->loveCounter = $value;
+	public function setLoveCounter($loveCounter) {
+		$this->loveCounter = $loveCounter;
 	}
 
 	//relation: Array che contiene puntatori ad utenti che hanno compiuto azione love
-	public function setLovers(array $value) {
-		$this->lovers = $value;
+	public function setLovers(array $lovers) {
+		$this->lovers = $lovers;
 	}
 
 	//relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento
-	public function setRefused(array $value) {
-		$this->refused = $value;
+	public function setRefused(array $refused) {
+		$this->refused = $refused;
 	}
 
 	//array: Categorizzazione dell’evento
-	public function setTags(array $value) {
-		$this->tags = $value;
+	public function setTags(array $tags) {
+		$this->tags = $tags;
 	}
 
     //string: Stringa per il percorso di immagazzinamento della thumbnail
-	public function setThumbnail($value) {
-		$this->thumbnail = $value;
+	public function setThumbnail($thumbnail) {
+		$this->thumbnail = $thumbnail;
 	}
 
  	//string: Nome dell’evento
-	public function setTitle($value) {
-		$this->title = $value;
+	public function setTitle($title) {
+		$this->title = $title;
 	}
 
    //DataTime: data di registrazione dell'evento
-	public function setCreatedAt(DataTime $value) {
-		$this->createdAt = $value;
+	public function setCreatedAt($createdAt) {
+		$this->createdAt = $createdAt;
 	}
 
 	//DataTime: data di ultimo update dell'evento
-	public function setUpdatedAt(DataTime $value) {
-		$this->updatedAt = $value;
+	public function setUpdatedAt($updatedAt) {
+		$this->updatedAt = $updatedAt;
 	}
 	
     //Access control list, definisce le politiche di accesso all'evento
-	public function setACL(parseACL $value) {
-		$this->ACL = $value;
+	public function setACL($acl) {
+		$this->ACL = $acl;
 	}
 	
 	function __toString() {
@@ -290,15 +290,15 @@ class Event {
 		//$this->getComments()
 		$string .= '[counter] => ' . $this->getCounter() . '<br />';
 		$string .= '[description] => ' . $this->getDescription() . '<br />';
-	    $string .= '[eventDate] => ' . $this->getEventDate()->format('d-M-Y H:i:s') . '<br />';
+	    $string .= '[eventDate] => ' . $this->getEventDate()->format('d-m-Y H:i:s') . '<br />';
 		//$this->getFeaturing()
 		$fu = $this->getFromUser();
-		$string .= '[fromUser] => ' . $fu['className'] . ' -> ' . $fu['objectId'] . '<br/>';
+		$string .= '[fromUser] => ' . get_class($fu) . ' -> ' . $fu->getObjectId() . '<br/>';
 		$im = $this->getImage();
-		$string .= '[image] => ' . $im['className'] . ' -> ' . $im['objectId'] . '<br/>';
+		$string .= '[image] => ' . get_class($im) . ' -> ' . $im->getObjectId() . '<br/>';
 		//$this->getInvited()
 		$parseGeoPoint = $this->getLocation();
-		$string .= '[location] => ' . $parseGeoPoint->$lat . ', ' .  $parseGeoPoint->$long . '<br />';
+		$string .= '[location] => ' . $parseGeoPoint->lat . ', ' .  $parseGeoPoint->long . '<br />';
 	    $string .= '[locationName] => ' . $this->getLocationName() . '<br />';
 		$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
 		//$this->getLovers()
@@ -309,9 +309,17 @@ class Event {
 		}
 	    $string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />'; 	
 	    $string .= '[title] => ' . $this->getTitle() . '<br />';			
-	    $string .= '[createdAt] => ' . $this->getCreatedAt() . '<br />';
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt() . '<br />';
-	    $string .= '[ACL] => ' . $this->getACL() . '<br />';
+	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+		foreach ($this->getACL()->acl as $key=>$acl) {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[key] => ' . $key . '<br />';
+			foreach ($acl as $access=>$value) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+			}
+		}
 		
 		return $string;
 	}
