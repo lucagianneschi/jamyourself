@@ -1,5 +1,7 @@
 <html>
-
+<head>
+</head>
+<body>
 <form action="controllers/example1.step1.controller.php" method="post">
 	Seleziona il tipo utente:<br />
 	<input type="radio" name="type" value="j" />Jammer<br />
@@ -13,3 +15,5 @@
 	}
 	?>
 </form>
+</body>
+</html>
