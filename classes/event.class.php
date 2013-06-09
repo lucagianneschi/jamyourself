@@ -295,54 +295,79 @@ class Event {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
-        foreach ($this->getAttendee() as $user) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[attendee] => " . $user->getObjectId() . "<br />";
+         if ($this->getAttendee() != null && count($this->getAttendee() > 0)) {
+            foreach ($this->getCommentators() as $attendee) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[attendee] => " . $attendee->getObjectId() . "<br />";
+            }
         }
-        foreach ($this->getCommentators() as $commentator) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
+            foreach ($this->getCommentators() as $commentator) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+            }
         }
-        foreach ($this->getComments() as $comment) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+        if ($this->getComments() != null && count($this->getComments() > 0)) {
+            foreach ($this->getComments() as $comment) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+            }
         }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         $string .= '[description] => ' . $this->getDescription() . '<br />';
-        $string .= '[eventDate] => ' . $this->getEventDate()->format('d-m-Y H:i:s') . '<br />';
-        foreach ($this->getFeaturing() as $user) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+        if($this->getEventDate() != null){
+         $string .= '[eventDate] => ' . $this->getEventDate()->format('d-m-Y H:i:s') . '<br />';   
         }
-        $fu = $this->getFromUser();
-        $string .= '[fromUser] => ' . get_class($fu) . ' -> ' . $fu->getObjectId() . '<br/>';
+        if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
+            foreach ($this->getFeaturing() as $user) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+            }
+        }
+        $fromUser = $this->getFromUser();
+        if ($fromUser != null) {
+            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        }
         $string .= '[image] => ' . $this->getImage() . '<br />';
         //$string .= '[imageFile] => ' . $this->getImageFile() . '<br />';
-        foreach ($this->getInvited() as $invited) {
+        if ($this->getInvited() != null && count($this->getInvited() > 0)) {
+            foreach ($this->getInvited() as $invited) {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= "[invited] => " . $invited->getObjectId() . "<br />";
         }
+            }
         $parseGeoPoint = $this->getLocation();
-        $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
+            $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        }
         $string .= '[locationName] => ' . $this->getLocationName() . '<br />';
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-        foreach ($this->getLovers() as $lover) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
+            foreach ($this->getLovers() as $lover) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+            }
         }
-        foreach ($this->getRefused() as $refused) {
+        if ($this->getRefused() != null && count($this->getRefused() > 0)) {
+          foreach ($this->getRefused() as $refused) {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= "[refused] => " . $refused->getObjectId() . "<br />";
+        }     
         }
-        foreach ($this->getTags() as $ta) {
+        if ($this->getTags() != null && count($this->getTags() > 0)) {
+          foreach ($this->getTags() as $ta) {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[tags] => ' . $ta . '<br />';
+        }  
         }
         $string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
         $string .= '[title] => ' . $this->getTitle() . '<br />';
-        $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-        $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-        foreach ($this->getACL()->acl as $key => $acl) {
+        if (($createdAt = $this->getCreatedAt()))
+            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+        if (($updatedAt = $this->getUpdatedAt()))
+            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
+        if($this->getACL() != null){
+           foreach ($this->getACL()->acl as $key => $acl) {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[key] => ' . $key . '<br />';
             foreach ($acl as $access => $value) {
@@ -350,8 +375,8 @@ class Event {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
             }
+        } 
         }
-
         return $string;
     }
 
