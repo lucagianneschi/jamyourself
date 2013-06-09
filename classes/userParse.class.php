@@ -26,23 +26,23 @@ class UserParse {
     public function __construct() {
         $this->parseQuery = new ParseQuery("_User");
     }
-	
-	public function getUser($objectId) {
-		$res = $this->parseQuery->get($objectId);
-		$user = $this->parseToUser($res);
-		return $user;
-	}
-	
-	public function getUsers() {
-		$users = array();
-		$res = $this->parseQuery->find();
-		foreach ($res->results as $obj) {
-			$users[] = $this->parseToUser($obj);
-		}
-		return $users;
-	}
-	
-	/**
+
+    public function getUser($objectId) {
+        $res = $this->parseQuery->get($objectId);
+        $user = $this->parseToUser($res);
+        return $user;
+    }
+
+    public function getUsers() {
+        $users = array();
+        $res = $this->parseQuery->find();
+        foreach ($res->results as $obj) {
+            $users[] = $this->parseToUser($obj);
+        }
+        return $users;
+    }
+
+    /**
      * Effettua la registrazione dell'utente
      * fondamentali esistano e effettuo il salvataggio nel DB
      *
@@ -59,56 +59,58 @@ class UserParse {
         if ($user->getType() == "JAMMER") {
 
             if ($user->getCollaboration() != null && count($user->getCollaboration()) > 0) {
-				$arrayPointer = array();
+                $arrayPointer = array();
                 foreach ($user->getCollaboration() as $collaboration) {
-					$pointer = $parseUser->dataType('pointer', array('_User', $collaboration->getObjectId()));
-					$arrayPointer[] = $pointer;
+                    $pointer = $parseUser->dataType('pointer', array('_User', $collaboration->getObjectId()));
+                    $arrayPointer[] = $pointer;
                 }
-				$parseUser->dataType("relation", $arrayPointer);
+                $parseUser->collaboration = $parseUser->dataType("relation", $arrayPointer);
             } else {
                 $parseUser->collaboration = null;
             }
 
-			if ($user->getEvents() != null && count($user->getEvents()) > 0) {
-				$arrayPointer = array();
+            if ($user->getEvents() != null && count($user->getEvents()) > 0) {
+                $arrayPointer = array();
                 foreach ($user->getEvents() as $event) {
-					$pointer = $parseUser->dataType('pointer', array('Event', $event->getObjectId()));
-					$arrayPointer[] = $pointer;
+                    $pointer = $parseUser->dataType('pointer', array('Event', $event->getObjectId()));
+                    $arrayPointer[] = $pointer;
                 }
-				$parseUser->dataType("relation", $arrayPointer);
+                $parseUser->events = $parseUser->dataType("relation", $arrayPointer);
             } else {
                 $parseUser->events = null;
             }
-			
-			if ($user->getMembers() != null && count($user->getMembers()) > 0) {
+
+            $parse->jammerType = $user->getJammerType();
+
+            if ($user->getMembers() != null && count($user->getMembers()) > 0) {
                 $parse->members = $user->getMembers();
             } else {
                 $parse->members = null;
             }
 
-			if ($user->getRecords() != null && count($user->getRecords()) > 0) {
-				$arrayPointer = array();
+            if ($user->getRecords() != null && count($user->getRecords()) > 0) {
+                $arrayPointer = array();
                 foreach ($user->getRecords() as $record) {
-					$pointer = $parseUser->dataType('pointer', array('Record', $record->getObjectId()));
-					$arrayPointer[] = $pointer;
+                    $pointer = $parseUser->dataType('pointer', array('Record', $record->getObjectId()));
+                    $arrayPointer[] = $pointer;
                 }
-				$parseUser->dataType("relation", $arrayPointer);
+                $parseUser->records = $parseUser->dataType("relation", $arrayPointer);
             } else {
                 $parseUser->records = null;
             }
-			
-			if ($user->getSongs() != null && count($user->getSongs()) > 0) {
-				$arrayPointer = array();
+
+            if ($user->getSongs() != null && count($user->getSongs()) > 0) {
+                $arrayPointer = array();
                 foreach ($user->getSongs() as $song) {
-					$pointer = $parseUser->dataType('pointer', array('Song', $song->getObjectId()));
-					$arrayPointer[] = $pointer;
+                    $pointer = $parseUser->dataType('pointer', array('Song', $song->getObjectId()));
+                    $arrayPointer[] = $pointer;
                 }
-				$parseUser->dataType("relation", $arrayPointer);
+                $parseUser->songs =  $parseUser->dataType("relation", $arrayPointer);
             } else {
                 $parseUser->songs = null;
             }
 
-			$parseUser->jammerType = $user->getJammerType();
+            
         }
 
 
@@ -117,15 +119,15 @@ class UserParse {
             //formatto l'anno di nascita
             if ($user->getBirthDay() != null) {
                 //birthDay e' un tipo DateTime
-				$user->birthDay = $parseUser->dataType('date', $user->getBirthDay()->format('r'));
+                $user->birthDay = $parseUser->dataType('date', $user->getBirthDay()->format('r'));
             } else {
-				$user->birthDay() = null;
-			}
+                $user->birthDay() = null;
+            }
 
-			$parseUser->facebookId = $user->getFacebookId();
-			
-			###################### QUI ######################
-			
+            $parseUser->facebookId = $user->getFacebookId();
+
+            ###################### QUI ######################
+
             $parse->firstname = $user->getFirstname();
 
             if ($user->getFollowing() != null || count($user->getFollowing()) > 0) {
@@ -643,7 +645,7 @@ class UserParse {
     }
 
     public function getCount() {
-       $this->parseQuery->getCount(); 
+        $this->parseQuery->getCount();
     }
 
     public function setLimit($int) {
@@ -703,7 +705,7 @@ class UserParse {
     }
 
     public function whereNotContainedIn($key, $value) {
-       $this->parseQuery->whereNotContainedIn($key, $value);
+        $this->parseQuery->whereNotContainedIn($key, $value);
     }
 
     public function whereExists($key) {
