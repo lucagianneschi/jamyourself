@@ -43,6 +43,7 @@ class Status {
     //public function __construct(){}
     //FUNZIONI SET	
     //string: object ID Parse 
+
     public function setObjectId($objectId) {
         $this->objectId = $objectId;
     }
@@ -242,21 +243,21 @@ class Status {
         }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         $event = $this->getEvent();
-        if($event->getObjectId != null){
-          $string .= "[event] => " . $event->getObjectId() . "<br />";  
+        if ($event != null) {
+            $string .= "[event] => " . $event->getObjectId() . "<br />";
         }
         $fromUser = $this->getFromUser();
-        if ($fromUser->getObjectId != null) {
+        if ($fromUser != null) {
             $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
         }
         $image = $this->getImage();
-        if ($image->getObjectId != null) {
+        if ($image != null) {
             $string.="[image] => " . $image->getObjectId() . "<br />";
         }
         //$imageFile = $this->getImageFile();
         //$string.="[imageFile] => " . $imageFile->getObjectId() . "<br />";
         $parseGeoPoint = $this->getLocation();
-        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
+        if ($parseGeoPoint != null) {
             $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
         }
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
@@ -267,7 +268,7 @@ class Status {
             }
         }
         $song = $this->getSong();
-        if ($song->getObjectId() != null) {
+        if ($song != null) {
             $string .= "[song] => " . $song->getObjectId() . "<br />";
         }
         if ($this->getTaggedUsers() != null && count($this->getTaggedUsers() > 0)) {
@@ -277,18 +278,24 @@ class Status {
             }
         }
         $string.= '[text] => ' . $this->getText() . '<br />';
-        $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-        $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-        foreach ($this->getACL()->acl as $key => $acl) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[key] => ' . $key . '<br />';
-            foreach ($acl as $access => $value) {
+        if (($createdAt = $this->getCreatedAt()))
+            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+        if (($updatedAt = $this->getUpdatedAt()))
+            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
+        if ($this->getACL() != null) {
+            foreach ($this->getACL()->acl as $key => $acl) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                $string .= '[key] => ' . $key . '<br />';
+                foreach ($acl as $access => $value) {
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                }
             }
         }
         return $string;
     }
+
 }
+
 ?>
