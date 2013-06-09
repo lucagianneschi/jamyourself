@@ -248,7 +248,7 @@ class Video {
                 $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
             }
         }
-         if ($this->getComments() != null && count($this->getComments() > 0)) {
+        if ($this->getComments() != null && count($this->getComments() > 0)) {
             foreach ($this->getComments() as $comment) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= "[comment] => " . $comment->getObjectId() . "<br />";
@@ -264,15 +264,21 @@ class Video {
             }
         }
         $fromUser = $this->getFromUser();
-        $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        if ($fromUser->getObjectId() != null) {
+            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        }
         $string.="[loveCounter] => " . $this->getLoveCounter() . "<br />";
-       foreach ($this->getLovers() as $lover){
-           $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-           $string .= "[lover] => ". $lover->getObjectId() . "<br />";
-       }
-        foreach ($this->getTags() as $tag) {
-            $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
-            $string.="[tag] => " . $tag . "<br />";
+        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
+            foreach ($this->getLovers() as $lover) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+            }
+        }
+        if ($this->getTags() != null && count($this->getTags() > 0)) {
+            foreach ($this->getTags() as $tag) {
+                $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
+                $string.="[tag] => " . $tag . "<br />";
+            }
         }
         $string.="[thumbnail] => " . $this->getThumbnail() . "<br />";
         $string.="[title] => " . $this->getTitle() . "<br />";
@@ -290,5 +296,7 @@ class Video {
         }
         return $string;
     }
+
 }
+
 ?>
