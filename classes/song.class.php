@@ -1,5 +1,6 @@
 <?php
-/*! \par Info Generali:
+
+/* ! \par Info Generali:
  *  \author    Stefano Muscas
  *  \version   1.0
  *  \date      2013
@@ -18,11 +19,11 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:song">API</a>
  */
 
-
-class Song{
+class Song {
 
     private $objectId;  //string: objectId su Parse									   
     private $active;  //BOOL: attiva/disattiva l'istanza della classe 
+    private $commentators;      //relation: array di puntatori ad User che hanno commentator
     private $comments;      //relation: puntatori ad oggetti Comment
     private $counter;  //number: Contatore di gradimento 								
     private $duration;  //number: Durata della Song										
@@ -31,175 +32,240 @@ class Song{
     private $fromUser;  //User: Utente che effettua la creazione della Song				
     private $genre;   //string: Genere della Song										
     private $location;      //geoPoint: coordinate di localizzazione della canzone			
-    private $loveCounter;   //number: per tenere conto del numero di azioni love			
+    private $loveCounter;   //number: per tenere conto del numero di azioni love
+    private $lovers;     //relation: array di puntatori ad User che hanno fatto  azioni love
     private $record;  //Record (Parse Object): disco di appartenenza della song       
     private $title;   //string: titolo della song  											
     private $createdAt;  //DateTime: data e tempo di upload								
     private $updatedAt;  //DateTime: data e tempo di ultima modifica						
     private $ACL;   //Access Control list										    
 
-	//SETTERS
+    //GETTERS
+    //string: objectId su Parse									    
 
-	//string: objectId su Parse									    
-	public function setObjectId($objectId){
-		$this->objectId = $objectId;
-	}
+    public function getObjectId() {
+        return $this->objectId;
+    }
 
-	//BOOL: attiva/disattiva l'istanza della classe  				
-	public function setActive($active){
-		$this->active = $active;
-	}
+    //BOOL: attiva/disattiva l'istanza della classe  			
+    public function getActive() {
+        return $this->active;
+    }
 
-	//relation: puntatori ad oggetti Comment
-	public function setComments(array $comments){
-		$this->comments = $comments;
-	}
+    //relation: array di puntatori ad User che hanno commentators 
+    public function getCommentators() {
+        return $this->commentators;
+    }
 
-	//number: Contatore di gradimento 								
-	public function setCounter($counter){
-		$this->counter = $counter;
-	}
+    //relation: puntatori ad oggetti Comment 								
+    public function getComments() {
+        return $this->comments;
+    }
 
-	//number: Durata della Song										
-	public function setDuration($duration){
-		$this->duration = $duration;
-	}
+    //number: Contatore di gradimento 								
+    public function getCounter() {
+        return $this->counter;
+    }
 
-	//array: presenza di altri Utenti								
-	public function setFeaturing(array $featuring){
-		$this->featuring = $featuring;
-	}
-	
-	//string: Indirizzo del file									
-	public function setFilePath($filePath){
-		$this->filePath = $filePath;
-	}
+    //number: Durata della Song										
+    public function getDuration() {
+        return $this->duration;
+    }
 
-	//User: Utente che effettua la creazione della Song				
-	public function setFromUser(User $fromUser){
-		$this->fromUser = $fromUser;
-	}
+    //array: presenza di altri Utenti								
+    public function getFeaturing() {
+        return $this->featuring;
+    }
 
-	//string: Genere della Song									
-	public function setGenre($genre){
-		$this->genre = $genre;
-	}
+    //string: Indirizzo del file									
+    public function getFilePath() {
+        return $this->filePath;
+    }
 
-	//geoPoint: coordinate di localizzazione della canzone			
-	public function setLocation($location){
-		$this->location = $location;
-	}
+    //User: Utente che effettua la creazione della Song				
+    public function getFromUser() {
+        return $this->fromUser;
+    }
 
-	//number: per tenere conto del numero di azioni love			
-	public function setLoveCounter($loveCounter){
-		$this->loveCounter = $loveCounter;
-	}
+    //string: Genere della Song										
+    public function getGenre() {
+        return $this->genre;
+    }
 
-	//Record (Parse Object): disco di appartenenza della song       
-	public function setRecord(Record $record){
-		$this->album = $record;
-	}
+    //geoPoint: coordinate di localizzazione della canzone			
+    public function getLocation() {
+        return $this->location;
+    }
 
-	//string: titolo della song  									
-	public function setTitle($title){
-		$this->title = $title;
-	}
+    //number: per tenere conto del numero di azioni love			
+    public function getLoveCounter() {
+        return $this->loveCounter;
+    }
 
-	//DateTime: data e tempo di upload								
-	public function setCreatedAt(DateTime $createdAt){
-		$this->createdAt = $createdAt;
-	}
+    public function getLovers() {
+        return $this->lovers;
+    }
 
-	//DateTime: data e tempo di ultima modifica					    
-	public function setUpdatedAt(DateTime $updatedAt){
-		$this->updatedAt = $updatedAt;
-	}
+    //Record (Parse Object): disco di appartenenza della song       
+    public function getRecord() {
+        return $this->record;
+    }
 
-	//Access Control list										    
-	public function setACL($ACL){
-		$this->ACL = $ACL;
-	}
+    //string: titolo della song  									
+    public function getTitle() {
+        return $this->title;
+    }
 
-	//GETTERS
+    //DateTime: data e tempo di upload								
+    public function getCreatedAt() {
+        return $this->createdAt;
+    }
 
-	//string: objectId su Parse									    
-	public function getObjectId(){
-		return $this->objectId;
-	}
+    //DateTime: data e tempo di ultima modifica					    
+    public function getUpdatedAt() {
+        return $this->updatedAt;
+    }
 
-	//BOOL: attiva/disattiva l'istanza della classe  			
-	public function getActive(){
-		return $this->active;
-	}
+    //Access Control list										    
+    public function getACL() {
+        return $this->ACL;
+    }
 
-	//relation: puntatori ad oggetti Comment 								
-	public function getComments(){
-		return $this->comments;
-	}
+    //SETTERS
+    //string: objectId su Parse									    
+    public function setObjectId($objectId) {
+        $this->objectId = $objectId;
+    }
 
-	//number: Contatore di gradimento 								
-	public function getCounter(){
-		return $this->counter;
-	}
+    //BOOL: attiva/disattiva l'istanza della classe  				
+    public function setActive($active) {
+        $this->active = $active;
+    }
 
-	//number: Durata della Song										
-	public function getDuration(){
-		return $this->duration;
-	}
+    //relation: array di User che hanno commentators 
+    public function setCommentators(array $commentators) {
+        $this->commentators = $commentators;
+    }
 
-	//array: presenza di altri Utenti								
-	public function getFeaturing(){
-		return $this->featuring;
-	}
+    //relation: puntatori ad oggetti Comment
+    public function setComments(array $comments) {
+        $this->comments = $comments;
+    }
 
-	//string: Indirizzo del file									
-	public function getFilePath(){
-		return $this->filePath;
-	}
+    //number: Contatore di gradimento 								
+    public function setCounter($counter) {
+        $this->counter = $counter;
+    }
 
-	//User: Utente che effettua la creazione della Song				
-	public function getFromUser(){
-		return $this->fromUser;
-	}
+    //number: Durata della Song										
+    public function setDuration($duration) {
+        $this->duration = $duration;
+    }
 
-	//string: Genere della Song										
-	public function getGenre(){
-		return $this->genre;
-	}
+    //array: presenza di altri Utenti								
+    public function setFeaturing(array $featuring) {
+        $this->featuring = $featuring;
+    }
 
-	//geoPoint: coordinate di localizzazione della canzone			
-	public function getLocation(){
-		return $this->location;
-	}
-	
-	//number: per tenere conto del numero di azioni love			
-	public function getLoveCounter(){
-		return $this->loveCounter;
-	}	
+    //string: Indirizzo del file									
+    public function setFilePath($filePath) {
+        $this->filePath = $filePath;
+    }
 
-	//Record (Parse Object): disco di appartenenza della song       
-	public function getRecord(){
-		return $this->record;
-	}
+    //User: Utente che effettua la creazione della Song				
+    public function setFromUser(User $fromUser) {
+        $this->fromUser = $fromUser;
+    }
 
-	//string: titolo della song  									
-	public function getTitle(){
-		return $this->title;
-	}
+    //string: Genere della Song									
+    public function setGenre($genre) {
+        $this->genre = $genre;
+    }
 
-	//DateTime: data e tempo di upload								
-	public function getCreatedAt(){
-		return $this->createdAt;
-	}
+    //geoPoint: coordinate di localizzazione della canzone			
+    public function setLocation($location) {
+        $this->location = $location;
+    }
 
-	//DateTime: data e tempo di ultima modifica					    
-	public function getUpdatedAt(){
-		return $this->updatedAt;
-	}
+    //number: per tenere conto del numero di azioni love			
+    public function setLoveCounter($loveCounter) {
+        $this->loveCounter = $loveCounter;
+    }
 
-	//Access Control list										    
-	public function getACL(){
-		return $this->ACL;
-	}
+    //number: per tenere conto del numero di azioni love			
+    public function setLovers(array $lovers) {
+        $this->lovers = $lovers;
+    }
+
+    //Record (Parse Object): disco di appartenenza della song       
+    public function setRecord(Record $record) {
+        $this->album = $record;
+    }
+
+    //string: titolo della song  									
+    public function setTitle($title) {
+        $this->title = $title;
+    }
+
+    //DateTime: data e tempo di upload								
+    public function setCreatedAt(DateTime $createdAt) {
+        $this->createdAt = $createdAt;
+    }
+
+    //DateTime: data e tempo di ultima modifica					    
+    public function setUpdatedAt(DateTime $updatedAt) {
+        $this->updatedAt = $updatedAt;
+    }
+
+    //Access Control list										    
+    public function setACL($ACL) {
+        $this->ACL = $ACL;
+    }
+
+    public function __toString() {
+        $string = '';
+        $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+        $string .= '[active] => ' . $this->getActive() . '<br />';
+        foreach ($this->getCommentators() as $commentator) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+        }
+        foreach ($this->getComments() as $comment) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+        }
+        $string .= '[counter] => ' . $this->getCounter() . '<br />';
+        $string .= '[duration] => ' . $this->getDuration() . '<br />';
+        foreach ($this->getFeaturing() as $user) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+        }
+        $string.="[filePath] => " . $this->getFilePath() . "<br />";
+        $fromUser = $this->getFromUser();
+        $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        $string.="[genre] => " . $this->getGenre() . "<br />";
+        $parseGeoPoint = $this->getLocation();
+        $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
+        foreach ($this->getLovers() as $lover) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+        }
+        $record = $this->getRecord();
+        $string .= "[record] => " . $record->getObjectId() . "<br />";
+        $string .= "[title] => " . $this->getTitle() . "<br />";
+        $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+        $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+        foreach ($this->getACL()->acl as $key => $acl) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[key] => ' . $key . '<br />';
+            foreach ($acl as $access => $value) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+            }
+        }
+        return $string;
+    }
 }
 ?>
