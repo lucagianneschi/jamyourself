@@ -27,17 +27,29 @@ class UserParse {
         $this->parseQuery = new ParseQuery("_User");
     }
 
-    public function getUser($objectId) {
-        $res = $this->parseQuery->get($objectId);
-        $user = $this->parseToUser($res);
+    public function getUser() {
+        $user = null;
+
+        $result = $this->parseQuery->find();
+
+        if (is_array($result->results) && count($result->results) > 0) {
+            $ret = $result->results[0];
+            if ($ret) {
+                //recupero l'utente
+                $user = $this->parseToUser($ret);
+            }
+        }
         return $user;
     }
 
     public function getUsers() {
-        $users = array();
-        $res = $this->parseQuery->find();
-        foreach ($res->results as $obj) {
-            $users[] = $this->parseToUser($obj);
+        $users = null;
+        $result = $this->parseQuery->find();
+        if (is_array($result->results) && count($result->results) > 0) {
+            $users = array();
+            foreach (($result->results) as $user) {
+                $users [] = $this->parseToUser($user);
+            }
         }
         return $users;
     }
@@ -105,192 +117,269 @@ class UserParse {
                     $pointer = $parseUser->dataType('pointer', array('Song', $song->getObjectId()));
                     $arrayPointer[] = $pointer;
                 }
-                $parseUser->songs =  $parseUser->dataType("relation", $arrayPointer);
+                $parseUser->songs = $parseUser->dataType("relation", $arrayPointer);
             } else {
                 $parseUser->songs = null;
             }
-
-            
         }
-
-
         if ($user->getType() == "SPOTTER") {
 
             //formatto l'anno di nascita
             if ($user->getBirthDay() != null) {
                 //birthDay e' un tipo DateTime
-                $user->birthDay = $parseUser->dataType('date', $user->getBirthDay()->format('r'));
+                $parseUser->birthDay = $parseUser->dataType('date', $user->getBirthDay()->format('r'));
             } else {
-                $user->birthDay() = null;
+                $parseUser->birthDay = null;
             }
-
-            $parseUser->facebookId = $user->getFacebookId();
-
-            ###################### QUI ######################
-
-            $parse->firstname = $user->getFirstname();
-
-            if ($user->getFollowing() != null || count($user->getFollowing()) > 0) {
+            if ($user->getFacebookId() != null) {
+                $parseUser->facebookId = $user->getFacebookId();
+            } else {
+                $parseUser->facebookId = null;
+            }
+            if ($user->getFirstname() != null) {
+                $parseUser->firstname = $user->getFirstname();
+            } else {
+                $parseUser->firstname = null;
+            }
+            if ($user->getFollowing() != null && count($user->getFollowing()) > 0) {
+                $arrayPointer = array();
                 foreach ($user->getFollowing() as $user) {
-                    $parse->following->__op = "AddRelation";
-                    $parse->following->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+                    $pointer = $parseUser->dataType('pointer', array('_User', $user->getObjectId()));
+                    $arrayPointer[] = $pointer;
                 }
+                $parseUser->following = $parseUser->dataType("relation", $arrayPointer);
             } else {
-                $parse->following = null;
+                $parseUser->following = null;
             }
 
-            if ($user->getFriendship() != null || count($user->getFriendship()) > 0) {
+            if ($user->getFriendship() != null && count($user->getFriendship()) > 0) {
+                $arrayPointer = array();
                 foreach ($user->getFriendship() as $user) {
-                    $parse->friendship->__op = "AddRelation";
-                    $parse->friendship->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+                    $pointer = $parseUser->dataType('pointer', array('_User', $user->getObjectId()));
+                    $arrayPointer[] = $pointer;
                 }
+                $parseUser->friendship = $parseUser->dataType("relation", $arrayPointer);
             } else {
-                $parse->friendship = null;
+                $parseUser->friendship = null;
+            }
+            if ($user->getLastname() != null) {
+                $parseUser->lastname = $user->getLastname();
+            } else {
+                $parseUser->lastname = null;
             }
 
-            $parse->lastname = $user->getLastname();
-            $parse->sex = $user->getSex();
+            $parseUser->sex = $user->getSex();
         }
 
         if ($user->getType() == "VENUE") {
             $parse->address = $user->getAddress();
-
-            if ($user->getCollaboration() != null || count($user->getCollaboration()) > 0) {
+            if ($user->getCollaboration() != null && count($user->getCollaboration()) > 0) {
+                $arrayPointer = array();
                 foreach ($user->getCollaboration() as $collaborator) {
-                    $parse->collaboration->__op = "AddRelation";
-                    $parse->collaboration->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($collaborator->getObjectId())));
+                    $pointer = $parseUser->dataType('pointer', array('_User', $collaborator->getObjectId()));
+                    $arrayPointer[] = $pointer;
                 }
+                $parseUser->collaboration = $parseUser->dataType("relation", $arrayPointer);
             } else {
-                $parse->collaboration = null;
+                $parseUser->collaboration = null;
             }
-
-            if ($user->getEvents() != null || count(getEvents()) > 0) {
+            if ($user->getEvents() != null && count(getEvents()) > 0) {
+                $arrayPointer = array();
                 foreach ($user->getEvents() as $event) {
-                    $parse->events->__op = "AddRelation";
-                    $parse->events->objects = array(array("__type" => "Pointer", "className" => "Event", "objectId" => ($event->getObjectId())));
+                    $pointer = $parseUser->dataType('pointer', array('Event', $event->getObjectId()));
+                    $arrayPointer[] = $pointer;
                 }
+                $parseUser->events = $parseUser->dataType("relation", $arrayPointer);
             } else {
-                $parse->collaboration = null;
+                $parseUser->events = null;
             }
-
-            $parse->localType = $user->getLocalType();
+            if ($user->getLocalType() != null) {
+                $parseUser->localType = $user->getLocalType();
+            } else {
+                $parseUser->localType = null;
+            }
         }
 
         //poi recupero i dati fondamentali (che appartengono a tutti gli utenti)
-        $parse->username = $user->getUsername();
+        $parseUser->username = $user->getUsername();
         //$parse->password = $user->getPassword(); VANNO MESSI?
         //$parse->authData; = $user->getAuthData;(); VANNO MESSI?
-        $parse->ID = $user->getID();
-        $parse->active = $user->getActive();
-
-
-        if ($user->getAlbums() != null || count(getAlbums()) > 0) {
+        $parseUser->active = $user->getActive();
+        if ($user->getAlbums() != null && count(getAlbums()) > 0) {
+            $arrayPointer = array();
             foreach ($user->getAlbums() as $album) {
-                $parse->albums->__op = "AddRelation";
-                $parse->albums->objects = array(array("__type" => "Pointer", "className" => "Album", "objectId" => ($album->getObjectId())));
+                $pointer = $parseUser->dataType('pointer', array('Album', $album->getObjectId()));
+                $arrayPointer[] = $pointer;
             }
+            $parseUser->albums = $parseUser->dataType("relation", $arrayPointer);
         } else {
-            $parse->albums = null;
+            $parseUser->albums = null;
         }
-
-
-        $parse->background = $user->getBackground();
-        $parse->city = $user->getCity();
-
-        if ($user->getComments() != null || count(getComments()) > 0) {
+        if ($user->getBackground() != null) {
+            $parseUser->background = $user->getBackground();
+        } else {
+            $parseUser->background = 'images/default/background.jpg';
+        }
+        if ($user->getCity() != null) {
+            $parseUser->city = $user->getCity();
+        } else {
+            $parseUser->city = null;
+        }
+        if ($user->getComments() != null && count(getComments()) > 0) {
+            $arrayPointer = array();
             foreach ($user->getComments() as $comment) {
-                $parse->comments->__op = "AddRelation";
-                $parse->comments->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment->getObjectId())));
+                $pointer = $parseUser->dataType('pointer', array('Comment', $comment->getObjectId()));
+                $arrayPointer[] = $pointer;
             }
+            $parseUser->comments = $parseUser->dataType("relation", $arrayPointer);
         } else {
-            $parse->comments = null;
+            $parseUser->comments = null;
         }
-
-        $parse->country = $user->getCountry();
-        $parse->description = $user->getDescription();
-        $parse->email = $user->getEmail();
-        $parse->fbPage = $user->getFbPage();
-
-        if ($user->getGeoCoding()) {
-            $geo = $user->getGeoCoding();
-            $parse->geoCoding = $geo->location;
+        if ($user->getCountry() != null) {
+            $parseUser->country = $user->getCountry();
+        } else {
+            $parseUser->country = null;
         }
-
-        if ($user->getImages() != null || count(getImages()) > 0) {
+        if ($user->getDescription() != null) {
+            $parseUser->description = $user->getDescription();
+        } else {
+            $parseUser->description = null;
+        }
+        if ($user->getEmail() != null) {
+            $parseUser->email = $user->getEmail();
+        } else {
+            $parseUser->email = null;
+        }
+        if ($user->getFbPage() != null) {
+            $parseUser->fbPage = $user->getFbPage();
+        } else {
+            $parseUser->fbPage = null;
+        }
+        if (($geoPoint = $user->getGeoCoding() ) != null) {
+            $parseUser->geoCoding = $geoPoint->location;
+        } else {
+            $parseUser->geoCoding = null;
+        }
+        if ($user->getImages() != null && count(getImages()) > 0) {
+            $arrayPointer = array();
             foreach ($user->getImages() as $image) {
-                $parse->images->__op = "AddRelation";
-                $parse->images->objects = array(array("__type" => "Pointer", "className" => "Image", "objectId" => ($image->getObjectId())));
+                $pointer = $parseUser->dataType('pointer', array('Image', $image->getObjectId()));
+                $arrayPointer[] = $pointer;
             }
+            $parseUser->images = $parseUser->dataType("relation", $arrayPointer);
         } else {
-            $parse->images = null;
+            $parseUser->images = null;
         }
-
-
-        $parse->level = $user->getLevel();
-        $parse->levelValue = $user->getLevelValue();
-
-        if ($user->getLoveSongs() != null || count(getLoveSongs()) > 0) {
+        if ($user->getLevel() != null) {
+            $parseUser->level = $user->getLevel();
+        } else {
+            $parseUser->level = 0;
+        }
+        if ($user->getLevelValue() != null) {
+            $parseUser->levelValue = $user->getLevelValue();
+        } else {
+            $parseUser->levelValue = 0;
+        }
+        if ($user->getLoveSongs() != null && count(getLoveSongs()) > 0) {
+            $arrayPointer = array();
             foreach ($user->getLoveSongs() as $song) {
-                $parse->loveSongs->__op = "AddRelation";
-                $parse->loveSongs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song->getObjectId())));
+                $pointer = $parseUser->dataType('pointer', array('Song', $song->getObjectId()));
+                $arrayPointer[] = $pointer;
             }
+            $parseUser->loveSongs = $parseUser->dataType("relation", $arrayPointer);
         } else {
-            $parse->loveSongs = null;
+            $parseUser->loveSongs = null;
         }
-
-        if ($user->getMusic() != null || count($user->getMusic()) > 0) {
-            $parse->music = $user->getMusic();
+        if ($user->getMusic() != null && count($user->getMusic()) > 0) {
+            $parseUser->music = $user->getMusic();
         } else {
-            $parse->music = null;
+            $parseUser->music = null;
         }
-
-        if ($user->getPlaylists() != null || count(getPlaylists()) > 0) {
+        if ($user->getPlaylists() != null && count(getPlaylists()) > 0) {
+            $arrayPointer = array();
             foreach ($user->getPlaylists() as $playlist) {
-                $parse->playlists->__op = "AddRelation";
-                $parse->playlists->objects = array(array("__type" => "Pointer", "className" => "Playlist", "objectId" => ($playlist->getObjectId())));
+                $pointer = $parseUser->dataType('pointer', array('Playlist', $playlist->getObjectId()));
+                $arrayPointer[] = $pointer;
             }
+            $parseUser->playlists = $parseUser->dataType("relation", $arrayPointer);
         } else {
-            $parse->playlists = null;
+            $parseUser->playlists = null;
         }
-
-
-        $parse->premium = $user->getPremium();
-        $parse->premiumExpirationDate = $user->getPremiumExpirationDate();
-        $parse->profilePicture = $user->getProfilePicture();
-        $parse->profileThumbnail = $user->getProfileThumbnail();
-        $parse->settings = $user->getSettings();
-
-        if ($user->getStatuses() != null || count(getStatuses()) > 0) {
+        if ($user->getPremium() != null) {
+            $parseUser->premium = $user->getPremium();
+        } else {
+            $parseUser->premium = null;
+        }
+        if ($user->getPremiumExpirationDate() != null) {
+            $parseUser->premiumExpirationDate = $user->getPremiumExpirationDate();
+        } else {
+            $parseUser->premiumExpirationDate = null;
+        }
+        if ($user->getProfilePicture() != null) {
+            $parseUser->profilePicture = $user->getProfilePicture();
+        } else {
+            $parseUser->profilePicture = null;
+        }
+        if ($user->getProfilePictureFile() != null) {
+            $parseUser->profilePictureFile = $user->getProfilePictureFile();
+        } else {
+            $parseUser->profilePictureFile = null;
+        }
+        if ($user->getProfileThumbnail() != null) {
+            $parseUser->profileThumbnail = $user->getProfileThumbnail();
+        } else {
+            $parseUser->profileThumbnail = null;
+        }
+        if ($user->getSettings() != null) {
+            $parseUser->settings = $user->getSettings();
+        } else {
+            $parseUser->settings = null;
+        }
+        if ($user->getStatuses() != null && count(getStatuses()) > 0) {
+            $arrayPointer = array();
             foreach ($user->getStatuses() as $status) {
-                $parse->statuses->__op = "AddRelation";
-                $parse->statuses->objects = array(array("__type" => "Pointer", "className" => "Status", "objectId" => ($status->getObjectId())));
+                $pointer = $parseUser->dataType('pointer', array('Status', $status->getObjectId()));
+                $arrayPointer[] = $pointer;
             }
+            $parseUser->statuses = $parseUser->dataType("relation", $arrayPointer);
         } else {
-            $parse->statuses = null;
+            $parseUser->statuses = null;
         }
-
-        $parse->twitterPage = $user->getTwitterPage();
-        $parse->type = $user->getType();
-
-        if ($user->getVideos() != null || count($user->getVideos()) > 0) {
+        if ($user->getTwitterPage() != null) {
+            $parseUser->twitterPage = $user->getTwitterPage();
+        } else {
+            $parseUser->twitterPage = null;
+        }
+        if ($user->getType() != null) {
+            $parseUser->type = $user->getType();
+        }
+        if ($user->getVideos() != null && count($user->getVideos()) > 0) {
+            $arrayPointer = array();
             foreach ($user->getVideos() as $video) {
-                $parse->videos->__op = "AddRelation";
-                $parse->videos->objects = array(array("__type" => "Pointer", "className" => "Video", "objectId" => ($video->getObjectId())));
+                $pointer = $parseUser->dataType('pointer', array('Video', $video->getObjectId()));
+                $arrayPointer[] = $pointer;
             }
+            $parseUser->videos = $parseUser->dataType("relation", $arrayPointer);
         } else {
-            $parse->videos = null;
+            $parseUser->videos = null;
         }
-
-        $parse->website = $user->getWebsite();
-        $parse->youtubeChannel = $user->getYoutubeChannel();
-
+        if ($user->getWebsite() != null) {
+            $parseUser->website = $user->getWebsite();
+        } else {
+            $parseUser->website = null;
+        }
+        if ($user->getYoutubeChannel() != null) {
+            $parseUser->youtubeChannel = $user->getYoutubeChannel();
+        } else {
+            $parseUser->youtubeChannel = null;
+        }
         if ($user->getObjectId() != null) {
 
             //update
 
             try {
 
-                $ret = $parse->update($user->getObjectId(), $user->getSessionToken());
+                $ret = $parseUser->update($user->getObjectId(), $user->getSessionToken());
 
                 /** esempio di risposta:
                  *  $ret->updatedAt "2013-05-04T15:03:03.151Z";
@@ -302,11 +391,11 @@ class UserParse {
         } else {
             //registrazione
 
-            $parse->password = $user->getPassword();
+            $parseUser->password = $user->getPassword();
 
             try {
 
-                $ret = $parse->signup($user->getUsername(), $user->getPassword());
+                $ret = $parseUser->signup($user->getUsername(), $user->getPassword());
 
                 /**
                  * Esempio di risposta: un oggetto di tipo stdObj cos� fatto:
@@ -332,93 +421,40 @@ class UserParse {
      * Effettua il login dell'utente fornendo un utente che deve avere qualche parametro impostato, dopodich� creo uno User specifico
      * e lo restituisco.
      */
-    function login(User $user) {
-
-        //o la mail o lo username!
-        if (($user == null) || ( $user->getUsername() == null || $user->getEmail() == null ) && $user->getPassword() == null)
-            return false;
-        $parse = new parseUser();
+    function login($login, $password) {
 
         //login tramite username o email
-        if ($user->getUsername() == null)
-            $parse->username = $this->getUserIdByMail($user->getEmail());
-        else
+        if (filter_var("some@address.com", FILTER_VALIDATE_EMAIL)) {
+            // valid address
+            $this->parseQuery->where("email", $login);
+        } else {
+            // invalid address
+            $this->parseQuery->where("username", $login);
+        }
+        $user = $this->getUser();
+
+        if ($user != null) {
+            $parse = new parseUser();
             $parse->username = $user->getUsername();
-
-        $parse->password = $user->getPassword();
-
-        try {
-
-            $ret = $parse->login();
-
-            if ($ret) {
-
-                $user = $this->parseToUser($ret);
+            $parse->password = $password;
+            try {
+                $ret = $parse->login();
+                return $this->parseToUser($ret);
+            } catch (Exception $e) {
+                $error = new error();
+                $error->setErrorClass(__CLASS__);
+                $error->setErrorCode($e->getCode());
+                $error->setErrorMessage($e->getMessage());
+                $error->setErrorFunction(__FUNCTION__);
+                $error->setErrorFunctionParameter(func_get_args());
+                $errorParse = new errorParse();
+                $errorParse->saveError($error);
+                return $error;
             }
-        } catch (ParseLibraryException $e) {
-
-            return false;
+        } else {
+            return null;
         }
-
         return $user;
-    }
-
-    /**
-     * La funzione di Logout non ha effetti nel DB, probabilmente
-     * si dovr� agire probabilmente sulle Activity
-     *
-     */
-    function logout() {
-
-        if (isset($_SESSION['user_id'])) {
-
-            unset($_SESSION['user_id']);
-
-            //al logout devo sempre distruggere la sessione
-
-            session_destroy();
-        }
-    }
-
-    /**
-     * Inizializza un oggetto Utente recuperandolo tramite l'id
-     */
-    function getUserById($user_id) {
-
-        $user = null;
-
-        $this->parseQuery->where('objectId', $user_id);
-
-        $result = $this->parseQuery->find();
-
-        if (is_array($result->results) && count($result->results) > 0) {
-
-            $ret = $result->results[0];
-
-            if ($ret) {
-
-                //recupero l'utente
-                $user = $this->parseToUser($ret);
-            }
-        }
-
-        return $user;
-    }
-
-    /**
-     * Restituisce un array di utenti recuperati tramite un array di id passato per argomento
-     * @param array $userArray
-     * @return multitype:
-     */
-    function getUserArrayById(array $userArray) {
-
-        $array = array();
-
-        foreach ($userArray as $user_id) {
-            array_push($array, $this->getUserById($user_id));
-        }
-
-        return $array;
     }
 
     /**
@@ -426,7 +462,7 @@ class UserParse {
      * @param User $user l'utente da cancellare
      * @return boolean true in caso di successo, false in caso di fallimento
      */
-    function delete(User $user) {
+    function deleteUser(User $user) {
 
         //solo l'utente corrente pu� cancellare se stesso
         if ($user) {
@@ -439,61 +475,6 @@ class UserParse {
         }
         else
             return false;
-    }
-
-    /*     * Restituisce lo username di un utente
-     * in base alla sua mail
-     * (serve per il login differenziato)
-     */
-
-    function getUserIdByMail($email) {
-
-        $this->parseQuery->where('email', $email);
-
-        $result = $this->parseQuery->find();
-
-        if (is_array($result->results) && count($result->results) > 0) {
-
-            $ret = $result->results[0];
-
-            if ($ret) {
-
-                //poi recupero i dati fondamentali (che appartengono a tutti gli utenti)
-
-                if (isset($ret->username))
-                    return $ret->username;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * Recupera un utente in base al suo username
-     * @param string $username
-     * @return Ambigous <NULL, User>
-     */
-    public function getUserByUsername($username) {
-
-        $user = null;
-
-        $this->parseQuery->where('username', $username);
-
-        $result = $this->parseQuery->find();
-
-        if (is_array($result->results) && count($result->results) > 0) {
-
-            $ret = $result->results[0];
-
-            if ($ret) {
-
-                //poi recupero i dati fondamentali (che appartengono a tutti gli utenti)
-
-                $user = $this->parseToUser($ret);
-            }
-        }
-
-        return $user;
     }
 
     public function parseToUser(stdClass $parseObj) {
