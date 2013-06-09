@@ -34,30 +34,30 @@ class VideoParse {
      * @param Video $video
      * @return boolean|Video
      */
-    public function save(Video $video) {
+    public function saveVideo(Video $video) {
 
         $parse = new parseObject("Video");
         $parse->active = $video->getActive();
         $parse->author = $video->getAuthor();
 
-        if ($video->getCommentators() != null || count($video->getCommentators()) > 0) {
-
+        if ($video->getCommentators() != null && count($video->getCommentators()) > 0) {
+            $arrayPointer = array();
             foreach ($video->getCommentators() as $user) {
-                $parse->data[commentators]->__op = "AddRelation";
-                $parse->data[commentators]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
+                array_push($arrayPointer, $pointer);
             }
         } else {
-            $parse->data[commentators] = null;
+            $parse->commentators = null;
         }
 
-        if ($video->getComments() != null || count($video->getComments()) > 0) {
-
+        if ($video->getComments() != null && count($video->getComments()) > 0) {
+            $arrayPointer = array();
             foreach ($video->getComments() as $comment) {
-                $parse->data[comments]->__op = "AddRelation";
-                $parse->data[comments]->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment->getObjectId())));
+                $pointer = $parse->dataType("pointer", array("Comment"), $comment->getObjectId());
+                array_push($arrayPointer, $pointer);
             }
         } else {
-            $parse->data[comments] = null;
+            $parse->comments = null;
         }
 
         $parse->counter = $video->getCounter();
@@ -65,13 +65,14 @@ class VideoParse {
         $parse->duration = $video->getDuration();
         $parse->fromUser = $video->getFromUser();
 
-        if ($video->getFeaturing() != null || count($video->getFeaturing()) > 0) {
+        if ($video->getFeaturing() != null && count($video->getFeaturing()) > 0) {
+            $arrayPointer = array();
             foreach ($video->getFeaturing() as $user) {
-                $parse->data[featuring]->__op = "AddRelation";
-                $parse->data[featuring]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
+                array_push($arrayPointer, $pointer);
             }
         } else {
-            $parse->data[featuring] = null;
+            $parse->featuring = null;
         }
 
         if (($fromUser = $video->getFromUser() ) != null) {
@@ -80,16 +81,17 @@ class VideoParse {
 
         $parse->loveCounter = $video->getLoveCounter();
 
-        if ($video->getLovers() != null || count($video->getLovers()) > 0) {
+        if ($video->getLovers() != null && count($video->getLovers()) > 0) {
+            $arrayPointer = array();
             foreach ($video->getLovers() as $user) {
-                $parse->data[lovers]->__op = "AddRelation";
-                $parse->data[lovers]->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user->getObjectId())));
+                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
+                array_push($arrayPointer, $pointer);
             }
         } else {
-            $parse->data[lovers] = null;
+            $parse->lovers = null;
         }
 
-        if ($video->getTags() != null || count($video->getTags()) > 0) {
+        if ($video->getTags() != null && count($video->getTags()) > 0) {
             $parse->tags = $video->getTags();
         } else {
             $parse->tags = null;
@@ -98,6 +100,11 @@ class VideoParse {
         $parse->title = $video->getTitle();
         $parse->thumbnail = $video->getThumbnail();
         $parse->URL = $video->getURL();
+        $acl = new parseACL();
+        $acl->setPublicReadAccess(true);
+        $acl->setPublicWriteAccess(true);
+
+        $video->setACL($acl);
 
         //se esiste l'objectId vuol dire che devo aggiornare
         //se non esiste vuol dire che devo salvare
@@ -120,11 +127,7 @@ class VideoParse {
                 //aggiorno i dati per la creazione
                 $video->setObjectId($result->objectId);
 
-                $acl = new parseACL();
-                $acl->setPublicReadAccess(true);
-                $acl->setPublicWriteAccess(true);
 
-                $video->setACL($acl);
                 $video->setCreatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
                 $video->setUpdatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
             } catch (ParseLibraryException $e) {
@@ -141,7 +144,7 @@ class VideoParse {
      * La cancellazione prevede che il video venga impostato inattivo
      * @param Video $video il video da cancellare
      */
-    public function delete(Video $video) {
+    public function deleteVideo(Video $video) {
         $video->setActive(false);
         $this->save($video);
     }
@@ -295,7 +298,5 @@ class VideoParse {
         }
         return $video;
     }
-
 }
-
 ?> 

@@ -372,6 +372,5 @@ class EventParse {
 	public function wherePointer($key, $className, $objectId) {
 		$this->parseQuery->wherePointer($key, $className, $objectId);
 	}
-
 }
 ?>

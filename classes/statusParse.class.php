@@ -1,5 +1,6 @@
 <?php
-/*! \par Info Generali:
+
+/* ! \par Info Generali:
  *  \author    Stefano Muscas
  *  \version   1.0
  *  \date      2013
@@ -18,89 +19,94 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:status">API</a>
  */
 
-class StatusParse{
+class StatusParse {
 
-	private $parseQuery;
+    private $parseQuery;
 
-	public function __construct() {
+    public function __construct() {
 
-		$this->parseQuery = new ParseQuery("Status");
+        $this->parseQuery = new ParseQuery("Status");
+    }
 
-	}
+    /**
+     * Ho deciso di unificare la save e l'update cos� da poter effettuare semplicemente il salvataggio
+     * dell'oggetto senza paranoie se esiste gi� o meno su Parse
+     * Il test viene fatto sull'objectId dello status, che naturalmente � nullo se
+     * l'oggetto � creato per la prima volta
+     *
+     * @param unknown $status
+     * @return NULL|unknown
+     */
+    public function saveStatus(Status $status) {
 
-	/**
-	 * Ho deciso di unificare la save e l'update cos� da poter effettuare semplicemente il salvataggio
-	 * dell'oggetto senza paranoie se esiste gi� o meno su Parse
-	 * Il test viene fatto sull'objectId dello status, che naturalmente � nullo se
-	 * l'oggetto � creato per la prima volta
-	 *
-	 * @param unknown $status
-	 * @return NULL|unknown
-	 */
-	public function save(Status $status){
-		
-		$parse = new parseObject("Status");
-		$parse->active = $status->getActive();
-		
-       if($status->getCommentators() != null || count($status->getCommentators())>0){ 
-           foreach($status->getCommentators() as $user){
-			$parse->commentators->__op = "AddRelation";
-			$parse->commentators->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-           } 
-       } else {
-            $parse->commentators = null;   
-       }   
-	
-       
-       if($status->getComments() != null || count($status->getComments())>0){ 
-          	foreach($status->getComments() as $comment){
-			$parse->commentators->__op = "AddRelation";
-			$parse->commentators->objects = array(array("__type" => "Pointer", "className" => "Comment", "objectId" => ($comment ->getObjectId())));
-		}  
-       }else {
-            $parse->comments = null;   
-       }  
-       
-       $parse->counter = $status->getCounter();
-		
-       //puntatore ad un evento
-	if(($event = $status->getEvent())){
-            $parse->event = array("__type" => "Pointer", "className" => "Event", "objectId" => $event->getObjectId());			
-	};
+        $parse = new parseObject("Status");
+        $parse->active = $status->getActive();
 
-	$parse->fromUser = $status->getfromUser();
-	$parse->image = $status->getImage();
-	if(($geoPoint = $status->getLocation())){
-			$parse->location = $geoPoint->location;			
-	}
-	
+        if ($status->getCommentators() != null && count($status->getCommentators()) > 0) {
+            $arrayPointer = array();
+            foreach ($status->getCommentators() as $user) {
+                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
+                array_push($arrayPointer, $pointer);
+            }
+        } else {
+            $parse->commentators = null;
+        }
+
+        if ($status->getComments() != null && count($status->getComments()) > 0) {
+            $arrayPointer = array();
+            foreach ($status->getComments() as $comment) {
+                $pointer = $parse->dataType("pointer", array("Comment"), $comment->getObjectId());
+                array_push($arrayPointer, $pointer);
+            }
+        } else {
+            $parse->comments = null;
+        }
+
+        $parse->counter = $status->getCounter();
+
+        //puntatore ad un evento
+        if (($event = $status->getEvent())) {
+            $parse->event = array("__type" => "Pointer", "className" => "Event", "objectId" => $event->getObjectId());
+        };
+
+        $parse->fromUser = $status->getfromUser();
+        $parse->image = $status->getImage();
+        if (($geoPoint = $status->getLocation())) {
+            $parse->location = $geoPoint->location;
+        }
+
         $parse->loveCounter = $status->getLoveCounter();
-        
-        if($status->getLovers() != null || count($status->getLovers())>0){ 
-                foreach($status->getLovers() as $user){
-			$parse->lovers->__op = "AddRelation";
-			$parse->lovers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		}  
-        }else {
-            $parse->lovers = null;   
-       } 
-       
-       if(($song = $status->getSong())){
-		$parse->song = array("__type" => "Pointer", "className" => "Song", "objectId" => $song->getObjectId());
-       }
-       if($status->getTaggedUsers() != null || count($status->getTaggedUsers())>0){ 
-          foreach($status->getTaggedUsers() as $user){
-			$parse->taggedUsers->__op = "AddRelation";
-			$parse->taggedUsers->objects = array(array("__type" => "Pointer", "className" => "_User", "objectId" => ($user ->getObjectId())));
-		} 
-       }else {
-            $parse->taggedUsers = null;   
-       } 
-		
-		
-	$parse->text = $status->getText();
 
-        //$parse->ACL = $status->getACL();
+        if ($status->getLovers() != null && count($status->getLovers()) > 0) {
+            $arrayPointer = array();
+            foreach ($status->getLovers() as $user) {
+                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
+                array_push($arrayPointer, $pointer);
+            }
+        } else {
+            $parse->lovers = null;
+        }
+
+        if (($song = $status->getSong())) {
+            $parse->song = array("__type" => "Pointer", "className" => "Song", "objectId" => $song->getObjectId());
+        }
+
+        if ($status->getTaggedUsers() != null && count($status->getTaggedUsers()) > 0) {
+            $arrayPointer = array();
+            foreach ($status->getTaggedUsers() as $user) {
+                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
+                array_push($arrayPointer, $pointer);
+            }
+        } else {
+            $parse->taggedUsers = null;
+        }
+
+
+        $parse->text = $status->getText();
+        $acl = new parseACL();
+        $acl->setPublicReadAccess(true);
+        $acl->setPublicWriteAccess(true);
+        $parse->setACL($acl);
 
 		//se esiste l'objectId vuol dire che devo aggiornare
 		//se non esiste vuol dire che devo salvare
@@ -139,7 +145,7 @@ class StatusParse{
 		return $status;
 	}
 
-	public function delete(Status $status){
+	public function deleteStatus(Status $status){
 
 		$status->setActive(false);
 

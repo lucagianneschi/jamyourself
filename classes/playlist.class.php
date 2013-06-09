@@ -80,6 +80,7 @@ class Playlist{
 		return $this->ACL;  
 	}
 	
+        
 	//setters
 	//string: objectId Parse
 	public function setObjectId($objectId){
@@ -122,7 +123,7 @@ class Playlist{
 	}
 	
 	//Access Control List
-	public function setACL(parseACL $ACL){
+	public function setACL($ACL){
 		$this->ACL = $ACL; 
 	}
 	
