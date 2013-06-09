@@ -165,19 +165,19 @@ class Comment {
         $this->active = $active;
     }
 
-    public function setAlbum($album) {
+    public function setAlbum(Album $album) {
         $this->album = $album;
     }
 
-    public function setComment($comment) {
+    public function setComment(Comment $comment) {
         $this->comment = $comment;
     }
 
-    public function setCommentators($commentators) {
+    public function setCommentators(User $commentators) {
         $this->commentators = $commentators;
     }
 
-    public function setComments($comments) {
+    public function setComments(array $comments) {
         $this->comments = $comments;
     }
 
@@ -185,15 +185,15 @@ class Comment {
         $this->counter = $counter;
     }
 
-    public function setEvent($event) {
+    public function setEvent(Event $event) {
         $this->event = $event;
     }
 
-    public function setFromUser($fromUser) {
+    public function setFromUser(User $fromUser) {
         $this->fromUser = $fromUser;
     }
 
-    public function setImage($image) {
+    public function setImage(Image $image) {
         $this->image = $image;
     }
 
@@ -205,27 +205,27 @@ class Comment {
         $this->loveCounter = $loveCounter;
     }
 
-    public function setLovers($lovers) {
+    public function setLovers(array $lovers) {
         $this->lovers = $lovers;
     }
 
-    public function setOpinions($opinions) {
+    public function setOpinions(array $opinions) {
         $this->opinions = $opinions;
     }
 
-    public function setRecord($record) {
+    public function setRecord(Record $record) {
         $this->record = $record;
     }
 
-    public function setSong($song) {
+    public function setSong(Song $song) {
         $this->song = $song;
     }
 
-    public function setStatus($status) {
+    public function setStatus(Status $status) {
         $this->status = $status;
     }
 
-    public function setTags($tags) {
+    public function setTags(array $tags) {
         $this->tags = $tags;
     }
 
@@ -233,7 +233,7 @@ class Comment {
         $this->text = $text;
     }
 
-    public function setToUser($toUser) {
+    public function setToUser(User $toUser) {
         $this->toUser = $toUser;
     }
 
@@ -241,7 +241,7 @@ class Comment {
         $this->type = $type;
     }
 
-    public function setVideo($video) {
+    public function setVideo(Video $video) {
         $this->video = $video;
     }
 
@@ -249,11 +249,11 @@ class Comment {
         $this->vote = $vote;
     }
 
-    public function setCreatedAt($createdAt) {
+    public function setCreatedAt(DateTime $createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    public function setUpdatedAt($updatedAt) {
+    public function setUpdatedAt(DateTime $updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
