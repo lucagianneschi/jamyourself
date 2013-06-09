@@ -132,11 +132,15 @@ class Playlist {
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
         $fromUser = $this->getFromUser();
-        $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        if ($fromUser->getObjectId() != null) {
+            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        }
         $string.="[name] => " . $this->getName() . "<br />";
-        foreach ($this->getSongs() as $song) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[song] => " . $song->getObjectId() . "<br />";
+        if ($this->getSongs() != null && count($this->getSongs() > 0)) {
+            foreach ($this->getSongs() as $song) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[song] => " . $song->getObjectId() . "<br />";
+            }
         }
         $string.="[unlimited] => " . $this->getUnlimited() . "<br />";
         $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
