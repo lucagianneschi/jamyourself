@@ -27,7 +27,7 @@ class Record {
     private $active;
     private $buyLink;
     private $commentators;
-    private $comments;      //relation: puntatori ad oggetti Comment
+    private $comments;
     private $counter;
     private $cover;
     private $coverFile;
@@ -253,39 +253,53 @@ class Record {
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
         $string .= '[buyLink] => ' . $this->getBuyLink() . '<br />';
-        foreach ($this->getCommentators() as $commentator) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
+            foreach ($this->getCommentators() as $commentator) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+            }
         }
-        foreach ($this->getComments() as $comment) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+        if ($this->getComments() != null && count($this->getComments() > 0)) {
+            foreach ($this->getComments() as $comment) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+            }
         }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         $string .= '[cover] => ' . $this->getCover() . '<br />';
         //$string .= '[coverFile] => ' . $this->getCoverFile() . '<br />';
         $string .= '[description] => ' . $this->getDescription() . '<br />';
         $string .= '[duration] => ' . $this->getDuration() . '<br />';
-        foreach ($this->getFeaturing() as $user) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+        if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
+            foreach ($this->getFeaturing() as $user) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+            }
         }
         $fromUser = $this->getFromUser();
-        $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        if ($fromUser->getObjectId() != null) {
+            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        }
         $string.="[genre] => " . $this->getGenre() . "<br />";
         $string.="[label] => " . $this->getLabel() . "<br />";
         $parseGeoPoint = $this->getLocation();
-        $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
+            $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        }
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-        foreach ($this->getLovers() as $lover) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
+            foreach ($this->getLovers() as $lover) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+            }
         }
         $string .= "[thumbnailCover] => " . $this->getThumbnailCover() . "<br />";
         $string .= "[title] => " . $this->getTitle() . "<br />";
-        foreach ($this->getTracklist() as $song) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[tracklist] => " . $song->getObjectId() . "<br />";
+        if ($this->getTracklist() != null && count($this->getTracklist() > 0)) {
+            foreach ($this->getTracklist() as $song) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[tracklist] => " . $song->getObjectId() . "<br />";
+            }
         }
         $string .= "[year] => " . $this->getYear() . "<br />";
         $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
