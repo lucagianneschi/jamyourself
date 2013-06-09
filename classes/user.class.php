@@ -48,6 +48,7 @@ class User {
 	private $premium;
 	private $premiumExpirationDate;
 	private $profilePicture;
+        private $profilePictureFile;
 	private $profileThumbnail;
 	private $sessionToken;
 	private $settings;
@@ -162,6 +163,10 @@ class User {
 	
 	public function getProfilePicture() {
 		return $this->profilePicture;
+	}
+        
+        public function getProfilePictureFile() {
+		return $this->profilePictureFile;
 	}
 	
 	public function getProfileThumbnail() {
@@ -308,6 +313,10 @@ class User {
 	public function setProfilePicture($profilePicture) {
 		$this->profilePicture = $profilePicture;
 	}
+        
+        public function setProfilePictureFile($profilePictureFile) {
+		$this->profilePictureFile = $profilePictureFile;
+	}
 	
 	public function setProfileThumbnail($profileThumbnail) {
 		$this->profileThumbnail = $profileThumbnail;
@@ -393,6 +402,7 @@ class User {
 		$string .= '[premium] => ' . $this->getPremium() . '<br />';
 		$string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
 		$string .= '[profilePicture] => ' . $this->getProfilePicture() . '<br />';
+                //$string .= '[profilePictureFile] => ' . $this->getProfilePictureFile() . '<br />';
 		$string .= '[profileThumbnail] => ' . $this->getProfileThumbnail() . '<br />';
 		$string .= '[sessionToken] => ' . $this->getSessionToken() . '<br />';
 		foreach ($this->getSettings() as $settings) {
