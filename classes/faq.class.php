@@ -114,15 +114,19 @@ class Faq {
             $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
             $string.="[tag] => " . $tag . "<br />";
         }
-        $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-        $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-        foreach ($this->getACL()->acl as $key => $acl) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[key] => ' . $key . '<br />';
-            foreach ($acl as $access => $value) {
+        if (($createdAt = $this->getCreatedAt()))
+            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+        if (($updatedAt = $this->getUpdatedAt()))
+            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
+        if ($this->getACL() != null) {
+            foreach ($this->getACL()->acl as $key => $acl) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                $string .= '[key] => ' . $key . '<br />';
+                foreach ($acl as $access => $value) {
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                }
             }
         }
         return $string;
