@@ -27,7 +27,7 @@ class Album {
     private $comments;
     private $counter;
     private $cover;
-    //private $coverFile;
+    private $coverFile;
     private $description;
     private $featuring;
     private $fromUser;
@@ -67,11 +67,10 @@ class Album {
     public function getCover() {
         return $this->cover;
     }
-    /*
-     public function getCoverFile() {
+
+    public function getCoverFile() {
         return $this->coverFile;
     }
-    */
 
     public function getCounter() {
         return $this->counter;
@@ -139,11 +138,11 @@ class Album {
         $this->active = $active;
     }
 
-    public function setCommentators(Relation $commentators) {
+    public function setCommentators(array $commentators) {
         $this->commentators = $commentators;
     }
 
-    public function setComments(Relation $comments) {
+    public function setComments(array $comments) {
         $this->comments = $comments;
     }
 
@@ -154,11 +153,10 @@ class Album {
     public function setCover(string $cover) {
         $this->cover = $cover;
     }
-    /*
-     public function setCoverFile(parseFile $coverFile) {
+
+    public function setCoverFile(parseFile $coverFile) {
         $this->cover = $coverFile;
     }
-     */
 
     public function setDescription(string $description) {
         $this->description = $description;
@@ -172,7 +170,7 @@ class Album {
         $this->fromUser = $fromUser;
     }
 
-    public function setImages(Relation $images) {
+    public function setImages(array $images) {
         $this->images = $images;
     }
 
@@ -184,7 +182,7 @@ class Album {
         $this->loveCounter = $loveCounter;
     }
 
-    public function setLovers(Relation $lovers) {
+    public function setLovers(array $lovers) {
         $this->lovers = $lovers;
     }
 
@@ -211,5 +209,74 @@ class Album {
     public function setACL($ACL) {
         $this->ACL = $ACL;
     }
+
+    public function __toString() {
+        $string = "";
+
+        $string .= "[ objectId ] => " . $this->getObjectId() . " <br />";
+        $string .= "[ active ] => " . $this->getActive() . " <br />";
+
+        foreach ($this->getCommentators() as $commentator) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[ commentator ] => ' . $commentator->getObjectId() . '<br />';
+        }
+
+        foreach ($this->getComments() as $comment) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[ comments ] => ' . $comment->getObjectId() . '<br />';
+        }
+
+        $string .= "[ counter ] => " . $this->getCounter() . " <br />";
+        $string .= "[ cover  ] => " . $this->getCover() . " <br />";
+//        $string .= "[ coverFile  ] => " .$this->getCoverFile()." <br />" ;
+        $string .= "[ description  ] => " . $this->getDescription() . " <br />";
+
+        foreach ($this->getFeaturing() as $user) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[ featuring ] => ' . $user->getObjectId() . '<br />';
+        }
+        $fromUser = $this->getFromUser();
+        $string .= "[ fromUser ] => " . $fromUser->getObjectId() . " <br />";
+
+        foreach ($this->getImages() as $image) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[ image ] => ' . $image->getObjectId() . '<br />';
+        }
+
+        $parseGeoPoint = $this->getLocation();
+        $string .= '[ location ] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+
+        $string .= "[ loveCounter ] => " . $this->getLoveCounter() . " <br />";
+
+        foreach ($this->getLovers() as $user) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[ featuring ] => ' . $user->getObjectId() . '<br />';
+        }
+
+        foreach ($this->getTags() as $tag) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[ tag ] => ' . $tag . '<br />';
+        }
+
+        $string .= "[ thumbnailCover ] => " . $this->getThumbnailCover() . " <br />";
+        $string .= "[ title ] => " . $this->getTitle() . " <br />";
+        foreach ($this->getACL()->acl as $key => $acl) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[key] => ' . $key . '<br />';
+            foreach ($acl as $access => $value) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+            }
+        }
+        if ($this->createdAt != null)
+            $string.="[ updatedAt ] => " . $this->createdAt->format('d/m/Y H:i:s') . "<br />";
+        if ($this->updatedAt != null)
+            $string.="[ CreatedAt ] => " . $this->updatedAt->format('d/m/Y H:i:s') . "<br />";
+
+        return $string;
+    }
+
 }
+
 ?>
