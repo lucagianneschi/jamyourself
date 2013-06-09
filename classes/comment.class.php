@@ -337,31 +337,29 @@ class Comment {
             $string .= '[record] => ' . $record->getObjectId() . '<br />';
         if (($song = $this->getSong() ) != null)
             $string .= '[song] => ' . $song->getObjectId() . '<br />';
-        if ( ($status = $this->getStatus() ) != null)
+        if (($status = $this->getStatus() ) != null)
             $string .= '[status] => ' . $status->getObjectId() . '<br />';
-        
-       
+
+
         if ($this->getTags() != null && count($this->getTags()) > 0) {
             foreach ($this->getOpinions() as $opinion) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= '[tags] => ' . $opinion->getTags() . '<br />';
             }
         }
-        
-        
+
+
         $string .= '[text] => ' . $this->getText() . '<br />';
         if (($toUser = $this->getToUser() ) != null)
             $string .= '[toUser] => ' . $toUser->getObjectId() . '<br />';
         $string .= '[type] => ' . $this->getType() . '<br />';
-        if ( ($video = $this->getVideo() ) != null)
+        if (($video = $this->getVideo() ) != null)
             $string .= '[video] => ' . $video->getObjectId() . '<br />';
         $string .= '[vote] => ' . $this->getVote() . '<br />';
-
-
-        if ($this->getCreatedAt() != null)
-            $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-        if ($this->getUpdatedAt() != null)
-            $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+        if (($createdAt = $this->getCreatedAt()))
+            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+        if (($updatedAt = $this->getUpdatedAt()))
+            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
         foreach ($this->getACL()->acl as $key => $acl) {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[key] => ' . $key . '<br />';
