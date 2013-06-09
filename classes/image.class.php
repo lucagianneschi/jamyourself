@@ -220,7 +220,9 @@ class Image {
         //$string .= '[file] => ' . $this->getFile() . '<br />';
         $string .= '[filePath] => ' . $this->getFilePath() . '<br />';
         $fromUser = $this->getFromUser();
-        $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        if ($fromUser != null) {
+            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        }
         $parseGeoPoint = $this->getLocation();
         if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
             $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';

@@ -215,65 +215,74 @@ class Album {
 
         $string .= "[ objectId ] => " . $this->getObjectId() . " <br />";
         $string .= "[ active ] => " . $this->getActive() . " <br />";
-
-        foreach ($this->getCommentators() as $commentator) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ commentator ] => ' . $commentator->getObjectId() . '<br />';
+        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
+            foreach ($this->getCommentators() as $commentator) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+            }
         }
-
-        foreach ($this->getComments() as $comment) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ comments ] => ' . $comment->getObjectId() . '<br />';
+        if ($this->getComments() != null && count($this->getComments() > 0)) {
+            foreach ($this->getComments() as $comment) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+            }
         }
 
         $string .= "[ counter ] => " . $this->getCounter() . " <br />";
         $string .= "[ cover  ] => " . $this->getCover() . " <br />";
 //        $string .= "[ coverFile  ] => " .$this->getCoverFile()." <br />" ;
         $string .= "[ description  ] => " . $this->getDescription() . " <br />";
-
-        foreach ($this->getFeaturing() as $user) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ featuring ] => ' . $user->getObjectId() . '<br />';
-        }
-        $fromUser = $this->getFromUser();
-        $string .= "[ fromUser ] => " . $fromUser->getObjectId() . " <br />";
-
-        foreach ($this->getImages() as $image) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ image ] => ' . $image->getObjectId() . '<br />';
-        }
-
-        $parseGeoPoint = $this->getLocation();
-        $string .= '[ location ] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
-
-        $string .= "[ loveCounter ] => " . $this->getLoveCounter() . " <br />";
-
-        foreach ($this->getLovers() as $user) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ featuring ] => ' . $user->getObjectId() . '<br />';
-        }
-
-        foreach ($this->getTags() as $tag) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ tag ] => ' . $tag . '<br />';
-        }
-
-        $string .= "[ thumbnailCover ] => " . $this->getThumbnailCover() . " <br />";
-        $string .= "[ title ] => " . $this->getTitle() . " <br />";
-        foreach ($this->getACL()->acl as $key => $acl) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[key] => ' . $key . '<br />';
-            foreach ($acl as $access => $value) {
+        if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
+            foreach ($this->getFeaturing() as $user) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
             }
         }
-        if ($this->createdAt != null)
-            $string.="[ updatedAt ] => " . $this->createdAt->format('d/m/Y H:i:s') . "<br />";
-        if ($this->updatedAt != null)
-            $string.="[ CreatedAt ] => " . $this->updatedAt->format('d/m/Y H:i:s') . "<br />";
 
+        $fromUser = $this->getFromUser();
+        if ($fromUser != null) {
+            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        }
+        if ($this->getImages() != null && count($this->getImages() > 0)) {
+            foreach ($this->getImages() as $image) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[ image ] => ' . $image->getObjectId() . '<br />';
+            }
+        }
+        $parseGeoPoint = $this->getLocation();
+        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
+            $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        }
+        $string .= "[ loveCounter ] => " . $this->getLoveCounter() . " <br />";
+        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
+            foreach ($this->getLovers() as $lover) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+            }
+        }
+        if ($this->getTags() != null && count($this->getTags() > 0)) {
+            foreach ($this->getTags() as $tag) {
+                $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
+                $string.="[tag] => " . $tag . "<br />";
+            }
+        }
+        $string .= "[ thumbnailCover ] => " . $this->getThumbnailCover() . " <br />";
+        $string .= "[ title ] => " . $this->getTitle() . " <br />";
+        if (($createdAt = $this->getCreatedAt()))
+            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
+        if (($updatedAt = $this->getUpdatedAt()))
+            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
+        if ($this->getACL() != null) {
+            foreach ($this->getACL()->acl as $key => $acl) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[key] => ' . $key . '<br />';
+                foreach ($acl as $access => $value) {
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                }
+            }
+        }
         return $string;
     }
 
