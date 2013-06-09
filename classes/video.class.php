@@ -242,20 +242,26 @@ class Video {
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
         $string .= '[author] => ' . $this->getAuthor() . '<br />';
-        foreach ($this->getCommentators() as $commentator){
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[commentator] => ". $commentator->getObjectId() . "<br />";
+        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
+            foreach ($this->getCommentators() as $commentator) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+            }
         }
-        foreach ($this->getComments() as $comment){
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[comment] => ". $comment->getObjectId() . "<br />";
+         if ($this->getComments() != null && count($this->getComments() > 0)) {
+            foreach ($this->getComments() as $comment) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+            }
         }
         $string.="[counter] => " . $this->getCounter() . "<br />";
         $string.="[description] => " . $this->getDescription() . "<br />";
         $string.="[duration] => " . $this->getDuration() . "<br />";
-        foreach ($this->getFeaturing() as $user){
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[featuring] => ". $user->getObjectId() . "<br />";
+        if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
+            foreach ($this->getFeaturing() as $user) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+            }
         }
         $fromUser = $this->getFromUser();
         $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
