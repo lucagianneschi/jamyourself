@@ -496,10 +496,15 @@ class UserParse {
                         $user->setFacebookId($parseObj->facebookId);
                     if (isset($parseObj->firstname))
                         $user->setFirstname($parseObj->firstname);
-                    if (isset($parseObj->following))
-                        $user->setFollowing($parseObj->following); //MODIFICARE
-                    if (isset($parseObj->friendship))
-                        $user->setFriendship($parseObj->friendship); //MODIFICARE
+                    if (isset($parseObj->following)) {
+                        $this->parseQuery->whereRelatedTo("following", "_User", $parseObj->objectId);
+                        $user->setFollowing($this->getUsers());
+                    }
+                    if (isset($parseObj->friendship)) {
+                        $this->parseQuery->whereRelatedTo("friendship", "_User", $parseObj->objectId);
+                        $user->setFriendship($this->getUsers());
+                    }
+
                     if (isset($parseObj->lastname))
                         $user->setLastname($parseObj->lastname);
                     if (isset($parseObj->sex))
@@ -510,16 +515,30 @@ class UserParse {
 
                     $user = new Jammer();
 
-                    if (isset($parseObj->collaboration))
-                        $user->setCollaboration($parseObj->collaboration); //MODIFICARE
-                    if (isset($parseObj->events))
-                        $user->setEvents($parseObj->events);
+                    if (isset($parseObj->collaboration)) {
+                        $this->parseQuery->whereRelatedTo("collaboration", "_User", $parseObj->objectId);
+                        $user->setCollaboration($this->getUsers());
+                    }
+                    if (isset($parseObj->events)) {
+                        $parseQueryEvent = new EventParse();
+                        $parseQueryEvent->whereRelatedTo("events", "_User", $parseObj->objectId);
+                        $user->setEvents($parseQueryEvent->getEvents());
+                    }
+
                     if (isset($parseObj->members))
                         $user->setMembers($parseObj->members);
-                    if (isset($parseObj->records))
-                        $user->setRecords($parseObj->records); //MODIFICARE
-                    if (isset($parseObj->songs))
-                        $user->setSongs($parseObj->songs); //MODIFICARE
+                    if (isset($parseObj->records)) {
+                        $parseQueryRecord = new RecordParse();
+                        $parseQueryRecord->whereRelatedTo("records", "_User", $parseObj->objectId);
+                        $user->setRecords($parseQueryRecord->getRecords());
+                    }
+
+                    if (isset($parseObj->songs)) {
+                        $parseQuerySong = new RecordParse();
+                        $parseQuerySong->whereRelatedTo("songs", "_User", $parseObj->objectId);
+                        $user->setRecords($parseQuerySong->getRecords());
+                    }
+
                     if (isset($parseObj->jammerType))
                         $user->setJammerType($parseObj->jammerType);
                     break;
@@ -531,17 +550,21 @@ class UserParse {
                     /* visto che deve essere un geopoint */ //questo è sbagliato! dalla stringa si ricavano le coordinate e si mettono dentro la property geoCoding!
                     //MODIFICARE!
                     if (isset($parseObj->address)) {
-                        //recupero il GeoPoint
                         $geoParse = $parseObj->address;
-                        $geoPoint = new parseGeoPoint($geoParse->latitude, $geoParse->longitude);
-                        //aggiungo lo status
-                        $user->setAddress($geoPoint);
+                        $tempObj = new parseObject("temp");
+                        $address = $tempObj->dataType("geopoint", array($geoParse->latitude, $geoParse->longitude));
+                        $user->setAddress($address);
                     }
 
-                    if (isset($parseObj->collaboration))
-                        $user->setCollaboration($parseObj->collaboration); //MODIFICARE
-                    if (isset($parseObj->events))
-                        $user->setEvents($parseObj->events); //MODIFICARE
+                    if (isset($parseObj->collaboration)) {
+                        $this->whereRelatedTo("collaboration", "_User", $parseObj->objectId);
+                        $user->setRecords($this->getUsers());
+                    }
+                    if (isset($parseObj->events)) {
+                        $parseQueryEvent = new EventParse();
+                        $parseQueryEvent->whereRelatedTo("events", "_User", $parseObj->objectId);
+                        $user->setEvents($parseQueryEvent->getEvents());
+                    }
                     if (isset($parseObj->localType))
                         $user->setLocalType($parseObj->localType);
 
@@ -553,16 +576,15 @@ class UserParse {
                 $user->setObjectId($parseObj->objectId);
             if (isset($parseObj->username))
                 $user->setUsername($parseObj->username);
-            //if( isset($parseObj->password ) )$user->setPassword($parseObj->password); VA MESSO??
-            //if( isset($parseObj->authData ) )$user->setAuthData($parseObj->authData); VA MESSO??
             if (isset($parseObj->emailVerified))
                 $user->setEmailVerified($parseObj->emailVerified);
-            if (isset($parseObj->ID))
-                $user->setID($parseObj->ID); //RIMUOVERE DOPO ALLINEAMENTO DB
             if (isset($parseObj->active))
                 $user->setActive($parseObj->active);
-            if (isset($parseObj->albums))
-                $user->setAlbums($parseObj->albums); //MODIFICARE
+            if (isset($parseObj->albums)) {
+                $parseQueryAlbum = new AlbumParse();
+                $parseQueryAlbum->whereRelatedTo("albums", "_User", $parseObj->objectId);
+                $user->setAlbums($parseQueryAlbum->getAlbums());
+            }
             if (isset($parseObj->background))
                 $user->setBackground($parseObj->background);
             if (isset($parseObj->city))
@@ -578,12 +600,16 @@ class UserParse {
             if (isset($parseObj->geoCoding)) {
                 //recupero il GeoPoint
                 $geoParse = $parseObj->geoCoding;
-                $geoPoint = new parseGeoPoint($geoParse->latitude, $geoParse->longitude);
-                //aggiungo lo status
-                $user->setGeoCoding($geoPoint);
+                $tempObj = new parseObject("temp");
+                $geoCoding = $tempObj->dataType("geopoint", array($geoParse->latitude, $geoParse->longitude));
+                $user->setGeoCoding($geoCoding);
             }
-            if (isset($parseObj->images))
-                $user->setImages($parseObj->images); //MODIFICARE
+            if (isset($parseObj->images)) {
+                $parseQueryImage = new ImageParse();
+                $parseQueryImage->whereRelatedTo("images", "_User", $parseObj->objectId);
+                $user->setImages($parseQueryImage->getImages());
+            }
+
             if (isset($parseObj->level))
                 $user->setLevel($parseObj->level);
             if (isset($parseObj->levelValue))
@@ -592,20 +618,27 @@ class UserParse {
                 $user->setLoveSongs($parseObj->loveSongs);
             if (isset($parseObj->music))
                 $user->setMusic($parseObj->music);
-            if (isset($parseObj->playlists))
-                $user->setPlaylists($parseObj->playlists); //MODIFICARE
+            if (isset($parseObj->playlists)) {
+                $parseQueryPlaylist = new PlaylistParse();
+                $parseQueryPlaylist->whereRelatedTo("playlists", "_User", $parseObj->objectId);
+                $user->setPlaylists($parseQueryPlaylist->getPlaylists());
+            }
             if (isset($parseObj->premium))
                 $user->setPremium($parseObj->premium);
             if (isset($parseObj->premiumExpirationDate))
-                $user->setPremiumExpirationDate($parseObj->premiumExpirationDate);
+                $user->setPremiumExpirationDate(new DateTime($parseObj->premiumExpirationDate, new DateTimeZone("America/Los_Angeles")));
             if (isset($parseObj->profilePicture))
                 $user->setProfilePicture($parseObj->profilePicture);
             if (isset($parseObj->profileThumbnail))
                 $user->setProfileThumbnail($parseObj->profileThumbnail);
             if (isset($parseObj->settings))
                 $user->setSettings($parseObj->settings);
-            if (isset($parseObj->statuses))
-                $user->setStatuses($parseObj->statuses); //MODIFICARE
+            if (isset($parseObj->statuses)) {
+                $parseQueryStatus = new StatusParse();
+                $parseQueryStatus->whereRelatedTo("statuses", "_User", $parseObj->objectId);
+                $user->setStatuses($parseQueryStatus->getStatuses());
+            }
+
             if (isset($parseObj->twitterPage))
                 $user->setTwitterPage($parseObj->twitterPage);
             if (isset($parseObj->website))
@@ -618,8 +651,11 @@ class UserParse {
                 $user->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
             if (isset($parseObj->updatedAt))
                 $user->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
-            if (isset($parseObj->ACL))
-                $user->setACL($parseObj->ACL); //OK?
+
+                $acl = new parseACL();
+                $acl->setPublicReadAccess(true);
+                $user->setACL($acl);
+            
         }
 
         return $user;
