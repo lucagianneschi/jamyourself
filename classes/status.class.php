@@ -256,7 +256,7 @@ class Status {
         //$imageFile = $this->getImageFile();
         //$string.="[imageFile] => " . $imageFile->getObjectId() . "<br />";
         $parseGeoPoint = $this->getLocation();
-        if ($parseGeoPoint->lat != null) {
+        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
             $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
         }
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
