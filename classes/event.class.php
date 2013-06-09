@@ -33,7 +33,7 @@ class Event {
     private $eventDate;    //DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento)
     private $featuring;    //relation: Presenza di altri utenti all’evento  
     private $fromUser;    //User: User che crea l’evento
-    private $image;                                 //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+    private $image;        //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
     private $imageFile;
     private $invited;    //relation: Array che contiene puntatori ad utenti invitati all'evento
     private $location;    //GeoPoint: Luogo in cui si svolge l’evento
@@ -50,7 +50,6 @@ class Event {
 
     //DEFINIZIONE DELLE FUNZIONI GET
     //string: objectId su Parse
-
     public function getObjectId() {
         return $this->objectId;
     }
