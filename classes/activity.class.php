@@ -392,24 +392,24 @@ class Activity {
         
         $string = "";
         
-        if($this->objectId != NULL )$string .= "[ objectId ] => ".$this->objectId."<br>"; 															
-        if($this->accepted != NULL )$string .= "[ accepted ] => ".$this->accepted."<br>";     																
-        if($this->active != NULL )$string .= "[ active ] => ".$this->active."<br>"; 									
-        if($this->album != NULL )$string .= " [ album ] => ".$this->album->getObjectId()."<br>";         			
-        if($this->comment != NULL )$string .= " [ comment ] => ".$this->comment->getObjectId()."<br>";   		
-        if($this->event != NULL )$string .= " [ event ] => ".$this->event->getObjectId()."<br>";             
-        if($this->fromUser != NULL )$string .= " [ fromUser ] => ".$this->fromUser->getObjectId()."<br>";  												
-        if($this->image != NULL )$string .= " [ image ] => ".$this->image->getObjectId()."<br>";           	
-        if($this->playlist != NULL )$string .= " [ playlist ] => ".$this->playlist->getObjectId()."<br>";      
-        if($this->question != NULL )$string .= " [ question ] => ".$this->question->getObjectId()."<br>";     
-        if($this->read != NULL )$string .= " [ read ] => ".$this->read."<br>";  						
-        if($this->record != NULL )$string .= " [ record ] => ".$this->record->getObjectId()."<br>";        
-        if($this->song != NULL )$string .= " [ song ] => ".$this->song->getObjectId()."<br>";        
-        if($this->status != NULL )$string .= " [ status ] => ".$this->status->getObjectId()."<br>";  
-        if($this->toUser != NULL )$string .= " [ toUser ] => ".$this->toUser->getObjectId()."<br>";  												
-        if($this->type != NULL )$string .= " [ type ] => ".$this->type."<br>";   											
-        if($this->userStatus != NULL )$string .= " [ userStatus ] => ".$this->userStatus->getObjectId()."<br>";   		
-        if($this->video != NULL )$string .= " [ video ] => ".$this->video->getObjectId()."<br>";                     											
+        if($this->objectId != null )$string .= "[ objectId ] => ".$this->objectId."<br />"; 															
+        if($this->accepted != null )$string .= "[ accepted ] => ".$this->accepted."<br />";     																
+        if($this->active != null )$string .= "[ active ] => ".$this->active."<br />"; 									
+        if($this->album != null )$string .= " [ album ] => ".$this->album->getObjectId()."<br />";         			
+        if($this->comment != null )$string .= " [ comment ] => ".$this->comment->getObjectId()."<br />";   		
+        if($this->event != null )$string .= " [ event ] => ".$this->event->getObjectId()."<br />";             
+        if($this->fromUser != null )$string .= " [ fromUser ] => ".$this->fromUser->getObjectId()."<br />";  												
+        if($this->image != null )$string .= " [ image ] => ".$this->image->getObjectId()."<br />";           	
+        if($this->playlist != null )$string .= " [ playlist ] => ".$this->playlist->getObjectId()."<br />";      
+        if($this->question != null )$string .= " [ question ] => ".$this->question->getObjectId()."<br />";     
+        if($this->read != null )$string .= " [ read ] => ".$this->read."<br />";  						
+        if($this->record != null )$string .= " [ record ] => ".$this->record->getObjectId()."<br />";        
+        if($this->song != null )$string .= " [ song ] => ".$this->song->getObjectId()."<br />";        
+        if($this->status != null )$string .= " [ status ] => ".$this->status->getObjectId()."<br />";  
+        if($this->toUser != null )$string .= " [ toUser ] => ".$this->toUser->getObjectId()."<br />";  												
+        if($this->type != null )$string .= " [ type ] => ".$this->type."<br />";   											
+        if($this->userStatus != null )$string .= " [ userStatus ] => ".$this->userStatus->getObjectId()."<br />";   		
+        if($this->video != null )$string .= " [ video ] => ".$this->video->getObjectId()."<br />";                     											
         foreach ($this->getACL()->acl as $key => $acl) {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[key] => ' . $key . '<br />';
@@ -419,8 +419,8 @@ class Activity {
                 $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
             }
         }
-        if($this->createdAt != NULL )$string.="[ updatedAt ] => ".$this->createdAt->format('d/m/Y H:i:s')."<br>";
-        if($this->updatedAt != NULL )$string.="[ CreatedAt ] => ".$this->updatedAt->format('d/m/Y H:i:s')."<br>";
+        if($this->createdAt != null )$string.="[ updatedAt ] => ".$this->createdAt->format('d/m/Y H:i:s')."<br />";
+        if($this->updatedAt != null )$string.="[ CreatedAt ] => ".$this->updatedAt->format('d/m/Y H:i:s')."<br />";
         
         return $string;
     }
