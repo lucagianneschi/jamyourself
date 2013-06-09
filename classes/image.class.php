@@ -1,5 +1,6 @@
 <?php
-/*! \par Info Generali:
+
+/* ! \par Info Generali:
  *  \author    Maria Laura Fresu
  *  \version   1.0
  *  \date      2013
@@ -18,147 +19,228 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:image">API</a>
  */
 
-class Image{ 
+class Image {
+
     private $objectId;
     private $active;
-    private $comments;
-    private $fromUser;
-    private $description;
     private $album;
-    private $filePath;
-    private $location;
-    private $featuring;
-    private $tags;
+    private $commentators;
+    private $comments;
     private $counter;
-    private $loveCounter;  //contatore per tenere conto delle sole attività di love
+    private $description;
+    private $featuring;
+    private $file;
+    private $filePath;
+    private $fromUser;
+    private $location;
+    private $loveCounter;
+    private $lovers;
+    private $tags;
     private $createdAt;
     private $updatedAt;
     private $ACL;
-	
-	
-	//costruttore
-	public function __construct(){
-		
-	}
-	
-	//setters
-	public function setOjectId($objectId){
-		$this->objectId = $objectId;	
-	}
 
+    //costruttore
+    public function __construct() {
+        
+    }
 
-	public function setComments(array $comments){
-		$this->counter = $comments;
-	}
+    //getters
+    public function getObjectId() {
+        return $this->objectId;
+    }
+   
+    public function getActive() {
+        return $this->active;
+    }
+    
+    public function getAlbum() {
+        return $this->album;
+    }
+    
+    public function getCommentators() {
+        return $this->commentators;
+    }
 
-	public function setCounter($counter){
-		$this->counter = $counter;
-	}
-	public function setLoveCounter($loveCounter){
-		$this->loveCounter = $loveCounter;
-	}
+    public function getComments() {
+        return $this->comments;
+    }
 
+    public function getCounter() {
+        return $this->counter;
+    }
+    
+   public function getDescription() {
+        return $this->description;
+    }
 
-	public function setActive($active){
-		$this->active = $active;	
-	}
-	
-	public function setFromUser(User $fromUser){		
-		$this->fromUser = $fromUser;		
-	}
-	
-	public function setDescription($description){		
-		$this->description = $description;		
-	}
-	
-	public function setAlbum(Album $album){
-		$this->album = $album;		
-	}
-	
-	public function setFilePath($filePath){
-		$this->filePath = $filePath;
-	}
-	
-	public function setLocation(parseGeoPoint $location){
-		$this->location = $location;
-	}
-	
-	public function setFeaturing(array $featuring){
-		$this->featuring = $featuring;
-	}
-	
-	
-	public function setTags(array $tags){
-		$this->tags = $tags;
-	}
+       
+    public function getFeaturing() {
+        return $this->featuring;
+    }
+    
+    public function getFile() {
+        return $this->file;
+    }
 
-	public function setCreatedAt(DateTime $createdAt){
-		$this->createdAt = $createdAt;	
-	}
-	public function setUpdatedAt(DateTime $updatedAt){
-		$this->updatedAt = $updatedAt;	
-	}
-	public function setACL(parseACL $ACL){
-		$this->ACL = $ACL ;	
-	}
-	
-	//getters
-	public function getObjectId(){
-		return $this->objectId;	
-	}
+    public function getFilePath() {
+        return $this->filePath;
+    }
 
-	public function getComments(){
-		return $this->comments;
-	}
+    public function getFromUser() {
+        return $this->fromUser;
+    }
 
-	public function getCounter(){
-		return $this->counter;
-	}
+    public function getLocation() {
+        return $this->location;
+    }
 
-	public function getLoveCounter(){
-		return $this->loveCounter;
-	}
+    public function getLoveCounter() {
+        return $this->loveCounter;
+    }
+    
+    public function getLovers() {
+        return $this->lovers;
+    }
+    
+    public function getTags() {
+        return $this->tags;
+    }
 
+    public function getCreatedAt() {
+        return $this->createdAt;
+    }
 
-	public function getActive(){
-		return $this->active;	
-	}
-	
-	public function getFromUser(){
-		return $this->fromUser ;
-	}
-	
-	public function getDescription(){
-		return $this->description ;
-	}
-	
-	public function getAlbum(){
-		return $this->album ;
-	}
-	public function getFilePath(){
-		return $this->filePath ;
-	}
-	
-	public function getLocation(){
-		return $this->location ;
-	}
-	
-	public function getFeaturing(){
-		return $this->featuring ;
-	}
-	
-	public function getTags(){
-		return $this->tags ;
-	}
-	  
-	public function getCreatedAt(){
-		return $this->createdAt;	
-	}
-	public function getUpdatedAt(){
-		return $this->updatedAt;	
-	}
-	public function getACL(){
-		return $this->ACL;	
-	}
+    public function getUpdatedAt() {
+        return $this->updatedAt;
+    }
+
+    public function getACL() {
+        return $this->ACL;
+    }
+
+    //setters
+    public function setOjectId($objectId) {
+        $this->objectId = $objectId;
+    }
+
+    public function setActive($active) {
+        $this->active = $active;
+    }
+
+    public function setAlbum(Album $album) {
+        $this->album = $album;
+    }
+
+    public function setCommentators(array $commentators) {
+        $this->commentators = $commentators;
+    }
+
+    public function setComments(array $comments) {
+        $this->comments = $comments;
+    }
+
+    public function setCounter($counter) {
+        $this->counter = $counter;
+    }
+
+    public function setDescription($description) {
+        $this->description = $description;
+    }
+
+    public function setFeaturing(array $featuring) {
+        $this->featuring = $featuring;
+    }
+
+    public function setFile($file) {
+        $this->file = $file;
+    }
+
+    public function setFilePath($filePath) {
+        $this->filePath = $filePath;
+    }
+
+    public function setFromUser(User $fromUser) {
+        $this->fromUser = $fromUser;
+    }
+
+    public function setLocation($location) {
+        $this->location = $location;
+    }
+
+    public function setLoveCounter($loveCounter) {
+        $this->loveCounter = $loveCounter;
+    }
+
+    public function setLovers(array $lovers) {
+        $this->lovers = $lovers;
+    }
+
+    public function setTags(array $tags) {
+        $this->tags = $tags;
+    }
+
+    public function setCreatedAt(DateTime $createdAt) {
+        $this->createdAt = $createdAt;
+    }
+
+    public function setUpdatedAt(DateTime $updatedAt) {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function setACL($ACL) {
+        $this->ACL = $ACL;
+    }
+
+    public function __toString() {
+        $string = '';
+        $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+        $string .= '[active] => ' . $this->getActive() . '<br />';
+        $album = $this->getAlbum();
+        $string.="[album] => " . $album->getObjectId() . "<br />";
+        foreach ($this->getCommentators() as $commentator) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+        }
+        foreach ($this->getComments() as $comment) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+        }
+        $string .= '[counter] => ' . $this->getCounter() . '<br />';
+        $string .= '[description] => ' . $this->getDescription() . '<br />';
+        foreach ($this->getFeaturing() as $user) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+        }
+        //$string .= '[file] => ' . $this->getFile() . '<br />';
+        $string .= '[filePath] => ' . $this->getFilePath() . '<br />';
+        $fromUser = $this->getFromUser();
+        $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        $parseGeoPoint = $this->getLocation();
+        $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
+        foreach ($this->getLovers() as $lover) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+        }
+        foreach ($this->getTags() as $tag) {
+            $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
+            $string.="[tag] => " . $tag . "<br />";
+        }
+        $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+        $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+        foreach ($this->getACL()->acl as $key => $acl) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[key] => ' . $key . '<br />';
+            foreach ($acl as $access => $value) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+            }
+        }
+        return $string;
+    }
+
 }
+
 ?>

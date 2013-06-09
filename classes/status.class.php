@@ -228,35 +228,53 @@ class Status {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
-        foreach ($this->getCommentators() as $commentator) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
+            foreach ($this->getCommentators() as $commentator) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+            }
         }
-        foreach ($this->getComments() as $comment) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+        if ($this->getComments() != null && count($this->getComments() > 0)) {
+            foreach ($this->getComments() as $comment) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+            }
         }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         $event = $this->getEvent();
-        $string .= "[event] => " . $event->getObjectId() . "<br />";
+        if($event->getObjectId != null){
+          $string .= "[event] => " . $event->getObjectId() . "<br />";  
+        }
         $fromUser = $this->getFromUser();
-        $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        if ($fromUser->getObjectId != null) {
+            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        }
         $image = $this->getImage();
-        $string.="[image] => " . $image->getObjectId() . "<br />";
+        if ($image->getObjectId != null) {
+            $string.="[image] => " . $image->getObjectId() . "<br />";
+        }
         //$imageFile = $this->getImageFile();
         //$string.="[imageFile] => " . $imageFile->getObjectId() . "<br />";
         $parseGeoPoint = $this->getLocation();
-        $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
+            $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        }
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-        foreach ($this->getLovers() as $lover) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
+            foreach ($this->getLovers() as $lover) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+            }
         }
         $song = $this->getSong();
-        $string .= "[song] => " . $song->getObjectId() . "<br />";
-        foreach ($this->getTaggedUsers() as $user) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[taggedUser] => " . $user->getObjectId() . "<br />";
+        if ($song->getObjectId() != null) {
+            $string .= "[song] => " . $song->getObjectId() . "<br />";
+        }
+        if ($this->getTaggedUsers() != null && count($this->getTaggedUsers() > 0)) {
+            foreach ($this->getTaggedUsers() as $user) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[taggedUser] => " . $user->getObjectId() . "<br />";
+            }
         }
         $string.= '[text] => ' . $this->getText() . '<br />';
         $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';

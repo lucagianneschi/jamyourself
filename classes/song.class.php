@@ -226,33 +226,47 @@ class Song {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
-        foreach ($this->getCommentators() as $commentator) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
+            foreach ($this->getCommentators() as $commentator) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+            }
         }
-        foreach ($this->getComments() as $comment) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+        if ($this->getComments() != null && count($this->getComments() > 0)) {
+            foreach ($this->getComments() as $comment) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+            }
         }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         $string .= '[duration] => ' . $this->getDuration() . '<br />';
-        foreach ($this->getFeaturing() as $user) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+        if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
+            foreach ($this->getFeaturing() as $user) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+            }
         }
         $string.="[filePath] => " . $this->getFilePath() . "<br />";
         $fromUser = $this->getFromUser();
-        $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        if ($fromUser->getObjectId() != null) {
+            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+        }
         $string.="[genre] => " . $this->getGenre() . "<br />";
         $parseGeoPoint = $this->getLocation();
-        $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
+            $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        }
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-        foreach ($this->getLovers() as $lover) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
+            foreach ($this->getLovers() as $lover) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+            }
         }
         $record = $this->getRecord();
-        $string .= "[record] => " . $record->getObjectId() . "<br />";
+        if ($record->getObjectId() != null) {
+            $string .= "[record] => " . $record->getObjectId() . "<br />";
+        }
         $string .= "[title] => " . $this->getTitle() . "<br />";
         $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
         $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
@@ -267,5 +281,7 @@ class Song {
         }
         return $string;
     }
+
 }
+
 ?>

@@ -20,7 +20,6 @@
  */
 
 define('CLASS_DIR', '../classes/');
-include_once CLASS_DIR . 'geoPointParse.class.php';
 
 class Event {
 
@@ -34,8 +33,8 @@ class Event {
     private $eventDate;    //DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento)
     private $featuring;    //relation: Presenza di altri utenti all’evento  
     private $fromUser;    //User: User che crea l’evento
-    private $image;                                 //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
-    //private $imageFile;
+    private $image;        //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+    private $imageFile;
     private $invited;    //relation: Array che contiene puntatori ad utenti invitati all'evento
     private $location;    //GeoPoint: Luogo in cui si svolge l’evento
     private $locationName;   //string: Nome del locale in cui si svolge l’evento	
@@ -105,12 +104,10 @@ class Event {
         return $this->image;
     }
 
-    /*
-      //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
-      public function getImageFile() {
-      return $this->image;
-      }
-     */
+    //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+    public function getImageFile() {
+        return $this->image;
+    }
 
     //relation: Array che contiene puntatori ad utenti invitati all'evento
     public function getInvited() {
@@ -228,12 +225,10 @@ class Event {
         $this->image = $image;
     }
 
-    /*
-      //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
-      public function setImageFile(parseFile $imageFile) {
-      $this->imageile = $imageFile;
-      }
-     */
+    //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+    public function setImageFile($imageFile) {
+        $this->imageile = $imageFile;
+    }
 
     //relation: Array che contiene puntatori ad utenti invitati all'evento
     public function setInvited(array $invited) {
@@ -300,23 +295,45 @@ class Event {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
-        //$this->getAttendee()
-        //$this->getCommentators()
-        //$this->getComments()
+        foreach ($this->getAttendee() as $user) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[attendee] => " . $user->getObjectId() . "<br />";
+        }
+        foreach ($this->getCommentators() as $commentator) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+        }
+        foreach ($this->getComments() as $comment) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+        }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         $string .= '[description] => ' . $this->getDescription() . '<br />';
         $string .= '[eventDate] => ' . $this->getEventDate()->format('d-m-Y H:i:s') . '<br />';
-        //$this->getFeaturing()
+        foreach ($this->getFeaturing() as $user) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+        }
         $fu = $this->getFromUser();
         $string .= '[fromUser] => ' . get_class($fu) . ' -> ' . $fu->getObjectId() . '<br/>';
         $string .= '[image] => ' . $this->getImage() . '<br />';
-        //$this->getInvited()
+        //$string .= '[imageFile] => ' . $this->getImageFile() . '<br />';
+        foreach ($this->getInvited() as $invited) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[invited] => " . $invited->getObjectId() . "<br />";
+        }
         $parseGeoPoint = $this->getLocation();
         $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
         $string .= '[locationName] => ' . $this->getLocationName() . '<br />';
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-        //$this->getLovers()
-        //$this->getRefused()
+        foreach ($this->getLovers() as $lover) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+        }
+        foreach ($this->getRefused() as $refused) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= "[refused] => " . $refused->getObjectId() . "<br />";
+        }
         foreach ($this->getTags() as $ta) {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[tags] => ' . $ta . '<br />';
