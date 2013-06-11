@@ -39,7 +39,6 @@ class VideoParse {
         $parse = new parseObject("Video");
         $parse->active = $video->getActive();
         $parse->author = $video->getAuthor();
-
         if ($video->getCommentators() != null && count($video->getCommentators()) > 0) {
             $arrayPointer = array();
             foreach ($video->getCommentators() as $user) {
@@ -126,12 +125,17 @@ class VideoParse {
 
                 //aggiorno i dati per la creazione
                 $video->setObjectId($result->objectId);
-
-
                 $video->setCreatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
                 $video->setUpdatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (ParseLibraryException $e) {
-
+            } catch (Exception $e) {
+				$error = new error();
+                $error->setErrorClass(__CLASS__);
+                $error->setErrorCode($e->getCode());
+                $error->setErrorMessage($e->getMessage());
+                $error->setErrorFunction(__FUNCTION__);
+                $error->setErrorFunctionParameter(func_get_args());
+                $errorParse = new errorParse();
+                $errorParse->saveError($error);
                 return false;
             }
         }
@@ -210,20 +214,16 @@ class VideoParse {
         if (isset($parseObj->author))
             $video->setAuthor($parseObj->author);
 
-        //array di puntatori ad User
-        if (isset($parseObj->commentators)) {
-            $parseUser = new UserParse();
-            $commentators = $parseUser->getUserArrayById($parseObj->commentators);
-            $video->setCommentators($commentators);
+		//array di puntatori ad User 
+		if (isset($parseObj->commentators)) {
+            $parseQueryCommentators->whereRelatedTo("commentators", "_User", $parseObj->objectId);
+            $video->setCommentators($parseQueryCommentators->getUsers());
         }
-
-        //array di puntatori ad User
-        if (isset($parseObj->comments)) {
-            $parseComment = new Comment();
-            $comments = $parseComment->getUserArrayById($parseObj->comments);
-            $video->setComments($comments);
+		//array di puntatori ad commets
+		if (isset($parseObj->comments)) {
+            $parseQueryComments->whereRelatedTo("comments", "Comment", $parseObj->objectId);
+            $video->setComments($parseQueryComments->getComments());
         }
-
         //integer counter
         if (isset($parseObj->counter))
             $video->setCounter($parseObj->counter);
@@ -236,33 +236,28 @@ class VideoParse {
         if (isset($parseObj->duration))
             $video->setDuration($parseObj->duration);
 
-        //array di puntatori ad User
-        if (isset($parseObj->featuring)) {
-            $parseUser = new UserParse();
-            $featuring = $parseUser->getUserArrayById($parseObj->featuring);
-            $video->setFeaturing($featuring);
+		//array di puntatori ad User 
+		if (isset($parseObj->featuring)) {
+            $parseQueryFeaturing->whereRelatedTo("featuring", "_User", $parseObj->objectId);
+            $video->setFeaturing($parseQueryFeaturing->getUsers());
         }
 
         //Pointer fromUser
-        if (isset($parseObj->fromUser)) {
-            $parseUser = new UserParse();
-            $userPointer = $parseObj->fromUser;
-            $fromUser = $parseUser->getUserById($userPointer->objectId);
-            $video->setfromUser($fromUser);
-        }
+        if(isset($parseObj->fromUser) ){
+			$parseQueryUser = new UserParse();
+			$parseQueryUser->whereEqualTo("objectId",$parseObj->fromUser);
+			$playlist->setFromUser($parseQueryUser);
+		}
 
         //integer counter
         if (isset($parseObj->loveCounter))
             $video->setLoveCounter($parseObj->loveCounter);
 
         //array di puntatori ad User 
-        if (isset($parseObj->lovers)) {
-            $parseUser = new UserParse();
-            $userPointer = $parseObj->lovers;
-            $lovers = $parseUser->getUserById($userPointer->objectId);
-            $video->setLovers($lovers);
+		if (isset($parseObj->lovers)) {
+            $parseQueryLovers->whereRelatedTo("lovers", "_User", $parseObj->objectId);
+            $video->setLovers($parseQueryLovers->getUsers());
         }
-
         //array di stringhe tags
         if (isset($parseObj->tags))
             $video->setTags($parseObj->tags);
@@ -284,13 +279,6 @@ class VideoParse {
             $video->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
         if (isset($parseObj->updatedAt))
             $video->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
-
-        //ACL
-        if (isset($parseObj->ACL)) {
-
-            $ACL = null;
-            $video->setACL($ACL);
-        } else {
             $acl = new parseACL();
             $acl->setPublicReadAccess(true);
             $acl->setPublicWriteAccess(true);
@@ -298,5 +286,97 @@ class VideoParse {
         }
         return $video;
     }
+	
+	public function getCount() {
+        $this->parseQuery->getCount();
+    }
+
+    public function setLimit($int) {
+        $this->parseQuery->setLimit($int);
+    }
+
+    public function setSkip($int) {
+        $this->parseQuery->setSkip($int);
+    }
+
+    public function orderBy($field) {
+        $this->parseQuery->orderBy($field);
+    }
+
+    public function orderByAscending($value) {
+        $this->parseQuery->orderByAscending($value);
+    }
+
+    public function orderByDescending($value) {
+        $this->parseQuery->orderByDescending($value);
+    }
+
+    public function whereInclude($value) {
+        $this->parseQuery->whereInclude($value);
+    }
+
+    public function where($key, $value) {
+        $this->parseQuery->where($key, $value);
+    }
+
+    public function whereEqualTo($key, $value) {
+        $this->parseQuery->whereEqualTo($key, $value);
+    }
+
+    public function whereNotEqualTo($key, $value) {
+        $this->parseQuery->whereNotEqualTo($key, $value);
+    }
+
+    public function whereGreaterThan($key, $value) {
+        $this->parseQuery->whereGreaterThan($key, $value);
+    }
+
+    public function whereLessThan($key, $value) {
+        $this->parseQuery->whereLessThan($key, $value);
+    }
+
+    public function whereGreaterThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
+    }
+
+    public function whereLessThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
+    }
+
+    public function whereContainedIn($key, $value) {
+        $this->parseQuery->whereContainedIn($key, $value);
+    }
+
+    public function whereNotContainedIn($key, $value) {
+        $this->parseQuery->whereNotContainedIn($key, $value);
+    }
+
+    public function whereExists($key) {
+        $this->parseQuery->whereExists($key);
+    }
+
+    public function whereDoesNotExist($key) {
+        $this->parseQuery->whereDoesNotExist($key);
+    }
+
+    public function whereRegex($key, $value, $options = '') {
+        $this->parseQuery->whereRegex($key, $value, $options = '');
+    }
+
+    public function wherePointer($key, $className, $objectId) {
+        $this->parseQuery->wherePointer($key, $className, $objectId);
+    }
+
+    public function whereInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereInQuery($key, $className, $inQuery);
+    }
+
+    public function whereNotInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereNotInQuery($key, $className, $inQuery);
+    }
+
+    public function whereRelatedTo($key, $className, $objectId) {
+        $this->parseQuery->whereRelatedTo($key, $className, $objectId);
+    }	
 }
 ?> 
