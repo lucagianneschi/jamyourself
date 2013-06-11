@@ -32,7 +32,7 @@ class QuestionParse {
 	}
 	
 	public function getQuestion() {
-        $question = null;
+        $quest = null;
         $result = $this->parseQuery->find();
         if (is_array($result->results) && count($result->results) > 0) {
             $ret = $result->results[0];
@@ -41,19 +41,19 @@ class QuestionParse {
                 $quest = $this->parseToQuestion($ret);
             }
         }
-        return $question;
+        return $quest;
     }
 	
 	public function getQuestions() {
-        $questions = null;
+        $quests = null;
         $result = $this->parseQuery->find();
         if (is_array($result->results) && count($result->results) > 0) {
-            $questions = array();
-            foreach (($result->results) as $question) {
-                $questions [] = $this->parseToQuestion($question);
+            $quests = array();
+            foreach (($result->results) as $quest) {
+                $quests [] = $this->parseToQuestion($quest);
             }
         }
-        return $questions;
+        return $quests;
     }
 
 	public function saveQuestion($quest) {
