@@ -69,10 +69,9 @@ class FaqParse {
 		$parseObject->tag = 		$faq->getTag();
 		
 		if($faq->getObjectId()==null ){
-
 			try{
 				//caso save
-				$ret = $parseObj->save();
+				$ret = $parseObject->save();
 				$faq->setObjectId($ret->objectId);
 				$faq->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
 				$faq->setCreatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
@@ -85,14 +84,13 @@ class FaqParse {
                 $error->setErrorFunction(__FUNCTION__);
                 $error->setErrorFunctionParameter(func_get_args());
                 $errorParse = new errorParse();
-                $errorParse->saveError($error);
-                return $error;		
+                $errorParse->saveError($error);		
 			}
 		}
 		else{
 			//caso update
 			try{
-				$ret = $parseObj->update($playlist->getObjectId());	
+				$ret = $parseObj->update($faq->getObjectId());	
 				$faq->setUpdatedAt(new DateTime($ret->updatedAt, new DateTimeZone("America/Los_Angeles")));	
 			}
 			catch(Exception $e){
@@ -104,10 +102,10 @@ class FaqParse {
                 $error->setErrorFunctionParameter(func_get_args());
                 $errorParse = new errorParse();
                 $errorParse->saveError($error);
-                return $error;;		
+             		
 			}
 		}
-		return $quest;
+		return $faq;
 	}
 	
 	function parseToFaq(stdClass $parseObj){
@@ -128,12 +126,13 @@ class FaqParse {
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);
         $faq->setACL($acl);
-		}
-		return $faq;
+	return $faq;
 	}
 
  public function getCount() {
- ;		return $this->parseQuery->getCount()->count;
+     return $this->parseQuery->getCount()->count;
+ 
+ }
  	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
@@ -166,7 +165,7 @@ class FaqParse {
  
 	/*
 	 * NOTE:
-	 * la seguente funzione è commentata perchè non se ne capisce la funzionalità
+	 * la seguente funzione ï¿½ commentata perchï¿½ non se ne capisce la funzionalitï¿½
 	 *
 	 */
 	/*
@@ -221,7 +220,7 @@ class FaqParse {
  
 	/*
 	 * NOTE:
-	 * la seguente funzione è commentata perchè non se ne capisce la funzionalità
+	 * la seguente funzione ï¿½ commentata perchï¿½ non se ne capisce la funzionalitï¿½
 	 *
 	 */
 	/*
@@ -236,7 +235,7 @@ class FaqParse {
  
 	/*
 	 * NOTE:
-	 * la seguente funzione è commentata perchè non se ne capisce la funzionalità
+	 * la seguente funzione ï¿½ commentata perchï¿½ non se ne capisce la funzionalitï¿½
 	 *
 	 */
 	/*
@@ -247,7 +246,7 @@ class FaqParse {
  
 	/*
 	 * NOTE:
-	 * la seguente funzione è commentata perchè non se ne capisce la funzionalità
+	 * la seguente funzione ï¿½ commentata perchï¿½ non se ne capisce la funzionalitï¿½
 	 *
 	 */
 	/*
