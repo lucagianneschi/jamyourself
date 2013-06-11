@@ -18,7 +18,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:comment">API</a>
  */
 
-define('CLASS_DIR', './');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
 
 class Comment {
 
@@ -49,8 +49,7 @@ class Comment {
     private $updatedAt;
     private $ACL;
 
-    public function __construct() {
-        
+    public function __construct() {        
     }
 
     public function getObjectId() {
@@ -173,7 +172,7 @@ class Comment {
         $this->comment = $comment;
     }
 
-    public function setCommentators(User $commentators) {
+    public function setCommentators(array $commentators) {
         $this->commentators = $commentators;
     }
 
@@ -262,114 +261,110 @@ class Comment {
     }
 
     public function __toString() {
-
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-
-
         $string .= '[active] => ' . $this->getActive() . '<br />';
-        if ($this->getAlbum() != null) {
-            $album = $this->getAlbum();
-            $string .= '[album] => ' . $album->getObjectId() . '<br />';
-        }
-
-        if ($this->getComment() != null) {
-            $comment = $this->getComment();
-            $string .= '[comment] => ' . $comment->getObjectId() . '<br />';
-        }
-
-        if ($this->getCommentators() != null && count($this->getCommentators()) > 0) {
-            foreach ($this->getCommentators() as $commentator) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[commentators] => ' . $commentator->getObjectId() . '<br />';
-            }
-        }
-
-        if ($this->getComments() != null && count($this->getComments()) > 0) {
-            foreach ($this->getComments() as $comm) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[comments] => ' . $comm->getObjectId() . '<br />';
-            }
-        }
-
-        $string .= '[counter] => ' . $this->getCounter() . '<br />';
-
-        if ($this->getEvent() != null && count($this->getEvent()) > 0) {
-            foreach ($this->getEvent() as $event) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[comments] => ' . $event->getObjectId() . '<br />';
-            }
-        }
-
-        if (($fromUser = $this->getFromUser()) != null)
-            $string .= '[fromUser] => ' . $fromUser->getObjectId() . '<br />';
-
-
-        if (($image = $this->getImage() ) != null)
-            $string .= '[image] => ' . $image->getObjectId() . '<br />';
-
-
-        if (($parseGeoPoint = $this->getLocation() ) != null)
-            $string .= '[geoCoding] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
-
-        $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-
-        if ($this->getLovers() != null)
-            $string .= '[lovers] => ' . $this->getLovers() . '<br />';
-
-        if ($this->getLovers() != null && count($this->getLovers()) > 0) {
-            foreach ($this->getLovers() as $lover) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[lovers] => ' . $lover->getObjectId() . '<br />';
-            }
-        }
-
-        $string .= '[opinions] => ' . $this->getOpinions() . '<br />';
-
-        if ($this->getOpinions() != null && count($this->getOpinions()) > 0) {
-            foreach ($this->getOpinions() as $opinion) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[opinions] => ' . $opinion->getObjectId() . '<br />';
-            }
-        }
-
-        if (($record = $this->getRecord() ) != null)
-            $string .= '[record] => ' . $record->getObjectId() . '<br />';
-        if (($song = $this->getSong() ) != null)
-            $string .= '[song] => ' . $song->getObjectId() . '<br />';
-        if (($status = $this->getStatus() ) != null)
-            $string .= '[status] => ' . $status->getObjectId() . '<br />';
-
-
-        if ($this->getTags() != null && count($this->getTags()) > 0) {
-            foreach ($this->getOpinions() as $opinion) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[tags] => ' . $opinion->getTags() . '<br />';
-            }
-        }
-
-
-        $string .= '[text] => ' . $this->getText() . '<br />';
-        if (($toUser = $this->getToUser() ) != null)
-            $string .= '[toUser] => ' . $toUser->getObjectId() . '<br />';
-        $string .= '[type] => ' . $this->getType() . '<br />';
-        if (($video = $this->getVideo() ) != null)
-            $string .= '[video] => ' . $video->getObjectId() . '<br />';
-        $string .= '[vote] => ' . $this->getVote() . '<br />';
-        if (($createdAt = $this->getCreatedAt()))
-            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
-        if (($updatedAt = $this->getUpdatedAt()))
-            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
-        foreach ($this->getACL()->acl as $key => $acl) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[key] => ' . $key . '<br />';
-            foreach ($acl as $access => $value) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-            }
-        }
-
+		if ($this->getAlbum() != null) {
+			$string .= '[album] => ' . $this->getAlbum()->getObjectId() . '<br />';
+		} else {
+			$string .= '[album] => NULL<br />';
+		}
+		if ($this->getComment() != null) {
+			$string .= '[comment] => ' . $this->getComment()->getObjectId() . '<br />';
+		} else {
+			$string .= '[comment] => NULL<br />';
+		}
+		foreach ($this->getCommentators() as $commentators) {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[commentators] => ' . $commentators->getObjectId() . '<br />';
+		}
+		foreach ($this->getComments() as $comments) {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[comments] => ' . $comments->getObjectId() . '<br />';
+		}
+		$string .= '[counter] => ' . $this->getCounter() . '<br />';
+		if ($this->getEvent() != null) {
+			$string .= '[event] => ' . $this->getEvent()->getObjectId() . '<br />';
+		} else {
+			$string .= '[event] => NULL<br />';
+		}
+		//$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+		if ($this->getImage() != null) {
+			$string .= '[image] => ' . $this->getImage()->getObjectId() . '<br />';
+		} else {
+			$string .= '[image] => NULL<br />';
+		}
+		if ($this->getLocation() != null) {
+			$location = $this->getLocation();
+			$string .= '[location] => ' . $location[latitude] . ', ' . $location[longitude] . '<br />';
+		} else {
+			$string .= '[location] => NULL<br />';
+		}
+		$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
+		foreach ($this->getLovers() as $lovers) {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[lovers] => ' . $lovers->getObjectId() . '<br />';
+		}
+		foreach ($this->getOpinions() as $opinions) {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[opinions] => ' . $opinions . '<br />';
+		}
+		if ($this->getRecord() != null) {
+			$string .= '[record] => ' . $this->getRecord()->getObjectId() . '<br />';
+		} else {
+			$string .= '[record] => NULL<br />';
+		}
+		if ($this->getSong() != null) {
+			$string .= '[song] => ' . $this->getSong()->getObjectId() . '<br />';
+		} else {
+			$string .= '[song] => NULL<br />';
+		}
+		if ($this->getStatus() != null) {
+			$string .= '[status] => ' . $this->getStatus()->getObjectId() . '<br />';
+		} else {
+			$string .= '[status] => NULL<br />';
+		}
+		foreach ($this->getTags() as $tags) {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[tags] => ' . $tags . '<br />';
+		}
+		$string .= '[text] => ' . $this->getText() . '<br />';
+		if ($this->getToUser() != null) {
+			$string .= '[toUser] => ' . $this->getToUser()->getObjectId() . '<br />';
+		} else {
+			$string .= '[toUser] => NULL<br />';
+		}
+		$string .= '[type] => ' . $this->getType() . '<br />';
+		if ($this->getVideo() != null) {
+			$string .= '[video] => ' . $this->getVideo()->getObjectId() . '<br />';
+		} else {
+			$string .= '[video] => NULL<br />';
+		}
+		$string .= '[vote] => ' . $this->getVote() . '<br />';
+		if ($this->getCreatedAt() != null) {
+			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[createdAt] => NULL<br />';
+		}
+		if ($this->getUpdatedAt() != null) {
+			$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[updatedAt] => NULL<br />';
+		}
+		if ($this->getACL() != null) {
+			foreach ($this->getACL()->acl as $key => $acl) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[key] => ' . $key . '<br />';
+				foreach ($acl as $access => $value) {
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+				}
+			}
+		} else {
+			$string .= '[ACL] => NULL<br />';
+		}
+		
         return $string;
     }
 

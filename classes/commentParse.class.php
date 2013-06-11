@@ -16,12 +16,12 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:comment">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:comment">API</a>
  */
-define('PARSE_DIR', '../parse/');
-define('CLASS_DIR', './');
-include_once PARSE_DIR.'parse.php';
-include_once CLASS_DIR.'comment.class.php';
-include_once CLASS_DIR.'geoPointParse.class.php';
-include_once CLASS_DIR.'pointerParse.class.php';
+ 
+require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
+require_once PARSE_DIR.'parse.php';
+require_once CLASSES_DIR.'error.class.php';
+require_once CLASSES_DIR.'errorParse.class.php';
+
  
 class CommentParse {
  
@@ -144,28 +144,49 @@ class CommentParse {
 		$this->parseQuery->orderByDescending($field);
 	}
  
+	#########
+	# FATTA #
+	#########
 	public function saveComment($cmt) {
-		$parseObject = new parseObject('Comment');
+		try {
+			$parseObject = new parseObject('Comment');
+			$cmt->getActive() == null ? $parseObject->active = null : $parseObject->active = $cmt->getActive();
+			$cmt->getAlbum() == null ? $parseObject->album = null : $parseObject->album = $cmt->getAlbum();
+			$cmt->getComment() == null ? $parseObject->comment = null : $parseObject->comment = $cmt->getComment();
+			$cmt->getCommentators() == null ? $parseObject->commentators = null : $parseObject->commentators = $cmt->getCommentators();
+			$cmt->getComments() == null ? $parseObject->comments = null : $parseObject->comments = $cmt->getComments();
+			$cmt->getCounter() == null ? $parseObject->counter = null : $parseObject->counter = $cmt->getCounter();
+			$cmt->getEvent() == null ? $parseObject->event = null : $parseObject->event = $cmt->getEvent();
+			$cmt->getFromUser() == null ? $parseObject->fromUser = null : $parseObject->fromUser = $cmt->getFromUser();
+			$cmt->getImage() == null ? $parseObject->image = null : $parseObject->image = $cmt->getImage();
+			$cmt->getLocation() == null ? $parseObject->location = null : $parseObject->location = $cmt->getLocation();
+			$cmt->getLoveCounter() == null ? $parseObject->loveCounter = null : $parseObject->loveCounter = $cmt->getLoveCounter();
+			$cmt->getLovers() == null ? $parseObject->lovers = null : $parseObject->lovers = $cmt->getLovers();
+			$cmt->getOpinions() == null ? $parseObject->opinions = null : $parseObject->opinions = $cmt->getOpinions();
+			$cmt->getRecord() == null ? $parseObject->record = null : $parseObject->record = $cmt->getRecord();
+			$cmt->getSong() == null ? $parseObject->song = null : $parseObject->song = $cmt->getSong();
+			$cmt->getStatus() == null ? $parseObject->status = null : $parseObject->status = $cmt->getStatus();
+			$cmt->getTags() == null ? $parseObject->status = null : $parseObject->tags = $cmt->getTags();
+			$cmt->getText() == null ? $parseObject->text = null : $parseObject->text = $cmt->getText();
+			$cmt->getToUser() == null ? $parseObject->toUser = null : $parseObject->toUser = $cmt->getToUser();
+			$cmt->getType() == null ? $parseObject->type = null : $parseObject->type = $cmt->getType();
+			$cmt->getVideo() == null ? $parseObject->video = null : $parseObject->video = $cmt->getVideo();
+			$cmt->getVote() == null ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
+			$cmt->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $cmt->getACL()->acl;
+	 		$parseObject->save();
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
  
-		$parseObject->active = $cmt->getActive();
-		$parseObject->counter = $cmt->getCounter();
-		$parseObject->event = $cmt->getEvent();
-		$parseObject->fromUser = $cmt->getFromUser();
-		$parseObject->image = $cmt->getImage();
-		$parseObject->location = $cmt->getLocation();
-		$parseObject->opinions = $cmt->getOpinions();
-		$parseObject->photoAlbum = $cmt->getPhotoAlbum();
-		$parseObject->record = $cmt->getRecord();
-		$parseObject->song = $cmt->getSong();
-		$parseObject->tag = $cmt->getTag();
-		$parseObject->text = $cmt->getText();
-		$parseObject->toUser = $cmt->getToUser();
-		$parseObject->type = $cmt->getType();
-		$parseObject->user = $cmt->getUser();
-		$parseObject->video = $cmt->getVideo();
-		$parseObject->vote = $cmt->getVote();
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
  
-		$parseObject->save();
+			return $error;
+		}
 	}
  
 	public function setLimit($limit) {
