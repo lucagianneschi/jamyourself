@@ -1,5 +1,5 @@
 <?php
-/*! \par Info Generali:
+/* ! \par Info Generali:
  *  \author    Stefano Muscas
  *  \version   1.0
  *  \date      2013
@@ -17,16 +17,17 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:playlist">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:playlist">API</a>
  */
-class PlaylistParse{
 
-	private $parseQuery;
+class PlaylistParse {
 
-	function __construct(){
-			
-		$this->parseQuery = new ParseQuery("Playlist");
-	}
+    private $parseQuery;
 
-	public function getPlaylist() {
+    function __construct() {
+
+        $this->parseQuery = new ParseQuery("Playlist");
+    }
+
+    public function getPlaylist() {
         $playlist = null;
         $result = $this->parseQuery->find();
         if (is_array($result->results) && count($result->results) > 0) {
@@ -45,56 +46,41 @@ class PlaylistParse{
         if (is_array($result->results) && count($result->results) > 0) {
             $playlists = array();
             foreach (($result->results) as $playlist) {
-                $playlists; [] = $this->parseToPlaylist($playlist);
+                $playlists [] = $this->parseToPlaylist($playlist);
             }
         }
         return $playlists;
     }
-	/**
-	 *
-	 * @param Playlist $playlist
-	 * @return boolean|Playlist
-	 */
-	function savePlaylist(Playlist $playlist){
-			
-		//creo un'istanza dell'oggetto della libreria ParseLib
-		$parseObj = new parseObject("Playlist");
-			
-		//inizializzo le properties
 
-		//boolean
-		$parseObj->active = $playlist->getActive();
-		//User
-		if($playlist->getFromUser()){
-			$fromUser = $playlist->getFromUser();
-			$pointerParse = new PointerParse("_User", $fromUser->getObjectId());
-			$parseObj->fromUser = $pointerParse->getPointer();
-		}
-		$parseObj->name = $playlist->getName();		   
-        if($playlist->getSongs() != null && count($playlist->getSongs())>0){
-			$songList = $playlist->getSongs();
-			foreach($songList as $song){
-				$parseObj->songs->__op = "AddRelation";
-				$parseObj->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song ->getObjectId())));
-			}
-		} else {
-                    $parseObj->tags = null;   
+    function savePlaylist(Playlist $playlist) {
+        $parseObj = new parseObject("Playlist");
+        $parseObj->active = $playlist->getActive();
+         if (($fromUser = $parseObj->getFromUser()) != null) {
+            $pointerParse = $parseObj->dataType("pointer", array("_User"), $fromUser->getObjectId());
+            $parseObj->fromUser = $pointerParse;
+        } else {
+            $parseObj->fromUser = null;
         }
-
-		//boolean
-		$parseObj->unlimited = $playlist->getUnlimited();
-
-		if( $playlist->getObjectId()==null ){
-
-			try{
-				//caso save
-				$ret = $parseObj->save();
-				$playlist->setObjectId($ret->objectId);
-				$playlist->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
-				$playlist->setCreatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
-			}
-			catch(Exception $e){
-				$error = new error();
+        $parseObj->name = $playlist->getName();
+        if ($playlist->getSongs() != null && count($playlist->getSongs()) > 0) {
+            $songList = $playlist->getSongs();
+            foreach ($songList as $song) {
+                $parseObj->songs->__op = "AddRelation";
+                $parseObj->songs->objects = array(array("__type" => "Pointer", "className" => "Song", "objectId" => ($song->getObjectId())));
+            }
+        } else {
+            $parseObj->songs = null;
+        }
+        $parseObj->unlimited = $playlist->getUnlimited();
+        if ($playlist->getObjectId() == null) {
+            try {
+                //caso save
+                $ret = $parseObj->save();
+                $playlist->setObjectId($ret->objectId);
+                $playlist->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
+                $playlist->setCreatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
+            } catch (Exception $e) {
+                $error = new error();
                 $error->setErrorClass(__CLASS__);
                 $error->setErrorCode($e->getCode());
                 $error->setErrorMessage($e->getMessage());
@@ -102,17 +88,14 @@ class PlaylistParse{
                 $error->setErrorFunctionParameter(func_get_args());
                 $errorParse = new errorParse();
                 $errorParse->saveError($error);
-                return $error;		
-			}
-		}
-		else{
-			//caso update
-			try{
-				$ret = $parseObj->update($playlist->getObjectId());	
-				$playlist->setUpdatedAt(new DateTime($ret->updatedAt, new DateTimeZone("America/Los_Angeles")));	
-			}
-			catch(Exception $e){
-				$error = new error();
+            }
+        } else {
+            //caso update
+            try {
+                $ret = $parseObj->update($playlist->getObjectId());
+                $playlist->setUpdatedAt(new DateTime($ret->updatedAt, new DateTimeZone("America/Los_Angeles")));
+            } catch (Exception $e) {
+                $error = new error();
                 $error->setErrorClass(__CLASS__);
                 $error->setErrorCode($e->getCode());
                 $error->setErrorMessage($e->getMessage());
@@ -120,65 +103,72 @@ class PlaylistParse{
                 $error->setErrorFunctionParameter(func_get_args());
                 $errorParse = new errorParse();
                 $errorParse->saveError($error);
-                return $error;	
-			}
-		}
-		return $playlist;
-	}
-	/**
-	 *
-	 * @param Playlist $playlist
-	 * @return boolean
-	 */
-	function deletePlaylist(Playlist $playlist){
-		if($playlist){
-			$playlist->setActive(false);
+            }
+        }
+        return $playlist;
+    }
 
-			if( $this->save($playlist) ) return true;
-			else return false;
-		}
-		else return false;
-	}
+    function deletePlaylist(Playlist $playlist) {
+        if ($playlist) {
+            $playlist->setActive(false);
+            if ($this->save($playlist))
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
 
-	/**
-	 *
-	 * @param stdClass $parseObj
-	 * @return Playlist
-	 */
-	function parseToPlaylist(stdClass $parseObj){
-
-		$playlist = new Playlist();
-
-		if(isset($parseObj->objectId)) $playlist->setObjectId($parseObj->objectId) ;
-		if(isset($parseObj->active))$playlist->setActive($parseObj->active);
-		if(isset($parseObj->fromUser) ){
-			$parseQueryUser = new UserParse();
-			$parseQueryUser->whereEqualTo("objectId",$parseObj->fromUser);
-			$playlist->setFromUser($parseQueryUser);
-		}
-        if(isset($parseObj->name)) $playlist->setName($parseObj->name);
-		if (isset($parseObj->songs)) {
+    /**
+     *
+     * @param stdClass $parseObj
+     * @return Playlist
+     */
+    function parseToPlaylist(stdClass $parseObj) {
+        
+        $playlist = new Playlist();
+        if (isset($parseObj->objectId))
+            $playlist->setObjectId($parseObj->objectId);
+        if (isset($parseObj->active))
+            $playlist->setActive($parseObj->active);
+        if (isset($parseObj->fromUser)) {
+            $parseQueryUser = new UserParse();
+            $parseQueryUser->whereEqualTo("objectId", $parseObj->fromUser);
+            $playlist->setFromUser($parseQueryUser);
+        } else {
+            $playlist->fromUser = null;
+        }
+        if (isset($parseObj->name))
+            $playlist->setName($parseObj->name); 
+        else{
+            $playlist->name = null;
+        }
+        if (isset($parseObj->songs)) {
             $parseQuerySong = new SongParse();
             $parseQuerySong->whereRelatedTo("songs", "Playlist", $parseObj->objectId);
             $playlist->setSongs($parseQuerySong->getSongs());
+        } else{
+            $playlist->songs = null;
         }
-		if(isset($parseObj->unlimited ) ){
-		$playlist->setUnlimited($parseObj->unlimited);
-		} else {
-		$playlist->unlimited = false;
-		}
-		if (isset($parseObj->createdAt))
+        if (isset($parseObj->unlimited)) {
+            $playlist->setUnlimited($parseObj->unlimited);
+        } else {
+            $playlist->unlimited = false;
+        }
+        if (isset($parseObj->createdAt))
             $playlist->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
         if (isset($parseObj->updatedAt))
             $playlist->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
-		$acl = new parseACL();
+        $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);
         $playlist->setACL($acl);
-		}
-		return $playlist;
-	}
-	public function getCount() {
+        return $playlist;
+    }
+    
+
+    public function getCount() {
         $this->parseQuery->getCount();
     }
 
@@ -269,5 +259,7 @@ class PlaylistParse{
     public function whereRelatedTo($key, $className, $objectId) {
         $this->parseQuery->whereRelatedTo($key, $className, $objectId);
     }
+
 }
+
 ?>
