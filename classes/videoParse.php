@@ -28,7 +28,7 @@ class VideoParse {
         $this->parseQuery = new ParseQuery("Video");
     }
 
-	public function getVideo() {
+    public function getVideo() {
         $video = null;
         $result = $this->parseQuery->find();
         if (is_array($result->results) && count($result->results) > 0) {
@@ -40,8 +40,8 @@ class VideoParse {
         }
         return $video;
     }
-	
-	public function getQuestions() {
+
+    public function getVideos() {
         $videos = null;
         $result = $this->parseQuery->find();
         if (is_array($result->results) && count($result->results) > 0) {
@@ -70,64 +70,61 @@ class VideoParse {
                 $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
                 array_push($arrayPointer, $pointer);
             }
+            $parse->commentators = $user->dataType("relation", $arrayPointer);
         } else {
             $parse->commentators = null;
         }
-
         if ($video->getComments() != null && count($video->getComments()) > 0) {
             $arrayPointer = array();
             foreach ($video->getComments() as $comment) {
                 $pointer = $parse->dataType("pointer", array("Comment"), $comment->getObjectId());
                 array_push($arrayPointer, $pointer);
             }
+            $parse->comments = $comment->dataType("relation", $arrayPointer);
         } else {
             $parse->comments = null;
         }
-
         $parse->counter = $video->getCounter();
         $parse->description = $video->getDescription();
         $parse->duration = $video->getDuration();
-        $parse->fromUser = $video->getFromUser();
-
         if ($video->getFeaturing() != null && count($video->getFeaturing()) > 0) {
             $arrayPointer = array();
             foreach ($video->getFeaturing() as $user) {
                 $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
                 array_push($arrayPointer, $pointer);
             }
+            $parse->featuring = $user->dataType("relation", $arrayPointer);
         } else {
             $parse->featuring = null;
         }
-
-        if (($fromUser = $video->getFromUser() ) != null) {
-            $parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId());
+        if (($fromUser = $parse->getFromUser()) != null) {
+            $pointerParse = $parse->dataType("pointer", array("_User"), $fromUser->getObjectId());
+            $parse->fromUser = $pointerParse;
+        } else {
+            $parse->fromUser = null;
         }
-
         $parse->loveCounter = $video->getLoveCounter();
-
         if ($video->getLovers() != null && count($video->getLovers()) > 0) {
             $arrayPointer = array();
             foreach ($video->getLovers() as $user) {
                 $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
                 array_push($arrayPointer, $pointer);
             }
+            $parse->lovers = $user->dataType("relation", $arrayPointer);
         } else {
             $parse->lovers = null;
         }
-
         if ($video->getTags() != null && count($video->getTags()) > 0) {
             $parse->tags = $video->getTags();
         } else {
             $parse->tags = null;
         }
-
         $parse->title = $video->getTitle();
         $parse->thumbnail = $video->getThumbnail();
         $parse->URL = $video->getURL();
         $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);
-
         $video->setACL($acl);
 
         //se esiste l'objectId vuol dire che devo aggiornare
@@ -140,8 +137,15 @@ class VideoParse {
 
                 //aggiorno l'update
                 $video->setUpdatedAt(new DateTime($result->updatedAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (ParseLibraryException $e) {
-                return false;
+            } catch (Exception $e) {
+                $error = new error();
+                $error->setErrorClass(__CLASS__);
+                $error->setErrorCode($e->getCode());
+                $error->setErrorMessage($e->getMessage());
+                $error->setErrorFunction(__FUNCTION__);
+                $error->setErrorFunctionParameter(func_get_args());
+                $errorParse = new errorParse();
+                $errorParse->saveError($error);
             }
         } else {
             try {
@@ -153,7 +157,7 @@ class VideoParse {
                 $video->setCreatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
                 $video->setUpdatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
             } catch (Exception $e) {
-				$error = new error();
+                $error = new error();
                 $error->setErrorClass(__CLASS__);
                 $error->setErrorCode($e->getCode());
                 $error->setErrorMessage($e->getMessage());
@@ -175,144 +179,90 @@ class VideoParse {
      */
     public function deleteVideo(Video $video) {
         $video->setActive(false);
-        $this->save($video);
-    }
-
-    /**
-     * Restituisce un oggetto Video a partire dall'id
-     * @param String $videoId
-     * @return Video
-     */
-    public function getVideo($videoId) {
-
-        $parseVideo = new parseObject("Video");
-
-        $res = $parseVideo->get($videoId);
-
-        $video = $this->parseToVideo($res);
-
-        return $video;
-    }
-
-    /**
-     * Restituisce i video caricati dall'utente (con un limit = 100 video come di default ) 
-     * @param User $user
-     * @return Ambigous <multitype:, NULL>
-     */
-    public function getVideoByUser(User $user) {
-
-        $list = null;
-
-        $this->parseQuery->wherePointer('fromUser', '_User', $user->getObjectId());
-
-        $return = $this->parseQuery->find();
-
-        if (is_array($return->results) && count($return->results) > 0) {
-
-            $list = array();
-
-            foreach ($return->results as $result) {
-
-                array_push($list, $this->parseToStatus($result));
-            }
+        if ($this->save($video))
+            return true;
+        else {
+            return false;
         }
-        return $list;
     }
 
-    /**
-     * Converte una riga della tabella Video in un oggetto della classe Video
-     * @param stdClass $parseObj
-     * @return Video
-     */
     function parseToVideo(stdClass $parseObj) {
-
         $video = new Video();
         //recupero objectId
         if (isset($parseObj->objectId))
             $video->setObjectId($parseObj->objectId);
-
         //boolean active		
         if (isset($parseObj->active))
             $video->setActive($parseObj->active);
-
         //string author
         if (isset($parseObj->author))
             $video->setAuthor($parseObj->author);
-
-		//array di puntatori ad User 
-		if (isset($parseObj->commentators)) {
+        //array di puntatori ad User 
+        if (isset($parseObj->commentators)) {
+            $parseQueryCommentators = new UserParse();
             $parseQueryCommentators->whereRelatedTo("commentators", "_User", $parseObj->objectId);
             $video->setCommentators($parseQueryCommentators->getUsers());
         }
-		//array di puntatori ad commets
-		if (isset($parseObj->comments)) {
+        //array di puntatori ad commets
+        if (isset($parseObj->comments)) {
+            $parseQueryComments = new CommentParse();
             $parseQueryComments->whereRelatedTo("comments", "Comment", $parseObj->objectId);
             $video->setComments($parseQueryComments->getComments());
         }
         //integer counter
         if (isset($parseObj->counter))
             $video->setCounter($parseObj->counter);
-
         //string description
         if (isset($parseObj->description))
             $video->setDescription($parseObj->description);
-
         //integer duration
         if (isset($parseObj->duration))
             $video->setDuration($parseObj->duration);
-
-		//array di puntatori ad User 
-		if (isset($parseObj->featuring)) {
+        //array di puntatori ad User 
+        if (isset($parseObj->featuring)) {
+            $parseQueryFeaturing = new UserParse();
             $parseQueryFeaturing->whereRelatedTo("featuring", "_User", $parseObj->objectId);
             $video->setFeaturing($parseQueryFeaturing->getUsers());
         }
-
-        //Pointer fromUser
-        if(isset($parseObj->fromUser) ){
-			$parseQueryUser = new UserParse();
-			$parseQueryUser->whereEqualTo("objectId",$parseObj->fromUser);
-			$playlist->setFromUser($parseQueryUser);
-		}
-
+        if (isset($parseObj->fromUser)) {
+            $parseQueryUser = new UserParse();
+            $parseQueryUser->whereEqualTo("objectId", $parseObj->fromUser);
+            $video->setFromUser($parseQueryUser);
+        }
         //integer counter
         if (isset($parseObj->loveCounter))
             $video->setLoveCounter($parseObj->loveCounter);
-
         //array di puntatori ad User 
-		if (isset($parseObj->lovers)) {
+        if (isset($parseObj->lovers)) {
+            $parseQueryLovers = new UserParse();
             $parseQueryLovers->whereRelatedTo("lovers", "_User", $parseObj->objectId);
             $video->setLovers($parseQueryLovers->getUsers());
         }
         //array di stringhe tags
         if (isset($parseObj->tags))
             $video->setTags($parseObj->tags);
-
         //string title
         if (isset($parseObj->title))
             $video->setTitle($parseObj->title);
-
         //string thumbnail
         if (isset($parseObj->thumbnail))
             $video->setThumbnail($parseObj->thumbnail);
-
         //string URL
         if (isset($parseObj->URL))
             $video->setURL($parseObj->URL);
-
         //creo la data di tipo DateTime per createdAt e updatedAt
         if (isset($parseObj->createdAt))
             $video->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
         if (isset($parseObj->updatedAt))
             $video->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
-            $acl = new parseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            $video->setACL($acl);
-        }
+        $acl = new parseACL();
+        $acl->setPublicReadAccess(true);
+        $acl->setPublicWriteAccess(true);
+        $video->setACL($acl);
         return $video;
     }
-	
-	public function getCount() {
+
+    public function getCount() {
         $this->parseQuery->getCount();
     }
 
@@ -402,6 +352,7 @@ class VideoParse {
 
     public function whereRelatedTo($key, $className, $objectId) {
         $this->parseQuery->whereRelatedTo($key, $className, $objectId);
-    }	
+    }
+
 }
 ?> 
