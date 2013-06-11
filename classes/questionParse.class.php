@@ -50,7 +50,7 @@ class QuestionParse {
         if (is_array($result->results) && count($result->results) > 0) {
             $questions = array();
             foreach (($result->results) as $question) {
-                $questions; [] = $this->parseToQuestion($question);
+                $questions [] = $this->parseToQuestion($question);
             }
         }
         return $questions;
@@ -104,7 +104,7 @@ class QuestionParse {
                 $error->setErrorFunctionParameter(func_get_args());
                 $errorParse = new errorParse();
                 $errorParse->saveError($error);
-                return $error;;		
+                return $error;	
 			}
 		}
 		return $quest;
