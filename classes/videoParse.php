@@ -28,6 +28,31 @@ class VideoParse {
         $this->parseQuery = new ParseQuery("Video");
     }
 
+	public function getVideo() {
+        $video = null;
+        $result = $this->parseQuery->find();
+        if (is_array($result->results) && count($result->results) > 0) {
+            $ret = $result->results[0];
+            if ($ret) {
+                //recupero l'utente
+                $video = $this->parseToVideo($ret);
+            }
+        }
+        return $video;
+    }
+	
+	public function getQuestions() {
+        $videos = null;
+        $result = $this->parseQuery->find();
+        if (is_array($result->results) && count($result->results) > 0) {
+            $videos = array();
+            foreach (($result->results) as $video) {
+                $videos [] = $this->parseToVideo($video);
+            }
+        }
+        return $videos;
+    }
+
     /**
      * Salva un oggetto Video
      * 
