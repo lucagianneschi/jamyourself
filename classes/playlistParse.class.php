@@ -120,7 +120,7 @@ class PlaylistParse{
                 $error->setErrorFunctionParameter(func_get_args());
                 $errorParse = new errorParse();
                 $errorParse->saveError($error);
-                return $error;;		
+                return $error;	
 			}
 		}
 		return $playlist;
