@@ -34,44 +34,31 @@ class FaqParse {
 		$this->parseQuery = new parseQuery('FAQ');
 	}
  
-	public function getFaq($objectId) {
-		try {
-			//creo un nuovo oggetto FAQ
-			$faq = new faq();
-			//carico la FAQ richiesta
-			$parseObject = new parseObject('FAQ');
-			$res = $parseObject->get($objectId);
- 
-			//inizializzo l'oggetto
-			$faq->setObjectId($res->objectId);
-			$faq->setAnswer($res->answer);
-			$faq->setArea($res->area);
-			$faq->setPosition($res->position);
-			$faq->setQuestion($res->question);
-			$faq->setTag($res->tag);
-			$dateTimeC = new DateTime($res->createdAt);
-			$faq->setCreatedAt($dateTimeC);
-			$dateTimeU = new DateTime($res->updatedAt);
-			$faq->setUpdatedAt($dateTimeU);
-			$faq->setACL($res->ACL);
- 
-			return $faq;
- 
-		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
-		}
-	}
- 
+ public function getFaq() {
+        $faq = null;
+        $result = $this->parseQuery->find();
+        if (is_array($result->results) && count($result->results) > 0) {
+            $ret = $result->results[0];
+            if ($ret) {
+                //recupero l'utente
+                $faq = $this->parseToFaq($ret);
+            }
+        }
+        return $faq;
+    }
+	
+	public function getQuestions() {
+        $faqs = null;
+        $result = $this->parseQuery->find();
+        if (is_array($result->results) && count($result->results) > 0) {
+            $faqs = array();
+            foreach (($result->results) as $faq) {
+                $faq [] = $this->parseToFaq($faq);
+            }
+        }
+        return $faqs;
+    }
+
 	public function saveFaq($faq) {
 		//creo la "connessione" con Parse
 		$parseObject = new parseObject('FAQ');
@@ -80,42 +67,74 @@ class FaqParse {
 		$parseObject->position = 	$faq->getPosition();
 		$parseObject->question = 	$faq->getQuestion();
 		$parseObject->tag = 		$faq->getTag();
- 
-		$parseObject->save();
-	}
- 
-	public function getFaqs() {
-		//creo un contenitore di FAQs
-		$faqs = array();
-		//carico le FAQs
-		$res = $this->parseQuery->find();
- 
-		foreach ($res->results as $obj) {
- 
-			$faq = new faq();
- 
-			$faq->setObjectId($obj->objectId);
-			$faq->setAnswer($obj->answer);
-			$faq->setArea($obj->area);
-			$faq->setPosition($obj->position);
-			$faq->setQuestion($obj->question);
-			$faq->setTag($obj->tag);
-			$dateTimeC = new DateTime($res->createdAt);
-			$faq->setCreatedAt($dateTimeC);
-			$dateTimeU = new DateTime($res->updatedAt);
-			$faq->setUpdatedAt($dateTimeU);
-			$faq->setACL($res->ACL);
- 
-			$faqs[$obj->objectId] = $faq;
+		
+		if($faq->getObjectId()==null ){
+
+			try{
+				//caso save
+				$ret = $parseObj->save();
+				$faq->setObjectId($ret->objectId);
+				$faq->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
+				$faq->setCreatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
+			}
+			catch(Exception $e){
+				$error = new error();
+                $error->setErrorClass(__CLASS__);
+                $error->setErrorCode($e->getCode());
+                $error->setErrorMessage($e->getMessage());
+                $error->setErrorFunction(__FUNCTION__);
+                $error->setErrorFunctionParameter(func_get_args());
+                $errorParse = new errorParse();
+                $errorParse->saveError($error);
+                return $error;		
+			}
 		}
- 
-		return $faqs;
+		else{
+			//caso update
+			try{
+				$ret = $parseObj->update($playlist->getObjectId());	
+				$faq->setUpdatedAt(new DateTime($ret->updatedAt, new DateTimeZone("America/Los_Angeles")));	
+			}
+			catch(Exception $e){
+				$error = new error();
+                $error->setErrorClass(__CLASS__);
+                $error->setErrorCode($e->getCode());
+                $error->setErrorMessage($e->getMessage());
+                $error->setErrorFunction(__FUNCTION__);
+                $error->setErrorFunctionParameter(func_get_args());
+                $errorParse = new errorParse();
+                $errorParse->saveError($error);
+                return $error;;		
+			}
+		}
+		return $quest;
 	}
- 
-	public function getCount() {
-		return $this->parseQuery->getCount()->count;
+	
+	function parseToFaq(stdClass $parseObj){
+
+		$faq = new Faq();
+
+		if(isset($parseObj->objectId))$faq->setObjectId($parseObj->objectId) ;
+		if(isset($parseObj->answer))$faq->setAnswer($parseObj->answer);
+		if(isset($parseObj->area)) $faq->setArea($parseObj->area);
+        if(isset($parseObj->position))$faq->setPosition($parseObj->position);
+		if(isset($parseObj->question))$faq->setQuestion($parseObj->question);
+		if (isset($parseObj->tags))$faq->setTags($parseObj->tags);
+		if (isset($parseObj->createdAt))
+            $faq->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+        if (isset($parseObj->updatedAt))
+            $faq->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+		$acl = new parseACL();
+        $acl->setPublicReadAccess(true);
+        $acl->setPublicWriteAccess(true);
+        $faq->setACL($acl);
+		}
+		return $faq;
 	}
-	public function setLimit($limit) {
+
+ public function getCount() {
+ ;		return $this->parseQuery->getCount()->count;
+ 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
  
