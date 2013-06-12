@@ -119,12 +119,12 @@ class Status {
     }
 
     //DataTime: data di creazione dello status
-    public function setCreatedAt(DataTime $createdAt) {
+    public function setCreatedAt(DateTime $createdAt) {
         $this->createdAt = $createdAt;
     }
 
     //DataTime: data di update dello status	
-    public function setUpdatedAt(DataTime $updatedAt) {
+    public function setUpdatedAt(DateTime $updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
