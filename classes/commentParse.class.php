@@ -31,6 +31,9 @@ class CommentParse {
 		$this->parseQuery = new parseQuery('Comment');
 	}
  
+	#########
+	# FATTA #
+	#########
 	public function getComment($objectId) {
 		$cmt = new Comment();
 		
@@ -39,44 +42,68 @@ class CommentParse {
  
 		$cmt->setObjectId($res->objectId);
 		$cmt->setActive($res->active);
+		if ($res->album != null) $cmt->setAlbum($res->album);
+		if ($res->comment != null) $cmt->setComment($res->comment);
+		
+		//TEST ---> nella classe userParse.class.php si deve prevedere un metodo getRelatedTo($field, $className, $objectId)
+		//          che ha il compito di restituire un array di User (solo glo objectId) relazionati all'objectId della classe
+		//          $className del campo $field:
+		//			$userParse = new UserParse();
+		//			$userRelatedTo = $userParse->getRelatedTo('commentators', 'Comment', $res->objectId);
+		$parseQuery = new parseQuery('_User');
+		$parseQuery->whereRelatedTo('commentators', 'Comment', $res->objectId);
+		$test = $parseQuery->find();
+		$userRelatedTo = array();
+		foreach ($test->results as $user) {
+			$userRelatedTo[] = $user->objectId;
+		}
+		$cmt->setCommentators($userRelatedTo);
+		
+		//TEST ---> $commentParse = new CommentParse();
+		//			$cmtRelatedTo = $commentParse->getRelatedTo('comments', 'Comment', $res->objectId);
+		$parseQuery = new parseQuery('Comment');
+		$parseQuery->whereRelatedTo('comments', 'Comment', $res->objectId);
+		$test = $parseQuery->find();
+		$cmtRelatedTo = array();
+		foreach ($test->results as $c) {
+			$cmtRelatedTo[] = $c->objectId;
+		}
+		$cmt->setComments($cmtRelatedTo);
+		
 		$cmt->setCounter($res->counter);
-		$pointerParse = new pointerParse($res->event->className, $res->event->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setEvent($pointer);
-		$pointerParse = new pointerParse($res->fromUser->className, $res->fromUser->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setFromUser($pointer);
-		$pointerParse = new pointerParse($res->image->className, $res->image->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setImage($pointer);
-		$geoPointParse = new GeoPointParse($res->location->latitude, $res->location->longitude);
-		$geoPoint = $geoPointParse->getGeoPoint();
-		$cmt->setLocation($geoPoint);
+		if ($res->event != null) $cmt->setEvent($res->event);
+		if ($res->fromUser != null) $cmt->setFromUser($res->fromUser);
+		if ($res->image != null) $cmt->setImage($res->image);
+		$parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
+		$cmt->setLocation($parseGeoPoint->location);
+		$cmt->setLoveCounter();
+		
+		//TEST ---> $userParse = new UserParse();
+		//			$loversRelatedTo = $userParse->getRelatedTo('lovers', 'Comment', $res->objectId):
+		$parseQuery = new parseQuery('_User');
+		$parseQuery->whereRelatedTo('lovers', 'Comment', $res->objectId);
+		$test = $parseQuery->find();
+		$loversRelatedTo = array();
+		foreach ($test->results as $user) {
+			$loversRelatedTo[] = $user->objectId;
+		}
+		$cmt->setLovers($loversRelatedTo);
+		
 		$cmt->setOpinions($res->opinions);
-		$pointerParse = new pointerParse($res->photoAlbum->className, $res->photoAlbum->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setPhotoAlbum($pointer);
-		$pointerParse = new pointerParse($res->record->className, $res->record->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setRecord($pointer);
-		$pointerParse = new pointerParse($res->song->className, $res->song->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setSong($pointer);
-		$cmt->setTag($res->tag);
+		if ($res->record != null) $cmt->setRecord($res->record);
+		if ($res->song != null) $cmt->setSong($res->song);
+		if ($res->status != null) $cmt->setStatus($res->status);
+		$cmt->setTags($res->tags);
 		$cmt->setText($res->text);
-		$pointerParse = new pointerParse($res->toUser->className, $res->toUser->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setToUser($pointer);
+		if ($res->toUser != null) $cmt->setToUser($res->toUser);
 		$cmt->setType($res->type);
-		$pointerParse = new pointerParse($res->user->className, $res->user->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setUser($pointer);
-		$pointerParse = new pointerParse($res->video->className, $res->video->objectId);
-		$pointer = $pointerParse->getPointer();
-		$cmt->setVideo($pointer);
+		if ($res->video != null) $cmt->setVideo($res->video);
 		$cmt->setVote($res->vote);
-		$cmt->setCreatedAt($res->createdAt);
-		$cmt->setUpdatedAt($res->updatedAt);
+		$dateTime = new DateTime($res->createdAt);
+		$cmt->setCreatedAt($dateTime);
+		$dateTime = new DateTime($res->updatedAt);
+		$cmt->setUpdatedAt($dateTime);
+		$cmt->setACL($res->ACL);
  
 		return $cmt;
 	}

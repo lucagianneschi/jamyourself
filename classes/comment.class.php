@@ -274,13 +274,23 @@ class Comment {
 		} else {
 			$string .= '[comment] => NULL<br />';
 		}
-		foreach ($this->getCommentators() as $commentators) {
+		if (count($this->getCommentators()) != 0) {
+			foreach ($this->getCommentators() as $commentators) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[commentators] => ' . $commentators . '<br />';
+			}
+		} else {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[commentators] => ' . $commentators->getObjectId() . '<br />';
+			$string .= '[commentators] => NULL<br />';
 		}
-		foreach ($this->getComments() as $comments) {
+		if (count($this->getComments()) != 0) {
+			foreach ($this->getComments() as $comments) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[comments] => ' . $comments . '<br />';
+			}
+		} else {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[comments] => ' . $comments->getObjectId() . '<br />';
+			$string .= '[comments] => NULL<br />';
 		}
 		$string .= '[counter] => ' . $this->getCounter() . '<br />';
 		if ($this->getEvent() != null) {
@@ -288,7 +298,11 @@ class Comment {
 		} else {
 			$string .= '[event] => NULL<br />';
 		}
-		//$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+		if ($this->getFromUser() != null) {
+			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+		} else {
+			$string .= '[fromUser] => NULL<br />';
+		}
 		if ($this->getImage() != null) {
 			$string .= '[image] => ' . $this->getImage()->getObjectId() . '<br />';
 		} else {
@@ -301,13 +315,23 @@ class Comment {
 			$string .= '[location] => NULL<br />';
 		}
 		$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-		foreach ($this->getLovers() as $lovers) {
+		if (count($this->getLovers()) != 0) {
+			foreach ($this->getLovers() as $lovers) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[lovers] => ' . $lovers . '<br />';
+			}
+		} else {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[lovers] => ' . $lovers->getObjectId() . '<br />';
+			$string .= '[lovers] => NULL<br />';
 		}
-		foreach ($this->getOpinions() as $opinions) {
+		if (count($this->getOpinions()) != 0) {
+			foreach ($this->getOpinions() as $opinions) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[opinions] => ' . $opinions . '<br />';
+			}
+		} else {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[opinions] => ' . $opinions . '<br />';
+			$string .= '[opinions] => NULL<br />';
 		}
 		if ($this->getRecord() != null) {
 			$string .= '[record] => ' . $this->getRecord()->getObjectId() . '<br />';
@@ -324,9 +348,15 @@ class Comment {
 		} else {
 			$string .= '[status] => NULL<br />';
 		}
-		foreach ($this->getTags() as $tags) {
+		if (count($this->getTags()) != 0) {
+			foreach ($this->getTags() as $tags) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[tags] => ' . $tags . '<br />';
+			}
+			
+		} else {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[tags] => ' . $tags . '<br />';
+			$string .= '[tags] => NULL<br />';
 		}
 		$string .= '[text] => ' . $this->getText() . '<br />';
 		if ($this->getToUser() != null) {
@@ -351,20 +381,8 @@ class Comment {
 		} else {
 			$string .= '[updatedAt] => NULL<br />';
 		}
-		if ($this->getACL() != null) {
-			foreach ($this->getACL()->acl as $key => $acl) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[key] => ' . $key . '<br />';
-				foreach ($acl as $access => $value) {
-					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-					$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-				}
-			}
-		} else {
-			$string .= '[ACL] => NULL<br />';
-		}
-		
+		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
+
         return $string;
     }
 

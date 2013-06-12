@@ -12,7 +12,16 @@ $cmt->setObjectId('aAbBcCdD');
 $cmt->setActive(true);
 //$cmt->setAlbum(Album $album);
 //$cmt->setComment(Comment $comment);
-//$cmt->setCommentators(array $commentators);
+
+$commentators = array (
+	"__op" => "AddRelation",
+	"objects" => array(
+		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
+		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
+	)
+);
+$cmt->setCommentators($commentators);
+
 //$cmt->setComments(array $comments);
 $cmt->setCounter(10);
 //$cmt->setEvent(Event $event);
@@ -37,19 +46,29 @@ $cmt->setCreatedAt($dateTime);
 $cmt->setUpdatedAt($dateTime);
 $acl = new parseACL();
 $acl->setPublicReadAccess(true);
-$cmt->setACL($acl);
+$cmt->setACL($acl->acl);
 
 echo 'STAMPO IL COMMENTO APPENA CREATO<br>';
 echo $cmt;
 
+$cmtParse = new CommentParse();
+
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo 'INIZIO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
-$cmtParse = new CommentParse();
+echo '<br />INIZIO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
 if (get_class($cmtParse->saveComment($cmt))) {
 	echo 'ATTENZIONE: e\' stata generata un\'eccezione: ' . $cmtParse->saveComment($cmt)->getErrorMessage() . '<br/>';
 }
 echo 'FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />RECUPERO UN Comment<br />';
+
+// n1TXVlIqHw
+// GuUAj83MGH
+
+$newCmt = $cmtParse->getComment('QWMHCrAXIp');
+echo $newCmt;
+
 ?>
