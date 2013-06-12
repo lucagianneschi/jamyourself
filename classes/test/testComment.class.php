@@ -46,7 +46,12 @@ $cmt->setCreatedAt($dateTime);
 $cmt->setUpdatedAt($dateTime);
 $acl = new parseACL();
 $acl->setPublicReadAccess(true);
+<<<<<<< HEAD
 $cmt->setACL($acl->acl);
+=======
+$acl->setPublicWriteAccess(true);
+$cmt->setACL($acl);
+>>>>>>> 3d907da0e4ef33b0d6f057d31bdf51878ce7d996
 
 echo 'STAMPO IL COMMENTO APPENA CREATO<br>';
 echo $cmt;
