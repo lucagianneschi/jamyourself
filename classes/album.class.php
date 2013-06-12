@@ -130,7 +130,7 @@ class Album {
 
     //setters
 
-    public function setObjectId(string $objectId) {
+    public function setObjectId($objectId) {
         $this->objectId = $objectId;
     }
 
@@ -150,7 +150,7 @@ class Album {
         $this->counter = $counter;
     }
 
-    public function setCover(string $cover) {
+    public function setCover($cover) {
         $this->cover = $cover;
     }
 
@@ -158,7 +158,7 @@ class Album {
         $this->cover = $coverFile;
     }
 
-    public function setDescription(string $description) {
+    public function setDescription($description) {
         $this->description = $description;
     }
 
@@ -186,11 +186,11 @@ class Album {
         $this->lovers = $lovers;
     }
 
-    public function setTitle(string $title) {
+    public function setTitle($title) {
         $this->title = $title;
     }
 
-    public function setThumbnailCover(string $thumbnailCover) {
+    public function setThumbnailCover($thumbnailCover) {
         $this->thumbnailCover = $thumbnailCover;
     }
 
