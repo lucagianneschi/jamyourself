@@ -8,7 +8,6 @@ require_once CLASSES_DIR . 'commentParse.class.php';
 
 $cmt = new Comment();
 
-$cmt->setObjectId('aAbBcCdD');
 $cmt->setActive(true);
 //$cmt->setAlbum(Album $album);
 //$cmt->setComment(Comment $comment);
@@ -22,7 +21,15 @@ $commentators = array (
 );
 $cmt->setCommentators($commentators);
 
-//$cmt->setComments(array $comments);
+$comments = array (
+	"__op" => "AddRelation",
+	"objects" => array(
+		array("__type" => "Pointer", "className" => "Comment", "objectId" => "2gMM3NmUYY"),
+		array("__type" => "Pointer", "className" => "Comment", "objectId" => "5zw3I5d9Od")
+	)
+);
+$cmt->setComments($comments);
+
 $cmt->setCounter(10);
 //$cmt->setEvent(Event $event);
 //$cmt->setFromUser(User $fromUser);
@@ -45,35 +52,92 @@ $dateTime = new DateTime();
 $cmt->setCreatedAt($dateTime);
 $cmt->setUpdatedAt($dateTime);
 $acl = new parseACL();
-$acl->setPublicReadAccess(true);
-<<<<<<< HEAD
-$cmt->setACL($acl->acl);
-=======
 $acl->setPublicWriteAccess(true);
 $cmt->setACL($acl);
->>>>>>> 3d907da0e4ef33b0d6f057d31bdf51878ce7d996
 
-echo 'STAMPO IL COMMENTO APPENA CREATO<br>';
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />STAMPO IL COMMENTO APPENA CREATO<br />';
 echo $cmt;
-
-$cmtParse = new CommentParse();
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
 echo '<br />INIZIO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
-if (get_class($cmtParse->saveComment($cmt))) {
-	echo 'ATTENZIONE: e\' stata generata un\'eccezione: ' . $cmtParse->saveComment($cmt)->getErrorMessage() . '<br/>';
+
+$cmtParse = new CommentParse();
+$resSave = $cmtParse->saveComment($cmt);
+if (get_class($resSave)) {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
+} else {
+	echo '<br />Comment SAVED con objectId => ' . $resSave . '<br />';
 }
-echo 'FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
+
+echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />RECUPERO UN Comment<br />';
+echo '<br />INIZIO IL RECUPERO DI UN Comment<br /><br />';
 
-// n1TXVlIqHw
-// GuUAj83MGH
+$cmtParse = new CommentParse();
+$resGet = $cmtParse->getComment('hAL9WyoQh0');
+if (get_class($resGet) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+} else {
+	echo $resGet;
+}
 
-$newCmt = $cmtParse->getComment('QWMHCrAXIp');
-echo $newCmt;
+echo '<br />FINITO IL RECUPERO DI UN Comment<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO LA CANCELLAZIONE DI UN Comment<br />';
+
+$cmtParse = new CommentParse();
+$resDelete = $cmtParse->deleteComment('AOPyno3s8m');
+if (get_class($resDelete)) {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
+} else {
+	echo '<br />Comment DELETED<br />';
+}
+
+echo '<br />FINITO LA CANCELLAZIONE DI UN Comment<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO IL RECUPERO DI PIU\' Comment<br />';
+
+$cmtParse = new CommentParse();
+$cmtParse->whereExists('objectId');
+$cmtParse->orderByDescending('createdAt');
+$cmtParse->setLimit(5);
+$resGets = $cmtParse->getComments();
+if (get_class($resGets) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+} else {
+	foreach($resGets as $cmt) {
+		echo '<br />' . $cmt->getObjectId() . '<br />';
+	}
+}
+
+echo '<br />FINITO IL RECUPERO DI PIU\' Comment<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Comment<br />';
+
+$cmtParse = new CommentParse();
+$cmt = new Comment();
+$cmt->setObjectId('AOPyno3s8m');
+$cmt->setCounter(99);
+$resUpdate = $cmtParse->saveComment($cmt);
+if (get_class($resUpdate)) {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
+} else {
+	echo '<br />Comment UPDATED<br />';
+}
+
+echo '<br />FINITO L\'AGGIORNAMENTO DI UN Comment<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
 
 ?>
