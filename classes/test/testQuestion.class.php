@@ -1,20 +1,4 @@
 <?php
-/* ! \par Info Generali:
-* \author Luca Gianneschi
-* \version 1.0
-* \date 2013
-* \copyright Jamyourself.com 2013
-*
-* \par Info Classe:
-* \brief Classe di test
-* \details Classe di test per la classe Faq
-*
-* \par Commenti:
-* \warning
-* \bug
-* \todo modificare require_once
-*
-*/
 ini_set('display_errors', '1');
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
