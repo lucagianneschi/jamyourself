@@ -37,6 +37,7 @@ $cmt->setCreatedAt($dateTime);
 $cmt->setUpdatedAt($dateTime);
 $acl = new parseACL();
 $acl->setPublicReadAccess(true);
+$acl->setPublicWriteAccess(true);
 $cmt->setACL($acl);
 
 echo 'STAMPO IL COMMENTO APPENA CREATO<br>';
