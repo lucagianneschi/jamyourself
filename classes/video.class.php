@@ -242,38 +242,51 @@ class Video {
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
         $string .= '[author] => ' . $this->getAuthor() . '<br />';
-        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
-            foreach ($this->getCommentators() as $commentator) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
-            }
-        }
-        if ($this->getComments() != null && count($this->getComments() > 0)) {
-            foreach ($this->getComments() as $comment) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
-            }
-        }
+        if (count($this->getCommentators()) != 0) {
+			foreach ($this->getCommentators() as $commentators) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[commentators] => ' . $commentators . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[commentators] => NULL<br />';
+		}
+		if (count($this->getComments()) != 0) {
+			foreach ($this->getComments() as $comments) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[comments] => ' . $comments . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[comments] => NULL<br />';
+		}
         $string.="[counter] => " . $this->getCounter() . "<br />";
         $string.="[description] => " . $this->getDescription() . "<br />";
         $string.="[duration] => " . $this->getDuration() . "<br />";
-        if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
-            foreach ($this->getFeaturing() as $user) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
-            }
-        }
-        $fromUser = $this->getFromUser();
-        if ($fromUser != null) {
-            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
-        }
+		if (count($this->getLovers()) != 0) {
+			foreach ($this->getFeaturing() as $featuring) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[featuring] => ' . $featuring . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[featuring] => NULL<br />';
+		}
+        if ($this->getFromUser() != null) {
+			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+		} else {
+			$string .= '[fromUser] => NULL<br />';
+		}
         $string.="[loveCounter] => " . $this->getLoveCounter() . "<br />";
-        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
-            foreach ($this->getLovers() as $lover) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
-            }
-        }
+        if (count($this->getLovers()) != 0) {
+			foreach ($this->getLovers() as $lovers) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[lovers] => ' . $lovers . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[lovers] => NULL<br />';
+		}
         if ($this->getTags() != null && count($this->getTags() > 0)) {
             foreach ($this->getTags() as $tag) {
                 $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
@@ -283,22 +296,19 @@ class Video {
         $string.="[thumbnail] => " . $this->getThumbnail() . "<br />";
         $string.="[title] => " . $this->getTitle() . "<br />";
         $string.="[URL] => " . $this->getURL() . "<br />";
-        if( ($createdAt = $this->getCreatedAt())) $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
-        if( ($updatedAt = $this->getUpdatedAt()))$string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
-        if($this->getACL() != null){
-           foreach ($this->getACL()->acl as $key => $acl) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[key] => ' . $key . '<br />';
-            foreach ($acl as $access => $value) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-            }
-        } 
-        }
+        if ($this->getCreatedAt() != null) {
+			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[createdAt] => NULL<br />';
+		}
+		if ($this->getUpdatedAt() != null) {
+			$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[updatedAt] => NULL<br />';
+		}
+		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
         return $string;
     }
-
 }
 
 ?>
