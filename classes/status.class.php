@@ -230,18 +230,18 @@ class Status {
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
         if (count($this->getCommentators()) != 0) {
-			foreach ($this->getCommentators() as $commentators) {
+			foreach ($this->getCommentators() as $commentator) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[commentators] => ' . $commentators . '<br />';
+				$string .= '[commentators] => ' . $commentator . '<br />';
 			}
 		} else {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[commentators] => NULL<br />';
 		}
 		if (count($this->getComments()) != 0) {
-			foreach ($this->getComments() as $comments) {
+			foreach ($this->getComments() as $comment) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[comments] => ' . $comments . '<br />';
+				$string .= '[comments] => ' . $comment . '<br />';
 			}
 		} else {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -290,7 +290,7 @@ class Status {
 		if (count($this->getTaggedUsers()) != 0) {
 			foreach ($this->getTaggedUsers() as $taggedUser) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[lovers] => ' . $ltaggedUser . '<br />';
+				$string .= '[taggedUser] => ' . $taggedUser . '<br />';
 			}
 		} else {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
