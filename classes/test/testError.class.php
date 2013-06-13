@@ -27,7 +27,7 @@ $error->setObjectId('aAbBcCdD');
 $error->setErrorClass('Classe che genera errore');
 $error->setErrorCode(999);
 $error->setErrorFunction('funzione che ha generato errore');
-$error->setErrorFunctionParameter(array('parameter1', 'parameter2');
+$error->setErrorFunctionParameter(array('parameter1', 'parameter2'));
 $dateTime = new DateTime();
 $error->setCreatedAt($dateTime);
 $error->setUpdatedAt($dateTime);
