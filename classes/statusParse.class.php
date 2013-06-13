@@ -18,6 +18,12 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:status">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:status">API</a>
  */
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../');
+require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
+require_once CLASSES_DIR . 'error.class.php';
+require_once CLASSES_DIR . 'errorParse.class.php';
 
 class StatusParse {
 
@@ -27,175 +33,104 @@ class StatusParse {
 
         $this->parseQuery = new ParseQuery("Status");
     }
-
-    public function getStatus() {
-        $status = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $ret = $result->results[0];
-            if ($ret) {
-                //recupero l'utente
-                $status = $this->parseToStatus($ret);
-            }
-        }
-        return $status;
-    }
-
+	
+	public function deleteStatus(Status $status){
+		try {
+			$parseObject = new parseObject('Status');
+			$parseObject->active = false;
+			$parseObject->update($objectId);
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+	
+	public function getStatus($objectId) {
+		try {
+			$parseObject = new parseObject('Status');
+			$res = $parseObject->get($objectId);
+			$status = $this->parseToStatus($res);
+			return $status;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+	
     public function getStatuses() {
-        $statuses = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $statuses = array();
-            foreach (($result->results) as $status) {
-                $statuses [] = $this->parseToStatus($status);
-            }
-        }
+        $statuses = array();
+        $res = $this->parseQuery->find();
+        foreach ($res->results as $obj) {
+			$status = $this->parseToComment($obj);
+			$statuses[$status->getObjectId()] = $status;
+		}
         return $statuses;
     }
 
-    public function saveStatus(Status $status) {
+	public function getCount() {
+		return $this->parseQuery->getCount()->count;
+	}
+ 
+	public function getRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+		$rel = $this->parseQuery->find();
+		$relStatus = array();
+		foreach ($rel->results as $status) {
+			$relStatus[] = $status->objectId;
+		}
+		return $relStatus;
+	}
+ 
+	private function isNullPointer($pointer) {
+		$className = $pointer['className'];
+		$objectId = $pointer['objectId'];
+		$isNull = true;
+ 
+		if ($className == '' || $objectId == '') {
+			$isNull = true;
+		} else {
+			$isNull = false;
+		}
+ 
+		return $isNull;
+	}
+	
+	public function orderBy($field) {
+		$this->parseQuery->orderBy($field);
+	}	
+ 
+	public function orderByAscending($field) {
+		$this->parseQuery->orderByAscending($field);
+	}
+ 
+	public function orderByDescending($field) {
+		$this->parseQuery->orderByDescending($field);
+	}
 
-        $parse = new parseObject("Status");
-        $parse->active = $status->getActive();
-        if ($status->getCommentators() != null && count($status->getCommentators()) > 0) {
-            $arrayPointer = array();
-            foreach ($status->getCommentators() as $user) {
-                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
-                array_push($arrayPointer, $pointer);
-            }
-            $parse->commentators = $user->dataType("relation", $arrayPointer);
-        } else {
-            $parse->commentators = null;
-        }
-        if ($status->getComments() != null && count($status->getComments()) > 0) {
-            $arrayPointer = array();
-            foreach ($status->getComments() as $comment) {
-                $pointer = $parse->dataType("pointer", array("Comment"), $comment->getObjectId());
-                array_push($arrayPointer, $pointer);
-            }
-            $parse->comments = $comment->dataType("relation", $arrayPointer);
-        } else {
-            $parse->comments = null;
-        }
-        $parse->counter = $status->getCounter();
-        if (($event = $status->getEvent()) != null) {
-            $pointerParse = $parse->dataType("pointer", array("Event"), $event->getObjectId());
-            $parse->event = $pointerParse;
-        } else {
-            $parse->event = null;
-        }
-        if (($fromUser = $parse->getFromUser()) != null) {
-            $pointerParse = $parse->dataType("pointer", array("_User"), $fromUser->getObjectId());
-            $parse->fromUser = $pointerParse;
-        } else {
-            $parse->fromUser = null;
-        }
-        if (($image = $parse->getImage()) != null) {
-            $pointerParse = $parse->dataType("pointer", array("Image"), $image->getObjectId());
-            $parse->image = $pointerParse;
-        } else {
-            $parse->image = null;
-        }
-        if (($geoPoint = $parse->getLocation()) != null) {
-            $parseLocation = $parse->dataType("geopoint",array($geoPoint->latitude, $geoPoint->longitude));
-            $parse->location = $parseLocation;
-        } else {
-            $parse->location = null;
-        }
-        $parse->loveCounter = $status->getLoveCounter();
-        if ($status->getLovers() != null && count($status->getLovers()) > 0) {
-            $arrayPointer = array();
-            foreach ($status->getLovers() as $user) {
-                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
-                array_push($arrayPointer, $pointer);
-            }
-            $parse->lovers = $user->dataType("relation", $arrayPointer);
-        } else {
-            $parse->lovers = null;
-        }
-        if (($song = $status->getSong()) != null) {
-            $pointerParse = $parse->dataType("pointer", array("Song"), $image->getObjectId());
-            $parse->song = $pointerParse;
-        } else {
-            $parse->song = null;
-        }
-        if ($status->getTaggedUsers() != null && count($status->getTaggedUsers()) > 0) {
-            $arrayPointer = array();
-            foreach ($status->getTaggedUsers() as $user) {
-                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
-                array_push($arrayPointer, $pointer);
-            }
-            $parse->taggedUsers = $user->dataType("relation", $arrayPointer);
-        } else {
-            $parse->taggedUsers = null;
-        }
-        $parse->text = $status->getText();
-        $acl = new parseACL();
-        $acl->setPublicReadAccess(true);
-        $acl->setPublicWriteAccess(true);
-        $parse->setACL($acl);
-
-        //se esiste l'objectId vuol dire che devo aggiornare
-        //se non esiste vuol dire che devo salvare
-        if (( $status->getObjectId()) != null) {
-            //update
-            try {
-                //update
-                $result = $parse->update($status->getObjectId());
-
-                //aggiorno l'update
-                $status->setUpdatedAt(new DateTime($result->updatedAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (Exception $e) {
-                $error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-            }
-        } else {
-
-            try {
-                //salvo
-                $result = $parse->save();
-
-                //aggiorno i dati per la creazione
-                $status->setObjectId($result->objectId);
-                $status->setCreatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
-                $status->setUpdatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (Exception $e) {
-                $error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-            }
-        }
-
-        //restituisco status aggiornato
-        return $status;
-    }
-
-    public function deleteStatus(Status $status) {
-        $status->setActive(false);
-        if ($this->save($status))
-            return true;
-        else
-            return false;
-    }
     public function parseToStatus(stdClass $parseObj) {
 
         if ($parseObj == null)
             return null;  //se non ho ricevuto niente...
 
-
-//lo status da restituire
-        $status = new status();
+        $status = new Status();
 
         //recupero objectId
         if (isset($parseObj->objectId))
@@ -204,83 +139,50 @@ class StatusParse {
         if (isset($parseObj->active))
             $status->setActive($parseObj->active);
         //array di puntatori ad User
-        if (isset($parseObj->commentators)) {
-            $parseQueryUser = new UserParse();
-            $parseQueryUser->whereRelatedTo('commentators', 'Status', $parseObj->objectId);
-            $status->setCommentators($parseQueryUser->getUsers());
-        } else {
-            $status->commentators = null;
-        }
-        if (isset($parseObj->comments)) {
-            $parseQueryComments = new CommentParse();
-            $parseQueryComments->whereRelatedTo('comments', 'Status', $parseObj->objectId);
-            $status->setComments($parseQueryComments->getComments());
-        } else{
-            $status->comments = null;
-        }
-        if (isset($parseObj->counter)){
-            $status->setCounter($parseObj->counter);
-        } else {
-            $status->counter = 0;
-        }
-        if (isset($parseObj->event)) {
-            $parseQueryEvent = new ImageParse();
-            $parseQueryEvent->whereEqualTo("objectId", $parseObj->event);
-            $status->setEvent($parseQueryEvent);
-        } else {
-            $status->event = null;
-        }
-        if (isset($parseObj->fromUser)) {
-            $parseQueryUser = new UserParse();
-            $parseQueryUser->whereEqualTo("objectId", $parseObj->fromUser);
-            $status->setFromUser($parseQueryUser);
-        }  else {
-            $status->fromUser = null;
-        }
-        if (isset($parseObj->image)) {
-            $parseQueryImage = new ImageParse();
-            $parseQueryImage->whereEqualTo("objectId", $parseObj->image);
-            $status->setImage($parseQueryImage);
-        } else {
-            $status->image = null;
-        }
-        if (isset($parseObj->location)) {
-                $geoParse = $parseObj->location;
-                $tempObj = new parseObject("temp");
-                $location = $tempObj->dataType("geopoint", array($geoParse->latitude, $geoParse->longitude));
-                $status->setLocation($location);
-        } else {
-            $status->location = null;
-        }
+        $parseQuery = new parseQuery('_User');
+		$parseQuery->whereRelatedTo('commentators', 'Status', $parseObj->objectId);
+		$test = $parseQuery->find();
+		$userRelatedTo = array();
+		foreach ($test->results as $user) {
+			$userRelatedTo[] = $user->objectId;
+		}
+		$status->setCommentators($userRelatedTo);
+		$commentsRelatedTo = $this->getRelatedTo('comments', 'Status', $parseObj->objectId);
+		$parseQuery = new parseQuery('Comment');
+		$parseQuery->whereRelatedTo('comments', 'Status', $parseObj->objectId);
+		$test = $parseQuery->find();
+		$commentsRelatedTo = array();
+		foreach ($test->results as $c) {
+			$commentsRelatedTo[] = $c->objectId;
+		}
+		$status->setComments($commentsRelatedTo);
+        $status->setCounter($parseObj->counter);
+        if ($parseObj->event != null) $status->setEvent($parseObj->event);
+        if ($parseObj->fromUser != null) $status->setFromUser($parseObj->fromUser);
+		if ($parseObj->image != null) $status->setImage($parseObj->image);
+        $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
         //recupero il loveCounter
-        if (isset($parseObj->loveCounter)){
-        $status->setCounter($parseObj->loveCounter);
-        } else {
-            $status->loveCounter = 0;
-        }
-        if (isset($parseObj->lovers)) {
-            $parseQueryUser = new UserParse();
-            $parseQueryUser->whereRelatedTo('lovers', 'Status', $parseObj->objectId);
-            $status->setLovers($parseQueryUser->getUsers());
-        } else {
-            $status->lovers = null;
-        }
-        if (isset($parseObj->song)) {
-            $parseQuerySong = new ImageParse();
-            $parseQuerySong->whereEqualTo("objectId", $parseObj->song);
-            $status->setSong($parseQuerySong);
-        }else {
-            $status->song = null;
-        }
-        if (isset($parseObj->text))
-            $status->setText($parseObj->text);
-        if (isset($parseObj->taggedUsers)) {
-            $parseQueryUser = new UserParse();
-            $parseQueryUser->whereRelatedTo('taggedUsers', 'Status', $parseObj->objectId);
-            $status->setTaggedUsers($parseQueryUser->getUsers());
-        } else {
-            $status->taggedUsers = null;
-        }
+        $status->setLocation($parseGeoPoint->location);
+		$status->setLoveCounter();
+        $parseQuery = new parseQuery('_User');
+		$parseQuery->whereRelatedTo('lovers', 'Comment', $parseObj->objectId);
+		$test = $parseQuery->find();
+		$loversRelatedTo = array();
+		foreach ($test->results as $user) {
+			$loversRelatedTo[] = $user->objectId;
+		}
+		$status->setLovers($loversRelatedTo);
+        if ($parseObj->song != null) $status->setSong($parseObj->song);
+        $status->setText($parseObj->text);
+        $parseQuery = new parseQuery('_User');
+		$parseQuery->whereRelatedTo('taggedUsers', 'Status', $parseObj->objectId);
+		$test = $parseQuery->find();
+		$taggedUserRelatedTo = array();
+		foreach ($test->results as $user) {
+			$taggedUserRelatedTo[] = $user->objectId;
+		}
+		$status->setTaggedUser($taggedUserRelatedTo);
+
         //creo la data di tipo DateTime per createdAt e updatedAt
         if (isset($parseObj->createdAt))
             $status->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
@@ -294,5 +196,141 @@ class StatusParse {
     }
 
 }
+	public functionsaveStatus(Status $status) {
+		try {
+			$parseObject = new parseObject('Comment');
+			if ($status->getObjectId() == '') {
+				$status->getActive() == null ? $parseObject->active = null : $parseObject->active = $status->getActive();
+				$status->getCommentators() == null ? $parseObject->commentators = null : $parseObject->commentators = $status->getCommentators();
+				$status->getComments() == null ? $parseObject->comments = null : $parseObject->comments = $status->getComments();
+				$status->getCounter() == null ? $parseObject->counter = null : $parseObject->counter = $status->getCounter();
+				$status->getEvent() == null ? $parseObject->event = null : $parseObject->event = $status->getEvent();
+				$status->getFromUser() == null ? $parseObject->fromUser = null : $parseObject->fromUser = $status->getFromUser();
+				$status->getImage() == null ? $parseObject->image = null : $parseObject->image = $status->getImage();
+				$status->getImageFile() == null ? $parseObject->imageFile = null : $parseObject->imageFile = $status->getImageFile();
+				$status->getLocation() == null ? $parseObject->location = null : $parseObject->location = $status->getLocation();
+				$status->getLoveCounter() == null ? $parseObject->loveCounter = null : $parseObject->loveCounter = $status->getLoveCounter();
+				$status->getLovers() == null ? $parseObject->lovers = null : $parseObject->lovers = $status->getLovers();
+				$status->getSong() == null ? $parseObject->song = null : $parseObject->song = $status->getSong();
+				$status->getTaggedUsers() == null ? $parseObject->taggedUsers = null : $parseObject->taggedUsers = $status->getTaggedUsers();
+				$status->getText() == null ? $parseObject->text = null : $parseObject->text = $status->getText();
+				$status->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $status->getACL()->acl;
+				$parseObj = $parseObject->save();
+				return $parseObj->objectId;
+			} else {
+				if ($status->getActive() != null) $parseObject->active = $status->getActive();
+				if ($status->getCommentators() != null) $parseObject->commentators = $status->getCommentators();
+				if ($status->getComments() != null) $parseObject->comments = $status->getComments();
+				if ($status->getCounter() != null) $parseObject->counter = $status->getCounter();
+				if ($status->getEvent() != null) $parseObject->event = $status->getEvent();
+				if ($status->getFromUser() != null) $parseObject->fromUser = $status->getFromUser();
+				if ($status->getImage() != null) $parseObject->image = $status->getImage();
+				if ($status->getImageFile() != null) $parseObject->imageFile = $status->getImageFile();
+				if ($status->getLocation() != null) $parseObject->location = $status->getLocation();
+				if ($status->getLoveCounter() != null) $parseObject->loveCounter = $status->getLoveCounter();
+				if ($status->getLovers() != null) $parseObject->lovers = $status->getLovers();
+				if ($status->getSong() != null) $parseObject->song = $status->getSong();
+				if ($status->getTaggedUsers() != null) $parseObject->taggedUsers = $status->getTaggedUsers();
+				if ($status->getText() != null) $parseObject->text = $status->getText();
+				if ($status->getACL() != null) $parseObject->ACL = $status->getACL()->acl;
+				$parseObject->update($status->getObjectId());
+			}
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+	public function setLimit($limit) {
+		$this->parseQuery->setLimit($limit);
+	}
+ 
+	public function setSkip($skip) {
+		$this->parseQuery->setSkip($skip);
+	}
+ 
+	public function updateComment($status){
+		$status->printComment();
+		$parseObject = new parseObject('Comment');	
+ 
+		$parseObject->objectId = $status->getObjectId();
+		$parseObject->active = $status->getActive();
+		$parseObject->counter = $status->getCounter();
+		$parseObject->event = $status->getEvent();
+		$parseObject->fromUser = $status->getFromUser();
+		$parseObject->image = $status->getImage();
+		$parseObject->location = $status->getLocation();
+		$parseObject->opinions = $status->getOpinions();
+		$parseObject->photoAlbum = $status->getPhotoAlbum();
+		$parseObject->record = $status->getRecord();
+		$parseObject->song = $status->getSong();
+		$parseObject->tag = $status->getTag();
+		$parseObject->text = $status->getText();
+		$parseObject->toUser = $status->getToUser();
+		$parseObject->type = $status->getType();
+		$parseObject->user = $status->getUser();
+		$parseObject->video = $status->getVideo();
+		$parseObject->vote = $status->getVote();
+		$parseObject->createdAt = $status->getCreatedAt();
+		$parseObject->updatedAt = $status->getUpdatedAt();
+ 
+		$parseObject->update($status->getObjectId());
+	}
+ 
+	public function where($field, $value) {
+		$this->parseQuery->where($field, $value);
+	}
+ 
+	public function whereContainedIn($field, $values) {
+		$this->parseQuery->whereContainedIn($field, $values);
+	}
+ 
+	public function whereEqualTo($field, $value) {
+		$this->parseQuery->whereEqualTo($field, $value);
+	}
+ 
+	public function whereExists($field) {
+		$this->parseQuery->whereExists($field);
+	}	
+ 
+	public function whereGreaterThan($field, $value) {
+		$this->parseQuery->whereGreaterThan($field, $value);
+	}
+ 
+	public function whereGreaterThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	}
+ 
+	public function whereLessThan($field, $value) {
+		$this->parseQuery->whereLessThan($field, $value);
+	}
+ 
+	public function whereLessThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	}
+ 
+	public function whereNotContainedIn($field, $array) {
+		$this->parseQuery->whereNotContainedIn($field, $array);
+	}
+ 
+	public function whereNotEqualTo($field, $value) {
+		$this->parseQuery->whereNotEqualTo($field, $value);
+	}
+ 
+	public function whereNotExists($field) {
+		$this->parseQuery->whereDoesNotExist($field);
+	}
+ 
+	public function wherePointer($field, $className, $objectId) {
+		$this->parseQuery->wherePointer($field, $className, $objectId);
+	}
 
 ?>
