@@ -46,10 +46,46 @@ echo '<br />--------------------------------------------------------------------
 
 echo 'INIZIO IL SALVATAGGIO DELLa question APPENA CREATO<br />';
 $questionParse = new QuestionParse();
-if (get_class($questionParse->saveQuestion($question))) {
-	echo 'ATTENZIONE: e\' stata generata un\'eccezione: ' . $questionParse->saveQuestion($question)->getErrorMessage() . '<br/>';
+$resSave = $questionParse->saveQuestion($question);
+if (get_class($resSave) =='Error') {
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
+} else {
+    echo 'FINITO IL SALVATAGGIO DEL question APPENA CREATO<br />';
 }
-echo 'FINITO IL SALVATAGGIO DEL question APPENA CREATO<br />';
 
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+echo '<br />INIZIO IL RECUPERO DI UNA Question<br /><br />';
+
+$questionParse = new QuestionParse();
+$questionParse->whereExists('objectId');
+$questionParse->orderByDescending('createdAt');
+$questionParse->setLimit(5);
+$resGets = $questionParse->getQuestions();
+if (get_class($resGets) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+} else {
+	foreach($resGets as $question) {
+		echo '<br />' . $question->getObjectId() . '<br />';
+	}
+}
+
+echo '<br />FINITO IL RECUPERO DI PIU\' Question<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Question <br />';
+
+$questionParse = new QuestionParse();
+$question = new Question();
+$question->setObjectId('AOPyno3s8m');
+$question->setAnswer('Ciao Pippo');
+$resUpdate = $questionParse->saveQuestion($question);
+if (get_class($resUpdate)) {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
+} else {
+	echo '<br />Question UPDATED<br />';
+}
+echo '<br />FINITO L\'AGGIORNAMENTO DI UN Question<br />';
 echo '<br />-------------------------------------------------------------------------------<br />';
 ?>

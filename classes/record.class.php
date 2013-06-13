@@ -19,7 +19,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:record">API</a>
  */
 
-define('CLASS_DIR', './');
+//define('CLASS_DIR', './');
 
 class Record {
 

@@ -226,7 +226,7 @@ class CommentParse {
 				$cmt->getRecord() == null ? $parseObject->record = null : $parseObject->record = $cmt->getRecord();
 				$cmt->getSong() == null ? $parseObject->song = null : $parseObject->song = $cmt->getSong();
 				$cmt->getStatus() == null ? $parseObject->status = null : $parseObject->status = $cmt->getStatus();
-				$cmt->getTags() == null ? $parseObject->status = null : $parseObject->tags = $cmt->getTags();
+				$cmt->getTags() == null ? $parseObject->tags = null : $parseObject->tags = $cmt->getTags();
 				$cmt->getText() == null ? $parseObject->text = null : $parseObject->text = $cmt->getText();
 				$cmt->getToUser() == null ? $parseObject->toUser = null : $parseObject->toUser = $cmt->getToUser();
 				$cmt->getType() == null ? $parseObject->type = null : $parseObject->type = $cmt->getType();

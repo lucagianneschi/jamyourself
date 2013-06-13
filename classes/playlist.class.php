@@ -131,33 +131,34 @@ class Playlist {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
-        $fromUser = $this->getFromUser();
-        if ($fromUser != null) {
-            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
-        }
+        if ($this->getFromUser() != null) {
+			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+		} else {
+			$string .= '[fromUser] => NULL<br />';
+		}
         $string.="[name] => " . $this->getName() . "<br />";
-        if ($this->getSongs() != null && count($this->getSongs() > 0)) {
-            foreach ($this->getSongs() as $song) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[song] => " . $song->getObjectId() . "<br />";
-            }
-        }
+		if (count($this->getSongs()) != 0) {
+			foreach ($this->getSongs() as $song) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[songs] => ' . $song . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[songs] => NULL<br />';
+		}
+
         $string.="[unlimited] => " . $this->getUnlimited() . "<br />";
-        if (($createdAt = $this->getCreatedAt()))
-            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
-        if (($updatedAt = $this->getUpdatedAt()))
-            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
-        if ($this->getACL() != null) {
-            foreach ($this->getACL()->acl as $key => $acl) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[key] => ' . $key . '<br />';
-                foreach ($acl as $access => $value) {
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-                }
-            }
-        }
+        if ($this->getCreatedAt() != null) {
+			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[createdAt] => NULL<br />';
+		}
+		if ($this->getUpdatedAt() != null) {
+			$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[updatedAt] => NULL<br />';
+		}
+		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
         return $string;
     }
 
