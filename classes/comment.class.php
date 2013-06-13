@@ -18,8 +18,6 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:comment">API</a>
  */
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
-
 class Comment {
 
     private $objectId;
@@ -48,6 +46,16 @@ class Comment {
     private $createdAt;
     private $updatedAt;
     private $ACL;
+	
+	// TODO - da eliminare
+	private $testDate;
+	public function getTestDate() {
+		return $this->testDate;
+    }
+	public function setTestdate($testDate) {
+        $this->testDate = $testDate;
+    }
+	// TODO
 
     public function __construct() {        
     }
@@ -382,8 +390,8 @@ class Comment {
 			$string .= '[updatedAt] => NULL<br />';
 		}
 		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
-
-        return $string;
+		
+		return $string;
     }
 
 }

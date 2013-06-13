@@ -1,7 +1,10 @@
 <?php
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../');
+	
 ini_set('display_errors', '1');
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
+require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
@@ -48,6 +51,13 @@ $cmt->setText('Il testo del commento');
 $cmt->setType('Il tipo del commento');
 //$cmt->setVideo(Video $video);
 $cmt->setVote(1000);
+
+// TODO - da eliminare
+//$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
+$dateTime = new DateTime();
+$cmt->setTestDate($dateTime);
+// TODO
+
 $dateTime = new DateTime();
 $cmt->setCreatedAt($dateTime);
 $cmt->setUpdatedAt($dateTime);
@@ -79,7 +89,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO IL RECUPERO DI UN Comment<br /><br />';
 
 $cmtParse = new CommentParse();
-$resGet = $cmtParse->getComment('hAL9WyoQh0');
+$resGet = $cmtParse->getComment('R6Ikldjy0x');
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {

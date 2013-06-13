@@ -17,10 +17,13 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:comment">API</a>
  */
  
-require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
-require_once PARSE_DIR.'parse.php';
-require_once CLASSES_DIR.'error.class.php';
-require_once CLASSES_DIR.'errorParse.class.php';
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
+require_once CLASSES_DIR . 'error.class.php';
+require_once CLASSES_DIR . 'errorParse.class.php';
 
  
 class CommentParse {
@@ -126,6 +129,12 @@ class CommentParse {
 		$cmt = new Comment();
 		
 		$cmt->setObjectId($res->objectId);
+		// TODO - da eliminare
+		if ($res->testDate != null) {
+			$dateTime = new DateTime($res->testDate->iso);
+			$cmt->setTestDate($dateTime);
+		}
+		// TODO
 		$cmt->setActive($res->active);
 		if ($res->album != null) $cmt->setAlbum($res->album);
 		if ($res->comment != null) $cmt->setComment($res->comment);
@@ -198,6 +207,9 @@ class CommentParse {
 		try {
 			$parseObject = new parseObject('Comment');
 			if ($cmt->getObjectId() == '') {
+				// TEST
+				$cmt->getTestDate() == null ? $parseObject->testDate = null : $parseObject->testDate = $parseObject->dataType('date', $cmt->getTestDate()->date);
+				// TEST
 				$cmt->getActive() == null ? $parseObject->active = null : $parseObject->active = $cmt->getActive();
 				$cmt->getAlbum() == null ? $parseObject->album = null : $parseObject->album = $cmt->getAlbum();
 				$cmt->getComment() == null ? $parseObject->comment = null : $parseObject->comment = $cmt->getComment();
@@ -270,34 +282,6 @@ class CommentParse {
  
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
-	}
- 
-	public function updateComment($cmt){
-		$cmt->printComment();
-		$parseObject = new parseObject('Comment');	
- 
-		$parseObject->objectId = $cmt->getObjectId();
-		$parseObject->active = $cmt->getActive();
-		$parseObject->counter = $cmt->getCounter();
-		$parseObject->event = $cmt->getEvent();
-		$parseObject->fromUser = $cmt->getFromUser();
-		$parseObject->image = $cmt->getImage();
-		$parseObject->location = $cmt->getLocation();
-		$parseObject->opinions = $cmt->getOpinions();
-		$parseObject->photoAlbum = $cmt->getPhotoAlbum();
-		$parseObject->record = $cmt->getRecord();
-		$parseObject->song = $cmt->getSong();
-		$parseObject->tag = $cmt->getTag();
-		$parseObject->text = $cmt->getText();
-		$parseObject->toUser = $cmt->getToUser();
-		$parseObject->type = $cmt->getType();
-		$parseObject->user = $cmt->getUser();
-		$parseObject->video = $cmt->getVideo();
-		$parseObject->vote = $cmt->getVote();
-		$parseObject->createdAt = $cmt->getCreatedAt();
-		$parseObject->updatedAt = $cmt->getUpdatedAt();
- 
-		$parseObject->update($cmt->getObjectId());
 	}
  
 	public function where($field, $value) {
