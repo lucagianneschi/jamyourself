@@ -131,24 +131,18 @@ class Question {
         $string .= '[replied] => ' . $this->getReplied() . '<br />';
         $string .= '[subject] => ' . $this->getSubject() . '<br />';
         $string .= '[text] => ' . $this->getText() . '<br />';
-        if (($createdAt = $this->getCreatedAt()))
-            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
-        if (($updatedAt = $this->getUpdatedAt()))
-            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
-        if ($this->getACL() != null) {
-            foreach ($this->getACL()->acl as $key => $acl) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[key] => ' . $key . '<br />';
-                foreach ($acl as $access => $value) {
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-                }
-            }
-        }
+        if ($this->getCreatedAt() != null) {
+			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[createdAt] => NULL<br />';
+		}
+		if ($this->getUpdatedAt() != null) {
+			$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[updatedAt] => NULL<br />';
+		}
+		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
         return $string;
     }
-
 }
-
 ?>
