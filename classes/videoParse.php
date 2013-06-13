@@ -18,6 +18,12 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:video">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php??id=documentazione:api:video">API</a>
  */
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../');
+require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
+require_once CLASSES_DIR . 'error.class.php';
+require_once CLASSES_DIR . 'errorParse.class.php';
 
 class VideoParse {
 
@@ -263,12 +269,6 @@ public function getVideo($objectId) {
 
     public function setSkip($int) {
         $this->parseQuery->setSkip($int);
-    }
-
-	
-	//va fatta???
-    public function updateVideo($video){
-
     }
 
     public function whereEqualTo($key, $value) {
