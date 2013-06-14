@@ -76,10 +76,10 @@ echo '<br />INIZIO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
 
 $cmtParse = new CommentParse();
 $resSave = $cmtParse->saveComment($cmt);
-if (get_class($resSave)) {
+if (get_class($resSave) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Comment SAVED con objectId => ' . $resSave . '<br />';
+	echo '<br />Comment SAVED<br />' . $resSave . '<br />';
 }
 
 echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';

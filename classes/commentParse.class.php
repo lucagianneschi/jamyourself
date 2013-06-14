@@ -24,7 +24,6 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
-
  
 class CommentParse {
  
@@ -184,14 +183,8 @@ class CommentParse {
 			}
 			$cmt->setCommentators($userRelatedTo);
 			
-			$cmtRelatedTo = $this->getRelatedTo('comments', 'Comment', $res->objectId);
-			$parseQuery = new parseQuery('Comment');
-			$parseQuery->whereRelatedTo('comments', 'Comment', $res->objectId);
-			$test = $parseQuery->find();
-			$cmtRelatedTo = array();
-			foreach ($test->results as $c) {
-				$cmtRelatedTo[] = $c->objectId;
-			}
+			$commentParse = new CommentParse();
+			$cmtRelatedTo = $commentParse->getRelatedTo('comments', 'Comment', $res->objectId);
 			$cmt->setComments($cmtRelatedTo);
 			
 			$cmt->setCounter($res->counter);
@@ -277,7 +270,8 @@ class CommentParse {
 				$cmt->getVote() == null ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
 				$cmt->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $cmt->getACL()->acl;
 				$res = $parseObject->save();
-				return $res->objectId;
+				$cmt->setObjectId($res->objectId);
+				return $cmt;
 			} else {
 				if ($cmt->getActive() != null) $parseObject->active = $cmt->getActive();
 				if ($cmt->getAlbum() != null) $parseObject->album = $cmt->getAlbum();

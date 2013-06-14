@@ -40,7 +40,8 @@ class User {
 	private $geoCoding;
 	private $images;
 	private $level;
-	private $levelValue; //si lascia per tutti, per ora si usa solo per lo spotter
+	// TODO - levelValue per adesso si lascia per tutti, ma si usa solo per lo spotter
+	private $levelValue;
 	private $loveSongs;
 	private $music;
 	private $playlists;
@@ -49,7 +50,6 @@ class User {
 	private $profilePicture;
     private $profilePictureFile;
 	private $profileThumbnail;
-	private $sessionToken;
 	private $settings;
 	private $statuses;
 	private $twitterPage;
@@ -60,6 +60,7 @@ class User {
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;
+	private $sessionToken;
 	
 	public function __construct() {
 	}
@@ -394,7 +395,11 @@ class User {
 		//TODO
 		//$string .= '[playlists] => ' . $this->getPlaylists() . '<br />';
 		$string .= '[premium] => ' . $this->getPremium() . '<br />';
-		$string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
+		if ($this->getPremiumExpirationDate() != null) {
+			$string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[premiumExpirationDate] => NULL<br />';
+		}
 		$string .= '[profilePicture] => ' . $this->getProfilePicture() . '<br />';
                 //$string .= '[profilePictureFile] => ' . $this->getProfilePictureFile() . '<br />';
 		$string .= '[profileThumbnail] => ' . $this->getProfileThumbnail() . '<br />';
@@ -411,8 +416,16 @@ class User {
 		//$string .= '[videos] => ' . $this->getVideos() . '<br />';
 		$string .= '[website] => ' . $this->getWebsite() . '<br />';
 		$string .= '[youtubeChannel] => ' . $this->getYoutubeChannel() . '<br />';
-		$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-		$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+		if ($this->getCreatedAt() != null) {
+			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[createdAt] => NULL<br />';
+		}
+		if ($this->getUpdatedAt() != null) {
+			$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[updatedAt] => NULL<br />';
+		}
 		foreach ($this->getACL()->acl as $key => $acl) {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[key] => ' . $key . '<br />';
@@ -475,11 +488,19 @@ class Venue extends User {
 	public function __toString() {
 		$string = parent::__toString();
 		
+		if (count($this->getCollaboration()) != 0) {
+			foreach ($this->getCollaboration() as $collaboration) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[collaboration] => ' . $collaboration . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[collaboration] => NULL<br />';
+		}
 		//TODO
-		//$string.="[collaboration] => " . $this->getCollaboration() . "<br />";
 		//$string.="[events] => " . $this->getEvents() . "<br />";
-		$string.="[address] => " . $this->getAddress();
-		$string.="[localType] => " . $this->getLocalType();
+		$string.="[address] => " . $this->getAddress() . '<br />';
+		$string.="[localType] => " . $this->getLocalType() . '<br />';
 	
 		return $string;
 	}
@@ -549,13 +570,27 @@ class Jammer extends User {
 	
 	public function __toString() {
 		$string = parent::__toString();
+		
+		if (count($this->getCollaboration()) != 0) {
+			foreach ($this->getCollaboration() as $collaboration) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[collaboration] => ' . $collaboration . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[collaboration] => NULL<br />';
+		}
 		//TODO
-		//$string.="[collaboration] => " . $this->getCollaboration() . "<br />";
 		//$string.="[events] => " . $this->getEvents() . "<br />";
 		$string.="[jammerType] => " . $this->getJammerType() . "<br />";
-		foreach ($this->getMembers() as $member) {
-			$string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
-			$string.="[members] => " . $member . "<br />";
+		if (count($this->getMembers()) != 0) {
+			foreach ($this->getMembers() as $member) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[members] => ' . $member . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[members] => NULL<br />';
 		}
 		//TODO
 		//$string.="[records] => " . $this->getRecords() . "<br />";
@@ -639,15 +674,19 @@ class Spotter extends User {
 	public function __toString() {
 		$string = parent::__toString();
 	
-		$string .= "[birthDay] => " . $this->this->getBirthDay()->format("d-m-Y") . "<br />";
-		$string .= "[facebookId]" . $this->getFacebookId() . "<br />";
-		$string .= "[firstname]" . $this->getFirstname() . "<br />";
+		if ($this->getBirthDay() != null) {
+			$string .= "[birthDay] => " . $this->getBirthDay()->format("d-m-Y") . "<br />";
+		} else {
+			$string .= "[birthDay] => NULL<br />";
+		}
+		$string .= "[facebookId] => " . $this->getFacebookId() . "<br />";
+		$string .= "[firstname] => " . $this->getFirstname() . "<br />";
 		//TODO
-		//$string .= "[following]".$this->getFollowing()."<br />";
+		//$string .= "[following] => ".$this->getFollowing()."<br />";
 		//TODO
-		//$string .= "[friendship]".$this->getFriendship()."<br />";
-		$string .= "[lastname]" . $this->getLastname() . "<br />";
-		$string .= "[sex]" . $this->getSex() . "<br />";
+		//$string .= "[friendship] => ".$this->getFriendship()."<br />";
+		$string .= "[lastname] => " . $this->getLastname() . "<br />";
+		$string .= "[sex] => " . $this->getSex() . "<br />";
 		
 		return $string;
 	}
