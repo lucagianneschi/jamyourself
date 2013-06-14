@@ -133,57 +133,55 @@ class StatusParse {
         $status = new Status();
 
 //recupero objectId
-        if (isset($parseObj->objectId))
-            $status->setObjectId($parseObj->objectId);
-//recupero Active
-        if (isset($parseObj->active))
-            $status->setActive($parseObj->active);
-//array di puntatori ad User
-        $parseQuery = new parseQuery('_User');
-        $parseQuery->whereRelatedTo('commentators', 'Status', $parseObj->objectId);
-        $test = $parseQuery->find();
+
+        $status->setObjectId($parseObj->objectId);
+        $status->setActive($parseObj->active);
+        $parseQueryCommentators = new parseQuery('_User');
+        $parseQueryCommentators->whereRelatedTo('commentators', 'Status', $parseObj->objectId);
+        $testCommentators = $parseQueryCommentators->find();
         $userRelatedTo = array();
-        foreach ($test->results as $user) {
+        foreach ($testCommentators->results as $user) {
             $userRelatedTo[] = $user->objectId;
         }
         $status->setCommentators($userRelatedTo);
         $commentsRelatedTo = $this->getRelatedTo('comments', 'Status', $parseObj->objectId);
-        $parseQuery = new parseQuery('Comment');
-        $parseQuery->whereRelatedTo('comments', 'Status', $parseObj->objectId);
-        $test = $parseQuery->find();
+        $parseQueryComment = new parseQuery('Comment');
+        $parseQueryComment->whereRelatedTo('comments', 'Status', $parseObj->objectId);
+        $testComments = $parseQueryComment->find();
         $commentsRelatedTo = array();
-        foreach ($test->results as $c) {
+        foreach ($testComments->results as $c) {
             $commentsRelatedTo[] = $c->objectId;
         }
         $status->setComments($commentsRelatedTo);
         $status->setCounter($parseObj->counter);
-        if ($parseObj->event != null) $status->setEvent($parseObj->event);
-        if ($parseObj->fromUser != null) $status->setFromUser($parseObj->fromUser);
-		if ($parseObj->image != null) $status->setImage($parseObj->image);
+        if ($parseObj->event != null)
+            $status->setEvent($parseObj->event);
+        if ($parseObj->fromUser != null)
+            $status->setFromUser($parseObj->fromUser);
+        if ($parseObj->image != null)
+            $status->setImage($parseObj->image);
         $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
-//recupero il loveCounter
         $status->setLocation($parseGeoPoint->location);
-        $status->setLoveCounter();
-        $parseQuery = new parseQuery('_User');
-        $parseQuery->whereRelatedTo('lovers', 'Comment', $parseObj->objectId);
-        $test = $parseQuery->find();
+        $status->setLoveCounter($parseObj->loveCounter);
+        $parseQueryLovers = new parseQuery('_User');
+        $parseQueryLovers->whereRelatedTo('lovers', 'Comment', $parseObj->objectId);
+        $testLovers = $parseQueryLovers->find();
         $loversRelatedTo = array();
-        foreach ($test->results as $user) {
+        foreach ($testLovers->results as $user) {
             $loversRelatedTo[] = $user->objectId;
         }
         $status->setLovers($loversRelatedTo);
-        if ($parseObj->song != null) $status->setSong($parseObj->song);
+        if ($parseObj->song != null)
+            $status->setSong($parseObj->song);
         $status->setText($parseObj->text);
-        $parseQuery = new parseQuery('_User');
-        $parseQuery->whereRelatedTo('taggedUsers', 'Status', $parseObj->objectId);
-        $test = $parseQuery->find();
+        $parseQuerytaggedUser = new parseQuery('_User');
+        $parseQuerytaggedUser->whereRelatedTo('taggedUsers', 'Status', $parseObj->objectId);
+        $testTaggedUser = $parseQuerytaggedUser->find();
         $taggedUserRelatedTo = array();
-        foreach ($test->results as $user) {
+        foreach ($testTaggedUser->results as $user) {
             $taggedUserRelatedTo[] = $user->objectId;
         }
         $status->setTaggedUser($taggedUserRelatedTo);
-
-//creo la data di tipo DateTime per createdAt e updatedAt
         if (isset($parseObj->createdAt))
             $status->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
         if (isset($parseObj->updatedAt))
@@ -217,21 +215,36 @@ class StatusParse {
                 $parseObj = $parseObject->save();
                 return $parseObj->objectId;
             } else {
-				if ($status->getActive() != null) $parseObject->active = $status->getActive();
-				if ($status->getCommentators() != null) $parseObject->commentators = $status->getCommentators();
-				if ($status->getComments() != null) $parseObject->comments = $status->getComments();
-				if ($status->getCounter() != null) $parseObject->counter = $status->getCounter();
-				if ($status->getEvent() != null) $parseObject->event = $status->getEvent();
-				if ($status->getFromUser() != null) $parseObject->fromUser = $status->getFromUser();
-				if ($status->getImage() != null) $parseObject->image = $status->getImage();
-				if ($status->getImageFile() != null) $parseObject->imageFile = $status->getImageFile();
-				if ($status->getLocation() != null) $parseObject->location = $status->getLocation();
-				if ($status->getLoveCounter() != null) $parseObject->loveCounter = $status->getLoveCounter();
-				if ($status->getLovers() != null) $parseObject->lovers = $status->getLovers();
-				if ($status->getSong() != null) $parseObject->song = $status->getSong();
-				if ($status->getTaggedUsers() != null) $parseObject->taggedUsers = $status->getTaggedUsers();
-				if ($status->getText() != null) $parseObject->text = $status->getText();
-				if ($status->getACL() != null) $parseObject->ACL = $status->getACL()->acl;
+                if ($status->getActive() != null)
+                    $parseObject->active = $status->getActive();
+                if ($status->getCommentators() != null)
+                    $parseObject->commentators = $status->getCommentators();
+                if ($status->getComments() != null)
+                    $parseObject->comments = $status->getComments();
+                if ($status->getCounter() != null)
+                    $parseObject->counter = $status->getCounter();
+                if ($status->getEvent() != null)
+                    $parseObject->event = $status->getEvent();
+                if ($status->getFromUser() != null)
+                    $parseObject->fromUser = $status->getFromUser();
+                if ($status->getImage() != null)
+                    $parseObject->image = $status->getImage();
+                if ($status->getImageFile() != null)
+                    $parseObject->imageFile = $status->getImageFile();
+                if ($status->getLocation() != null)
+                    $parseObject->location = $status->getLocation();
+                if ($status->getLoveCounter() != null)
+                    $parseObject->loveCounter = $status->getLoveCounter();
+                if ($status->getLovers() != null)
+                    $parseObject->lovers = $status->getLovers();
+                if ($status->getSong() != null)
+                    $parseObject->song = $status->getSong();
+                if ($status->getTaggedUsers() != null)
+                    $parseObject->taggedUsers = $status->getTaggedUsers();
+                if ($status->getText() != null)
+                    $parseObject->text = $status->getText();
+                if ($status->getACL() != null)
+                    $parseObject->ACL = $status->getACL()->acl;
                 $parseObject->update($status->getObjectId());
             }
         } catch (Exception $e) {
@@ -332,6 +345,7 @@ class StatusParse {
     public function wherePointer($field, $className, $objectId) {
         $this->parseQuery->wherePointer($field, $className, $objectId);
     }
+
 }
 
 ?>
