@@ -18,13 +18,13 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:faq">API</a>
  */
 
-define('ROOT', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/');
-define('PARSE_DIR', '../parse/');
-define('CLASS_DIR', './');
-include_once ROOT.PARSE_DIR.'parse.php';
-include_once ROOT.CLASS_DIR.'faq.class.php';
-include_once ROOT.CLASS_DIR.'error.class.php';
-include_once ROOT.CLASS_DIR.'errorParse.class.php';
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
+require_once CLASSES_DIR . 'error.class.php';
+require_once CLASSES_DIR . 'errorParse.class.php';
  
 class FaqParse {
  
@@ -33,114 +33,71 @@ class FaqParse {
 	public function __construct() {
 		$this->parseQuery = new parseQuery('FAQ');
 	}
- 
- public function getFaq() {
-        $faq = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $ret = $result->results[0];
-            if ($ret) {
-                //recupero l'utente
-                $faq = $this->parseToFaq($ret);
-            }
-        }
-        return $faq;
-    }
 	
-	public function getQuestions() {
-        $faqs = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $faqs = array();
-            foreach (($result->results) as $faq) {
-                $faq [] = $this->parseToFaq($faq);
-            }
-        }
-        return $faqs;
-    }
-
-	public function saveFaq($faq) {
-		//creo la "connessione" con Parse
-		$parseObject = new parseObject('FAQ');
- 		$parseObject->answer = 		$faq->getAnswer();
-		$parseObject->area = 		$faq->getArea();
-		$parseObject->position = 	$faq->getPosition();
-		$parseObject->question = 	$faq->getQuestion();
-		$parseObject->tag = 		$faq->getTag();
-		
-		if($faq->getObjectId()==null ){
-			try{
-				//caso save
-				$ret = $parseObject->save();
-				$faq->setObjectId($ret->objectId);
-				$faq->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
-				$faq->setCreatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
-			}
-			catch(Exception $e){
-				$error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);		
-			}
-		}
-		else{
-			//caso update
-			try{
-				$ret = $parseObj->update($faq->getObjectId());	
-				$faq->setUpdatedAt(new DateTime($ret->updatedAt, new DateTimeZone("America/Los_Angeles")));	
-			}
-			catch(Exception $e){
-				$error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-             		
-			}
-		}
-		return $faq;
-	}
-	
-	function parseToFaq(stdClass $parseObj){
-
-		$faq = new Faq();
-
-		if(isset($parseObj->objectId))$faq->setObjectId($parseObj->objectId) ;
-		if(isset($parseObj->answer))$faq->setAnswer($parseObj->answer);
-		if(isset($parseObj->area)) $faq->setArea($parseObj->area);
-        if(isset($parseObj->position))$faq->setPosition($parseObj->position);
-		if(isset($parseObj->question))$faq->setQuestion($parseObj->question);
-		if (isset($parseObj->tags))$faq->setTags($parseObj->tags);
-		if (isset($parseObj->createdAt))
-            $faq->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
-        if (isset($parseObj->updatedAt))
-            $faq->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
-		$acl = new parseACL();
-        $acl->setPublicReadAccess(true);
-        $acl->setPublicWriteAccess(true);
-        $faq->setACL($acl);
-	return $faq;
-	}
-
- public function getCount() {
+	public function getCount() {
      return $this->parseQuery->getCount()->count;
  
- }
- 	public function setLimit($limit) {
-		$this->parseQuery->setLimit($limit);
 	}
  
-	public function setSkip($skip) {
-		$this->parseQuery->setSkip($skip);
+	public function getFaq($objectId) {
+		try {
+			$parseObject = new parseObject('Faq');
+			$res = $parseObject->get($objectId);
+			$faq = $this->parseToFaq($res);
+			return $faq;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
 	}
  
+ 	public function getFaqs() {
+		try {
+			$faqs = array();
+			$res = $this->parseQuery->find();
+			foreach ($res->results as $obj) {
+				$faq = $this->parseToComment($obj);
+				$faqs[$faq->getObjectId()] = $faq;
+			}
+			return $faqs;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+	
+	private function isNullPointer($pointer) {
+		$className = $pointer['className'];
+		$objectId = $pointer['objectId'];
+		$isNull = true;
+ 
+		if ($className == '' || $objectId == '') {
+			$isNull = true;
+		} else {
+			$isNull = false;
+		}
+ 
+		return $isNull;
+	}
+	
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
 	}
@@ -173,6 +130,71 @@ class FaqParse {
 		$this->parseQuery->whereInclude($value);
 	}
 	*/
+	
+ 	function parseToFaq(stdClass $parseObj){
+
+		$faq = new Faq();
+
+		if(isset($parseObj->objectId))$faq->setObjectId($parseObj->objectId);
+		if(isset($parseObj->answer))$faq->setAnswer($parseObj->answer);
+		if(isset($parseObj->area)) $faq->setArea($parseObj->area);
+        if(isset($parseObj->position))$faq->setPosition($parseObj->position);
+		if(isset($parseObj->question))$faq->setQuestion($parseObj->question);
+		if (isset($parseObj->tags))$faq->setTags($parseObj->tags);
+		if (isset($parseObj->createdAt))
+            $faq->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+        if (isset($parseObj->updatedAt))
+            $faq->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+		$acl = new parseACL();
+        $acl->setPublicReadAccess(true);
+        $acl->setPublicWriteAccess(true);
+        $faq->setACL($acl);
+		return $faq;
+	}
+	
+	public function saveFaq($faq) {
+		try {
+			$parseObject = new parseObject('FAQ');
+			if ($faq->getObjectId() == '') {
+				$faq->getAnswer() == null ? $parseObject->answer = null : $parseObject->answer= $faq->getAnswer();
+				$faq->getArea() == null ? $parseObject->area = null : $parseObject->area = $faq->getArea();
+				$faq->getPosition() == null ? $parseObject->position = null : $parseObject->position = $faq->getPosition();
+				$faq->getQuestion() == null ? $parseObject->question = null : $parseObject->question = $faq->getQuestion();
+				$faq->getTags() == null ? $parseObject->tags = null : $parseObject->tags = $faq->getTags();
+				$faq->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $faq->getACL()->acl;
+				$res = $parseObject->save();
+				return $res->objectId;
+			} else {
+				if ($faq->getAnswer() != null) $parseObject->answer = $faq->getAnswer();
+				if ($faq->getArea() != null) $parseObject->answer = $faq->getArea();
+				if ($faq->getPosition() != null) $parseObject->answer = $faq->getPosition();
+				if ($faq->getQuestion() != null) $parseObject->question = $faq->getQuestion();
+				if ($faq->getTags() != null) $parseObject->tags = $faq->getTags();
+				if ($faq->getACL() != null) $parseObject->ACL = $faq->getACL()->acl;
+				$parseObject->update($faq->getObjectId());
+			}
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+	
+ 	public function setLimit($limit) {
+		$this->parseQuery->setLimit($limit);
+	}
+ 
+	public function setSkip($skip) {
+		$this->parseQuery->setSkip($skip);
+	}
  
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);

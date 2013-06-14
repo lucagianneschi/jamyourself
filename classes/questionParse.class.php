@@ -19,10 +19,13 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:question">API</a>
  */
 
-define('PARSE_DIR', '../parse/');
-define('CLASS_DIR', './');
-include_once PARSE_DIR . 'parse.php';
-include_once CLASS_DIR . 'Question.class.php';
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
+require_once CLASSES_DIR . 'error.class.php';
+require_once CLASSES_DIR . 'errorParse.class.php';
 
 class QuestionParse {
 
@@ -31,79 +34,70 @@ class QuestionParse {
     public function __construct() {
         $this->parseQuery = new parseQuery('Question');
     }
-
-    public function getQuestion() {
-        $quest = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $ret = $result->results[0];
-            if ($ret) {
-                $quest = $this->parseToQuestion($ret);
-            }
-        }
-        return $quest;
+	
+	public function getCount() {
+        return $this->parseQuery->getCount()->count;
     }
 
-    public function getQuestions() {
-        $quests = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $quests = array();
-            foreach (($result->results) as $quest) {
-                $quests [] = $this->parseToQuestion($quest);
-            }
-        }
-        return $quests;
+	public function getQuestion($objectId) {
+		try {
+			$parseObject = new parseObject('Question');
+			$res = $parseObject->get($objectId);
+			$question = $this->parseToQuestion($res);
+			return $question;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+	
+	public function getQuestions() {
+		try {
+			$questions = array();
+			$res = $this->parseQuery->find();
+			foreach ($res->results as $obj) {
+				$question = $this->parseToQuestion($obj);
+				$questions[$question->getObjectId()] = $question;
+			}
+			return $questions;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+
+
+	public function orderBy($key) {
+        $this->parseQuery->orderBy($key);
     }
 
-    public function saveQuestion($quest) {
-        //creo la "connessione" con Parse
-        $parseObject = new parseObject('Question');
-        $parseObject->answer = $quest->getAnswer();
-        $parseObject->mailFrom = $quest->getMailFrom();
-        $parseObject->mailTo = $quest->getMailTo();
-        $parseObject->name = $quest->getName();
-        $parseObject->replied = $quest->getReplied();
-        $parseObject->subject = $quest->getSubject();
-        $parseObject->text = $quest->getText();
-        if ($quest->getObjectId() == null) {
-            try {
-                //caso save
-                $ret = $parseObject->save();
-                $quest->setObjectId($ret->objectId);
-                $quest->setUpdatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
-                $quest->setCreatedAt(new DateTime($ret->createdAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (Exception $e) {
-                $error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-            }
-        } else {
-            //caso update
-            try {
-                $ret = $parseObject->update($quest->getObjectId());
-                $quest->setUpdatedAt(new DateTime($ret->updatedAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (Exception $e) {
-                $error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-                return $error;
-            }
-        }
-        return $quest;
+    public function orderByAscending($key) {
+        $this->parseQuery->orderByAscending($key);
     }
 
-    function parseToQuestion(stdClass $parseObj) {
+    public function orderByDescending($key) {
+        $this->parseQuery->orderByDescending($key);
+    }
+	
+	function parseToQuestion(stdClass $parseObj) {
 
         $question = new Question();
         if (isset($parseObj->objectId))
@@ -132,39 +126,53 @@ class QuestionParse {
         $question->setACL($acl);
         return $question;
     }
-
-    public function getCount() {
-        return $this->parseQuery->getCount()->count;
-    }
-
+	
+	public function saveQuestion($question) {
+		try {
+			$parseObject = new parseObject('Question');
+			if ($question->getObjectId() == '') {
+				$parseObject->answer = $question->getAnswer();
+				$parseObject->mailFrom = $question->getMailFrom();
+				$parseObject->mailTo = $question->getMailTo();
+				$parseObject->name = $question->getName();
+				$parseObject->replied = $question->getReplied();
+				$parseObject->subject = $question->getSubject();
+				$parseObject->text = $question->getText();
+				$questionion->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $questionion->getACL()->acl;
+				$res = $parseObject->save();
+				return $res->objectId;
+			} else {
+				if ($question->getAnswer() != null) $parseObject->answer = $question->getAnswer();
+				if ($question->getMailFrom() != null) $parseObject->mailFrom = $question->getMailFrom();
+				if ($question->getMailTo() != null) $parseObject->mailTo = $question->getMailTo();
+				if ($question->getName() != null) $parseObject->name = $question->getName();
+				if ($question->getReplied() != null) $parseObject->replied = $question->getReplied();
+				if ($question->getSubject() != null) $parseObject->subject = $question->getSubject();
+				if ($question->getSubject() != null) $parseObject->text = $question->getText();
+				if ($question->getText() != null) $parseObject->ACL = $question->getACL()->acl;
+				$parseObject->update($question->getObjectId());
+			}
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+	
     public function setLimit($int) {
         $this->parseQuery->setLimit($int);
     }
 
     public function setSkip($int) {
         $this->parseQuery->setSkip($int);
-    }
-
-    public function orderBy($key) {
-        $this->parseQuery->orderBy($key);
-    }
-
-    public function orderByAscending($key) {
-        /*
-         * NOTE:
-         * in caso di ordinamento di campi testuali, il metodo risente del Case-Sensitive
-         *
-         */
-        $this->parseQuery->orderByAscending($key);
-    }
-
-    public function orderByDescending($key) {
-        /*
-         * NOTE:
-         * in caso di ordinamento di campi testuali, il metodo risente del Case-Sensitive
-         *
-         */
-        $this->parseQuery->orderByDescending($key);
     }
 
     /*

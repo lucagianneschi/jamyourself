@@ -17,9 +17,11 @@
  * 
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:error:faq">API</a>
  */
-define('PARSE_DIR', '../parse/');
-define('CLASS_DIR', './');
-include_once PARSE_DIR.'parse.php';
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
 
 class ErrorParse {
 	
@@ -28,42 +30,81 @@ class ErrorParse {
 	public function __construct() {
 		$this->parseQuery = new parseQuery('Error');
 	}
-	public function getError() {
-        $error = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $ret = $result->results[0];
-            if ($ret) {
-                //recupero l'utente
-                $error = $this->parseToError($ret);
-            }
-        }
-        return $error;
+	
+	public function getCount() {
+        $this->parseQuery->getCount();
+    }
+	
+	public function getError($objectId) {
+		try {
+			$parseObject = new parseObject('Error');
+			$res = $parseObject->get($objectId);
+			$error = $this->parseToError($res);
+			return $error;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+
+	public function getErrors() {
+		try {
+			$errors = array();
+			$res = $this->parseQuery->find();
+			foreach ($res->results as $obj) {
+				$cmt = $this->parseToError($obj);
+				$errors[$error->getObjectId()] = $error;
+			}
+			return $errors;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
+	}
+	
+	private function isNullPointer($pointer) {
+		$className = $pointer['className'];
+		$objectId = $pointer['objectId'];
+		$isNull = true;
+ 
+		if ($className == '' || $objectId == '') {
+			$isNull = true;
+		} else {
+			$isNull = false;
+		}
+ 
+		return $isNull;
+	}
+	
+	public function orderBy($field) {
+        $this->parseQuery->orderBy($field);
     }
 
-    public function getErrors() {
-        $errors = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $errors = array();
-            foreach (($result->results) as $error) {
-                $users [] = $this->parseToError($error);
-            }
-        }
-        return $errors;
+    public function orderByAscending($value) {
+        $this->parseQuery->orderByAscending($value);
     }
-	
-	
-	public function saveError($error) {
-		//creo la "connessione" con Parse
-		$parseObject = new parseObject('Error');
-		$parseObject->errorClass =				$error->getErrorClass();
-		$parseObject->errorCode =               $error->getErrorCode();
-		$parseObject->errorMessage =            $error->getErrorMessage();
-		$parseObject->errorFunction =           $error->getErrorFunction();
-		$parseObject->errorFunctionParameter =  $error->getErrorFunctionParameter();
-		$parseObject->save();
-	}
+
+    public function orderByDescending($value) {
+        $this->parseQuery->orderByDescending($value);
+    }
 	
 	public function parseToError(stdClass $parseObj) {
 
@@ -93,29 +134,23 @@ class ErrorParse {
         $error->setACL($acl);
 		}
 	
+	public function saveError($error) {
+		//creo la "connessione" con Parse
+		$parseObject = new parseObject('Error');
+		$parseObject->errorClass =				$error->getErrorClass();
+		$parseObject->errorCode =               $error->getErrorCode();
+		$parseObject->errorMessage =            $error->getErrorMessage();
+		$parseObject->errorFunction =           $error->getErrorFunction();
+		$parseObject->errorFunctionParameter =  $error->getErrorFunctionParameter();
+		$parseObject->save();
+	}
 	
-	public function getCount() {
-        $this->parseQuery->getCount();
-    }
-
     public function setLimit($int) {
         $this->parseQuery->setLimit($int);
     }
 
     public function setSkip($int) {
         $this->parseQuery->setSkip($int);
-    }
-
-    public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
-    }
-
-    public function orderByAscending($value) {
-        $this->parseQuery->orderByAscending($value);
-    }
-
-    public function orderByDescending($value) {
-        $this->parseQuery->orderByDescending($value);
     }
 
     public function whereInclude($value) {

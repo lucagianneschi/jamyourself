@@ -15,12 +15,15 @@
 * \todo modificare require_once
 *
 */
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../');
+	
 ini_set('display_errors', '1');
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
+require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'error.class.php';
-require_once CLASSES_DIR . 'errorParse.class.php';
+require_once CLASSES_DIR . 'comment.class.php';
+require_once CLASSES_DIR . 'commentParse.class.php';
 
 $error = new Error();
 $error->setObjectId('aAbBcCdD');
@@ -49,4 +52,55 @@ if (get_class($errorParse->saveError($error))) {
 echo 'FINITO IL SALVATAGGIO DEL error APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO IL RECUPERO DI UN ERROR<br /><br />';
+
+$errorParse = new ErrorParse();
+$resGet = $errorParse->getError('OebQbNJgA3');
+if (get_class($resGet) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+} else {
+	echo $resGet;
+}
+
+echo '<br />FINITO IL RECUPERO DI UN ERROR <br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO IL RECUPERO DI PIU\'  ERROR <br />';
+
+$errorParse = new ErrorParse();
+$errorParse->whereExists('objectId');
+$errorParse->orderByDescending('createdAt');
+$errorParse->setLimit(5);
+$resGets = $errorParse->getErrors();
+if (get_class($resGets) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+} else {
+	foreach($resGets as $cmt) {
+		echo '<br />' . $cmt->getObjectId() . '<br />';
+	}
+}
+
+echo '<br />FINITO IL RECUPERO DI PIU\' ERROR <br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO L\'AGGIORNAMENTO DI UN ERROR <br />';
+
+$errorParse = new ErrorParse();;
+$error = new Comment();
+$error->setObjectId('5WXsSzgdEl');
+$error->setErrorCOde(99999);
+$resUpdate = $errorParse->saveError($error);
+if (get_class($resUpdate)) {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
+} else {
+	echo '<br />Comment UPDATED<br />';
+}
+
+echo '<br />FINITO L\'AGGIORNAMENTO DI UN  ERROR <br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
 ?>

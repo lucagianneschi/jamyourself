@@ -15,9 +15,12 @@
 * \todo modificare require_once
 *
 */
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../');
+	
 ini_set('display_errors', '1');
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
+require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'question.class.php';
 require_once CLASSES_DIR . 'questionParse.class.php';
@@ -78,8 +81,9 @@ echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Question <br />';
 
 $questionParse = new QuestionParse();
 $question = new Question();
-$question->setObjectId('AOPyno3s8m');
+$question->setObjectId('IA63GZDVAK');
 $question->setAnswer('Ciao Pippo');
+$question->setQuestion('Sono una question modificata');
 $resUpdate = $questionParse->saveQuestion($question);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
