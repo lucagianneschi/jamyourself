@@ -76,13 +76,27 @@ class CommentParse {
 	}
 	
 	public function getComments() {
-		$cmts = array();
-		$res = $this->parseQuery->find();
-		foreach ($res->results as $obj) {
-			$cmt = $this->parseToComment($obj);
-			$cmts[$cmt->getObjectId()] = $cmt;
+		try {
+			$cmts = array();
+			$res = $this->parseQuery->find();
+			foreach ($res->results as $obj) {
+				$cmt = $this->parseToComment($obj);
+				$cmts[$cmt->getObjectId()] = $cmt;
+			}
+			return $cmts;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
 		}
-		return $cmts;
 	}
  
 	public function getCount() {
@@ -90,15 +104,30 @@ class CommentParse {
 	}
  
 	public function getRelatedTo($field, $className, $objectId) {
-		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
-		$rel = $this->parseQuery->find();
-		$relComment = array();
-		foreach ($rel->results as $cmt) {
-			$relComment[] = $cmt->objectId;
+		try {
+			$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+			$rel = $this->parseQuery->find();
+			$relComment = array();
+			foreach ($rel->results as $cmt) {
+				$relComment[] = $cmt->objectId;
+			}
+			return $relComment;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
+ 
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
 		}
-		return $relComment;
 	}
  
+	// TODO - da capire se ancora utile o da eliminare
 	private function isNullPointer($pointer) {
 		$className = $pointer['className'];
 		$objectId = $pointer['objectId'];
@@ -126,81 +155,95 @@ class CommentParse {
 	}
  
 	public function parseToComment($res) {
-		$cmt = new Comment();
-		
-		$cmt->setObjectId($res->objectId);
-		// TODO - da eliminare
-		if ($res->testDate != null) {
-			$dateTime = new DateTime($res->testDate->iso);
-			$cmt->setTestDate($dateTime);
-		}
-		// TODO
-		$cmt->setActive($res->active);
-		if ($res->album != null) $cmt->setAlbum($res->album);
-		if ($res->comment != null) $cmt->setComment($res->comment);
-		
-		# TODO
-		//TEST ---> nella classe userParse.class.php si deve prevedere un metodo getRelatedTo($field, $className, $objectId)
-		//          che ha il compito di restituire un array di User (solo glo objectId) relazionati all'objectId della classe
-		//          $className del campo $field:
-		//			$userParse = new UserParse();
-		//			$userRelatedTo = $userParse->getRelatedTo('commentators', 'Comment', $res->objectId);
-		$parseQuery = new parseQuery('_User');
-		$parseQuery->whereRelatedTo('commentators', 'Comment', $res->objectId);
-		$test = $parseQuery->find();
-		$userRelatedTo = array();
-		foreach ($test->results as $user) {
-			$userRelatedTo[] = $user->objectId;
-		}
-		$cmt->setCommentators($userRelatedTo);
-		
-		$cmtRelatedTo = $this->getRelatedTo('comments', 'Comment', $res->objectId);
-		$parseQuery = new parseQuery('Comment');
-		$parseQuery->whereRelatedTo('comments', 'Comment', $res->objectId);
-		$test = $parseQuery->find();
-		$cmtRelatedTo = array();
-		foreach ($test->results as $c) {
-			$cmtRelatedTo[] = $c->objectId;
-		}
-		$cmt->setComments($cmtRelatedTo);
-		
-		$cmt->setCounter($res->counter);
-		if ($res->event != null) $cmt->setEvent($res->event);
-		if ($res->fromUser != null) $cmt->setFromUser($res->fromUser);
-		if ($res->image != null) $cmt->setImage($res->image);
-		$parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
-		$cmt->setLocation($parseGeoPoint->location);
-		$cmt->setLoveCounter();
-		
-		# TODO
-		//TEST ---> $userParse = new UserParse();
-		//			$loversRelatedTo = $userParse->getRelatedTo('lovers', 'Comment', $res->objectId):
-		$parseQuery = new parseQuery('_User');
-		$parseQuery->whereRelatedTo('lovers', 'Comment', $res->objectId);
-		$test = $parseQuery->find();
-		$loversRelatedTo = array();
-		foreach ($test->results as $user) {
-			$loversRelatedTo[] = $user->objectId;
-		}
-		$cmt->setLovers($loversRelatedTo);
-		
-		$cmt->setOpinions($res->opinions);
-		if ($res->record != null) $cmt->setRecord($res->record);
-		if ($res->song != null) $cmt->setSong($res->song);
-		if ($res->status != null) $cmt->setStatus($res->status);
-		$cmt->setTags($res->tags);
-		$cmt->setText($res->text);
-		if ($res->toUser != null) $cmt->setToUser($res->toUser);
-		$cmt->setType($res->type);
-		if ($res->video != null) $cmt->setVideo($res->video);
-		$cmt->setVote($res->vote);
-		$dateTime = new DateTime($res->createdAt);
-		$cmt->setCreatedAt($dateTime);
-		$dateTime = new DateTime($res->updatedAt);
-		$cmt->setUpdatedAt($dateTime);
-		$cmt->setACL($res->ACL);
+		try {
+			$cmt = new Comment();
+			
+			$cmt->setObjectId($res->objectId);
+			// TODO - da eliminare
+			if ($res->testDate != null) {
+				$dateTime = new DateTime($res->testDate->iso);
+				$cmt->setTestDate($dateTime);
+			}
+			// TODO
+			$cmt->setActive($res->active);
+			if ($res->album != null) $cmt->setAlbum($res->album);
+			if ($res->comment != null) $cmt->setComment($res->comment);
+			
+			# TODO
+			//TEST ---> nella classe userParse.class.php si deve prevedere un metodo getRelatedTo($field, $className, $objectId)
+			//          che ha il compito di restituire un array di User (solo glo objectId) relazionati all'objectId della classe
+			//          $className del campo $field:
+			//			$userParse = new UserParse();
+			//			$userRelatedTo = $userParse->getRelatedTo('commentators', 'Comment', $res->objectId);
+			$parseQuery = new parseQuery('_User');
+			$parseQuery->whereRelatedTo('commentators', 'Comment', $res->objectId);
+			$test = $parseQuery->find();
+			$userRelatedTo = array();
+			foreach ($test->results as $user) {
+				$userRelatedTo[] = $user->objectId;
+			}
+			$cmt->setCommentators($userRelatedTo);
+			
+			$cmtRelatedTo = $this->getRelatedTo('comments', 'Comment', $res->objectId);
+			$parseQuery = new parseQuery('Comment');
+			$parseQuery->whereRelatedTo('comments', 'Comment', $res->objectId);
+			$test = $parseQuery->find();
+			$cmtRelatedTo = array();
+			foreach ($test->results as $c) {
+				$cmtRelatedTo[] = $c->objectId;
+			}
+			$cmt->setComments($cmtRelatedTo);
+			
+			$cmt->setCounter($res->counter);
+			if ($res->event != null) $cmt->setEvent($res->event);
+			if ($res->fromUser != null) $cmt->setFromUser($res->fromUser);
+			if ($res->image != null) $cmt->setImage($res->image);
+			$parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
+			$cmt->setLocation($parseGeoPoint->location);
+			$cmt->setLoveCounter();
+			
+			# TODO
+			//TEST ---> $userParse = new UserParse();
+			//			$loversRelatedTo = $userParse->getRelatedTo('lovers', 'Comment', $res->objectId):
+			$parseQuery = new parseQuery('_User');
+			$parseQuery->whereRelatedTo('lovers', 'Comment', $res->objectId);
+			$test = $parseQuery->find();
+			$loversRelatedTo = array();
+			foreach ($test->results as $user) {
+				$loversRelatedTo[] = $user->objectId;
+			}
+			$cmt->setLovers($loversRelatedTo);
+			
+			$cmt->setOpinions($res->opinions);
+			if ($res->record != null) $cmt->setRecord($res->record);
+			if ($res->song != null) $cmt->setSong($res->song);
+			if ($res->status != null) $cmt->setStatus($res->status);
+			$cmt->setTags($res->tags);
+			$cmt->setText($res->text);
+			if ($res->toUser != null) $cmt->setToUser($res->toUser);
+			$cmt->setType($res->type);
+			if ($res->video != null) $cmt->setVideo($res->video);
+			$cmt->setVote($res->vote);
+			$dateTime = new DateTime($res->createdAt);
+			$cmt->setCreatedAt($dateTime);
+			$dateTime = new DateTime($res->updatedAt);
+			$cmt->setUpdatedAt($dateTime);
+			$cmt->setACL($res->ACL);
+	 
+			return $cmt;
+		} catch (Exception $e) {
+			$error = new error();
+			$error->setErrorClass(__CLASS__);
+			$error->setErrorCode($e->getCode());
+			$error->setErrorMessage($e->getMessage());
+			$error->setErrorFunction(__FUNCTION__);
+			$error->setErrorFunctionParameter(func_get_args());
  
-		return $cmt;
+			$errorParse = new errorParse();
+			$errorParse->saveError($error);
+ 
+			return $error;
+		}
 	}
 	
 	public function saveComment($cmt) {
