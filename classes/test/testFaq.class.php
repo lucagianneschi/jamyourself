@@ -15,12 +15,15 @@
 * \todo modificare require_once
 *
 */
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../');
+	
 ini_set('display_errors', '1');
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
+require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'faq.class.php';
-require_once CLASSES_DIR . 'faqParse.class.php';
+require_once CLASSES_DIR . 'comment.class.php';
+require_once CLASSES_DIR . 'commentParse.class.php';
 
 $faq = new Faq();
 $faq->setObjectId('aAbBcCdD');
@@ -42,12 +45,68 @@ echo $faq;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo 'INIZIO IL SALVATAGGIO DELLa faq APPENA CREATO<br />';
+echo '<br />INIZIO IL SALVATAGGIO DEL FAQ APPENA CREATO<br />';
+
 $faqParse = new FaqParse();
-if (get_class($faqParse->saveFaq($faq))) {
-	echo 'ATTENZIONE: e\' stata generata un\'eccezione: ' . $faqParse->saveFaq($faq)->getErrorMessage() . '<br/>';
+$resSave = $faqParse->saveFaq($faq);
+if (get_class($resSave)) {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
+} else {
+	echo '<br />Comment SAVED con objectId => ' . $resSave . '<br />';
 }
-echo 'FINITO IL SALVATAGGIO DEL faq APPENA CREATO<br />';
+
+echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO IL RECUPERO DI UN FAQ<br /><br />';
+
+$faqParse = new FaqParse();
+$resGet = $faqParse->getComment('L82oBCwOLN');
+if (get_class($resGet) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+} else {
+	echo $resGet;
+}
+
+echo '<br />FINITO IL RECUPERO DI UN FAQ<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO IL RECUPERO DI PIU\' FAQ<br />';
+
+$faqParse = new FaqParse();
+$faqParse->whereExists('objectId');
+$faqParse->orderByDescending('createdAt');
+$faqParse->setLimit(5);
+$resGets = $faqParse->getComments();
+if (get_class($resGets) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+} else {
+	foreach($resGets as $cmt) {
+		echo '<br />' . $cmt->getObjectId() . '<br />';
+	}
+}
+
+echo '<br />INIZIO IL RECUPERO DI PIU\' FAQ<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO L\'AGGIORNAMENTO DI UN FAQ<br />';
+
+$faqParse = new FaqParse();
+$faq = new Faq();
+$faq->setObjectId('AOPyno3s8m');
+$faq->setQuestion('Sono una fa aggiornata');
+$resUpdate = $faqParse->savefaq($faq);
+if (get_class($resUpdate)) {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
+} else {
+	echo '<br />FAQ UPDATED<br />';
+}
+
+echo '<br />FINITO L\'AGGIORNAMENTO DI UN FAQ<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
 ?>
