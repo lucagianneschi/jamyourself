@@ -48,6 +48,7 @@ class Event {
 
     //DEFINIZIONE DELLE FUNZIONI GET
     //string: objectId su Parse
+
     public function getObjectId() {
         return $this->objectId;
     }
@@ -293,73 +294,73 @@ class Event {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
-         if ($this->getAttendee() != null && count($this->getAttendee() > 0)) {
+        if ($this->getAttendee() != null && count($this->getAttendee() > 0)) {
             foreach ($this->getAttendee() as $attendee) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= "[attendee] => " . $attendee->getObjectId() . "<br />";
             }
         } else {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[attendee] => NULL<br />';
-		}
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[attendee] => NULL<br />';
+        }
         if ($this->getComments() != null && count($this->getComments() > 0)) {
             foreach ($this->getComments() as $comment) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= "[comment] => " . $comment->getObjectId() . "<br />";
             }
-        }else {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[comments] => NULL<br />';
-		}
-		if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[comments] => NULL<br />';
+        }
+        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
             foreach ($this->getCommentators() as $commentator) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
             }
-        }else {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[commentators] => NULL<br />';
-		}
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[commentators] => NULL<br />';
+        }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         $string .= '[description] => ' . $this->getDescription() . '<br />';
-        if($this->getEventDate() != null){
-         $string .= '[eventDate] => ' . $this->getEventDate()->format('d-m-Y H:i:s') . '<br />';   
+        if ($this->getEventDate() != null) {
+            $string .= '[eventDate] => ' . $this->getEventDate()->format('d-m-Y H:i:s') . '<br />';
         } else {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[eventDate] => NULL<br />';
-		}
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[eventDate] => NULL<br />';
+        }
         if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
             foreach ($this->getFeaturing() as $user) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= "[featuring] => " . $user->getObjectId() . "<br />";
             }
         } else {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[featuring] => NULL<br />';
-		}
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[featuring] => NULL<br />';
+        }
         $fromUser = $this->getFromUser();
         if ($fromUser != null) {
             $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
         } else {
-			$string .= '[fromUser] => NULL<br />';
-		}
+            $string .= '[fromUser] => NULL<br />';
+        }
         $string .= '[image] => ' . $this->getImage() . '<br />';
         //$string .= '[imageFile] => ' . $this->getImageFile() . '<br />';
         if ($this->getInvited() != null && count($this->getInvited() > 0)) {
             foreach ($this->getInvited() as $invited) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[invited] => " . $invited->getObjectId() . "<br />";
-			}
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[invited] => " . $invited->getObjectId() . "<br />";
+            }
         } else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[invited] => NULL<br />';
-		}
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[invited] => NULL<br />';
+        }
         $parseGeoPoint = $this->getLocation();
         if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
             $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
-        } else{
-			$string .= '[location] => NULL<br />';
-		}
+        } else {
+            $string .= '[location] => NULL<br />';
+        }
         $string .= '[locationName] => ' . $this->getLocationName() . '<br />';
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
         if ($this->getLovers() != null && count($this->getLovers() > 0)) {
@@ -367,26 +368,27 @@ class Event {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= "[lover] => " . $lover->getObjectId() . "<br />";
             }
-        }else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[lovers] => NULL<br />';
-		}
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[lovers] => NULL<br />';
+        }
         if ($this->getRefused() != null && count($this->getRefused() > 0)) {
-          foreach ($this->getRefused() as $refused) {
+            foreach ($this->getRefused() as $refused) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[refused] => " . $refused->getObjectId() . "<br />";
+            }
+        } else {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= "[refused] => " . $refused->getObjectId() . "<br />";
-        }     
-        }else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[refused] => NULL<br />';
-		}
+            $string .= '[refused] => NULL<br />';
+        }
         if ($this->getTags() != null && count($this->getTags() > 0)) {
-          foreach ($this->getTags() as $ta) {
+            foreach ($this->getTags() as $ta) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[tags] => ' . $ta . '<br />';
+            }
+        } else {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[tags] => ' . $ta . '<br />';
-        }  else{
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[tags] => NULL<br />';
+            $string .= '[tags] => NULL<br />';
         }
         $string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
         $string .= '[title] => ' . $this->getTitle() . '<br />';
@@ -397,6 +399,7 @@ class Event {
         $string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
         return $string;
     }
+
 }
 
 ?>
