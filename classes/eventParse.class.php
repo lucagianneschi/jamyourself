@@ -96,7 +96,7 @@ class EventParse {
 			$events = array();
 			$res = $this->parseQuery->find();
 			foreach ($res->results as $obj) {
-				$event = $this->parseTo$Event($obj);
+				$event = $this->parseToEvent($obj);
 				$events[$event->getObjectId()] = $event;
 			}
 			return $events;
@@ -247,13 +247,13 @@ class EventParse {
 			$parseObject = new parseObject('Event');
 			if ($event->getObjectId() == '') {
 				$event->getActive() == null ? $parseObject->active = null : $parseObject->active = $event->getActive();
-				$event->getAttendee() == null ? $parseObject->attendee = null : $parseObject->attendee = $event->getAttendee(();
+				$event->getAttendee() == null ? $parseObject->attendee = null : $parseObject->attendee = $event->getAttendee();
 				$event->getCommentators() == null ? $parseObject->commentators = null : $parseObject->commentators = $event->getCommentators();
 				$event->getComments() == null ? $parseObject->comments = null : $parseObject->comments = $event->getComments();
 				$event->getCounter() == null ? $parseObject->counter = null : $parseObject->counter = $event->getCounter();
 				$event->getDescription() == null ? $parseObject->description = null : $parseObject->description = $event->getDescription();
 				$event->getEventDate() == null ? $parseObject->eventDate = null : $parseObject->eventDate = $event->getEventDate();
-				$event->getFeaturing() == null ? $parseObject->featuring = null : $parseObject->featuring = $event->getFeaturing()
+				$event->getFeaturing() == null ? $parseObject->featuring = null : $parseObject->featuring = $event->getFeaturing();
 				$event->getFromUser() == null ? $parseObject->fromUser = null : $parseObject->fromUser = $event->getFromUser();
 				$event->getImage() == null ? $parseObject->image = null : $parseObject->image = $event->getImage();
 				$event->getImageFile() == null ? $parseObject->imageFile = null : $parseObject->imageFile = $event->getImageFile();
@@ -263,7 +263,7 @@ class EventParse {
 				$event->getLoveCounter() == null ? $parseObject->loveCounter = null : $parseObject->loveCounter = $event->getLoveCounter();
 				$event->getLovers() == null ? $parseObject->lovers = null : $parseObject->lovers = $event->getLovers();
 				$event->getTags() == null ? $parseObject->tags = null : $parseObject->tags = $event->getTags();
-				$event->getThumbnail() == null ? $parseObject->thumbnail = null : $parseObject->thumbnail = $event->getThumbnail
+				$event->getThumbnail() == null ? $parseObject->thumbnail = null : $parseObject->thumbnail = $event->getThumbnail();
 				$event->getText() == null ? $parseObject->text = null : $parseObject->text = $event->getText();
 				$event->getTitle() == null ? $parseObject->title = null : $parseObject->title = $event->getTitle();
 				$event->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $event->getACL()->acl;
