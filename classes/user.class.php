@@ -19,11 +19,10 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:user">API</a>
  */
 
-require_once'settings.php';
+require_once 'settings.php';
 
 class User {
 
-	//questi dati sono aggiornati solo dopo aver fatto save/userLogin/update
 	private $objectId;
 	private $username;
 	private $password;
@@ -48,7 +47,7 @@ class User {
 	private $premium;
 	private $premiumExpirationDate;
 	private $profilePicture;
-        private $profilePictureFile;
+    private $profilePictureFile;
 	private $profileThumbnail;
 	private $sessionToken;
 	private $settings;
@@ -62,12 +61,8 @@ class User {
 	private $updatedAt;
 	private $ACL;
 	
-	//COSTRUTTORE
 	public function __construct() {
-		
 	}
-	
-	//****** FUNZIONI GET ***************************************************//
 	
 	public function getObjectId() {
 		return $this->objectId;
@@ -165,7 +160,7 @@ class User {
 		return $this->profilePicture;
 	}
         
-        public function getProfilePictureFile() {
+    public function getProfilePictureFile() {
 		return $this->profilePictureFile;
 	}
 	
@@ -217,7 +212,6 @@ class User {
 		return $this->sessionToken;
 	}
 	
-	//****** FUNZIONI SET ***************************************************//
 	public function setObjectId($objectId) {
 		$this->objectId = $objectId;
 	}
@@ -314,7 +308,7 @@ class User {
 		$this->profilePicture = $profilePicture;
 	}
         
-        public function setProfilePictureFile($profilePictureFile) {
+    public function setProfilePictureFile($profilePictureFile) {
 		$this->profilePictureFile = $profilePictureFile;
 	}
 	
@@ -494,7 +488,6 @@ class Venue extends User {
 
 class Jammer extends User {
 
-	//solo jammer
 	private $collaboration;
 	private $events;
 	private $jammerType;
@@ -587,8 +580,6 @@ class Spotter extends User {
 		$this->setType("SPOTTER");
 	}
 	
-	//GETTER
-	
 	public function getBirthDay() {
 		return $this->birthDay;
 	}
@@ -617,7 +608,6 @@ class Spotter extends User {
 		return $this->sex;
 	}
 	
-	//SETTER
 	public function setBirthDay(DateTime $birthDay) {
 		$this->birthDay = $birthDay;
 	}
