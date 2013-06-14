@@ -7,7 +7,7 @@
 *
 * \par Info Classe:
 * \brief Classe di test
-* \details Classe di test per la classe Video
+* \details Classe di test per la classe Location
 *
 * \par Commenti:
 * \warning
@@ -25,7 +25,7 @@ require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'location.class.php';
 require_once CLASSES_DIR . 'locationParse.class.php';
 
-echo '<br />INIZIO IL RECUPERO DI UN Comment<br /><br />';
+echo '<br />INIZIO IL RECUPERO DI UN Location<br /><br />';
 
 $locationParse = new LocationParse();
 $resGet = $locationParse->getLocation('hAcjcsoLn9');
