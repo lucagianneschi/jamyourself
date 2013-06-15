@@ -19,14 +19,15 @@ elseif ($tipo == 'SPOTTER')
 	$user = new Spotter();
 	
 $user->setObjectId();
-$r =  rand();
+$r = rand();
 $user->setUsername('test' . $r);
 $user->setPassword('test' . $r);
 //$user->setAuthData();
 //$user->setEmailVerified();
-$user->setActive(true);
+$user->setActive(false);
+print_r($user);
 //$user->setAlbums();
-$user->setBackground('un background');
+$user->setBackground('Un background');
 $user->setCity('Una citta');
 $comments = array (
 	"__op" => "AddRelation",
@@ -91,7 +92,7 @@ if (get_class($resSave) == 'Error') {
 echo '<br />FINITO IL SALVATAGGIO DELLO USER APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-
+/*
 echo '<br />INIZIO IL RECUPERO DI UNO User<br /><br />';
 
 $userParse = new UserParse();
@@ -139,15 +140,16 @@ echo '<br />FINITO IL RECUPERO DI PIU\' Comment<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 */
+/*
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UNO User<br />';
 
 $userParse = new UserParse();
 $user = new User();
+echo 'Voglio aggiornare lo user ' . $resSave->getObjectId() . ' con session token ' . $resSave->getSessionToken();
 $user->setObjectId($resSave->getObjectId());
 $user->setSessionToken($resSave->getSessionToken());
-//$user->setActive(false);
 $user->setActive(false);
-$user->setLevel(123);
+//$user->setLevel(123);
 $resUpdate = $userParse->saveUser($user);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
@@ -158,5 +160,49 @@ if (get_class($resUpdate)) {
 echo '<br />FINITO L\'AGGIORNAMENTO DI UNO User<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+/*
+echo '<br />INIZIO EXTRA TEST<br />';
 
+$parseUser = new parseUser();
+$parseUser->username = 'test420025499';
+$parseUser->password = 'test420025499';
+$res = $parseUser->login();
+//print_r($res->sessionToken);
+
+$parseUser = new parseUser();
+$parseUser->active = false;
+$parseUser->level = 1000;
+$parseUser->update('tj7AQbnJbA', $res->sessionToken);
+
+echo '<br />FINITO EXTRA TEST<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+*/
+
+echo '<br />INIZIO EXTRA TEST<br />';
+
+$v = true;
+$f = false;
+
+echo '*' . $v . '*';
+echo '*' . $f . '*';
+
+echo 'v=';
+print_r($v);
+echo 'f=';
+print_r($f);
+
+if ($v == null)
+	echo 'v è null';
+else
+	echo 'v non è null';
+
+if ($f == null)
+	echo 'f è null';
+else
+	echo 'f non è null';
+
+echo '<br />FINITO EXTRA TEST<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
 ?>

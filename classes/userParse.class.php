@@ -269,7 +269,7 @@ class UserParse {
 				$user->getPassword() == null ? $parseUser->password = null : $parseUser->password = $user->getPassword();
 				//$user->getAuthData() == null ? $parseUser->authData = null : $parseUser->authData = $user->getAuthData();
 				//$user->getEmailVerified() == null ? $parseUser->emailVerified = null : $parseUser->emailVerified = $user->getEmailVerified();
-				$user->getActive() == null ? $parseUser->active = null : $parseUser->active = $user->getActive();
+				$user->getActive() === null ? $parseUser->active = null : $parseUser->active = $user->getActive();
 				$user->getAlbums() == null ? $parseUser->albums = null : $parseUser->albums = $user->getAlbums();
 				$user->getBackground() == null ? $parseUser->background = null : $parseUser->background = $user->getBackground();
 				$user->getCity() == null ? $parseUser->city = null : $parseUser->city = $user->getCity();

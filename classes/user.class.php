@@ -369,7 +369,11 @@ class User {
 		$string .= '[password] => ' . $this->getPassword() . '<br />';
 		$string .= '[authData] => ' . $this->getAuthData() . '<br />';
 		$string .= '[emailVerified] => ' . $this->getEmailVerified() . '<br />';
-		$string .= '[active] => ' . $this->getActive() . '<br />';
+		if ($this->getActive() === null) {
+			$string .= '[active] => NULL<br />';
+		} else {
+			$this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
+		}
 		//TODO
 		//$string .= '[albums] => ' . $this->getAlbums() . '<br />';
 		$string .= '[background] => ' . $this->getBackground() . '<br />';
