@@ -368,6 +368,10 @@ class CommentParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
+        
+        public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
  
 }
  
