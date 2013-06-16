@@ -119,8 +119,7 @@ class QuestionParse {
         return $question;
     }
 
-    
-    //DA RIVEDERE
+
     public function saveQuestion($question) {
         try {
             $parseObject = new parseObject('Question');

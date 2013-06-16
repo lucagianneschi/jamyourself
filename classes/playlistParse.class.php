@@ -135,7 +135,7 @@ class PlaylistParse {
         if ($parseObj->fromUser != null)
             $playlist->setFromUser($parseObj->fromUser);
         $playlist->setName($parseObj->name);
-        if($parseObj->songs != null){
+        if ($parseObj->songs != null) {
             $songParse = new SongParse();
             $songs = $this->$songParse->getRelatedTo('songs', 'Playlist', $parseObj->objectId);
             $playlist->setAttendee($songs);
