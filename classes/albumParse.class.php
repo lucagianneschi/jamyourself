@@ -34,51 +34,69 @@ class AlbumParse {
         $parseObj = new parseObject("Album");
 
         //inizializzo le properties
+
         $parseObj->active = $album->getActive();
+
+        if ($album->getCommentators() == null || count($album->getCommentators()) == 0)
+            $parseObj->commentators = null;
+        else {
+            $parseObj->commentators = toParseRelation($album->getCommentators());
+        }
+
+        if ($album->getComments() == null || count($album->getComments()) == 0)
+            $parseObj->comments = null;
+        else {
+            $parseObj->comments = toParseRelation($album->getComments());
+        }
+
         $parseObj->counter = $album->getCounter();
+
         $parseObj->cover = $album->getCover();
-        //$parseObj->coverFile = $album->getCoverFile();
+
+//        if($album->getCoverFile() == null ) $album->coverFile = null;
+//        else {
+//            
+//        }
         $parseObj->description = $album->getDescription();
 
-        //array di utenti
-
-        if ($album->getFeaturing() != null && count($album->getFeaturing()) > 0) {
-
-            $parseObj->featuring = array();
-
-            foreach ($album->getFeaturing() as $user) {
-                array_push($parseObj->featuring, $user->getObjectId());
-            }
+        if ($album->getFeaturing() == null)
+            $album->featuring = null;
+        else {
+            $album->featuring = toParseRelation($album->getFeaturing());
         }
-        else
-            $parseObj->featuring = null;
 
-
-        if ($album->getFromUser() != null && count($album->getFromUser()) > 0) {
-
-            $fromUser = $album->getFromUser();
-
-            $parseObj->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId());
-        }
-        else
+        if ($album->getFromUser() == null)
             $parseObj->fromUser = null;
-
-        if ($album->getLocation() != null) {
-            $geoPoint = $album->getLocation();
-            $parseObj->location = $geoPoint->location;
+        else {
+            $parseObj->fromUser = toParsePointer($album->getFromUser());
         }
-        else
+        if ($album->getImages() == null)
+            $parseObj->images = null;
+        else {
+            $parseObj->images = toParsePointer($album->getImages());
+        }
+        if ($album->getLocation() == null)
             $parseObj->location = null;
-
+        else {
+            $parseObj->location = toParseGeoPoint($album->getLocation());
+        }
         $parseObj->loveCounter = $album->getLoveCounter();
 
-        if (count($parseObj->tag) > 0)
-            $parseObj->tag = $album->getTags();
+        if ($album->getLovers() == null || count($album->getLovers()) == 0)
+            $parseObj->lovers = null;
+        else {
+            $parseObj->lovers = toParseRelation($album->getLovers());
+        }
+        if ($album->getTags() == null || count($album->getTags()) == 0)
+            $parseObj->tags = null;
         else
-            $parseObj->tag = null;
+            $parseObj->tags = $album->getTags();
 
         $parseObj->thumbnailCover = $album->getThumbnailCover();
+
         $parseObj->title = $album->getTitle();
+
+        $album->getACL() == null ? $parseObj->ACL = null : $parseObj->ACL = toParseACL($album->getACL()->acl);
 
         if ($album->getObjectId() != null) {
 
@@ -129,26 +147,23 @@ class AlbumParse {
             return false;
     }
 
-    function getAlbum($albumId) {
+    function getAlbum($objectId) {
+        $result = parseObject::get($objectId);
+        return $this->parseToAlbum($result);
+    }
 
-        $album = null;
-
-        $this->parseQuery->where('objectId', $albumId);
-
+    public function getAlbums() {
+        $albums = null;
         $result = $this->parseQuery->find();
-
         if (is_array($result->results) && count($result->results) > 0) {
-
-            $ret = $result->results[0];
-
-            if ($ret) {
-
-                //recupero l'utente
-                $album = $this->parseToAlbum($ret);
+            $albums = array();
+            foreach ($result->results as $album) {
+                if ($album) {
+                    $albums[] = $this->parseToAlbum($album);
+                }
             }
         }
-
-        return $album;
+        return $albums;
     }
 
     function parseToAlbum(stdClass $parseObj) {
@@ -164,17 +179,17 @@ class AlbumParse {
         if (isset($parseObj->cover))
             $album->setCover($parseObj->cover);
         /*
-        if (isset($parseObj->coverFile))
-            $album->setCoverFile($parseObj->coverFile);
-        */
+          if (isset($parseObj->coverFile))
+          $album->setCoverFile($parseObj->coverFile);
+         */
         if (isset($parseObj->description))
             $album->setDescription($parseObj->description);
-        
+
         if (isset($parseObj->featuring)) {
 
             $parseUser = new UserParse();
-
-            $featuring = $parseUser->getUserArrayById($parseObj->featuring);
+            $parseUser->whereRelatedTo(featuring, "Album", $parseObj->objectId);
+            $featuring = $parseUser->getUsers();
 
             $album->setFeaturing($featuring);
         }
@@ -196,13 +211,13 @@ class AlbumParse {
         if (isset($parseObj->loveCounter))
             $album->setLoveCounter($parseObj->loveCounter);
 
-        
+
         if (isset($parseObj->thumbnailCover))
             $album->setThumbnailCover($parseObj->thumbnailCover);
- 
+
         if (isset($parseObj->tag))
             $album->setTag($parseObj->tag);
-        
+
         if (isset($parseObj->title))
             $album->setTitle($parseObj->title);
 
@@ -224,6 +239,97 @@ class AlbumParse {
         }
 
         return $album;
+    }
+    public function getCount() {
+        $this->parseQuery->getCount();
+    }
+
+    public function setLimit($int) {
+        $this->parseQuery->setLimit($int);
+    }
+
+    public function setSkip($int) {
+        $this->parseQuery->setSkip($int);
+    }
+
+    public function orderBy($field) {
+        $this->parseQuery->orderBy($field);
+    }
+
+    public function orderByAscending($value) {
+        $this->parseQuery->orderByAscending($value);
+    }
+
+    public function orderByDescending($value) {
+        $this->parseQuery->orderByDescending($value);
+    }
+
+    public function whereInclude($value) {
+        $this->parseQuery->whereInclude($value);
+    }
+
+    public function where($key, $value) {
+        $this->parseQuery->where($key, $value);
+    }
+
+    public function whereEqualTo($key, $value) {
+        $this->parseQuery->whereEqualTo($key, $value);
+    }
+
+    public function whereNotEqualTo($key, $value) {
+        $this->parseQuery->whereNotEqualTo($key, $value);
+    }
+
+    public function whereGreaterThan($key, $value) {
+        $this->parseQuery->whereGreaterThan($key, $value);
+    }
+
+    public function whereLessThan($key, $value) {
+        $this->parseQuery->whereLessThan($key, $value);
+    }
+
+    public function whereGreaterThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
+    }
+
+    public function whereLessThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
+    }
+
+    public function whereContainedIn($key, $value) {
+        $this->parseQuery->whereContainedIn($key, $value);
+    }
+
+    public function whereNotContainedIn($key, $value) {
+        $this->parseQuery->whereNotContainedIn($key, $value);
+    }
+
+    public function whereExists($key) {
+        $this->parseQuery->whereExists($key);
+    }
+
+    public function whereDoesNotExist($key) {
+        $this->parseQuery->whereDoesNotExist($key);
+    }
+
+    public function whereRegex($key, $value, $options = '') {
+        $this->parseQuery->whereRegex($key, $value, $options = '');
+    }
+
+    public function wherePointer($key, $className, $objectId) {
+        $this->parseQuery->wherePointer($key, $className, $objectId);
+    }
+
+    public function whereInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereInQuery($key, $className, $inQuery);
+    }
+
+    public function whereNotInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereNotInQuery($key, $className, $inQuery);
+    }
+
+    public function whereRelatedTo($key, $className, $objectId) {
+        $this->parseQuery->whereRelatedTo($key, $className, $objectId);
     }
 
 }
