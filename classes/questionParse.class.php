@@ -99,15 +99,22 @@ class QuestionParse {
     function parseToQuestion(stdClass $parseObj) {
 
         $question = new Question();
-        
-        $question->setObjectId($parseObj->objectId);
-        $question->setAnswer($parseObj->answer);
-        $question->setMailFrom($parseObj->mailFrom);
-        $question->setMailTo($parseObj->mailTo);
-        $question->setName($parseObj->name);
-        $question->setReplied($parseObj->replied);
-        $question->setSubject($parseObj->subject);
-        $question->setText($parseObj->text);
+        if(isset($parseObj->objectId))
+            $question->setObjectId($parseObj->objectId);
+        if(isset($parseObj->answer))
+            $question->setAnswer($parseObj->answer);
+        if(isset($parseObj->mailFrom))
+            $question->setMailFrom($parseObj->mailFrom);
+        if(isset($parseObj->mailTo))
+            $question->setMailTo($parseObj->mailTo);
+        if(isset($parseObj->name))
+            $question->setName($parseObj->name);
+        if(isset($parseObj->replied))
+            $question->setReplied($parseObj->replied);
+        if(isset($parseObj->subject))
+            $question->setSubject($parseObj->subject);
+        if(isset($parseObj->text))
+            $question->setText($parseObj->text);
         if (isset($parseObj->createdAt))
             $question->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
         if (isset($parseObj->updatedAt))
