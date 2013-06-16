@@ -26,6 +26,7 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
+//require_once CLASSES_DIR . 'utils.class.php';
 
 class EventParse {
 
@@ -227,6 +228,23 @@ class EventParse {
         try {
             $parseObject = new parseObject('Event');
             if ($event->getObjectId() == '') {
+                //codice per implementazione utils
+                /*
+                 *$parseObj->attendee = toParseRelation($event->getAttendee());
+                 *$parseObj->commentators = toParseRelation($event->getCommentators());
+                 *$parseObj->comments = toParseRelation($event->getComments());
+                 *$parseObj->eventDate = toParseDateTime($event->getEventDate());
+                 *$parseObj->featuring = toParseRelation($event->getFeaturing());
+                 *$parseObj->fromUser = toParsePointer($event->getFromUser()); 
+                 *$parseObj->image = toParsePointer($event->getImage());
+                 *$parseObj->invited = toParseRelation($event->getInvited());
+                 *$parseObj->location = toParsePointer($event->getLocation());
+                 *$parseObj->lovers = toParseRelation($event->getLovers());
+                 *$parseObj->refused = toParseRelation($event->getRefused());
+                 *$parseObj->taggedUsers = toParseRelation($event->getTaggedUsers());
+                 *$parseObj->ACL = toParseACL($event->getACL()); 
+                 */
+                
                 $event->getActive() == null ? $parseObject->active = null : $parseObject->active = $event->getActive();
                 $event->getAttendee() == null ? $parseObject->attendee = null : $parseObject->attendee = $event->getAttendee();
                 $event->getCommentators() == null ? $parseObject->commentators = null : $parseObject->commentators = $event->getCommentators();
@@ -243,6 +261,7 @@ class EventParse {
                 $event->getLocationName() == null ? $parseObject->locationName = null : $parseObject->locationName = $event->getLocationName();
                 $event->getLoveCounter() == null ? $parseObject->loveCounter = null : $parseObject->loveCounter = $event->getLoveCounter();
                 $event->getLovers() == null ? $parseObject->lovers = null : $parseObject->lovers = $event->getLovers();
+                $event->getRefused() == null ? $parseObject->refused = null : $parseObject->refused = $event->getRefused();
                 $event->getTags() == null ? $parseObject->tags = null : $parseObject->tags = $event->getTags();
                 $event->getThumbnail() == null ? $parseObject->thumbnail = null : $parseObject->thumbnail = $event->getThumbnail();
                 $event->getText() == null ? $parseObject->text = null : $parseObject->text = $event->getText();
