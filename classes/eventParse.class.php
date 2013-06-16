@@ -171,59 +171,43 @@ class EventParse {
         
         $event->setObjectId($parseObj->objectId);
         $event->setActive($parseObj->active);
-        $parseQueryAttendee = new parseQuery('_User');
-        $parseQueryAttendee->whereRelatedTo('attendee', 'Event', $parseObj->objectId);
-        $testAttendee = $parseQueryAttendee->find();
-        $attendee = array();
-        foreach ($testAttendee->results as $user) {
-            $attendee[] = $user->objectId;
+        if($parseObj->attendee != null){
+            $userParse = new UserParse();
+            $attendee = $this->$userParse->getRelatedTo('attendee', 'Event', $parseObj->objectId);
+            $event->setAttendee($attendee);
         }
-        $event->setAttendee($attendee);
-        $parseQueryCommentators = new parseQuery('_User');
-        $parseQueryCommentators->whereRelatedTo('commentators', 'Event', $parseObj->objectId);
-        $testCommentators = $parseQueryCommentators->find();
-        $commentators = array();
-        foreach ($testCommentators->results as $user) {
-            $commentators[] = $user->objectId;
+        if($parseObj->commentators != null){
+            $userParse = new UserParse();
+            $commentators = $this->$userParse->getRelatedTo('commentators', 'Event', $parseObj->objectId);
+            $event->setCommentators($commentators);
         }
-        $event->setCommentators($commentators);
-        $parseQueryComment = new parseQuery('Comment');
-        $parseQueryComment->whereRelatedTo('comments', 'Event', $parseObj->objectId);
-        $testComment = $parseQueryComment->find();
-        $comments = array();
-        foreach ($testComment->results as $c) {
-            $comments[] = $c->objectId;
+        if($parseObj->comments != null){
+            $commentParse = new CommentParse();
+            $comments = $this->$commentParse->getRelatedTo('comments', 'Event', $parseObj->objectId);
+            $event->setComments($comments);
         }
-        $event->setComments($comments);
         $event->setCounter($parseObj->counter);
-        $parseQueryFeaturing = new parseQuery('_User');
-        $parseQueryFeaturing->whereRelatedTo('featuring', 'Event', $parseObj->objectId);
-        $testFeaturing = $parseQueryFeaturing->find();
-        $featuring = array();
-        foreach ($testFeaturing->results as $user) {
-            $featuring[] = $user->objectId;
+        if($parseObj->featuring != null){
+            $userParse = new UserParse();
+            $featuring = $this->$userParse->getRelatedTo('featuring', 'Event', $parseObj->objectId);
+            $event->setFeaturing($featuring);
         }
-        $event->setFeaturing($featuring);
-        $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
-        $event->setLocation($parseGeoPoint->location);
+        if ($parseObj->location != null) {
+            $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
+            $event->setLocation($parseGeoPoint->location);
+	}
         $event->setLocationName($parseObj->locationName);
         $event->setLoveCounter($parseObj->loveCounter);
-        $parseQueryLovers = new parseQuery('_User');
-        $parseQueryLovers->whereRelatedTo('lovers', 'Event', $parseObj->objectId);
-        $testLovers = $parseQueryLovers->find();
-        $lovers = array();
-        foreach ($testLovers->results as $user) {
-            $lovers[] = $user->objectId;
+        if($parseObj->lovers != null){
+            $userParse = new UserParse();
+            $lovers = $this->$userParse->getRelatedTo('lovers', 'Event', $parseObj->objectId);
+            $event->setLovers($lovers);
         }
-        $event->setLovers($lovers);
-        $parseQueryRefused = new parseQuery('_User');
-        $parseQueryRefused->whereRelatedTo('refused', 'Event', $parseObj->objectId);
-        $testRefused = $parseQueryRefused->find();
-        $refused = array();
-        foreach ($testRefused->results as $user) {
-            $refused[] = $user->objectId;
+        if($parseObj->refused != null){
+            $userParse = new UserParse();
+            $refused = $this->$userParse->getRelatedTo('refused', 'Event', $parseObj->objectId);
+            $event->setLovers($refused);
         }
-        $event->setRefused($refused);
         $event->setTags($parseObj->tags);
         $event->setThumbnail($parseObj->thumbnail);
         $event->setTitle($parseObj->title);
