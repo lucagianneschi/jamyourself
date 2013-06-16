@@ -145,36 +145,43 @@ class VideoParse {
         //string author
         if (isset($parseObj->author))
             $video->setAuthor($parseObj->author);
-        if ($parseObj->commentators != null) {
+        if (isset($parseObj->commentators)) {
             $userParse = new UserParse();
             $commentators = $this->$userParse->getRelatedTo('commentators', 'Video', $parseObj->objectId);
             $video->setCommentators($commentators);
         }
-        if ($parseObj->comments != null) {
+        if (isset($parseObj->comments)) {
             $commentParse = new CommentParse();
             $comments = $this->$commentParse->getRelatedTo('comments', 'Video', $parseObj->objectId);
             $video->setComments($comments);
         }
-        $video->setCounter($parseObj->counter);
-        $video->setDescription($parseObj->description);
-        $video->setDuration($parseObj->duration);
-        if ($parseObj->featuring != null) {
+        if(isset($parseObj->counter))
+            $video->setCounter($parseObj->counter);
+        if(isset($parseObj->description))
+            $video->setDescription($parseObj->description);
+        if(isset($parseObj->duration))
+            $video->setDuration($parseObj->duration);
+        if (isset($parseObj->featuring)) {
             $userParse = new UserParse();
             $featuring = $this->$userParse->getRelatedTo('featuring', 'Video', $parseObj->objectId);
             $video->setFeaturing($featuring);
         }
-        if ($parseObj->fromUser != null)
+        if (isset($parseObj->fromUser))
             $video->setFromUser($parseObj->fromUser);
         $video->setLoveCounter($parseObj->loveCounter);
-        if ($parseObj->lovers != null) {
+        if (isset($parseObj->lovers)) {
             $userParse = new UserParse();
             $lovers = $this->$userParse->getRelatedTo('lovers', 'Video', $parseObj->objectId);
             $video->setLovers($lovers);
         }
-        $video->setTags($parseObj->tags);
-        $video->setTitle($parseObj->title);
-        $video->setThumbnail($parseObj->thumbnail);
-        $video->setURL($parseObj->URL);
+        if(isset($parseObj->tags))
+            $video->setTags($parseObj->tags);
+        if(isset($parseObj->title))
+            $video->setTitle($parseObj->title);
+        if(isset($parseObj->thumbnail))
+            $video->setThumbnail($parseObj->thumbnail);
+        if(isset($parseObj->URL))
+            $video->setURL($parseObj->URL);
         //creo la data di tipo DateTime per createdAt e updatedAt
         if (isset($parseObj->createdAt))
             $video->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
