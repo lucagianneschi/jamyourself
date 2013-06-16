@@ -199,7 +199,7 @@ class VideoParse {
         try {
             $parseObj = new parseObject('Video');
             if ($video->getObjectId() == '') {
-                $video->getActive() == null ? $parseObj->active = null : $parseObj->active = $video->getActive();
+                $video->getActive() === null ? $parseObj->active = null : $parseObj->active = $video->getActive();
                 $video->getAuthor() == null ? $parseObj->author = null : $parseObj->author = $video->getAuthor();
                 $video->getCommentators() == null ? $parseObj->commentators = null : $parseObj->commentators = $video->getCommentators();
                 $video->getComments() == null ? $parseObj->comments = null : $parseObj->comments = $video->getComments();
@@ -213,7 +213,7 @@ class VideoParse {
                 $video->getTags() == null ? $parseObj->tags = null : $parseObj->tags = $video->getTags();
                 $video->getThumbnail() == null ? $parseObj->thumbnail = null : $parseObj->thumbnail = $video->getThumbnail();
                 $video->getTitle() == null ? $parseObj->title = null : $parseObj->title = $video->getTitle();
-                $video->getURL() == null ? $parseObj->URL = null : $parseObj->URK = $video->getURL();
+                $video->getURL() == null ? $parseObj->URL = null : $parseObj->URL = $video->getURL();
                 $video->getACL() == null ? $parseObj->ACL = null : $parseObj->ACL = $video->getACL()->acl;
                 $parseObj = $parseObj->save();
                 return $parseObj->objectId;
