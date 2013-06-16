@@ -18,8 +18,24 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:record">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:record">API</a>
  */
-define('CLASS_DIR', './classes/');
-include_once CLASS_DIR . 'userParse.class.php';
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
+require_once CLASSES_DIR . 'utils.class.php';
+
+require_once CLASSES_DIR . 'error.class.php';
+require_once CLASSES_DIR . 'errorParse.class.php';
+
+require_once CLASSES_DIR . 'user.class.php';
+require_once CLASSES_DIR . 'userParse.class.php';
+
+require_once CLASSES_DIR . 'comment.class.php';
+require_once CLASSES_DIR . 'commentParse.class.php';
+
+require_once CLASSES_DIR . 'songParse.class.php';
+require_once CLASSES_DIR . 'song.class.php';
 
 class RecordParse {
 
@@ -54,7 +70,7 @@ class RecordParse {
         $parseObj->year = $record->getYear();
         $parseObj->ACL = toParseACL($record->getACL());
 
-        if (isset($record->getObjectId()) && $record->getObjectId() != null) {
+        if ($record->getObjectId() != null ) {
             try {
                 $result = $parseObj->update($record->getObjectId());
                 $record->setObjectId($result->objectId);
@@ -123,7 +139,7 @@ class RecordParse {
         }
         
         if (isset($parseObj->comments)){
-            $record->setComments($parseObj->comments);
+            $record->setComments((new CommentParse())->getComment($parseObj->comments->objectId));
         }
         
         if (isset($parseObj->counter))
@@ -134,19 +150,21 @@ class RecordParse {
         
         if (isset($parseObj->coverFile))
             $record->setCoverFile($parseObj->coverFile);
+        
         if (isset($parseObj->description))
             $record->setDescription($parseObj->description);
         
         if (isset($parseObj->duration))
             $record->setDuration($parseObj->duration);
         
-        if (isset($parseObj->featuring))
-            $record->setFeaturing($parseObj->featuring);
+        if (isset($parseObj->featuring)){
+              $parse = new UserParse();
+              $record->setFeaturing($parse->getUser($parseObj->featuring->objectId));          
+        }
         
         if (isset($parseObj->fromUser)){
             $parse = new UserParse();
-            $parse->whereRelatedTo("fromUser", "Record", $parseObj->objectId);
-            $record->setCommentators($parse->getUsers());
+            $record->setFromUser($parse->getUser($parseObj->fromUser->objectId));             
         }
         
         if (isset($parseObj->genre))
@@ -164,7 +182,7 @@ class RecordParse {
         if (isset($parseObj->lovers)){
             $parse = new UserParse();
             $parse->whereRelatedTo("lovers", "Record", $parseObj->objectId);
-            $record->setCommentators($parse->getUsers());
+            $record->setLovers($parse->getUsers());
         }
         
         if (isset($parseObj->thumbnailCover))
@@ -181,8 +199,10 @@ class RecordParse {
         
         if (isset($parseObj->createdAt))
             $record->setCreatedAt(new DateTime($parseObj->createdAt));
+        
         if (isset($parseObj->updatedAt))
             $record->setUpdatedAt(new DateTime($parseObj->updatedAt));
+        
         if (isset($parseObj->ACL))
             $record->setACL($parseObj->ACL);
 
