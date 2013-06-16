@@ -136,54 +136,32 @@ class VideoParse {
         //string author
         if (isset($parseObj->author))
             $video->setAuthor($parseObj->author);
-        $commentators = $this->getRelatedTo('commentators', 'Video', $parseObj->objectId);
-        /*
-        $parseQueryCommentators = new parseQuery('_User');
-        $parseQueryCommentators->whereRelatedTo('commentators', 'Video', $parseObj->objectId);
-        $testCommentators = $parseQueryCommentators->find();
-        $commentators = array();
-        foreach ($testCommentators->results as $user) {
-            $commentators[] = $user->objectId;
-        }*/
-        $video->setCommentators($commentators);
-
-        $comments = $this->getRelatedTo('comments', 'Video', $parseObj->objectId);
-        /*
-        $parseQueryComments = new parseQuery('Comment');
-        $parseQueryComments->whereRelatedTo('comments', 'Video', $parseObj->objectId);
-        $testComments = $parseQueryComments->find();
-        $comments = array();
-        foreach ($testComments->results as $comment) {
-            $comments[] = $comment->objectId;
-        }*/
-        $video->setComments($comments);
+        if ($parseObj->commentators != null) {
+            $userParse = new UserParse();
+            $commentators = $this->$userParse->getRelatedTo('commentators', 'Video', $parseObj->objectId);
+            $video->setCommentators($commentators);
+        }
+        if ($parseObj->comments != null) {
+            $commentParse = new CommentParse();
+            $comments = $this->$commentParse->getRelatedTo('comments', 'Video', $parseObj->objectId);
+            $video->setComments($comments);
+        }
         $video->setCounter($parseObj->counter);
         $video->setDescription($parseObj->description);
         $video->setDuration($parseObj->duration);
-        $featuring = $this->getRelatedTo('featuring', 'Video', $parseObj->objectId);
-        /*
-        $parseQueryFeaturing = new parseQuery('_User');
-        $parseQueryFeaturing->whereRelatedTo('featuring', 'Video', $parseObj->objectId);
-        $testFeaturing = $parseQueryFeaturing->find();
-        $featuring = array();
-        foreach ($testFeaturing->results as $user) {
-            $featuring[] = $user->objectId;
-         }*/
-        $video->setFeaturing($featuring);
+        if ($parseObj->featuring != null) {
+            $userParse = new UserParse();
+            $featuring = $this->$userParse->getRelatedTo('featuring', 'Video', $parseObj->objectId);
+            $video->setFeaturing($featuring);
+        }
         if ($parseObj->fromUser != null)
             $video->setFromUser($parseObj->fromUser);
         $video->setLoveCounter($parseObj->loveCounter);
-        
-        $lovers = $this->getRelatedTo('lovers', 'Video', $parseObj->objectId);
-        /*
-        $parseQueryLovers = new parseQuery('_User');
-        $parseQueryLovers->whereRelatedTo('lovers', 'Video', $parseObj->objectId);
-        $testLovers = $parseQueryLovers->find();
-        $lovers = array();
-        foreach ($testLovers->results as $user) {
-            $lovers[] = $user->objectId;
-        }*/
-        $video->setLovers($lovers);
+        if ($parseObj->lovers != null) {
+            $userParse = new UserParse();
+            $lovers = $this->$userParse->getRelatedTo('lovers', 'Video', $parseObj->objectId);
+            $video->setLovers($lovers);
+        }
         $video->setTags($parseObj->tags);
         $video->setTitle($parseObj->title);
         $video->setThumbnail($parseObj->thumbnail);
