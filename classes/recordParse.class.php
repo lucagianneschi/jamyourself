@@ -70,7 +70,7 @@ class RecordParse {
         $parseObj->year = $record->getYear();
         $parseObj->ACL = toParseACL($record->getACL());
 
-        if (isset($record->getObjectId()) && $record->getObjectId() != null) {
+        if ($record->getObjectId() != null ) {
             try {
                 $result = $parseObj->update($record->getObjectId());
                 $record->setObjectId($result->objectId);
