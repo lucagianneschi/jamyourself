@@ -1,5 +1,6 @@
 <?php
-/*! \par Info Generali:
+
+/* ! \par Info Generali:
  *  \author    Daniele Caldelli
  *  \version   1.0
  *  \date      2013
@@ -18,83 +19,83 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:error:faq">API</a>
  */
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 
 class ErrorParse {
-	
-	private $parseQuery;
-	
-	public function __construct() {
-		$this->parseQuery = new parseQuery('Error');
-	}
-	
-	public function getCount() {
+
+    private $parseQuery;
+
+    public function __construct() {
+        $this->parseQuery = new parseQuery('Error');
+    }
+
+    public function getCount() {
         $this->parseQuery->getCount();
     }
-	
-	public function getError($objectId) {
-		try {
-			$parseObject = new parseObject('Error');
-			$res = $parseObject->get($objectId);
-			$error = $this->parseToError($res);
-			return $error;
-		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
-		}
-	}
 
-	public function getErrors() {
-		try {
-			$errors = array();
-			$res = $this->parseQuery->find();
-			foreach ($res->results as $obj) {
-				$cmt = $this->parseToError($obj);
-				$errors[$error->getObjectId()] = $error;
-			}
-			return $errors;
-		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
+    public function getError($objectId) {
+        try {
+            $parseObject = new parseObject('Error');
+            $res = $parseObject->get($objectId);
+            $error = $this->parseToError($res);
+            return $error;
+        } catch (Exception $e) {
+            $error = new error();
+            $error->setErrorClass(__CLASS__);
+            $error->setErrorCode($e->getCode());
+            $error->setErrorMessage($e->getMessage());
+            $error->setErrorFunction(__FUNCTION__);
+            $error->setErrorFunctionParameter(func_get_args());
+
+            $errorParse = new errorParse();
+            $errorParse->saveError($error);
+
+            return $error;
+        }
+    }
  
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
-		}
-	}
-	
-	private function isNullPointer($pointer) {
-		$className = $pointer['className'];
-		$objectId = $pointer['objectId'];
-		$isNull = true;
- 
-		if ($className == '' || $objectId == '') {
-			$isNull = true;
-		} else {
-			$isNull = false;
-		}
- 
-		return $isNull;
-	}
-	
-	public function orderBy($field) {
+    public function getErrors() {
+        try {
+            $errors = array();
+            $res = $this->parseQuery->find();
+            foreach ($res->results as $obj) {
+                $error = $this->parseToError($obj);
+                $errors[$error->getObjectId()] = $error;
+            }
+            return $errors;
+        } catch (Exception $e) {
+            $error = new error();
+            $error->setErrorClass(__CLASS__);
+            $error->setErrorCode($e->getCode());
+            $error->setErrorMessage($e->getMessage());
+            $error->setErrorFunction(__FUNCTION__);
+            $error->setErrorFunctionParameter(func_get_args());
+
+            $errorParse = new errorParse();
+            $errorParse->saveError($error);
+
+            return $error;
+        }
+    }
+
+    private function isNullPointer($pointer) {
+        $className = $pointer['className'];
+        $objectId = $pointer['objectId'];
+        $isNull = true;
+
+        if ($className == '' || $objectId == '') {
+            $isNull = true;
+        } else {
+            $isNull = false;
+        }
+
+        return $isNull;
+    }
+
+    public function orderBy($field) {
         $this->parseQuery->orderBy($field);
     }
 
@@ -105,46 +106,48 @@ class ErrorParse {
     public function orderByDescending($value) {
         $this->parseQuery->orderByDescending($value);
     }
-	
-	public function parseToError(stdClass $parseObj) {
 
-        $error = null;
-		if (isset($parseObj->errorClass)){
-		$error->setErrorClass($parseObj->errorClass);
-		} 
-		if (isset($parseObj->errorCode)){
-		$error->setErrorCode($parseObj->errorCode);
-		}
-		if (isset($parseObj->errorMessage)){
-		$error->setErrorMessage($parseObj->errorMessage);
-		}		
-		if (isset($parseObj->errorFunction)){
-		$error->setErrorFunction($parseObj->errorFunction);
-		}
-		if (isset($parseObj->errorFunctionParameter)){
-		$error->setErrorFunctionParameter($parseObj->errorFunctionParameter);
-		}
-		if (isset($parseObj->createdAt))
-            $video->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+    public function parseToError(stdClass $parseObj) {
+
+        $error = new Error();
+        $error->setObjectId($parseObj->objectId);
+        if (isset($parseObj->errorClass)) {
+            $error->setErrorClass($parseObj->errorClass);
+        }
+        if (isset($parseObj->errorCode)) {
+            $error->setErrorCode($parseObj->errorCode);
+        }
+        if (isset($parseObj->errorMessage)) {
+            $error->setErrorMessage($parseObj->errorMessage);
+        }
+        if (isset($parseObj->errorFunction)) {
+            $error->setErrorFunction($parseObj->errorFunction);
+        }
+        if (isset($parseObj->errorFunctionParameter)) {
+            $error->setErrorFunctionParameter($parseObj->errorFunctionParameter);
+        }
+        if (isset($parseObj->createdAt))
+            $error->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
         if (isset($parseObj->updatedAt))
-            $video->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
-		$acl = new parseACL();
+            $error->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+        $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);
         $error->setACL($acl);
-		}
-	
-	public function saveError($error) {
-		//creo la "connessione" con Parse
-		$parseObject = new parseObject('Error');
-		$parseObject->errorClass =				$error->getErrorClass();
-		$parseObject->errorCode =               $error->getErrorCode();
-		$parseObject->errorMessage =            $error->getErrorMessage();
-		$parseObject->errorFunction =           $error->getErrorFunction();
-		$parseObject->errorFunctionParameter =  $error->getErrorFunctionParameter();
-		$parseObject->save();
-	}
-	
+        return $error;
+    }
+
+    public function saveError($error) {
+        //creo la "connessione" con Parse
+        $parseObject = new parseObject('Error');
+        $parseObject->errorClass = $error->getErrorClass();
+        $parseObject->errorCode = $error->getErrorCode();
+        $parseObject->errorMessage = $error->getErrorMessage();
+        $parseObject->errorFunction = $error->getErrorFunction();
+        $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
+        $parseObject->save();
+    }
+
     public function setLimit($int) {
         $this->parseQuery->setLimit($int);
     }
@@ -219,6 +222,8 @@ class ErrorParse {
 
     public function whereRelatedTo($key, $className, $objectId) {
         $this->parseQuery->whereRelatedTo($key, $className, $objectId);
-    }	
+    }
+
 }
+
 ?>
