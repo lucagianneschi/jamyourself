@@ -98,15 +98,20 @@ class LocationParse{
 	
 function parseToLocation(stdClass $parseObj) {
         $location = new Location();
-		
-        $location->setObjectId($parseObj->objectId);
-	$location->setCity($parseObj->city);
-	$location->setCountry($parseObj->country);
+	if(isset($parseObj->objectId))
+            $location->setObjectId($parseObj->objectId);
+        if(isset($parseObj->city))
+            $location->setCity($parseObj->city);
+        if(isset($parseObj->country))
+            $location->setCountry($parseObj->country);
         if (isset($parseObj->geoPoint)) 
             $location->setLocation(new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude));
-        $location->setLocId($parseObj->locId);
-        $location->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
-        $location->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+        if(isset($parseObj->locId))
+            $location->setLocId($parseObj->locId);
+        if (isset($parseObj->createdAt))
+            $location->setCreatedAt(new DateTime($parseObj->createdAt));
+        if (isset($parseObj->updatedAt))
+            $location->setUpdatedAt(new DateTime($parseObj->updatedAt));
         $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $location->setACL($acl);
