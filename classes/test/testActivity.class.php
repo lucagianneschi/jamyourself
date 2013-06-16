@@ -12,36 +12,45 @@ require_once CLASSES_DIR . 'activityParse.class.php';
 
 $jamObj = new Activity();
 
-$cmt->setActive(true);
-//$cmt->setAlbum(Album $album);
-//$cmt->setComment(Comment $comment);
-
-$comments = array(
-    "__op" => "AddRelation",
-    "objects" => array(
-        array("__type" => "Pointer", "className" => "Comment", "objectId" => "2gMM3NmUYY"),
-        array("__type" => "Pointer", "className" => "Comment", "objectId" => "5zw3I5d9Od")
-    )
-);
-
+$accepted = null;
+$active = null;  
+$album = null;   
+$comment = null; 
+$event = null;   
+$fromUser = null;
+$image = null;   
+$playlist = null; 
+$question = null;
+$read = null;   
+$record = null;  
+$song = null;    
+$status = null;  
+$toUser = null;  
+$type = null;  
+$userStatus = null;
+$video = null;     
+$ACL;   
+//inizializzazione coi setters
 
 $accepted = true;
 $active = true;
-$album = new AlbumParse((new parseObject())->get("K3wVfjk1p5"));
-$comment = new CommentParse((new parseObject())->get("VvX5nyboaH"));
-$event = new EventParse((new parseObject())->get("19OuVtOhfJ"));
-$fromUser = new UserParse((new parseObject())->get("dcIDVIh6FY"));
-$image = new ImageParse((new parseObject())->get("OrBTtExxMp"));
-$playlist = new PlaylistParse((new parseObject())->get("cJZLb3BfMW"));
-$question = new QuestionParse((new parseObject())->get("YvGtWTXV0O"));
+
+$album = (new AlbumParse)->parseToAlbum((new parseObject("Album"))->get("K3wVfjk1p5"));
+        
+$comment = (new CommentParse)->parseToAlbum((new parseObject("temp"))->get("VvX5nyboaH"));
+$event = (new EventParse)->parseToAlbum((new parseObject("temp"))->get("19OuVtOhfJ"));
+$fromUser = (new UserParse)->parseToAlbum((new parseObject("temp"))->get("dcIDVIh6FY"));
+$image = (new ImageParse)->parseToAlbum((new parseObject("temp"))->get("OrBTtExxMp"));
+$playlist = (new PlaylistParse)->parseToAlbum((new parseObject("temp"))->get("cJZLb3BfMW"));
+$question = (new QuestionParse)->parseToAlbum((new parseObject("temp"))->get("YvGtWTXV0O"));
 $read = false;
-$record = new RecordParse((new parseObject())->get("QmhKrALo5P"));
-$song = new SongParse((new parseObject())->get("68eX5oxAOe"));
+$record = (new RecordParse)->parseToAlbum((new parseObject("temp"))->get("QmhKrALo5P"));
+$song = (new SongParse)->parseToAlbum((new parseObject("temp"))->get("68eX5oxAOe"));
 $status = "Test status";
-$toUser = new AlbumParse((new parseObject())->get("oCXTbUvMpw"));
+$toUser = (new AlbumParse)->parseToAlbum((new parseObject("temp"))->get("oCXTbUvMpw"));
 $type = "TEST_ACTIVITY";
-$userStatus = new UserParse((new parseObject())->get("6dvbdcScnm"));
-$video = new VideoParse((new parseObject())->get("MQbqTvCo7O"));
+$userStatus = (new UserParse)->parseToAlbum((new parseObject("temp"))->get("6dvbdcScnm"));
+$video = (new VideoParse)->parseToAlbum((new parseObject("temp"))->get("MQbqTvCo7O"));
 
 $jamObj->setAccepted($accepted);
 $jamObj->setActive($active);
@@ -74,33 +83,33 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />STAMPO IL COMMENTO APPENA CREATO<br />';
 echo $jamObj;
 
-echo '<br />-------------------------------------------------------------------------------<br />';
-
-echo '<br />INIZIO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
-
-$jamParse = new ActivityParse();
-$resSave = $jamParse->saveActivity($jamObj);
-if (get_class($resSave) == 'Error') {
-    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
-} else {
-    echo '<br />Comment SAVED<br />' . $resSave . '<br />';
-}
-
-echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
-
-echo '<br />-------------------------------------------------------------------------------<br />';
-
-echo '<br />INIZIO IL RECUPERO DI UN Comment<br /><br />';
-
-$jamParse = new ActivityParse();
-$resGet = $jamParse->getActivity('6XuFv1BRX2');
-if (get_class($resGet) == 'Error') {
-    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
-} else {
-    echo $resGet;
-}
-
-echo '<br />FINITO IL RECUPERO DI UN Comment<br />';
+//echo '<br />-------------------------------------------------------------------------------<br />';
+//
+//echo '<br />INIZIO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
+//
+//$jamParse = new ActivityParse();
+//$resSave = $jamParse->saveActivity($jamObj);
+//if (get_class($resSave) == 'Error') {
+//    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
+//} else {
+//    echo '<br />Comment SAVED<br />' . $resSave . '<br />';
+//}
+//
+//echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
+//
+//echo '<br />-------------------------------------------------------------------------------<br />';
+//
+//echo '<br />INIZIO IL RECUPERO DI UN Comment<br /><br />';
+//
+//$jamParse = new ActivityParse();
+//$resGet = $jamParse->getActivity('6XuFv1BRX2');
+//if (get_class($resGet) == 'Error') {
+//    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+//} else {
+//    echo $resGet;
+//}
+//
+//echo '<br />FINITO IL RECUPERO DI UN Comment<br />';
 //
 //echo '<br />-------------------------------------------------------------------------------<br />';
 //

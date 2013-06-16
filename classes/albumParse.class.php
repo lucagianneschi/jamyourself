@@ -181,7 +181,8 @@ class AlbumParse {
         if (isset($parseObj->featuring)) {
             $parseUser = new UserParse();
             $parseUser->whereRelatedTo("featuring", "Album", $parseObj->objectId);
-            $album->setFeaturing($parseUser->getUsers());
+            $albums = $parseUser->getUsers();
+            if($albums)$album->setFeaturing($albums);
         }
 
         if (isset($parseObj->fromUser)) 
