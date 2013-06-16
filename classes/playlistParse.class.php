@@ -135,14 +135,11 @@ class PlaylistParse {
         if ($parseObj->fromUser != null)
             $playlist->setFromUser($parseObj->fromUser);
         $playlist->setName($parseObj->name);
-        $parseQuery = new parseQuery('Song');
-        $parseQuery->whereRelatedTo('songs', 'Playlist', $parseObj->objectId);
-        $test = $parseQuery->find();
-        $songRelatedTo = array();
-        foreach ($test->results as $song) {
-            $songRelatedTo[] = $song->objectId;
+        if($parseObj->songs != null){
+            $songParse = new SongParse();
+            $songs = $this->$songParse->getRelatedTo('songs', 'Playlist', $parseObj->objectId);
+            $playlist->setAttendee($songs);
         }
-        $playlist->setSongs($songRelatedTo);
         $playlist->setUnlimited($parseObj->unlimited);
         if (isset($parseObj->createdAt))
             $playlist->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
