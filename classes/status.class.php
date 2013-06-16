@@ -228,86 +228,89 @@ class Status {
 
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        $string .= '[active] => ' . $this->getActive() . '<br />';
+        if ($this->getActive() === null) {
+            $string .= '[active] => NULL<br />';
+        } else {
+            $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
+        }
         if (count($this->getCommentators()) != 0) {
-			foreach ($this->getCommentators() as $commentator) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[commentators] => ' . $commentator . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[commentators] => NULL<br />';
-		}
-		if (count($this->getComments()) != 0) {
-			foreach ($this->getComments() as $comment) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[comments] => ' . $comment . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[comments] => NULL<br />';
-		}
+            foreach ($this->getCommentators() as $commentator) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[commentators] => ' . $commentator . '<br />';
+            }
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[commentators] => NULL<br />';
+        }
+        if (count($this->getComments()) != 0) {
+            foreach ($this->getComments() as $comment) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[comments] => ' . $comment . '<br />';
+            }
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[comments] => NULL<br />';
+        }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         if ($this->getEvent() != null) {
-			$string .= '[event] => ' . $this->getEvent()->getObjectId() . '<br />';
-		} else {
-			$string .= '[event] => NULL<br />';
-		}
+            $string .= '[event] => ' . $this->getEvent()->getObjectId() . '<br />';
+        } else {
+            $string .= '[event] => NULL<br />';
+        }
         if ($this->getFromUser() != null) {
-			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
-		} else {
-			$string .= '[fromUser] => NULL<br />';
-		}
+            $string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+        } else {
+            $string .= '[fromUser] => NULL<br />';
+        }
         if ($this->getImage() != null) {
-			$string .= '[image] => ' . $this->getImage()->getObjectId() . '<br />';
-		} else {
-			$string .= '[image] => NULL<br />';
-		}
+            $string .= '[image] => ' . $this->getImage()->getObjectId() . '<br />';
+        } else {
+            $string .= '[image] => NULL<br />';
+        }
         //$imageFile = $this->getImageFile();
         //$string.="[imageFile] => " . $imageFile->getObjectId() . "<br />";
-        $parseGeoPoint = $this->getLocation();
         if ($this->getLocation() != null) {
-			$location = $this->getLocation();
-			$string .= '[location] => ' . $location[latitude] . ', ' . $location[longitude] . '<br />';
-		} else {
-			$string .= '[location] => NULL<br />';
-		}
+            $location = $this->getLocation();
+            $string .= '[location] => ' . $location[latitude] . ', ' . $location[longitude] . '<br />';
+        } else {
+            $string .= '[location] => NULL<br />';
+        }
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
         if (count($this->getLovers()) != 0) {
-			foreach ($this->getLovers() as $lovers) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[lovers] => ' . $lovers . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[lovers] => NULL<br />';
-		}
+            foreach ($this->getLovers() as $lovers) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[lovers] => ' . $lovers . '<br />';
+            }
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[lovers] => NULL<br />';
+        }
         if ($this->getSong() != null) {
-			$string .= '[song] => ' . $this->getSong()->getObjectId() . '<br />';
-		} else {
-			$string .= '[song] => NULL<br />';
-		}
-		if (count($this->getTaggedUsers()) != 0) {
-			foreach ($this->getTaggedUsers() as $taggedUser) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[taggedUser] => ' . $taggedUser . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[taggedUser] => NULL<br />';
-		}
+            $string .= '[song] => ' . $this->getSong()->getObjectId() . '<br />';
+        } else {
+            $string .= '[song] => NULL<br />';
+        }
+        if (count($this->getTaggedUsers()) != 0) {
+            foreach ($this->getTaggedUsers() as $taggedUser) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[taggedUser] => ' . $taggedUser . '<br />';
+            }
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[taggedUser] => NULL<br />';
+        }
         $string.= '[text] => ' . $this->getText() . '<br />';
         if ($this->getCreatedAt() != null) {
-			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-		} else {
-			$string .= '[createdAt] => NULL<br />';
-		}
-		if ($this->getUpdatedAt() != null) {
-			$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-		} else {
-			$string .= '[updatedAt] => NULL<br />';
-		}
-		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
+            $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+        } else {
+            $string .= '[createdAt] => NULL<br />';
+        }
+        if ($this->getUpdatedAt() != null) {
+            $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+        } else {
+            $string .= '[updatedAt] => NULL<br />';
+        }
+        $string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
         return $string;
     }
 
