@@ -293,7 +293,11 @@ class Event {
 
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        $string .= '[active] => ' . $this->getActive() . '<br />';
+        if ($this->getActive() === null) {
+            $string .= '[active] => NULL<br />';
+        } else {
+            $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
+        }
         if ($this->getAttendee() != null && count($this->getAttendee() > 0)) {
             foreach ($this->getAttendee() as $attendee) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
