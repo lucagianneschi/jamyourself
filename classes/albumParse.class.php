@@ -28,7 +28,7 @@ class AlbumParse {
         $this->parseQuery = new ParseQuery("Album");
     }
 
-    function save(Album $album) {
+    function saveAlbum(Album $album) {
 
         //creo un'istanza dell'oggetto della libreria ParseLib
         $parseObj = new parseObject("Album");
@@ -49,7 +49,7 @@ class AlbumParse {
 //        }
         $parseObj->description = $album->getDescription();
         
-        $album->featuring = toParseRelation($album->getFeaturing());
+        $parseObj->featuring = toParseRelation($album->getFeaturing());
 
         $parseObj->fromUser = toParsePointer($album->getFromUser());        
 
@@ -61,10 +61,10 @@ class AlbumParse {
 
         $parseObj->lovers = toParseRelation($album->getLovers());
         
-        if ($album->getTags() == null || count($album->getTags()) == 0)
-            $parseObj->tags = null;
-        else
+        if ($album->getTags() != null && count($album->getTags()) > 0)
             $parseObj->tags = $album->getTags();
+        else
+            $parseObj->tags = null;
 
         $parseObj->thumbnailCover = $album->getThumbnailCover();
 
@@ -108,7 +108,7 @@ class AlbumParse {
      * @param Album $album
      * @return boolean
      */
-    function delete(Album $album) {
+    function deleteAlbum(Album $album) {
         if ($album) {
             $album->setActive(false);
 
