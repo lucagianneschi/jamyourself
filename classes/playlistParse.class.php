@@ -25,6 +25,7 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
+//require_once CLASSES_DIR . 'utils.class.php';
 
 class PlaylistParse {
 
@@ -156,7 +157,12 @@ class PlaylistParse {
         try {
             $parseObject = new parseObject('Playlist');
             if ($playlist->getObjectId() == '') {
-
+                //codice che implementa la utils.class
+                /* $parseObj->fromUser = toParsePointer($playlist->getFromUser()); 
+                 * $parseObj->songs = toParseRelation($playlist->getSongs());
+                 * $parseObj->ACL = toParseACL($playlist->getACL());
+                 */
+                
                 $playlist->getActive() === null ? $parseObject->active = null : $parseObject->active = $playlist->getActive();
                 $playlist->getFromUser() == null ? $parseObject->fromUser = null : $parseObject->fromUser = $playlist->getFromUser();
                 $playlist->getName() == null ? $parseObject->name = null : $parseObject->name = $playlist->getName();
