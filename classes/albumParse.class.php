@@ -33,22 +33,12 @@ class AlbumParse {
         //creo un'istanza dell'oggetto della libreria ParseLib
         $parseObj = new parseObject("Album");
 
-        //inizializzo le properties
-
         $parseObj->active = $album->getActive();
 
-        if ($album->getCommentators() == null || count($album->getCommentators()) == 0)
-            $parseObj->commentators = null;
-        else {
-            $parseObj->commentators = toParseRelation($album->getCommentators());
-        }
-
-        if ($album->getComments() == null || count($album->getComments()) == 0)
-            $parseObj->comments = null;
-        else {
-            $parseObj->comments = toParseRelation($album->getComments());
-        }
-
+        $parseObj->commentators = toParseRelation($album->getCommentators());
+        
+        $parseObj->comments = toParseRelation($album->getComments());
+        
         $parseObj->counter = $album->getCounter();
 
         $parseObj->cover = $album->getCover();
@@ -58,35 +48,19 @@ class AlbumParse {
 //            
 //        }
         $parseObj->description = $album->getDescription();
+        
+        $album->featuring = toParseRelation($album->getFeaturing());
 
-        if ($album->getFeaturing() == null)
-            $album->featuring = null;
-        else {
-            $album->featuring = toParseRelation($album->getFeaturing());
-        }
+        $parseObj->fromUser = toParsePointer($album->getFromUser());        
 
-        if ($album->getFromUser() == null)
-            $parseObj->fromUser = null;
-        else {
-            $parseObj->fromUser = toParsePointer($album->getFromUser());
-        }
-        if ($album->getImages() == null)
-            $parseObj->images = null;
-        else {
-            $parseObj->images = toParsePointer($album->getImages());
-        }
-        if ($album->getLocation() == null)
-            $parseObj->location = null;
-        else {
-            $parseObj->location = toParseGeoPoint($album->getLocation());
-        }
+        $parseObj->images = toParsePointer($album->getImages());        
+
+        $parseObj->location = toParseGeoPoint($album->getLocation());
+
         $parseObj->loveCounter = $album->getLoveCounter();
 
-        if ($album->getLovers() == null || count($album->getLovers()) == 0)
-            $parseObj->lovers = null;
-        else {
-            $parseObj->lovers = toParseRelation($album->getLovers());
-        }
+        $parseObj->lovers = toParseRelation($album->getLovers());
+        
         if ($album->getTags() == null || count($album->getTags()) == 0)
             $parseObj->tags = null;
         else
@@ -96,7 +70,7 @@ class AlbumParse {
 
         $parseObj->title = $album->getTitle();
 
-        $album->getACL() == null ? $parseObj->ACL = null : $parseObj->ACL = toParseACL($album->getACL()->acl);
+        $parseObj->ACL = toParseACL($album->getACL());
 
         if ($album->getObjectId() != null) {
 
@@ -148,7 +122,7 @@ class AlbumParse {
     }
 
     function getAlbum($objectId) {
-        $result = parseObject::get($objectId);
+        $result = (new parseRestClient())->get($objectId);
         return $this->parseToAlbum($result);
     }
 
@@ -186,31 +160,19 @@ class AlbumParse {
             $album->setDescription($parseObj->description);
 
         if (isset($parseObj->featuring)) {
-
             $parseUser = new UserParse();
-            $parseUser->whereRelatedTo(featuring, "Album", $parseObj->objectId);
-            $featuring = $parseUser->getUsers();
-
-            $album->setFeaturing($featuring);
+            $parseUser->whereRelatedTo("featuring", "Album", $parseObj->objectId);
+            $album->setFeaturing($parseUser->getUsers());
         }
 
-        if (isset($parseObj->fromUser)) {
-            $parseUser = new UserParse();
-            $pointer = $parseObj->fromUser;
-            $fromUser = $parseUser->getUserById($pointer->getObjectId());
-            $album->setFromUser($fromUser);
-        }
-
-        if (isset($parseObj->location)) {
-            //recupero il GeoPoint
-            $geoParse = $parseObj->location;
-            $geoPoint = new parseGeoPoint($geoParse->latitude, $geoParse->longitude);
-            $album->setLocation($geoPoint);
-        }
-
+        if (isset($parseObj->fromUser)) 
+            $album->setFromUser((new UserParse())->getUser($parseObj->objectId));
+        
+        if (isset($parseObj->location)) 
+            $album->setLocation(new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude));
+        
         if (isset($parseObj->loveCounter))
             $album->setLoveCounter($parseObj->loveCounter);
-
 
         if (isset($parseObj->thumbnailCover))
             $album->setThumbnailCover($parseObj->thumbnailCover);
@@ -221,22 +183,14 @@ class AlbumParse {
         if (isset($parseObj->title))
             $album->setTitle($parseObj->title);
 
-        if (isset($parseObj->createdAt)) {
-
-            $createdAt = new DateTime($parseObj->createdAt);
-
-            $album->setCreatedAt($createdAt);
-        }
-
-        if (isset($parseObj->updatedAt)) {
-            $updatedAt = new DateTime($parseObj->updatedAt);
-
-            $album->setUpdatedAt($updatedAt);
-        }
-        if (isset($parseObj->ACL)) {
-            $ACL = null;
-            $album->setACL($ACL);
-        }
+        if (isset($parseObj->createdAt))
+            $album->setCreatedAt(new DateTime($parseObj->createdAt));
+        
+        if (isset($parseObj->updatedAt))
+            $album->setUpdatedAt(new DateTime($parseObj->updatedAt));
+        
+        if (isset($parseObj->ACL))
+            $album->setACL($parseObj->ACL);
 
         return $album;
     }

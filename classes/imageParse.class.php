@@ -31,38 +31,37 @@ class ImageParse {
 
         //recupero le info dell'oggetto
         $parse = new parseObject("Image");
+        
+        $parse->active = $image->getActive();
+        
+        $parse->album = toParsePointer($image->getAlbum());
 
+        $parse->commentators = toParseRelation($image->getCommentator());
 
-        if ($parse->active)
-            $parse->active = $image->getActive();
-        if ($parse->album)
-            $parse->album = toParsePointer($image->getAlbum());
-        if ($parse->commentators)
-            $parse->commentators = toParseRelation($image->getCommentator());
-        if ($parse->comments)
-            $parse->comments = toParseRelation($image->getComments());
-        if ($parse->counter)
-            $parse->counter = $image->getCounter();
-        if ($parse->description)
-            $parse->description = $image->getDescription();
-        if ($parse->featuring)
-            $parse->featuring = toParseRelation($image->getFeaturing());
-//        if ($parse->file)
-//            $parse->file = $image->getFile();
-        if ($parse->filePath)
-            $parse->filePath = $image->getFilePath();
-        if ($parse->fromUser)
-            $parse->fromUser = toParsePointer($image->getFromUser());
-        if ($parse->location)
-            $parse->location = toParseGeoPoint($image->getLocation());
-        if ($parse->loveCounter)
-            $parse->loveCounter = $image->getLoveCounter();
-        if ($parse->lovers)
-            $parse->lovers = toParseRelation($image->getLovers());
-        if ($parse->tags)
-            $parse->tags = $image->getTags();
-        if ($parse->ACL)
-            $parse->ACL = toParseACL($image->getACL());
+        $parse->comments = toParseRelation($image->getComments());
+
+        $parse->counter = $image->getCounter();
+
+        $parse->description = $image->getDescription();
+
+        $parse->featuring = toParseRelation($image->getFeaturing());
+
+//      $parse->file = $image->getFile();
+
+        $parse->filePath = $image->getFilePath();
+
+        $parse->fromUser = toParsePointer($image->getFromUser());
+
+        $parse->location = toParseGeoPoint($image->getLocation());
+
+        $parse->loveCounter = $image->getLoveCounter();
+
+        $parse->lovers = toParseRelation($image->getLovers());
+
+        if($image->getTags()!=null && count($image->getTags())>0)$parse->tags = $image->getTags();
+        else $parse->tags = null;
+
+        $parse->ACL = toParseACL($image->getACL());
 
         if (( $image->getObjectId()) != null) {
             //update
@@ -106,7 +105,7 @@ class ImageParse {
     }
 
     public function getImage($objectId) {
-        $result = parseObject::get($objectId);
+        $result = (new parseRestClient())->get($objectId);
         return $this->parseToActivity($result);
     }
 
@@ -140,7 +139,7 @@ class ImageParse {
         if (isset($parseObj->active))
             $image->setActive($parseObj->active);
         if (isset($parseObj->album))
-            $image->setAlbum(AlbumParse::getAlbum($parseObj->album->objectId));
+            $image->setAlbum((new AlbumParse)->getAlbum($parseObj->album->objectId));
 
         if (isset($parseObj->commentators)) {
             $parse = new UserParse();

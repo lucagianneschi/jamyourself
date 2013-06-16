@@ -42,11 +42,14 @@ function toParsePointer($object) {
         case "Role" :
             $className = "_Role";
             break;
+        case "User" :
+            $className = "_User";
+            break;
         default :
             $className = get_class($object);
     }
 
-    return parseObject::dataType("pointer", array($className, $object->{"getObjectId"}()));
+    return (new parseRestClient())->dataType("pointer", array($className, $object->getObjectId()));
 }
 
 /**
@@ -55,16 +58,17 @@ function toParsePointer($object) {
  * @return null
  */
 function toParseRelation(array $array) {
-    if (!$array || !count($array) > 0 || !is_object($array[0]))
+    if (!$array || !count($array) > 0)
         return null;
-    
+
     $arrayPointer = array();
 
     foreach ($array as $istance) {
         $pointer = toParsePointer($istance);
-        $arrayPointer[] = $pointer;
+        if ($pointer)
+            $arrayPointer[] = $pointer;
     }
-    return parseObject::dataType("relation", $arrayPointer);
+    return (new parseRestClient())->dataType("relation", $arrayPointer);
 }
 
 /**
@@ -75,7 +79,7 @@ function toParseRelation(array $array) {
 function toParseDateTime(DateTime $dateTime) {
     if (!$dateTime)
         return null;
-    return parseObject::dataType('date', $dateTime->format('r'));
+    return (new parseRestClient())->dataType('date', $dateTime->format('r'));
 }
 
 /**
