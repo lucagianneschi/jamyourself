@@ -183,8 +183,10 @@ class RecordParse {
         
         if (isset($parseObj->createdAt))
             $record->setCreatedAt(new DateTime($parseObj->createdAt));
+        
         if (isset($parseObj->updatedAt))
             $record->setUpdatedAt(new DateTime($parseObj->updatedAt));
+        
         if (isset($parseObj->ACL))
             $record->setACL($parseObj->ACL);
 
