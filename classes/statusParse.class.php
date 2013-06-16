@@ -149,38 +149,45 @@ class StatusParse {
             return null;  //se non ho ricevuto niente...
 
         $status = new Status();
-
-        $status->setObjectId($parseObj->objectId);
-        $status->setActive($parseObj->active);
-          if($parseObj->commentators != null){
+        
+        if(isset($parseObj->objectId))
+            $status->setObjectId($parseObj->objectId);
+        if(isset($parseObj->active))
+            $status->setActive($parseObj->active);
+        if(isset($parseObj->commentators)){
             $userParse = new UserParse();
             $commentators = $this->$userParse->getRelatedTo('commentators', 'Status', $parseObj->objectId);
             $status->setCommentators($commentators);
         }
-        if($parseObj->comments != null){
+        if(isset($parseObj->comments)){
             $commentParse = new CommentParse();
             $comments = $this->$commentParse->getRelatedTo('comments', 'Status', $parseObj->objectId);
             $status->setComments($comments);
         }
-        $status->setCounter($parseObj->counter);
-        if ($parseObj->event != null)
+        if(isset($parseObj->counter))
+            $status->setCounter($parseObj->counter);
+        if (isset($parseObj->event))
             $status->setEvent($parseObj->event);
-        if ($parseObj->fromUser != null)
+        if (isset($parseObj->fromUser))
             $status->setFromUser($parseObj->fromUser);
-        if ($parseObj->image != null)
+        if (isset($parseObj->image))
             $status->setImage($parseObj->image);
-        $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
-        $status->setLocation($parseGeoPoint->location);
-        $status->setLoveCounter($parseObj->loveCounter);
-        if($parseObj->lovers != null){
+        if(isset($parseObj->location)){
+            $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
+            $status->setLocation($parseGeoPoint->location);
+        }
+        if(isset($parseObj->loveCounter))
+            $status->setLoveCounter($parseObj->loveCounter);
+        if(isset($parseObj->lovers)){
             $userParse = new UserParse();
             $lovers = $this->$userParse->getRelatedTo('lovers', 'Status', $parseObj->objectId);
             $status->setLovers($lovers);
         }
-        if ($parseObj->song != null)
+        if (isset($parseObj->song))
             $status->setSong($parseObj->song);
-        $status->setText($parseObj->text);
-        if($parseObj->taggedUsers != null){
+        if(isset($parseObj->text))
+            $status->setText($parseObj->text);
+        if(isset($parseObj->taggedUsers)){
             $userParse = new UserParse();
             $taggedUsers = $this->$userParse->getRelatedTo('taggedUsers', 'Status', $parseObj->objectId);
             $status->setLovers($taggedUsers);
