@@ -24,6 +24,7 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
+//require_once CLASSES_DIR . 'utils.class.php';
 
 class StatusParse {
 
@@ -182,6 +183,20 @@ class StatusParse {
         try {
             $parseObject = new parseObject('Status');
             if ($status->getObjectId() == '') {
+                 //codice che implementa la utils.class
+                /*
+                $parseObj->commentators = toParseRelation($status->getCommentators());
+                $parseObj->comments = toParseRelation($status->getComments());
+                $parseObj->featuring = toParseRelation($status->getFeaturing());
+                $parseObj->fromUser = toParsePointer($status->getFromUser()); 
+                $parseObj->image = toParsePointer($status->getImage());
+                $parseObj->location = toParsePointer($status->getLocation());
+                $parseObj->lovers = toParseRelation($status->getLovers())
+                $parseObj->taggedUsers = toParseRelation($status->getTaggedUsers());
+                $parseObj->ACL = toParseACL($status->getACL());
+                */
+                
+                
                 $status->getActive() === null ? $parseObject->active = null : $parseObject->active = $status->getActive();
                 $status->getCommentators() == null ? $parseObject->commentators = null : $parseObject->commentators = $status->getCommentators();
                 $status->getComments() == null ? $parseObject->comments = null : $parseObject->comments = $status->getComments();

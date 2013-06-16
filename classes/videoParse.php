@@ -183,13 +183,14 @@ class VideoParse {
         try {
             $parseObj = new parseObject('Video');
             if ($video->getObjectId() == '') {
-                //co
+                //codice che implementa la utils.class
                 /*
                 $parseObj->commentators = toParseRelation($video->getCommentators());
                 $parseObj->comments = toParseRelation($video->getComments());
                 $parseObj->featuring = toParseRelation($video->getFeaturing());
                 $parseObj->fromUser = toParsePointer($video->getFromUser()); 
                 $parseObj->lovers = toParseRelation($video->getLovers());
+                $parseObj->ACL = toParseACL($status->getACL());
                 */
                
                 $video->getActive() === null ? $parseObj->active = null : $parseObj->active = $video->getActive();
