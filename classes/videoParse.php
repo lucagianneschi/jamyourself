@@ -24,6 +24,7 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
+//require_once CLASSES_DIR . 'utils.class.php';
 
 class VideoParse {
 
@@ -182,6 +183,15 @@ class VideoParse {
         try {
             $parseObj = new parseObject('Video');
             if ($video->getObjectId() == '') {
+                //co
+                /*
+                $parseObj->commentators = toParseRelation($video->getCommentators());
+                $parseObj->comments = toParseRelation($video->getComments());
+                $parseObj->featuring = toParseRelation($video->getFeaturing());
+                $parseObj->fromUser = toParsePointer($video->getFromUser()); 
+                $parseObj->lovers = toParseRelation($video->getLovers());
+                */
+               
                 $video->getActive() === null ? $parseObj->active = null : $parseObj->active = $video->getActive();
                 $video->getAuthor() == null ? $parseObj->author = null : $parseObj->author = $video->getAuthor();
                 $video->getCommentators() == null ? $parseObj->commentators = null : $parseObj->commentators = $video->getCommentators();
