@@ -30,67 +30,29 @@ class SongParse {
     function saveSong(Song $song) {
 
         //recupero le info dell'oggetto
-        $parse = new parseObject("Song");
+        $parseObj = new parseObject("Song");
 
-        $parse->active = $song->getActive();
+        $parseObj->active = $song->getActive();
+        $parseObj->commentators = toParseRelation($song->getCommentators());
+        $parseObj->comments = toParseRelation($song->getComments());
+        $parseObj->counter = $song->getCounter();
+        $parseObj->duration = $song->getDuration();
+        $parseObj->featuring = toParseRelation($song->getFeaturing());
+        $parseObj->filePath = $song->getFilePath();
+        $parseObj->fromUser = toParsePointer($song->getFromUser());
+        $parseObj->genre = $song->getGenre();
+        $parseObj->location = toParseGeoPoint($song->getLocation());
+        $parseObj->loveCounter = $song->getLoveCounter();
+        $parseObj->lovers = toParseRelation($song->getLovers());
+        $parseObj->record = toParsePointer($song->getRecord());
+        $parseObj->title = $song->getTitle();
+        $parseObj->ACL = toParseACL($song->getACL());
 
-        if ($song->getCommentators() != null && count($song->getCommentators()) > 0) {
-            $arrayPointer = array();
-            foreach ($song->getCommentators() as $user) {
-                $pointer = $parse->dataType("pointer", array("_User"), $user->getObjectId());
-                array_push($arrayPointer, $pointer);
-            }
-        } else {
-            $parse->commentators = null;
-        }
-
-        if ($song->getComments() != null && count($song->getComments()) > 0) {
-            $arrayPointer = array();
-            foreach ($song->getComments() as $comment) {
-                $pointer = $parse->dataType("pointer", array("Comment"), $comment->getObjectId());
-                array_push($arrayPointer, $pointer);
-            }
-        } else {
-            $parse->comments = null;
-        }
-
-        $parse->counter = $song->getCounter();
-        $parse->duration = $song->getDuration();
-
-        //array di puntori ad utenti
-        if ($song->getFeaturing() != null && count($song->getFeaturing()) > 0) {
-            $arrayPointer = array();
-            foreach ($song->getFeaturing() as $user) {
-                $pointer = $parse->dataType("pointer", array("Comment"), $comment->getObjectId());
-                array_push($arrayPointer, $pointer);
-            }
-        } else {
-            $parse->featuring = null;
-        }
-
-        $parse->filePath = $song->getFilePath();
-        if (( $fromUser = $song->getFromUser() ) != null) {
-            $parse->fromUser = array("__type" => "Pointer", "className" => "_User", "objectId" => $fromUser->getObjectId());
-        }
-
-        $parse->genre = $song->getGenre();
-
-        if (($geoPoint = $song->getLocation() ) != null) {
-            $parse->location = $geoPoint->location;
-        }
-
-        $parse->loveCounter = $song->getLoveCounter(); //contatore per tenere conto dei love
-        $parse->record = $song->getRecord();
-        $parse->title = $song->getTitle();
-
-        //$parse->ACL = $song->getACL();  PERCHé non viene settato??
-        //se esiste l'objectId vuol dire che devo aggiornare
-        //se non esiste vuol dire che devo salvare
         if (( $song->getObjectId()) != null) {
             //update
             try {
                 //update
-                $result = $parse->update($song->getObjectId());
+                $result = $parseObj->update($song->getObjectId());
 
                 //aggiorno l'update
                 $song->setUpdatedAt(new DateTime($result->updatedAt, new DateTimeZone("America/Los_Angeles")));
@@ -100,7 +62,7 @@ class SongParse {
         } else {
             try {
                 //salvo
-                $result = $parse->save();
+                $result = $parseObj->save();
 
                 //aggiorno i dati per la creazione
                 $song->setObjectId($result->objectId);
@@ -140,61 +102,171 @@ class SongParse {
         //recupero objectId
         if (isset($parseObj->objectId))
             $song->setObjectId($parseObj->objectId);
+        else
+            return null;
 
-        //boolean
         if (isset($parseObj->active))
             $song->setActive($parseObj->active);
-        if (isset($parseObj->comments))
-            $song->setActive($parseObj->comments);
+        
+        if (isset($parseObj->commentators)) {
+            $parse = new UserParse();
+            $parse->whereRelatedTo("commentators", "Song", $parseObj->objectId);
+            $song->setCommentators($parse->getUsers());
+        }
+        
+        if (isset($parseObj->comments)) {
+            $parse = new CommentParse();
+            $parse->whereRelatedTo("comments", "Song", $parseObj->objectId);
+            $song->setComments($parse->getUsers());
+        }
+        
         if (isset($parseObj->counter))
             $song->setCounter($parseObj->counter);
+        
         if (isset($parseObj->duration))
             $song->setDuration($parseObj->duration);
+        
         if (isset($parseObj->featuring)) {
-            $parseUser = new UserParse();
-            $featuring = $parseUser->getUserArrayById($parseObj->featuring);
-            $song->setFeaturing($featuring);
+            $parse = new UserParse();
+            $parse->whereRelatedTo("featuring", "Song", $parseObj->objectId);
+            $song->setFeaturing($parse->getUsers());
         }
-
+        
         if (isset($parseObj->filePath))
             $song->setFilePath($parseObj->filePath);
+        
         if (isset($parseObj->fromUser)) {
-            $parseUser = new UserParse();
-            $pointer = $parseObj->fromUser;
-            $fromUser = $parseUser->getUserById($pointer->objectId);
-            $song->setFromUser($fromUser);
+            $parse = new UserParse();
+            $song->setFromUser($parse->getUser($parseObj->fromUser->objectId));
         }
-
+        
         if (isset($parseObj->genre))
             $song->setGenre($parseObj->genre);
-        if (isset($parseObj->location)) {
-            $geoParse = $parseObj->location;
-            $geoPoint = new parseGeoPoint($geoParse->latitude, $geoParse->longitude);
-            $song->setLocation($geoPoint);
-        }
-
+        
+        if (isset($parseObj->location))
+            $song->setLocation(new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude));
+        
         if (isset($parseObj->loveCounter))
-            $song->setLoveCounter($parseObj->loveCounter); //aggiunto per tenere conto del numero di love
-        if (isset($parseObj->record)) {
-            $parseRecord = new RecordParse();
-            $pointer = $parseObj->record;
-            $song->setRecord($parseRecord->getRecord($pointer->objectId));
+            $song->setLoveCounter($parseObj->loveCounter);
+        
+        if (isset($parseObj->lovers)) {
+            $parse = new UserParse();
+            $parse->whereRelatedTo("lovers", "Song", $parseObj->objectId);
+            $song->setLovers($parse->getUsers());
         }
-
+        
+        if (isset($parseObj->record)) {
+            $parse = new RecordParse();
+            $parse->whereRelatedTo("record", "Song", $parseObj->objectId);
+            $song->setRecord($parse->getUsers());
+        }
+        
         if (isset($parseObj->title))
             $song->setTitle($parseObj->title);
-
-        //creo la data di tipo DateTime per createdAt e updatedAt
+        
         if (isset($parseObj->createdAt))
-            $song->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+            $song->setCreatedAt(new DateTime($parseObj->createdAt));
+        
         if (isset($parseObj->updatedAt))
-            $song->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+            $song->setUpdatedAt(new DateTime($parseObj->updatedAt));
+        
+        if (isset($parseObj->ACL))
+            $song->setACL($parseObj->ACL);
 
-        //ACL
-        if (isset($parseObj->ACL)) {
-            $ACL = null;
-            $song->setACL($ACL);
-        }
+        return $song;
+    }
+    
+    public function getCount() {
+        $this->parseQuery->getCount();
+    }
+
+    public function setLimit($int) {
+        $this->parseQuery->setLimit($int);
+    }
+
+    public function setSkip($int) {
+        $this->parseQuery->setSkip($int);
+    }
+
+    public function orderBy($field) {
+        $this->parseQuery->orderBy($field);
+    }
+
+    public function orderByAscending($value) {
+        $this->parseQuery->orderByAscending($value);
+    }
+
+    public function orderByDescending($value) {
+        $this->parseQuery->orderByDescending($value);
+    }
+
+    public function whereInclude($value) {
+        $this->parseQuery->whereInclude($value);
+    }
+
+    public function where($key, $value) {
+        $this->parseQuery->where($key, $value);
+    }
+
+    public function whereEqualTo($key, $value) {
+        $this->parseQuery->whereEqualTo($key, $value);
+    }
+
+    public function whereNotEqualTo($key, $value) {
+        $this->parseQuery->whereNotEqualTo($key, $value);
+    }
+
+    public function whereGreaterThan($key, $value) {
+        $this->parseQuery->whereGreaterThan($key, $value);
+    }
+
+    public function whereLessThan($key, $value) {
+        $this->parseQuery->whereLessThan($key, $value);
+    }
+
+    public function whereGreaterThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
+    }
+
+    public function whereLessThanOrEqualTo($key, $value) {
+        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
+    }
+
+    public function whereContainedIn($key, $value) {
+        $this->parseQuery->whereContainedIn($key, $value);
+    }
+
+    public function whereNotContainedIn($key, $value) {
+        $this->parseQuery->whereNotContainedIn($key, $value);
+    }
+
+    public function whereExists($key) {
+        $this->parseQuery->whereExists($key);
+    }
+
+    public function whereDoesNotExist($key) {
+        $this->parseQuery->whereDoesNotExist($key);
+    }
+
+    public function whereRegex($key, $value, $options = '') {
+        $this->parseQuery->whereRegex($key, $value, $options = '');
+    }
+
+    public function wherePointer($key, $className, $objectId) {
+        $this->parseQuery->wherePointer($key, $className, $objectId);
+    }
+
+    public function whereInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereInQuery($key, $className, $inQuery);
+    }
+
+    public function whereNotInQuery($key, $className, $inQuery) {
+        $this->parseQuery->whereNotInQuery($key, $className, $inQuery);
+    }
+
+    public function whereRelatedTo($key, $className, $objectId) {
+        $this->parseQuery->whereRelatedTo($key, $className, $objectId);
     }
 }
+
 ?>
