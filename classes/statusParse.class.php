@@ -134,24 +134,27 @@ class StatusParse {
 
         $status->setObjectId($parseObj->objectId);
         $status->setActive($parseObj->active);
+        $commentatorsRelatedTo = $this->getRelatedTo('commentators', 'Status', $parseObj->objectId);
+        /*
         $parseQueryCommentators = new parseQuery('_User');
         $parseQueryCommentators->whereRelatedTo('commentators', 'Status', $parseObj->objectId);
         $testCommentators = $parseQueryCommentators->find();
         $userRelatedTo = array();
         foreach ($testCommentators->results as $user) {
             $userRelatedTo[] = $user->objectId;
-        }
-        $status->setCommentators($userRelatedTo);
+        }*/
+        $status->setCommentators($commentatorsRelatedTo);
 
-        //$commentsRelatedTo = $this->getRelatedTo('comments', 'Status', $parseObj->objectId);
+        $commentsRelatedTo = $this->getRelatedTo('comments', 'Status', $parseObj->objectId);
+        /*
         $parseQueryComment = new parseQuery('Comment');
         $parseQueryComment->whereRelatedTo('comments', 'Status', $parseObj->objectId);
         $testComments = $parseQueryComment->find();
         $comments = array();
         foreach ($testComments->results as $c) {
             $comments[] = $c->objectId;
-        }
-        $status->setComments($comments);
+        }*/
+        $status->setComments($commentsRelatedTo);
         $status->setCounter($parseObj->counter);
         if ($parseObj->event != null)
             $status->setEvent($parseObj->event);
@@ -162,24 +165,28 @@ class StatusParse {
         $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
         $status->setLocation($parseGeoPoint->location);
         $status->setLoveCounter($parseObj->loveCounter);
+        $loversRelatedTo = $this->getRelatedTo('lovers', 'Status', $parseObj->objectId);
+        /*
         $parseQueryLovers = new parseQuery('_User');
         $parseQueryLovers->whereRelatedTo('lovers', 'Comment', $parseObj->objectId);
         $testLovers = $parseQueryLovers->find();
         $loversRelatedTo = array();
         foreach ($testLovers->results as $user) {
             $loversRelatedTo[] = $user->objectId;
-        }
+        }*/
         $status->setLovers($loversRelatedTo);
         if ($parseObj->song != null)
             $status->setSong($parseObj->song);
         $status->setText($parseObj->text);
+        $taggedUserRelatedTo = $this->getRelatedTo('taggedUsers', 'Status', $parseObj->objectId);
+        /*
         $parseQuerytaggedUser = new parseQuery('_User');
         $parseQuerytaggedUser->whereRelatedTo('taggedUsers', 'Status', $parseObj->objectId);
         $testTaggedUser = $parseQuerytaggedUser->find();
         $taggedUserRelatedTo = array();
         foreach ($testTaggedUser->results as $user) {
             $taggedUserRelatedTo[] = $user->objectId;
-        }
+        }*/
         $status->setTaggedUser($taggedUserRelatedTo);
         if (isset($parseObj->createdAt))
             $status->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
