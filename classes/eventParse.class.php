@@ -177,49 +177,56 @@ class EventParse {
     function parseToEvent(stdClass $parseObj) {
         $event = new Event();
         
-        $event->setObjectId($parseObj->objectId);
-        $event->setActive($parseObj->active);
-        if($parseObj->attendee != null){
+        if(isset($parseObj->objectId))
+            $event->setObjectId($parseObj->objectId);
+        if(isset($parseObj->active))
+            $event->setActive($parseObj->active);
+        if(isset($parseObj->attendee)){
             $userParse = new UserParse();
             $attendee = $this->$userParse->getRelatedTo('attendee', 'Event', $parseObj->objectId);
             $event->setAttendee($attendee);
         }
-        if($parseObj->commentators != null){
+        if(isset($parseObj->commentators)){
             $userParse = new UserParse();
             $commentators = $this->$userParse->getRelatedTo('commentators', 'Event', $parseObj->objectId);
             $event->setCommentators($commentators);
         }
-        if($parseObj->comments != null){
+        if(isset($parseObj->comments)){
             $commentParse = new CommentParse();
             $comments = $this->$commentParse->getRelatedTo('comments', 'Event', $parseObj->objectId);
             $event->setComments($comments);
         }
-        $event->setCounter($parseObj->counter);
-        if($parseObj->featuring != null){
+        if(isset($parseObj->counter))
+            $event->setCounter($parseObj->counter);
+        if(isset($parseObj->featuring)){
             $userParse = new UserParse();
             $featuring = $this->$userParse->getRelatedTo('featuring', 'Event', $parseObj->objectId);
             $event->setFeaturing($featuring);
         }
-        if ($parseObj->location != null) {
+        if (isset($parseObj->location)) {
             $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
             $event->setLocation($parseGeoPoint->location);
 	}
-        $event->setLocationName($parseObj->locationName);
-        $event->setLoveCounter($parseObj->loveCounter);
-        if($parseObj->lovers != null){
+        if(isset($parseObj->locationName))
+            $event->setLocationName($parseObj->locationName);
+        if(isset($parseObj->loveCounter))
+            $event->setLoveCounter($parseObj->loveCounter);
+        if(isset($parseObj->lovers)){
             $userParse = new UserParse();
             $lovers = $this->$userParse->getRelatedTo('lovers', 'Event', $parseObj->objectId);
             $event->setLovers($lovers);
         }
-        if($parseObj->refused != null){
+        if(isset($parseObj->refused)){
             $userParse = new UserParse();
             $refused = $this->$userParse->getRelatedTo('refused', 'Event', $parseObj->objectId);
             $event->setLovers($refused);
         }
-        $event->setTags($parseObj->tags);
-        $event->setThumbnail($parseObj->thumbnail);
-        $event->setTitle($parseObj->title);
-        //creo la data di tipo DateTime per createdAt e updatedAt
+        if(isset($parseObj->tags))
+            $event->setTags($parseObj->tags);
+        if(isset($parseObj->thumbnail))
+            $event->setThumbnail($parseObj->thumbnail);
+        if(isset($parseObj->title))
+            $event->setTitle($parseObj->title);
         if (isset($parseObj->createdAt))
             $event->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
         if (isset($parseObj->updatedAt))
