@@ -55,8 +55,8 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO IL RECUPERO DI UN ERROR<br /><br />';
 
-$errorParse = new ErrorParse();
-$resGet = $errorParse->getError('OebQbNJgA3');
+$errorParse1 = new ErrorParse();
+$resGet = $errorParse1->getError('OebQbNJgA3');
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
@@ -69,11 +69,11 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO IL RECUPERO DI PIU\'  ERROR <br />';
 
-$errorParse = new ErrorParse();
-$errorParse->whereExists('objectId');
-$errorParse->orderByDescending('createdAt');
-$errorParse->setLimit(5);
-$resGets = $errorParse->getErrors();
+$errorParse2 = new ErrorParse();
+$errorParse2->whereExists('objectId');
+$errorParse2->orderByDescending('createdAt');
+$errorParse2->setLimit(5);
+$resGets = $errorParse2->getErrors();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -88,11 +88,11 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN ERROR <br />';
 
-$errorParse = new ErrorParse();;
-$error = new Comment();
-$error->setObjectId('5WXsSzgdEl');
-$error->setErrorCOde(99999);
-$resUpdate = $errorParse->saveError($error);
+$errorParse3 = new ErrorParse();;
+$error1 = new Comment();
+$error1->setObjectId('5WXsSzgdEl');
+$error1->setErrorCOde(99999);
+$resUpdate = $errorParse3->saveError($error1);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {

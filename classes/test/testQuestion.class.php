@@ -60,11 +60,11 @@ if (get_class($resSave) =='Error') {
 echo '<br />-------------------------------------------------------------------------------<br />';
 echo '<br />INIZIO IL RECUPERO DI UNA Question<br /><br />';
 
-$questionParse = new QuestionParse();
-$questionParse->whereExists('objectId');
-$questionParse->orderByDescending('createdAt');
-$questionParse->setLimit(5);
-$resGets = $questionParse->getQuestions();
+$questionParse1 = new QuestionParse();
+$questionParse1->whereExists('objectId');
+$questionParse1->orderByDescending('createdAt');
+$questionParse1->setLimit(5);
+$resGets = $questionParse1->getQuestions();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -79,12 +79,12 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Question <br />';
 
-$questionParse = new QuestionParse();
-$question = new Question();
-$question->setObjectId('IA63GZDVAK');
-$question->setAnswer('Ciao Pippo');
-$question->setQuestion('Sono una question modificata');
-$resUpdate = $questionParse->saveQuestion($question);
+$questionParse2 = new QuestionParse();
+$question1 = new Question();
+$question1->setObjectId('IA63GZDVAK');
+$question1->setAnswer('Ciao Pippo');
+$question1->setQuestion('Sono una question modificata');
+$resUpdate = $questionParse2->saveQuestion($question1);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {

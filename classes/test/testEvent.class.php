@@ -40,7 +40,7 @@ $event->setComments($comments);
 $event->setCounter(10);
 $event->setDescription('Questo è un Evento Bellissimo');
 $eventDate = new DateTime();
-$cmt->setEventDate($eventDate);
+$event->setEventDate($eventDate);
 $featuring = array (
 	"__op" => "AddRelation",
 	"objects" => array(
@@ -63,7 +63,14 @@ $event->setInvited($invited);
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $event->setLocation($parseGeoPoint->location);
 $event->setLoveCounter(100);
-//$event->setLovers(array $lovers);
+$lovers =  array (
+	"__op" => "AddRelation",
+	"objects" => array(
+		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
+		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
+	)
+);
+$event->setLovers($lovers);
 $refused = array (
 	"__op" => "AddRelation",
 	"objects" => array(
@@ -73,18 +80,19 @@ $refused = array (
 );
 $event->setRefused($refused);
 $event->setTags(array('tag1', 'tag2'));
-$event->setThumbnail($thumbnail);
-$event->setTitle($title);
+$event->setThumbnail('thumbnail');
+$event->setTitle('title');
 
 // TODO - da eliminare
 //$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
 $dateTime = new DateTime();
+$dateTime->add(new DateInterval('P1D'));
 $event->setTestDate($dateTime);
 // TODO
 
-$dateTime = new DateTime();
-$event->setCreatedAt($dateTime);
-$event->setUpdatedAt($dateTime);
+$dateTime1 = new DateTime();
+$event->setCreatedAt($dateTime1);
+$event->setUpdatedAt($dateTime1);
 $acl = new parseACL();
 $acl->setPublicWriteAccess(true);
 $event->setACL($acl);
@@ -112,8 +120,8 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO IL RECUPERO DI UN Event<br /><br />';
 
-$eventParse = new EventParse();
-$resGet = $eventParse->getEvent('m1kKjWVOAf');
+$eventParse1 = new EventParse();
+$resGet = $eventParse1->getEvent('m1kKjWVOAf');
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
@@ -126,8 +134,8 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO LA CANCELLAZIONE DI UN Event<br />';
 
-$eventParse = new EventParse();
-$resDelete = $eventParse->deleteEvent('Mk6MJs4jUh');
+$eventParse2 = new EventParse();
+$resDelete = $eventParse2->deleteEvent('Mk6MJs4jUh');
 if (get_class($resDelete)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
@@ -140,11 +148,11 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO IL RECUPERO DI PIU\' Event<br />';
 
-$eventParse = new EventParse();
-$eventParse->whereExists('objectId');
-$eventParse->orderByDescending('createdAt');
-$eventParse->setLimit(5);
-$resGets = $eventParse->getEvents();
+$eventParse3 = new EventParse();
+$eventParse3->whereExists('objectId');
+$eventParse3->orderByDescending('createdAt');
+$eventParse3->setLimit(5);
+$resGets = $eventParse3->getEvents();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -159,11 +167,11 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Event<br />';
 
-$eventParse = new EventParse();
-$event = new Event();
-$event->setObjectId('m1kKjWVOAf');
-$event->setCounter(9999999999999);
-$resUpdate = $eventParse->saveEvent($event);
+$eventParse4 = new EventParse();
+$event1 = new Event();
+$event1->setObjectId('m1kKjWVOAf');
+$event1->setCounter(9999999999999);
+$resUpdate = $eventParse4->saveEvent($event1);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {

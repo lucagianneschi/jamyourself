@@ -28,7 +28,14 @@ $playlist->setObjectId('aAbBcCdD');
 $playlist->setActive(true);
 //$playlist->setFromUser(User $fromUser);
 $playlist->setName('nome della playlist');
-//$playlist->setSongs(array $songs);
+$songs = array (
+	"__op" => "AddRelation",
+	"objects" => array(
+		array("__type" => "Pointer", "className" => "Song", "objectId" => "2gMM3NmUYY"),//inserire valori 2 song
+		array("__type" => "Pointer", "className" => "Song", "objectId" => "5zw3I5d9Od")
+	)
+);
+$playlist->setComments($songs);
 $playlist->setUnlimited(false);
 $dateTime = new DateTime();
 $playlist->setCreatedAt($dateTime);

@@ -61,8 +61,8 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO IL RECUPERO DI UN FAQ<br /><br />';
 
-$faqParse = new FaqParse();
-$resGet = $faqParse->getComment('L82oBCwOLN');
+$faqParse1 = new FaqParse();
+$resGet = $faqParse1->getComment('L82oBCwOLN');
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
@@ -75,11 +75,11 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO IL RECUPERO DI PIU\' FAQ<br />';
 
-$faqParse = new FaqParse();
-$faqParse->whereExists('objectId');
-$faqParse->orderByDescending('createdAt');
-$faqParse->setLimit(5);
-$resGets = $faqParse->getComments();
+$faqParse2 = new FaqParse();
+$faqParse2->whereExists('objectId');
+$faqParse2->orderByDescending('createdAt');
+$faqParse2->setLimit(5);
+$resGets = $faqParse2->getComments();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -94,11 +94,11 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN FAQ<br />';
 
-$faqParse = new FaqParse();
-$faq = new Faq();
-$faq->setObjectId('AOPyno3s8m');
-$faq->setQuestion('Sono una fa aggiornata');
-$resUpdate = $faqParse->savefaq($faq);
+$faqParse3 = new FaqParse();
+$faq1 = new Faq();
+$faq1->setObjectId('AOPyno3s8m');
+$faq1->setQuestion('Sono una fa aggiornata');
+$resUpdate = $faqParse3->savefaq($faq1);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {

@@ -42,11 +42,11 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO IL RECUPERO DI PIU\' LOCATION<br />';
 
-$locationParse = new LocationParse();
-$locationParse->whereExists('objectId');
-$locationParse->orderByDescending('createdAt');
-$locationParse->setLimit(5);
-$resGets = $locationParse->getLocations();
+$locationParse1 = new LocationParse();
+$locationParse1->whereExists('objectId');
+$locationParse1->orderByDescending('createdAt');
+$locationParse1->setLimit(5);
+$resGets = $locationParse1->getLocations();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
