@@ -123,7 +123,7 @@ class RecordParse {
         }
         
         if (isset($parseObj->comments)){
-            $record->setComments($parseObj->comments);
+            $record->setComments((new CommentParse())->getComment($parseObj->comments->objectId));
         }
         
         if (isset($parseObj->counter))
@@ -134,19 +134,21 @@ class RecordParse {
         
         if (isset($parseObj->coverFile))
             $record->setCoverFile($parseObj->coverFile);
+        
         if (isset($parseObj->description))
             $record->setDescription($parseObj->description);
         
         if (isset($parseObj->duration))
             $record->setDuration($parseObj->duration);
         
-        if (isset($parseObj->featuring))
-            $record->setFeaturing($parseObj->featuring);
+        if (isset($parseObj->featuring)){
+              $parse = new UserParse();
+              $record->setFeaturing($parse->getUser($parseObj->featuring->objectId));          
+        }
         
         if (isset($parseObj->fromUser)){
             $parse = new UserParse();
-            $parse->whereRelatedTo("fromUser", "Record", $parseObj->objectId);
-            $record->setCommentators($parse->getUsers());
+            $record->setFromUser($parse->getUser($parseObj->fromUser->objectId));             
         }
         
         if (isset($parseObj->genre))
@@ -164,7 +166,7 @@ class RecordParse {
         if (isset($parseObj->lovers)){
             $parse = new UserParse();
             $parse->whereRelatedTo("lovers", "Record", $parseObj->objectId);
-            $record->setCommentators($parse->getUsers());
+            $record->setLovers($parse->getUsers());
         }
         
         if (isset($parseObj->thumbnailCover))
