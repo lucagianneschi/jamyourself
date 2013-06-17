@@ -215,7 +215,7 @@ class Event {
     }
 
     //User: User che crea l’evento
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
@@ -342,12 +342,7 @@ class Event {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[featuring] => NULL<br />';
         }
-        $fromUser = $this->getFromUser();
-        if ($fromUser != null) {
-            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
-        } else {
-            $string .= '[fromUser] => NULL<br />';
-        }
+        $string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
         $string .= '[image] => ' . $this->getImage() . '<br />';
         //$string .= '[imageFile] => ' . $this->getImageFile() . '<br />';
         if ($this->getInvited() != null && count($this->getInvited() > 0)) {
