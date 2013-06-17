@@ -19,7 +19,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:status">API</a>
  */
 
- if (!defined('ROOT_DIR'))
+if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
@@ -475,9 +475,8 @@ class UserParse {
     function deleteUser($user) {
 		try {
 			$parseUser = new parseUser();
-			//$user->setActive(false);
-			//print_r($user);
-			//$parseUser->update($user->getObjectId(), $user->getSessionToken());
+			$parseUser->active = false;
+			$parseUser->update($user->getObjectId(), $user->getSessionToken());
 		} catch (Exception $e) {
 			$error = new error();
 			$error->setErrorClass(__CLASS__);
