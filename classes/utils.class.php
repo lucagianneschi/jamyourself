@@ -24,32 +24,14 @@ function toParseACL(parseACL $ACL) {
  * @return null
  */
 function toParsePointer($object) {
-    if (!$object || !is_object($object))
+//     ["__type"] => string(7) "Pointer" 
+//    ["className"]=> string(5) "_User" 
+//    ["objectId"]=> string(10) "zINFFnEZOi" 
+
+    if (!$object || !is_object($object) || !isset($object->__type) || !$object->__type == "Pointer" || !isset($object->className) || !isset($object->objectId))
         return null;
-
-    $className = "";
-
-    switch (get_class($object)) {
-        case "Venue" :
-            $className = "_User";
-            break;
-        case "Jammer" :
-            $className = "_User";
-            break;
-        case "Spotter" :
-            $className = "_User";
-            break;
-        case "Role" :
-            $className = "_Role";
-            break;
-        case "User" :
-            $className = "_User";
-            break;
-        default :
-            $className = get_class($object);
-    }
-
-    return (new parseRestClient())->dataType("pointer", array($className, $object->getObjectId()));
+    else
+        return (new parseRestClient())->dataType("pointer", array($object->className, $object->getObjectId()));
 }
 
 /**
@@ -57,13 +39,13 @@ function toParsePointer($object) {
  * @param array $array
  * @return null
  */
-function toParseRelation(array $array) {
-    if (!$array || !count($array) > 0)
-        return null;
-
+function toParseRelation(array $objects) {
+    
+//    ["__type"]=> string(8) "Relation" ["className"]=> string(5) "_User"
+    
     $arrayPointer = array();
 
-    foreach ($array as $istance) {
+    foreach ($objects as $istance) {
         $pointer = toParsePointer($istance);
         if ($pointer)
             $arrayPointer[] = $pointer;
@@ -91,6 +73,21 @@ function toParseGeoPoint(parseGeoPoint $geoPoint) {
     if (!$geoPoint)
         return null;
     return $geoPoint->location;
+}
+
+function getRelationType(array $objects){
+    if( count($objects)<= 0 || count($className) = 0 ) return null;
+    else{
+        $arrayPointer = array();
+        foreach ($objects as $object){
+            if(is_object($object)){
+                $pointer = toParsePointer($object);
+                if($pointer) $arrayPointer[] = $pointer;
+            }
+        }
+        if(count($arrayPointer)>0)  return $arrayPointer;
+        else return null;
+    }
 }
 
 //**************************************************************************    
