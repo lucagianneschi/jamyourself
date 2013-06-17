@@ -56,16 +56,30 @@ class StatusParse {
         return $this->parseQuery->getCount()->count;
     }
 
-    public function getRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-        $rel = $this->parseQuery->find();
-        $relStatus = array();
-        foreach ($rel->results as $status) {
-            $relStatus[] = $status->objectId;
-        }
-        return $relStatus;
-    }
+	public function getRelatedTo($field, $className, $objectId) {
+        try {
+            $this->parseQuery->whereRelatedTo($field, $className, $objectId);
+            $rel = $this->parseQuery->find();
+            $relStatus = array();
+            foreach ($rel->results as $status) {
+                $relStatus[] = $$status->objectId;
+            }
+            return $relStatus;
+        } catch (Exception $e) {
+            $error = new error();
+            $error->setErrorClass(__CLASS__);
+            $error->setErrorCode($e->getCode());
+            $error->setErrorMessage($e->getMessage());
+            $error->setErrorFunction(__FUNCTION__);
+            $error->setErrorFunctionParameter(func_get_args());
 
+            $errorParse = new errorParse();
+            $errorParse->saveError($error);
+
+            return $error;
+        }
+    }
+	
     public function deleteStatus($objectId) {
         try {
             $parseObject = new parseObject('Status');
@@ -193,9 +207,9 @@ class StatusParse {
             $status->setLovers($taggedUsers);
         }
         if (isset($parseObj->createdAt))
-            $status->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+            $status->setCreatedAt(new DateTime($parseObj->createdAt));
         if (isset($parseObj->updatedAt))
-            $status->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+            $status->setUpdatedAt(new DateTime($parseObj->updatedAt));
         $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);

@@ -228,9 +228,9 @@ class EventParse {
         if(isset($parseObj->title))
             $event->setTitle($parseObj->title);
         if (isset($parseObj->createdAt))
-            $event->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+            $event->setCreatedAt(new DateTime($parseObj->createdAt));
         if (isset($parseObj->updatedAt))
-            $event->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+            $event->setUpdatedAt(new DateTime($parseObj->updatedAt));
         $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);

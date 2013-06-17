@@ -166,7 +166,7 @@ class Album {
         $this->featuring = $featuring;
     }
 
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 

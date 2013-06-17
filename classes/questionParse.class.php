@@ -116,9 +116,9 @@ class QuestionParse {
         if(isset($parseObj->text))
             $question->setText($parseObj->text);
         if (isset($parseObj->createdAt))
-            $question->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+            $question->setCreatedAt(new DateTime($parseObj->createdAt));
         if (isset($parseObj->updatedAt))
-            $question->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+            $question->setUpdatedAt(new DateTime($parseObj->updatedAt));
         $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);
