@@ -148,9 +148,9 @@ class FaqParse {
         if (isset($parseObj->tags))
             $faq->setTags($parseObj->tags);
         if (isset($parseObj->createdAt))
-            $faq->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+            $faq->setCreatedAt(new DateTime($parseObj->createdAt));
         if (isset($parseObj->updatedAt))
-            $faq->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+            $faq->setUpdatedAt(new DateTime($parseObj->updatedAt));
         $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);

@@ -154,9 +154,9 @@ class PlaylistParse {
         if(isset($parseObj->unlimited))
             $playlist->setUnlimited($parseObj->unlimited);
         if (isset($parseObj->createdAt))
-            $playlist->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+            $playlist->setCreatedAt(new DateTime($parseObj->createdAt));
         if (isset($parseObj->updatedAt))
-            $playlist->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+            $playlist->setUpdatedAt(new DateTime($parseObj->updatedAt));
         $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);

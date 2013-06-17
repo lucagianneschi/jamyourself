@@ -184,15 +184,21 @@ class VideoParse {
             $video->setURL($parseObj->URL);
         //creo la data di tipo DateTime per createdAt e updatedAt
         if (isset($parseObj->createdAt))
-            $video->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
+            $video->setCreatedAt(new DateTime($parseObj->createdAt));
         if (isset($parseObj->updatedAt))
-            $video->setUpdatedAt(new DateTime($parseObj->updatedAt, new DateTimeZone("America/Los_Angeles")));
+            $video->setUpdatedAt(new DateTime($parseObj->updatedAt));
         $acl = new parseACL();
         $acl->setPublicReadAccess(true);
         $acl->setPublicWriteAccess(true);
         $video->setACL($acl);
         return $video;
     }
+	
+	if (isset($parseObj->createdAt))
+$xxxx->setCreatedAt(new DateTime($ret->createdAt));
+   if (isset($parseObj->updatedAt))
+$xxxx->setUpdatedAt(new DateTime($ret->createdAt));
+	
 
     public function saveVideo(Video $video) {
         try {
