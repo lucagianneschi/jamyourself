@@ -137,18 +137,22 @@ class PlaylistParse {
     function parseToPlaylist(stdClass $parseObj) {
 
         $playlist = new Playlist();
-
-        $playlist->setObjectId($parseObj->objectId);
+        
+        if(isset($parseObj->objectId))
+            $playlist->setObjectId($parseObj->objectId);
+        if(isset($parseObj->active))
         $playlist->setActive($parseObj->active);
-        if ($parseObj->fromUser != null)
+        if (isset($parseObj->fromUser))
             $playlist->setFromUser($parseObj->fromUser);
-        $playlist->setName($parseObj->name);
-        if ($parseObj->songs != null) {
+        if(isset($parseObj->name))
+            $playlist->setName($parseObj->name);
+        if (isset($parseObj->songs)) {
             $songParse = new SongParse();
             $songs = $this->$songParse->getRelatedTo('songs', 'Playlist', $parseObj->objectId);
             $playlist->setAttendee($songs);
         }
-        $playlist->setUnlimited($parseObj->unlimited);
+        if(isset($parseObj->unlimited))
+            $playlist->setUnlimited($parseObj->unlimited);
         if (isset($parseObj->createdAt))
             $playlist->setCreatedAt(new DateTime($parseObj->createdAt, new DateTimeZone("America/Los_Angeles")));
         if (isset($parseObj->updatedAt))
