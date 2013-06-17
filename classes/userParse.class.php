@@ -144,7 +144,7 @@ class UserParse {
 			// TODO - attualmente la data di nascita è gestita come una normale Date, ma deve essere gestita staticamente!!!
 			if ($obj->birthDay != null) {
 				$dateTime = new DateTime($obj->birthDay);
-				$cmt->setBirthDay($dateTime);
+				$user->setBirthDay($dateTime);
 			}
 			if ($obj->facebookId != null) $user->setFacebookId($obj->facebookId);
 			if ($obj->firstname != null) $user->setFirstname($obj->firstname);
