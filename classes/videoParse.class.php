@@ -194,12 +194,6 @@ class VideoParse {
         return $video;
     }
 	
-	if (isset($parseObj->createdAt))
-$xxxx->setCreatedAt(new DateTime($ret->createdAt));
-   if (isset($parseObj->updatedAt))
-$xxxx->setUpdatedAt(new DateTime($ret->createdAt));
-	
-
     public function saveVideo(Video $video) {
         try {
             $parseObj = new parseObject('Video');
