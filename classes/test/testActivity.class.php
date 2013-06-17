@@ -10,78 +10,82 @@ require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 
-$jamObj = new Activity();
+//$jamObj = new Activity();
 
-$accepted = null;
-$active = null;  
-$album = null;   
-$comment = null; 
-$event = null;   
-$fromUser = null;
-$image = null;   
-$playlist = null; 
-$question = null;
-$read = null;   
-$record = null;  
-$song = null;    
-$status = null;  
-$toUser = null;  
-$type = null;  
-$userStatus = null;
-$video = null;     
-$ACL;   
-//inizializzazione coi setters
+$test = new parseObject("Album");
+$test = $test->get("K3wVfjk1p5");
+echo var_dump($test);
 
-$accepted = true;
-$active = true;
-
-$album = (new AlbumParse)->parseToAlbum((new parseObject("Album"))->get("K3wVfjk1p5"));
-        
-$comment = (new CommentParse)->parseToAlbum((new parseObject("temp"))->get("VvX5nyboaH"));
-$event = (new EventParse)->parseToAlbum((new parseObject("temp"))->get("19OuVtOhfJ"));
-$fromUser = (new UserParse)->parseToAlbum((new parseObject("temp"))->get("dcIDVIh6FY"));
-$image = (new ImageParse)->parseToAlbum((new parseObject("temp"))->get("OrBTtExxMp"));
-$playlist = (new PlaylistParse)->parseToAlbum((new parseObject("temp"))->get("cJZLb3BfMW"));
-$question = (new QuestionParse)->parseToAlbum((new parseObject("temp"))->get("YvGtWTXV0O"));
-$read = false;
-$record = (new RecordParse)->parseToAlbum((new parseObject("temp"))->get("QmhKrALo5P"));
-$song = (new SongParse)->parseToAlbum((new parseObject("temp"))->get("68eX5oxAOe"));
-$status = "Test status";
-$toUser = (new AlbumParse)->parseToAlbum((new parseObject("temp"))->get("oCXTbUvMpw"));
-$type = "TEST_ACTIVITY";
-$userStatus = (new UserParse)->parseToAlbum((new parseObject("temp"))->get("6dvbdcScnm"));
-$video = (new VideoParse)->parseToAlbum((new parseObject("temp"))->get("MQbqTvCo7O"));
-
-$jamObj->setAccepted($accepted);
-$jamObj->setActive($active);
-$jamObj->setAlbum($album);
-$jamObj->setComment($comment);
-$jamObj->setEvent($event);
-$jamObj->setFromUser($fromUser);
-$jamObj->setImage($image);
-$jamObj->setPlaylist($playlist);
-$jamObj->setQuestion($question);
-$jamObj->setRead($read);
-$jamObj->setRecord($record);
-$jamObj->setSong($song);
-$jamObj->setStatus($status);
-$jamObj->setToUser($toUser);
-$jamObj->setType($type);
-$jamObj->setUserStatus($userStatus);
-$jamObj->setVideo($video);
-
-$dateTime = new DateTime();
-$jamObj->setCreatedAt($dateTime);
-$jamObj->setUpdatedAt($dateTime);
-
-$acl = new parseACL();
-$acl->setPublicWriteAccess(true);
-$jamObj->setACL($acl);
-
-echo '<br />-------------------------------------------------------------------------------<br />';
-
-echo '<br />STAMPO IL COMMENTO APPENA CREATO<br />';
-echo $jamObj;
+//$accepted = null;
+//$active = null;  
+//$album = null;   
+//$comment = null; 
+//$event = null;   
+//$fromUser = null;
+//$image = null;   
+//$playlist = null; 
+//$question = null;
+//$read = null;   
+//$record = null;  
+//$song = null;    
+//$status = null;  
+//$toUser = null;  
+//$type = null;  
+//$userStatus = null;
+//$video = null;     
+//$ACL;   
+////inizializzazione coi setters
+//
+//$accepted = true;
+//$active = true;
+//
+//$album = (new AlbumParse)->parseToAlbum((new parseObject("Album"))->get("K3wVfjk1p5"));
+//        
+//$comment = (new CommentParse)->parseToAlbum((new parseObject("temp"))->get("VvX5nyboaH"));
+//$event = (new EventParse)->parseToAlbum((new parseObject("temp"))->get("19OuVtOhfJ"));
+//$fromUser = (new UserParse)->parseToAlbum((new parseObject("temp"))->get("dcIDVIh6FY"));
+//$image = (new ImageParse)->parseToAlbum((new parseObject("temp"))->get("OrBTtExxMp"));
+//$playlist = (new PlaylistParse)->parseToAlbum((new parseObject("temp"))->get("cJZLb3BfMW"));
+//$question = (new QuestionParse)->parseToAlbum((new parseObject("temp"))->get("YvGtWTXV0O"));
+//$read = false;
+//$record = (new RecordParse)->parseToAlbum((new parseObject("temp"))->get("QmhKrALo5P"));
+//$song = (new SongParse)->parseToAlbum((new parseObject("temp"))->get("68eX5oxAOe"));
+//$status = "Test status";
+//$toUser = (new AlbumParse)->parseToAlbum((new parseObject("temp"))->get("oCXTbUvMpw"));
+//$type = "TEST_ACTIVITY";
+//$userStatus = (new UserParse)->parseToAlbum((new parseObject("temp"))->get("6dvbdcScnm"));
+//$video = (new VideoParse)->parseToAlbum((new parseObject("temp"))->get("MQbqTvCo7O"));
+//
+//$jamObj->setAccepted($accepted);
+//$jamObj->setActive($active);
+//$jamObj->setAlbum($album);
+//$jamObj->setComment($comment);
+//$jamObj->setEvent($event);
+//$jamObj->setFromUser($fromUser);
+//$jamObj->setImage($image);
+//$jamObj->setPlaylist($playlist);
+//$jamObj->setQuestion($question);
+//$jamObj->setRead($read);
+//$jamObj->setRecord($record);
+//$jamObj->setSong($song);
+//$jamObj->setStatus($status);
+//$jamObj->setToUser($toUser);
+//$jamObj->setType($type);
+//$jamObj->setUserStatus($userStatus);
+//$jamObj->setVideo($video);
+//
+//$dateTime = new DateTime();
+//$jamObj->setCreatedAt($dateTime);
+//$jamObj->setUpdatedAt($dateTime);
+//
+//$acl = new parseACL();
+//$acl->setPublicWriteAccess(true);
+//$jamObj->setACL($acl);
+//
+//echo '<br />-------------------------------------------------------------------------------<br />';
+//
+//echo '<br />STAMPO IL COMMENTO APPENA CREATO<br />';
+//echo $jamObj;
 
 //echo '<br />-------------------------------------------------------------------------------<br />';
 //
