@@ -98,15 +98,31 @@ class PlaylistParse {
         return $playslists;
     }
 
-    public function getRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-        $rel = $this->parseQuery->find();
-        $relPlaylist = array();
-        foreach ($rel->results as $playlist) {
-            $relPlaylist[] = $playlist->objectId;
+	public function getRelatedTo($field, $className, $objectId) {
+        try {
+            $this->parseQuery->whereRelatedTo($field, $className, $objectId);
+            $rel = $this->parseQuery->find();
+            $relPlaylist = array();
+            foreach ($rel->results as $playlist) {
+                $relPlaylist[] = $playlist->objectId;
+            }
+            return $relPlaylist;
+        } catch (Exception $e) {
+            $error = new error();
+            $error->setErrorClass(__CLASS__);
+            $error->setErrorCode($e->getCode());
+            $error->setErrorMessage($e->getMessage());
+            $error->setErrorFunction(__FUNCTION__);
+            $error->setErrorFunctionParameter(func_get_args());
+
+            $errorParse = new errorParse();
+            $errorParse->saveError($error);
+
+            return $error;
         }
-        return $$relPlaylist;
     }
+	
+	
 
     private function isNullPointer($pointer) {
         $className = $pointer['className'];
