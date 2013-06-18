@@ -186,11 +186,14 @@ class VideoParse {
         $video->getThumbnail() == null ? $parseObj->thumbnail = null : $parseObj->thumbnail = $video->getThumbnail();
         $video->getTitle() == null ? $parseObj->title = null : $parseObj->title = $video->getTitle();
         $video->getURL() == null ? $parseObj->URL = null : $parseObj->URL = $video->getURL();
-        $parseObj->ACL = toParseACL($video->getACL());
+        $acl = new parseACL();
+        $acl->setPublicReadAccess(true);
+        $acl->setPublicWriteAccess(true);
+        $parseObj->ACL = toParseACL($acl);
         if ($video->getObjectId() != null) {
             try {
                 $ret = $parseObj->update($video->getObjectId());
-                $video->setUpdatedAt($ret->updatedAt, new DateTimeZone("America/Los_Angeles"));
+                $video->setUpdatedAt($ret->updatedAt, new DateTime());
             } catch (Exception $e) {
                 $error = new error();
                 $error->setErrorClass(__CLASS__);
