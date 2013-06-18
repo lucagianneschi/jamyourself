@@ -115,15 +115,7 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
                 return null;
         } catch (Exception $e) {
             //salvo l'errore
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-            return $error;
+           return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
         }
     }
     else
@@ -155,5 +147,37 @@ function toParseGeoPoint(parseGeoPoint $geoPoint) {
     if ($geoPoint==null)
         return null;
     return $geoPoint->location;
+}
+
+/**
+ * Funzione per la gestione degli errori
+ * 
+ * @param type $exception Eccezione lanciata
+ * @param type $class =  impostato al parametro __CLASS__
+ * @param type $function = impostato al parametro __FUNCTION__
+ * @param type $args = impostato al parametro func_get_args()
+ * @return \error 
+ */
+function throwError($exception ,$class,$function,$args){
+    $error = new error();
+    $error->setErrorClass($class);
+    $error->setErrorCode($exception->getCode());
+    $error->setErrorMessage($exception->getMessage());
+    $error->setErrorFunction($function);
+    $error->setErrorFunctionParameter($args);
+    $errorParse = new errorParse();
+    $errorParse->saveError($error);
+    return $error;
+}
+    
+function toParseFile($args){
+    
+}
+     //@todo   
+return null;
+
+function fromParseFile($args){
+     //@todo   
+return null;
 }
 ?>
