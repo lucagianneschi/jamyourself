@@ -1,144 +1,159 @@
 <?php
 
-//**************************************************************************    
-//     
-//     Metodi ausiliari dalla classe da usare nella save
-//     per la conversione dei tipi base di parse
-//     
-//*************************************************************************/    
-
 /**
  * 
  * @param parseACL $ACL
  * @return null
  */
 function toParseACL(parseACL $ACL) {
-    if (!$ACL)
+    if (!$ACL || !isset($ACL->acl) || ($ACL->acl == null) )
         return null;
     return $ACL->acl;
 }
 
 /**
- * 
- * @param type $object
+ * Restituisce un array che rappresenta un puntatore in Parse
+ * @param type $className nome della classe a cui si punta
+ * @param type $objectId id dell'oggetto puntato
  * @return null
  */
-function toParsePointer($object) {
-//     ["__type"] => string(7) "Pointer" 
-//    ["className"]=> string(5) "_User" 
-//    ["objectId"]=> string(10) "zINFFnEZOi" 
-
-    if (!$object || !is_object($object) || !isset($object->__type) || !$object->__type == "Pointer" || !isset($object->className) || !isset($object->objectId))
-        return null;
+function toParsePointer($className, $objectId) {
+    //se sono stringhe valide
+    if (count($className) > 0 && count($objectId) > 0) {
+        $parseRestClient = new parseRestClient();
+        return $parseRestClient->dataType("pointer", array($className, $objectId));
+    }
     else
-        return (new parseRestClient())->dataType("pointer", array($object->className, $object->getObjectId()));
+        return null;
 }
 
 /**
- * 
+ * Fornisce una stringa che rappresenta l'objectId dell'oggetto rappresentato
+ * come puntatore in Parse
+ * @param type $pointer l'oggetto puntatore di Parse
+ * @return null
+ */
+function fromParsePointer($pointer) {
+    if (is_object($pointer) && isset($pointer->__type) && $pointer->__type == "Pointer" &&
+            isset($pointer->__className) && isset($pointer->objectId)) {
+        return $pointer->objectId;
+    }
+    else
+        return null;
+}
+
+/**
+ * Crea un array di punatori che rappresenta una relation in Parse a partire da un array
+ * di stringhe di objectId
  * @param array $array
  * @return null
  */
-function toParseRelation(array $objects) {
-    
-//    ["__type"]=> string(8) "Relation" ["className"]=> string(5) "_User"
-    
-    $arrayPointer = array();
+function toParseRelation($className, array $objects) {
 
-    foreach ($objects as $istance) {
-        $pointer = toParsePointer($istance);
-        if ($pointer)
-            $arrayPointer[] = $pointer;
+    if (count($className) > 0 && count($objects) > 0) {
+        $arrayPointer = array();
+
+        foreach ($objects as $objectId) {
+            $pointer = toParsePointer($className, $objectId);
+            if ($pointer)
+                $arrayPointer[] = $pointer;
+        }
+        if (count($arrayPointer) > 0) {
+            $parseRestClient = new parseRestClient();
+            return $parseRestClient->dataType("relation", $arrayPointer);
+        }
+        else
+            return null;
     }
-    return (new parseRestClient())->dataType("relation", $arrayPointer);
+    else
+        return null;
 }
 
 /**
+ * Restituisce un array di objectId che rapprsentano gli id degli oggetti con cui si
+ * è in relazione
+ * Esempio:
+ * Dato un album, voglio reperire gli utenti che hanno messo un like (i lovers)
+ * 
+ * $users = fromParseRelation("Album", "lovers", $album->objectId, "_Users");
+ * 
+ * E' necessario gestire anche l'errore perché si deve fare una query verso Parse
+ * 
+ * @param type $fromClassName nome della classe di partenza
+ * @param type $fromField colonna della tabella che rappresenta la relazione
+ * @param type $fromObjectId id dell'oggetto di partenza
+ * @param type $toClassName nome della classe con cui l'oggetto è in relazione
+ * @return \error|null
+ */
+function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassName) {
+    
+    if ($fromClassName != null && $fromField != null && $fromObjectId != null && $toClassName != null &&
+            count($fromClassName) > 0 && count($fromField) > 0 && count($fromObjectId) > 0 && count($toClassName) > 0) {
+
+        //inizializzo la variabile di ritorno a null
+        $objectids = null;
+
+        //query sulla classe con cui devo fare la relazione
+        $parseQuery = new parseQuery($toClassName);
+        $parseQuery->whereRelatedTo($fromField, $fromClassName, $fromObjectId);
+        try {
+            //try catch perché devo fare una query su Parse
+            $result = $parseQuery->find();
+
+            if (is_array($result->results) && count($result->results) > 0) {
+                $objectids = array();
+                //ciclo sui risultati che sono degli oggetti di cui non mi interessa sapere il tipo
+                foreach (($result->results) as $object) {
+                    //controllo che abbiano un objectId
+                    if ($object != null && isset($object->objectId))
+                        //aggiungo all'array da restituire
+                        $objectids[] = $object->objectId;
+                }
+                return $objectids;
+            }
+            else
+                return null;
+        } catch (Exception $e) {
+            //salvo l'errore
+            $error = new error();
+            $error->setErrorClass(__CLASS__);
+            $error->setErrorCode($e->getCode());
+            $error->setErrorMessage($e->getMessage());
+            $error->setErrorFunction(__FUNCTION__);
+            $error->setErrorFunctionParameter(func_get_args());
+            $errorParse = new errorParse();
+            $errorParse->saveError($error);
+            return $error;
+        }
+    }
+    else
+        return null;
+}
+
+/**
+ * Trasforma un DateTime (oggetto PHP) in un array che rappresenta un tipo
+ * Date in Parse
  * 
  * @param DateTime $dateTime
  * @return null
  */
 function toParseDateTime(DateTime $dateTime) {
-    if (!$dateTime)
+    if ($dateTime == null)
         return null;
-    return (new parseRestClient())->dataType('date', $dateTime->format('r'));
+    else{
+        $parseRestClient = new parseRestClient();
+        return $parseRestClient->dataType('date', $dateTime->format('r'));
+    }
 }
 
 /**
- * 
+ * Restituisce un array che rappresenta un tipo GeoPoint in Parse
  * @param parseGeoPoint $geoPoint
  * @return null
  */
 function toParseGeoPoint(parseGeoPoint $geoPoint) {
-    if (!$geoPoint)
+    if ($geoPoint==null)
         return null;
     return $geoPoint->location;
 }
-
-function getRelationType(array $objects){
-    if( count($objects)<= 0 || count($className) = 0 ) return null;
-    else{
-        $arrayPointer = array();
-        foreach ($objects as $object){
-            if(is_object($object)){
-                $pointer = toParsePointer($object);
-                if($pointer) $arrayPointer[] = $pointer;
-            }
-        }
-        if(count($arrayPointer)>0)  return $arrayPointer;
-        else return null;
-    }
-}
-
-//**************************************************************************    
-//     
-//     Metodi ausiliari dalla classe da usare nel parseToObject
-//     per il recupero degli oggetti nelle relazioni e nei puntatori
-//     
-//*************************************************************************/
-
-/**
- * Verifica che una property passata come argomento sia un Pointer in Parse
- * @param type $property
- * @return boolean
- */
-function isParsePointer($property) {
-
-    if ($property == null || is_object($property) == false)
-        return false;
-    if (isset($property->__type) && $property->__type == "Pointer")
-        return true;
-    else
-        return false;
-}
-
-/**
- * Verifica che una property passata come argomento sia un GeoPoint in Parse
- * @param type $property
- * @return boolean
- */
-function isParseGeoPoint($property) {
-    if ($property == null || is_object($property) == false)
-        return false;
-    if (isset($property->__type) && $property->__type == "GeoPoint")
-        return true;
-    else
-        return false;
-}
-
-/**
- * Verifica che una property passata come argomento sia una Relation in Parse
- * @param type $property
- * @return boolean
- */
-function isParseRelation($property) {
-
-    if ($property == null || is_object($property) == false)
-        return false;
-    if (isset($property->__type) && $property->__type == "Relation")
-        return true;
-    else
-        return false;
-}
-
 ?>
