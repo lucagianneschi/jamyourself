@@ -173,7 +173,7 @@ class Song {
     }
 
     //User: Utente che effettua la creazione della Song				
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
@@ -198,7 +198,7 @@ class Song {
     }
 
     //Record (Parse Object): disco di appartenenza della song       
-    public function setRecord(Record $record) {
+    public function setRecord($record) {
         $this->album = $record;
     }
 
