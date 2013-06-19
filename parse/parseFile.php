@@ -2,8 +2,8 @@
 
 class parseFile extends parseRestClient{
 
-	private $_fileName;
-	private $_contentType;
+	public $_fileName;
+	public $_contentType;
 
 	public function __construct($contentType='',$data=''){
 		if($contentType != '' && $data !=''){

@@ -81,35 +81,35 @@ class ActivityParse {
 
         $parseObj->active = $activity->getActive();
 
-        $parseObj->album = toParsePointer($activity->getAlbum());
+        $parseObj->album = toParsePointer("Album",$activity->getAlbum());
 
-        $parseObj->comment = toParsePointer($activity->getComment());
+        $parseObj->comment = toParsePointer("Comment",$activity->getComment());
 
-        $parseObj->event = toParsePointer($activity->getEvent());
+        $parseObj->event = toParsePointer("Event",$activity->getEvent());
 
-        $parseObj->fromUser = toParsePointer($activity->getFromUser());
+        $parseObj->fromUser = toParsePointer("_User", $activity->getFromUser());
 
-        $parseObj->image = toParsePointer($activity->getImage());
+        $parseObj->image = toParsePointer("Image",$activity->getImage());
 
-        $parseObj->playlist = toParsePointer($activity->getPlaylist());
+        $parseObj->playlist = toParsePointer("Playlist",$activity->getPlaylist());
 
-        $parseObj->question = toParsePointer($activity->getQuestion());
+        $parseObj->question = toParsePointer("Question",$activity->getQuestion());
 
         $parseObj->read = $activity->getRead();
 
-        $parseObj->record = toParsePointer($activity->getRecord());
+        $parseObj->record = toParsePointer("Record",$activity->getRecord());
 
-        $parseObj->song = toParsePointer($activity->getSong());
+        $parseObj->song = toParsePointer("Song",$activity->getSong());
 
         $parseObj->status = $activity->getStatus();
 
-        $parseObj->toUser = toParsePointer($activity->getToUser());
+        $parseObj->toUser = toParsePointer("_User",$activity->getToUser());
 
         $parseObj->type = $activity->getType();
 
-        $parseObj->userStatus = toParsePointer($activity->getUserStatus());
+        $parseObj->userStatus = toParsePointer("_User",$activity->getUserStatus());
 
-        $parseObj->video = toParsePointer($activity->getVideo());
+        $parseObj->video = toParsePointer("Video",$activity->getVideo());
 
         //caso update
         if ($activity->getObjectId() != null) {
@@ -141,7 +141,8 @@ class ActivityParse {
      */
     public function getActivity($objectId) {
         try {
-            $result = (new parseRestClient())->get($objectId);
+            $parseRestClient = new parseRestClient();
+            $result = $parseRestClient->get($objectId);
             return $this->parseToActivity($result);
         } catch (Exception $exception) {
             return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
