@@ -46,7 +46,7 @@ class FaqParse {
             $faq = $this->parseToFaq($res);
             return $faq;
         } catch (Exception $e) {
-            return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
@@ -60,7 +60,7 @@ class FaqParse {
             }
             return $faqs;
         } catch (Exception $e) {
-            return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
@@ -98,29 +98,28 @@ class FaqParse {
      */
 
     function parseToFaq(stdClass $parseObj) {
-	try{
-        $faq = new Faq();
-        $faq->setObjectId($parseObj->objectId);
-        $faq->setAnswer($parseObj->answer);
-        $faq->setArea($parseObj->area);
-        $faq->setPosition($parseObj->position);
-		$faq->setQuestion($parseObj->question);
-        if($parseObj->tags)
-            $faq->setTags($parseObj->tags);
-        if (($parseObj->createdAt))
-            $faq->setCreatedAt(new DateTime($parseObj->createdAt));
-        if (($parseObj->updatedAt))
-            $faq->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        if ($parseObj->ACL)
-				$faq->setACL($parseObj->ACL);
-        return $faq;
-	} catch (Exception $e){
-            return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
+        try {
+            $faq = new Faq();
+            $faq->setObjectId($parseObj->objectId);
+            $faq->setAnswer($parseObj->answer);
+            $faq->setArea($parseObj->area);
+            $faq->setPosition($parseObj->position);
+            $faq->setQuestion($parseObj->question);
+            if ($parseObj->tags)
+                $faq->setTags($parseObj->tags);
+            if (($parseObj->createdAt))
+                $faq->setCreatedAt(new DateTime($parseObj->createdAt));
+            if (($parseObj->updatedAt))
+                $faq->setUpdatedAt(new DateTime($parseObj->updatedAt));
+            $faq->setACL(toParseACL($parseObj->ACL));
+            return $faq;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
     public function saveFaq(Faq $faq) {
-       
+
         $parseObject = new parseObject('FAQ');
         $faq->getAnswer() == null ? $parseObject->answer = null : $parseObject->answer = $faq->getAnswer();
         $faq->getArea() == null ? $parseObject->area = null : $parseObject->area = $faq->getArea();
@@ -131,25 +130,24 @@ class FaqParse {
         $acl->setPublicRead(true);
         $acl->setPublicWrite(true);
         $faq->setACL($acl);
-		if ($faq->getObjectId() != null) {
-			try{
-				$ret = $parseObj->update($faq->getObjectId());
-				$dateTime = new DateTime($ret->updatedAt)
-				$faq->setUpdatedAt($dateTime);
-				}
-			} catch (Exception $e){
-		        return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
-		} else {
-			try{
-				$ret = $parseObj->save();
-				$faq->setObjectId($ret->objectId);
-				$faq->setCreatedAt($ret->createdAt);
-				$faq->setUpdatedAt($ret->updatedAt);
-			}
-		catch(Exception $e) {
-		        return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
-		    }
-		}
+        if ($faq->getObjectId() != null) {
+            try {
+                $ret = $parseObject->update($faq->getObjectId());
+                $dateTime = new DateTime($ret->updatedAt);
+                $faq->setUpdatedAt($dateTime);
+            } catch (Exception $e) {
+                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+            }
+        } else {
+            try {
+                $ret = $parseObject->save();
+                $faq->setObjectId($ret->objectId);
+                $faq->setCreatedAt($ret->createdAt);
+                $faq->setUpdatedAt($ret->updatedAt);
+            } catch (Exception $e) {
+                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+            }
+        }
         return $faq;
     }
 
