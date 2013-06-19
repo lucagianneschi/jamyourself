@@ -78,7 +78,7 @@ class Activity {
      *
      * @param Album $album	
      */
-    public function setAlbum(Album $album) {
+    public function setAlbum($album) {
         $this->album = $album;
     }
 
@@ -86,7 +86,7 @@ class Activity {
      *
      * @param Comment $comment	
      */
-    public function setComment(Comment $comment) {
+    public function setComment($comment) {
         $this->comment = $comment;
     }
 
@@ -94,7 +94,7 @@ class Activity {
      *
      * @param Event $event	
      */
-    public function setEvent(Event $event) {
+    public function setEvent($event) {
         $this->event = $event;
     }
 
@@ -102,7 +102,7 @@ class Activity {
      *
      * @param User $fromUser	
      */
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
@@ -110,7 +110,7 @@ class Activity {
      *
      * @param Image $image	
      */
-    public function setImage(Image $image) {
+    public function setImage($image) {
         $this->image = $image;
     }
 
@@ -118,7 +118,7 @@ class Activity {
      *
      * @param Playlist $playlist	
      */
-    public function setPlaylist(Playlist $playlist) {
+    public function setPlaylist($playlist) {
         $this->playlist = $playlist;
     }
 
@@ -126,7 +126,7 @@ class Activity {
      *
      * @param Question question	
      */
-    public function setQuestion(Question $question) {
+    public function setQuestion($question) {
         $this->question = $question;
     }
 
@@ -142,7 +142,7 @@ class Activity {
      *
      * @param Record $record	
      */
-    public function setRecord(Record $record) {
+    public function setRecord($record) {
         $this->record = $record;
     }
 
@@ -158,7 +158,7 @@ class Activity {
      *
      * @param Song $song	
      */
-    public function setSong(Song $song) {
+    public function setSong($song) {
         $this->song = $song;
     }
 
@@ -166,7 +166,7 @@ class Activity {
      *
      * @param User $toUser	
      */
-    public function setToUser(User $toUser) {
+    public function setToUser($toUser) {
         $this->toUser = $toUser;
     }
 
@@ -182,7 +182,7 @@ class Activity {
      *
      * @param Status $status	
      */
-    public function setUserStatus(Status $userStatus) {
+    public function setUserStatus($userStatus) {
         $this->userStatus = $userStatus;
     }
 
@@ -190,7 +190,7 @@ class Activity {
      *
      * @param Video $video	
      */
-    public function setVideo(Video $video) {
+    public function setVideo($video) {
         $this->video = $video;
     }
 
