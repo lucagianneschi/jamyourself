@@ -6,7 +6,7 @@
  * @return null
  */
 function toParseACL(parseACL $ACL) {
-    if (!$ACL || !isset($ACL->acl) || ($ACL->acl == null) )
+    if (!$ACL || !isset($ACL->acl) || ($ACL->acl == null))
         return null;
     return $ACL->acl;
 }
@@ -86,7 +86,7 @@ function toParseRelation($className, array $objects) {
  * @return \error|null
  */
 function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassName) {
-    
+
     if ($fromClassName != null && $fromField != null && $fromObjectId != null && $toClassName != null &&
             count($fromClassName) > 0 && count($fromField) > 0 && count($fromObjectId) > 0 && count($toClassName) > 0) {
 
@@ -106,7 +106,7 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
                 foreach (($result->results) as $object) {
                     //controllo che abbiano un objectId
                     if ($object != null && isset($object->objectId))
-                        //aggiungo all'array da restituire
+                    //aggiungo all'array da restituire
                         $objectids[] = $object->objectId;
                 }
                 return $objectids;
@@ -115,7 +115,7 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
                 return null;
         } catch (Exception $e) {
             //salvo l'errore
-           return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
     else
@@ -132,7 +132,7 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
 function toParseDateTime(DateTime $dateTime) {
     if ($dateTime == null)
         return null;
-    else{
+    else {
         $parseRestClient = new parseRestClient();
         return $parseRestClient->dataType('date', $dateTime->format('r'));
     }
@@ -144,7 +144,7 @@ function toParseDateTime(DateTime $dateTime) {
  * @return null
  */
 function toParseGeoPoint(parseGeoPoint $geoPoint) {
-    if ($geoPoint==null)
+    if ($geoPoint == null)
         return null;
     return $geoPoint->location;
 }
@@ -158,7 +158,7 @@ function toParseGeoPoint(parseGeoPoint $geoPoint) {
  * @param type $args = impostato al parametro func_get_args()
  * @return \error 
  */
-function throwError($exception ,$class,$function,$args){
+function throwError($exception, $class, $function, $args) {
     $error = new error();
     $error->setErrorClass($class);
     $error->setErrorCode($exception->getCode());
@@ -169,15 +169,42 @@ function throwError($exception ,$class,$function,$args){
     $errorParse->saveError($error);
     return $error;
 }
-    
-function toParseFile($args){
+
+function toParseFile($args) {
     
 }
-     //@todo   
+
+//@todo   
 return null;
 
-function fromParseFile($args){
-     //@todo   
-return null;
+function fromParseFile($args) {
+    //@todo   
+    return null;
 }
+
+/**
+ * Crea un array che rappresenta un GeoPoint in parse
+ * @param parseGeoPoint $geopoint
+ * @return null
+ */
+function toParseGeopoint(parseGeoPoint $geopoint) {
+    if ($geopoint->location != null) {
+        $parseRestClient = new parseRestClient();
+        return $parseRestClient->dataType("geopoint",$geopoint->location);
+    }
+    else
+        return null;
+}
+
+/**
+ * Crea un oggetto parseGeopoint a partire da un geopoint di parse
+ * @param type $geopoint
+ * @return \parseGeoPoint|null
+ */
+function fromParseGeopoint($geopoint){
+    if($geopoint != null && is_object($geopoint)){
+        return new parseGeoPoint($geopoint->latitude, $geopoint->longitude);
+    }else return null;
+}
+
 ?>
