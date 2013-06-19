@@ -93,7 +93,7 @@ class Playlist {
     }
 
     //Pointer to Parse User, utente a cui appartiene la playlist
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
