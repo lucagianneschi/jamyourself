@@ -172,11 +172,11 @@ class Comment {
         $this->active = $active;
     }
 
-    public function setAlbum(Album $album) {
+    public function setAlbum($album) {
         $this->album = $album;
     }
 
-    public function setComment(Comment $comment) {
+    public function setComment($comment) {
         $this->comment = $comment;
     }
 
@@ -192,15 +192,15 @@ class Comment {
         $this->counter = $counter;
     }
 
-    public function setEvent(Event $event) {
+    public function setEvent($event) {
         $this->event = $event;
     }
 
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
-    public function setImage(Image $image) {
+    public function setImage($image) {
         $this->image = $image;
     }
 
@@ -220,15 +220,15 @@ class Comment {
         $this->opinions = $opinions;
     }
 
-    public function setRecord(Record $record) {
+    public function setRecord($record) {
         $this->record = $record;
     }
 
-    public function setSong(Song $song) {
+    public function setSong($song) {
         $this->song = $song;
     }
 
-    public function setStatus(Status $status) {
+    public function setStatus($status) {
         $this->status = $status;
     }
 
@@ -240,7 +240,7 @@ class Comment {
         $this->text = $text;
     }
 
-    public function setToUser(User $toUser) {
+    public function setToUser($toUser) {
         $this->toUser = $toUser;
     }
 
@@ -248,7 +248,7 @@ class Comment {
         $this->type = $type;
     }
 
-    public function setVideo(Video $video) {
+    public function setVideo($video) {
         $this->video = $video;
     }
 
