@@ -108,7 +108,7 @@ class VideoParse {
             $video->setDuration($parseObj->duration);
             $featuring = fromParseRelation('featuring', 'Video', $parseObj->objectId, '_User');
             $video->setFeaturing($featuring);
-            $fromUser = fromParsePointer('_User', $parseObj->fromUser);
+            $fromUser = fromParsePointer($parseObj->fromUser);
             $video->setFromUser($fromUser);
             $video->setLoveCounter($parseObj->loveCounter);
             $lovers = fromParseRelation('lovers', 'Video', $parseObj->objectId, '_User');
