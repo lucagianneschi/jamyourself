@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par Info Generali:
  *  \author    Luca Gianneschi
  *  \version   1.0
@@ -18,71 +19,52 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:location">API</a>
  */
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
+require_once CLASSES_DIR . 'utils.class.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
-class LocationParse{
 
-	private $parseQuery;
+class LocationParse {
 
-	function __construct(){
-			
-		$this->parseQuery = new ParseQuery("Location");
-	}
-	
+    private $parseQuery;
+
+    function __construct() {
+
+        $this->parseQuery = new ParseQuery("Location");
+    }
+
     public function getCount() {
         return $this->parseQuery->getCount()->count;
     }
 
+    public function getLocation($objectId) {
+        try {
+            $parseObject = new parseObject('Location');
+            $res = $parseObject->get($objectId);
+            $cmt = $this->parseToLocation($res);
+            return $cmt;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        }
+    }
 
-	public function getLocation($objectId) {
-		try {
-			$parseObject = new parseObject('Location');
-			$res = $parseObject->get($objectId);
-			$cmt = $this->parseToLocation($res);
-			return $cmt;
-		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
-		}
-	}
-	
-	public function getLocations() {
-		try {
-			$locations = array();
-			$res = $this->parseQuery->find();
-			foreach ($res->results as $obj) {
-				$location = $this->parseToComment($obj);
-				$locations[$location->getObjectId()] = $location;
-			}
-			return $locations;
-		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
+    public function getLocations() {
+        try {
+            $locations = array();
+            $res = $this->parseQuery->find();
+            foreach ($res->results as $obj) {
+                $location = $this->parseToComment($obj);
+                $locations[$location->getObjectId()] = $location;
+            }
+            return $locations;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        }
+    }
 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
-		}
-	}
-	
     public function orderBy($field) {
         $this->parseQuery->orderBy($field);
     }
@@ -95,29 +77,21 @@ class LocationParse{
         $this->parseQuery->orderByDescending($field);
     }
 
-	
-function parseToLocation(stdClass $parseObj) {
+    function parseToLocation(stdClass $parseObj) {
         $location = new Location();
-	if(isset($parseObj->objectId))
-            $location->setObjectId($parseObj->objectId);
-        if(isset($parseObj->city))
-            $location->setCity($parseObj->city);
-        if(isset($parseObj->country))
-            $location->setCountry($parseObj->country);
-        if (isset($parseObj->geoPoint)) 
-            $location->setLocation(new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude));
-        if(isset($parseObj->locId))
-            $location->setLocId($parseObj->locId);
-        if (isset($parseObj->createdAt))
+        $location->setObjectId($parseObj->objectId);
+        $location->setCity($parseObj->city);
+        $location->setCountry($parseObj->country);
+        $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
+        $location->setLocation($parseGeoPoint);
+        $location->setLocId($parseObj->locId);
+        if (($parseObj->createdAt))
             $location->setCreatedAt(new DateTime($parseObj->createdAt));
-        if (isset($parseObj->updatedAt))
+        if (($parseObj->updatedAt))
             $location->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        $acl = new parseACL();
-        $acl->setPublicReadAccess(true);
-        $location->setACL($acl);
+        $location->setACL(toParseACL($parseObj->ACL));
         return $location;
-	}
-
+    }
 
     public function setLimit($int) {
         $this->parseQuery->setLimit($int);
@@ -186,5 +160,7 @@ function parseToLocation(stdClass $parseObj) {
     public function whereRelatedTo($key, $className, $objectId) {
         $this->parseQuery->whereRelatedTo($key, $className, $objectId);
     }
+
 }
+
 ?>
