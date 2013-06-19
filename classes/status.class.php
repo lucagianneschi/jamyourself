@@ -69,17 +69,17 @@ class Status {
     }
 
     //Parse Object Event: evento associato allo status
-    public function setEvent(Event $event) {
+    public function setEvent($event) {
         $this->events = $event;
     }
 
     //Parse User: utente che pubblica lo status
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
     //Parse Object Image: image associata allo status
-    public function setImage(Image $image) {
+    public function setImage($image) {
         $this->image = $image;
     }
 
@@ -104,7 +104,7 @@ class Status {
     }
 
     //Parse Object Song: song associata allo status
-    public function setSong(Song $song) {
+    public function setSong($song) {
         $this->song = $song;
     }
 
