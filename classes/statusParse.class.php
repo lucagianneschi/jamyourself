@@ -52,9 +52,7 @@ class StatusParse {
         $this->parseQuery = new ParseQuery("Status");
     }
 
-    public function getCount() {
-        return $this->parseQuery->getCount()->count;
-    }
+
 
     public function deleteStatus($objectId) {
         try {
@@ -62,18 +60,12 @@ class StatusParse {
             $parseObject->active = false;
             $parseObject->update($objectId);
         } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+             return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
         }
+    }
+	
+	public function getCount() {
+        return $this->parseQuery->getCount()->count;
     }
 
     public function getStatus($objectId) {
@@ -83,28 +75,8 @@ class StatusParse {
             $status = $this->parseToStatus($res);
             return $status;
         } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+             return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
         }
-    }
-
-    public function getStatuses() {
-        $statuses = array();
-        $res = $this->parseQuery->find();
-        foreach ($res->results as $obj) {
-            $status = $this->parseToComment($obj);
-            $statuses[$status->getObjectId()] = $status;
-        }
-        return $statuses;
     }
 
 	public function getStatuses() {
@@ -117,17 +89,7 @@ class StatusParse {
         }
         return $statuses;
     } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+             return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
         }
 	}
 
@@ -144,65 +106,42 @@ class StatusParse {
     }
 
     public function parseToStatus(stdClass $parseObj) {
-	
-
-        if ($parseObj == null)
-            return null;  //se non ho ricevuto niente...
-
-        $status = new Status();
-        
-        if(isset($parseObj->objectId))
+		try{
+            $status = new Status();
             $status->setObjectId($parseObj->objectId);
-        if(isset($parseObj->active))
             $status->setActive($parseObj->active);
-        if(isset($parseObj->commentators)){
-            $userParse = new UserParse();
-            $commentators = $this->$userParse->getRelatedTo('commentators', 'Status', $parseObj->objectId);
-            $status->setCommentators($commentators);
-        }
-        if(isset($parseObj->comments)){
-            $commentParse = new CommentParse();
-            $comments = $this->$commentParse->getRelatedTo('comments', 'Status', $parseObj->objectId);
-            $status->setComments($comments);
-        }
-        if(isset($parseObj->counter))
+            $commentators = fromParseRelation('commentators', 'Status', $parseObj->objectId,'_User');
+		    $status->setCommentators($commentators);
+            $comments = fromParseRelation('comments', 'Status', $parseObj->objectId,'Comment');
+		    $status->setComments($comments);
             $status->setCounter($parseObj->counter);
-        if (isset($parseObj->event))
-            $status->setEvent($parseObj->event);
-        if (isset($parseObj->fromUser))
-            $status->setFromUser($parseObj->fromUser);
-        if (isset($parseObj->image))
-            $status->setImage($parseObj->image);
-        if(isset($parseObj->location)){
+		    $event = fromParsePointer('Event',$parseObj->event);
+		    $status->setEvent($event);
+            $fromUser = fromParsePointer('_User',$parseObj->fromUser);
+		    $status->setFromUser($fromUser);
+            $image = fromParsePointer('Image',$parseObj->image);
+		    $status->setImage($image);
             $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
-            $status->setLocation($parseGeoPoint->location);
-        }
-        if(isset($parseObj->loveCounter))
+			$status->setLocation($parseGeoPoint->location);//location o no?
             $status->setLoveCounter($parseObj->loveCounter);
-        if(isset($parseObj->lovers)){
-            $userParse = new UserParse();
-            $lovers = $this->$userParse->getRelatedTo('lovers', 'Status', $parseObj->objectId);
-            $status->setLovers($lovers);
-        }
-        if (isset($parseObj->song))
-            $status->setSong($parseObj->song);
-        if(isset($parseObj->text))
+			$lovers = fromParseRelation('lovers', 'Status', $parseObj->objectId,'_User');
+		    $status->setLovers($lovers);
+            $song = fromParsePointer('Song',$parseObj->song);
+		    $status->setSong($song);
             $status->setText($parseObj->text);
-        if(isset($parseObj->taggedUsers)){
-            $userParse = new UserParse();
-            $taggedUsers = $this->$userParse->getRelatedTo('taggedUsers', 'Status', $parseObj->objectId);
-            $status->setLovers($taggedUsers);
-        }
-        if (isset($parseObj->createdAt))
-            $status->setCreatedAt(new DateTime($parseObj->createdAt));
-        if (isset($parseObj->updatedAt))
-            $status->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        $acl = new parseACL();
-        $acl->setPublicReadAccess(true);
-        $acl->setPublicWriteAccess(true);
-        $status->setACL($acl);
-        return $status;
-    }
+			$taggedUsers = fromParseRelation('taggedUsers', 'Status', $parseObj->objectId,'_User');
+			$status->setLovers($taggedUsers);
+            if ($parseObj->createdAt)
+				$status->setCreatedAt(new DateTime($parseObj->createdAt));
+			if ($parseObj->updatedAt)
+				$status->setUpdatedAt(new DateTime($parseObj->updatedAt));
+			if ($parseObj->ACL)
+				$status->setACL($parseObj->ACL);
+            return $status;
+    } catch(Exception $e) {
+			return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
+		}
+	}
 
     public function saveStatus(Status $status) {
             $parseObject = new parseObject('Status');
@@ -229,15 +168,7 @@ class StatusParse {
 				$status->setUpdatedAt($ret->updatedAt, new DateTimeZone("America/Los_Angeles"));
 				}
 			} catch (Exception $e){
-		        $error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-                return $error;
+		        return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
 		} else {
 			try{
 				$ret = $parseObj->save();
@@ -246,15 +177,7 @@ class StatusParse {
 				$status->setUpdatedAt();
 			}
 		catch(Exception $e) {
-		        $error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-                return $error;
+		        return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
 		    }
         }
 		return $status;
@@ -315,7 +238,5 @@ class StatusParse {
     public function wherePointer($field, $className, $objectId) {
         $this->parseQuery->wherePointer($field, $className, $objectId);
     }
-
 }
-
 ?>

@@ -8,8 +8,8 @@
  *
  *  \par Info Classe:
  *  \brief     Video Class
- *  \details   Classe che contiene i video presi da Vimeo e Youtube e segnalati dagli utenti
- *
+ *  \details   Classe che contiene i video presi da Vimeo e Youtube e segnalati dagli utenti 
+ *  
  *  \par Commenti:
  *  \warning
  *  \bug
@@ -48,17 +48,7 @@ class VideoParse {
             $parseObject->active = false;
             $parseObject->update($objectId);
         } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
@@ -69,17 +59,7 @@ class VideoParse {
             $video = $this->parseToVideo($res);
             return $video;
         } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
@@ -93,17 +73,7 @@ class VideoParse {
             }
             return $videos;
         } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
@@ -143,7 +113,8 @@ class VideoParse {
             $video->setLoveCounter($parseObj->loveCounter);
             $lovers = fromParseRelation('lovers', 'Video', $parseObj->objectId, '_User');
             $video->setLovers($lovers);
-            $video->setTags($parseObj->tags);
+            if ($parseObj->tags)
+                $video->setTags($parseObj->tags);
             $video->setTitle($parseObj->title);
             $video->setThumbnail($parseObj->thumbnail);
             $video->setURL($parseObj->URL);
@@ -151,20 +122,10 @@ class VideoParse {
                 $video->setCreatedAt(new DateTime($parseObj->createdAt));
             if ($parseObj->updatedAt)
                 $video->setUpdatedAt(new DateTime($parseObj->updatedAt));
-            if ($parseObj->ACL)
-                $video->setACL($parseObj->ACL);
+            $video->setACL(toParseACL($parseObj->ACL));
             return $video;
         } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
@@ -182,45 +143,34 @@ class VideoParse {
         $parseObj->fromUser = toParsePointer('_User', $video->getFromUser());
         $video->getLoveCounter() == null ? $parseObj->loveCounter = null : $parseObj->loveCounter = $video->getLoveCounter();
         $parseObj->lovers = toParseRelation('_User', $video->getLovers());
-        $video->getTags() == null ? $parseObj->tags = null : $parseObj->tags = $video->getTags();
+        if ($video->getTags() != null && count($video->getTags()) > 0)
+            $parseObj->tags = $video->getTags();
+        else
+            $parseObj->tags = null;
         $video->getThumbnail() == null ? $parseObj->thumbnail = null : $parseObj->thumbnail = $video->getThumbnail();
         $video->getTitle() == null ? $parseObj->title = null : $parseObj->title = $video->getTitle();
         $video->getURL() == null ? $parseObj->URL = null : $parseObj->URL = $video->getURL();
-        $acl = new parseACL();
-        $acl->setPublicReadAccess(true);
-        $acl->setPublicWriteAccess(true);
-        $parseObj->ACL = toParseACL($acl);
+        $acl = new ParseACL;
+        $acl->setPublicRead(true);
+        $acl->setPublicWrite(true);
+        $video->setACL($acl);
         if ($video->getObjectId() != null) {
+
             try {
                 $ret = $parseObj->update($video->getObjectId());
-                $video->setUpdatedAt($ret->updatedAt, new DateTime());
-            } catch (Exception $e) {
-                $error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-                return $error;
+                $video->setUpdatedAt($ret->updatedAt);
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         } else {
+            //caso save
             try {
                 $ret = $parseObj->save();
                 $video->setObjectId($ret->objectId);
-                $video->setCreatedAt($parseObj->createdAt);
-                $video->setUpdatedAt($parseObj->updatedAt);
-            } catch (Exception $e) {
-                $error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-                return $error;
+                $video->setCreatedAt($ret->createdAt);
+                $video->setUpdatedAt($ret->createdAt);
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         }
         return $video;
@@ -296,4 +246,4 @@ class VideoParse {
 
 }
 
-?>
+?> 
