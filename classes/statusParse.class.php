@@ -162,8 +162,10 @@ class StatusParse {
         $parseObj->song = toParsePointer('Song', $status->getSong());
         $parseObj->taggedUsers = toParseRelation('_User', $status->getTaggedUsers());
         $status->getText() == null ? $parseObj->text = null : $parseObj->text = $status->getText();
-        $parseObj->ACL = toParseACL($status->getACL());
-
+        $acl = new ParseACL;
+        $acl->setPublicRead(true);
+        $acl->setPublicWrite(true);
+        $parseObj->ACL = toParseACL($acl);
         if ($status->getObjectId() != null) {
 
             try {

@@ -24,6 +24,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
+require_once CLASSES_DIR . 'utils.class.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
 
@@ -107,7 +108,7 @@ class QuestionParse {
         $acl = new ParseACL;
         $acl->setPublicRead(true);
         $acl->setPublicWrite(true);
-        $question->setACL($acl);
+        $parseObject->ACL = toParseACL($acl);
         if ($question->getObjectId() != null) {
             try {
                 $ret = $parseObject->update($question->getObjectId());
