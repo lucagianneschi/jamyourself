@@ -127,7 +127,7 @@ class Image {
         $this->active = $active;
     }
 
-    public function setAlbum(Album $album) {
+    public function setAlbum($album) {
         $this->album = $album;
     }
 
@@ -159,7 +159,7 @@ class Image {
         $this->filePath = $filePath;
     }
 
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
