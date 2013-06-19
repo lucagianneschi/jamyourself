@@ -46,7 +46,7 @@ class QuestionParse {
             $question = $this->parseToQuestion($res);
             return $question;
         } catch (Exception $e) {
-            return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
@@ -60,7 +60,7 @@ class QuestionParse {
             }
             return $questions;
         } catch (Exception $e) {
-            return throwError($e,__CLASS__ , __FUNCTION__, func_get_args);
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
@@ -79,80 +79,54 @@ class QuestionParse {
     function parseToQuestion(stdClass $parseObj) {
 
         $question = new Question();
-        if(isset($parseObj->objectId))
-            $question->setObjectId($parseObj->objectId);
-        if(isset($parseObj->answer))
-            $question->setAnswer($parseObj->answer);
-        if(isset($parseObj->mailFrom))
-            $question->setMailFrom($parseObj->mailFrom);
-        if(isset($parseObj->mailTo))
-            $question->setMailTo($parseObj->mailTo);
-        if(isset($parseObj->name))
-            $question->setName($parseObj->name);
-        if(isset($parseObj->replied))
-            $question->setReplied($parseObj->replied);
-        if(isset($parseObj->subject))
-            $question->setSubject($parseObj->subject);
-        if(isset($parseObj->text))
-            $question->setText($parseObj->text);
-        if (isset($parseObj->createdAt))
+
+        $question->setObjectId($parseObj->objectId);
+        $question->setAnswer($parseObj->answer);
+        $question->setMailFrom($parseObj->mailFrom);
+        $question->setMailTo($parseObj->mailTo);
+        $question->setReplied($parseObj->replied);
+        $question->setSubject($parseObj->subject);
+        $question->setText($parseObj->text);
+        if (($parseObj->createdAt))
             $question->setCreatedAt(new DateTime($parseObj->createdAt));
-        if (isset($parseObj->updatedAt))
+        if (($parseObj->updatedAt))
             $question->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        $acl = new parseACL();
-        $acl->setPublicReadAccess(true);
-        $acl->setPublicWriteAccess(true);
-        $question->setACL($acl);
+        $question->setACL(toParseACL($parseObj->ACL));
         return $question;
     }
 
-
-    public function saveQuestion($question) {
-        try {
-            $parseObject = new parseObject('Question');
-            if ($question->getObjectId() == '') {
-                $question->getAnswer() == null ? $parseObject->answer = null : $parseObject->answer = $question->getAnswer();
-                $question->getMailFrom() == null ? $parseObject->mailFrom = null : $parseObject->mailFrom = $question->getMailFrom();
-                $question->getMailTo() == null ? $parseObject->mailTo = null : $parseObject->mailTo = $question->getMailTo();
-                $question->getName() == null ? $parseObject->name = null : $parseObject->name = $question->getName();
-                $question->getReplied() == null ? $parseObject->replied = null : $parseObject->replied = $question->getReplied();
-                $question->getSubject() == null ? $parseObject->subject = null : $parseObject->subject = $question->getSubject();
-                $question->getText() == null ? $parseObject->text = null : $parseObject->text = $question->getText();
-
-                $res = $parseObject->save();
-                return $res->objectId;
-            } else {
-                if ($question->getAnswer() != null)
-                    $parseObject->answer = $question->getAnswer();
-                if ($question->getMailFrom() != null)
-                    $parseObject->mailFrom = $question->getMailFrom();
-                if ($question->getMailTo() != null)
-                    $parseObject->mailTo = $question->getMailTo();
-                if ($question->getName() != null)
-                    $parseObject->name = $question->getName();
-                if ($question->getReplied() != null)
-                    $parseObject->replied = $question->getReplied();
-                if ($question->getSubject() != null)
-                    $parseObject->subject = $question->getSubject();
-                if ($question->getSubject() != null)
-                    $parseObject->text = $question->getText();
-                if ($question->getText() != null)
-                    $parseObject->ACL = $question->getACL()->acl;
-                $parseObject->update($question->getObjectId());
+    public function saveQuestion(Question $question) {
+        $parseObject = new parseObject('Question');
+        $question->getAnswer() == null ? $parseObject->answer = null : $parseObject->answer = $question->getAnswer();
+        $question->getMailFrom() == null ? $parseObject->mailFrom = null : $parseObject->mailFrom = $question->getMailFrom();
+        $question->getMailTo() == null ? $parseObject->mailTo = null : $parseObject->mailTo = $question->getMailTo();
+        $question->getName() == null ? $parseObject->name = null : $parseObject->name = $question->getName();
+        $question->getReplied() == null ? $parseObject->replied = null : $parseObject->replied = $question->getReplied();
+        $question->getSubject() == null ? $parseObject->subject = null : $parseObject->subject = $question->getSubject();
+        $question->getText() == null ? $parseObject->text = null : $parseObject->text = $question->getText();
+        $acl = new ParseACL;
+        $acl->setPublicRead(true);
+        $acl->setPublicWrite(true);
+        $question->setACL($acl);
+        if ($question->getObjectId() != null) {
+            try {
+                $ret = $parseObject->update($question->getObjectId());
+                $dateTime = new DateTime($ret->updatedAt);
+                $question->setUpdatedAt($dateTime);
+            } catch (Exception $e) {
+                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
             }
-        } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+        } else {
+            try {
+                $ret = $parseObject->save();
+                $question->setObjectId($ret->objectId);
+                $question->setCreatedAt($ret->createdAt);
+                $question->setUpdatedAt($ret->updatedAt);
+            } catch (Exception $e) {
+                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+            }
         }
+        return $question;
     }
 
     public function setLimit($int) {
