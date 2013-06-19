@@ -188,7 +188,7 @@ class Video {
     }
 
     //User: Punta allo user che effettua l'embed del video  	
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
