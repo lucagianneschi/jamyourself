@@ -24,9 +24,6 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
-require_once CLASSES_DIR . 'error.class.php';
-require_once CLASSES_DIR . 'errorParse.class.php';
-
 require_once CLASSES_DIR . 'song.class.php';
 require_once CLASSES_DIR . 'songParse.class.php';
 
