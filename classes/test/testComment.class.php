@@ -31,7 +31,7 @@ $cmt->setOpinions(array('opinions1', 'opinions2'));
 //$cmt->setStatus(Status $status);
 $cmt->setTags(array('tag1', 'tag2'));
 $cmt->setText('Il testo del commento');
-//$cmt->setToUser(User $toUser);
+$cmt->setToUser('GuUAj83MGH');
 $cmt->setType('Il tipo del commento');
 //$cmt->setVideo(Video $video);
 $cmt->setVote(1000);
@@ -112,6 +112,7 @@ echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Comment<br />';
 $cmtParse = new CommentParse();
 $cmt = $cmtParse->getComment($resSave->getObjectId());
 $cmt->setCounter(99);
+print_r($cmt);
 $resUpdate = $cmtParse->saveComment($cmt);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
