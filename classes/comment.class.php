@@ -379,8 +379,16 @@ class Comment {
 		} else {
 			$string .= '[updatedAt] => NULL<br />';
 		}
-		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
-		
+		//$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
+		foreach ($this->getACL() as $key => $acl) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[ACL] => ' . $key . '<br />';
+            foreach ($acl as $access => $value) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+            }
+        }
 		return $string;
     }
 
