@@ -1,14 +1,67 @@
 <?php
+////////////////////////////////////////////////////////////////////////////////
+//
+//    Script per le funzioni ausiliari nella gestione dei tipi di Parse
+//    
+//    =====>> NB: ciò che esce dalla FROM deve poter entrare nella TO <<=====
+//
+////////////////////////////////////////////////////////////////////////////////
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../');
+	
+require_once ROOT_DIR . 'config.php';
+require_once CLASSES_DIR . 'error.class.php';
+require_once CLASSES_DIR . 'errorParse.class.php';
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//          Gestione ACL
+//
+////////////////////////////////////////////////////////////////////////////////
+/**
+ * Crea un Array multidimensionale che rappresenta un oggetto parseACL
+ * @param type $ACL
+ * @return \array|null
+ */
+function fromParseACL($ACL) {
+//  Parse mi manda uno stdObj fatto così:
+//        ["ACL"]=> object(stdClass)#10 (1) { 
+//        #["*"]=> object(stdClass)#11 (2) { 
+//        #["write"]=> bool(true) 
+//        #["read"]=> bool(true) } } }
+	if ($ACL == null) {
+        return null;
+	} else {
+		return json_decode(json_encode($ACL), true);
+	}
+}
 
 /**
- * 
  * @param parseACL $ACL
  * @return null
  */
 function toParseACL($ACL) {
-    if ($ACL==null || !isset($ACL->acl) || ($ACL->acl == null))
+    if ($ACL == null || !isset($ACL->acl) || ($ACL->acl == null))
         return null;
     return $ACL->acl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//          Gestione Date
+//
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Crea un date time a partire dalla stringa fornita da parse
+ * @param type $date
+ * @return \DateTime|null
+ */
+function fromParseDate($date) {
+    if ($date != null && count($date) > 0)
+        return new DateTime($date);
+    else
+        return null;
 }
 
 /**
@@ -23,18 +76,144 @@ function toParseDate($date) {
     else
         return null;
 }
+////////////////////////////////////////////////////////////////////////////////
+//
+//          Gestione GeoPoint
+//
+////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Crea un date time a partire dalla stringa fornita da parse
- * @param type $date
- * @return \DateTime|null
+ * 
+ * @param type $geoPoint
+ * @return null
  */
-function fromParseDate($date){
-    if($date!= null && count($date)>0)
-        return new DateTime($date);
-    else return null;
+function fromParseGeoPoint($geoPoint) {
+	if ($geoPoint != null && is_object($geoPoint) && isset($geoPoint->latitude) && isset($geoPoint->longitude)) {
+		$parseGeoPointer = new parseGeoPoint($geoPoint->latitude, $geoPoint->longitude);
+		return $parseGeoPointer->location;
+    } else {
+		return null;
+	}
+}
+/**
+ * Restituisce un array che rappresenta un tipo GeoPoint in Parse
+ * @param parseGeoPoint $geoPoint
+ * @return null
+ */
+function toParseGeoPoint(parseGeoPoint $geoPoint) {
+    if ($geoPoint == null)
+        return null;
+    return $geoPoint->location;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//          Gestione File
+//
+////////////////////////////////////////////////////////////////////////////////
+/**
+ * Crea un nuovo oggetto parseFile reperendolo da Parse
+ * 
+ * @param type $filePointer
+ * @param type $mime_type l'estensione MIME del file es: "txt" 
+ * oppure "pdf/application" oppure "mp3/audio" oppure "img/jpg", ecc...
+ * 
+ * @return \parseFile|null
+ */
+function fromParseFile($filePointer, $mime_type = '') {
+    if ($filePointer != null && isset($filePointer->url)) {
+        try {
+            $data = file_get_contents($filePointer->url);
+            $parseFile = new parseFile($mime_type, $data);
+            return $parseFile;
+        } catch (Exception $exception) {
+            return throwError($exception, "Utils", __FUNCTION__, func_get_args());
+        }
+    }
+    else
+        return null;
+}
+/**
+ * Crea un array visibile da Parse come un tipo puntatore a "File"
+ * preoccupandosi di uploadarlo (per file GIA' esistenti in Parse)
+ * @param parseFile $parseFile
+ * @return null
+ */
+function toParseFile($parseFile) {
+
+    if ($parseFile != null && isset($parseFile->name)) {
+        //carico i contenuti del file    
+        //ora recupero il nome del file e creo un puntatore al file col dataType
+        $parseRestClient = new parseRestClient();
+        $parseFile = $parseRestClient->dataType("file", array($parseFile->_fileName));
+        //restituisco...
+        return $parseFile;
+    }
+    else
+        return null;
+}
+
+/**
+ * Crea un array visibile da Parse come un tipo puntatore a "File"
+ * preoccupandosi di uploadarlo (per file NON ancora esistenti in Parse)
+ * @param type $pathFile il path del file
+ * @param type $mime_type il tipo MIME del file, es: "txt" 
+ * oppure "pdf/application" oppure "mp3/audio" oppure "img/jpg", ecc...
+ * @return null
+ */
+function toParseNewFile($pathFile, $mime_type = '') {
+
+    if ($pathFile != null && file_exists($pathFile) && $mime_type != null) {
+        try {
+            //carico i contenuti del file    
+            $data = file_get_contents($pathFile);
+            //carico le info del file
+            $path_parts = pathinfo($pathFile);
+            //creo il parseFile
+            $pFile = new parseFile($mime_type, $data);
+            //tento l'upload su parse
+            $result = $pFile->save($path_parts['filename']);
+            //
+            if ($result && isset($result->name)) {
+                //ora recupero il nome del file e creo un puntatore al file col dataType
+                $parseRestClient = new parseRestClient();
+                $parseFile = $parseRestClient->dataType("file", array($result->name));
+                //restituisco...
+                return $parseFile;
+            }
+            else
+                return null;
+        } catch (Exception $exception) {
+            return throwError($exception, "Utils", __FUNCTION__, func_get_args());
+        }
+    }
+    else
+        return null;
+}
+////////////////////////////////////////////////////////////////////////////////
+//
+//          Gestione Pointer
+//
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Fornisce una stringa che rappresenta l'objectId dell'oggetto rappresentato
+ * come puntatore in Parse
+ * @param type $pointer l'oggetto puntatore di Parse
+ * @return null
+ */
+function fromParsePointer($pointer) {
+    if (is_object($pointer) &&
+		isset($pointer->__type) &&
+		$pointer->__type == "Pointer" &&
+		isset($pointer->className) &&
+		isset($pointer->objectId)) {
+		
+        return $pointer->objectId;
+    } else {
+        return null;
+	}
+}
 /**
  * Restituisce un array che rappresenta un puntatore in Parse
  * @param type $className nome della classe a cui si punta
@@ -50,48 +229,11 @@ function toParsePointer($className, $objectId) {
     else
         return null;
 }
-
-/**
- * Fornisce una stringa che rappresenta l'objectId dell'oggetto rappresentato
- * come puntatore in Parse
- * @param type $pointer l'oggetto puntatore di Parse
- * @return null
- */
-function fromParsePointer($pointer) {
-    if (is_object($pointer) && isset($pointer->__type) && $pointer->__type == "Pointer" &&
-            isset($pointer->__className) && isset($pointer->objectId)) {
-        return $pointer->objectId;
-    }
-    else
-        return null;
-}
-
-/**
- * Crea un array di punatori che rappresenta una relation in Parse a partire da un array
- * di stringhe di objectId
- * @param array $array
- * @return null
- */
-function toParseRelation($className, $objects) {
-
-    if ($className != null && $objects != null && count($className) > 0 && count($objects) > 0) {
-        $arrayPointer = array();
-
-        foreach ($objects as $objectId) {
-            $pointer = toParsePointer($className, $objectId);
-            if ($pointer)
-                $arrayPointer[] = $pointer;
-        }
-        if (count($arrayPointer) > 0) {
-            $parseRestClient = new parseRestClient();
-            return $parseRestClient->dataType("relation", $arrayPointer);
-        }
-        else
-            return null;
-    }
-    else
-        return null;
-}
+////////////////////////////////////////////////////////////////////////////////
+//
+//          Gestione Relation
+//
+////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Restituisce un array di objectId che rapprsentano gli id degli oggetti con cui si
@@ -145,25 +287,38 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
     else
         return null;
 }
-
 /**
- * Restituisce un array che rappresenta un tipo GeoPoint in Parse
- * @param parseGeoPoint $geoPoint
+ * Crea un array di punatori che rappresenta una relation in Parse a partire da un array
+ * di stringhe di objectId
+ * @param array $array
  * @return null
  */
-function toParseGeoPoint(parseGeoPoint $geoPoint) {
-    if ($geoPoint == null)
-        return null;
-    return $geoPoint->location;
-}
+function toParseRelation($className, $objects) {
 
-function fromParseGeoPoint($geopoint) {
-    if ($geopoint != null && is_object($geopoint) && isset($geopoint->latitude) && isset($geopoint->longitude)) {
-        return new parseGeoPoint($geopoint->latitude, $geopoint->longitude);
+    if ($className != null && $objects != null && count($className) > 0 && count($objects) > 0) {
+        $arrayPointer = array();
+
+        foreach ($objects as $objectId) {
+            $pointer = toParsePointer($className, $objectId);
+            if ($pointer)
+                $arrayPointer[] = $pointer;
+        }
+        if (count($arrayPointer) > 0) {
+            $parseRestClient = new parseRestClient();
+            return $parseRestClient->dataType("relation", $arrayPointer);
+        }
+        else
+            return null;
     }
     else
         return null;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//          Gestione Errori
+//
+////////////////////////////////////////////////////////////////////////////////
 
 /**
  * Funzione per la gestione degli errori
@@ -185,86 +340,4 @@ function throwError($exception, $class, $function, $args) {
     $errorParse->saveError($error);
     return $error;
 }
-
-/**
- * Crea un array visibile da Parse come un tipo puntatore a "File"
- * preoccupandosi di uploadarlo (per file GIA' esistenti in Parse)
- * @param parseFile $parseFile
- * @return null
- */
-function toParseFile($parseFile) {
-
-    if ($parseFile != null && isset($parseFile->name)){
-        //carico i contenuti del file    
-        //ora recupero il nome del file e creo un puntatore al file col dataType
-        $parseRestClient = new parseRestClient();
-        $parseFile = $parseRestClient->dataType("file", array($parseFile->_fileName));
-        //restituisco...
-        return $parseFile;
-    }
-    else
-        return null;
-}
-
-/**
- * Crea un array visibile da Parse come un tipo puntatore a "File"
- * preoccupandosi di uploadarlo (per file NON ancora esistenti in Parse)
- * @param type $pathFile il path del file
- * @param type $mime_type il tipo MIME del file, es: "txt" 
- * oppure "pdf/application" oppure "mp3/audio" oppure "img/jpg", ecc...
- * @return null
- */
-function toParseNewFile($pathFile, $mime_type = '') {
-
-    if ($pathFile != null && file_exists($pathFile) && $mime_type != null) {
-        try {
-            //carico i contenuti del file    
-            $data = file_get_contents($pathFile);
-            //carico le info del file
-            $path_parts = pathinfo($pathFile);
-            //creo il parseFile
-            $pFile = new parseFile($mime_type, $data);
-            //tento l'upload su parse
-            $result = $pFile->save($path_parts['filename']);
-            //
-            if ($result && isset($result->name)) {
-                //ora recupero il nome del file e creo un puntatore al file col dataType
-                $parseRestClient = new parseRestClient();
-                $parseFile = $parseRestClient->dataType("file", array($result->name));
-                //restituisco...
-                return $parseFile;
-            }
-            else
-                return null;
-        } catch (Exception $exception) {
-            return throwError($exception, "Utils", __FUNCTION__, func_get_args());
-        }
-    }
-    else
-        return null;
-}
-
-/**
- * Crea un nuovo oggetto parseFile reperendolo da Parse
- * 
- * @param type $filePointer
- * @param type $mime_type l'estensione MIME del file es: "txt" 
- * oppure "pdf/application" oppure "mp3/audio" oppure "img/jpg", ecc...
- * 
- * @return \parseFile|null
- */
-function fromParseFile($filePointer, $mime_type = '') {
-    if ($filePointer != null && isset($filePointer->url)) {
-        try {
-            $data = file_get_contents($filePointer->url);
-            $parseFile = new parseFile($mime_type, $data);
-            return $parseFile;
-        } catch (Exception $exception) {
-            return throwError($exception, "Utils", __FUNCTION__, func_get_args());
-        }
-    }
-    else
-        return null;
-}
-
 ?>

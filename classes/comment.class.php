@@ -47,17 +47,7 @@ class Comment {
     private $updatedAt;
     private $ACL;
 	
-	// TODO - da eliminare
-	private $testDate;
-	public function getTestDate() {
-		return $this->testDate;
-    }
-	public function setTestdate($testDate) {
-        $this->testDate = $testDate;
-    }
-	// TODO
-
-    public function __construct() {        
+	public function __construct() {        
     }
 
     public function getObjectId() {
@@ -180,11 +170,11 @@ class Comment {
         $this->comment = $comment;
     }
 
-    public function setCommentators(array $commentators) {
+    public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -212,11 +202,11 @@ class Comment {
         $this->loveCounter = $loveCounter;
     }
 
-    public function setLovers(array $lovers) {
+    public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
-    public function setOpinions(array $opinions) {
+    public function setOpinions($opinions) {
         $this->opinions = $opinions;
     }
 
@@ -232,7 +222,7 @@ class Comment {
         $this->status = $status;
     }
 
-    public function setTags(array $tags) {
+    public function setTags($tags) {
         $this->tags = $tags;
     }
 
@@ -271,14 +261,18 @@ class Comment {
     public function __toString() {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        $string .= '[active] => ' . $this->getActive() . '<br />';
+        if (is_null($this->getActive())) {
+            $string .= '[active] => NULL<br />';
+        } else {
+            $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
+        }
 		if ($this->getAlbum() != null) {
-			$string .= '[album] => ' . $this->getAlbum()->getObjectId() . '<br />';
+			$string .= '[album] => ' . $this->getAlbum() . '<br />';
 		} else {
 			$string .= '[album] => NULL<br />';
 		}
 		if ($this->getComment() != null) {
-			$string .= '[comment] => ' . $this->getComment()->getObjectId() . '<br />';
+			$string .= '[comment] => ' . $this->getComment() . '<br />';
 		} else {
 			$string .= '[comment] => NULL<br />';
 		}
@@ -302,17 +296,17 @@ class Comment {
 		}
 		$string .= '[counter] => ' . $this->getCounter() . '<br />';
 		if ($this->getEvent() != null) {
-			$string .= '[event] => ' . $this->getEvent()->getObjectId() . '<br />';
+			$string .= '[event] => ' . $this->getEvent() . '<br />';
 		} else {
 			$string .= '[event] => NULL<br />';
 		}
 		if ($this->getFromUser() != null) {
-			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+			$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 		} else {
 			$string .= '[fromUser] => NULL<br />';
 		}
 		if ($this->getImage() != null) {
-			$string .= '[image] => ' . $this->getImage()->getObjectId() . '<br />';
+			$string .= '[image] => ' . $this->getImage() . '<br />';
 		} else {
 			$string .= '[image] => NULL<br />';
 		}
@@ -342,17 +336,17 @@ class Comment {
 			$string .= '[opinions] => NULL<br />';
 		}
 		if ($this->getRecord() != null) {
-			$string .= '[record] => ' . $this->getRecord()->getObjectId() . '<br />';
+			$string .= '[record] => ' . $this->getRecord() . '<br />';
 		} else {
 			$string .= '[record] => NULL<br />';
 		}
 		if ($this->getSong() != null) {
-			$string .= '[song] => ' . $this->getSong()->getObjectId() . '<br />';
+			$string .= '[song] => ' . $this->getSong() . '<br />';
 		} else {
 			$string .= '[song] => NULL<br />';
 		}
 		if ($this->getStatus() != null) {
-			$string .= '[status] => ' . $this->getStatus()->getObjectId() . '<br />';
+			$string .= '[status] => ' . $this->getStatus() . '<br />';
 		} else {
 			$string .= '[status] => NULL<br />';
 		}
@@ -368,13 +362,13 @@ class Comment {
 		}
 		$string .= '[text] => ' . $this->getText() . '<br />';
 		if ($this->getToUser() != null) {
-			$string .= '[toUser] => ' . $this->getToUser()->getObjectId() . '<br />';
+			$string .= '[toUser] => ' . $this->getToUser() . '<br />';
 		} else {
 			$string .= '[toUser] => NULL<br />';
 		}
 		$string .= '[type] => ' . $this->getType() . '<br />';
 		if ($this->getVideo() != null) {
-			$string .= '[video] => ' . $this->getVideo()->getObjectId() . '<br />';
+			$string .= '[video] => ' . $this->getVideo() . '<br />';
 		} else {
 			$string .= '[video] => NULL<br />';
 		}
@@ -389,8 +383,20 @@ class Comment {
 		} else {
 			$string .= '[updatedAt] => NULL<br />';
 		}
-		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
-		
+		if ($this->getACL() != null) {
+			foreach ($this->getACL() as $key => $acl) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[ACL] => ' . $key . '<br />';
+				foreach ($acl as $access => $value) {
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+				}
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[ACL] => NULL<br />';
+		}
 		return $string;
     }
 
