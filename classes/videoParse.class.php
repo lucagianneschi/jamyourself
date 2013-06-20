@@ -126,21 +126,21 @@ class VideoParse {
     public function saveVideo(Video $video) {
         try {
             $parseObj = new parseObject('Video');
-            is_null($video->getActive()) === null ? $parseObj->active = null : $parseObj->active = $video->getActive();
-            is_null($video->getAuthor()) == null ? $parseObj->author = null : $parseObj->author = $video->getAuthor();
+            is_null($video->getActive()) ? $parseObj->active = null : $parseObj->active = $video->getActive();
+            is_null($video->getAuthor()) ? $parseObj->author = null : $parseObj->author = $video->getAuthor();
             is_null($video->getCommentators()) ? $parseObj->commentators = null : $parseObj->commentators = toParseRelation('_User', $video->getCommentators());
             is_null($video->getComments()) ? $parseObj->comments = null : $parseObj->comments = toParseRelation('Comment', $video->getComments());
-            is_null($video->getCounter()) == null ? $parseObj->counter = null : $parseObj->counter = $video->getCounter();
-            is_null($video->getDescription()) == null ? $parseObj->description = null : $parseObj->description = $video->getDescription();
-            is_null($video->getDuration()) == null ? $parseObj->duration = null : $parseObj->duration = $video->getDuration();
+            is_null($video->getCounter())  ? $parseObj->counter = null : $parseObj->counter = $video->getCounter();
+            is_null($video->getDescription()) ? $parseObj->description = null : $parseObj->description = $video->getDescription();
+            is_null($video->getDuration())  ? $parseObj->duration = null : $parseObj->duration = $video->getDuration();
             is_null($video->getFeaturing()) ? $parseObj->featuring = null : $parseObj->featuring = toParseRelation('_User', $video->getFeaturing());
             is_null($video->getFromUser()) ? $parseObj->fromUser = null : $parseObj->fromUser = toParsePointer('_User', $video->getFromUser());
-            is_null($video->getLoveCounter()) == null ? $parseObj->loveCounter = null : $parseObj->loveCounter = $video->getLoveCounter();
+            is_null($video->getLoveCounter()) ? $parseObj->loveCounter = null : $parseObj->loveCounter = $video->getLoveCounter();
             is_null($video->getLovers()) ? $parseObj->lovers = null : $parseObj->lovers = toParseRelation('_User', $video->getLovers());
             is_null($video->getTags()) ? $parseObj->tags = null : $parseObj->tags = $video->getTags();
-            is_null($video->getThumbnail()) == null ? $parseObj->thumbnail = null : $parseObj->thumbnail = $video->getThumbnail();
-            is_null($video->getTitle()) == null ? $parseObj->title = null : $parseObj->title = $video->getTitle();
-            is_null($video->getURL()) == null ? $parseObj->URL = null : $parseObj->URL = $video->getURL();
+            is_null($video->getThumbnail()) ? $parseObj->thumbnail = null : $parseObj->thumbnail = $video->getThumbnail();
+            is_null($video->getTitle()) ? $parseObj->title = null : $parseObj->title = $video->getTitle();
+            is_null($video->getURL()) ? $parseObj->URL = null : $parseObj->URL = $video->getURL();
             $acl = new ParseACL;
             $acl->setPublicRead(true);
             $acl->setPublicWrite(true);
