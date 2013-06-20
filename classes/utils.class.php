@@ -36,12 +36,13 @@ function fromParseDate($date) {
         return null;
 }
 
-function fromParseGeoPoint($geopoint) {
-    if ($geopoint != null && is_object($geopoint) && isset($geopoint->latitude) && isset($geopoint->longitude)) {
-        return new parseGeoPoint($geopoint->latitude, $geopoint->longitude);
-    }
-    else
-        return null;
+function fromParseGeoPoint($geoPoint) {
+	if ($geoPoint != null && is_object($geoPoint) && isset($geoPoint->latitude) && isset($geoPoint->longitude)) {
+		$parseGeoPointer = new parseGeoPoint($geoPoint->latitude, $geoPoint->longitude);
+		return $parseGeoPointer->location;
+    } else {
+		return null;
+	}
 }
 
 /**
