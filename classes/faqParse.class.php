@@ -25,7 +25,6 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
-
 class FaqParse {
 
     private $parseQuery;
@@ -104,12 +103,9 @@ class FaqParse {
             $faq->setArea($parseObj->area);
             $faq->setPosition($parseObj->position);
             $faq->setQuestion($parseObj->question);
-            if ($parseObj->tags)
-                $faq->setTags($parseObj->tags);
-            if (($parseObj->createdAt))
-                $faq->setCreatedAt(new DateTime($parseObj->createdAt));
-            if (($parseObj->updatedAt))
-                $faq->setUpdatedAt(new DateTime($parseObj->updatedAt));
+            $faq->setTags($parseObj->tags);
+            $faq->setCreatedAt(new DateTime($parseObj->createdAt));
+            $faq->setUpdatedAt(new DateTime($parseObj->updatedAt));
             $faq->setACL(toParseACL($parseObj->ACL));
             return $faq;
         } catch (Exception $e) {
@@ -118,36 +114,27 @@ class FaqParse {
     }
 
     public function saveFaq(Faq $faq) {
-
-        $parseObject = new parseObject('FAQ');
-        $faq->getAnswer() == null ? $parseObject->answer = null : $parseObject->answer = $faq->getAnswer();
-        $faq->getArea() == null ? $parseObject->area = null : $parseObject->area = $faq->getArea();
-        $faq->getPosition() == null ? $parseObject->position = null : $parseObject->position = $faq->getPosition();
-        $faq->getQuestion() == null ? $parseObject->question = null : $parseObject->question = $faq->getQuestion();
-        $faq->getTags() == null ? $parseObject->tags = null : $parseObject->tags = $faq->getTags();
-        $acl = new ParseACL;
-        $acl->setPublicRead(true);
-        $acl->setPublicWrite(true);
-        $faq->setACL($acl);
-        if ($faq->getObjectId() != null) {
-            try {
-                $ret = $parseObject->update($faq->getObjectId());
-                $dateTime = new DateTime($ret->updatedAt);
-                $faq->setUpdatedAt($dateTime);
-            } catch (Exception $e) {
-                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        try {
+            $parseObject = new parseObject('FAQ');
+            is_null($faq->getAnswer()) ? $parseObject->answer = null : $parseObject->answer = $faq->getAnswer();
+            is_null($faq->getArea()) ? $parseObject->area = null : $parseObject->area = $faq->getArea();
+            is_null($faq->getPosition()) ? $parseObject->position = null : $parseObject->position = $faq->getPosition();
+            is_null($faq->getQuestion()) ? $parseObject->question = null : $parseObject->question = $faq->getQuestion();
+            is_null($faq->getTags()) ? $parseObject->tags = null : $parseObject->tags = $faq->getTags();
+            $acl = new ParseACL;
+            $acl->setPublicRead(true);
+            $acl->setPublicWrite(true);
+            $faq->setACL($acl);
+            if ($faq->getObjectId() == '') {
+                $res = $parseObject->save();
+                $faq->setObjectId($res->objectId);
+                return $faq;
+            } else {
+                $parseObject->update($faq->getObjectId());
             }
-        } else {
-            try {
-                $ret = $parseObject->save();
-                $faq->setObjectId($ret->objectId);
-                $faq->setCreatedAt($ret->createdAt);
-                $faq->setUpdatedAt($ret->updatedAt);
-            } catch (Exception $e) {
-                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
-            }
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
-        return $faq;
     }
 
     public function setLimit($limit) {
