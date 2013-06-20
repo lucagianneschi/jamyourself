@@ -21,10 +21,9 @@ $cmt->setCounter(10);
 //$cmt->setFromUser(User $fromUser);
 //$cmt->setImage(Image $image);
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
-$cmt->setLocation($parseGeoPoint->location);
+$cmt->setLocation(toParseGeoPoint($parseGeoPoint));
 $cmt->setLoveCounter(100);
-//commentato per testare i NULL
-//$cmt->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$cmt->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $cmt->setOpinions(array('opinions1', 'opinions2'));
 //$cmt->setRecord(Record $record);
 //$cmt->setSong(Song $song);
@@ -112,7 +111,6 @@ echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Comment<br />';
 $cmtParse = new CommentParse();
 $cmt = $cmtParse->getComment($resSave->getObjectId());
 $cmt->setCounter(99);
-print_r($cmt);
 $resUpdate = $cmtParse->saveComment($cmt);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
