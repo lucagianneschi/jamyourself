@@ -130,26 +130,26 @@ class CommentParse {
 			$parseObject = new parseObject('Comment');
 			
 			is_null($cmt->getActive()) ? $parseObject->active = null : $parseObject->active = $cmt->getActive();
-			is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = $cmt->getAlbum();
-			is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = $cmt->getComment();
+			is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = toParsePointer('Album', $cmt->getAlbum());
+			is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = toParsePointer('Comment', $cmt->getComment());
 			is_null($cmt->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseRelation('_User', $cmt->getCommentators());
 			is_null($cmt->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseRelation('Comment', $cmt->getComments());
 			is_null($cmt->getCounter()) ? $parseObject->counter = null : $parseObject->counter = $cmt->getCounter();
-			is_null($cmt->getEvent()) ? $parseObject->event = null : $parseObject->event = $cmt->getEvent();
-			is_null($cmt->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = $cmt->getFromUser();
-			is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = $cmt->getImage();
+			is_null($cmt->getEvent()) ? $parseObject->event = null : $parseObject->event = toParsePointer('Event', $cmt->getEvent());
+			is_null($cmt->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $cmt->getFromUser());
+			is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $cmt->getImage());
 			is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = $cmt->getLocation();
 			is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = null : $parseObject->loveCounter = $cmt->getLoveCounter();
 			is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = $cmt->getLovers();
 			is_null($cmt->getOpinions()) ? $parseObject->opinions = null : $parseObject->opinions = $cmt->getOpinions();
-			is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = $cmt->getRecord();
-			is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = $cmt->getSong();
-			is_null($cmt->getStatus()) ? $parseObject->status = null : $parseObject->status = $cmt->getStatus();
+			is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
+			is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
+			is_null($cmt->getStatus()) ? $parseObject->status = null : $parseObject->status = toParsePointer('Status', $cmt->getStatus());
 			is_null($cmt->getTags()) ? $parseObject->tags = null : $parseObject->tags = $cmt->getTags();
 			is_null($cmt->getText()) ? $parseObject->text = null : $parseObject->text = $cmt->getText();
-			is_null($cmt->getToUser()) ? $parseObject->toUser = null : $parseObject->toUser = $cmt->getToUser();
+			is_null($cmt->getToUser()) ? $parseObject->toUser = null : $parseObject->toUser = toParsePointer('_User', $cmt->getToUser());
 			is_null($cmt->getType()) ? $parseObject->type = null : $parseObject->type = $cmt->getType();
-			is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = $cmt->getVideo();
+			is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = toParsePointer('Video', $cmt->getVideo());
 			is_null($cmt->getVote()) ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
 			is_null($cmt->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = $cmt->getACL();
 			
