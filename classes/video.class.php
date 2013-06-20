@@ -158,12 +158,12 @@ class Video {
     }
 
     //relation: array di User che hanno commentators 
-    public function setCommentators(array $commentators) {
+    public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
     //relation: array di Comment 
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -183,7 +183,7 @@ class Video {
     }
 
     //Relation (with Parse User): segnala presenza altri utenti			
-    public function setFeaturing(array $featuring) {
+    public function setFeaturing($featuring) {
         $this->featuring = $featuring;
     }
 
@@ -193,7 +193,7 @@ class Video {
     }
 
     //relation: array di puntatori ad User che hanno effettuato azioni love  
-    public function setLovers(array $lovers) {
+    public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
@@ -203,7 +203,7 @@ class Video {
     }
 
     //array: stringhe per la categorizzazione del video 	
-    public function setTags(array $tags) {
+    public function setTags($tags) {
         $this->tags = $tags;
     }
 
@@ -223,12 +223,12 @@ class Video {
     }
 
     //DataTime: data di creazione del video						
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
     //DataTime: data di update del video						
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
@@ -247,46 +247,50 @@ class Video {
         }
         $string .= '[author] => ' . $this->getAuthor() . '<br />';
         if (count($this->getCommentators()) != 0) {
-            foreach ($this->getCommentators() as $commentators) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[commentators] => ' . $commentators . '<br />';
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[commentators] => NULL<br />';
-        }
-        if (count($this->getComments()) != 0) {
-            foreach ($this->getComments() as $comments) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[comments] => ' . $comments . '<br />';
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[comments] => NULL<br />';
-        }
+			foreach ($this->getCommentators() as $commentators) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[commentators] => ' . $commentators . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[commentators] => NULL<br />';
+		}
+		if (count($this->getComments()) != 0) {
+			foreach ($this->getComments() as $comments) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[comments] => ' . $comments . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[comments] => NULL<br />';
+		}
         $string.="[counter] => " . $this->getCounter() . "<br />";
         $string.="[description] => " . $this->getDescription() . "<br />";
         $string.="[duration] => " . $this->getDuration() . "<br />";
-        if (count($this->getLovers()) != 0) {
-            foreach ($this->getFeaturing() as $featuring) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[featuring] => ' . $featuring . '<br />';
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[featuring] => NULL<br />';
-        }
-        $string.="[fromUser] => " . $this->getFromUser() . "<br />";
+		if (count($this->getLovers()) != 0) {
+			foreach ($this->getFeaturing() as $featuring) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[featuring] => ' . $featuring . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[featuring] => NULL<br />';
+		}
+        if ($this->getFromUser() != null) {
+			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+		} else {
+			$string .= '[fromUser] => NULL<br />';
+		}
         $string.="[loveCounter] => " . $this->getLoveCounter() . "<br />";
         if (count($this->getLovers()) != 0) {
-            foreach ($this->getLovers() as $lovers) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[lovers] => ' . $lovers . '<br />';
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[lovers] => NULL<br />';
-        }
+			foreach ($this->getLovers() as $lovers) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[lovers] => ' . $lovers . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[lovers] => NULL<br />';
+		}
         if ($this->getTags() != null && count($this->getTags() > 0)) {
             foreach ($this->getTags() as $tag) {
                 $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
@@ -297,19 +301,18 @@ class Video {
         $string.="[title] => " . $this->getTitle() . "<br />";
         $string.="[URL] => " . $this->getURL() . "<br />";
         if ($this->getCreatedAt() != null) {
-            $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-        } else {
-            $string .= '[createdAt] => NULL<br />';
-        }
-        if ($this->getUpdatedAt() != null) {
-            $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-        } else {
-            $string .= '[updatedAt] => NULL<br />';
-        }
-        $string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
+			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[createdAt] => NULL<br />';
+		}
+		if ($this->getUpdatedAt() != null) {
+			$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+		} else {
+			$string .= '[updatedAt] => NULL<br />';
+		}
+		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
         return $string;
     }
-
 }
 
 ?>

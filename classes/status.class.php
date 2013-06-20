@@ -40,8 +40,10 @@ class Status {
     private $updatedAt;     //DataTime: data di update dello status						
     private $ACL;      //Access Control List										
 
-    
-    //FUNZIONI GET
+ 
+    //public function __construct(){}
+ 
+//FUNZIONI GET
     //string: object ID Parse 
     public function getObjectId() {
         return $this->objectId;
@@ -131,11 +133,9 @@ class Status {
     public function getACL() {
         return $this->ACL;
     }
-
-    //public function __construct(){}
     //FUNZIONI SET	
     //string: object ID Parse 
-
+	
     public function setObjectId($objectId) {
         $this->objectId = $objectId;
     }
@@ -146,12 +146,12 @@ class Status {
     }
 
     //relation: array di puntatori a Parse Users
-    public function setCommentators(array $commentators) {
+    public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
     //relation: array di puntatori a Parse Comment
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -191,17 +191,17 @@ class Status {
     }
 
     //relation: array di puntatori a Parse Users
-    public function setLovers(array $lovers) {
+    public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
     //Parse Object Song: song associata allo status
-    public function setSong(Song $song) {
+    public function setSong($song) {
         $this->song = $song;
     }
 
     //relation: array di puntatori a Parse Users
-    public function setTaggedUsers(array $taggedUsers) {
+    public function setTaggedUsers($taggedUsers) {
         $this->taggedUsers = $taggedUsers;
     }
 
@@ -211,12 +211,12 @@ class Status {
     }
 
     //DataTime: data di creazione dello status
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
     //DataTime: data di update dello status	
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
@@ -224,7 +224,6 @@ class Status {
     public function setACL($ACL) {
         $this->ACL = $ACL;
     }
-
 
     public function __toString() {
 
@@ -259,8 +258,16 @@ class Status {
         } else {
             $string .= '[event] => NULL<br />';
         }
-        $string.="[fromUser] => " . $this->getFromUser() . "<br />";
-        $string .= '[image] => ' . $this->getImage() . '<br />';
+        if ($this->getFromUser() != null) {
+            $string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+        } else {
+            $string .= '[fromUser] => NULL<br />';
+        }
+        if ($this->getImage() != null) {
+            $string .= '[image] => ' . $this->getImage()->getObjectId() . '<br />';
+        } else {
+            $string .= '[image] => NULL<br />';
+        }
         //$imageFile = $this->getImageFile();
         //$string.="[imageFile] => " . $imageFile->getObjectId() . "<br />";
         if ($this->getLocation() != null) {
@@ -279,8 +286,11 @@ class Status {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[lovers] => NULL<br />';
         }
-        $string .= '[song] => ' . $this->getSong() . '<br />';
-        
+        if ($this->getSong() != null) {
+            $string .= '[song] => ' . $this->getSong()->getObjectId() . '<br />';
+        } else {
+            $string .= '[song] => NULL<br />';
+        }
         if (count($this->getTaggedUsers()) != 0) {
             foreach ($this->getTaggedUsers() as $taggedUser) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
