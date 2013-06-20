@@ -92,18 +92,18 @@ class ErrorParse {
     }
 
     public function saveError($error) {
-try {
-        $parseObject = new parseObject('Error');
-        $parseObject->errorClass = $error->getErrorClass();
-        $parseObject->errorCode = $error->getErrorCode();
-        $parseObject->errorMessage = $error->getErrorMessage();
-        $parseObject->errorFunction = $error->getErrorFunction();
-        $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
-        $acl = new ParseACL;
-        $acl->setPublicRead(true);
-        $acl->setPublicWrite(true);
-        $parseObject->ACL = toParseACL($acl);
-        if ($error->getObjectId() == '') {
+        try {
+            $parseObject = new parseObject('Error');
+            $parseObject->errorClass = $error->getErrorClass();
+            $parseObject->errorCode = $error->getErrorCode();
+            $parseObject->errorMessage = $error->getErrorMessage();
+            $parseObject->errorFunction = $error->getErrorFunction();
+            $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
+            $acl = new ParseACL;
+            $acl->setPublicRead(true);
+            $acl->setPublicWrite(true);
+            $parseObject->ACL = toParseACL($acl);
+            if ($error->getObjectId() == '') {
                 $res = $parseObject->save();
                 $error->setObjectId($res->objectId);
                 return $error;
@@ -114,6 +114,7 @@ try {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
+
     public function setLimit($int) {
         $this->parseQuery->setLimit($int);
     }
