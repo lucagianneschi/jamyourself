@@ -156,7 +156,7 @@ class StatusParse {
             $acl->setPublicWrite(true);
             $parseObj->ACL = toParseACL($acl);
             if ($status->getObjectId() == '') {
-                is_null($status->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($status->getImage(),"img/jpg" );
+                is_null($status->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($status->getImage(), "img/jpg");
                 $res = $parseObj->save();
                 $status->setObjectId($res->objectId);
                 return $status;
