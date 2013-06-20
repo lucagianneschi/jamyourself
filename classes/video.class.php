@@ -276,11 +276,7 @@ class Video {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[featuring] => NULL<br />';
 		}
-        if ($this->getFromUser() != null) {
-			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
-		} else {
-			$string .= '[fromUser] => NULL<br />';
-		}
+        $string.="[fromUser] => " . $this->getFromUser() . "<br />";
         $string.="[loveCounter] => " . $this->getLoveCounter() . "<br />";
         if (count($this->getLovers()) != 0) {
 			foreach ($this->getLovers() as $lovers) {

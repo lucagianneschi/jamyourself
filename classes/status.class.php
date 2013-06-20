@@ -258,16 +258,8 @@ class Status {
         } else {
             $string .= '[event] => NULL<br />';
         }
-        if ($this->getFromUser() != null) {
-            $string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
-        } else {
-            $string .= '[fromUser] => NULL<br />';
-        }
-        if ($this->getImage() != null) {
-            $string .= '[image] => ' . $this->getImage()->getObjectId() . '<br />';
-        } else {
-            $string .= '[image] => NULL<br />';
-        }
+        $string.="[fromUser] => " . $this->getFromUser() . "<br />";
+        $string .= '[image] => ' . $this->getImage() . '<br />';
         //$imageFile = $this->getImageFile();
         //$string.="[imageFile] => " . $imageFile->getObjectId() . "<br />";
         if ($this->getLocation() != null) {
