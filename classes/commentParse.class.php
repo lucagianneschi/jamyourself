@@ -129,7 +129,7 @@ class CommentParse {
 		try {
 			$parseObject = new parseObject('Comment');
 			
-			$cmt->getActive() == null ? $parseObject->active = null : $parseObject->active = $cmt->getActive();
+			is_null($cmt->getActive()) ? $parseObject->active = null : $parseObject->active = $cmt->getActive();
 			$cmt->getAlbum() == null ? $parseObject->album = null : $parseObject->album = $cmt->getAlbum();
 			$cmt->getComment() == null ? $parseObject->comment = null : $parseObject->comment = $cmt->getComment();
 			$cmt->getCommentators() == null ? $parseObject->commentators = null : $parseObject->commentators = toParseRelation('_User', $cmt->getCommentators());

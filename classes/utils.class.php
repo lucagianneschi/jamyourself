@@ -17,18 +17,17 @@ function toParseACL($ACL) {
     return $ACL->acl;
 }
 
-function fromParseACL($parseACL) {
-    if ($parseACL != null && isset($parseACL->ACL)) {
+function fromParseACL($ACL) {
 //  Parse mi manda uno stdObj fatto così:
 //        ["ACL"]=> object(stdClass)#10 (1) { 
 //        #["*"]=> object(stdClass)#11 (2) { 
 //        #["write"]=> bool(true) 
 //        #["read"]=> bool(true) } } }
-        $ACL = new parseACL();
-        $ACL->acl = $parseACL->ACL;
-    }
-    else
+	if ($ACL == null) {
         return null;
+	} else {
+		return json_decode(json_encode($ACL), true);
+	}
 }
 
 /**
