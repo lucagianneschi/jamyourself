@@ -110,13 +110,15 @@ class ActivityParse {
         $parseObj->userStatus = toParsePointer("_User",$activity->getUserStatus());
 
         $parseObj->video = toParsePointer("Video",$activity->getVideo());
+                       
+        $parseObj->ACL = toParseACL($activity->getACL());
 
         //caso update
         if ($activity->getObjectId() != null) {
 
             try {
                 $ret = $parseObj->update($activity->getObjectId());
-                $activity->setUpdatedAt($ret->updatedAt);
+                $activity->setUpdatedAt(fromParseDate($ret->updatedAt));
             } catch (Exception $exception) {
                 return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
@@ -125,8 +127,8 @@ class ActivityParse {
             try {
                 $ret = $parseObj->save();
                 $activity->setObjectId($ret->objectId);
-                $activity->setCreatedAt($ret->createdAt);
-                $activity->setUpdatedAt($ret->createdAt);
+                $activity->setCreatedAt(fromParseDate($ret->createdAt));
+                $activity->setUpdatedAt(fromParseDate($ret->createdAt));
             } catch (Exception $exception) {
                 return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
@@ -174,11 +176,11 @@ class ActivityParse {
      */
     public function parseToActivity(stdClass $parseObj) {
 
-        if ($parseObj == null)
+        if ($parseObj == null || !isset($parseObj->objectId))
             return false;
 
-        $activity = new activity(); //
-        //String:objectId su Parse 	
+        $activity = new activity();
+        
         try {
 
             $activity->setObjectId($parseObj->objectId);								
@@ -217,17 +219,11 @@ class ActivityParse {
 
             $activity->setVideo(fromParsePointer($parseObj->video));										
 
-            $createdAt = new DateTime($parseObj->createdAt);
-            $activity->setCreatedAt($createdAt);
+            $activity->setCreatedAt(fromParseDate($parseObj->createdAt));
+											
+            $activity->setUpdatedAt(fromParseDate($parseObj->updatedAt));
 
-            //DateTime:Data di ultimo update attività 											
-
-            $updatedAt = new DateTime($parseObj->updatedAt);
-            $activity->setUpdatedAt($updatedAt);
-
-            //ACL:access control list, determina le politiche di accesso alla classe 			
-
-            $activity->setACL(toParseACL($parseObj->ACL));
+            $activity->setACL(fromParseACL($parseObj->ACL));
             
         } catch (Exception $exception) {
             return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
