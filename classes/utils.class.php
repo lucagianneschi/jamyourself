@@ -74,12 +74,16 @@ function fromParseFile($filePointer, $mime_type = '') {
  * @return null
  */
 function fromParsePointer($pointer) {
-    if (is_object($pointer) && isset($pointer->__type) && $pointer->__type == "Pointer" &&
-            isset($pointer->__className) && isset($pointer->objectId)) {
+    if (is_object($pointer) &&
+		isset($pointer->__type) &&
+		$pointer->__type == "Pointer" &&
+		isset($pointer->className) &&
+		isset($pointer->objectId)) {
+		
         return $pointer->objectId;
-    }
-    else
+    } else {
         return null;
+	}
 }
 
 /**
