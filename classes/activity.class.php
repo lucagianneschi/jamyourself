@@ -198,7 +198,7 @@ class Activity {
      *
      * @param DateTime $createdAt	
      */
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
 
         $this->createdAt = $createdAt;
     }
@@ -207,7 +207,7 @@ class Activity {
      *
      * @param DateTime $updatedAt	
      */
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
@@ -215,7 +215,7 @@ class Activity {
      *
      * @param ACL $ACL	
      */
-    public function setACL(parseACL $ACL) {
+    public function setACL($ACL) {
         $this->ACL = $ACL;
     }
 
@@ -399,35 +399,35 @@ class Activity {
         if ($this->active != null)
             $string .= "[ active ] => " . $this->active . "<br />";
         if ($this->album != null)
-            $string .= " [ album ] => " . $this->album->getObjectId() . "<br />";
+            $string .= " [ album ] => " . $this->album . "<br />";
         if ($this->comment != null)
-            $string .= " [ comment ] => " . $this->comment->getObjectId() . "<br />";
+            $string .= " [ comment ] => " . $this->comment . "<br />";
         if ($this->event != null)
-            $string .= " [ event ] => " . $this->event->getObjectId() . "<br />";
+            $string .= " [ event ] => " . $this->event . "<br />";
         if ($this->fromUser != null)
-            $string .= " [ fromUser ] => " . $this->fromUser->getObjectId() . "<br />";
+            $string .= " [ fromUser ] => " . $this->fromUser . "<br />";
         if ($this->image != null)
-            $string .= " [ image ] => " . $this->image->getObjectId() . "<br />";
+            $string .= " [ image ] => " . $this->image . "<br />";
         if ($this->playlist != null)
-            $string .= " [ playlist ] => " . $this->playlist->getObjectId() . "<br />";
+            $string .= " [ playlist ] => " . $this->playlist . "<br />";
         if ($this->question != null)
-            $string .= " [ question ] => " . $this->question->getObjectId() . "<br />";
+            $string .= " [ question ] => " . $this->question . "<br />";
         if ($this->read != null)
             $string .= " [ read ] => " . $this->read . "<br />";
         if ($this->record != null)
-            $string .= " [ record ] => " . $this->record->getObjectId() . "<br />";
+            $string .= " [ record ] => " . $this->record . "<br />";
         if ($this->song != null)
-            $string .= " [ song ] => " . $this->song->getObjectId() . "<br />";
+            $string .= " [ song ] => " . $this->song . "<br />";
         if ($this->status != null)
-            $string .= " [ status ] => " . $this->status->getObjectId() . "<br />";
+            $string .= " [ status ] => " . $this->status . "<br />";
         if ($this->toUser != null)
-            $string .= " [ toUser ] => " . $this->toUser->getObjectId() . "<br />";
+            $string .= " [ toUser ] => " . $this->toUser . "<br />";
         if ($this->type != null)
             $string .= " [ type ] => " . $this->type . "<br />";
         if ($this->userStatus != null)
-            $string .= " [ userStatus ] => " . $this->userStatus->getObjectId() . "<br />";
+            $string .= " [ userStatus ] => " . $this->userStatus . "<br />";
         if ($this->video != null)
-            $string .= " [ video ] => " . $this->video->getObjectId() . "<br />";
+            $string .= " [ video ] => " . $this->video . "<br />";
         if ($this->createdAt != null)
             $string.="[ updatedAt ] => " . $this->createdAt->format('d/m/Y H:i:s') . "<br />";
         if ($this->updatedAt != null)
