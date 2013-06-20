@@ -22,34 +22,23 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'error.class.php';
-require_once CLASSES_DIR . 'errorParse.class.php';
+require_once CLASSES_DIR . 'utils.class.php';
  
 class CommentParse {
- 
+
 	private $parseQuery;
- 
+
 	public function __construct() {
 		$this->parseQuery = new parseQuery('Comment');
 	}
- 
+
 	public function deleteComment($objectId) {
 		try {
 			$parseObject = new parseObject('Comment');
 			$parseObject->active = false;
 			$parseObject->update($objectId);
 		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
 	
@@ -60,17 +49,7 @@ class CommentParse {
 			$cmt = $this->parseToComment($res);
 			return $cmt;
 		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
 	
@@ -84,63 +63,14 @@ class CommentParse {
 			}
 			return $cmts;
 		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
- 
+
 	public function getCount() {
 		return $this->parseQuery->getCount()->count;
 	}
- 
-	public function getRelatedTo($field, $className, $objectId) {
-		try {
-			$this->parseQuery->whereRelatedTo($field, $className, $objectId);
-			$rel = $this->parseQuery->find();
-			$relComment = array();
-			foreach ($rel->results as $cmt) {
-				$relComment[] = $cmt->objectId;
-			}
-			return $relComment;
-		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
-		}
-	}
- 
-	// TODO - da capire se ancora utile o da eliminare
-	private function isNullPointer($pointer) {
-		$className = $pointer['className'];
-		$objectId = $pointer['objectId'];
-		$isNull = true;
- 
-		if ($className == '' || $objectId == '') {
-			$isNull = true;
-		} else {
-			$isNull = false;
-		}
- 
-		return $isNull;
-	}
- 
+
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
 	}	
@@ -158,158 +88,80 @@ class CommentParse {
 			$cmt = new Comment();
 			
 			$cmt->setObjectId($res->objectId);
-			// TODO - da eliminare
-			if ($res->testDate != null) {
-				$dateTime = new DateTime($res->testDate->iso);
-				$cmt->setTestDate($dateTime);
-			}
-			// TODO
 			$cmt->setActive($res->active);
-			if ($res->album != null) $cmt->setAlbum($res->album);
-			if ($res->comment != null) $cmt->setComment($res->comment);
-			
-			# TODO
-			//TEST ---> nella classe userParse.class.php si deve prevedere un metodo getRelatedTo($field, $className, $objectId)
-			//          che ha il compito di restituire un array di User (solo glo objectId) relazionati all'objectId della classe
-			//          $className del campo $field:
-			//			$userParse = new UserParse();
-			//			$userRelatedTo = $userParse->getRelatedTo('commentators', 'Comment', $res->objectId);
-			$parseQuery = new parseQuery('_User');
-			$parseQuery->whereRelatedTo('commentators', 'Comment', $res->objectId);
-			$test = $parseQuery->find();
-			$userRelatedTo = array();
-			foreach ($test->results as $user) {
-				$userRelatedTo[] = $user->objectId;
-			}
-			$cmt->setCommentators($userRelatedTo);
-			
-			$commentParse = new CommentParse();
-			$cmtRelatedTo = $commentParse->getRelatedTo('comments', 'Comment', $res->objectId);
-			$cmt->setComments($cmtRelatedTo);
-			
+			$cmt->setAlbum(fromParsePointer($res->album));
+			$cmt->setComment(fromParsePointer($res->comment));		
+			$cmt->setCommentators(fromParseRelation('Comment', 'commentators', $res->objectId, '_User'));
+			$cmt->setComments(fromParseRelation('Comment', 'comments', $res->objectId, 'Comment'));
 			$cmt->setCounter($res->counter);
-			if ($res->event != null) $cmt->setEvent($res->event);
-			if ($res->fromUser != null) $cmt->setFromUser($res->fromUser);
-			if ($res->image != null) $cmt->setImage($res->image);
+			$cmt->setEvent(fromParsePointer($res->event));
+			$cmt->setFromUser(fromParsePointer($res->fromUser));
+			$cmt->setImage(fromParsePointer($res->image));
+			
+			//TODO
 			$parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
 			$cmt->setLocation($parseGeoPoint->location);
-			$cmt->setLoveCounter();
 			
-			# TODO
-			//TEST ---> $userParse = new UserParse();
-			//			$loversRelatedTo = $userParse->getRelatedTo('lovers', 'Comment', $res->objectId):
-			$parseQuery = new parseQuery('_User');
-			$parseQuery->whereRelatedTo('lovers', 'Comment', $res->objectId);
-			$test = $parseQuery->find();
-			$loversRelatedTo = array();
-			foreach ($test->results as $user) {
-				$loversRelatedTo[] = $user->objectId;
-			}
-			$cmt->setLovers($loversRelatedTo);
-			
+			$cmt->setLoveCounter($res->loveCounter);
+			if (fromParseRelation('Comment', 'lovers', $res->objectId, '_User') != null) $cmt->setLovers(fromParseRelation('Comment', 'lovers', $res->objectId, '_User'));
 			$cmt->setOpinions($res->opinions);
-			if ($res->record != null) $cmt->setRecord($res->record);
-			if ($res->song != null) $cmt->setSong($res->song);
-			if ($res->status != null) $cmt->setStatus($res->status);
+			$cmt->setRecord(fromParsePointer($res->record));
+			$cmt->setSong(fromParsePointer($res->song));
+			$cmt->setStatus(fromParsePointer($res->status));
 			$cmt->setTags($res->tags);
 			$cmt->setText($res->text);
-			if ($res->toUser != null) $cmt->setToUser($res->toUser);
+			$cmt->setToUser(fromParsePointer($res->toUser));
 			$cmt->setType($res->type);
-			if ($res->video != null) $cmt->setVideo($res->video);
+			$cmt->setVideo(fromParsePointer($res->video));
 			$cmt->setVote($res->vote);
-			$dateTime = new DateTime($res->createdAt);
-			$cmt->setCreatedAt($dateTime);
-			$dateTime = new DateTime($res->updatedAt);
-			$cmt->setUpdatedAt($dateTime);
-			$cmt->setACL($res->ACL);
+			$cmt->setCreatedAt(new DateTime($res->createdAt));
+			$cmt->setUpdatedAt(new DateTime($res->updatedAt));
+			$cmt->setACL(fromParseACL($res->ACL));
 	 
 			return $cmt;
 		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
 	
+	//è giusto, in caso di SAVE, ritornare il commento con l'objectId in più?
 	public function saveComment($cmt) {
 		try {
 			$parseObject = new parseObject('Comment');
+			
+			$cmt->getActive() == null ? $parseObject->active = null : $parseObject->active = $cmt->getActive();
+			$cmt->getAlbum() == null ? $parseObject->album = null : $parseObject->album = $cmt->getAlbum();
+			$cmt->getComment() == null ? $parseObject->comment = null : $parseObject->comment = $cmt->getComment();
+			$cmt->getCommentators() == null ? $parseObject->commentators = null : $parseObject->commentators = toParseRelation('_User', $cmt->getCommentators());
+			$cmt->getComments() == null ? $parseObject->comments = null : $parseObject->comments = toParseRelation('Comment', $cmt->getComments());
+			$cmt->getCounter() == null ? $parseObject->counter = null : $parseObject->counter = $cmt->getCounter();
+			$cmt->getEvent() == null ? $parseObject->event = null : $parseObject->event = $cmt->getEvent();
+			$cmt->getFromUser() == null ? $parseObject->fromUser = null : $parseObject->fromUser = $cmt->getFromUser();
+			$cmt->getImage() == null ? $parseObject->image = null : $parseObject->image = $cmt->getImage();
+			$cmt->getLocation() == null ? $parseObject->location = null : $parseObject->location = $cmt->getLocation();
+			$cmt->getLoveCounter() == null ? $parseObject->loveCounter = null : $parseObject->loveCounter = $cmt->getLoveCounter();
+			$cmt->getLovers() == null ? $parseObject->lovers = null : $parseObject->lovers = $cmt->getLovers();
+			$cmt->getOpinions() == null ? $parseObject->opinions = null : $parseObject->opinions = $cmt->getOpinions();
+			$cmt->getRecord() == null ? $parseObject->record = null : $parseObject->record = $cmt->getRecord();
+			$cmt->getSong() == null ? $parseObject->song = null : $parseObject->song = $cmt->getSong();
+			$cmt->getStatus() == null ? $parseObject->status = null : $parseObject->status = $cmt->getStatus();
+			$cmt->getTags() == null ? $parseObject->tags = null : $parseObject->tags = $cmt->getTags();
+			$cmt->getText() == null ? $parseObject->text = null : $parseObject->text = $cmt->getText();
+			$cmt->getToUser() == null ? $parseObject->toUser = null : $parseObject->toUser = $cmt->getToUser();
+			$cmt->getType() == null ? $parseObject->type = null : $parseObject->type = $cmt->getType();
+			$cmt->getVideo() == null ? $parseObject->video = null : $parseObject->video = $cmt->getVideo();
+			$cmt->getVote() == null ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
+			$cmt->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $cmt->getACL();
+			
 			if ($cmt->getObjectId() == '') {
-				// TEST
-				$cmt->getTestDate() == null ? $parseObject->testDate = null : $parseObject->testDate = $parseObject->dataType('date', $cmt->getTestDate()->date);
-				// TEST
-				$cmt->getActive() == null ? $parseObject->active = null : $parseObject->active = $cmt->getActive();
-				$cmt->getAlbum() == null ? $parseObject->album = null : $parseObject->album = $cmt->getAlbum();
-				$cmt->getComment() == null ? $parseObject->comment = null : $parseObject->comment = $cmt->getComment();
-				$cmt->getCommentators() == null ? $parseObject->commentators = null : $parseObject->commentators = $cmt->getCommentators();
-				$cmt->getComments() == null ? $parseObject->comments = null : $parseObject->comments = $cmt->getComments();
-				$cmt->getCounter() == null ? $parseObject->counter = null : $parseObject->counter = $cmt->getCounter();
-				$cmt->getEvent() == null ? $parseObject->event = null : $parseObject->event = $cmt->getEvent();
-				$cmt->getFromUser() == null ? $parseObject->fromUser = null : $parseObject->fromUser = $cmt->getFromUser();
-				$cmt->getImage() == null ? $parseObject->image = null : $parseObject->image = $cmt->getImage();
-				$cmt->getLocation() == null ? $parseObject->location = null : $parseObject->location = $cmt->getLocation();
-				$cmt->getLoveCounter() == null ? $parseObject->loveCounter = null : $parseObject->loveCounter = $cmt->getLoveCounter();
-				$cmt->getLovers() == null ? $parseObject->lovers = null : $parseObject->lovers = $cmt->getLovers();
-				$cmt->getOpinions() == null ? $parseObject->opinions = null : $parseObject->opinions = $cmt->getOpinions();
-				$cmt->getRecord() == null ? $parseObject->record = null : $parseObject->record = $cmt->getRecord();
-				$cmt->getSong() == null ? $parseObject->song = null : $parseObject->song = $cmt->getSong();
-				$cmt->getStatus() == null ? $parseObject->status = null : $parseObject->status = $cmt->getStatus();
-				$cmt->getTags() == null ? $parseObject->tags = null : $parseObject->tags = $cmt->getTags();
-				$cmt->getText() == null ? $parseObject->text = null : $parseObject->text = $cmt->getText();
-				$cmt->getToUser() == null ? $parseObject->toUser = null : $parseObject->toUser = $cmt->getToUser();
-				$cmt->getType() == null ? $parseObject->type = null : $parseObject->type = $cmt->getType();
-				$cmt->getVideo() == null ? $parseObject->video = null : $parseObject->video = $cmt->getVideo();
-				$cmt->getVote() == null ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
-				$cmt->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $cmt->getACL()->acl;
 				$res = $parseObject->save();
 				$cmt->setObjectId($res->objectId);
 				return $cmt;
 			} else {
-				if ($cmt->getActive() != null) $parseObject->active = $cmt->getActive();
-				if ($cmt->getAlbum() != null) $parseObject->album = $cmt->getAlbum();
-				if ($cmt->getComment() != null) $parseObject->comment = $cmt->getComment();
-				if ($cmt->getCommentators() != null) $parseObject->commentators = $cmt->getCommentators();
-				if ($cmt->getComments() != null) $parseObject->comments = $cmt->getComments();
-				if ($cmt->getCounter() != null) $parseObject->counter = $cmt->getCounter();
-				if ($cmt->getEvent() != null) $parseObject->event = $cmt->getEvent();
-				if ($cmt->getFromUser() != null) $parseObject->fromUser = $cmt->getFromUser();
-				if ($cmt->getImage() != null) $parseObject->image = $cmt->getImage();
-				if ($cmt->getLocation() != null) $parseObject->location = $cmt->getLocation();
-				if ($cmt->getLoveCounter() != null) $parseObject->loveCounter = $cmt->getLoveCounter();
-				if ($cmt->getLovers() != null) $parseObject->lovers = $cmt->getLovers();
-				if ($cmt->getOpinions() != null) $parseObject->opinions = $cmt->getOpinions();
-				if ($cmt->getRecord() != null) $parseObject->record = $cmt->getRecord();
-				if ($cmt->getSong() != null) $parseObject->song = $cmt->getSong();
-				if ($cmt->getStatus() != null) $parseObject->status = $cmt->getStatus();
-				if ($cmt->getTags() != null) $parseObject->tags = $cmt->getTags();
-				if ($cmt->getText() != null) $parseObject->text = $cmt->getText();
-				if ($cmt->getToUser() != null) $parseObject->toUser = $cmt->getToUser();
-				if ($cmt->getType() != null) $parseObject->type = $cmt->getType();
-				if ($cmt->getVideo() != null) $parseObject->video = $cmt->getVideo();
-				if ($cmt->getVote() != null) $parseObject->vote = $cmt->getVote();
-				if ($cmt->getACL() != null) $parseObject->ACL = $cmt->getACL()->acl;
 				$parseObject->update($cmt->getObjectId());
 			}
 		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
  
@@ -369,7 +221,7 @@ class CommentParse {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
         
-        public function whereRelatedTo($field, $className, $objectId) {
+    public function whereRelatedTo($field, $className, $objectId) {
 		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
 	}
  
