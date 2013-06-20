@@ -96,18 +96,14 @@ class PlaylistParse {
             $playlist = new Playlist();
             $playlist->setObjectId($parseObj->objectId);
             $playlist->setActive($parseObj->active);
-            $fromUser = fromParsePointer($parseObj->fromUser);
-            $playlist->setFromUser($fromUser);
+            $playlist->setFromUser(fromParsePointer($parseObj->fromUser));
             $playlist->setName($parseObj->name);
-            $songs = fromParseRelation('songs', 'Playlist', $parseObj->objectId, 'Song');
+            $songs = fromParseRelation('Playlist','songs', $parseObj->objectId, 'Song');
             $playlist->setSongs($songs);
             $playlist->setUnlimited($parseObj->unlimited);
-            if ($parseObj->createdAt)
-                $playlist->setCreatedAt(new DateTime($parseObj->createdAt));
-            if ($parseObj->updatedAt)
-                $playlist->setUpdatedAt(new DateTime($parseObj->updatedAt));
-            $playlist->setACL(toParseACL($parseObj->ACL));
-            ;
+            $playlist->setCreatedAt(new DateTime($parseObj->createdAt));
+            $playlist->setUpdatedAt(new DateTime($parseObj->updatedAt));
+            $playlist->setACL(fromParseACL($parseObj->ACL));
             return $playlist;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
@@ -115,36 +111,28 @@ class PlaylistParse {
     }
 
     public function savePlaylist(Playlist $playlist) {
+        try {
 
-        $parseObject = new parseObject('Playlist');
-        $playlist->getActive() === null ? $parseObject->active = null : $parseObject->active = $playlist->getActive();
-        $parseObj->fromUser = toParsePointer($playlist->getFromUser());
-        $playlist->getName() == null ? $parseObject->name = null : $parseObject->name = $playlist->getName();
-        $parseObj->songs = toParseRelation('Song', $playlist->getSongs());
-        $playlist->getUnlimited() === null ? $parseObject->unlimited = null : $parseObject->unlimited = $playlist->getUnlimited();
-        $acl = new ParseACL;
-        $acl->setPublicRead(true);
-        $acl->setPublicWrite(true);
-        $playlist->setACL($acl);
-        if ($playlist->getObjectId() != null) {
-            try {
-                $ret = $parseObject->update($playlist->getObjectId());
-                $dateTime = new DateTime($ret->updatedAt);
-                $playlist->setUpdatedAt($dateTime);
-            } catch (Exception $e) {
-                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+            $parseObject = new parseObject('Playlist');
+            is_null($playlist->getActive()) ? $parseObject->active = null : $parseObject->active = $playlist->getActive();
+            is_null($playlist->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $playlist->getFromUser());
+            is_null($playlist->getName()) ? $parseObject->name = null : $parseObject->name = $playlist->getName();
+            is_null($playlist->getSongs()) ? $parseObject->songs = null : $parseObject->songs = toParseRelation('Song', $playlist->getSongs());
+            is_null($playlist->getUnlimited()) ? $parseObject->unlimited = null : $parseObject->unlimited = $playlist->getUnlimited();
+            $acl = new ParseACL;
+            $acl->setPublicRead(true);
+            $acl->setPublicWrite(true);
+            $playlist->setACL($acl);
+            if ($playlist->getObjectId() == '') {
+                $res = $parseObject->save();
+                $playlist->setObjectId($res->objectId);
+                return $playlist;
+            } else {
+                $parseObject->update($playlist->getObjectId());
             }
-        } else {
-            try {
-                $ret = $parseObject->save();
-                $playlist->setObjectId($ret->objectId);
-                $playlist->setCreatedAt($ret->createdAt);
-                $playlist->setUpdatedAt($ret->updatedAt);
-            } catch (Exception $e) {
-                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
-            }
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
-        return $playlist;
     }
 
     public function setLimit($int) {
