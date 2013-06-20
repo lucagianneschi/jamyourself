@@ -1,5 +1,4 @@
 <?php
-
 /* ! \par Info Generali:
  *  \author    Stefano Muscas
  *  \version   1.0
@@ -24,9 +23,8 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'error.class.php';
-require_once CLASSES_DIR . 'errorParse.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
+require_once CLASSES_DIR . 'utils.class.php';
+//require_once CLASSES_DIR . 'commentParse.class.php';
 
 class UserParse {
 
@@ -39,227 +37,181 @@ class UserParse {
 	#########
 	# FATTA #
 	#########
-    public function getRelatedTo($field, $className, $objectId) {
+    function deleteUser($user) {
 		try {
-			$this->parseQuery->whereRelatedTo($field, $className, $objectId);
-			$rel = $this->parseQuery->find();
-			$relUser = array();
-			foreach ($rel->results as $user) {
-				$relUser[] = $user->objectId;
-			}
-			return $relUser;
+			$parseUser = new parseUser();
+			$parseUser->active = false;
+			$parseUser->update($user->getObjectId(), $user->getSessionToken());
 		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
-	}
+    }
 	
 	#########
 	# FATTA #
 	#########
     public function getUser($objectId) {
-		$parseObject = new parseObject('_User');
-		$res = $parseObject->get($objectId);
-		$user = $this->parseToUser($res);
-		return $user;
+		try {
+			$parseObject = new parseObject('_User');
+			$res = $parseObject->get($objectId);
+			$user = $this->parseToUser($res);
+			return $user;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
     }
 
+    #########
+	# FATTA #
+	#########
     public function getUsers() {
-        $users = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $users = array();
-            foreach (($result->results) as $user) {
-                $users [] = $this->parseToUser($user);
-            }
-        }
-        return $users;
+		try {
+			$users = array();
+			$res = $this->parseQuery->find();
+			foreach ($res->results as $obj) {
+				$user = $this->parseToComment($obj);
+				$users[$user->getObjectId()] = $user;
+			}
+			return $users;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
     }
 
 	#########
 	# FATTA #
 	#########
-    public function parseToUser ($obj) {
-		if ($obj->type == 'VENUE') {
+    public function parseToUser ($res) {
+		if ($res->type == 'VENUE') {
 			$user = new Venue();
-			
 			//properties Venue
-			if ($obj->address != null) $user->setAddress($obj->address);
-			if ($obj->collaboration != null) {
-				$userParse = new UserParse();
-				$userRelatedTo = $userParse->getRelatedTo('collaboration', '_User', $obj->objectId);
-				$user->setCollaboration($userRelatedTo);
-			}
-			/*
-			if ($obj->events != null) {
-				$eventParse = new EventParse();
-				$eventRelatedTo = $eventParse->getRelatedTo('events', 'Event', $obj->objectId);
-				$user->setEvents($eventRelatedTo);
-			}
-			*/
-			if ($obj->localType != null) $user->setLocalType($obj->localType);
-		} elseif ($obj->type == 'JAMMER') {
+			$user->setAddress($res->address);
+			$user->setCollaboration(fromParseRelation('_User', 'collaboration', $res->objectId, '_User'));
+			$user->setEvents(fromParseRelation('_User', 'events', $res->objectId, 'Event'));
+			$user->setLocalType($res->localType);
+		} elseif ($res->type == 'JAMMER') {
 			$user = new Jammer();
-			
 			//properties Jammer
-			if ($obj->collaboration != null) {
-				$userParse = new UserParse();
-				$userRelatedTo = $userParse->getRelatedTo('collaboration', '_User', $obj->objectId);
-				$user->setCollaboration($userRelatedTo);
-			}
-			/*
-			if ($obj->events != null) {
-				$eventParse = new EventParse();
-				$eventRelatedTo = $eventParse->getRelatedTo('events', 'Event', $obj->objectId);
-				$user->setEvents($eventRelatedTo);
-			}
-			*/
-			if ($obj->jammerType != null) $user->setJammerType($obj->jammerType);
-			if ($obj->members != null) $user->setMembers($obj->members);
-			/*
-			if ($obj->records != null) {
-				$recordParse = new RecordParse();
-				$recordRelatedTo = $recordParse->getRelatedTo('records', 'Record', $obj->objectId);
-				$user->setRecords($recordRelatedTo);
-			}
-			if ($obj->songs != null) {
-				$songParse = new SongParse();
-				$songRelatedTo = $songParse->getRelatedTo('songs', 'Song', $obj->objectId);
-				$user->setSong($songRelatedTo);
-			}
-			*/
-		} elseif ($obj->type == 'SPOTTER') {
+			$user->setCollaboration(fromParseRelation('_User', 'collaboration', $res->objectId, '_User'));
+			$user->setEvents(fromParseRelation('_User', 'events', $res->objectId, 'Event'));
+			$user->setJammerType($res->jammerType);
+			$user->setMembers($res->members);
+			$user->setRecords(fromParseRelation('_User', 'records', $res->objectId, 'Record'));
+			$user->setSongs(fromParseRelation('_User', 'songs', $res->objectId, 'Song'));
+		} elseif ($res->type == 'SPOTTER') {
 			$user = new Spotter();
 			
 			//properties Spotter
 			// TODO - attualmente la data di nascita è gestita come una normale Date, ma deve essere gestita staticamente!!!
-			if ($obj->birthDay != null) {
-				$dateTime = new DateTime($obj->birthDay);
+			if ($res->birthDay != null) {
+				$dateTime = new DateTime($res->birthDay);
 				$user->setBirthDay($dateTime);
 			}
-			if ($obj->facebookId != null) $user->setFacebookId($obj->facebookId);
-			if ($obj->firstname != null) $user->setFirstname($obj->firstname);
-			if ($obj->following != null) {
-				$userParse = new UserParse();
-				$userRelatedTo = $userParse->getRelatedTo('following', '_User', $obj->objectId);
-				$user->setFollowing($userRelatedTo);
-			}
-			if ($obj->friendship != null) {
-				$userParse = new UserParse();
-				$userRelatedTo = $userParse->getRelatedTo('friendship', '_User', $obj->objectId);
-				$user->setFriendship($userRelatedTo);
-			}
-			if ($obj->lastname != null) $user->setLastname($obj->lastname);
-			if ($obj->sex != null) $user->setSex($obj->sex);
+			$user->setFacebookId($res->facebookId);
+			$user->setFirstname($res->firstname);
+			$user->setFollowing(fromParseRelation('_User', 'following', $res->objectId, '_User'));
+			$user->setFriendship(fromParseRelation('_User', 'friendship', $res->objectId, '_User'));
+			$user->setLastname($res->lastname);
+			$user->setSex($res->sex);
 		}
 		
+		//DA QUI
+		
 		//properties User
-		if ($obj->objectId != null) $user->setObjectId($obj->objectId);
-		if ($obj->username != null) $user->setUsername($obj->username);
-		if ($obj->password != null) $user->setPassword($obj->password);
-		if ($obj->authData != null) $user->setAuthData($obj->authData);
-		if ($obj->emailVerified != null) $user->setEmailVerified($obj->emailVerified);
-		if ($obj->active != null) $user->setActive($obj->active);
+		if ($res->objectId != null) $user->setObjectId($res->objectId);
+		if ($res->username != null) $user->setUsername($res->username);
+		if ($res->password != null) $user->setPassword($res->password);
+		if ($res->authData != null) $user->setAuthData($res->authData);
+		if ($res->emailVerified != null) $user->setEmailVerified($res->emailVerified);
+		if ($res->active != null) $user->setActive($res->active);
 		/*
-		if ($obj->albums != null) {
+		if ($res->albums != null) {
 			$albumParse = new AlbumParse();
-			$albumRelatedTo = $albumParse->getRelatedTo('albums', '_User', $obj->objectId);
+			$albumRelatedTo = $albumParse->getRelatedTo('albums', '_User', $res->objectId);
 			$user->setAlbums($albumRelatedTo);
 		}
 		*/
-		if ($obj->background != null) $user->setBackground($obj->background);
-		if ($obj->city != null) $user->setCity($obj->city);
-		if ($obj->comments != null) {
+		if ($res->background != null) $user->setBackground($res->background);
+		if ($res->city != null) $user->setCity($res->city);
+		if ($res->comments != null) {
 			$cmtParse = new CommentParse();
-			$cmtRelatedTo = $cmtParse->getRelatedTo('comments', 'Comment', $obj->objectId);
+			$cmtRelatedTo = $cmtParse->getRelatedTo('comments', 'Comment', $res->objectId);
 			$user->setComments($cmtRelatedTo);
 		}
-		if ($obj->country != null) $user->setCountry($obj->country);
-		if ($obj->description != null) $user->setDescription($obj->description);
-		if ($obj->email != null) $user->setEmail($obj->email);
-		if ($obj->fbPage != null) $user->setFbPage($obj->fbPage);
-		if ($obj->geoCoding != null) {
-			$parseGeoPoint = new parseGeoPoint($obj->geoCoding->latitude, $obj->geoCoding->longitude);
+		if ($res->country != null) $user->setCountry($res->country);
+		if ($res->description != null) $user->setDescription($res->description);
+		if ($res->email != null) $user->setEmail($res->email);
+		if ($res->fbPage != null) $user->setFbPage($res->fbPage);
+		if ($res->geoCoding != null) {
+			$parseGeoPoint = new parseGeoPoint($res->geoCoding->latitude, $res->geoCoding->longitude);
 			$user->setGeoCoding($parseGeoPoint->location);
 		}
 		/*
-		if ($obj->images != null) {
+		if ($res->images != null) {
 			$imageParse = new ImageParse();
-			$imageRelatedTo = $imageParse->getRelatedTo('images', 'Image', $obj->objectId);
+			$imageRelatedTo = $imageParse->getRelatedTo('images', 'Image', $res->objectId);
 			$user->setImages($imageRelatedTo);
 		}
 		*/
-		if ($obj->level != null) $user->setLevel($obj->level);
-		if ($obj->levelValue != null) $user->setLevelValue($obj->levelValue);
+		if ($res->level != null) $user->setLevel($res->level);
+		if ($res->levelValue != null) $user->setLevelValue($res->levelValue);
 		/*
-		if ($obj->loveSongs != null) {
+		if ($res->loveSongs != null) {
 			$songParse = new SongParse();
-			$songRelatedTo = $songParse->getRelatedTo('loveSongs', 'Song', $obj->objectId);
+			$songRelatedTo = $songParse->getRelatedTo('loveSongs', 'Song', $res->objectId);
 			$user->setLoveSongs($songRelatedTo);
 		}
 		*/
-		if ($obj->music != null) $user->setMusic($obj->music);
+		if ($res->music != null) $user->setMusic($res->music);
 		/*
-		if ($obj->playlists != null) {
+		if ($res->playlists != null) {
 			$plParse = new PlaylistParse();
-			$plRelatedTo = $plParse->getRelatedTo('playlist', 'Playlist', $obj->objectId);
+			$plRelatedTo = $plParse->getRelatedTo('playlist', 'Playlist', $res->objectId);
 			$user->setPlaylists($plRelatedTo);
 		}
 		*/
-		if ($obj->premium != null) $user->setPremium($obj->premium);
-		if ($obj->premiumExpirationDate != null) {
-			$dateTime = new DateTime($obj->premiumExpirationDate);
+		if ($res->premium != null) $user->setPremium($res->premium);
+		if ($res->premiumExpirationDate != null) {
+			$dateTime = new DateTime($res->premiumExpirationDate);
 			$user->setPremiumExpirationDate($dateTime);
 		}
-		if ($obj->profilePicture != null) $user->setProfilePicture($obj->profilePicture);
-		if ($obj->profilePictureFile != null) $user->setProfilePictureFile($obj->profilePictureFile);
-		if ($obj->profileThumbnail != null) $user->setProfileThumbnail($obj->profileThumbnail);
-		if ($obj->sessionToken != null) $user->setSessionToken($obj->sessionToken);
-		if ($obj->settings != null) $user->setSettings($obj->settings);
+		if ($res->profilePicture != null) $user->setProfilePicture($res->profilePicture);
+		if ($res->profilePictureFile != null) $user->setProfilePictureFile($res->profilePictureFile);
+		if ($res->profileThumbnail != null) $user->setProfileThumbnail($res->profileThumbnail);
+		if ($res->sessionToken != null) $user->setSessionToken($res->sessionToken);
+		if ($res->settings != null) $user->setSettings($res->settings);
 		/*
-		if ($obj->statuses != null) {
+		if ($res->statuses != null) {
 			$statusParse = new StatusParse();
-			$statusRelatedTo = $statusParse->getRelatedTo('statuses', 'Status', $obj->objectId);
+			$statusRelatedTo = $statusParse->getRelatedTo('statuses', 'Status', $res->objectId);
 			$user->setStatuses($statusRelatedTo);
 		}
 		*/
-		if ($obj->twitterPage != null) $user->setTwitterPage($obj->twitterPage);
-		if ($obj->type != null) $user->setType($obj->type);
+		if ($res->twitterPage != null) $user->setTwitterPage($res->twitterPage);
+		if ($res->type != null) $user->setType($res->type);
 		/*
-		if ($obj->videos != null) {
+		if ($res->videos != null) {
 			$videoParse = new VideoParse();
-			$videoRelatedTo = $videoParse->getRelatedTo('videos', 'Video', $obj->objectId);
+			$videoRelatedTo = $videoParse->getRelatedTo('videos', 'Video', $res->objectId);
 			$user->setVideos($videoRelatedTo);
 		}
 		*/
-		if ($obj->website != null) $user->setWebsite($obj->website);
-		if ($obj->youtubeChannel != null) $user->setYoutubeChannel($obj->youtubeChannel);
-		if ($obj->createdAt != null) {
-			$dateTime = new DateTime($obj->createdAt);
+		if ($res->website != null) $user->setWebsite($res->website);
+		if ($res->youtubeChannel != null) $user->setYoutubeChannel($res->youtubeChannel);
+		if ($res->createdAt != null) {
+			$dateTime = new DateTime($res->createdAt);
 			$user->setCreatedAt($dateTime);
 		}
-		if ($obj->updatedAt != null) {
-			$dateTime = new DateTime($obj->updatedAt);
+		if ($res->updatedAt != null) {
+			$dateTime = new DateTime($res->updatedAt);
 			$user->setUpdatedAt($dateTime);
 		}
-		if ($obj->ACL != null) $user->setACL($obj->ACL);
+		if ($res->ACL != null) $user->setACL($res->ACL);
 		
 		return $user;
 	}
 	
-	#########
-	# FATTA #
-	#########
-    function saveUser($user) {
+	function saveUser($user) {
 		try {
 			$parseUser = new parseUser();
 			
@@ -469,30 +421,7 @@ class UserParse {
         return $user;
     }
 
-	#########
-	# FATTA #
-	#########
-    function deleteUser($user) {
-		try {
-			$parseUser = new parseUser();
-			$parseUser->active = false;
-			$parseUser->update($user->getObjectId(), $user->getSessionToken());
-		} catch (Exception $e) {
-			$error = new error();
-			$error->setErrorClass(__CLASS__);
-			$error->setErrorCode($e->getCode());
-			$error->setErrorMessage($e->getMessage());
-			$error->setErrorFunction(__FUNCTION__);
-			$error->setErrorFunctionParameter(func_get_args());
- 
-			$errorParse = new errorParse();
-			$errorParse->saveError($error);
- 
-			return $error;
-		}
-    }
-
-    public function getCount() {
+	public function getCount() {
         $this->parseQuery->getCount();
     }
 
