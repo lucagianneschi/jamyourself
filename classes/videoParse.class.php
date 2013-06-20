@@ -27,9 +27,6 @@ require_once CLASSES_DIR . 'utils.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 
-require_once CLASSES_DIR . 'error.class.php';
-require_once CLASSES_DIR . 'errorParse.class.php';
-
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 
@@ -99,30 +96,27 @@ class VideoParse {
             $video->setObjectId($parseObj->objectId);
             $video->setActive($parseObj->active);
             $video->setAuthor($parseObj->author);
-            $commentators = fromParseRelation('commentators', 'Video', $parseObj->objectId, '_User');
+            $commentators = fromParseRelation('Video', 'commentators', $parseObj->objectId, '_User');
             $video->setCommentators($commentators);
-            $comments = fromParseRelation('comments', 'Video', $parseObj->objectId, 'Comment');
+            $comments = fromParseRelation('Video', 'comments', $parseObj->objectId, 'Comment');
             $video->setComments($comments);
             $video->setCounter($parseObj->counter);
             $video->setDescription($parseObj->description);
             $video->setDuration($parseObj->duration);
-            $featuring = fromParseRelation('featuring', 'Video', $parseObj->objectId, '_User');
+            $featuring = fromParseRelation('Video', 'featuring', $parseObj->objectId, '_User');
             $video->setFeaturing($featuring);
             $fromUser = fromParsePointer($parseObj->fromUser);
             $video->setFromUser($fromUser);
             $video->setLoveCounter($parseObj->loveCounter);
-            $lovers = fromParseRelation('lovers', 'Video', $parseObj->objectId, '_User');
+            $lovers = fromParseRelation('Video', 'lovers', $parseObj->objectId, '_User');
             $video->setLovers($lovers);
-            if ($parseObj->tags)
-                $video->setTags($parseObj->tags);
+            $video->setTags($parseObj->tags);
             $video->setTitle($parseObj->title);
             $video->setThumbnail($parseObj->thumbnail);
             $video->setURL($parseObj->URL);
-            if ($parseObj->createdAt)
-                $video->setCreatedAt(new DateTime($parseObj->createdAt));
-            if ($parseObj->updatedAt)
-                $video->setUpdatedAt(new DateTime($parseObj->updatedAt));
-            $video->setACL(toParseACL($parseObj->ACL));
+            $video->setCreatedAt(new DateTime($parseObj->createdAt));
+            $video->setUpdatedAt(new DateTime($parseObj->updatedAt));
+            $video->setACL(fromParseACL($res->ACL));
             return $video;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
@@ -130,50 +124,37 @@ class VideoParse {
     }
 
     public function saveVideo(Video $video) {
-
-        $parseObj = new parseObject('Video');
-        $video->getActive() === null ? $parseObj->active = null : $parseObj->active = $video->getActive();
-        $video->getAuthor() == null ? $parseObj->author = null : $parseObj->author = $video->getAuthor();
-        $parseObj->commentators = toParseRelation('_User', $video->getCommentators());
-        $parseObj->comments = toParseRelation('Comment', $video->getComments());
-        $video->getCounter() == null ? $parseObj->counter = null : $parseObj->counter = $video->getCounter();
-        $video->getDescription() == null ? $parseObj->description = null : $parseObj->description = $video->getDescription();
-        $video->getDuration() == null ? $parseObj->duration = null : $parseObj->duration = $video->getDuration();
-        $parseObj->featuring = toParseRelation('_User', $video->getFeaturing());
-        $parseObj->fromUser = toParsePointer('_User', $video->getFromUser());
-        $video->getLoveCounter() == null ? $parseObj->loveCounter = null : $parseObj->loveCounter = $video->getLoveCounter();
-        $parseObj->lovers = toParseRelation('_User', $video->getLovers());
-        if ($video->getTags() != null && count($video->getTags()) > 0)
-            $parseObj->tags = $video->getTags();
-        else
-            $parseObj->tags = null;
-        $video->getThumbnail() == null ? $parseObj->thumbnail = null : $parseObj->thumbnail = $video->getThumbnail();
-        $video->getTitle() == null ? $parseObj->title = null : $parseObj->title = $video->getTitle();
-        $video->getURL() == null ? $parseObj->URL = null : $parseObj->URL = $video->getURL();
-        $acl = new ParseACL;
-        $acl->setPublicRead(true);
-        $acl->setPublicWrite(true);
-        $video->setACL($acl);
-        if ($video->getObjectId() != null) {
-
-            try {
-                $ret = $parseObj->update($video->getObjectId());
-                $video->setUpdatedAt($ret->updatedAt);
-            } catch (Exception $exception) {
-                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        try {
+            $parseObj = new parseObject('Video');
+            is_null($video->getActive()) === null ? $parseObj->active = null : $parseObj->active = $video->getActive();
+            is_null($video->getAuthor()) == null ? $parseObj->author = null : $parseObj->author = $video->getAuthor();
+            is_null($video->getCommentators()) ? $parseObj->commentators = null : $parseObj->commentators = toParseRelation('_User', $video->getCommentators());
+            is_null($video->getComments()) ? $parseObj->comments = null : $parseObj->comments = toParseRelation('Comment', $video->getComments());
+            is_null($video->getCounter()) == null ? $parseObj->counter = null : $parseObj->counter = $video->getCounter();
+            is_null($video->getDescription()) == null ? $parseObj->description = null : $parseObj->description = $video->getDescription();
+            is_null($video->getDuration()) == null ? $parseObj->duration = null : $parseObj->duration = $video->getDuration();
+            is_null($video->getFeaturing()) ? $parseObj->featuring = null : $parseObj->featuring = toParseRelation('_User', $video->getFeaturing());
+            is_null($video->getFromUser()) ? $parseObj->fromUser = null : $parseObj->fromUser = toParsePointer('_User', $video->getFromUser());
+            is_null($video->getLoveCounter()) == null ? $parseObj->loveCounter = null : $parseObj->loveCounter = $video->getLoveCounter();
+            is_null($video->getLovers()) ? $parseObj->lovers = null : $parseObj->lovers = toParseRelation('_User', $video->getLovers());
+            is_null($video->getTags()) ? $parseObj->tags = null : $parseObj->tags = $video->getTags();
+            is_null($video->getThumbnail()) == null ? $parseObj->thumbnail = null : $parseObj->thumbnail = $video->getThumbnail();
+            is_null($video->getTitle()) == null ? $parseObj->title = null : $parseObj->title = $video->getTitle();
+            is_null($video->getURL()) == null ? $parseObj->URL = null : $parseObj->URL = $video->getURL();
+            $acl = new ParseACL;
+            $acl->setPublicRead(true);
+            $acl->setPublicWrite(true);
+            $video->setACL($acl);
+            if ($video->getObjectId() == '') {
+                $res = $parseObj->save();
+                $video->setObjectId($res->objectId);
+                return $video;
+            } else {
+                $parseObj->update($video->getObjectId());
             }
-        } else {
-            //caso save
-            try {
-                $ret = $parseObj->save();
-                $video->setObjectId($ret->objectId);
-                $video->setCreatedAt($ret->createdAt);
-                $video->setUpdatedAt($ret->createdAt);
-            } catch (Exception $exception) {
-                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
-            }
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
-        return $video;
     }
 
     public function setLimit($int) {
