@@ -97,13 +97,9 @@ class CommentParse {
 			$cmt->setEvent(fromParsePointer($res->event));
 			$cmt->setFromUser(fromParsePointer($res->fromUser));
 			$cmt->setImage(fromParsePointer($res->image));
-			
-			//TODO
-			$parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
-			$cmt->setLocation($parseGeoPoint->location);
-			
+			$cmt->setLocation(fromParseGeoPoint($res->location));
 			$cmt->setLoveCounter($res->loveCounter);
-			if (fromParseRelation('Comment', 'lovers', $res->objectId, '_User') != null) $cmt->setLovers(fromParseRelation('Comment', 'lovers', $res->objectId, '_User'));
+			$cmt->setLovers(fromParseRelation('Comment', 'lovers', $res->objectId, '_User'));
 			$cmt->setOpinions($res->opinions);
 			$cmt->setRecord(fromParsePointer($res->record));
 			$cmt->setSong(fromParsePointer($res->song));
@@ -140,7 +136,7 @@ class CommentParse {
 			is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $cmt->getImage());
 			is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = $cmt->getLocation();
 			is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = null : $parseObject->loveCounter = $cmt->getLoveCounter();
-			is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = $cmt->getLovers();
+			is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseRelation('_User', $cmt->getLovers());
 			is_null($cmt->getOpinions()) ? $parseObject->opinions = null : $parseObject->opinions = $cmt->getOpinions();
 			is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
 			is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
