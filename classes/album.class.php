@@ -138,11 +138,11 @@ class Album {
         $this->active = $active;
     }
 
-    public function setCommentators(array $commentators) {
+    public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -154,7 +154,7 @@ class Album {
         $this->cover = $cover;
     }
 
-    public function setCoverFile(parseFile $coverFile) {
+    public function setCoverFile($coverFile) {
         $this->cover = $coverFile;
     }
 
@@ -162,7 +162,7 @@ class Album {
         $this->description = $description;
     }
 
-    public function setFeaturing(array $featuring) {
+    public function setFeaturing($featuring) {
         $this->featuring = $featuring;
     }
 
@@ -170,11 +170,11 @@ class Album {
         $this->fromUser = $fromUser;
     }
 
-    public function setImages(array $images) {
+    public function setImages($images) {
         $this->images = $images;
     }
 
-    public function setLocation(parseGeoPoint $location) {
+    public function setLocation($location) {
         $this->location = $location;
     }
 
@@ -182,7 +182,7 @@ class Album {
         $this->loveCounter = $loveCounter;
     }
 
-    public function setLovers(array $lovers) {
+    public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
@@ -194,15 +194,15 @@ class Album {
         $this->thumbnailCover = $thumbnailCover;
     }
 
-    public function setTags(array $tags) {
+    public function setTags($tags) {
         $this->tag = $tags;
     }
 
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
@@ -213,67 +213,86 @@ class Album {
     public function __toString() {
         $string = "";
 
-        $string .= "[ objectId ] => " . $this->getObjectId() . " <br />";
-        $string .= "[ active ] => " . $this->getActive() . " <br />";
-        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
-            foreach ($this->getCommentators() as $commentator) {
+        if ($this->objectId != null)
+            $string .= "[ objectId ] => " . $this->objectId . "</br>";
+        if ($this->active != null)
+            $string .= "[ active ] => " . $this->active . "</br>";
+        if ($this->commentators != null && count($this->commentators) > 0) {
+            $string .= "[ commentators	] => </br>";
+            foreach ($this->commentators as $commentator) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[$commentator] => ' . $commentator . '<br />';
             }
         }
-        if ($this->getComments() != null && count($this->getComments() > 0)) {
-            foreach ($this->getComments() as $comment) {
+        if ($this->comments != null && count($this->comments) > 0) {
+            $string .= "[ comments ] => </br>";
+            foreach ($this->comments as $comment) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[$comment] => ' . $comment . '<br />';
             }
+        }
+        if ($this->counter != null)
+            $string .= "[ counter ] => " . $this->counter . "</br>";
+        if ($this->cover != null)
+            $string .= "[ cover	] => " . $this->cover . "</br>";
+//        if ($this->coverFile != null)
+//            $string .= "[ coverFile ] => " . $this->coverFile . "</br>";
+        if ($this->description != null)
+            $string .= "[ description ] => " . $this->description . "</br>";
+        if ($this->featuring != null && count($this->featuring) > 0) {
+            $string .= "[ featuring ] => </br>";
+            foreach ($this->featuring as $user) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[featuring] => ' . $user . '<br />';
+            }            
+        }
+        if ($this->fromUser != null)
+            $string .= "[ fromUser ] => " . $this->fromUser . "</br>";
+        
+        if ($this->images != null) {
+            $string .= "[ images ] => " . $this->images . "</br>";
+            foreach ($this->images as $image) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[image] => ' . $image . '<br />';
+            }             
+        }
+        if ($this->location != null)
+            $string .= "[location] => " . $this->location[latitude] . ", " . $this->location[longitude] . "<br />";
+        if ($this->loveCounter != null)
+            $string .= "[ loveCounter ] => " . $this->loveCounter . "</br>";
+        if ($this->lovers != null && count($this->lovers) > 0) {
+            $string .= "[ lovers ] => </br>";
+            foreach ($this->lovers as $lover) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[lover] => ' . $lover . '<br />';
+            }              
         }
 
-        $string .= "[ counter ] => " . $this->getCounter() . " <br />";
-        $string .= "[ cover  ] => " . $this->getCover() . " <br />";
-//        $string .= "[ coverFile  ] => " .$this->getCoverFile()." <br />" ;
-        $string .= "[ description  ] => " . $this->getDescription() . " <br />";
-        if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
-            foreach ($this->getFeaturing() as $user) {
+        if ($this->tags != null && count($this->tags) > 0) {
+            $string .= "[ tags ] => </br>";
+            foreach ($this->tags as $tag) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
-            }
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[tag] => ' . $tag . '<br />';
+            }             
         }
 
-        $fromUser = $this->getFromUser();
-        if ($fromUser != null) {
-            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
-        }
-        if ($this->getImages() != null && count($this->getImages() > 0)) {
-            foreach ($this->getImages() as $image) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[ image ] => ' . $image->getObjectId() . '<br />';
-            }
-        }
-        $parseGeoPoint = $this->getLocation();
-        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
-            $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
-        }
-        $string .= "[ loveCounter ] => " . $this->getLoveCounter() . " <br />";
-        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
-            foreach ($this->getLovers() as $lover) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
-            }
-        }
-        if ($this->getTags() != null && count($this->getTags() > 0)) {
-            foreach ($this->getTags() as $tag) {
-                $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
-                $string.="[tag] => " . $tag . "<br />";
-            }
-        }
-        $string .= "[ thumbnailCover ] => " . $this->getThumbnailCover() . " <br />";
-        $string .= "[ title ] => " . $this->getTitle() . " <br />";
-        if (($createdAt = $this->getCreatedAt()))
-            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
-        if (($updatedAt = $this->getUpdatedAt()))
-            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
-        if ($this->getACL() != null) {
-            foreach ($this->getACL()->acl as $key => $acl) {
+        if ($this->thumbnailCover != null)
+            $string .= "[ thumbnailCover ] => " . $this->thumbnailCover . "</br>";
+        if ($this->title != null)
+            $string .= "[ title	] => " . $this->title . "</br>";
+        if ($this->createdAt != null)
+            $string .= "[ createdAt ] => " . $this->createdAt->format('d/m/Y H:i:s') . "</br>";
+        if ($this->updatedAt != null)
+            $string .= "[ updatedAt ] => " . $this->updatedAt->format('d/m/Y H:i:s') . "</br>";
+        if ($this->ACL != null) {
+            $string .= "[ ACL ] => </br>";
+            foreach ($this->ACL->acl as $key => $acl) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= '[key] => ' . $key . '<br />';
                 foreach ($acl as $access => $value) {
