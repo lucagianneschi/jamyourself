@@ -6,9 +6,23 @@
  * @return null
  */
 function toParseACL($ACL) {
-    if ($ACL==null || !isset($ACL->acl) || ($ACL->acl == null))
+    if ($ACL == null || !isset($ACL->acl) || ($ACL->acl == null))
         return null;
     return $ACL->acl;
+}
+
+function fromParseACL($parseACL) {
+    if ($parseACL != null && isset($parseACL->ACL)) {
+//  Parse mi manda uno stdObj fatto così:
+//        ["ACL"]=> object(stdClass)#10 (1) { 
+//        #["*"]=> object(stdClass)#11 (2) { 
+//        #["write"]=> bool(true) 
+//        #["read"]=> bool(true) } } }
+        $ACL = new parseACL();
+        $ACL->acl = $parseACL->ACL;
+    }
+    else
+        return null;
 }
 
 /**
@@ -29,10 +43,11 @@ function toParseDate($date) {
  * @param type $date
  * @return \DateTime|null
  */
-function fromParseDate($date){
-    if($date!= null && count($date)>0)
+function fromParseDate($date) {
+    if ($date != null && count($date) > 0)
         return new DateTime($date);
-    else return null;
+    else
+        return null;
 }
 
 /**
@@ -194,7 +209,7 @@ function throwError($exception, $class, $function, $args) {
  */
 function toParseFile($parseFile) {
 
-    if ($parseFile != null && isset($parseFile->name)){
+    if ($parseFile != null && isset($parseFile->name)) {
         //carico i contenuti del file    
         //ora recupero il nome del file e creo un puntatore al file col dataType
         $parseRestClient = new parseRestClient();
