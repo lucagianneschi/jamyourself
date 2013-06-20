@@ -131,11 +131,11 @@ class Image {
         $this->album = $album;
     }
 
-    public function setCommentators(array $commentators) {
+    public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -147,7 +147,7 @@ class Image {
         $this->description = $description;
     }
 
-    public function setFeaturing(array $featuring) {
+    public function setFeaturing($featuring) {
         $this->featuring = $featuring;
     }
 
@@ -171,19 +171,19 @@ class Image {
         $this->loveCounter = $loveCounter;
     }
 
-    public function setLovers(array $lovers) {
+    public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
-    public function setTags(array $tags) {
+    public function setTags($tags) {
         $this->tags = $tags;
     }
 
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
