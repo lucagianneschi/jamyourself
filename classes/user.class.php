@@ -63,7 +63,6 @@ class User {
     private $sessionToken;
 
     public function __construct() {
-        
     }
 
     public function getObjectId() {
@@ -238,7 +237,7 @@ class User {
         $this->active = $active;
     }
 
-    public function setAlbums(array $albums) {
+    public function setAlbums($albums) {
         $this->albums = $albums;
     }
 
@@ -250,7 +249,7 @@ class User {
         $this->city = $city;
     }
 
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -274,7 +273,7 @@ class User {
         $this->geoCoding = $geoCoding;
     }
 
-    public function setImages(array $images) {
+    public function setImages($images) {
         $this->images = $images;
     }
 
@@ -286,15 +285,15 @@ class User {
         $this->view = $levelValue;
     }
 
-    public function setLoveSongs(array $loveSongs) {
+    public function setLoveSongs($loveSongs) {
         $this->loveSongs = $loveSongs;
     }
 
-    public function setMusic(array $music) {
+    public function setMusic($music) {
         $this->music = $music;
     }
 
-    public function setPlaylists(array $playlists) {
+    public function setPlaylists($playlists) {
         $this->playlists = $playlists;
     }
 
@@ -318,11 +317,11 @@ class User {
         $this->profileThumbnail = $profileThumbnail;
     }
 
-    public function setSettings(array $settings) {
+    public function setSettings($settings) {
         $this->settings = $settings;
     }
 
-    public function setStatuses(array $statuses) {
+    public function setStatuses($statuses) {
         $this->statuses = $statuses;
     }
 
@@ -334,7 +333,7 @@ class User {
         $this->type = $type;
     }
 
-    public function setVideos(array $videos) {
+    public function setVideos($videos) {
         $this->videos = $videos;
     }
 
@@ -370,35 +369,54 @@ class User {
         $string .= '[password] => ' . $this->getPassword() . '<br />';
         $string .= '[authData] => ' . $this->getAuthData() . '<br />';
         $string .= '[emailVerified] => ' . $this->getEmailVerified() . '<br />';
-        if ($this->getActive() === null) {
+        if (is_null($this->getActive())) {
             $string .= '[active] => NULL<br />';
         } else {
             $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
         }
-        //TODO
-        //$string .= '[albums] => ' . $this->getAlbums() . '<br />';
+		if ($this->getAlbum() != null) {
+			$string .= '[album] => ' . $this->getAlbum() . '<br />';
+		} else {
+			$string .= '[album] => NULL<br />';
+		}
         $string .= '[background] => ' . $this->getBackground() . '<br />';
         $string .= '[city] => ' . $this->getCity() . '<br />';
-        //TODO
-        //$string .= '[comments] => ' . $this->getComments() . '<br />';
+        if ($this->getComments() != null) {
+			$string .= '[comments] => ' . $this->getComments() . '<br />';
+		} else {
+			$string .= '[comments] => NULL<br />';
+		}
         $string .= '[country] => ' . $this->getCountry() . '<br />';
         $string .= '[description] => ' . $this->getDescription() . '<br />';
         $string .= '[email] => ' . $this->getEmail() . '<br />';
         $string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
-        $parseGeoPoint = $this->getGeoCoding();
-        $string .= '[geoCoding] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
-        //TODO
-        //$string .= '[images] => ' . $this->getImages() . '<br />';
+		if ($this->getGeoCoding() != null) {
+			$geoCoding = $this->getGeoCoding();
+			$string .= '[geoCoding] => ' . $geoCoding[latitude] . ', ' . $geoCoding[longitude] . '<br />';
+		} else {
+			$string .= '[geoCoding] => NULL<br />';
+		}
+        if ($this->getImages() != null) {
+			$string .= '[images] => ' . $this->getImages() . '<br />';
+		} else {
+			$string .= '[images] => NULL<br />';
+		}
         $string .= '[level] => ' . $this->getLevel() . '<br />';
         $string .= '[levelValue] => ' . $this->getLevelValue() . '<br />';
-        //TODO
-        //$string .= '[loveSongs] => ' . $this->getLoveSongs() . '<br />';
+        if ($this->getLoveSongs() != null) {
+			$string .= '[loveSongs] => ' . $this->getLoveSongs() . '<br />';
+		} else {
+			$string .= '[loveSongs] => NULL<br />';
+		}
         foreach ($this->getMusic() as $music) {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[music] => ' . $music . '<br />';
         }
-        //TODO
-        //$string .= '[playlists] => ' . $this->getPlaylists() . '<br />';
+        if ($this->getPlaylists() != null) {
+			$string .= '[playlists] => ' . $this->getPlaylists() . '<br />';
+		} else {
+			$string .= '[playlists] => NULL<br />';
+		}
         $string .= '[premium] => ' . $this->getPremium() . '<br />';
         if ($this->getPremiumExpirationDate() != null) {
             $string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
@@ -406,19 +424,25 @@ class User {
             $string .= '[premiumExpirationDate] => NULL<br />';
         }
         $string .= '[profilePicture] => ' . $this->getProfilePicture() . '<br />';
-        //$string .= '[profilePictureFile] => ' . $this->getProfilePictureFile() . '<br />';
+        $string .= '[profilePictureFile] => ' . $this->getProfilePictureFile() . '<br />';
         $string .= '[profileThumbnail] => ' . $this->getProfileThumbnail() . '<br />';
         $string .= '[sessionToken] => ' . $this->getSessionToken() . '<br />';
         foreach ($this->getSettings() as $settings) {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[settings] => ' . $settings . '<br />';
         }
-        //TODO
-        //$string .= '[statuses] => ' . $this->getStatuses() . '<br />';
+        if ($this->getStatuses() != null) {
+			$string .= '[statuses] => ' . $this->getStatuses() . '<br />';
+		} else {
+			$string .= '[statuses] => NULL<br />';
+		}
         $string .= '[twitterPage] => ' . $this->getTwitterPage() . '<br />';
         $string .= '[type] => ' . $this->getType() . '<br />';
-        //TODO
-        //$string .= '[videos] => ' . $this->getVideos() . '<br />';
+        if ($this->getVideos() != null) {
+			$string .= '[videos] => ' . $this->getVideos() . '<br />';
+		} else {
+			$string .= '[videos] => NULL<br />';
+		}
         $string .= '[website] => ' . $this->getWebsite() . '<br />';
         $string .= '[youtubeChannel] => ' . $this->getYoutubeChannel() . '<br />';
         if ($this->getCreatedAt() != null) {
@@ -431,15 +455,20 @@ class User {
         } else {
             $string .= '[updatedAt] => NULL<br />';
         }
-        foreach ($this->getACL()->acl as $key => $acl) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[key] => ' . $key . '<br />';
-            foreach ($acl as $access => $value) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-            }
-        }
+		if ($this->getACL() != null) {
+			foreach ($this->getACL() as $key => $acl) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[ACL] => ' . $key . '<br />';
+				foreach ($acl as $access => $value) {
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+				}
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[ACL] => NULL<br />';
+		}
 
         return $string;
     }
@@ -502,8 +531,11 @@ class Venue extends User {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[collaboration] => NULL<br />';
         }
-        //TODO
-        //$string.="[events] => " . $this->getEvents() . "<br />";
+        if ($this->getEvents() != null) {
+			$string .= '[events] => ' . $this->getEvents() . '<br />';
+		} else {
+			$string .= '[events] => NULL<br />';
+		}
         $string.="[address] => " . $this->getAddress() . '<br />';
         $string.="[localType] => " . $this->getLocalType() . '<br />';
 
@@ -585,8 +617,11 @@ class Jammer extends User {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[collaboration] => NULL<br />';
         }
-        //TODO
-        //$string.="[events] => " . $this->getEvents() . "<br />";
+        if ($this->getEvents() != null) {
+			$string .= '[events] => ' . $this->getEvents() . '<br />';
+		} else {
+			$string .= '[events] => NULL<br />';
+		}
         $string.="[jammerType] => " . $this->getJammerType() . "<br />";
         if (count($this->getMembers()) != 0) {
             foreach ($this->getMembers() as $member) {
@@ -597,9 +632,16 @@ class Jammer extends User {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[members] => NULL<br />';
         }
-        //TODO
-        //$string.="[records] => " . $this->getRecords() . "<br />";
-        //$string.="[songs] => " . $this->getSongs() . "<br />";
+        if ($this->getRecords() != null) {
+			$string .= '[records] => ' . $this->getRecords() . '<br />';
+		} else {
+			$string .= '[records] => NULL<br />';
+		}
+		if ($this->getSongs() != null) {
+			$string .= '[songs] => ' . $this->getSongs() . '<br />';
+		} else {
+			$string .= '[songs] => NULL<br />';
+		}
 
         return $string;
     }
@@ -686,11 +728,17 @@ class Spotter extends User {
         }
         $string .= "[facebookId] => " . $this->getFacebookId() . "<br />";
         $string .= "[firstname] => " . $this->getFirstname() . "<br />";
-        //TODO
-        //$string .= "[following] => ".$this->getFollowing()."<br />";
-        //TODO
-        //$string .= "[friendship] => ".$this->getFriendship()."<br />";
-        $string .= "[lastname] => " . $this->getLastname() . "<br />";
+        if ($this->getFollowing() != null) {
+			$string .= '[following] => ' . $this->getFollowing() . '<br />';
+		} else {
+			$string .= '[following] => NULL<br />';
+		}
+		if ($this->getFriendship() != null) {
+			$string .= '[friendship] => ' . $this->getFriendship() . '<br />';
+		} else {
+			$string .= '[friendship] => NULL<br />';
+		}
+		$string .= "[lastname] => " . $this->getLastname() . "<br />";
         $string .= "[sex] => " . $this->getSex() . "<br />";
 
         return $string;
