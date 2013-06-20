@@ -163,12 +163,12 @@ class Record {
     }
 
     //relation: puntatori ad oggetti Comment
-    public function setCommentators(array $commentators) {
+    public function setCommentators($commentators) {
         $this->comments = $commentators;
     }
 
     //relation: puntatori ad oggetti Comment
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -192,7 +192,7 @@ class Record {
         $this->duration = $duration;
     }
 
-    public function setFeaturing(array $featuring) {
+    public function setFeaturing($featuring) {
         $this->featuring = $featuring;
     }
 
@@ -216,7 +216,7 @@ class Record {
         $this->loveCounter = $loveCounter;
     }
 
-    public function setLovers(array $lovers) {
+    public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
@@ -228,7 +228,7 @@ class Record {
         $this->title = $title;
     }
 
-    public function setTracklist(array $tracklist) {
+    public function setTracklist($tracklist) {
         $this->tracklist = $tracklist;
     }
 
@@ -236,11 +236,11 @@ class Record {
         $this->year = $year;
     }
 
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 

@@ -103,7 +103,7 @@ class Playlist {
     }
 
     //relation: lista delle canzoni inserite dall'utente nella playslit
-    public function setSongs(array $songs) {
+    public function setSongs($songs) {
         $this->songs = $songs;
     }
 
@@ -113,12 +113,12 @@ class Playlist {
     }
 
     //DateTime: data e ora di creazione dell'istanza della playlist
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
     //DateTime: data e ora di update dell'istanza della playlist
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
