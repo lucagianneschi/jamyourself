@@ -62,7 +62,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO IL RECUPERO DI UN Comment<br /><br />';
 
 $cmtParse = new CommentParse();
-$resGet = $cmtParse->getComment('R6Ikldjy0x');
+$resGet = $cmtParse->getComment($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
