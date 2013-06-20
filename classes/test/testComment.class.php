@@ -14,25 +14,8 @@ $cmt = new Comment();
 $cmt->setActive(true);
 //$cmt->setAlbum(Album $album);
 //$cmt->setComment(Comment $comment);
-
-$commentators = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
-	)
-);
-$cmt->setCommentators($commentators);
-
-$comments = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "Comment", "objectId" => "2gMM3NmUYY"),
-		array("__type" => "Pointer", "className" => "Comment", "objectId" => "5zw3I5d9Od")
-	)
-);
-$cmt->setComments($comments);
-
+$cmt->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$cmt->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $cmt->setCounter(10);
 //$cmt->setEvent(Event $event);
 //$cmt->setFromUser(User $fromUser);
@@ -40,7 +23,8 @@ $cmt->setCounter(10);
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $cmt->setLocation($parseGeoPoint->location);
 $cmt->setLoveCounter(100);
-//$cmt->setLovers(array $lovers);
+//commentato per testare i NULL
+//$cmt->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $cmt->setOpinions(array('opinions1', 'opinions2'));
 //$cmt->setRecord(Record $record);
 //$cmt->setSong(Song $song);
@@ -51,16 +35,6 @@ $cmt->setText('Il testo del commento');
 $cmt->setType('Il tipo del commento');
 //$cmt->setVideo(Video $video);
 $cmt->setVote(1000);
-
-// TODO - da eliminare
-//$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
-$dateTime = new DateTime();
-$cmt->setTestDate($dateTime);
-// TODO
-
-$dateTime = new DateTime();
-$cmt->setCreatedAt($dateTime);
-$cmt->setUpdatedAt($dateTime);
 $acl = new parseACL();
 $acl->setPublicWriteAccess(true);
 $cmt->setACL($acl);
@@ -103,7 +77,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO LA CANCELLAZIONE DI UN Comment<br />';
 
 $cmtParse = new CommentParse();
-$resDelete = $cmtParse->deleteComment('AOPyno3s8m');
+$resDelete = $cmtParse->deleteComment($resSave->getObjectId());
 if (get_class($resDelete)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
@@ -136,9 +110,9 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Comment<br />';
 
 $cmtParse = new CommentParse();
-$cmt = new Comment();
-$cmt->setObjectId('AOPyno3s8m');
+$cmt = $cmtParse->getComment($resSave->getObjectId());
 $cmt->setCounter(99);
+print_r($cmt);
 $resUpdate = $cmtParse->saveComment($cmt);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';

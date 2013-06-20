@@ -47,17 +47,7 @@ class Comment {
     private $updatedAt;
     private $ACL;
 	
-	// TODO - da eliminare
-	private $testDate;
-	public function getTestDate() {
-		return $this->testDate;
-    }
-	public function setTestdate($testDate) {
-        $this->testDate = $testDate;
-    }
-	// TODO
-
-    public function __construct() {        
+	public function __construct() {        
     }
 
     public function getObjectId() {
@@ -180,11 +170,11 @@ class Comment {
         $this->comment = $comment;
     }
 
-    public function setCommentators(array $commentators) {
+    public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -212,11 +202,11 @@ class Comment {
         $this->loveCounter = $loveCounter;
     }
 
-    public function setLovers(array $lovers) {
+    public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
-    public function setOpinions(array $opinions) {
+    public function setOpinions($opinions) {
         $this->opinions = $opinions;
     }
 
@@ -232,7 +222,7 @@ class Comment {
         $this->status = $status;
     }
 
-    public function setTags(array $tags) {
+    public function setTags($tags) {
         $this->tags = $tags;
     }
 
