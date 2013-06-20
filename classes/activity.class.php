@@ -198,7 +198,7 @@ class Activity {
      *
      * @param DateTime $createdAt	
      */
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
 
         $this->createdAt = $createdAt;
     }
@@ -207,7 +207,7 @@ class Activity {
      *
      * @param DateTime $updatedAt	
      */
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
@@ -215,7 +215,7 @@ class Activity {
      *
      * @param ACL $ACL	
      */
-    public function setACL(parseACL $ACL) {
+    public function setACL($ACL) {
         $this->ACL = $ACL;
     }
 
