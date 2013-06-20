@@ -25,7 +25,6 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
-
 class LocationParse {
 
     private $parseQuery;
@@ -77,19 +76,21 @@ class LocationParse {
     }
 
     function parseToLocation(stdClass $parseObj) {
-        $location = new Location();
-        $location->setObjectId($parseObj->objectId);
-        $location->setCity($parseObj->city);
-        $location->setCountry($parseObj->country);
-        $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
-        $location->setLocation($parseGeoPoint);
-        $location->setLocId($parseObj->locId);
-        if (($parseObj->createdAt))
+        try {
+            $location = new Location();
+            $location->setObjectId($parseObj->objectId);
+            $location->setCity($parseObj->city);
+            $location->setCountry($parseObj->country);
+            $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
+            $location->setLocation($parseGeoPoint);
+            $location->setLocId($parseObj->locId);
             $location->setCreatedAt(new DateTime($parseObj->createdAt));
-        if (($parseObj->updatedAt))
             $location->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        $location->setACL(toParseACL($parseObj->ACL));
-        return $location;
+            $location->setACL(toParseACL($parseObj->ACL));
+            return $location;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        }
     }
 
     public function setLimit($int) {
