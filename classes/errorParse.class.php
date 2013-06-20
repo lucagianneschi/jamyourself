@@ -74,23 +74,25 @@ class ErrorParse {
     }
 
     public function parseToError(stdClass $parseObj) {
-        $error = new Error();
-        $error->setObjectId($parseObj->objectId);
-        $error->setErrorClass($parseObj->errorClass);
-        $error->setErrorCode($parseObj->errorCode);
-        $error->setErrorMessage($parseObj->errorMessage);
-        $error->setErrorFunction($parseObj->errorFunction);
-        $error->setErrorFunctionParameter($parseObj->errorFunctionParameter);
-        if (($parseObj->createdAt))
+        try {
+            $error = new Error();
+            $error->setObjectId($parseObj->objectId);
+            $error->setErrorClass($parseObj->errorClass);
+            $error->setErrorCode($parseObj->errorCode);
+            $error->setErrorMessage($parseObj->errorMessage);
+            $error->setErrorFunction($parseObj->errorFunction);
+            $error->setErrorFunctionParameter($parseObj->errorFunctionParameter);
             $error->setCreatedAt(new DateTime($parseObj->createdAt));
-        if (($parseObj->updatedAt))
             $error->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        $error->setACL($parseObj->ACL);
-        return $error;
+            $error->setACL($parseObj->ACL);
+            return $error;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        }
     }
 
     public function saveError($error) {
-        //creo la "connessione" con Parse
+try {
         $parseObject = new parseObject('Error');
         $parseObject->errorClass = $error->getErrorClass();
         $parseObject->errorCode = $error->getErrorCode();
@@ -101,29 +103,17 @@ class ErrorParse {
         $acl->setPublicRead(true);
         $acl->setPublicWrite(true);
         $parseObject->ACL = toParseACL($acl);
-     if ($error->getObjectId() != null) {
-
-            try {
-                //aggiornamento
-                $ret = $parseObject->update($error->getObjectId());
-                $error->setUpdatedAt($ret->updatedAt, new DateTime());
-            } catch (Exception $e) {
-                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        if ($error->getObjectId() == '') {
+                $res = $parseObject->save();
+                $error->setObjectId($res->objectId);
+                return $error;
+            } else {
+                $parseObject->update($error->getObjectId());
             }
-        } else {
-            //salvataggio
-            try {
-                $ret = $parseObject->save();
-                $error->setObjectId($ret->objectId);
-                $error->setCreatedAt($ret->createdAt, new DateTime());
-                $error->setUpdatedAt($ret->updatedAt, new DateTime());
-            } catch (Exception $e) {
-                return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
-            }
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
-
-
     public function setLimit($int) {
         $this->parseQuery->setLimit($int);
     }
