@@ -80,7 +80,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO LA CANCELLAZIONE DI UN Status<br />';
 
 $statusParse2 = new StatusParse();
-$resDelete = $statusParse2->deleteComment('AOPyno3s8m');
+$resDelete = $statusParse2->deleteStatus('AOPyno3s8m');
 if (get_class($resDelete)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
@@ -113,10 +113,10 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Status<br />';
 
 $statusParse4 = new StatusParse();
-$status2 = new Comment();
+$status2 = new Status();
 $status2->setObjectId('AOPyno3s8m');
 $status2->setCounter(9955);
-$resUpdate = $statusParse4->saveStatus($status);
+$resUpdate = $statusParse4->saveStatus($status2);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
