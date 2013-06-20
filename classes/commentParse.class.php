@@ -38,7 +38,7 @@ class CommentParse {
 			$parseObject->active = false;
 			$parseObject->update($objectId);
 		} catch (Exception $e) {
-			throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
 	
@@ -49,7 +49,7 @@ class CommentParse {
 			$cmt = $this->parseToComment($res);
 			return $cmt;
 		} catch (Exception $e) {
-			throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
 	
@@ -63,7 +63,7 @@ class CommentParse {
 			}
 			return $cmts;
 		} catch (Exception $e) {
-			throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
 
@@ -102,7 +102,7 @@ class CommentParse {
 			$parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
 			$cmt->setLocation($parseGeoPoint->location);
 			
-			$cmt->setLoveCounter();
+			$cmt->setLoveCounter($res->loveCounter);
 			if (fromParseRelation('Comment', 'lovers', $res->objectId, '_User') != null) $cmt->setLovers(fromParseRelation('Comment', 'lovers', $res->objectId, '_User'));
 			$cmt->setOpinions($res->opinions);
 			$cmt->setRecord(fromParsePointer($res->record));
@@ -116,11 +116,11 @@ class CommentParse {
 			$cmt->setVote($res->vote);
 			$cmt->setCreatedAt(new DateTime($res->createdAt));
 			$cmt->setUpdatedAt(new DateTime($res->updatedAt));
-			$cmt->setACL($res->ACL);
+			$cmt->setACL(fromParseACL($res->ACL));
 	 
 			return $cmt;
 		} catch (Exception $e) {
-			throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
 	
@@ -151,7 +151,7 @@ class CommentParse {
 			$cmt->getType() == null ? $parseObject->type = null : $parseObject->type = $cmt->getType();
 			$cmt->getVideo() == null ? $parseObject->video = null : $parseObject->video = $cmt->getVideo();
 			$cmt->getVote() == null ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
-			$cmt->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $cmt->getACL()->acl;
+			$cmt->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $cmt->getACL();
 			
 			if ($cmt->getObjectId() == '') {
 				$res = $parseObject->save();

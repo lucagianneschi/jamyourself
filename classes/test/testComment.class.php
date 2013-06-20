@@ -35,9 +35,9 @@ $cmt->setText('Il testo del commento');
 $cmt->setType('Il tipo del commento');
 //$cmt->setVideo(Video $video);
 $cmt->setVote(1000);
-$acl = new parseACL();
-$acl->setPublicWriteAccess(true);
-$cmt->setACL($acl);
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(true);
+$cmt->setACL(toParseACL($parseACL));
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
@@ -112,7 +112,6 @@ echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Comment<br />';
 $cmtParse = new CommentParse();
 $cmt = $cmtParse->getComment($resSave->getObjectId());
 $cmt->setCounter(99);
-print_r($cmt);
 $resUpdate = $cmtParse->saveComment($cmt);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
