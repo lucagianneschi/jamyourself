@@ -263,12 +263,12 @@ class Comment {
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
 		if ($this->getAlbum() != null) {
-			$string .= '[album] => ' . $this->getAlbum()->getObjectId() . '<br />';
+			$string .= '[album] => ' . $this->getAlbum() . '<br />';
 		} else {
 			$string .= '[album] => NULL<br />';
 		}
 		if ($this->getComment() != null) {
-			$string .= '[comment] => ' . $this->getComment()->getObjectId() . '<br />';
+			$string .= '[comment] => ' . $this->getComment() . '<br />';
 		} else {
 			$string .= '[comment] => NULL<br />';
 		}
@@ -292,17 +292,17 @@ class Comment {
 		}
 		$string .= '[counter] => ' . $this->getCounter() . '<br />';
 		if ($this->getEvent() != null) {
-			$string .= '[event] => ' . $this->getEvent()->getObjectId() . '<br />';
+			$string .= '[event] => ' . $this->getEvent() . '<br />';
 		} else {
 			$string .= '[event] => NULL<br />';
 		}
 		if ($this->getFromUser() != null) {
-			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
+			$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 		} else {
 			$string .= '[fromUser] => NULL<br />';
 		}
 		if ($this->getImage() != null) {
-			$string .= '[image] => ' . $this->getImage()->getObjectId() . '<br />';
+			$string .= '[image] => ' . $this->getImage() . '<br />';
 		} else {
 			$string .= '[image] => NULL<br />';
 		}
@@ -332,17 +332,17 @@ class Comment {
 			$string .= '[opinions] => NULL<br />';
 		}
 		if ($this->getRecord() != null) {
-			$string .= '[record] => ' . $this->getRecord()->getObjectId() . '<br />';
+			$string .= '[record] => ' . $this->getRecord() . '<br />';
 		} else {
 			$string .= '[record] => NULL<br />';
 		}
 		if ($this->getSong() != null) {
-			$string .= '[song] => ' . $this->getSong()->getObjectId() . '<br />';
+			$string .= '[song] => ' . $this->getSong() . '<br />';
 		} else {
 			$string .= '[song] => NULL<br />';
 		}
 		if ($this->getStatus() != null) {
-			$string .= '[status] => ' . $this->getStatus()->getObjectId() . '<br />';
+			$string .= '[status] => ' . $this->getStatus() . '<br />';
 		} else {
 			$string .= '[status] => NULL<br />';
 		}
@@ -358,13 +358,13 @@ class Comment {
 		}
 		$string .= '[text] => ' . $this->getText() . '<br />';
 		if ($this->getToUser() != null) {
-			$string .= '[toUser] => ' . $this->getToUser()->getObjectId() . '<br />';
+			$string .= '[toUser] => ' . $this->getToUser() . '<br />';
 		} else {
 			$string .= '[toUser] => NULL<br />';
 		}
 		$string .= '[type] => ' . $this->getType() . '<br />';
 		if ($this->getVideo() != null) {
-			$string .= '[video] => ' . $this->getVideo()->getObjectId() . '<br />';
+			$string .= '[video] => ' . $this->getVideo() . '<br />';
 		} else {
 			$string .= '[video] => NULL<br />';
 		}
