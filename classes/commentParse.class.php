@@ -1,5 +1,5 @@
 <?php
- /*! \par Info Generali:
+/* ! \par Info Generali:
  *  \author    Daniele Caldelli
  *  \version   1.0
  *  \date      2013
