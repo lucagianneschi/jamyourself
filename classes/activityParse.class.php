@@ -20,7 +20,7 @@
  */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -76,68 +76,61 @@ class ActivityParse {
 
         //creo un'istanza dell'oggetto della libreria ParseLib
         $parseObj = new parseObject("Activity");
-																
+
         $parseObj->accepted = $activity->getAccepted();
-									
-        $parseObj->active = $activity->getActive();		
 
-        $parseObj->album = toParsePointer($activity->getAlbum());	
+        $parseObj->active = $activity->getActive();
 
-        $parseObj->comment = toParsePointer($activity->getComment());        
+        $parseObj->album = toParsePointer("Album",$activity->getAlbum());
 
-        $parseObj->event = toParsePointer($activity->getEvent());
+        $parseObj->comment = toParsePointer("Comment",$activity->getComment());
 
-        $parseObj->fromUser = toParsePointer($activity->getFromUser());
+        $parseObj->event = toParsePointer("Event",$activity->getEvent());
 
-        $parseObj->image = toParsePointer($activity->getImage());
+        $parseObj->fromUser = toParsePointer("_User", $activity->getFromUser());
 
-        $parseObj->playlist = toParsePointer($activity->getPlaylist());
+        $parseObj->image = toParsePointer("Image",$activity->getImage());
 
-        $parseObj->question = toParsePointer($activity->getQuestion());
-					
+        $parseObj->playlist = toParsePointer("Playlist",$activity->getPlaylist());
+
+        $parseObj->question = toParsePointer("Question",$activity->getQuestion());
+
         $parseObj->read = $activity->getRead();
 
-        $parseObj->record = toParsePointer($activity->getRecord());
+        $parseObj->record = toParsePointer("Record",$activity->getRecord());
 
-        $parseObj->song = toParsePointer($activity->getSong());
+        $parseObj->song = toParsePointer("Song",$activity->getSong());
 
         $parseObj->status = $activity->getStatus();
 
-        $parseObj->toUser = toParsePointer($activity->getToUser());
-										
+        $parseObj->toUser = toParsePointer("_User",$activity->getToUser());
+
         $parseObj->type = $activity->getType();
 
-        $parseObj->userStatus = toParsePointer($activity->getUserStatus());
+        $parseObj->userStatus = toParsePointer("_User",$activity->getUserStatus());
 
-        $parseObj->video = toParsePointer($activity->getVideo());
+        $parseObj->video = toParsePointer("Video",$activity->getVideo());
 
         //caso update
         if ($activity->getObjectId() != null) {
 
             try {
                 $ret = $parseObj->update($activity->getObjectId());
-
                 $activity->setUpdatedAt($ret->updatedAt);
-            } catch (ParseLibraryException $e) {
-
-                return false;
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         } else {
             //caso save
             try {
                 $ret = $parseObj->save();
-
                 $activity->setObjectId($ret->objectId);
-
                 $activity->setCreatedAt($ret->createdAt);
-
                 $activity->setUpdatedAt($ret->createdAt);
-            } catch (ParseLibraryException $e) {
-
-                return false;
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         }
-
         return $activity;
     }
 
@@ -146,23 +139,32 @@ class ActivityParse {
      * @param string $activityId
      * @return boolean|Activity
      */
-    public function getActivity($objectId){
-        $result = (new parseRestClient())->get($objectId);
-        return $this->parseToActivity($result);
+    public function getActivity($objectId) {
+        try {
+            $parseRestClient = new parseRestClient();
+            $result = $parseRestClient->get($objectId);
+            return $this->parseToActivity($result);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
-    public function getActivities(){
+    public function getActivities() {
         $activities = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $activities = array();
-            foreach ($result->results as $activity) {
-                if ($activity) {
-                    $activities[] = $this->parseToActivity($activity);
+        try {
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $activities = array();
+                foreach ($result->results as $activity) {
+                    if ($activity) {
+                        $activities[] = $this->parseToActivity($activity);
+                    }
                 }
             }
+            return $activities;
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
-        return $activities;
     }
 
     /**
@@ -176,155 +178,59 @@ class ActivityParse {
             return false;
 
         $activity = new activity(); //
-        //String:objectId su Parse 															
-        if (isset($parseObj->objectId))
-            $activity->setObjectId($parseObj->objectId);
+        //String:objectId su Parse 	
+        try {
 
-        //BOOL:Indica se l'istanza della classe è attiva 									
-        if (isset($parseObj->active))
+            $activity->setObjectId($parseObj->objectId);								
+
             $activity->setActive($parseObj->active);
 
-        //accepted BOOL: da definire	
-        if (isset($parseObj->accepted))
-            $activity->setAccepted($parseObj->accepted);
+            $activity->setAccepted($parseObj->accepted);		
 
-        //Album (Parse Object): Istanza della classe Album associata all'activity 			
-        if (isset($parseObj->album)) {
-            $parseAlbum = new AlbumParse();
-            $parseAlbumPointer = $parseObj->album;
-            $parseAlbum->wherePointer("album", "Activity", $parseAlbumPointer->objectId);
-            $album = $parseAlbum->getAlbum();
-            $activity->setAlbum($album);
-        }
+            $activity->setAlbum(fromParsePointer($parseObj->album));		
 
-        //Comment (Parse Object): Istanza della classe Comment associata all'activity		
-        if (isset($parseObj->comment)) {
-            $parseComment = new CommentParse();
-            $parseCommentPointer = $parseObj->comment;
-            $parseComment->wherePointer("comment","Activity",$parseCommentPointer->objectId);
-            $comment = $parseComment->getComment();
-            $activity->setComment($comment);
-        }
+            $activity->setComment(fromParsePointer($parseObj->comment));											
 
-        //User:Utente che effettua l'azione 											
-        if (isset($parseObj->fromUser)) {
-            $parseUser = new userParse();
-            $parseUserPointer = $parseObj->fromUser;
-            $parseUser->wherePointer("fromUser","Activity",$parseUserPointer->objectId);
-            $fromUser = $parseUser->getUser();
-            $activity->setFromUser($fromUser);
-        }
+            $activity->setFromUser(fromParsePointer($parseObj->fromUser));           
 
-        //Event (Parse Object): Istanza della classe Event associata all'activity           
-        if (isset($parseObj->event)) {
-            $parseEvent = new EventParse();
-            $parseEventPointer = $parseObj->event;
-            $parseEvent->wherePointer("event","Activity",$parseEventPointer->objectId);
-            $event = $parseEvent->getEvent();
-            $activity->setEvent($event);
-        }
+            $activity->setEvent(fromParsePointer($parseObj->event));       
 
-        //Image (Parse Object): Istanza della classe Image associata all'activity           
-        if (isset($parseObj->image)) {
-            $parseImage = new ImageParse();
-            $parseImagePointer = $parseObj->image;
-            $parseImage->wherePointer("image","Activity",$parseImagePointer->objectId);
-            $image = $parseImage->getImage();
-            $activity->setImage($image);
-        }
+            $activity->setImage(fromParsePointer($parseObj->image));   
 
-        //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     
-        if (isset($parseObj->playlist)) {
-            $parsePlaylist = new PlaylistParse();
-            $parsePlaylistPointer = $parseObj->playlist;
-            $parsePlaylist->wherePointer("playlist","Activity",$parsePlaylistPointer->objectId);
-            $playlist = $parsePlaylist->getPlaylist();
-            $activity->setPlaylist($playlist);
-        }
+            $activity->setPlaylist(fromParsePointer($parseObj->playlist));  
 
-        //Question (Parse Object): Istanza della classe Question associata all'activity     
-        if (isset($parseObj->question)) {
-            $parseQuestion = new QuestionParse();
-            $parseQuestionPointer = $parseObj->question;
-            $parseQuestion->wherePointer("question","Activity",$parseQuestionPointer->objectId);
-            $question = $parseQuestion->getQuestion();
-            $activity->setQuestion($question);
-        }
+            $activity->setQuestion(fromParsePointer($parseObj->question));					
 
-        //BOOL:Indica se l'istanza della classe è stata letta o meno 						
-        if (isset($parseObj->read))
-            $activity->setRead($parseObj->read);
+            $activity->setRead($parseObj->read);		     
 
-        //Record (Parse Object): Istanza della classe Record associata all'activity 		     
-        if (isset($parseObj->record)) {
-            $parseRecord = new RecordParse();
-            $parseRecordPointer = $parseObj->record;
-            $parseRecord->wherePointer("record","Activity",$parseRecordPointer->objectId);
-            $record = $parseRecord->getRecord();
-            $activity->setRecord($record);
-        }
+            $activity->setRecord(fromParsePointer($parseObj->record));		
 
-        //Song (Parse Object): Istanza della classe Song associata all'activity 			
-        if (isset($parseObj->song)) {
-            $parseSong = new SongParse();
-            $parseSongPointer = $parseObj->song;
-            $parseSong->wherePointer("song","Activity",$parseSongPointer->objectId);
-            $song = $parseSong->getSong();
-            $activity->setSong($song);
-        }
+            $activity->setSong(fromParsePointer($parseObj->song));
 
-        //string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto   
-        if (isset($parseObj->stutus))
             $activity->setStatus($parseObj->status);
 
-        //User:Utente che riceve l'azione 													
-        if (isset($parseObj->toUser)) {
-            $parseUser = new userParse();
-            $toUserParse = $parseObj->toUser;
-            $parseUser->wherePointer("toUser","Activity",$toUserParse->objectId);
-            $toUser = $parseUser->getUser();
-            $activity->setToUser($toUser);
-        }
+            $activity->setToUser(fromParsePointer($parseObj->toUser));											
 
-        //string:Indica la tipologia di attività 											
-        if (isset($parseObj->type))
-            $activity->setType($parseObj->type);
+            $activity->setType($parseObj->type);		
 
-        //Status(Parse Object): Istanza della classe Status associata all'activity 			
-        if (isset($parseObj->userStatus)) {
-            $parseUserStatus = new StatusParse();
-            $parseUserStatusPointer = $parseObj->userStatus;
-            $parseUserStatus->wherePointer("userStatus","Activity",$parseUserStatusPointer->objectId);
-            $userStatus = $parseUserStatus->getStatus();
-            $activity->setUserStatus($userStatus);
-        }
+            $activity->setUserStatus(fromParsePointer($parseObj->userStatus));         
 
+            $activity->setVideo(fromParsePointer($parseObj->video));										
 
-        //Video (Parse Object):Istanza della classe Video associata all'activity            
-        if (isset($parseObj->video)) {
-            $parseVideo = new VideoParse();
-            $parseVideoPointer = $parseObj->video;
-            $parseVideo->wherePointer("video","Activity",$parseVideoPointer->objectId);
-            $video = $parseVideo->getVideo();
-            $activity->setVideo($video);
-        }
-
-        //DateTime:Data di inserimento attività 											
-        if (isset($parseObj->createdAt)) {
             $createdAt = new DateTime($parseObj->createdAt);
             $activity->setCreatedAt($createdAt);
-        }
 
-        //DateTime:Data di ultimo update attività 											
-        if (isset($parseObj->updatedAt)) {
+            //DateTime:Data di ultimo update attività 											
+
             $updatedAt = new DateTime($parseObj->updatedAt);
             $activity->setUpdatedAt($updatedAt);
-        }
 
-        //ACL:access control list, determina le politiche di accesso alla classe 			
-        if (isset($parseObj->ACL)) {
-            $ACL = null;
-            $activity->setACL($ACL);
+            //ACL:access control list, determina le politiche di accesso alla classe 			
+
+            $activity->setACL(toParseACL($parseObj->ACL));
+            
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
         return $activity;
     }
@@ -425,7 +331,6 @@ class ActivityParse {
     public function whereRelatedTo($key, $className, $objectId) {
         $this->parseQuery->whereRelatedTo($key, $className, $objectId);
     }
-
 
 }
 
