@@ -1,4 +1,5 @@
 <?php
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //    Script per le funzioni ausiliari nella gestione dei tipi di Parse
@@ -7,8 +8,8 @@
 //
 ////////////////////////////////////////////////////////////////////////////////
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../');
-	
+    define('ROOT_DIR', '../');
+
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
@@ -23,17 +24,32 @@ require_once CLASSES_DIR . 'errorParse.class.php';
  * @param type $ACL
  * @return \array|null
  */
-function fromParseACL($ACL) {
-//  Parse mi manda uno stdObj fatto così:
-//        ["ACL"]=> object(stdClass)#10 (1) { 
-//        #["*"]=> object(stdClass)#11 (2) { 
-//        #["write"]=> bool(true) 
-//        #["read"]=> bool(true) } } }
-	if ($ACL == null) {
+function fromParseACL($parseACL) {
+
+    if ($parseACL != null && count((array) $parseACL) > 0) {
+
+        $ACL = new parseACL();
+        foreach ($parseACL as $key => $value) {
+            if ($key == "*") {
+                if (isset($value->read)) {
+                    $ACL->setPublicReadAccess($parseACL->{$key}->read);
+                }
+                if (isset($value->write)) {
+                    $ACL->setPublicWriteAccess($parseACL->{$key}->write);
+                }
+            } else {
+                if (isset($value->read)) {
+                    $ACL->setReadAccessForId($key,$parseACL->{$key}->read);
+                }
+                if (isset($value->write)) {
+                    $ACL->setWriteAccessForId($key,$parseACL->{$key}->write);
+                }
+            }
+        }
+        return $ACL;
+    }
+    else
         return null;
-	} else {
-		return json_decode(json_encode($ACL), true);
-	}
 }
 
 /**
@@ -58,7 +74,9 @@ function toParseACL($ACL) {
  * @return \DateTime|null
  */
 function fromParseDate($date) {
-    if ($date != null && count($date) > 0)
+    if (is_object($date) && isset($date->__type) && $date->__type == "Date" && isset($date->iso)) {
+        return new DateTime($date->iso);
+    } else if ($date != null && count($date) > 0)
         return new DateTime($date);
     else
         return null;
@@ -76,6 +94,7 @@ function toParseDate($date) {
     else
         return null;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //          Gestione GeoPoint
@@ -88,13 +107,14 @@ function toParseDate($date) {
  * @return null
  */
 function fromParseGeoPoint($geoPoint) {
-	if ($geoPoint != null && is_object($geoPoint) && isset($geoPoint->latitude) && isset($geoPoint->longitude)) {
-		$parseGeoPointer = new parseGeoPoint($geoPoint->latitude, $geoPoint->longitude);
-		return $parseGeoPointer->location;
+    if ($geoPoint != null && is_object($geoPoint) && isset($geoPoint->latitude) && isset($geoPoint->longitude)) {
+        $parseGeoPointer = new parseGeoPoint($geoPoint->latitude, $geoPoint->longitude);
+        return $parseGeoPointer;
     } else {
-		return null;
-	}
+        return null;
+    }
 }
+
 /**
  * Restituisce un array che rappresenta un tipo GeoPoint in Parse
  * @param parseGeoPoint $geoPoint
@@ -133,6 +153,7 @@ function fromParseFile($filePointer, $mime_type = '') {
     else
         return null;
 }
+
 /**
  * Crea un array visibile da Parse come un tipo puntatore a "File"
  * preoccupandosi di uploadarlo (per file GIA' esistenti in Parse)
@@ -190,6 +211,7 @@ function toParseNewFile($pathFile, $mime_type = '') {
     else
         return null;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //          Gestione Pointer
@@ -204,16 +226,17 @@ function toParseNewFile($pathFile, $mime_type = '') {
  */
 function fromParsePointer($pointer) {
     if (is_object($pointer) &&
-		isset($pointer->__type) &&
-		$pointer->__type == "Pointer" &&
-		isset($pointer->className) &&
-		isset($pointer->objectId)) {
-		
+            isset($pointer->__type) &&
+            $pointer->__type == "Pointer" &&
+            isset($pointer->className) &&
+            isset($pointer->objectId)) {
+
         return $pointer->objectId;
     } else {
         return null;
-	}
+    }
 }
+
 /**
  * Restituisce un array che rappresenta un puntatore in Parse
  * @param type $className nome della classe a cui si punta
@@ -229,6 +252,7 @@ function toParsePointer($className, $objectId) {
     else
         return null;
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //          Gestione Relation
@@ -287,6 +311,7 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
     else
         return null;
 }
+
 /**
  * Crea un array di punatori che rappresenta una relation in Parse a partire da un array
  * di stringhe di objectId
@@ -340,4 +365,5 @@ function throwError($exception, $class, $function, $args) {
     $errorParse->saveError($error);
     return $error;
 }
+
 ?>
