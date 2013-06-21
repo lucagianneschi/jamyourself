@@ -166,10 +166,12 @@ class EventParse {
             $acl->setPublicWrite(true);
             $event->setACL($acl);
             if ($event->getObjectId() == '') {
+                is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
                 $res = $parseObject->save();
                 $event->setObjectId($res->objectId);
                 return $event;
             } else {
+                is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseFile($event->getImage());
                 $parseObject->update($event->getObjectId());
             }
         } catch (Exception $e) {
