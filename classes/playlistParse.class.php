@@ -40,31 +40,14 @@ class PlaylistParse {
         $this->parseQuery = new ParseQuery("Playlist");
     }
 
-    public function deletePlaylist($playlist) {
-        if ($playlist) {
-            $playlist->setActive(false);
+    public function deletePlaylist($objectId) {
             try {
-                //cancellazione delle immagini dell'album
-                if ($playlist->getSongs() != null && count($playlist->getSongs()) > 0) {
-                    $parseSong = new SongParse();
-                    $parseSong->whereRelatedTo("songs", "Playlist", $playlist->getObjectId());
-                    $songs = $parseSong->getSongs();
-                    if ($songs != null && count($songs) > 0) {
-                        foreach ($songs as $song) {
-                            $parseSong = new SongParse(); //necessario per resettare la query
-                            $parseSong->delete($song);
-                        }
-                    }
-                }
-
-
-                return $this->save($playlist);
-            } catch (Exception $exception) {
-                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
-            }
+            $parseObject = new parseObject('Playlist');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
-        else
-            return false;
     }
 
     public function getCount() {
@@ -130,28 +113,23 @@ class PlaylistParse {
     public function savePlaylist(Playlist $playlist) {
         try {
 
-            $parseObj = new parseObject("Playlist");
-
-            $parseObj->active = $playlist->getActive();
-            $parseObj->fromUser = toParsePointer("_User", $playlist->getFromUser());
-            $parseObj->name = $playlist->getName();
-            $parseObj->songs = toParseRelation("Song", $playlist->getSongs());
-            $parseObj->unlimited = $playlist->getUnlimited();
-            $parseObj->ACL = toParseACL($playlist->getACL());
-
-            if ($playlist->getObjectId() == null) {
-
-                $res = $parseObj->save();
+            $parseObject = new parseObject('Playlist');
+            is_null($playlist->getActive()) ? $parseObject->active = null : $parseObject->active = $playlist->getActive();
+            is_null($playlist->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $playlist->getFromUser());
+            is_null($playlist->getName()) ? $parseObject->name = null : $parseObject->name = $playlist->getName();
+            is_null($playlist->getSongs()) ? $parseObject->songs = null : $parseObject->songs = toParseRelation('Song', $playlist->getSongs());
+            is_null($playlist->getUnlimited()) ? $parseObject->unlimited = null : $parseObject->unlimited = $playlist->getUnlimited();
+            $acl = new ParseACL;
+            $acl->setPublicRead(true);
+            $acl->setPublicWrite(true);
+            $playlist->setACL($acl);
+            if ($playlist->getObjectId() == '') {
+                $res = $parseObject->save();
                 $playlist->setObjectId($res->objectId);
-                $playlist->setCreatedAt(fromParseDate($ret->createdAt));
-                $playlist->setUpdatedAt(fromParseDate($ret->createdAt));
+                return $playlist;
             } else {
-
-                $parseObj->update($playlist->getObjectId());
-                $playlist->setUpdatedAt(fromParseDate($ret->updatedAt));
+                $parseObject->update($playlist->getObjectId());
             }
-
-            return $playlist;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
