@@ -109,15 +109,12 @@ class AlbumParse {
                     $images = $parseImage->getImages();
                     if ($images != null && count($images) > 0) {
                         foreach ($images as $image) {
+                            $parseImage = new ImageParse(); //necessario per resettare la query
                             $parseImage->delete($image);
                         }
                     }
                 }
-
-                if ($this->save($album))
-                    return true;
-                else
-                    return false;
+                return $this->save($album);
             } catch (Exception $exception) {
                 return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
@@ -142,9 +139,10 @@ class AlbumParse {
             $result = $this->parseQuery->find();
             if (is_array($result->results) && count($result->results) > 0) {
                 $albums = array();
-                foreach ($result->results as $album) {
-                    if ($album) {
-                        $albums[] = $this->parseToAlbum($album);
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $album = $this->parseToAlbum($obj);
+                        $albums[$album->getObjectId()] = $album;
                     }
                 }
             }

@@ -20,7 +20,7 @@
  */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -38,7 +38,6 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 
-
 class ImageParse {
 
     private $parseQuery;
@@ -51,63 +50,47 @@ class ImageParse {
 
         //recupero le info dell'oggetto
         $parse = new parseObject("Image");
-        
-        $parse->active = $image->getActive();
-        
-        $parse->album = toParsePointer($image->getAlbum());
 
-        $parse->commentators = toParseRelation($image->getCommentator());
-
-        $parse->comments = toParseRelation($image->getComments());
-
-        $parse->counter = $image->getCounter();
-
-        $parse->description = $image->getDescription();
-
-        $parse->featuring = toParseRelation($image->getFeaturing());
-
-//      $parse->file = $image->getFile();
-
-        $parse->filePath = $image->getFilePath();
-
-        $parse->fromUser = toParsePointer($image->getFromUser());
-
-        $parse->location = toParseGeoPoint($image->getLocation());
-
-        $parse->loveCounter = $image->getLoveCounter();
-
-        $parse->lovers = toParseRelation($image->getLovers());
-
-        if($image->getTags()!=null && count($image->getTags())>0)$parse->tags = $image->getTags();
-        else $parse->tags = null;
-
-        $parse->ACL = toParseACL($image->getACL());
+        $parseObj->active = $image->getActive();
+        $parseObj->album = toParsePointer("Album", $image->getAlbum());
+        $parseObj->commentators = toParseRelation("_User", $image->getCommentators());
+        $parseObj->comments = toParseRelation("Comment", $image->getComments());
+        $parseObj->counter = $image->getCounter();
+        $parseObj->description = $image->getDescription();
+        $parseObj->featuring = toParseRelation("_User", $image->getFeaturing());
+        $parseObj->file = toParseFile($image->getFile());
+        $parseObj->filePath = $image->getFilePath();
+        $parseObj->fromUser = toParsePointer("_User", $image->getFromUser());
+        $parseObj->location = toParseGeoPoint($image->getLocation());
+        $parseObj->loveCounter = $image->getLoveCounter();
+        $parseObj->lovers = toParseRelation("_User", $image->getLovers());
+        $parseObj->tags = $image->getTags();
+        $parseObj->ACL = toParseACL($image->getACL());
 
         if (( $image->getObjectId()) != null) {
+
             //update
             try {
                 //update
                 $result = $parse->update($image->getObjectId());
 
                 //aggiorno l'update
-                $image->setUpdatedAt(new DateTime($result->updatedAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (ParseLibraryException $e) {
-
-                return false;
+                $image->setUpdatedAt(fromParseDate($result->updatedAt));
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         } else {
 
             try {
-                //salvo
+                //salvo                
                 $result = $parse->save();
 
                 //aggiorno i dati per la creazione
                 $image->setObjectId($result->objectId);
-                $image->setCreatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
-                $image->setUpdatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (ParseLibraryException $e) {
-
-                return false;
+                $image->setCreatedAt(fromParseDate($result->createdAt));
+                $image->setUpdatedAt(fromParseDate($result->createdAt));
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         }
 
@@ -117,95 +100,64 @@ class ImageParse {
 
     function delete(Image $image) {
         $image->setActive(false);
-
-        if ($this->save($image))
-            return true;
-        else
-            return false;
+        return $this->save($image);
     }
 
     public function getImage($objectId) {
-        $result = (new parseRestClient())->get($objectId);
-        return $this->parseToActivity($result);
+        try {
+            $parseRestClient = new parseRestClient();
+            $result = $parseRestClient->get($objectId);
+            return $this->parseToImage($result);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     public function getImages() {
         $images = null;
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $images = array();
-            foreach ($result->results as $image) {
-                if ($image) {
-                    //recupero l'utente
-                    $images[] = $this->parseToImage($image);
+        try {
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $images = array();
+                foreach ($result->results as $image) {
+                    if ($image) {
+                        $images[] = $this->parseToImage($image);
+                    }
                 }
             }
+            return $images;
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
-        return $images;
     }
 
     function parseToImage(stdClass $parseObj) {
+        try {
+            $image = new Image();
 
-        if ($parseObj == null)
-            return null;
-
-        $image = new Image();
-
-        if (isset($parseObj->objectId))
             $image->setObjectId($parseObj->objectId);
-        else
-            return null;
-
-        if (isset($parseObj->active))
             $image->setActive($parseObj->active);
-        if (isset($parseObj->album))
-            $image->setAlbum((new AlbumParse)->getAlbum($parseObj->album->objectId));
-
-        if (isset($parseObj->commentators)) {
-            $parse = new UserParse();
-            $parse->whereRelatedTo("commentators", "Image", $parseObj->objectId);
-            $image->setCommentator($parse->getUsers());
-        }
-
-        if (isset($parseObj->comments)) {
-            $parse = new CommentParse();
-            $parse->whereRelatedTo("comments", "Image", $parseObj->objectId);
-            $image->setComments($parse->getComments());
-        }
-
-        if (isset($parseObj->counter))
+            $image->setAlbum(fromParsePointer($parseObj->album));
+            $image->setCommentators(fromParseRelation("Image", "commentators", $parseObj->objectId, "_User"));
+            $image->setComments(fromParseRelation("Image", "comments", $parseObj->objectId, "Comment"));
             $image->setCounter($parseObj->counter);
-        if (isset($parseObj->description))
             $image->setDescription($parseObj->description);
-        if (isset($parseObj->featuring)) {
-            $parse = new UserParse();
-            $parse->whereRelatedTo("featuring", "Image", $parseObj->objectId);
-            $image->setFeaturing($parse->getUsers());
-        }
-//        if (isset($parseObj->file)) $image->setFile ();
-        if (isset($parseObj->filePath))
+            $image->setFeaturing(fromParseRelation("Image", "featuring", $parseObj->objectId, "_User"));
+            $image->setFile(fromParseFile($parseObj->file));
             $image->setFilePath($parseObj->filePath);
-        if (isset($parseObj->fromUser)) {
-            $parse = new UserParse();
-            $parse->whereRelatedTo("fromUser", "Image", $parseObj->objectId);
-            $image->setFromUser($parse->getUsers());
-        }
-        if (isset($parseObj->location)) {
-            $parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
-            $image->setLocation($parseGeoPoint->location);
-        }
-        if (isset($parseObj->loveCounter))
+            $image->setFromUser(fromParsePointer($parseObj->fromUser));
+            $image->setLocation(fromParseGeoPoint($parseObj->location));
             $image->setLoveCounter($parseObj->loveCounter);
-        if (isset($parseObj->lovers))
-            $image->setLovers($parseObj->lovers);
-        if (isset($parseObj->tags) && count($parseObj->tags) > 0)
+            $image->setLovers(fromParseRelation("Image", "lovers", $parseObj->objectId, "_User"));
             $image->setTags($parseObj->tags);
-        if (isset($parseObj->createdAt))
-            $image->setCreatedAt(new DateTime($parseObj->createdAt));
-        if (isset($parseObj->updatedAt))
-            $image->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        if (isset($parseObj->ACL))
-            $image->setACL($parseObj->ACL);
+            $image->setCreatedAt(fromParseDate($parseObj->createdAt));
+            $image->setUpdatedAt(fromParseDate($parseObj->updatedAt));
+            $image->setACL(fromParseACL($parseObj->ACL));
+
+            return $image;
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     public function getCount() {

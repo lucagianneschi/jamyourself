@@ -116,7 +116,7 @@ class VideoParse {
             $video->setURL($parseObj->URL);
             $video->setCreatedAt(new DateTime($parseObj->createdAt));
             $video->setUpdatedAt(new DateTime($parseObj->updatedAt));
-            $video->setACL(fromParseACL($res->ACL));
+            $video->setACL(fromParseACL($parseObj->ACL));
             return $video;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);

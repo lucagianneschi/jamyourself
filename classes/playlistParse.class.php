@@ -41,7 +41,7 @@ class PlaylistParse {
     }
 
     public function deletePlaylist($objectId) {
-        try {
+            try {
             $parseObject = new parseObject('Playlist');
             $parseObject->active = false;
             $parseObject->update($objectId);
@@ -98,12 +98,12 @@ class PlaylistParse {
             $playlist->setActive($parseObj->active);
             $playlist->setFromUser(fromParsePointer($parseObj->fromUser));
             $playlist->setName($parseObj->name);
-            $songs = fromParseRelation('Playlist','songs', $parseObj->objectId, 'Song');
-            $playlist->setSongs($songs);
+            $playlist->setSongs(fromParseRelation("Playlist", "songs", $parseObj->objectId, "Song"));
             $playlist->setUnlimited($parseObj->unlimited);
-            $playlist->setCreatedAt(new DateTime($parseObj->createdAt));
-            $playlist->setUpdatedAt(new DateTime($parseObj->updatedAt));
+            $playlist->setCreatedAt(fromParseDate($parseObj->createdA));
+            $playlist->setUpdatedAt(fromParseDate($parseObj->updatedAt));
             $playlist->setACL(fromParseACL($parseObj->ACL));
+
             return $playlist;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
