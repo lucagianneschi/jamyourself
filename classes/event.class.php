@@ -293,7 +293,7 @@ class Event {
 
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        if ($this->getActive() === null) {
+        if (is_null($this->getActive())) {
             $string .= '[active] => NULL<br />';
         } else {
             $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
