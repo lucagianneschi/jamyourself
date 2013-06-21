@@ -21,7 +21,7 @@ $cmt->setCounter(10);
 //$cmt->setFromUser(User $fromUser);
 //$cmt->setImage(Image $image);
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
-$cmt->setLocation(toParseGeoPoint($parseGeoPoint));
+$cmt->setLocation($parseGeoPoint);
 $cmt->setLoveCounter(100);
 $cmt->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $cmt->setOpinions(array('opinions1', 'opinions2'));
@@ -36,8 +36,39 @@ $cmt->setType('Il tipo del commento');
 $cmt->setVote(1000);
 $parseACL = new parseACL();
 $parseACL->setPublicWriteAccess(true);
-$cmt->setACL(toParseACL($parseACL));
+$cmt->setACL($parseACL);
 
+/*
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />TEST<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(true);
+echo '<br />STAMPO IL parseACL<br />';
+var_dump($parseACL);
+
+echo '<br />APPLICO IL toParseACL<br />';
+$toParseACL = toParseACL($parseACL);
+var_dump($toParseACL);
+
+echo '<br />APPLICO IL fromParseACL<br />';
+$fromParseACL = fromParseACL($toParseACL);
+var_dump($fromParseACL);
+/*
+$parseGeoPoint = new parseGeoPoint(12.35, 12.34);echo '<br />STAMPO IL parseACL<br />';
+var_dump($parseGeoPoint);
+
+echo '<br />APPLICO IL toParseGeoPoint<br />';
+$toParseGeoPoint = toParseGeoPoint($parseGeoPoint);
+var_dump($toParseGeoPoint);
+
+echo '<br />APPLICO IL fromParseGeoPoint<br />';
+$fromParseGeoPoint = fromParseGeoPoint($toParseGeoPoint);
+var_dump($fromParseGeoPoint);
+
+echo '<br />TEST<br />';
+*/
 echo '<br />-------------------------------------------------------------------------------<br />';
 
 echo '<br />STAMPO IL COMMENTO APPENA CREATO<br />';
