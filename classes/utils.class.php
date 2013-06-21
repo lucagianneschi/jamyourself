@@ -182,7 +182,7 @@ function toParseFile($parseFile) {
  * oppure "pdf/application" oppure "mp3/audio" oppure "img/jpg", ecc...
  * @return null
  */
-function toParseNewFile($pathFile, $mime_type = '') {
+function uploadFile($pathFile, $mime_type = '') {
 
     if ($pathFile != null && file_exists($pathFile) && $mime_type != null) {
         try {
