@@ -24,21 +24,6 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
-require_once CLASSES_DIR . 'song.class.php';
-require_once CLASSES_DIR . 'songParse.class.php';
-
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
-
-require_once CLASSES_DIR . 'image.class.php';
-require_once CLASSES_DIR . 'imageParse.class.php';
-
-require_once CLASSES_DIR . 'event.class.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
-
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
-
 class StatusParse {
 
     private $parseQuery;
