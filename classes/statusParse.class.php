@@ -104,9 +104,9 @@ class StatusParse {
             $status = new Status();
             $status->setObjectId($parseObj->objectId);
             $status->setActive($parseObj->active);
-            $commentators = fromParseRelation('Status', 'commentators', $parseObj->objectId, '_User');
+            $commentators = fromParseRelation('Status','commentators', $parseObj->objectId, '_User');
             $status->setCommentators($commentators);
-            $comments = fromParseRelation('Status', 'comments', $parseObj->objectId, 'Comment');
+            $comments = fromParseRelation('Status','comments', $parseObj->objectId, 'Comment');
             $status->setComments($comments);
             $status->setCounter($parseObj->counter);
             $event = fromParsePointer($parseObj->event);
@@ -118,12 +118,12 @@ class StatusParse {
             $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
             $status->setLocation($parseGeoPoint);
             $status->setLoveCounter($parseObj->loveCounter);
-            $lovers = fromParseRelation('Status', 'lovers', $parseObj->objectId, '_User');
+            $lovers = fromParseRelation('Status','lovers', $parseObj->objectId, '_User');
             $status->setLovers($lovers);
             $song = fromParsePointer($parseObj->song);
             $status->setSong($song);
             $status->setText($parseObj->text);
-            $taggedUsers = fromParseRelation('Status', 'taggedUsers', $parseObj->objectId, '_User');
+            $taggedUsers = fromParseRelation('Status','taggedUsers', $parseObj->objectId, '_User');
             $status->setLovers($taggedUsers);
             $status->setCreatedAt(new DateTime($parseObj->createdAt));
             $status->setUpdatedAt(new DateTime($parseObj->updatedAt));
@@ -139,8 +139,8 @@ class StatusParse {
             $parseObj = new parseObject('Status');
 
             is_null($status->getActive()) ? $parseObj->active = null : $parseObj->active = $status->getActive();
-            is_null($status->getComment()) ? $parseObj->comment = null : $parseObj->comment = toParsePointer('Comment', $status->getComment());
             is_null($status->getCommentators()) ? $parseObj->commentators = null : $parseObj->commentators = toParseRelation('_User', $status->getCommentators());
+            is_null($status->getComments()) ? $parseObj->comments = null : $parseObj->comments = toParseRelation('Comment', $status->getCommentas());
             is_null($status->getCounter()) ? $parseObj->counter = null : $parseObj->counter = $status->getCounter();
             is_null($status->getEvent()) ? $parseObj->event = null : $parseObj->event = toParsePointer('Event', $status->getEvent());
             is_null($status->getFromUser()) ? $parseObj->fromUser = null : $parseObj->fromUser = toParsePointer('_User', $status->getFromUser());
