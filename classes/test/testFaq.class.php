@@ -52,7 +52,7 @@ $resSave = $faqParse->saveFaq($faq);
 if (get_class($resSave)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Comment SAVED con objectId => ' . $resSave . '<br />';
+	echo '<br />Faq SAVED con objectId => ' . $resSave . '<br />';
 }
 
 echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
@@ -79,7 +79,7 @@ $faqParse2 = new FaqParse();
 $faqParse2->whereExists('objectId');
 $faqParse2->orderByDescending('createdAt');
 $faqParse2->setLimit(5);
-$resGets = $faqParse2->getComments();
+$resGets = $faqParse2->getFaqs();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -98,7 +98,7 @@ $faqParse3 = new FaqParse();
 $faq1 = new Faq();
 $faq1->setObjectId('AOPyno3s8m');
 $faq1->setQuestion('Sono una fa aggiornata');
-$resUpdate = $faqParse3->savefaq($faq1);
+$resUpdate = $faqParse3->saveFaqaq($faq1);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
