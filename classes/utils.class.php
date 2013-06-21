@@ -175,8 +175,8 @@ function toParseFile($parseFile) {
 }
 
 /**
- * Crea un array visibile da Parse come un tipo puntatore a "File"
- * preoccupandosi di uploadarlo (per file NON ancora esistenti in Parse)
+ * Crea un oggetto parseFile  che dovrà essere poi trasformato in un
+ * array "file" par parse preoccupandosi di uploadarlo 
  * @param type $pathFile il path del file
  * @param type $mime_type il tipo MIME del file, es: "txt" 
  * oppure "pdf/application" oppure "mp3/audio" oppure "img/jpg", ecc...
@@ -195,12 +195,11 @@ function uploadFile($pathFile, $mime_type = '') {
             //tento l'upload su parse
             $result = $pFile->save($path_parts['filename']);
             //
-            if ($result && isset($result->name)) {
+            if ($result!= null && isset($result->name)) {
                 //ora recupero il nome del file e creo un puntatore al file col dataType
-                $parseRestClient = new parseRestClient();
-                $parseFile = $parseRestClient->dataType("file", array($result->name));
+                $pFile->_fileName = $result->name;                
                 //restituisco...
-                return $parseFile;
+                return $pFile;
             }
             else
                 return null;
