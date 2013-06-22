@@ -73,44 +73,25 @@ class ActivityParse {
      * @param Activity $activity
      */
     public function saveActivity(Activity $activity) {
-
         //creo un'istanza dell'oggetto della libreria ParseLib
         $parseObj = new parseObject("Activity");
-
         $parseObj->accepted = $activity->getAccepted();
-
         $parseObj->active = $activity->getActive();
-
         $parseObj->album = toParsePointer("Album", $activity->getAlbum());
-
         $parseObj->comment = toParsePointer("Comment", $activity->getComment());
-
         $parseObj->event = toParsePointer("Event", $activity->getEvent());
-
         $parseObj->fromUser = toParsePointer("_User", $activity->getFromUser());
-
         $parseObj->image = toParsePointer("Image", $activity->getImage());
-
         $parseObj->playlist = toParsePointer("Playlist", $activity->getPlaylist());
-
         $parseObj->question = toParsePointer("Question", $activity->getQuestion());
-
         $parseObj->read = $activity->getRead();
-
         $parseObj->record = toParsePointer("Record", $activity->getRecord());
-
         $parseObj->song = toParsePointer("Song", $activity->getSong());
-
         $parseObj->status = $activity->getStatus();
-
         $parseObj->toUser = toParsePointer("_User", $activity->getToUser());
-
         $parseObj->type = $activity->getType();
-
         $parseObj->userStatus = toParsePointer("_User", $activity->getUserStatus());
-
         $parseObj->video = toParsePointer("Video", $activity->getVideo());
-
         $parseObj->ACL = toParseACL($activity->getACL());
 
         //caso update
@@ -136,7 +117,7 @@ class ActivityParse {
         return $activity;
     }
 
-    public function deleteActivity($objectId) {
+	public function deleteActivity($objectId) {
         try {
             $parseObject = new parseObject('Activity');
             $parseObject->active = false;
