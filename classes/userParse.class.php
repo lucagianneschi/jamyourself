@@ -82,6 +82,7 @@ class UserParse {
 	# FATTA #
 	#########
     public function parseToUser ($res) {
+        
 		if ($res->type == 'VENUE') {
 			$user = new Venue();
 			//properties Venue
@@ -114,9 +115,8 @@ class UserParse {
 		//properties User
 		$user->setObjectId($res->objectId);
 		$user->setUsername($res->username);
-		$user->setPassword($res->password);
-		$user->setAuthData($res->authData);
-		$user->setEmailVerified($res->emailVerified);
+		//$user->setAuthData($res->authData);
+		//$user->setEmailVerified($res->emailVerified);
 		$user->setActive($res->active);
 		$user->setAlbums(fromParseRelation('_User', 'albums', $res->objectId, 'Album'));
 		$user->setBackground($res->background);
