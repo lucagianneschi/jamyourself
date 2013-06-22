@@ -180,17 +180,17 @@ class Event {
     }
 
     //relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento
-    public function setAttendee(array $attendee) {
+    public function setAttendee($attendee) {
         $this->attendee = $attendee;
     }
 
     //relation: Array che contiene puntatori ad utenti che hanno effettuato commento
-    public function setCommentators(array $commentators) {
+    public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
     //relation: Array che contiene puntatori a Comment
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -205,17 +205,17 @@ class Event {
     }
 
     //DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento)
-    public function setEventDate(DateTime $eventDate) {
+    public function setEventDate($eventDate) {
         $this->eventDate = $eventDate;
     }
 
     //relation: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano...)
-    public function setFeaturing(array $featuring) {
+    public function setFeaturing($featuring) {
         $this->featuring = $featuring;
     }
 
     //User: User che crea l’evento
-    public function setFromUser(User $fromUser) {
+    public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
@@ -230,7 +230,7 @@ class Event {
     }
 
     //relation: Array che contiene puntatori ad utenti invitati all'evento
-    public function setInvited(array $invited) {
+    public function setInvited($invited) {
         $this->invited = $invited;
     }
 
@@ -250,17 +250,17 @@ class Event {
     }
 
     //relation: Array che contiene puntatori ad utenti che hanno compiuto azione love
-    public function setLovers(array $lovers) {
+    public function setLovers( $lovers) {
         $this->lovers = $lovers;
     }
 
     //relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento
-    public function setRefused(array $refused) {
+    public function setRefused($refused) {
         $this->refused = $refused;
     }
 
     //array: Categorizzazione dell’evento
-    public function setTags(array $tags) {
+    public function setTags($tags) {
         $this->tags = $tags;
     }
 
@@ -275,12 +275,12 @@ class Event {
     }
 
     //DataTime: data di registrazione dell'evento
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
     //DataTime: data di ultimo update dell'evento
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
@@ -293,7 +293,7 @@ class Event {
 
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        if ($this->getActive() === null) {
+        if (is_null($this->getActive())) {
             $string .= '[active] => NULL<br />';
         } else {
             $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
@@ -342,12 +342,7 @@ class Event {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[featuring] => NULL<br />';
         }
-        $fromUser = $this->getFromUser();
-        if ($fromUser != null) {
-            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
-        } else {
-            $string .= '[fromUser] => NULL<br />';
-        }
+        $string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
         $string .= '[image] => ' . $this->getImage() . '<br />';
         //$string .= '[imageFile] => ' . $this->getImageFile() . '<br />';
         if ($this->getInvited() != null && count($this->getInvited() > 0)) {

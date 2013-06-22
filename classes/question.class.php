@@ -109,11 +109,11 @@ class Question {
         $this->text = $value;
     }
 
-    public function setCreatedAt(DateTime $value) {
+    public function setCreatedAt($value) {
         $this->createdAt = $value;
     }
 
-    public function setUpdatedAt(DateTime $value) {
+    public function setUpdatedAt($value) {
         return $this->updatedAt = $value;
     }
 

@@ -21,11 +21,9 @@
 
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
-
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'error.class.php';
-require_once CLASSES_DIR . 'errorParse.class.php';
+require_once CLASSES_DIR . 'utils.class.php';
 
 class FaqParse {
 
@@ -46,17 +44,7 @@ class FaqParse {
             $faq = $this->parseToFaq($res);
             return $faq;
         } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
@@ -70,32 +58,8 @@ class FaqParse {
             }
             return $faqs;
         } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
-    }
-
-    private function isNullPointer($pointer) {
-        $className = $pointer['className'];
-        $objectId = $pointer['objectId'];
-        $isNull = true;
-
-        if ($className == '' || $objectId == '') {
-            $isNull = true;
-        } else {
-            $isNull = false;
-        }
-
-        return $isNull;
     }
 
     public function orderBy($field) {
@@ -132,71 +96,44 @@ class FaqParse {
      */
 
     function parseToFaq(stdClass $parseObj) {
-
-        $faq = new Faq();
-
-        if (isset($parseObj->objectId))
+        try {
+            $faq = new Faq();
             $faq->setObjectId($parseObj->objectId);
-        if (isset($parseObj->answer))
             $faq->setAnswer($parseObj->answer);
-        if (isset($parseObj->area))
             $faq->setArea($parseObj->area);
-        if (isset($parseObj->position))
             $faq->setPosition($parseObj->position);
-        if (isset($parseObj->question))
             $faq->setQuestion($parseObj->question);
-        if (isset($parseObj->tags))
             $faq->setTags($parseObj->tags);
-        if (isset($parseObj->createdAt))
             $faq->setCreatedAt(new DateTime($parseObj->createdAt));
-        if (isset($parseObj->updatedAt))
             $faq->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        $acl = new parseACL();
-        $acl->setPublicReadAccess(true);
-        $acl->setPublicWriteAccess(true);
-        $faq->setACL($acl);
-        return $faq;
+            $faq->setACL(toParseACL($parseObj->ACL));
+            return $faq;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        }
     }
 
-    public function saveFaq($faq) {
+    public function saveFaq(Faq $faq) {
         try {
             $parseObject = new parseObject('FAQ');
+            is_null($faq->getAnswer()) ? $parseObject->answer = null : $parseObject->answer = $faq->getAnswer();
+            is_null($faq->getArea()) ? $parseObject->area = null : $parseObject->area = $faq->getArea();
+            is_null($faq->getPosition()) ? $parseObject->position = null : $parseObject->position = $faq->getPosition();
+            is_null($faq->getQuestion()) ? $parseObject->question = null : $parseObject->question = $faq->getQuestion();
+            is_null($faq->getTags()) ? $parseObject->tags = null : $parseObject->tags = $faq->getTags();
+            $acl = new ParseACL;
+            $acl->setPublicRead(true);
+            $acl->setPublicWrite(true);
+            $faq->setACL($acl);
             if ($faq->getObjectId() == '') {
-                $faq->getAnswer() == null ? $parseObject->answer = null : $parseObject->answer = $faq->getAnswer();
-                $faq->getArea() == null ? $parseObject->area = null : $parseObject->area = $faq->getArea();
-                $faq->getPosition() == null ? $parseObject->position = null : $parseObject->position = $faq->getPosition();
-                $faq->getQuestion() == null ? $parseObject->question = null : $parseObject->question = $faq->getQuestion();
-                $faq->getTags() == null ? $parseObject->tags = null : $parseObject->tags = $faq->getTags();
-                $faq->getACL() == null ? $parseObject->ACL = null : $parseObject->ACL = $faq->getACL()->acl;
                 $res = $parseObject->save();
-                return $res->objectId;
+                $faq->setObjectId($res->objectId);
+                return $faq;
             } else {
-                if ($faq->getAnswer() != null)
-                    $parseObject->answer = $faq->getAnswer();
-                if ($faq->getArea() != null)
-                    $parseObject->answer = $faq->getArea();
-                if ($faq->getPosition() != null)
-                    $parseObject->answer = $faq->getPosition();
-                if ($faq->getQuestion() != null)
-                    $parseObject->question = $faq->getQuestion();
-                if ($faq->getTags() != null)
-                    $parseObject->tags = $faq->getTags();
-                if ($faq->getACL() != null)
-                    $parseObject->ACL = $faq->getACL()->acl;
                 $parseObject->update($faq->getObjectId());
             }
         } catch (Exception $e) {
-            $error = new error();
-            $error->setErrorClass(__CLASS__);
-            $error->setErrorCode($e->getCode());
-            $error->setErrorMessage($e->getMessage());
-            $error->setErrorFunction(__FUNCTION__);
-            $error->setErrorFunctionParameter(func_get_args());
-
-            $errorParse = new errorParse();
-            $errorParse->saveError($error);
-
-            return $error;
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 

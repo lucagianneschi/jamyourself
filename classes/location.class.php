@@ -90,11 +90,11 @@ class Location {
         $this->locId= $locId;
     }
 
-	public function setCreatedAt(DateTime $createdAt) {
+	public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt( $updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 

@@ -15,47 +15,29 @@
 * \todo modificare require_once
 *
 */
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../');
+	
 ini_set('display_errors', '1');
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/script/wp_daniele/root/config.php';
+require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'video.class.php';
-require_once CLASSES_DIR . 'videoParse.class.php';
+require_once CLASSES_DIR . 'comment.class.php';
+require_once CLASSES_DIR . 'commentParse.class.php';
+require_once CLASSES_DIR . 'utils.class.php';
 
 $video = new Video();
 $video->setObjectId('aAbBcCdD');
 $video->setActive(true);
 $video->setAuthor('Autore del video');
-$commentators = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
-	)
-);
-$video->setCommentators($commentators);
-
-$comments = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "Event", "objectId" => "2gMM3NmUYY"),
-		array("__type" => "Pointer", "className" => "Event", "objectId" => "5zw3I5d9Od")
-	)
-);
-$video->setComments($comments);
-$video->setCounter(0);
+$video->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$video->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
+$video->setCounter(100);
 $video->setDescription('Descrizione del video');
 $video->setDuration(120);
-//$video->setFromUser(User $fromUser);
+$video->setFromUser('GuUAj83MGH');
 $video->setLoveCounter(100);
-$lovers =  array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
-	)
-);
-$video->setLovers($lovers);
+$video->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $video->setTags(array('tag1', 'tag2'));
 $video->setThumbnail('indirizzo del thumbnail');
 $video->setTitle('titolo del video');
@@ -65,8 +47,7 @@ $video->setUpdatedAt($dateTime);
 $acl = new parseACL();
 $acl->setPublicReadAccess(true);
 $acl->setPublicWriteAccess(true);
-$video->setACL($acl);
-
+$video->setACL(toParseACL($acl));
 echo 'STAMPO IL VIDEO APPENA CREATO  <br>';
 echo $video;
 

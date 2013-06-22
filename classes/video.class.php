@@ -158,12 +158,12 @@ class Video {
     }
 
     //relation: array di User che hanno commentators 
-    public function setCommentators(array $commentators) {
+    public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
     //relation: array di Comment 
-    public function setComments(array $comments) {
+    public function setComments($comments) {
         $this->comments = $comments;
     }
 
@@ -183,7 +183,7 @@ class Video {
     }
 
     //Relation (with Parse User): segnala presenza altri utenti			
-    public function setFeaturing(array $featuring) {
+    public function setFeaturing($featuring) {
         $this->featuring = $featuring;
     }
 
@@ -193,7 +193,7 @@ class Video {
     }
 
     //relation: array di puntatori ad User che hanno effettuato azioni love  
-    public function setLovers(array $lovers) {
+    public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
@@ -203,7 +203,7 @@ class Video {
     }
 
     //array: stringhe per la categorizzazione del video 	
-    public function setTags(array $tags) {
+    public function setTags($tags) {
         $this->tags = $tags;
     }
 
@@ -223,12 +223,12 @@ class Video {
     }
 
     //DataTime: data di creazione del video						
-    public function setCreatedAt(DateTime $createdAt) {
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
     //DataTime: data di update del video						
-    public function setUpdatedAt(DateTime $updatedAt) {
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
@@ -240,7 +240,7 @@ class Video {
     public function __toString() {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        if ($this->getActive() === null) {
+        if (is_null($this->getActive())) {
             $string .= '[active] => NULL<br />';
         } else {
             $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
@@ -276,11 +276,7 @@ class Video {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[featuring] => NULL<br />';
 		}
-        if ($this->getFromUser() != null) {
-			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
-		} else {
-			$string .= '[fromUser] => NULL<br />';
-		}
+        $string.="[fromUser] => " . $this->getFromUser() . "<br />";
         $string.="[loveCounter] => " . $this->getLoveCounter() . "<br />";
         if (count($this->getLovers()) != 0) {
 			foreach ($this->getLovers() as $lovers) {

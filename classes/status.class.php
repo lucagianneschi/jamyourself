@@ -40,100 +40,10 @@ class Status {
     private $updatedAt;     //DataTime: data di update dello status						
     private $ACL;      //Access Control List										
 
+ 
     //public function __construct(){}
-    //FUNZIONI SET	
-    //string: object ID Parse 
-
-    public function setObjectId($objectId) {
-        $this->objectId = $objectId;
-    }
-
-    //BOOL: indica se la classe è attiva o meno
-    public function setActive($active) {
-        $this->active = $active;
-    }
-
-    //relation: array di puntatori a Parse Users
-    public function setCommentators(array $commentators) {
-        $this->commentators = $commentators;
-    }
-
-    //relation: array di puntatori a Parse Comment
-    public function setComments(array $comments) {
-        $this->comments = $comments;
-    }
-
-    //number: contatore che serve per gradimento dello status
-    public function setCounter($counter) {
-        $this->counter = $counter;
-    }
-
-    //Parse Object Event: evento associato allo status
-    public function setEvent($event) {
-        $this->events = $event;
-    }
-
-    //Parse User: utente che pubblica lo status
-    public function setFromUser($fromUser) {
-        $this->fromUser = $fromUser;
-    }
-
-    //Parse Object Image: image associata allo status
-    public function setImage($image) {
-        $this->image = $image;
-    }
-
-    ////Parse Object Image: image associata allo status
-    public function setImageFile($imageFile) {
-        $this->image = $imageFile;
-    }
-
-    //GeoPoint: lat e long per localizzazione dello status (inutilizzato)
-    public function setLocation($location) {
-        $this->location = $location;
-    }
-
-    //number: counter per tenere conto delle sole azioni di love
-    public function setLoveCounter($loveCounter) {
-        $this->loveCounter = $loveCounter;
-    }
-
-    //relation: array di puntatori a Parse Users
-    public function setLovers(array $lovers) {
-        $this->lovers = $lovers;
-    }
-
-    //Parse Object Song: song associata allo status
-    public function setSong($song) {
-        $this->song = $song;
-    }
-
-    //relation: array di puntatori a Parse Users
-    public function setTaggedUsers(array $taggedUsers) {
-        $this->taggedUsers = $taggedUsers;
-    }
-
-    //string: testo inserito dall'utente per il proprio status
-    public function setText($text) {
-        $this->text = $text;
-    }
-
-    //DataTime: data di creazione dello status
-    public function setCreatedAt(DateTime $createdAt) {
-        $this->createdAt = $createdAt;
-    }
-
-    //DataTime: data di update dello status	
-    public function setUpdatedAt(DateTime $updatedAt) {
-        $this->updatedAt = $updatedAt;
-    }
-
-    //Access Control List
-    public function setACL($ACL) {
-        $this->ACL = $ACL;
-    }
-
-    //FUNZIONI GET
+ 
+//FUNZIONI GET
     //string: object ID Parse 
     public function getObjectId() {
         return $this->objectId;
@@ -223,12 +133,103 @@ class Status {
     public function getACL() {
         return $this->ACL;
     }
+    //FUNZIONI SET	
+    //string: object ID Parse 
+	
+    public function setObjectId($objectId) {
+        $this->objectId = $objectId;
+    }
+
+    //BOOL: indica se la classe è attiva o meno
+    public function setActive($active) {
+        $this->active = $active;
+    }
+
+    //relation: array di puntatori a Parse Users
+    public function setCommentators($commentators) {
+        $this->commentators = $commentators;
+    }
+
+    //relation: array di puntatori a Parse Comment
+    public function setComments($comments) {
+        $this->comments = $comments;
+    }
+
+    //number: contatore che serve per gradimento dello status
+    public function setCounter($counter) {
+        $this->counter = $counter;
+    }
+
+    //Parse Object Event: evento associato allo status
+    public function setEvent($event) {
+        $this->events = $event;
+    }
+
+    //Parse User: utente che pubblica lo status
+    public function setFromUser($fromUser) {
+        $this->fromUser = $fromUser;
+    }
+
+    //Parse Object Image: image associata allo status
+    public function setImage($image) {
+        $this->image = $image;
+    }
+
+    ////Parse Object Image: image associata allo status
+    public function setImageFile($imageFile) {
+        $this->image = $imageFile;
+    }
+
+    //GeoPoint: lat e long per localizzazione dello status (inutilizzato)
+    public function setLocation($location) {
+        $this->location = $location;
+    }
+
+    //number: counter per tenere conto delle sole azioni di love
+    public function setLoveCounter($loveCounter) {
+        $this->loveCounter = $loveCounter;
+    }
+
+    //relation: array di puntatori a Parse Users
+    public function setLovers($lovers) {
+        $this->lovers = $lovers;
+    }
+
+    //Parse Object Song: song associata allo status
+    public function setSong($song) {
+        $this->song = $song;
+    }
+
+    //relation: array di puntatori a Parse Users
+    public function setTaggedUsers($taggedUsers) {
+        $this->taggedUsers = $taggedUsers;
+    }
+
+    //string: testo inserito dall'utente per il proprio status
+    public function setText($text) {
+        $this->text = $text;
+    }
+
+    //DataTime: data di creazione dello status
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
+    }
+
+    //DataTime: data di update dello status	
+    public function setUpdatedAt($updatedAt) {
+        $this->updatedAt = $updatedAt;
+    }
+
+    //Access Control List
+    public function setACL($ACL) {
+        $this->ACL = $ACL;
+    }
 
     public function __toString() {
 
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        if ($this->getActive() === null) {
+        if (is_null($this->getActive())) {
             $string .= '[active] => NULL<br />';
         } else {
             $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
@@ -257,16 +258,8 @@ class Status {
         } else {
             $string .= '[event] => NULL<br />';
         }
-        if ($this->getFromUser() != null) {
-            $string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
-        } else {
-            $string .= '[fromUser] => NULL<br />';
-        }
-        if ($this->getImage() != null) {
-            $string .= '[image] => ' . $this->getImage()->getObjectId() . '<br />';
-        } else {
-            $string .= '[image] => NULL<br />';
-        }
+        $string.="[fromUser] => " . $this->getFromUser() . "<br />";
+        $string .= '[image] => ' . $this->getImage() . '<br />';
         //$imageFile = $this->getImageFile();
         //$string.="[imageFile] => " . $imageFile->getObjectId() . "<br />";
         if ($this->getLocation() != null) {

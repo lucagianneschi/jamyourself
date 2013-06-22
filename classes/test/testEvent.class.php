@@ -12,84 +12,29 @@ require_once CLASSES_DIR . 'commentParse.class.php';
 $event = new Event();
 
 $event->setActive(true);
-$attendee = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
-	)
-);
-$event->setAttendee($attendee);
-$commentators = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
-	)
-);
-$event->setCommentators($commentators);
-
-$comments = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "Event", "objectId" => "2gMM3NmUYY"),
-		array("__type" => "Pointer", "className" => "Event", "objectId" => "5zw3I5d9Od")
-	)
-);
-$event->setComments($comments);
+$event->setAttendee(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $event->setCounter(10);
 $event->setDescription('Questo è un Evento Bellissimo');
 $eventDate = new DateTime();
 $event->setEventDate($eventDate);
-$featuring = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
-	)
-);
-$event->setFeatuting($featuring);
-//$event->setFromUser(User $fromUser);
-//$event->setImage(Image $image);
+$event->setFeatuting(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setFromUser('GuUAj83MGH');
+$event->setImage('5yJMK9dyQh');
 //$event->setImageFile(Image $imageFile);
-$invited = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
-	)
-);
-$event->setInvited($invited);
+$event->setInvited(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
-$event->setLocation($parseGeoPoint->location);
+$event->setLocation($parseGeoPoint);
 $event->setLoveCounter(100);
-$lovers =  array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
-	)
-);
-$event->setLovers($lovers);
-$refused = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "n1TXVlIqHw"),
-		array("__type" => "Pointer", "className" => "_User", "objectId" => "GuUAj83MGH")
-	)
-);
-$event->setRefused($refused);
+$event->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setRefused(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setTags(array('tag1', 'tag2'));
 $event->setThumbnail('thumbnail');
-$event->setTitle('title');
-
-// TODO - da eliminare
-//$dateTime = new DateTime('now', new DateTimeZone('Europe/London'));
+$event->setTitle('titolo evento');
 $dateTime = new DateTime();
 $dateTime->add(new DateInterval('P1D'));
 $event->setTestDate($dateTime);
-// TODO
-
 $dateTime1 = new DateTime();
 $event->setCreatedAt($dateTime1);
 $event->setUpdatedAt($dateTime1);

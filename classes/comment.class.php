@@ -312,7 +312,7 @@ class Comment {
 		}
 		if ($this->getLocation() != null) {
 			$location = $this->getLocation();
-			$string .= '[location] => ' . $location[latitude] . ', ' . $location[longitude] . '<br />';
+			$string .= '[location] => ' . $location->lat . ', ' . $location->long . '<br />';
 		} else {
 			$string .= '[location] => NULL<br />';
 		}
@@ -384,7 +384,7 @@ class Comment {
 			$string .= '[updatedAt] => NULL<br />';
 		}
 		if ($this->getACL() != null) {
-			foreach ($this->getACL() as $key => $acl) {
+			foreach ($this->getACL()->acl as $key => $acl) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				$string .= '[ACL] => ' . $key . '<br />';
 				foreach ($acl as $access => $value) {

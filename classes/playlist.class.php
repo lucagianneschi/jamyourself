@@ -130,16 +130,12 @@ class Playlist {
     public function __toString() {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        if ($this->getActive() === null) {
+        if (is_null($this->getActive())) {
             $string .= '[active] => NULL<br />';
         } else {
             $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
         }
-        if ($this->getFromUser() != null) {
-			$string .= '[fromUser] => ' . $this->getFromUser()->getObjectId() . '<br />';
-		} else {
-			$string .= '[fromUser] => NULL<br />';
-		}
+        $string.="[fromUser] => " . $this->getFromUser() . "<br />";        
         $string.="[name] => " . $this->getName() . "<br />";
 		if (count($this->getSongs()) != 0) {
 			foreach ($this->getSongs() as $song) {

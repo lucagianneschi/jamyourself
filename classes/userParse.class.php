@@ -100,13 +100,9 @@ class UserParse {
 			$user->setSongs(fromParseRelation('_User', 'songs', $res->objectId, 'Song'));
 		} elseif ($res->type == 'SPOTTER') {
 			$user = new Spotter();
-			
 			//properties Spotter
 			// TODO - attualmente la data di nascita è gestita come una normale Date, ma deve essere gestita staticamente!!!
-			if ($res->birthDay != null) {
-				$dateTime = new DateTime($res->birthDay);
-				$user->setBirthDay($dateTime);
-			}
+			$user->setBirthDay(new DateTime($res->birthDay));
 			$user->setFacebookId($res->facebookId);
 			$user->setFirstname($res->firstname);
 			$user->setFollowing(fromParseRelation('_User', 'following', $res->objectId, '_User'));
@@ -115,101 +111,49 @@ class UserParse {
 			$user->setSex($res->sex);
 		}
 		
-		//DA QUI
-		
 		//properties User
-		if ($res->objectId != null) $user->setObjectId($res->objectId);
-		if ($res->username != null) $user->setUsername($res->username);
-		if ($res->password != null) $user->setPassword($res->password);
-		if ($res->authData != null) $user->setAuthData($res->authData);
-		if ($res->emailVerified != null) $user->setEmailVerified($res->emailVerified);
-		if ($res->active != null) $user->setActive($res->active);
-		/*
-		if ($res->albums != null) {
-			$albumParse = new AlbumParse();
-			$albumRelatedTo = $albumParse->getRelatedTo('albums', '_User', $res->objectId);
-			$user->setAlbums($albumRelatedTo);
-		}
-		*/
-		if ($res->background != null) $user->setBackground($res->background);
-		if ($res->city != null) $user->setCity($res->city);
-		if ($res->comments != null) {
-			$cmtParse = new CommentParse();
-			$cmtRelatedTo = $cmtParse->getRelatedTo('comments', 'Comment', $res->objectId);
-			$user->setComments($cmtRelatedTo);
-		}
-		if ($res->country != null) $user->setCountry($res->country);
-		if ($res->description != null) $user->setDescription($res->description);
-		if ($res->email != null) $user->setEmail($res->email);
-		if ($res->fbPage != null) $user->setFbPage($res->fbPage);
-		if ($res->geoCoding != null) {
-			$parseGeoPoint = new parseGeoPoint($res->geoCoding->latitude, $res->geoCoding->longitude);
-			$user->setGeoCoding($parseGeoPoint->location);
-		}
-		/*
-		if ($res->images != null) {
-			$imageParse = new ImageParse();
-			$imageRelatedTo = $imageParse->getRelatedTo('images', 'Image', $res->objectId);
-			$user->setImages($imageRelatedTo);
-		}
-		*/
-		if ($res->level != null) $user->setLevel($res->level);
-		if ($res->levelValue != null) $user->setLevelValue($res->levelValue);
-		/*
-		if ($res->loveSongs != null) {
-			$songParse = new SongParse();
-			$songRelatedTo = $songParse->getRelatedTo('loveSongs', 'Song', $res->objectId);
-			$user->setLoveSongs($songRelatedTo);
-		}
-		*/
-		if ($res->music != null) $user->setMusic($res->music);
-		/*
-		if ($res->playlists != null) {
-			$plParse = new PlaylistParse();
-			$plRelatedTo = $plParse->getRelatedTo('playlist', 'Playlist', $res->objectId);
-			$user->setPlaylists($plRelatedTo);
-		}
-		*/
-		if ($res->premium != null) $user->setPremium($res->premium);
-		if ($res->premiumExpirationDate != null) {
-			$dateTime = new DateTime($res->premiumExpirationDate);
-			$user->setPremiumExpirationDate($dateTime);
-		}
-		if ($res->profilePicture != null) $user->setProfilePicture($res->profilePicture);
-		if ($res->profilePictureFile != null) $user->setProfilePictureFile($res->profilePictureFile);
-		if ($res->profileThumbnail != null) $user->setProfileThumbnail($res->profileThumbnail);
-		if ($res->sessionToken != null) $user->setSessionToken($res->sessionToken);
-		if ($res->settings != null) $user->setSettings($res->settings);
-		/*
-		if ($res->statuses != null) {
-			$statusParse = new StatusParse();
-			$statusRelatedTo = $statusParse->getRelatedTo('statuses', 'Status', $res->objectId);
-			$user->setStatuses($statusRelatedTo);
-		}
-		*/
-		if ($res->twitterPage != null) $user->setTwitterPage($res->twitterPage);
-		if ($res->type != null) $user->setType($res->type);
-		/*
-		if ($res->videos != null) {
-			$videoParse = new VideoParse();
-			$videoRelatedTo = $videoParse->getRelatedTo('videos', 'Video', $res->objectId);
-			$user->setVideos($videoRelatedTo);
-		}
-		*/
-		if ($res->website != null) $user->setWebsite($res->website);
-		if ($res->youtubeChannel != null) $user->setYoutubeChannel($res->youtubeChannel);
-		if ($res->createdAt != null) {
-			$dateTime = new DateTime($res->createdAt);
-			$user->setCreatedAt($dateTime);
-		}
-		if ($res->updatedAt != null) {
-			$dateTime = new DateTime($res->updatedAt);
-			$user->setUpdatedAt($dateTime);
-		}
-		if ($res->ACL != null) $user->setACL($res->ACL);
+		$user->setObjectId($res->objectId);
+		$user->setUsername($res->username);
+		$user->setPassword($res->password);
+		$user->setAuthData($res->authData);
+		$user->setEmailVerified($res->emailVerified);
+		$user->setActive($res->active);
+		$user->setAlbums(fromParseRelation('_User', 'albums', $res->objectId, 'Album'));
+		$user->setBackground($res->background);
+		$user->setCity($res->city);
+		$user->setComments(fromParseRelation('_User', 'comments', $res->objectId, 'Comment'));
+		$user->setCountry($res->country);
+		$user->setDescription($res->description);
+		$user->setEmail($res->email);
+		$user->setFbPage($res->fbPage);
+		$user->setGeoCoding(fromParseGeoPoint($res->geoCoding));
+		$user->setImages(fromParseRelation('_User', 'images', $res->objectId, 'Image'));
+		$user->setLevel($res->level);
+		$user->setLevelValue($res->levelValue);
+		$user->setLoveSongs(fromParseRelation('_User', 'loveSongs', $res->objectId, 'Song'));
+		$user->setMusic($res->music);
+		$user->setPlaylists(fromParseRelation('_User', 'playlist', $res->objectId, 'Playlist'));
+		$user->setPremium($res->premium);
+		$user->setPremiumExpirationDate(new DateTime($res->premiumExpirationDate));
+		$user->setProfilePicture($res->profilePicture);
+		$user->setProfilePictureFile($res->profilePictureFile);
+		$user->setProfileThumbnail($res->profileThumbnail);
+		$user->setSessionToken($res->sessionToken);
+		$user->setSettings($res->settings);
+		$user->setStatuses(fromParseRelation('_User', 'statuses', $res->objectId, 'Status'));
+		$user->setTwitterPage($res->twitterPage);
+		$user->setType($res->type);
+		$user->setVideos(fromParseRelation('_User', 'videos', $res->objectId, 'Video'));
+		$user->setWebsite($res->website);
+		$user->setYoutubeChannel($res->youtubeChannel);
+		$user->setCreatedAt(new DateTime($res->createdAt));
+		$user->setUpdatedAt(new DateTime($res->updatedAt));
+		$user->setACL(fromParseACL($res->ACL));
 		
 		return $user;
 	}
+	
+	//TODO
 	
 	function saveUser($user) {
 		try {
