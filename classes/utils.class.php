@@ -147,7 +147,7 @@ function fromParseFile($filePointer, $mime_type = '') {
             $parseFile = new parseFile($mime_type, $data);
             return $parseFile;
         } catch (Exception $exception) {
-            return throwError($exception, "Utils", __FUNCTION__, func_get_args());
+            return throwError($exception, "Utils", __FUNCTION__, func_get_args ());
         }
     }
     else
@@ -304,7 +304,7 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
                 return null;
         } catch (Exception $e) {
             //salvo l'errore
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args ());
         }
     }
     else
