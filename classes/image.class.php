@@ -200,13 +200,13 @@ class Image {
         if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
             foreach ($this->getCommentators() as $commentator) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+                $string .= "[commentator] => " . $commentator . "<br />";
             }
         }
         if ($this->getComments() != null && count($this->getComments() > 0)) {
             foreach ($this->getComments() as $comment) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+                $string .= "[comment] => " . $comment . "<br />";
             }
         }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
@@ -214,14 +214,14 @@ class Image {
         if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
             foreach ($this->getFeaturing() as $user) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+                $string .= "[featuring] => " . $user . "<br />";
             }
         }
         //$string .= '[file] => ' . $this->getFile() . '<br />';
         $string .= '[filePath] => ' . $this->getFilePath() . '<br />';
         $fromUser = $this->getFromUser();
         if ($fromUser != null) {
-            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+            $string.="[fromUser] => " . $fromUser . "<br />";
         }
         $parseGeoPoint = $this->getLocation();
         if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
@@ -231,7 +231,7 @@ class Image {
         if ($this->getLovers() != null && count($this->getLovers() > 0)) {
             foreach ($this->getLovers() as $lover) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+                $string .= "[lover] => " . $lover . "<br />";
             }
         }
         if ($this->getTags() != null && count($this->getTags() > 0)) {
