@@ -147,7 +147,7 @@ class RecordParse {
 
     function parseToRecord(stdClass $parseObj) {
 
-        if (!$parseObj != null || !isset($parseObj->objectId))
+        if ($parseObj  == null || !isset($parseObj->objectId))
             return null;
 
         $record = new Record();
