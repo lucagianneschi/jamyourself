@@ -72,7 +72,7 @@ class ActivityParse {
      * Salva un Activity nel DB di parse
      * @param Activity $activity
      */
-    public function save(Activity $activity) {
+    public function saveActivity(Activity $activity) {
 
         //creo un'istanza dell'oggetto della libreria ParseLib
         $parseObj = new parseObject("Activity");
