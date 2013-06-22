@@ -155,7 +155,7 @@ class AlbumParse {
             $album->setComments(fromParseRelation("Album", "comments", $parseObj->objectId, "Comment"));
             $album->setCounter($parseObj->counter);
             $album->setCover($parseObj->cover);
-            $album->setCoverFile(fromParseFile($parseObj->coverFile));
+            //$album->setCoverFile(fromParseFile($parseObj->coverFile));
             $album->setDescription($parseObj->description);
             $album->setFeaturing(fromParseRelation("Album", "featuring", $parseObj->objectId, "_User"));
             $album->setFromUser(fromParsePointer($parseObj->fromUser));
@@ -170,7 +170,7 @@ class AlbumParse {
             $album->setUpdatedAt(fromParseDate($parseObj->updatedAt));
             $album->setACL(fromParseACL($parseObj->ACL));
         } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args ());
         }
 
         return $album;
