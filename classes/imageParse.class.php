@@ -153,13 +153,13 @@ class ImageParse {
             $image->setCounter($parseObj->counter);
             $image->setDescription($parseObj->description);
             $image->setFeaturing(fromParseRelation("Image", "featuring", $parseObj->objectId, "_User"));
-            $image->setFile(fromParseFile($parseObj->file));
+            //$image->setFile(fromParseFile($parseObj->file));
             $image->setFilePath($parseObj->filePath);
             $image->setFromUser(fromParsePointer($parseObj->fromUser));
             $image->setLocation(fromParseGeoPoint($parseObj->location));
             $image->setLoveCounter($parseObj->loveCounter);
             $image->setLovers(fromParseRelation("Image", "lovers", $parseObj->objectId, "_User"));
-            $image->setTags($parseObj->tags);
+            //$image->setTags($parseObj->tags);
             $image->setCreatedAt(fromParseDate($parseObj->createdAt));
             $image->setUpdatedAt(fromParseDate($parseObj->updatedAt));
             $image->setACL(fromParseACL($parseObj->ACL));
