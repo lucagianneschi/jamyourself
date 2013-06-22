@@ -24,6 +24,9 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
+require_once CLASSES_DIR . 'activity.class.php';
+require_once CLASSES_DIR . 'activityParse.class.php';
+
 class StatusParse {
 
     private $parseQuery;
@@ -38,6 +41,7 @@ class StatusParse {
             $parseObject = new parseObject('Status');
             $parseObject->active = false;
             $parseObject->update($objectId);
+            //qui creo un'activity di STATUSDELETED
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
@@ -144,10 +148,12 @@ class StatusParse {
                 is_null($status->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($status->getImage(), "img/jpg");
                 $res = $parseObj->save();
                 $status->setObjectId($res->objectId);
+                //qui creo un'activity di NEWSTATUS
                 return $status;
             } else {
                 is_null($status->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseFile($status->getImage());
                 $parseObj->update($status->getObjectId());
+                //qui creo un'activity di STATUSUPDATED
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());

@@ -25,6 +25,9 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
+require_once CLASSES_DIR . 'activity.class.php';
+require_once CLASSES_DIR . 'activityParse.class.php';
+
 class PlaylistParse {
 
     private $parseQuery;
@@ -39,6 +42,7 @@ class PlaylistParse {
             $parseObject = new parseObject('Playlist');
             $parseObject->active = false;
             $parseObject->update($objectId);
+            //qui creo un'activity PLAYLISTDELETED
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
@@ -120,8 +124,10 @@ class PlaylistParse {
             if ($playlist->getObjectId() == '') {
                 $res = $parseObject->save();
                 $playlist->setObjectId($res->objectId);
+                //qui creo un'activity PLAYLISTCREATED
                 return $playlist;
             } else {
+                //qui creo un'activity PLAYLISTUPDATED
                 $parseObject->update($playlist->getObjectId());
             }
         } catch (Exception $e) {

@@ -26,6 +26,9 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
+require_once CLASSES_DIR . 'activity.class.php';
+require_once CLASSES_DIR . 'activityParse.class.php';
+
 class QuestionParse {
 
     private $parseQuery;
@@ -111,8 +114,10 @@ class QuestionParse {
             if ($question->getObjectId() == '') {
                 $res = $parseObject->save();
                 $question->setObjectId($res->objectId);
+                //qui faccio una activity NEWQUESTION
                 return $question;
             } else {
+                //qui faccio una activity QUESTIONUPDATED
                 $parseObject->update($question->getObjectId());
             }
         } catch (Exception $e) {

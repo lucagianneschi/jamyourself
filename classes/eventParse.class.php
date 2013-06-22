@@ -26,6 +26,9 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
+require_once CLASSES_DIR . 'activity.class.php';
+require_once CLASSES_DIR . 'activityParse.class.php';
+
 class EventParse {
 
     private $parseQuery;
@@ -50,6 +53,7 @@ class EventParse {
              */
             $parseObject->active = false;
             $parseObject->update($objectId);
+            //qui creo una activity EVENTDELETED
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
@@ -163,10 +167,12 @@ class EventParse {
                 is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
                 $res = $parseObject->save();
                 $event->setObjectId($res->objectId);
+                 //qui creo una activity EVENTCREATED
                 return $event;
             } else {
                 is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseFile($event->getImage());
                 $parseObject->update($event->getObjectId());
+                //qui creo una activity EVENTUPDATED
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
