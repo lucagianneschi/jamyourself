@@ -81,36 +81,36 @@ class ActivityParse {
 
         $parseObj->active = $activity->getActive();
 
-        $parseObj->album = toParsePointer("Album",$activity->getAlbum());
+        $parseObj->album = toParsePointer("Album", $activity->getAlbum());
 
-        $parseObj->comment = toParsePointer("Comment",$activity->getComment());
+        $parseObj->comment = toParsePointer("Comment", $activity->getComment());
 
-        $parseObj->event = toParsePointer("Event",$activity->getEvent());
+        $parseObj->event = toParsePointer("Event", $activity->getEvent());
 
         $parseObj->fromUser = toParsePointer("_User", $activity->getFromUser());
 
-        $parseObj->image = toParsePointer("Image",$activity->getImage());
+        $parseObj->image = toParsePointer("Image", $activity->getImage());
 
-        $parseObj->playlist = toParsePointer("Playlist",$activity->getPlaylist());
+        $parseObj->playlist = toParsePointer("Playlist", $activity->getPlaylist());
 
-        $parseObj->question = toParsePointer("Question",$activity->getQuestion());
+        $parseObj->question = toParsePointer("Question", $activity->getQuestion());
 
         $parseObj->read = $activity->getRead();
 
-        $parseObj->record = toParsePointer("Record",$activity->getRecord());
+        $parseObj->record = toParsePointer("Record", $activity->getRecord());
 
-        $parseObj->song = toParsePointer("Song",$activity->getSong());
+        $parseObj->song = toParsePointer("Song", $activity->getSong());
 
         $parseObj->status = $activity->getStatus();
 
-        $parseObj->toUser = toParsePointer("_User",$activity->getToUser());
+        $parseObj->toUser = toParsePointer("_User", $activity->getToUser());
 
         $parseObj->type = $activity->getType();
 
-        $parseObj->userStatus = toParsePointer("_User",$activity->getUserStatus());
+        $parseObj->userStatus = toParsePointer("_User", $activity->getUserStatus());
 
-        $parseObj->video = toParsePointer("Video",$activity->getVideo());
-                       
+        $parseObj->video = toParsePointer("Video", $activity->getVideo());
+
         $parseObj->ACL = toParseACL($activity->getACL());
 
         //caso update
@@ -134,6 +134,11 @@ class ActivityParse {
             }
         }
         return $activity;
+    }
+
+    public function deleteActivity($activity) {
+        $activity->setActive(false);
+        return $this->save($activity);
     }
 
     /**
@@ -180,51 +185,50 @@ class ActivityParse {
             return false;
 
         $activity = new activity();
-        
+
         try {
 
-            $activity->setObjectId($parseObj->objectId);								
+            $activity->setObjectId($parseObj->objectId);
 
             $activity->setActive($parseObj->active);
 
-            $activity->setAccepted($parseObj->accepted);		
+            $activity->setAccepted($parseObj->accepted);
 
-            $activity->setAlbum(fromParsePointer($parseObj->album));		
+            $activity->setAlbum(fromParsePointer($parseObj->album));
 
-            $activity->setComment(fromParsePointer($parseObj->comment));											
+            $activity->setComment(fromParsePointer($parseObj->comment));
 
-            $activity->setFromUser(fromParsePointer($parseObj->fromUser));           
+            $activity->setFromUser(fromParsePointer($parseObj->fromUser));
 
-            $activity->setEvent(fromParsePointer($parseObj->event));       
+            $activity->setEvent(fromParsePointer($parseObj->event));
 
-            $activity->setImage(fromParsePointer($parseObj->image));   
+            $activity->setImage(fromParsePointer($parseObj->image));
 
-            $activity->setPlaylist(fromParsePointer($parseObj->playlist));  
+            $activity->setPlaylist(fromParsePointer($parseObj->playlist));
 
-            $activity->setQuestion(fromParsePointer($parseObj->question));					
+            $activity->setQuestion(fromParsePointer($parseObj->question));
 
-            $activity->setRead($parseObj->read);		     
+            $activity->setRead($parseObj->read);
 
-            $activity->setRecord(fromParsePointer($parseObj->record));		
+            $activity->setRecord(fromParsePointer($parseObj->record));
 
             $activity->setSong(fromParsePointer($parseObj->song));
 
             $activity->setStatus($parseObj->status);
 
-            $activity->setToUser(fromParsePointer($parseObj->toUser));											
+            $activity->setToUser(fromParsePointer($parseObj->toUser));
 
-            $activity->setType($parseObj->type);		
+            $activity->setType($parseObj->type);
 
-            $activity->setUserStatus(fromParsePointer($parseObj->userStatus));         
+            $activity->setUserStatus(fromParsePointer($parseObj->userStatus));
 
-            $activity->setVideo(fromParsePointer($parseObj->video));										
+            $activity->setVideo(fromParsePointer($parseObj->video));
 
             $activity->setCreatedAt(fromParseDate($parseObj->createdAt));
-											
+
             $activity->setUpdatedAt(fromParseDate($parseObj->updatedAt));
 
             $activity->setACL(fromParseACL($parseObj->ACL));
-            
         } catch (Exception $exception) {
             return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
