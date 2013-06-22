@@ -94,7 +94,7 @@ class PlaylistParse {
             $playlist->setName($parseObj->name);
             $playlist->setSongs(fromParseRelation("Playlist", "songs", $parseObj->objectId, "Song"));
             $playlist->setUnlimited($parseObj->unlimited);
-            $playlist->setCreatedAt(fromParseDate($parseObj->createdA));
+            $playlist->setCreatedAt(fromParseDate($parseObj->createdAt));
             $playlist->setUpdatedAt(fromParseDate($parseObj->updatedAt));
             $playlist->setACL(fromParseACL($parseObj->ACL));
 
