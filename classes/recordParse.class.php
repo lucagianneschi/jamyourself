@@ -91,29 +91,23 @@ class RecordParse {
         return $record;
     }
 
-    function deleteAlbum($album) {
-        if ($album != null) {
-            $album->setActive(false);
-            try {
-                //cancellazione delle immagini dell'album
-                if ($album->getImages() != null && count($album->getImages()) > 0) {
-                    $parseImage = new ImageParse();
-                    $parseImage->whereRelatedTo("images", "Album", $album->getObjectId());
-                    $images = $parseImage->getImages();
-                    if ($images != null && count($images) > 0) {
-                        foreach ($images as $image) {
-                            $parseImage = new ImageParse(); //necessario per resettare la query
-                            $parseImage->delete($image);
-                        }
+    public function deleteRecord($objectId, $songsId) {
+        try {
+            $parseObject = new parseObject('Record');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
+
+            if ($songsId && count($songsId) > 0) {
+                $parseImage = new ImageParse();
+
+                foreach ($songsId as $songId) {
+                        $parseImage->deleteSong($songId);
                     }
-                }
-                return $this->save($album);
-            } catch (Exception $exception) {
-                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+                
             }
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
-        else
-            return false;
     }
 
     function getRecord($objectId) {
