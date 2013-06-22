@@ -65,7 +65,9 @@ class AlbumParse {
         $parseObj->location = toParseGeoPoint($album->getLocation());
         $parseObj->loveCounter = $album->getLoveCounter();
         $parseObj->lovers = toParseRelation("_User", $album->getLovers());
-        $parseObj->tags = $album->getTags();
+        if($album->getTags()!= null && count($album->getTags())>0)
+            $parseObj->tags = $album->getTags();
+        else $parseObj->tags = null;
         $parseObj->thumbnailCover = $album->getThumbnailCover();
         $parseObj->title = $album->getTitle();
         $parseObj->ACL = toParseACL($album->getACL());
@@ -98,8 +100,8 @@ class AlbumParse {
      * @param Album $album
      * @return boolean
      */
-    function deleteAlbum(Album $album) {
-        if ($album) {
+    function deleteAlbum($album) {
+        if ($album != null) {
             $album->setActive(false);
             try {
                 //cancellazione delle immagini dell'album
@@ -125,8 +127,8 @@ class AlbumParse {
 
     function getAlbum($objectId) {
         try {
-            $parseRestClient = new parseRestClient();
-            $result = $parseRestClient->get($objectId);
+            $query = new parseObject("Album");
+            $result = $query->get($objectId);
             return $this->parseToAlbum($result);
         } catch (Exception $exception) {
             return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
