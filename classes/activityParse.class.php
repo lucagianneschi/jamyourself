@@ -148,9 +148,8 @@ class ActivityParse {
      */
     public function getActivity($objectId) {
         try {
-            $parseRestClient = new parseRestClient();
-            $result = $parseRestClient->get($objectId);
-            return $this->parseToActivity($result);
+            $query = new parseObject("Activity");
+            return $this->parseToActivity($query->get($objectId));
         } catch (Exception $exception) {
             return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
@@ -162,9 +161,10 @@ class ActivityParse {
             $result = $this->parseQuery->find();
             if (is_array($result->results) && count($result->results) > 0) {
                 $activities = array();
-                foreach ($result->results as $activity) {
-                    if ($activity) {
-                        $activities[] = $this->parseToActivity($activity);
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $video = $this->parseToActivity($obj);
+                        $activities[$video->getObjectId] = $video;
                     }
                 }
             }
