@@ -65,9 +65,10 @@ class AlbumParse {
         $parseObj->location = toParseGeoPoint($album->getLocation());
         $parseObj->loveCounter = $album->getLoveCounter();
         $parseObj->lovers = toParseRelation("_User", $album->getLovers());
-        if($album->getTags()!= null && count($album->getTags())>0)
+        if ($album->getTags() != null && count($album->getTags()) > 0)
             $parseObj->tags = $album->getTags();
-        else $parseObj->tags = null;
+        else
+            $parseObj->tags = null;
         $parseObj->thumbnailCover = $album->getThumbnailCover();
         $parseObj->title = $album->getTitle();
         $parseObj->ACL = toParseACL($album->getACL());
