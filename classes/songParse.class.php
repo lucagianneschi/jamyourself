@@ -94,9 +94,14 @@ class SongParse {
         return $song;
     }
 
-    function deleteSong(Song $song) {
-        $song->setActive(false);
-        return $this->save($song);
+    public function deleteSong($objectId) {
+        try {
+            $parseObject = new parseObject('Song');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     function getSong($objectId) {
