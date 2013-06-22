@@ -195,8 +195,7 @@ class Image {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
-        $album = $this->getAlbum();
-        $string.="[album] => " . $album->getObjectId() . "<br />";
+        $string.="[album] => " . $this->getAlbum() . "<br />";
         if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
             foreach ($this->getCommentators() as $commentator) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
