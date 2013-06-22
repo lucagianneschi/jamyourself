@@ -87,7 +87,7 @@ class QuestionParse {
             $question->setText($parseObj->text);
             $question->setCreatedAt(new DateTime($parseObj->createdAt));
             $question->setUpdatedAt(new DateTime($parseObj->updatedAt));
-            $question->setACL(toParseACL($parseObj->ACL));
+            //$question->setACL(toParseACL($parseObj->ACL));
             return $question;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
