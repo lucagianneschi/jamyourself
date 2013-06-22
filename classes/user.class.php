@@ -374,11 +374,6 @@ class User {
         } else {
             $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
         }
-		if ($this->getAlbum() != null) {
-			$string .= '[album] => ' . $this->getAlbum() . '<br />';
-		} else {
-			$string .= '[album] => NULL<br />';
-		}
         $string .= '[background] => ' . $this->getBackground() . '<br />';
         $string .= '[city] => ' . $this->getCity() . '<br />';
         if ($this->getComments() != null) {
@@ -392,7 +387,7 @@ class User {
         $string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
 		if ($this->getGeoCoding() != null) {
 			$geoCoding = $this->getGeoCoding();
-			$string .= '[geoCoding] => ' . $geoCoding[latitude] . ', ' . $geoCoding[longitude] . '<br />';
+			$string .= '[geoCoding] => ' . $geoCoding['latitude'] . ', ' . $geoCoding['longitude'] . '<br />';
 		} else {
 			$string .= '[geoCoding] => NULL<br />';
 		}
