@@ -102,9 +102,14 @@ class ImageParse {
         return $image;
     }
 
-    function deleteImage(Image $image) {
-        $image->setActive(false);
-        return $this->save($image);
+    public function deleteImage($objectId) {
+        try {
+            $parseObject = new parseObject('Image');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     public function getImage($objectId) {
