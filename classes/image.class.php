@@ -223,8 +223,8 @@ class Image {
         if ($fromUser != null) {
             $string.="[fromUser] => " . $fromUser . "<br />";
         }
-        $parseGeoPoint = $this->getLocation();
-        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
+        ;
+        if (($parseGeoPoint = $this->getLocation()) != null) {
             $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
         }
         $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
