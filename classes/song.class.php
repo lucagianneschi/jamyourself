@@ -229,13 +229,13 @@ class Song {
         if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
             foreach ($this->getCommentators() as $commentator) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
+                $string .= "[commentator] => " . $commentator . "<br />";
             }
         }
         if ($this->getComments() != null && count($this->getComments() > 0)) {
             foreach ($this->getComments() as $comment) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
+                $string .= "[comment] => " . $comment . "<br />";
             }
         }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
@@ -243,13 +243,13 @@ class Song {
         if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
             foreach ($this->getFeaturing() as $user) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
+                $string .= "[featuring] => " . $user . "<br />";
             }
         }
         $string.="[filePath] => " . $this->getFilePath() . "<br />";
         $fromUser = $this->getFromUser();
         if ($fromUser != null) {
-            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
+            $string.="[fromUser] => " . $fromUser . "<br />";
         }
         $string.="[genre] => " . $this->getGenre() . "<br />";
         $parseGeoPoint = $this->getLocation();
@@ -260,12 +260,12 @@ class Song {
         if ($this->getLovers() != null && count($this->getLovers() > 0)) {
             foreach ($this->getLovers() as $lover) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+                $string .= "[lover] => " . $lover . "<br />";
             }
         }
         $record = $this->getRecord();
         if ($record != null) {
-            $string .= "[record] => " . $record->getObjectId() . "<br />";
+            $string .= "[record] => " . $record . "<br />";
         }
         $string .= "[title] => " . $this->getTitle() . "<br />";
         if (($createdAt = $this->getCreatedAt()))
