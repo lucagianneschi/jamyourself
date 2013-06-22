@@ -507,11 +507,11 @@ class Venue extends User {
         $this->address = $address;
     }
 
-    public function setCollaboration(array $collaboration) {
+    public function setCollaboration($collaboration) {
         $this->collaboration = $collaboration;
     }
 
-    public function setEvents(array $events) {
+    public function setEvents($events) {
         $this->events = $events;
     }
 
@@ -581,11 +581,11 @@ class Jammer extends User {
         return $this->songs;
     }
 
-    public function setCollaboration(array $collaboration) {
+    public function setCollaboration($collaboration) {
         $this->collaboration = $collaboration;
     }
 
-    public function setEvents(array $events) {
+    public function setEvents($events) {
         $this->events = $events;
     }
 
@@ -593,15 +593,15 @@ class Jammer extends User {
         $this->jammerType = $jammerType;
     }
 
-    public function setMembers(array $members) {
+    public function setMembers($members) {
         $this->members = $members;
     }
 
-    public function setRecords(array $records) {
+    public function setRecords($records) {
         $this->records = $records;
     }
 
-    public function setSongs(array $songs) {
+    public function setSongs($songs) {
         $this->songs = $songs;
     }
 
@@ -702,11 +702,11 @@ class Spotter extends User {
         $this->firstname = $firstname;
     }
 
-    public function setFollowing(array $following) {
+    public function setFollowing($following) {
         $this->following = $following;
     }
 
-    public function setFriendship(array $friendship) {
+    public function setFriendship($friendship) {
         $this->friendship = $friendship;
     }
 
