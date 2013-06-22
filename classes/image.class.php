@@ -119,7 +119,7 @@ class Image {
     }
 
     //setters
-    public function setOjectId($objectId) {
+    public function setObjectId($objectId) {
         $this->objectId = $objectId;
     }
 
