@@ -311,8 +311,7 @@ class Comment {
 			$string .= '[image] => NULL<br />';
 		}
 		if ( ($geoPoint = $this->getLocation()) != null) {
-			$location = $this->getLocation();
-			$string .= '[location] => ' . $geoPoint->$location->lat . ', ' . $geoPoint->$location->long . '<br />';
+			$string .= '[location] => ' . $geoPoint->location->lat . ', ' . $geoPoint->location->long . '<br />';
 		} else {
 			$string .= '[location] => NULL<br />';
 		}
