@@ -19,7 +19,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:record">API</a>
  */
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -50,54 +50,66 @@ class RecordParse {
 
         $parseObj->active = $record->getActive();
         $parseObj->buyLink = $record->getBuyLink();
-        $parseObj->commentators = toParseRelation($record->getCommentators());
-        $parseObj->comments = toParseRelation($record->getComments());
+        $parseObj->commentators = toParseRelation("_User", $record->getCommentators());
+        $parseObj->comments = toParseRelation("Comment", $record->getComments());
         $parseObj->counter = $record->getCounter();
         $parseObj->cover = $record->getCover();
-//        $parseObj->coverFile = $record->getCoverFile();
+        $parseObj->coverFile = toParseFile($record->getCoverFile());
         $parseObj->description = $record->getDescription();
         $parseObj->duration = $record->getDuration();
-        $parseObj->featuring = toParseRelation($record->getFeaturing());
-        $parseObj->fromUser = toParsePointer($record->getFromUser());
+        $parseObj->featuring = toParseRelation("_User", $record->getFeaturing());
+        $parseObj->fromUser = toParsePointer("_User", $record->getFromUser());
         $parseObj->genre = $record->getGenre();
         $parseObj->label = $record->getLabel();
         $parseObj->location = toParseGeoPoint($record->getLocation());
         $parseObj->loveCounter = $record->getLoveCounter();
-        $parseObj->lovers = toParseRelation($record->getLovers());
+        $parseObj->lovers = toParseRelation("_User", $record->getLovers());
         $parseObj->thumbnailCover = $record->getThumbnailCover();
         $parseObj->title = $record->getTitle();
-        $parseObj->tracklist = $record->getTracklist();
+        $parseObj->tracklist = toParseRelation("Song", $record->getTracklist());
         $parseObj->year = $record->getYear();
         $parseObj->ACL = toParseACL($record->getACL());
 
-        if ($record->getObjectId() != null ) {
+        if ($record->getObjectId() != null) {
             try {
                 $result = $parseObj->update($record->getObjectId());
                 $record->setObjectId($result->objectId);
-                $record->setCreatedAt(new DateTime($result->createdAt));
-                $record->setUpdatedAt(new DateTime($result->createdAt));
-            } catch (ParseLibraryException $e) {
-                return false;
+                $record->setCreatedAt(fromParseDate($result->createdAt));
+                $record->setUpdatedAt(fromParseDate($result->createdAt));
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         } else {
             //caso save
             try {
                 $result = $parseObj->save();
-                $record->setUpdatedAt($result->updatedAt);
-            } catch (ParseLibraryException $e) {
-                return false;
+                $record->setUpdatedAt(fromParseDate($result->updatedAt));
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         }
         return $record;
     }
-    
-    function deleteRecord(Record $record) {
-        if ($record) {
-            $record->setActive(false);
-            if ($this->save($record)) {
-                return true;
-            } else {
-                return false;
+
+    function deleteAlbum($album) {
+        if ($album != null) {
+            $album->setActive(false);
+            try {
+                //cancellazione delle immagini dell'album
+                if ($album->getImages() != null && count($album->getImages()) > 0) {
+                    $parseImage = new ImageParse();
+                    $parseImage->whereRelatedTo("images", "Album", $album->getObjectId());
+                    $images = $parseImage->getImages();
+                    if ($images != null && count($images) > 0) {
+                        foreach ($images as $image) {
+                            $parseImage = new ImageParse(); //necessario per resettare la query
+                            $parseImage->delete($image);
+                        }
+                    }
+                }
+                return $this->save($album);
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         }
         else
@@ -105,110 +117,73 @@ class RecordParse {
     }
 
     function getRecord($objectId) {
-        $record = null;
-        $this->parseQuery->where('objectId', $objectId);
-        $result = $this->parseQuery->find();
-        if (is_array($result->results) && count($result->results) > 0) {
-            $ret = $result->results[0];
-            if ($ret) {
-                //recupero l'utente
-                $record = $this->parseToRecord($ret);
-            }
+        try {
+            $query = new parseObject("Record");
+            $result = $query->get($objectId);
+            return $this->parseToRecord($result);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
-        return $record;
+    }
+
+    public function getRecords() {
+        $records = null;
+        try {
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $records = array();
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $record = $this->parseToRecord($obj);
+                        $records[$record->getObjectId()] = $record;
+                    }
+                }
+            }
+            return $records;
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     function parseToRecord(stdClass $parseObj) {
+
+        if (!$parseObj != null || !isset($parseObj->objectId))
+            return null;
+
         $record = new Record();
 
-        //specifiche
-        if (isset($parseObj->objectId))
+        try {
             $record->setObjectId($parseObj->objectId);
-        else return null;
-        
-        if (isset($parseObj->active))
             $record->setActive($parseObj->active);
-        
-        if (isset($parseObj->buyLink))
             $record->setBuyLink($parseObj->buyLink);
-        
-        if (isset($parseObj->commentators)){
-            $parse = new UserParse();
-            $parse->whereRelatedTo("commentators", "Record", $parseObj->objectId);
-            $record->setCommentators($parse->getUsers());
-        }
-        
-        if (isset($parseObj->comments)){
-            $record->setComments((new CommentParse())->getComment($parseObj->comments->objectId));
-        }
-        
-        if (isset($parseObj->counter))
+            $record->setCommentators(fromParseRelation("Record", "commentators", $parseObj->objectId, "_User"));
+            $record->setComments(fromParseRelation("Record", "comments", $parseObj->objectId, "Comment"));
             $record->setCounter($parseObj->counter);
-        
-        if (isset($parseObj->cover))
             $record->setCover($parseObj->cover);
-        
-        if (isset($parseObj->coverFile))
-            $record->setCoverFile($parseObj->coverFile);
-        
-        if (isset($parseObj->description))
+            $record->setCoverFile(fromParseFile($parseObj->coverFile));
             $record->setDescription($parseObj->description);
-        
-        if (isset($parseObj->duration))
             $record->setDuration($parseObj->duration);
-        
-        if (isset($parseObj->featuring)){
-              $parse = new UserParse();
-              $record->setFeaturing($parse->getUser($parseObj->featuring->objectId));          
-        }
-        
-        if (isset($parseObj->fromUser)){
-            $parse = new UserParse();
-            $record->setFromUser($parse->getUser($parseObj->fromUser->objectId));             
-        }
-        
-        if (isset($parseObj->genre))
+            $record->setFeaturing(fromParseRelation("Record", "featuring", $parseObj->objectId, "_User"));
+            $record->setFromUser(fromParsePointer($parseObj->fromUser));
             $record->setGenre($parseObj->genre);
-        
-        if (isset($parseObj->label))
             $record->setLabel($parseObj->label);
-        
-        if (isset($parseObj->location))
-            $record->setLocation(new parseGeoPoint ($parseObj->location->latitude, $parseObj->location->longitude));
-        
-        if (isset($parseObj->loveCounter))
+            $record->setLocation(fromParseGeoPoint($parseObj->location));
             $record->setLoveCounter($parseObj->loveCounter);
-        
-        if (isset($parseObj->lovers)){
-            $parse = new UserParse();
-            $parse->whereRelatedTo("lovers", "Record", $parseObj->objectId);
-            $record->setLovers($parse->getUsers());
-        }
-        
-        if (isset($parseObj->thumbnailCover))
+            $record->setLovers(fromParseRelation("Record", "lovers", $parseObj->objectId, "_User"));
             $record->setThumbnailCover($parseObj->thumbnailCover);
-        
-        if (isset($parseObj->title))
             $record->setTitle($parseObj->title);
-        
-        if (isset($parseObj->tracklist))
-            $record->setTracklist($parseObj->tracklist);
-        
-        if (isset($parseObj->year))
+            $record->setTracklist(fromParseRelation("Record", "tracklist", $parseObj->objectId, "Song"));
             $record->setYear($parseObj->year);
-        
-        if (isset($parseObj->createdAt))
-            $record->setCreatedAt(new DateTime($parseObj->createdAt));
-        
-        if (isset($parseObj->updatedAt))
-            $record->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        
-        if (isset($parseObj->ACL))
-            $record->setACL($parseObj->ACL);
+            $record->setCreatedAt(fromParseDate($parseObj->createdAt));
+            $record->setUpdatedAt(fromParseDate($parseObj->updatedAt));
+            $record->setACL(fromParseACL($parseObj->ACL));
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        }
 
         return $record;
     }
-    
+
     public function getCount() {
         $this->parseQuery->getCount();
     }
@@ -300,4 +275,5 @@ class RecordParse {
     public function whereRelatedTo($key, $className, $objectId) {
         $this->parseQuery->whereRelatedTo($key, $className, $objectId);
     }
+
 }
