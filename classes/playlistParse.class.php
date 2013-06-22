@@ -35,12 +35,12 @@ class PlaylistParse {
     }
 
     public function deletePlaylist($objectId) {
-            try {
+        try {
             $parseObject = new parseObject('Playlist');
             $parseObject->active = false;
             $parseObject->update($objectId);
         } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
