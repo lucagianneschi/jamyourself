@@ -117,7 +117,7 @@ class ActivityParse {
         return $activity;
     }
 
-	public function deleteActivity($objectId) {
+    public function deleteActivity($objectId) {
         try {
             $parseObject = new parseObject('Activity');
             $parseObject->active = false;
