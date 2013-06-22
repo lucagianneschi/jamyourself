@@ -254,7 +254,7 @@ class Status {
         }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         if ($this->getEvent() != null) {
-            $string .= '[event] => ' . $this->getEvent()->getObjectId() . '<br />';
+            $string .= '[event] => ' . $this->getEvent() . '<br />';
         } else {
             $string .= '[event] => NULL<br />';
         }
@@ -262,9 +262,8 @@ class Status {
         $string .= '[image] => ' . $this->getImage() . '<br />';
         //$imageFile = $this->getImageFile();
         //$string.="[imageFile] => " . $imageFile->getObjectId() . "<br />";
-        if ($this->getLocation() != null) {
-            $location = $this->getLocation();
-            $string .= '[location] => ' . $location[latitude] . ', ' . $location[longitude] . '<br />';
+        if ( ($geopoint = $this->getLocation()) != null) {
+            $string .= '[location] => ' . $geopoint->location['latitude'] . ', ' . $geopoint->location['longitude'] . '<br />';
         } else {
             $string .= '[location] => NULL<br />';
         }
@@ -279,7 +278,7 @@ class Status {
             $string .= '[lovers] => NULL<br />';
         }
         if ($this->getSong() != null) {
-            $string .= '[song] => ' . $this->getSong()->getObjectId() . '<br />';
+            $string .= '[song] => ' . $this->getSong() . '<br />';
         } else {
             $string .= '[song] => NULL<br />';
         }
