@@ -28,20 +28,13 @@ $user->setActive(true);
 //$user->setAlbums();
 $user->setBackground('Un background');
 $user->setCity('Una citta');
-$comments = array (
-	"__op" => "AddRelation",
-	"objects" => array(
-		array("__type" => "Pointer", "className" => "Comment", "objectId" => "2gMM3NmUYY"),
-		array("__type" => "Pointer", "className" => "Comment", "objectId" => "5zw3I5d9Od")
-	)
-);
-$user->setComments($comments);
+$user->setComments(array("nJr1ulgfVo"));
 $user->setCountry('Un paese');
 $user->setDescription('Una descrizione');
 $user->setEmail('test'. $r .'@xxx.xx');
 $user->setFbPage('Una pagina FB');
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
-$user->setGeoCoding($parseGeoPoint->location);
+$user->setGeoCoding($parseGeoPoint);
 //$user->setImages();
 $user->setLevel(1);
 $user->setLevelValue(2);
@@ -65,11 +58,11 @@ $user->setWebsite('Un sito web');
 $user->setYoutubeChannel('Un canale youtube');
 //$user->setCreatedAt();
 //$user->setUpdatedAt();
-$acl = new parseACL();
-$acl->setPublicReadAccess(true);
+$parseACL = new parseACL();
+$parseACL->setPublicReadAccess(true);
 // TODO - la chiamata setPublicWriteAccess(true) non sembra funzionare
 //$acl->setPublicWriteAccess(true);
-$user->setACL($acl);
+$user->setACL($parseACL);
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
@@ -95,7 +88,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO IL RECUPERO DI UNO User<br /><br />';
 
 $userParse = new UserParse();
-$resGet = $userParse->getUser('gYvaW46Z4x');
+$resGet = $userParse->getUser('GuUAj83MGH');
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
@@ -109,7 +102,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO LA CANCELLAZIONE DI UNO User<br />';
 
 $userParse = new UserParse();
-$resDelete = $userParse->deleteUser($resSave);
+$resDelete = $userParse->deleteUser($resSave->getObjectId());
 if (get_class($resDelete)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
@@ -119,35 +112,31 @@ if (get_class($resDelete)) {
 echo '<br />FINITO LA CANCELLAZIONE DI UNO User<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-/*
-echo '<br />INIZIO IL RECUPERO DI PIU\' Comment<br />';
 
-$cmtParse = new CommentParse();
-$cmtParse->whereExists('objectId');
-$cmtParse->orderByDescending('createdAt');
-$cmtParse->setLimit(5);
-$resGets = $cmtParse->getComments();
+echo '<br />INIZIO IL RECUPERO DI PIU\' User<br />';
+
+$userParse = new UserParse();
+$userParse->whereExists('objectId');
+$userParse->orderByDescending('createdAt');
+$userParse->setLimit(5);
+$resGets = $userParse->getUsers();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
-	foreach($resGets as $cmt) {
-		echo '<br />' . $cmt->getObjectId() . '<br />';
+	foreach($resGets as $user) {
+		echo '<br />' . $user->getObjectId() . '<br />';
 	}
 }
 
-echo '<br />FINITO IL RECUPERO DI PIU\' Comment<br />';
+echo '<br />FINITO IL RECUPERO DI PIU\' User<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-*/
+
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UNO User<br />';
 
 $userParse = new UserParse();
-$user = new User();
-echo 'Voglio aggiornare lo user ' . $resSave->getObjectId() . ' con session token ' . $resSave->getSessionToken();
-$user->setObjectId($resSave->getObjectId());
-$user->setSessionToken($resSave->getSessionToken());
-//$user->setActive(false);
-$user->setLevel(123);
+$user = $userParse->getUser($resSave->getObjectId());
+$user->setLevel(99);
 $resUpdate = $userParse->saveUser($user);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
