@@ -24,6 +24,9 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
+require_once CLASSES_DIR . 'activity.class.php';
+require_once CLASSES_DIR . 'activityParse.class.php';
+
 class VideoParse {
 
     private $parseQuery;
@@ -55,16 +58,21 @@ class VideoParse {
     }
 
     public function getVideos() {
+        $videos = null;
         try {
-            $videos = array();
-            $res = $this->parseQuery->find();
-            foreach ($res->results as $obj) {
-                $video = $this->parseToVideo($obj);
-                $videos[$video->getObjectId()] = $video;
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $videos = array();
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $video = $this->parseToActivity($obj);
+                        $videos[$video->getObjectId] = $video;
+                    }
+                }
             }
             return $videos;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
@@ -124,9 +132,9 @@ class VideoParse {
             is_null($video->getAuthor()) ? $parseObj->author = null : $parseObj->author = $video->getAuthor();
             is_null($video->getCommentators()) ? $parseObj->commentators = null : $parseObj->commentators = toParseRelation('_User', $video->getCommentators());
             is_null($video->getComments()) ? $parseObj->comments = null : $parseObj->comments = toParseRelation('Comment', $video->getComments());
-            is_null($video->getCounter())  ? $parseObj->counter = null : $parseObj->counter = $video->getCounter();
+            is_null($video->getCounter()) ? $parseObj->counter = null : $parseObj->counter = $video->getCounter();
             is_null($video->getDescription()) ? $parseObj->description = null : $parseObj->description = $video->getDescription();
-            is_null($video->getDuration())  ? $parseObj->duration = null : $parseObj->duration = $video->getDuration();
+            is_null($video->getDuration()) ? $parseObj->duration = null : $parseObj->duration = $video->getDuration();
             is_null($video->getFeaturing()) ? $parseObj->featuring = null : $parseObj->featuring = toParseRelation('_User', $video->getFeaturing());
             is_null($video->getFromUser()) ? $parseObj->fromUser = null : $parseObj->fromUser = toParsePointer('_User', $video->getFromUser());
             is_null($video->getLoveCounter()) ? $parseObj->loveCounter = null : $parseObj->loveCounter = $video->getLoveCounter();
@@ -136,8 +144,8 @@ class VideoParse {
             is_null($video->getTitle()) ? $parseObj->title = null : $parseObj->title = $video->getTitle();
             is_null($video->getURL()) ? $parseObj->URL = null : $parseObj->URL = $video->getURL();
             $acl = new ParseACL;
-            $acl->setPublicRead(true);
-            $acl->setPublicWrite(true);
+            $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
             $video->setACL($acl);
             if ($video->getObjectId() == '') {
                 $res = $parseObj->save();
