@@ -40,17 +40,8 @@ class EventParse {
     public function deleteEvent($objectId) {
         try {
             $parseObject = new parseObject('Event');
-            /*
-              if(!strstr($parseObject->getImage(), '../images/default/eventcover.jpg')){
-              unlink($parseObject->getImage());
-              }
-              if(!strstr($parseObject->getThumbnail(), '../images/default/eventcoverthumb.jpg')){
-              unlink($parseObject->getThumbnail());
-              }
-             */
             $parseObject->active = false;
             $parseObject->update($objectId);
-            //qui creo una activity EVENTDELETED
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
@@ -163,20 +154,16 @@ class EventParse {
             is_null($event->getThumbnail()) ? $parseObject->thumbnail = null : $parseObject->thumbnail = $event->getThumbnail();
             is_null($event->getText()) ? $parseObject->text = null : $parseObject->text = $event->getText();
             is_null($event->getTitle()) ? $parseObject->title = null : $parseObject->title = $event->getTitle();
-            $acl = new ParseACL;
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            $event->setACL($acl);
+            is_null($event->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($event->getACL());
+            
             if ($event->getObjectId() == '') {
                 is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
                 $res = $parseObject->save();
                 $event->setObjectId($res->objectId);
-                 //qui creo una activity EVENTCREATED
                 return $event;
             } else {
                 is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseFile($event->getImage());
                 $parseObject->update($event->getObjectId());
-                //qui creo una activity EVENTUPDATED
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
