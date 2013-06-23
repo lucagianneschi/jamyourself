@@ -111,17 +111,10 @@ class QuestionParse {
             is_null($question->getReplied()) ? $parseObject->replied = null : $parseObject->replied = $question->getReplied();
             is_null($question->getSubject()) ? $parseObject->subject = null : $parseObject->subject = $question->getSubject();
             is_null($question->getText()) ? $parseObject->text = null : $parseObject->text = $question->getText();
-            $acl = new ParseACL;
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            $parseObject->ACL = toParseACL($acl);
-            if ($question->getObjectId() == '') {
-                $res = $parseObject->save();
-                $question->setObjectId($res->objectId);
-                return $question;
-            } else {
-                $parseObject->update($question->getObjectId());
-            }
+            is_null($question->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($question->getACL());
+            $res = $parseObject->save();
+            $question->setObjectId($res->objectId);
+            return $question;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
