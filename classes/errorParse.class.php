@@ -48,17 +48,22 @@ class ErrorParse {
         }
     }
 
-    public function getErrors() {
+     public function getgetErrors() {
+        $errors = null;
         try {
-            $errors = array();
-            $res = $this->parseQuery->find();
-            foreach ($res->results as $obj) {
-                $error = $this->parseToError($obj);
-                $errors[$error->getObjectId()] = $error;
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $errors = array();
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $error = $this->parseToError($obj);
+                        $errors[$error->getObjectId] = $error;
+                    }
+                }
             }
             return $errors;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
