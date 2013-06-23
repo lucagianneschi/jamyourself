@@ -149,12 +149,10 @@ class StatusParse {
                 is_null($status->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($status->getImage(), "img/jpg");
                 $res = $parseObj->save();
                 $status->setObjectId($res->objectId);
-                //qui creo un'activity di NEWSTATUS
                 return $status;
             } else {
                 is_null($status->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseFile($status->getImage());
                 $parseObj->update($status->getObjectId());
-                //qui creo un'activity di STATUSUPDATED
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
