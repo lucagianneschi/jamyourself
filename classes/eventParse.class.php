@@ -103,6 +103,8 @@ class EventParse {
     }
 
     function parseToEvent(stdClass $parseObj) {
+        if ($parseObj == null || !isset($parseObj->objectId))
+		return throwError(new Exception('parseToEvent parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $event = new Event();
             $event->setObjectId($parseObj->objectId);

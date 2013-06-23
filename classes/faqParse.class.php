@@ -100,6 +100,8 @@ class FaqParse {
      */
 
     function parseToFaq(stdClass $parseObj) {
+        if ($parseObj == null || !isset($parseObj->objectId))
+		return throwError(new Exception('parseToFaq parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $faq = new Faq();
             $faq->setObjectId($parseObj->objectId);

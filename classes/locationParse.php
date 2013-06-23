@@ -81,6 +81,8 @@ class LocationParse {
     }
 
     function parseToLocation(stdClass $parseObj) {
+        if ($parseObj == null || !isset($parseObj->objectId))
+		return throwError(new Exception('parseToLocation parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $location = new Location();
             $location->setObjectId($parseObj->objectId);

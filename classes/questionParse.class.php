@@ -81,6 +81,8 @@ class QuestionParse {
     }
 
     function parseToQuestion(stdClass $parseObj) {
+        if ($parseObj == null || !isset($parseObj->objectId))
+		return throwError(new Exception('parseToQuestion parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $question = new Question();
             $question->setObjectId($parseObj->objectId);

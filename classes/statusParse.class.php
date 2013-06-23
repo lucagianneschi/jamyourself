@@ -90,6 +90,8 @@ class StatusParse {
     }
 
     public function parseToStatus(stdClass $parseObj) {
+        if ($parseObj == null || !isset($parseObj->objectId))
+		return throwError(new Exception('parseToStatus parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $status = new Status();
             $status->setObjectId($parseObj->objectId);

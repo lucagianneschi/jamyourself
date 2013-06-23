@@ -91,6 +91,8 @@ class PlaylistParse {
     }
 
     function parseToPlaylist(stdClass $parseObj) {
+        if ($parseObj == null || !isset($parseObj->objectId))
+		return throwError(new Exception('parseToPlaylist parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $playlist = new Playlist();
             $playlist->setObjectId($parseObj->objectId);
