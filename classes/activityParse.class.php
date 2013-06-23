@@ -90,7 +90,7 @@ class ActivityParse {
         $parseObj->status = $activity->getStatus();
         $parseObj->toUser = toParsePointer("_User", $activity->getToUser());
         $parseObj->type = $activity->getType();
-        $parseObj->userStatus = toParsePointer("_User", $activity->getUserStatus());
+        $parseObj->userStatus = toParsePointer("Status", $activity->getUserStatus());
         $parseObj->video = toParsePointer("Video", $activity->getVideo());
         $parseObj->ACL = toParseACL($activity->getACL());
 
