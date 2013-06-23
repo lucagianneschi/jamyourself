@@ -127,17 +127,10 @@ class FaqParse {
             is_null($faq->getPosition()) ? $parseObject->position = null : $parseObject->position = $faq->getPosition();
             is_null($faq->getQuestion()) ? $parseObject->question = null : $parseObject->question = $faq->getQuestion();
             is_null($faq->getTags()) ? $parseObject->tags = null : $parseObject->tags = $faq->getTags();
-            $acl = new ParseACL;
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            $faq->setACL($acl);
-            if ($faq->getObjectId() == '') {
-                $res = $parseObject->save();
-                $faq->setObjectId($res->objectId);
-                return $faq;
-            } else {
-                $parseObject->update($faq->getObjectId());
-            }
+            is_null($faq->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($faq->getACL());
+            $res = $parseObject->save();
+            $faq->setObjectId($res->objectId);
+            return $faq;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
