@@ -148,4 +148,20 @@ echo '<br />FINITO L\'AGGIORNAMENTO DI UNO User<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
+echo '<br />INIZIO IL LOGIN DI UNO User<br />';
+
+$userParse = new UserParse();
+$username = 'test1193803186';
+$password = 'test1193803186';
+$resLogin = $userParse->loginUser($username, $password);
+if (get_class($resLogin)) {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resLogin->getErrorMessage() . '<br/>';
+} else {
+	echo '<br />User LOGGED<br />';
+}
+
+echo '<br />FINITO IL LOGIN DI UNO User<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
 ?>
