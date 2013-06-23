@@ -54,7 +54,7 @@ class AlbumParse {
 
         $parseObj->active = $album->getActive();
         $parseObj->commentators = toParseRelation("_User", $album->getCommentators());
-        $parseObj->comments = toParseRelation("Comments", $album->getComments());
+        $parseObj->comments = toParseRelation("Comment", $album->getComments());
         $parseObj->counter = $album->getCounter();
         $parseObj->cover = $album->getCover();
         $parseObj->coverFile = toParseFile($album->getCoverFile());
@@ -78,6 +78,7 @@ class AlbumParse {
             try {
                 $ret = $parseObj->update($album->getObjectId());
                 $album->setUpdatedAt(fromParseDate($ret->updatedAt));
+                return $album;
             } catch (Exception $exception) {
                 return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
@@ -88,21 +89,24 @@ class AlbumParse {
                 $album->setObjectId($ret->objectId);
                 $album->setCreatedAt(fromParseDate($ret->createdAt));
                 $album->setUpdatedAt(fromParseDate($ret->createdAt));
+                return $album;
             } catch (Exception $exception) {
                 return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         }
 
-        return $album;
     }
 
-    public function deleteAlbum($objectId, $imagesId) {
+    public function deleteAlbum($album) {
+        if($album == null || !is_a($album, "Album") || $album->getObjectId() == null) return null;
+        
         try {
             $parseObject = new parseObject('Album');
             $parseObject->active = false;
-            $parseObject->update($objectId);
+            $parseObject->update($album->getObjectId());
 
-            if ($imagesId && count($imagesId) > 0) {
+            $imagesId = $album->getImages();
+            if ($imagesId!=null && count($imagesId) > 0) {
                 $parseImage = new ImageParse();
 
                 foreach ($imagesId as $imageId) {
@@ -155,7 +159,7 @@ class AlbumParse {
             $album->setComments(fromParseRelation("Album", "comments", $parseObj->objectId, "Comment"));
             $album->setCounter($parseObj->counter);
             $album->setCover($parseObj->cover);
-            //$album->setCoverFile(fromParseFile($parseObj->coverFile));
+            $album->setCoverFile(fromParseFile($parseObj->coverFile,'image/jpeg'));
             $album->setDescription($parseObj->description);
             $album->setFeaturing(fromParseRelation("Album", "featuring", $parseObj->objectId, "_User"));
             $album->setFromUser(fromParsePointer($parseObj->fromUser));
