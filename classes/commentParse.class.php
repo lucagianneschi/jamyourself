@@ -88,6 +88,8 @@ class CommentParse {
     }
 
     public function parseToComment($res) {
+		if ($res == null || !isset($res->objectId))
+			return throwError(new Exception('parseToComment parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $cmt = new Comment();
 

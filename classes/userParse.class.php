@@ -195,6 +195,8 @@ class UserParse {
 	}
  
 	public function parseToUser($res) {
+		if ($res == null || !isset($res->objectId))
+			return throwError(new Exception('parseToUser parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			if ($res->type == 'VENUE') {
 				$user = new Venue();
