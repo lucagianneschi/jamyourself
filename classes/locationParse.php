@@ -50,16 +50,21 @@ class LocationParse {
     }
 
     public function getLocations() {
+        $locations = null;
         try {
-            $locations = array();
-            $res = $this->parseQuery->find();
-            foreach ($res->results as $obj) {
-                $location = $this->parseToComment($obj);
-                $locations[$location->getObjectId()] = $location;
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $locations = array();
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $location = $this->parseToLocation($obj);
+                        $locations[$location->getObjectId] = $location;
+                    }
+                }
             }
             return $locations;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
