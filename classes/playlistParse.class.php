@@ -70,7 +70,7 @@ class PlaylistParse {
                 $playlists = array();
                 foreach ($result->results as $obj) {
                     if ($obj) {
-                        $playlist = $this->parseToActivity($obj);
+                        $playlist = $this->parseToPlaylist($obj);
                         $playlists[$playlist->getObjectId] = $playlist;
                     }
                 }
