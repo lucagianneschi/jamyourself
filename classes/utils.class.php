@@ -120,8 +120,8 @@ function fromParseGeoPoint($geoPoint) {
  * @param parseGeoPoint $geoPoint
  * @return null
  */
-function toParseGeoPoint(parseGeoPoint $geoPoint) {
-    if ($geoPoint == null)
+function toParseGeoPoint($geoPoint) {
+    if ($geoPoint == null || !isset($geoPoint->location))
         return null;
     return $geoPoint->location;
 }
@@ -140,11 +140,12 @@ function toParseGeoPoint(parseGeoPoint $geoPoint) {
  * 
  * @return \parseFile|null
  */
-function fromParseFile($filePointer, $mime_type = '') {
+function fromParseFile($filePointer, $mime_type) {
     if ($filePointer != null && isset($filePointer->url)) {
         try {
             $data = file_get_contents($filePointer->url);
             $parseFile = new parseFile($mime_type, $data);
+            $parseFile->_fileName = $filePointer->name;
             return $parseFile;
         } catch (Exception $exception) {
             return throwError($exception, "Utils", __FUNCTION__, func_get_args ());
@@ -162,7 +163,7 @@ function fromParseFile($filePointer, $mime_type = '') {
  */
 function toParseFile($parseFile) {
 
-    if ($parseFile != null && isset($parseFile->name)) {
+    if ($parseFile != null && isset($parseFile->_fileName)) {
         //carico i contenuti del file    
         //ora recupero il nome del file e creo un puntatore al file col dataType
         $parseRestClient = new parseRestClient();
