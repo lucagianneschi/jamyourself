@@ -71,7 +71,7 @@ class Activity {
      * @param BOOL $active	
      */
     public function setActive($active) {
-        $this->read = $active;
+        $this->active = $active;
     }
 
     /**
@@ -394,55 +394,104 @@ class Activity {
 
         if ($this->objectId != null)
             $string .= "[ objectId ] => " . $this->objectId . "<br />";
-        if ($this->accepted != null)
-            $string .= "[ accepted ] => " . $this->accepted . "<br />";
-        if ($this->active != null)
-            $string .= "[ active ] => " . $this->active . "<br />";
+        else
+            $string .= "[ objectId ] => NULL<br />";
+        if (is_bool($this->accepted)) {
+            $bool = ($this->accepted) ? 'TRUE' : 'FALSE';
+            $string .= "[ accepted ] => " . $bool . "<br />";
+        }
+        else
+            $string .= "[ accepted ] => NULL<br />";
+        if (is_bool($this->active)) {
+            $bool = ($this->active) ? 'TRUE' : 'FALSE';
+            $string .= "[ active ] => " . $bool . "<br />";
+        }
+        else
+            $string .= "[ active ] => NULL<br />";
         if ($this->album != null)
             $string .= " [ album ] => " . $this->album . "<br />";
+        else
+            $string .= "[ album ] => NULL<br />";
         if ($this->comment != null)
             $string .= " [ comment ] => " . $this->comment . "<br />";
+        else
+            $string .= "[ comment ] => NULL<br />";
         if ($this->event != null)
             $string .= " [ event ] => " . $this->event . "<br />";
+        else
+            $string .= "[ event ] => NULL<br />";
         if ($this->fromUser != null)
             $string .= " [ fromUser ] => " . $this->fromUser . "<br />";
+        else
+            $string .= "[ fromUser ] => NULL<br />";
         if ($this->image != null)
             $string .= " [ image ] => " . $this->image . "<br />";
+        else
+            $string .= "[ image ] => NULL<br />";
         if ($this->playlist != null)
             $string .= " [ playlist ] => " . $this->playlist . "<br />";
+        else
+            $string .= "[ playlist ] => NULL<br />";
         if ($this->question != null)
             $string .= " [ question ] => " . $this->question . "<br />";
-        if ($this->read != null)
-            $string .= " [ read ] => " . $this->read . "<br />";
+        else
+            $string .= "[ question ] => NULL<br />";
+        if (is_bool($this->read)) {
+            $bool = ($this->read) ? 'TRUE' : 'FALSE';
+            $string .= " [ read ] => " . $bool . "<br />";
+        }
+        else
+            $string .= "[ read ] => NULL<br />";
         if ($this->record != null)
             $string .= " [ record ] => " . $this->record . "<br />";
+        else
+            $string .= "[ record ] => NULL<br />";
         if ($this->song != null)
             $string .= " [ song ] => " . $this->song . "<br />";
+        else
+            $string .= "[ song ] => NULL<br />";
         if ($this->status != null)
             $string .= " [ status ] => " . $this->status . "<br />";
+        else
+            $string .= "[ status ] => NULL<br />";
         if ($this->toUser != null)
             $string .= " [ toUser ] => " . $this->toUser . "<br />";
+        else
+            $string .= "[ toUser ] => NULL<br />";
         if ($this->type != null)
             $string .= " [ type ] => " . $this->type . "<br />";
+        else
+            $string .= "[ type ] => NULL<br />";
         if ($this->userStatus != null)
             $string .= " [ userStatus ] => " . $this->userStatus . "<br />";
+        else
+            $string .= "[ userStatus ] => NULL<br />";
         if ($this->video != null)
             $string .= " [ video ] => " . $this->video . "<br />";
+        else
+            $string .= "[ video ] => NULL<br />";
         if ($this->createdAt != null)
             $string.="[ updatedAt ] => " . $this->createdAt->format('d/m/Y H:i:s') . "<br />";
+        else
+            $string .= "[ updatedAt ] => NULL<br />";
         if ($this->updatedAt != null)
             $string.="[ createdAt ] => " . $this->updatedAt->format('d/m/Y H:i:s') . "<br />";
+        else
+            $string .= "[ createdAt ] => NULL<br />";
         if ($this->getACL() != null) {
+            $string .= '[ ACL ] => <br />';
             foreach ($this->getACL()->acl as $key => $acl) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[key] => ' . $key . '<br />';
+                $string .= '[ key ] => ' . $key . '<br />';
                 foreach ($acl as $access => $value) {
                     $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                     $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                    $string .= '[ access ] => ' . $access . ' -> ' . $value . '<br />';
                 }
             }
         }
+        else
+            $string .= "[ ACL ] => NULL<br />";
         return $string;
     }
 
