@@ -302,7 +302,7 @@ class User {
         $this->premium = $premium;
     }
 
-    public function setPremiumExpirationDate(DateTime $premiumExpirationDate) {
+    public function setPremiumExpirationDate($premiumExpirationDate) {
         $this->premiumExpirationDate = $premiumExpirationDate;
     }
 
@@ -375,47 +375,70 @@ class User {
         } else {
             $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
         }
-        $string .= '[background] => ' . $this->getBackground() . '<br />';
+		if (count($this->getAlbums()) != 0) {
+			foreach ($this->getAlbums() as $album) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[albums] => ' . $album . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[albums] => NULL<br />';
+		}
+		$string .= '[background] => ' . $this->getBackground() . '<br />';
         $string .= '[city] => ' . $this->getCity() . '<br />';
-        if ($this->getComments() != null) {
-            $string .= '[comments] => ' . $this->getComments() . '<br />';
-        } else {
-            $string .= '[comments] => NULL<br />';
-        }
+		if (count($this->getComments()) != 0) {
+			foreach ($this->getComments() as $comments) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[comments] => ' . $comments . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[comments] => NULL<br />';
+		}
         $string .= '[country] => ' . $this->getCountry() . '<br />';
         $string .= '[description] => ' . $this->getDescription() . '<br />';
         $string .= '[email] => ' . $this->getEmail() . '<br />';
         $string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
-        if ($this->getGeoCoding() != null) {
-            $geoCoding = $this->getGeoCoding();
-            $string .= '[geoCoding] => ' . $geoCoding->location['latitude'] . ', ' . $geoCoding->location['longitude'] . '<br />';
-        } else {
-            $string .= '[geoCoding] => NULL<br />';
-        }
-        if ($this->getImages() != null) {
-            $string .= '[images] => ' . $this->getImages() . '<br />';
-        } else {
-            $string .= '[images] => NULL<br />';
-        }
+		if ($this->getGeoCoding() != null) {
+			$geoCoding = $this->getGeoCoding();
+			$string .= '[geoCoding] => ' . $geoCoding->lat . ', ' . $geoCoding->long . '<br />';
+		} else {
+			$string .= '[geoCoding] => NULL<br />';
+		}
+		if (count($this->getImages()) != 0) {
+			foreach ($this->getImages() as $image) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[images] => ' . $image . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[image] => NULL<br />';
+		}
         $string .= '[level] => ' . $this->getLevel() . '<br />';
         $string .= '[levelValue] => ' . $this->getLevelValue() . '<br />';
-        if ($this->getLoveSongs() != null) {
-            $string .= '[loveSongs] => ' . $this->getLoveSongs() . '<br />';
-        } else {
-            $string .= '[loveSongs] => NULL<br />';
+		if (count($this->getLoveSongs()) != 0) {
+			foreach ($this->getLoveSongs() as $loveSong) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[loveSongs] => ' . $loveSong . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[loveSongs] => NULL<br />';
+		}
+		foreach ($this->getMusic() as $music) {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[music] => ' . $music . '<br />';
         }
-        if($this->getMusic()!= null && count($this->getMusic())>0) {
-            foreach ($this->getMusic() as $music) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[music] => ' . $music . '<br />';
-            }
-        }
-        if ($this->getPlaylists() != null) {
-            $string .= '[playlists] => ' . $this->getPlaylists() . '<br />';
-        } else {
-            $string .= '[playlists] => NULL<br />';
-        }
-        $string .= '[premium] => ' . $this->getPremium() . '<br />';
+		if (count($this->getPlaylists()) != 0) {
+			foreach ($this->getPlaylists() as $playlist) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[playlists] => ' . $playlist . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[playlists] => NULL<br />';
+		}
+		$string .= '[premium] => ' . $this->getPremium() . '<br />';
         if ($this->getPremiumExpirationDate() != null) {
             $string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
         } else {
@@ -429,19 +452,27 @@ class User {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[settings] => ' . $settings . '<br />';
         }
-        if ($this->getStatuses() != null) {
-            $string .= '[statuses] => ' . $this->getStatuses() . '<br />';
-        } else {
-            $string .= '[statuses] => NULL<br />';
-        }
-        $string .= '[twitterPage] => ' . $this->getTwitterPage() . '<br />';
+        if (count($this->getStatuses()) != 0) {
+			foreach ($this->getStatuses() as $status) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[status] => ' . $status . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[statuss] => NULL<br />';
+		}
+		$string .= '[twitterPage] => ' . $this->getTwitterPage() . '<br />';
         $string .= '[type] => ' . $this->getType() . '<br />';
-        if ($this->getVideos() != null) {
-            $string .= '[videos] => ' . $this->getVideos() . '<br />';
-        } else {
-            $string .= '[videos] => NULL<br />';
-        }
-        $string .= '[website] => ' . $this->getWebsite() . '<br />';
+		if (count($this->getVideos()) != 0) {
+			foreach ($this->getVideos() as $video) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[video] => ' . $video . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[video] => NULL<br />';
+		}
+		$string .= '[website] => ' . $this->getWebsite() . '<br />';
         $string .= '[youtubeChannel] => ' . $this->getYoutubeChannel() . '<br />';
         if ($this->getCreatedAt() != null) {
             $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
@@ -453,20 +484,20 @@ class User {
         } else {
             $string .= '[updatedAt] => NULL<br />';
         }
-        if ($this->getACL() != null) {
-            foreach ($this->getACL() as $key => $acl) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[ACL] => ' . $key . '<br />';
-                foreach ($acl as $access => $value) {
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-                }
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ACL] => NULL<br />';
-        }
+		if ($this->getACL() != null) {
+			foreach ($this->getACL()->acl as $key => $acl) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[ACL] => ' . $key . '<br />';
+				foreach ($acl as $access => $value) {
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+				}
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[ACL] => NULL<br />';
+		}
 
         return $string;
     }
@@ -529,10 +560,14 @@ class Venue extends User {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[collaboration] => NULL<br />';
         }
-        if ($this->getEvents() != null) {
-            $string .= '[events] => ' . $this->getEvents() . '<br />';
+		if (count($this->getEvents()) != 0) {
+            foreach ($this->getEvents() as $event) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[events] => ' . $event . '<br />';
+            }
         } else {
-            $string .= '[events] => NULL<br />';
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[event] => NULL<br />';
         }
         $string.="[address] => " . $this->getAddress() . '<br />';
         $string.="[localType] => " . $this->getLocalType() . '<br />';
@@ -615,10 +650,14 @@ class Jammer extends User {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[collaboration] => NULL<br />';
         }
-        if ($this->getEvents() != null) {
-            $string .= '[events] => ' . $this->getEvents() . '<br />';
+        if (count($this->getEvents()) != 0) {
+            foreach ($this->getEvents() as $event) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[events] => ' . $event . '<br />';
+            }
         } else {
-            $string .= '[events] => NULL<br />';
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[event] => NULL<br />';
         }
         $string.="[jammerType] => " . $this->getJammerType() . "<br />";
         if ($this->getMembers()!= null && count($this->getMembers()) > 0) {
@@ -630,14 +669,22 @@ class Jammer extends User {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[members] => NULL<br />';
         }
-        if ($this->getRecords() != null) {
-            $string .= '[records] => ' . $this->getRecords() . '<br />';
+		if (count($this->getRecords()) != 0) {
+            foreach ($this->getRecords() as $record) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[records] => ' . $record . '<br />';
+            }
         } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[records] => NULL<br />';
         }
-        if ($this->getSongs() != null) {
-            $string .= '[songs] => ' . $this->getSongs() . '<br />';
+		if (count($this->getSongs()) != 0) {
+            foreach ($this->getSongs() as $song) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[songs] => ' . $song . '<br />';
+            }
         } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[songs] => NULL<br />';
         }
 
@@ -726,17 +773,25 @@ class Spotter extends User {
         }
         $string .= "[facebookId] => " . $this->getFacebookId() . "<br />";
         $string .= "[firstname] => " . $this->getFirstname() . "<br />";
-        if ($this->getFollowing() != null) {
-            $string .= '[following] => ' . $this->getFollowing() . '<br />';
+		if (count($this->getFollowing()) != 0) {
+            foreach ($this->getFollowing() as $following) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[following] => ' . $following . '<br />';
+            }
         } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[following] => NULL<br />';
         }
-        if ($this->getFriendship() != null) {
-            $string .= '[friendship] => ' . $this->getFriendship() . '<br />';
+		if (count($this->getFriendship()) != 0) {
+            foreach ($this->getFriendship() as $friendship) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[friendship] => ' . $friendship . '<br />';
+            }
         } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[friendship] => NULL<br />';
         }
-        $string .= "[lastname] => " . $this->getLastname() . "<br />";
+		$string .= "[lastname] => " . $this->getLastname() . "<br />";
         $string .= "[sex] => " . $this->getSex() . "<br />";
 
         return $string;
