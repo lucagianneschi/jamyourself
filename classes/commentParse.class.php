@@ -55,13 +55,16 @@ class CommentParse {
     }
 
     public function getComments() {
-        try {
-            $cmts = array();
+		try {
+            $cmts = null();
             $res = $this->parseQuery->find();
-            foreach ($res->results as $obj) {
-                $cmt = $this->parseToComment($obj);
-                $cmts[$cmt->getObjectId()] = $cmt;
-            }
+			if (is_array($res->results) && count($res->results) > 0) {
+				$cmts = array();
+				foreach ($res->results as $obj) {
+					$cmt = $this->parseToComment($obj);
+					$cmts[$cmt->getObjectId()] = $cmt;
+				}
+			}
             return $cmts;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -85,6 +88,8 @@ class CommentParse {
     }
 
     public function parseToComment($res) {
+		if ($res == null || !isset($res->objectId))
+			return throwError(new Exception('parseToComment parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $cmt = new Comment();
 

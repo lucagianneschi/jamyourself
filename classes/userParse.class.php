@@ -110,11 +110,14 @@ class UserParse {
 
     public function getUsers() {
 		try {
-			$users = array();
+			$users = null;
 			$res = $this->parseQuery->find();
-			foreach ($res->results as $obj) {
-				$user = $this->parseToUser($obj);
-				$users[$user->getObjectId()] = $user;
+			if (is_array($res->results) && count($res->results) > 0) {
+				$users = array();
+				foreach ($res->results as $obj) {
+					$user = $this->parseToUser($obj);
+					$users[$user->getObjectId()] = $user;
+				}
 			}
 			return $users;
 		} catch (Exception $e) {
@@ -165,6 +168,19 @@ class UserParse {
         }
         return $user;
     }
+	
+	public function loginUser($username, $password) {
+		try {
+			$parseUser = new parseUser();
+			$parseUser->username = $username;
+			$parseUser->password = $password;
+			$ret = $parseUser->login();
+			$user = $this->parseToUser($ret);
+			return $user;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+    }
 
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
@@ -179,6 +195,8 @@ class UserParse {
 	}
  
 	public function parseToUser($res) {
+		if ($res == null || !isset($res->objectId))
+			return throwError(new Exception('parseToUser parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			if ($res->type == 'VENUE') {
 				$user = new Venue();
