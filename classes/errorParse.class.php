@@ -81,7 +81,7 @@ class ErrorParse {
 
     public function parseToError(stdClass $parseObj) {
         if ($parseObj == null || !isset($parseObj->objectId))
-		return throwError(new Exception('parseToerror parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+		return throwError(new Exception('parseToError parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $error = new Error();
             $error->setObjectId($parseObj->objectId);
@@ -107,10 +107,7 @@ class ErrorParse {
             $parseObject->errorMessage = $error->getErrorMessage();
             $parseObject->errorFunction = $error->getErrorFunction();
             $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
-            $acl = new ParseACL;
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            $parseObject->ACL = toParseACL($acl);
+            is_null($error->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($error->getACL());
             $res = $parseObject->save();
             $error->setObjectId($res->objectId);
             return $error;
