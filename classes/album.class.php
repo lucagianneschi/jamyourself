@@ -155,7 +155,7 @@ class Album {
     }
 
     public function setCoverFile($coverFile) {
-        $this->cover = $coverFile;
+        $this->coverFile = $coverFile;
     }
 
     public function setDescription($description) {
@@ -195,7 +195,7 @@ class Album {
     }
 
     public function setTags($tags) {
-        $this->tag = $tags;
+        $this->tags = $tags;
     }
 
     public function setCreatedAt($createdAt) {
@@ -215,8 +215,12 @@ class Album {
 
         if ($this->objectId != null)
             $string .= "[ objectId ] => " . $this->objectId . "</br>";
-        if ($this->active != null)
-            $string .= "[ active ] => " . $this->active . "</br>";
+        else $string .= "[ objectId ] => NULL</br>";
+        if (is_bool($this->active)){
+            $bool = ($this->active) ? "TRUE" : "FALSE";
+            $string .= "[ active ] => " . $bool . "</br>";    
+        }
+        else $string .= "[ active ] => NULL</br>";
         if ($this->commentators != null && count($this->commentators) > 0) {
             $string .= "[ commentators	] => </br>";
             foreach ($this->commentators as $commentator) {
@@ -225,6 +229,7 @@ class Album {
                 $string .= '[$commentator] => ' . $commentator . '<br />';
             }
         }
+        else $string .= "[ commentators ] => NULL</br>";
         if ($this->comments != null && count($this->comments) > 0) {
             $string .= "[ comments ] => </br>";
             foreach ($this->comments as $comment) {
@@ -233,14 +238,19 @@ class Album {
                 $string .= '[$comment] => ' . $comment . '<br />';
             }
         }
+        else $string .= "[ comments ] => NULL</br>";
         if ($this->counter != null)
             $string .= "[ counter ] => " . $this->counter . "</br>";
+        else $string .= "[ counter ] => NULL</br>";
         if ($this->cover != null)
             $string .= "[ cover	] => " . $this->cover . "</br>";
-//        if ($this->coverFile != null)
-//            $string .= "[ coverFile ] => " . $this->coverFile . "</br>";
+        else $string .= "[ cover ] => NULL</br>";
+        if ($this->coverFile != null)
+            $string .= "[ coverFile ] => " . $this->coverFile->_fileName . "</br>";
+        else $string .= "[ coverFile ] => NULL</br>";
         if ($this->description != null)
             $string .= "[ description ] => " . $this->description . "</br>";
+        else $string .= "[ description ] => NULL</br>";
         if ($this->featuring != null && count($this->featuring) > 0) {
             $string .= "[ featuring ] => </br>";
             foreach ($this->featuring as $user) {
@@ -249,21 +259,26 @@ class Album {
                 $string .= '[featuring] => ' . $user . '<br />';
             }            
         }
+        else $string .= "[ featuring ] => NULL</br>";
         if ($this->fromUser != null)
             $string .= "[ fromUser ] => " . $this->fromUser . "</br>";
+        else $string .= "[ fromUser ] => NULL</br>";
         
         if ($this->images != null) {
-            $string .= "[ images ] => " . $this->images . "</br>";
+            $string .= "[ images ] =></br>";
             foreach ($this->images as $image) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
                 $string .= '[image] => ' . $image . '<br />';
             }             
         }
+        else $string .= "[ images ] => NULL</br>";
         if ( ($geopoint = $this->location) != null)
             $string .= "[location] => " . $geopoint->location['latitude'] . ", " . $geopoint->location['longitude'] . "<br />";
+        else $string .= "[ location ] => NULL</br>";
         if ($this->loveCounter != null)
             $string .= "[ loveCounter ] => " . $this->loveCounter . "</br>";
+        else $string .= "[ loveCounter ] => NULL</br>";
         if ($this->lovers != null && count($this->lovers) > 0) {
             $string .= "[ lovers ] => </br>";
             foreach ($this->lovers as $lover) {
@@ -272,6 +287,7 @@ class Album {
                 $string .= '[lover] => ' . $lover . '<br />';
             }              
         }
+        else $string .= "[ lovers ] => NULL</br>";
 
         if ($this->tags != null && count($this->tags) > 0) {
             $string .= "[ tags ] => </br>";
@@ -281,15 +297,20 @@ class Album {
                 $string .= '[tag] => ' . $tag . '<br />';
             }             
         }
+        else $string .= "[ tags ] => NULL</br>";
 
         if ($this->thumbnailCover != null)
             $string .= "[ thumbnailCover ] => " . $this->thumbnailCover . "</br>";
+        else $string .= "[ thumbnailCover ] => NULL</br>";
         if ($this->title != null)
             $string .= "[ title	] => " . $this->title . "</br>";
+        else $string .= "[ title ] => NULL</br>";
         if ($this->createdAt != null)
             $string .= "[ createdAt ] => " . $this->createdAt->format('d/m/Y H:i:s') . "</br>";
+        else $string .= "[ createdAt ] => NULL</br>";
         if ($this->updatedAt != null)
             $string .= "[ updatedAt ] => " . $this->updatedAt->format('d/m/Y H:i:s') . "</br>";
+        else $string .= "[ updatedAt ] => NULL</br>";
         if ($this->ACL != null) {
             $string .= "[ ACL ] => </br>";
             foreach ($this->ACL->acl as $key => $acl) {
@@ -302,6 +323,7 @@ class Album {
                 }
             }
         }
+        else $string .= "[ ACL ] => NULL</br>";
         return $string;
     }
 
