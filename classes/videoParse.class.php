@@ -65,7 +65,7 @@ class VideoParse {
                 $videos = array();
                 foreach ($result->results as $obj) {
                     if ($obj) {
-                        $video = $this->parseToActivity($obj);
+                        $video = $this->parseToVideo($obj);
                         $videos[$video->getObjectId] = $video;
                     }
                 }
