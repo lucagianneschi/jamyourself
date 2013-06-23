@@ -41,7 +41,6 @@ class StatusParse {
             $parseObject = new parseObject('Status');
             $parseObject->active = false;
             $parseObject->update($objectId);
-            //qui creo un'activity di STATUSDELETED
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
@@ -63,16 +62,21 @@ class StatusParse {
     }
 
     public function getStatuses() {
+        $statuses = null;
         try {
-            $statuses = array();
-            $res = $this->parseQuery->find();
-            foreach ($res->results as $obj) {
-                $status = $this->parseToStatus($obj);
-                $statuses[$status->getObjectId()] = $status;
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $statuses = array();
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $status = $this->parseToStatus($obj);
+                        $statuses[$status->getObjectId] = $status;
+                    }
+                }
             }
             return $statuses;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
@@ -141,8 +145,8 @@ class StatusParse {
             is_null($status->getTaggedUsers()) ? $parseObj->taggedUsers = null : $parseObj->taggedUsers = toParseRelation('_User', $status->getTaggedUsers());
             is_null($status->getText()) ? $parseObj->text = null : $parseObj->text = $status->getText();
             $acl = new ParseACL;
-            $acl->setPublicRead(true);
-            $acl->setPublicWrite(true);
+            $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
             $parseObj->ACL = toParseACL($acl);
             if ($status->getObjectId() == '') {
                 is_null($status->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($status->getImage(), "img/jpg");
