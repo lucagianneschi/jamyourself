@@ -47,21 +47,25 @@ class FaqParse {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
-
-    public function getFaqs() {
+ public function getFaqs() {
+        $faqs = null;
         try {
-            $faqs = array();
-            $res = $this->parseQuery->find();
-            foreach ($res->results as $obj) {
-                $faq = $this->parseToComment($obj);
-                $faqs[$faq->getObjectId()] = $faq;
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $faqs = array();
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $faq = $this->parseToFaq($obj);
+                        $faqs[$faq->getObjectId] = $faq;
+                    }
+                }
             }
             return $faqs;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
-
+    
     public function orderBy($field) {
         $this->parseQuery->orderBy($field);
     }
@@ -122,8 +126,8 @@ class FaqParse {
             is_null($faq->getQuestion()) ? $parseObject->question = null : $parseObject->question = $faq->getQuestion();
             is_null($faq->getTags()) ? $parseObject->tags = null : $parseObject->tags = $faq->getTags();
             $acl = new ParseACL;
-            $acl->setPublicRead(true);
-            $acl->setPublicWrite(true);
+            $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
             $faq->setACL($acl);
             if ($faq->getObjectId() == '') {
                 $res = $parseObject->save();
