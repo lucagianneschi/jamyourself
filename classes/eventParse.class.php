@@ -74,17 +74,22 @@ class EventParse {
         }
     }
 
-    public function getEvents() {
+     public function getEvents() {
+        $events = null;
         try {
-            $events = array();
-            $res = $this->parseQuery->find();
-            foreach ($res->results as $obj) {
-                $event = $this->parseToEvent($obj);
-                $events[$event->getObjectId()] = $event;
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $events = array();
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $event = $this->parseToEvent($obj);
+                        $events[$event->getObjectId] = $event;
+                    }
+                }
             }
             return $events;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
@@ -160,8 +165,8 @@ class EventParse {
             is_null($event->getText()) ? $parseObject->text = null : $parseObject->text = $event->getText();
             is_null($event->getTitle()) ? $parseObject->title = null : $parseObject->title = $event->getTitle();
             $acl = new ParseACL;
-            $acl->setPublicRead(true);
-            $acl->setPublicWrite(true);
+            $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
             $event->setACL($acl);
             if ($event->getObjectId() == '') {
                 is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
