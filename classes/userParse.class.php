@@ -165,6 +165,19 @@ class UserParse {
         }
         return $user;
     }
+	
+	public function loginUser($username, $password) {
+		try {
+			$parseUser = new parseUser();
+			$parseUser->username = $username;
+			$parseUser->password = $password;
+			$ret = $parseUser->login();
+			$user = parseToUser($ret);
+			return $user;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+    }
 
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
