@@ -110,11 +110,14 @@ class UserParse {
 
     public function getUsers() {
 		try {
-			$users = array();
+			$users = null;
 			$res = $this->parseQuery->find();
-			foreach ($res->results as $obj) {
-				$user = $this->parseToUser($obj);
-				$users[$user->getObjectId()] = $user;
+			if (is_array($res->results) && count($res->results) > 0) {
+				$users = array();
+				foreach ($res->results as $obj) {
+					$user = $this->parseToUser($obj);
+					$users[$user->getObjectId()] = $user;
+				}
 			}
 			return $users;
 		} catch (Exception $e) {
@@ -172,7 +175,7 @@ class UserParse {
 			$parseUser->username = $username;
 			$parseUser->password = $password;
 			$ret = $parseUser->login();
-			$user = parseToUser($ret);
+			$user = $this->parseToUser($ret);
 			return $user;
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
