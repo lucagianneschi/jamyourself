@@ -51,18 +51,23 @@ class QuestionParse {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
-
+    
     public function getQuestions() {
+        $questions = null;
         try {
-            $questions = array();
-            $res = $this->parseQuery->find();
-            foreach ($res->results as $obj) {
-                $question = $this->parseToQuestion($obj);
-                $questions[$question->getObjectId()] = $question;
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $questions = array();
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $question = $this->parseToQuestion($obj);
+                        $questions[$question->getObjectId] = $question;
+                    }
+                }
             }
             return $questions;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
@@ -90,7 +95,7 @@ class QuestionParse {
             $question->setText($parseObj->text);
             $question->setCreatedAt(new DateTime($parseObj->createdAt));
             $question->setUpdatedAt(new DateTime($parseObj->updatedAt));
-            //$question->setACL(toParseACL($parseObj->ACL));
+            $question->setACL(toParseACL($parseObj->ACL));
             return $question;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -108,16 +113,14 @@ class QuestionParse {
             is_null($question->getSubject()) ? $parseObject->subject = null : $parseObject->subject = $question->getSubject();
             is_null($question->getText()) ? $parseObject->text = null : $parseObject->text = $question->getText();
             $acl = new ParseACL;
-            $acl->setPublicRead(true);
-            $acl->setPublicWrite(true);
+            $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
             $parseObject->ACL = toParseACL($acl);
             if ($question->getObjectId() == '') {
                 $res = $parseObject->save();
                 $question->setObjectId($res->objectId);
-                //qui faccio una activity NEWQUESTION
                 return $question;
             } else {
-                //qui faccio una activity QUESTIONUPDATED
                 $parseObject->update($question->getObjectId());
             }
         } catch (Exception $e) {
