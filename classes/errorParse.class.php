@@ -100,8 +100,8 @@ class ErrorParse {
             $parseObject->errorFunction = $error->getErrorFunction();
             $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
             $acl = new ParseACL;
-            $acl->setPublicRead(true);
-            $acl->setPublicWrite(true);
+            $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
             $parseObject->ACL = toParseACL($acl);
             if ($error->getObjectId() == '') {
                 $res = $parseObject->save();

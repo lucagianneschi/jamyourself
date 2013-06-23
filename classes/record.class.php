@@ -250,72 +250,84 @@ class Record {
 
     public function __toString() {
         $string = '';
-        $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        $string .= '[active] => ' . $this->getActive() . '<br />';
-        $string .= '[buyLink] => ' . $this->getBuyLink() . '<br />';
-        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
-            foreach ($this->getCommentators() as $commentator) {
+        if ($this->objectId)
+            $string .= '[objectId] => ' . $this->objectId . '<br/>';
+        if ($this->active)
+            $string .= '[active] => ' . $this->active . '<br/>';
+        if ($this->buyLink)
+            $string .= '[buyLink] => ' . $this->buyLink . '<br/>';
+        if ($this->commentators && count($this->commentators > 0)) {
+            $string .= '[commentators] => <br/>';
+                foreach ($this->commentators as $user) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[commentator] => " . $commentator->getObjectId() . "<br />";
-            }
+                $string .= "[user] => " . $user . "<br />";
+            }            
         }
-        if ($this->getComments() != null && count($this->getComments() > 0)) {
-            foreach ($this->getComments() as $comment) {
+        if ($this->comments && count($this->comments > 0)) {
+            $string .= '[comments] =><br/>';
+                foreach ($this->comments as $comment) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[comment] => " . $comment->getObjectId() . "<br />";
-            }
+                $string .= "[comment] => " . $comment . "<br />";
+            }            
         }
-        $string .= '[counter] => ' . $this->getCounter() . '<br />';
-        $string .= '[cover] => ' . $this->getCover() . '<br />';
-        //$string .= '[coverFile] => ' . $this->getCoverFile() . '<br />';
-        $string .= '[description] => ' . $this->getDescription() . '<br />';
-        $string .= '[duration] => ' . $this->getDuration() . '<br />';
-        if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
-            foreach ($this->getFeaturing() as $user) {
+        if ($this->counter)
+            $string .= '[counter] => ' . $this->counter . '<br/>';
+        if ($this->cover)
+            $string .= '[cover] => ' . $this->cover . '<br/>';
+        if ($this->coverFile)
+            $string .= '[coverFile] => ' . $this->coverFile->_fileName . '<br/>';
+        if ($this->description)
+            $string .= '[description] => ' . $this->description . '<br/>';
+        if ($this->duration)
+            $string .= '[duration] => ' . $this->duration . '<br/>';
+        if ($this->featuring && count($this->featuring > 0)) {
+            $string .= '[featuring] => <br/>';
+                foreach ($this->featuring as $user) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[featuring] => " . $user->getObjectId() . "<br />";
-            }
+                $string .= "[user] => " . $user . "<br />";
+            }            
         }
-        $fromUser = $this->getFromUser();
-        if ($fromUser != null) {
-            $string.="[fromUser] => " . $fromUser->getObjectId() . "<br />";
-        }
-        $string.="[genre] => " . $this->getGenre() . "<br />";
-        $string.="[label] => " . $this->getLabel() . "<br />";
+        if ($this->fromUser)
+            $string .= '[fromUser] .= > ' . $this->fromUser . '<br/>';
+        if ($this->genre)
+            $string .= '[genre] .= > ' . $this->genre . '<br/>';
+        if ($this->label)
+            $string .= '[label] .= > ' . $this->label . '<br/>';
         $parseGeoPoint = $this->getLocation();
         if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
             $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
-        }
-        $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
-            foreach ($this->getLovers() as $lover) {
+            $string .= '[tracklist] = > <br/>';
+                foreach ($this->tracklist as $song) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[lover] => " . $lover->getObjectId() . "<br />";
+                $string .= "[song] => " . $song . "<br />";
+            }            
+        }
+        if ($this->loveCounter)$string .= '[loveCounter] .= > '.$this->loveCounter .'<br/>';
+        if ($this->lovers)$string .= '[lovers] .= > '.$this->lovers .'<br/>';
+        if ($this->thumbnailCover)$string .= '[thumbnailCover] .= > '.$this->thumbnailCover .'<br/>';
+        if ($this->title)$string .= '[title] .= > '.$this->title .'<br/>';
+        if ($this->tracklist && count($this->tracklist > 0)){
+            $string .= '[tracklist] = > <br/>';
+                foreach ($this->tracklist as $song) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= "[song] => " . $song . "<br />";
             }
         }
-        $string .= "[thumbnailCover] => " . $this->getThumbnailCover() . "<br />";
-        $string .= "[title] => " . $this->getTitle() . "<br />";
-        if ($this->getTracklist() != null && count($this->getTracklist() > 0)) {
-            foreach ($this->getTracklist() as $song) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= "[tracklist] => " . $song->getObjectId() . "<br />";
-            }
-        }
-        $string .= "[year] => " . $this->getYear() . "<br />";
+        if ($this->year)$string .= '[year] .= > '.$this->year .'<br/>';
         if (($createdAt = $this->getCreatedAt()))
             $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
         if (($updatedAt = $this->getUpdatedAt()))
             $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
-        if($this->getACL() != null){
-           foreach ($this->getACL()->acl as $key => $acl) {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[key] => ' . $key . '<br />';
-            foreach ($acl as $access => $value) {
+        if ($this->getACL() != null) {
+            foreach ($this->getACL()->acl as $key => $acl) {
                 $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                $string .= '[key] => ' . $key . '<br />';
+                foreach ($acl as $access => $value) {
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                }
             }
-        } 
         }
         return $string;
     }

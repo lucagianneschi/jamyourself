@@ -310,9 +310,8 @@ class Comment {
 		} else {
 			$string .= '[image] => NULL<br />';
 		}
-		if ($this->getLocation() != null) {
-			$location = $this->getLocation();
-			$string .= '[location] => ' . $location->lat . ', ' . $location->long . '<br />';
+		if ( ($geoPoint = $this->getLocation()) != null) {
+			$string .= '[location] => ' . $geoPoint->location->lat . ', ' . $geoPoint->location->long . '<br />';
 		} else {
 			$string .= '[location] => NULL<br />';
 		}

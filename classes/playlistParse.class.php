@@ -38,13 +38,13 @@ class PlaylistParse {
     }
 
     public function deletePlaylist($objectId) {
-            try {
+        try {
             $parseObject = new parseObject('Playlist');
             $parseObject->active = false;
             $parseObject->update($objectId);
             //qui creo un'activity PLAYLISTDELETED
         } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
@@ -98,7 +98,7 @@ class PlaylistParse {
             $playlist->setName($parseObj->name);
             $playlist->setSongs(fromParseRelation("Playlist", "songs", $parseObj->objectId, "Song"));
             $playlist->setUnlimited($parseObj->unlimited);
-            $playlist->setCreatedAt(fromParseDate($parseObj->createdA));
+            $playlist->setCreatedAt(fromParseDate($parseObj->createdAt));
             $playlist->setUpdatedAt(fromParseDate($parseObj->updatedAt));
             $playlist->setACL(fromParseACL($parseObj->ACL));
 

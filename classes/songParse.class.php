@@ -19,7 +19,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:song">API</a>
  */
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -74,8 +74,8 @@ class SongParse {
 
                 //aggiorno l'update
                 $song->setUpdatedAt(new DateTime($result->updatedAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (ParseLibraryException $e) {
-                return false;
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         } else {
             try {
@@ -86,114 +86,85 @@ class SongParse {
                 $song->setObjectId($result->objectId);
                 $song->setCreatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
                 $song->setUpdatedAt(new DateTime($result->createdAt, new DateTimeZone("America/Los_Angeles")));
-            } catch (ParseLibraryException $e) {
-                return false;
+            } catch (Exception $exception) {
+                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         }
         //restituisco song aggiornato
         return $song;
     }
 
-    function deleteSong(Song $song) {
-        $song->setActive(false);
-
-        if ($this->save($song))
-            return true;
-        else
-            return false;
+    public function deleteSong($objectId) {
+        try {
+            $parseObject = new parseObject('Song');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
-    function getSong($songId) {
+    function getSong($objectId) {
+        try {
+            $query = new parseObject("Song");
+            $result = $query->get($objectId);
+            return $this->parseToSong($result);
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        }
+    }
 
-        $parseSong = new parseObject("Song");
-
-        $res = $parseSong->get($songId);
-
-        $song = $this->parseToSong($res);
-
-        return $song;
+    public function getSongs() {
+        $songs = null;
+        try {
+            $result = $this->parseQuery->find();
+            if (is_array($result->results) && count($result->results) > 0) {
+                $songs = array();
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $song = $this->parseToRecord($obj);
+                        $songs[$song->getObjectId()] = $song;
+                    }
+                }
+            }
+            return $songs;
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     function parseToSong(stdClass $parseObj) {
 
-        $song = new Song();
-        //recupero objectId
-        if (isset($parseObj->objectId))
-            $song->setObjectId($parseObj->objectId);
-        else
+        if ($parseObj == null || !isset($parseObj->objectId))
             return null;
 
-        if (isset($parseObj->active))
+        $song = new Song();
+        //recupero objectId
+        try {
+            $song->setObjectId($parseObj->objectId);
             $song->setActive($parseObj->active);
-        
-        if (isset($parseObj->commentators)) {
-            $parse = new UserParse();
-            $parse->whereRelatedTo("commentators", "Song", $parseObj->objectId);
-            $song->setCommentators($parse->getUsers());
-        }
-        
-        if (isset($parseObj->comments)) {
-            $parse = new CommentParse();
-            $parse->whereRelatedTo("comments", "Song", $parseObj->objectId);
-            $song->setComments($parse->getUsers());
-        }
-        
-        if (isset($parseObj->counter))
+            $song->setCommentators(fromParseRelation("Song", "commentators", $fromObjectId, "_User"));
+            $song->setComments(fromParseRelation("Song", "comments", $parseObj->objectId, "Comment"));
             $song->setCounter($parseObj->counter);
-        
-        if (isset($parseObj->duration))
             $song->setDuration($parseObj->duration);
-        
-        if (isset($parseObj->featuring)) {
-            $parse = new UserParse();
-            $parse->whereRelatedTo("featuring", "Song", $parseObj->objectId);
-            $song->setFeaturing($parse->getUsers());
-        }
-        
-        if (isset($parseObj->filePath))
+            $song->setFeaturing(fromParseRelation("Song", "featuring", $parseObj->objectId, "_User"));
             $song->setFilePath($parseObj->filePath);
-        
-        if (isset($parseObj->fromUser)) {
-            $parse = new UserParse();
-            $song->setFromUser($parse->getUser($parseObj->fromUser->objectId));
-        }
-        
-        if (isset($parseObj->genre))
+            $song->setFromUser(fromParsePointer($parseObj->fromUser));
             $song->setGenre($parseObj->genre);
-        
-        if (isset($parseObj->location))
-            $song->setLocation(new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude));
-        
-        if (isset($parseObj->loveCounter))
+            $song->setLocation(fromParseGeoPoint($parseObj->location));
             $song->setLoveCounter($parseObj->loveCounter);
-        
-        if (isset($parseObj->lovers)) {
-            $parse = new UserParse();
-            $parse->whereRelatedTo("lovers", "Song", $parseObj->objectId);
-            $song->setLovers($parse->getUsers());
-        }
-        
-        if (isset($parseObj->record)) {
-            $parse = new RecordParse();
-            $parse->whereRelatedTo("record", "Song", $parseObj->objectId);
-            $song->setRecord($parse->getUsers());
-        }
-        
-        if (isset($parseObj->title))
+            $song->setLovers(fromParseRelation("Song", "lovers", $parseObj->objectId, "_User"));
+            $song->setRecord(fromParsePointer($parseObj->record));
             $song->setTitle($parseObj->title);
-        
-        if (isset($parseObj->createdAt))
-            $song->setCreatedAt(new DateTime($parseObj->createdAt));
-        
-        if (isset($parseObj->updatedAt))
-            $song->setUpdatedAt(new DateTime($parseObj->updatedAt));
-        
-        if (isset($parseObj->ACL))
-            $song->setACL($parseObj->ACL);
-
+            $song->setCreatedAt(fromParseDate($parseObj->createdAt));
+            $song->setUpdatedAt(fromParseDate($parseObj->updatedAt));
+            $song->setACL(fromParseACL($parseObj->ACL));
+        } catch (Exception $exception) {
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        }
         return $song;
     }
-    
+
     public function getCount() {
         $this->parseQuery->getCount();
     }
@@ -285,6 +256,7 @@ class SongParse {
     public function whereRelatedTo($key, $className, $objectId) {
         $this->parseQuery->whereRelatedTo($key, $className, $objectId);
     }
+
 }
 
 ?>

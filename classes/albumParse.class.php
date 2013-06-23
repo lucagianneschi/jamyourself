@@ -65,7 +65,10 @@ class AlbumParse {
         $parseObj->location = toParseGeoPoint($album->getLocation());
         $parseObj->loveCounter = $album->getLoveCounter();
         $parseObj->lovers = toParseRelation("_User", $album->getLovers());
-        $parseObj->tags = $album->getTags();
+        if ($album->getTags() != null && count($album->getTags()) > 0)
+            $parseObj->tags = $album->getTags();
+        else
+            $parseObj->tags = null;
         $parseObj->thumbnailCover = $album->getThumbnailCover();
         $parseObj->title = $album->getTitle();
         $parseObj->ACL = toParseACL($album->getACL());
@@ -93,40 +96,29 @@ class AlbumParse {
         return $album;
     }
 
-    /**
-     * 
-     * @param Album $album
-     * @return boolean
-     */
-    function deleteAlbum(Album $album) {
-        if ($album) {
-            $album->setActive(false);
-            try {
-                //cancellazione delle immagini dell'album
-                if ($album->getImages() != null && count($album->getImages()) > 0) {
-                    $parseImage = new ImageParse();
-                    $parseImage->whereRelatedTo("images", "Album", $album->getObjectId());
-                    $images = $parseImage->getImages();
-                    if ($images != null && count($images) > 0) {
-                        foreach ($images as $image) {
-                            $parseImage = new ImageParse(); //necessario per resettare la query
-                            $parseImage->delete($image);
-                        }
+    public function deleteAlbum($objectId, $imagesId) {
+        try {
+            $parseObject = new parseObject('Album');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
+
+            if ($imagesId && count($imagesId) > 0) {
+                $parseImage = new ImageParse();
+
+                foreach ($imagesId as $imageId) {
+                        $parseImage->deleteImage($imageId);
                     }
-                }
-                return $this->save($album);
-            } catch (Exception $exception) {
-                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+                
             }
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
-        else
-            return false;
     }
 
     function getAlbum($objectId) {
         try {
-            $parseRestClient = new parseRestClient();
-            $result = $parseRestClient->get($objectId);
+            $query = new parseObject("Album");
+            $result = $query->get($objectId);
             return $this->parseToAlbum($result);
         } catch (Exception $exception) {
             return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
@@ -163,7 +155,7 @@ class AlbumParse {
             $album->setComments(fromParseRelation("Album", "comments", $parseObj->objectId, "Comment"));
             $album->setCounter($parseObj->counter);
             $album->setCover($parseObj->cover);
-            $album->setCoverFile(fromParseFile($parseObj->coverFile));
+            //$album->setCoverFile(fromParseFile($parseObj->coverFile));
             $album->setDescription($parseObj->description);
             $album->setFeaturing(fromParseRelation("Album", "featuring", $parseObj->objectId, "_User"));
             $album->setFromUser(fromParsePointer($parseObj->fromUser));
@@ -178,7 +170,7 @@ class AlbumParse {
             $album->setUpdatedAt(fromParseDate($parseObj->updatedAt));
             $album->setACL(fromParseACL($parseObj->ACL));
         } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args ());
         }
 
         return $album;
@@ -277,5 +269,4 @@ class AlbumParse {
     }
 
 }
-
 ?>

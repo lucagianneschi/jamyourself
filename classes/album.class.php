@@ -260,8 +260,8 @@ class Album {
                 $string .= '[image] => ' . $image . '<br />';
             }             
         }
-        if ($this->location != null)
-            $string .= "[location] => " . $this->location[latitude] . ", " . $this->location[longitude] . "<br />";
+        if ( ($geopoint = $this->location) != null)
+            $string .= "[location] => " . $geopoint->location['latitude'] . ", " . $geopoint->location['longitude'] . "<br />";
         if ($this->loveCounter != null)
             $string .= "[ loveCounter ] => " . $this->loveCounter . "</br>";
         if ($this->lovers != null && count($this->lovers) > 0) {

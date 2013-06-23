@@ -72,45 +72,26 @@ class ActivityParse {
      * Salva un Activity nel DB di parse
      * @param Activity $activity
      */
-    public function save(Activity $activity) {
-
+    public function saveActivity(Activity $activity) {
         //creo un'istanza dell'oggetto della libreria ParseLib
         $parseObj = new parseObject("Activity");
-
         $parseObj->accepted = $activity->getAccepted();
-
         $parseObj->active = $activity->getActive();
-
         $parseObj->album = toParsePointer("Album", $activity->getAlbum());
-
         $parseObj->comment = toParsePointer("Comment", $activity->getComment());
-
         $parseObj->event = toParsePointer("Event", $activity->getEvent());
-
         $parseObj->fromUser = toParsePointer("_User", $activity->getFromUser());
-
         $parseObj->image = toParsePointer("Image", $activity->getImage());
-
         $parseObj->playlist = toParsePointer("Playlist", $activity->getPlaylist());
-
         $parseObj->question = toParsePointer("Question", $activity->getQuestion());
-
         $parseObj->read = $activity->getRead();
-
         $parseObj->record = toParsePointer("Record", $activity->getRecord());
-
         $parseObj->song = toParsePointer("Song", $activity->getSong());
-
         $parseObj->status = $activity->getStatus();
-
         $parseObj->toUser = toParsePointer("_User", $activity->getToUser());
-
         $parseObj->type = $activity->getType();
-
         $parseObj->userStatus = toParsePointer("_User", $activity->getUserStatus());
-
         $parseObj->video = toParsePointer("Video", $activity->getVideo());
-
         $parseObj->ACL = toParseACL($activity->getACL());
 
         //caso update
@@ -136,9 +117,14 @@ class ActivityParse {
         return $activity;
     }
 
-    public function deleteActivity($activity) {
-        $activity->setActive(false);
-        return $this->save($activity);
+    public function deleteActivity($objectId) {
+        try {
+            $parseObject = new parseObject('Activity');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     /**
@@ -148,9 +134,8 @@ class ActivityParse {
      */
     public function getActivity($objectId) {
         try {
-            $parseRestClient = new parseRestClient();
-            $result = $parseRestClient->get($objectId);
-            return $this->parseToActivity($result);
+            $query = new parseObject("Activity");
+            return $this->parseToActivity($query->get($objectId));
         } catch (Exception $exception) {
             return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
@@ -162,9 +147,10 @@ class ActivityParse {
             $result = $this->parseQuery->find();
             if (is_array($result->results) && count($result->results) > 0) {
                 $activities = array();
-                foreach ($result->results as $activity) {
-                    if ($activity) {
-                        $activities[] = $this->parseToActivity($activity);
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $video = $this->parseToActivity($obj);
+                        $activities[$video->getObjectId] = $video;
                     }
                 }
             }

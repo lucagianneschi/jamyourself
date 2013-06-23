@@ -46,7 +46,7 @@ class ImageParse {
         $this->parseQuery = new parseQuery("Image");
     }
 
-    function save(Image $image) {
+    function saveImage(Image $image) {
 
         //recupero le info dell'oggetto
         $parse = new parseObject("Image");
@@ -64,7 +64,11 @@ class ImageParse {
         $parseObj->location = toParseGeoPoint($image->getLocation());
         $parseObj->loveCounter = $image->getLoveCounter();
         $parseObj->lovers = toParseRelation("_User", $image->getLovers());
-        $parseObj->tags = $image->getTags();
+        if ($image->getTags() != null && count($image->getTags()) > 0)
+            $parseObj->tags = $image->getTags();
+        else
+            $parseObj->tags = null;
+
         $parseObj->ACL = toParseACL($image->getACL());
 
         if (( $image->getObjectId()) != null) {
@@ -98,15 +102,20 @@ class ImageParse {
         return $image;
     }
 
-    function delete(Image $image) {
-        $image->setActive(false);
-        return $this->save($image);
+    public function deleteImage($objectId) {
+        try {
+            $parseObject = new parseObject('Image');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     public function getImage($objectId) {
         try {
-            $parseRestClient = new parseRestClient();
-            $result = $parseRestClient->get($objectId);
+            $query = new parseObject("Image");
+            $result = $query->get($objectId);
             return $this->parseToImage($result);
         } catch (Exception $exception) {
             return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
@@ -119,9 +128,10 @@ class ImageParse {
             $result = $this->parseQuery->find();
             if (is_array($result->results) && count($result->results) > 0) {
                 $images = array();
-                foreach ($result->results as $image) {
-                    if ($image) {
-                        $images[] = $this->parseToImage($image);
+                foreach ($result->results as $obj) {
+                    if ($obj) {
+                        $image = $this->parseToImage($obj);
+                        $images[$image->getObjectId()] = $image;
                     }
                 }
             }
@@ -143,13 +153,13 @@ class ImageParse {
             $image->setCounter($parseObj->counter);
             $image->setDescription($parseObj->description);
             $image->setFeaturing(fromParseRelation("Image", "featuring", $parseObj->objectId, "_User"));
-            $image->setFile(fromParseFile($parseObj->file));
+            //$image->setFile(fromParseFile($parseObj->file));
             $image->setFilePath($parseObj->filePath);
             $image->setFromUser(fromParsePointer($parseObj->fromUser));
             $image->setLocation(fromParseGeoPoint($parseObj->location));
             $image->setLoveCounter($parseObj->loveCounter);
             $image->setLovers(fromParseRelation("Image", "lovers", $parseObj->objectId, "_User"));
-            $image->setTags($parseObj->tags);
+            //$image->setTags($parseObj->tags);
             $image->setCreatedAt(fromParseDate($parseObj->createdAt));
             $image->setUpdatedAt(fromParseDate($parseObj->updatedAt));
             $image->setACL(fromParseACL($parseObj->ACL));

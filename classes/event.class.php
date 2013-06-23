@@ -354,8 +354,8 @@ class Event {
             $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $string .= '[invited] => NULL<br />';
         }
-        $parseGeoPoint = $this->getLocation();
-        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
+
+        if ( ($parseGeoPoint = $this->getLocation()) != null) {
             $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
         } else {
             $string .= '[location] => NULL<br />';
