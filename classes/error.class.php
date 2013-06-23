@@ -109,7 +109,15 @@ class Error {
         $string .= '[errorClass] => ' . $this->getErrorClass() . '<br />';
         $string .= '[errorCode] => ' . $this->getErrorCode() . '<br />';
         $string .= '[errorFunction] => ' . $this->getErrorFunction() . '<br />';
-        $string .= '[errorFunctionParameter] => ' . $this->getErrorFunctionParameter() . '<br />';
+        $string .= '[errorFunctionParameter] => <br />';
+        if( $this->getErrorFunctionParameter() && count($this->getErrorFunctionParameter())>0 ){
+                foreach ($this->getErrorFunctionParameter() as $key => $value) {
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '[ param ] => ' . $key . ' -> ' . $value . '<br />';
+                }
+        }
+        else $string .= 'NULL <br/>';
         $string .= '[errorMessage] => ' . $this->getErrorMessage() . '<br />';
         if (($createdAt = $this->getCreatedAt()))
             $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
