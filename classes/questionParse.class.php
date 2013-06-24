@@ -45,21 +45,19 @@ class QuestionParse {
             $question = $this->parseToQuestion($res);
             return $question;
         } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
     
     public function getQuestions() {
-        $questions = null;
-        try {
-            $result = $this->parseQuery->find();
-            if (is_array($result->results) && count($result->results) > 0) {
+		try {
+			$questions = null;
+            $res = $this->parseQuery->find();
+            if (is_array($res->results) && count($res->results) > 0) {
                 $questions = array();
-                foreach ($result->results as $obj) {
-                    if ($obj) {
-                        $question = $this->parseToQuestion($obj);
-                        $questions[$question->getObjectId] = $question;
-                    }
+                foreach ($res->results as $obj) {
+                    $question = $this->parseToQuestion($obj);
+                    $questions[$question->getObjectId()] = $question;
                 }
             }
             return $questions;
@@ -80,9 +78,9 @@ class QuestionParse {
         $this->parseQuery->orderByDescending($key);
     }
 
-    function parseToQuestion(stdClass $parseObj) {
+    function parseToQuestion($parseObj) {
         if ($parseObj == null || !isset($parseObj->objectId))
-		return throwError(new Exception('parseToQuestion parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+			return throwError(new Exception('parseToQuestion parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $question = new Question();
             $question->setObjectId($parseObj->objectId);
@@ -101,8 +99,10 @@ class QuestionParse {
         }
     }
 
-    public function saveQuestion(Question $question) {
-        try {
+    public function saveQuestion($question) {
+        if ($question->getObjectId() != null)
+			return throwError(new Exception('saveQuestion update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
+		try {
             $parseObject = new parseObject('Question');
             is_null($question->getAnswer()) ? $parseObject->answer = null : $parseObject->answer = $question->getAnswer();
             is_null($question->getMailFrom()) ? $parseObject->mailFrom = null : $parseObject->mailFrom = $question->getMailFrom();
