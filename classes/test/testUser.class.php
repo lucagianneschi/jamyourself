@@ -154,7 +154,7 @@ $userParse = new UserParse();
 $username = 'test1193803186';
 $password = 'test1193803186';
 $resLogin = $userParse->loginUser($username, $password);
-if (get_class($resLogin)) {
+if (get_class($resLogin) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resLogin->getErrorMessage() . '<br/>';
 } else {
 	echo '<br />User LOGGED<br />';
