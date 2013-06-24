@@ -80,7 +80,7 @@ class ErrorParse {
 	}
 
     public function parseToError(stdClass $parseObj) {
-        if ($parseObj == null || !isset($parseObj->objectId))
+        if (is_null($parseObj))
 		return throwError(new Exception('parseToError parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $error = new Error();
