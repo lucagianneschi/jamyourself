@@ -26,45 +26,57 @@ require_once CLASSES_DIR . 'question.class.php';
 require_once CLASSES_DIR . 'questionParse.class.php';
 
 $question = new Question();
-$question->setObjectId('aAbBcCdD');
 $question->setAnswer('Questa è una answer');
-$question->setMailFrom('indirizzo di chi invia la Question');
-$question->setMailTo('indirizzo di riceve la Question');
+$question->setMailFrom('Indirizzo di chi invia la Question');
+$question->setMailTo('Indirizzo di riceve la Question');
 $question->setName('nome di chi invia la mail');
 $question->setReplied(false);
-$question->setSubject('oggetto della question');
-$question->setText('testo della question');
-$dateTime = new DateTime();
-$question->setCreatedAt($dateTime);
-$question->setUpdatedAt($dateTime);
+$question->setSubject('Oggetto della question');
+$question->setText('Testo della question');
 $acl = new parseACL();
 $acl->setPublicReadAccess(true);
 $acl->setPublicWriteAccess(true);
 $question->setACL($acl);
 
-echo 'STAMPO LA question APPENA CREATO  <br>';
+echo 'STAMPO LA QUESTION APPENA CREATO  <br>';
 echo $question;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo 'INIZIO IL SALVATAGGIO DELLa question APPENA CREATO<br />';
+echo 'INIZIO IL SALVATAGGIO DELLA QUESTION APPENA CREATA<br />';
 $questionParse = new QuestionParse();
 $resSave = $questionParse->saveQuestion($question);
-if (get_class($resSave) =='Error') {
+if (get_class($resSave) == 'Error') {
     echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
 } else {
-    echo 'FINITO IL SALVATAGGIO DEL question APPENA CREATO<br />';
+    echo '<br />Question SAVED:<br />' . $resSave . '<br />';
 }
 
+echo '<br />FINITO IL SALVATAGGIO DELLA QUESTION APPENA CREATA<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+
 echo '<br />INIZIO IL RECUPERO DI UNA Question<br /><br />';
 
-$questionParse1 = new QuestionParse();
-$questionParse1->whereExists('objectId');
-$questionParse1->orderByDescending('createdAt');
-$questionParse1->setLimit(5);
-$resGets = $questionParse1->getQuestions();
+$questionParse = new QuestionParse();
+$resGet = $questionParse->getQuestion('YvGtWTXV0O');
+if (get_class($resGet) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+} else {
+	echo $resGet;
+}
+
+echo '<br />FINITO IL RECUPERO DI UNA Question<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+echo '<br />INIZIO IL RECUPERO DI PIU\' Question<br /><br />';
+
+$questionParse = new QuestionParse();
+$questionParse->whereExists('objectId');
+$questionParse->orderByDescending('createdAt');
+$questionParse->setLimit(5);
+$resGets = $questionParse->getQuestions();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -79,17 +91,17 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Question <br />';
 
-$questionParse2 = new QuestionParse();
-$question1 = new Question();
-$question1->setObjectId('IA63GZDVAK');
-$question1->setAnswer('Ciao Pippo');
-$question1->setQuestion('Sono una question modificata');
-$resUpdate = $questionParse2->saveQuestion($question1);
+$questionParse = new QuestionParse();
+$question = $questionParse->getQuestion($resSave->getObjectId());
+$question->setAnswer('Ciao Pippo');
+$question->setText('Sono una question modificata');
+$resUpdate = $questionParse->saveQuestion($question);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
 	echo '<br />Question UPDATED<br />';
 }
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Question<br />';
+
 echo '<br />-------------------------------------------------------------------------------<br />';
 ?>
