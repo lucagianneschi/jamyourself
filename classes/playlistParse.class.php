@@ -110,7 +110,7 @@ class PlaylistParse {
         }
     }
 
-    public function savePlaylist(Playlist $playlist) {
+    public function savePlaylist($playlist) {
         try {
 
             $parseObject = new parseObject('Playlist');

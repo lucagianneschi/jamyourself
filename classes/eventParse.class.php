@@ -131,7 +131,7 @@ class EventParse {
         }
     }
 
-    public function saveEvent(Event $event) {
+    public function saveEvent($event) {
         try {
             $parseObject = new parseObject('Event');
             is_null($event->getActive()) ? $parseObject->active = null : $parseObject->active = $event->getActive();

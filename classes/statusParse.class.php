@@ -126,7 +126,7 @@ class StatusParse {
         }
     }
 
-    public function saveStatus(Status $status) {
+    public function saveStatus($status) {
         try {
             $parseObj = new parseObject('Status');
 

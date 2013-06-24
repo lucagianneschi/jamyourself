@@ -124,7 +124,7 @@ class VideoParse {
         }
     }
 
-    public function saveVideo(Video $video) {
+    public function saveVideo($video) {
         try {
             $parseObj = new parseObject('Video');
             is_null($video->getActive()) ? $parseObj->active = null : $parseObj->active = $video->getActive();
