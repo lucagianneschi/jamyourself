@@ -145,57 +145,61 @@ class FaqParse {
 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
-
+ 
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
-
+ 
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
-
+ 
+	public function whereContainedIn($field, $values) {
+		$this->parseQuery->whereContainedIn($field, $values);
+	}
+ 
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
-
-	public function whereNotEqualTo($field, $value) {
-		$this->parseQuery->whereNotEqualTo($field, $value);
-	}
-
+ 
+	public function whereExists($field) {
+		$this->parseQuery->whereExists($field);
+	}	
+ 
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-
-	public function whereLessThan($field, $value) {
-		$this->parseQuery->whereLessThan($field, $value);
-	}
-
+ 
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-
+ 
+	public function whereLessThan($field, $value) {
+		$this->parseQuery->whereLessThan($field, $value);
+	}
+ 
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-
-	public function whereContainedIn($field, $array) {
-		$this->parseQuery->whereContainedIn($field, $array);
-	}
-
+ 
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-
-	public function whereExists($field) {
-		$this->parseQuery->whereExists($field);
+ 
+	public function whereNotEqualTo($field, $value) {
+		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-
+ 
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-
-	public function wherePointer($field, $pointerClass, $objectId) {
-		$this->parseQuery->wherePointer($field, $pointerClass, $objectId);
+ 
+	public function wherePointer($field, $className, $objectId) {
+		$this->parseQuery->wherePointer($field, $className, $objectId);
+	}
+        
+    public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
 	}
 
 }
