@@ -35,9 +35,9 @@ class VideoParse {
 
     public function deleteVideo($objectId) {
         try {
-            $parseObject = new parseObject('Video');
-            $parseObject->active = false;
-            $parseObject->update($objectId);
+            $parseVideo = new parseObject('Video');
+            $parseVideo->active = false;
+            $parseVideo->update($objectId);
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
@@ -45,8 +45,8 @@ class VideoParse {
 
     public function getVideo($objectId) {
         try {
-            $parseObject = new parseObject('Video');
-            $res = $parseObject->get($objectId);
+            $parseVideo = new parseObject('Video');
+            $res = $parseVideo->get($objectId);
             $video = $this->parseToVideo($res);
             return $video;
         } catch (Exception $e) {
