@@ -25,6 +25,7 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
+require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 
 class UserParse {
@@ -50,10 +51,6 @@ class UserParse {
 				$cmtParse = new CommentParse();
 				$cmtParse->deleteComment($cmtObjectId);
 			}
-			foreach($user->getImages() as $imageObjectId) {
-				$imageParse = new ImageParse();
-				$imageParse->deleteImage($imageObjectId);
-			}
 			foreach($user->getPlaylists() as $plObjectId) {
 				$plParse = new PlaylistParse();
 				$plParse->deletePlaylist($plObjectId);
@@ -78,10 +75,6 @@ class UserParse {
 				foreach($user->getRecords() as $recordObjectId) {
 					$recordParse = new RecordParse();
 					$recordParse->deleteRecord($recordObjectId);
-				}
-				foreach($user->getSongs() as $songObjectId) {
-					$songParse = new SongParse();
-					$songParse->deleteSong($songObjectId);
 				}
 			} elseif ($res->type == 'SPOTTER') {
 				//delete properties Spotter
@@ -125,63 +118,37 @@ class UserParse {
 		}
     }
 
-	#############
-	# INVARIATA #
-	#############
-	# Apparentemente non credo che funzioni perchè la chiamata getUser non ha nessun parametro impostato.
-    /**
-     * Effettua il login dell'utente fornendo un utente che deve avere qualche parametro impostato, dopodich� creo uno User specifico
-     * e lo restituisco.
+	/**
+     * Effettua il login dell'utente fornendo un utente che deve avere inserito username o email e password, dopodiche' creo uno User specifico
+     * e lo restituisco
      */
-    public function login($login, $password) {
-
-        //login tramite username o email
-        if (filter_var("some@address.com", FILTER_VALIDATE_EMAIL)) {
-            // valid address
-            $this->parseQuery->where("email", $login);
-        } else {
-            // invalid address
-            $this->parseQuery->where("username", $login);
-        }
-        $user = $this->getUser();
-
-        if ($user != null) {
-            $parse = new parseUser();
-            $parse->username = $user->getUsername();
-            $parse->password = $password;
-            try {
-                $ret = $parse->login();
-                return $this->parseToUser($ret);
-            } catch (Exception $e) {
-                $error = new error();
-                $error->setErrorClass(__CLASS__);
-                $error->setErrorCode($e->getCode());
-                $error->setErrorMessage($e->getMessage());
-                $error->setErrorFunction(__FUNCTION__);
-                $error->setErrorFunctionParameter(func_get_args());
-                $errorParse = new errorParse();
-                $errorParse->saveError($error);
-                return $error;
-            }
-        } else {
-            return null;
-        }
-        return $user;
-    }
-	
-	public function loginUser($username, $password) {
+    public function loginUser($usernameEmail, $password) {
 		try {
+			// determino lo username
+			if (filter_var($usernameEmail, FILTER_VALIDATE_EMAIL)) {
+				$parseQuery = new parseQuery('_User');
+				$parseQuery->where('email', $usernameEmail);
+				$res = $parseQuery->find();
+				if (count($res->results) > 0) {
+					$user = $this->parseToUser($res->results[0]);
+					$username = $user->getUsername();
+				} else {
+					return throwError(new Exception('loginUser email not found'), __CLASS__, __FUNCTION__, func_get_args());
+				}
+			} else {
+				$username = $usernameEmail;
+			}
 			$parseUser = new parseUser();
 			$parseUser->username = $username;
 			$parseUser->password = $password;
-			$ret = $parseUser->login();
-			$user = $this->parseToUser($ret);
+			$res = $parseUser->login();
+			$user = $this->parseToUser($res);
 			return $user;
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
     }
-
+	
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
 	}	
@@ -196,7 +163,7 @@ class UserParse {
  
 	public function parseToUser($res) {
 		if ($res == null || !isset($res->objectId))
-			return throwError(new Exception('parseToUser parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+			return throwError(new Exception('parseToUser parameter is incorrect'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			if ($res->type == 'VENUE') {
 				$user = new Venue();
