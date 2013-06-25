@@ -25,9 +25,9 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
-require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
 require_once CLASSES_DIR . 'imageParse.class.php';
+require_once CLASSES_DIR . 'album.class.php';
 
 class AlbumParse {
 
@@ -94,9 +94,9 @@ class AlbumParse {
         if (is_null($objectId))
             return throwError(new Exception("Invalid Argument :  objectId needed"), __CLASS__, __FUNCTION__, func_get_args());
         try {
-            $parseAlbum = new parseUser();
+            $parseAlbum = new parseAlbum();
             $res = $parseAlbum->get($objectId);
-            $album = $this->parseToUser($res);
+            $album = $this->parseToAlbum($res);
 
             $imagesId = $album->getImages();
             if (is_null($imagesId) && count($imagesId) > 0) {
