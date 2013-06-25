@@ -168,7 +168,7 @@ class UserParse {
 	}
  
 	public function parseToUser($res) {
-		if ($res == null || !isset($res->objectId))
+		if (is_null($res))
 			return throwError(new Exception('parseToUser parameter is incorrect'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			if ($res->type == 'VENUE') {
