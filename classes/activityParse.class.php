@@ -26,28 +26,6 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 require_once CLASSES_DIR . 'activity.class.php';
-require_once CLASSES_DIR . 'error.class.php';
-require_once CLASSES_DIR . 'errorParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'event.class.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
-require_once CLASSES_DIR . 'imageParse.class.php';
-require_once CLASSES_DIR . 'image.class.php';
-require_once CLASSES_DIR . 'playlistParse.class.php';
-require_once CLASSES_DIR . 'playlist.class.php';
-require_once CLASSES_DIR . 'questionParse.class.php';
-require_once CLASSES_DIR . 'question.class.php';
-require_once CLASSES_DIR . 'recordParse.class.php';
-require_once CLASSES_DIR . 'record.class.php';
-require_once CLASSES_DIR . 'songParse.class.php';
-require_once CLASSES_DIR . 'song.class.php';
-require_once CLASSES_DIR . 'statusParse.class.php';
-require_once CLASSES_DIR . 'status.class.php';
-require_once CLASSES_DIR . 'videoParse.class.php';
-require_once CLASSES_DIR . 'video.class.php';
 
 class ActivityParse {
 
@@ -160,7 +138,7 @@ class ActivityParse {
         if ($parseObj == null || !isset($parseObj->objectId))
             return false;
 
-        $activity = new activity();
+        $activity = new Activity();
 
         try {
 
