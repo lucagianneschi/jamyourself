@@ -36,9 +36,9 @@ class PlaylistParse {
 
     public function deletePlaylist($objectId) {
         try {
-            $parseObject = new parseObject('Playlist');
-            $parseObject->active = false;
-            $parseObject->update($objectId);
+            $parsePlaylist = new parseObject('Playlist');
+            $parsePlaylist->active = false;
+            $parsePlaylist->update($objectId);
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
@@ -50,8 +50,8 @@ class PlaylistParse {
 
     public function getPlaylist($objectId) {
         try {
-            $parseObject = new parseObject('Playlist');
-            $res = $parseObject->get($objectId);
+            $parsePlaylist = new parseObject('Playlist');
+            $res = $parsePlaylist->get($objectId);
             $playlist = $this->parseToPlaylist($res);
             return $playlist;
         } catch (Exception $e) {
@@ -62,10 +62,10 @@ class PlaylistParse {
      public function getPlaylists() {
         $playlists = null;
         try {
-            $result = $this->parseQuery->find();
-            if (is_array($result->results) && count($result->results) > 0) {
+            $res = $this->parseQuery->find();
+            if (is_array($res->results) && count($res->results) > 0) {
                 $playlists = array();
-                foreach ($result->results as $obj) {
+                foreach ($res->results as $obj) {
                     if ($obj) {
                         $playlist = $this->parseToPlaylist($obj);
                         $playlists[$playlist->getObjectId] = $playlist;
@@ -73,8 +73,8 @@ class PlaylistParse {
                 }
             }
             return $playlists;
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
@@ -90,20 +90,20 @@ class PlaylistParse {
         $this->parseQuery->orderByDescending($value);
     }
 
-    function parseToPlaylist(stdClass $parseObj) {
-        if ($parseObj == null || !isset($parseObj->objectId))
-		return throwError(new Exception('parseToPlaylist parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+    function parseToPlaylist($res) {
+        if (is_null($res))
+		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $playlist = new Playlist();
-            $playlist->setObjectId($parseObj->objectId);
-            $playlist->setActive($parseObj->active);
-            $playlist->setFromUser(fromParsePointer($parseObj->fromUser));
-            $playlist->setName($parseObj->name);
-            $playlist->setSongs(fromParseRelation("Playlist", "songs", $parseObj->objectId, "Song"));
-            $playlist->setUnlimited($parseObj->unlimited);
-            $playlist->setCreatedAt(fromParseDate($parseObj->createdAt));
-            $playlist->setUpdatedAt(fromParseDate($parseObj->updatedAt));
-            $playlist->setACL(fromParseACL($parseObj->ACL));
+            $playlist->setObjectId($res->objectId);
+            $playlist->setActive($res->active);
+            $playlist->setFromUser(fromParsePointer($res->fromUser));
+            $playlist->setName($res->name);
+            $playlist->setSongs(fromParseRelation("Playlist", "songs", $res->objectId, "Song"));
+            $playlist->setUnlimited($res->unlimited);
+            $playlist->setCreatedAt(fromParseDate($res->createdAt));
+            $playlist->setUpdatedAt(fromParseDate($res->updatedAt));
+            $playlist->setACL(fromParseACL($res->ACL));
             return $playlist;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
@@ -113,99 +113,86 @@ class PlaylistParse {
     public function savePlaylist($playlist) {
         try {
 
-            $parseObject = new parseObject('Playlist');
-            is_null($playlist->getActive()) ? $parseObject->active = null : $parseObject->active = $playlist->getActive();
-            is_null($playlist->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $playlist->getFromUser());
-            is_null($playlist->getName()) ? $parseObject->name = null : $parseObject->name = $playlist->getName();
-            is_null($playlist->getSongs()) ? $parseObject->songs = null : $parseObject->songs = toParseRelation('Song', $playlist->getSongs());
-            is_null($playlist->getUnlimited()) ? $parseObject->unlimited = false : $parseObject->unlimited = $playlist->getUnlimited();
-            is_null($playlist->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($playlist->getACL());
+            $parsePlaylist = new parseObject('Playlist');
+            is_null($playlist->getActive()) ? $parsePlaylist->active = true : $parsePlaylist->active = $playlist->getActive();
+            is_null($playlist->getFromUser()) ? $parsePlaylist->fromUser = null : $parsePlaylist->fromUser = toParsePointer('_User', $playlist->getFromUser());
+            is_null($playlist->getName()) ? $parsePlaylist->name = null : $parsePlaylist->name = $playlist->getName();
+            is_null($playlist->getSongs()) ? $parsePlaylist->songs = null : $parsePlaylist->songs = toParseRelation('Song', $playlist->getSongs());
+            is_null($playlist->getUnlimited()) ? $parsePlaylist->unlimited = false : $parsePlaylist->unlimited = $playlist->getUnlimited();
+			$acl = new ParseACL();
+			$acl = setPuclicWriteAccess(true);
+			$acl = setPuclicReadAccess(true);
+            is_null($playlist->getACL()) ? $parsePlaylist->ACL = $acl : $parsePlaylist->ACL = toParseACL($playlist->getACL());
             if ($playlist->getObjectId() == '') {
-                $res = $parseObject->save();
+                $res = $parsePlaylist->save();
                 $playlist->setObjectId($res->objectId);
                 return $playlist;
             } else {
-                $parseObject->update($playlist->getObjectId());
+                $parsePlaylist->update($playlist->getObjectId());
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
-    public function setLimit($int) {
-        $this->parseQuery->setLimit($int);
+    public function setLimit($limit) {
+        $this->parseQuery->setLimit($limit);
     }
 
-    public function setSkip($int) {
-        $this->parseQuery->setSkip($int);
+    public function setSkip($skip) {
+        $this->parseQuery->setSkip($skip);
     }
 
-    public function whereInclude($value) {
-        $this->parseQuery->whereInclude($value);
+    public function where($field, $value) {
+        $this->parseQuery->where($field, $value);
     }
 
-    public function where($key, $value) {
-        $this->parseQuery->where($key, $value);
+    public function whereContainedIn($field, $values) {
+        $this->parseQuery->whereContainedIn($field, $values);
     }
 
-    public function whereEqualTo($key, $value) {
-        $this->parseQuery->whereEqualTo($key, $value);
+    public function whereEqualTo($field, $value) {
+        $this->parseQuery->whereEqualTo($field, $value);
     }
 
-    public function whereNotEqualTo($key, $value) {
-        $this->parseQuery->whereNotEqualTo($key, $value);
+    public function whereExists($field) {
+        $this->parseQuery->whereExists($field);
     }
 
-    public function whereGreaterThan($key, $value) {
-        $this->parseQuery->whereGreaterThan($key, $value);
+    public function whereGreaterThan($field, $value) {
+        $this->parseQuery->whereGreaterThan($field, $value);
     }
 
-    public function whereLessThan($key, $value) {
-        $this->parseQuery->whereLessThan($key, $value);
+    public function whereGreaterThanOrEqualTo($field, $value) {
+        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
-    public function whereGreaterThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
+    public function whereLessThan($field, $value) {
+        $this->parseQuery->whereLessThan($field, $value);
     }
 
-    public function whereLessThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
+    public function whereLessThanOrEqualTo($field, $value) {
+        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
     }
 
-    public function whereContainedIn($key, $value) {
-        $this->parseQuery->whereContainedIn($key, $value);
+    public function whereNotContainedIn($field, $array) {
+        $this->parseQuery->whereNotContainedIn($field, $array);
     }
 
-    public function whereNotContainedIn($key, $value) {
-        $this->parseQuery->whereNotContainedIn($key, $value);
+    public function whereNotEqualTo($field, $value) {
+        $this->parseQuery->whereNotEqualTo($field, $value);
     }
 
-    public function whereExists($key) {
-        $this->parseQuery->whereExists($key);
+    public function whereNotExists($field) {
+        $this->parseQuery->whereDoesNotExist($field);
     }
 
-    public function whereDoesNotExist($key) {
-        $this->parseQuery->whereDoesNotExist($key);
+    public function wherePointer($field, $className, $objectId) {
+        $this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
-    public function whereRegex($key, $value, $options = '') {
-        $this->parseQuery->whereRegex($key, $value, $options = '');
-    }
-
-    public function wherePointer($key, $className, $objectId) {
-        $this->parseQuery->wherePointer($key, $className, $objectId);
-    }
-
-    public function whereInQuery($key, $className, $inQuery) {
-        $this->parseQuery->whereInQuery($key, $className, $inQuery);
-    }
-
-    public function whereNotInQuery($key, $className, $inQuery) {
-        $this->parseQuery->whereNotInQuery($key, $className, $inQuery);
-    }
-
-    public function whereRelatedTo($key, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($key, $className, $objectId);
+    public function whereRelatedTo($field, $className, $objectId) {
+        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
     }
 
 }
