@@ -735,7 +735,7 @@ class Spotter extends User {
         return $this->sex;
     }
 
-    public function setBirthDay(DateTime $birthDay) {
+    public function setBirthDay($birthDay) {
         $this->birthDay = $birthDay;
     }
 
@@ -767,7 +767,7 @@ class Spotter extends User {
         $string = parent::__toString();
 
         if ($this->getBirthDay() != null) {
-            $string .= "[birthDay] => " . $this->getBirthDay()->format("d-m-Y") . "<br />";
+            $string .= "[birthDay] => " . $this->getBirthDay() . "<br />";
         } else {
             $string .= "[birthDay] => NULL<br />";
         }
