@@ -26,12 +26,13 @@ require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 
 require_once CLASSES_DIR . 'user.class.php';
+
 require_once CLASSES_DIR . 'albumParse.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'playlistParse.class.php';
-require_once CLASSES_DIR . 'statusesParse.class.php';
 require_once CLASSES_DIR . 'eventParse.class.php';
+require_once CLASSES_DIR . 'playlistParse.class.php';
 require_once CLASSES_DIR . 'recordParse.class.php';
+require_once CLASSES_DIR . 'statusesParse.class.php';
 
 class UserParse {
 
@@ -129,7 +130,7 @@ class UserParse {
      */
     public function loginUser($usernameEmail, $password) {
 		try {
-			// determino lo username
+			// determino lo username tramite l'email
 			if (filter_var($usernameEmail, FILTER_VALIDATE_EMAIL)) {
 				$parseQuery = new parseQuery('_User');
 				$parseQuery->where('email', $usernameEmail);
@@ -190,7 +191,7 @@ class UserParse {
 				$user = new Spotter();
 				//properties Spotter
 				// TODO - attualmente la data di nascita è gestita come una normale Date, ma deve essere gestita staticamente!!!
-				$user->setBirthDay(new DateTime($res->birthDay));
+				$user->setBirthDay($res->birthDay);
 				$user->setFacebookId($res->facebookId);
 				$user->setFirstname($res->firstname);
 				$user->setFollowing(fromParseRelation('_User', 'following', $res->objectId, '_User'));
@@ -315,7 +316,6 @@ class UserParse {
 				$parseUser->sex = null;
 			} elseif ($user->getType() == 'SPOTTER') {
 				$parseUser->address = null;
-				// TODO - attualmente la data di nascita è gestita come una normale Date, ma deve essere gestita staticamente!!!
 				is_null($user->getBirthDay()) ? $parseUser->birthDay = null : $parseUser->birthDay = $user->getBirthDay();
 				$parseUser->collaboration = null;
 				$parseUser->events = null;
