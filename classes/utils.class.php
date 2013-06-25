@@ -11,7 +11,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once CLASSES_DIR . 'error.class.php';
+require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -26,7 +26,7 @@ require_once CLASSES_DIR . 'errorParse.class.php';
  */
 function fromParseACL($parseACL) {
 
-    if ($parseACL != null && count((array) $parseACL) > 0) {
+    if (!is_null($parseACL) && count((array) $parseACL) > 0) {
 
         $ACL = new parseACL();
         foreach ($parseACL as $key => $value) {
@@ -39,26 +39,26 @@ function fromParseACL($parseACL) {
                 }
             } else {
                 if (isset($value->read)) {
-                    $ACL->setReadAccessForId($key,$parseACL->{$key}->read);
+                    $ACL->setReadAccessForId($key, $parseACL->{$key}->read);
                 }
                 if (isset($value->write)) {
-                    $ACL->setWriteAccessForId($key,$parseACL->{$key}->write);
+                    $ACL->setWriteAccessForId($key, $parseACL->{$key}->write);
                 }
             }
         }
         return $ACL;
     }
     else
-        return null;
+        return throwError(new Exception("fromParseACL: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 /**
  * @param parseACL $ACL
- * @return null
+
  */
 function toParseACL($ACL) {
-    if ($ACL == null || !isset($ACL->acl) || ($ACL->acl == null))
-        return null;
+    if (is_null($ACL) || !isset($ACL->acl) || is_null($ACL->acl))
+        return throwError(new Exception("toParseACL: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
     return $ACL->acl;
 }
 
@@ -79,7 +79,7 @@ function fromParseDate($date) {
     } else if ($date != null && count($date) > 0)
         return new DateTime($date);
     else
-        return null;
+        return throwError(new Exception("toParseACL: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 /**
@@ -87,12 +87,12 @@ function fromParseDate($date) {
  * @param DateTime $date
  */
 function toParseDate($date) {
-    if ($date != null && is_a($date, "DateTime")) {
+    if (!is_null($date) && is_a($date, "DateTime")) {
         $parseRestClient = new parseRestClient();
         return $parseRestClient->dataType("date", $date->format("r"));
     }
     else
-        return null;
+        return throwError(new Exception("toParseDate: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,25 +104,25 @@ function toParseDate($date) {
 /**
  * 
  * @param type $geoPoint
- * @return null
+
  */
 function fromParseGeoPoint($geoPoint) {
-    if ($geoPoint != null && is_object($geoPoint) && isset($geoPoint->latitude) && isset($geoPoint->longitude)) {
+    if (!is_null($geoPoint) && is_object($geoPoint) && isset($geoPoint->latitude) && isset($geoPoint->longitude)) {
         $parseGeoPointer = new parseGeoPoint($geoPoint->latitude, $geoPoint->longitude);
         return $parseGeoPointer;
     } else {
-        return null;
+        return throwError(new Exception("fromParseGeoPoint: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
     }
 }
 
 /**
  * Restituisce un array che rappresenta un tipo GeoPoint in Parse
  * @param parseGeoPoint $geoPoint
- * @return null
+
  */
 function toParseGeoPoint($geoPoint) {
-    if ($geoPoint == null || !isset($geoPoint->location))
-        return null;
+    if (is_null($geoPoint) || !isset($geoPoint->location))
+        return throwError(new Exception("toParseGeoPoint: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
     return $geoPoint->location;
 }
 
@@ -141,29 +141,29 @@ function toParseGeoPoint($geoPoint) {
  * @return \parseFile|null
  */
 function fromParseFile($filePointer, $mime_type) {
-    if ($filePointer != null && isset($filePointer->url)) {
+    if (!is_null($filePointer) && isset($filePointer->url)) {
         try {
             $data = file_get_contents($filePointer->url);
             $parseFile = new parseFile($mime_type, $data);
             $parseFile->_fileName = $filePointer->name;
             return $parseFile;
         } catch (Exception $exception) {
-            return throwError($exception, "Utils", __FUNCTION__, func_get_args ());
+            return throwError($exception, "Utils", __FUNCTION__, func_get_args());
         }
     }
     else
-        return null;
+        return throwError(new Exception("fromParseFile: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 /**
  * Crea un array visibile da Parse come un tipo puntatore a "File"
  * preoccupandosi di uploadarlo (per file GIA' esistenti in Parse)
  * @param parseFile $parseFile
- * @return null
+
  */
 function toParseFile($parseFile) {
 
-    if ($parseFile != null && isset($parseFile->_fileName)) {
+    if (!is_null($parseFile) && isset($parseFile->_fileName)) {
         //carico i contenuti del file    
         //ora recupero il nome del file e creo un puntatore al file col dataType
         $parseRestClient = new parseRestClient();
@@ -172,7 +172,7 @@ function toParseFile($parseFile) {
         return $parseFile;
     }
     else
-        return null;
+        return throwError(new Exception("toParseFile: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 /**
@@ -181,11 +181,11 @@ function toParseFile($parseFile) {
  * @param type $pathFile il path del file
  * @param type $mime_type il tipo MIME del file, es: "txt" 
  * oppure "pdf/application" oppure "mp3/audio" oppure "img/jpg", ecc...
- * @return null
+
  */
 function uploadFile($pathFile, $mime_type = '') {
 
-    if ($pathFile != null && file_exists($pathFile) && $mime_type != null) {
+    if (!is_null($pathFile) && file_exists($pathFile) && !is_null($mime_type)) {
         try {
             //carico i contenuti del file    
             $data = file_get_contents($pathFile);
@@ -196,20 +196,20 @@ function uploadFile($pathFile, $mime_type = '') {
             //tento l'upload su parse
             $result = $pFile->save($path_parts['filename']);
             //
-            if ($result!= null && isset($result->name)) {
+            if (!is_null($result) && isset($result->name)) {
                 //ora recupero il nome del file e creo un puntatore al file col dataType
-                $pFile->_fileName = $result->name;                
+                $pFile->_fileName = $result->name;
                 //restituisco...
                 return $pFile;
             }
             else
-                return null;
+                return throwError(new Exception("uploadFile: upload failed"), "Utils", __FUNCTION__, func_get_args());
         } catch (Exception $exception) {
             return throwError($exception, "Utils", __FUNCTION__, func_get_args());
         }
     }
     else
-        return null;
+        return throwError(new Exception("uploadFile: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -222,7 +222,7 @@ function uploadFile($pathFile, $mime_type = '') {
  * Fornisce una stringa che rappresenta l'objectId dell'oggetto rappresentato
  * come puntatore in Parse
  * @param type $pointer l'oggetto puntatore di Parse
- * @return null
+
  */
 function fromParsePointer($pointer) {
     if (is_object($pointer) &&
@@ -233,7 +233,7 @@ function fromParsePointer($pointer) {
 
         return $pointer->objectId;
     } else {
-        return null;
+        return throwError(new Exception("fromParsePointer: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
     }
 }
 
@@ -241,7 +241,7 @@ function fromParsePointer($pointer) {
  * Restituisce un array che rappresenta un puntatore in Parse
  * @param type $className nome della classe a cui si punta
  * @param type $objectId id dell'oggetto puntato
- * @return null
+
  */
 function toParsePointer($className, $objectId) {
     //se sono stringhe valide
@@ -250,7 +250,7 @@ function toParsePointer($className, $objectId) {
         return $parseRestClient->dataType("pointer", array($className, $objectId));
     }
     else
-        return null;
+        return throwError(new Exception("toParsePointer: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -277,7 +277,7 @@ function toParsePointer($className, $objectId) {
  */
 function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassName) {
 
-    if ($fromClassName != null && $fromField != null && $fromObjectId != null && $toClassName != null &&
+    if (!is_null($toClassName) && $fromField != null && $fromObjectId != null && $toClassName != null &&
             count($fromClassName) > 0 && count($fromField) > 0 && count($fromObjectId) > 0 && count($toClassName) > 0) {
 
         //inizializzo la variabile di ritorno a null
@@ -302,41 +302,40 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
                 return $objectids;
             }
             else
-                return null;
+                return throwError(new Exception("fromParseRelation: empty relation"), "Utils", __FUNCTION__, func_get_args());
         } catch (Exception $e) {
             //salvo l'errore
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args ());
+            return throwError($e, "Utils", __FUNCTION__, func_get_args());
         }
     }
     else
-        return null;
+        return throwError(new Exception("fromParseRelation: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 /**
  * Crea un array di punatori che rappresenta una relation in Parse a partire da un array
  * di stringhe di objectId
  * @param array $array
- * @return null
  */
 function toParseRelation($className, $objects) {
 
-    if ($className != null && $objects != null && count($className) > 0 && count($objects) > 0) {
+    if ($className != null && $objects != null && count($className) > 0) {
         $arrayPointer = array();
+        if (count($objects) > 0) {
+            foreach ($objects as $objectId) {
+                $pointer = toParsePointer($className, $objectId);
+                if ($pointer)
+                    $arrayPointer[] = $pointer;
+            }
 
-        foreach ($objects as $objectId) {
-            $pointer = toParsePointer($className, $objectId);
-            if ($pointer)
-                $arrayPointer[] = $pointer;
-        }
-        if (count($arrayPointer) > 0) {
             $parseRestClient = new parseRestClient();
             return $parseRestClient->dataType("relation", $arrayPointer);
         }
         else
-            return null;
+            return throwError(new Exception("toParseRelation: Array Id is empty"), "Utils", __FUNCTION__, func_get_args());
     }
     else
-        return null;
+        return throwError(new Exception("toParseRelation: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -349,7 +348,7 @@ function toParseRelation($className, $objects) {
  * Funzione per la gestione degli errori
  * 
  * @param type $exception Eccezione lanciata
- * @param type $class =  impostato al parametro __CLASS__
+ * @param type $class =  impostato al parametro "Utils"
  * @param type $function = impostato al parametro __FUNCTION__
  * @param type $args = impostato al parametro func_get_args()
  * @return \error 
