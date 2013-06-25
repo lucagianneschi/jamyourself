@@ -29,10 +29,10 @@ require_once CLASSES_DIR . 'user.class.php';
 
 require_once CLASSES_DIR . 'albumParse.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
+# require_once CLASSES_DIR . 'eventParse.class.php';
 require_once CLASSES_DIR . 'playlistParse.class.php';
-require_once CLASSES_DIR . 'recordParse.class.php';
-require_once CLASSES_DIR . 'statusesParse.class.php';
+# require_once CLASSES_DIR . 'recordParse.class.php';
+require_once CLASSES_DIR . 'statusParse.class.php';
 
 class UserParse {
 
