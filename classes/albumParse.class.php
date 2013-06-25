@@ -25,18 +25,9 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
-
 require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
-
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
-
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
-
 require_once CLASSES_DIR . 'imageParse.class.php';
-require_once CLASSES_DIR . 'image.class.php';
 
 class AlbumParse {
 
@@ -47,7 +38,10 @@ class AlbumParse {
         $this->parseQuery = new ParseQuery("Album");
     }
 
-    function saveAlbum(Album $album) {
+    function saveAlbum($album) {
+        if (is_null($album) || is_a($album, "Album"))
+            return throwError(new Exception("Invalid Argument :  Album needed"), __CLASS__, __FUNCTION__, func_get_args());
+
 
         //creo un'istanza dell'oggetto della libreria ParseLib
         $parseObj = new parseObject("Album");
@@ -65,7 +59,7 @@ class AlbumParse {
         $parseObj->location = toParseGeoPoint($album->getLocation());
         $parseObj->loveCounter = $album->getLoveCounter();
         $parseObj->lovers = toParseRelation("_User", $album->getLovers());
-        if ($album->getTags() != null && count($album->getTags()) > 0)
+        if (is_null($album->getTags()) && count($album->getTags()) > 0)
             $parseObj->tags = $album->getTags();
         else
             $parseObj->tags = null;
@@ -73,7 +67,7 @@ class AlbumParse {
         $parseObj->title = $album->getTitle();
         $parseObj->ACL = toParseACL($album->getACL());
         //caso update
-        if ($album->getObjectId() != null) {
+        if (is_null($album->getObjectId())) {
 
             try {
                 $ret = $parseObj->update($album->getObjectId());
@@ -94,25 +88,23 @@ class AlbumParse {
                 return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
             }
         }
-
     }
 
-    public function deleteAlbum($album) {
-        if($album == null || !is_a($album, "Album") || $album->getObjectId() == null) return null;
-        
+    public function deleteAlbum($objectId) {
+        if (is_null($objectId))
+            return throwError(new Exception("Invalid Argument :  objectId needed"), __CLASS__, __FUNCTION__, func_get_args());
         try {
-            $parseObject = new parseObject('Album');
-            $parseObject->active = false;
-            $parseObject->update($album->getObjectId());
+            $parseAlbum = new parseUser();
+            $res = $parseAlbum->get($objectId);
+            $album = $this->parseToUser($res);
 
             $imagesId = $album->getImages();
-            if ($imagesId!=null && count($imagesId) > 0) {
+            if (is_null($imagesId) && count($imagesId) > 0) {
                 $parseImage = new ImageParse();
 
                 foreach ($imagesId as $imageId) {
-                        $parseImage->deleteImage($imageId);
-                    }
-                
+                    $parseImage->deleteImage($imageId);
+                }
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -148,7 +140,10 @@ class AlbumParse {
         }
     }
 
-    function parseToAlbum(stdClass $parseObj) {
+    function parseToAlbum($parseObj) {
+
+        if (is_null($parseObj))
+            return throwError(new Exception('parseToAlbum parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 
         $album = new Album();
 
@@ -159,7 +154,7 @@ class AlbumParse {
             $album->setComments(fromParseRelation("Album", "comments", $parseObj->objectId, "Comment"));
             $album->setCounter($parseObj->counter);
             $album->setCover($parseObj->cover);
-            $album->setCoverFile(fromParseFile($parseObj->coverFile,'image/jpeg'));
+            $album->setCoverFile(fromParseFile($parseObj->coverFile, 'image/jpeg'));
             $album->setDescription($parseObj->description);
             $album->setFeaturing(fromParseRelation("Album", "featuring", $parseObj->objectId, "_User"));
             $album->setFromUser(fromParsePointer($parseObj->fromUser));
@@ -174,7 +169,7 @@ class AlbumParse {
             $album->setUpdatedAt(fromParseDate($parseObj->updatedAt));
             $album->setACL(fromParseACL($parseObj->ACL));
         } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args ());
+            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
         }
 
         return $album;
@@ -273,4 +268,5 @@ class AlbumParse {
     }
 
 }
+
 ?>
