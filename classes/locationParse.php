@@ -40,8 +40,8 @@ class LocationParse {
 
     public function getLocation($objectId) {
         try {
-            $parseObject = new parseObject('Location');
-            $res = $parseObject->get($objectId);
+            $parseLocation = new parseObject('Location');
+            $res = $parseLocation->get($objectId);
             $cmt = $this->parseToLocation($res);
             return $cmt;
         } catch (Exception $e) {
@@ -52,10 +52,10 @@ class LocationParse {
     public function getLocations() {
         $locations = null;
         try {
-            $result = $this->parseQuery->find();
-            if (is_array($result->results) && count($result->results) > 0) {
+            $res = $this->parseQuery->find();
+            if (is_array($res->results) && count($res->results) > 0) {
                 $locations = array();
-                foreach ($result->results as $obj) {
+                foreach ($res->results as $obj) {
                     if ($obj) {
                         $location = $this->parseToLocation($obj);
                         $locations[$location->getObjectId] = $location;
@@ -63,8 +63,8 @@ class LocationParse {
                 }
             }
             return $locations;
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
@@ -80,92 +80,84 @@ class LocationParse {
         $this->parseQuery->orderByDescending($field);
     }
 
-    function parseToLocation(stdClass $parseObj) {
-        if ($parseObj == null || !isset($parseObj->objectId))
-		return throwError(new Exception('parseToLocation parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+    function parseToLocation($res) {
+        if (is_null($res))
+		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $location = new Location();
-            $location->setObjectId($parseObj->objectId);
-            $location->setCity($parseObj->city);
-            $location->setCountry($parseObj->country);
-            $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
+            $location->setObjectId($res->objectId);
+            $location->setCity($res->city);
+            $location->setCountry($res->country);
+            $parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
             $location->setLocation($parseGeoPoint);
-            $location->setLocId($parseObj->locId);
-            $location->setCreatedAt(new DateTime($parseObj->createdAt));
-            $location->setUpdatedAt(new DateTime($parseObj->updatedAt));
-            $location->setACL(toParseACL($parseObj->ACL));
+            $location->setLocId($res->locId);
+            $location->setCreatedAt(new DateTime($res->createdAt));
+            $location->setUpdatedAt(new DateTime($res->updatedAt));
+            $location->setACL(toParseACL($res->ACL));
             return $location;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
 
-    public function setLimit($int) {
-        $this->parseQuery->setLimit($int);
+    public function setLimit($limit) {
+        $this->parseQuery->setLimit($limit);
     }
 
-    public function setSkip($int) {
-        $this->parseQuery->setSkip($int);
+    public function setSkip($skip) {
+        $this->parseQuery->setSkip($skip);
     }
 
-    public function whereEqualTo($key, $value) {
-        $this->parseQuery->whereEqualTo($key, $value);
+    public function where($field, $value) {
+        $this->parseQuery->where($field, $value);
     }
 
-    public function whereNotEqualTo($key, $value) {
-        $this->parseQuery->whereNotEqualTo($key, $value);
+    public function whereContainedIn($field, $values) {
+        $this->parseQuery->whereContainedIn($field, $values);
     }
 
-    public function whereGreaterThan($key, $value) {
-        $this->parseQuery->whereGreaterThan($key, $value);
+    public function whereEqualTo($field, $value) {
+        $this->parseQuery->whereEqualTo($field, $value);
     }
 
-    public function whereLessThan($key, $value) {
-        $this->parseQuery->whereLessThan($key, $value);
+    public function whereExists($field) {
+        $this->parseQuery->whereExists($field);
     }
 
-    public function whereGreaterThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
+    public function whereGreaterThan($field, $value) {
+        $this->parseQuery->whereGreaterThan($field, $value);
     }
 
-    public function whereLessThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
+    public function whereGreaterThanOrEqualTo($field, $value) {
+        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
-    public function whereContainedIn($key, $value) {
-        $this->parseQuery->whereContainedIn($key, $value);
+    public function whereLessThan($field, $value) {
+        $this->parseQuery->whereLessThan($field, $value);
     }
 
-    public function whereNotContainedIn($key, $value) {
-        $this->parseQuery->whereNotContainedIn($key, $value);
+    public function whereLessThanOrEqualTo($field, $value) {
+        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
     }
 
-    public function whereExists($key) {
-        $this->parseQuery->whereExists($key);
+    public function whereNotContainedIn($field, $array) {
+        $this->parseQuery->whereNotContainedIn($field, $array);
     }
 
-    public function whereDoesNotExist($key) {
-        $this->parseQuery->whereDoesNotExist($key);
+    public function whereNotEqualTo($field, $value) {
+        $this->parseQuery->whereNotEqualTo($field, $value);
     }
 
-    public function whereRegex($key, $value, $options = '') {
-        $this->parseQuery->whereRegex($key, $value, $options = '');
+    public function whereNotExists($field) {
+        $this->parseQuery->whereDoesNotExist($field);
     }
 
-    public function wherePointer($key, $className, $objectId) {
-        $this->parseQuery->wherePointer($key, $className, $objectId);
+    public function wherePointer($field, $className, $objectId) {
+        $this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
-    public function whereInQuery($key, $className, $inQuery) {
-        $this->parseQuery->whereInQuery($key, $className, $inQuery);
-    }
-
-    public function whereNotInQuery($key, $className, $inQuery) {
-        $this->parseQuery->whereNotInQuery($key, $className, $inQuery);
-    }
-
-    public function whereRelatedTo($key, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($key, $className, $objectId);
+    public function whereRelatedTo($field, $className, $objectId) {
+        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
     }
 
 }
