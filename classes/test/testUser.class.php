@@ -10,13 +10,17 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 
 // TODO - cambiare il tipo a piacimento per eseguire i test
-$tipo = 'VENUE';
-if ($tipo == 'VENUE') 
+$tipo = 'SPOTTER';
+if ($tipo == 'VENUE') {
 	$user = new Venue();
-elseif ($tipo == 'JAMMER')
+	$user->setType('VENUE');
+} elseif ($tipo == 'JAMMER') {
 	$user = new Jammer();
-elseif ($tipo == 'SPOTTER')
+	$user->setType('JAMMER');
+} elseif ($tipo == 'SPOTTER') {
 	$user = new Spotter();
+	$user->setType('SPOTTER');
+}
 	
 $user->setObjectId();
 $r = rand();
@@ -27,6 +31,7 @@ $user->setPassword('test' . $r);
 $user->setActive(true);
 //$user->setAlbums();
 $user->setBackground('Un background');
+$user->setBirthDay('1982-02-18');
 $user->setCity('Una citta');
 $user->setComments(array("nJr1ulgfVo"));
 $user->setCountry('Un paese');
@@ -52,7 +57,6 @@ $user->setProfileThumbnail('Una micro immagine di profilo');
 $user->setSettings(array('setting1', 'setting2'));
 //$user->setStatuses();
 $user->setTwitterPage('Una pagina twitter');
-$user->setType('VENUE');
 //$user->setVideos();
 $user->setWebsite('Un sito web');
 $user->setYoutubeChannel('Un canale youtube');
