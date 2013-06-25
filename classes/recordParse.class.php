@@ -24,18 +24,8 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
-
-require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
-
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
-
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
-
 require_once CLASSES_DIR . 'songParse.class.php';
-require_once CLASSES_DIR . 'song.class.php';
 
 class RecordParse {
 
@@ -98,10 +88,10 @@ class RecordParse {
             $parseObject->update($objectId);
 
             if ($songsId && count($songsId) > 0) {
-                $parseImage = new ImageParse();
+                $parseSong = new SongParse();
 
                 foreach ($songsId as $songId) {
-                        $parseImage->deleteSong($songId);
+                        $parseSong->deleteSong($songId);
                     }
                 
             }
