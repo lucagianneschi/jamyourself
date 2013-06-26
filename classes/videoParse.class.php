@@ -74,21 +74,32 @@ class VideoParse {
         }
     }
 
-    public function getCount() {
-        return $this->parseQuery->getCount()->count;
-    }
-
-    public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
-    }
-
-    public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
-    }
-
-    public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
-    }
+	/**
+	 * \fn		void orderBy($field)
+	 * \brief	Specifies which field need to be ordered of requested Error
+	 * \param	$field	the field on which to sort
+	 */
+	public function orderBy($field) {
+		$this->parseQuery->orderBy($field);
+	}	
+	
+	/**
+	 * \fn		void orderByAscending($field)
+	 * \brief	Specifies which field need to be ordered ascending of requested Error
+	 * \param	$field	the field on which to sort ascending
+	 */
+	public function orderByAscending($field) {
+		$this->parseQuery->orderByAscending($field);
+	}
+	
+	/**
+	 * \fn		void orderByDescending($field)
+	 * \brief	Specifies which field need to be ordered descending of requested Error
+	 * \param	$field	the field on which to sort descending
+	 */
+	public function orderByDescending($field) {
+		$this->parseQuery->orderByDescending($field);
+	}
 
     function parseToVideo($res) {
         if (is_null($res))
@@ -159,64 +170,145 @@ class VideoParse {
         }
     }
 
-    public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
-    }
-
-    public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
-    }
-
-    public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
-    }
-
-    public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
-    }
-
-    public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
-    }
-
-    public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
-    }
-
-    public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
-    }
-
-    public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
-    }
-
-    public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
-    }
-
-    public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
-    }
-
-    public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
-    }
-
-    public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
-    }
-
-    public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
-    }
-
-    public function wherePointer($field, $className, $objectId) {
-        $this->parseQuery->wherePointer($field, $className, $objectId);
-    }
-
-    public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-    }
+   /**
+	 * \fn		void setLimit($limit)
+	 * \brief	Sets the maximum number of Error to return
+	 * \param	$limit	the maximum number
+	 */
+	public function setLimit($limit) {
+		$this->parseQuery->setLimit($limit);
+	}
+	
+	/**
+	 * \fn		void setSkip($skip)
+	 * \brief	Sets the number of how many Error(s) must be discarded initially
+	 * \param	$skip	the number of Error(s) to skip
+	 */
+	public function setSkip($skip) {
+		$this->parseQuery->setSkip($skip);
+	}
+	
+	/**
+	 * \fn		void where($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function where($field, $value) {
+		$this->parseQuery->where($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereContainedIn($field, $values) {
+		$this->parseQuery->whereContainedIn($field, $values);
+	}
+	
+	/**
+	 * \fn		void whereEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereEqualTo($field, $value) {
+		$this->parseQuery->whereEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereExists($field)
+	 * \brief	Sets a condition for which the field $field must be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereExists($field) {
+		$this->parseQuery->whereExists($field);
+	}	
+	
+	/**
+	 * \fn		void whereGreaterThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThan($field, $value) {
+		$this->parseQuery->whereGreaterThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThan($field, $value) {
+		$this->parseQuery->whereLessThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereNotContainedIn($field, $array) {
+		$this->parseQuery->whereNotContainedIn($field, $array);
+	}
+	
+	/**
+	 * \fn		void whereNotEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereNotEqualTo($field, $value) {
+		$this->parseQuery->whereNotEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotExists($field)
+	 * \brief	Sets a condition for which the field $field must not be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereNotExists($field) {
+		$this->parseQuery->whereDoesNotExist($field);
+	}
+	
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
+	/**
+	 * \fn		void wherePointer($field, $className, $objectId)
+	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className of the Pointer
+	 * \param	$objectId	the string which represent the objectId of the Pointer
+	 */
+	public function wherePointer($field, $className, $objectId) {
+		$this->parseQuery->wherePointer($field, $className, $objectId);
+	}
+		
 }
 ?> 
