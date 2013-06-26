@@ -29,12 +29,22 @@ require_once CLASSES_DIR . 'playlist.class.php';
 class PlaylistParse {
 
     private $parseQuery;
-
+	
+	/**
+	 * \fn		void __construct()
+	 * \brief	The constructor instantiates a new object of type ParseQuery on the Playlist class
+	 */
     function __construct() {
 
         $this->parseQuery = new ParseQuery("Playlist");
     }
-
+	
+	/**
+	 * \fn		void deletePlaylist(string $objectId)
+	 * \brief	Set unactive a specified Playlist by objectId
+	 * \param   $objectId the string that represent the objectId of the Playlist
+	 * \return	error in case of exception
+	 */
     public function deletePlaylist($objectId) {
         try {
             $parsePlaylist = new parseObject('Playlist');
@@ -45,10 +55,22 @@ class PlaylistParse {
         }
     }
 
+	/**
+	 * \fn		number getCount()
+	 * \brief	Returns the number of requests Playlist
+	 * \return	number
+	 */
     public function getCount() {
         return $this->parseQuery->getCount()->count;
     }
-
+	
+	/**
+	 * \fn		void getPlaylist(string $objectId)
+	 * \brief	The function returns the Playlist object specified
+	 * \param	$objectId the string that represent the objectId of the Playlist
+	 * \return	Playlist	the Playlist with the specified $objectId
+	 * \return	Error	the Error raised by the function
+	 */
     public function getPlaylist($objectId) {
         try {
             $parsePlaylist = new parseObject('Playlist');
@@ -60,6 +82,13 @@ class PlaylistParse {
         }
     }
 
+	/**
+	 * \fn		array getPlaylists()
+	 * \brief	The function returns the Playlists objects specified
+	 * \return	array 	an array of Playlist, if one or more Playlist are found
+	 * \return	null	if no Playlist are found
+	 * \return	Error	the Error raised by the function
+	 */
      public function getPlaylists() {
         $playlists = null;
         try {
@@ -79,21 +108,43 @@ class PlaylistParse {
         }
     }
 
-    public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
-    }
-
-    public function orderByAscending($value) {
-        $this->parseQuery->orderByAscending($value);
-    }
-
-    public function orderByDescending($value) {
-        $this->parseQuery->orderByDescending($value);
-    }
-
+	/**
+	 * \fn		void orderBy($field)
+	 * \brief	Specifies which field need to be ordered of requested Playlist
+	 * \param	$field	the field on which to sort
+	 */
+	public function orderBy($field) {
+		$this->parseQuery->orderBy($field);
+	}	
+	
+	/**
+	 * \fn		void orderByAscending($field)
+	 * \brief	Specifies which field need to be ordered ascending of requested Playlist
+	 * \param	$field	the field on which to sort ascending
+	 */
+	public function orderByAscending($field) {
+		$this->parseQuery->orderByAscending($field);
+	}
+	
+	/**
+	 * \fn		void orderByDescending($field)
+	 * \brief	Specifies which field need to be ordered descending of requested Playlist
+	 * \param	$field	the field on which to sort descending
+	 */
+	public function orderByDescending($field) {
+		$this->parseQuery->orderByDescending($field);
+	}
+	
+	/**
+	 * \fn		Playlist parseToPlaylist($res)
+	 * \brief	The function returns a representation of an Playlist object in Parse
+	 * \param	$res 	represent the Playlist object returned from Parse
+	 * \return	Playlist	the Playlist object
+	 * \return	Error	the Error raised by the function
+	 */
     function parseToPlaylist($res) {
         if (is_null($res))
-		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+		return throwError(new Exception('parseToPlaylist parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $playlist = new Playlist();
             $playlist->setObjectId($res->objectId);
@@ -111,6 +162,13 @@ class PlaylistParse {
         }
     }
 
+	/**
+	 * \fn		Playlist savePlaylist(Playlist $playlist)
+	 * \brief	This function save an Playlist object in Parse
+	 * \param	$playlist 	represent the Playlist object to save
+	 * \return	Playlist	the Playlist object with the new objectId parameter saved
+	 * \return	Error	the Error raised by the function
+	 */
     public function savePlaylist($playlist) {
         try {
 
@@ -136,65 +194,146 @@ class PlaylistParse {
         }
     }
 
-    public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
-    }
+    /**
+	 * \fn		void setLimit($limit)
+	 * \brief	Sets the maximum number of Playlist to return
+	 * \param	$limit	the maximum number
+	 */
+	public function setLimit($limit) {
+		$this->parseQuery->setLimit($limit);
+	}
+	
+	/**
+	 * \fn		void setSkip($skip)
+	 * \brief	Sets the number of how many Playlist(s) must be discarded initially
+	 * \param	$skip	the number of Playlist(s) to skip
+	 */
+	public function setSkip($skip) {
+		$this->parseQuery->setSkip($skip);
+	}
+	
+	/**
+	 * \fn		void where($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function where($field, $value) {
+		$this->parseQuery->where($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereContainedIn($field, $values) {
+		$this->parseQuery->whereContainedIn($field, $values);
+	}
+	
+	/**
+	 * \fn		void whereEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereEqualTo($field, $value) {
+		$this->parseQuery->whereEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereExists($field)
+	 * \brief	Sets a condition for which the field $field must be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereExists($field) {
+		$this->parseQuery->whereExists($field);
+	}	
+	
+	/**
+	 * \fn		void whereGreaterThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThan($field, $value) {
+		$this->parseQuery->whereGreaterThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThan($field, $value) {
+		$this->parseQuery->whereLessThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereNotContainedIn($field, $array) {
+		$this->parseQuery->whereNotContainedIn($field, $array);
+	}
+	
+	/**
+	 * \fn		void whereNotEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereNotEqualTo($field, $value) {
+		$this->parseQuery->whereNotEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotExists($field)
+	 * \brief	Sets a condition for which the field $field must not be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereNotExists($field) {
+		$this->parseQuery->whereDoesNotExist($field);
+	}
 
-    public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
-    }
-
-    public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
-    }
-
-    public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
-    }
-
-    public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
-    }
-
-    public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
-    }
-
-    public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
-    }
-
-    public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
-    }
-
-    public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
-    }
-
-    public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
-    }
-
-    public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
-    }
-
-    public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
-    }
-
-    public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
-    }
-
-    public function wherePointer($field, $className, $objectId) {
-        $this->parseQuery->wherePointer($field, $className, $objectId);
-    }
-
-    public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-    }
+	/**
+	 * \fn		void wherePointer($field, $className, $objectId)
+	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className of the Pointer
+	 * \param	$objectId	the string which represent the objectId of the Pointer
+	 */
+	public function wherePointer($field, $className, $objectId) {
+		$this->parseQuery->wherePointer($field, $className, $objectId);
+	}
+		
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
 
 }
 
