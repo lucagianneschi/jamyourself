@@ -1,5 +1,4 @@
 <?php
-
 /* ! \par Info Generali:
  *  \author    Daniele Caldelli
  *  \version   1.0
@@ -18,6 +17,7 @@
  * 
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:error:faq">API</a>
  */
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
