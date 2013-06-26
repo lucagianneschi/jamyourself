@@ -40,9 +40,9 @@ class EventParse {
      */
     public function deleteEvent($objectId) {
         try {
-            $parseObject = new parseObject('Event');
-            $parseObject->active = false;
-            $parseObject->update($objectId);
+            $parseEvent = new parseObject('Event');
+            $parseEvent->active = false;
+            $parseEvent->update($objectId);
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
@@ -54,8 +54,8 @@ class EventParse {
 
     public function getEvent($objectId) {
         try {
-            $parseObject = new parseObject('Event');
-            $res = $parseObject->get($objectId);
+            $parseEvent = new parseObject('Event');
+            $res = $parseEvent->get($objectId);
             $event = $this->parseToEvent($res);
             return $event;
         } catch (Exception $e) {
@@ -66,10 +66,10 @@ class EventParse {
      public function getEvents() {
         $events = null;
         try {
-            $result = $this->parseQuery->find();
-            if (is_array($result->results) && count($result->results) > 0) {
+            $res = $this->parseQuery->find();
+            if (is_array($res->results) && count($res->results) > 0) {
                 $events = array();
-                foreach ($result->results as $obj) {
+                foreach ($res->results as $obj) {
                     if ($obj) {
                         $event = $this->parseToEvent($obj);
                         $events[$event->getObjectId] = $event;
@@ -77,55 +77,70 @@ class EventParse {
                 }
             }
             return $events;
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
-    public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
-    }
+	/**
+	 * \fn		void orderBy($field)
+	 * \brief	Specifies which field need to be ordered of requested Error
+	 * \param	$field	the field on which to sort
+	 */
+	public function orderBy($field) {
+		$this->parseQuery->orderBy($field);
+	}	
+	
+	/**
+	 * \fn		void orderByAscending($field)
+	 * \brief	Specifies which field need to be ordered ascending of requested Error
+	 * \param	$field	the field on which to sort ascending
+	 */
+	public function orderByAscending($field) {
+		$this->parseQuery->orderByAscending($field);
+	}
+	
+	/**
+	 * \fn		void orderByDescending($field)
+	 * \brief	Specifies which field need to be ordered descending of requested Error
+	 * \param	$field	the field on which to sort descending
+	 */
+	public function orderByDescending($field) {
+		$this->parseQuery->orderByDescending($field);
+	}
 
-    public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
-    }
-
-    public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
-    }
-
-    function parseToEvent(stdClass $parseObj) {
-        if ($parseObj == null || !isset($parseObj->objectId))
-		return throwError(new Exception('parseToEvent parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+    function parseToEvent($res) {
+        if (is_null($res))
+		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $event = new Event();
-            $event->setObjectId($parseObj->objectId);
-            $event->setActive($parseObj->active);
-            $attendee = fromParseRelation('Event', 'attendee', $parseObj->objectId, '_User');
+            $event->setObjectId($res->objectId);
+            $event->setActive($res->active);
+            $attendee = fromParseRelation('Event', 'attendee', $res->objectId, '_User');
             $event->setAttendee($attendee);
-            $commentators = fromParseRelation('Event', 'commentators', $parseObj->objectId, '_User');
+            $commentators = fromParseRelation('Event', 'commentators', $res->objectId, '_User');
             $event->setCommentators($commentators);
-            $comments = fromParseRelation('Event', 'comments', $parseObj->objectId, 'Comment');
+            $comments = fromParseRelation('Event', 'comments', $res->objectId, 'Comment');
             $event->setComments($comments);
-            $event->setCounter($parseObj->counter);
-            $featuring = fromParseRelation('Event', 'featuring', $parseObj->objectId, '_User');
+            $event->setCounter($res->counter);
+            $featuring = fromParseRelation('Event', 'featuring', $res->objectId, '_User');
             $event->setFeaturing($featuring);
-            $fromUser = fromParsePointer($parseObj->fromUser);
+            $fromUser = fromParsePointer($res->fromUser);
             $event->setFromUser($fromUser);
-            $parseGeoPoint = new parseGeoPoint($parseObj->location->latitude, $parseObj->location->longitude);
+            $parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
             $event->setLocation($parseGeoPoint);
-            $event->setLocationName($parseObj->locationName);
-            $event->setLoveCounter($parseObj->loveCounter);
-            $lovers = fromParseRelation('Event', 'lovers', $parseObj->objectId, '_User');
+            $event->setLocationName($res->locationName);
+            $event->setLoveCounter($res->loveCounter);
+            $lovers = fromParseRelation('Event', 'lovers', $res->objectId, '_User');
             $event->setLovers($lovers);
-            $refused = fromParseRelation('Event', 'refused', $parseObj->objectId, '_User');
+            $refused = fromParseRelation('Event', 'refused', $res->objectId, '_User');
             $event->setLovers($refused);
-            $event->setTags($parseObj->tags);
-            $event->setThumbnail($parseObj->thumbnail);
-            $event->setTitle($parseObj->title);
-            $event->setCreatedAt(new DateTime($parseObj->createdAt));
-            $event->setUpdatedAt(new DateTime($parseObj->updatedAt));
-            $event->setACL(fromParseACL($parseObj->ACL));
+            $event->setTags($res->tags);
+            $event->setThumbnail($res->thumbnail);
+            $event->setTitle($res->title);
+            $event->setCreatedAt(new DateTime($res->createdAt));
+            $event->setUpdatedAt(new DateTime($res->updatedAt));
+            $event->setACL(fromParseACL($res->ACL));
             return $event;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
@@ -134,98 +149,184 @@ class EventParse {
 
     public function saveEvent($event) {
         try {
-            $parseObject = new parseObject('Event');
-            is_null($event->getActive()) ? $parseObject->active = null : $parseObject->active = $event->getActive();
-            is_null($event->getAttendee()) ? $parseObject->attendee = null : $parseObject->attendee = toParseRelation('_User', $event->getAttendee());
-            is_null($event->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseRelation('_User', $event->getCommentators());
-            is_null($event->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseRelation('Comment', $event->getComments());
-            is_null($event->getCounter()) ? $parseObject->counter = null : $parseObject->counter = $event->getCounter();
-            is_null($event->getDescription()) ? $parseObject->description = null : $parseObject->description = $event->getDescription();
-            is_null($event->getEventDate()) ? $parseObject->eventDate = null : $parseObject->eventDate = toParseDateTime($event->getEventDate());
-            is_null($event->getFeaturing()) ? $parseObject->featuring = null : $parseObject->featuring = toParseRelation('_User', $event->getFeaturing());
-            is_null($event->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $event->getFromUser());
-            is_null($event->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $event->getImage());
-            is_null($event->getInvited()) ? $parseObject->invited = null : $parseObject->invited = toParseRelation('_User', $event->getInvited());
-            is_null($event->getLocation()) ? $parseObject->location = null : $parseObject->location = $event->getLocation();
-            is_null($event->getLocationName()) ? $parseObject->locationName = null : $parseObject->locationName = $event->getLocationName();
-            is_null($event->getLoveCounter()) ? $parseObject->loveCounter = null : $parseObject->loveCounter = $event->getLoveCounter();
-            is_null($event->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseRelation('_User', $event->getLovers());
-            is_null($event->getRefused()) ? $parseObject->refused = null : $parseObject->refused = toParseRelation('_User', $event->getRefused());
-            is_null($event->getTags()) ? $parseObject->tags = null : $parseObject->tags = $event->getTags();
-            is_null($event->getThumbnail()) ? $parseObject->thumbnail = null : $parseObject->thumbnail = $event->getThumbnail();
-            is_null($event->getText()) ? $parseObject->text = null : $parseObject->text = $event->getText();
-            is_null($event->getTitle()) ? $parseObject->title = null : $parseObject->title = $event->getTitle();
-            is_null($event->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($event->getACL());
-            
+            $parseEvent = new parseObject('Event');
+            is_null($event->getActive()) ? $parseEvent->active = true : $parseEvent->active = $event->getActive();
+            is_null($event->getAttendee()) ? $parseEvent->attendee = null : $parseEvent->attendee = toParseRelation('_User', $event->getAttendee());
+            is_null($event->getCommentators()) ? $parseEvent->commentators = null : $parseEvent->commentators = toParseRelation('_User', $event->getCommentators());
+            is_null($event->getComments()) ? $parseEvent->comments = null : $parseEvent->comments = toParseRelation('Comment', $event->getComments());
+            is_null($event->getCounter()) ? $parseEvent->counter = -1 : $parseEvent->counter = $event->getCounter();
+            is_null($event->getDescription()) ? $parseEvent->description = null : $parseEvent->description = $event->getDescription();
+            is_null($event->getEventDate()) ? $parseEvent->eventDate = null : $parseEvent->eventDate = toParseDateTime($event->getEventDate());
+            is_null($event->getFeaturing()) ? $parseEvent->featuring = null : $parseEvent->featuring = toParseRelation('_User', $event->getFeaturing());
+            is_null($event->getFromUser()) ? $parseEvent->fromUser = null : $parseEvent->fromUser = toParsePointer('_User', $event->getFromUser());
+            is_null($event->getImage()) ? $parseEvent->image = null : $parseEvent->image = toParsePointer('Image', $event->getImage());
+            is_null($event->getInvited()) ? $parseEvent->invited = null : $parseEvent->invited = toParseRelation('_User', $event->getInvited());
+            is_null($event->getLocation()) ? $parseEvent->location = null : $parseEvent->location = $event->getLocation();
+            is_null($event->getLocationName()) ? $parseEvent->locationName = null : $parseEvent->locationName = $event->getLocationName();
+            is_null($event->getLoveCounter()) ? $parseEvent->loveCounter = -1 : $parseEvent->loveCounter = $event->getLoveCounter();
+            is_null($event->getLovers()) ? $parseEvent->lovers = null : $parseEvent->lovers = toParseRelation('_User', $event->getLovers());
+            is_null($event->getRefused()) ? $parseEvent->refused = null : $parseEvent->refused = toParseRelation('_User', $event->getRefused());
+            is_null($event->getTags()) ? $parseEvent->tags = null : $parseEvent->tags = $event->getTags();
+            is_null($event->getThumbnail()) ? $parseEvent->thumbnail = null : $parseEvent->thumbnail = $event->getThumbnail();
+            is_null($event->getText()) ? $parseEvent->text = null : $parseEvent->text = $event->getText();
+            is_null($event->getTitle()) ? $parseEvent->title = null : $parseEvent->title = $event->getTitle();
+			$acl = new ParseACL();
+			$acl = setPuclicWriteAccess(true);
+			$acl = setPuclicReadAccess(true);
+            is_null($event->getACL()) ? $parseEvent->ACL = $acl : $parseEvent->ACL = toParseACL($event->getACL());
             if ($event->getObjectId() == '') {
                 is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
-                $res = $parseObject->save();
+                $res = $parseEvent->save();
                 $event->setObjectId($res->objectId);
                 return $event;
             } else {
                 is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseFile($event->getImage());
-                $parseObject->update($event->getObjectId());
+                $parseEvent->update($event->getObjectId());
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
-    public function setLimit($int) {
-        $this->parseQuery->setLimit($int);
-    }
-
-    public function setSkip($int) {
-        $this->parseQuery->setSkip($int);
-    }
-
-    public function where($key, $value) {
-        $this->parseQuery->where($key, $value);
-    }
-
-    public function whereEqualTo($key, $value) {
-        $this->parseQuery->whereEqualTo($key, $value);
-    }
-
-    public function whereNotEqualTo($key, $value) {
-        $this->parseQuery->whereNotEqualTo($key, $value);
-    }
-
-    public function whereGreaterThan($key, $value) {
-        $this->parseQuery->whereGreaterThan($key, $value);
-    }
-
-    public function whereLessThan($key, $value) {
-        $this->parseQuery->whereLessThan($key, $value);
-    }
-
-    public function whereGreaterThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
-    }
-
-    public function whereLessThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
-    }
-
-    public function whereContainedIn($key, $array) {
-        $this->parseQuery->whereContainedIn($key, $array);
-    }
-
-    public function whereNotContainedIn($key, $array) {
-        $this->parseQuery->whereNotContainedIn($key, $array);
-    }
-
-    public function whereExists($key) {
-        $this->parseQuery->whereExists($key);
-    }
-
-    public function whereNotExists($key) {
-        $this->parseQuery->whereDoesNotExist($key);
-    }
-
-    public function wherePointer($key, $className, $objectId) {
-        $this->parseQuery->wherePointer($key, $className, $objectId);
-    }
+       /**
+	 * \fn		void setLimit($limit)
+	 * \brief	Sets the maximum number of Error to return
+	 * \param	$limit	the maximum number
+	 */
+	public function setLimit($limit) {
+		$this->parseQuery->setLimit($limit);
+	}
+	
+	/**
+	 * \fn		void setSkip($skip)
+	 * \brief	Sets the number of how many Error(s) must be discarded initially
+	 * \param	$skip	the number of Error(s) to skip
+	 */
+	public function setSkip($skip) {
+		$this->parseQuery->setSkip($skip);
+	}
+	
+	/**
+	 * \fn		void where($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function where($field, $value) {
+		$this->parseQuery->where($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereContainedIn($field, $values) {
+		$this->parseQuery->whereContainedIn($field, $values);
+	}
+	
+	/**
+	 * \fn		void whereEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereEqualTo($field, $value) {
+		$this->parseQuery->whereEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereExists($field)
+	 * \brief	Sets a condition for which the field $field must be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereExists($field) {
+		$this->parseQuery->whereExists($field);
+	}	
+	
+	/**
+	 * \fn		void whereGreaterThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThan($field, $value) {
+		$this->parseQuery->whereGreaterThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThan($field, $value) {
+		$this->parseQuery->whereLessThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereNotContainedIn($field, $array) {
+		$this->parseQuery->whereNotContainedIn($field, $array);
+	}
+	
+	/**
+	 * \fn		void whereNotEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereNotEqualTo($field, $value) {
+		$this->parseQuery->whereNotEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotExists($field)
+	 * \brief	Sets a condition for which the field $field must not be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereNotExists($field) {
+		$this->parseQuery->whereDoesNotExist($field);
+	}
+	
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
+	/**
+	 * \fn		void wherePointer($field, $className, $objectId)
+	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className of the Pointer
+	 * \param	$objectId	the string which represent the objectId of the Pointer
+	 */
+	public function wherePointer($field, $className, $objectId) {
+		$this->parseQuery->wherePointer($field, $className, $objectId);
+	}
 
 }
 
