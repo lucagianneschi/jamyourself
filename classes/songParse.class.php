@@ -194,8 +194,8 @@ class SongParse {
             is_null($song->getRecord()) ? $parseSong->record = null : $parseSong->record = toParsePointer($song->getRecord());
             is_null($song->getTitle()) ? $parseSong->title = null : $parseSong->title = $song->getTitle();
             $acl = new ParseACL();
-            $acl = setPuclicWriteAccess(true);
-            $acl = setPuclicReadAccess(true);
+            $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
             is_null($song->getACL()) ? $parseSong->ACL = $acl : $parseSong->ACL = toParseACL($song->getACL());
             if ($song->getObjectId() == '') {
                 $res = $parseSong->save();
