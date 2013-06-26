@@ -458,7 +458,20 @@ class Video {
         } else {
             $string .= '[updatedAt] => NULL<br />';
         }
-        $string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
+        if ($this->getACL() != null) {
+			foreach ($this->getACL()->acl as $key => $acl) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[ACL] => ' . $key . '<br />';
+				foreach ($acl as $access => $value) {
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+				}
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[ACL] => NULL<br />';
+		}
         return $string;
     }
 
