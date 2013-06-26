@@ -28,7 +28,11 @@ require_once CLASSES_DIR . 'video.class.php';
 class VideoParse {
 
     private $parseQuery;
-
+	
+	/**
+	 * \fn		void __construct()
+	 * \brief	The constructor instantiates a new object of type ParseQuery on the Video class
+	 */
     public function __construct() {
 
         $this->parseQuery = new ParseQuery("Video");
@@ -44,6 +48,22 @@ class VideoParse {
         }
     }
 
+	/**
+	 * \fn		number getCount()
+	 * \brief	Returns the number of requests Video
+	 * \return	number
+	 */
+	public function getCount() {
+		return $this->parseQuery->getCount()->count;
+	}
+	
+	/**
+	 * \fn		void getVideo(string $objectId)
+	 * \brief	The function returns the Video object specified
+	 * \param	$objectId the string that represent the objectId of the Video
+	 * \return	Video	the Video with the specified $objectId
+	 * \return	Error	the Error raised by the function
+	 */
     public function getVideo($objectId) {
         try {
             $parseVideo = new parseObject('Video');
@@ -54,7 +74,14 @@ class VideoParse {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
-
+	
+	/**
+	 * \fn		array getVideos()
+	 * \brief	The function returns the Videos objects specified
+	 * \return	array 	an array of Video, if one or more Video are found
+	 * \return	null	if no Video are found
+	 * \return	Error	the Error raised by the function
+	 */
     public function getVideos() {
         $videos = null;
         try {
@@ -100,7 +127,14 @@ class VideoParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-
+	
+	/**
+	 * \fn		Video parseToVideo($res)
+	 * \brief	The function returns a representation of an Video object in Parse
+	 * \param	$res 	represent the Video object returned from Parse
+	 * \return	Video	the Video object
+	 * \return	Error	the Error raised by the function
+	 */
     function parseToVideo($res) {
         if (is_null($res))
 		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
@@ -136,6 +170,13 @@ class VideoParse {
         }
     }
 
+	/**
+	 * \fn		Video saveVideo(Video $video)
+	 * \brief	This function save an Video object in Parse
+	 * \param	$video 	represent the Video object to save
+	 * \return	Video	the Video object with the new objectId parameter saved
+	 * \return	Error	the Error raised by the function
+	 */
     public function saveVideo($video) {
         try {
             $parseVideo = new parseObject('Video');
