@@ -295,10 +295,7 @@ class VideoParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-	
-	public function whereRelatedTo($field, $className, $objectId) {
-		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
-	}
+
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -308,6 +305,10 @@ class VideoParse {
 	 */
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
+	}
+		
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
 	}
 		
 }
