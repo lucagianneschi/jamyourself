@@ -142,7 +142,7 @@ class StatusParse {
 	 */
     public function parseToStatus($res) {
         if (is_null($res))
-		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+		return throwError(new Exception('parseToStatus parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $status = new Status();
             $status->setObjectId($res->objectId);
