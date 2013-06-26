@@ -113,18 +113,37 @@ class Error {
         if( $this->getErrorFunctionParameter() && count($this->getErrorFunctionParameter())>0 ){
                 foreach ($this->getErrorFunctionParameter() as $key => $value) {
                     $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '[ param ] => ' . $key . ' -> ' . $value . '<br />';
+                    $string .= '[param] => ' . $key . ' -> ' . $value . '<br />';
                 }
         }
         else $string .= 'NULL <br/>';
         $string .= '[errorMessage] => ' . $this->getErrorMessage() . '<br />';
-        if (($createdAt = $this->getCreatedAt()))
-            $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
-        if (($updatedAt = $this->getUpdatedAt()))
-            $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
-        $string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
-        return $string;
+        if ($this->getCreatedAt() != null) {
+            $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+        } else {
+            $string .= '[createdAt] => NULL<br />';
+        }
+        if ($this->getUpdatedAt() != null) {
+            $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+        } else {
+            $string .= '[updatedAt] => NULL<br />';
+        }
+		if ($this->getACL() != null) {
+			foreach ($this->getACL()->acl as $key => $acl) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[ACL] => ' . $key . '<br />';
+				foreach ($acl as $access => $value) {
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+				}
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[ACL] => NULL<br />';
+		}
+		
+		return $string;
     }
 
 }
