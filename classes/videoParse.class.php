@@ -37,7 +37,13 @@ class VideoParse {
 
         $this->parseQuery = new ParseQuery("Video");
     }
-
+	
+	/**
+	 * \fn		void deleteVideo(string $objectId)
+	 * \brief	Set unactive a specified Video by objectId
+	 * \param   $objectId the string that represent the objectId of the Video
+	 * \return	error in case of exception
+	 */
     public function deleteVideo($objectId) {
         try {
             $parseVideo = new parseObject('Video');
