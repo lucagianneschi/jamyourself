@@ -76,7 +76,7 @@ class VideoParse {
 
 	/**
 	 * \fn		void orderBy($field)
-	 * \brief	Specifies which field need to be ordered of requested Error
+	 * \brief	Specifies which field need to be ordered of requested Video
 	 * \param	$field	the field on which to sort
 	 */
 	public function orderBy($field) {
@@ -85,7 +85,7 @@ class VideoParse {
 	
 	/**
 	 * \fn		void orderByAscending($field)
-	 * \brief	Specifies which field need to be ordered ascending of requested Error
+	 * \brief	Specifies which field need to be ordered ascending of requested Video
 	 * \param	$field	the field on which to sort ascending
 	 */
 	public function orderByAscending($field) {
@@ -94,7 +94,7 @@ class VideoParse {
 	
 	/**
 	 * \fn		void orderByDescending($field)
-	 * \brief	Specifies which field need to be ordered descending of requested Error
+	 * \brief	Specifies which field need to be ordered descending of requested Video
 	 * \param	$field	the field on which to sort descending
 	 */
 	public function orderByDescending($field) {
@@ -172,7 +172,7 @@ class VideoParse {
 
    /**
 	 * \fn		void setLimit($limit)
-	 * \brief	Sets the maximum number of Error to return
+	 * \brief	Sets the maximum number of Video to return
 	 * \param	$limit	the maximum number
 	 */
 	public function setLimit($limit) {
@@ -181,8 +181,8 @@ class VideoParse {
 	
 	/**
 	 * \fn		void setSkip($skip)
-	 * \brief	Sets the number of how many Error(s) must be discarded initially
-	 * \param	$skip	the number of Error(s) to skip
+	 * \brief	Sets the number of how many Video(s) must be discarded initially
+	 * \param	$skip	the number of Video(s) to skip
 	 */
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
