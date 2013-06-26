@@ -28,12 +28,22 @@ require_once CLASSES_DIR . 'status.class.php';
 class StatusParse {
 
     private $parseQuery;
-
+	
+	/**
+	 * \fn		void __construct()
+	 * \brief	The constructor instantiates a new object of type ParseQuery on the Status class
+	 */
     public function __construct() {
 
         $this->parseQuery = new ParseQuery("Status");
     }
 
+	/**
+	 * \fn		void deleteStatus(string $objectId)
+	 * \brief	Set unactive a specified Status by objectId
+	 * \param   $objectId the string that represent the objectId of the Status
+	 * \return	error in case of exception
+	 */
     public function deleteStatus($objectId) {
         try {
             $parseStatus = new parseObject('Status');
@@ -43,11 +53,22 @@ class StatusParse {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
-
+	/**
+	 * \fn		number getCount()
+	 * \brief	Returns the number of requests Status
+	 * \return	number
+	 */
     public function getCount() {
         return $this->parseQuery->getCount()->count;
     }
-
+	
+	/**
+	 * \fn		void getStatus(string $objectId)
+	 * \brief	The function returns the Status object specified
+	 * \param	$objectId the string that represent the objectId of the Status
+	 * \return	Status	the Status with the specified $objectId
+	 * \return	Error the Error raised by the function
+	 */
     public function getStatus($objectId) {
         try {
             $parseStatus = new parseObject('Status');
@@ -58,7 +79,14 @@ class StatusParse {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
-
+	
+	/**
+	 * \fn		array getStatuses()
+	 * \brief	The function returns the Statuss objects specified
+	 * \return	array 	an array of Status, if one or more Status are found
+	 * \return	null	if no Status are found
+	 * \return	Error	the Error raised by the function
+	 */
     public function getStatuses() {
         $statuses = null;
         try {
@@ -104,7 +132,14 @@ class StatusParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-
+	
+	/**
+	 * \fn		Status parseToStatus($res)
+	 * \brief	The function returns a representation of an Status object in Parse
+	 * \param	$res 	represent the Status object returned from Parse
+	 * \return	Status	the Status object
+	 * \return	Error	the Error raised by the function
+	 */
     public function parseToStatus($res) {
         if (is_null($res))
 		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
@@ -141,7 +176,14 @@ class StatusParse {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
     }
-
+	
+	/**
+	 * \fn		Status saveStatus(Status $status)
+	 * \brief	This function save an Status object in Parse
+	 * \param	$status 	represent the Status object to save
+	 * \return	Status	the Status object with the new objectId parameter saved
+	 * \return	Error	the Error raised by the function
+	 */
     public function saveStatus($status) {
         try {
             $parseStatus = new parseObject('Status');
