@@ -21,141 +21,232 @@
 
 class Status {
 
-    private $objectId;      //string: object ID Parse      
-    private $active;      //BOOL: indica se la classe è attiva o meno
-    private $commentators;    //relation: array di puntatori a Parse Users
-    private $comments;     //relation: array di puntatori a Comment
-    private $counter;      //number: contatore che serve per gradimento dello status
-    private $event;        //Parse Object Event: evento associato allo status
-    private $fromUser;      //Parse User: utente che pubblica lo status
-    private $image;      //Parse Object Image: image associata allo status
-    private $imageFile;      //Parse Object File: file associata allo status
-    private $location;      //GeoPoint: lat e long per localizzazione dello status (inutilizzato)
-    private $loveCounter;      //number: counter per tenere conto delle sole azioni di love
-    private $lovers;      //relation: array di puntatori a Parse Users
-    private $song;      //Parse Object Song: song associata allo status
-    private $taggedUsers;    //relation: array di puntatori a Parse Users
-    private $text;      //string: testo inserito dall'utente per il proprio status
-    private $createdAt;     //DataTime: data di creazione dello status						
-    private $updatedAt;     //DataTime: data di update dello status						
-    private $ACL;      //Access Control List										
+    private $objectId;            
+    private $active;      
+    private $commentators;    
+    private $comments;     
+    private $counter;      
+    private $event;        
+    private $fromUser;      
+    private $image;      
+    private $imageFile;      
+    private $location;      
+    private $loveCounter;      
+    private $lovers;      
+    private $song;      
+    private $taggedUsers;    
+    private $text;      
+    private $createdAt;     						
+    private $updatedAt;     						
+    private $ACL;      										
 
  
     //public function __construct(){}
  
-//FUNZIONI GET
-    //string: object ID Parse 
+    /**
+     * \fn	string getObjectId()
+     * \brief	Return the objectId value
+     * \return	string
+     */
     public function getObjectId() {
         return $this->objectId;
     }
 
-    //BOOL: indica se la classe è attiva o meno
+    /**
+     * \fn	BOOL getActive()
+     * \brief	Return the active vvalure
+     * \return	BOOL
+     */
     public function getActive() {
         return $this->active;
     }
 
-    //relation: array di puntatori a Parse Users
+    /**
+     * \fn	array getCommentators()
+     * \brief	Return an array of objectId of istances of _User class who commented on the video
+     * \return	array
+     */
     public function getCommentators() {
         return $this->commentators;
     }
 
-    //relation: array di puntatori a Parse Users
+    /**
+     * \fn	array getComments()
+     * \brief	Return an array of objectId of istances of the Comment class; comments on the video istance
+     * \return	array
+     */
     public function getComments() {
         return $this->comments;
     }
 
-    //number: contatore che serve per gradimento dello status
+    /**
+     * \fn	int getCounter()
+     * \brief	Return the counter value
+     * \return	int
+     */
     public function getCounter() {
         return $this->counter;
     }
 
-    //Parse Object Event: evento associato allo status
+    /**
+     * \fn	string getEvent()
+     * \brief	Return the Event objectId value
+     * \return	string
+     */
     public function getEvent() {
         return $this->event;
     }
 
-    //Parse User: utente che pubblica lo status
+    /**
+     * \fn	string getFromUser()
+     * \brief	Return the objectId value for the fromUser
+     * \return	string
+     */
     public function getFromUser() {
         return $this->fromUser;
     }
 
-    //Parse Object Image: image associata allo status
+    /**
+     * \fn	string getImage()
+     * \brief	Return the Image objectId value
+     * \return	string
+     */
     public function getImage() {
         return $this->image;
     }
 
-    //Parse Object Image: image associata allo status
+    /**
+     * \fn	string getImageFile()
+     * \brief	Return the ImageFile objectId value
+     * \return	string
+     */
     public function getImageFile() {
         return $this->imageFile;
     }
 
-    //GeoPoint: lat e long per localizzazione dello status (inutilizzato)
+    /**
+     * \fn	geopoint getLocation()
+     * \brief	Return the location  value
+     * \return	geopoint
+     */
     public function getLocation() {
         return $this->location;
     }
 
-    //number: counter per tenere conto delle sole azioni di love
+    /**
+     * \fn	int getLoveCounter()
+     * \brief	Return the loveCounter  value
+     * \return	int
+     */
     public function getLoveCounter() {
         return $this->loveCounter;
     }
 
-    //relation: array di puntatori a Parse Users
+    /**
+     * \fn	array getLovers()
+     * \brief	Return the lovers value,array of objectId
+     * \return	array
+     */
     public function getLovers() {
         return $this->lovers;
     }
 
-    //Parse Object Song: song associata allo status
+    /**
+     * \fn	string getSong()
+     * \brief	Return the song value, objectId of song
+     * \return	string
+     */
     public function getSong() {
         return $this->song;
     }
 
-    //relation: array di puntatori a Parse Users
+    /**
+     * \fn	array getTaggedUsers()
+     * \brief	Return the taggedUsers value,array of objectId
+     * \return	array
+     */
     public function getTaggedUsers() {
         return $this->taggedUsers;
     }
 
-    //string: testo inserito dall'utente per il proprio status
+    /**
+     * \fn	string getText()
+     * \brief	Return the text of the status
+     * \return	string
+     */
     public function getText() {
         return $this->text;
     }
 
-    //DataTime: data di creazione dello status
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Status creation date
+     * \return	DateTime
+     */
     public function getCreatedAt() {
         return $this->createdAt;
     }
 
-    //DataTime: data di update dello status
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Status modification date
+     * \return	DateTime
+     */
     public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
-    //Access Control List
+    /**
+     * \fn	parseACL getACL()
+     * \brief	Return the parseACL object representing the Status ACL 
+     * \return	parseACL
+     */
     public function getACL() {
         return $this->ACL;
     }
-    //FUNZIONI SET	
-    //string: object ID Parse 
-	
+
+    /**
+     * \fn	void setObjectId($objectId)
+     * \brief	Sets the objectId value
+     * \param	string
+     */
     public function setObjectId($objectId) {
         $this->objectId = $objectId;
     }
 
-    //BOOL: indica se la classe è attiva o meno
+    /**
+     * \fn	void setActive($active)
+     * \brief	Sets the active value
+     * \param	BOOL
+     */
+    
     public function setActive($active) {
         $this->active = $active;
     }
-
-    //relation: array di puntatori a Parse Users
+    
+    /**
+     * \fn	void setCommentators($commentators)
+     * \brief	Sets the commentators value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
-    //relation: array di puntatori a Parse Comment
+    /**
+     * \fn	void setComments($comments)
+     * \brief	Sets the comments value,array of pointer to ParseComment
+     * \param	array
+     */
     public function setComments($comments) {
         $this->comments = $comments;
     }
 
-    //number: contatore che serve per gradimento dello status
+    /**
+     * \fn	void setCounter($counter)
+     * \brief	Sets the counter value
+     * \param	int
+     */
     public function setCounter($counter) {
         $this->counter = $counter;
     }
@@ -165,17 +256,29 @@ class Status {
         $this->events = $event;
     }
 
-    //Parse User: utente che pubblica lo status
+        /**
+     * \fn	void setFromUser($fromUser))
+     * \brief	Sets the fromUser value,pointer to ParseUser
+     * \param	string
+     */
     public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
-    //Parse Object Image: image associata allo status
+       /**
+     * \fn	void setImage($image)
+     * \brief	Sets the image value,pointer to ParseImage (objectId)
+     * \param	string
+     */
     public function setImage($image) {
         $this->image = $image;
     }
 
-    ////Parse Object Image: image associata allo status
+      /**
+     * \fn	void setImageFile($imageFile)
+     * \brief	Sets the imageFile value,pointer to ParseFile (objectId)
+     * \param	string
+     */
     public function setImageFile($imageFile) {
         $this->image = $imageFile;
     }
@@ -195,7 +298,11 @@ class Status {
         $this->lovers = $lovers;
     }
 
-    //Parse Object Song: song associata allo status
+     /**
+     * \fn	void setSong($song)
+     * \brief	Sets the song value,pointer to ParseSong (objectId)
+     * \param	string
+     */
     public function setSong($song) {
         $this->song = $song;
     }
@@ -210,19 +317,31 @@ class Status {
         $this->text = $text;
     }
 
-    //DataTime: data di creazione dello status
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Status creation date
+     * \param	DateTime
+     */
     public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    //DataTime: data di update dello status	
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Status modification date
+     * \param	DateTime
+     */
     public function setUpdatedAt($updatedAt) {
-        $this->updatedAt = $updatedAt;
+        return $this->updatedAt = $updatedAt;
     }
 
-    //Access Control List
+    /**
+     * \fn	void setACL($ACL)
+     * \brief	Sets the parseACL object representing the Status ACL
+     * \param	parseACL
+     */
     public function setACL($ACL) {
-        $this->ACL = $ACL;
+        return $this->ACL = $ACL;
     }
 
     public function __toString() {
@@ -302,7 +421,20 @@ class Status {
         } else {
             $string .= '[updatedAt] => NULL<br />';
         }
-        $string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
+        if ($this->getACL() != null) {
+			foreach ($this->getACL()->acl as $key => $acl) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[ACL] => ' . $key . '<br />';
+				foreach ($acl as $access => $value) {
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+				}
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[ACL] => NULL<br />';
+		}
         return $string;
     }
 
