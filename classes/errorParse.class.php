@@ -6,7 +6,7 @@
  *  \date      2013
  *  \copyright Jamyourself.com 2013
  *
- *  \par Info Classe:
+ *  \par Info  Classe:
  *  \brief     Error
  *  \details   Classe Error per la gestione degli errori
  *  
@@ -136,7 +136,7 @@ class ErrorParse {
 			$error->setErrorFunctionParameter($res->errorFunctionParameter);
 			$error->setCreatedAt(new DateTime($res->createdAt));
 			$error->setUpdatedAt(new DateTime($res->updatedAt));
-			$error->setACL($res->ACL);
+			$error->setACL(fromParseACL($res->ACL));
 			return $error;
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -144,26 +144,28 @@ class ErrorParse {
 	}
 	
 	/**
-	 * \fn		Error saveError(Error $error)
+	 * \fn		Error saveError($error)
 	 * \brief	This function save an Error object in Parse
-	 * \param	$error 	represent the Error object to save
-	 * \return	Error	the Error object with the new objectId parameter saved
-	 * \return	Error	the Error raised by the function
+	 * \param	$error 		represent the Error object to save
+	 * \return	Error		the Error object with the new objectId parameter saved
+	 * \return	Exception	the Exception raised by the function
 	 */
 	public function saveError($error) {
+		if (!is_null($error->getObjectId()))
+			return new Exception('saveError update is not allow here');
 		try {
 			$parseObject = new parseObject('Error');
-			$parseObject->errorClass = $error->getErrorClass();
-			$parseObject->errorCode = $error->getErrorCode();
-			$parseObject->errorMessage = $error->getErrorMessage();
-			$parseObject->errorFunction = $error->getErrorFunction();
-			$parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
+			is_null($error->getErrorClass()) ? $parseObject->errorClass = null : $parseObject->errorClass = $error->getErrorClass();
+			is_null($error->getErrorCode()) ? $parseObject->errorCode = null : $parseObject->errorCode = $error->getErrorCode();
+			is_null($error->getErrorMessage()) ? $parseObject->errorMessage = null : $parseObject->errorMessage = $error->getErrorMessage();
+			is_null($error->getErrorFunction()) ? $parseObject->errorFunction = null : $parseObject->errorFunction = $error->getErrorFunction();
+			is_null($error->getErrorFunctionParameter()) ? $parseObject->errorFunctionParameter = null : $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
 			is_null($error->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($error->getACL());
 			$res = $parseObject->save();
 			$error->setObjectId($res->objectId);
 			return $error;
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+			return new Exception($e->getMessage());
 		}
 	}
 	
@@ -303,7 +305,14 @@ class ErrorParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-		
+	
+	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the Error objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
 	public function whereRelatedTo($field, $className, $objectId) {
 		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
 	}
