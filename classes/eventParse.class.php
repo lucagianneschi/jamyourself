@@ -30,14 +30,21 @@ require_once CLASSES_DIR . 'event.class.php';
 class EventParse {
 
     private $parseQuery;
-
+	
+	/**
+	 * \fn		void __construct()
+	 * \brief	The constructor instantiates a new object of type ParseQuery on the Event class
+	 */
     public function __construct() {
         $this->parseQuery = new parseQuery('Event');
     }
 
     /**
-     * Cancella un evento ($this) e tutti i relativi contenuti
-     */
+	 * \fn		void deleteEvent(string $objectId)
+	 * \brief	Set unactive a specified Event by objectId
+	 * \param   $objectId the string that represent the objectId of the Event
+	 * \return	error in case of exception
+	 */
     public function deleteEvent($objectId) {
         try {
             $parseEvent = new parseObject('Event');
@@ -48,10 +55,22 @@ class EventParse {
         }
     }
 
+	/**
+	 * \fn		number getCount()
+	 * \brief	Returns the number of requests Event
+	 * \return	number
+	 */
     public function getCount() {
         return $this->parseQuery->getCount()->count;
     }
 
+	/**
+	 * \fn		void getEvent(string $objectId)
+	 * \brief	The function returns the Event object specified
+	 * \param	$objectId the string that represent the objectId of the Event
+	 * \return	Event	the Event with the specified $objectId
+	 * \return	Error	the Error raised by the function
+	 */
     public function getEvent($objectId) {
         try {
             $parseEvent = new parseObject('Event');
@@ -63,7 +82,14 @@ class EventParse {
         }
     }
 
-     public function getEvents() {
+     /**
+	 * \fn		array getEvents()
+	 * \brief	The function returns the Events objects specified
+	 * \return	array 	an array of Event, if one or more Event are found
+	 * \return	null	if no Event are found
+	 * \return	Error	the Error raised by the function
+	 */
+	 public function getEvents() {
         $events = null;
         try {
             $res = $this->parseQuery->find();
@@ -109,9 +135,16 @@ class EventParse {
 		$this->parseQuery->orderByDescending($field);
 	}
 
+	/**
+	 * \fn		Event parseToEvent($res)
+	 * \brief	The function returns a representation of an Event object in Parse
+	 * \param	$res 	represent the Event object returned from Parse
+	 * \return	Event	the Event object
+	 * \return	Error	the Error raised by the function
+	 */
     function parseToEvent($res) {
         if (is_null($res))
-		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+		return throwError(new Exception('parseToEvent parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $event = new Event();
             $event->setObjectId($res->objectId);
@@ -147,6 +180,13 @@ class EventParse {
         }
     }
 
+	/**
+	 * \fn		Event saveEvent(Event $event)
+	 * \brief	This function save an Event object in Parse
+	 * \param	$event 	represent the Event object to save
+	 * \return	Event	the Event object with the new objectId parameter saved
+	 * \return	Error	the Error raised by the function
+	 */
     public function saveEvent($event) {
         try {
             $parseEvent = new parseObject('Event');
