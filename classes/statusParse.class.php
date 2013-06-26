@@ -80,7 +80,7 @@ class StatusParse {
 
 	/**
 	 * \fn		void orderBy($field)
-	 * \brief	Specifies which field need to be ordered of requested Error
+	 * \brief	Specifies which field need to be ordered of requested Status
 	 * \param	$field	the field on which to sort
 	 */
 	public function orderBy($field) {
@@ -89,7 +89,7 @@ class StatusParse {
 	
 	/**
 	 * \fn		void orderByAscending($field)
-	 * \brief	Specifies which field need to be ordered ascending of requested Error
+	 * \brief	Specifies which field need to be ordered ascending of requested Status
 	 * \param	$field	the field on which to sort ascending
 	 */
 	public function orderByAscending($field) {
@@ -98,7 +98,7 @@ class StatusParse {
 	
 	/**
 	 * \fn		void orderByDescending($field)
-	 * \brief	Specifies which field need to be ordered descending of requested Error
+	 * \brief	Specifies which field need to be ordered descending of requested Status
 	 * \param	$field	the field on which to sort descending
 	 */
 	public function orderByDescending($field) {
@@ -179,7 +179,7 @@ class StatusParse {
 
    /**
 	 * \fn		void setLimit($limit)
-	 * \brief	Sets the maximum number of Error to return
+	 * \brief	Sets the maximum number of Status to return
 	 * \param	$limit	the maximum number
 	 */
 	public function setLimit($limit) {
@@ -188,8 +188,8 @@ class StatusParse {
 	
 	/**
 	 * \fn		void setSkip($skip)
-	 * \brief	Sets the number of how many Error(s) must be discarded initially
-	 * \param	$skip	the number of Error(s) to skip
+	 * \brief	Sets the number of how many Status(s) must be discarded initially
+	 * \param	$skip	the number of Status(s) to skip
 	 */
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
