@@ -162,7 +162,7 @@ class ErrorParse {
 			is_null($error->getErrorFunctionParameter()) ? $parseObject->errorFunctionParameter = null : $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
                         $acl = new ParseACL();
                         $acl->setPublicWriteAccess(true);
-                        $acl->setPublicWriteAccess(true);
+                        $acl->setPublicReadAccess(true);
 			is_null($error->getACL()) ? $parseObject->ACL = $acl : $parseObject->ACL = toParseACL($error->getACL());
 			$res = $parseObject->save();
 			$error->setObjectId($res->objectId);
