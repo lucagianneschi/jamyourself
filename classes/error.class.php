@@ -30,173 +30,176 @@ class Error {
 	private $updatedAt;
 	private $ACL;
 	
+	public function __construct() {
+    }
+	
 	/**
-	* \fn		string getObjectId()
-	* \brief	Return the objectId value
-	* \return	string
-	*/
+	 * \fn		string getObjectId()
+	 * \brief	Return the objectId value
+	 * \return	string
+	 */
 	public function getObjectId() {
 		return $this->objectId;
 	}
 	
 	/**
-	* \fn		string getErrorClass()
-	* \brief	Return the class which raise the Error
-	* \return	string
-	*/
+	 * \fn		string getErrorClass()
+	 * \brief	Return the class which raise the Error
+	 * \return	string
+	 */
 	public function getErrorClass() {
 		return $this->errorClass;
 	}
 	
 	/**
-	* \fn		number getErrorCode()
-	* \brief	Return the Error code
-	* \return	number
-	*/
+	 * \fn		number getErrorCode()
+	 * \brief	Return the Error code
+	 * \return	number
+	 */
 	public function getErrorCode() {
 		return $this->errorCode;
 	}
 	
 	/**
-	* \fn		string getErrorFunction()
-	* \brief	Return the function which raise the Error
-	* \return	string
-	*/
+	 * \fn		string getErrorFunction()
+	 * \brief	Return the function which raise the Error
+	 * \return	string
+	 */
 	public function getErrorFunction() {
 		return $this->errorFunction;
 	}
 	
 	/**
-	* \fn		array getErrorFunctionParameter()
-	* \brief	Returns an array containing the parameters of the function
-	* \return	array
-	*/
+	 * \fn		array getErrorFunctionParameter()
+	 * \brief	Returns an array containing the parameters of the function
+	 * \return	array
+	 */
 	public function getErrorFunctionParameter() {
 		return $this->errorFunctionParameter;
 	}
 	
 	/**
-	* \fn		string getErrorMessage()
-	* \brief	Return the Error message
-	* \return	string
-	*/
+	 * \fn		string getErrorMessage()
+	 * \brief	Return the Error message
+	 * \return	string
+	 */
 	public function getErrorMessage() {
 		return $this->errorMessage;
 	}
 	
 	/**
-	* \fn		DateTime getCreatedAt()
-	* \brief	Return the Error creation date
-	* \return	DateTime
-	*/
+	 * \fn		DateTime getCreatedAt()
+	 * \brief	Return the Error creation date
+	 * \return	DateTime
+	 */
 	public function getCreatedAt() {
 		return $this->createdAt;
 	}
 	
 	/**
-	* \fn		DateTime getUpdatedAt()
-	* \brief	Return the Error modification date
-	* \return	DateTime
-	*/
+	 * \fn		DateTime getUpdatedAt()
+	 * \brief	Return the Error modification date
+	 * \return	DateTime
+	 */
 	public function getUpdatedAt() {
 		return $this->updatedAt;
 	}
 	
 	/**
-	* \fn		parseACL getACL()
-	* \brief	Return the parseACL object representing the Error ACL 
-	* \return	parseACL
-	*/
+	 * \fn		parseACL getACL()
+	 * \brief	Return the parseACL object representing the Error ACL 
+	 * \return	parseACL
+	 */
 	public function getACL() {
 		return $this->ACL;
 	}
 	
 	/**
-	* \fn		void setObjectId($objectId)
-	* \brief	Sets the objectId value
-	* \param	string
-	*/
+	 * \fn		void setObjectId($objectId)
+	 * \brief	Sets the objectId value
+	 * \param	string
+	 */
 	public function setObjectId($objectId) {
 		$this->objectId = $objectId;
 	}
 	
 	/**
-	* \fn		void setErrorClass($errorClass)
-	* \brief	Sets the class which raise the Error
-	* \param	string
-	*/
+	 * \fn		void setErrorClass($errorClass)
+	 * \brief	Sets the class which raise the Error
+	 * \param	string
+	 */
 	public function setErrorClass($errorClass) {
 		$this->errorClass = $errorClass;
 	}
 	
 	/**
-	* \fn		void setErrorCode($errorCode)
-	* \brief	Sets the Error code
-	* \param	string
-	*/
+	 * \fn		void setErrorCode($errorCode)
+	 * \brief	Sets the Error code
+	 * \param	string
+	 */
 	public function setErrorCode($errorCode) {
 		$this->errorCode = $errorCode;
 	}
 	
 	/**
-	* \fn		void setErrorFunction($errorFunction)
-	* \brief	Sets the function which raise the Error
-	* \param	string
-	*/
+	 * \fn		void setErrorFunction($errorFunction)
+	 * \brief	Sets the function which raise the Error
+	 * \param	string
+	 */
 	public function setErrorFunction($errorFunction) {
 		$this->errorFunction = $errorFunction;
 	}
 	
 	/**
-	* \fn		void setErrorFunctionParameter($errorFunctionParameter)
-	* \brief	Sets an array containing the parameters of the function
-	* \param	array
-	*/
+	 * \fn		void setErrorFunctionParameter($errorFunctionParameter)
+	 * \brief	Sets an array containing the parameters of the function
+	 * \param	array
+	 */
 	public function setErrorFunctionParameter($errorFunctionParameter) {
 		$this->errorFunctionParameter = $errorFunctionParameter;
 	}
 	
 	/**
-	* \fn		void setErrorMessage($errorMessage)
-	* \brief	Sets the Error message
-	* \param	string
-	*/
+	 * \fn		void setErrorMessage($errorMessage)
+	 * \brief	Sets the Error message
+	 * \param	string
+	 */
 	public function setErrorMessage($errorMessage) {
 		$this->errorMessage = $errorMessage;
 	}
 	
 	/**
-	* \fn		void setCreatedAt($createdAt)
-	* \brief	Sets the Error creation date
-	* \param	DateTime
-	*/
+	 * \fn		void setCreatedAt($createdAt)
+	 * \brief	Sets the Error creation date
+	 * \param	DateTime
+	 */
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
 	}
 	
 	/**
-	* \fn		void setUpdatedAt($updatedAt)
-	* \brief	Sets the Error modification date
-	* \param	DateTime
-	*/
+	 * \fn		void setUpdatedAt($updatedAt)
+	 * \brief	Sets the Error modification date
+	 * \param	DateTime
+	 */
 	public function setUpdatedAt($updatedAt) {
 		return $this->updatedAt = $updatedAt;
 	}
 	
 	/**
-	* \fn		void setACL($ACL)
-	* \brief	Sets the parseACL object representing the Error ACL
-	* \param	parseACL
-	*/
+	 * \fn		void setACL($ACL)
+	 * \brief	Sets the parseACL object representing the Error ACL
+	 * \param	parseACL
+	 */
 	public function setACL($ACL) {
 		return $this->ACL = $ACL;
 	}
 	
 	/**
-	* \fn		string __toString()
-	* \brief	Return a printable string representing the Error object
-	* \return	string
-	*/
+	 * \fn		string __toString()
+	 * \brief	Return a printable string representing the Error object
+	 * \return	string
+	 */
 	public function __toString() {
 		$string = '';
 		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';

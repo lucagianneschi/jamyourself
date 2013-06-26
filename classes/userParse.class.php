@@ -34,13 +34,23 @@ require_once CLASSES_DIR . 'statusParse.class.php';
 
 class UserParse {
 
-    private $parseQuery;
-
-    public function __construct() {
-        $this->parseQuery = new ParseQuery('_User');
-    }
+	private $parseQuery;
 	
-    public function deleteUser($objectId) {
+	/**
+	 * \fn		void __construct()
+	 * \brief	The constructor instantiates a new object of type ParseQuery on the User class
+	 */
+	public function __construct() {
+		$this->parseQuery = new ParseQuery('_User');
+	}
+	
+	/**
+	 * \fn		void deleteUser(string $objectId)
+	 * \brief	The function delete an User, setting active property to false
+	 * \param	$objectId the string that represent the objectId of the User to delete
+	 * \return	Error	the Error raised by the function
+	 */
+	public function deleteUser($objectId) {
 		try {
 			$parseUser = new parseUser();
 			$res = $parseUser->get($objectId);
@@ -90,10 +100,22 @@ class UserParse {
 		}
     }
 	
+	/**
+	 * \fn		number getCount()
+	 * \brief	Returns the number of requests User
+	 * \return	number
+	 */
 	public function getCount() {
 		return $this->parseQuery->getCount()->count;
 	}
 
+	/**
+	 * \fn		User getUser(string $objectId)
+	 * \brief	The function returns the User object specified
+	 * \param	$objectId the string that represent the objectId of the User
+	 * \return	User	the User with the specified $objectId
+	 * \return	Error	the Error raised by the function
+	 */
 	public function getUser($objectId) {
 		try {
 			$parseObject = new parseObject('_User');
@@ -105,7 +127,14 @@ class UserParse {
 		}
     }
 
-    public function getUsers() {
+    /**
+	 * \fn		array getUsers()
+	 * \brief	The function returns an array Users objects specified
+	 * \return	array 	an array of Users, if one or more Users are found
+	 * \return	null	if no User are found
+	 * \return	Error	the Error raised by the function
+	 */
+	public function getUsers() {
 		try {
 			$users = null;
 			$res = $this->parseQuery->find();
@@ -123,10 +152,12 @@ class UserParse {
     }
 
 	/**
-     * Effettua il login dell'utente fornendo un utente che deve avere inserito username o email e password, dopodiche' creo uno User specifico
-     * e lo restituisco
-     */
-    public function loginUser($usernameEmail, $password) {
+	 * \fn		User loginUser()
+	 * \brief	The function returns the User logged by the username or email $usernameEmail and password $password
+	 * \return	User 	the User logged in
+	 * \return	Error	the Error raised by the function
+	 */
+	public function loginUser($usernameEmail, $password) {
 		try {
 			// determino lo username tramite l'email
 			if (filter_var($usernameEmail, FILTER_VALIDATE_EMAIL)) {
@@ -151,20 +182,42 @@ class UserParse {
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
-    }
+	}
 	
+	/**
+	 * \fn		void orderBy($field)
+	 * \brief	Specifies which field need to be ordered of requested User
+	 * \param	$field	the field on which to sort
+	 */
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
 	}	
- 
+
+	/**
+	 * \fn		void orderByAscending($field)
+	 * \brief	Specifies which field need to be ordered ascending of requested User
+	 * \param	$field	the field on which to sort ascending
+	 */
 	public function orderByAscending($field) {
 		$this->parseQuery->orderByAscending($field);
 	}
- 
+
+	/**
+	 * \fn		void orderByDescending($field)
+	 * \brief	Specifies which field need to be ordered descending of requested User
+	 * \param	$field	the field on which to sort descending
+	 */
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
- 
+
+	/**
+	 * \fn		User parseToUser($res)
+	 * \brief	The function returns a representation of an User object in Parse
+	 * \param	$res 	represent the User object returned from Parse
+	 * \return	User	the User object
+	 * \return	Error	the Error raised by the function
+	 */
 	public function parseToUser($res) {
 		if (is_null($res))
 			return throwError(new Exception('parseToUser parameter is incorrect'), __CLASS__, __FUNCTION__, func_get_args());
@@ -242,7 +295,14 @@ class UserParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
+	/**
+	 * \fn		User saveUser($user)
+	 * \brief	This function save an User object in Parse
+	 * \param	$user 		represent the User object to save
+	 * \return	User		the User object with the new objectId parameter saved
+	 * \return	Exception	the Exception raised by the function
+	 */
 	public function saveUser($user) {
 		try {
 			$parseUser = new parseUser();
@@ -340,64 +400,152 @@ class UserParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-    
-    public function setLimit($limit) {
+
+	/**
+	 * \fn		void setLimit($limit)
+	 * \brief	Sets the maximum number of User to return
+	 * \param	$limit	the maximum number
+	 */
+	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
- 
+
+	/**
+	 * \fn		void setSkip($skip)
+	 * \brief	Sets the number of how many User must be discarded initially
+	 * \param	$skip	the number of User to skip
+	 */
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
- 
+
+	/**
+	 * \fn		void where($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
- 
+
+	/**
+	 * \fn		void whereContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
 	public function whereContainedIn($field, $values) {
 		$this->parseQuery->whereContainedIn($field, $values);
 	}
- 
+
+	/**
+	 * \fn		void whereEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
- 
+
+	/**
+	 * \fn		void whereExists($field)
+	 * \brief	Sets a condition for which the field $field must be enhanced
+	 * \param	$field	the string which represent the field
+	 */
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
 	}	
- 
+	
+	/**
+	 * \fn		void whereGreaterThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
- 
+	
+	/**
+	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
- 
+	
+	/**
+	 * \fn		void whereLessThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
- 
+	
+	/**
+	 * \fn		void whereLessThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
- 
+	
+	/**
+	 * \fn		void whereNotContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
- 
+	
+	/**
+	 * \fn		void whereNotEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
- 
+	
+	/**
+	 * \fn		void whereNotExists($field)
+	 * \brief	Sets a condition for which the field $field must not be enhanced
+	 * \param	$field	the string which represent the field
+	 */
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
- 
+	
+	/**
+	 * \fn		void wherePointer($field, $className, $objectId)
+	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className of the Pointer
+	 * \param	$objectId	the string which represent the objectId of the Pointer
+	 */
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-        
-    public function whereRelatedTo($field, $className, $objectId) {
+	
+	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the User objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
+	public function whereRelatedTo($field, $className, $objectId) {
 		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
 	}
 
