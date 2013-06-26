@@ -80,8 +80,8 @@ class RecordParse {
 	function getRecord($objectId) {
         try {
             $parseRecord= new parseObject("Record");
-            $result = $parseRecord->get($objectId);
-            return $this->parseToRecord($result);
+            $res = $parseRecord->get($objectId);
+            return $this->parseToRecord($res);
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
@@ -216,7 +216,7 @@ class RecordParse {
 		$acl = setPuclicWriteAccess(true);
 		$acl = setPuclicReadAccess(true);
         is_null($record->getACL()) ? $parseRecord->ACL = $acl : $parseRecord->ACL = toParseACL($record->getACL());
-	if ($record->getObjectId() == '') {
+		if ($record->getObjectId() == '') {
                 $res = $parseRecord->save();
                 $record->setObjectId($res->objectId);
                 return $record;
