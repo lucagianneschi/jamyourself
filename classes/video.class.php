@@ -21,222 +21,374 @@
 
 class Video {
 
-    private $objectId;    //string: objectId su Parse  								
-    private $active;      //BOOL: segnala se l'istanza della classe è attiva o no 	
-    private $author;   //string: Utente che ha girato il video 					
-    private $commentators;      //relation: array di puntatori ad User che hanno commentator
-    private $comments;          //relation: array di puntatori a Comment
-    private $counter;   //number: Contatore per il gradimento 						
-    private $description;  //string: Descrizione del video data dall'utente  			
-    private $duration;   //number: Durata del video in secondi	
-    private $featuring;   //Relation (with Parse User): segnala presenza altri utenti 
-    private $fromUser;     //User: Punta allo user che effettua l'embed del video  
-    private $loveCounter;  //number: Contatore per il numero di azioni love 			
-    private $lovers;            //relation: array di puntatori ad User che hanno effettuato azioni love 
-    private $tags;    //array: stringhe per la categorizzazione del video 	
-    private $thumbnail;    //string: Percorso immagine del thumbnail del video 		
-    private $title;    //string:Titolo del video  									
-    private $URL;       //string: URL del video  									
-    private $createdAt;   //DataTime: data di creazione del video						
-    private $updatedAt;   //DataTime: data di update del video						
-    private $ACL;    //Access Control List										
+    private $objectId;
+    private $active;
+    private $author;
+    private $commentators;
+    private $comments;
+    private $counter;
+    private $description;
+    private $duration;
+    private $featuring;
+    private $fromUser;
+    private $loveCounter;
+    private $lovers;
+    private $tags;
+    private $thumbnail;
+    private $title;
+    private $URL;
+    private $createdAt;
+    private $updatedAt;
+    private $ACL;
 
-    public function __construct() {
-        
-    }
-
-    /** FUNZIONI GET */
-    //string: objectId su Parse  								
+    /**
+     * \fn	string getObjectId()
+     * \brief	Return the objectId value
+     * \return	string
+     */
     public function getObjectId() {
         return $this->objectId;
     }
 
-    //BOOL: segnala se l'istanza della classe è attiva o no 	
+    /**
+     * \fn	BOOL getActive()
+     * \brief	Return the active vvalure
+     * \return	BOOL
+     */
     public function getActive() {
         return $this->active;
     }
 
-    //string: Utente che ha girato il video 					
+    /**
+     * \fn	string getAuthor()
+     * \brief	Return the author value; author is the uploader on YouTube or Vimeo
+     * \return	string
+     */
     public function getAuthor() {
         return $this->author;
     }
 
-    //relation: array di puntatori ad User che hanno commentators 
+    /**
+     * \fn	array getCommentators()
+     * \brief	Return an array of objectId of istances of _User class who commented on the video
+     * \return	array
+     */
     public function getCommentators() {
         return $this->commentators;
     }
 
-    //relation: array di puntatori a Comments
+    /**
+     * \fn	array getComments()
+     * \brief	Return an array of objectId of istances of the Comment class; comments on the video istance
+     * \return	array
+     */
     public function getComments() {
         return $this->comments;
     }
 
-    //number: Contatore per il gradimento 						
+    /**
+     * \fn	int getCounter()
+     * \brief	Return the counter value
+     * \return	int
+     */
     public function getCounter() {
         return $this->counter;
     }
 
-    //string: Descrizione del video data dall'utente  			
+    /**
+     * \fn	string getDescription()
+     * \brief	Return the description value
+     * \return	string
+     */
     public function getDescription() {
         return $this->description;
     }
 
-    //number: Durata del video									
+    /**
+     * \fn	int getDuration()
+     * \brief	Return the duration value in second
+     * \return	int
+     */
     public function getDuration() {
         return $this->duration;
     }
 
-    //Relation (with Parse User): segnala presenza altri utenti 			
+    /**
+     * \fn	array getFeaturing()
+     * \brief	Return the featuring value, array of objectId to _User istances
+     * \return	array
+     */
     public function getFeaturing() {
         return $this->featuring;
     }
 
-    //User: Punta allo user che effettua l'embed del video  	
+    /**
+     * \fn	string getFromUser()
+     * \brief	Return the objectId value for the fromUser
+     * \return	string
+     */
     public function getFromUser() {
         return $this->fromUser;
     }
 
-    //number: Contatore per il numero di azioni love 			
+    /**
+     * \fn	int getLoveCounter()
+     * \brief	Return the int value of loveCounter, counting the love action on the video
+     * \return	int
+     */
     public function getLoveCounter() {
         return $this->loveCounter;
     }
 
-    //relation: array di puntatori ad User che hanno effettuato azioni love
+    /**
+     * \fn	array  getLovers()
+     * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the video
+     * \return	string
+     */
     public function getLovers() {
         return $this->lovers;
     }
 
-    //array: stringhe per la categorizzazione del video 		
+    /**
+     * \fn	array getTags()
+     * \brief	Return the tags value, array of string to categorize the video
+     * \return	array
+     */
     public function getTags() {
         return $this->tags;
     }
 
-    //string:Titolo del video  									
+    /**
+     * \fn	string getTitle()
+     * \brief	Return the title value
+     * \return	string
+     */
     public function getTitle() {
         return $this->title;
     }
 
-    //string: Percorso immagine del thumbnail del video 		
+    /**
+     * \fn	string getThumbnail()
+     * \brief	Return the thumbnail value, URL of the video cover image
+     * \return	string
+     */
     public function getThumbnail() {
         return $this->thumbnail;
     }
 
-    //string: URL del video  									
+    /**
+     * \fn	string getURL()
+     * \brief	Return the URL value
+     * \return	string
+     */
     public function getURL() {
         return $this->URL;
     }
 
-    //DataTime: data di creazione del video						
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Video creation date
+     * \return	DateTime
+     */
     public function getCreatedAt() {
         return $this->createdAt;
     }
 
-    //DataTime: data di update del video						
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Video modification date
+     * \return	DateTime
+     */
     public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
-    //Access Control List										
+    /**
+     * \fn	parseACL getACL()
+     * \brief	Return the parseACL object representing the Video ACL 
+     * \return	parseACL
+     */
     public function getACL() {
         return $this->ACL;
     }
 
-    /** FUNZIONI SET */
-    //string: objectId su Parse  								
-    public function setObjectId($objecId) {
-        $this->objectId = $objecId;
+    /**
+     * \fn	void setObjectId($objectId)
+     * \brief	Sets the objectId value
+     * \param	string
+     */
+    public function setObjectId($objectId) {
+        $this->objectId = $objectId;
     }
 
-    //BOOL: segnala se l'istanza della classe è attiva o no 	
+    /**
+     * \fn	void setActive($active)
+     * \brief	Sets the active value
+     * \param	BOOL
+     */
+    
     public function setActive($active) {
         $this->active = $active;
     }
 
-    //string: Utente che ha girato il video 					
+    /**
+     * \fn	void setAuthor($author)
+     * \brief	Sets the author value
+     * \param	string
+     */
     public function setAuthor($author) {
         $this->author = $author;
     }
 
-    //relation: array di User che hanno commentators 
+    /**
+     * \fn	void setCommentators($commentators)
+     * \brief	Sets the commentators value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
-    //relation: array di Comment 
+    /**
+     * \fn	void setComments($comments)
+     * \brief	Sets the comments value,array of pointer to ParseComment
+     * \param	array
+     */
     public function setComments($comments) {
         $this->comments = $comments;
     }
 
-    //number: Contatore per il gradimento 					
+    /**
+     * \fn	void setCounter($counter)
+     * \brief	Sets the counter value
+     * \param	int
+     */
     public function setCounter($counter) {
         $this->counter = $counter;
     }
 
-    //string: Descrizione del video data dall'utente  			
+    /**
+     * \fn	void setDescription($description)
+     * \brief	Sets the description value
+     * \param	string
+     */
     public function setDescription($description) {
         $this->description = $description;
     }
 
-    //number: Durata del video									
+    /**
+     * \fn	void setDuration($duration)
+     * \brief	Sets the duration value
+     * \param	int
+     */
     public function setDuration($duration) {
         $this->duration = $duration;
     }
 
-    //Relation (with Parse User): segnala presenza altri utenti			
+    /**
+     * \fn	void setFeaturing($featuring)
+     * \brief	Sets the featuring value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setFeaturing($featuring) {
         $this->featuring = $featuring;
     }
 
-    //User: Punta allo user che effettua l'embed del video  	
+    /**
+     * \fn	void setFromUser($fromUser))
+     * \brief	Sets the fromUser value,pointer to ParseUser
+     * \param	string
+     */
     public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
-    //relation: array di puntatori ad User che hanno effettuato azioni love  
+    /**
+     * \fn	void setLovers($lovers)
+     * \brief	Sets the lovers value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
-    //number: Contatore per il numero di azioni love 			
+    /**
+     * \fn	void setLoveCounter($loveCounter)
+     * \brief	Sets the loveCounter value
+     * \param	int
+     */
     public function setLoveCounter($loveCounter) {
         $this->loveCounter = $loveCounter;
     }
 
-    //array: stringhe per la categorizzazione del video 	
+    /**
+     * \fn	void setTags($tags)
+     * \brief	Sets the tags value,array of strings
+     * \param	array
+     */
     public function setTags($tags) {
         $this->tags = $tags;
     }
 
-    //string:Titolo del video  									
+    /**
+     * \fn	void setTitle($title)
+     * \brief	Sets the titke value
+     * \param	string
+     */
     public function setTitle($title) {
         $this->title = $title;
     }
 
-    //string: Percorso immagine del thumbnail del video 		
+    /**
+     * \fn	void setThumbnail($thumbnail)
+     * \brief	Sets the thumbnail value, url of the cover image of the video
+     * \param	string
+     */
     public function setThumbnail($thumbnail) {
         $this->thumbnail = $thumbnail;
     }
 
-    //string: URL del video  									
+    /**
+     * \fn	void setURL($URL)
+     * \brief	Sets the URL value, url of the video
+     * \param	string
+     */
     public function setURL($URL) {
         $this->URL = $URL;
     }
 
-    //DataTime: data di creazione del video						
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Video creation date
+     * \param	DateTime
+     */
     public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    //DataTime: data di update del video						
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Video modification date
+     * \param	DateTime
+     */
     public function setUpdatedAt($updatedAt) {
-        $this->updatedAt = $updatedAt;
+        return $this->updatedAt = $updatedAt;
     }
 
-    //Access Control List										
+    /**
+     * \fn	void setACL($ACL)
+     * \brief	Sets the parseACL object representing the Video ACL
+     * \param	parseACL
+     */
     public function setACL($ACL) {
-        $this->ACL = $ACL;
+        return $this->ACL = $ACL;
     }
 
+    /**
+     * \fn	string __toString()
+     * \brief	Return a printable string representing the Video object
+     * \return	string
+     */
     public function __toString() {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
@@ -247,46 +399,46 @@ class Video {
         }
         $string .= '[author] => ' . $this->getAuthor() . '<br />';
         if (count($this->getCommentators()) != 0) {
-			foreach ($this->getCommentators() as $commentators) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[commentators] => ' . $commentators . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[commentators] => NULL<br />';
-		}
-		if (count($this->getComments()) != 0) {
-			foreach ($this->getComments() as $comments) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[comments] => ' . $comments . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[comments] => NULL<br />';
-		}
+            foreach ($this->getCommentators() as $commentators) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[commentators] => ' . $commentators . '<br />';
+            }
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[commentators] => NULL<br />';
+        }
+        if (count($this->getComments()) != 0) {
+            foreach ($this->getComments() as $comments) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[comments] => ' . $comments . '<br />';
+            }
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[comments] => NULL<br />';
+        }
         $string.="[counter] => " . $this->getCounter() . "<br />";
         $string.="[description] => " . $this->getDescription() . "<br />";
         $string.="[duration] => " . $this->getDuration() . "<br />";
-		if (count($this->getLovers()) != 0) {
-			foreach ($this->getFeaturing() as $featuring) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[featuring] => ' . $featuring . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[featuring] => NULL<br />';
-		}
+        if (count($this->getLovers()) != 0) {
+            foreach ($this->getFeaturing() as $featuring) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[featuring] => ' . $featuring . '<br />';
+            }
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[featuring] => NULL<br />';
+        }
         $string.="[fromUser] => " . $this->getFromUser() . "<br />";
         $string.="[loveCounter] => " . $this->getLoveCounter() . "<br />";
         if (count($this->getLovers()) != 0) {
-			foreach ($this->getLovers() as $lovers) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[lovers] => ' . $lovers . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[lovers] => NULL<br />';
-		}
+            foreach ($this->getLovers() as $lovers) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[lovers] => ' . $lovers . '<br />';
+            }
+        } else {
+            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+            $string .= '[lovers] => NULL<br />';
+        }
         if ($this->getTags() != null && count($this->getTags() > 0)) {
             foreach ($this->getTags() as $tag) {
                 $string.="&nbsp&nbsp&nbsp&nbsp&nbsp";
@@ -297,18 +449,19 @@ class Video {
         $string.="[title] => " . $this->getTitle() . "<br />";
         $string.="[URL] => " . $this->getURL() . "<br />";
         if ($this->getCreatedAt() != null) {
-			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-		} else {
-			$string .= '[createdAt] => NULL<br />';
-		}
-		if ($this->getUpdatedAt() != null) {
-			$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-		} else {
-			$string .= '[updatedAt] => NULL<br />';
-		}
-		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
+            $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+        } else {
+            $string .= '[createdAt] => NULL<br />';
+        }
+        if ($this->getUpdatedAt() != null) {
+            $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+        } else {
+            $string .= '[updatedAt] => NULL<br />';
+        }
+        $string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
         return $string;
     }
+
 }
 
 ?>
