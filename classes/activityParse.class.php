@@ -143,7 +143,7 @@ class ActivityParse {
 	 */
     public function parseToActivity($res) {
 			if (is_null($res))
-		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+		return throwError(new Exception('parseToActivity parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
 			$activity = new Activity();
             $activity->setObjectId($res->objectId);
