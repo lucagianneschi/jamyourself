@@ -23,7 +23,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'utils.class.php';
+require_once CLASSES_DIR . 'utils.php';
 
 class CommentParse {
 
@@ -56,7 +56,7 @@ class CommentParse {
 
     public function getComments() {
 		try {
-            $cmts = null();
+            $cmts = null;
             $res = $this->parseQuery->find();
 			if (is_array($res->results) && count($res->results) > 0) {
 				$cmts = array();
@@ -97,7 +97,7 @@ class CommentParse {
             $cmt->setActive($res->active);
             $cmt->setAlbum(fromParsePointer($res->album));
             $cmt->setComment(fromParsePointer($res->comment));
-            $cmt->setCommentators(fromParseRelation('Comment', 'commentators', $res->objectId, '_User'));
+			$cmt->setCommentators(fromParseRelation('Comment', 'commentators', $res->objectId, '_User'));
             $cmt->setComments(fromParseRelation('Comment', 'comments', $res->objectId, 'Comment'));
             $cmt->setCounter($res->counter);
             $cmt->setEvent(fromParsePointer($res->event));
@@ -153,7 +153,7 @@ class CommentParse {
             is_null($cmt->getType()) ? $parseObject->type = null : $parseObject->type = $cmt->getType();
             is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = toParsePointer('Video', $cmt->getVideo());
             is_null($cmt->getVote()) ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
-            is_null($cmt->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($cmt->getACL());
+			is_null($cmt->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($cmt->getACL());
 
 
             if ($cmt->getObjectId() == '') {
