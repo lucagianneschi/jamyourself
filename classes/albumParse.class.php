@@ -32,63 +32,20 @@ class AlbumParse {
 
     private $parseQuery;
 
+    /**
+     * \fn		void __construct()
+     * \brief	The constructor instantiates a new object of type ParseQuery on the Album class
+     */
     function __construct() {
-
         $this->parseQuery = new ParseQuery("Album");
     }
 
-    function saveAlbum($album) {
-        if (is_null($album) || is_a($album, "Album"))
-            return throwError(new Exception("Invalid Argument :  Album needed"), __CLASS__, __FUNCTION__, func_get_args());
-
-
-        //creo un'istanza dell'oggetto della libreria ParseLib
-        $parseObj = new parseObject("Album");
-
-        $parseObj->active = $album->getActive();
-        $parseObj->commentators = toParseRelation("_User", $album->getCommentators());
-        $parseObj->comments = toParseRelation("Comment", $album->getComments());
-        $parseObj->counter = $album->getCounter();
-        $parseObj->cover = $album->getCover();
-        $parseObj->coverFile = toParseFile($album->getCoverFile());
-        $parseObj->description = $album->getDescription();
-        $parseObj->featuring = toParseRelation("_User", $album->getFeaturing());
-        $parseObj->fromUser = toParsePointer("_User", $album->getFromUser());
-        $parseObj->images = toParseRelation("Image", $album->getImages());
-        $parseObj->location = toParseGeoPoint($album->getLocation());
-        $parseObj->loveCounter = $album->getLoveCounter();
-        $parseObj->lovers = toParseRelation("_User", $album->getLovers());
-        if (is_null($album->getTags()) && count($album->getTags()) > 0)
-            $parseObj->tags = $album->getTags();
-        else
-            $parseObj->tags = null;
-        $parseObj->thumbnailCover = $album->getThumbnailCover();
-        $parseObj->title = $album->getTitle();
-        $parseObj->ACL = toParseACL($album->getACL());
-        //caso update
-        if (is_null($album->getObjectId())) {
-
-            try {
-                $ret = $parseObj->update($album->getObjectId());
-                $album->setUpdatedAt(fromParseDate($ret->updatedAt));
-                return $album;
-            } catch (Exception $exception) {
-                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
-            }
-        } else {
-            //caso save
-            try {
-                $ret = $parseObj->save();
-                $album->setObjectId($ret->objectId);
-                $album->setCreatedAt(fromParseDate($ret->createdAt));
-                $album->setUpdatedAt(fromParseDate($ret->createdAt));
-                return $album;
-            } catch (Exception $exception) {
-                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
-            }
-        }
-    }
-
+    /**
+     * \fn      void deleteAlbum($objectId)
+     * \brief	Set unactive a specified Album by objectId
+     * \param   $objectId the string that represent the objectId of the Album
+     * \return	error in case of exception
+     */
     public function deleteAlbum($objectId) {
         if (is_null($objectId))
             return throwError(new Exception("Invalid Argument :  objectId needed"), __CLASS__, __FUNCTION__, func_get_args());
@@ -96,11 +53,9 @@ class AlbumParse {
             $parseAlbum = new parseAlbum();
             $res = $parseAlbum->get($objectId);
             $album = $this->parseToAlbum($res);
-
             $imagesId = $album->getImages();
             if (is_null($imagesId) && count($imagesId) > 0) {
                 $parseImage = new ImageParse();
-
                 foreach ($imagesId as $imageId) {
                     $parseImage->deleteImage($imageId);
                 }
@@ -110,23 +65,46 @@ class AlbumParse {
         }
     }
 
+    /**
+     * \fn number getCount()
+     * \brief	Returns the number of requests Album
+     * \return	number
+     */
+    public function getCount() {
+        return $this->parseQuery->getCount()->count;
+    }
+
+    /**
+     * \fn		void getAlbum($objectId)
+     * \brief	The function returns the Album object specified
+     * \param	$objectId the string that represent the objectId of the Album
+     * \return	Album	the Album with the specified $objectId
+     * \return	Error	the Error raised by the function
+     */
     function getAlbum($objectId) {
         try {
-            $query = new parseObject("Album");
-            $result = $query->get($objectId);
+            $parseAlbum = new parseObject("Album");
+            $result = $parseAlbum->get($objectId);
             return $this->parseToAlbum($result);
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
+    /**
+     * \fn		array getAlbums()
+     * \brief	The function returns the Albums objects specified
+     * \return	array 	an array of Album, if one or more Album are found
+     * \return	null	if no Album are found
+     * \return	Error	the Error raised by the function
+     */
     public function getAlbums() {
         $albums = null;
         try {
-            $result = $this->parseQuery->find();
-            if (is_array($result->results) && count($result->results) > 0) {
+            $res = $this->parseQuery->find();
+            if (is_array($res->results) && count($res->results) > 0) {
                 $albums = array();
-                foreach ($result->results as $obj) {
+                foreach ($res->results as $obj) {
                     if ($obj) {
                         $album = $this->parseToAlbum($obj);
                         $albums[$album->getObjectId()] = $album;
@@ -134,136 +112,250 @@ class AlbumParse {
                 }
             }
             return $albums;
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
-    function parseToAlbum($parseObj) {
-
-        if (is_null($parseObj))
-            return throwError(new Exception('parseToAlbum parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-
-        $album = new Album();
-
-        try {
-            $album->setObjectId($parseObj->objectId);
-            $album->setActive($parseObj->active);
-            $album->setCommentators(fromParseRelation("Album", "commentators", $parseObj->objectId, "_User"));
-            $album->setComments(fromParseRelation("Album", "comments", $parseObj->objectId, "Comment"));
-            $album->setCounter($parseObj->counter);
-            $album->setCover($parseObj->cover);
-            $album->setCoverFile(fromParseFile($parseObj->coverFile, 'image/jpeg'));
-            $album->setDescription($parseObj->description);
-            $album->setFeaturing(fromParseRelation("Album", "featuring", $parseObj->objectId, "_User"));
-            $album->setFromUser(fromParsePointer($parseObj->fromUser));
-            $album->setImages(fromParseRelation("Album", "images", $parseObj->objectId, "Image"));
-            $album->setLocation(fromParseGeoPoint($parseObj->location));
-            $album->setLoveCounter($parseObj->loveCounter);
-            $album->setLovers(fromParseRelation("Album", "lovers", $parseObj->objectId, "_User"));
-            $album->setTags($parseObj->tags);
-            $album->setThumbnailCover($parseObj->thumbnailCover);
-            $album->setTitle($parseObj->title);
-            $album->setCreatedAt(fromParseDate($parseObj->createdAt));
-            $album->setUpdatedAt(fromParseDate($parseObj->updatedAt));
-            $album->setACL(fromParseACL($parseObj->ACL));
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
-        }
-
-        return $album;
-    }
-
-    public function getCount() {
-        $this->parseQuery->getCount();
-    }
-
-    public function setLimit($int) {
-        $this->parseQuery->setLimit($int);
-    }
-
-    public function setSkip($int) {
-        $this->parseQuery->setSkip($int);
-    }
-
+    /**
+     * \fn		void orderBy($field)
+     * \brief	Specifies which field need to be ordered of requested Album
+     * \param	$field	the field on which to sort
+     */
     public function orderBy($field) {
         $this->parseQuery->orderBy($field);
     }
 
-    public function orderByAscending($value) {
-        $this->parseQuery->orderByAscending($value);
+    /**
+     * \fn		void orderByAscending($field)
+     * \brief	Specifies which field need to be ordered ascending of requested Album
+     * \param	$field	the field on which to sort ascending
+     */
+    public function orderByAscending($field) {
+        $this->parseQuery->orderByAscending($field);
     }
 
-    public function orderByDescending($value) {
-        $this->parseQuery->orderByDescending($value);
+    /**
+     * \fn		void orderByDescending($field)
+     * \brief	Specifies which field need to be ordered descending of requested Album
+     * \param	$field	the field on which to sort descending
+     */
+    public function orderByDescending($field) {
+        $this->parseQuery->orderByDescending($field);
     }
 
-    public function whereInclude($value) {
-        $this->parseQuery->whereInclude($value);
+    /**
+     * \fn		Album parseToAlbum($res)
+     * \brief	The function returns a representation of an Album object in Parse
+     * \param	$res 	represent the Album object returned from Parse
+     * \return	Album	the Album object
+     * \return	Error	the Error raised by the function
+     */
+    function parseToAlbum($res) {
+        if (is_null($res))
+            return throwError(new Exception('parseToAlbum parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+        try {
+            $album = new Album();
+            $album->setObjectId($res->objectId);
+            $album->setActive($res->active);
+            $album->setCommentators(fromParseRelation("Album", "commentators", $res->objectId, "_User"));
+            $album->setComments(fromParseRelation("Album", "comments", $res->objectId, "Comment"));
+            $album->setCounter($res->counter);
+            $album->setCover($res->cover);
+            $album->setCoverFile(fromParseFile($res->coverFile, 'image/jpeg'));
+            $album->setDescription($res->description);
+            $album->setFeaturing(fromParseRelation("Album", "featuring", $res->objectId, "_User"));
+            $album->setFromUser(fromParsePointer($res->fromUser));
+            $album->setImages(fromParseRelation("Album", "images", $res->objectId, "Image"));
+            $album->setLocation(fromParseGeoPoint($res->location));
+            $album->setLoveCounter($res->loveCounter);
+            $album->setLovers(fromParseRelation("Album", "lovers", $res->objectId, "_User"));
+            $album->setTags($res->tags);
+            $album->setThumbnailCover($res->thumbnailCover);
+            $album->setTitle($res->title);
+            $album->setCreatedAt(fromParseDate($res->createdAt));
+            $album->setUpdatedAt(fromParseDate($res->updatedAt));
+            $album->setACL(fromParseACL($res->ACL));
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
+        return $album;
     }
 
-    public function where($key, $value) {
-        $this->parseQuery->where($key, $value);
+    function saveAlbum($album) {
+        try {
+            $parseAlbum = new parseObject("Album");
+            is_null($album->getActive()) ? $parseAlbum->active = true : $parseAlbum->active = $album->getActive();
+            is_null($album->getCommentators()) ? $parseAlbum->commentators = null : $parseAlbum->commentators = toParseRelation("_User", $album->getCommentators());
+            is_null($album->getComments()) ? $parseAlbum->comments = null : $parseAlbum->comments = toParseRelation("Comment", $album->getComments());
+            is_null($album->getCounter()) ? $parseAlbum->counter = -1 : $parseAlbum->counter = $album->getCounter();
+            is_null($album->getCover()) ? $parseAlbum->cover = null : $parseAlbum->cover = $album->getCover();
+            is_null($album->getCoverFile()) ? $parseAlbum->coverFile = null : $parseAlbum->coverFile = toParseFile($album->getCoverFile());
+            is_null($album->getDescription()) ? $parseAlbum->description = null : $parseAlbum->description = $album->getDescription();
+            is_null($album->getFeaturing()) ? $parseAlbum->featuring = null : $parseAlbum->featuring = toParseRelation("_User", $album->getFeaturing());
+            is_null($album->getFromUser()) ? $parseAlbum->fromUser = null : $parseAlbum->fromUser = toParsePointer("_User", $album->getFromUser());
+            is_null($album->getImages()) ? $parseAlbum->images = null : $parseAlbum->images = toParseRelation("Image", $album->getImages());
+            is_null($album->getLocation()) ? $parseAlbum->location = null : $parseAlbum->location = toParseGeoPoint($album->getLocation());
+            is_null($album->getLoveCounter()) ? $parseAlbum->loveCounter = -1 : $parseAlbum->loveCounter = $album->getLoveCounter();
+            is_null($album->getLovers()) ? $parseAlbum->lovers = null : $parseAlbum->lovers = toParseRelation("_User", $album->getLovers());
+            is_null($album->getTags()) ? $parseAlbum->tags = null : $parseAlbum->tags = $album->getTags();
+            is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = null : $parseAlbum->thumbnailCover = $album->getThumbnailCover();
+            is_null($album->getTitle()) ? $parseAlbum->title = null : $parseAlbum->title = $album->getTitle();
+            $acl = new ParseACL();
+            $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
+            is_null($album->getACL()) ? $parseAlbum->ACL = $acl : $parseAlbum->ACL = toParseACL($album->getACL());
+            if ($album->getObjectId() == '') {
+                $res = $parseAlbum->save();
+                $album->setObjectId($res->objectId);
+                return $album;
+            } else {
+                $parseAlbum->update($album->getObjectId());
+            }
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
-    public function whereEqualTo($key, $value) {
-        $this->parseQuery->whereEqualTo($key, $value);
+    /**
+     * \fn		void setLimit($limit)
+     * \brief	Sets the maximum number of Album to return
+     * \param	$limit	the maximum number
+     */
+    public function setLimit($limit) {
+        $this->parseQuery->setLimit($limit);
     }
 
-    public function whereNotEqualTo($key, $value) {
-        $this->parseQuery->whereNotEqualTo($key, $value);
+    /**
+     * \fn		void setSkip($skip)
+     * \brief	Sets the number of how many Album(s) must be discarded initially
+     * \param	$skip	the number of Album(s) to skip
+     */
+    public function setSkip($skip) {
+        $this->parseQuery->setSkip($skip);
     }
 
-    public function whereGreaterThan($key, $value) {
-        $this->parseQuery->whereGreaterThan($key, $value);
+    /**
+     * \fn		void where($field, $value)
+     * \brief	Sets a condition for which the field $field must value $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function where($field, $value) {
+        $this->parseQuery->where($field, $value);
     }
 
-    public function whereLessThan($key, $value) {
-        $this->parseQuery->whereLessThan($key, $value);
+    /**
+     * \fn		void whereContainedIn($field, $value)
+     * \brief	Sets a condition for which the field $field must value one or more $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the array which represent the values
+     */
+    public function whereContainedIn($field, $values) {
+        $this->parseQuery->whereContainedIn($field, $values);
     }
 
-    public function whereGreaterThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
+    /**
+     * \fn		void whereEqualTo($field, $value)
+     * \brief	Sets a condition for which the field $field must value $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereEqualTo($field, $value) {
+        $this->parseQuery->whereEqualTo($field, $value);
     }
 
-    public function whereLessThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
+    /**
+     * \fn		void whereExists($field)
+     * \brief	Sets a condition for which the field $field must be enhanced
+     * \param	$field	the string which represent the field
+     */
+    public function whereExists($field) {
+        $this->parseQuery->whereExists($field);
     }
 
-    public function whereContainedIn($key, $value) {
-        $this->parseQuery->whereContainedIn($key, $value);
+    /**
+     * \fn		void whereGreaterThan($field, $value)
+     * \brief	Sets a condition for which the field $field must value more than $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereGreaterThan($field, $value) {
+        $this->parseQuery->whereGreaterThan($field, $value);
     }
 
-    public function whereNotContainedIn($key, $value) {
-        $this->parseQuery->whereNotContainedIn($key, $value);
+    /**
+     * \fn		void whereGreaterThanOrEqualTo($field, $value)
+     * \brief	Sets a condition for which the field $field must value equal or more than $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereGreaterThanOrEqualTo($field, $value) {
+        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
-    public function whereExists($key) {
-        $this->parseQuery->whereExists($key);
+    /**
+     * \fn		void whereLessThan($field, $value)
+     * \brief	Sets a condition for which the field $field must value less than $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereLessThan($field, $value) {
+        $this->parseQuery->whereLessThan($field, $value);
     }
 
-    public function whereDoesNotExist($key) {
-        $this->parseQuery->whereDoesNotExist($key);
+    /**
+     * \fn		void whereLessThanOrEqualTo($field, $value)
+     * \brief	Sets a condition for which the field $field must value equal or less than $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereLessThanOrEqualTo($field, $value) {
+        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
     }
 
-    public function whereRegex($key, $value, $options = '') {
-        $this->parseQuery->whereRegex($key, $value, $options = '');
+    /**
+     * \fn		void whereNotContainedIn($field, $value)
+     * \brief	Sets a condition for which the field $field must not value one or more $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the array which represent the values
+     */
+    public function whereNotContainedIn($field, $array) {
+        $this->parseQuery->whereNotContainedIn($field, $array);
     }
 
-    public function wherePointer($key, $className, $objectId) {
-        $this->parseQuery->wherePointer($key, $className, $objectId);
+    /**
+     * \fn		void whereNotEqualTo($field, $value)
+     * \brief	Sets a condition for which the field $field must not value $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereNotEqualTo($field, $value) {
+        $this->parseQuery->whereNotEqualTo($field, $value);
     }
 
-    public function whereInQuery($key, $className, $inQuery) {
-        $this->parseQuery->whereInQuery($key, $className, $inQuery);
+    /**
+     * \fn		void whereNotExists($field)
+     * \brief	Sets a condition for which the field $field must not be enhanced
+     * \param	$field	the string which represent the field
+     */
+    public function whereNotExists($field) {
+        $this->parseQuery->whereDoesNotExist($field);
     }
 
-    public function whereNotInQuery($key, $className, $inQuery) {
-        $this->parseQuery->whereNotInQuery($key, $className, $inQuery);
+    /**
+     * \fn		void wherePointer($field, $className, $objectId)
+     * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
+     * \param	$field		the string which represent the field
+     * \param	$className	the string which represent the className of the Pointer
+     * \param	$objectId	the string which represent the objectId of the Pointer
+     */
+    public function wherePointer($field, $className, $objectId) {
+        $this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
-    public function whereRelatedTo($key, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($key, $className, $objectId);
+    public function whereRelatedTo($field, $className, $objectId) {
+        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
     }
 
 }
