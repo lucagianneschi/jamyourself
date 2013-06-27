@@ -31,61 +31,22 @@ class ActivityParse {
 
     private $parseQuery;
 
+		/**
+	 * \fn		void __construct()
+	 * \brief	The constructor instantiates a new object of type ParseQuery on the Activity class
+	 */
     public function __construct() {
 
         $this->parseQuery = new ParseQuery("Activity");
     }
 
-    /**
-     * Salva un Activity nel DB di parse
-     * @param Activity $activity
-     */
-    public function saveActivity(Activity $activity) {
-        //creo un'istanza dell'oggetto della libreria ParseLib
-        $parseObj = new parseObject("Activity");
-        $parseObj->accepted = $activity->getAccepted();
-        $parseObj->active = $activity->getActive();
-        $parseObj->album = toParsePointer("Album", $activity->getAlbum());
-        $parseObj->comment = toParsePointer("Comment", $activity->getComment());
-        $parseObj->event = toParsePointer("Event", $activity->getEvent());
-        $parseObj->fromUser = toParsePointer("_User", $activity->getFromUser());
-        $parseObj->image = toParsePointer("Image", $activity->getImage());
-        $parseObj->playlist = toParsePointer("Playlist", $activity->getPlaylist());
-        $parseObj->question = toParsePointer("Question", $activity->getQuestion());
-        $parseObj->read = $activity->getRead();
-        $parseObj->record = toParsePointer("Record", $activity->getRecord());
-        $parseObj->song = toParsePointer("Song", $activity->getSong());
-        $parseObj->status = $activity->getStatus();
-        $parseObj->toUser = toParsePointer("_User", $activity->getToUser());
-        $parseObj->type = $activity->getType();
-        $parseObj->userStatus = toParsePointer("Status", $activity->getUserStatus());
-        $parseObj->video = toParsePointer("Video", $activity->getVideo());
-        $parseObj->ACL = toParseACL($activity->getACL());
-
-        //caso update
-        if ($activity->getObjectId() != null) {
-
-            try {
-                $ret = $parseObj->update($activity->getObjectId());
-                $activity->setUpdatedAt(fromParseDate($ret->updatedAt));
-            } catch (Exception $exception) {
-                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
-            }
-        } else {
-            //caso save
-            try {
-                $ret = $parseObj->save();
-                $activity->setObjectId($ret->objectId);
-                $activity->setCreatedAt(fromParseDate($ret->createdAt));
-                $activity->setUpdatedAt(fromParseDate($ret->createdAt));
-            } catch (Exception $exception) {
-                return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
-            }
-        }
-        return $activity;
-    }
-
-    public function deleteActivity($objectId) {
+	/**
+	 * \fn		void deleteActivity(string $objectId)
+	 * \brief	Set unactive a specified Activity by objectId
+	 * \param   $objectId the string that represent the objectId of the Activity
+	 * \return	error in case of exception
+	 */
+	    public function deleteActivity($objectId) {
         try {
             $parseObject = new parseObject('Activity');
             $parseObject->active = false;
@@ -95,196 +56,305 @@ class ActivityParse {
         }
     }
 
-    /**
-     * 
-     * @param string $activityId
-     * @return boolean|Activity
-     */
+	/**
+	 * \fn		void getActivity(string $objectId)
+	 * \brief	The function returns the Activity object specified
+	 * \param	$objectId the string that represent the objectId of the Activity
+	 * \return	Activity	the Activity with the specified $objectId
+	 * \return	Error	the Error raised by the function
+	 */
     public function getActivity($objectId) {
         try {
-            $query = new parseObject("Activity");
-            return $this->parseToActivity($query->get($objectId));
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+            $parseActivity = new parseObject("Activity");
+            return $this->parseToActivity($parseActivity->get($objectId));
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
 
+	/**
+	 * \fn		array getActivities()
+	 * \brief	The function returns the Activities objects specified
+	 * \return	array 	an array of Activity, if one or more Activity are found
+	 * \return	null	if no Activity are found
+	 * \return	Error	the Error raised by the function
+	 */
     public function getActivities() {
         $activities = null;
         try {
-            $result = $this->parseQuery->find();
-            if (is_array($result->results) && count($result->results) > 0) {
+            $res = $this->parseQuery->find();
+            if (is_array($res->results) && count($res->results) > 0) {
                 $activities = array();
-                foreach ($result->results as $obj) {
+                foreach ($res->results as $obj) {
                     if ($obj) {
-                        $video = $this->parseToActivity($obj);
-                        $activities[$video->getObjectId] = $video;
+                        $activity = $this->parseToActivity($obj);
+                        $activities[$activity->getObjectId] = $activity;
                     }
                 }
             }
             return $activities;
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
-
-    /**
-     * 
-     * @param stdClass $parseObj
-     * @return boolean|Activity
-     */
-    public function parseToActivity(stdClass $parseObj) {
-
-        if ($parseObj == null || !isset($parseObj->objectId))
-            return false;
-
-        $activity = new Activity();
-
+	
+		/**
+	 * \fn		number getCount()
+	 * \brief	Returns the number of requests Activity
+	 * \return	number
+	 */
+	public function getCount() {
+		return $this->parseQuery->getCount()->count;
+	}
+	
+	/**
+	 * \fn		void orderBy($field)
+	 * \brief	Specifies which field need to be ordered of requested Activity
+	 * \param	$field	the field on which to sort
+	 */
+	public function orderBy($field) {
+		$this->parseQuery->orderBy($field);
+	}	
+	
+	/**
+	 * \fn		void orderByAscending($field)
+	 * \brief	Specifies which field need to be ordered ascending of requested Activity
+	 * \param	$field	the field on which to sort ascending
+	 */
+	public function orderByAscending($field) {
+		$this->parseQuery->orderByAscending($field);
+	}
+	
+	/**
+	 * \fn		void orderByDescending($field)
+	 * \brief	Specifies which field need to be ordered descending of requested Activity
+	 * \param	$field	the field on which to sort descending
+	 */
+	public function orderByDescending($field) {
+		$this->parseQuery->orderByDescending($field);
+	}
+	
+	/**
+	 * \fn		Activity parseToActivity($res)
+	 * \brief	The function returns a representation of an Activity object in Parse
+	 * \param	$res 	represent the Activity object returned from Parse
+	 * \return	Activity	the Activity object
+	 * \return	Error	the Error raised by the function
+	 */
+    public function parseToActivity($res) {
+			if (is_null($res))
+		return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
-
-            $activity->setObjectId($parseObj->objectId);
-
-            $activity->setActive($parseObj->active);
-
-            $activity->setAccepted($parseObj->accepted);
-
-            $activity->setAlbum(fromParsePointer($parseObj->album));
-
-            $activity->setComment(fromParsePointer($parseObj->comment));
-
-            $activity->setFromUser(fromParsePointer($parseObj->fromUser));
-
-            $activity->setEvent(fromParsePointer($parseObj->event));
-
-            $activity->setImage(fromParsePointer($parseObj->image));
-
-            $activity->setPlaylist(fromParsePointer($parseObj->playlist));
-
-            $activity->setQuestion(fromParsePointer($parseObj->question));
-
-            $activity->setRead($parseObj->read);
-
-            $activity->setRecord(fromParsePointer($parseObj->record));
-
-            $activity->setSong(fromParsePointer($parseObj->song));
-
-            $activity->setStatus($parseObj->status);
-
-            $activity->setToUser(fromParsePointer($parseObj->toUser));
-
-            $activity->setType($parseObj->type);
-
-            $activity->setUserStatus(fromParsePointer($parseObj->userStatus));
-
-            $activity->setVideo(fromParsePointer($parseObj->video));
-
-            $activity->setCreatedAt(fromParseDate($parseObj->createdAt));
-
-            $activity->setUpdatedAt(fromParseDate($parseObj->updatedAt));
-
-            $activity->setACL(fromParseACL($parseObj->ACL));
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+			$activity = new Activity();
+            $activity->setObjectId($res->objectId);
+            $activity->setActive($res->active);
+            $activity->setAccepted($res->accepted);
+            $activity->setAlbum(fromParsePointer($res->album));
+            $activity->setComment(fromParsePointer($res->comment));
+            $activity->setFromUser(fromParsePointer($res->fromUser));
+            $activity->setEvent(fromParsePointer($res->event));
+            $activity->setImage(fromParsePointer($res->image));
+            $activity->setPlaylist(fromParsePointer($res->playlist));
+            $activity->setQuestion(fromParsePointer($res->question));
+            $activity->setRead($res->read);
+            $activity->setRecord(fromParsePointer($res->record));
+            $activity->setSong(fromParsePointer($res->song));
+            $activity->setStatus($res->status);
+            $activity->setToUser(fromParsePointer($res->toUser));
+            $activity->setType($res->type);
+            $activity->setUserStatus(fromParsePointer($res->userStatus));
+            $activity->setVideo(fromParsePointer($res->video));
+            $activity->setCreatedAt(fromParseDate($res->createdAt));
+            $activity->setUpdatedAt(fromParseDate($res->updatedAt));
+            $activity->setACL(fromParseACL($res->ACL));
+			return $activity;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
-        return $activity;
     }
+	
+		/**
+	 * \fn		Activity saveActivity(Activity $activity)
+	 * \brief	This function save an Activity object in Parse
+	 * \param	$activity	represent the Activity object to save
+	 * \return	Activity	the Activity object with the new objectId parameter saved
+	 * \return	Error	the Error raised by the function
+	 */
+    public function saveActivity($activity) {
+	    try{
+			$parseActivity = new parseObject("Activity");
+			is_null($activity->getAccepted()) ? $parseActivity->accepted = true : $parseActivity->accepted = $activity->getAccepted();
+			is_null($activity->getActive()) ? $parseActivity->active = true : $parseActivity->active = $activity->getActive();
+			is_null($activity->getAlbum()) ? $parseActivity->album = null : $parseActivity->album = toParsePointer("Album", $activity->getAlbum());
+			is_null($activity->getComment()) ? $parseActivity->comment = null : $parseActivity->comment = toParsePointer("Comment", $activity->getComment());
+			is_null($activity->getEvent()) ? $parseActivity->event = null : $parseActivity->event = toParsePointer("Event", $activity->getEvent());
+			is_null($activity->getFromUser()) ? $parseActivity->fromUser = null : $parseActivity->fromUser = toParsePointer("_User", $activity->getFromUser());
+			is_null($activity->getImage()) ? $parseActivity->image = null : $parseActivity->image = toParsePointer("Image", $activity->getImage());
+			is_null($activity->getPlaylist()) ? $parseActivity->playlist = null : $parseActivity->playlist = toParsePointer("Playlist", $activity->getPlaylist());
+			is_null($activity->getQuestion()) ? $parseActivity->question = null : $parseActivity->question = toParsePointer("Question", $activity->getQuestion());
+			is_null($activity->getRead()) ? $parseActivity->read = true : $parseActivity->read = $activity->getRead();
+			is_null($activity->getRecord()) ? $parseActivity->record = null : $parseActivity->record = toParsePointer("Record", $activity->getRecord());
+			is_null($activity->getSong()) ? $parseActivity->song = null : $parseActivity->song = toParsePointer("Song", $activity->getSong());
+			is_null($activity->getStatus()) ? $parseActivity->status = 'A' : $parseActivity->status = $activity->getStatus();
+			is_null($activity->getToUser()) ? $parseActivity->toUser = null : $parseActivity->toUser = toParsePointer("_User", $activity->getToUser());
+			is_null($activity->getType()) ? $parseActivity->type = null : $parseActivity->type = $activity->getType();
+			is_null($activity->getUserStatus()) ? $parseActivity->userStatus = null : $parseActivity->userStatus = toParsePointer("Status", $activity->getUserStatus());
+			is_null($activity->getVideo()) ? $parseActivity->video = null : $parseActivity->video = toParsePointer("Video", $activity->getVideo());
+		    $acl = new ParseACL();
+			$acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
+			is_null($activity->getACL()) ? $parseActivity->ACL = $acl : $parseActivity->ACL = toParseACL($activity->getACL());
+			if ($activity->getObjectId() == '') {
+                $res = $parseActivity->save();
+                $activity->setObjectId($res->objectId);
+                return $activity;
+            } else {
+                $parseActivity->update($activity->getObjectId());
+            }
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
+    }
+   /**
+	 * \fn		void setLimit($limit)
+	 * \brief	Sets the maximum number of Activity to return
+	 * \param	$limit	the maximum number
+	 */
+	public function setLimit($limit) {
+		$this->parseQuery->setLimit($limit);
+	}
+	
+	/**
+	 * \fn		void setSkip($skip)
+	 * \brief	Sets the number of how many Activity(s) must be discarded initially
+	 * \param	$skip	the number of Activity(s) to skip
+	 */
+	public function setSkip($skip) {
+		$this->parseQuery->setSkip($skip);
+	}
+	
+	/**
+	 * \fn		void where($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function where($field, $value) {
+		$this->parseQuery->where($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereContainedIn($field, $values) {
+		$this->parseQuery->whereContainedIn($field, $values);
+	}
+	
+	/**
+	 * \fn		void whereEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereEqualTo($field, $value) {
+		$this->parseQuery->whereEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereExists($field)
+	 * \brief	Sets a condition for which the field $field must be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereExists($field) {
+		$this->parseQuery->whereExists($field);
+	}	
+	
+	/**
+	 * \fn		void whereGreaterThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThan($field, $value) {
+		$this->parseQuery->whereGreaterThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThan($field, $value) {
+		$this->parseQuery->whereLessThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereNotContainedIn($field, $array) {
+		$this->parseQuery->whereNotContainedIn($field, $array);
+	}
+	
+	/**
+	 * \fn		void whereNotEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereNotEqualTo($field, $value) {
+		$this->parseQuery->whereNotEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotExists($field)
+	 * \brief	Sets a condition for which the field $field must not be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereNotExists($field) {
+		$this->parseQuery->whereDoesNotExist($field);
+	}
 
-//*************************************************************************/    
-//     
-//     Metodi tipici delle classi parse
-//     
-//*************************************************************************/
-    public function getCount() {
-        $this->parseQuery->getCount();
-    }
-
-    public function setLimit($int) {
-        $this->parseQuery->setLimit($int);
-    }
-
-    public function setSkip($int) {
-        $this->parseQuery->setSkip($int);
-    }
-
-    public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
-    }
-
-    public function orderByAscending($value) {
-        $this->parseQuery->orderByAscending($value);
-    }
-
-    public function orderByDescending($value) {
-        $this->parseQuery->orderByDescending($value);
-    }
-
-    public function whereInclude($value) {
-        $this->parseQuery->whereInclude($value);
-    }
-
-    public function where($key, $value) {
-        $this->parseQuery->where($key, $value);
-    }
-
-    public function whereEqualTo($key, $value) {
-        $this->parseQuery->whereEqualTo($key, $value);
-    }
-
-    public function whereNotEqualTo($key, $value) {
-        $this->parseQuery->whereNotEqualTo($key, $value);
-    }
-
-    public function whereGreaterThan($key, $value) {
-        $this->parseQuery->whereGreaterThan($key, $value);
-    }
-
-    public function whereLessThan($key, $value) {
-        $this->parseQuery->whereLessThan($key, $value);
-    }
-
-    public function whereGreaterThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($key, $value);
-    }
-
-    public function whereLessThanOrEqualTo($key, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($key, $value);
-    }
-
-    public function whereContainedIn($key, $value) {
-        $this->parseQuery->whereContainedIn($key, $value);
-    }
-
-    public function whereNotContainedIn($key, $value) {
-        $this->parseQuery->whereNotContainedIn($key, $value);
-    }
-
-    public function whereExists($key) {
-        $this->parseQuery->whereExists($key);
-    }
-
-    public function whereDoesNotExist($key) {
-        $this->parseQuery->whereDoesNotExist($key);
-    }
-
-    public function whereRegex($key, $value, $options = '') {
-        $this->parseQuery->whereRegex($key, $value, $options = '');
-    }
-
-    public function wherePointer($key, $className, $objectId) {
-        $this->parseQuery->wherePointer($key, $className, $objectId);
-    }
-
-    public function whereInQuery($key, $className, $inQuery) {
-        $this->parseQuery->whereInQuery($key, $className, $inQuery);
-    }
-
-    public function whereNotInQuery($key, $className, $inQuery) {
-        $this->parseQuery->whereNotInQuery($key, $className, $inQuery);
-    }
-
-    public function whereRelatedTo($key, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($key, $className, $objectId);
-    }
+	/**
+	 * \fn		void wherePointer($field, $className, $objectId)
+	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className of the Pointer
+	 * \param	$objectId	the string which represent the objectId of the Pointer
+	 */
+	public function wherePointer($field, $className, $objectId) {
+		$this->parseQuery->wherePointer($field, $className, $objectId);
+	}
+		
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
 
 }
 
