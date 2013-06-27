@@ -1,5 +1,4 @@
 <?php
-
 /* ! \par Info Generali:
  *  \author    Maria Laura Fresu
  *  \version   1.0
