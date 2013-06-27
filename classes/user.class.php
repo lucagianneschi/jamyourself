@@ -63,246 +63,549 @@ class User {
     private $sessionToken;
 
     public function __construct() {
-        
     }
 
-    public function getObjectId() {
+    /**
+	 * \fn		string getObjectId()
+	 * \brief	Return the objectId value
+	 * \return	string
+	 */
+	public function getObjectId() {
         return $this->objectId;
     }
 
-    public function getUsername() {
+    /**
+	 * \fn		string getUsername()
+	 * \brief	Return the username of the User
+	 * \return	string
+	 */
+	public function getUsername() {
         return $this->username;
     }
 
-    public function getPassword() {
+    /**
+	 * \fn		string getPassword()
+	 * \brief	Return the password of the User
+	 * \return	string
+	 */
+	public function getPassword() {
         return $this->password;
     }
 
-    public function getAuthData() {
+    /**
+	 * \fn		string getAuthData()
+	 * \brief	Return the authorization data of the User
+	 * \return	string
+	 * \warning	the function is not used yet
+	 */
+	public function getAuthData() {
         return $this->authData;
     }
 
-    public function getEmailVerified() {
+    /**
+	 * \fn		string getEmailVerified()
+	 * \brief	Return the email verification of the User
+	 * \return	string
+	 * \warning	the function is not used yet
+	 */
+	public function getEmailVerified() {
         return $this->emailVerified;
     }
 
-    public function getActive() {
+    /**
+	 * \fn		boolean getActive()
+	 * \brief	Return the activation state of the User
+	 * \return	boolean
+	 */
+	public function getActive() {
         return $this->active;
     }
 
-    public function getAlbums() {
+    /**
+	 * \fn		array getAlbum()
+	 * \brief	Return an array of objectId of the Album related with the User
+	 * \return	array
+	 */
+	public function getAlbums() {
         return $this->albums;
     }
 
-    public function getBackground() {
+	/**
+	 * \fn		string getBackground()
+	 * \brief	Return the beckground link of the User
+	 * \return	string
+	 */
+	public function getBackground() {
         return $this->background;
     }
 
-    public function getCity() {
+    /**
+	 * \fn		string getCity()
+	 * \brief	Return the city of the User
+	 * \return	string
+	 */
+	public function getCity() {
         return $this->city;
     }
 
-    public function getComments() {
+    /**
+	 * \fn		array getComments()
+	 * \brief	Return an array of objectId of the Comment related with the User
+	 * \return	array
+	 */
+	public function getComments() {
         return $this->comments;
     }
 
-    public function getCountry() {
+    /**
+	 * \fn		string getCountry()
+	 * \brief	Return the country of the User
+	 * \return	string
+	 */
+	public function getCountry() {
         return $this->country;
     }
 
-    public function getDescription() {
+    /**
+	 * \fn		string getDescription()
+	 * \brief	Return the description of the User
+	 * \return	string
+	 */
+	public function getDescription() {
         return $this->description;
     }
 
-    public function getEmail() {
+    /**
+	 * \fn		string getEmail()
+	 * \brief	Return the email of the User
+	 * \return	string
+	 */
+	public function getEmail() {
         return $this->email;
     }
 
-    public function getFbPage() {
+    /**
+	 * \fn		string getFbPage()
+	 * \brief	Return the facebook page link of the User
+	 * \return	string
+	 */
+	public function getFbPage() {
         return $this->fbPage;
     }
 
-    public function getGeoCoding() {
+    /**
+	 * \fn		parseGeoPoint getGeoCoding()
+	 * \brief	Return the parseGeoPoint object of the User
+	 * \return	parseGeoPoint
+	 */
+	public function getGeoCoding() {
         return $this->geoCoding;
     }
 
-    public function getImages() {
+    /**
+	 * \fn		array getImages()
+	 * \brief	Return an array of objectId of the Image related with the User
+	 * \return	array
+	 */
+	public function getImages() {
         return $this->images;
     }
 
-    public function getLevel() {
+    /**
+	 * \fn		number getLevel()
+	 * \brief	Return the level of the User
+	 * \return	number
+	 */
+	public function getLevel() {
         return $this->level;
     }
 
-    public function getLevelValue() {
+    /**
+	 * \fn		number getLevelValue()
+	 * \brief	Return the level value of the User
+	 * \return	number
+	 */
+	public function getLevelValue() {
         return $this->levelValue;
     }
 
-    public function getLoveSongs() {
+    /**
+	 * \fn		array getLoveSongs()
+	 * \brief	Return an array of objectId of the Song related with the User
+	 * \return	array
+	 */
+	public function getLoveSongs() {
         return $this->loveSongs;
     }
 
-    public function getMusic() {
+    /**
+	 * \fn		array getMusic()
+	 * \brief	Return an array of the type of music preferred by the User
+	 * \return	array
+	 */
+	public function getMusic() {
         return $this->music;
     }
 
-    public function getPlaylists() {
+    /**
+	 * \fn		array getPlaylists()
+	 * \brief	Return an array of objectId of the Playlist related with the User
+	 * \return	array
+	 */
+	public function getPlaylists() {
         return $this->playlists;
     }
 
-    public function getPremium() {
+    /**
+	 * \fn		boolean getPremium()
+	 * \brief	Return if the User has a Premium account
+	 * \return	boolean
+	 */
+	public function getPremium() {
         return $this->premium;
     }
 
-    public function getPremiumExpirationDate() {
+    /**
+	 * \fn		DateTime getPremiumExpirationDate()
+	 * \brief	Return the expiration date of the premium account of the User
+	 * \return	DateTime
+	 */
+	public function getPremiumExpirationDate() {
         return $this->premiumExpirationDate;
     }
 
-    public function getProfilePicture() {
+    /**
+	 * \fn		string getProfilePicture()
+	 * \brief	Return the profile picture link of the User
+	 * \return	string
+	 */
+	public function getProfilePicture() {
         return $this->profilePicture;
     }
 
-    public function getProfilePictureFile() {
+    /**
+	 * \fn		File getProfilePictureFile()
+	 * \brief	Return the file of the profile picture of the User
+	 * \return	File
+	 */
+	public function getProfilePictureFile() {
         return $this->profilePictureFile;
     }
 
-    public function getProfileThumbnail() {
+    /**
+	 * \fn		string getProfilePictureFile()
+	 * \brief	Return the thumbnail profile picture link of the User
+	 * \return	string
+	 */
+	public function getProfileThumbnail() {
         return $this->profileThumbnail;
     }
 
-    public function getSettings() {
+    /**
+	 * \fn		array getSettings()
+	 * \brief	Return an array of the setting of the User
+	 * \return	array
+	 */
+	public function getSettings() {
         return $this->settings;
     }
 
-    public function getStatuses() {
+    /**
+	 * \fn		array getStatuses()
+	 * \brief	Return an array of objectId of the Status related with the User
+	 * \return	array
+	 */
+	public function getStatuses() {
         return $this->statuses;
     }
 
-    public function getTwitterPage() {
+    /**
+	 * \fn		string getTwitterPage()
+	 * \brief	Return the twitter page link of the User
+	 * \return	string
+	 */
+	public function getTwitterPage() {
         return $this->twitterPage;
     }
 
-    public function getType() {
+    /**
+	 * \fn		string getType()
+	 * \brief	Return the type of the User
+	 * \return	string
+	 */
+	public function getType() {
         return $this->type;
     }
 
-    public function getVideos() {
+    /**
+	 * \fn		array getVideos()
+	 * \brief	Return an array of objectId of the Video related with the User
+	 * \return	array
+	 */
+	public function getVideos() {
         return $this->videos;
     }
 
-    public function getWebsite() {
+    /**
+	 * \fn		string getWebsite()
+	 * \brief	Return the website link of the User
+	 * \return	string
+	 */
+	public function getWebsite() {
         return $this->website;
     }
 
-    public function getYoutubeChannel() {
+    /**
+	 * \fn		string getYoutubeChannel()
+	 * \brief	Return the youtube channel link of the User
+	 * \return	string
+	 */
+	public function getYoutubeChannel() {
         return $this->youtubeChannel;
     }
 
-    public function getCreatedAt() {
+    /**
+	 * \fn		DateTime getCreatedAt()
+	 * \brief	Return the User creation date
+	 * \return	DateTime
+	 */
+	public function getCreatedAt() {
         return $this->createdAt;
     }
 
-    public function getUpdatedAt() {
+    /**
+	 * \fn		DateTime getUpdatedAt()
+	 * \brief	Return the User modification date
+	 * \return	DateTime
+	 */
+	public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
-    public function getACL() {
+    /**
+	 * \fn		parseACL getACL()
+	 * \brief	Return the parseACL object representing the User ACL 
+	 * \return	parseACL
+	 */
+	public function getACL() {
         return $this->ACL;
     }
 
-    public function getSessionToken() {
+    /**
+	 * \fn		string getSessionToken()
+	 * \brief	Return the session token of the User
+	 * \return	string
+	 */
+	public function getSessionToken() {
         return $this->sessionToken;
     }
 
-    public function setObjectId($objectId) {
+    /**
+	 * \fn		void setObjectId($objectId)
+	 * \brief	Sets the objectId value
+	 * \param	string
+	 */
+	public function setObjectId($objectId) {
         $this->objectId = $objectId;
     }
 
-    public function setUsername($username) {
+    /**
+	 * \fn		void setUsername($username)
+	 * \brief	Sets the username value of the User
+	 * \param	string
+	 */
+	public function setUsername($username) {
         $this->username = $username;
     }
 
-    public function setPassword($password) {
+    /**
+	 * \fn		void setPassword($password)
+	 * \brief	Sets the password value of the User
+	 * \param	string
+	 */
+	public function setPassword($password) {
         $this->password = $password;
     }
 
-    public function setAuthData($authData) {
+    /**
+	 * \fn		void setAuthData($authData)
+	 * \brief	Sets the authorization data of the User
+	 * \param	string
+	 * \warning	the function is not used yet
+	 */
+	public function setAuthData($authData) {
         $this->authData = $authData;
     }
 
-    public function setEmailVerified($emailVerified) {
+    /**
+	 * \fn		void setEmailVerified($emailVerified)
+	 * \brief	Sets the email verification of the User
+	 * \param	string
+	 * \warning	the function is not used yet
+	 */
+	public function setEmailVerified($emailVerified) {
         $this->emailVerified = $emailVerified;
     }
 
-    public function setActive($active) {
+    /**
+	 * \fn		void setActive($active)
+	 * \brief	Sets the active value of the User
+	 * \param	boolean
+	 */
+	public function setActive($active) {
         $this->active = $active;
     }
 
-    public function setAlbums($albums) {
+    /**
+	 * \fn		void setAlbums($albums)
+	 * \brief	Sets an array of objectId of the Album related with the User
+	 * \return	array
+	 */
+	public function setAlbums($albums) {
         $this->albums = $albums;
     }
 
-    public function setBackground($background) {
+    /**
+	 * \fn		void setBackground($background)
+	 * \brief	Sets the background value of the User
+	 * \param	string
+	 */
+	public function setBackground($background) {
         $this->background = $background;
     }
 
-    public function setCity($city) {
+    /**
+	 * \fn		void setCity($city)
+	 * \brief	Sets the city value of the User
+	 * \param	string
+	 */
+	public function setCity($city) {
         $this->city = $city;
     }
 
-    public function setComments($comments) {
+    /**
+	 * \fn		void setComments($comments)
+	 * \brief	Sets an array of objectId of the Comment related with the User
+	 * \return	array
+	 */
+	public function setComments($comments) {
         $this->comments = $comments;
     }
 
-    public function setCountry($country) {
+    /**
+	 * \fn		void setCountry($country)
+	 * \brief	Sets the country value of the User
+	 * \param	string
+	 */
+	public function setCountry($country) {
         $this->country = $country;
     }
 
-    public function setDescription($description) {
+    /**
+	 * \fn		void setDescription($description)
+	 * \brief	Sets the description value of the User
+	 * \param	string
+	 */
+	public function setDescription($description) {
         $this->description = $description;
     }
 
-    public function setEmail($email) {
+    /**
+	 * \fn		void setEmail($email)
+	 * \brief	Sets the email value of the User
+	 * \param	string
+	 */
+	public function setEmail($email) {
         $this->email = $email;
     }
 
-    public function setFbPage($fbPage) {
+    /**
+	 * \fn		void setFbPage($fbPage)
+	 * \brief	Sets the facebook page link of the User
+	 * \param	string
+	 */
+	public function setFbPage($fbPage) {
         $this->fbPage = $fbPage;
     }
 
-    public function setGeoCoding($geoCoding) {
+    /**
+	 * \fn		void setGeoCoding($geoCoding)
+	 * \brief	Sets the parseGeoPoint object of the User
+	 * \return	parseGeoPoint
+	 */
+	public function setGeoCoding($geoCoding) {
         $this->geoCoding = $geoCoding;
     }
 
-    public function setImages($images) {
+    /**
+	 * \fn		void setImages($images)
+	 * \brief	Sets an array of objectId of the Image related with the User
+	 * \return	array
+	 */
+	public function setImages($images) {
         $this->images = $images;
     }
 
-    public function setLevel($level) {
+    /**
+	 * \fn		void setLevel($level)
+	 * \brief	Sets the level of the User
+	 * \param	number
+	 */
+	public function setLevel($level) {
         $this->level = $level;
     }
 
-    public function setLevelValue($levelValue) {
+    /**
+	 * \fn		void setLevelValue($levelValue)
+	 * \brief	Sets the level value of the User
+	 * \param	number
+	 */
+	public function setLevelValue($levelValue) {
         $this->view = $levelValue;
     }
 
-    public function setLoveSongs($loveSongs) {
+    /**
+	 * \fn		void setLoveSongs($loveSongs)
+	 * \brief	Sets an array of objectId of the Song related with the User
+	 * \return	array
+	 */
+	public function setLoveSongs($loveSongs) {
         $this->loveSongs = $loveSongs;
     }
 
-    public function setMusic($music) {
+    /**
+	 * \fn		void setMusic($music)
+	 * \brief	Sets an array of the type of music preferred by the User
+	 * \return	array
+	 */
+	public function setMusic($music) {
         $this->music = $music;
     }
 
-    public function setPlaylists($playlists) {
+    /**
+	 * \fn		void setPlaylists($playlists)
+	 * \brief	Sets an array of objectId of the Playlist related with the User
+	 * \return	array
+	 */
+	public function setPlaylists($playlists) {
         $this->playlists = $playlists;
     }
 
-    public function setPremium($premium) {
+    /**
+	 * \fn		void setPremium($premium)
+	 * \brief	Sets if the User has a Premium account
+	 * \return	boolean
+	 */
+	public function setPremium($premium) {
         $this->premium = $premium;
     }
 
-    public function setPremiumExpirationDate($premiumExpirationDate) {
+    /**
+	 * \fn		void setPremiumExpirationDate($premiumExpirationDate)
+	 * \brief	Sets the expiration date of the User Premium account
+	 * \return	DateTime
+	 */
+	public function setPremiumExpirationDate($premiumExpirationDate) {
         $this->premiumExpirationDate = $premiumExpirationDate;
     }
 

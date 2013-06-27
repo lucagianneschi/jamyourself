@@ -201,9 +201,9 @@ class VideoParse {
             is_null($video->getThumbnail()) ? $parseVideo->thumbnail = null : $parseVideo->thumbnail = $video->getThumbnail();
             is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = $video->getTitle();
             is_null($video->getURL()) ? $parseVideo->URL = null : $parseVideo->URL = $video->getURL();
-			$acl = new ParseACL();
-			$acl = setPuclicWriteAccess(true);
-			$acl = setPuclicReadAccess(true);
+	    $acl = new ParseACL();
+	    $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
             is_null($video->getACL()) ? $parseVideo->ACL = $acl : $parseVideo->ACL = toParseACL($video->getACL());
             if ($video->getObjectId() == '') {
                 $res = $parseVideo->save();

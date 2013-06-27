@@ -26,24 +26,24 @@ require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.class.php';
 require_once CLASSES_DIR . 'song.class.php';
 
-
 class SongParse {
 
     private $parseQuery;
-	/**
-	 * \fn		void __construct()
-	 * \brief	The constructor instantiates a new object of type ParseQuery on the Song class
-	 */
+
+    /**
+     * \fn		void __construct()
+     * \brief	The constructor instantiates a new object of type ParseQuery on the Song class
+     */
     function __construct() {
         $this->parseQuery = new parseQuery("Song");
     }
 
-	/**
-	 * \fn		void deleteSong(string $objectId)
-	 * \brief	Set unactive a specified Song by objectId
-	 * \param   $objectId the string that represent the objectId of the Song
-	 * \return	error in case of exception
-	 */
+    /**
+     * \fn		void deleteSong(string $objectId)
+     * \brief	Set unactive a specified Song by objectId
+     * \param   $objectId the string that represent the objectId of the Song
+     * \return	error in case of exception
+     */
     public function deleteSong($objectId) {
         try {
             $parseSong = new parseObject('Song');
@@ -54,22 +54,22 @@ class SongParse {
         }
     }
 
-	/**
-	 * \fn		number getCount()
-	 * \brief	Returns the number of requests Song
-	 * \return	number
-	 */
-	public function getCount() {
+    /**
+     * \fn		number getCount()
+     * \brief	Returns the number of requests Song
+     * \return	number
+     */
+    public function getCount() {
         $this->parseQuery->getCount();
     }
-	
-	/**
-	 * \fn		void getSong(string $objectId)
-	 * \brief	The function returns the Song object specified
-	 * \param	$objectId the string that represent the objectId of the Song
-	 * \return	Song	the Song with the specified $objectId
-	 * \return	Error the Error raised by the function
-	 */
+
+    /**
+     * \fn		void getSong(string $objectId)
+     * \brief	The function returns the Song object specified
+     * \param	$objectId the string that represent the objectId of the Song
+     * \return	Song	the Song with the specified $objectId
+     * \return	Error the Error raised by the function
+     */
     function getSong($objectId) {
         try {
             $parseSong = new parseObject("Song");
@@ -80,13 +80,13 @@ class SongParse {
         }
     }
 
-	/**
-	 * \fn		array getSong()
-	 * \brief	The function returns the Song objects specified
-	 * \return	array 	an array of Song, if one or more Song are found
-	 * \return	null	if no Song are found
-	 * \return	Error	the Error raised by the function
-	 */
+    /**
+     * \fn		array getSong()
+     * \brief	The function returns the Song objects specified
+     * \return	array 	an array of Song, if one or more Song are found
+     * \return	null	if no Song are found
+     * \return	Error	the Error raised by the function
+     */
     public function getSongs() {
         $songs = null;
         try {
@@ -106,48 +106,48 @@ class SongParse {
         }
     }
 
-	/**
-	 * \fn		void orderBy($field)
-	 * \brief	Specifies which field need to be ordered of requested Song
-	 * \param	$field	the field on which to sort
-	 */
-	public function orderBy($field) {
-		$this->parseQuery->orderBy($field);
-	}	
-	
-	/**
-	 * \fn		void orderByAscending($field)
-	 * \brief	Specifies which field need to be ordered ascending of requested Song
-	 * \param	$field	the field on which to sort ascending
-	 */
-	public function orderByAscending($field) {
-		$this->parseQuery->orderByAscending($field);
-	}
-	
-	/**
-	 * \fn		void orderByDescending($field)
-	 * \brief	Specifies which field need to be ordered descending of requested Song
-	 * \param	$field	the field on which to sort descending
-	 */
-	public function orderByDescending($field) {
-		$this->parseQuery->orderByDescending($field);
-	}
-	
-	/**
-	 * \fn		Song parseToSong($res)
-	 * \brief	The function returns a representation of an Song object in Parse
-	 * \param	$res 	represent the Song object returned from Parse
-	 * \return	Song	the Song object
-	 * \return	Error	the Error raised by the function
-	 */
+    /**
+     * \fn		void orderBy($field)
+     * \brief	Specifies which field need to be ordered of requested Song
+     * \param	$field	the field on which to sort
+     */
+    public function orderBy($field) {
+        $this->parseQuery->orderBy($field);
+    }
+
+    /**
+     * \fn		void orderByAscending($field)
+     * \brief	Specifies which field need to be ordered ascending of requested Song
+     * \param	$field	the field on which to sort ascending
+     */
+    public function orderByAscending($field) {
+        $this->parseQuery->orderByAscending($field);
+    }
+
+    /**
+     * \fn		void orderByDescending($field)
+     * \brief	Specifies which field need to be ordered descending of requested Song
+     * \param	$field	the field on which to sort descending
+     */
+    public function orderByDescending($field) {
+        $this->parseQuery->orderByDescending($field);
+    }
+
+    /**
+     * \fn		Song parseToSong($res)
+     * \brief	The function returns a representation of an Song object in Parse
+     * \param	$res 	represent the Song object returned from Parse
+     * \return	Song	the Song object
+     * \return	Error	the Error raised by the function
+     */
     function parseToSong($res) {
-		if (is_null($res))
-			return throwError(new Exception('parseToSong parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+        if (is_null($res))
+            return throwError(new Exception('parseToSong parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
-		    $song = new Song();
+            $song = new Song();
             $song->setObjectId($res->objectId);
             $song->setActive($res->active);
-            $song->setCommentators(fromParseRelation("Song", "commentators", $fromObjectId, "_User"));
+            $song->setCommentators(fromParseRelation("Song", "commentators", $res->objectId, "_User"));
             $song->setComments(fromParseRelation("Song", "comments", $res->objectId, "Comment"));
             $song->setCounter($res->counter);
             $song->setDuration($res->duration);
@@ -168,186 +168,187 @@ class SongParse {
         }
         return $song;
     }
-	
-	/**
-	 * \fn		Song saveSong(Song $song)
-	 * \brief	This function save an Song object in Parse
-	 * \param	$song 	represent the Song object to save
-	 * \return	Song	the Song object with the new objectId parameter saved
-	 * \return	Error	the Error raised by the function
-	 */
-	function saveSong($song) {
-	try{
-	    $parseSong = new parseObject("Song");
-		is_null($song->getActive()) ? $parseSong->active = true : $parseSong->active = $song->getActive();
-		is_null($song->getCommentators()) ? $parseSong->commentators = null : $parseSong->commentators = toParseRelation('_User', $song->getCommentators());
-        is_null($song->getComments()) ? $parseSong->comments = null : $parseSong->comments = toParseRelation('Comment', $song->getComments());
-		is_null($song->getCounter()) ? $parseSong->counter = -1 : $parseSong->counter = $song->getCounter();
-		is_null($song->getDuration()) ? $parseSong->counter = 0: $parseSong->counter = $song->getCounter();
-		is_null($song->getFeaturing()) ? $parseSong->featuring = null : $parseSong->featuring = toParseRelation($song->getFeaturing());
-		is_null($song->getFilePath()) ?  $parseSong->filePath = null : $parseSong->filePath = $song->getFilePath();
-		is_null($song->getFromUser()) ? $song->getFromUser() = null : $parseSong->fromUser = toParsePointer($song->getFromUser());
-		is_null($song->getGenre()) ? $song->getGenre() = null : $parseSong->genre = $song->getGenre();
-		is_null($song->getLocation()) ? $song->getLocation() =  null : $parseSong->location = toParseGeoPoint($song->getLocation());
-		is_null($song->getLoveCounter()) ? $parseSong->loveCounter = -1 : $parseSong->loveCounter = $song->getLoveCounter();
-		is_null($song->getLovers()) ? $song->getLovers() = null : $parseSong->lovers = toParseRelation($song->getLovers());
-		is_null($song->getRecord()) ? $song->getRecord() = null : $parseSong->record = toParsePointer($song->getRecord());
-        is_null($song->getTitle()) ? $song->getTitle() = null : $parseSong->title = $song->getTitle();
-		$acl = new ParseACL();
-	    $acl = setPuclicWriteAccess(true);
-	    $acl = setPuclicReadAccess(true);
-		is_null($song->getACL()) ? $parseSong->ACL = $acl : $parseSong->ACL = toParseACL($song->getACL());
-		if ($song->getObjectId() == '') {
+
+    /**
+     * \fn		Song saveSong(Song $song)
+     * \brief	This function save an Song object in Parse
+     * \param	$song 	represent the Song object to save
+     * \return	Song	the Song object with the new objectId parameter saved
+     * \return	Error	the Error raised by the function
+     */
+    function saveSong($song) {
+        try {
+            $parseSong = new parseObject("Song");
+            is_null($song->getActive()) ? $parseSong->active = true : $parseSong->active = $song->getActive();
+            is_null($song->getCommentators()) ? $parseSong->commentators = null : $parseSong->commentators = toParseRelation('_User', $song->getCommentators());
+            is_null($song->getComments()) ? $parseSong->comments = null : $parseSong->comments = toParseRelation('Comment', $song->getComments());
+            is_null($song->getCounter()) ? $parseSong->counter = -1 : $parseSong->counter = $song->getCounter();
+            is_null($song->getDuration()) ? $parseSong->counter = 0 : $parseSong->counter = $song->getCounter();
+            is_null($song->getFeaturing()) ? $parseSong->featuring = null : $parseSong->featuring = toParseRelation($song->getFeaturing());
+            is_null($song->getFilePath()) ? $parseSong->filePath = null : $parseSong->filePath = $song->getFilePath();
+            is_null($song->getFromUser()) ? $parseSong->fromUser = null : $parseSong->fromUser = toParsePointer($song->getFromUser());
+            is_null($song->getGenre()) ? $parseSong->genre = null : $parseSong->genre = $song->getGenre();
+            is_null($song->getLocation()) ? $parseSong->location = null : $parseSong->location = toParseGeoPoint($song->getLocation());
+            is_null($song->getLoveCounter()) ? $parseSong->loveCounter = -1 : $parseSong->loveCounter = $song->getLoveCounter();
+            is_null($song->getLovers()) ? $parseSong->lovers = null : $parseSong->lovers = toParseRelation($song->getLovers());
+            is_null($song->getRecord()) ? $parseSong->record = null : $parseSong->record = toParsePointer($song->getRecord());
+            is_null($song->getTitle()) ? $parseSong->title = null : $parseSong->title = $song->getTitle();
+            $acl = new ParseACL();
+            $acl->setPublicReadAccess(true);
+            $acl->setPublicWriteAccess(true);
+            is_null($song->getACL()) ? $parseSong->ACL = $acl : $parseSong->ACL = toParseACL($song->getACL());
+            if ($song->getObjectId() == '') {
                 $res = $parseSong->save();
                 $song->setObjectId($res->objectId);
                 return $song;
             } else {
                 $parseSong->update($song->getObjectId());
             }
-		} catch (Exception $e) {
-		    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());  
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
     }
-   /**
-	 * \fn		void setLimit($limit)
-	 * \brief	Sets the maximum number of Song to return
-	 * \param	$limit	the maximum number
-	 */
-	public function setLimit($limit) {
-		$this->parseQuery->setLimit($limit);
-	}
-	
-	/**
-	 * \fn		void setSkip($skip)
-	 * \brief	Sets the number of how many Song(s) must be discarded initially
-	 * \param	$skip	the number of Song(s) to skip
-	 */
-	public function setSkip($skip) {
-		$this->parseQuery->setSkip($skip);
-	}
-	
-	/**
-	 * \fn		void where($field, $value)
-	 * \brief	Sets a condition for which the field $field must value $value
-	 * \param	$field	the string which represent the field
-	 * \param	$value	the string which represent the value
-	 */
-	public function where($field, $value) {
-		$this->parseQuery->where($field, $value);
-	}
-	
-	/**
-	 * \fn		void whereContainedIn($field, $value)
-	 * \brief	Sets a condition for which the field $field must value one or more $value
-	 * \param	$field	the string which represent the field
-	 * \param	$value	the array which represent the values
-	 */
-	public function whereContainedIn($field, $values) {
-		$this->parseQuery->whereContainedIn($field, $values);
-	}
-	
-	/**
-	 * \fn		void whereEqualTo($field, $value)
-	 * \brief	Sets a condition for which the field $field must value $value
-	 * \param	$field	the string which represent the field
-	 * \param	$value	the string which represent the value
-	 */
-	public function whereEqualTo($field, $value) {
-		$this->parseQuery->whereEqualTo($field, $value);
-	}
-	
-	/**
-	 * \fn		void whereExists($field)
-	 * \brief	Sets a condition for which the field $field must be enhanced
-	 * \param	$field	the string which represent the field
-	 */
-	public function whereExists($field) {
-		$this->parseQuery->whereExists($field);
-	}	
-	
-	/**
-	 * \fn		void whereGreaterThan($field, $value)
-	 * \brief	Sets a condition for which the field $field must value more than $value
-	 * \param	$field	the string which represent the field
-	 * \param	$value	the string which represent the value
-	 */
-	public function whereGreaterThan($field, $value) {
-		$this->parseQuery->whereGreaterThan($field, $value);
-	}
-	
-	/**
-	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
-	 * \brief	Sets a condition for which the field $field must value equal or more than $value
-	 * \param	$field	the string which represent the field
-	 * \param	$value	the string which represent the value
-	 */
-	public function whereGreaterThanOrEqualTo($field, $value) {
-		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
-	}
-	
-	/**
-	 * \fn		void whereLessThan($field, $value)
-	 * \brief	Sets a condition for which the field $field must value less than $value
-	 * \param	$field	the string which represent the field
-	 * \param	$value	the string which represent the value
-	 */
-	public function whereLessThan($field, $value) {
-		$this->parseQuery->whereLessThan($field, $value);
-	}
-	
-	/**
-	 * \fn		void whereLessThanOrEqualTo($field, $value)
-	 * \brief	Sets a condition for which the field $field must value equal or less than $value
-	 * \param	$field	the string which represent the field
-	 * \param	$value	the string which represent the value
-	 */
-	public function whereLessThanOrEqualTo($field, $value) {
-		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
-	}
-	
-	/**
-	 * \fn		void whereNotContainedIn($field, $value)
-	 * \brief	Sets a condition for which the field $field must not value one or more $value
-	 * \param	$field	the string which represent the field
-	 * \param	$value	the array which represent the values
-	 */
-	public function whereNotContainedIn($field, $array) {
-		$this->parseQuery->whereNotContainedIn($field, $array);
-	}
-	
-	/**
-	 * \fn		void whereNotEqualTo($field, $value)
-	 * \brief	Sets a condition for which the field $field must not value $value
-	 * \param	$field	the string which represent the field
-	 * \param	$value	the string which represent the value
-	 */
-	public function whereNotEqualTo($field, $value) {
-		$this->parseQuery->whereNotEqualTo($field, $value);
-	}
-	
-	/**
-	 * \fn		void whereNotExists($field)
-	 * \brief	Sets a condition for which the field $field must not be enhanced
-	 * \param	$field	the string which represent the field
-	 */
-	public function whereNotExists($field) {
-		$this->parseQuery->whereDoesNotExist($field);
-	}
-	
-	/**
-	 * \fn		void wherePointer($field, $className, $objectId)
-	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
-	 * \param	$field		the string which represent the field
-	 * \param	$className	the string which represent the className of the Pointer
-	 * \param	$objectId	the string which represent the objectId of the Pointer
-	 */
-	public function wherePointer($field, $className, $objectId) {
-		$this->parseQuery->wherePointer($field, $className, $objectId);
-	}
-	
-	public function whereRelatedTo($field, $className, $objectId) {
-		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
-	}
+
+    /**
+     * \fn		void setLimit($limit)
+     * \brief	Sets the maximum number of Song to return
+     * \param	$limit	the maximum number
+     */
+    public function setLimit($limit) {
+        $this->parseQuery->setLimit($limit);
+    }
+
+    /**
+     * \fn		void setSkip($skip)
+     * \brief	Sets the number of how many Song(s) must be discarded initially
+     * \param	$skip	the number of Song(s) to skip
+     */
+    public function setSkip($skip) {
+        $this->parseQuery->setSkip($skip);
+    }
+
+    /**
+     * \fn		void where($field, $value)
+     * \brief	Sets a condition for which the field $field must value $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function where($field, $value) {
+        $this->parseQuery->where($field, $value);
+    }
+
+    /**
+     * \fn		void whereContainedIn($field, $value)
+     * \brief	Sets a condition for which the field $field must value one or more $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the array which represent the values
+     */
+    public function whereContainedIn($field, $values) {
+        $this->parseQuery->whereContainedIn($field, $values);
+    }
+
+    /**
+     * \fn		void whereEqualTo($field, $value)
+     * \brief	Sets a condition for which the field $field must value $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereEqualTo($field, $value) {
+        $this->parseQuery->whereEqualTo($field, $value);
+    }
+
+    /**
+     * \fn		void whereExists($field)
+     * \brief	Sets a condition for which the field $field must be enhanced
+     * \param	$field	the string which represent the field
+     */
+    public function whereExists($field) {
+        $this->parseQuery->whereExists($field);
+    }
+
+    /**
+     * \fn		void whereGreaterThan($field, $value)
+     * \brief	Sets a condition for which the field $field must value more than $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereGreaterThan($field, $value) {
+        $this->parseQuery->whereGreaterThan($field, $value);
+    }
+
+    /**
+     * \fn		void whereGreaterThanOrEqualTo($field, $value)
+     * \brief	Sets a condition for which the field $field must value equal or more than $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereGreaterThanOrEqualTo($field, $value) {
+        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+    }
+
+    /**
+     * \fn		void whereLessThan($field, $value)
+     * \brief	Sets a condition for which the field $field must value less than $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereLessThan($field, $value) {
+        $this->parseQuery->whereLessThan($field, $value);
+    }
+
+    /**
+     * \fn		void whereLessThanOrEqualTo($field, $value)
+     * \brief	Sets a condition for which the field $field must value equal or less than $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereLessThanOrEqualTo($field, $value) {
+        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+    }
+
+    /**
+     * \fn		void whereNotContainedIn($field, $value)
+     * \brief	Sets a condition for which the field $field must not value one or more $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the array which represent the values
+     */
+    public function whereNotContainedIn($field, $array) {
+        $this->parseQuery->whereNotContainedIn($field, $array);
+    }
+
+    /**
+     * \fn		void whereNotEqualTo($field, $value)
+     * \brief	Sets a condition for which the field $field must not value $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the string which represent the value
+     */
+    public function whereNotEqualTo($field, $value) {
+        $this->parseQuery->whereNotEqualTo($field, $value);
+    }
+
+    /**
+     * \fn		void whereNotExists($field)
+     * \brief	Sets a condition for which the field $field must not be enhanced
+     * \param	$field	the string which represent the field
+     */
+    public function whereNotExists($field) {
+        $this->parseQuery->whereDoesNotExist($field);
+    }
+
+    /**
+     * \fn		void wherePointer($field, $className, $objectId)
+     * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
+     * \param	$field		the string which represent the field
+     * \param	$className	the string which represent the className of the Pointer
+     * \param	$objectId	the string which represent the objectId of the Pointer
+     */
+    public function wherePointer($field, $className, $objectId) {
+        $this->parseQuery->wherePointer($field, $className, $objectId);
+    }
+
+    public function whereRelatedTo($field, $className, $objectId) {
+        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
+    }
 
 }
 

@@ -48,7 +48,7 @@ class ErrorParse {
 	}
 	
 	/**
-	 * \fn		void getError(string $objectId)
+	 * \fn		Error getError(string $objectId)
 	 * \brief	The function returns the Error object specified
 	 * \param	$objectId the string that represent the objectId of the Error
 	 * \return	Error	the Error with the specified $objectId
@@ -67,7 +67,7 @@ class ErrorParse {
 	
 	/**
 	 * \fn		array getErrors()
-	 * \brief	The function returns the Errors objects specified
+	 * \brief	The function returns an array Error objects specified
 	 * \return	array 	an array of Error, if one or more Error are found
 	 * \return	null	if no Error are found
 	 * \return	Error	the Error raised by the function
@@ -160,7 +160,10 @@ class ErrorParse {
 			is_null($error->getErrorMessage()) ? $parseObject->errorMessage = null : $parseObject->errorMessage = $error->getErrorMessage();
 			is_null($error->getErrorFunction()) ? $parseObject->errorFunction = null : $parseObject->errorFunction = $error->getErrorFunction();
 			is_null($error->getErrorFunctionParameter()) ? $parseObject->errorFunctionParameter = null : $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
-			is_null($error->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($error->getACL());
+                        $acl = new ParseACL();
+                        $acl->setPublicWriteAccess(true);
+                        $acl->setPublicReadAccess(true);
+			is_null($error->getACL()) ? $parseObject->ACL = $acl : $parseObject->ACL = toParseACL($error->getACL());
 			$res = $parseObject->save();
 			$error->setObjectId($res->objectId);
 			return $error;
@@ -180,8 +183,8 @@ class ErrorParse {
 	
 	/**
 	 * \fn		void setSkip($skip)
-	 * \brief	Sets the number of how many Error(s) must be discarded initially
-	 * \param	$skip	the number of Error(s) to skip
+	 * \brief	Sets the number of how many Error must be discarded initially
+	 * \param	$skip	the number of Error to skip
 	 */
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);

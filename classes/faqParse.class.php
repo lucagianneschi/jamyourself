@@ -197,8 +197,8 @@ class FaqParse {
 			is_null($faq->getQuestion()) ? $parseFaq->question = null : $parseFaq->question = $faq->getQuestion();
 			is_null($faq->getTags()) ? $parseFaq->tags = null : $parseFaq->tags = $faq->getTags();
 			$acl = new ParseACL();
-			$acl = setPuclicWriteAccess(true);
-			$acl = setPuclicReadAccess(true);
+			$acl->setPublicReadAccess(true);
+                        $acl->setPublicWriteAccess(true);
 			is_null($faq->getACL()) ? $parseFaq->ACL = null : $parseFaq->ACL = toParseACL($faq->getACL());
 			$res = $parseFaq->save();
 			$faq->setObjectId($res->objectId);
