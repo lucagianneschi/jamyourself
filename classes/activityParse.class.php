@@ -48,9 +48,9 @@ class ActivityParse {
      */
     public function deleteActivity($objectId) {
         try {
-            $parseObject = new parseObject('Activity');
-            $parseObject->active = false;
-            $parseObject->update($objectId);
+            $parseActivity = new parseObject('Activity');
+            $parseActivity->active = false;
+            $parseActivity->update($objectId);
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
