@@ -364,6 +364,11 @@ class Song {
 		return $this->ACL = $ACL;
 	}
 
+		/**
+	* \fn		string __toString()
+	* \brief	Return a printable string representing the Song object
+	* \return	string
+	*/
     public function __toString() {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
