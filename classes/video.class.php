@@ -226,7 +226,6 @@ class Video {
      * \brief	Sets the active value
      * \param	BOOL
      */
-    
     public function setActive($active) {
         $this->active = $active;
     }
