@@ -22,6 +22,8 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
+require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
 
 /**
@@ -29,31 +31,31 @@ require_once CLASSES_DIR . 'errorParse.class.php';
  * \brief	The function returns a parseACL object from the representation of ACL in Parse
  * \param	$parseACL 	represent the ACL object returned from Parse
  * \return	parseACL	the parseACL object
- * \return	Error		the Error raised by the function
+ * \return	null		if the parameter is null
  */
 function fromParseACL($parseACL) {
 	if (is_null($parseACL)) {
-		return throwError(new Exception('fromParseACL parameter is incorrect'), __CLASS__, __FUNCTION__, func_get_args());
+		return null;
 	} else {
-        $acl = new parseACL();
+        $pACL = new parseACL();
         foreach ($parseACL as $key => $value) {
             if ($key == "*") {
                 if (isset($value->read)) {
-                    $acl->setPublicReadAccess($parseACL->{$key}->read);
+                    $pACL->setPublicReadAccess($parseACL->{$key}->read);
                 }
                 if (isset($value->write)) {
-                    $acl->setPublicWriteAccess($parseACL->{$key}->write);
+                    $pACL->setPublicWriteAccess($parseACL->{$key}->write);
                 }
             } else {
                 if (isset($value->read)) {
-                    $acl->setReadAccessForId($key,$parseACL->{$key}->read);
+                    $pACL->setReadAccessForId($key,$parseACL->{$key}->read);
                 }
                 if (isset($value->write)) {
-                    $acl->setWriteAccessForId($key,$parseACL->{$key}->write);
+                    $pACL->setWriteAccessForId($key,$parseACL->{$key}->write);
                 }
             }
         }
-        return $acl;
+        return $pACL;
     }
 }
 
@@ -91,7 +93,7 @@ function fromParseFile($filePointer, $mime_type) {
             $parseFile->_fileName = $filePointer->name;
             return $parseFile;
         } catch (Exception $exception) {
-            return throwError($exception, "Utils", __FUNCTION__, func_get_args ());
+            return throwError($exception, 'utils', __FUNCTION__, func_get_args ());
         }
     }
     else
@@ -143,7 +145,7 @@ function fromParsePointer($pointer) {
  */
 function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassName) {
 	if (is_null($fromClassName) || is_null($fromField) || is_null($fromObjectId) || is_null($toClassName)) {
-		return throwError(new Exception('fromParseRelation parameters are incorrect'), __CLASS__, __FUNCTION__, func_get_args());
+		return throwError(new Exception('fromParseRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
 	} else {
         try {
 			//inizializzo la variabile di ritorno a null
@@ -166,7 +168,7 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
 				return null;
 			}
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args ());
+			return throwError($e, 'utils', __FUNCTION__, func_get_args ());
 		}
 	}
 }
@@ -200,6 +202,24 @@ function toParseDate($date) {
         $parseRestClient = new parseRestClient();
         return $parseRestClient->dataType("date", $date->format("r"));
     }
+}
+
+/**
+ * \fn		array toParseACL($parseACL)
+ * \brief	The function returns an array like representation of parseACL object
+ * \param	$parseACL 	represent the parseACL object
+ * \return	array		the array representation of a parseACL object
+ * \return	null		if the $parseACL parameter is not set
+ */
+function toParseDefaultACL() {
+	try {
+		$parseACL = new ParseACL();
+		$parseACL->setPublicWriteAccess(true);
+		$parseACL->setPublicReadAccess(true);
+		return toParseACL($parseACL);
+	} catch (Exception $e) {
+		return throwError($e, 'utils', __FUNCTION__, func_get_args());
+	}
 }
 
 /**
@@ -272,7 +292,7 @@ function toParsePointer($className, $objectId) {
  */
 function toParseRelation($className, $objectIds) {
 	if (is_null($className) || is_null($objectIds)) {
-		return throwError(new Exception('toParseRelation parameters are incorrect'), __CLASS__, __FUNCTION__, func_get_args());
+		return throwError(new Exception('toParseRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
 	} else {
 		if (count($objectIds) > 0) {
 			$arrayPointer = array();
@@ -298,7 +318,7 @@ function toParseRelation($className, $objectIds) {
  * \return	Error		the Error saved on Parse
  */
 function throwError($exception, $class, $function, $args) {
-    $error = new error();
+	$error = new error();
     $error->setErrorClass($class);
     $error->setErrorCode($exception->getCode());
     $error->setErrorMessage($exception->getMessage());
@@ -340,7 +360,7 @@ function uploadFile($pathFile, $mime_type = '') {
             else
                 return null;
         } catch (Exception $exception) {
-            return throwError($exception, "Utils", __FUNCTION__, func_get_args());
+            return throwError($exception, 'utils', __FUNCTION__, func_get_args());
         }
     }
     else

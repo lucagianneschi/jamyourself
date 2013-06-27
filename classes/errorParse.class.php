@@ -160,10 +160,7 @@ class ErrorParse {
 			is_null($error->getErrorMessage()) ? $parseObject->errorMessage = null : $parseObject->errorMessage = $error->getErrorMessage();
 			is_null($error->getErrorFunction()) ? $parseObject->errorFunction = null : $parseObject->errorFunction = $error->getErrorFunction();
 			is_null($error->getErrorFunctionParameter()) ? $parseObject->errorFunctionParameter = null : $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
-                        $acl = new ParseACL();
-                        $acl->setPublicWriteAccess(true);
-                        $acl->setPublicReadAccess(true);
-			is_null($error->getACL()) ? $parseObject->ACL = $acl : $parseObject->ACL = toParseACL($error->getACL());
+			is_null($error->getACL()) ? $parseObject->ACL = toParseDefaultACL() : $parseObject->ACL = toParseACL($error->getACL());
 			$res = $parseObject->save();
 			$error->setObjectId($res->objectId);
 			return $error;

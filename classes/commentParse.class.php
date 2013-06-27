@@ -155,7 +155,6 @@ class CommentParse {
             is_null($cmt->getVote()) ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
 			is_null($cmt->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($cmt->getACL());
 
-
             if ($cmt->getObjectId() == '') {
                 $res = $parseObject->save();
                 $cmt->setObjectId($res->objectId);
