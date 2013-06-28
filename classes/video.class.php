@@ -302,6 +302,16 @@ class Video {
         $this->fromUser = $fromUser;
     }
 
+	
+	    /**
+     * \fn	void setLoveCounter($loveCounter)
+     * \brief	Sets the loveCounter value
+     * \param	int
+     */
+    public function setLoveCounter($loveCounter) {
+        $this->loveCounter = $loveCounter;
+    }
+	
     /**
      * \fn	void setLovers($lovers)
      * \brief	Sets the lovers value,array of pointer to ParseUser
@@ -309,15 +319,6 @@ class Video {
      */
     public function setLovers($lovers) {
         $this->lovers = $lovers;
-    }
-
-    /**
-     * \fn	void setLoveCounter($loveCounter)
-     * \brief	Sets the loveCounter value
-     * \param	int
-     */
-    public function setLoveCounter($loveCounter) {
-        $this->loveCounter = $loveCounter;
     }
 
     /**
