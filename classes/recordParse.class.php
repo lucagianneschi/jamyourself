@@ -199,7 +199,7 @@ class RecordParse {
             is_null($record->getCommentators()) ? $parseRecord->commentators = null : $parseRecord->commentators = toParseRelation('_User', $record->getCommentators());
             is_null($record->getComments()) ? $parseRecord->comments = null : $parseRecord->comments = toParseRelation('Comment', $record->getComments());
             is_null($record->getCounter()) ? $parseRecord->counter = -1 : $parseRecord->counter = $record->getCounter();
-            is_null($record->getCover()) ? $parseRecord->cover = null : $parseRecord->cover = $record->getCover();
+            is_null($record->getCover()) ? $parseRecord->cover = 'images/defult/recordImage.jpg' : $parseRecord->cover = $record->getCover();
             is_null($record->getCoverFile()) ? $parseRecord->coverFile = null : $parseRecord->coverFile = toParseFile($record->getCoverFile());
             is_null($record->getDescription()) ? $parseRecord->description = null : $parseRecord->description = $record->getDescription();
             is_null($record->getDuration()) ? $parseRecord->counter = 0 : $parseRecord->counter = $record->getCounter();
@@ -210,7 +210,7 @@ class RecordParse {
             is_null($record->getLocation()) ? $parseRecord->location = null : $parseRecord->location = toParseGeoPoint($record->getLocation());
             is_null($record->getLoveCounter()) ? $parseRecord->loveCounter = -1 : $parseRecord->loveCounter = $record->getLoveCounter();
             is_null($record->getLovers()) ? $parseRecord->lovers = null : $parseRecord->lovers = toParseRelation($record->getLovers());
-            is_null($record->getThumbnailCover()) ? $parseRecord->thumbnailCover = null : $parseRecord->thumbnailCover = $record->getThumbnailCover();
+            is_null($record->getThumbnailCover()) ? $parseRecord->thumbnailCover = 'images/defult/recordThumb.jpg' : $parseRecord->thumbnailCover = $record->getThumbnailCover();
             is_null($record->getTitle()) ? $parseRecord->title = null : $parseRecord->title = $record->getTitle();
             is_null($record->getTracklist()) ? $parseRecord->tracklist = null : $parseRecord->tracklist = toParseRelation("Song", $record->getTracklist());
             is_null($record->getYear()) ? $parseRecord->year = null : $record->year = $parseRecord->getYear();

@@ -198,7 +198,7 @@ class VideoParse {
             is_null($video->getLoveCounter()) ? $parseVideo->loveCounter = -1 : $parseVideo->loveCounter = $video->getLoveCounter();
             is_null($video->getLovers()) ? $parseVideo->lovers = null : $parseVideo->lovers = toParseRelation('_User', $video->getLovers());
             is_null($video->getTags()) ? $parseVideo->tags = null : $parseVideo->tags = $video->getTags();
-            is_null($video->getThumbnail()) ? $parseVideo->thumbnail = null : $parseVideo->thumbnail = $video->getThumbnail();
+            is_null($video->getThumbnail()) ? $parseVideo->thumbnail = 'images/defult/videoThumb.jpg' : $parseVideo->thumbnail = $video->getThumbnail();
             is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = $video->getTitle();
             is_null($video->getURL()) ? $parseVideo->URL = null : $parseVideo->URL = $video->getURL();
 	    $acl = new ParseACL();

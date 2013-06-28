@@ -201,7 +201,7 @@ class EventParse {
             is_null($event->getEventDate()) ? $parseEvent->eventDate = null : $parseEvent->eventDate = toParseDateTime($event->getEventDate());
             is_null($event->getFeaturing()) ? $parseEvent->featuring = null : $parseEvent->featuring = toParseRelation('_User', $event->getFeaturing());
             is_null($event->getFromUser()) ? $parseEvent->fromUser = null : $parseEvent->fromUser = toParsePointer('_User', $event->getFromUser());
-            is_null($event->getImage()) ? $parseEvent->image = null : $parseEvent->image = toParsePointer('Image', $event->getImage());
+            is_null($event->getImage()) ? $parseEvent->image = 'images/defult/eventImage.jpg' : $parseEvent->image = toParsePointer('Image', $event->getImage());
             is_null($event->getInvited()) ? $parseEvent->invited = null : $parseEvent->invited = toParseRelation('_User', $event->getInvited());
             is_null($event->getLocation()) ? $parseEvent->location = null : $parseEvent->location = $event->getLocation();
             is_null($event->getLocationName()) ? $parseEvent->locationName = null : $parseEvent->locationName = $event->getLocationName();
@@ -209,7 +209,7 @@ class EventParse {
             is_null($event->getLovers()) ? $parseEvent->lovers = null : $parseEvent->lovers = toParseRelation('_User', $event->getLovers());
             is_null($event->getRefused()) ? $parseEvent->refused = null : $parseEvent->refused = toParseRelation('_User', $event->getRefused());
             is_null($event->getTags()) ? $parseEvent->tags = null : $parseEvent->tags = $event->getTags();
-            is_null($event->getThumbnail()) ? $parseEvent->thumbnail = null : $parseEvent->thumbnail = $event->getThumbnail();
+            is_null($event->getThumbnail()) ? $parseEvent->thumbnail = 'images/defult/eventThumb.jpg' : $parseEvent->thumbnail = $event->getThumbnail();
             is_null($event->getText()) ? $parseEvent->text = null : $parseEvent->text = $event->getText();
             is_null($event->getTitle()) ? $parseEvent->title = null : $parseEvent->title = $event->getTitle();
             $acl = new ParseACL();

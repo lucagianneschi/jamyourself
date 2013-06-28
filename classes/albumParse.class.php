@@ -191,7 +191,7 @@ class AlbumParse {
             is_null($album->getCommentators()) ? $parseAlbum->commentators = null : $parseAlbum->commentators = toParseRelation("_User", $album->getCommentators());
             is_null($album->getComments()) ? $parseAlbum->comments = null : $parseAlbum->comments = toParseRelation("Comment", $album->getComments());
             is_null($album->getCounter()) ? $parseAlbum->counter = -1 : $parseAlbum->counter = $album->getCounter();
-            is_null($album->getCover()) ? $parseAlbum->cover = null : $parseAlbum->cover = $album->getCover();
+            is_null($album->getCover()) ? $parseAlbum->cover = 'images/defult/albumCover.jpg' : $parseAlbum->cover = $album->getCover();
             is_null($album->getCoverFile()) ? $parseAlbum->coverFile = null : $parseAlbum->coverFile = toParseFile($album->getCoverFile());
             is_null($album->getDescription()) ? $parseAlbum->description = null : $parseAlbum->description = $album->getDescription();
             is_null($album->getFeaturing()) ? $parseAlbum->featuring = null : $parseAlbum->featuring = toParseRelation("_User", $album->getFeaturing());
@@ -201,7 +201,7 @@ class AlbumParse {
             is_null($album->getLoveCounter()) ? $parseAlbum->loveCounter = -1 : $parseAlbum->loveCounter = $album->getLoveCounter();
             is_null($album->getLovers()) ? $parseAlbum->lovers = null : $parseAlbum->lovers = toParseRelation("_User", $album->getLovers());
             is_null($album->getTags()) ? $parseAlbum->tags = null : $parseAlbum->tags = $album->getTags();
-            is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = null : $parseAlbum->thumbnailCover = $album->getThumbnailCover();
+            is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = 'images/defult/albumCoverThumb.jpg' : $parseAlbum->thumbnailCover = $album->getThumbnailCover();
             is_null($album->getTitle()) ? $parseAlbum->title = null : $parseAlbum->title = $album->getTitle();
             $acl = new ParseACL();
             $acl->setPublicReadAccess(true);
