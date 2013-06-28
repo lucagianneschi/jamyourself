@@ -1,16 +1,15 @@
 <?php
-
-/* ! \par Info Generali:
- *  \author    Stefano Muscas
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
+/* ! \par 		Info Generali:
+ *  \author		Stefano Muscas
+ *  \version	1.0
+ *  \date		2013
+ *  \copyright	Jamyourself.com 2013
  *
- *  \par Info Classe:
- *  \brief     User Class
- *  \details   Classe utente
+ *  \par		Info Classe:
+ *  \brief		User Class
+ *  \details	Classe utente
  *  
- *  \par Commenti:
+ *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
@@ -29,20 +28,31 @@ class User {
 	private $authData;
 	private $emailVerified;
 	private $active;
+	private $address;
 	private $albums;
 	private $background;
+	private $birthDay;
 	private $city;
+	private $collaboration;
 	private $comments;
 	private $country;
 	private $description;
 	private $email;
+	private $events;
+	private $facebookId;
 	private $fbPage;
+	private $firstname;
+	private $following;
+	private $friendship;
 	private $geoCoding;
 	private $images;
+	private $jammerType;
+	private $lastname;
 	private $level;
-	// TODO - levelValue per adesso si lascia per tutti, ma si usa solo per lo spotter
 	private $levelValue;
+	private $localType;
 	private $loveSongs;
+	private $members;
 	private $music;
 	private $playlists;
 	private $premium;
@@ -50,7 +60,10 @@ class User {
 	private $profilePicture;
 	private $profilePictureFile;
 	private $profileThumbnail;
+	private $records;
 	private $settings;
+	private $sex;
+	private $songs;
 	private $statuses;
 	private $twitterPage;
 	private $type;
@@ -62,7 +75,13 @@ class User {
 	private $ACL;
 	private $sessionToken;
 	
-	public function __construct() {
+	/**
+	 * \fn		void __construct($type)
+	 * \brief	The constructor instantiate the type of the User
+	 * \param	$type the string which represent the User type (VENUE|JAMMER|SPOTTER)
+	 */
+	public function __construct($type) {
+		$this->setType($type);
 	}
 	
 	/**
@@ -122,6 +141,15 @@ class User {
 	}
 	
 	/**
+	 * \fn		string getAddress()
+	 * \brief	Return the address of the User
+	 * \return	string
+	 */
+	public function getAddress() {
+		return $this->address;
+	}
+	
+	/**
 	 * \fn		array getAlbum()
 	 * \brief	Return an array of objectId of the Album related with the User
 	 * \return	array
@@ -140,12 +168,30 @@ class User {
 	}
 	
 	/**
+	 * \fn		string getBirthDay()
+	 * \brief	Return the birthday of the User represented by a string with format YYYY-MM-DD
+	 * \return	string
+	 */
+	public function getBirthDay() {
+		return $this->birthDay;
+	}
+	
+	/**
 	 * \fn		string getCity()
 	 * \brief	Return the city of the User
 	 * \return	string
 	 */
 	public function getCity() {
 		return $this->city;
+	}
+	
+	/**
+	 * \fn		array getCollaboration()
+	 * \brief	Return an array of objectId of the User related with the User
+	 * \return	array
+	 */
+	public function getCollaboration() {
+		return $this->collaboration;
 	}
 	
 	/**
@@ -185,12 +231,57 @@ class User {
 	}
 	
 	/**
+	 * \fn		array getEvents()
+	 * \brief	Return an array of objectId of the Event related with the User
+	 * \return	array
+	 */
+	public function getEvents() {
+		return $this->events;
+	}
+	
+	/**
+	 * \fn		string getFacebookId()
+	 * \brief	Return the facebook id of the User
+	 * \return	string
+	 */
+	public function getFacebookId() {
+		return $this->facebookId;
+	}
+	
+	/**
 	 * \fn		string getFbPage()
 	 * \brief	Return the facebook page link of the User
 	 * \return	string
 	 */
 	public function getFbPage() {
 		return $this->fbPage;
+	}
+	
+	/**
+	 * \fn		string getFirstname()
+	 * \brief	Return the firstname of the User
+	 * \return	string
+	 */
+	public function getFirstname() {
+		return $this->firstname;
+	}
+	
+	/**
+	 * \fn		array getFollowing()
+	 * \brief	Return an array of objectId of the User related with the User
+	 * \return	array
+	 */
+	public function getFollowing() {
+		return $this->following;
+	}
+	
+	/**
+	 * \fn		array getFriendship()
+	 * \brief	Return an array of objectId of the User related with the User
+	 * \return	array
+	 */
+	public function getFriendship() {
+		return $this->friendship;
 	}
 	
 	/**
@@ -203,12 +294,30 @@ class User {
 	}
 	
 	/**
+	 * \fn		string getJammerType()
+	 * \brief	Return the jammer type of the User
+	 * \return	string
+	 */
+	public function getJammerType() {
+		return $this->jammerType;
+	}
+	
+	/**
 	 * \fn		array getImages()
 	 * \brief	Return an array of objectId of the Image related with the User
 	 * \return	array
 	 */
 	public function getImages() {
 		return $this->images;
+	}
+	
+	/**
+	 * \fn		string getLastname()
+	 * \brief	Return the lastname of the User
+	 * \return	string
+	 */
+	public function getLastname() {
+		return $this->lastname;
 	}
 	
 	/**
@@ -230,12 +339,30 @@ class User {
 	}
 	
 	/**
+	 * \fn		string getLocalType()
+	 * \brief	Return the local type of the User
+	 * \return	string
+	 */
+	public function getLocalType() {
+		return $this->localType;
+	}
+	
+	/**
 	 * \fn		array getLoveSongs()
 	 * \brief	Return an array of objectId of the Song related with the User
 	 * \return	array
 	 */
 	public function getLoveSongs() {
 		return $this->loveSongs;
+	}
+	
+	/**
+	 * \fn		array getMembers()
+	 * \brief	Return an array of objectId of the User related with the User
+	 * \return	array
+	 */
+	public function getMembers() {
+		return $this->members;
 	}
 	
 	/**
@@ -302,12 +429,39 @@ class User {
 	}
 	
 	/**
+	 * \fn		array getRecords()
+	 * \brief	Return an array of objectId of the Record related with the User
+	 * \return	array
+	 */
+	public function getRecords() {
+		return $this->records;
+	}
+	
+	/**
 	 * \fn		array getSettings()
 	 * \brief	Return an array of the setting of the User
 	 * \return	array
 	 */
 	public function getSettings() {
 		return $this->settings;
+	}
+	
+	/**
+	 * \fn		string getSex()
+	 * \brief	Return the sex of the User
+	 * \return	string
+	 */
+	public function getSex() {
+		return $this->sex;
+	}
+	
+	/**
+	 * \fn		array getRecords()
+	 * \brief	Return an array of objectId of the Song related with the User
+	 * \return	array
+	 */
+	public function getSongs() {
+		return $this->songs;
 	}
 	
 	/**
@@ -457,6 +611,15 @@ class User {
 	}
 	
 	/**
+	 * \fn		void setAddress($address)
+	 * \brief	Sets the address of the User
+	 * \param	string
+	 */
+	public function setAddress($address) {
+		$this->address = $address;
+	}
+	
+	/**
 	 * \fn		void setAlbums($albums)
 	 * \brief	Sets an array of objectId of the Album related with the User
 	 * \param	array
@@ -475,12 +638,30 @@ class User {
 	}
 	
 	/**
+	 * \fn		string setBirthDay($birthDay)
+	 * \brief	Sets the birthday of the User represented by a string with format YYYY-MM-DD
+	 * \param	string
+	 */
+	public function setBirthDay($birthDay) {
+		$this->birthDay = $birthDay;
+	}
+	
+	/**
 	 * \fn		void setCity($city)
 	 * \brief	Sets the city value of the User
 	 * \param	string
 	 */
 	public function setCity($city) {
 		$this->city = $city;
+	}
+	
+	/**
+	 * \fn		void setCollaboration($collaboration)
+	 * \brief	Sets an array of objectId of the User related with the User
+	 * \param	array
+	 */
+	public function setCollaboration($collaboration) {
+		$this->collaboration = $collaboration;
 	}
 	
 	/**
@@ -520,12 +701,57 @@ class User {
 	}
 	
 	/**
+	 * \fn		void setEvents($events)
+	 * \brief	Sets an array of objectId of the Event related with the User
+	 * \param	array
+	 */
+	public function setEvents($events) {
+		$this->events = $events;
+	}
+	
+	/**
+	 * \fn		string setFacebookId($facebookId)
+	 * \brief	Sets the facebook id of the User
+	 * \param	string
+	 */
+	public function setFacebookId($facebookId) {
+		$this->facebookId = $facebookId;
+	}
+	
+	/**
 	 * \fn		void setFbPage($fbPage)
 	 * \brief	Sets the facebook page link of the User
 	 * \param	string
 	 */
 	public function setFbPage($fbPage) {
 		$this->fbPage = $fbPage;
+	}
+	
+	/**
+	 * \fn		string setFirstname($firstname)
+	 * \brief	Sets the firstname id of the User
+	 * \param	string
+	 */
+	public function setFirstname($firstname) {
+		$this->firstname = $firstname;
+	}
+	
+	/**
+	 * \fn		void setFollowing($following)
+	 * \brief	Sets an array of objectId of the User related with the User
+	 * \param	array
+	 */
+	public function setFollowing($following) {
+		$this->following = $following;
+	}
+	
+	/**
+	 * \fn		void setFriendship($friendship)
+	 * \brief	Sets an array of objectId of the User related with the User
+	 * \param	array
+	 */
+	public function setFriendship($friendship) {
+		$this->friendship = $friendship;
 	}
 	
 	/**
@@ -547,6 +773,24 @@ class User {
 	}
 	
 	/**
+	 * \fn		void setJammerType($jammerType)
+	 * \brief	Sets the jammer type of the User
+	 * \param	string
+	 */
+	public function setJammerType($jammerType) {
+		$this->jammerType = $jammerType;
+	}
+	
+	/**
+	 * \fn		string setLastname($lastname)
+	 * \brief	Sets the lastname id of the User
+	 * \param	string
+	 */
+	public function setLastname($lastname) {
+		$this->lastname = $lastname;
+	}
+	
+	/**
 	 * \fn		void setLevel($level)
 	 * \brief	Sets the level of the User
 	 * \param	number
@@ -565,12 +809,30 @@ class User {
 	}
 	
 	/**
+	 * \fn		void setLocalType($localType)
+	 * \brief	Sets the local type of the User
+	 * \param	string
+	 */
+	public function setLocalType($localType) {
+		$this->localType = $localType;
+	}
+	
+	/**
 	 * \fn		void setLoveSongs($loveSongs)
 	 * \brief	Sets an array of objectId of the Song related with the User
 	 * \param	array
 	 */
 	public function setLoveSongs($loveSongs) {
 		$this->loveSongs = $loveSongs;
+	}
+	
+	/**
+	 * \fn		void setMembers($members)
+	 * \brief	Sets an array of objectId of the User related with the User
+	 * \param	array
+	 */
+	public function setMembers($members) {
+		$this->members = $members;
 	}
 	
 	/**
@@ -637,12 +899,39 @@ class User {
 	}
 	
 	/**
+	 * \fn		void setRecords($records)
+	 * \brief	Sets an array of objectId of the Record related with the User
+	 * \param	array
+	 */
+	public function setRecords($records) {
+		$this->records = $records;
+	}
+	
+	/**
 	 * \fn		void setSettings($settings)
 	 * \brief	Sets an array of settings of the User
 	 * \param	array
 	 */
 	public function setSettings($settings) {
 		$this->settings = $settings;
+	}
+	
+	/**
+	 * \fn		string setSex($sex)
+	 * \brief	Sets the sex id of the User
+	 * \param	string
+	 */
+	public function setSex($sex) {
+		$this->sex = $sex;
+	}
+	
+	/**
+	 * \fn		void setSongs($songs)
+	 * \brief	Sets an array of objectId of the Song related with the User
+	 * \param	array
+	 */
+	public function setSongs($songs) {
+		$this->songs = $songs;
 	}
 	
 	/**
@@ -741,8 +1030,8 @@ class User {
 	 * \return	string
 	 */
 	public function __toString() {
-	
 		$string = '';
+		
 		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
 		$string .= '[username] => ' . $this->getUsername() . '<br />';
 		$string .= '[password] => ' . $this->getPassword() . '<br />';
@@ -753,6 +1042,7 @@ class User {
 		} else {
 			$this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 		}
+		$string.= '[address] => ' . $this->getAddress() . '<br />';
 		if (count($this->getAlbums()) != 0) {
 			foreach ($this->getAlbums() as $album) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -763,7 +1053,17 @@ class User {
 			$string .= '[albums] => NULL<br />';
 		}
 		$string .= '[background] => ' . $this->getBackground() . '<br />';
+		$string .= '[birthDay] => ' . $this->getBirthDay() . '<br />';
 		$string .= '[city] => ' . $this->getCity() . '<br />';
+		if (count($this->getCollaboration()) != 0) {
+			foreach ($this->getCollaboration() as $collaboration) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[collaboration] => ' . $collaboration . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[collaboration] => NULL<br />';
+		}
 		if (count($this->getComments()) != 0) {
 			foreach ($this->getComments() as $comments) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -776,7 +1076,36 @@ class User {
 		$string .= '[country] => ' . $this->getCountry() . '<br />';
 		$string .= '[description] => ' . $this->getDescription() . '<br />';
 		$string .= '[email] => ' . $this->getEmail() . '<br />';
+		if (count($this->getEvents()) != 0) {
+			foreach ($this->getEvents() as $event) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[events] => ' . $event . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[event] => NULL<br />';
+		}
+		$string .= '[facebookId] => ' . $this->getFacebookId() . '<br />';
 		$string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
+		$string .= '[firstname] => ' . $this->getFirstname() . '<br />';
+		if (count($this->getFollowing()) != 0) {
+			foreach ($this->getFollowing() as $following) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[following] => ' . $following . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[following] => NULL<br />';
+		}
+		if (count($this->getFriendship()) != 0) {
+			foreach ($this->getFriendship() as $friendship) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[friendship] => ' . $friendship . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[friendship] => NULL<br />';
+		}
 		if ($this->getGeoCoding() != null) {
 			$geoCoding = $this->getGeoCoding();
 			$string .= '[geoCoding] => ' . $geoCoding->lat . ', ' . $geoCoding->long . '<br />';
@@ -792,8 +1121,11 @@ class User {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[image] => NULL<br />';
 		}
+		$string .= '[jammerType] => ' . $this->getJammerType() . '<br />';
+		$string .= '[lastname] => ' . $this->getLastname() . '<br />';
 		$string .= '[level] => ' . $this->getLevel() . '<br />';
 		$string .= '[levelValue] => ' . $this->getLevelValue() . '<br />';
+		$string .= '[localType] => ' . $this->getLocalType() . '<br />';
 		if (count($this->getLoveSongs()) != 0) {
 			foreach ($this->getLoveSongs() as $loveSong) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -802,6 +1134,15 @@ class User {
 		} else {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[loveSongs] => NULL<br />';
+		}
+		if ($this->getMembers()!= null && count($this->getMembers()) > 0) {
+			foreach ($this->getMembers() as $member) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[members] => ' . $member . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[members] => NULL<br />';
 		}
 		foreach ($this->getMusic() as $music) {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -824,11 +1165,30 @@ class User {
 		}
 		$string .= '[profilePicture] => ' . $this->getProfilePicture() . '<br />';
 		$string .= '[profilePictureFile] => ' . $this->getProfilePictureFile() . '<br />';
+		if (count($this->getRecords()) != 0) {
+			foreach ($this->getRecords() as $record) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[records] => ' . $record . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[records] => NULL<br />';
+		}
 		$string .= '[profileThumbnail] => ' . $this->getProfileThumbnail() . '<br />';
 		$string .= '[sessionToken] => ' . $this->getSessionToken() . '<br />';
 		foreach ($this->getSettings() as $settings) {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[settings] => ' . $settings . '<br />';
+		}
+		$string .= '[sex] => ' . $this->getSex() . '<br />';
+		if (count($this->getSongs()) != 0) {
+			foreach ($this->getSongs() as $song) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[songs] => ' . $song . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[songs] => NULL<br />';
 		}
 		if (count($this->getStatuses()) != 0) {
 			foreach ($this->getStatuses() as $status) {
@@ -879,499 +1239,4 @@ class User {
 	
 		return $string;
 	}
-}	
-	
-class Venue extends User {
-	
-	private $address;
-	private $collaboration;
-	private $events;
-	private $localType;
-	
-	/**
-	 * \fn		void __construct()
-	 * \brief	Sets the type of the User to VENUE
-	 * \param	string
-	 */
-	public function __construct() {
-		parent::__construct();
-		$this->setType("VENUE");
-	}
-	
-	/**
-	 * \fn		string getAddress()
-	 * \brief	Return the address of the Venue
-	 * \return	string
-	 */
-	public function getAddress() {
-		return $this->address;
-	}
-	
-	/**
-	 * \fn		array getCollaboration()
-	 * \brief	Return an array of objectId of the User related with the Venue
-	 * \return	array
-	 */
-	public function getCollaboration() {
-		return $this->collaboration;
-	}
-	
-	/**
-	 * \fn		array getEvents()
-	 * \brief	Return an array of objectId of the Event related with the Venue
-	 * \return	array
-	 */
-	public function getEvents() {
-		return $this->events;
-	}
-	
-	/**
-	 * \fn		string getLocalType()
-	 * \brief	Return the local type of the Venue
-	 * \return	string
-	 */
-	public function getLocalType() {
-		return $this->localType;
-	}
-	
-	/**
-	 * \fn		void setAddress($address)
-	 * \brief	Sets the address of the Venue
-	 * \param	string
-	 */
-	public function setAddress($address) {
-		$this->address = $address;
-	}
-	
-	/**
-	 * \fn		void setCollaboration($collaboration)
-	 * \brief	Sets an array of objectId of the User related with the Venue
-	 * \param	array
-	 */
-	public function setCollaboration($collaboration) {
-		$this->collaboration = $collaboration;
-	}
-	
-	/**
-	 * \fn		void setEvents($events)
-	 * \brief	Sets an array of objectId of the Event related with the Venue
-	 * \param	array
-	 */
-	public function setEvents($events) {
-		$this->events = $events;
-	}
-	
-	/**
-	 * \fn		void setLocalType($localType)
-	 * \brief	Sets the local type of the Venue
-	 * \param	string
-	 */
-	public function setLocalType($localType) {
-		$this->localType = $localType;
-	}
-	
-	/**
-	 * \fn		string __toString()
-	 * \brief	Return a printable string representing the Venue object
-	 * \return	string
-	 */
-	public function __toString() {
-		$string = parent::__toString();
-	
-		if (count($this->getCollaboration()) != 0) {
-			foreach ($this->getCollaboration() as $collaboration) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[collaboration] => ' . $collaboration . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[collaboration] => NULL<br />';
-		}
-		if (count($this->getEvents()) != 0) {
-			foreach ($this->getEvents() as $event) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[events] => ' . $event . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[event] => NULL<br />';
-		}
-		$string.="[address] => " . $this->getAddress() . '<br />';
-		$string.="[localType] => " . $this->getLocalType() . '<br />';
-	
-		return $string;
-	}
-}	
-	
-class Jammer extends User {
-	
-	private $collaboration;
-	private $events;
-	private $jammerType;
-	private $members;
-	private $records;
-	private $songs;
-	
-	/**
-	 * \fn		void __construct()
-	 * \brief	Sets the type of the User to JAMMER
-	 * \param	string
-	 */
-	public function __construct() {
-		$this->setType("JAMMER");
-	}
-	
-	/**
-	 * \fn		array getCollaboration()
-	 * \brief	Return an array of objectId of the User related with the Jammer
-	 * \return	array
-	 */
-	public function getCollaboration() {
-		return $this->collaboration;
-	}
-	
-	/**
-	 * \fn		array getEvents()
-	 * \brief	Return an array of objectId of the Event related with the Jammer
-	 * \return	array
-	 */
-	public function getEvents() {
-		return $this->events;
-	}
-	
-	/**
-	 * \fn		string getJammerType()
-	 * \brief	Return the jammer type of the Jammer
-	 * \return	string
-	 */
-	public function getJammerType() {
-		return $this->jammerType;
-	}
-	
-	/**
-	 * \fn		array getMembers()
-	 * \brief	Return an array of objectId of the User related with the Jammer
-	 * \return	array
-	 */
-	public function getMembers() {
-		return $this->members;
-	}
-	
-	/**
-	 * \fn		array getRecords()
-	 * \brief	Return an array of objectId of the Record related with the Jammer
-	 * \return	array
-	 */
-	public function getRecords() {
-		return $this->records;
-	}
-	
-	/**
-	 * \fn		array getRecords()
-	 * \brief	Return an array of objectId of the Song related with the Jammer
-	 * \return	array
-	 */
-	public function getSongs() {
-		return $this->songs;
-	}
-	
-	/**
-	 * \fn		void setCollaboration($collaboration)
-	 * \brief	Sets an array of objectId of the User related with the Jammer
-	 * \param	array
-	 */
-	public function setCollaboration($collaboration) {
-		$this->collaboration = $collaboration;
-	}
-	
-	/**
-	 * \fn		void setEvents($events)
-	 * \brief	Sets an array of objectId of the Event related with the Jammer
-	 * \param	array
-	 */
-	public function setEvents($events) {
-		$this->events = $events;
-	}
-	
-	/**
-	 * \fn		void setJammerType($jammerType)
-	 * \brief	Sets the jammer type of the Jammer
-	 * \param	string
-	 */
-	public function setJammerType($jammerType) {
-		$this->jammerType = $jammerType;
-	}
-	
-	/**
-	 * \fn		void setMembers($members)
-	 * \brief	Sets an array of objectId of the User related with the Jammer
-	 * \param	array
-	 */
-	public function setMembers($members) {
-		$this->members = $members;
-	}
-	
-	/**
-	 * \fn		void setRecords($records)
-	 * \brief	Sets an array of objectId of the Record related with the Jammer
-	 * \param	array
-	 */
-	public function setRecords($records) {
-		$this->records = $records;
-	}
-	
-	/**
-	 * \fn		void setSongs($songs)
-	 * \brief	Sets an array of objectId of the Song related with the Jammer
-	 * \param	array
-	 */
-	public function setSongs($songs) {
-		$this->songs = $songs;
-	}
-	
-	/**
-	 * \fn		string __toString()
-	 * \brief	Return a printable string representing the Jammer object
-	 * \return	string
-	 */
-	public function __toString() {
-		$string = parent::__toString();
-	
-		if (count($this->getCollaboration()) != 0) {
-			foreach ($this->getCollaboration() as $collaboration) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[collaboration] => ' . $collaboration . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[collaboration] => NULL<br />';
-		}
-		if (count($this->getEvents()) != 0) {
-			foreach ($this->getEvents() as $event) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[events] => ' . $event . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[event] => NULL<br />';
-		}
-		$string.="[jammerType] => " . $this->getJammerType() . "<br />";
-		if ($this->getMembers()!= null && count($this->getMembers()) > 0) {
-			foreach ($this->getMembers() as $member) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[members] => ' . $member . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[members] => NULL<br />';
-		}
-		if (count($this->getRecords()) != 0) {
-			foreach ($this->getRecords() as $record) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[records] => ' . $record . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[records] => NULL<br />';
-		}
-		if (count($this->getSongs()) != 0) {
-			foreach ($this->getSongs() as $song) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[songs] => ' . $song . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[songs] => NULL<br />';
-		}
-	
-		return $string;
-	}
 }
-	
-class Spotter extends User {
-	
-	private $birthDay;
-	private $facebookId;
-	private $firstname;
-	private $following;
-	private $friendship;
-	private $lastname;
-	private $sex;
-	
-	/**
-	 * \fn		void __construct()
-	 * \brief	Sets the type of the User to SPOTTER
-	 * \param	string
-	 */
-	public function __construct() {
-		$this->setType("SPOTTER");
-	}
-	
-	/**
-	 * \fn		string getBirthDay()
-	 * \brief	Return the birthday of the Spotter represented by a string with format YYYY-MM-DD
-	 * \return	string
-	 */
-	public function getBirthDay() {
-		return $this->birthDay;
-	}
-	
-	/**
-	 * \fn		string getFacebookId()
-	 * \brief	Return the facebook id of the Spotter
-	 * \return	string
-	 */
-	public function getFacebookId() {
-		return $this->facebookId;
-	}
-	
-	/**
-	 * \fn		string getFirstname()
-	 * \brief	Return the firstname of the Spotter
-	 * \return	string
-	 */
-	public function getFirstname() {
-		return $this->firstname;
-	}
-	
-	/**
-	 * \fn		array getFollowing()
-	 * \brief	Return an array of objectId of the User related with the Spotter
-	 * \return	array
-	 */
-	public function getFollowing() {
-		return $this->following;
-	}
-	
-	/**
-	 * \fn		array getFriendship()
-	 * \brief	Return an array of objectId of the User related with the Spotter
-	 * \return	array
-	 */
-	public function getFriendship() {
-		return $this->friendship;
-	}
-	
-	/**
-	 * \fn		string getLastname()
-	 * \brief	Return the lastname of the Spotter
-	 * \return	string
-	 */
-	public function getLastname() {
-		return $this->lastname;
-	}
-	
-	/**
-	 * \fn		string getSex()
-	 * \brief	Return the sex of the Spotter
-	 * \return	string
-	 */
-	public function getSex() {
-		return $this->sex;
-	}
-	
-	/**
-	 * \fn		string setBirthDay($birthDay)
-	 * \brief	Sets the birthday of the Spotter represented by a string with format YYYY-MM-DD
-	 * \param	string
-	 */
-	public function setBirthDay($birthDay) {
-		$this->birthDay = $birthDay;
-	}
-	
-	/**
-	 * \fn		string setFacebookId($facebookId)
-	 * \brief	Sets the facebook id of the Spotter
-	 * \param	string
-	 */
-	public function setFacebookId($facebookId) {
-		$this->facebookId = $facebookId;
-	}
-	
-	/**
-	 * \fn		string setFirstname($firstname)
-	 * \brief	Sets the firstname id of the Spotter
-	 * \param	string
-	 */
-	public function setFirstname($firstname) {
-		$this->firstname = $firstname;
-	}
-	
-	/**
-	 * \fn		void setFollowing($following)
-	 * \brief	Sets an array of objectId of the User related with the Spotter
-	 * \param	array
-	 */
-	public function setFollowing($following) {
-		$this->following = $following;
-	}
-	
-	/**
-	 * \fn		void setFriendship($friendship)
-	 * \brief	Sets an array of objectId of the User related with the Spotter
-	 * \param	array
-	 */
-	public function setFriendship($friendship) {
-		$this->friendship = $friendship;
-	}
-	
-	/**
-	 * \fn		string setLastname($lastname)
-	 * \brief	Sets the lastname id of the Spotter
-	 * \param	string
-	 */
-	public function setLastname($lastname) {
-		$this->lastname = $lastname;
-	}
-	
-	/**
-	 * \fn		string setSex($sex)
-	 * \brief	Sets the sex id of the Spotter
-	 * \param	string
-	 */
-	public function setSex($sex) {
-		$this->sex = $sex;
-	}
-	
-	/**
-	 * \fn		string __toString()
-	 * \brief	Return a printable string representing the Spotter object
-	 * \return	string
-	 */
-	public function __toString() {
-		$string = parent::__toString();
-	
-		if ($this->getBirthDay() != null) {
-			$string .= "[birthDay] => " . $this->getBirthDay() . "<br />";
-		} else {
-			$string .= "[birthDay] => NULL<br />";
-		}
-		$string .= "[facebookId] => " . $this->getFacebookId() . "<br />";
-		$string .= "[firstname] => " . $this->getFirstname() . "<br />";
-		if (count($this->getFollowing()) != 0) {
-			foreach ($this->getFollowing() as $following) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[following] => ' . $following . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[following] => NULL<br />';
-		}
-		if (count($this->getFriendship()) != 0) {
-			foreach ($this->getFriendship() as $friendship) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[friendship] => ' . $friendship . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[friendship] => NULL<br />';
-		}
-		$string .= "[lastname] => " . $this->getLastname() . "<br />";
-		$string .= "[sex] => " . $this->getSex() . "<br />";
-	
-		return $string;
-	}
-
-}
-
-?>
