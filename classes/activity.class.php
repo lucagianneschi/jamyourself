@@ -70,8 +70,8 @@ class Activity {
     }
 
     /**
-     * \fn	BOOL getActive()
-     * \brief	Return the active vvalure
+     * \fn	string getAlbum()
+     * \brief	Return the string value objectId to parseAlbum
      * \return	BOOL
      */
     public function getAlbum() {
@@ -142,15 +142,6 @@ class Activity {
     }
 
     /**
-     * \fn	string getStatus()
-     * \brief	Return the status value, P for pending, A for accepted & R for refused
-     * \return	string
-     */
-    public function getStatus() {
-        return $this->status;
-    }
-
-    /**
      * \fn	string getRecord()
      * \brief	Return the record value objectId
      * \return	string
@@ -166,6 +157,15 @@ class Activity {
      */
     public function getSong() {
         return $this->song;
+    }
+    
+        /**
+     * \fn	string getStatus()
+     * \brief	Return the status value, P for pending, A for accepted & R for refused
+     * \return	string
+     */
+    public function getStatus() {
+        return $this->status;
     }
 
     /**
@@ -196,8 +196,8 @@ class Activity {
     }
 
     /**
-     * \fn	string getFromUser()
-     * \brief	Return the objectId value for the fromUser
+     * \fn	string getVideo()
+     * \brief	Return the video value objectId
      * \return	string
      */
     public function getVideo() {
@@ -340,21 +340,21 @@ class Activity {
     }
 
     /**
-     * \fn	void setStatus($status)
-     * \brief	Sets the status value, P for pending, A for accepted, R for refused
-     * \param	string
-     */
-    public function setStatus($status) {
-        $this->status = $status;
-    }
-
-    /**
      * \fn	void setSong($song)
      * \brief	Sets the song objectId value
      * \param	string
      */
     public function setSong($song) {
         $this->song = $song;
+    }
+    
+        /**
+     * \fn	void setStatus($status)
+     * \brief	Sets the status value, P for pending, A for accepted, R for refused
+     * \param	string
+     */
+    public function setStatus($status) {
+        $this->status = $status;
     }
 
     /**
