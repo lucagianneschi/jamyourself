@@ -99,7 +99,7 @@ class Faq {
     }
 
     public function setACL($ACL) {
-        return $this->ACL = $ACL;
+        $this->ACL = $ACL;
     }
 
     public function __toString() {
