@@ -158,6 +158,15 @@ class Video {
         return $this->tags;
     }
 
+	    /**
+     * \fn	string getThumbnail()
+     * \brief	Return the thumbnail value, URL of the video cover image
+     * \return	string
+     */
+    public function getThumbnail() {
+        return $this->thumbnail;
+    }
+	
     /**
      * \fn	string getTitle()
      * \brief	Return the title value
@@ -165,15 +174,6 @@ class Video {
      */
     public function getTitle() {
         return $this->title;
-    }
-
-    /**
-     * \fn	string getThumbnail()
-     * \brief	Return the thumbnail value, URL of the video cover image
-     * \return	string
-     */
-    public function getThumbnail() {
-        return $this->thumbnail;
     }
 
     /**
@@ -371,7 +371,7 @@ class Video {
      * \param	DateTime
      */
     public function setUpdatedAt($updatedAt) {
-        return $this->updatedAt = $updatedAt;
+         $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -380,7 +380,7 @@ class Video {
      * \param	parseACL
      */
     public function setACL($ACL) {
-        return $this->ACL = $ACL;
+         $this->ACL = $ACL;
     }
 
     /**
