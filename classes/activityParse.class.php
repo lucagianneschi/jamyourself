@@ -181,6 +181,8 @@ class ActivityParse {
      * \return	Error	the Error raised by the function
      */
     public function saveActivity($activity) {
+		if (is_null($activity->getFromUser())) {
+			return throwError(new Exception('saveActivity parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $parseActivity = new parseObject("Activity");
             is_null($activity->getAccepted()) ? $parseActivity->accepted = true : $parseActivity->accepted = $activity->getAccepted();

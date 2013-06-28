@@ -185,9 +185,10 @@ class StatusParse {
 	 * \return	Error	the Error raised by the function
 	 */
     public function saveStatus($status) {
+	if (is_null($status->getFromUser())) {
+			return throwError(new Exception('saveStatus parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $parseStatus = new parseObject('Status');
-
             is_null($status->getActive()) ? $parseStatus->active = true : $parseStatus->active = $status->getActive();
             is_null($status->getCommentators()) ? $parseStatus->commentators = null : $parseStatus->commentators = toParseRelation('_User', $status->getCommentators());
             is_null($status->getComments()) ? $parseStatus->comments = null : $parseStatus->comments = toParseRelation('Comment', $status->getCommentas());

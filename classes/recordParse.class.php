@@ -190,6 +190,8 @@ class RecordParse {
 	 * \return	Error	the Error raised by the function
 	 */
     function saveRecord($record) {
+	if (is_null($record->getFromUser())) {
+			return throwError(new Exception('saveRecord parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 	try {
 		$parseRecord = new parseObject("Record");
         is_null($record->getActive()) ? $parseRecord->active = true : $parseRecord->active = $record->getActive();

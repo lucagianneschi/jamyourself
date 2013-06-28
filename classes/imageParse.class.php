@@ -178,6 +178,8 @@ class ImageParse {
 	 * \return	Error	the Error raised by the function
 	 */
     function saveImage($image) {
+		if (is_null($image->getFromUser())) {
+			return throwError(new Exception('saveImage parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 		$parseImage = new parseObject("Image");
 		is_null($image->getActive()) ? $parseImage->active = true : $parseImage->active = $image->getActive();
