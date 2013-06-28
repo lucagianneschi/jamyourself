@@ -33,92 +33,202 @@ class Question {
     private $updatedAt;
     private $ACL;
 
+    /**
+     * \fn	string getObjectId()
+     * \brief	Return the objectId value
+     * \return	string
+     */
     public function getObjectId() {
         return $this->objectId;
     }
 
+        /**
+     * \fn	string getAnswer()
+     * \brief	Return the answer value
+     * \return	string
+     */
     public function getAnswer() {
         return $this->answer;
     }
 
+        /**
+     * \fn	string getMailFrom()
+     * \brief	Return the mailFrom value
+     * \return	string
+     */
     public function getMailFrom() {
         return $this->mailFrom;
     }
 
+        /**
+     * \fn	string getMailTo()
+     * \brief	Return the mailTo value
+     * \return	string
+     */
     public function getMailTo() {
         return $this->mailTo;
     }
 
+        /**
+     * \fn	string getName()
+     * \brief	Return the name value
+     * \return	string
+     */
     public function getName() {
         return $this->name;
     }
 
+        /**
+     * \fn	BOOL getReplied()
+     * \brief	Return the replied value
+     * \return	BOOL
+     */
     public function getReplied() {
         return $this->replied;
     }
 
+        /**
+     * \fn	string getSubject()
+     * \brief	Return the subject value
+     * \return	string
+     */
     public function getSubject() {
         return $this->subject;
     }
 
+        /**
+     * \fn	string getText()
+     * \brief	Return the text value
+     * \return	string
+     */
     public function getText() {
         return $this->text;
     }
 
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Question creation date
+     * \return	DateTime
+     */
     public function getCreatedAt() {
         return $this->createdAt;
     }
 
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Question modification date
+     * \return	DateTime
+     */
     public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
+    /**
+     * \fn	parseACL getACL()
+     * \brief	Return the parseACL object representing the Question ACL 
+     * \return	parseACL
+     */
     public function getACL() {
         return $this->ACL;
     }
 
-    public function setObjectId($value) {
-        $this->objectId = $value;
+    /**
+     * \fn	void setObjectId($objectId)
+     * \brief	Sets the objectId value
+     * \param	string
+     */
+    public function setObjectId($objectId) {
+        $this->objectId = $objectId;
     }
 
+        /**
+     * \fn	void setAnswer($value)
+     * \brief	Sets the answer value
+     * \param	string
+     */
     public function setAnswer($value) {
         $this->answer = $value;
     }
 
+        /**
+     * \fn	void setMailFrom($value)
+     * \brief	Sets the mailFrom value
+     * \param	string
+     */
     public function setMailFrom($value) {
         $this->mailFrom = $value;
     }
 
+        /**
+     * \fn	void setMailTo($value)
+     * \brief	Sets the mailTo value
+     * \param	string
+     */
     public function setMailTo($value) {
         $this->mailTo = $value;
     }
 
+        /**
+     * \fn	void setName($value)
+     * \brief	Sets the name value
+     * \param	string
+     */
     public function setName($value) {
         $this->name = $value;
     }
 
+        /**
+     * \fn	void setReplied($value)
+     * \brief	Sets the replied value
+     * \param	BOOL
+     */
     public function setReplied($value) {
         $this->replied = $value;
     }
 
+        /**
+     * \fn	void setSubject($value)
+     * \brief	Sets the subject value
+     * \param	string
+     */
     public function setSubject($value) {
         $this->subject = $value;
     }
 
+        /**
+     * \fn	void setText($value)
+     * \brief	Sets the text value
+     * \param	string
+     */
     public function setText($value) {
         $this->text = $value;
     }
 
-    public function setCreatedAt($value) {
-        $this->createdAt = $value;
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Question creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
     }
 
-    public function setUpdatedAt($value) {
-         $this->updatedAt = $value;
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Question modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+        $this->updatedAt = $updatedAt;
     }
 
-    public function setACL($value) {
-         $this->ACL = $value;
+    /**
+     * \fn	void setACL($ACL)
+     * \brief	Sets the parseACL object representing the Question ACL
+     * \param	parseACL
+     */
+    public function setACL($ACL) {
+        $this->ACL = $ACL;
     }
 
     public function __toString() {
