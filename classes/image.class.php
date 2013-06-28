@@ -177,7 +177,7 @@ class Image {
 
     /**
      * \fn	DateTime getCreatedAt()
-     * \brief	Return the Video creation date
+     * \brief	Return the Image creation date
      * \return	DateTime
      */
     public function getCreatedAt() {
@@ -186,7 +186,7 @@ class Image {
 
     /**
      * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Video modification date
+     * \brief	Return the Image modification date
      * \return	DateTime
      */
     public function getUpdatedAt() {
@@ -195,7 +195,7 @@ class Image {
 
     /**
      * \fn	parseACL getACL()
-     * \brief	Return the parseACL object representing the Video ACL 
+     * \brief	Return the parseACL object representing the Image ACL 
      * \return	parseACL
      */
     public function getACL() {
@@ -334,7 +334,7 @@ class Image {
 
     /**
      * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Video creation date
+     * \brief	Sets the Image creation date
      * \param	DateTime
      */
     public function setCreatedAt($createdAt) {
@@ -343,7 +343,7 @@ class Image {
 
     /**
      * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Video modification date
+     * \brief	Sets the Image modification date
      * \param	DateTime
      */
     public function setUpdatedAt($updatedAt) {
@@ -352,7 +352,7 @@ class Image {
 
     /**
      * \fn	void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Video ACL
+     * \brief	Sets the parseACL object representing the Image ACL
      * \param	parseACL
      */
     public function setACL($ACL) {
@@ -361,7 +361,7 @@ class Image {
 
     /**
      * \fn	void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Video ACL
+     * \brief	Sets the parseACL object representing the Image ACL
      * \param	parseACL
      */
     public function __toString() {
