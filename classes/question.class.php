@@ -114,11 +114,11 @@ class Question {
     }
 
     public function setUpdatedAt($value) {
-        return $this->updatedAt = $value;
+         $this->updatedAt = $value;
     }
 
     public function setACL($value) {
-        return $this->ACL = $value;
+         $this->ACL = $value;
     }
 
     public function __toString() {
