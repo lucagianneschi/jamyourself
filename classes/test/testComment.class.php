@@ -18,7 +18,7 @@ $cmt->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $cmt->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $cmt->setCounter(10);
 //$cmt->setEvent(Event $event);
-//$cmt->setFromUser(User $fromUser);
+$cmt->setFromUser('GuUAj83MGH');
 //$cmt->setImage(Image $image);
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $cmt->setLocation($parseGeoPoint);
