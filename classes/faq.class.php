@@ -30,78 +30,174 @@ class Faq {
     private $updatedAt;
     private $ACL;
 
+	    /**
+     * \fn	string getObjectId()
+     * \brief	Return the objectId value
+     * \return	string
+     */
     public function getObjectId() {
         return $this->objectId;
     }
 
+	    /**
+     * \fn	string getAnswer()
+     * \brief	Return the answer value
+     * \return	string
+     */
     public function getAnswer() {
         return $this->answer;
     }
 
+	    /**
+     * \fn	string getArea()
+     * \brief	Return the area value
+     * \return	string
+     */
     public function getArea() {
         return $this->area;
     }
 
+	    /**
+     * \fn	string getPosition()
+     * \brief	Return the position value (for ordering)
+     * \return	string
+     */
     public function getPosition() {
         return $this->position;
     }
 
+	    /**
+     * \fn	string getQuestion()
+     * \brief	Return the question value
+     * \return	string
+     */
     public function getQuestion() {
         return $this->question;
     }
 
+	    /**
+     * \fn	array getTags()
+     * \brief	Return the objectId value
+     * \return	array
+     */
     public function getTags() {
         return $this->tags;
     }
 
+	
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the FAQ creation date
+     * \return	DateTime
+     */
     public function getCreatedAt() {
         return $this->createdAt;
     }
 
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the FAQ modification date
+     * \return	DateTime
+     */
     public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
+    /**
+     * \fn	parseACL getACL()
+     * \brief	Return the parseACL object representing the FAQ ACL 
+     * \return	parseACL
+     */
     public function getACL() {
         return $this->ACL;
     }
 
+    /**
+     * \fn	void setObjectId($objectId)
+     * \brief	Sets the objectId value
+     * \param	string
+     */
     public function setObjectId($objectId) {
         $this->objectId = $objectId;
     }
 
+	    /**
+     * \fn	void setAnswer($answer)
+     * \brief	Sets the answer value
+     * \param	string
+     */
     public function setAnswer($answer) {
         $this->answer = $answer;
     }
 
+	    /**
+     * \fn	void setArea($area)
+     * \brief	Sets the area value
+     * \param	string
+     */
     public function setArea($area) {
         $this->area = $area;
     }
 
+	    /**
+     * \fn	void setPosition($position)
+     * \brief	Sets the position value
+     * \param	int
+     */
     public function setPosition($position) {
         $this->position = $position;
     }
 
+	    /**
+     * \fn	void setQuestion($question)
+     * \brief	Sets the question value
+     * \param	string
+     */
     public function setQuestion($question) {
         $this->question = $question;
     }
 
-    public function setTags($tags) {
+        /**
+     * \fn	void setTags($tags)
+     * \brief	Sets the tags value
+     * \param	array
+     */
+	public function setTags($tags) {
         $this->tag = $tags;
     }
 
-    public function setCreatedAt(DateTime $createdAt) {
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the FAQ creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt) {
-        $this->updatedAt = $updatedAt;
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the FAQ modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+         $this->updatedAt = $updatedAt;
     }
 
+    /**
+     * \fn	void setACL($ACL)
+     * \brief	Sets the parseACL object representing the FAQ ACL
+     * \param	parseACL
+     */
     public function setACL($ACL) {
-        $this->ACL = $ACL;
+         $this->ACL = $ACL;
     }
 
+	   /**
+     * \fn	string __toString()
+     * \brief	Return a printable string representing the FAQ object
+     * \return	string
+     */
     public function __toString() {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
