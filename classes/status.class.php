@@ -283,17 +283,29 @@ class Status {
         $this->image = $imageFile;
     }
 
-    //GeoPoint: lat e long per localizzazione dello status (inutilizzato)
+        /**
+     * \fn	void setLocation($location)
+     * \brief	Sets the location value
+     * \param	parseGeopoint
+     */
     public function setLocation($location) {
         $this->location = $location;
     }
 
-    //number: counter per tenere conto delle sole azioni di love
+        /**
+     * \fn	void setLoveCounter($loveCounter)
+     * \brief	Sets the loveCounter value
+     * \param	int
+     */
     public function setLoveCounter($loveCounter) {
         $this->loveCounter = $loveCounter;
     }
 
-    //relation: array di puntatori a Parse Users
+        /**
+     * \fn	void setLovers($lovers)
+     * \brief	Sets the lovers value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
@@ -307,12 +319,20 @@ class Status {
         $this->song = $song;
     }
 
-    //relation: array di puntatori a Parse Users
+        /**
+     * \fn	void setTaggedUsers($taggedUsers)
+     * \brief	Sets the lovers taggedUsers,array of pointer to ParseUser
+     * \param	array
+     */
     public function setTaggedUsers($taggedUsers) {
         $this->taggedUsers = $taggedUsers;
     }
 
-    //string: testo inserito dall'utente per il proprio status
+    /**
+     * \fn	void setText($text)
+     * \brief	Sets the test value
+     * \param	string
+     */
     public function setText($text) {
         $this->text = $text;
     }
@@ -344,6 +364,11 @@ class Status {
         return $this->ACL = $ACL;
     }
 
+	    /**
+     * \fn	string __toString()
+     * \brief	Return a printable string representing the Status object
+     * \return	string
+     */
     public function __toString() {
 
         $string = '';
