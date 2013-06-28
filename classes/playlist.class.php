@@ -193,11 +193,11 @@ class Playlist {
         $this->ACL = $ACL;
     }
 
-    /**
-     * \fn	void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Playlist ACL
-     * \param	parseACL
-     */
+		/**
+	* \fn		string __toString()
+	* \brief	Return a printable string representing the Playlist object
+	* \return	string
+	*/
     public function __toString() {
         $string = '';
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
