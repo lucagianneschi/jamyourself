@@ -48,8 +48,6 @@ class Record {
     private $updatedAt;
     private $ACL;
 
-  
-
     /**
 	* \fn		string getObjectId()
 	* \brief	Return the objectId value

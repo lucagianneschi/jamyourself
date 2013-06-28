@@ -30,9 +30,6 @@ class Error {
 	private $updatedAt;
 	private $ACL;
 	
-	public function __construct() {
-    }
-	
 	/**
 	 * \fn		string getObjectId()
 	 * \brief	Return the objectId value
