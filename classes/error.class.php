@@ -183,7 +183,7 @@ class Error {
 	 * \param	DateTime
 	 */
 	public function setUpdatedAt($updatedAt) {
-		return $this->updatedAt = $updatedAt;
+		 $this->updatedAt = $updatedAt;
 	}
 	
 	/**
@@ -192,7 +192,7 @@ class Error {
 	 * \param	parseACL
 	 */
 	public function setACL($ACL) {
-		return $this->ACL = $ACL;
+		$this->ACL = $ACL;
 	}
 	
 	/**
