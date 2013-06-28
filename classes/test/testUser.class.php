@@ -11,17 +11,18 @@ require_once CLASSES_DIR . 'userParse.class.php';
 
 // TODO - cambiare il tipo a piacimento per eseguire i test
 $tipo = 'SPOTTER';
-if ($tipo == 'VENUE') {
-	$user = new Venue();
-	$user->setType('VENUE');
-} elseif ($tipo == 'JAMMER') {
-	$user = new Jammer();
-	$user->setType('JAMMER');
-} elseif ($tipo == 'SPOTTER') {
-	$user = new Spotter();
-	$user->setType('SPOTTER');
+try {
+	if ($tipo == 'VENUE') {
+		$user = new User('VENUE');
+	} elseif ($tipo == 'JAMMER') {
+		$user = new User('JAMMER');
+	} elseif ($tipo == 'SPOTTER') {
+		$user = new User('SPOTTER');
+	}
+} catch (Exception $e){
+	die($e->getMessage());
 }
-	
+
 $user->setObjectId();
 $r = rand();
 $user->setUsername('test' . $r);

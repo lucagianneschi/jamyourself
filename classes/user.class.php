@@ -18,7 +18,12 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:user">API</a>
  */
 
-require_once 'settings.php';
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../');
+	
+require_once ROOT_DIR . 'config.php';
+require_once CLASSES_DIR . 'utils.php';
+require_once CLASSES_DIR . 'settings.php';
 
 class User {
 
@@ -81,7 +86,13 @@ class User {
 	 * \param	$type the string which represent the User type (VENUE|JAMMER|SPOTTER)
 	 */
 	public function __construct($type) {
-		$this->setType($type);
+		if ( is_null($type) || !in_array($type, array('VENUE', 'JAMMER', 'SPOTTER')) ) {
+			$e = new Exception('User Class type must be defined');
+			throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+			throw $e;
+		} else {
+			$this->setType($type);
+		}
 	}
 	
 	/**
