@@ -408,7 +408,7 @@ class Activity {
      * \param	DateTime
      */
     public function setUpdatedAt($updatedAt) {
-        return $this->updatedAt = $updatedAt;
+       $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -417,7 +417,7 @@ class Activity {
      * \param	parseACL
      */
     public function setACL($ACL) {
-        return $this->ACL = $ACL;
+       $this->ACL = $ACL;
     }
 
     /**
