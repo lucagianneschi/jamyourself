@@ -206,7 +206,7 @@ class Activity {
 
     /**
      * \fn	DateTime getCreatedAt()
-     * \brief	Return the Video creation date
+     * \brief	Return the Activity creation date
      * \return	DateTime
      */
     public function getCreatedAt() {
@@ -215,7 +215,7 @@ class Activity {
 
     /**
      * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Video modification date
+     * \brief	Return the Activity modification date
      * \return	DateTime
      */
     public function getUpdatedAt() {
@@ -224,7 +224,7 @@ class Activity {
 
     /**
      * \fn	parseACL getACL()
-     * \brief	Return the parseACL object representing the Video ACL 
+     * \brief	Return the parseACL object representing the Activity ACL 
      * \return	parseACL
      */
     public function getACL() {
@@ -395,7 +395,7 @@ class Activity {
 
     /**
      * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Video creation date
+     * \brief	Sets the Activity creation date
      * \param	DateTime
      */
     public function setCreatedAt($createdAt) {
@@ -404,7 +404,7 @@ class Activity {
 
     /**
      * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Video modification date
+     * \brief	Sets the Activity modification date
      * \param	DateTime
      */
     public function setUpdatedAt($updatedAt) {
@@ -413,7 +413,7 @@ class Activity {
 
     /**
      * \fn	void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Video ACL
+     * \brief	Sets the parseACL object representing the Activity ACL
      * \param	parseACL
      */
     public function setACL($ACL) {
