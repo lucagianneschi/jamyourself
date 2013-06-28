@@ -7,8 +7,7 @@
  *  \copyright Jamyourself.com 2013
  *
  *  \par Info Classe:
- *  \brief     geoPointParse
- *  \details   Classe che serve per accogliere latitudine e longitudine di un
+ *  \brief     classe per invio Mail
  *
  *  \par Commenti:
  *  \warning
