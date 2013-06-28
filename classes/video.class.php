@@ -329,6 +329,15 @@ class Video {
         $this->tags = $tags;
     }
 
+	    /**
+     * \fn	void setThumbnail($thumbnail)
+     * \brief	Sets the thumbnail value, url of the cover image of the video
+     * \param	string
+     */
+    public function setThumbnail($thumbnail) {
+        $this->thumbnail = $thumbnail;
+    }
+	
     /**
      * \fn	void setTitle($title)
      * \brief	Sets the titke value
@@ -336,15 +345,6 @@ class Video {
      */
     public function setTitle($title) {
         $this->title = $title;
-    }
-
-    /**
-     * \fn	void setThumbnail($thumbnail)
-     * \brief	Sets the thumbnail value, url of the cover image of the video
-     * \param	string
-     */
-    public function setThumbnail($thumbnail) {
-        $this->thumbnail = $thumbnail;
     }
 
     /**
