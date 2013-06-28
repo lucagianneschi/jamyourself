@@ -470,7 +470,7 @@ class Record {
 	* \param	DateTime
 	*/
 	public function setUpdatedAt($updatedAt) {
-		return $this->updatedAt = $updatedAt;
+		$this->updatedAt = $updatedAt;
 	}
 	
 	/**
@@ -479,7 +479,7 @@ class Record {
 	* \param	parseACL
 	*/
 	public function setACL($ACL) {
-		return $this->ACL = $ACL;
+		 $this->ACL = $ACL;
 	}
 
 		/**
