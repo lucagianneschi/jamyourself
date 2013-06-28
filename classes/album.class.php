@@ -76,6 +76,15 @@ class Album {
     public function getComments() {
         return $this->comments;
     }
+    
+        /**
+     * \fn	int getCounter()
+     * \brief	Return the counter value
+     * \return	int
+     */
+    public function getCounter() {
+        return $this->counter;
+    }
 
 	    /**
      * \fn	string getCover()
@@ -95,14 +104,6 @@ class Album {
         return $this->coverFile;
     }
 
-    /**
-     * \fn	int getCounter()
-     * \brief	Return the counter value
-     * \return	int
-     */
-    public function getCounter() {
-        return $this->counter;
-    }
 
     /**
      * \fn	string getDescription()
@@ -193,6 +194,7 @@ class Album {
     public function getTitle() {
         return $this->title;
     }
+    
     /**
      * \fn	DateTime getCreatedAt()
      * \brief	Return the Album creation date
@@ -375,7 +377,7 @@ class Album {
 
     /**
      * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Status creation date
+     * \brief	Sets the Album creation date
      * \param	DateTime
      */
     public function setCreatedAt($createdAt) {
@@ -384,7 +386,7 @@ class Album {
 
     /**
      * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Status modification date
+     * \brief	Sets the Album modification date
      * \param	DateTime
      */
     public function setUpdatedAt($updatedAt) {
@@ -393,7 +395,7 @@ class Album {
 
     /**
      * \fn	void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Status ACL
+     * \brief	Sets the parseACL object representing the Album ACL
      * \param	parseACL
      */
     public function setACL($ACL) {
