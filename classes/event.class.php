@@ -236,7 +236,7 @@ class Event {
 
     /**
      * \fn	DateTime getCreatedAt()
-     * \brief	Return the Video creation date
+     * \brief	Return the Event creation date
      * \return	DateTime
      */
     public function getCreatedAt() {
@@ -245,7 +245,7 @@ class Event {
 
     /**
      * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Video modification date
+     * \brief	Return the Event modification date
      * \return	DateTime
      */
     public function getUpdatedAt() {
@@ -254,7 +254,7 @@ class Event {
 
     /**
      * \fn	parseACL getACL()
-     * \brief	Return the parseACL object representing the Video ACL 
+     * \brief	Return the parseACL object representing the Event ACL 
      * \return	parseACL
      */
     public function getACL() {
