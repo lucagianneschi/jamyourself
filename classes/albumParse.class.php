@@ -183,8 +183,8 @@ class AlbumParse {
     }
 
     function saveAlbum($album) {
-	if (is_null($album->getFromUser())) {
-			return throwError(new Exception('saveAlbum parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+        if (is_null($album->getFromUser()))
+            return throwError(new Exception('saveAlbum parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $parseAlbum = new parseObject("Album");
             is_null($album->getActive()) ? $parseAlbum->active = true : $parseAlbum->active = $album->getActive();
