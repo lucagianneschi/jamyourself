@@ -195,7 +195,7 @@ class Album {
     }
     /**
      * \fn	DateTime getCreatedAt()
-     * \brief	Return the Video creation date
+     * \brief	Return the Album creation date
      * \return	DateTime
      */
     public function getCreatedAt() {
@@ -204,7 +204,7 @@ class Album {
 
     /**
      * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Video modification date
+     * \brief	Return the Album modification date
      * \return	DateTime
      */
     public function getUpdatedAt() {
@@ -213,7 +213,7 @@ class Album {
 
     /**
      * \fn	parseACL getACL()
-     * \brief	Return the parseACL object representing the Video ACL 
+     * \brief	Return the parseACL object representing the Album ACL 
      * \return	parseACL
      */
     public function getACL() {
