@@ -170,6 +170,8 @@ class PlaylistParse {
 	 * \return	Error	the Error raised by the function
 	 */
     public function savePlaylist($playlist) {
+	if (is_null($playlist->getFromUser())) {
+			return throwError(new Exception('savePlaylist parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
 
             $parsePlaylist = new parseObject('Playlist');

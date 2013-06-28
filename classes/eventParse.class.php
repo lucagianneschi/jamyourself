@@ -188,6 +188,8 @@ class EventParse {
 	 * \return	Error	the Error raised by the function
 	 */
     public function saveEvent($event) {
+	if (is_null($event->getFromUser())) {
+			return throwError(new Exception('saveEvent parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $parseEvent = new parseObject('Event');
             is_null($event->getActive()) ? $parseEvent->active = true : $parseEvent->active = $event->getActive();

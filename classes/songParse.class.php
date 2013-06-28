@@ -177,6 +177,8 @@ class SongParse {
      * \return	Error	the Error raised by the function
      */
     function saveSong($song) {
+	if (is_null($song->getFromUser())) {
+			return throwError(new Exception('saveSong parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $parseSong = new parseObject("Song");
             is_null($song->getActive()) ? $parseSong->active = true : $parseSong->active = $song->getActive();
