@@ -126,8 +126,10 @@ class CommentParse {
         }
     }
 
-    //� giusto, in caso di SAVE, ritornare il commento con l'objectId in pi�?
     public function saveComment($cmt) {
+		if (is_null($cmt->getFromUser())) {
+			return throwError(new Exception('saveComment parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+		}
         try {
             $parseObject = new parseObject('Comment');
 

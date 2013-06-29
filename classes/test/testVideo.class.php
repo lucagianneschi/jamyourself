@@ -1,18 +1,18 @@
 <?php
-/* ! \par Info Generali:
-* \author Luca Gianneschi
-* \version 1.0
-* \date 2013
-* \copyright Jamyourself.com 2013
+/* ! \par		Info Generali:
+* \author		Luca Gianneschi
+* \version		1.0
+* \date			2013
+* \copyright	Jamyourself.com 2013
 *
-* \par Info Classe:
-* \brief Classe di test
-* \details Classe di test per la classe Video
+* \par			Info Classe:
+* \brief		Classe di test
+* \details		Classe di test per la classe Video
 *
-* \par Commenti:
+* \par			Commenti:
 * \warning
 * \bug
-* \todo modificare require_once
+* \todo
 *
 */
 if (!defined('ROOT_DIR'))
@@ -22,12 +22,12 @@ ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'utils.class.php';
+require_once CLASSES_DIR . 'utils.php';
+require_once CLASSES_DIR . 'video.class.php';
+require_once CLASSES_DIR . 'videoParse.class.php';
 
 $video = new Video();
-$video->setObjectId('aAbBcCdD');
+
 $video->setActive(true);
 $video->setAuthor('Autore del video');
 $video->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
@@ -41,18 +41,17 @@ $video->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $video->setTags(array('tag1', 'tag2'));
 $video->setThumbnail('indirizzo del thumbnail');
 $video->setTitle('titolo del video');
-$dateTime = new DateTime();
-$video->setCreatedAt($dateTime);
-$video->setUpdatedAt($dateTime);
-$acl = new parseACL();
-$acl->setPublicReadAccess(true);
-$acl->setPublicWriteAccess(true);
-$video->setACL(toParseACL($acl));
+//$dateTime = new DateTime();
+//$video->setCreatedAt($dateTime);
+//$video->setUpdatedAt($dateTime);
+$video->setACL(toParseDefaultACL());
+echo '<br />-------------------------------------------------------------------------------<br />';
+
 echo 'STAMPO IL VIDEO APPENA CREATO  <br>';
 echo $video;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-
+/*
 echo 'INIZIO IL SALVATAGGIO DEL VIDEO APPENA CREATO<br />';
 $videoParse = new VideoParse();
 if (get_class($videoParse->saveVideo($video))) {
@@ -137,5 +136,5 @@ if (get_class($resUpdate)) {
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Video<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-
+*/
 ?>

@@ -21,373 +21,410 @@
 
 class Activity {
 
-    private $objectId;  //String:objectId su Parse 															
-    private $accepted;      //BOOL: da definire																	
-    private $active;  //BOOL:Indica se l'istanza della classe è attiva 									
-    private $album;         //Album (Parse Object): Istanza della classe Album associata all'activity 			
-    private $comment;   //Comment (Parse Object): Istanza della classe Comment associata all'activity		
-    private $event;   //Event (Parse Object): Istanza della classe Event associata all'activity           
-    private $fromUser;  //User:Utente che effettua l'azione 												
-    private $image;   //Image (Parse Object): Istanza della classe Image associata all'activity           	
-    private $playlist;      //Playlist (Parse Object): Istanza della classe Playlist associata all'activity     
-    private $question;      //Question (Parse Object): Istanza della classe Question associata all'activity 
-    private $read;   //BOOL:Indica se l'istanza della classe è stata letta o meno 						
-    private $record;        //Record (Parse Object): Istanza della classe Record associata all'activity
-    private $song;          //Song (Parse Object): Istanza della classe Song associata all'activity
-    private $status;  //string:Indica lo status di un'attività del tipo richiesta-accettazione/rifiuto
-    private $toUser;  //User:Utente che riceve l'azione 												
-    private $type;   //string:Indica la tipologia di attività 											
-    private $userStatus;    //Status(Parse Object): Istanza della classe Status associata all'activity 			
-    private $video;         //Video (Parse Object):Istanza della classe Video associata all'activity            
-    private $createdAt;  //DateTime:Data di inserimento attività 											
-    private $updatedAt;  //DateTime:Data di ultimo update attività 											
-    private $ACL;   //ACL:access control list, determina le politiche di accesso alla classe 			
-
-    //COSTRUTTORE
-
-    public function __construct() {
-        
-    }
-
-    //FUNZIONI SET
-    /**
-     *
-     * @param string $objectId	
-     */
-    public function setObjectId($objectId) {
-        $this->objectId = $objectId;
-    }
+    private $objectId;
+    private $accepted;
+    private $active;
+    private $album;
+    private $comment;
+    private $event;
+    private $fromUser;
+    private $image;
+    private $playlist;
+    private $question;
+    private $read;
+    private $song;
+    private $status;
+    private $toUser;
+    private $type;
+    private $userStatus;
+    private $video;
+    private $createdAt;
+    private $updatedAt;
+    private $ACL;
 
     /**
-     *
-     * @param BOOL $accepted	
-     */
-    public function setAccepted($accepted) {
-        $this->accepted = $accepted;
-    }
-
-    /**
-     *
-     * @param BOOL $active	
-     */
-    public function setActive($active) {
-        $this->active = $active;
-    }
-
-    /**
-     *
-     * @param Album $album	
-     */
-    public function setAlbum($album) {
-        $this->album = $album;
-    }
-
-    /**
-     *
-     * @param Comment $comment	
-     */
-    public function setComment($comment) {
-        $this->comment = $comment;
-    }
-
-    /**
-     *
-     * @param Event $event	
-     */
-    public function setEvent($event) {
-        $this->event = $event;
-    }
-
-    /**
-     *
-     * @param User $fromUser	
-     */
-    public function setFromUser($fromUser) {
-        $this->fromUser = $fromUser;
-    }
-
-    /**
-     *
-     * @param Image $image	
-     */
-    public function setImage($image) {
-        $this->image = $image;
-    }
-
-    /**
-     *
-     * @param Playlist $playlist	
-     */
-    public function setPlaylist($playlist) {
-        $this->playlist = $playlist;
-    }
-
-    /**
-     *
-     * @param Question question	
-     */
-    public function setQuestion($question) {
-        $this->question = $question;
-    }
-
-    /**
-     *
-     * @param BOOL $read	
-     */
-    public function setRead($read) {
-        $this->read = $read;
-    }
-
-    /**
-     *
-     * @param Record $record	
-     */
-    public function setRecord($record) {
-        $this->record = $record;
-    }
-
-    /**
-     *
-     * @param string $status	
-     */
-    public function setStatus($status) {
-        $this->status = $status;
-    }
-
-    /**
-     *
-     * @param Song $song	
-     */
-    public function setSong($song) {
-        $this->song = $song;
-    }
-
-    /**
-     *
-     * @param User $toUser	
-     */
-    public function setToUser($toUser) {
-        $this->toUser = $toUser;
-    }
-
-    /**
-     *
-     * @param string $type	
-     */
-    public function setType($type) {
-        $this->type = $type;
-    }
-
-    /**
-     *
-     * @param Status $status	
-     */
-    public function setUserStatus($userStatus) {
-        $this->userStatus = $userStatus;
-    }
-
-    /**
-     *
-     * @param Video $video	
-     */
-    public function setVideo($video) {
-        $this->video = $video;
-    }
-
-    /**
-     *
-     * @param DateTime $createdAt	
-     */
-    public function setCreatedAt($createdAt) {
-
-        $this->createdAt = $createdAt;
-    }
-
-    /**
-     *
-     * @param DateTime $updatedAt	
-     */
-    public function setUpdatedAt($updatedAt) {
-        $this->updatedAt = $updatedAt;
-    }
-
-    /**
-     *
-     * @param ACL $ACL	
-     */
-    public function setACL($ACL) {
-        $this->ACL = $ACL;
-    }
-
-    //FUNZIONI GET
-    /**
-     *
-     * @param string $objectId	
+     * \fn	string getObjectId()
+     * \brief	Return the objectId value
+     * \return	string
      */
     public function getObjectId() {
         return $this->objectId;
     }
 
     /**
-     *
-     * @param BOOL $active	
-     */
-    public function getActive() {
-        return $this->active;
-    }
-
-    /**
-     *
-     * @param BOOL $accepted	
+     * \fn	BOOL getAccepted()
+     * \brief	Return the active value
+     * \return	BOOL
      */
     public function getAccepted() {
         return $this->accepted;
     }
 
     /**
-     *
-     * @param Album $album	
+     * \fn	BOOL getActive()
+     * \brief	Return the active value
+     * \return	BOOL
+     */
+    public function getActive() {
+        return $this->active;
+    }
+
+    /**
+     * \fn	string getAlbum()
+     * \brief	Return the string value objectId to parseAlbum
+     * \return	BOOL
      */
     public function getAlbum() {
         return $this->album;
     }
 
     /**
-     *
-     * @param Comment $comment	
+     * \fn	string getComment()
+     * \brief	Return the related comment objectId
+     * \return	string
      */
     public function getComment() {
         return $this->comment;
     }
 
     /**
-     *
-     * @param Event $event	
+     * \fn	string getEvent()
+     * \brief	Return the related event objectId
+     * \return	string
      */
     public function getEvent() {
         return $this->event;
     }
 
     /**
-     *
-     * @param User $fromUser	
+     * \fn	string getFromUser()
+     * \brief	Return the related fromUser objectId
+     * \return	string
      */
     public function getFromUser() {
         return $this->fromUser;
     }
 
     /**
-     *
-     * @param Image $image	
+     * \fn	string getImage()
+     * \brief	Return the related image objectId
+     * \return	string
      */
     public function getImage() {
         return $this->image;
     }
 
     /**
-     *
-     * @param Playlist $playlist	
+     * \fn	string getPlaylist()
+     * \brief	Return the related playlist objectId
+     * \return	string
      */
     public function getPlaylist() {
         return $this->playlist;
     }
 
     /**
-     *
-     * @param Question $question	
+     * \fn	string getQuestion()
+     * \brief	Return the related question objectId
+     * \return	string
      */
     public function getQuestion() {
         return $this->question;
     }
 
     /**
-     *
-     * @param BOOL $read	
+     * \fn	BOOL getRead()
+     * \brief	Return the read value, used for notification
+     * \return	BOOL
      */
     public function getRead() {
         return $this->read;
     }
 
     /**
-     *
-     * @param string $status	
-     */
-    public function getStatus() {
-        return $this->status;
-    }
-
-    /**
-     *
-     * @param Record $record	
+     * \fn	string getRecord()
+     * \brief	Return the record value objectId
+     * \return	string
      */
     public function getRecord() {
         return $this->record;
     }
 
     /**
-     *
-     * @param Song $song	
+     * \fn	string getSong()
+     * \brief	Return the song value objectId
+     * \return	string
      */
     public function getSong() {
         return $this->song;
     }
+    
+        /**
+     * \fn	string getStatus()
+     * \brief	Return the status value, P for pending, A for accepted & R for refused
+     * \return	string
+     */
+    public function getStatus() {
+        return $this->status;
+    }
 
     /**
-     *
-     * @param User $toUser
+     * \fn	string getToUser()
+     * \brief	Return the toUser value, objectId
+     * \return	string
      */
     public function getToUser() {
         return $this->toUser;
     }
 
     /**
-     *
-     * @param string $type	
+     * \fn	string getType()
+     * \brief	Return the type value
+     * \return	string
      */
     public function getType() {
         return $this->type;
     }
 
     /**
-     *
-     * @param Status $status	
+     * \fn	string getUserStatus()
+     * \brief	Return the userStatus value,objectId
+     * \return	string
      */
     public function getUserStatus() {
         return $this->userStatus;
     }
 
     /**
-     *
-     * @param Video $video	
+     * \fn	string getVideo()
+     * \brief	Return the video value objectId
+     * \return	string
      */
     public function getVideo() {
         return $this->video;
     }
 
     /**
-     *
-     * @param DateTime $createdAt	
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Activity creation date
+     * \return	DateTime
      */
     public function getCreatedAt() {
         return $this->createdAt;
     }
 
     /**
-     *
-     * @param DateTime $updatedAt	
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Activity modification date
+     * \return	DateTime
      */
     public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
     /**
-     *
-     * @param ACL $ACL	
+     * \fn	parseACL getACL()
+     * \brief	Return the parseACL object representing the Activity ACL 
+     * \return	parseACL
      */
     public function getACL() {
         return $this->ACL;
     }
 
+    /**
+     * \fn	void setObjectId($objectId)
+     * \brief	Sets the objectId value
+     * \param	string
+     */
+    public function setObjectId($objectId) {
+        $this->objectId = $objectId;
+    }
+
+    /**
+     * \fn	void setAccepted($accepted)
+     * \brief	Sets the active value
+     * \param	BOOL
+     */
+    public function setAccepted($accepted) {
+        $this->accepted = $accepted;
+    }
+
+    /**
+     * \fn	void setActive($active)
+     * \brief	Sets the active value
+     * \param	BOOL
+     */
+    public function setActive($active) {
+        $this->active = $active;
+    }
+
+    /**
+     * \fn	void setAlbum($album)
+     * \brief	Sets the album value
+     * \param	string
+     */
+    public function setAlbum($album) {
+        $this->album = $album;
+    }
+
+    /**
+     * \fn	void setComment($comment)
+     * \brief	Sets the comment value, objectId
+     * \param	string
+     */
+    public function setComment($comment) {
+        $this->comment = $comment;
+    }
+
+    /**
+     * \fn	void setEvent($event)
+     * \brief	Sets the event objectId value
+     * \param	string
+     */
+    public function setEvent($event) {
+        $this->event = $event;
+    }
+
+    /**
+     * \fn	void setFromUser($fromUser)
+     * \brief	Sets the fromUser objectId value
+     * \param	string
+     */
+    public function setFromUser($fromUser) {
+        $this->fromUser = $fromUser;
+    }
+
+    /**
+     * \fn	void setImage($image)
+     * \brief	Sets the image objectId value
+     * \param	string
+     */
+    public function setImage($image) {
+        $this->image = $image;
+    }
+
+    /**
+     * \fn	void setPlaylist($playlist)
+     * \brief	Sets the playlist objectId value
+     * \param	string
+     */
+    public function setPlaylist($playlist) {
+        $this->playlist = $playlist;
+    }
+
+    /**
+     * \fn	void setQuestion($question)
+     * \brief	Sets the question objectId value
+     * \param	string
+     */
+    public function setQuestion($question) {
+        $this->question = $question;
+    }
+
+    /**
+     * \fn	void setRead($read)
+     * \brief	Sets the read value
+     * \param	BOOL
+     */
+    public function setRead($read) {
+        $this->read = $read;
+    }
+
+    /**
+     * \fn	void setRecord($record)
+     * \brief	Sets the record objectId value
+     * \param	string
+     */
+    public function setRecord($record) {
+        $this->record = $record;
+    }
+
+    /**
+     * \fn	void setSong($song)
+     * \brief	Sets the song objectId value
+     * \param	string
+     */
+    public function setSong($song) {
+        $this->song = $song;
+    }
+    
+        /**
+     * \fn	void setStatus($status)
+     * \brief	Sets the status value, P for pending, A for accepted, R for refused
+     * \param	string
+     */
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+    /**
+     * \fn	void setToUser($toUser)
+     * \brief	Sets the toUser objectId value
+     * \param	string
+     */
+    public function setToUser($toUser) {
+        $this->toUser = $toUser;
+    }
+
+    /**
+     * \fn	void setType($type)
+     * \brief	Sets the type objectId value
+     * \param	string
+     */
+    public function setType($type) {
+        $this->type = $type;
+    }
+
+    /**
+     * \fn	void setUserStatus($userStatus)
+     * \brief	Sets the userStatus objectId value
+     * \param	string
+     */
+    public function setUserStatus($userStatus) {
+        $this->userStatus = $userStatus;
+    }
+
+    /**
+     * \fn	void setVideo($video)
+     * \brief	Sets the video objectId value
+     * \param	string
+     */
+    public function setVideo($video) {
+        $this->video = $video;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Activity creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Activity modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+       $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * \fn	void setACL($ACL)
+     * \brief	Sets the parseACL object representing the Activity ACL
+     * \param	parseACL
+     */
+    public function setACL($ACL) {
+       $this->ACL = $ACL;
+    }
+
+    /**
+     * \fn	string __toString()
+     * \brief	Return a printable string representing the Activity object
+     * \return	string
+     */
     public function __toString() {
 
         $string = "";

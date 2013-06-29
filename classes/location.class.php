@@ -8,7 +8,7 @@
  *
  *  \par Info Classe:
  *  \brief     Location
- *  \details   Classe che accoglie i dati di laqtitudine e longitudine delle citta da impostre per JAMMER  e SPOTTER
+ *  \details   Classe che accoglie i dati di latitudine e longitudine delle citta da impostre per JAMMER  e SPOTTER
  *  
  *  \par Commenti:
  *  \warning
@@ -21,114 +21,202 @@
 
 class Location {
 
-    private $objectId;  															
-    private $city;      																
-    private $country;  									
-    private $geoPoint;        			
-    private $locId;   		           
-    private $createdAt; 									
-    private $updatedAt;  									
-    private $ACL;   			
+    private $objectId;
+    private $city;
+    private $country;
+    private $geoPoint;
+    private $locId;
+    private $createdAt;
+    private $updatedAt;
+    private $ACL;
 
-    //COSTRUTTORE
-
-    public function __construct() {
-        
-    }
-	//FUNZIONI GETTER
-     
+    /**
+     * \fn	string getObjectId()
+     * \brief	Return the objectId value
+     * \return	string
+     */
     public function getObjectId() {
         return $this->objectId;
     }
 
-	public function getCity() {
+    /**
+     * \fn	string getCity()
+     * \brief	Return the city value
+     * \return	string
+     */
+    public function getCity() {
         return $this->city;
     }
-	
-	public function getCountry() {
+
+    /**
+     * \fn	string getCountry()
+     * \brief	Return the country value
+     * \return	string
+     */
+    public function getCountry() {
         return $this->coutry;
     }
-	
-	public function getGeopoint() {
+
+    /**
+     * \fn	string getGeopoint()
+     * \brief	Return the geoPoint value
+     * \return	parseGeopoint
+     */
+    public function getGeopoint() {
         return $this->geoPoint;
     }
-	
-	public function getLocId() {
+
+    /**
+     * \fn	string getLocId()
+     * \brief	Return the locId value
+     * \return	string
+     */
+    public function getLocId() {
         return $this->locId;
     }
-	
+
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Location creation date
+     * \return	DateTime
+     */
     public function getCreatedAt() {
         return $this->createdAt;
     }
 
-  
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Location modification date
+     * \return	DateTime
+     */
     public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
+    /**
+     * \fn	parseACL getACL()
+     * \brief	Return the parseACL object representing the Location ACL 
+     * \return	parseACL
+     */
     public function getACL() {
         return $this->ACL;
     }
-	
-	public function setObjectId($objectId) {
+
+    /**
+     * \fn	void setObjectId($objectId)
+     * \brief	Sets the objectId value
+     * \param	string
+     */
+    public function setObjectId($objectId) {
         $this->objectId = $objectId;
     }
-	
-	public function setCity($city) {
+
+        /**
+     * \fn	void setCity($city)
+     * \brief	Sets the city value
+     * \param	string
+     */
+    public function setCity($city) {
         $this->city = $city;
     }
-	
-	public function setCountry($country) {
+
+            /**
+     * \fn	void setCountry($country)
+     * \brief	Sets the country value
+     * \param	string
+     */
+    public function setCountry($country) {
         $this->country = $country;
     }
-	
-	public function setGeoPoint($geoPoint) {
-        $this->geoPoint= $geoPoint;
-    }
-	
-	public function setLocId($locId) {
-        $this->locId= $locId;
+
+                /**
+     * \fn	void setGeoPoint($geoPoint)
+     * \brief	Sets the geoPoint value
+     * \param	parsegeopoint
+     */
+    public function setGeoPoint($geoPoint) {
+        $this->geoPoint = $geoPoint;
     }
 
-	public function setCreatedAt($createdAt) {
+                /**
+     * \fn	void setLocId($locId)
+     * \brief	Sets the locId value
+     * \param	string
+     */
+    public function setLocId($locId) {
+        $this->locId = $locId;
+    }
+
+   /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Location creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    public function setUpdatedAt( $updatedAt) {
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Location modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
+    /**
+     * \fn	void setACL($ACL)
+     * \brief	Sets the parseACL object representing the Location ACL
+     * \param	parseACL
+     */
     public function setACL($ACL) {
         $this->ACL = $ACL;
     }
 
+        /**
+     * \fn	void setACL($ACL)
+     * \brief	Sets the parseACL object representing the Location ACL
+     * \param	parseACL
+     */
     public function __toString() {
         $string = "";
         if ($this->objectId != null)
             $string .= "[objectId ] => " . $this->objectId . "<br />";
-		if ($this->city != null)
+        if ($this->city != null)
             $string .= "[city] => " . $this->city . "<br />";
-		if ($this->country != null)
+        if ($this->country != null)
             $string .= "[country] => " . $this->country . "<br />";
-		$parseGeoPoint = $this->getGeoPoint();
-		if($parseGeoPoint != null){
-		$string .= '[geoPoint] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
-		}		
-		if ($this->locId != null)
+        $parseGeoPoint = $this->getGeoPoint();
+        if ($parseGeoPoint != null) {
+            $string .= '[geoPoint] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+        }
+        if ($this->locId != null)
             $string .= "[locId] => " . $this->locId . "<br />";
         if ($this->getCreatedAt() != null) {
-			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-		} else {
-			$string .= '[createdAt] => NULL<br />';
-		}
-		if ($this->getUpdatedAt() != null) {
-			$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-		} else {
-			$string .= '[updatedAt] => NULL<br />';
-		}
-		$string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
+            $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+        } else {
+            $string .= '[createdAt] => NULL<br />';
+        }
+        if ($this->getUpdatedAt() != null) {
+            $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+        } else {
+            $string .= '[updatedAt] => NULL<br />';
+        }
+        if ($this->getACL() != null) {
+            foreach ($this->getACL()->acl as $key => $acl) {
+                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                $string .= '[key] => ' . $key . '<br />';
+                foreach ($acl as $access => $value) {
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+                }
+            }
+        }
         return $string;
     }
+
 }
 
 ?>

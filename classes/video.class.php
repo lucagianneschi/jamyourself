@@ -158,6 +158,15 @@ class Video {
         return $this->tags;
     }
 
+	    /**
+     * \fn	string getThumbnail()
+     * \brief	Return the thumbnail value, URL of the video cover image
+     * \return	string
+     */
+    public function getThumbnail() {
+        return $this->thumbnail;
+    }
+	
     /**
      * \fn	string getTitle()
      * \brief	Return the title value
@@ -165,15 +174,6 @@ class Video {
      */
     public function getTitle() {
         return $this->title;
-    }
-
-    /**
-     * \fn	string getThumbnail()
-     * \brief	Return the thumbnail value, URL of the video cover image
-     * \return	string
-     */
-    public function getThumbnail() {
-        return $this->thumbnail;
     }
 
     /**
@@ -226,7 +226,6 @@ class Video {
      * \brief	Sets the active value
      * \param	BOOL
      */
-    
     public function setActive($active) {
         $this->active = $active;
     }
@@ -303,6 +302,16 @@ class Video {
         $this->fromUser = $fromUser;
     }
 
+	
+	    /**
+     * \fn	void setLoveCounter($loveCounter)
+     * \brief	Sets the loveCounter value
+     * \param	int
+     */
+    public function setLoveCounter($loveCounter) {
+        $this->loveCounter = $loveCounter;
+    }
+	
     /**
      * \fn	void setLovers($lovers)
      * \brief	Sets the lovers value,array of pointer to ParseUser
@@ -310,15 +319,6 @@ class Video {
      */
     public function setLovers($lovers) {
         $this->lovers = $lovers;
-    }
-
-    /**
-     * \fn	void setLoveCounter($loveCounter)
-     * \brief	Sets the loveCounter value
-     * \param	int
-     */
-    public function setLoveCounter($loveCounter) {
-        $this->loveCounter = $loveCounter;
     }
 
     /**
@@ -330,6 +330,15 @@ class Video {
         $this->tags = $tags;
     }
 
+	    /**
+     * \fn	void setThumbnail($thumbnail)
+     * \brief	Sets the thumbnail value, url of the cover image of the video
+     * \param	string
+     */
+    public function setThumbnail($thumbnail) {
+        $this->thumbnail = $thumbnail;
+    }
+	
     /**
      * \fn	void setTitle($title)
      * \brief	Sets the titke value
@@ -337,15 +346,6 @@ class Video {
      */
     public function setTitle($title) {
         $this->title = $title;
-    }
-
-    /**
-     * \fn	void setThumbnail($thumbnail)
-     * \brief	Sets the thumbnail value, url of the cover image of the video
-     * \param	string
-     */
-    public function setThumbnail($thumbnail) {
-        $this->thumbnail = $thumbnail;
     }
 
     /**
@@ -372,7 +372,7 @@ class Video {
      * \param	DateTime
      */
     public function setUpdatedAt($updatedAt) {
-        return $this->updatedAt = $updatedAt;
+         $this->updatedAt = $updatedAt;
     }
 
     /**
@@ -381,7 +381,7 @@ class Video {
      * \param	parseACL
      */
     public function setACL($ACL) {
-        return $this->ACL = $ACL;
+         $this->ACL = $ACL;
     }
 
     /**

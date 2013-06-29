@@ -1,5 +1,4 @@
 <?php
-
 /* ! \par Info Generali:
  *  \author    Maria Laura Fresu
  *  \version   1.0
@@ -21,272 +20,461 @@
 
 class Event {
 
-    private $objectId;    //string: objectId su Parse
-    private $active;    //BOOL: attiva/disattiva l'evento
-    private $attendee;    //relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento
-    private $commentators;   //relation: Array che contiene puntatori ad utenti che hanno compiuto azione commento
-    private $comments;    //relation: Array che contiene puntatori a Comment
-    private $counter;    //number: counter per votazione dell'evento 
-    private $description;   //string: Descrizione breve dell’evento
-    private $eventDate;    //DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento)
-    private $featuring;    //relation: Presenza di altri utenti all’evento  
-    private $fromUser;    //User: User che crea l’evento
-    private $image;        //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+    private $objectId;    
+    private $active;    		
+    private $attendee;    		
+    private $commentators;   	
+    private $comments;    		
+    private $counter;    		
+    private $description;   	
+    private $eventDate;    		
+    private $featuring;    		
+    private $fromUser;    		
+    private $image;        		
     private $imageFile;
-    private $invited;    //relation: Array che contiene puntatori ad utenti invitati all'evento
-    private $location;    //GeoPoint: Luogo in cui si svolge l’evento
-    private $locationName;   //string: Nome del locale in cui si svolge l’evento	
-    private $loveCounter;    //number:counter per gestire le azioni love sull'evento 
-    private $lovers;    //relation: Array che contiene puntatori ad utenti che hanno compiuto azione love
-    private $refused;    //relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento
-    private $tags;     //array: Categorizzazione dell’evento
-    private $thumbnail;    //string: Stringa per il percorso di immagazzinamento della thumbnail
-    private $title;     //string: Nome dell’evento
-    private $createdAt;    //DataTime: data di registrazione dell'evento
-    private $updatedAt;    //DataTime: data di ultimo update dell'evento
-    private $ACL;     //Access Control List: definisce le politiche di accesso all'evento 
+    private $invited;    		
+    private $location;    		
+    private $locationName;   	
+    private $loveCounter;    	
+    private $lovers;    		
+    private $refused;    		
+    private $tags;     			
+    private $thumbnail;    		
+    private $title;     		
+    private $createdAt;    		
+    private $updatedAt;    		
+    private $ACL;     			
 
-    //DEFINIZIONE DELLE FUNZIONI GET
-    //string: objectId su Parse
-
+    /**
+     * \fn	string getObjectId()
+     * \brief	Return the objectId value
+     * \return	string
+     */
     public function getObjectId() {
         return $this->objectId;
     }
 
-    //BOOL: attiva/disattiva l'evento
+    /**
+     * \fn	BOOL getActive()
+     * \brief	Return the active vvalure
+     * \return	BOOL
+     */
     public function getActive() {
         return $this->active;
     }
 
-    //relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento
+        /**
+     * \fn	array getAttendee()
+     * \brief	Return an array of objectId of istances of _User class who area attendee to the event
+     * \return	array
+     */
     public function getAttendee() {
         return $this->attendee;
     }
 
-    //relation: Array che contiene puntatori ad utenti che hanno compiuto azione commento
+    /**
+     * \fn	array getCommentators()
+     * \brief	Return an array of objectId of istances of _User class who commented on the event
+     * \return	array
+     */
     public function getCommentators() {
         return $this->commentators;
     }
 
-    //relation: Array che contiene puntatori a Comment
+    /**
+     * \fn	array getComments()
+     * \brief	Return an array of objectId of istances of the Comment class; comments on the event
+     * \return	array
+     */
     public function getComments() {
         return $this->comments;
     }
 
-    //number: counter per votazione dell'evento
+    /**
+     * \fn	int getCounter()
+     * \brief	Return the counter value
+     * \return	int
+     */
     public function getCounter() {
         return $this->counter;
     }
 
-    //string: Descrizione breve dell’evento
+    /**
+     * \fn	string getDescription()
+     * \brief	Return the description value
+     * \return	string
+     */
     public function getDescription() {
         return $this->description;
     }
 
-    //DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento)
+        /**
+     * \fn	DateTime getEventDate()
+     * \brief	Return the Event Date 
+     * \return	DateTime
+     */
     public function getEventDate() {
         return $this->eventDate;
     }
 
-    //relation: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano...)
+   /**
+     * \fn	array getFeaturing()
+     * \brief	Return the featuring value, array of objectId to _User istances
+     * \return	array
+     */
     public function getFeaturing() {
         return $this->featuring;
     }
 
-    //User: User che crea l’evento
+    /**
+     * \fn	string getFromUser()
+     * \brief	Return the objectId value for the fromUser
+     * \return	string
+     */
     public function getFromUser() {
         return $this->fromUser;
     }
 
-    //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+        /**
+     * \fn	string getImage()
+     * \brief	Return the path file string for the cover of the event
+     * \return	string
+     */
     public function getImage() {
         return $this->image;
     }
 
-    //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+       /**
+     * \fn	string getImageFile()
+     * \brief	Return the  file string for the cover of the event
+     * \return	parseFile
+     */
     public function getImageFile() {
         return $this->image;
     }
 
-    //relation: Array che contiene puntatori ad utenti invitati all'evento
+       /**
+     * \fn	array getInvited()
+     * \brief	Return the invited value, array of objectId to _User istances
+     * \return	array
+     */
     public function getInvited() {
         return $this->invited;
     }
 
-    //GeoPoint: Luogo in cui si svolge l’evento
+        /**
+     * \fn	geopoint getLocation()
+     * \brief	Return the location  value
+     * \return	geopoint
+     */
     public function getLocation() {
         return $this->location;
     }
-
-    //number:counter per gestire le azioni love sull'evento
-    public function getLoveCounter() {
-        return $this->loveCounter;
-    }
-
-    //relation: Array che contiene puntatori ad utenti che hanno effettuato love sull'evento
-    public function getLovers() {
-        return $this->lovers;
-    }
-
-    //string: Nome del locale in cui si svolge l’evento
+	
+	        /**
+     * \fn	string getLocationName()
+     * \brief	Return the name of the location
+     * \return	string
+     */
     public function getLocationName() {
         return $this->locationName;
     }
 
-    //relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento
+    /**
+     * \fn	int getLoveCounter()
+     * \brief	Return the int value of loveCounter, counting the love action on the video
+     * \return	int
+     */
+    public function getLoveCounter() {
+        return $this->loveCounter;
+    }
+
+    /**
+     * \fn	array  getLovers()
+     * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the video
+     * \return	string
+     */
+    public function getLovers() {
+        return $this->lovers;
+    }
+
+        /**
+     * \fn	array  getRefused()
+     * \brief	Return the refuse value, array of objectId to istances of the _User, people will not attend the event
+     * \return	string
+     */
     public function getRefused() {
         return $this->refused;
     }
 
-    //array: Categorizzazione dell’evento
+    /**
+     * \fn	array getTags()
+     * \brief	Return the tags value, array of string to categorize the video
+     * \return	array
+     */
     public function getTags() {
         return $this->tags;
     }
 
-    //string: Stringa per il percorso di immagazzinamento della thumbnail
+	    /**
+     * \fn	string getThumbnail()
+     * \brief	Return the thumbnail value
+     * \return	string
+     */
     public function getThumbnail() {
         return $this->thumbnail;
     }
 
-    //string: Nome dell’evento
+    /**
+     * \fn	string getTitle()
+     * \brief	Return the title value
+     * \return	string
+     */
     public function getTitle() {
         return $this->title;
     }
 
-    //DataTime: data di registrazione dell'evento
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Event creation date
+     * \return	DateTime
+     */
     public function getCreatedAt() {
         return $this->createdAt;
     }
 
-    //DataTime: data di ultimo update dell'evento
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Event modification date
+     * \return	DateTime
+     */
     public function getUpdatedAt() {
         return $this->updatedAt;
     }
 
-    //Access control list, definisce le politiche di accesso all'evento
+    /**
+     * \fn	parseACL getACL()
+     * \brief	Return the parseACL object representing the Event ACL 
+     * \return	parseACL
+     */
     public function getACL() {
         return $this->ACL;
     }
 
-    //DEFINIZIONE DELLE FUNZIONI SET
-    //string: objectId su Parse
+    /**
+     * \fn	void setObjectId($objectId)
+     * \brief	Sets the objectId value
+     * \param	string
+     */
     public function setObjectId($objectId) {
         $this->objectId = $objectId;
     }
 
-    //BOOL: attiva/disattiva l'evento
+    /**
+     * \fn	void setActive($active)
+     * \brief	Sets the active value
+     * \param	BOOL
+     */
     public function setActive($active) {
         $this->active = $active;
     }
 
-    //relation: Array che contiene puntatori ad utenti che hanno accettato l'invito all'evento
+        /**
+     * \fn	void setAttendee($attendee)
+     * \brief	Sets the attendee value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setAttendee($attendee) {
         $this->attendee = $attendee;
     }
 
-    //relation: Array che contiene puntatori ad utenti che hanno effettuato commento
+    /**
+     * \fn	void setCommentators($commentators)
+     * \brief	Sets the commentators value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setCommentators($commentators) {
         $this->commentators = $commentators;
     }
 
-    //relation: Array che contiene puntatori a Comment
+    /**
+     * \fn	void setComments($comments)
+     * \brief	Sets the comments value,array of pointer to ParseComment
+     * \param	array
+     */
     public function setComments($comments) {
         $this->comments = $comments;
     }
 
-    //number: counter per votazione dell'evento
+        /**
+     * \fn	void setCounter($counter)
+     * \brief	Sets the counter value
+     * \param	int
+     */
     public function setCounter($counter) {
         $this->counter = $counter;
     }
 
-    //string: Descrizione breve dell’evento
+        /**
+     * \fn	void setDescription($description)
+     * \brief	Sets the description value
+     * \param	string
+     */
     public function setDescription($description) {
         $this->description = $description;
     }
 
-    //DataTime: Data di svolgimento dell’evento (comprende anche l’ora di inizio dell’evento)
+        /**
+     * \fn	setEventDate($eventDate)
+     * \brief	Sets the Event Date modification date
+     * \param	DateTime
+     */
     public function setEventDate($eventDate) {
         $this->eventDate = $eventDate;
     }
 
-    //relation: Presenza di altri utenti all’evento (ad esempio che suonano, che presentano, che organizzano...)
+        /**
+     * \fn	void setFeaturing($featuring)
+     * \brief	Sets the featuring value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setFeaturing($featuring) {
         $this->featuring = $featuring;
     }
 
-    //User: User che crea l’evento
+        /**
+     * \fn	void setFromUser($fromUser))
+     * \brief	Sets the fromUser value,pointer to ParseUser
+     * \param	string
+     */
     public function setFromUser($fromUser) {
         $this->fromUser = $fromUser;
     }
 
-    //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+     /**
+     * \fn	void setImage($image)
+     * \brief	Sets the image value, path file to cover
+     * \param	string
+     */
     public function setImage($image) {
         $this->image = $image;
     }
 
-    //string: Stringa per il percorso di immagazzinamento della foto di copertina dell’evento
+         /**
+     * \fn	void setImageFile($imageFile)
+     * \brief	Sets the imageFile value, path file to cover
+     * \param	parseFile
+     */
     public function setImageFile($imageFile) {
         $this->imageile = $imageFile;
     }
 
-    //relation: Array che contiene puntatori ad utenti invitati all'evento
+            /**
+     * \fn	void setInvited($invited)
+     * \brief	Sets the invited value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setInvited($invited) {
         $this->invited = $invited;
     }
 
-    //GeoPoint: Luogo in cui si svolge l’evento
+         /**
+     * \fn	void setLocation($location)
+     * \brief	Sets the location value
+     * \param	parseGeopoint
+     */
     public function setLocation($location) {
         $this->location = $location;
     }
 
-    //string: Nome del locale in cui si svolge l’evento
+            /**
+     * \fn	void setLocationName($locationName)
+     * \brief	Sets the locationName value
+     * \param	string
+     */
     public function setLocationName($locationName) {
         $this->locationName = $locationName;
     }
 
-    //number:counter per gestire le azioni love sull'evento
+    /**
+     * \fn	void setLoveCounter($loveCounter)
+     * \brief	Sets the loveCounter value
+     * \param	int
+     */
     public function setLoveCounter($loveCounter) {
         $this->loveCounter = $loveCounter;
     }
 
-    //relation: Array che contiene puntatori ad utenti che hanno compiuto azione love
-    public function setLovers( $lovers) {
+    /**
+     * \fn	void setLovers($lovers)
+     * \brief	Sets the lovers value,array of pointer to ParseUser
+     * \param	array
+     */
+    public function setLovers($lovers) {
         $this->lovers = $lovers;
     }
 
-    //relation: Array che contiene puntatori ad utenti che hanno rifiutato l'invito all'evento
+        /**
+     * \fn	void setRefused($refused)
+     * \brief	Sets the refused value,array of pointer to ParseUser
+     * \param	array
+     */
     public function setRefused($refused) {
         $this->refused = $refused;
     }
 
-    //array: Categorizzazione dell’evento
+    /**
+     * \fn	void setTags($tags)
+     * \brief	Sets the tags value,array of strings
+     * \param	array
+     */
     public function setTags($tags) {
         $this->tags = $tags;
     }
 
-    //string: Stringa per il percorso di immagazzinamento della thumbnail
+    /**
+     * \fn	void setThumbnail($thumbnail)
+     * \brief	Sets the thumbnail value
+     * \param	string
+     */
     public function setThumbnail($thumbnail) {
         $this->thumbnail = $thumbnail;
     }
 
-    //string: Nome dell’evento
+    /**
+     * \fn	void setTitle($title)
+     * \brief	Sets the titke value
+     * \param	string
+     */
     public function setTitle($title) {
         $this->title = $title;
     }
 
-    //DataTime: data di registrazione dell'evento
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Event creation date
+     * \param	DateTime
+     */
     public function setCreatedAt($createdAt) {
         $this->createdAt = $createdAt;
     }
 
-    //DataTime: data di ultimo update dell'evento
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Event modification date
+     * \param	DateTime
+     */
     public function setUpdatedAt($updatedAt) {
-        $this->updatedAt = $updatedAt;
+         $this->updatedAt = $updatedAt;
     }
 
-    //Access control list, definisce le politiche di accesso all'evento
-    public function setACL($acl) {
-        $this->ACL = $acl;
+    /**
+     * \fn	void setACL($ACL)
+     * \brief	Sets the parseACL object representing the Event ACL
+     * \param	parseACL
+     */
+    public function setACL($ACL) {
+         $this->ACL = $ACL;
     }
 
     function __toString() {
@@ -395,7 +583,20 @@ class Event {
             $string .= '[createdAt] => ' . $createdAt->format('d-m-Y H:i:s') . '<br />';
         if (($updatedAt = $this->getUpdatedAt()))
             $string .= '[updatedAt] => ' . $updatedAt->format('d-m-Y H:i:s') . '<br />';
-        $string .= '[ACL] => ' . print_r($this->getACL(), true) . '<br />';
+        if ($this->getACL() != null) {
+			foreach ($this->getACL()->acl as $key => $acl) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[ACL] => ' . $key . '<br />';
+				foreach ($acl as $access => $value) {
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+					$string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+				}
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[ACL] => NULL<br />';
+		}
         return $string;
     }
 

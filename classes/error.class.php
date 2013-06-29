@@ -30,9 +30,6 @@ class Error {
 	private $updatedAt;
 	private $ACL;
 	
-	public function __construct() {
-    }
-	
 	/**
 	 * \fn		string getObjectId()
 	 * \brief	Return the objectId value
@@ -183,7 +180,7 @@ class Error {
 	 * \param	DateTime
 	 */
 	public function setUpdatedAt($updatedAt) {
-		return $this->updatedAt = $updatedAt;
+		 $this->updatedAt = $updatedAt;
 	}
 	
 	/**
@@ -192,7 +189,7 @@ class Error {
 	 * \param	parseACL
 	 */
 	public function setACL($ACL) {
-		return $this->ACL = $ACL;
+		$this->ACL = $ACL;
 	}
 	
 	/**
