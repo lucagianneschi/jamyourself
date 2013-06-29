@@ -203,10 +203,7 @@ class StatusParse {
             is_null($status->getSong()) ? $parseStatus->song = null : $parseStatus->song = toParsePointer('Song', $status->getSong());
             is_null($status->getTaggedUsers()) ? $parseStatus->taggedUsers = null : $parseStatus->taggedUsers = toParseRelation('_User', $status->getTaggedUsers());
             is_null($status->getText()) ? $parseStatus->text = null : $parseStatus->text = $status->getText();
-            $acl = new ParseACL;
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($status->getACL()) ? $parseStatus->ACL = $acl : $parseStatus->ACL = toParseACL($status->getACL());
+            is_null($status->getACL()) ? $parseStatus->ACL = toParseDefaultACL() : $parseStatus->ACL = toParseACL($status->getACL());
             if ($status->getObjectId() == '') {
                 is_null($status->getImageFile()) ? $parseStatus->imageFile = null : $parseStatus->imageFile = toParseNewFile($status->getImage(), "img/jpg");
                 $res = $parseStatus->save();
@@ -358,9 +355,16 @@ class StatusParse {
         $this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
-    public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-    }
+	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
 
 }
 

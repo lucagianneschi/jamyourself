@@ -202,10 +202,7 @@ class ActivityParse {
             is_null($activity->getType()) ? $parseActivity->type = null : $parseActivity->type = $activity->getType();
             is_null($activity->getUserStatus()) ? $parseActivity->userStatus = null : $parseActivity->userStatus = toParsePointer("Status", $activity->getUserStatus());
             is_null($activity->getVideo()) ? $parseActivity->video = null : $parseActivity->video = toParsePointer("Video", $activity->getVideo());
-            $acl = new ParseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($activity->getACL()) ? $parseActivity->ACL = $acl : $parseActivity->ACL = toParseACL($activity->getACL());
+            is_null($activity->getACL()) ? $parseActivity->ACL = toParseDefaultACL() : $parseActivity->ACL = toParseACL($activity->getACL());
             if ($activity->getObjectId() == '') {
                 $res = $parseActivity->save();
                 $activity->setObjectId($res->objectId);
@@ -355,9 +352,16 @@ class ActivityParse {
         $this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
-    public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-    }
+	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
 
 }
 

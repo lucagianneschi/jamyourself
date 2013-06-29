@@ -161,10 +161,7 @@ class QuestionParse {
             is_null($question->getReplied()) ? $parseQuestion->replied = null : $parseQuestion->replied = $question->getReplied();
             is_null($question->getSubject()) ? $parseQuestion->subject = null : $parseQuestion->subject = $question->getSubject();
             is_null($question->getText()) ? $parseQuestion->text = null : $parseQuestion->text = $question->getText();
-	    $acl = new ParseACL();
-	    $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($question->getACL()) ? $parseQuestion->ACL = $acl : $parseQuestion->ACL = toParseACL($question->getACL());
+            is_null($question->getACL()) ? $parseQuestion->ACL = toParseDefaultACL() : $parseQuestion->ACL = toParseACL($question->getACL());
             $res = $parseQuestion->save();
             $question->setObjectId($res->objectId);
             return $question;
@@ -310,6 +307,13 @@ class QuestionParse {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
 		
+	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
 	public function whereRelatedTo($field, $className, $objectId) {
 		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
 	}

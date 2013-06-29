@@ -203,10 +203,7 @@ class AlbumParse {
             is_null($album->getTags()) ? $parseAlbum->tags = null : $parseAlbum->tags = $album->getTags();
             is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = 'images/defult/albumCoverThumb.jpg' : $parseAlbum->thumbnailCover = $album->getThumbnailCover();
             is_null($album->getTitle()) ? $parseAlbum->title = null : $parseAlbum->title = $album->getTitle();
-            $acl = new ParseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($album->getACL()) ? $parseAlbum->ACL = $acl : $parseAlbum->ACL = toParseACL($album->getACL());
+            is_null($album->getACL()) ? $parseAlbum->ACL = toParseDefaultACL() : $parseAlbum->ACL = toParseACL($album->getACL());
             if ($album->getObjectId() == '') {
                 $res = $parseAlbum->save();
                 $album->setObjectId($res->objectId);
@@ -356,9 +353,16 @@ class AlbumParse {
         $this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
-    public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-    }
+	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
 
 }
 

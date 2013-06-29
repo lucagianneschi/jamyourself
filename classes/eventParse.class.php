@@ -212,10 +212,7 @@ class EventParse {
             is_null($event->getThumbnail()) ? $parseEvent->thumbnail = 'images/defult/eventThumb.jpg' : $parseEvent->thumbnail = $event->getThumbnail();
             is_null($event->getText()) ? $parseEvent->text = null : $parseEvent->text = $event->getText();
             is_null($event->getTitle()) ? $parseEvent->title = null : $parseEvent->title = $event->getTitle();
-            $acl = new ParseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($event->getACL()) ? $parseEvent->ACL = $acl : $parseEvent->ACL = toParseACL($event->getACL());
+            is_null($event->getACL()) ? $parseEvent->ACL = toParseDefaultACL() : $parseEvent->ACL = toParseACL($event->getACL());
             if ($event->getObjectId() == '') {
                 is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
                 $res = $parseEvent->save();
@@ -356,10 +353,6 @@ class EventParse {
         $this->parseQuery->whereDoesNotExist($field);
     }
 
-    public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-    }
-
     /**
      * \fn		void wherePointer($field, $className, $objectId)
      * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -371,6 +364,16 @@ class EventParse {
         $this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
+    	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
 }
 
 ?>

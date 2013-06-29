@@ -195,10 +195,7 @@ class SongParse {
             is_null($song->getLovers()) ? $parseSong->lovers = null : $parseSong->lovers = toParseRelation($song->getLovers());
             is_null($song->getRecord()) ? $parseSong->record = null : $parseSong->record = toParsePointer($song->getRecord());
             is_null($song->getTitle()) ? $parseSong->title = null : $parseSong->title = $song->getTitle();
-            $acl = new ParseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($song->getACL()) ? $parseSong->ACL = $acl : $parseSong->ACL = toParseACL($song->getACL());
+            is_null($song->getACL()) ? $parseSong->ACL = toParseDefaultACL() : $parseSong->ACL = toParseACL($song->getACL());
             if ($song->getObjectId() == '') {
                 $res = $parseSong->save();
                 $song->setObjectId($res->objectId);
@@ -348,9 +345,16 @@ class SongParse {
         $this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
-    public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-    }
+	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
 
 }
 

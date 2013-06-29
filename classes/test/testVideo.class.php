@@ -15,6 +15,7 @@
 * \todo
 *
 */
+
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../');
 	
@@ -44,23 +45,28 @@ $video->setTitle('titolo del video');
 //$dateTime = new DateTime();
 //$video->setCreatedAt($dateTime);
 //$video->setUpdatedAt($dateTime);
-$video->setACL(toParseDefaultACL());
+//$video->setACL();
 echo '<br />-------------------------------------------------------------------------------<br />';
 
 echo 'STAMPO IL VIDEO APPENA CREATO  <br>';
 echo $video;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-/*
+
 echo 'INIZIO IL SALVATAGGIO DEL VIDEO APPENA CREATO<br />';
 $videoParse = new VideoParse();
-if (get_class($videoParse->saveVideo($video))) {
-	echo 'ATTENZIONE: e\' stata generata un\'eccezione: ' . $videoParse->saveVideo($video)->getErrorMessage() . '<br/>';
+
+$resSave = $videoParse->saveVideo($video);
+
+if (get_class($resSave) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br />';
+} else {
+	echo '<br />Video SAVED<br />' . $resSave . '<br />';
 }
 echo 'FINITO IL SALVATAGGIO DEL VIDEO APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-
+/*
 $videoParse1 = new VideoParse();
 $resSave = $videoParse1->saveVideo($video);
 if (get_class($resSave)) {
