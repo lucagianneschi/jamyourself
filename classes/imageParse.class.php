@@ -195,10 +195,7 @@ class ImageParse {
             is_null($image->getLoveCounter()) ? $parseImage->loveCounter = null : $parseImage->loveCounter = $image->getLoveCounter();
             is_null($image->getLovers()) ? $parseImage->lovers = null : $parseImage->lovers = toParseRelation("_User", $image->getLovers());
             is_null($image->getTags()) ? $parseImage->tags = null : $parseImage->tags = $image->getTags();
-            $acl = new ParseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($image->getACL()) ? $parseImage->ACL = $acl : $parseImage->ACL = toParseACL($image->getACL());
+            is_null($image->getACL()) ? $parseImage->ACL = toParseDefaultACL() : $parseImage->ACL = toParseACL($image->getACL());
             if ($image->getObjectId() == '') {
                 $res = $parseImage->save();
                 $image->setObjectId($res->objectId);

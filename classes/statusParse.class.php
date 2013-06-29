@@ -203,10 +203,7 @@ class StatusParse {
             is_null($status->getSong()) ? $parseStatus->song = null : $parseStatus->song = toParsePointer('Song', $status->getSong());
             is_null($status->getTaggedUsers()) ? $parseStatus->taggedUsers = null : $parseStatus->taggedUsers = toParseRelation('_User', $status->getTaggedUsers());
             is_null($status->getText()) ? $parseStatus->text = null : $parseStatus->text = $status->getText();
-            $acl = new ParseACL;
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($status->getACL()) ? $parseStatus->ACL = $acl : $parseStatus->ACL = toParseACL($status->getACL());
+            is_null($status->getACL()) ? $parseStatus->ACL = toParseDefaultACL() : $parseStatus->ACL = toParseACL($status->getACL());
             if ($status->getObjectId() == '') {
                 is_null($status->getImageFile()) ? $parseStatus->imageFile = null : $parseStatus->imageFile = toParseNewFile($status->getImage(), "img/jpg");
                 $res = $parseStatus->save();

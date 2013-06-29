@@ -212,10 +212,7 @@ class EventParse {
             is_null($event->getThumbnail()) ? $parseEvent->thumbnail = 'images/defult/eventThumb.jpg' : $parseEvent->thumbnail = $event->getThumbnail();
             is_null($event->getText()) ? $parseEvent->text = null : $parseEvent->text = $event->getText();
             is_null($event->getTitle()) ? $parseEvent->title = null : $parseEvent->title = $event->getTitle();
-            $acl = new ParseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($event->getACL()) ? $parseEvent->ACL = $acl : $parseEvent->ACL = toParseACL($event->getACL());
+            is_null($event->getACL()) ? $parseEvent->ACL = toParseDefaultACL() : $parseEvent->ACL = toParseACL($event->getACL());
             if ($event->getObjectId() == '') {
                 is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
                 $res = $parseEvent->save();

@@ -202,10 +202,7 @@ class ActivityParse {
             is_null($activity->getType()) ? $parseActivity->type = null : $parseActivity->type = $activity->getType();
             is_null($activity->getUserStatus()) ? $parseActivity->userStatus = null : $parseActivity->userStatus = toParsePointer("Status", $activity->getUserStatus());
             is_null($activity->getVideo()) ? $parseActivity->video = null : $parseActivity->video = toParsePointer("Video", $activity->getVideo());
-            $acl = new ParseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($activity->getACL()) ? $parseActivity->ACL = $acl : $parseActivity->ACL = toParseACL($activity->getACL());
+            is_null($activity->getACL()) ? $parseActivity->ACL = toParseDefaultACL() : $parseActivity->ACL = toParseACL($activity->getACL());
             if ($activity->getObjectId() == '') {
                 $res = $parseActivity->save();
                 $activity->setObjectId($res->objectId);

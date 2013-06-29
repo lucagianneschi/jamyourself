@@ -180,10 +180,7 @@ class PlaylistParse {
             is_null($playlist->getName()) ? $parsePlaylist->name = null : $parsePlaylist->name = $playlist->getName();
             is_null($playlist->getSongs()) ? $parsePlaylist->songs = null : $parsePlaylist->songs = toParseRelation('Song', $playlist->getSongs());
             is_null($playlist->getUnlimited()) ? $parsePlaylist->unlimited = false : $parsePlaylist->unlimited = $playlist->getUnlimited();
-            $acl = new ParseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($playlist->getACL()) ? $parsePlaylist->ACL = $acl : $parsePlaylist->ACL = toParseACL($playlist->getACL());
+            is_null($playlist->getACL()) ? $parsePlaylist->ACL = toParseDefaultACL() : $parsePlaylist->ACL = toParseACL($playlist->getACL());
             if ($playlist->getObjectId() == '') {
                 $res = $parsePlaylist->save();
                 $playlist->setObjectId($res->objectId);

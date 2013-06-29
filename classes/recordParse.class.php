@@ -214,10 +214,7 @@ class RecordParse {
             is_null($record->getTitle()) ? $parseRecord->title = null : $parseRecord->title = $record->getTitle();
             is_null($record->getTracklist()) ? $parseRecord->tracklist = null : $parseRecord->tracklist = toParseRelation("Song", $record->getTracklist());
             is_null($record->getYear()) ? $parseRecord->year = null : $record->year = $parseRecord->getYear();
-            $acl = new ParseACL();
-            $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($record->getACL()) ? $parseRecord->ACL = $acl : $parseRecord->ACL = toParseACL($record->getACL());
+            is_null($record->getACL()) ? $parseRecord->ACL = toParseDefaultACL() : $parseRecord->ACL = toParseACL($record->getACL());
             if ($record->getObjectId() == '') {
                 $res = $parseRecord->save();
                 $record->setObjectId($res->objectId);

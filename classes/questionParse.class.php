@@ -161,10 +161,7 @@ class QuestionParse {
             is_null($question->getReplied()) ? $parseQuestion->replied = null : $parseQuestion->replied = $question->getReplied();
             is_null($question->getSubject()) ? $parseQuestion->subject = null : $parseQuestion->subject = $question->getSubject();
             is_null($question->getText()) ? $parseQuestion->text = null : $parseQuestion->text = $question->getText();
-	    $acl = new ParseACL();
-	    $acl->setPublicReadAccess(true);
-            $acl->setPublicWriteAccess(true);
-            is_null($question->getACL()) ? $parseQuestion->ACL = $acl : $parseQuestion->ACL = toParseACL($question->getACL());
+            is_null($question->getACL()) ? $parseQuestion->ACL = toParseDefaultACL() : $parseQuestion->ACL = toParseACL($question->getACL());
             $res = $parseQuestion->save();
             $question->setObjectId($res->objectId);
             return $question;
