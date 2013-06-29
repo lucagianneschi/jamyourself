@@ -185,6 +185,8 @@ class VideoParse {
      * \return	Error	the Error raised by the function
      */
     public function saveVideo($video) {
+        if (is_null($video->getFromUser()))
+            return throwError(new Exception('saveVideo parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $parseVideo = new parseObject('Video');
             is_null($video->getActive()) ? $parseVideo->active = true : $parseVideo->active = $video->getActive();
