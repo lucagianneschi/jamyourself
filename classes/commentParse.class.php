@@ -27,37 +27,61 @@ require_once CLASSES_DIR . 'utils.php';
 
 class CommentParse {
 
-    private $parseQuery;
-
-    public function __construct() {
-        $this->parseQuery = new parseQuery('Comment');
-    }
-
-    public function deleteComment($objectId) {
-        try {
-            $parseObject = new parseObject('Comment');
-            $parseObject->active = false;
-            $parseObject->update($objectId);
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
-
-    public function getComment($objectId) {
-        try {
-            $parseObject = new parseObject('Comment');
-            $res = $parseObject->get($objectId);
-            $cmt = $this->parseToComment($res);
-            return $cmt;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
-
-    public function getComments() {
+	private $parseQuery;
+	
+	/**
+	 * \fn		void __construct()
+	 * \brief	The constructor instantiates a new object of type ParseQuery on the Comment class
+	 */
+	public function __construct() {
+		$this->parseQuery = new parseQuery('Comment');
+	}
+	
+	/**
+	 * \fn		void deleteComment(string $objectId)
+	 * \brief	The function delete a Comment, setting active property to false
+	 * \param	$objectId the string that represent the objectId of the Comment to delete
+	 * \return	Error	the Error raised by the function
+	 */
+	public function deleteComment($objectId) {
 		try {
-            $cmts = null;
-            $res = $this->parseQuery->find();
+			$parseObject = new parseObject('Comment');
+			$parseObject->active = false;
+			$parseObject->update($objectId);
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
+	 * \fn		Comment getComment(string $objectId)
+	 * \brief	The function returns the Comment object specified
+	 * \param	$objectId the string that represent the objectId of the Comment
+	 * \return	Comment	the Comment with the specified $objectId
+	 * \return	Error	the Error raised by the function
+	 */
+	public function getComment($objectId) {
+		try {
+			$parseObject = new parseObject('Comment');
+			$res = $parseObject->get($objectId);
+			$cmt = $this->parseToComment($res);
+			return $cmt;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	 /**
+	 * \fn		array getComments()
+	 * \brief	The function returns an array Comments objects specified
+	 * \return	array 	an array of Comments, if one or more Comments are found
+	 * \return	null	if no Comment is found
+	 * \return	Error	the Error raised by the function
+	 */
+	public function getComments() {
+		try {
+			$cmts = null;
+			$res = $this->parseQuery->find();
 			if (is_array($res->results) && count($res->results) > 0) {
 				$cmts = array();
 				foreach ($res->results as $obj) {
@@ -65,169 +89,291 @@ class CommentParse {
 					$cmts[$cmt->getObjectId()] = $cmt;
 				}
 			}
-            return $cmts;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
+			return $cmts;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
+	 * \fn		number getCount()
+	 * \brief	Returns the number of requests Comment
+	 * \return	number
+	 */
+	public function getCount() {
+		return $this->parseQuery->getCount()->count;
+	}
+	
+	/**
+	 * \fn		void orderBy($field)
+	 * \brief	Specifies which field need to be ordered of requested Comment
+	 * \param	$field	the field on which to sort
+	 */
+	public function orderBy($field) {
+		$this->parseQuery->orderBy($field);
+	}	
 
-    public function getCount() {
-        return $this->parseQuery->getCount()->count;
-    }
+	/**
+	 * \fn		void orderByAscending($field)
+	 * \brief	Specifies which field need to be ordered ascending of requested Comment
+	 * \param	$field	the field on which to sort ascending
+	 */
+	public function orderByAscending($field) {
+		$this->parseQuery->orderByAscending($field);
+	}
 
-    public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
-    }
-
-    public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
-    }
-
-    public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
-    }
-
-    public function parseToComment($res) {
+	/**
+	 * \fn		void orderByDescending($field)
+	 * \brief	Specifies which field need to be ordered descending of requested Comment
+	 * \param	$field	the field on which to sort descending
+	 */
+	public function orderByDescending($field) {
+		$this->parseQuery->orderByDescending($field);
+	}
+	
+	/**
+	 * \fn		Comment parseToComment($res)
+	 * \brief	The function returns a representation of an Comment object in Parse
+	 * \param	$res 	represent the Comment object returned from Parse
+	 * \return	Comment	the Comment object
+	 * \return	Error	the Error raised by the function
+	 */
+	public function parseToComment($res) {
 		if ($res == null || !isset($res->objectId))
 			return throwError(new Exception('parseToComment parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $cmt = new Comment();
-
-            $cmt->setObjectId($res->objectId);
-            $cmt->setActive($res->active);
-            $cmt->setAlbum(fromParsePointer($res->album));
-            $cmt->setComment(fromParsePointer($res->comment));
+		try {
+			$cmt = new Comment();
+	
+			$cmt->setObjectId($res->objectId);
+			$cmt->setActive($res->active);
+			$cmt->setAlbum(fromParsePointer($res->album));
+			$cmt->setComment(fromParsePointer($res->comment));
 			$cmt->setCommentators(fromParseRelation('Comment', 'commentators', $res->objectId, '_User'));
-            $cmt->setComments(fromParseRelation('Comment', 'comments', $res->objectId, 'Comment'));
-            $cmt->setCounter($res->counter);
-            $cmt->setEvent(fromParsePointer($res->event));
-            $cmt->setFromUser(fromParsePointer($res->fromUser));
-            $cmt->setImage(fromParsePointer($res->image));
-            $cmt->setLocation(fromParseGeoPoint($res->location));
-            $cmt->setLoveCounter($res->loveCounter);
-            $cmt->setLovers(fromParseRelation('Comment', 'lovers', $res->objectId, '_User'));
-            $cmt->setOpinions($res->opinions);
-            $cmt->setRecord(fromParsePointer($res->record));
-            $cmt->setSong(fromParsePointer($res->song));
-            $cmt->setStatus(fromParsePointer($res->status));
-            $cmt->setTags($res->tags);
-            $cmt->setText($res->text);
-            $cmt->setToUser(fromParsePointer($res->toUser));
-            $cmt->setType($res->type);
-            $cmt->setVideo(fromParsePointer($res->video));
-            $cmt->setVote($res->vote);
-            $cmt->setCreatedAt(new DateTime($res->createdAt));
-            $cmt->setUpdatedAt(new DateTime($res->updatedAt));
-            $cmt->setACL(fromParseACL($res->ACL));
-
-            return $cmt;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
-
-    public function saveComment($cmt) {
+			$cmt->setComments(fromParseRelation('Comment', 'comments', $res->objectId, 'Comment'));
+			$cmt->setCounter($res->counter);
+			$cmt->setEvent(fromParsePointer($res->event));
+			$cmt->setFromUser(fromParsePointer($res->fromUser));
+			$cmt->setImage(fromParsePointer($res->image));
+			$cmt->setLocation(fromParseGeoPoint($res->location));
+			$cmt->setLoveCounter($res->loveCounter);
+			$cmt->setLovers(fromParseRelation('Comment', 'lovers', $res->objectId, '_User'));
+			$cmt->setOpinions($res->opinions);
+			$cmt->setRecord(fromParsePointer($res->record));
+			$cmt->setSong(fromParsePointer($res->song));
+			$cmt->setStatus(fromParsePointer($res->status));
+			$cmt->setTags($res->tags);
+			$cmt->setText($res->text);
+			$cmt->setToUser(fromParsePointer($res->toUser));
+			$cmt->setType($res->type);
+			$cmt->setVideo(fromParsePointer($res->video));
+			$cmt->setVote($res->vote);
+			$cmt->setCreatedAt(new DateTime($res->createdAt));
+			$cmt->setUpdatedAt(new DateTime($res->updatedAt));
+			$cmt->setACL(fromParseACL($res->ACL));
+	
+			return $cmt;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
+	 * \fn		Comment saveComment($cmt)
+	 * \brief	This function save a Comment object in Parse
+	 * \param	$cmt 		represent the Comment object to save
+	 * \return	Comment		the Comment object with the new objectId parameter saved
+	 * \return	Exception	the Exception raised by the function
+	 */
+	public function saveComment($cmt) {
 		if (is_null($cmt->getFromUser())) {
 			return throwError(new Exception('saveComment parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		}
-        try {
-            $parseObject = new parseObject('Comment');
-
-            is_null($cmt->getActive()) ? $parseObject->active = null : $parseObject->active = $cmt->getActive();
-            is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = toParsePointer('Album', $cmt->getAlbum());
-            is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = toParsePointer('Comment', $cmt->getComment());
-            is_null($cmt->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseRelation('_User', $cmt->getCommentators());
-            is_null($cmt->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseRelation('Comment', $cmt->getComments());
-            is_null($cmt->getCounter()) ? $parseObject->counter = null : $parseObject->counter = $cmt->getCounter();
-            is_null($cmt->getEvent()) ? $parseObject->event = null : $parseObject->event = toParsePointer('Event', $cmt->getEvent());
-            is_null($cmt->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $cmt->getFromUser());
-            is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $cmt->getImage());
-            is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($cmt->getLocation());
-            is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = null : $parseObject->loveCounter = $cmt->getLoveCounter();
-            is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseRelation('_User', $cmt->getLovers());
-            is_null($cmt->getOpinions()) ? $parseObject->opinions = null : $parseObject->opinions = $cmt->getOpinions();
-            is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
-            is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
-            is_null($cmt->getStatus()) ? $parseObject->status = null : $parseObject->status = toParsePointer('Status', $cmt->getStatus());
-            is_null($cmt->getTags()) ? $parseObject->tags = null : $parseObject->tags = $cmt->getTags();
-            is_null($cmt->getText()) ? $parseObject->text = null : $parseObject->text = $cmt->getText();
-            is_null($cmt->getToUser()) ? $parseObject->toUser = null : $parseObject->toUser = toParsePointer('_User', $cmt->getToUser());
-            is_null($cmt->getType()) ? $parseObject->type = null : $parseObject->type = $cmt->getType();
-            is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = toParsePointer('Video', $cmt->getVideo());
-            is_null($cmt->getVote()) ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
+		try {
+			$parseObject = new parseObject('Comment');
+	
+			is_null($cmt->getActive()) ? $parseObject->active = null : $parseObject->active = $cmt->getActive();
+			is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = toParsePointer('Album', $cmt->getAlbum());
+			is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = toParsePointer('Comment', $cmt->getComment());
+			is_null($cmt->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseRelation('_User', $cmt->getCommentators());
+			is_null($cmt->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseRelation('Comment', $cmt->getComments());
+			is_null($cmt->getCounter()) ? $parseObject->counter = null : $parseObject->counter = $cmt->getCounter();
+			is_null($cmt->getEvent()) ? $parseObject->event = null : $parseObject->event = toParsePointer('Event', $cmt->getEvent());
+			is_null($cmt->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $cmt->getFromUser());
+			is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $cmt->getImage());
+			is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($cmt->getLocation());
+			is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = null : $parseObject->loveCounter = $cmt->getLoveCounter();
+			is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseRelation('_User', $cmt->getLovers());
+			is_null($cmt->getOpinions()) ? $parseObject->opinions = null : $parseObject->opinions = $cmt->getOpinions();
+			is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
+			is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
+			is_null($cmt->getStatus()) ? $parseObject->status = null : $parseObject->status = toParsePointer('Status', $cmt->getStatus());
+			is_null($cmt->getTags()) ? $parseObject->tags = null : $parseObject->tags = $cmt->getTags();
+			is_null($cmt->getText()) ? $parseObject->text = null : $parseObject->text = $cmt->getText();
+			is_null($cmt->getToUser()) ? $parseObject->toUser = null : $parseObject->toUser = toParsePointer('_User', $cmt->getToUser());
+			is_null($cmt->getType()) ? $parseObject->type = null : $parseObject->type = $cmt->getType();
+			is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = toParsePointer('Video', $cmt->getVideo());
+			is_null($cmt->getVote()) ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
 			is_null($cmt->getACL()) ? $parseObject->ACL = null : $parseObject->ACL = toParseACL($cmt->getACL());
+	
+			if ($cmt->getObjectId() == '') {
+				$res = $parseObject->save();
+				$cmt->setObjectId($res->objectId);
+				return $cmt;
+			} else {
+				$parseObject->update($cmt->getObjectId());
+			}
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
+	 * \fn		void setLimit($limit)
+	 * \brief	Sets the maximum number of Comment to return
+	 * \param	$limit	the maximum number
+	 */
+	public function setLimit($limit) {
+		$this->parseQuery->setLimit($limit);
+	}
 
-            if ($cmt->getObjectId() == '') {
-                $res = $parseObject->save();
-                $cmt->setObjectId($res->objectId);
-                return $cmt;
-            } else {
-                $parseObject->update($cmt->getObjectId());
-            }
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
+	/**
+	 * \fn		void setSkip($skip)
+	 * \brief	Sets the number of how many Comment must be discarded initially
+	 * \param	$skip	the number of Comment to skip
+	 */
+	public function setSkip($skip) {
+		$this->parseQuery->setSkip($skip);
+	}
 
-    public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
-    }
+	/**
+	 * \fn		void where($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function where($field, $value) {
+		$this->parseQuery->where($field, $value);
+	}
 
-    public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
-    }
+	/**
+	 * \fn		void whereContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereContainedIn($field, $values) {
+		$this->parseQuery->whereContainedIn($field, $values);
+	}
 
-    public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
-    }
+	/**
+	 * \fn		void whereEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereEqualTo($field, $value) {
+		$this->parseQuery->whereEqualTo($field, $value);
+	}
 
-    public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
-    }
-
-    public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
-    }
-
-    public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
-    }
-
-    public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
-    }
-
-    public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
-    }
-
-    public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
-    }
-
-    public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
-    }
-
-    public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
-    }
-
-    public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
-    }
-
-    public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
-    }
-
-    public function wherePointer($field, $className, $objectId) {
-        $this->parseQuery->wherePointer($field, $className, $objectId);
-    }
-
-    public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
-    }
+	/**
+	 * \fn		void whereExists($field)
+	 * \brief	Sets a condition for which the field $field must be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereExists($field) {
+		$this->parseQuery->whereExists($field);
+	}	
+	
+	/**
+	 * \fn		void whereGreaterThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThan($field, $value) {
+		$this->parseQuery->whereGreaterThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or more than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereGreaterThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThan($field, $value)
+	 * \brief	Sets a condition for which the field $field must value less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThan($field, $value) {
+		$this->parseQuery->whereLessThan($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereLessThanOrEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must value equal or less than $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereLessThanOrEqualTo($field, $value) {
+		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotContainedIn($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value one or more $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the array which represent the values
+	 */
+	public function whereNotContainedIn($field, $array) {
+		$this->parseQuery->whereNotContainedIn($field, $array);
+	}
+	
+	/**
+	 * \fn		void whereNotEqualTo($field, $value)
+	 * \brief	Sets a condition for which the field $field must not value $value
+	 * \param	$field	the string which represent the field
+	 * \param	$value	the string which represent the value
+	 */
+	public function whereNotEqualTo($field, $value) {
+		$this->parseQuery->whereNotEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereNotExists($field)
+	 * \brief	Sets a condition for which the field $field must not be enhanced
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereNotExists($field) {
+		$this->parseQuery->whereDoesNotExist($field);
+	}
+	
+	/**
+	 * \fn		void wherePointer($field, $className, $objectId)
+	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className of the Pointer
+	 * \param	$objectId	the string which represent the objectId of the Pointer
+	 */
+	public function wherePointer($field, $className, $objectId) {
+		$this->parseQuery->wherePointer($field, $className, $objectId);
+	}
+	
+	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
+	public function whereRelatedTo($field, $className, $objectId) {
+		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	}
 
 }
 ?>

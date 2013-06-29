@@ -131,7 +131,7 @@ class UserParse {
 	 * \fn		array getUsers()
 	 * \brief	The function returns an array Users objects specified
 	 * \return	array 	an array of Users, if one or more Users are found
-	 * \return	null	if no User are found
+	 * \return	null	if no User is found
 	 * \return	Error	the Error raised by the function
 	 */
 	public function getUsers() {
