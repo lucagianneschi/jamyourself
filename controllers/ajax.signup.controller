@@ -12,20 +12,8 @@ if (isset($_POST['action']) && $_POST['data']) {
     $return = null;
     $function = $_POST['action'];  //stringa col nome della funzione da chiamare
     $data = json_decode($_POST['data']); //parametri per la funzione (ad esempio un oggetto JSON)
-    // 	richiamo la funzione richiesta
-    switch ($_POST['action']) {
-        case "userExists" :
-
-            $return = userExists($data);
-            break;
-
-        default :
-
-            $return = new Response();
-            $return->setError("No action defined for \"" . $function . "\"");
-
-            break;
-    }
+    // 	richiamo la funzione richiesta    
+    $return = $function($data);
 
     //fornisco la risposta all'utente
     echo json_encode($return);
