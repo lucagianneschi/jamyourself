@@ -26,6 +26,7 @@ require_once CLASSES_DIR . 'question.class.php';
 require_once CLASSES_DIR . 'questionParse.class.php';
 
 $question = new Question();
+
 $question->setAnswer('Questa è una answer');
 $question->setMailFrom('Indirizzo di chi invia la Question');
 $question->setMailTo('Indirizzo di riceve la Question');
@@ -33,17 +34,14 @@ $question->setName('nome di chi invia la mail');
 $question->setReplied(false);
 $question->setSubject('Oggetto della question');
 $question->setText('Testo della question');
-$acl = new parseACL();
-$acl->setPublicReadAccess(true);
-$acl->setPublicWriteAccess(true);
-$question->setACL($acl);
+//$question->setACL();
 
 echo 'STAMPO LA QUESTION APPENA CREATO  <br>';
 echo $question;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo 'INIZIO IL SALVATAGGIO DELLA QUESTION APPENA CREATA<br />';
+echo 'INIZIO IL SALVATAGGIO DELLA Question APPENA CREATA<br />';
 $questionParse = new QuestionParse();
 $resSave = $questionParse->saveQuestion($question);
 if (get_class($resSave) == 'Error') {
@@ -52,16 +50,16 @@ if (get_class($resSave) == 'Error') {
     echo '<br />Question SAVED:<br />' . $resSave . '<br />';
 }
 
-echo '<br />FINITO IL SALVATAGGIO DELLA QUESTION APPENA CREATA<br />';
+echo '<br />FINITO IL SALVATAGGIO DELLA Question APPENA CREATA<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
 echo '<br />INIZIO IL RECUPERO DI UNA Question<br /><br />';
 
 $questionParse = new QuestionParse();
-$resGet = $questionParse->getQuestion('YvGtWTXV0O');
+$resGet = $questionParse->getQuestion($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
 	echo $resGet;
 }
@@ -89,7 +87,7 @@ echo '<br />FINITO IL RECUPERO DI PIU\' Question<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Question <br />';
+echo '<br />INIZIO L\'AGGIORNAMENTO DI UNA Question<br />';
 
 $questionParse = new QuestionParse();
 $question = $questionParse->getQuestion($resSave->getObjectId());
@@ -101,7 +99,8 @@ if (get_class($resUpdate)) {
 } else {
 	echo '<br />Question UPDATED<br />';
 }
-echo '<br />FINITO L\'AGGIORNAMENTO DI UN Question<br />';
+echo '<br />FINITO L\'AGGIORNAMENTO DI UNA Question<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+
 ?>

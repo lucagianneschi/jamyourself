@@ -137,7 +137,7 @@ class QuestionParse {
             $question->setText($res->text);
             $question->setCreatedAt(new DateTime($res->createdAt));
             $question->setUpdatedAt(new DateTime($res->updatedAt));
-            $question->setACL(toParseACL($res->ACL));
+            $question->setACL(fromParseACL($res->ACL));
             return $question;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -152,6 +152,9 @@ class QuestionParse {
 	 * \return	Error	the Error raised by the function
 	 */
     public function saveQuestion($question) {
+		if (!is_null($question->getObjectId())) {
+			return throwError(new Exception('saveQuestion update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
+		}
 		try {
             $parseQuestion = new parseObject('Question');
             is_null($question->getAnswer()) ? $parseQuestion->answer = null : $parseQuestion->answer = $question->getAnswer();
