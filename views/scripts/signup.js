@@ -1,110 +1,133 @@
-function login(){
-	//recupero i valori
-	var username = $("#username").val();
-	var password = $("#password").val();
-	
-	console.log("Username : " + username);
-	console.log("Password : " + password);
-	
-	//preparo il json
-	var json = {};
-	json['username'] = username;
-	json['password'] = password;
-	
-	//invio la richiesta
-	$risp = $.ajax({
-		type : "POST",
-		url : "../controllers/user/loginController.php",
-		data : json,
-		dataType : json,
-		async : false
-	});
+var newUser = {};
 
-	//gestisco la risposta
-	console.log("[login ] : RISPOSTA = "+$risp['responseText']);
-	
-	showMessage("Logged");
-	
-	var session = 0;
-//	var risposta = $risp['responseText'];
-	
-	
-	var obj = JSON.parse($risp['responseText']);
-	session = obj.userId;
-	
-	//inizializzo la sessione
-	starSession(session);
-	
-
+function showError(text) {
+    $("#error").html("<span>" + text + "</span>");
 }
 
-function showError(text){
-	$("#error").html("<span>" + text + "</span>");
+function hideError() {
+    $("#error").html("");
 }
 
-function hideError(){
-	$("#error").html("");
+function showMessage(text) {
+    $("#message").html("<span>" + text + "</span>");
 }
 
-function showMessage(text){
-	$("#message").html("<span>" + text + "</span>");
-}
-
-function hideMessage(){
-	$("#message").html("");
+function hideMessage() {
+    $("#message").html("");
 }
 
 
-function starSession(session){
-	
-	//creo un form fittizzio e passo session come post value
-	$html = "<form action=''  name='login' method='post' style='display:none;'>";
-	$html +="<input type='hidden' name='session' value='"+session+"'  />";
-	$html +="</form>";	
-	$('#login').html($html);
-	
-	//invio il form
-	document.forms['login'].submit();
+function checkStep(i) {
+    var validate = true;
+
+    switch (i) {
+        case 1 :
+            if (!newUser.type) {
+                showError('Choose a valid profile!');
+                validate = false;
+            } else {
+                hideError();
+                validate = true;
+            }
+            break;
+        case 2:
+            break;
+        case 3 :
+            break;
+        case 4:
+            break;
+    }
+
+    return validate;
 
 }
 
-function endSession(){
-	//creo un form fittizzio e passo session come post value
-	$html = "<form action=''  name='logout' method='post' style='display:none;'>";
-	$html +="<input type='hidden' name='logout'/>";
-	$html +="</form>";	
-	$('#logout').html($html);
-	
-	//invio il form
-	document.forms['logout'].submit();	
-}
+$().ready(function() {
 
-$().ready(function() {	
-	
-//	http://jquery.bassistance.de/validate/demo/
- 
-	// validate il form di login 
-	$("#formlogin").validate({
-		rules: {
-			username: {
-				required: true,
-				minlength: 2
-			},
-			password: {
-				required: true,
-				minlength: 5
-			},
-		},
-		messages: {
-			username: {
-				required: "Please enter a username",
-				minlength: "Your username must consist of at least 2 characters"
-			},
-			password: {
-				required: "Please provide a password",
-				minlength: "Your password must be at least 5 characters long"
-			},
-		}
-	});
+    var step = 1;
 
+    $(".next_step").click(function() {
+
+        if (checkStep(step)) {
+            actualStep = '#step' + step;
+            step++;
+            nextStep = '#step' + step;
+
+            for (var i = 1; i <= 4; i++) {
+                if (i === step) {
+                    $(nextStep).css('display', 'block');
+                }
+                else
+                    $(actualStep).css('display', 'none');
+            }
+            window.console.log(newUser);
+        }
+    });
+
+    $(".prev_step").click(function() {
+        actualStep = '#step' + step;
+        step--;
+        nextStep = '#step' + step;
+
+        for (var i = 1; i <= 4; i++) {
+            if (i === step) {
+                $(nextStep).css('display', 'block');
+            }
+            else
+                $(actualStep).css('display', 'none');
+        }
+    });
+
+
+    $('#spotter_profile img').click(function() {
+        $('#spotter_profile img').css('border', 'solid 1px red');
+        $('#venue_profile img').css('border', 'none');
+        $('#jammer_profile img').css('border', 'none');
+        newUser.type = "SPOTTER";
+    });
+
+    $('#venue_profile img').click(function() {
+        $('#spotter_profile img').css('border', 'none');
+        $('#venue_profile img').css('border', 'solid 1px red');
+        $('#jammer_profile img').css('border', 'none');
+        newUser.type = "VENUE";
+    });
+
+    $('#jammer_profile img').click(function() {
+        $('#spotter_profile img').css('border', 'none');
+        $('#venue_profile img').css('border', 'none');
+        $('#jammer_profile img').css('border', 'solid 1px red');
+        newUser.type = "JAMMER";
+    });
+
+    $('#username').blur(function() {
+        newUser.username = $(this).val();
+    });
+    $('#email').blur(function() {
+        newUser.email = $(this).val();
+    });
+    $('#password').blur(function() {
+        newUser.password = $(this).val();
+    });
+    $('#firstname').blur(function() {
+        newUser.firstname = $(this).val();
+    });
+    $('#lastname').blur(function() {
+        newUser.lastname = $(this).val();
+    });
+    $('#address').blur(function() {
+        newUser.address = $(this).val();
+    });
+    $('#description').blur(function() {
+        newUser.username = $(this).val();
+    });
+    $('#sex').blur(function() {
+        newUser.username = $(this).val();
+    });
+    $('#birthday').blur(function() {
+        newUser.username = $(this).val();
+    });
+    $('#url').blur(function() {
+        newUser.username = $(this).val();
+    });
 });
