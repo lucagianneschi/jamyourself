@@ -190,7 +190,7 @@ class ActivityParse {
             is_null($activity->getAlbum()) ? $parseActivity->album = null : $parseActivity->album = toParsePointer("Album", $activity->getAlbum());
             is_null($activity->getComment()) ? $parseActivity->comment = null : $parseActivity->comment = toParsePointer("Comment", $activity->getComment());
             is_null($activity->getEvent()) ? $parseActivity->event = null : $parseActivity->event = toParsePointer("Event", $activity->getEvent());
-            is_null($activity->getFromUser()) ? $parseActivity->fromUser = null : $parseActivity->fromUser = toParsePointer("_User", $activity->getFromUser());
+            $parseActivity->fromUser = toParsePointer("_User", $activity->getFromUser());
             is_null($activity->getImage()) ? $parseActivity->image = null : $parseActivity->image = toParsePointer("Image", $activity->getImage());
             is_null($activity->getPlaylist()) ? $parseActivity->playlist = null : $parseActivity->playlist = toParsePointer("Playlist", $activity->getPlaylist());
             is_null($activity->getQuestion()) ? $parseActivity->question = null : $parseActivity->question = toParsePointer("Question", $activity->getQuestion());

@@ -194,7 +194,7 @@ class StatusParse {
 			is_null($status->getComments()) ? $parseStatus->comments = null : $parseStatus->comments = toParseRelation('Comment', $status->getComments());
 			is_null($status->getCounter()) ? $parseStatus->counter = -1 : $parseStatus->counter = $status->getCounter();
 			is_null($status->getEvent()) ? $parseStatus->event = null : $parseStatus->event = toParsePointer('Event', $status->getEvent());
-			is_null($status->getFromUser()) ? $parseStatus->fromUser = null : $parseStatus->fromUser = toParsePointer('_User', $status->getFromUser());
+			$parseStatus->fromUser = toParsePointer('_User', $status->getFromUser());
 			is_null($status->getImage()) ? $parseStatus->image = null : $parseStatus->image = toParsePointer('Image', $status->getImage());
 			is_null($status->getLocation()) ? $parseStatus->location = null : $parseStatus->location = toParseGeopoint($status->getLocation());
 			is_null($status->getLoveCounter()) ? $parseStatus->loveCounter = null : $parseStatus->loveCounter = $status->getLoveCounter();

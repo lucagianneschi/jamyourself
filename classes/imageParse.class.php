@@ -188,7 +188,7 @@ class ImageParse {
 			is_null($image->getDescription()) ? $parseImage->description = null : $parseImage->description = $image->getDescription();
 			is_null($image->getFile()) ? $parseImage->file = null : $parseImage->file = toParseFile($image->getFile());
 			is_null($image->getFilePath()) ? $parseImage->filePath = null : $parseImage->filePath = $image->getFilePath();
-			is_null($image->getFromUser()) ? $parseImage->fromUser = null : $parseImage->fromUser = toParsePointer("_User", $image->getFromUser());
+			$parseImage->fromUser = toParsePointer("_User", $image->getFromUser());
 			is_null($image->getLocation()) ? $parseImage->location = null : $parseImage->location = toParseGeoPoint($image->getLocation());
 			is_null($image->getLoveCounter()) ? $parseImage->loveCounter = null : $parseImage->loveCounter = $image->getLoveCounter();
 			is_null($image->getLovers()) ? $parseImage->lovers = null : $parseImage->lovers = toParseRelation("_User", $image->getLovers());

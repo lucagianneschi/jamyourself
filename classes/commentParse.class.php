@@ -139,7 +139,7 @@ class CommentParse {
 	 * \return	Error	the Error raised by the function
 	 */
 	public function parseToComment($res) {
-		if ($res == null || !isset($res->objectId))
+		if (is_null($res))
 			return throwError(new Exception('parseToComment parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			$cmt = new Comment();
@@ -198,7 +198,7 @@ class CommentParse {
 			is_null($cmt->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseRelation('Comment', $cmt->getComments());
 			is_null($cmt->getCounter()) ? $parseObject->counter = -1 : $parseObject->counter = $cmt->getCounter();
 			is_null($cmt->getEvent()) ? $parseObject->event = null : $parseObject->event = toParsePointer('Event', $cmt->getEvent());
-			is_null($cmt->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $cmt->getFromUser());
+			$parseObject->fromUser = toParsePointer('_User', $cmt->getFromUser());
 			is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $cmt->getImage());
 			is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($cmt->getLocation());
 			is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $cmt->getLoveCounter();

@@ -195,7 +195,7 @@ class VideoParse {
 			is_null($video->getDescription()) ? $parseVideo->description = null : $parseVideo->description = $video->getDescription();
 			is_null($video->getDuration()) ? $parseVideo->duration = 0 : $parseVideo->duration = $video->getDuration();
 			is_null($video->getFeaturing()) ? $parseVideo->featuring = null : $parseVideo->featuring = toParseRelation('_User', $video->getFeaturing());
-			is_null($video->getFromUser()) ? $parseVideo->fromUser = null : $parseVideo->fromUser = toParsePointer('_User', $video->getFromUser());
+			$parseVideo->fromUser = toParsePointer('_User', $video->getFromUser());
 			is_null($video->getLoveCounter()) ? $parseVideo->loveCounter = -1 : $parseVideo->loveCounter = $video->getLoveCounter();
 			is_null($video->getLovers()) ? $parseVideo->lovers = null : $parseVideo->lovers = toParseRelation('_User', $video->getLovers());
 			is_null($video->getTags()) ? $parseVideo->tags = null : $parseVideo->tags = $video->getTags();

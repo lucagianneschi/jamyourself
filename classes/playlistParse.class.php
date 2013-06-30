@@ -174,7 +174,7 @@ class PlaylistParse {
 	
 			$parsePlaylist = new parseObject('Playlist');
 			is_null($playlist->getActive()) ? $parsePlaylist->active = true : $parsePlaylist->active = $playlist->getActive();
-			is_null($playlist->getFromUser()) ? $parsePlaylist->fromUser = null : $parsePlaylist->fromUser = toParsePointer('_User', $playlist->getFromUser());
+			$parsePlaylist->fromUser = toParsePointer('_User', $playlist->getFromUser());
 			is_null($playlist->getName()) ? $parsePlaylist->name = null : $parsePlaylist->name = $playlist->getName();
 			is_null($playlist->getSongs()) ? $parsePlaylist->songs = null : $parsePlaylist->songs = toParseRelation('Song', $playlist->getSongs());
 			is_null($playlist->getUnlimited()) ? $parsePlaylist->unlimited = false : $parsePlaylist->unlimited = $playlist->getUnlimited();

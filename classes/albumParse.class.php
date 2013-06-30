@@ -195,7 +195,7 @@ class AlbumParse {
             is_null($album->getCoverFile()) ? $parseAlbum->coverFile = null : $parseAlbum->coverFile = toParseFile($album->getCoverFile());
             is_null($album->getDescription()) ? $parseAlbum->description = null : $parseAlbum->description = $album->getDescription();
             is_null($album->getFeaturing()) ? $parseAlbum->featuring = null : $parseAlbum->featuring = toParseRelation("_User", $album->getFeaturing());
-            is_null($album->getFromUser()) ? $parseAlbum->fromUser = null : $parseAlbum->fromUser = toParsePointer("_User", $album->getFromUser());
+            $parseAlbum->fromUser = toParsePointer("_User", $album->getFromUser());
             is_null($album->getImages()) ? $parseAlbum->images = null : $parseAlbum->images = toParseRelation("Image", $album->getImages());
             is_null($album->getLocation()) ? $parseAlbum->location = null : $parseAlbum->location = toParseGeoPoint($album->getLocation());
             is_null($album->getLoveCounter()) ? $parseAlbum->loveCounter = -1 : $parseAlbum->loveCounter = $album->getLoveCounter();

@@ -200,7 +200,7 @@ class EventParse {
             is_null($event->getDescription()) ? $parseEvent->description = null : $parseEvent->description = $event->getDescription();
             is_null($event->getEventDate()) ? $parseEvent->eventDate = null : $parseEvent->eventDate = toParseDateTime($event->getEventDate());
             is_null($event->getFeaturing()) ? $parseEvent->featuring = null : $parseEvent->featuring = toParseRelation('_User', $event->getFeaturing());
-            is_null($event->getFromUser()) ? $parseEvent->fromUser = null : $parseEvent->fromUser = toParsePointer('_User', $event->getFromUser());
+            $parseEvent->fromUser = toParsePointer('_User', $event->getFromUser());
             is_null($event->getImage()) ? $parseEvent->image = 'images/defult/eventImage.jpg' : $parseEvent->image = toParsePointer('Image', $event->getImage());
             is_null($event->getInvited()) ? $parseEvent->invited = null : $parseEvent->invited = toParseRelation('_User', $event->getInvited());
             is_null($event->getLocation()) ? $parseEvent->location = null : $parseEvent->location = $event->getLocation();

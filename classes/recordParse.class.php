@@ -204,7 +204,7 @@ class RecordParse {
             is_null($record->getDescription()) ? $parseObject->description = null : $parseObject->description = $record->getDescription();
             is_null($record->getDuration()) ? $parseObject->duration = 0 : $parseObject->duration = $record->getDuration();
             is_null($record->getFeaturing()) ? $parseObject->featuring = null : $parseObject->featuring = toParseRelation('_User', $record->getFeaturing());
-            is_null($record->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $record->getFromUser());
+            $parseObject->fromUser = toParsePointer('_User', $record->getFromUser());
             is_null($record->getGenre()) ? $parseObject->genre = null : $parseObject->genre = $record->getGenre();
             is_null($record->getLabel()) ? $parseObject->label = null : $parseObject->label = $record->getLabel();
             is_null($record->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($record->getLocation());
