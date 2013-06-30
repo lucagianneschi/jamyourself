@@ -47,9 +47,9 @@ class RecordParse {
      */
     public function deleteRecord($objectId, $songsId) {
         try {
-            $parseRecord = new parseObject('Record');
-            $parseRecord->active = false;
-            $parseRecord->update($objectId);
+            $parseObject = new parseObject('Record');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
             if ($songsId && count($songsId) > 0) {
                 $parseSong = new SongParse();
                 foreach ($songsId as $songId) {
@@ -79,8 +79,8 @@ class RecordParse {
      */
     function getRecord($objectId) {
         try {
-            $parseRecord = new parseObject("Record");
-            $res = $parseRecord->get($objectId);
+            $parseObject = new parseObject("Record");
+            $res = $parseObject->get($objectId);
             return $this->parseToRecord($res);
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -193,34 +193,34 @@ class RecordParse {
         if (is_null($record->getFromUser()))
             return throwError(new Exception('saveRecord parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
-            $parseRecord = new parseObject("Record");
-            is_null($record->getActive()) ? $parseRecord->active = true : $parseRecord->active = $record->getActive();
-            is_null($record->getBuyLink()) ? $parseRecord->buyLink = null : $parseRecord->buyLink = $record->getBuyLink();
-            is_null($record->getCommentators()) ? $parseRecord->commentators = null : $parseRecord->commentators = toParseRelation('_User', $record->getCommentators());
-            is_null($record->getComments()) ? $parseRecord->comments = null : $parseRecord->comments = toParseRelation('Comment', $record->getComments());
-            is_null($record->getCounter()) ? $parseRecord->counter = -1 : $parseRecord->counter = $record->getCounter();
-            is_null($record->getCover()) ? $parseRecord->cover = 'images/defult/recordImage.jpg' : $parseRecord->cover = $record->getCover();
-            is_null($record->getCoverFile()) ? $parseRecord->coverFile = null : $parseRecord->coverFile = toParseFile($record->getCoverFile());
-            is_null($record->getDescription()) ? $parseRecord->description = null : $parseRecord->description = $record->getDescription();
-            is_null($record->getDuration()) ? $parseRecord->counter = 0 : $parseRecord->counter = $record->getCounter();
-            is_null($record->getFeaturing()) ? $parseRecord->featuring = null : $parseRecord->featuring = toParseRelation('_User', $record->getFeaturing());
-            is_null($record->getFromUser()) ? $parseRecord->fromUser = null : $parseRecord->fromUser = toParsePointer($record->getFromUser());
-            is_null($record->getGenre()) ? $parseRecord->genre = null : $parseRecord->genre = $record->getGenre();
-            is_null($record->getLabel()) ? $parseRecord->label = null : $parseRecord->label = $record->getLabel();
-            is_null($record->getLocation()) ? $parseRecord->location = null : $parseRecord->location = toParseGeoPoint($record->getLocation());
-            is_null($record->getLoveCounter()) ? $parseRecord->loveCounter = -1 : $parseRecord->loveCounter = $record->getLoveCounter();
-            is_null($record->getLovers()) ? $parseRecord->lovers = null : $parseRecord->lovers = toParseRelation($record->getLovers());
-            is_null($record->getThumbnailCover()) ? $parseRecord->thumbnailCover = 'images/defult/recordThumb.jpg' : $parseRecord->thumbnailCover = $record->getThumbnailCover();
-            is_null($record->getTitle()) ? $parseRecord->title = null : $parseRecord->title = $record->getTitle();
-            is_null($record->getTracklist()) ? $parseRecord->tracklist = null : $parseRecord->tracklist = toParseRelation("Song", $record->getTracklist());
-            is_null($record->getYear()) ? $parseRecord->year = null : $record->year = $parseRecord->getYear();
-            is_null($record->getACL()) ? $parseRecord->ACL = toParseDefaultACL() : $parseRecord->ACL = toParseACL($record->getACL());
+            $parseObject = new parseObject("Record");
+            is_null($record->getActive()) ? $parseObject->active = true : $parseObject->active = $record->getActive();
+            is_null($record->getBuyLink()) ? $parseObject->buyLink = null : $parseObject->buyLink = $record->getBuyLink();
+            is_null($record->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseRelation('_User', $record->getCommentators());
+            is_null($record->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseRelation('Comment', $record->getComments());
+            is_null($record->getCounter()) ? $parseObject->counter = -1 : $parseObject->counter = $record->getCounter();
+            is_null($record->getCover()) ? $parseObject->cover = 'images/defult/recordImage.jpg' : $parseObject->cover = $record->getCover();
+            is_null($record->getCoverFile()) ? $parseObject->coverFile = null : $parseObject->coverFile = toParseFile($record->getCoverFile());
+            is_null($record->getDescription()) ? $parseObject->description = null : $parseObject->description = $record->getDescription();
+            is_null($record->getDuration()) ? $parseObject->duration = 0 : $parseObject->duration = $record->getDuration();
+            is_null($record->getFeaturing()) ? $parseObject->featuring = null : $parseObject->featuring = toParseRelation('_User', $record->getFeaturing());
+            is_null($record->getFromUser()) ? $parseObject->fromUser = null : $parseObject->fromUser = toParsePointer('_User', $record->getFromUser());
+            is_null($record->getGenre()) ? $parseObject->genre = null : $parseObject->genre = $record->getGenre();
+            is_null($record->getLabel()) ? $parseObject->label = null : $parseObject->label = $record->getLabel();
+            is_null($record->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($record->getLocation());
+            is_null($record->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $record->getLoveCounter();
+            is_null($record->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseRelation('_User', $record->getLovers());
+            is_null($record->getThumbnailCover()) ? $parseObject->thumbnailCover = 'images/defult/recordThumb.jpg' : $parseObject->thumbnailCover = $record->getThumbnailCover();
+            is_null($record->getTitle()) ? $parseObject->title = null : $parseObject->title = $record->getTitle();
+            is_null($record->getTracklist()) ? $parseObject->tracklist = null : $parseObject->tracklist = toParseRelation('Song', $record->getTracklist());
+            is_null($record->getYear()) ? $parseObject->year = null : $parseObject->year = $record->getYear();
+            is_null($record->getACL()) ? $parseObject->ACL = toParseDefaultACL() : $parseObject->ACL = toParseACL($record->getACL());
             if ($record->getObjectId() == '') {
-                $res = $parseRecord->save();
+                $res = $parseObject->save();
                 $record->setObjectId($res->objectId);
                 return $record;
             } else {
-                $parseRecord->update($record->getObjectId());
+                $parseObject->update($record->getObjectId());
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
