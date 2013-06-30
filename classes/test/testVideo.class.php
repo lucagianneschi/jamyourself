@@ -42,9 +42,6 @@ $video->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $video->setTags(array('tag1', 'tag2'));
 $video->setThumbnail('indirizzo del thumbnail');
 $video->setTitle('titolo del video');
-//$dateTime = new DateTime();
-//$video->setCreatedAt($dateTime);
-//$video->setUpdatedAt($dateTime);
 //$video->setACL();
 echo '<br />-------------------------------------------------------------------------------<br />';
 
@@ -66,37 +63,25 @@ if (get_class($resSave) == 'Error') {
 echo 'FINITO IL SALVATAGGIO DEL VIDEO APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-/*
-$videoParse1 = new VideoParse();
-$resSave = $videoParse1->saveVideo($video);
-if (get_class($resSave)) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
-} else {
-	echo '<br />Comment SAVED con objectId => ' . $resSave . '<br />';
-}
 
-echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
+echo '<br />INIZIO IL RECUPERO DI UN Video<br /><br />';
 
-echo '<br />-------------------------------------------------------------------------------<br />';
-
-echo '<br />INIZIO IL RECUPERO DI UN Comment<br /><br />';
-
-$videoParse2 = new VideoParse();
-$resGet = $videoParse2->getVideo('ihcPvm6BIv');
+$videoParse = new VideoParse();
+$resGet = $videoParse->getVideo($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
 	echo $resGet;
 }
 
-echo '<br />FINITO IL RECUPERO DI UN VIDEO<br />';
+echo '<br />FINITO IL RECUPERO DI UN Video<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
 echo '<br />INIZIO LA CANCELLAZIONE DI UN Video<br />';
 
-$videoParse3 = new VideoParse();
-$resDelete = $videoParse3->deleteVideo('ihcPvm6BIv');
+$videoParse = new VideoParse();
+$resDelete = $videoParse->deleteVideo($resSave->getObjectId());
 if (get_class($resDelete)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
@@ -109,11 +94,11 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO IL RECUPERO DI PIU\' Video<br />';
 
-$videoParse4 = new VideoParse();
-$videoParse4->whereExists('objectId');
-$videoParse4->orderByDescending('createdAt');
-$videoParse4->setLimit(5);
-$resGets = $videoParse4->getVideos();
+$videoParse = new VideoParse();
+$videoParse->whereExists('objectId');
+$videoParse->orderByDescending('createdAt');
+$videoParse->setLimit(5);
+$resGets = $videoParse->getVideos();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -128,11 +113,10 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Video<br />';
 
-$videoParse5 = new VideoParse();
-$video1 = new Video();
-$video1->setObjectId('AOPyno3s8m');
-$video1->setCounter(99);
-$resUpdate = $videoParse5->saveVideo($video1);
+$videoParse = new VideoParse();
+$video = $videoParse->getVideo($resSave->getObjectId());
+$video->setDuration(500);
+$resUpdate = $videoParse->saveVideo($video);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
@@ -142,5 +126,5 @@ if (get_class($resUpdate)) {
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Video<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-*/
+
 ?>
