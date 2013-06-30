@@ -6,13 +6,15 @@ ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'utils.class.php';
+require_once CLASSES_DIR . 'utils.php';
+require_once CLASSES_DIR . 'status.class.php';
+
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'event.class.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
+# require_once CLASSES_DIR . 'eventParse.class.php';
 require_once CLASSES_DIR . 'song.class.php';
 require_once CLASSES_DIR . 'songParse.class.php';
 require_once CLASSES_DIR . 'image.class.php';
@@ -34,13 +36,7 @@ $status->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $status->setSong('SdJx4roDEs');
 $status->setTaggedUsers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $status->setText('Il testo dello status');
-$dateTime = new DateTime();
-$status->setCreatedAt($dateTime);
-$status->setUpdatedAt($dateTime);
-$acl = new parseACL();
-$acl->setPublicWriteAccess(true);
-$acl->setPublicReadAccess(true);
-$status->setACL(toParseACL($acl));
+//$status->setACL();
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
@@ -63,41 +59,41 @@ echo '<br />FINITO IL SALVATAGGIO DEL status APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />INIZIO IL RECUPERO DI UN Status<br /><br />';
+echo '<br />INIZIO IL RECUPERO DI UNO Status<br /><br />';
 
-$statusParse1 = new StatusParse();
-$resGet = $statusParse1->getStatus('Wa5P1x4qrc');
+$statusParse = new StatusParse();
+$resGet = $statusParse->getStatus($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
 	echo $resGet;
 }
 
-echo '<br />FINITO IL RECUPERO DI UN Comment<br />';
+echo '<br />FINITO IL RECUPERO DI UNO Status<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />INIZIO LA CANCELLAZIONE DI UN Status<br />';
+echo '<br />INIZIO LA CANCELLAZIONE DI UNO Status<br />';
 
-$statusParse2 = new StatusParse();
-$resDelete = $statusParse2->deleteStatus('AOPyno3s8m');
+$statusParse = new StatusParse();
+$resDelete = $statusParse->deleteStatus($resSave->getObjectId());
 if (get_class($resDelete)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
 	echo '<br />Comment DELETED<br />';
 }
 
-echo '<br />FINITO LA CANCELLAZIONE DI UN Comment<br />';
+echo '<br />FINITO LA CANCELLAZIONE DI UNO Status<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />INIZIO IL RECUPERO DI PIU\' Comment<br />';
+echo '<br />INIZIO IL RECUPERO DI PIU\' Status<br />';
 
-$statusParse3 = new StatusParse();
-$statusParse3->whereExists('objectId');
-$statusParse3->orderByDescending('createdAt');
-$statusParse3->setLimit(5);
-$resGets = $statusParse3->getStatuses();
+$statusParse = new StatusParse();
+$statusParse->whereExists('objectId');
+$statusParse->orderByDescending('createdAt');
+$statusParse->setLimit(5);
+$resGets = $statusParse->getStatuses();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -110,20 +106,19 @@ echo '<br />FINITO IL RECUPERO DI PIU\' Status<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Status<br />';
+echo '<br />INIZIO L\'AGGIORNAMENTO DI UNO Status<br />';
 
-$statusParse4 = new StatusParse();
-$status2 = new Status();
-$status2->setObjectId('AOPyno3s8m');
-$status2->setCounter(9955);
-$resUpdate = $statusParse4->saveStatus($status2);
+$statusParse = new StatusParse();
+$status = $statusParse->getStatus($resSave->getObjectId());
+$status->setCounter(9955);
+$resUpdate = $statusParse->saveStatus($status);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Comment UPDATED<br />';
+	echo '<br />Status UPDATED<br />';
 }
 
-echo '<br />FINITO L\'AGGIORNAMENTO DI UN Comment<br />';
+echo '<br />FINITO L\'AGGIORNAMENTO DI UNO Status<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 

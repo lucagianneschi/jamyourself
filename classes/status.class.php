@@ -367,8 +367,8 @@ class Status {
      * \return	string
      */
     public function __toString() {
-
         $string = '';
+		
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         if (is_null($this->getActive())) {
             $string .= '[active] => NULL<br />';
@@ -399,10 +399,10 @@ class Status {
         } else {
             $string .= '[event] => NULL<br />';
         }
-        $string.="[fromUser] => " . $this->getFromUser() . "<br />";
+        $string.= '[fromUser] => ' . $this->getFromUser() . '<br />';
         $string .= '[image] => ' . $this->getImage() . '<br />';
         //$imageFile = $this->getImageFile();
-        //$string.="[imageFile] => " . $imageFile->getObjectId() . "<br />";
+        //$string.= '[imageFile] => ' . $imageFile->getObjectId() . '<br />';
         if ( ($geopoint = $this->getLocation()) != null) {
             $string .= '[location] => ' . $geopoint->location['latitude'] . ', ' . $geopoint->location['longitude'] . '<br />';
         } else {
