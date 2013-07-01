@@ -539,7 +539,8 @@ class Event {
 		} else {
 			$string .= '[image] => NULL<br />';
 		}
-		//$string .= '[imageFile] => ' . $this->getImageFile() . '<br />';
+		# TODO
+		# $string .= '[imageFile] => ' . $this->getImageFile() . '<br />';
 		if ($this->getInvited() != 0) {
 			foreach ($this->getInvited() as $invited) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';

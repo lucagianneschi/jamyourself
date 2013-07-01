@@ -208,12 +208,14 @@ class EventParse {
 			is_null($event->getTitle()) ? $parseEvent->title = null : $parseEvent->title = $event->getTitle();
 			is_null($event->getACL()) ? $parseEvent->ACL = toParseDefaultACL() : $parseEvent->ACL = toParseACL($event->getACL());
 			if ($event->getObjectId() == '') {
-				is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
+				# TODO
+				# is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
 				$res = $parseEvent->save();
 				$event->setObjectId($res->objectId);
 				return $event;
 			} else {
-				is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseFile($event->getImage());
+				# TODO
+				# is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseFile($event->getImage());
 				$parseEvent->update($event->getObjectId());
 			}
 		} catch (Exception $e) {

@@ -522,6 +522,7 @@ class Comment {
      */
     public function __toString() {
         $string = '';
+		
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         if (is_null($this->getActive())) {
             $string .= '[active] => NULL<br />';

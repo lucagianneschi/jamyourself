@@ -1,4 +1,21 @@
 <?php
+/* ! \par		Info Generali:
+ * \author		Luca Gianneschi
+ * \version		1.0
+ * \date		2013
+ * \copyright	Jamyourself.com 2013
+ *
+ * \par			Info Classe:
+ * \brief		Classe di test
+ * \details		Classe di test per la classe Comment
+ *
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo
+ *
+ */
+
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../');
 	
@@ -15,7 +32,7 @@ $cmt->setActive(true);
 //$cmt->setAlbum(Album $album);
 //$cmt->setComment(Comment $comment);
 $cmt->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$cmt->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
+$cmt->setComments(array ('nJr1ulgfVo', 'M8Abw83aVG'));
 $cmt->setCounter(10);
 //$cmt->setEvent(Event $event);
 $cmt->setFromUser('GuUAj83MGH');
