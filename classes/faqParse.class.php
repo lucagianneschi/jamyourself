@@ -1,16 +1,15 @@
 <?php
-
-/* ! \par Info Generali:
- *  \author    Daniele Caldelli
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
+/* ! \par		Info Generali:
+ *  \author		Daniele Caldelli
+ *  \version	1.0
+ *  \date		2013
+ *  \copyright	Jamyourself.com 2013
  *
- *  \par Info Classe:
- *  \brief     geoPointParse
- *  \details   Classe che serve per accogliere latitudine e longitudine di un 
+ *  \par		Info Classe:
+ *  \brief		geoPointParse
+ *  \details	Classe che serve per accogliere latitudine e longitudine di un 
  *  
- *  \par Commenti:
+ *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
@@ -21,7 +20,7 @@
 
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../');
-	
+
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.php';
