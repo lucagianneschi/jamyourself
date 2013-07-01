@@ -1,1 +1,0 @@
-In questa cartella si salva libreria per interagire con DB
