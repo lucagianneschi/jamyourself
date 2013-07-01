@@ -1,4 +1,21 @@
 <?php
+/* ! \par		Info Generali:
+ * \author		Luca Gianneschi
+ * \version		1.0
+ * \date		2013
+ * \copyright	Jamyourself.com 2013
+ *
+ * \par			Info Classe:
+ * \brief		Classe di test
+ * \details		Classe di test per la classe Event
+ *
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo
+ *
+ */
+
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../');
 	
@@ -6,67 +23,60 @@ ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
+require_once CLASSES_DIR . 'event.class.php';
+require_once CLASSES_DIR . 'eventParse.class.php';
 
 $event = new Event();
 
 $event->setActive(true);
 $event->setAttendee(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$event->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
+$event->setComments(array ('nJr1ulgfVo', 'M8Abw83aVG'));
 $event->setCounter(10);
-$event->setDescription('Questo è un Evento Bellissimo');
+$event->setDescription('Una descrizione');
 $eventDate = new DateTime();
 $event->setEventDate($eventDate);
-$event->setFeatuting(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setFromUser('GuUAj83MGH');
-$event->setImage('5yJMK9dyQh');
+$event->setImage('Un link ad Image');
 //$event->setImageFile(Image $imageFile);
 $event->setInvited(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $event->setLocation($parseGeoPoint);
+$event->setLocationName('Una localita');
 $event->setLoveCounter(100);
 $event->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setRefused(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setTags(array('tag1', 'tag2'));
-$event->setThumbnail('thumbnail');
-$event->setTitle('titolo evento');
-$dateTime = new DateTime();
-$dateTime->add(new DateInterval('P1D'));
-$event->setTestDate($dateTime);
-$dateTime1 = new DateTime();
-$event->setCreatedAt($dateTime1);
-$event->setUpdatedAt($dateTime1);
-$acl = new parseACL();
-$acl->setPublicWriteAccess(true);
-$event->setACL($acl);
+$event->setThumbnail('Un link thumbnail');
+$event->setTitle('Un titolo');
+//$event->setACL();
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />STAMPO IL EVENT APPENA CREATO<br />';
+echo '<br />STAMPO L\'Event APPENA CREATO<br />';
 echo $event;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />INIZIO IL SALVATAGGIO DEL EVENT APPENA CREATO<br />';
+echo '<br />INIZIO IL SALVATAGGIO DELL\'Event APPENA CREATO<br />';
 
 $eventParse = new EventParse();
 $resSave = $eventParse->saveEvent($event);
-if (get_class($resSave)) {
+if (get_class($resSave) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Event SAVED con objectId => ' . $resSave . '<br />';
+	echo '<br />Event SAVED<br />' . $resSave . '<br />';
 }
 
-echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
+echo '<br />FINITO IL SALVATAGGIO DELL\'Event APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
 echo '<br />INIZIO IL RECUPERO DI UN Event<br /><br />';
 
-$eventParse1 = new EventParse();
-$resGet = $eventParse1->getEvent('m1kKjWVOAf');
+$eventParse = new EventParse();
+$resGet = $eventParse->getEvent($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
@@ -79,8 +89,8 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO LA CANCELLAZIONE DI UN Event<br />';
 
-$eventParse2 = new EventParse();
-$resDelete = $eventParse2->deleteEvent('Mk6MJs4jUh');
+$eventParse = new EventParse();
+$resDelete = $eventParse->deleteEvent($resSave->getObjectId());
 if (get_class($resDelete)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
@@ -93,11 +103,11 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO IL RECUPERO DI PIU\' Event<br />';
 
-$eventParse3 = new EventParse();
-$eventParse3->whereExists('objectId');
-$eventParse3->orderByDescending('createdAt');
-$eventParse3->setLimit(5);
-$resGets = $eventParse3->getEvents();
+$eventParse = new EventParse();
+$eventParse->whereExists('objectId');
+$eventParse->orderByDescending('createdAt');
+$eventParse->setLimit(5);
+$resGets = $eventParse->getEvents();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -112,11 +122,10 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Event<br />';
 
-$eventParse4 = new EventParse();
-$event1 = new Event();
-$event1->setObjectId('m1kKjWVOAf');
-$event1->setCounter(9999999999999);
-$resUpdate = $eventParse4->saveEvent($event1);
+$eventParse = new EventParse();
+$event = $eventParse->getEvent($resSave->getObjectId());
+$event->setCounter(9999999999999);
+$resUpdate = $eventParse->saveEvent($event);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
