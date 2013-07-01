@@ -25,7 +25,7 @@ require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'location.class.php';
 require_once CLASSES_DIR . 'locationParse.class.php';
 
-echo '<br />INIZIO IL RECUPERO DI UN Location<br /><br />';
+echo '<br />INIZIO IL RECUPERO DI UNA Location<br /><br />';
 
 $locationParse = new LocationParse();
 $resGet = $locationParse->getLocation('hAcjcsoLn9');
@@ -35,18 +35,18 @@ if (get_class($resGet) == 'Error') {
 	echo $resGet;
 }
 
-echo '<br />FINITO IL RECUPERO DI UNa LOCATION<br />';
+echo '<br />FINITO IL RECUPERO DI UNA LOCATION<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
 
 echo '<br />INIZIO IL RECUPERO DI PIU\' LOCATION<br />';
 
-$locationParse1 = new LocationParse();
-$locationParse1->whereExists('objectId');
-$locationParse1->orderByDescending('createdAt');
-$locationParse1->setLimit(5);
-$resGets = $locationParse1->getLocations();
+$locationParse = new LocationParse();
+$locationParse->whereExists('objectId');
+$locationParse->orderByDescending('createdAt');
+$locationParse->setLimit(5);
+$resGets = $locationParse->getLocations();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
@@ -55,7 +55,7 @@ if (get_class($resGets) == 'Error') {
 	}
 }
 
-echo '<br />FINITO IL RECUPERO DI PIU\' Video<br />';
+echo '<br />FINITO IL RECUPERO DI PIU\' Location<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 ?>

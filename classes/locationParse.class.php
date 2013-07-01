@@ -1,16 +1,15 @@
 <?php
-
-/* ! \par Info Generali:
- *  \author    Luca Gianneschi
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
+/* ! \par		Info Generali:
+ *  \author		Luca Gianneschi
+ *  \version	1.0
+ *  \date		2013
+ *  \copyright	Jamyourself.com 2013
  *
- *  \par Info Classe:
- *  \brief     Location
- *  \details   Classe che accoglie i dati di laqtitudine e longitudine delle citta da impostre per JAMMER  e SPOTTER, non si creano nuove istanze e non si cancellano vecchie istanze. Si fanno solo le get.
+ *  \par		Info Classe:
+ *  \brief		Location
+ *  \details	Classe che accoglie i dati di laqtitudine e longitudine delle citta da impostre per JAMMER  e SPOTTER, non si creano nuove istanze e non si cancellano vecchie istanze. Si fanno solo le get.
  *  
- *  \par Commenti:
+ *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
@@ -18,6 +17,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:location">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:location">API</a>
  */
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -28,26 +28,25 @@ require_once CLASSES_DIR . 'location.class.php';
 
 class LocationParse {
 
-    private $parseQuery;
+	private $parseQuery;
 	
 	/**
 	 * \fn		void __construct()
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the Location class
 	 */
-    function __construct() {
-
-        $this->parseQuery = new ParseQuery("Location");
-    }
-
+	function __construct() {
+		$this->parseQuery = new ParseQuery('Location');
+	}
+	
 	/**
 	 * \fn		number getCount()
 	 * \brief	Returns the number of requests Location
 	 * \return	number
 	 */
-    public function getCount() {
-        return $this->parseQuery->getCount()->count;
-    }
-
+	public function getCount() {
+		return $this->parseQuery->getCount()->count;
+	}
+	
 	/**
 	 * \fn		void getLocation(string $objectId)
 	 * \brief	The function returns the Location object specified
@@ -55,17 +54,17 @@ class LocationParse {
 	 * \return	Location	the Location with the specified $objectId
 	 * \return	Error	the Error raised by the function
 	 */
-    public function getLocation($objectId) {
-        try {
-            $parseLocation = new parseObject('Location');
-            $res = $parseLocation->get($objectId);
-            $cmt = $this->parseToLocation($res);
-            return $cmt;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
-        }
-    }
-
+	public function getLocation($objectId) {
+		try {
+			$parseLocation = new parseObject('Location');
+			$res = $parseLocation->get($objectId);
+			$cmt = $this->parseToLocation($res);
+			return $cmt;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+		}
+	}
+	
 	/**
 	 * \fn		array getLocations()
 	 * \brief	The function returns the Locations objects specified
@@ -73,25 +72,23 @@ class LocationParse {
 	 * \return	null	if no Location are found
 	 * \return	Error	the Error raised by the function
 	 */
-    public function getLocations() {
-        $locations = null;
-        try {
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $locations = array();
-                foreach ($res->results as $obj) {
-                    if ($obj) {
-                        $location = $this->parseToLocation($obj);
-                        $locations[$location->getObjectId] = $location;
-                    }
-                }
-            }
-            return $locations;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
-
+	public function getLocations() {
+		try {
+			$locations = null;
+			$res = $this->parseQuery->find();
+			if (is_array($res->results) && count($res->results) > 0) {
+				$locations = array();
+				foreach ($res->results as $obj) {
+					$location = $this->parseToLocation($obj);
+					$locations[$location->getObjectId()] = $location;
+				}
+			}
+			return $locations;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Location
@@ -118,7 +115,7 @@ class LocationParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-
+	
 	/**
 	 * \fn		Location parseToLocation($res)
 	 * \brief	The function returns a representation of an Location object in Parse
@@ -126,27 +123,26 @@ class LocationParse {
 	 * \return	Location	the Location object
 	 * \return	Error	the Error raised by the function
 	 */
-    function parseToLocation($res) {
-        if (is_null($res))
-		return throwError(new Exception('parseToLocation parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $location = new Location();
-            $location->setObjectId($res->objectId);
-            $location->setCity($res->city);
-            $location->setCountry($res->country);
-            $parseGeoPoint = new parseGeoPoint($res->location->latitude, $res->location->longitude);
-            $location->setLocation($parseGeoPoint);
-            $location->setLocId($res->locId);
-            $location->setCreatedAt(new DateTime($res->createdAt));
-            $location->setUpdatedAt(new DateTime($res->updatedAt));
-            $location->setACL(toParseACL($res->ACL));
-            return $location;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
-        }
-    }
-
-    /**
+	function parseToLocation($res) {
+		if (is_null($res))
+			return throwError(new Exception('parseToLocation parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+		try {
+			$location = new Location();
+			$location->setObjectId($res->objectId);
+			$location->setCity($res->city);
+			$location->setCountry($res->country);
+			$location->setGeoPoint(fromParseGeoPoint($res->geoPoint));
+			$location->setLocId($res->locId);
+			$location->setCreatedAt(new DateTime($res->createdAt));
+			$location->setUpdatedAt(new DateTime($res->updatedAt));
+			$location->setACL(fromParseACL($res->ACL));
+			return $location;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+		}
+	}
+	
+	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Location to return
 	 * \param	$limit	the maximum number
@@ -271,7 +267,7 @@ class LocationParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-
+	
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
