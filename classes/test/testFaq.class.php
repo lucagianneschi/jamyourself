@@ -1,20 +1,20 @@
 <?php
-/* ! \par Info Generali:
-* \author Luca Gianneschi
-* \version 1.0
-* \date 2013
-* \copyright Jamyourself.com 2013
-*
-* \par Info Classe:
-* \brief Classe di test
-* \details Classe di test per la classe Faq
-*
-* \par Commenti:
-* \warning
-* \bug
-* \todo modificare require_once
-*
-*/
+/* ! \par		Info Generali:
+ * \author		Luca Gianneschi
+ * \version		1.0
+ * \date		2013
+ * \copyright	Jamyourself.com 2013
+ *
+ * \par			Info Classe:
+ * \brief		Classe di test
+ * \details		Classe di test per la classe Faq
+ *
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo
+ *
+ */
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../');
 	
@@ -31,10 +31,7 @@ $faq->setArea('Area di interesse della Faq');
 $faq->setPosition('posizione 10');
 $faq->setQuestion('Questa è una question');
 $faq->setTags(array('tag1', 'tag2'));
-$acl = new parseACL();
-$acl->setPublicReadAccess(true);
-$acl->setPublicWriteAccess(true);
-$faq->setACL($acl);
+//$faq->setACL();
 
 echo 'STAMPO LA FAQ APPENA CREATA <br>';
 echo $faq;
