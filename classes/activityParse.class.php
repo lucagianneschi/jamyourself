@@ -80,16 +80,14 @@ class ActivityParse {
      * \return	Error	the Error raised by the function
      */
     public function getActivities() {
-        $activities = null;
         try {
-            $res = $this->parseQuery->find();
+            $activities = null;
+			$res = $this->parseQuery->find();
             if (is_array($res->results) && count($res->results) > 0) {
                 $activities = array();
                 foreach ($res->results as $obj) {
-                    if ($obj) {
-                        $activity = $this->parseToActivity($obj);
-                        $activities[$activity->getObjectId] = $activity;
-                    }
+                    $activity = $this->parseToActivity($obj);
+                    $activities[$activity->getObjectId()] = $activity;
                 }
             }
             return $activities;
