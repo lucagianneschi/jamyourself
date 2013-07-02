@@ -19,6 +19,11 @@ class SignupController {
         
     }
 
+    /**
+     * \fn	string signup($user)
+     * \brief	Return the new registred user
+     * \return	string
+     */
     public function signup($user) {
 
         //recupero le variabili
@@ -35,15 +40,15 @@ class SignupController {
         }
 
         //se va a buon fine salvo una nuova activity       
-        $activity = new Activity();        
+        $activity = new Activity();
         $activity->setAccepted(true);
         $activity->setActive(true);
         $activity->setFromUser($user->getObjectId());
         $activity->setRead(true);
         $activity->setStatus("A");
         $activity->setType("SIGNEDUP");
-        $activity->setACL(toParseDefaultACL()) ;
-        
+        $activity->setACL(toParseDefaultACL());
+
         $pActivity = new ActivityParse();
         $pActivity->saveActivity($activity);
 
@@ -78,6 +83,7 @@ class SignupController {
         }
         return true;
     }
+
 }
 
 ?>

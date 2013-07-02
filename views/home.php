@@ -37,7 +37,7 @@ else if(isset($_SESSION['userId'])){
 	color: green;
 }
 
-#formlogin label.error {
+#formsignup label.error {
 	margin-left: 10px;
 	width: auto;
 	display: inline;
