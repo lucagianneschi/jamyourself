@@ -4,11 +4,9 @@
  * \version		1.0
  * \date		2013
  * \copyright	Jamyourself.com 2013
- *
  * \par			Info Classe:
  * \brief		Classe di test
  * \details		Classe di test per la classe Activity
- *
  * \par			Commenti:
  * \warning
  * \bug
@@ -18,7 +16,7 @@
 
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../');
-	
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -123,7 +121,7 @@ $resUpdate = $activityParse->saveActivity($activity);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Album UPDATED<br />';
+	echo '<br />Activity UPDATED<br />';
 }
 
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Activity<br />';
