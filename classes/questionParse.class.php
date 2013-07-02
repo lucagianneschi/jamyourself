@@ -172,6 +172,7 @@ class QuestionParse {
 		}
 	}
 
+	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Question to return
 	 * \param	$limit	the maximum number
