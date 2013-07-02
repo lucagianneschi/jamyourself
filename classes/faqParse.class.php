@@ -181,7 +181,7 @@ class FaqParse {
 	 * \return	Error	the Error raised by the function
 	 */
 	public function saveFaq($faq) {
-		if (!is_null($faq->getObjectId())
+		if (!is_null($faq->getObjectId()))
 			return throwError(new Exception('saveFaq update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			$parseFaq= new parseObject('FAQ');
