@@ -4,11 +4,9 @@
  *  \version	1.0
  *  \date		2013
  *  \copyright	Jamyourself.com 2013
- *
  *  \par		Info Classe:
  *  \brief		geoPointParse
  *  \details	Classe che serve per accogliere latitudine e longitudine di un 
- *  
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -29,7 +27,7 @@ require_once CLASSES_DIR . 'faq.class.php';
 class FaqParse {
 
 	private $parseQuery;
-	
+
 	/**
 	 * \fn		void __construct()
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the FAQ class
@@ -37,7 +35,7 @@ class FaqParse {
 	public function __construct() {
 		$this->parseQuery = new parseQuery('FAQ');
 	}
-	
+
 	/**
 	 * \fn		number getCount()
 	 * \brief	Returns the number of requests FAQ
@@ -46,7 +44,7 @@ class FaqParse {
 	public function getCount() {
 		return $this->parseQuery->getCount()->count;
 	}
-	
+
 	/**
 	 * \fn		array getDistinctAreas()
 	 * \brief	Returns the type of the areas for FAQ
@@ -60,10 +58,9 @@ class FaqParse {
 		}
 		$aree = array_unique($aree);
 		natcasesort($aree);
-	
 		return $aree;
 	}
-	
+
 	/**
 	 * \fn		array getDistinctTags()
 	 * \brief	Returns the type of the tags for FAQ
@@ -77,32 +74,31 @@ class FaqParse {
 		}
 		$tags = array_unique($tags);
 		natcasesort($tags);
-	
 		return $tags;
 	}
-	
+
 	/**
 	 * \fn		void getFaq(string $objectId)
 	 * \brief	The function returns the FAQ object specified
 	 * \param	$objectId the string that represent the objectId of the FAQ
-	 * \return	FAQ	the FAQ with the specified $objectId
+	 * \return	FAQ		the FAQ with the specified $objectId
 	 * \return	Error	the Error raised by the function
 	 */
 	public function getFaq($objectId) {
 		try {
-			$parseFaq = new parseObject('FAQ');
-			$res = $parseFaq->get($objectId);
+			$parseObject = new parseObject('FAQ');
+			$res = $parseObject->get($objectId);
 			$faq = $this->parseToFaq($res);
 			return $faq;
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		array getFaqs()
 	 * \brief	The function returns the FAQs objects specified
-	 * \return	array 	an array of FAQ, if one or more FAQ are found
+	 * \return	array	an array of FAQ, if one or more FAQ are found
 	 * \return	null	if no FAQ are found
 	 * \return	Error	the Error raised by the function
 	 */
@@ -130,8 +126,8 @@ class FaqParse {
 	 */
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
-	}	
-	
+	}
+
 	/**
 	 * \fn		void orderByAscending($field)
 	 * \brief	Specifies which field need to be ordered ascending of requested FAQ
@@ -140,7 +136,7 @@ class FaqParse {
 	public function orderByAscending($field) {
 		$this->parseQuery->orderByAscending($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByDescending($field)
 	 * \brief	Specifies which field need to be ordered descending of requested FAQ
@@ -153,8 +149,8 @@ class FaqParse {
 	/**
 	 * \fn		FAQ parseToFAQ($res)
 	 * \brief	The function returns a representation of an FAQ object in Parse
-	 * \param	$res 	represent the FAQ object returned from Parse
-	 * \return	FAQ	the FAQ object
+	 * \param	$res	represent the FAQ object returned from Parse
+	 * \return	FAQ		the FAQ object
 	 * \return	Error	the Error raised by the function
 	 */
 	public function parseToFaq($res) {
@@ -180,16 +176,15 @@ class FaqParse {
 	/**
 	 * \fn		FAQ saveFAQ(FAQ $faq)
 	 * \brief	This function save an FAQ object in Parse
-	 * \param	$faq 	represent the FAQ object to save
-	 * \return	FAQ	the FAQ object with the new objectId parameter saved
+	 * \param	$faq	represent the FAQ object to save
+	 * \return	FAQ		the FAQ object with the new objectId parameter saved
 	 * \return	Error	the Error raised by the function
 	 */
 	public function saveFaq($faq) {
-		if ($faq->getObjectId() != null)
+		if (!is_null($faq->getObjectId())
 			return throwError(new Exception('saveFaq update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			$parseFaq= new parseObject('FAQ');
-			
 			is_null($faq->getAnswer()) ? $parseFaq->answer = null : $parseFaq->answer = $faq->getAnswer();
 			is_null($faq->getArea()) ? $parseFaq->area = null : $parseFaq->area = $faq->getArea();
 			is_null($faq->getPosition()) ? $parseFaq->position = null : $parseFaq->position = $faq->getPosition();
@@ -212,7 +207,7 @@ class FaqParse {
 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
-	
+
 	/**
 	 * \fn		void setSkip($skip)
 	 * \brief	Sets the number of how many FAQ(s) must be discarded initially
@@ -221,7 +216,7 @@ class FaqParse {
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
-	
+
 	/**
 	 * \fn		void where($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -231,7 +226,7 @@ class FaqParse {
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must value one or more $value
@@ -241,7 +236,7 @@ class FaqParse {
 	public function whereContainedIn($field, $values) {
 		$this->parseQuery->whereContainedIn($field, $values);
 	}
-	
+
 	/**
 	 * \fn		void whereEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -251,7 +246,7 @@ class FaqParse {
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereExists($field)
 	 * \brief	Sets a condition for which the field $field must be enhanced
@@ -259,8 +254,8 @@ class FaqParse {
 	 */
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
-	}	
-	
+	}
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -270,7 +265,7 @@ class FaqParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -280,7 +275,7 @@ class FaqParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -290,7 +285,7 @@ class FaqParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -300,7 +295,7 @@ class FaqParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -310,7 +305,7 @@ class FaqParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -320,7 +315,7 @@ class FaqParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -340,7 +335,7 @@ class FaqParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-		
+	
 	/**
 	 * \fn		void whereRelatedTo($field, $className, $objectId)
 	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className

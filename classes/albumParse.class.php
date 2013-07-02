@@ -4,11 +4,9 @@
  *  \version	1.0
  *  \date		2013
  *  \copyright	Jamyourself.com 2013
- *
  *  \par		Info Classe:
  *  \brief		Album
  *  \details	Classe raccoglitore per immagini
- *  
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -19,7 +17,7 @@
  */
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -31,7 +29,7 @@ require_once CLASSES_DIR . 'imageParse.class.php';
 class AlbumParse {
 
 	private $parseQuery;
-	
+
 	/**
 	 * \fn		void __construct()
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the Album class
@@ -39,7 +37,7 @@ class AlbumParse {
 	function __construct() {
 		$this->parseQuery = new ParseQuery('Album');
 	}
-	
+
 	/**
 	 * \fn		void deleteAlbum($objectId)
 	 * \brief	Set unactive a specified Album by objectId
@@ -48,24 +46,22 @@ class AlbumParse {
 	 */
 	public function deleteAlbum($objectId) {
 		if (is_null($objectId))
-			return throwError(new Exception('Invalid Argument :  objectId needed'), __CLASS__, __FUNCTION__, func_get_args());
+			return throwError(new Exception('deleteAlbum parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			$parseObject = new parseObject('Album');
 			$res = $parseObject->get($objectId);
 			$album = $this->parseToAlbum($res);
-			
 			foreach($album->getImages() as $imageObjectId) {
 				$imageParse = new ImageParse();
 				$imageParse->deleteImage($imageObjectId);
 			}
-			
 			$album->setActive(false);
 			$this->saveAlbum($album);
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn number getCount()
 	 * \brief	Returns the number of requests Album
@@ -74,7 +70,7 @@ class AlbumParse {
 	public function getCount() {
 		return $this->parseQuery->getCount()->count;
 	}
-	
+
 	/**
 	 * \fn		void getAlbum($objectId)
 	 * \brief	The function returns the Album object specified
@@ -85,17 +81,17 @@ class AlbumParse {
 	function getAlbum($objectId) {
 		try {
 			$parseObject = new parseObject('Album');
-			$result = $parseObject->get($objectId);
-			return $this->parseToAlbum($result);
+			$res = $parseObject->get($objectId);
+			return $this->parseToAlbum($res);
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		array getAlbums()
 	 * \brief	The function returns the Albums objects specified
-	 * \return	array 	an array of Album, if one or more Album are found
+	 * \return	array	an array of Album, if one or more Album are found
 	 * \return	null	if no Album are found
 	 * \return	Error	the Error raised by the function
 	 */
@@ -115,7 +111,7 @@ class AlbumParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Album
@@ -124,7 +120,7 @@ class AlbumParse {
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByAscending($field)
 	 * \brief	Specifies which field need to be ordered ascending of requested Album
@@ -133,7 +129,7 @@ class AlbumParse {
 	public function orderByAscending($field) {
 		$this->parseQuery->orderByAscending($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByDescending($field)
 	 * \brief	Specifies which field need to be ordered descending of requested Album
@@ -142,11 +138,11 @@ class AlbumParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-	
+
 	/**
 	 * \fn		Album parseToAlbum($res)
 	 * \brief	The function returns a representation of an Album object in Parse
-	 * \param	$res 	represent the Album object returned from Parse
+	 * \param	$res	represent the Album object returned from Parse
 	 * \return	Album	the Album object
 	 * \return	Error	the Error raised by the function
 	 */
@@ -181,7 +177,14 @@ class AlbumParse {
 		}
 		return $album;
 	}
-	
+
+	/**
+	 * \fn		Album saveAlbum($album)
+	 * \brief	This function save an Album object in Parse
+	 * \param	$album		represent the Album object to save
+	 * \return	Album		the Album object with the new objectId parameter saved
+	 * \return	Exception	the Exception raised by the function
+	 */
 	function saveAlbum($album) {
 		if (is_null($album->getFromUser()))
 			return throwError(new Exception('saveAlbum parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
@@ -216,7 +219,7 @@ class AlbumParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Album to return
@@ -225,7 +228,7 @@ class AlbumParse {
 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
-	
+
 	/**
 	 * \fn		void setSkip($skip)
 	 * \brief	Sets the number of how many Album(s) must be discarded initially
@@ -234,7 +237,7 @@ class AlbumParse {
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
-	
+
 	/**
 	 * \fn		void where($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -244,7 +247,7 @@ class AlbumParse {
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must value one or more $value
@@ -254,7 +257,7 @@ class AlbumParse {
 	public function whereContainedIn($field, $values) {
 		$this->parseQuery->whereContainedIn($field, $values);
 	}
-	
+
 	/**
 	 * \fn		void whereEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -264,7 +267,7 @@ class AlbumParse {
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereExists($field)
 	 * \brief	Sets a condition for which the field $field must be enhanced
@@ -273,7 +276,7 @@ class AlbumParse {
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -283,7 +286,7 @@ class AlbumParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -293,7 +296,7 @@ class AlbumParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -303,7 +306,7 @@ class AlbumParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -313,7 +316,7 @@ class AlbumParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -323,7 +326,7 @@ class AlbumParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -333,7 +336,7 @@ class AlbumParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -342,7 +345,7 @@ class AlbumParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-	
+
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -353,7 +356,7 @@ class AlbumParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-	
+
 	/**
 	 * \fn		void whereRelatedTo($field, $className, $objectId)
 	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className

@@ -1,15 +1,13 @@
 <?php
-/* ! \par Info Generali:
- *  \author    Stefano Muscas
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
- *
- *  \par Info Classe:
- *  \brief     Stutus Parse Class
- *  \details   Classe Parse dedicata allo status dello User
- *
- *  \par Commenti:
+/* ! \par		Info Generali:
+ *  \author		Stefano Muscas
+ *  \version	1.0
+ *  \date		2013
+ *  \copyright	Jamyourself.com 2013
+ *  \par		Info Classe:
+ *  \brief		Stutus Parse Class
+ *  \details	Classe Parse dedicata allo status dello User
+ *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
@@ -27,9 +25,9 @@ require_once CLASSES_DIR . 'utils.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
-# require_once CLASSES_DIR . 'eventParse.class.php';
+require_once CLASSES_DIR . 'eventParse.class.php';
 require_once CLASSES_DIR . 'playlistParse.class.php';
-# require_once CLASSES_DIR . 'recordParse.class.php';
+require_once CLASSES_DIR . 'recordParse.class.php';
 require_once CLASSES_DIR . 'statusParse.class.php';
 
 class UserParse {
@@ -43,7 +41,7 @@ class UserParse {
 	public function __construct() {
 		$this->parseQuery = new ParseQuery('_User');
 	}
-	
+
 	/**
 	 * \fn		void deleteUser(string $objectId)
 	 * \brief	The function delete an User, setting active property to false
@@ -55,7 +53,6 @@ class UserParse {
 			$parseUser = new parseUser();
 			$res = $parseUser->get($objectId);
 			$user = $this->parseToUser($res);
-			
 			//delete properties User
 			foreach($user->getAlbums() as $albumObjectId) {
 				$albumParse = new AlbumParse();
@@ -73,7 +70,6 @@ class UserParse {
 				$statusParse = new StatusParse();
 				$statusParse->deleteStatus($statusObjectId);
 			}
-			
 			if ($user->getType == 'VENUE') {
 				//delete properties Venue
 				foreach($user->getEvents() as $eventObjectId) {
@@ -98,8 +94,8 @@ class UserParse {
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
-    }
-	
+	}
+
 	/**
 	 * \fn		number getCount()
 	 * \brief	Returns the number of requests User
@@ -130,7 +126,7 @@ class UserParse {
     /**
 	 * \fn		array getUsers()
 	 * \brief	The function returns an array Users objects specified
-	 * \return	array 	an array of Users, if one or more Users are found
+	 * \return	array	an array of Users, if one or more Users are found
 	 * \return	null	if no User is found
 	 * \return	Error	the Error raised by the function
 	 */
@@ -149,7 +145,7 @@ class UserParse {
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
-    }
+	}
 
 	/**
 	 * \fn		User loginUser()
@@ -183,7 +179,7 @@ class UserParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested User
@@ -214,13 +210,13 @@ class UserParse {
 	/**
 	 * \fn		User parseToUser($res)
 	 * \brief	The function returns a representation of an User object in Parse
-	 * \param	$res 	represent the User object returned from Parse
+	 * \param	$res	represent the User object returned from Parse
 	 * \return	User	the User object
 	 * \return	Error	the Error raised by the function
 	 */
 	public function parseToUser($res) {
 		if (is_null($res))
-			return throwError(new Exception('parseToUser parameter is incorrect'), __CLASS__, __FUNCTION__, func_get_args());
+			return throwError(new Exception('parseToUser parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			$user = new User($res->type);
 			
@@ -286,7 +282,7 @@ class UserParse {
 	/**
 	 * \fn		User saveUser($user)
 	 * \brief	This function save an User object in Parse
-	 * \param	$user 		represent the User object to save
+	 * \param	$user		represent the User object to save
 	 * \return	User		the User object with the new objectId parameter saved
 	 * \return	Exception	the Exception raised by the function
 	 */
@@ -350,7 +346,6 @@ class UserParse {
 			# updatedAt non può essere salvato su Parse perchè è una parola chiave
 			# is_null($user->getUpdatedAt()) ? $parseUser->updatedAt = null : $parseUser->updatedAt = $user->getUpdatedAt();
 			is_null($user->getACL()) ? $parseUser->ACL = null : $parseUser->ACL = $user->getACL()->acl;
-			
 			if ($user->getObjectId() == '') {
 				$res = $parseUser->signup($user->getUsername(), $user->getPassword());
 				$user->setObjectId($res->objectId);
@@ -420,7 +415,7 @@ class UserParse {
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
 	}	
-	
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -430,7 +425,7 @@ class UserParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -440,7 +435,7 @@ class UserParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -450,7 +445,7 @@ class UserParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -460,7 +455,7 @@ class UserParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -470,7 +465,7 @@ class UserParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -480,7 +475,7 @@ class UserParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -489,7 +484,7 @@ class UserParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-	
+
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -500,7 +495,7 @@ class UserParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-	
+
 	/**
 	 * \fn		void whereRelatedTo($field, $className, $objectId)
 	 * \brief	Sets a condition for which to return all the User objects present in the field $field of object $objectId of type $className

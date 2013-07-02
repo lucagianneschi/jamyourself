@@ -1,15 +1,12 @@
 <?php
-
 /* ! \par		Info Generali:
  *  \author		Stefano Muscas
  *  \version	1.0
  *  \date		2013
  *  \copyright	Jamyourself.com 2013
- *
  *  \par		Info Classe:
  *  \brief		Stutus Class
  *  \details	Classe status dello User, raccoglie uno stato dell'utente, posso collegarci immagine o song
- *
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -19,7 +16,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:status">API</a>
  */
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -29,32 +26,31 @@ require_once CLASSES_DIR . 'status.class.php';
 class StatusParse {
 
 	private $parseQuery;
-	
+
 	/**
 	 * \fn		void __construct()
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the Status class
 	 */
 	public function __construct() {
-	
-		$this->parseQuery = new ParseQuery("Status");
+		$this->parseQuery = new ParseQuery('Status');
 	}
-	
+
 	/**
 	 * \fn		void deleteStatus(string $objectId)
 	 * \brief	Set unactive a specified Status by objectId
-	 * \param   $objectId the string that represent the objectId of the Status
+	 * \param	$objectId the string that represent the objectId of the Status
 	 * \return	error in case of exception
 	 */
 	public function deleteStatus($objectId) {
 		try {
-			$parseStatus = new parseObject('Status');
-			$parseStatus->active = false;
-			$parseStatus->update($objectId);
+			$parseObject = new parseObject('Status');
+			$parseObject->active = false;
+			$parseObject->update($objectId);
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		number getCount()
 	 * \brief	Returns the number of requests Status
@@ -63,29 +59,29 @@ class StatusParse {
 	public function getCount() {
 		return $this->parseQuery->getCount()->count;
 	}
-	
+
 	/**
 	 * \fn		void getStatus(string $objectId)
 	 * \brief	The function returns the Status object specified
-	 * \param	$objectId the string that represent the objectId of the Status
-	 * \return	Status	the Status with the specified $objectId
-	 * \return	Error the Error raised by the function
+	 * \param	$objectId	the string that represent the objectId of the Status
+	 * \return	Status		the Status with the specified $objectId
+	 * \return	Error		the Error raised by the function
 	 */
 	public function getStatus($objectId) {
 		try {
-			$parseStatus = new parseObject('Status');
-			$res = $parseStatus->get($objectId);
+			$parseObject = new parseObject('Status');
+			$res = $parseObject->get($objectId);
 			$status = $this->parseToStatus($res);
 			return $status;
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		array getStatuses()
 	 * \brief	The function returns the Statuss objects specified
-	 * \return	array 	an array of Status, if one or more Status are found
+	 * \return	array	an array of Status, if one or more Status are found
 	 * \return	null	if no Status are found
 	 * \return	Error	the Error raised by the function
 	 */
@@ -105,7 +101,7 @@ class StatusParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Status
@@ -114,7 +110,7 @@ class StatusParse {
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByAscending($field)
 	 * \brief	Specifies which field need to be ordered ascending of requested Status
@@ -123,7 +119,7 @@ class StatusParse {
 	public function orderByAscending($field) {
 		$this->parseQuery->orderByAscending($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByDescending($field)
 	 * \brief	Specifies which field need to be ordered descending of requested Status
@@ -132,11 +128,11 @@ class StatusParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-	
+
 	/**
 	 * \fn		Status parseToStatus($res)
 	 * \brief	The function returns a representation of an Status object in Parse
-	 * \param	$res 	represent the Status object returned from Parse
+	 * \param	$res	represent the Status object returned from Parse
 	 * \return	Status	the Status object
 	 * \return	Error	the Error raised by the function
 	 */
@@ -164,16 +160,16 @@ class StatusParse {
 			$status->setACL(fromParseACL($res->ACL));
 			return $status;
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		Status saveStatus(Status $status)
 	 * \brief	This function save an Status object in Parse
-	 * \param	$status 	represent the Status object to save
-	 * \return	Status	the Status object with the new objectId parameter saved
-	 * \return	Error	the Error raised by the function
+	 * \param	$status		represent the Status object to save
+	 * \return	Status		the Status object with the new objectId parameter saved
+	 * \return	Error		the Error raised by the function
 	 */
 	public function saveStatus($status) {
 		if (is_null($status->getFromUser()))
@@ -195,7 +191,7 @@ class StatusParse {
 			is_null($status->getText()) ? $parseStatus->text = null : $parseStatus->text = $status->getText();
 			is_null($status->getACL()) ? $parseStatus->ACL = toParseDefaultACL() : $parseStatus->ACL = toParseACL($status->getACL());
 			if ($status->getObjectId() == '') {
-				is_null($status->getImageFile()) ? $parseStatus->imageFile = null : $parseStatus->imageFile = toParseNewFile($status->getImage(), "img/jpg");
+				is_null($status->getImageFile()) ? $parseStatus->imageFile = null : $parseStatus->imageFile = toParseNewFile($status->getImage(), 'img/jpg');
 				$res = $parseStatus->save();
 				$status->setObjectId($res->objectId);
 				return $status;
@@ -207,7 +203,7 @@ class StatusParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Status to return
@@ -216,7 +212,7 @@ class StatusParse {
 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
-	
+
 	/**
 	 * \fn		void setSkip($skip)
 	 * \brief	Sets the number of how many Status(s) must be discarded initially
@@ -225,7 +221,7 @@ class StatusParse {
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
-	
+
 	/**
 	 * \fn		void where($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -235,7 +231,7 @@ class StatusParse {
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must value one or more $value
@@ -245,7 +241,7 @@ class StatusParse {
 	public function whereContainedIn($field, $values) {
 		$this->parseQuery->whereContainedIn($field, $values);
 	}
-	
+
 	/**
 	 * \fn		void whereEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -255,7 +251,7 @@ class StatusParse {
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereExists($field)
 	 * \brief	Sets a condition for which the field $field must be enhanced
@@ -264,7 +260,7 @@ class StatusParse {
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -274,7 +270,7 @@ class StatusParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -284,7 +280,7 @@ class StatusParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -294,7 +290,7 @@ class StatusParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -304,7 +300,7 @@ class StatusParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -314,7 +310,7 @@ class StatusParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -324,7 +320,7 @@ class StatusParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -333,7 +329,7 @@ class StatusParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-	
+
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -344,7 +340,7 @@ class StatusParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-	
+
 	/**
 	 * \fn		void whereRelatedTo($field, $className, $objectId)
 	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className

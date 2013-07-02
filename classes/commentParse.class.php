@@ -1,25 +1,24 @@
 <?php
 
-/* ! \par Info Generali:
- *  \author    Daniele Caldelli
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
- *
- *  \par Info Classe:
- *  \brief     Comment
- *  \details   Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI
- *
- *  \par Commenti:
+/* ! \par		Info Generali:
+ *  \author		Daniele Caldelli
+ *  \version	1.0
+ *  \date		2013
+ *  \copyright	Jamyourself.com 2013
+ *  \par		Info Classe:
+ *  \brief		Comment
+ *  \details	Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI
+ *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
+ *
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:comment">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:comment">API</a>
  */
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -28,7 +27,7 @@ require_once CLASSES_DIR . 'utils.php';
 class CommentParse {
 
 	private $parseQuery;
-	
+
 	/**
 	 * \fn		void __construct()
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the Comment class
@@ -36,12 +35,12 @@ class CommentParse {
 	public function __construct() {
 		$this->parseQuery = new parseQuery('Comment');
 	}
-	
+
 	/**
 	 * \fn		void deleteComment(string $objectId)
 	 * \brief	The function delete a Comment, setting active property to false
-	 * \param	$objectId the string that represent the objectId of the Comment to delete
-	 * \return	Error	the Error raised by the function
+	 * \param	$objectId	the string that represent the objectId of the Comment to delete
+	 * \return	Error		the Error raised by the function
 	 */
 	public function deleteComment($objectId) {
 		try {
@@ -52,7 +51,7 @@ class CommentParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		Comment getComment(string $objectId)
 	 * \brief	The function returns the Comment object specified
@@ -70,11 +69,11 @@ class CommentParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	 /**
 	 * \fn		array getComments()
 	 * \brief	The function returns an array Comments objects specified
-	 * \return	array 	an array of Comments, if one or more Comments are found
+	 * \return	array	an array of Comments, if one or more Comments are found
 	 * \return	null	if no Comment is found
 	 * \return	Error	the Error raised by the function
 	 */
@@ -94,7 +93,7 @@ class CommentParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		number getCount()
 	 * \brief	Returns the number of requests Comment
@@ -103,7 +102,7 @@ class CommentParse {
 	public function getCount() {
 		return $this->parseQuery->getCount()->count;
 	}
-	
+
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Comment
@@ -111,7 +110,7 @@ class CommentParse {
 	 */
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
-	}	
+	}
 
 	/**
 	 * \fn		void orderByAscending($field)
@@ -130,7 +129,7 @@ class CommentParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-	
+
 	/**
 	 * \fn		Comment parseToComment($res)
 	 * \brief	The function returns a representation of an Comment object in Parse
@@ -143,7 +142,7 @@ class CommentParse {
 			return throwError(new Exception('parseToComment parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			$cmt = new Comment();
-	
+
 			$cmt->setObjectId($res->objectId);
 			$cmt->setActive($res->active);
 			$cmt->setAlbum(fromParsePointer($res->album));
@@ -170,13 +169,13 @@ class CommentParse {
 			$cmt->setCreatedAt(new DateTime($res->createdAt));
 			$cmt->setUpdatedAt(new DateTime($res->updatedAt));
 			$cmt->setACL(fromParseACL($res->ACL));
-	
+
 			return $cmt;
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		Comment saveComment($cmt)
 	 * \brief	This function save a Comment object in Parse
@@ -190,7 +189,7 @@ class CommentParse {
 		}
 		try {
 			$parseObject = new parseObject('Comment');
-	
+
 			is_null($cmt->getActive()) ? $parseObject->active = true : $parseObject->active = $cmt->getActive();
 			is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = toParsePointer('Album', $cmt->getAlbum());
 			is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = toParsePointer('Comment', $cmt->getComment());
@@ -214,7 +213,7 @@ class CommentParse {
 			is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = toParsePointer('Video', $cmt->getVideo());
 			is_null($cmt->getVote()) ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
 			is_null($cmt->getACL()) ? $parseObject->ACL = toParseDefaultACL() : $parseObject->ACL = toParseACL($cmt->getACL());
-	
+
 			if ($cmt->getObjectId() == '') {
 				$res = $parseObject->save();
 				$cmt->setObjectId($res->objectId);
@@ -226,7 +225,7 @@ class CommentParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Comment to return
@@ -282,8 +281,8 @@ class CommentParse {
 	 */
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
-	}	
-	
+	}
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -293,7 +292,7 @@ class CommentParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -303,7 +302,7 @@ class CommentParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -313,7 +312,7 @@ class CommentParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -323,7 +322,7 @@ class CommentParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -333,7 +332,7 @@ class CommentParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -343,7 +342,7 @@ class CommentParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -352,7 +351,7 @@ class CommentParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-	
+
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -363,7 +362,7 @@ class CommentParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-	
+
 	/**
 	 * \fn		void whereRelatedTo($field, $className, $objectId)
 	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
@@ -376,5 +375,5 @@ class CommentParse {
 	}
 
 }
-?>
 
+?>

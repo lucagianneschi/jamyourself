@@ -1,16 +1,13 @@
 <?php
-
-/* ! \par Info Generali:
- *  \author    Stefano Muscas
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
- *
- *  \par Info Classe:
- *  \brief     PlayslistParse
- *  \details   Classe che accoglie le canzoni che andranno nel player della pagina utente
- *  
- *  \par Commenti:
+/* ! \par		Info Generali:
+ *  \author		Stefano Muscas
+ *  \version	1.0
+ *  \date		2013
+ *  \copyright	Jamyourself.com 2013
+ *  \par		Info Classe:
+ *  \brief		PlayslistParse
+ *  \details	Classe che accoglie le canzoni che andranno nel player della pagina utente
+ *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
@@ -18,8 +15,9 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:playlist">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:playlist">API</a>
  */
+
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -29,32 +27,31 @@ require_once CLASSES_DIR . 'playlist.class.php';
 class PlaylistParse {
 
 	private $parseQuery;
-	
+
 	/**
 	 * \fn		void __construct()
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the Playlist class
 	 */
 	function __construct() {
-	
-		$this->parseQuery = new ParseQuery("Playlist");
+		$this->parseQuery = new ParseQuery('Playlist');
 	}
-	
+
 	/**
 	 * \fn		void deletePlaylist(string $objectId)
 	 * \brief	Set unactive a specified Playlist by objectId
-	 * \param   $objectId the string that represent the objectId of the Playlist
+	 * \param	$objectId the string that represent the objectId of the Playlist
 	 * \return	error in case of exception
 	 */
 	public function deletePlaylist($objectId) {
 		try {
-			$parsePlaylist = new parseObject('Playlist');
-			$parsePlaylist->active = false;
-			$parsePlaylist->update($objectId);
+			$parseObject = new parseObject('Playlist');
+			$parseObject->active = false;
+			$parseObject->update($objectId);
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		number getCount()
 	 * \brief	Returns the number of requests Playlist
@@ -63,25 +60,25 @@ class PlaylistParse {
 	public function getCount() {
 		return $this->parseQuery->getCount()->count;
 	}
-	
+
 	/**
 	 * \fn		void getPlaylist(string $objectId)
 	 * \brief	The function returns the Playlist object specified
 	 * \param	$objectId the string that represent the objectId of the Playlist
 	 * \return	Playlist	the Playlist with the specified $objectId
-	 * \return	Error	the Error raised by the function
+	 * \return	Error		the Error raised by the function
 	 */
 	public function getPlaylist($objectId) {
 		try {
-			$parsePlaylist = new parseObject('Playlist');
-			$res = $parsePlaylist->get($objectId);
+			$parseObject = new parseObject('Playlist');
+			$res = $parseObject->get($objectId);
 			$playlist = $this->parseToPlaylist($res);
 			return $playlist;
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		array getPlaylists()
 	 * \brief	The function returns the Playlists objects specified
@@ -105,7 +102,7 @@ class PlaylistParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Playlist
@@ -114,7 +111,7 @@ class PlaylistParse {
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByAscending($field)
 	 * \brief	Specifies which field need to be ordered ascending of requested Playlist
@@ -123,7 +120,7 @@ class PlaylistParse {
 	public function orderByAscending($field) {
 		$this->parseQuery->orderByAscending($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByDescending($field)
 	 * \brief	Specifies which field need to be ordered descending of requested Playlist
@@ -132,13 +129,13 @@ class PlaylistParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-	
+
 	/**
 	 * \fn		Playlist parseToPlaylist($res)
 	 * \brief	The function returns a representation of an Playlist object in Parse
-	 * \param	$res 	represent the Playlist object returned from Parse
+	 * \param	$res		represent the Playlist object returned from Parse
 	 * \return	Playlist	the Playlist object
-	 * \return	Error	the Error raised by the function
+	 * \return	Error		the Error raised by the function
 	 */
 	function parseToPlaylist($res) {
 		if (is_null($res))
@@ -149,29 +146,28 @@ class PlaylistParse {
 			$playlist->setActive($res->active);
 			$playlist->setFromUser(fromParsePointer($res->fromUser));
 			$playlist->setName($res->name);
-			$playlist->setSongs(fromParseRelation("Playlist", "songs", $res->objectId, "Song"));
+			$playlist->setSongs(fromParseRelation('Playlist', 'songs', $res->objectId, 'Song'));
 			$playlist->setUnlimited($res->unlimited);
 			$playlist->setCreatedAt(fromParseDate($res->createdAt));
 			$playlist->setUpdatedAt(fromParseDate($res->updatedAt));
 			$playlist->setACL(fromParseACL($res->ACL));
 			return $playlist;
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		Playlist savePlaylist(Playlist $playlist)
 	 * \brief	This function save an Playlist object in Parse
 	 * \param	$playlist 	represent the Playlist object to save
 	 * \return	Playlist	the Playlist object with the new objectId parameter saved
-	 * \return	Error	the Error raised by the function
+	 * \return	Error		the Error raised by the function
 	 */
 	public function savePlaylist($playlist) {
 		if (is_null($playlist->getFromUser()))
 			return throwError(new Exception('savePlaylist parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
-	
 			$parsePlaylist = new parseObject('Playlist');
 			is_null($playlist->getActive()) ? $parsePlaylist->active = true : $parsePlaylist->active = $playlist->getActive();
 			$parsePlaylist->fromUser = toParsePointer('_User', $playlist->getFromUser());
@@ -190,7 +186,7 @@ class PlaylistParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Playlist to return
@@ -199,7 +195,7 @@ class PlaylistParse {
 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
-	
+
 	/**
 	 * \fn		void setSkip($skip)
 	 * \brief	Sets the number of how many Playlist(s) must be discarded initially
@@ -208,7 +204,7 @@ class PlaylistParse {
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
-	
+
 	/**
 	 * \fn		void where($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -218,7 +214,7 @@ class PlaylistParse {
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must value one or more $value
@@ -228,7 +224,7 @@ class PlaylistParse {
 	public function whereContainedIn($field, $values) {
 		$this->parseQuery->whereContainedIn($field, $values);
 	}
-	
+
 	/**
 	 * \fn		void whereEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -238,7 +234,7 @@ class PlaylistParse {
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereExists($field)
 	 * \brief	Sets a condition for which the field $field must be enhanced
@@ -247,7 +243,7 @@ class PlaylistParse {
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -257,7 +253,7 @@ class PlaylistParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -267,7 +263,7 @@ class PlaylistParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -277,7 +273,7 @@ class PlaylistParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -287,7 +283,7 @@ class PlaylistParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -297,7 +293,7 @@ class PlaylistParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -307,7 +303,7 @@ class PlaylistParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -316,7 +312,7 @@ class PlaylistParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-	
+
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -327,7 +323,7 @@ class PlaylistParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-	
+
 	/**
 	 * \fn		void whereRelatedTo($field, $className, $objectId)
 	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className

@@ -1,15 +1,12 @@
 <?php
-
 /* ! \par		Info Generali:
  *  \author		Stefano Muscas
  *  \version	1.0
  *  \date		2013
  *  \copyright	Jamyourself.com 2013
- *
  *  \par		Info Classe:
  *  \brief		Song Class
  *  \details	Classe dedicata al singolo brano, pu� essere istanziata solo da Jammer
- *  
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -19,7 +16,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:song">API</a>
  */
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -29,31 +26,31 @@ require_once CLASSES_DIR . 'song.class.php';
 class SongParse {
 
 	private $parseQuery;
-	
+
 	/**
 	 * \fn		void __construct()
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the Song class
 	 */
-	function __construct() {
-		$this->parseQuery = new parseQuery("Song");
+	public function __construct() {
+		$this->parseQuery = new parseQuery('Song');
 	}
-	
+
 	/**
 	 * \fn		void deleteSong(string $objectId)
 	 * \brief	Set unactive a specified Song by objectId
-	 * \param   $objectId the string that represent the objectId of the Song
+	 * \param	$objectId the string that represent the objectId of the Song
 	 * \return	error in case of exception
 	 */
 	public function deleteSong($objectId) {
 		try {
-			$parseSong = new parseObject('Song');
-			$parseSong->active = false;
-			$parseSong->update($objectId);
+			$parseObject = new parseObject('Song');
+			$parseObject->active = false;
+			$parseObject->update($objectId);
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		number getCount()
 	 * \brief	Returns the number of requests Song
@@ -62,28 +59,28 @@ class SongParse {
 	public function getCount() {
 		$this->parseQuery->getCount();
 	}
-	
+
 	/**
 	 * \fn		void getSong(string $objectId)
 	 * \brief	The function returns the Song object specified
 	 * \param	$objectId the string that represent the objectId of the Song
 	 * \return	Song	the Song with the specified $objectId
-	 * \return	Error the Error raised by the function
+	 * \return	Error	the Error raised by the function
 	 */
 	function getSong($objectId) {
 		try {
-			$parseSong = new parseObject("Song");
-			$result = $parseSong->get($objectId);
-			return $this->parseToSong($result);
+			$parseObject = new parseObject('Song');
+			$res = $parseObject->get($objectId);
+			return $this->parseToSong($res);
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		array getSong()
 	 * \brief	The function returns the Song objects specified
-	 * \return	array 	an array of Song, if one or more Song are found
+	 * \return	array	an array of Song, if one or more Song are found
 	 * \return	null	if no Song are found
 	 * \return	Error	the Error raised by the function
 	 */
@@ -103,7 +100,7 @@ class SongParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Song
@@ -112,7 +109,7 @@ class SongParse {
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByAscending($field)
 	 * \brief	Specifies which field need to be ordered ascending of requested Song
@@ -121,7 +118,7 @@ class SongParse {
 	public function orderByAscending($field) {
 		$this->parseQuery->orderByAscending($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByDescending($field)
 	 * \brief	Specifies which field need to be ordered descending of requested Song
@@ -130,11 +127,11 @@ class SongParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-	
+
 	/**
 	 * \fn		Song parseToSong($res)
 	 * \brief	The function returns a representation of an Song object in Parse
-	 * \param	$res 	represent the Song object returned from Parse
+	 * \param	$res	represent the Song object returned from Parse
 	 * \return	Song	the Song object
 	 * \return	Error	the Error raised by the function
 	 */
@@ -145,17 +142,17 @@ class SongParse {
 			$song = new Song();
 			$song->setObjectId($res->objectId);
 			$song->setActive($res->active);
-			$song->setCommentators(fromParseRelation("Song", "commentators", $res->objectId, "_User"));
-			$song->setComments(fromParseRelation("Song", "comments", $res->objectId, "Comment"));
+			$song->setCommentators(fromParseRelation('Song', 'commentators', $res->objectId, '_User'));
+			$song->setComments(fromParseRelation('Song', 'comments', $res->objectId, 'Comment'));
 			$song->setCounter($res->counter);
 			$song->setDuration($res->duration);
-			$song->setFeaturing(fromParseRelation("Song", "featuring", $res->objectId, "_User"));
+			$song->setFeaturing(fromParseRelation('Song', 'featuring', $res->objectId, '_User'));
 			$song->setFilePath($res->filePath);
 			$song->setFromUser(fromParsePointer($res->fromUser));
 			$song->setGenre($res->genre);
 			$song->setLocation(fromParseGeoPoint($res->location));
 			$song->setLoveCounter($res->loveCounter);
-			$song->setLovers(fromParseRelation("Song", "lovers", $res->objectId, "_User"));
+			$song->setLovers(fromParseRelation('Song', 'lovers', $res->objectId, '_User'));
 			$song->setRecord(fromParsePointer($res->record));
 			$song->setTitle($res->title);
 			$song->setCreatedAt(fromParseDate($res->createdAt));
@@ -166,11 +163,11 @@ class SongParse {
 		}
 		return $song;
 	}
-	
+
 	/**
 	 * \fn		Song saveSong(Song $song)
 	 * \brief	This function save an Song object in Parse
-	 * \param	$song 	represent the Song object to save
+	 * \param	$song	represent the Song object to save
 	 * \return	Song	the Song object with the new objectId parameter saved
 	 * \return	Error	the Error raised by the function
 	 */
@@ -205,7 +202,7 @@ class SongParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Song to return
@@ -214,7 +211,7 @@ class SongParse {
 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
-	
+
 	/**
 	 * \fn		void setSkip($skip)
 	 * \brief	Sets the number of how many Song(s) must be discarded initially
@@ -223,7 +220,7 @@ class SongParse {
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
-	
+
 	/**
 	 * \fn		void where($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -233,7 +230,7 @@ class SongParse {
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must value one or more $value
@@ -243,7 +240,7 @@ class SongParse {
 	public function whereContainedIn($field, $values) {
 		$this->parseQuery->whereContainedIn($field, $values);
 	}
-	
+
 	/**
 	 * \fn		void whereEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -253,7 +250,7 @@ class SongParse {
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereExists($field)
 	 * \brief	Sets a condition for which the field $field must be enhanced
@@ -262,7 +259,7 @@ class SongParse {
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -272,7 +269,7 @@ class SongParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -282,7 +279,7 @@ class SongParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -292,7 +289,7 @@ class SongParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -302,7 +299,7 @@ class SongParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -312,7 +309,7 @@ class SongParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -322,7 +319,7 @@ class SongParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -331,7 +328,7 @@ class SongParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-	
+
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -342,7 +339,7 @@ class SongParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-	
+
 	/**
 	 * \fn		void whereRelatedTo($field, $className, $objectId)
 	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
