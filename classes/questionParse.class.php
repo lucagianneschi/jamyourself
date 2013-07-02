@@ -1,5 +1,4 @@
 <?php
-
 /* ! \par Info Generali:
  *  \author    Daniele Caldelli
  *  \version   1.0
@@ -20,7 +19,7 @@
  */
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -28,66 +27,66 @@ require_once CLASSES_DIR . 'utils.php';
 
 class QuestionParse {
 
-    private $parseQuery;
-	
+	private $parseQuery;
+
 	/**
 	 * \fn		void __construct()
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the Question class
 	 */
-    public function __construct() {
-        $this->parseQuery = new parseQuery('Question');
-    }
-	
+	public function __construct() {
+		$this->parseQuery = new parseQuery('Question');
+	}
+
 	/**
 	 * \fn		number getCount()
 	 * \brief	Returns the number of requests Question
 	 * \return	number
 	 */
-    public function getCount() {
-        return $this->parseQuery->getCount()->count;
-    }
+	public function getCount() {
+		return $this->parseQuery->getCount()->count;
+	}
 
 	/**
 	 * \fn		void getQuestion(string $objectId)
 	 * \brief	The function returns the Question object specified
 	 * \param	$objectId the string that represent the objectId of the Question
 	 * \return	Question	the Question with the specified $objectId
-	 * \return	Error	the Error raised by the function
+	 * \return	Error		the Error raised by the function
 	 */
-    public function getQuestion($objectId) {
-        try {
-            $parseQuestion = new parseObject('Question');
-            $res = $parseQuestion->get($objectId);
-            $question = $this->parseToQuestion($res);
-            return $question;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
-	
-    /**
+	public function getQuestion($objectId) {
+		try {
+			$parseObject = new parseObject('Question');
+			$res = $parseObject->get($objectId);
+			$question = $this->parseToQuestion($res);
+			return $question;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+
+	/**
 	 * \fn		array getQuestions()
 	 * \brief	The function returns the Questions objects specified
 	 * \return	array 	an array of Question, if one or more Question are found
 	 * \return	null	if no Question are found
 	 * \return	Error	the Error raised by the function
 	 */
-    public function getQuestions() {
+	public function getQuestions() {
 		try {
 			$questions = null;
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $questions = array();
-                foreach ($res->results as $obj) {
-                    $question = $this->parseToQuestion($obj);
-                    $questions[$question->getObjectId()] = $question;
-                }
-            }
-            return $questions;
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
+			$res = $this->parseQuery->find();
+			if (is_array($res->results) && count($res->results) > 0) {
+				$questions = array();
+				foreach ($res->results as $obj) {
+					$question = $this->parseToQuestion($obj);
+					$questions[$question->getObjectId()] = $question;
+				}
+			}
+			return $questions;
+		} catch (Exception $exception) {
+			return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
 
 	/**
 	 * \fn		void orderBy($field)
@@ -96,8 +95,8 @@ class QuestionParse {
 	 */
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
-	}	
-	
+	}
+
 	/**
 	 * \fn		void orderByAscending($field)
 	 * \brief	Specifies which field need to be ordered ascending of requested Question
@@ -106,7 +105,7 @@ class QuestionParse {
 	public function orderByAscending($field) {
 		$this->parseQuery->orderByAscending($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByDescending($field)
 	 * \brief	Specifies which field need to be ordered descending of requested Question
@@ -115,65 +114,65 @@ class QuestionParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-	
+
 	/**
 	 * \fn		Question parseToQuestion($res)
 	 * \brief	The function returns a representation of an Question object in Parse
-	 * \param	$res 	represent the Question object returned from Parse
+	 * \param	$res		represent the Question object returned from Parse
 	 * \return	Question	the Question object
-	 * \return	Error	the Error raised by the function
+	 * \return	Error		the Error raised by the function
 	 */
-    function parseToQuestion($res) {
-         if (is_null($res))
+	function parseToQuestion($res) {
+		if (is_null($res))
 			return throwError(new Exception('parseToQuestion parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $question = new Question();
-            $question->setObjectId($res->objectId);
-            $question->setAnswer($res->answer);
-            $question->setMailFrom($res->mailFrom);
-            $question->setMailTo($res->mailTo);
-            $question->setReplied($res->replied);
-            $question->setSubject($res->subject);
-            $question->setText($res->text);
-            $question->setCreatedAt(new DateTime($res->createdAt));
-            $question->setUpdatedAt(new DateTime($res->updatedAt));
-            $question->setACL(fromParseACL($res->ACL));
-            return $question;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
-	
+		try {
+			$question = new Question();
+			$question->setObjectId($res->objectId);
+			$question->setAnswer($res->answer);
+			$question->setMailFrom($res->mailFrom);
+			$question->setMailTo($res->mailTo);
+			$question->setReplied($res->replied);
+			$question->setSubject($res->subject);
+			$question->setText($res->text);
+			$question->setCreatedAt(new DateTime($res->createdAt));
+			$question->setUpdatedAt(new DateTime($res->updatedAt));
+			$question->setACL(fromParseACL($res->ACL));
+			return $question;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+
 	/**
 	 * \fn		Question saveQuestion(Question $question)
 	 * \brief	This function save an Question object in Parse
 	 * \param	$question 	represent the Question object to save
 	 * \return	Question	the Question object with the new objectId parameter saved
-	 * \return	Error	the Error raised by the function
+	 * \return	Error		the Error raised by the function
 	 */
-    public function saveQuestion($question) {
+	public function saveQuestion($question) {
 		if (!is_null($question->getObjectId())) {
 			return throwError(new Exception('saveQuestion update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
 		}
 		try {
-            $parseQuestion = new parseObject('Question');
-            is_null($question->getAnswer()) ? $parseQuestion->answer = null : $parseQuestion->answer = $question->getAnswer();
-            is_null($question->getMailFrom()) ? $parseQuestion->mailFrom = null : $parseQuestion->mailFrom = $question->getMailFrom();
-            is_null($question->getMailTo()) ? $parseQuestion->mailTo = null : $parseQuestion->mailTo = $question->getMailTo();
-            is_null($question->getName()) ? $parseQuestion->name = null : $parseQuestion->name = $question->getName();
-            is_null($question->getReplied()) ? $parseQuestion->replied = null : $parseQuestion->replied = $question->getReplied();
-            is_null($question->getSubject()) ? $parseQuestion->subject = null : $parseQuestion->subject = $question->getSubject();
-            is_null($question->getText()) ? $parseQuestion->text = null : $parseQuestion->text = $question->getText();
-            is_null($question->getACL()) ? $parseQuestion->ACL = toParseDefaultACL() : $parseQuestion->ACL = toParseACL($question->getACL());
-            $res = $parseQuestion->save();
-            $question->setObjectId($res->objectId);
-            return $question;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
-    }
-	
-/**
+			$parseQuestion = new parseObject('Question');
+			is_null($question->getAnswer()) ? $parseQuestion->answer = null : $parseQuestion->answer = $question->getAnswer();
+			is_null($question->getMailFrom()) ? $parseQuestion->mailFrom = null : $parseQuestion->mailFrom = $question->getMailFrom();
+			is_null($question->getMailTo()) ? $parseQuestion->mailTo = null : $parseQuestion->mailTo = $question->getMailTo();
+			is_null($question->getName()) ? $parseQuestion->name = null : $parseQuestion->name = $question->getName();
+			is_null($question->getReplied()) ? $parseQuestion->replied = null : $parseQuestion->replied = $question->getReplied();
+			is_null($question->getSubject()) ? $parseQuestion->subject = null : $parseQuestion->subject = $question->getSubject();
+			is_null($question->getText()) ? $parseQuestion->text = null : $parseQuestion->text = $question->getText();
+			is_null($question->getACL()) ? $parseQuestion->ACL = toParseDefaultACL() : $parseQuestion->ACL = toParseACL($question->getACL());
+			$res = $parseQuestion->save();
+			$question->setObjectId($res->objectId);
+			return $question;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+
+	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Question to return
 	 * \param	$limit	the maximum number
@@ -181,7 +180,7 @@ class QuestionParse {
 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
-	
+
 	/**
 	 * \fn		void setSkip($skip)
 	 * \brief	Sets the number of how many Question(s) must be discarded initially
@@ -190,7 +189,7 @@ class QuestionParse {
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
-	
+
 	/**
 	 * \fn		void where($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -200,7 +199,7 @@ class QuestionParse {
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must value one or more $value
@@ -210,7 +209,7 @@ class QuestionParse {
 	public function whereContainedIn($field, $values) {
 		$this->parseQuery->whereContainedIn($field, $values);
 	}
-	
+
 	/**
 	 * \fn		void whereEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -220,7 +219,7 @@ class QuestionParse {
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereExists($field)
 	 * \brief	Sets a condition for which the field $field must be enhanced
@@ -228,8 +227,8 @@ class QuestionParse {
 	 */
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
-	}	
-	
+	}
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -239,7 +238,7 @@ class QuestionParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -249,7 +248,7 @@ class QuestionParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -259,7 +258,7 @@ class QuestionParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -269,7 +268,7 @@ class QuestionParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -279,7 +278,7 @@ class QuestionParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -289,7 +288,7 @@ class QuestionParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -309,7 +308,7 @@ class QuestionParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-		
+	
 	/**
 	 * \fn		void whereRelatedTo($field, $className, $objectId)
 	 * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
@@ -320,6 +319,7 @@ class QuestionParse {
 	public function whereRelatedTo($field, $className, $objectId) {
 		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
 	}
+
 }
 
 ?>

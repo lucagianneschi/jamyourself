@@ -4,11 +4,9 @@
  *  \version	1.0
  *  \date		2013
  *  \copyright	Jamyourself.com 2013
- *
  *  \par		Info Classe:
  *  \brief		User Class
  *  \details	Classe utente
- *  
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -18,12 +16,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:user">API</a>
  */
 
-if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
-	
-require_once ROOT_DIR . 'config.php';
-require_once CLASSES_DIR . 'utils.php';
-require_once CLASSES_DIR . 'settings.php';
+require_once 'settings.php';
 
 class User {
 
@@ -79,14 +72,14 @@ class User {
 	private $updatedAt;
 	private $ACL;
 	private $sessionToken;
-	
+
 	/**
 	 * \fn		void __construct($type)
 	 * \brief	The constructor instantiate the type of the User
 	 * \param	$type the string which represent the User type (VENUE|JAMMER|SPOTTER)
 	 */
 	public function __construct($type) {
-		if ( is_null($type) || !in_array($type, array('VENUE', 'JAMMER', 'SPOTTER')) ) {
+		if (is_null($type) || !in_array($type, array('VENUE', 'JAMMER', 'SPOTTER'))) {
 			$e = new Exception('User Class type must be defined');
 			throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 			throw $e;
@@ -94,7 +87,7 @@ class User {
 			$this->setType($type);
 		}
 	}
-	
+
 	/**
 	 * \fn		string getObjectId()
 	 * \brief	Return the objectId value
@@ -103,7 +96,7 @@ class User {
 	public function getObjectId() {
 		return $this->objectId;
 	}
-	
+
 	/**
 	 * \fn		string getUsername()
 	 * \brief	Return the username of the User
@@ -112,7 +105,7 @@ class User {
 	public function getUsername() {
 		return $this->username;
 	}
-	
+
 	/**
 	 * \fn		string getPassword()
 	 * \brief	Return the password of the User
@@ -121,7 +114,7 @@ class User {
 	public function getPassword() {
 		return $this->password;
 	}
-	
+
 	/**
 	 * \fn		string getAuthData()
 	 * \brief	Return the authorization data of the User
@@ -131,7 +124,7 @@ class User {
 	public function getAuthData() {
 		return $this->authData;
 	}
-	
+
 	/**
 	 * \fn		string getEmailVerified()
 	 * \brief	Return the email verification of the User
@@ -141,7 +134,7 @@ class User {
 	public function getEmailVerified() {
 		return $this->emailVerified;
 	}
-	
+
 	/**
 	 * \fn		boolean getActive()
 	 * \brief	Return the activation state of the User
@@ -150,7 +143,7 @@ class User {
 	public function getActive() {
 		return $this->active;
 	}
-	
+
 	/**
 	 * \fn		string getAddress()
 	 * \brief	Return the address of the User
@@ -159,7 +152,7 @@ class User {
 	public function getAddress() {
 		return $this->address;
 	}
-	
+
 	/**
 	 * \fn		array getAlbum()
 	 * \brief	Return an array of objectId of the Album related with the User
@@ -168,7 +161,7 @@ class User {
 	public function getAlbums() {
 		return $this->albums;
 	}
-	
+
 	/**
 	 * \fn		string getBackground()
 	 * \brief	Return the beckground link of the User
@@ -177,7 +170,7 @@ class User {
 	public function getBackground() {
 		return $this->background;
 	}
-	
+
 	/**
 	 * \fn		string getBirthDay()
 	 * \brief	Return the birthday of the User represented by a string with format YYYY-MM-DD
@@ -186,7 +179,7 @@ class User {
 	public function getBirthDay() {
 		return $this->birthDay;
 	}
-	
+
 	/**
 	 * \fn		string getCity()
 	 * \brief	Return the city of the User
@@ -195,7 +188,7 @@ class User {
 	public function getCity() {
 		return $this->city;
 	}
-	
+
 	/**
 	 * \fn		array getCollaboration()
 	 * \brief	Return an array of objectId of the User related with the User
@@ -204,7 +197,7 @@ class User {
 	public function getCollaboration() {
 		return $this->collaboration;
 	}
-	
+
 	/**
 	 * \fn		array getComments()
 	 * \brief	Return an array of objectId of the Comment related with the User
@@ -213,7 +206,7 @@ class User {
 	public function getComments() {
 		return $this->comments;
 	}
-	
+
 	/**
 	 * \fn		string getCountry()
 	 * \brief	Return the country of the User
@@ -222,7 +215,7 @@ class User {
 	public function getCountry() {
 		return $this->country;
 	}
-	
+
 	/**
 	 * \fn		string getDescription()
 	 * \brief	Return the description of the User
@@ -231,7 +224,7 @@ class User {
 	public function getDescription() {
 		return $this->description;
 	}
-	
+
 	/**
 	 * \fn		string getEmail()
 	 * \brief	Return the email of the User
@@ -240,7 +233,7 @@ class User {
 	public function getEmail() {
 		return $this->email;
 	}
-	
+
 	/**
 	 * \fn		array getEvents()
 	 * \brief	Return an array of objectId of the Event related with the User
@@ -249,7 +242,7 @@ class User {
 	public function getEvents() {
 		return $this->events;
 	}
-	
+
 	/**
 	 * \fn		string getFacebookId()
 	 * \brief	Return the facebook id of the User
@@ -258,7 +251,7 @@ class User {
 	public function getFacebookId() {
 		return $this->facebookId;
 	}
-	
+
 	/**
 	 * \fn		string getFbPage()
 	 * \brief	Return the facebook page link of the User
@@ -267,7 +260,7 @@ class User {
 	public function getFbPage() {
 		return $this->fbPage;
 	}
-	
+
 	/**
 	 * \fn		string getFirstname()
 	 * \brief	Return the firstname of the User
@@ -276,7 +269,7 @@ class User {
 	public function getFirstname() {
 		return $this->firstname;
 	}
-	
+
 	/**
 	 * \fn		array getFollowing()
 	 * \brief	Return an array of objectId of the User related with the User
@@ -285,7 +278,7 @@ class User {
 	public function getFollowing() {
 		return $this->following;
 	}
-	
+
 	/**
 	 * \fn		array getFriendship()
 	 * \brief	Return an array of objectId of the User related with the User
@@ -294,7 +287,7 @@ class User {
 	public function getFriendship() {
 		return $this->friendship;
 	}
-	
+
 	/**
 	 * \fn		parseGeoPoint getGeoCoding()
 	 * \brief	Return the parseGeoPoint object of the User
@@ -303,7 +296,7 @@ class User {
 	public function getGeoCoding() {
 		return $this->geoCoding;
 	}
-	
+
 	/**
 	 * \fn		string getJammerType()
 	 * \brief	Return the jammer type of the User
@@ -312,7 +305,7 @@ class User {
 	public function getJammerType() {
 		return $this->jammerType;
 	}
-	
+
 	/**
 	 * \fn		array getImages()
 	 * \brief	Return an array of objectId of the Image related with the User
@@ -321,7 +314,7 @@ class User {
 	public function getImages() {
 		return $this->images;
 	}
-	
+
 	/**
 	 * \fn		string getLastname()
 	 * \brief	Return the lastname of the User
@@ -330,7 +323,7 @@ class User {
 	public function getLastname() {
 		return $this->lastname;
 	}
-	
+
 	/**
 	 * \fn		number getLevel()
 	 * \brief	Return the level of the User
@@ -339,7 +332,7 @@ class User {
 	public function getLevel() {
 		return $this->level;
 	}
-	
+
 	/**
 	 * \fn		number getLevelValue()
 	 * \brief	Return the level value of the User
@@ -348,7 +341,7 @@ class User {
 	public function getLevelValue() {
 		return $this->levelValue;
 	}
-	
+
 	/**
 	 * \fn		string getLocalType()
 	 * \brief	Return the local type of the User
@@ -357,7 +350,7 @@ class User {
 	public function getLocalType() {
 		return $this->localType;
 	}
-	
+
 	/**
 	 * \fn		array getLoveSongs()
 	 * \brief	Return an array of objectId of the Song related with the User
@@ -366,7 +359,7 @@ class User {
 	public function getLoveSongs() {
 		return $this->loveSongs;
 	}
-	
+
 	/**
 	 * \fn		array getMembers()
 	 * \brief	Return an array of objectId of the User related with the User
@@ -375,7 +368,7 @@ class User {
 	public function getMembers() {
 		return $this->members;
 	}
-	
+
 	/**
 	 * \fn		array getMusic()
 	 * \brief	Return an array of the type of music preferred by the User
@@ -384,7 +377,7 @@ class User {
 	public function getMusic() {
 		return $this->music;
 	}
-	
+
 	/**
 	 * \fn		array getPlaylists()
 	 * \brief	Return an array of objectId of the Playlist related with the User
@@ -393,7 +386,7 @@ class User {
 	public function getPlaylists() {
 		return $this->playlists;
 	}
-	
+
 	/**
 	 * \fn		boolean getPremium()
 	 * \brief	Return if the User has a Premium account
@@ -402,7 +395,7 @@ class User {
 	public function getPremium() {
 		return $this->premium;
 	}
-	
+
 	/**
 	 * \fn		DateTime getPremiumExpirationDate()
 	 * \brief	Return the expiration date of the premium account of the User
@@ -411,7 +404,7 @@ class User {
 	public function getPremiumExpirationDate() {
 		return $this->premiumExpirationDate;
 	}
-	
+
 	/**
 	 * \fn		string getProfilePicture()
 	 * \brief	Return the profile picture link of the User
@@ -420,7 +413,7 @@ class User {
 	public function getProfilePicture() {
 		return $this->profilePicture;
 	}
-	
+
 	/**
 	 * \fn		File getProfilePictureFile()
 	 * \brief	Return the file of the profile picture of the User
@@ -429,7 +422,7 @@ class User {
 	public function getProfilePictureFile() {
 		return $this->profilePictureFile;
 	}
-	
+
 	/**
 	 * \fn		string getProfilePictureFile()
 	 * \brief	Return the thumbnail profile picture link of the User
@@ -438,7 +431,7 @@ class User {
 	public function getProfileThumbnail() {
 		return $this->profileThumbnail;
 	}
-	
+
 	/**
 	 * \fn		array getRecords()
 	 * \brief	Return an array of objectId of the Record related with the User
@@ -447,7 +440,7 @@ class User {
 	public function getRecords() {
 		return $this->records;
 	}
-	
+
 	/**
 	 * \fn		array getSettings()
 	 * \brief	Return an array of the setting of the User
@@ -456,7 +449,7 @@ class User {
 	public function getSettings() {
 		return $this->settings;
 	}
-	
+
 	/**
 	 * \fn		string getSex()
 	 * \brief	Return the sex of the User
@@ -465,7 +458,7 @@ class User {
 	public function getSex() {
 		return $this->sex;
 	}
-	
+
 	/**
 	 * \fn		array getRecords()
 	 * \brief	Return an array of objectId of the Song related with the User
@@ -474,7 +467,7 @@ class User {
 	public function getSongs() {
 		return $this->songs;
 	}
-	
+
 	/**
 	 * \fn		array getStatuses()
 	 * \brief	Return an array of objectId of the Status related with the User
@@ -483,7 +476,7 @@ class User {
 	public function getStatuses() {
 		return $this->statuses;
 	}
-	
+
 	/**
 	 * \fn		string getTwitterPage()
 	 * \brief	Return the twitter page link of the User
@@ -492,7 +485,7 @@ class User {
 	public function getTwitterPage() {
 		return $this->twitterPage;
 	}
-	
+
 	/**
 	 * \fn		string getType()
 	 * \brief	Return the type of the User
@@ -501,7 +494,7 @@ class User {
 	public function getType() {
 		return $this->type;
 	}
-	
+
 	/**
 	 * \fn		array getVideos()
 	 * \brief	Return an array of objectId of the Video related with the User
@@ -510,7 +503,7 @@ class User {
 	public function getVideos() {
 		return $this->videos;
 	}
-	
+
 	/**
 	 * \fn		string getWebsite()
 	 * \brief	Return the website link of the User
@@ -519,7 +512,7 @@ class User {
 	public function getWebsite() {
 		return $this->website;
 	}
-	
+
 	/**
 	 * \fn		string getYoutubeChannel()
 	 * \brief	Return the youtube channel link of the User
@@ -528,7 +521,7 @@ class User {
 	public function getYoutubeChannel() {
 		return $this->youtubeChannel;
 	}
-	
+
 	/**
 	 * \fn		DateTime getCreatedAt()
 	 * \brief	Return the User creation date
@@ -537,7 +530,7 @@ class User {
 	public function getCreatedAt() {
 		return $this->createdAt;
 	}
-	
+
 	/**
 	 * \fn		DateTime getUpdatedAt()
 	 * \brief	Return the User modification date
@@ -546,7 +539,7 @@ class User {
 	public function getUpdatedAt() {
 		return $this->updatedAt;
 	}
-	
+
 	/**
 	 * \fn		parseACL getACL()
 	 * \brief	Return the parseACL object representing the User ACL 
@@ -555,7 +548,7 @@ class User {
 	public function getACL() {
 		return $this->ACL;
 	}
-	
+
 	/**
 	 * \fn		string getSessionToken()
 	 * \brief	Return the session token of the User
@@ -564,7 +557,7 @@ class User {
 	public function getSessionToken() {
 		return $this->sessionToken;
 	}
-	
+
 	/**
 	 * \fn		void setObjectId($objectId)
 	 * \brief	Sets the objectId value
@@ -573,7 +566,7 @@ class User {
 	public function setObjectId($objectId) {
 		$this->objectId = $objectId;
 	}
-	
+
 	/**
 	 * \fn		void setUsername($username)
 	 * \brief	Sets the username value of the User
@@ -582,7 +575,7 @@ class User {
 	public function setUsername($username) {
 		$this->username = $username;
 	}
-	
+
 	/**
 	 * \fn		void setPassword($password)
 	 * \brief	Sets the password value of the User
@@ -591,7 +584,7 @@ class User {
 	public function setPassword($password) {
 		$this->password = $password;
 	}
-	
+
 	/**
 	 * \fn		void setAuthData($authData)
 	 * \brief	Sets the authorization data of the User
@@ -601,7 +594,7 @@ class User {
 	public function setAuthData($authData) {
 		$this->authData = $authData;
 	}
-	
+
 	/**
 	 * \fn		void setEmailVerified($emailVerified)
 	 * \brief	Sets the email verification of the User
@@ -611,7 +604,7 @@ class User {
 	public function setEmailVerified($emailVerified) {
 		$this->emailVerified = $emailVerified;
 	}
-	
+
 	/**
 	 * \fn		void setActive($active)
 	 * \brief	Sets the active value of the User
@@ -620,7 +613,7 @@ class User {
 	public function setActive($active) {
 		$this->active = $active;
 	}
-	
+
 	/**
 	 * \fn		void setAddress($address)
 	 * \brief	Sets the address of the User
@@ -629,7 +622,7 @@ class User {
 	public function setAddress($address) {
 		$this->address = $address;
 	}
-	
+
 	/**
 	 * \fn		void setAlbums($albums)
 	 * \brief	Sets an array of objectId of the Album related with the User
@@ -638,7 +631,7 @@ class User {
 	public function setAlbums($albums) {
 		$this->albums = $albums;
 	}
-	
+
 	/**
 	 * \fn		void setBackground($background)
 	 * \brief	Sets the background value of the User
@@ -647,7 +640,7 @@ class User {
 	public function setBackground($background) {
 		$this->background = $background;
 	}
-	
+
 	/**
 	 * \fn		string setBirthDay($birthDay)
 	 * \brief	Sets the birthday of the User represented by a string with format YYYY-MM-DD
@@ -656,7 +649,7 @@ class User {
 	public function setBirthDay($birthDay) {
 		$this->birthDay = $birthDay;
 	}
-	
+
 	/**
 	 * \fn		void setCity($city)
 	 * \brief	Sets the city value of the User
@@ -665,7 +658,7 @@ class User {
 	public function setCity($city) {
 		$this->city = $city;
 	}
-	
+
 	/**
 	 * \fn		void setCollaboration($collaboration)
 	 * \brief	Sets an array of objectId of the User related with the User
@@ -674,7 +667,7 @@ class User {
 	public function setCollaboration($collaboration) {
 		$this->collaboration = $collaboration;
 	}
-	
+
 	/**
 	 * \fn		void setComments($comments)
 	 * \brief	Sets an array of objectId of the Comment related with the User
@@ -683,7 +676,7 @@ class User {
 	public function setComments($comments) {
 		$this->comments = $comments;
 	}
-	
+
 	/**
 	 * \fn		void setCountry($country)
 	 * \brief	Sets the country value of the User
@@ -692,7 +685,7 @@ class User {
 	public function setCountry($country) {
 		$this->country = $country;
 	}
-	
+
 	/**
 	 * \fn		void setDescription($description)
 	 * \brief	Sets the description value of the User
@@ -701,7 +694,7 @@ class User {
 	public function setDescription($description) {
 		$this->description = $description;
 	}
-	
+
 	/**
 	 * \fn		void setEmail($email)
 	 * \brief	Sets the email value of the User
@@ -710,7 +703,7 @@ class User {
 	public function setEmail($email) {
 		$this->email = $email;
 	}
-	
+
 	/**
 	 * \fn		void setEvents($events)
 	 * \brief	Sets an array of objectId of the Event related with the User
@@ -719,7 +712,7 @@ class User {
 	public function setEvents($events) {
 		$this->events = $events;
 	}
-	
+
 	/**
 	 * \fn		string setFacebookId($facebookId)
 	 * \brief	Sets the facebook id of the User
@@ -728,7 +721,7 @@ class User {
 	public function setFacebookId($facebookId) {
 		$this->facebookId = $facebookId;
 	}
-	
+
 	/**
 	 * \fn		void setFbPage($fbPage)
 	 * \brief	Sets the facebook page link of the User
@@ -737,7 +730,7 @@ class User {
 	public function setFbPage($fbPage) {
 		$this->fbPage = $fbPage;
 	}
-	
+
 	/**
 	 * \fn		string setFirstname($firstname)
 	 * \brief	Sets the firstname id of the User
@@ -746,7 +739,7 @@ class User {
 	public function setFirstname($firstname) {
 		$this->firstname = $firstname;
 	}
-	
+
 	/**
 	 * \fn		void setFollowing($following)
 	 * \brief	Sets an array of objectId of the User related with the User
@@ -755,7 +748,7 @@ class User {
 	public function setFollowing($following) {
 		$this->following = $following;
 	}
-	
+
 	/**
 	 * \fn		void setFriendship($friendship)
 	 * \brief	Sets an array of objectId of the User related with the User
@@ -764,7 +757,7 @@ class User {
 	public function setFriendship($friendship) {
 		$this->friendship = $friendship;
 	}
-	
+
 	/**
 	 * \fn		void setGeoCoding($geoCoding)
 	 * \brief	Sets the parseGeoPoint object of the User
@@ -773,7 +766,7 @@ class User {
 	public function setGeoCoding($geoCoding) {
 		$this->geoCoding = $geoCoding;
 	}
-	
+
 	/**
 	 * \fn		void setImages($images)
 	 * \brief	Sets an array of objectId of the Image related with the User
@@ -782,7 +775,7 @@ class User {
 	public function setImages($images) {
 		$this->images = $images;
 	}
-	
+
 	/**
 	 * \fn		void setJammerType($jammerType)
 	 * \brief	Sets the jammer type of the User
@@ -791,7 +784,7 @@ class User {
 	public function setJammerType($jammerType) {
 		$this->jammerType = $jammerType;
 	}
-	
+
 	/**
 	 * \fn		string setLastname($lastname)
 	 * \brief	Sets the lastname id of the User
@@ -800,7 +793,7 @@ class User {
 	public function setLastname($lastname) {
 		$this->lastname = $lastname;
 	}
-	
+
 	/**
 	 * \fn		void setLevel($level)
 	 * \brief	Sets the level of the User
@@ -809,7 +802,7 @@ class User {
 	public function setLevel($level) {
 		$this->level = $level;
 	}
-	
+
 	/**
 	 * \fn		void setLevelValue($levelValue)
 	 * \brief	Sets the level value of the User
@@ -818,7 +811,7 @@ class User {
 	public function setLevelValue($levelValue) {
 		$this->view = $levelValue;
 	}
-	
+
 	/**
 	 * \fn		void setLocalType($localType)
 	 * \brief	Sets the local type of the User
@@ -827,7 +820,7 @@ class User {
 	public function setLocalType($localType) {
 		$this->localType = $localType;
 	}
-	
+
 	/**
 	 * \fn		void setLoveSongs($loveSongs)
 	 * \brief	Sets an array of objectId of the Song related with the User
@@ -836,7 +829,7 @@ class User {
 	public function setLoveSongs($loveSongs) {
 		$this->loveSongs = $loveSongs;
 	}
-	
+
 	/**
 	 * \fn		void setMembers($members)
 	 * \brief	Sets an array of objectId of the User related with the User
@@ -845,7 +838,7 @@ class User {
 	public function setMembers($members) {
 		$this->members = $members;
 	}
-	
+
 	/**
 	 * \fn		void setMusic($music)
 	 * \brief	Sets an array of the type of music preferred by the User
@@ -854,7 +847,7 @@ class User {
 	public function setMusic($music) {
 		$this->music = $music;
 	}
-	
+
 	/**
 	 * \fn		void setPlaylists($playlists)
 	 * \brief	Sets an array of objectId of the Playlist related with the User
@@ -863,7 +856,7 @@ class User {
 	public function setPlaylists($playlists) {
 		$this->playlists = $playlists;
 	}
-	
+
 	/**
 	 * \fn		void setPremium($premium)
 	 * \brief	Sets if the User has a Premium account
@@ -872,7 +865,7 @@ class User {
 	public function setPremium($premium) {
 		$this->premium = $premium;
 	}
-	
+
 	/**
 	 * \fn		void setPremiumExpirationDate($premiumExpirationDate)
 	 * \brief	Sets the expiration date of the User Premium account
@@ -881,7 +874,7 @@ class User {
 	public function setPremiumExpirationDate($premiumExpirationDate) {
 		$this->premiumExpirationDate = $premiumExpirationDate;
 	}
-	
+
 	/**
 	 * \fn		void setProfilePicture($profilePicture)
 	 * \brief	Sets the profile picture link of the User
@@ -890,7 +883,7 @@ class User {
 	public function setProfilePicture($profilePicture) {
 		$this->profilePicture = $profilePicture;
 	}
-	
+
 	/**
 	 * \fn		void setProfilePictureFile($profilePictureFile)
 	 * \brief	Sets the profile picture File of the User
@@ -899,7 +892,7 @@ class User {
 	public function setProfilePictureFile($profilePictureFile) {
 		$this->profilePictureFile = $profilePictureFile;
 	}
-	
+
 	/**
 	 * \fn		void setProfileThumbnail($profileThumbnail)
 	 * \brief	Sets the profile picture thumbnail link of the User
@@ -908,7 +901,7 @@ class User {
 	public function setProfileThumbnail($profileThumbnail) {
 		$this->profileThumbnail = $profileThumbnail;
 	}
-	
+
 	/**
 	 * \fn		void setRecords($records)
 	 * \brief	Sets an array of objectId of the Record related with the User
@@ -917,7 +910,7 @@ class User {
 	public function setRecords($records) {
 		$this->records = $records;
 	}
-	
+
 	/**
 	 * \fn		void setSettings($settings)
 	 * \brief	Sets an array of settings of the User
@@ -926,7 +919,7 @@ class User {
 	public function setSettings($settings) {
 		$this->settings = $settings;
 	}
-	
+
 	/**
 	 * \fn		string setSex($sex)
 	 * \brief	Sets the sex id of the User
@@ -935,7 +928,7 @@ class User {
 	public function setSex($sex) {
 		$this->sex = $sex;
 	}
-	
+
 	/**
 	 * \fn		void setSongs($songs)
 	 * \brief	Sets an array of objectId of the Song related with the User
@@ -944,7 +937,7 @@ class User {
 	public function setSongs($songs) {
 		$this->songs = $songs;
 	}
-	
+
 	/**
 	 * \fn		void setStatuses($statuses)
 	 * \brief	Sets an array of objectId of the Status related with the User
@@ -953,7 +946,7 @@ class User {
 	public function setStatuses($statuses) {
 		$this->statuses = $statuses;
 	}
-	
+
 	/**
 	 * \fn		void setTwitterPage($twitterPage)
 	 * \brief	Sets the twitter page link of the User
@@ -962,7 +955,7 @@ class User {
 	public function setTwitterPage($twitterPage) {
 		$this->twitterPage = $twitterPage;
 	}
-	
+
 	/**
 	 * \fn		void setType($type)
 	 * \brief	Sets the type of the User
@@ -971,7 +964,7 @@ class User {
 	public function setType($type) {
 		$this->type = $type;
 	}
-	
+
 	/**
 	 * \fn		void setVideos($videos)
 	 * \brief	Sets an array of objectId of the Video related with the User
@@ -980,7 +973,7 @@ class User {
 	public function setVideos($videos) {
 		$this->videos = $videos;
 	}
-	
+
 	/**
 	 * \fn		void setWebsite($website)
 	 * \brief	Sets the website link of the User
@@ -989,7 +982,7 @@ class User {
 	public function setWebsite($website) {
 		$this->website = $website;
 	}
-	
+
 	/**
 	 * \fn		void setYoutubeChannel($youtubeChannel)
 	 * \brief	Sets the youtube channel link of the User
@@ -998,7 +991,7 @@ class User {
 	public function setYoutubeChannel($youtubeChannel) {
 		$this->youtubeChannel = $youtubeChannel;
 	}
-	
+
 	/**
 	 * \fn		void setCreatedAt($createdAt)
 	 * \brief	Sets the User creation date
@@ -1007,7 +1000,7 @@ class User {
 	public function setUpdatedAt(DateTime $updatedAt) {
 		$this->updatedAt = $updatedAt;
 	}
-	
+
 	/**
 	 * \fn		void setUpdatedAt($updatedAt)
 	 * \brief	Sets the User modification date
@@ -1016,7 +1009,7 @@ class User {
 	public function setCreatedAt(DateTime $createdAt) {
 		$this->createdAt = $createdAt;
 	}
-	
+
 	/**
 	 * \fn		void setACL($ACL)
 	 * \brief	Sets the parseACL object representing the User ACL
@@ -1025,7 +1018,7 @@ class User {
 	public function setACL($ACL) {
 		$this->ACL = $ACL;
 	}
-	
+
 	/**
 	 * \fn		void setSessionToken($sessionToken)
 	 * \brief	Sets the session token of the User
@@ -1034,7 +1027,7 @@ class User {
 	public function setSessionToken($sessionToken) {
 		$this->sessionToken = $sessionToken;
 	}
-	
+
 	/**
 	 * \fn		string __toString()
 	 * \brief	Return a printable string representing the User object
@@ -1042,7 +1035,6 @@ class User {
 	 */
 	public function __toString() {
 		$string = '';
-		
 		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
 		$string .= '[username] => ' . $this->getUsername() . '<br />';
 		$string .= '[password] => ' . $this->getPassword() . '<br />';
@@ -1247,7 +1239,9 @@ class User {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[ACL] => NULL<br />';
 		}
-	
 		return $string;
 	}
+
 }
+
+?>

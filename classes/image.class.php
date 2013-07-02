@@ -1,15 +1,12 @@
 <?php
-
 /* ! \par		Info Generali:
  *  \author		Maria Laura Fresu
  *  \version	1.0
  *  \date		2013
  *  \copyright	Jamyourself.com 2013
- *
  *  \par		Info Classe:
  *  \brief		Image
  *  \details	Classe per la singola immagine caricata dall'utente
- *  
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -39,334 +36,333 @@ class Image {
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;
-	
+
 	/**
-	 * \fn	string getObjectId()
+	 * \fn		string getObjectId()
 	 * \brief	Return the objectId value
 	 * \return	string
 	 */
 	public function getObjectId() {
 		return $this->objectId;
 	}
-	
+
 	/**
-	 * \fn	BOOL getActive()
+	 * \fn		BOOL getActive()
 	 * \brief	Return the active vvalure
 	 * \return	BOOL
 	 */
 	public function getActive() {
 		return $this->active;
 	}
-	
+
 	/**
-	 * \fn	string getAlbum()
+	 * \fn		string getAlbum()
 	 * \brief	Return the album value
 	 * \return	string
 	 */
 	public function getAlbum() {
 		return $this->album;
 	}
-	
+
 	/**
-	 * \fn	array getCommentators()
+	 * \fn		array getCommentators()
 	 * \brief	Return an array of objectId of istances of _User class who commented on the video
 	 * \return	array
 	 */
 	public function getCommentators() {
 		return $this->commentators;
 	}
-	
+
 	/**
-	 * \fn	array getComments()
+	 * \fn		array getComments()
 	 * \brief	Return an array of objectId of istances of the Comment class; comments on the video istance
 	 * \return	array
 	 */
 	public function getComments() {
 		return $this->comments;
 	}
-	
+
 	/**
-	 * \fn	int getCounter()
+	 * \fn		int getCounter()
 	 * \brief	Return the counter value
 	 * \return	int
 	 */
 	public function getCounter() {
 		return $this->counter;
 	}
-	
+
 	/**
-	 * \fn	string getDescription()
+	 * \fn		string getDescription()
 	 * \brief	Return the description value
 	 * \return	string
 	 */
 	public function getDescription() {
 		return $this->description;
 	}
-	
+
 	/**
-	 * \fn	array getFeaturing()
+	 * \fn		array getFeaturing()
 	 * \brief	Return the featuring value, array of objectId to _User istances
 	 * \return	array
 	 */
 	public function getFeaturing() {
 		return $this->featuring;
 	}
-	
+
 	/**
-	 * \fn	parseFile getFile()
+	 * \fn		parseFile getFile()
 	 * \brief	Return the file value, file path
 	 * \return	parseFile
 	 */
 	public function getFile() {
 		return $this->file;
 	}
-	
+
 	/**
-	 * \fn	string getFilePath()
+	 * \fn		string getFilePath()
 	 * \brief	Return the filePath value, file path
 	 * \return	string
 	 */
 	public function getFilePath() {
 		return $this->filePath;
 	}
-	
+
 	/**
-	 * \fn	string getFromUser()
+	 * \fn		string getFromUser()
 	 * \brief	Return the objectId value for the fromUser
 	 * \return	string
 	 */
 	public function getFromUser() {
 		return $this->fromUser;
 	}
-	
+
 	/**
-	 * \fn	geopoint getLocation()
-	 * \brief	Return the location  value
+	 * \fn		geopoint getLocation()
+	 * \brief	Return the location value
 	 * \return	geopoint
 	 */
 	public function getLocation() {
 		return $this->location;
 	}
-	
+
 	/**
-	 * \fn	int getLoveCounter()
+	 * \fn		int getLoveCounter()
 	 * \brief	Return the int value of loveCounter, counting the love action on the video
 	 * \return	int
 	 */
 	public function getLoveCounter() {
 		return $this->loveCounter;
 	}
-	
+
 	/**
-	 * \fn	array  getLovers()
+	 * \fn		array  getLovers()
 	 * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the video
 	 * \return	string
 	 */
 	public function getLovers() {
 		return $this->lovers;
 	}
-	
+
 	/**
-	 * \fn	array getTags()
+	 * \fn		array getTags()
 	 * \brief	Return the tags value, array of string to categorize the video
 	 * \return	array
 	 */
 	public function getTags() {
 		return $this->tags;
 	}
-	
+
 	/**
-	 * \fn	DateTime getCreatedAt()
+	 * \fn		DateTime getCreatedAt()
 	 * \brief	Return the Image creation date
 	 * \return	DateTime
 	 */
 	public function getCreatedAt() {
 		return $this->createdAt;
 	}
-	
+
 	/**
-	 * \fn	DateTime getUpdatedAt()
+	 * \fn		DateTime getUpdatedAt()
 	 * \brief	Return the Image modification date
 	 * \return	DateTime
 	 */
 	public function getUpdatedAt() {
 		return $this->updatedAt;
 	}
-	
+
 	/**
-	 * \fn	parseACL getACL()
+	 * \fn		parseACL getACL()
 	 * \brief	Return the parseACL object representing the Image ACL 
 	 * \return	parseACL
 	 */
 	public function getACL() {
 		return $this->ACL;
 	}
-	
+
 	/**
-	 * \fn	void setObjectId($objectId)
+	 * \fn		void setObjectId($objectId)
 	 * \brief	Sets the objectId value
 	 * \param	string
 	 */
 	public function setObjectId($objectId) {
 		$this->objectId = $objectId;
 	}
-	
+
 	/**
-	 * \fn	void setActive($active)
+	 * \fn		void setActive($active)
 	 * \brief	Sets the active value
 	 * \param	BOOL
 	 */
 	public function setActive($active) {
 		$this->active = $active;
 	}
-	
+
 	public function setAlbum($album) {
 		$this->album = $album;
 	}
-	
+
 	/**
-	 * \fn	void setCommentators($commentators)
+	 * \fn		void setCommentators($commentators)
 	 * \brief	Sets the commentators value,array of pointer to ParseUser
 	 * \param	array
 	 */
 	public function setCommentators($commentators) {
 		$this->commentators = $commentators;
 	}
-	
+
 	/**
-	 * \fn	void setComments($comments)
+	 * \fn		void setComments($comments)
 	 * \brief	Sets the comments value,array of pointer to ParseComment
 	 * \param	array
 	 */
 	public function setComments($comments) {
 		$this->comments = $comments;
 	}
-	
+
 	/**
-	 * \fn	void setCounter($counter)
+	 * \fn		void setCounter($counter)
 	 * \brief	Sets the counter value
 	 * \param	int
 	 */
 	public function setCounter($counter) {
 		$this->counter = $counter;
 	}
-	
+
 	/**
-	 * \fn	void setDescription($description)
+	 * \fn		void setDescription($description)
 	 * \brief	Sets the description value
 	 * \param	string
 	 */
 	public function setDescription($description) {
 		$this->description = $description;
 	}
-	
+
 	/**
-	 * \fn	void setFeaturing($featuring)
+	 * \fn		void setFeaturing($featuring)
 	 * \brief	Sets the featuring value,array of pointer to ParseUser
 	 * \param	array
 	 */
 	public function setFeaturing($featuring) {
 		$this->featuring = $featuring;
 	}
-	
+
 	/**
-	 * \fn	void setFile($file)
+	 * \fn		void setFile($file)
 	 * \brief	Sets the file value
 	 * \param   parseFile
 	 */
 	public function setFile($file) {
 		$this->file = $file;
 	}
-	
+
 	/**
-	 * \fn	void setFilePath($filePath)
+	 * \fn		void setFilePath($filePath)
 	 * \brief	Sets the filePath value
 	 * \param	string
 	 */
 	public function setFilePath($filePath) {
 		$this->filePath = $filePath;
 	}
-	
+
 	/**
-	 * \fn	void setFromUser($fromUser))
+	 * \fn		void setFromUser($fromUser))
 	 * \brief	Sets the fromUser value,pointer to ParseUser
 	 * \param	string
 	 */
 	public function setFromUser($fromUser) {
 		$this->fromUser = $fromUser;
 	}
-	
+
 	/**
-	 * \fn	void setLocation($location)
+	 * \fn		void setLocation($location)
 	 * \brief	Sets the location value
 	 * \param	parseGeopoint
 	 */
 	public function setLocation($location) {
 		$this->location = $location;
 	}
-	
+
 	/**
-	 * \fn	void setLoveCounter($loveCounter)
+	 * \fn		void setLoveCounter($loveCounter)
 	 * \brief	Sets the loveCounter value
 	 * \param	int
 	 */
 	public function setLoveCounter($loveCounter) {
 		$this->loveCounter = $loveCounter;
 	}
-	
+
 	/**
-	 * \fn	void setLovers($lovers)
+	 * \fn		void setLovers($lovers)
 	 * \brief	Sets the lovers value,array of pointer to ParseUser
 	 * \param	array
 	 */
 	public function setLovers($lovers) {
 		$this->lovers = $lovers;
 	}
-	
+
 	/**
-	 * \fn	void setTags($tags)
+	 * \fn		void setTags($tags)
 	 * \brief	Sets the tags value,array of strings
 	 * \param	array
 	 */
 	public function setTags($tags) {
 		$this->tags = $tags;
 	}
-	
+
 	/**
-	 * \fn	void setCreatedAt($createdAt)
+	 * \fn		void setCreatedAt($createdAt)
 	 * \brief	Sets the Image creation date
 	 * \param	DateTime
 	 */
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
 	}
-	
+
 	/**
-	 * \fn	void setUpdatedAt($updatedAt)
+	 * \fn		void setUpdatedAt($updatedAt)
 	 * \brief	Sets the Image modification date
 	 * \param	DateTime
 	 */
 	public function setUpdatedAt($updatedAt) {
 		$this->updatedAt = $updatedAt;
 	}
-	
+
 	/**
-	 * \fn	void setACL($ACL)
+	 * \fn		void setACL($ACL)
 	 * \brief	Sets the parseACL object representing the Image ACL
 	 * \param	parseACL
 	 */
 	public function setACL($ACL) {
 		$this->ACL = $ACL;
 	}
-	
+
 	/**
-	 * \fn	void setACL($ACL)
+	 * \fn		void setACL($ACL)
 	 * \brief	Sets the parseACL object representing the Image ACL
 	 * \param	parseACL
 	 */
 	public function __toString() {
 		$string = '';
-		
 		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
 		$string .= '[active] => ' . $this->getActive() . '<br />';
 		$string.= '[album] => ' . $this->getAlbum() . '<br />';

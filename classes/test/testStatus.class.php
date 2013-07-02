@@ -1,7 +1,7 @@
 <?php
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../');
-	
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -14,7 +14,7 @@ require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'event.class.php';
-# require_once CLASSES_DIR . 'eventParse.class.php';
+require_once CLASSES_DIR . 'eventParse.class.php';
 require_once CLASSES_DIR . 'song.class.php';
 require_once CLASSES_DIR . 'songParse.class.php';
 require_once CLASSES_DIR . 'image.class.php';
@@ -40,12 +40,12 @@ $status->setText('Il testo dello status');
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />STAMPO IL status APPENA CREATO<br />';
+echo '<br />STAMPO IL Status APPENA CREATO<br />';
 echo $status;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />INIZIO IL SALVATAGGIO DEL status APPENA CREATO<br />';
+echo '<br />INIZIO IL SALVATAGGIO DEL Status APPENA CREATO<br />';
 
 $statusParse = new StatusParse();
 $resSave = $statusParse->saveStatus($status);
@@ -55,7 +55,7 @@ if (get_class($resSave) == 'Error') {
 	echo '<br />Comment SAVED<br />' . $resSave . '<br />';
 }
 
-echo '<br />FINITO IL SALVATAGGIO DEL status APPENA CREATO<br />';
+echo '<br />FINITO IL SALVATAGGIO DEL Status APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
@@ -80,7 +80,7 @@ $resDelete = $statusParse->deleteStatus($resSave->getObjectId());
 if (get_class($resDelete)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Comment DELETED<br />';
+	echo '<br />Status DELETED<br />';
 }
 
 echo '<br />FINITO LA CANCELLAZIONE DI UNO Status<br />';

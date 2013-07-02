@@ -1,25 +1,22 @@
 <?php
-/* ! \par Info Generali:
- *  \author    Daniele Caldelli
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
- *
- *  \par Info  Classe:
- *  \brief     Error
- *  \details   Classe Error per la gestione degli errori
- *  
- *  \par Commenti:
+/* ! \par		Info Generali:
+ *  \author		Daniele Caldelli
+ *  \version	1.0
+ *  \date		2013
+ *  \copyright	Jamyourself.com 2013
+ *  \par		Info  Classe:
+ *  \brief		Error
+ *  \details	Classe Error per la gestione degli errori
+ *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
  *
- * 
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:error:faq">API</a>
  */
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -29,7 +26,7 @@ require_once CLASSES_DIR . 'error.class.php';
 class ErrorParse {
 
 	private $parseQuery;
-	
+
 	/**
 	 * \fn		void __construct()
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the Error class
@@ -37,7 +34,7 @@ class ErrorParse {
 	public function __construct() {
 		$this->parseQuery = new parseQuery('Error');
 	}
-	
+
 	/**
 	 * \fn		number getCount()
 	 * \brief	Returns the number of requests Error
@@ -46,7 +43,7 @@ class ErrorParse {
 	public function getCount() {
 		return $this->parseQuery->getCount()->count;
 	}
-	
+
 	/**
 	 * \fn		Error getError(string $objectId)
 	 * \brief	The function returns the Error object specified
@@ -64,11 +61,11 @@ class ErrorParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		array getErrors()
 	 * \brief	The function returns an array Error objects specified
-	 * \return	array 	an array of Error, if one or more Error are found
+	 * \return	array	an array of Error, if one or more Error are found
 	 * \return	null	if no Error are found
 	 * \return	Error	the Error raised by the function
 	 */
@@ -88,7 +85,7 @@ class ErrorParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Error
@@ -96,8 +93,8 @@ class ErrorParse {
 	 */
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
-	}	
-	
+	}
+
 	/**
 	 * \fn		void orderByAscending($field)
 	 * \brief	Specifies which field need to be ordered ascending of requested Error
@@ -106,7 +103,7 @@ class ErrorParse {
 	public function orderByAscending($field) {
 		$this->parseQuery->orderByAscending($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByDescending($field)
 	 * \brief	Specifies which field need to be ordered descending of requested Error
@@ -115,11 +112,11 @@ class ErrorParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-	
+
 	/**
 	 * \fn		Error parseToError($res)
 	 * \brief	The function returns a representation of an Error object in Parse
-	 * \param	$res 	represent the Error object returned from Parse
+	 * \param	$res	represent the Error object returned from Parse
 	 * \return	Error	the Error object
 	 * \return	Error	the Error raised by the function
 	 */
@@ -142,11 +139,11 @@ class ErrorParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		Error saveError($error)
 	 * \brief	This function save an Error object in Parse
-	 * \param	$error 		represent the Error object to save
+	 * \param	$error		represent the Error object to save
 	 * \return	Error		the Error object with the new objectId parameter saved
 	 * \return	Exception	the Exception raised by the function
 	 */
@@ -168,7 +165,7 @@ class ErrorParse {
 			return new Exception($e->getMessage());
 		}
 	}
-	
+
 	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Error to return
@@ -177,7 +174,7 @@ class ErrorParse {
 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
-	
+
 	/**
 	 * \fn		void setSkip($skip)
 	 * \brief	Sets the number of how many Error must be discarded initially
@@ -186,7 +183,7 @@ class ErrorParse {
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
-	
+
 	/**
 	 * \fn		void where($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -196,7 +193,7 @@ class ErrorParse {
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must value one or more $value
@@ -206,7 +203,7 @@ class ErrorParse {
 	public function whereContainedIn($field, $values) {
 		$this->parseQuery->whereContainedIn($field, $values);
 	}
-	
+
 	/**
 	 * \fn		void whereEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -216,7 +213,7 @@ class ErrorParse {
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereExists($field)
 	 * \brief	Sets a condition for which the field $field must be enhanced
@@ -224,8 +221,8 @@ class ErrorParse {
 	 */
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
-	}	
-	
+	}
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -235,7 +232,7 @@ class ErrorParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -245,7 +242,7 @@ class ErrorParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -255,7 +252,7 @@ class ErrorParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -265,7 +262,7 @@ class ErrorParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -275,7 +272,7 @@ class ErrorParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -285,7 +282,7 @@ class ErrorParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -294,7 +291,7 @@ class ErrorParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-	
+
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -305,7 +302,7 @@ class ErrorParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-	
+
 	/**
 	 * \fn		void whereRelatedTo($field, $className, $objectId)
 	 * \brief	Sets a condition for which to return all the Error objects present in the field $field of object $objectId of type $className

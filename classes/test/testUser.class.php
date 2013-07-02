@@ -1,7 +1,7 @@
 <?php
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../');
-	
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -71,12 +71,12 @@ $user->setACL($parseACL);
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />STAMPO LO USER APPENA CREATO<br />';
+echo '<br />STAMPO LO User APPENA CREATO<br />';
 echo $user;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />INIZIO IL SALVATAGGIO DELLO USER APPENA CREATO<br />';
+echo '<br />INIZIO IL SALVATAGGIO DELLO User APPENA CREATO<br />';
 
 $userParse = new UserParse();
 $resSave = $userParse->saveUser($user);
@@ -86,7 +86,7 @@ if (get_class($resSave) == 'Error') {
 	echo '<br />User SAVED:<br />' . $resSave . '<br />';
 }
 
-echo '<br />FINITO IL SALVATAGGIO DELLO USER APPENA CREATO<br />';
+echo '<br />FINITO IL SALVATAGGIO DELLO User APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 

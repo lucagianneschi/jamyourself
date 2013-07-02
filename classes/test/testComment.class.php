@@ -4,11 +4,9 @@
  * \version		1.0
  * \date		2013
  * \copyright	Jamyourself.com 2013
- *
  * \par			Info Classe:
  * \brief		Classe di test
  * \details		Classe di test per la classe Comment
- *
  * \par			Commenti:
  * \warning
  * \bug
@@ -88,12 +86,12 @@ echo '<br />TEST<br />';
 */
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />STAMPO IL COMMENTO APPENA CREATO<br />';
+echo '<br />STAMPO IL Comment APPENA CREATO<br />';
 echo $cmt;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo '<br />INIZIO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
+echo '<br />INIZIO IL SALVATAGGIO DEL Comment APPENA CREATO<br />';
 
 $cmtParse = new CommentParse();
 $resSave = $cmtParse->saveComment($cmt);
@@ -103,7 +101,7 @@ if (get_class($resSave) == 'Error') {
 	echo '<br />Comment SAVED<br />' . $resSave . '<br />';
 }
 
-echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
+echo '<br />FINITO IL SALVATAGGIO DEL Comment APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 

@@ -1,15 +1,12 @@
 <?php
-
 /* ! \par		Info Generali:
  *  \author		Stefano Muscas
  *  \version	1.0
  *  \date		2013
  *  \copyright	Jamyourself.com 2013
- *
  *  \par		Info Classe:
  *  \brief		Video Class
- *  \details	Classe che contiene i video presi da Vimeo e Youtube e segnalati dagli utenti 
- *  
+ *  \details	Classe che contiene i video presi da Vimeo e Youtube e segnalati dagli utenti
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -18,8 +15,9 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:video">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php??id=documentazione:api:video">API</a>
  */
+
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
@@ -35,23 +33,22 @@ class VideoParse {
 	 * \brief	The constructor instantiates a new object of type ParseQuery on the Video class
 	 */
 	public function __construct() {
-	
-		$this->parseQuery = new ParseQuery("Video");
+		$this->parseQuery = new ParseQuery('Video');
 	}
-	
+
 	/**
 	 * \fn		void deleteVideo(string $objectId)
 	 * \brief	Set unactive a specified Video by objectId
-	 * \param   $objectId the string that represent the objectId of the Video
+	 * \param	$objectId the string that represent the objectId of the Video
 	 * \return	error in case of exception
 	 */
 	public function deleteVideo($objectId) {
 		try {
-			$parseVideo = new parseObject('Video');
-			$parseVideo->active = false;
-			$parseVideo->update($objectId);
+			$parseObject = new parseObject('Video');
+			$parseObject->active = false;
+			$parseObject->update($objectId);
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
 
@@ -63,7 +60,7 @@ class VideoParse {
 	public function getCount() {
 		return $this->parseQuery->getCount()->count;
 	}
-	
+
 	/**
 	 * \fn		void getVideo(string $objectId)
 	 * \brief	The function returns the Video object specified
@@ -73,19 +70,19 @@ class VideoParse {
 	 */
 	public function getVideo($objectId) {
 		try {
-			$parseVideo = new parseObject('Video');
-			$res = $parseVideo->get($objectId);
+			$parseObject = new parseObject('Video');
+			$res = $parseObject->get($objectId);
 			$video = $this->parseToVideo($res);
 			return $video;
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		array getVideos()
 	 * \brief	The function returns the Videos objects specified
-	 * \return	array 	an array of Video, if one or more Video are found
+	 * \return	array	an array of Video, if one or more Video are found
 	 * \return	null	if no Video are found
 	 * \return	Error	the Error raised by the function
 	 */
@@ -105,7 +102,7 @@ class VideoParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Video
@@ -114,7 +111,7 @@ class VideoParse {
 	public function orderBy($field) {
 		$this->parseQuery->orderBy($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByAscending($field)
 	 * \brief	Specifies which field need to be ordered ascending of requested Video
@@ -123,7 +120,7 @@ class VideoParse {
 	public function orderByAscending($field) {
 		$this->parseQuery->orderByAscending($field);
 	}
-	
+
 	/**
 	 * \fn		void orderByDescending($field)
 	 * \brief	Specifies which field need to be ordered descending of requested Video
@@ -132,11 +129,11 @@ class VideoParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
-	
+
 	/**
 	 * \fn		Video parseToVideo($res)
 	 * \brief	The function returns a representation of an Video object in Parse
-	 * \param	$res 	represent the Video object returned from Parse
+	 * \param	$res	represent the Video object returned from Parse
 	 * \return	Video	the Video object
 	 * \return	Error	the Error raised by the function
 	 */
@@ -166,14 +163,14 @@ class VideoParse {
 			$video->setACL(fromParseACL($res->ACL));
 			return $video;
 		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		Video saveVideo(Video $video)
 	 * \brief	This function save an Video object in Parse
-	 * \param	$video 	represent the Video object to save
+	 * \param	$video	represent the Video object to save
 	 * \return	Video	the Video object with the new objectId parameter saved
 	 * \return	Error	the Error raised by the function
 	 */
@@ -209,7 +206,7 @@ class VideoParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-	
+
 	/**
 	 * \fn		void setLimit($limit)
 	 * \brief	Sets the maximum number of Video to return
@@ -218,7 +215,7 @@ class VideoParse {
 	public function setLimit($limit) {
 		$this->parseQuery->setLimit($limit);
 	}
-	
+
 	/**
 	 * \fn		void setSkip($skip)
 	 * \brief	Sets the number of how many Video(s) must be discarded initially
@@ -227,7 +224,7 @@ class VideoParse {
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
 	}
-	
+
 	/**
 	 * \fn		void where($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -237,7 +234,7 @@ class VideoParse {
 	public function where($field, $value) {
 		$this->parseQuery->where($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must value one or more $value
@@ -247,7 +244,7 @@ class VideoParse {
 	public function whereContainedIn($field, $values) {
 		$this->parseQuery->whereContainedIn($field, $values);
 	}
-	
+
 	/**
 	 * \fn		void whereEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
@@ -257,7 +254,7 @@ class VideoParse {
 	public function whereEqualTo($field, $value) {
 		$this->parseQuery->whereEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereExists($field)
 	 * \brief	Sets a condition for which the field $field must be enhanced
@@ -266,7 +263,7 @@ class VideoParse {
 	public function whereExists($field) {
 		$this->parseQuery->whereExists($field);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value more than $value
@@ -276,7 +273,7 @@ class VideoParse {
 	public function whereGreaterThan($field, $value) {
 		$this->parseQuery->whereGreaterThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereGreaterThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or more than $value
@@ -286,7 +283,7 @@ class VideoParse {
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
@@ -296,7 +293,7 @@ class VideoParse {
 	public function whereLessThan($field, $value) {
 		$this->parseQuery->whereLessThan($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereLessThanOrEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must value equal or less than $value
@@ -306,7 +303,7 @@ class VideoParse {
 	public function whereLessThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereLessThanOrEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotContainedIn($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value one or more $value
@@ -316,7 +313,7 @@ class VideoParse {
 	public function whereNotContainedIn($field, $array) {
 		$this->parseQuery->whereNotContainedIn($field, $array);
 	}
-	
+
 	/**
 	 * \fn		void whereNotEqualTo($field, $value)
 	 * \brief	Sets a condition for which the field $field must not value $value
@@ -326,7 +323,7 @@ class VideoParse {
 	public function whereNotEqualTo($field, $value) {
 		$this->parseQuery->whereNotEqualTo($field, $value);
 	}
-	
+
 	/**
 	 * \fn		void whereNotExists($field)
 	 * \brief	Sets a condition for which the field $field must not be enhanced
@@ -335,7 +332,7 @@ class VideoParse {
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
-	
+
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
@@ -346,7 +343,14 @@ class VideoParse {
 	public function wherePointer($field, $className, $objectId) {
 		$this->parseQuery->wherePointer($field, $className, $objectId);
 	}
-	
+
+	/**
+	 * \fn		void whereRelatedTo($field, $className, $objectId)
+	 * \brief	Sets a condition for which to return all the Event objects present in the field $field of object $objectId of type $className
+	 * \param	$field		the string which represent the field
+	 * \param	$className	the string which represent the className
+	 * \param	$objectId	the string which represent the objectId
+	 */
 	public function whereRelatedTo($field, $className, $objectId) {
 		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
 	}

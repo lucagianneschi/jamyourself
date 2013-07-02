@@ -1,15 +1,12 @@
 <?php
-
 /* ! \par		Info Generali:
  *  \author		Stefano Muscas
  *  \version	1.0
  *  \date		2013
  *  \copyright	Jamyourself.com 2013
- *
  *  \par		Info Classe:
  *  \brief		Playslist
  *  \details	Classe che accoglie le canzoni che andranno nel player della pagina utente
- *  
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -30,170 +27,170 @@ class Playlist {
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;
-	
+
 	/**
-	 * \fn	string getObjectId()
+	 * \fn		string getObjectId()
 	 * \brief	Return the objectId value
 	 * \return	string
 	 */
 	public function getObjectId() {
 		return $this->objectId;
 	}
-	
+
 	/**
-	 * \fn	BOOL getActive()
+	 * \fn		BOOL getActive()
 	 * \brief	Return the active vvalure
 	 * \return	BOOL
 	 */
 	public function getActive() {
 		return $this->active;
 	}
-	
+
 	/**
-	 * \fn	string getFromUser()
+	 * \fn		string getFromUser()
 	 * \brief	Return the objectId value for the fromUser
 	 * \return	string
 	 */
 	public function getFromUser() {
 		return $this->fromUser;
 	}
-	
+
 	/**
-	 * \fn	string getName()
+	 * \fn		string getName()
 	 * \brief	Return the name value for playlist
 	 * \return	string
 	 */
 	public function getName() {
 		return $this->name;
 	}
-	
+
 	/**
-	 * \fn	array getSongs()
+	 * \fn		array getSongs()
 	 * \brief	Return an array of objectId of istances of the Song class
 	 * \return	array
 	 */
 	public function getSongs() {
 		return $this->songs;
 	}
-	
+
 	/**
-	 * \fn	BOOL getUnlimited()
+	 * \fn		BOOL getUnlimited()
 	 * \brief	Return the unlimited value (YES just for premium account)
 	 * \return	BOOL
 	 */
 	public function getUnlimited() {
 		return $this->unlimited;
 	}
-	
+
 	/**
-	 * \fn	DateTime getCreatedAt()
+	 * \fn		DateTime getCreatedAt()
 	 * \brief	Return the Playlist creation date
 	 * \return	DateTime
 	 */
 	public function getCreatedAt() {
 		return $this->createdAt;
 	}
-	
+
 	/**
-	 * \fn	DateTime getUpdatedAt()
+	 * \fn		DateTime getUpdatedAt()
 	 * \brief	Return the Playlist modification date
 	 * \return	DateTime
 	 */
 	public function getUpdatedAt() {
 		return $this->updatedAt;
 	}
-	
+
 	/**
-	 * \fn	parseACL getACL()
+	 * \fn		parseACL getACL()
 	 * \brief	Return the parseACL object representing the Playlist ACL 
 	 * \return	parseACL
 	 */
 	public function getACL() {
 		return $this->ACL;
 	}
-	
+
 	/**
-	 * \fn	void setObjectId($objectId)
+	 * \fn		void setObjectId($objectId)
 	 * \brief	Sets the objectId value
 	 * \param	string
 	 */
 	public function setObjectId($objectId) {
 		$this->objectId = $objectId;
 	}
-	
+
 	/**
-	 * \fn	void setActive($active)
+	 * \fn		void setActive($active)
 	 * \brief	Sets the active value
 	 * \param	BOOL
 	 */
 	public function setActive($active) {
 		$this->active = $active;
 	}
-	
+
 	/**
-	 * \fn	void setFromUser($fromUser))
+	 * \fn		void setFromUser($fromUser))
 	 * \brief	Sets the fromUser value,pointer to ParseUser
 	 * \param	string
 	 */
 	public function setFromUser($fromUser) {
 		$this->fromUser = $fromUser;
 	}
-	
+
 	/**
-	 * \fn	void  setName($name)
+	 * \fn		void  setName($name)
 	 * \brief	Sets the name for the playlist
 	 * \param	string
 	 */
 	public function setName($name) {
 		$this->name = $name;
 	}
-	
+
 	/**
-	 * \fn	void setSongs($songs)
+	 * \fn		void setSongs($songs)
 	 * \brief	Sets the songs value,array of pointer to Song
 	 * \param	array
 	 */
 	public function setSongs($songs) {
 		$this->songs = $songs;
 	}
-	
+
 	/**
-	 * \fn	void setUnlimited($unlimited)
+	 * \fn		void setUnlimited($unlimited)
 	 * \brief	Sets the unlimited value
 	 * \param	BOOL
 	 */
 	public function setUnlimited($unlimited) {
 		$this->unlimited = $unlimited;
 	}
-	
+
 	/**
-	 * \fn	void setCreatedAt($createdAt)
+	 * \fn		void setCreatedAt($createdAt)
 	 * \brief	Sets the Playlist creation date
 	 * \param	DateTime
 	 */
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
 	}
-	
+
 	/**
-	 * \fn	void setUpdatedAt($updatedAt)
+	 * \fn		void setUpdatedAt($updatedAt)
 	 * \brief	Sets the Playlist modification date
 	 * \param	DateTime
 	 */
 	public function setUpdatedAt($updatedAt) {
 		$this->updatedAt = $updatedAt;
 	}
-	
+
 	/**
-	 * \fn	void setACL($ACL)
+	 * \fn		void setACL($ACL)
 	 * \brief	Sets the parseACL object representing the Playlist ACL
 	 * \param	parseACL
 	 */
 	public function setACL($ACL) {
 		$this->ACL = $ACL;
 	}
-	
-		/**
+
+	/**
 	 * \fn		string __toString()
 	 * \brief	Return a printable string representing the Playlist object
 	 * \return	string

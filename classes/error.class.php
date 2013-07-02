@@ -1,19 +1,16 @@
 <?php
-/* ! \par Info Generali:
- *  \author    Daniele Caldelli
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
- *
- *  \par Info  Classe:
- *  \brief     Error
- *  \details   Classe Error per la gestione degli errori
- *  
- *  \par Commenti:
+/* ! \par		Info Generali:
+ *  \author		Daniele Caldelli
+ *  \version	1.0
+ *  \date		2013
+ *  \copyright	Jamyourself.com 2013
+ *  \par		Info Classe:
+ *  \brief		Error
+ *  \details	Classe Error per la gestione degli errori
+ *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
- *
  * 
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:error:faq">API</a>
  */
@@ -29,7 +26,7 @@ class Error {
 	private $createdAt;
 	private $updatedAt;
 	private $ACL;
-	
+
 	/**
 	 * \fn		string getObjectId()
 	 * \brief	Return the objectId value
@@ -38,7 +35,7 @@ class Error {
 	public function getObjectId() {
 		return $this->objectId;
 	}
-	
+
 	/**
 	 * \fn		string getErrorClass()
 	 * \brief	Return the class which raise the Error
@@ -47,7 +44,7 @@ class Error {
 	public function getErrorClass() {
 		return $this->errorClass;
 	}
-	
+
 	/**
 	 * \fn		number getErrorCode()
 	 * \brief	Return the Error code
@@ -56,7 +53,7 @@ class Error {
 	public function getErrorCode() {
 		return $this->errorCode;
 	}
-	
+
 	/**
 	 * \fn		string getErrorFunction()
 	 * \brief	Return the function which raise the Error
@@ -65,7 +62,7 @@ class Error {
 	public function getErrorFunction() {
 		return $this->errorFunction;
 	}
-	
+
 	/**
 	 * \fn		array getErrorFunctionParameter()
 	 * \brief	Returns an array containing the parameters of the function
@@ -74,7 +71,7 @@ class Error {
 	public function getErrorFunctionParameter() {
 		return $this->errorFunctionParameter;
 	}
-	
+
 	/**
 	 * \fn		string getErrorMessage()
 	 * \brief	Return the Error message
@@ -83,7 +80,7 @@ class Error {
 	public function getErrorMessage() {
 		return $this->errorMessage;
 	}
-	
+
 	/**
 	 * \fn		DateTime getCreatedAt()
 	 * \brief	Return the Error creation date
@@ -92,7 +89,7 @@ class Error {
 	public function getCreatedAt() {
 		return $this->createdAt;
 	}
-	
+
 	/**
 	 * \fn		DateTime getUpdatedAt()
 	 * \brief	Return the Error modification date
@@ -101,7 +98,7 @@ class Error {
 	public function getUpdatedAt() {
 		return $this->updatedAt;
 	}
-	
+
 	/**
 	 * \fn		parseACL getACL()
 	 * \brief	Return the parseACL object representing the Error ACL 
@@ -110,7 +107,7 @@ class Error {
 	public function getACL() {
 		return $this->ACL;
 	}
-	
+
 	/**
 	 * \fn		void setObjectId($objectId)
 	 * \brief	Sets the objectId value
@@ -119,7 +116,7 @@ class Error {
 	public function setObjectId($objectId) {
 		$this->objectId = $objectId;
 	}
-	
+
 	/**
 	 * \fn		void setErrorClass($errorClass)
 	 * \brief	Sets the class which raise the Error
@@ -128,7 +125,7 @@ class Error {
 	public function setErrorClass($errorClass) {
 		$this->errorClass = $errorClass;
 	}
-	
+
 	/**
 	 * \fn		void setErrorCode($errorCode)
 	 * \brief	Sets the Error code
@@ -137,7 +134,7 @@ class Error {
 	public function setErrorCode($errorCode) {
 		$this->errorCode = $errorCode;
 	}
-	
+
 	/**
 	 * \fn		void setErrorFunction($errorFunction)
 	 * \brief	Sets the function which raise the Error
@@ -146,7 +143,7 @@ class Error {
 	public function setErrorFunction($errorFunction) {
 		$this->errorFunction = $errorFunction;
 	}
-	
+
 	/**
 	 * \fn		void setErrorFunctionParameter($errorFunctionParameter)
 	 * \brief	Sets an array containing the parameters of the function
@@ -155,7 +152,7 @@ class Error {
 	public function setErrorFunctionParameter($errorFunctionParameter) {
 		$this->errorFunctionParameter = $errorFunctionParameter;
 	}
-	
+
 	/**
 	 * \fn		void setErrorMessage($errorMessage)
 	 * \brief	Sets the Error message
@@ -164,7 +161,7 @@ class Error {
 	public function setErrorMessage($errorMessage) {
 		$this->errorMessage = $errorMessage;
 	}
-	
+
 	/**
 	 * \fn		void setCreatedAt($createdAt)
 	 * \brief	Sets the Error creation date
@@ -173,7 +170,7 @@ class Error {
 	public function setCreatedAt($createdAt) {
 		$this->createdAt = $createdAt;
 	}
-	
+
 	/**
 	 * \fn		void setUpdatedAt($updatedAt)
 	 * \brief	Sets the Error modification date
@@ -182,7 +179,7 @@ class Error {
 	public function setUpdatedAt($updatedAt) {
 		 $this->updatedAt = $updatedAt;
 	}
-	
+
 	/**
 	 * \fn		void setACL($ACL)
 	 * \brief	Sets the parseACL object representing the Error ACL
@@ -191,7 +188,7 @@ class Error {
 	public function setACL($ACL) {
 		$this->ACL = $ACL;
 	}
-	
+
 	/**
 	 * \fn		string __toString()
 	 * \brief	Return a printable string representing the Error object
@@ -236,10 +233,10 @@ class Error {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[ACL] => NULL<br />';
 		}
-		
+	
 		return $string;
 	}
-	
+
 }
 
 ?>

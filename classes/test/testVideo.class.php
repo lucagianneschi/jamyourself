@@ -1,24 +1,21 @@
 <?php
 /* ! \par		Info Generali:
-* \author		Luca Gianneschi
-* \version		1.0
-* \date			2013
-* \copyright	Jamyourself.com 2013
-*
-* \par			Info Classe:
-* \brief		Classe di test
-* \details		Classe di test per la classe Video
-*
-* \par			Commenti:
-* \warning
-* \bug
-* \todo
-*
-*/
+ * \author		Luca Gianneschi
+ * \version		1.0
+ * \date			2013
+ * \copyright	Jamyourself.com 2013
+ * \par			Info Classe:
+ * \brief		Classe di test
+ * \details		Classe di test per la classe Video
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo
+ */
 
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../');
-	
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -43,14 +40,15 @@ $video->setTags(array('tag1', 'tag2'));
 $video->setThumbnail('indirizzo del thumbnail');
 $video->setTitle('titolo del video');
 //$video->setACL();
+
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo 'STAMPO IL VIDEO APPENA CREATO  <br>';
+echo 'STAMPO IL Video APPENA CREATO  <br>';
 echo $video;
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
-echo 'INIZIO IL SALVATAGGIO DEL VIDEO APPENA CREATO<br />';
+echo 'INIZIO IL SALVATAGGIO DEL Video APPENA CREATO<br />';
 $videoParse = new VideoParse();
 
 $resSave = $videoParse->saveVideo($video);
@@ -60,7 +58,7 @@ if (get_class($resSave) == 'Error') {
 } else {
 	echo '<br />Video SAVED<br />' . $resSave . '<br />';
 }
-echo 'FINITO IL SALVATAGGIO DEL VIDEO APPENA CREATO<br />';
+echo 'FINITO IL SALVATAGGIO DEL Video APPENA CREATO<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
