@@ -283,7 +283,7 @@ function toParsePointer($className, $objectId) {
  */
 
 /**
- * \fn		array toParseRelation($className, $objectIds)
+ * \fn		array toParseAddRelation($className, $objectIds)
  * \brief	The function returns an array like representation of all Relation objects
  * \param	$className 	represent the object class
  * \param	$objectIds 	is the array of objectId
@@ -291,9 +291,9 @@ function toParsePointer($className, $objectId) {
  * \return	null		if no relation is present
  * \return	Error		the Error raised by the function
  */
-function toParseRelation($className, $objectIds) {
+function toParseAddRelation($className, $objectIds) {
     if (is_null($className) || is_null($objectIds)) {
-        return throwError(new Exception('toParseRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
+        return throwError(new Exception('toParseAddRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
     } else {
         if (count($objectIds) > 0) {
             $arrayPointer = array();
@@ -302,7 +302,34 @@ function toParseRelation($className, $objectIds) {
                 $arrayPointer[] = $pointer;
             }
             $parseRestClient = new parseRestClient();
-            return $parseRestClient->dataType("relation", $arrayPointer);
+            return $parseRestClient->dataType("addRelation", $arrayPointer);
+        } else {
+            return null;
+        }
+    }
+}
+
+/**
+ * \fn		array toParseRemoveRelation($className, $objectIds)
+ * \brief	The function returns an array like representation of all Relation objects
+ * \param	$className 	represent the object class
+ * \param	$objectIds 	is the array of objectId
+ * \return	array		the array representation of all Relation objects
+ * \return	null		if no relation is present
+ * \return	Error		the Error raised by the function
+ */
+function toParseRemoveRelation($className, $objectIds) {
+    if (is_null($className) || is_null($objectIds)) {
+        return throwError(new Exception('toParseRemoveRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
+    } else {
+        if (count($objectIds) > 0) {
+            $arrayPointer = array();
+            foreach ($objectIds as $objectId) {
+                $pointer = toParsePointer($className, $objectId);
+                $arrayPointer[] = $pointer;
+            }
+            $parseRestClient = new parseRestClient();
+            return $parseRestClient->dataType("removeRelation", $arrayPointer);
         } else {
             return null;
         }
