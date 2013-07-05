@@ -75,7 +75,7 @@ class Faq {
 
 	/**
 	 * \fn		array getTags()
-	 * \brief	Return the objectId value
+	 * \brief	Return the tags value, array to categorize the Faq
 	 * \return	array
 	 */
 	public function getTags() {

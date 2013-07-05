@@ -72,7 +72,7 @@ class Record {
 
 	/**
 	 * \fn		array getCommentators()
-	 * \brief	Return the commentators value,array of objectId of istance of the _User class who commented the song
+	 * \brief	Return the commentators value,array of objectId of istance of the _User class who commented the record
 	 * \return	array
 	 */ 
 	public function getCommentators() {
@@ -81,7 +81,7 @@ class Record {
 
 	/**
 	 * \fn		array getComments()
-	 * \brief	Return the comments value,array of objectId of istance of the Comment class, comments on song
+	 * \brief	Return the comments value,array of objectId of istance of the Comment class, comments on record
 	 * \return	array
 	 */
 	public function getComments() {
@@ -135,7 +135,7 @@ class Record {
 
 	/**
 	 * \fn		array getFeaturing()
-	 * \brief	Return the featuring value,array of objectId of istance of the _User class who feat the song
+	 * \brief	Return the featuring value,array of objectId of istance of the _User class who feat the record
 	 * \return	array
 	 */
 	public function getFeaturing() {
@@ -180,7 +180,7 @@ class Record {
 
 	/**
 	 * \fn		int getLoveCounter()
-	 * \brief	Return the loveCounter value, number of users who love the song
+	 * \brief	Return the loveCounter value, number of users who love the record
 	 * \return	int
 	 */
 	public function getLoveCounter() {
@@ -189,7 +189,7 @@ class Record {
 
 	/**
 	 * \fn		array getLovers()
-	 * \brief	Return the lovers value,array of objectId of istance of the _User class who love the song
+	 * \brief	Return the lovers value,array of objectId of istance of the _User class who love the record
 	 * \return	array
 	 */
 	public function getLovers() {
@@ -342,7 +342,7 @@ class Record {
 
 	/**
 	 * \fn		void setDuration($duration)
-	 * \brief	Sets the counter  value
+	 * \brief	Sets the duration  value
 	 * \param	int
 	 */
 	public function setDuration($duration) {

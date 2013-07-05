@@ -39,7 +39,7 @@ class Playlist {
 
 	/**
 	 * \fn		BOOL getActive()
-	 * \brief	Return the active vvalure
+	 * \brief	Return the active value
 	 * \return	BOOL
 	 */
 	public function getActive() {

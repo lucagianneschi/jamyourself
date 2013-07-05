@@ -164,7 +164,7 @@ class User {
 
 	/**
 	 * \fn		string getBackground()
-	 * \brief	Return the beckground link of the User
+	 * \brief	Return the background link of the User
 	 * \return	string
 	 */
 	public function getBackground() {

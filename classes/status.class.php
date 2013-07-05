@@ -57,7 +57,7 @@ class Status {
 
 	/**
 	 * \fn		array getCommentators()
-	 * \brief	Return an array of objectId of istances of _User class who commented on the video
+	 * \brief	Return an array of objectId of istances of _User class who commented on the status
 	 * \return	array
 	 */
 	public function getCommentators() {
@@ -66,7 +66,7 @@ class Status {
 
 	/**
 	 * \fn		array getComments()
-	 * \brief	Return an array of objectId of istances of the Comment class; comments on the video istance
+	 * \brief	Return an array of objectId of istances of the Comment class; comments on the status istance
 	 * \return	array
 	 */
 	public function getComments() {

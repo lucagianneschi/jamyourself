@@ -174,7 +174,7 @@ class Song {
 
 		/**
 	 * \fn		DateTime getCreatedAt()
-	 * \brief	Return the Error creation date
+	 * \brief	Return the Song creation date
 	 * \return	DateTime
 	 */
 	public function getCreatedAt() {
@@ -183,7 +183,7 @@ class Song {
 
 	/**
 	 * \fn		DateTime getUpdatedAt()
-	 * \brief	Return the Error modification date
+	 * \brief	Return the Song modification date
 	 * \return	DateTime
 	 */
 	public function getUpdatedAt() {

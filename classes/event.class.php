@@ -57,7 +57,7 @@ class Event {
 
 	/**
 	 * \fn		BOOL getActive()
-	 * \brief	Return the active vvalure
+	 * \brief	Return the active value
 	 * \return	BOOL
 	 */
 	public function getActive() {
@@ -184,7 +184,7 @@ class Event {
 
 	/**
 	 * \fn		int getLoveCounter()
-	 * \brief	Return the int value of loveCounter, counting the love action on the video
+	 * \brief	Return the int value of loveCounter, counting the love action on the event
 	 * \return	int
 	 */
 	public function getLoveCounter() {
@@ -193,7 +193,7 @@ class Event {
 
 	/**
 	 * \fn		array  getLovers()
-	 * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the video
+	 * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the event
 	 * \return	string
 	 */
 	public function getLovers() {
@@ -211,7 +211,7 @@ class Event {
 
 	/**
 	 * \fn		array getTags()
-	 * \brief	Return the tags value, array of string to categorize the video
+	 * \brief	Return the tags value, array of string to categorize the event
 	 * \return	array
 	 */
 	public function getTags() {
@@ -328,7 +328,7 @@ class Event {
 
 	/**
 	 * \fn		setEventDate($eventDate)
-	 * \brief	Sets the Event Date modification date
+	 * \brief	Sets the Event Date date
 	 * \param	DateTime
 	 */
 	public function setEventDate($eventDate) {
@@ -445,7 +445,7 @@ class Event {
 
 	/**
 	 * \fn		void setTitle($title)
-	 * \brief	Sets the titke value
+	 * \brief	Sets the title value
 	 * \param	string
 	 */
 	public function setTitle($title) {
