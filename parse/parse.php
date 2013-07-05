@@ -122,13 +122,18 @@ class parseRestClient {
         if ($type != '') {
             switch ($type) {
 
-                case 'relation':
+                case 'addRelation':
                     $return = array(
                         "__op" => "AddRelation",
                         "objects" => $params
                     );
                     break;
-
+                case 'removeRelation':
+                    $return = array(
+                        "__op" => "RemoveRelation",
+                        "objects" => $params
+                    );
+                    break;
                 case 'date':
                     $return = array(
                         "__type" => "Date",
