@@ -168,4 +168,40 @@ echo '<br />FINITO L\'AGGIORNAMENTO DI UN Comment<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
+echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL Comment<br />';
+
+$cmtParse = new CommentParse();
+
+$cmtParse->updateField($resSave->getObjectId(), 'active', true);
+echo 'Aggiornato un campo boolean<br />';
+$cmtParse->updateField($resSave->getObjectId(), 'text', 'Un testo');
+echo 'Aggiornato un campo string<br />';
+$cmtParse->updateField($resSave->getObjectId(), 'counter', 100);
+echo 'Aggiornato un campo number<br />';
+$cmtParse->updateField($resSave->getObjectId(), 'opinions', array('op1', 'op2'));
+echo 'Aggiornato un campo array<br />';
+
+$cmtParse->updateField($resSave->getObjectId(), 'image', toParsePointer('Image', 'MuTAFCZIKd'));
+echo 'Aggiornato un campo Pointer<br />';
+
+$parseGeoPoint = new parseGeoPoint('56.78', '12.34');
+$cmtParse->updateField($resSave->getObjectId(), 'location', toParseGeoPoint($parseGeoPoint));
+echo 'Aggiornato un campo GeoPoint<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(false);
+$cmtParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+echo 'Aggiornato un campo ACL<br />';
+
+$cmtParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
+echo 'Aggiornato (add) un campo Relation<br />';
+
+$cmtParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
+echo 'Aggiornato (remove) un campo Relation<br />';
+
+echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL Comment<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+
 ?>
