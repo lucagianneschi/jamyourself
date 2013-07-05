@@ -48,7 +48,7 @@ class Image {
 
 	/**
 	 * \fn		BOOL getActive()
-	 * \brief	Return the active vvalure
+	 * \brief	Return the active value
 	 * \return	BOOL
 	 */
 	public function getActive() {
@@ -66,7 +66,7 @@ class Image {
 
 	/**
 	 * \fn		array getCommentators()
-	 * \brief	Return an array of objectId of istances of _User class who commented on the video
+	 * \brief	Return an array of objectId of istances of _User class who commented on the image
 	 * \return	array
 	 */
 	public function getCommentators() {
@@ -75,7 +75,7 @@ class Image {
 
 	/**
 	 * \fn		array getComments()
-	 * \brief	Return an array of objectId of istances of the Comment class; comments on the video istance
+	 * \brief	Return an array of objectId of istances of the Comment class; comments on the image istance
 	 * \return	array
 	 */
 	public function getComments() {
@@ -147,7 +147,7 @@ class Image {
 
 	/**
 	 * \fn		int getLoveCounter()
-	 * \brief	Return the int value of loveCounter, counting the love action on the video
+	 * \brief	Return the int value of loveCounter, counting the love action on the image
 	 * \return	int
 	 */
 	public function getLoveCounter() {
@@ -156,7 +156,7 @@ class Image {
 
 	/**
 	 * \fn		array  getLovers()
-	 * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the video
+	 * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the image
 	 * \return	string
 	 */
 	public function getLovers() {
@@ -165,7 +165,7 @@ class Image {
 
 	/**
 	 * \fn		array getTags()
-	 * \brief	Return the tags value, array of string to categorize the video
+	 * \brief	Return the tags value, array of string to categorize the image
 	 * \return	array
 	 */
 	public function getTags() {
@@ -216,7 +216,12 @@ class Image {
 	public function setActive($active) {
 		$this->active = $active;
 	}
-
+        
+	/**
+	 * \fn		void setAlbum($album)
+	 * \brief	Sets the album value,pointer to ParseAlbum
+	 * \param	string
+	 */
 	public function setAlbum($album) {
 		$this->album = $album;
 	}

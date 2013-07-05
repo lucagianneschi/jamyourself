@@ -99,7 +99,7 @@ class Mail {
 
     /**
      * \fn	void  setMessage($value)
-     * \brief	Sets the meddage value
+     * \brief	Sets the message value
      * \param	string
      */
     public function setMessage($value) {

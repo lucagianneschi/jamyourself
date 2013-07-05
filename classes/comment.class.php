@@ -56,7 +56,7 @@ class Comment {
 
 	/**
 	 * \fn		BOOL getActive()
-	 * \brief	Return the active vvalure
+	 * \brief	Return the active valure
 	 * \return	BOOL
 	 */
 	public function getActive() {
@@ -83,7 +83,7 @@ class Comment {
 
 	/**
 	 * \fn		array getCommentators()
-	 * \brief	Return an array of objectId of istances of _User class who commented on the video
+	 * \brief	Return an array of objectId of istances of _User class who commented on the comment
 	 * \return	array
 	 */
 	public function getCommentators() {
@@ -155,7 +155,7 @@ class Comment {
 
 	/**
 	 * \fn		array  getLovers()
-	 * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the comment
+	 * \brief	Return the lovers value, array of objectId to istances of the _User, people who love the comment
 	 * \return	array
 	 */
 	public function getLovers() {
@@ -398,7 +398,7 @@ class Comment {
 
 	/**
 	 * \fn		void setOpinions($opinions)
-	 * \brief	Sets the opinios, array of string
+	 * \brief	Sets the opinions, array of string
 	 * \param	array
 	 */
 	public function setOpinions($opinions) {

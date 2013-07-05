@@ -49,7 +49,7 @@ class Video {
 
 	/**
 	 * \fn		boolean getActive()
-	 * \brief	Return the active vvalure
+	 * \brief	Return the active value
 	 * \return	boolean
 	 */
 	public function getActive() {
@@ -139,7 +139,7 @@ class Video {
 
 	/**
 	 * \fn		array getLovers()
-	 * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the video
+	 * \brief	Return the lovers value, array of objectId to istances of the _User, people who love the video
 	 * \return	string
 	 */
 	public function getLovers() {
@@ -337,7 +337,7 @@ class Video {
 
 	/**
 	 * \fn		void setTitle($title)
-	 * \brief	Sets the titke value
+	 * \brief	Sets the title value
 	 * \param	string
 	 */
 	public function setTitle($title) {

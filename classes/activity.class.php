@@ -50,7 +50,7 @@ class Activity {
 
 	/**
 	 * \fn		BOOL getAccepted()
-	 * \brief	Return the active value
+	 * \brief	Return the accepted value
 	 * \return	BOOL
 	 */
 	public function getAccepted() {
@@ -239,7 +239,7 @@ class Activity {
 
 	/**
 	 * \fn		void setAccepted($accepted)
-	 * \brief	Sets the active value
+	 * \brief	Sets the accepted value
 	 * \param	BOOL
 	 */
 	public function setAccepted($accepted) {
@@ -257,7 +257,7 @@ class Activity {
 
 	/**
 	 * \fn		void setAlbum($album)
-	 * \brief	Sets the album value
+	 * \brief	Sets the album objectId value
 	 * \param	string
 	 */
 	public function setAlbum($album) {

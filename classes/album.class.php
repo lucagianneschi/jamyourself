@@ -50,7 +50,7 @@ class Album {
 
 	/**
 	 * \fn		BOOL getActive()
-	 * \brief	Return the active vvalure
+	 * \brief	Return the active value
 	 * \return	BOOL
 	 */
 	public function getActive() {
@@ -59,7 +59,7 @@ class Album {
 
 	/**
 	 * \fn		array getCommentators()
-	 * \brief	Return an array of objectId of istances of _User class who commented on the video
+	 * \brief	Return an array of objectId of istances of _User class who commented on the album
 	 * \return	array
 	 */
 	public function getCommentators() {
@@ -68,7 +68,7 @@ class Album {
 
 	/**
 	 * \fn		array getComments()
-	 * \brief	Return an array of objectId of istances of the Comment class; comments on the video istance
+	 * \brief	Return an array of objectId of istances of the Comment class; comments on album istance
 	 * \return	array
 	 */
 	public function getComments() {
@@ -131,7 +131,7 @@ class Album {
 
 	/**
 	 * \fn		array getImages()
-	 * \brief	Return the iamges value, array of objectId to Image istances
+	 * \brief	Return the images value, array of objectId to Image istances
 	 * \return	array
 	 */
 	public function getImages() {
@@ -149,7 +149,7 @@ class Album {
 
 	/**
 	 * \fn		int getLoveCounter()
-	 * \brief	Return the int value of loveCounter, counting the love action on the video
+	 * \brief	Return the int value of loveCounter, counting the love action on the album
 	 * \return	int
 	 */
 	public function getLoveCounter() {
@@ -158,7 +158,7 @@ class Album {
 
 	/**
 	 * \fn		array  getLovers()
-	 * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the video
+	 * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the album
 	 * \return	string
 	 */
 	public function getLovers() {
@@ -167,7 +167,7 @@ class Album {
 
 	/**
 	 * \fn		array getTags()
-	 * \brief	Return the tags value, array of string to categorize the video
+	 * \brief	Return the tags value, array of string to categorize the album
 	 * \return	array
 	 */
 	public function getTags() {
@@ -356,7 +356,7 @@ class Album {
 
 	/**
 	 * \fn		void setTitle($title)
-	 * \brief	Sets the titke value
+	 * \brief	Sets the title value
 	 * \param	string
 	 */
 	public function setTitle($title) {
