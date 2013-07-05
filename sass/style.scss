@@ -1,0 +1,711 @@
+@import "compass/css3";
+@import "settings";
+
+/* classi generiche */
+
+.no-display { display:none }
+
+// -------------------- TESTO -------------------------------
+body{
+  h2{ color: $white; margin-bottom: 0px;}
+  h3{ color: $grey; margin-bottom: 5px; }
+}
+
+
+.sottotitle{
+  font-size: 17px !important;
+}
+
+.text{
+  font-size: 14px !important;
+  
+}
+
+label.text{ 
+  font-weight: normal  !important; 
+  margin-bottom: 5px !important; 
+}
+
+.line{
+ border-bottom: 1px solid $grey; 
+ margin-bottom: 5px !important;
+}
+
+.note{
+  font-size:11px !important;
+}
+
+.white{
+  color:$white !important;
+}
+.orange{
+  color:$orange !important;
+}
+.grey{
+  color:$grey !important;
+}
+.grey-dark{
+  color:$grey-dark !important;
+}
+
+.content p{
+  font-size: 14px;
+  line-height:120%;
+}
+.content{
+  border-bottom: 1px solid $grey-dark;
+}
+
+.bg-double{
+ background-color: $white;
+ height:100%;
+ // @include filter-gradient($grey-dark, $white, horizontal); /* IE6-8 */
+ /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  $experimental-support-for-svg: true;
+ @include background-image(linear-gradient(left,  $grey-dark 0%,$grey-dark 50%,$white 50%,$white 100%));
+
+ overflow:hidden;
+ 
+}
+
+.bg-grey-dark{ 
+  background-color: $grey-dark;
+  height:100%;
+}
+
+.profile-style{
+  background-color: $white;
+}
+
+.header-hide{
+  padding-bottom:20px;
+}
+#header-hide{
+  
+}
+
+#header{
+  width:100%;
+ // height:50px;
+  background:$black;
+}
+
+.header{
+ margin-bottom:5px; 
+ margin-top:5px;
+ height: 33px;
+}
+
+.icon-header{
+ width: 33px;
+ height: 33px;
+ background:$grey-dark;
+ float:left;
+ margin-right:3px;
+ cursor:pointer; 
+ @include transition-property(background-color);
+ @include transition-duration($transition-duration);
+ &:hover {
+    background-color: $grey-superdark;
+ }   
+}
+
+
+
+
+
+
+/*----- PLAYER -----*/
+#player{
+ 
+}
+.title-player{
+  font-size:14px;
+  color: $white;
+  padding-bottom:8px;
+}
+
+
+.inline{
+  float:left;
+}
+#controls-player{ 
+  
+}
+
+#bar-player{
+  width:157px;
+  height:5px;   
+  background-color: $grey-dark;
+  margin-left:5px;
+  margin-right:5px; 
+  margin-top:3px;
+  z-index:1;
+}
+
+#playhead-player{ 
+  position:absolute;
+  height:10px;
+  width:3px;  
+  background-color: $orange !important;
+  left:154px;  //INIT 110
+  cursor:pointer;
+  z-index:3;  
+}
+
+#statusbar-player{
+  position:absolute;
+  width:44px;
+  height:5px;   
+  background-color:  $grey !important;
+  margin-left:5px;
+  margin-right:5px; 
+  margin-top:3px; 
+  z-index:2;   
+}
+
+.icon-player{
+   width: 10px;
+   height: 10px;
+   float:left;
+   margin-right:3px;
+   cursor:pointer;
+   margin-left:5px; 
+   @include transition-property(background-position);
+   &:hover {    
+      background-position: bottom;
+   } 
+}
+/*----- END PLAYER -----*/
+
+
+// ------ LOGO ------------------
+#logo{  
+//  width:100px;
+  position:relative;
+  z-index:998;
+  margin-top:-45px;
+
+ 
+}
+.logo{
+  height:5px;
+  //border-bottom:$grey 1px solid;
+}
+.columns{
+  //border:$grey 1px solid !important;
+}
+
+
+
+//------------  search  ------------------
+.search_form{
+  width:  235px !important;
+  margin: 0px !important;
+}
+
+.search {
+  color: $grey !important; 
+  font-size:14px !important;
+  width:235px !important;
+  padding:6px 15px 6px 30px !important;
+ // margin:1px !important;
+  border:$grey-superdark 1px solid !important;
+  @include border-radius(5px);   
+  background-color: $black !important;
+  background: url(../images/icon/search.png) no-repeat 8px 6px !important;  
+}
+
+.search-small {
+  color: $grey !important; 
+  font-size:14px !important;
+  width:150px !important;
+  padding:6px 15px 6px 30px !important;
+ // margin:1px !important;
+  border:$grey-superdark 1px solid !important;
+  @include border-radius(5px);   
+  background-color: $black !important;
+  background: url(../images/icon/search.png) no-repeat 8px 6px !important;  
+}
+
+
+
+a.ico-label {
+  width:auto;
+  height:30px;
+  float:left;
+  font-size:13px;
+  color:$grey;
+  line-height:30px;
+  margin-right:1px;
+  padding:0 0px 0 30px;
+  cursor:pointer;
+  background-repeat:no-repeat;
+  background-position:left bottom;
+  @include transition-property(background-position, color);
+  @include transition-duration($transition-duration);
+  &:hover {
+    background-position:left top;
+    color:$grey;
+  } 
+}
+a.ico-label-btn {
+  background-color:$grey;
+  padding:0 12px 0 30px;
+  @include transition-property(background-color);
+  @include transition-duration($transition-duration);
+  &:hover {
+    background-color:$grey;
+  }
+}
+
+.add{
+  width:43px;
+  height:43px;
+  background-color:$orange;
+  float:left;
+  cursor:pointer;
+  &:hover{
+    background-color:$orange-dark;
+  }
+}
+
+.icon-small{
+  width:15px;
+  height:15px;
+}
+
+
+
+
+//-------------- PROFILE ---------------------------
+#profile{
+  padding-top: 30px;
+ padding-bottom: 50px;
+}
+.avatar{
+  border: 1px solid $grey;
+  margin-top:5px !important; 
+  margin-bottom: 40px;
+  width:470px;
+  height:470px;
+}
+.section-container .title{
+  font-size:17px;
+  border-bottom: 1px solid $grey-dark; 
+}
+
+.section-container{
+  margin-bottom:40px !important;
+}
+
+.box-membre{
+  padding: 10px;
+  margin-bottom: 10px;
+  width:auto;
+  height: 64px;
+  background-color:$black;  
+  cursor:pointer;
+}
+
+.box{
+  background-color:$grey-superdark;
+  padding: 20px !important;
+  padding-bottom:0px !important;
+  margin-bottom:40px !important;
+}
+
+
+.box-album{
+  border-bottom: 1px solid $grey-dark !important;
+  padding-bottom: 10px !important;
+}
+
+.album{
+  padding-top: 10px;
+  .sottotitle, .text, .note{
+    padding-bottom: 20px;
+  }
+}
+
+.album-thumb{
+  width:110px;
+  height:110px;
+}
+
+.album-select{
+  cursor:pointer;
+}
+
+.track{
+  padding-top: 5px;
+  padding-bottom: 5px;  
+   border-bottom: 1px solid $grey-dark !important; 
+    &:hover {
+   background-color: $black;
+   }  
+}
+
+
+
+.track ._play-large{
+  &:hover {
+   color:$white !important;
+  } 
+}
+
+.track-propriety{
+  padding: 2px;
+  display:none;
+}
+
+.album-other{
+ cursor:pointer;
+ text-align:right;
+ padding: 10px;
+ height:40px;
+ background: url(../images/icon/small/other.png);
+ background-repeat: no-repeat;
+ background-position: Center;
+}
+
+.album-single-propriety{
+  border-top: 1px solid $grey-dark !important;
+  padding-top:5px;
+  padding-bottom:5px; 
+}
+
+.propriety{
+  padding-right:5px;
+  text-align:right;
+}
+
+.icon-propriety{
+  width:auto;
+  height:15px;
+ // float:left;
+  font-size:11px;
+  color:$grey;
+  line-height:15px;
+  margin-right:1px;
+  padding:0 0px 0 15px;
+  cursor:pointer;
+  background-repeat:no-repeat;  
+  &:hover {
+   
+    color:$grey;
+  } 
+}
+
+//------------------------ Photo -------------------------
+.albumcover{
+  width:310px;
+  height:160px;
+  padding-bottom: 10px !important;
+  cursor:pointer;
+}
+
+.box-coveralbum{
+  padding: 10px !important;
+  border: 1px solid $grey-dark !important;
+ // margin: 5px;
+}
+
+.photo{ 
+ //margin-top:10px; 
+  //margin-bottom:10px;
+  height:80px;
+  width:200px;
+  cursor: pointer;
+  border: 1px solid $grey-dark !important;
+}
+
+.small-block-grid-3{
+  margin-top:10px;
+}
+
+.event{
+  padding:0px !important;
+  padding-right:5px !important;
+}
+
+.eventcover{
+  height:130px;
+  width:130px;
+}
+
+
+//-------------- SOCIAL ---------------------------
+#social{
+  padding-top: 65px;
+  padding-bottom: 50px;
+}
+
+#social .row{
+//  margin-left: 5px;
+}
+
+.status{
+  text-align:right;
+}
+
+.livel-status{
+  font-weight:700;
+  margin-bottom:4px !important;  
+}
+
+
+//---------------- achievement -----------------------------
+.achievement{
+  margin: 10px;
+ 
+  height:40px;
+  width:40px;
+  float:left;
+  border:$grey-light 1px solid;
+  @include border-radius(1000px);  
+}
+
+.achievement-target{
+  margin: 10px;
+  border:$orange 3px solid;
+  cursor:pointer;
+ // margin-right:1px;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:left top;
+  @include transition-property(background-position, color);
+ // @include transition-duration($transition-duration);
+  &:hover {
+    background-color: $orange;
+    background-position:left bottom;   
+  }
+}
+
+
+.status-button{
+  background-color: $grey-light;
+  text-align:right;
+  height:35px;
+  margin-bottom: 40px;
+}
+
+.button{
+// width:127px !important;
+ height:35px !important; 
+ border:0px !important;
+ padding-top: 10px !important;
+}
+
+.bg-orange{
+  background-color: $orange !important;
+  &:hover {
+    background-color: $orange-dark !important; 
+  }
+}
+
+.bg-grey{
+  background-color: $grey !important;
+  &:hover {
+    background-color: $grey-dark !important; 
+  }
+}
+
+.icon-button{
+  width:auto;
+  height:20px;
+  font-size:14px;
+  color:$white;
+  line-height:20px;
+  margin-right:1px;
+  padding:0 0px 0 22px;
+  cursor:pointer;
+  background-repeat:no-repeat;
+}
+
+#social .box{
+  border:$grey-light 1px solid;
+   background-color: #fff !important;
+  // padding-bottom: 20px !important;
+  
+}
+
+#social .text{
+  margin-bottom: 10px;
+}
+
+#social .album-thumb{
+  width:90px;
+  height:80px;
+  margin-right:0px;
+}
+.box-info{
+  padding-left:0px !important;
+}
+
+#social .line{
+  border-bottom: 1px solid $grey-light; 
+  padding-bottom: 5px !important;
+ // margin-bottom: 5px !important;
+}
+
+#activities .small-block-grid-4{
+  padding-top: 10px;
+}
+
+#social .box-membre{  
+  height: 55px;
+  background-color:$white;
+}
+
+
+//------------------ POST ------------------------------
+.box-post{
+  border: 1px solid $grey-light;
+  padding: 5px;
+}
+
+.post {
+  color: $grey !important; 
+  font-size:14px !important;
+  
+  padding:6px 15px 6px 30px !important;
+ // margin:1px !important;
+  border:#fff 0px solid !important;  
+  background-color: #fff !important;
+  background: url(../images/icon/write.png) no-repeat 8px 6px !important; 
+  
+}
+
+.box-write{
+  background-color: #fff !important;
+  padding:5px !important;
+  border:$grey-light 1px solid !important;  
+  height:45px;
+}
+
+.post-button{
+  color: #fff;
+  background: $orange !important;
+  border:#fff 0px solid !important; 
+  height: 34px !important; 
+  width: 90px !important;
+}
+
+
+//-------------------- footer -------------------------
+
+footer {
+  width:100%;
+  height:auto;
+  padding:8px;
+  background:$black;
+  
+  position: fixed;
+  bottom: 0px;
+  margin: 0px;
+  z-index:999; 
+  
+  overflow:visible !important;  
+}
+
+
+#footer{
+  overflow:auto;
+  h1, h2, h3, h4, h5, h6  {
+  color:$grey !important;
+  margin-bottom:0.2em !important;
+  }
+  
+}
+
+.footer-ico{  
+  color:$grey !important;  
+  font-size:20px; 
+  margin-right:15px;
+  cursor:pointer;
+  
+}
+
+.footer-ico-off{  
+  color:$orange !important;  
+  font-size:20px;   
+  cursor:pointer;
+}
+
+#footer-header{
+  
+}
+
+.user{
+  font-size:20px; 
+  color:$grey !important;  
+  margin-top:5px;
+  padding-bottom:0;   
+}
+
+#footer-body{
+  overflow:auto;
+  h1, h2, h3, h4, h5, h6  {
+  color:$grey !important;
+  margin-bottom:0.5em !important;
+  }
+}
+
+#footer-body a{
+  font-size:12px; 
+  color:$grey !important;
+  margin-bottom:0.2em !important;
+}
+
+
+
+
+//---------------- ICON -----------------------------
+
+._menu { background-image:url(../images/icon/menu.png); }
+._notify { background-image:url(../images/icon/notify.png); }
+._friend { background-image:url(../images/icon/friend.png); }
+._setting { background-image:url(../images/icon/setting.png); }
+._add { background-image:url(../images/icon/add.png); }
+._flag { background-image:url(../images/icon/flag.png); }
+._message { background-image:url(../images/icon/message.png); }
+._calendar { background-image:url(../images/icon/calendar.png); }
+._compass { background-image:url(../images/icon/compass.png); }
+._note { background-image:url(../images/icon/note.png); }
+._pin { background-image:url(../images/icon/pin.png); }
+._facebook { background-image:url(../images/icon/facebook.png); }
+._twitter { background-image:url(../images/icon/twitter.png); }
+._google { background-image:url(../images/icon/google.png); }
+._youtube { background-image:url(../images/icon/youtube.png); }
+._web { background-image:url(../images/icon/web.png); }
+._back_page { background-image:url(../images/icon/back_page.png); }
+._play-large { background-image:url(../images/icon/play.png); }
+._off { background-image:url(../images/icon/off.png); }
+
+//--------------------------- icon music player ------------------------
+._back { background-image:url(../images/icon/musicplayer/back.png); }
+._pause { background-image:url(../images/icon/musicplayer/pause.png); }
+._next { background-image:url(../images/icon/musicplayer/next.png); }
+._play { background-image:url(../images/icon/musicplayer/play.png); }
+
+//----------------------- icon small --------------------------------------
+._message-small { background-image:url(../images/icon/small/message-small.png); }
+._compass-small { background-image:url(../images/icon/small/compass-small.png); }
+._love { background-image:url(../images/icon/small/love.png); }
+._unlove { background-image:url(../images/icon/small/unlove.png); }
+._comment { background-image:url(../images/icon/small/comment.png); }
+._shere { background-image:url(../images/icon/small/shere.png); }
+._review { background-image:url(../images/icon/small/review.png); }
+._menu-small { background-image:url(../images/icon/small/menu-small.png); }
+._star-orange { background-image:url(../images/icon/small/star-orange.png); }
+._star-grey { background-image:url(../images/icon/small/star-grey.png); }
+
+//---------------- icon achievement -----------------------------
+._target1 { background-image:url(../images/icon/achievement/target1.png); }
+._target2 { background-image:url(../images/icon/achievement/target2.png); }
+._target3 { background-image:url(../images/icon/achievement/target3.png); }
+
+//----------------- icon button status -------------------------------
+._message_status { background-image:url(../images/icon/status/message.png); }
+._follower_status { background-image:url(../images/icon/status/follower.png); }
