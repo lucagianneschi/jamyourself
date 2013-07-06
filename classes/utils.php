@@ -68,13 +68,12 @@ function fromParseACL($parseACL) {
  * \return	null		if the $date parameter is not set
  */
 function fromParseDate($date) {
-    if (is_null($date)) {
-        return null;
-    } else {
-        # TODO - capire quale è la chiamata corretta
+    if (is_object($date) && isset($date->__type) && $date->__type == "Date" && isset($date->iso)) {
         return new DateTime($date->iso);
-        //return new DateTime($date);
-    }
+    } else if ($date != null && count($date) > 0)
+        return new DateTime($date);
+    else
+        return throwError(new Exception("fromParseDate: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
 }
 
 /**
