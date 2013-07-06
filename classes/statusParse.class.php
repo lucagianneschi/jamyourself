@@ -223,6 +223,40 @@ class StatusParse {
 	}
 
 	/**
+	 * \fn		void updateField($objectId, $field, $value, $isRelation = false, $typeRelation, $className)
+	 * \brief	Update a field of the object
+	 * \param	$objectId		the objectId of the Status to update
+	 * \param	$field			the field of the Status to update
+	 * \param	$value			the value to update te field
+	 * \param	$isRelation		[optional] default = false - define if the field is a relational type
+	 * \param	$typeRelation	[optional] default = '' - define if the relational update must add or remove the value from the field
+	 * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
+	 */
+	public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
+		if (is_null($objectId) || is_null($field) || is_null($value))
+			return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+		if ($isRelation) {
+			if (is_null($typeRelation) || is_null($className))
+				return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
+			if ($typeRelation == 'add') {
+				$parseObject = new parseObject('Status');
+				$parseObject->$field = toParseAddRelation($className, $value);
+				$parseObject->update($objectId);
+			} elseif ($typeRelation == 'remove') {
+				$parseObject = new parseObject('Status');
+				$parseObject->$field = toParseRemoveRelation($className, $value);
+				$parseObject->update($objectId);
+			} else {
+				return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
+			}
+		} else {
+			$parseObject = new parseObject('Status');
+			$parseObject->$field = $value;
+			$parseObject->update($objectId);
+		}
+	}
+	
+	/**
 	 * \fn		void where($field, $value)
 	 * \brief	Sets a condition for which the field $field must value $value
 	 * \param	$field	the string which represent the field
