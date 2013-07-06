@@ -224,7 +224,7 @@ class SongParse {
 	/**
 	 * \fn		void updateField($objectId, $field, $value, $isRelation = false, $typeRelation, $className)
 	 * \brief	Update a field of the object
-	 * \param	$objectId		the objectId of the Comment to update
+	 * \param	$objectId		the objectId of the Song to update
 	 * \param	$field			the field of the Song to update
 	 * \param	$value			the value to update te field
 	 * \param	$isRelation		[optional] default = false - define if the field is a relational type
