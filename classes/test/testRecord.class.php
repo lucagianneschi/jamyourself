@@ -117,5 +117,34 @@ if (get_class($resUpdate)) {
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Record<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL RECORD<br />';
 
+$recordParse = new RecordParse();
+
+$recordParse->updateField($resSave->getObjectId(), 'active', true);
+echo 'Aggiornato un campo boolean<br />';
+$recordParse->updateField($resSave->getObjectId(), 'title', 'Un titolo modificato');
+echo 'Aggiornato un campo string<br />';
+$recordParse->updateField($resSave->getObjectId(), 'counter', 100000000);
+echo 'Aggiornato un campo number<br />';
+
+
+$parseGeoPoint = new parseGeoPoint('56.78', '12.34');
+$cmtParse->updateField($resSave->getObjectId(), 'location', toParseGeoPoint($parseGeoPoint));
+echo 'Aggiornato un campo GeoPoint<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(false);
+$cmtParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+echo 'Aggiornato un campo ACL<br />';
+
+$recordParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
+echo 'Aggiornato (add) un campo Relation<br />';
+
+$recordParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
+echo 'Aggiornato (remove) un campo Relation<br />';
+
+echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL RECORD<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
 ?>
