@@ -130,7 +130,7 @@ echo 'Aggiornato un campo number<br />';
 
 
 $parseGeoPoint = new parseGeoPoint('56.78', '12.34');
-$cmtParse->updateField($resSave->getObjectId(), 'location', toParseGeoPoint($parseGeoPoint));
+$recordParse->updateField($resSave->getObjectId(), 'location', toParseGeoPoint($parseGeoPoint));
 echo 'Aggiornato un campo GeoPoint<br />';
 
 $parseACL = new parseACL();
