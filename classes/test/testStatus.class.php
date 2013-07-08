@@ -121,5 +121,39 @@ if (get_class($resUpdate)) {
 echo '<br />FINITO L\'AGGIORNAMENTO DI UNO Status<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL Comment<br />';
+
+$statusParse = new StatusParse();
+
+$statusParse->updateField($resSave->getObjectId(), 'active', true);
+echo 'Aggiornato un campo boolean<br />';
+$statusParse->updateField($resSave->getObjectId(), 'text', 'Un testo modificato');
+echo 'Aggiornato un campo string<br />';
+$statusParse->updateField($resSave->getObjectId(), 'counter', 666);
+echo 'Aggiornato un campo number<br />';
+
+$statusParse->updateField($resSave->getObjectId(), 'image', toParsePointer('Image', '3AI9EDVMHj'));
+echo 'Aggiornato un campo Pointer<br />';
+
+$parseGeoPoint = new parseGeoPoint('56.78', '12.34');
+$statusParse->updateField($resSave->getObjectId(), 'location', toParseGeoPoint($parseGeoPoint));
+echo 'Aggiornato un campo GeoPoint<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(false);
+$statusParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+echo 'Aggiornato un campo ACL<br />';
+
+$statusParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
+echo 'Aggiornato (add) un campo Relation<br />';
+
+$statusParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
+echo 'Aggiornato (remove) un campo Relation<br />';
+
+echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL Comment<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
+
 
 ?>
