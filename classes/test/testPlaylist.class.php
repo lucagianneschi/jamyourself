@@ -115,5 +115,22 @@ if (get_class($resUpdate)) {
 echo '<br />FINITO L\'AGGIORNAMENTO DI UNA Playlist<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLA PLAYLIST<br />';
+
+$playlistParse = new PlaylistParse();
+
+$playlistParse ->updateField($resSave->getObjectId(), 'active', true);
+echo 'Aggiornato un campo boolean<br />';
+$playlistParse ->updateField($resSave->getObjectId(), 'name', 'Un name modificato');
+echo 'Aggiornato un campo string<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(false);
+$playlistParse ->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+echo 'Aggiornato un campo ACL<br />';
+
+echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLA PLAYLIST<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
 
 ?>
