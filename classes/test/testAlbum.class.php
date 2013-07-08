@@ -130,6 +130,39 @@ if (get_class($resUpdate)) {
 
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Album<br />';
 
+echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELL\'ALBUM<br />';
+
+$albumParse = new AlbumParse();
+
+$albumParse->updateField($resSave->getObjectId(), 'active', true);
+echo 'Aggiornato un campo boolean<br />';
+$albumParse->updateField($resSave->getObjectId(), 'title', 'Un titolo modificato');
+echo 'Aggiornato un campo string<br />';
+$albumParse->updateField($resSave->getObjectId(), 'counter', 100000);
+echo 'Aggiornato un campo number<br />';
+$albumParse->updateField($resSave->getObjectId(), 'tags', array('op1', 'op2'));
+echo 'Aggiornato un campo array<br />';
+
+$albumParse->updateField($resSave->getObjectId(), 'fromUser', toParsePointer('_User', 'HDgcsTLpEx'));
+echo 'Aggiornato un campo Pointer<br />';
+
+$parseGeoPoint = new parseGeoPoint('56.78', '12.34');
+$albumParse->updateField($resSave->getObjectId(), 'location', toParseGeoPoint($parseGeoPoint));
+echo 'Aggiornato un campo GeoPoint<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(false);
+$albumParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+echo 'Aggiornato un campo ACL<br />';
+
+$albumParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
+echo 'Aggiornato (add) un campo Relation<br />';
+
+$albumParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
+echo 'Aggiornato (remove) un campo Relation<br />';
+
+echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELL\'ALBUM<br />';
+
 echo '<br />-------------------------------------------------------------------------------<br />';
 
 ?>
