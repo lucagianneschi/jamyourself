@@ -127,5 +127,29 @@ if (get_class($resUpdate)) {
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Activity<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELL\'ACTIVITY<br />';
+
+$activityParse = new ActivityParse();
+
+$activityParse->updateField($resSave->getObjectId(), 'active', true);
+echo 'Aggiornato un campo boolean<br />';
+
+$activityParse->updateField($resSave->getObjectId(), 'counter', 10000);
+echo 'Aggiornato un campo number<br />';
+
+$activityParse->updateField($resSave->getObjectId(), 'image', toParsePointer('Image', 'MuTAFCZIKd'));
+echo 'Aggiornato un campo Pointer<br />';
+
+$activityParse->updateField($resSave->getObjectId(), 'status', 'STATUS AGGIORNATO');
+echo 'Aggiornato un campo string<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(false);
+$activityParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+echo 'Aggiornato un campo ACL<br />';
+
+echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELL\'ACTIVITY<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
 
 ?>
