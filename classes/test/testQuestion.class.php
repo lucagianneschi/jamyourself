@@ -102,5 +102,23 @@ if (get_class($resUpdate)) {
 echo '<br />FINITO L\'AGGIORNAMENTO DI UNA Question<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLA QUESTION<br />';
+
+$questionParse = new QuestionParse();
+
+$questionParse->updateField($resSave->getObjectId(), 'replied', true);
+echo 'Aggiornato un campo boolean<br />';
+$questionParse->updateField($resSave->getObjectId(), 'answer', 'Una answer modificata');
+echo 'Aggiornato un campo string<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(false);
+$questionParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+echo 'Aggiornato un campo ACL<br />';
+
+echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLA QUESTION<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
+
 
 ?>
