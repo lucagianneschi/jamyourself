@@ -29,6 +29,7 @@ class Activity {
 	private $playlist;
 	private $question;
 	private $read;
+	private $record;
 	private $song;
 	private $status;
 	private $toUser;
