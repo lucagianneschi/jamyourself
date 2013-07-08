@@ -124,5 +124,34 @@ if (get_class($resUpdate)) {
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Video<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
+echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL VIDEO<br />';
 
+$videoParse = new VideoParse();
+
+$videoParse->updateField($resSave->getObjectId(), 'active', true);
+echo 'Aggiornato un campo boolean<br />';
+$videoParse->updateField($resSave->getObjectId(), 'author', 'Un author modificato');
+echo 'Aggiornato un campo string<br />';
+$videoParse->updateField($resSave->getObjectId(), 'counter', 100);
+echo 'Aggiornato un campo number<br />';
+$videoParse->updateField($resSave->getObjectId(), 'tags', array('op1', 'op2'));
+echo 'Aggiornato un campo array<br />';
+
+$videoParse->updateField($resSave->getObjectId(), 'fromUser', toParsePointer('_User', '3xqN97WJHj'));
+echo 'Aggiornato un campo Pointer<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(false);
+$videoParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+echo 'Aggiornato un campo ACL<br />';
+
+$videoParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
+echo 'Aggiornato (add) un campo Relation<br />';
+
+$videoParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
+echo 'Aggiornato (remove) un campo Relation<br />';
+
+echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL VIDEO<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
 ?>
