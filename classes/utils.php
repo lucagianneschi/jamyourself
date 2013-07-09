@@ -63,15 +63,16 @@ function fromParseACL($parseACL) {
  * \brief	The function returns a DateTime object from the representation of Date in Parse
  * \param	$date 		represent the Date object returned from Parse
  * \return	DateTime	the DateTime object
- * \return	null		if the $date parameter is not set
+ * \return	Error		if the $date parameter is not set
  */
 function fromParseDate($date) {
-    if (is_object($date) && isset($date->__type) && $date->__type == "Date" && isset($date->iso)) {
+	if (is_null($date))
+		return throwError(new Exception('fromParseDate parameters are incorrect'), 'Utils', __FUNCTION__, func_get_args());
+    if (is_object($date) && isset($date->__type) && $date->__type == 'Date' && isset($date->iso)) {
         return new DateTime($date->iso);
-    } else if ($date != null && count($date) > 0)
+    } else {
         return new DateTime($date);
-    else
-        return throwError(new Exception("fromParseDate: Invalid Parameter"), "Utils", __FUNCTION__, func_get_args());
+	}
 }
 
 /**
