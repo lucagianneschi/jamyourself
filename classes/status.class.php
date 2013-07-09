@@ -20,6 +20,7 @@ class Status {
 
 	private $objectId;
 	private $active;
+	private $commentCounter;
 	private $commentators;
 	private $comments;
 	private $counter;
@@ -30,6 +31,7 @@ class Status {
 	private $location;
 	private $loveCounter;
 	private $lovers;
+	private $shareCounter;
 	private $song;
 	private $taggedUsers;
 	private $text;
@@ -55,6 +57,15 @@ class Status {
 		return $this->active;
 	}
 
+	/**
+	 * \fn		int getCommentCounter()
+	 * \brief	Return the comment counter value (number of comments)
+	 * \return	int
+	 */
+	public function getCommentCounter() {
+		return $this->commentCounter;
+	}
+	
 	/**
 	 * \fn		array getCommentators()
 	 * \brief	Return an array of objectId of istances of _User class who commented on the status
@@ -146,6 +157,15 @@ class Status {
 	}
 
 	/**
+	 * \fn		int getShareCounter()
+	 * \brief	Return the counter for sharing action
+	 * \return	int
+	 */
+	public function getShareCounter() {
+		return $this->shareCounter;
+	}
+	
+	/**
 	 * \fn		string getSong()
 	 * \brief	Return the song value, objectId of song
 	 * \return	string
@@ -218,6 +238,15 @@ class Status {
 		$this->active = $active;
 	}
 
+	/**
+	 * \fn		void setCommentCounter($commentCounter)
+	 * \brief	Sets the commnetCounter value
+	 * \param	int
+	 */
+	public function setCommentCounter($commentCounter) {
+		$this->counter = $commentCounter;
+	}
+	
 	/**
 	 * \fn		void setCommentators($commentators)
 	 * \brief	Sets the commentators value,array of pointer to ParseUser
@@ -305,6 +334,15 @@ class Status {
 	}
 
 	/**
+	 * \fn		void setCounter($shareCounter)
+	 * \brief	Sets the shareCounter value
+	 * \param	int
+	 */
+	public function setShareCounter($shareCounter) {
+		$this->shareCounter = $shareCounter;
+	}
+	
+	/**
 	 * \fn		void setSong($song)
 	 * \brief	Sets the song value,pointer to ParseSong (objectId)
 	 * \param	string
@@ -371,6 +409,7 @@ class Status {
 		} else {
 			$this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 		}
+		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 		if (count($this->getCommentators()) != 0) {
 			foreach ($this->getCommentators() as $commentator) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -415,6 +454,7 @@ class Status {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[lovers] => NULL<br />';
 		}
+		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 		if ($this->getSong() != null) {
 			$string .= '[song] => ' . $this->getSong() . '<br />';
 		} else {

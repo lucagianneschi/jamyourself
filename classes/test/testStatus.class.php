@@ -23,6 +23,7 @@ require_once CLASSES_DIR . 'imageParse.class.php';
 $status = new Status();
 
 $status->setActive(true);
+$status->setCommentCounter(10);
 $status->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $status->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $status->setCounter(10);
@@ -33,6 +34,7 @@ $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $status->setLocation($parseGeoPoint);
 $status->setLoveCounter(100);
 $status->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$status->setShareCounter(666);
 $status->setSong('SdJx4roDEs');
 $status->setTaggedUsers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $status->setText('Il testo dello status');
