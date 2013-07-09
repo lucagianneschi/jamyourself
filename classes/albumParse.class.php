@@ -153,6 +153,7 @@ class AlbumParse {
 			$album = new Album();
 			$album->setObjectId($res->objectId);
 			$album->setActive($res->active);
+			$album->setCommentCounter($res->commentCounter);
 			#$album->setCommentators(fromParseRelation('Album', 'commentators', $res->objectId, '_User'));
 			#$album->setComments(fromParseRelation('Album', 'comments', $res->objectId, 'Comment'));
 			$album->setCounter($res->counter);
@@ -165,6 +166,7 @@ class AlbumParse {
 			$album->setLocation(fromParseGeoPoint($res->location));
 			$album->setLoveCounter($res->loveCounter);
 			#$album->setLovers(fromParseRelation('Album', 'lovers', $res->objectId, '_User'));
+			$album->setShareCounter($res->shareCounter);
 			$album->setTags($res->tags);
 			$album->setThumbnailCover($res->thumbnailCover);
 			$album->setTitle($res->title);
@@ -191,6 +193,7 @@ class AlbumParse {
 		try {
 			$parseAlbum = new parseObject('Album');
 			is_null($album->getActive()) ? $parseAlbum->active = true : $parseAlbum->active = $album->getActive();
+			is_null($album->getCommentCounter()) ? $parseAlbum->commentCounter = -1 : $parseAlbum->commentCounter = $album->getCommentCounter();
 			is_null($album->getCommentators()) ? $parseAlbum->commentators = null : $parseAlbum->commentators = toParseAddRelation('_User', $album->getCommentators());
 			is_null($album->getComments()) ? $parseAlbum->comments = null : $parseAlbum->comments = toParseAddRelation('Comment', $album->getComments());
 			is_null($album->getCounter()) ? $parseAlbum->counter = -1 : $parseAlbum->counter = $album->getCounter();
@@ -204,6 +207,7 @@ class AlbumParse {
 			is_null($album->getLocation()) ? $parseAlbum->location = null : $parseAlbum->location = toParseGeoPoint($album->getLocation());
 			is_null($album->getLoveCounter()) ? $parseAlbum->loveCounter = -1 : $parseAlbum->loveCounter = $album->getLoveCounter();
 			is_null($album->getLovers()) ? $parseAlbum->lovers = null : $parseAlbum->lovers = toParseAddRelation('_User', $album->getLovers());
+			is_null($album->getShareCounter()) ? $parseAlbum->shareCounter = -1 : $parseAlbum->shareCounter = $album->getShareCounter();
 			is_null($album->getTags()) ? $parseAlbum->tags = null : $parseAlbum->tags = $album->getTags();
 			is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = 'images/defult/albumCoverThumb.jpg' : $parseAlbum->thumbnailCover = $album->getThumbnailCover();
 			is_null($album->getTitle()) ? $parseAlbum->title = null : $parseAlbum->title = $album->getTitle();

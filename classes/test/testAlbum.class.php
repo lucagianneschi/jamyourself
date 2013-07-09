@@ -29,6 +29,7 @@ require_once CLASSES_DIR . 'albumParse.class.php';
 $album = new Album();
 
 $album->setActive(true);
+$album->setCommentCounter(10);
 $album->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $album->setComments(array ('nJr1ulgfVo', 'M8Abw83aVG'));
 $album->setCounter(10);
@@ -43,6 +44,7 @@ $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $album->setLocation($parseGeoPoint);
 $album->setLoveCounter(100);
 $album->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$album->setShareCounter(10);
 $album->setTags(array('tag1', 'tag2'));
 $album->setThumbnailCover('Un link al thumbnail cover');
 $album->setTitle('Un titolo');
