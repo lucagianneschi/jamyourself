@@ -30,6 +30,7 @@ $event = new Event();
 
 $event->setActive(true);
 $event->setAttendee(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setCommentCounter(1000);
 $event->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setComments(array ('nJr1ulgfVo', 'M8Abw83aVG'));
 $event->setCounter(10);
@@ -46,6 +47,7 @@ $event->setLocation($parseGeoPoint);
 $event->setLocationName('Una localita');
 $event->setLoveCounter(100);
 $event->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setShareCounter(1000);
 $event->setRefused(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setTags(array('tag1', 'tag2'));
 $event->setThumbnail('Un link thumbnail');

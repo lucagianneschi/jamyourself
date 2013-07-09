@@ -147,6 +147,7 @@ class EventParse {
 			$event = new Event();
 			$event->setObjectId($res->objectId);
 			$event->setActive($res->active);
+			$event->setCommentCounter($res->commentCounter);
 			#$event->setAttendee(fromParseRelation('Event', 'attendee', $res->objectId, '_User'));
 			#$event->setCommentators(fromParseRelation('Event', 'commentators', $res->objectId, '_User'));
 			#$event->setComments(fromParseRelation('Event', 'comments', $res->objectId, 'Comment'));
@@ -163,6 +164,7 @@ class EventParse {
 			$event->setLoveCounter($res->loveCounter);
 			#$event->setLovers(fromParseRelation('Event', 'lovers', $res->objectId, '_User'));
 			#$event->setRefused(fromParseRelation('Event', 'refused', $res->objectId, '_User'));
+			$event->setShareCounter($res->shareCounter);
 			$event->setTags($res->tags);
 			$event->setThumbnail($res->thumbnail);
 			$event->setTitle($res->title);
@@ -189,6 +191,7 @@ class EventParse {
 			$parseEvent = new parseObject('Event');
 			is_null($event->getActive()) ? $parseEvent->active = true : $parseEvent->active = $event->getActive();
 			is_null($event->getAttendee()) ? $parseEvent->attendee = null : $parseEvent->attendee = toParseAddRelation('_User', $event->getAttendee());
+			is_null($event->getCommentCounter()) ? $parseEvent->commentCounter = -1 : $parseEvent->commentCounter = $event->getCommentCounter();
 			is_null($event->getCommentators()) ? $parseEvent->commentators = null : $parseEvent->commentators = toParseAddRelation('_User', $event->getCommentators());
 			is_null($event->getComments()) ? $parseEvent->comments = null : $parseEvent->comments = toParseAddRelation('Comment', $event->getComments());
 			is_null($event->getCounter()) ? $parseEvent->counter = -1 : $parseEvent->counter = $event->getCounter();
@@ -202,6 +205,7 @@ class EventParse {
 			is_null($event->getLocationName()) ? $parseEvent->locationName = null : $parseEvent->locationName = $event->getLocationName();
 			is_null($event->getLoveCounter()) ? $parseEvent->loveCounter = -1 : $parseEvent->loveCounter = $event->getLoveCounter();
 			is_null($event->getLovers()) ? $parseEvent->lovers = null : $parseEvent->lovers = toParseAddRelation('_User', $event->getLovers());
+			is_null($event->getShareCounter()) ? $parseEvent->shareCounter = -1 : $parseEvent->shareCounter = $event->getShareCounter();
 			is_null($event->getRefused()) ? $parseEvent->refused = null : $parseEvent->refused = toParseAddRelation('_User', $event->getRefused());
 			is_null($event->getTags()) ? $parseEvent->tags = null : $parseEvent->tags = $event->getTags();
 			is_null($event->getThumbnail()) ? $parseEvent->thumbnail = 'images/defult/eventThumb.jpg' : $parseEvent->thumbnail = $event->getThumbnail();

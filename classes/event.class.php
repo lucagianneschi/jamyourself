@@ -24,6 +24,7 @@ class Event {
 	private $objectId;
 	private $active;
 	private $attendee;
+	private $commentCounter;
 	private $commentators;
 	private $comments;
 	private $counter;
@@ -39,6 +40,7 @@ class Event {
 	private $loveCounter;
 	private $lovers;
 	private $refused;
+	private $shareCounter;
 	private $tags;
 	private $thumbnail;
 	private $title;
@@ -71,6 +73,15 @@ class Event {
 	 */
 	public function getAttendee() {
 		return $this->attendee;
+	}
+	
+	/**
+	 * \fn		int getCommentCounter()
+	 * \brief	Return the comment counter value (number of comments)
+	 * \return	int
+	 */
+	public function getCommentCounter() {
+		return $this->commentCounter;
 	}
 
 	/**
@@ -199,6 +210,15 @@ class Event {
 	public function getLovers() {
 		return $this->lovers;
 	}
+	
+	/**
+	 * \fn		int getShareCounter()
+	 * \brief	Return the counter for sharing action
+	 * \return	int
+	 */
+	public function getShareCounter() {
+		return $this->shareCounter;
+	}
 
 	/**
 	 * \fn		array  getRefused()
@@ -290,6 +310,15 @@ class Event {
 		$this->attendee = $attendee;
 	}
 
+	/**
+	 * \fn		void setCommentCounter($commentCounter)
+	 * \brief	Sets the commnetCounter value
+	 * \param	int
+	 */
+	public function setCommentCounter($commentCounter) {
+		$this->counter = $commentCounter;
+	}
+	
 	/**
 	 * \fn		void setCommentators($commentators)
 	 * \brief	Sets the commentators value,array of pointer to ParseUser
@@ -417,6 +446,15 @@ class Event {
 	}
 
 	/**
+	 * \fn		void setCounter($shareCounter)
+	 * \brief	Sets the shareCounter value
+	 * \param	int
+	 */
+	public function setShareCounter($shareCounter) {
+		$this->shareCounter = $shareCounter;
+	}
+	
+	/**
 	 * \fn		void setRefused($refused)
 	 * \brief	Sets the refused value,array of pointer to ParseUser
 	 * \param	array
@@ -501,6 +539,7 @@ class Event {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[attendee] => NULL<br />';
 		}
+		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 		if ($this->getCommentators() != 0) {
 			foreach ($this->getCommentators() as $commentators) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -581,6 +620,7 @@ class Event {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[refused] => NULL<br />';
 		}
+		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 		if ($this->getTags() != 0) {
 			foreach ($this->getTags() as $tags) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
