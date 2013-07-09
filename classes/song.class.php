@@ -20,6 +20,7 @@ class Song {
 
 	private $objectId;
 	private $active;
+	private $commentCounter;
 	private $commentators;
 	private $comments;
 	private $counter;
@@ -32,6 +33,7 @@ class Song {
 	private $loveCounter;
 	private $lovers;
 	private $record;
+	private $shareCounter;
 	private $title;
 	private $createdAt;
 	private $updatedAt;
@@ -55,6 +57,15 @@ class Song {
 		return $this->active;
 	}
 
+	/**
+	 * \fn		int getCommentCounter()
+	 * \brief	Return the comment counter value (number of comments)
+	 * \return	int
+	 */
+	public function getCommentCounter() {
+		return $this->commentCounter;
+	}
+	
 	/**
 	 * \fn		array getCommentators()
 	 * \brief	Return the commentators value,array of objectId of istance of the _User class who commented the song
@@ -164,6 +175,15 @@ class Song {
 	}
 
 	/**
+	 * \fn		int getShareCounter()
+	 * \brief	Return the counter for sharing action
+	 * \return	int
+	 */
+	public function getShareCounter() {
+		return $this->shareCounter;
+	}
+	
+	/**
 	 * \fn		string getTitle()
 	 * \brief	Return the title value
 	 * \return	string
@@ -217,6 +237,15 @@ class Song {
 		$this->active = $active;
 	}
 
+	/**
+	 * \fn		void setCommentCounter($commentCounter)
+	 * \brief	Sets the commnetCounter value
+	 * \param	int
+	 */
+	public function setCommentCounter($commentCounter) {
+		$this->counter = $commentCounter;
+	}
+	
 	/**
 	 * \fn		void setCommentators($commentators)
 	 * \brief	Sets the commentators  value
@@ -326,6 +355,15 @@ class Song {
 	}
 
 	/**
+	 * \fn		void setCounter($shareCounter)
+	 * \brief	Sets the shareCounter value
+	 * \param	int
+	 */
+	public function setShareCounter($shareCounter) {
+		$this->shareCounter = $shareCounter;
+	}
+	
+	/**
 	 * \fn		void setTitle($title) 
 	 * \brief	Sets the title value
 	 * \param	string
@@ -370,6 +408,7 @@ class Song {
 		$string = '';
 		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
 		$string .= '[active] => ' . $this->getActive() . '<br />';
+		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 		if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
 			foreach ($this->getCommentators() as $commentator) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -411,6 +450,7 @@ class Song {
 		if ($record != null) {
 			$string .= '[record] => ' . $record . '<br />';
 		}
+		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 		$string .= '[title] => ' . $this->getTitle() . '<br />';
 		if ($this->getCreatedAt() != null) {
 			$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';

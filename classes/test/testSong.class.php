@@ -12,6 +12,7 @@ require_once CLASSES_DIR . 'songParse.class.php';
 $song = new Song();
 
 $song->setActive(true);
+$song->setCommentCounter(10000);
 $song->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $song->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $song->setCounter(10);
@@ -25,6 +26,7 @@ $song->setLocation($parseGeoPoint);
 $song->setLoveCounter(100);
 $song->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $song->setRecord('4zD865KrXo');
+$song->setShareCounter(10000);
 $song->setTitle('un titolo');
 //$song->setACL();
 

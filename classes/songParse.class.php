@@ -142,6 +142,7 @@ class SongParse {
 			$song = new Song();
 			$song->setObjectId($res->objectId);
 			$song->setActive($res->active);
+			$song->setCommentCounter($res->commentCounter);
 			#$song->setCommentators(fromParseRelation('Song', 'commentators', $res->objectId, '_User'));
 			#$song->setComments(fromParseRelation('Song', 'comments', $res->objectId, 'Comment'));
 			$song->setCounter($res->counter);
@@ -154,6 +155,7 @@ class SongParse {
 			$song->setLoveCounter($res->loveCounter);
 			#$song->setLovers(fromParseRelation('Song', 'lovers', $res->objectId, '_User'));
 			$song->setRecord(fromParsePointer($res->record));
+			$song->setShareCounter($res->shareCounter);
 			$song->setTitle($res->title);
 			$song->setCreatedAt(fromParseDate($res->createdAt));
 			$song->setUpdatedAt(fromParseDate($res->updatedAt));
@@ -177,6 +179,7 @@ class SongParse {
 		try {
 			$parseSong = new parseObject('Song');
 			is_null($song->getActive()) ? $parseSong->active = true : $parseSong->active = $song->getActive();
+			is_null($song->getCommentCounter()) ? $parseSong->commentCounter = -1 : $parseSong->commentCounter = $song->getCommentCounter();
 			is_null($song->getCommentators()) ? $parseSong->commentators = null : $parseSong->commentators = toParseAddRelation('_User', $song->getCommentators());
 			is_null($song->getComments()) ? $parseSong->comments = null : $parseSong->comments = toParseAddRelation('Comment', $song->getComments());
 			is_null($song->getCounter()) ? $parseSong->counter = -1 : $parseSong->counter = $song->getCounter();
@@ -189,6 +192,7 @@ class SongParse {
 			is_null($song->getLoveCounter()) ? $parseSong->loveCounter = -1 : $parseSong->loveCounter = $song->getLoveCounter();
 			is_null($song->getLovers()) ? $parseSong->lovers = null : $parseSong->lovers = toParseAddRelation('_User', $song->getLovers());
 			is_null($song->getRecord()) ? $parseSong->record = null : $parseSong->record = toParsePointer('Record', $song->getRecord());
+			is_null($song->getShareCounter()) ? $parseSong->shareCounter = -1 : $parseSong->shareCounter = $song->getShareCounter();
 			is_null($song->getTitle()) ? $parseSong->title = null : $parseSong->title = $song->getTitle();
 			is_null($song->getACL()) ? $parseSong->ACL = toParseDefaultACL() : $parseSong->ACL = toParseACL($song->getACL());
 			if ($song->getObjectId() == '') {
