@@ -39,6 +39,7 @@ $album->setCover('Una cover');
 $album->setDescription('Una descrizione');
 $album->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $album->setFromUser('GuUAj83MGH');
+$album->setCommentCounter(11);
 $album->setImages(array ('5yJMK9dyQh', '6WV6bqPNR9'));
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $album->setLocation($parseGeoPoint);

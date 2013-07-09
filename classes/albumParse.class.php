@@ -162,6 +162,7 @@ class AlbumParse {
 			$album->setDescription($res->description);
 			#$album->setFeaturing(fromParseRelation('Album', 'featuring', $res->objectId, '_User'));
 			$album->setFromUser(fromParsePointer($res->fromUser));
+			$album->setImageCounter($res->imageCounter);
 			#$album->setImages(fromParseRelation('Album', 'images', $res->objectId, 'Image'));
 			$album->setLocation(fromParseGeoPoint($res->location));
 			$album->setLoveCounter($res->loveCounter);
@@ -203,6 +204,7 @@ class AlbumParse {
 			is_null($album->getDescription()) ? $parseAlbum->description = null : $parseAlbum->description = $album->getDescription();
 			is_null($album->getFeaturing()) ? $parseAlbum->featuring = null : $parseAlbum->featuring = toParseAddRelation('_User', $album->getFeaturing());
 			$parseAlbum->fromUser = toParsePointer('_User', $album->getFromUser());
+			is_null($album->getImageCounter()) ? $parseAlbum->imageCounter = -1 : $parseAlbum->imageCounter = $album->getImageCounter();
 			is_null($album->getImages()) ? $parseAlbum->images = null : $parseAlbum->images = toParseAddRelation('Image', $album->getImages());
 			is_null($album->getLocation()) ? $parseAlbum->location = null : $parseAlbum->location = toParseGeoPoint($album->getLocation());
 			is_null($album->getLoveCounter()) ? $parseAlbum->loveCounter = -1 : $parseAlbum->loveCounter = $album->getLoveCounter();

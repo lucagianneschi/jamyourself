@@ -29,6 +29,7 @@ class Album {
 	private $description;
 	private $featuring;
 	private $fromUser;
+	private $imageCounter;
 	private $images;
 	private $location;
 	private $loveCounter;
@@ -140,6 +141,15 @@ class Album {
 		return $this->fromUser;
 	}
 
+	/**
+	 * \fn		int getImageCounter()
+	 * \brief	Return the image counter value (number of images)
+	 * \return	int
+	 */
+	public function getImageCounter() {
+		return $this->imageCounter;
+	}
+	
 	/**
 	 * \fn		array getImages()
 	 * \brief	Return the images value, array of objectId to Image istances
@@ -339,6 +349,15 @@ class Album {
 	}
 
 	/**
+	 * \fn		void setImageCounter($imageCounter)
+	 * \brief	Sets the imagetCounter value
+	 * \param	int
+	 */
+	public function setImageCounter($imageCounter) {
+		$this->imageCounter = $imageCounter;
+	}
+	
+	/**
 	 * \fn		void setImages($images)
 	 * \brief	Sets the images value,array of pointer to Image
 	 * \param	array
@@ -488,6 +507,7 @@ class Album {
 		} else {
 			$string .= '[fromUser] => NULL<br />';
 		}
+		$string .= '[imageCounter] => ' . $this->getImageCounter() . '<br />';
 		if ($this->getImages() != 0) {
 			foreach ($this->getImages() as $images) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
