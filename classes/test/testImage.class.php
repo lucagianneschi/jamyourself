@@ -13,6 +13,7 @@ $image = new Image();
 
 $image->setActive(true);
 $image->setAlbum('lK0bNWIi7k');
+$image->setCommentCounter(10);
 $image->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $image->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $image->setCounter(10);
@@ -26,6 +27,7 @@ $image->setLocation($parseGeoPoint);
 $image->setLoveCounter(100);
 $image->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $image->setTags(array('tag1', 'tag2'));
+$image->setShareCounter(100000);
 //$image->setACL();
 
 echo '<br />-------------------------------------------------------------------------------<br />';

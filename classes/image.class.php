@@ -21,6 +21,7 @@ class Image {
 	private $objectId;
 	private $active;
 	private $album;
+	private $commentCounter;
 	private $commentators;
 	private $comments;
 	private $counter;
@@ -32,6 +33,7 @@ class Image {
 	private $location;
 	private $loveCounter;
 	private $lovers;
+	private $shareCounter;
 	private $tags;
 	private $createdAt;
 	private $updatedAt;
@@ -64,6 +66,15 @@ class Image {
 		return $this->album;
 	}
 
+	/**
+	 * \fn		int getCommentCounter()
+	 * \brief	Return the comment counter value (number of comments)
+	 * \return	int
+	 */
+	public function getCommentCounter() {
+		return $this->commentCounter;
+	}
+	
 	/**
 	 * \fn		array getCommentators()
 	 * \brief	Return an array of objectId of istances of _User class who commented on the image
@@ -164,6 +175,15 @@ class Image {
 	}
 
 	/**
+	 * \fn		int getShareCounter()
+	 * \brief	Return the counter for sharing action
+	 * \return	int
+	 */
+	public function getShareCounter() {
+		return $this->shareCounter;
+	}
+	
+	/**
 	 * \fn		array getTags()
 	 * \brief	Return the tags value, array of string to categorize the image
 	 * \return	array
@@ -226,6 +246,15 @@ class Image {
 		$this->album = $album;
 	}
 
+	/**
+	 * \fn		void setCommentCounter($commentCounter)
+	 * \brief	Sets the commnetCounter value
+	 * \param	int
+	 */
+	public function setCommentCounter($commentCounter) {
+		$this->counter = $commentCounter;
+	}
+	
 	/**
 	 * \fn		void setCommentators($commentators)
 	 * \brief	Sets the commentators value,array of pointer to ParseUser
@@ -326,6 +355,15 @@ class Image {
 	}
 
 	/**
+	 * \fn		void setCounter($shareCounter)
+	 * \brief	Sets the shareCounter value
+	 * \param	int
+	 */
+	public function setShareCounter($shareCounter) {
+		$this->shareCounter = $shareCounter;
+	}
+	
+	/**
 	 * \fn		void setTags($tags)
 	 * \brief	Sets the tags value,array of strings
 	 * \param	array
@@ -371,6 +409,7 @@ class Image {
 		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
 		$string .= '[active] => ' . $this->getActive() . '<br />';
 		$string.= '[album] => ' . $this->getAlbum() . '<br />';
+		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 		if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
 			foreach ($this->getCommentators() as $commentator) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -408,6 +447,7 @@ class Image {
 				$string .= '[lover] => ' . $lover . '<br />';
 			}
 		}
+		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 		if ($this->getTags() != null && count($this->getTags() > 0)) {
 			foreach ($this->getTags() as $tag) {
 				$string.= '&nbsp&nbsp&nbsp&nbsp&nbsp';

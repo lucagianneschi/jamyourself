@@ -144,6 +144,7 @@ class ImageParse {
 			$image->setObjectId($res->objectId);
 			$image->setActive($res->active);
 			$image->setAlbum(fromParsePointer($res->album));
+			$image->setCommentCounter($res->commentCounter);
 			#$image->setCommentators(fromParseRelation('Image', 'commentators', $res->objectId, '_User'));
 			#$image->setComments(fromParseRelation('Image', 'comments', $res->objectId, 'Comment'));
 			$image->setCounter($res->counter);
@@ -155,6 +156,7 @@ class ImageParse {
 			$image->setLocation(fromParseGeoPoint($res->location));
 			$image->setLoveCounter($res->loveCounter);
 			#$image->setLovers(fromParseRelation('Image', 'lovers', $res->objectId, '_User'));
+			$image->setShareCounter($res->shareCounter);
 			$image->setTags($res->tags);
 			$image->setCreatedAt(fromParseDate($res->createdAt));
 			$image->setUpdatedAt(fromParseDate($res->updatedAt));
@@ -179,6 +181,7 @@ class ImageParse {
 			$parseImage = new parseObject('Image');
 			is_null($image->getActive()) ? $parseImage->active = true : $parseImage->active = $image->getActive();
 			is_null($image->getAlbum()) ? $parseImage->album = null : $parseImage->album = toParsePointer('Album', $image->getAlbum());
+			is_null($image->getCommentCounter()) ? $parseImage->commentCounter = null : $parseImage->commentCounter = $image->getCommentCounter();
 			is_null($image->getCommentators()) ? $parseImage->commentators = null : $parseImage->commentators = toParseAddRelation('_User', $image->getCommentators());
 			is_null($image->getComments()) ? $parseImage->comments = null : $parseImage->comments = toParseAddRelation('Comment', $image->getComments());
 			is_null($image->getCounter()) ? $parseImage->counter = null : $parseImage->counter = $image->getCounter();
@@ -190,6 +193,7 @@ class ImageParse {
 			is_null($image->getLocation()) ? $parseImage->location = null : $parseImage->location = toParseGeoPoint($image->getLocation());
 			is_null($image->getLoveCounter()) ? $parseImage->loveCounter = null : $parseImage->loveCounter = $image->getLoveCounter();
 			is_null($image->getLovers()) ? $parseImage->lovers = null : $parseImage->lovers = toParseAddRelation('_User', $image->getLovers());
+			is_null($image->getShareCounter()) ? $parseImage->shareCounter = null : $parseImage->shareCounter = $image->getShareCounter();
 			is_null($image->getTags()) ? $parseImage->tags = null : $parseImage->tags = $image->getTags();
 			is_null($image->getACL()) ? $parseImage->ACL = toParseDefaultACL() : $parseImage->ACL = toParseACL($image->getACL());
 			if ($image->getObjectId() == '') {
