@@ -67,7 +67,7 @@ class SongParse {
 	 * \return	Song	the Song with the specified $objectId
 	 * \return	Error	the Error raised by the function
 	 */
-	function getSong($objectId) {
+	public function getSong($objectId) {
 		try {
 			$parseObject = new parseObject('Song');
 			$res = $parseObject->get($objectId);
@@ -135,7 +135,7 @@ class SongParse {
 	 * \return	Song	the Song object
 	 * \return	Error	the Error raised by the function
 	 */
-	function parseToSong($res) {
+	public function parseToSong($res) {
 		if (is_null($res))
 			return throwError(new Exception('parseToSong parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
@@ -173,7 +173,7 @@ class SongParse {
 	 * \return	Song	the Song object with the new objectId parameter saved
 	 * \return	Error	the Error raised by the function
 	 */
-	function saveSong($song) {
+	public function saveSong($song) {
 		if (is_null($song->getFromUser()))
 			return throwError(new Exception('saveSong parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
