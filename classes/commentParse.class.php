@@ -147,6 +147,7 @@ class CommentParse {
 			$cmt->setActive($res->active);
 			$cmt->setAlbum(fromParsePointer($res->album));
 			$cmt->setComment(fromParsePointer($res->comment));
+			$cmt->setCommentCounter($res->commentCounter);
 			# $cmt->setCommentators(fromParseRelation('Comment', 'commentators', $res->objectId, '_User'));
 			# $cmt->setComments(fromParseRelation('Comment', 'comments', $res->objectId, 'Comment'));
 			$cmt->setCounter($res->counter);
@@ -158,6 +159,7 @@ class CommentParse {
 			# $cmt->setLovers(fromParseRelation('Comment', 'lovers', $res->objectId, '_User'));
 			$cmt->setOpinions($res->opinions);
 			$cmt->setRecord(fromParsePointer($res->record));
+			$cmt->setShareCounter($res->shareCounter);
 			$cmt->setSong(fromParsePointer($res->song));
 			$cmt->setStatus(fromParsePointer($res->status));
 			$cmt->setTags($res->tags);
@@ -192,6 +194,7 @@ class CommentParse {
 			is_null($cmt->getActive()) ? $parseObject->active = true : $parseObject->active = $cmt->getActive();
 			is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = toParsePointer('Album', $cmt->getAlbum());
 			is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = toParsePointer('Comment', $cmt->getComment());
+			is_null($cmt->getCommentCounter()) ? $parseObject->commentCounter = -1 : $parseObject->commentCounter = $cmt->getCommentCounter();
 			is_null($cmt->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseAddRelation('_User', $cmt->getCommentators());
 			is_null($cmt->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseAddRelation('Comment', $cmt->getComments());
 			is_null($cmt->getCounter()) ? $parseObject->counter = -1 : $parseObject->counter = $cmt->getCounter();
@@ -203,6 +206,7 @@ class CommentParse {
 			is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseAddRelation('_User', $cmt->getLovers());
 			is_null($cmt->getOpinions()) ? $parseObject->opinions = null : $parseObject->opinions = $cmt->getOpinions();
 			is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
+			is_null($cmt->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $cmt->getShareCounter();
 			is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
 			is_null($cmt->getStatus()) ? $parseObject->status = null : $parseObject->status = toParsePointer('Status', $cmt->getStatus());
 			is_null($cmt->getTags()) ? $parseObject->tags = null : $parseObject->tags = $cmt->getTags();

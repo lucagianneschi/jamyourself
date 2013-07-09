@@ -22,6 +22,7 @@ class Comment {
 	private $active;
 	private $album;
 	private $comment;
+	private $commentCounter;
 	private $commentators;
 	private $comments;
 	private $counter;
@@ -33,6 +34,7 @@ class Comment {
 	private $lovers;
 	private $opinions;
 	private $record;
+	private $shareCounter;
 	private $song;
 	private $status;
 	private $tags;
@@ -79,6 +81,15 @@ class Comment {
 	 */
 	public function getComment() {
 		return $this->comment;
+	}
+	
+	/**
+	 * \fn		int getCommentCounter()
+	 * \brief	Return the comment counter value (number of comments)
+	 * \return	int
+	 */
+	public function getCommentCounter() {
+		return $this->commentCounter;
 	}
 
 	/**
@@ -180,6 +191,15 @@ class Comment {
 		return $this->record;
 	}
 
+	/**
+	 * \fn		int getShareCounter()
+	 * \brief	Return the counter for sharing action
+	 * \return	int
+	 */
+	public function getShareCounter() {
+		return $this->shareCounter;
+	}
+	
 	/**
 	 * \fn		string getSong()
 	 * \brief	Return the song value objectId
@@ -307,6 +327,15 @@ class Comment {
 	}
 
 	/**
+	 * \fn		void setCommentCounter($commentCounter)
+	 * \brief	Sets the commnetCounter value
+	 * \param	int
+	 */
+	public function setCommentCounter($commentCounter) {
+		$this->counter = $commentCounter;
+	}
+	
+	/**
 	 * \fn		void setComment($comment)
 	 * \brief	Sets the comment value, objectId
 	 * \param	string
@@ -414,6 +443,15 @@ class Comment {
 		$this->record = $record;
 	}
 
+	/**
+	 * \fn		void setCounter($shareCounter)
+	 * \brief	Sets the shareCounter value
+	 * \param	int
+	 */
+	public function setShareCounter($shareCounter) {
+		$this->shareCounter = $shareCounter;
+	}
+	
 	/**
 	 * \fn		void setSong($song)
 	 * \brief	Sets the song objectId value
@@ -537,6 +575,7 @@ class Comment {
 		} else {
 			$string .= '[comment] => NULL<br />';
 		}
+		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 		if (count($this->getCommentators()) != 0) {
 			foreach ($this->getCommentators() as $commentators) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -600,6 +639,7 @@ class Comment {
 		} else {
 			$string .= '[record] => NULL<br />';
 		}
+		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 		if ($this->getSong() != null) {
 			$string .= '[song] => ' . $this->getSong() . '<br />';
 		} else {
