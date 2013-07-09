@@ -227,50 +227,50 @@ class UserParse {
 			$user->setEmailVerified($res->emailVerified);
 			$user->setActive($res->active);
 			$user->setAddress($res->address);
-			$user->setAlbums(fromParseRelation('_User', 'albums', $res->objectId, 'Album'));
+			# $user->setAlbums(fromParseRelation('_User', 'albums', $res->objectId, 'Album'));
 			$user->setBackground($res->background);
 			$user->setBirthDay($res->birthDay);
 			$user->setCity($res->city);
-			$user->setCollaboration(fromParseRelation('_User', 'collaboration', $res->objectId, '_User'));
-			$user->setComments(fromParseRelation('_User', 'comments', $res->objectId, 'Comment'));
+			# $user->setCollaboration(fromParseRelation('_User', 'collaboration', $res->objectId, '_User'));
+			# $user->setComments(fromParseRelation('_User', 'comments', $res->objectId, 'Comment'));
 			$user->setCountry($res->country);
 			$user->setDescription($res->description);
 			$user->setEmail($res->email);
-			$user->setEvents(fromParseRelation('_User', 'events', $res->objectId, 'Event'));
+			# $user->setEvents(fromParseRelation('_User', 'events', $res->objectId, 'Event'));
 			$user->setFacebookId($res->facebookId);
 			$user->setFbPage($res->fbPage);
 			$user->setFirstname($res->firstname);
-			$user->setFollowing(fromParseRelation('_User', 'following', $res->objectId, '_User'));
-			$user->setFriendship(fromParseRelation('_User', 'friendship', $res->objectId, '_User'));
+			# $user->setFollowing(fromParseRelation('_User', 'following', $res->objectId, '_User'));
+			# $user->setFriendship(fromParseRelation('_User', 'friendship', $res->objectId, '_User'));
 			$user->setGeoCoding(fromParseGeoPoint($res->geoCoding));
-			$user->setImages(fromParseRelation('_User', 'images', $res->objectId, 'Image'));
+			# $user->setImages(fromParseRelation('_User', 'images', $res->objectId, 'Image'));
 			$user->setJammerType($res->jammerType);
 			$user->setLastname($res->lastname);
 			$user->setLevel($res->level);
 			$user->setLevelValue($res->levelValue);
 			$user->setLocalType($res->localType);
-			$user->setLoveSongs(fromParseRelation('_User', 'loveSongs', $res->objectId, 'Song'));
+			# $user->setLoveSongs(fromParseRelation('_User', 'loveSongs', $res->objectId, 'Song'));
 			$user->setMembers($res->members);
 			$user->setMusic($res->music);
-			$user->setPlaylists(fromParseRelation('_User', 'playlist', $res->objectId, 'Playlist'));
+			# $user->setPlaylists(fromParseRelation('_User', 'playlist', $res->objectId, 'Playlist'));
 			$user->setPremium($res->premium);
 			$user->setPremiumExpirationDate(fromParseDate($res->premiumExpirationDate));
 			$user->setProfilePicture($res->profilePicture);
 			$user->setProfilePictureFile($res->profilePictureFile);
 			$user->setProfileThumbnail($res->profileThumbnail);
-			$user->setRecords(fromParseRelation('_User', 'records', $res->objectId, 'Record'));
+			# $user->setRecords(fromParseRelation('_User', 'records', $res->objectId, 'Record'));
 			$user->setSessionToken($res->sessionToken);
 			$user->setSettings($res->settings);
 			$user->setSex($res->sex);
-			$user->setSongs(fromParseRelation('_User', 'songs', $res->objectId, 'Song'));
-			$user->setStatuses(fromParseRelation('_User', 'statuses', $res->objectId, 'Status'));
+			# $user->setSongs(fromParseRelation('_User', 'songs', $res->objectId, 'Song'));
+			# $user->setStatuses(fromParseRelation('_User', 'statuses', $res->objectId, 'Status'));
 			$user->setTwitterPage($res->twitterPage);
 			$user->setType($res->type);
-			$user->setVideos(fromParseRelation('_User', 'videos', $res->objectId, 'Video'));
+			# $user->setVideos(fromParseRelation('_User', 'videos', $res->objectId, 'Video'));
 			$user->setWebsite($res->website);
 			$user->setYoutubeChannel($res->youtubeChannel);
-			$user->setCreatedAt(new DateTime($res->createdAt));
-			$user->setUpdatedAt(new DateTime($res->updatedAt));
+			$user->setCreatedAt(fromParseDate($res->createdAt));
+			$user->setUpdatedAt(fromParseDate($res->updatedAt));
 			$user->setACL(fromParseACL($res->ACL));
 			
 			return $user;
@@ -298,47 +298,47 @@ class UserParse {
 			# is_null($user->getEmailVerified()) ? $parseUser->emailVerified = null : $parseUser->emailVerified = $user->getEmailVerified();
 			is_null($user->getActive()) ? $parseUser->active = null : $parseUser->active = $user->getActive();
 			is_null($user->getAddress()) ? $parseUser->address = null : $parseUser->address = $user->getAddress();
-			is_null($user->getAlbums()) ? $parseUser->albums = null : $parseUser->albums = toParseRelation('Album', $user->getAlbums());
+			is_null($user->getAlbums()) ? $parseUser->albums = null : $parseUser->albums = toParseAddRelation('Album', $user->getAlbums());
 			is_null($user->getBackground()) ? $parseUser->background = null : $parseUser->background = $user->getBackground();
 			is_null($user->getBirthDay()) ? $parseUser->birthDay = null : $parseUser->birthDay = $user->getBirthDay();
 			is_null($user->getCity()) ? $parseUser->city = null : $parseUser->city = $user->getCity();
-			is_null($user->getCollaboration()) ? $parseUser->collaboration = null : $parseUser->collaboration = toParseRelation('_User', $user->getCollaboration());
-			is_null($user->getComments()) ? $parseUser->comments = null : $parseUser->comments = toParseRelation('Comment', $user->getComments());
+			is_null($user->getCollaboration()) ? $parseUser->collaboration = null : $parseUser->collaboration = toParseAddRelation('_User', $user->getCollaboration());
+			is_null($user->getComments()) ? $parseUser->comments = null : $parseUser->comments = toParseAddRelation('Comment', $user->getComments());
 			is_null($user->getCountry()) ? $parseUser->country = null : $parseUser->country = $user->getCountry();
 			is_null($user->getDescription()) ? $parseUser->description = null : $parseUser->description = $user->getDescription();
 			is_null($user->getEmail()) ? $parseUser->email = null : $parseUser->email = $user->getEmail();
-			is_null($user->getEvents()) ? $parseUser->events = null : $parseUser->events = toParseRelation('Event', $user->getEvents());
+			is_null($user->getEvents()) ? $parseUser->events = null : $parseUser->events = toParseAddRelation('Event', $user->getEvents());
 			is_null($user->getFacebookId()) ? $parseUser->facebookId = null : $parseUser->facebookId = $user->getFacebookId();
 			is_null($user->getFbPage()) ? $parseUser->fbPage = null : $parseUser->fbPage = $user->getFbPage();
 			is_null($user->getFirstname()) ? $parseUser->firstname = null : $parseUser->firstname = $user->getFirstname();
-			is_null($user->getFollowing()) ? $parseUser->following = null : $parseUser->following = toParseRelation('_User', $user->getFollowing());
-			is_null($user->getFriendship()) ? $parseUser->friendship = null : $parseUser->friendship = toParseRelation('_User', $user->getFriendship());
+			is_null($user->getFollowing()) ? $parseUser->following = null : $parseUser->following = toParseAddRelation('_User', $user->getFollowing());
+			is_null($user->getFriendship()) ? $parseUser->friendship = null : $parseUser->friendship = toParseAddRelation('_User', $user->getFriendship());
 			is_null($user->getGeoCoding()) ? $parseUser->geoCoding = null : $parseUser->geoCoding = toParseGeoPoint($user->getGeoCoding());
-			is_null($user->getImages()) ? $parseUser->images = null : $parseUser->images = toParseRelation('Image', $user->getImages());
+			is_null($user->getImages()) ? $parseUser->images = null : $parseUser->images = toParseAddRelation('Image', $user->getImages());
 			is_null($user->getJammerType()) ? $parseUser->jammerType = null : $parseUser->jammerType = $user->getJammerType();
 			is_null($user->getLastname()) ? $parseUser->lastname = null : $parseUser->lastname = $user->getLastname();
 			is_null($user->getLevel()) ? $parseUser->level = null : $parseUser->level = $user->getLevel();
 			is_null($user->getLevelValue()) ? $parseUser->levelValue = null : $parseUser->levelValue = $user->getLevelValue();
 			is_null($user->getLocalType()) ? $parseUser->localType = null : $parseUser->localType = $user->getLocalType();
-			is_null($user->getLoveSongs()) ? $parseUser->loveSongs = null : $parseUser->loveSongs = toParseRelation('Song', $user->getLoveSongs());
+			is_null($user->getLoveSongs()) ? $parseUser->loveSongs = null : $parseUser->loveSongs = toParseAddRelation('Song', $user->getLoveSongs());
 			is_null($user->getMembers()) ? $parseUser->members = null : $parseUser->members = $user->getMembers();
 			is_null($user->getMusic()) ? $parseUser->music = null : $parseUser->music = $user->getMusic();
-			is_null($user->getPlaylists()) ? $parseUser->playlists = null : $parseUser->playlists = toParseRelation('Playlist', $user->getPlaylists());
+			is_null($user->getPlaylists()) ? $parseUser->playlists = null : $parseUser->playlists = toParseAddRelation('Playlist', $user->getPlaylists());
 			is_null($user->getPremium()) ? $parseUser->premium = null : $parseUser->premium = $user->getPremium();
-			is_null($user->getPremiumExpirationDate()) ? $parseUser->premiumExpirationDate = null : $parseUser->premiumExpirationDate = $parseUser->dataType('date', $user->getPremiumExpirationDate()->date);
+			is_null($user->getPremiumExpirationDate()) ? $parseUser->premiumExpirationDate = null : $parseUser->premiumExpirationDate = toParseDate($user->getPremiumExpirationDate());
 			is_null($user->getProfilePicture()) ? $parseUser->profilePicture = null : $parseUser->profilePicture = $user->getProfilePicture();
 			is_null($user->getProfilePictureFile()) ? $parseUser->profilePictureFile = null : $parseUser->profilePictureFile = $user->getProfilePictureFile();
 			is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = null : $parseUser->profileThumbnail = $user->getProfileThumbnail();
 			# sessionToken non può essere salvato su Parse perchè è una parola chiave
 			# is_null($user->getSessionToken()) ? $parseUser->sessionToken = null : $parseUser->sessionToken = $user->getSessionToken();
-			is_null($user->getRecords()) ? $parseUser->records = null : $parseUser->records = toParseRelation('Record', $user->getRecords());
+			is_null($user->getRecords()) ? $parseUser->records = null : $parseUser->records = toParseAddRelation('Record', $user->getRecords());
 			is_null($user->getSettings()) ? $parseUser->settings = null : $parseUser->settings = $user->getSettings();
 			is_null($user->getSex()) ? $parseUser->sex = null : $parseUser->sex = $user->getSex();
-			is_null($user->getSongs()) ? $parseUser->songs = null : $parseUser->songs = toParseRelation('Song', $user->getSongs());
-			is_null($user->getStatuses()) ? $parseUser->statuses = null : $parseUser->statuses = toParseRelation('Status', $user->getStatuses());
+			is_null($user->getSongs()) ? $parseUser->songs = null : $parseUser->songs = toParseAddRelation('Song', $user->getSongs());
+			is_null($user->getStatuses()) ? $parseUser->statuses = null : $parseUser->statuses = toParseAddRelation('Status', $user->getStatuses());
 			is_null($user->getTwitterPage()) ? $parseUser->twitterPage = null : $parseUser->twitterPage = $user->getTwitterPage();
 			is_null($user->getType()) ? $parseUser->type = null : $parseUser->type = $user->getType();
-			is_null($user->getVideos()) ? $parseUser->videos = null : $parseUser->videos = toParseRelation('Video', $user->getVideos());
+			is_null($user->getVideos()) ? $parseUser->videos = null : $parseUser->videos = toParseAddRelation('Video', $user->getVideos());
 			is_null($user->getWebsite()) ? $parseUser->website = null : $parseUser->website = $user->getWebsite();
 			is_null($user->getYoutubeChannel()) ? $parseUser->youtubeChannel = null : $parseUser->youtubeChannel = $user->getYoutubeChannel();
 			# createdAt non può essere salvato su Parse perchè è una parola chiave
@@ -375,6 +375,41 @@ class UserParse {
 	 */
 	public function setSkip($skip) {
 		$this->parseQuery->setSkip($skip);
+	}
+
+	/**
+	 * \fn		void updateField($objectId, $sessionToken, $field, $value, $isRelation = false, $typeRelation, $className)
+	 * \brief	Update a field of the object
+	 * \param	$objectId		the objectId of the User to update
+	 * \param	$sessionToken	the sessionToken of the User to update
+	 * \param	$field			the field of the User to update
+	 * \param	$value			the value to update te field
+	 * \param	$isRelation		[optional] default = false - define if the field is a relational type
+	 * \param	$typeRelation	[optional] default = '' - define if the relational update must add or remove the value from the field
+	 * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
+	 */
+	public function updateField($objectId, $sessionToken, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
+		if (is_null($objectId) || is_null($sessionToken) || is_null($field) || is_null($value))
+			return throwError(new Exception('updateField parameters objectId, sessionToken, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+		if ($isRelation) {
+			if (is_null($typeRelation) || is_null($className))
+				return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
+			if ($typeRelation == 'add') {
+				$parseUser = new parseUser();
+				$parseUser->$field = toParseAddRelation($className, $value);
+				$parseUser->update($objectId, $sessionToken);
+			} elseif ($typeRelation == 'remove') {
+				$parseUser = new parseUser();
+				$parseUser->$field = toParseRemoveRelation($className, $value);
+				$parseUser->update($objectId, $sessionToken);
+			} else {
+				return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
+			}
+		} else {
+			$parseUser = new parseUser();
+			$parseUser->$field = $value;
+			$parseUser->update($objectId, $sessionToken);
+		}
 	}
 
 	/**

@@ -93,7 +93,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO IL RECUPERO DI UNO User<br /><br />';
 
 $userParse = new UserParse();
-$resGet = $userParse->getUser('GuUAj83MGH');
+$resGet = $userParse->getUser($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
@@ -169,4 +169,38 @@ echo '<br />FINITO IL LOGIN DI UNO User<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
+echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLO User<br />';
+
+$userParse = new UserParse();
+
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'active', true);
+echo 'Aggiornato un campo boolean<br />';
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'address', 'Un indirizzo');
+echo 'Aggiornato un campo string<br />';
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'level', 101);
+echo 'Aggiornato un campo number<br />';
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'settings', array('set1', 'set2'));
+echo 'Aggiornato un campo array<br />';
+
+//$userParse->updateField($resSave->getObjectId(), 'image', toParsePointer('Image', 'MuTAFCZIKd'));
+//echo 'Aggiornato un campo Pointer<br />';
+
+$parseGeoPoint = new parseGeoPoint('56.78', '12.34');
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'geoCoding', toParseGeoPoint($parseGeoPoint));
+echo 'Aggiornato un campo GeoPoint<br />';
+
+$parseACL = new parseACL();
+$parseACL->setPublicWriteAccess(false);
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'ACL', toParseACL($parseACL));
+echo 'Aggiornato un campo ACL<br />';
+
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'collaboration', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
+echo 'Aggiornato (add) un campo Relation<br />';
+
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'collaboration', array('WeTEWWfASn'), true, 'remove', '_User');
+echo 'Aggiornato (remove) un campo Relation<br />';
+
+echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL Comment<br />';
+
+echo '<br />-------------------------------------------------------------------------------<br />';
 ?>
