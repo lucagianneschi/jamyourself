@@ -312,7 +312,7 @@ class Record {
 	 * \param	int
 	 */
 	public function setCommentCounter($commentCounter) {
-		$this->counter = $commentCounter;
+		$this->commentCounter = $commentCounter;
 	}
 
 	/**

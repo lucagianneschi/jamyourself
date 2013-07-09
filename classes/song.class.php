@@ -243,7 +243,7 @@ class Song {
 	 * \param	int
 	 */
 	public function setCommentCounter($commentCounter) {
-		$this->counter = $commentCounter;
+		$this->commentCounter = $commentCounter;
 	}
 	
 	/**
