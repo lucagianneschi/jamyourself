@@ -13,6 +13,7 @@ $record = new Record();
 
 $record->setActive(true);
 $record->setBuyLink('Un buy link');
+$record->setCommentCounter(10);
 $record->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $record->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $record->setCounter(10);
@@ -28,6 +29,7 @@ $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $record->setLocation($parseGeoPoint);
 $record->setLoveCounter(100);
 $record->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$record->setShareCounter(666);
 $record->setThumbnailCover('Un thumbnail cover');
 $record->setTitle('Un titolo');
 $record->setTracklist(array('nBF3KVDGxZ', 'MSJfcWb9Qk'));

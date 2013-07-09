@@ -152,6 +152,7 @@ class RecordParse {
 			$record->setObjectId($res->objectId);
 			$record->setActive($res->active);
 			$record->setBuyLink($res->buyLink);
+			$record->setCommentCounter($res->commentCounter);
 			#$record->setCommentators(fromParseRelation('Record', 'commentators', $res->objectId, '_User'));
 			#$record->setComments(fromParseRelation('Record', 'comments', $res->objectId, 'Comment'));
 			$record->setCounter($res->counter);
@@ -166,6 +167,7 @@ class RecordParse {
 			$record->setLocation(fromParseGeoPoint($res->location));
 			$record->setLoveCounter($res->loveCounter);
 			#$record->setLovers(fromParseRelation('Record', 'lovers', $res->objectId, '_User'));
+			$record->setShareCounter($res->shareCounter);
 			$record->setThumbnailCover($res->thumbnailCover);
 			$record->setTitle($res->title);
 			#$record->setTracklist(fromParseRelation('Record', 'tracklist', $res->objectId, 'Song'));
@@ -193,6 +195,7 @@ class RecordParse {
 			$parseObject = new parseObject('Record');
 			is_null($record->getActive()) ? $parseObject->active = true : $parseObject->active = $record->getActive();
 			is_null($record->getBuyLink()) ? $parseObject->buyLink = null : $parseObject->buyLink = $record->getBuyLink();
+			is_null($record->getCommentCounter()) ? $parseObject->commentCounter = -1 : $parseObject->commentCounter = $record->getCommentCounter();
 			is_null($record->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseAddRelation('_User', $record->getCommentators());
 			is_null($record->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseAddRelation('Comment', $record->getComments());
 			is_null($record->getCounter()) ? $parseObject->counter = -1 : $parseObject->counter = $record->getCounter();
@@ -207,6 +210,7 @@ class RecordParse {
 			is_null($record->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($record->getLocation());
 			is_null($record->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $record->getLoveCounter();
 			is_null($record->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseAddRelation('_User', $record->getLovers());
+			is_null($record->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $record->getShareCounter();
 			is_null($record->getThumbnailCover()) ? $parseObject->thumbnailCover = 'images/defult/recordThumb.jpg' : $parseObject->thumbnailCover = $record->getThumbnailCover();
 			is_null($record->getTitle()) ? $parseObject->title = null : $parseObject->title = $record->getTitle();
 			is_null($record->getTracklist()) ? $parseObject->tracklist = null : $parseObject->tracklist = toParseAddRelation('Song', $record->getTracklist());

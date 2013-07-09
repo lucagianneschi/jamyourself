@@ -21,6 +21,7 @@ class Record {
 	private $objectId;
 	private $active;
 	private $buyLink;
+	private $commentCounter;
 	private $commentators;
 	private $comments;
 	private $counter;
@@ -35,6 +36,7 @@ class Record {
 	private $location;
 	private $loveCounter;
 	private $lovers;
+	private $shareCounter;
 	private $thumbnailCover;
 	private $title;
 	private $tracklist;
@@ -70,6 +72,15 @@ class Record {
 		return $this->buyLink;
 	}
 
+	/**
+	 * \fn		int getCommentCounter()
+	 * \brief	Return the comment counter value (number of comments)
+	 * \return	int
+	 */
+	public function getCommentCounter() {
+		return $this->commentCounter;
+	}
+	
 	/**
 	 * \fn		array getCommentators()
 	 * \brief	Return the commentators value,array of objectId of istance of the _User class who commented the record
@@ -195,6 +206,15 @@ class Record {
 	public function getLovers() {
 		return $this->lovers;
 	}
+	
+	/**
+	 * \fn		int getShareCounter()
+	 * \brief	Return the counter for sharing action
+	 * \return	int
+	 */
+	public function getShareCounter() {
+		return $this->shareCounter;
+	}
 
 	/**
 	 * \fn		string getThumbnailCover()
@@ -284,6 +304,15 @@ class Record {
 	 */
 	public function setBuyLink($buyLink) {
 		$this->buyLink = $buyLink;
+	}
+	
+	/**
+	 * \fn		void setCommentCounter($commentCounter)
+	 * \brief	Sets the commnetCounter value
+	 * \param	int
+	 */
+	public function setCommentCounter($commentCounter) {
+		$this->counter = $commentCounter;
 	}
 
 	/**
@@ -413,6 +442,15 @@ class Record {
 	}
 
 	/**
+	 * \fn		void setCounter($shareCounter)
+	 * \brief	Sets the shareCounter value
+	 * \param	int
+	 */
+	public function setShareCounter($shareCounter) {
+		$this->shareCounter = $shareCounter;
+	}
+	
+	/**
 	 * \fn		void setThumbnailCover($thumbnailCover) 
 	 * \brief	Sets the thumbnailCover (path file) value
 	 * \param	string
@@ -489,6 +527,7 @@ class Record {
 			$this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 		}
 		$string .= '[buyLink] => ' . $this->buyLink . '<br/>';
+		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 		if (count($this->getCommentators()) != 0) {
 			foreach ($this->getCommentators() as $commentators) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -537,6 +576,7 @@ class Record {
 				$string .= '[lovers] => ' . $lovers . '<br />';
 			}            
 		}
+		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 		$string .= '[thumbnailCover] .= > '.$this->thumbnailCover .'<br/>';
 		$string .= '[title] .= > '.$this->title .'<br/>';
 		if ($this->tracklist && count($this->tracklist > 0)){
