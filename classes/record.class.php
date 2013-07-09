@@ -37,6 +37,7 @@ class Record {
 	private $loveCounter;
 	private $lovers;
 	private $shareCounter;
+	private $songCounter;
 	private $thumbnailCover;
 	private $title;
 	private $tracklist;
@@ -214,6 +215,15 @@ class Record {
 	 */
 	public function getShareCounter() {
 		return $this->shareCounter;
+	}
+	
+	/**
+	 * \fn		int getSongCounter()
+	 * \brief	Return the song counter value (number of songs)
+	 * \return	int
+	 */
+	public function getSongCounter() {
+		return $this->songCounter;
 	}
 
 	/**
@@ -442,6 +452,15 @@ class Record {
 	}
 
 	/**
+	 * \fn		void  setSongCounter($songCounter)
+	 * \brief	Sets the songCounter value
+	 * \param	int
+	 */
+	public function setSongCounter($songCounter) {
+		$this->songCounter = $songCounter;
+	}
+	
+	/**
 	 * \fn		void setCounter($shareCounter)
 	 * \brief	Sets the shareCounter value
 	 * \param	int
@@ -577,6 +596,7 @@ class Record {
 			}            
 		}
 		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
+		$string .= '[songCounter] => ' . $this->getsSongCounter() . '<br />';
 		$string .= '[thumbnailCover] .= > '.$this->thumbnailCover .'<br/>';
 		$string .= '[title] .= > '.$this->title .'<br/>';
 		if ($this->tracklist && count($this->tracklist > 0)){
