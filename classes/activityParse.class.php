@@ -323,7 +323,7 @@ class ActivityParse {
 	}
 	
 	/**
-	 * \fn		Activity whereInclude($value)
+	 * \fn		void whereInclude($value)
 	 * \brief	include
 	 * \param	$value		pointer to be fetched by the query
 	 * \return	pointer   	the fetched object

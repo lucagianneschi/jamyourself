@@ -342,6 +342,17 @@ class RecordParse {
 	}
 
 	/**
+	 * \fn		void whereInclude($value)
+	 * \brief	include
+	 * \param	$value		pointer to be fetched by the query
+	 * \return	pointer   	the fetched object
+	 * \return	Error		the Error raised by the function
+	 */
+	public function whereInclude($value){
+	    $this->parseQuery->whereInclude($value);
+	}
+	
+	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
 	 * \param	$field	the string which represent the field
