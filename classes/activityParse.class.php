@@ -129,6 +129,7 @@ class ActivityParse {
 		$this->parseQuery->orderByDescending($field);
 	}
 
+	
 	/**
 	 * \fn		Activity parseToActivity($res)
 	 * \brief	The function returns a representation of an Activity object in Parse
@@ -319,6 +320,17 @@ class ActivityParse {
 	 */
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		Activity whereInclude($value)
+	 * \brief	include
+	 * \param	$value		pointer to be fetched by the query
+	 * \return	pointer   	the fetched object
+	 * \return	Error		the Error raised by the function
+	 */
+	public function whereInclude($value){
+	    $this->parseQuery->whereInclude($value);
 	}
 
 	/**
