@@ -158,8 +158,8 @@ class VideoParse {
 			$video->setTitle($res->title);
 			$video->setThumbnail($res->thumbnail);
 			$video->setURL($res->URL);
-			$video->setCreatedAt(new DateTime($res->createdAt));
-			$video->setUpdatedAt(new DateTime($res->updatedAt));
+			$video->setCreatedAt(fromParseDate($res->createdAt));
+			$video->setUpdatedAt(fromParseDate($res->updatedAt));
 			$video->setACL(fromParseACL($res->ACL));
 			return $video;
 		} catch (Exception $e) {

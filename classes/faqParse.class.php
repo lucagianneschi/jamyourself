@@ -164,8 +164,8 @@ class FaqParse {
 			$faq->setPosition($res->position);
 			$faq->setQuestion($res->question);
 			$faq->setTags($res->tags);
-			$faq->setCreatedAt(new DateTime($res->createdAt));
-			$faq->setUpdatedAt(new DateTime($res->updatedAt));
+			$faq->setCreatedAt(fromParseDate($res->createdAt));
+			$faq->setUpdatedAt(fromParseDate($res->updatedAt));
 			$faq->setACL(fromParseACL($res->ACL));
 			return $faq;
 		} catch (Exception $e) {

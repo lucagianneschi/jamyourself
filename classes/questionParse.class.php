@@ -134,8 +134,8 @@ class QuestionParse {
 			$question->setReplied($res->replied);
 			$question->setSubject($res->subject);
 			$question->setText($res->text);
-			$question->setCreatedAt(new DateTime($res->createdAt));
-			$question->setUpdatedAt(new DateTime($res->updatedAt));
+			$question->setCreatedAt(fromParseDate($res->createdAt));
+			$question->setUpdatedAt(fromParseDate($res->updatedAt));
 			$question->setACL(fromParseACL($res->ACL));
 			return $question;
 		} catch (Exception $e) {

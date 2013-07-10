@@ -168,8 +168,8 @@ class EventParse {
 			$event->setTags($res->tags);
 			$event->setThumbnail($res->thumbnail);
 			$event->setTitle($res->title);
-			$event->setCreatedAt(new DateTime($res->createdAt));
-			$event->setUpdatedAt(new DateTime($res->updatedAt));
+			$event->setCreatedAt(fromParseDate($res->createdAt));
+			$event->setUpdatedAt(fromParseDate($res->updatedAt));
 			$event->setACL(fromParseACL($res->ACL));
 			return $event;
 		} catch (Exception $e) {

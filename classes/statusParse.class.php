@@ -157,8 +157,8 @@ class StatusParse {
 			$status->setSong(fromParsePointer($res->song));
 			$status->setText($res->text);
 			#$status->setTaggedUsers(fromParseRelation('Status', 'taggedUsers', $res->objectId, '_User'));
-			$status->setCreatedAt(new DateTime($res->createdAt));
-			$status->setUpdatedAt(new DateTime($res->updatedAt));
+			$status->setCreatedAt(fromParseDate($res->createdAt));
+			$status->setUpdatedAt(fromParseDate($res->updatedAt));
 			$status->setACL(fromParseACL($res->ACL));
 			return $status;
 		} catch (Exception $e) {

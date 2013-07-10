@@ -131,8 +131,8 @@ class ErrorParse {
 			$error->setErrorMessage($res->errorMessage);
 			$error->setErrorFunction($res->errorFunction);
 			$error->setErrorFunctionParameter($res->errorFunctionParameter);
-			$error->setCreatedAt(new DateTime($res->createdAt));
-			$error->setUpdatedAt(new DateTime($res->updatedAt));
+			$error->setCreatedAt(fromParseDate($res->createdAt));
+			$error->setUpdatedAt(fromParseDate($res->updatedAt));
 			$error->setACL(fromParseACL($res->ACL));
 			return $error;
 		} catch (Exception $e) {

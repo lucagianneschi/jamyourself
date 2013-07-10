@@ -168,8 +168,8 @@ class CommentParse {
 			$cmt->setType($res->type);
 			$cmt->setVideo(fromParsePointer($res->video));
 			$cmt->setVote($res->vote);
-			$cmt->setCreatedAt(new DateTime($res->createdAt));
-			$cmt->setUpdatedAt(new DateTime($res->updatedAt));
+			$cmt->setCreatedAt(fromParseDate($res->createdAt));
+			$cmt->setUpdatedAt(fromParseDate($res->updatedAt));
 			$cmt->setACL(fromParseACL($res->ACL));
 
 			return $cmt;

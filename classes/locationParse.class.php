@@ -133,8 +133,8 @@ class LocationParse {
 			$location->setCountry($res->country);
 			$location->setGeoPoint(fromParseGeoPoint($res->geoPoint));
 			$location->setLocId($res->locId);
-			$location->setCreatedAt(new DateTime($res->createdAt));
-			$location->setUpdatedAt(new DateTime($res->updatedAt));
+			$location->setCreatedAt(fromParseDate($res->createdAt));
+			$location->setUpdatedAt(fromParseDate($res->updatedAt));
 			$location->setACL(fromParseACL($res->ACL));
 			return $location;
 		} catch (Exception $e) {
