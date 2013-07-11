@@ -93,6 +93,8 @@ $(document).ready(function() {
 		$('.track-propriety').hide();
 	});
 	
+	
+	
 });
 /* RESIZE */
 $(window).resize(function(){	
@@ -195,4 +197,7 @@ function openComment(){
 	$('.box').slideToggle(600, 'swing', resizeScroll);
 	
 }
+
+
+
 

@@ -1,5 +1,5 @@
 // Required global settings and mixins for Foundation
-@import "foundation/foundation-global";
+//@import "foundation/foundation-global";
 
 
 // COLORS
@@ -12,7 +12,7 @@ $grey-dark: #303030;
 $grey: #787878;
 $grey-light: #D8D8D8;
 $white: #F3F3F3;
-
+$red: #ed1c24;
 
 $transition-duration: 250ms;
 // Settings file to override Foundation variables
@@ -793,10 +793,10 @@ $transition-duration: 250ms;
 
 // We use these to control the style of the modal itself.
 // $reveal-modal-bg: #fff;
-// $reveal-position-top: 50px;
+// $reveal-position-top: 500px;
 // $reveal-default-width: 80%;
-// $reveal-modal-padding: emCalc(20px);
-// $reveal-box-shadow: 0 0 10px rgba(#000,.4);
+// $reveal-modal-padding: emCalc(0px);
+// $reveal-box-shadow: 0 0 -100px rgba(#000,.4);
 
 // We use these to style the reveal close button
 // $reveal-close-font-size: emCalc(22px);

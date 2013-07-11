@@ -17,7 +17,7 @@
 
 <!-------------------------- BODY --------------------------->
 <div class="body-content">
-<?php include('content/profile/userProfile.php');?>
+<?php include('content/signup/signup.php');?>
 </div>
 <!-------------------------- FOOTER --------------------------->
 <?php include('content/footer.php');?>	
