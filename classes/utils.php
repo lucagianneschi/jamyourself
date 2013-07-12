@@ -26,6 +26,27 @@ require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
 
 /**
+ * \fn		number executionTime($start, $end)
+ * \brief	The function returns the difference between $end and $start parameter in microseconds
+ * \param	$start		represent the microsecond time of the begin of the operation
+ * \param	$end		represent the microsecond time of the end of the operation
+ * \return	number		the number representing the difference in microsecond
+ * \return	Error		if the parameters are null
+ */
+function executionTime($start, $end) {
+	if (is_null($start) || is_null($end))
+		return throwError(new Exception('executionTime parameters are incorrect'), 'Utils', __FUNCTION__, func_get_args());
+	$arrStart = explode(' ', $start);
+	$arrEnd = explode(' ', $end);
+	$secStart = $arrStart[1];
+	$secEnd = $arrEnd[1];
+	$msecStart = substr($arrStart[0], 2, 6);
+	$msecEnd = substr($arrEnd[0], 2, 6);
+	$time = ($secEnd - $secStart) . '.' . str_pad($msecEnd - $msecStart, 6, 0, STR_PAD_LEFT);
+	return $time;
+}
+
+/**
  * \fn		parseACL fromParseACL($parseACL)
  * \brief	The function returns a parseACL object from the representation of ACL in Parse
  * \param	$parseACL 	represent the ACL object returned from Parse
