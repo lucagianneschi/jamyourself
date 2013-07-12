@@ -80,6 +80,7 @@ class ActivityParse {
 		try {
 			$activities = null;
 			$res = $this->parseQuery->find();
+			print_r($res);
 			if (is_array($res->results) && count($res->results) > 0) {
 				$activities = array();
 				foreach ($res->results as $obj) {
@@ -319,6 +320,15 @@ class ActivityParse {
 	 */
 	public function whereGreaterThanOrEqualTo($field, $value) {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	}
+	
+	/**
+	 * \fn		void whereInclude($field)
+	 * \brief	Sets a condition for which the field $field, that represent a Pointer, must return all the entire object
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereInclude($field) {
+		$this->parseQuery->whereInclude($field);
 	}
 
 	/**
