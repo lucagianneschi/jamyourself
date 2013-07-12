@@ -152,8 +152,16 @@ function fromParseGeoPoint($geoPoint) {
 function fromParsePointer($pointer) {
     if (is_null($pointer)) {
         return null;
-    } else {
+    } elseif ($pointer->__type == 'Pointer') {
         return $pointer->objectId;
+    } elseif ($pointer->__type == 'Object') {
+        switch ($pointer->className) {
+			case '_User':
+				$userParse = new UserParse();
+				$object = $userParse->parseToUser($pointer);				
+				break;
+		}
+		return $object;
     }
 }
 
