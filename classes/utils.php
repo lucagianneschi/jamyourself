@@ -42,7 +42,13 @@ function executionTime($start, $end) {
 	$secEnd = $arrEnd[1];
 	$msecStart = substr($arrStart[0], 2, 6);
 	$msecEnd = substr($arrEnd[0], 2, 6);
-	$time = ($secEnd - $secStart) . '.' . str_pad($msecEnd - $msecStart, 6, 0, STR_PAD_LEFT);
+	if (($secStart - $secEnd) == 0) {
+		$time = '0.' . str_pad($msecEnd - $msecStart, 6, 0, STR_PAD_LEFT);
+	} else {
+		$timeStart = $secStart . '.' . $msecStart;
+		$timeEnd = $secEnd . '.' . $msecEnd;
+		$time = round(($timeEnd - $timeStart), 6);
+	}	
 	return $time;
 }
 
