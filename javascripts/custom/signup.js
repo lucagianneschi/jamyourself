@@ -15,7 +15,7 @@ function signup(){
 
     $.ajax({
         type: "POST",
-        url: "../controllers/signup",
+        url: "../controllers/signupRequest.php",
         data: json_signup,
         async: false,
         "beforeSend": function(xhr) {
