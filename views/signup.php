@@ -3,6 +3,10 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once CONTROLLERS_DIR . 'signup.controller.php';
+
+$sc = new SignupController();
+$sc->init();
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
