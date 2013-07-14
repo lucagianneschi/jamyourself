@@ -319,14 +319,12 @@ class VideoParse {
 	}
 
 	/**
-	 * \fn		void whereInclude($value)
-	 * \brief	include
-	 * \param	$value		pointer to be fetched by the query
-	 * \return	pointer   	the fetched object
-	 * \return	Error		the Error raised by the function
+	 * \fn		void whereInclude($field)
+	 * \brief	Sets a condition for which the field $field, that represent a Pointer, must return all the entire object
+	 * \param	$field	the string which represent the field
 	 */
-	public function whereInclude($value){
-	    $this->parseQuery->whereInclude($value);
+	public function whereInclude($field) {
+		$this->parseQuery->whereInclude($field);
 	}
 	
 	/**

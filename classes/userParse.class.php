@@ -472,6 +472,15 @@ class UserParse {
 	}
 
 	/**
+	 * \fn		void whereInclude($field)
+	 * \brief	Sets a condition for which the field $field, that represent a Pointer, must return all the entire object
+	 * \param	$field	the string which represent the field
+	 */
+	public function whereInclude($field) {
+		$this->parseQuery->whereInclude($field);
+	}
+	
+	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value
 	 * \param	$field	the string which represent the field
