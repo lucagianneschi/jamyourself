@@ -13,6 +13,7 @@
 <script src="javascripts/foundation/foundation.js"></script>
 <script src="javascripts/foundation/foundation.section.js"></script>
 <script src="javascripts/foundation/foundation.clearing.js"></script>
+<script src="javascripts/foundation/foundation.reveal.js"></script>
 <!--
 <script src="javascripts/foundation/foundation.alerts.js"></script>
 
@@ -35,5 +36,6 @@ $(document).foundation();
 <!----------- JAMYOURSELF --------------->
 <script type="text/javascript" src="javascripts/utilities/layout.js"></script>
 <script type="text/javascript" src="javascripts/utilities/player.js"></script>
+<script src="javascripts/utilities/signup.js"></script>
 <!----------- plugin nicescroll ---------->
 <script type="text/javascript" src="javascripts/nicescroll/jquery.nicescroll.js"></script>	

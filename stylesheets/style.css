@@ -63,17 +63,27 @@ label.text {
 }
 
 /* line 51, ../sass/style.scss */
+.grey-light {
+  color: #d8d8d8 !important;
+}
+
+/* line 55, ../sass/style.scss */
+.red {
+  color: #ed1c24 !important;
+}
+
+/* line 59, ../sass/style.scss */
 .content p {
   font-size: 14px;
   line-height: 120%;
 }
 
-/* line 55, ../sass/style.scss */
+/* line 63, ../sass/style.scss */
 .content {
   border-bottom: 1px solid #303030;
 }
 
-/* line 59, ../sass/style.scss */
+/* line 67, ../sass/style.scss */
 .bg-double {
   background-color: #f3f3f3;
   height: 100%;
@@ -88,36 +98,36 @@ label.text {
   overflow: hidden;
 }
 
-/* line 71, ../sass/style.scss */
+/* line 79, ../sass/style.scss */
 .bg-grey-dark {
   background-color: #303030;
   height: 100%;
 }
 
-/* line 76, ../sass/style.scss */
+/* line 84, ../sass/style.scss */
 .profile-style {
   background-color: #f3f3f3;
 }
 
-/* line 80, ../sass/style.scss */
+/* line 88, ../sass/style.scss */
 .header-hide {
   padding-bottom: 20px;
 }
 
-/* line 87, ../sass/style.scss */
+/* line 95, ../sass/style.scss */
 #header {
   width: 100%;
   background: #1c1c1c;
 }
 
-/* line 93, ../sass/style.scss */
+/* line 101, ../sass/style.scss */
 .header {
   margin-bottom: 5px;
   margin-top: 5px;
   height: 33px;
 }
 
-/* line 99, ../sass/style.scss */
+/* line 107, ../sass/style.scss */
 .icon-header {
   width: 33px;
   height: 33px;
@@ -134,25 +144,25 @@ label.text {
   -o-transition-duration: 250ms;
   transition-duration: 250ms;
 }
-/* line 108, ../sass/style.scss */
+/* line 116, ../sass/style.scss */
 .icon-header:hover {
   background-color: #232323;
 }
 
 /*----- PLAYER -----*/
-/* line 122, ../sass/style.scss */
+/* line 130, ../sass/style.scss */
 .title-player {
   font-size: 14px;
   color: #f3f3f3;
   padding-bottom: 8px;
 }
 
-/* line 129, ../sass/style.scss */
+/* line 137, ../sass/style.scss */
 .inline {
   float: left;
 }
 
-/* line 136, ../sass/style.scss */
+/* line 144, ../sass/style.scss */
 #bar-player {
   width: 157px;
   height: 5px;
@@ -163,7 +173,7 @@ label.text {
   z-index: 1;
 }
 
-/* line 146, ../sass/style.scss */
+/* line 154, ../sass/style.scss */
 #playhead-player {
   position: absolute;
   height: 10px;
@@ -174,7 +184,7 @@ label.text {
   z-index: 3;
 }
 
-/* line 156, ../sass/style.scss */
+/* line 164, ../sass/style.scss */
 #statusbar-player {
   position: absolute;
   width: 44px;
@@ -186,7 +196,7 @@ label.text {
   z-index: 2;
 }
 
-/* line 167, ../sass/style.scss */
+/* line 175, ../sass/style.scss */
 .icon-player {
   width: 10px;
   height: 10px;
@@ -199,31 +209,31 @@ label.text {
   -o-transition-property: background-position;
   transition-property: background-position;
 }
-/* line 175, ../sass/style.scss */
+/* line 183, ../sass/style.scss */
 .icon-player:hover {
   background-position: bottom;
 }
 
 /*----- END PLAYER -----*/
-/* line 183, ../sass/style.scss */
+/* line 191, ../sass/style.scss */
 #logo {
   position: relative;
   z-index: 998;
   margin-top: -45px;
 }
 
-/* line 191, ../sass/style.scss */
+/* line 199, ../sass/style.scss */
 .logo {
   height: 5px;
 }
 
-/* line 202, ../sass/style.scss */
+/* line 210, ../sass/style.scss */
 .search_form {
   width: 235px !important;
   margin: 0px !important;
 }
 
-/* line 207, ../sass/style.scss */
+/* line 215, ../sass/style.scss */
 .search {
   color: #787878 !important;
   font-size: 14px !important;
@@ -239,7 +249,7 @@ label.text {
   background: url(../images/icon/search.png) no-repeat 8px 6px !important;
 }
 
-/* line 219, ../sass/style.scss */
+/* line 227, ../sass/style.scss */
 .search-small {
   color: #787878 !important;
   font-size: 14px !important;
@@ -255,7 +265,7 @@ label.text {
   background: url(../images/icon/search.png) no-repeat 8px 6px !important;
 }
 
-/* line 233, ../sass/style.scss */
+/* line 241, ../sass/style.scss */
 a.ico-label {
   width: auto;
   height: 30px;
@@ -277,13 +287,13 @@ a.ico-label {
   -o-transition-duration: 250ms;
   transition-duration: 250ms;
 }
-/* line 247, ../sass/style.scss */
+/* line 255, ../sass/style.scss */
 a.ico-label:hover {
   background-position: left top;
   color: #787878;
 }
 
-/* line 252, ../sass/style.scss */
+/* line 260, ../sass/style.scss */
 a.ico-label-btn {
   background-color: #787878;
   padding: 0 12px 0 30px;
@@ -296,12 +306,12 @@ a.ico-label-btn {
   -o-transition-duration: 250ms;
   transition-duration: 250ms;
 }
-/* line 257, ../sass/style.scss */
+/* line 265, ../sass/style.scss */
 a.ico-label-btn:hover {
   background-color: #787878;
 }
 
-/* line 262, ../sass/style.scss */
+/* line 270, ../sass/style.scss */
 .add {
   width: 43px;
   height: 43px;
@@ -309,24 +319,24 @@ a.ico-label-btn:hover {
   float: left;
   cursor: pointer;
 }
-/* line 268, ../sass/style.scss */
+/* line 276, ../sass/style.scss */
 .add:hover {
   background-color: #c95600;
 }
 
-/* line 273, ../sass/style.scss */
+/* line 281, ../sass/style.scss */
 .icon-small {
   width: 15px;
   height: 15px;
 }
 
-/* line 282, ../sass/style.scss */
+/* line 290, ../sass/style.scss */
 #profile {
   padding-top: 30px;
   padding-bottom: 50px;
 }
 
-/* line 286, ../sass/style.scss */
+/* line 294, ../sass/style.scss */
 .avatar {
   border: 1px solid #787878;
   margin-top: 5px !important;
@@ -335,18 +345,18 @@ a.ico-label-btn:hover {
   height: 470px;
 }
 
-/* line 293, ../sass/style.scss */
+/* line 301, ../sass/style.scss */
 .section-container .title {
   font-size: 17px;
   border-bottom: 1px solid #303030;
 }
 
-/* line 298, ../sass/style.scss */
+/* line 306, ../sass/style.scss */
 .section-container {
   margin-bottom: 40px !important;
 }
 
-/* line 302, ../sass/style.scss */
+/* line 310, ../sass/style.scss */
 .box-membre {
   padding: 10px;
   margin-bottom: 10px;
@@ -356,7 +366,7 @@ a.ico-label-btn:hover {
   cursor: pointer;
 }
 
-/* line 311, ../sass/style.scss */
+/* line 319, ../sass/style.scss */
 .box {
   background-color: #232323;
   padding: 20px !important;
@@ -364,55 +374,55 @@ a.ico-label-btn:hover {
   margin-bottom: 40px !important;
 }
 
-/* line 319, ../sass/style.scss */
+/* line 327, ../sass/style.scss */
 .box-album {
   border-bottom: 1px solid #303030 !important;
   padding-bottom: 10px !important;
 }
 
-/* line 324, ../sass/style.scss */
+/* line 332, ../sass/style.scss */
 .album {
   padding-top: 10px;
 }
-/* line 326, ../sass/style.scss */
+/* line 334, ../sass/style.scss */
 .album .sottotitle, .album .text, .album .note {
   padding-bottom: 20px;
 }
 
-/* line 331, ../sass/style.scss */
+/* line 339, ../sass/style.scss */
 .album-thumb {
   width: 110px;
   height: 110px;
 }
 
-/* line 336, ../sass/style.scss */
+/* line 344, ../sass/style.scss */
 .album-select {
   cursor: pointer;
 }
 
-/* line 340, ../sass/style.scss */
+/* line 348, ../sass/style.scss */
 .track {
   padding-top: 5px;
   padding-bottom: 5px;
   border-bottom: 1px solid #303030 !important;
 }
-/* line 344, ../sass/style.scss */
+/* line 352, ../sass/style.scss */
 .track:hover {
   background-color: #1c1c1c;
 }
 
-/* line 352, ../sass/style.scss */
+/* line 360, ../sass/style.scss */
 .track ._play-large:hover {
   color: #f3f3f3 !important;
 }
 
-/* line 357, ../sass/style.scss */
+/* line 365, ../sass/style.scss */
 .track-propriety {
   padding: 2px;
   display: none;
 }
 
-/* line 362, ../sass/style.scss */
+/* line 370, ../sass/style.scss */
 .album-other {
   cursor: pointer;
   text-align: right;
@@ -423,20 +433,20 @@ a.ico-label-btn:hover {
   background-position: Center;
 }
 
-/* line 372, ../sass/style.scss */
+/* line 380, ../sass/style.scss */
 .album-single-propriety {
   border-top: 1px solid #303030 !important;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-/* line 378, ../sass/style.scss */
+/* line 386, ../sass/style.scss */
 .propriety {
   padding-right: 5px;
   text-align: right;
 }
 
-/* line 383, ../sass/style.scss */
+/* line 391, ../sass/style.scss */
 .icon-propriety {
   width: auto;
   height: 15px;
@@ -448,12 +458,12 @@ a.ico-label-btn:hover {
   cursor: pointer;
   background-repeat: no-repeat;
 }
-/* line 394, ../sass/style.scss */
+/* line 402, ../sass/style.scss */
 .icon-propriety:hover {
   color: #787878;
 }
 
-/* line 401, ../sass/style.scss */
+/* line 409, ../sass/style.scss */
 .albumcover {
   width: 310px;
   height: 160px;
@@ -461,13 +471,13 @@ a.ico-label-btn:hover {
   cursor: pointer;
 }
 
-/* line 408, ../sass/style.scss */
+/* line 416, ../sass/style.scss */
 .box-coveralbum {
   padding: 10px !important;
   border: 1px solid #303030 !important;
 }
 
-/* line 414, ../sass/style.scss */
+/* line 422, ../sass/style.scss */
 .photo {
   height: 80px;
   width: 200px;
@@ -475,41 +485,41 @@ a.ico-label-btn:hover {
   border: 1px solid #303030 !important;
 }
 
-/* line 423, ../sass/style.scss */
+/* line 431, ../sass/style.scss */
 .small-block-grid-3 {
   margin-top: 10px;
 }
 
-/* line 427, ../sass/style.scss */
+/* line 435, ../sass/style.scss */
 .event {
   padding: 0px !important;
   padding-right: 5px !important;
 }
 
-/* line 432, ../sass/style.scss */
+/* line 440, ../sass/style.scss */
 .eventcover {
   height: 130px;
   width: 130px;
 }
 
-/* line 439, ../sass/style.scss */
+/* line 447, ../sass/style.scss */
 #social {
   padding-top: 65px;
   padding-bottom: 50px;
 }
 
-/* line 448, ../sass/style.scss */
+/* line 456, ../sass/style.scss */
 .status {
   text-align: right;
 }
 
-/* line 452, ../sass/style.scss */
+/* line 460, ../sass/style.scss */
 .livel-status {
   font-weight: 700;
   margin-bottom: 4px !important;
 }
 
-/* line 459, ../sass/style.scss */
+/* line 467, ../sass/style.scss */
 .achievement {
   margin: 10px;
   height: 40px;
@@ -523,7 +533,7 @@ a.ico-label-btn:hover {
   border-radius: 1000px;
 }
 
-/* line 469, ../sass/style.scss */
+/* line 477, ../sass/style.scss */
 .achievement-target {
   margin: 10px;
   border: #ff7505 3px solid;
@@ -536,13 +546,13 @@ a.ico-label-btn:hover {
   -o-transition-property: background-position, color;
   transition-property: background-position, color;
 }
-/* line 479, ../sass/style.scss */
+/* line 487, ../sass/style.scss */
 .achievement-target:hover {
   background-color: #ff7505;
   background-position: left bottom;
 }
 
-/* line 486, ../sass/style.scss */
+/* line 494, ../sass/style.scss */
 .status-button {
   background-color: #d8d8d8;
   text-align: right;
@@ -550,32 +560,32 @@ a.ico-label-btn:hover {
   margin-bottom: 40px;
 }
 
-/* line 493, ../sass/style.scss */
+/* line 501, ../sass/style.scss */
 .button {
   height: 35px !important;
   border: 0px !important;
   padding-top: 10px !important;
 }
 
-/* line 500, ../sass/style.scss */
+/* line 508, ../sass/style.scss */
 .bg-orange {
   background-color: #ff7505 !important;
 }
-/* line 502, ../sass/style.scss */
+/* line 510, ../sass/style.scss */
 .bg-orange:hover {
   background-color: #c95600 !important;
 }
 
-/* line 507, ../sass/style.scss */
+/* line 515, ../sass/style.scss */
 .bg-grey {
   background-color: #787878 !important;
 }
-/* line 509, ../sass/style.scss */
+/* line 517, ../sass/style.scss */
 .bg-grey:hover {
   background-color: #303030 !important;
 }
 
-/* line 514, ../sass/style.scss */
+/* line 522, ../sass/style.scss */
 .icon-button {
   width: auto;
   height: 20px;
@@ -588,53 +598,53 @@ a.ico-label-btn:hover {
   background-repeat: no-repeat;
 }
 
-/* line 526, ../sass/style.scss */
+/* line 534, ../sass/style.scss */
 #social .box {
   border: #d8d8d8 1px solid;
   background-color: white !important;
 }
 
-/* line 533, ../sass/style.scss */
+/* line 541, ../sass/style.scss */
 #social .text {
   margin-bottom: 10px;
 }
 
-/* line 537, ../sass/style.scss */
+/* line 545, ../sass/style.scss */
 #social .album-thumb {
   width: 90px;
   height: 80px;
   margin-right: 0px;
 }
 
-/* line 542, ../sass/style.scss */
+/* line 550, ../sass/style.scss */
 .box-info {
   padding-left: 0px !important;
 }
 
-/* line 546, ../sass/style.scss */
+/* line 554, ../sass/style.scss */
 #social .line {
   border-bottom: 1px solid #d8d8d8;
   padding-bottom: 5px !important;
 }
 
-/* line 552, ../sass/style.scss */
+/* line 560, ../sass/style.scss */
 #activities .small-block-grid-4 {
   padding-top: 10px;
 }
 
-/* line 556, ../sass/style.scss */
+/* line 564, ../sass/style.scss */
 #social .box-membre {
   height: 55px;
   background-color: #f3f3f3;
 }
 
-/* line 563, ../sass/style.scss */
+/* line 571, ../sass/style.scss */
 .box-post {
   border: 1px solid #d8d8d8;
   padding: 5px;
 }
 
-/* line 568, ../sass/style.scss */
+/* line 576, ../sass/style.scss */
 .post {
   color: #787878 !important;
   font-size: 14px !important;
@@ -644,7 +654,7 @@ a.ico-label-btn:hover {
   background: url(../images/icon/write.png) no-repeat 8px 6px !important;
 }
 
-/* line 580, ../sass/style.scss */
+/* line 588, ../sass/style.scss */
 .box-write {
   background-color: white !important;
   padding: 5px !important;
@@ -652,7 +662,7 @@ a.ico-label-btn:hover {
   height: 45px;
 }
 
-/* line 587, ../sass/style.scss */
+/* line 595, ../sass/style.scss */
 .post-button {
   color: #fff;
   background: #ff7505 !important;
@@ -661,7 +671,7 @@ a.ico-label-btn:hover {
   width: 90px !important;
 }
 
-/* line 598, ../sass/style.scss */
+/* line 606, ../sass/style.scss */
 footer {
   width: 100%;
   height: auto;
@@ -674,17 +684,17 @@ footer {
   overflow: visible !important;
 }
 
-/* line 613, ../sass/style.scss */
+/* line 621, ../sass/style.scss */
 #footer {
   overflow: auto;
 }
-/* line 615, ../sass/style.scss */
+/* line 623, ../sass/style.scss */
 #footer h1, #footer h2, #footer h3, #footer h4, #footer h5, #footer h6 {
   color: #787878 !important;
   margin-bottom: 0.2em !important;
 }
 
-/* line 622, ../sass/style.scss */
+/* line 630, ../sass/style.scss */
 .footer-ico {
   color: #787878 !important;
   font-size: 20px;
@@ -692,14 +702,14 @@ footer {
   cursor: pointer;
 }
 
-/* line 630, ../sass/style.scss */
+/* line 638, ../sass/style.scss */
 .footer-ico-off {
   color: #ff7505 !important;
   font-size: 20px;
   cursor: pointer;
 }
 
-/* line 640, ../sass/style.scss */
+/* line 648, ../sass/style.scss */
 .user {
   font-size: 20px;
   color: #787878 !important;
@@ -707,209 +717,579 @@ footer {
   padding-bottom: 0;
 }
 
-/* line 647, ../sass/style.scss */
+/* line 655, ../sass/style.scss */
 #footer-body {
   overflow: auto;
 }
-/* line 649, ../sass/style.scss */
+/* line 657, ../sass/style.scss */
 #footer-body h1, #footer-body h2, #footer-body h3, #footer-body h4, #footer-body h5, #footer-body h6 {
   color: #787878 !important;
   margin-bottom: 0.5em !important;
 }
 
-/* line 655, ../sass/style.scss */
+/* line 663, ../sass/style.scss */
 #footer-body a {
   font-size: 12px;
   color: #787878 !important;
   margin-bottom: 0.2em !important;
 }
 
-/* line 666, ../sass/style.scss */
+/* line 670, ../sass/style.scss */
+#signup {
+  padding-top: 3%;
+}
+/* line 672, ../sass/style.scss */
+#signup h2, #signup h3 {
+  color: #d8d8d8;
+}
+
+/* line 677, ../sass/style.scss */
+.signup-box {
+  border-top: 1px solid #ff7505;
+  background-color: #232323;
+  margin-bottom: 60px;
+}
+
+/* line 683, ../sass/style.scss */
+.signup-title {
+  text-align: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+/* line 689, ../sass/style.scss */
+#signup01 {
+  text-align: center;
+  margin-left: 10%;
+  margin-right: 10%;
+  padding-bottom: 5%;
+}
+/* line 694, ../sass/style.scss */
+#signup01 h3 {
+  color: #787878 !important;
+}
+
+/* line 699, ../sass/style.scss */
+#form-signup label {
+  font-size: 14px;
+  color: #d8d8d8;
+  text-align: left !important;
+  padding-bottom: 20px !important;
+}
+
+/* line 709, ../sass/style.scss */
+#signup01 label {
+  text-align: center !important;
+  color: #787878 !important;
+}
+/* line 712, ../sass/style.scss */
+#signup01 label:hover {
+  color: #d8d8d8 !important;
+}
+/* line 714, ../sass/style.scss */
+#signup01 label:hover h3 {
+  color: #ff7505 !important;
+}
+/* line 715, ../sass/style.scss */
+#signup01 label:hover .img-white {
+  display: inline;
+  text-align: center;
+}
+/* line 716, ../sass/style.scss */
+#signup01 label:hover .img-grey {
+  display: none;
+}
+
+/* line 722, ../sass/style.scss */
+#signup-ok label {
+  text-align: center !important;
+  color: #787878 !important;
+}
+/* line 725, ../sass/style.scss */
+#signup-ok label:hover {
+  color: #d8d8d8 !important;
+}
+/* line 727, ../sass/style.scss */
+#signup-ok label:hover h3 {
+  color: #ff7505 !important;
+}
+/* line 728, ../sass/style.scss */
+#signup-ok label:hover .img-white {
+  display: inline;
+  text-align: center;
+}
+/* line 729, ../sass/style.scss */
+#signup-ok label:hover .img-grey {
+  display: none;
+}
+
+/* line 734, ../sass/style.scss */
+.signup-ok {
+  padding-left: 150px !important;
+  padding-right: 150px !important;
+  padding-bottom: 50px !important;
+}
+/* line 735, ../sass/style.scss */
+.signup-ok h3 {
+  color: #787878 !important;
+}
+
+/* line 741, ../sass/style.scss */
+#form-signup input[type='text'], input[type='password'] {
+  color: #f3f3f3;
+  background-color: #232323;
+  border: 0px;
+  border-bottom: 1px solid #303030;
+  margin-left: 0px;
+}
+/* line 748, ../sass/style.scss */
+#form-signup input[type='text']:focus, input[type='password']:focus {
+  background-color: #303030;
+  border-bottom: 1px solid #787878;
+}
+
+/* line 755, ../sass/style.scss */
+#form-signup input[type='text'].error, input[type='password'].error {
+  border: 1px solid #ed1c24;
+}
+
+/* line 759, ../sass/style.scss */
+#form-signup select + #spotter-birth-day {
+  cursor: pointer !important;
+}
+
+/* line 763, ../sass/style.scss */
+#form-signup textarea {
+  color: #f3f3f3 !important;
+  background-color: #232323;
+  border: 1px solid #303030;
+  height: 150px;
+}
+/* line 768, ../sass/style.scss */
+#form-signup textarea:focus {
+  background-color: #303030;
+}
+
+/* line 774, ../sass/style.scss */
+.captcha input[type='text'] {
+  width: auto !important;
+}
+
+/* line 779, ../sass/style.scss */
+#signup .signup-body {
+  padding: 30px !important;
+  padding-left: 60px !important;
+  padding-right: 60px !important;
+}
+
+/* line 785, ../sass/style.scss */
+#signup .signup-labelStep {
+  width: 95px;
+  height: 50px;
+  color: #d8d8d8;
+  font-size: 14px;
+  background-color: #c95600;
+  float: left;
+  margin-left: 2px;
+  padding: 20px;
+  text-align: center !important;
+  float: right;
+}
+
+/* line 800, ../sass/style.scss */
+#signup .signup-button {
+  background-image: url(../images/button/signup-next.png) !important;
+  background-color: #232323;
+  border: 0px;
+  color: #f3f3f3;
+  width: 135px;
+  height: 35px;
+  margin: 20px !important;
+  background-repeat: no-repeat;
+}
+
+/* line 812, ../sass/style.scss */
+#signup .signup-button-back {
+  background-image: url(../images/button/signup-back.png) !important;
+  background-color: #232323;
+  border: 0px;
+  color: #787878;
+  width: 135px;
+  height: 35px;
+  background-repeat: no-repeat;
+}
+
+/* line 825, ../sass/style.scss */
+#signup .signup-note {
+  padding-top: 50px;
+}
+
+/* line 829, ../sass/style.scss */
+#signup .signup-button-fb {
+  width: 344px;
+  height: 55px !important;
+  font-size: 27px;
+  font-weight: normal !important;
+  background-color: #d8d8d8 !important;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  color: #303030 !important;
+  background-image: url(../images/icon/facebook-button.png);
+  background-repeat: no-repeat;
+  background-position: 5px 10px;
+  padding: 5px !important;
+}
+
+/* line 844, ../sass/style.scss */
+#signup .align-center {
+  text-align: center;
+}
+
+/* line 849, ../sass/style.scss */
+#signup .signup-box-image {
+  border: 2px solid #787878;
+  height: 105px !important;
+  padding: 0px !important;
+  margin-bottom: 30px;
+}
+
+/* line 856, ../sass/style.scss */
+.signup-box-avatar {
+  padding: 0px !important;
+}
+
+/* line 860, ../sass/style.scss */
+.signup-image {
+  text-align: center !important;
+  background-color: #303030 !important;
+  height: 99px !important;
+  margin: 1px !important;
+  width: 99px !important;
+}
+
+/* line 868, ../sass/style.scss */
+.signup-box-avatar-text {
+  padding-top: 30px !important;
+}
+
+/* line 872, ../sass/style.scss */
+#form-signup .signup-genre label {
+  background-color: #303030 !important;
+  height: 25px !important;
+  color: #f3f3f3;
+  float: left;
+  padding: 5px;
+  margin-right: 15px;
+  margin-top: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* line 884, ../sass/style.scss */
+#form-signup .signup-genre input[type='checkbox']:checked + label {
+  background-color: #ff7505 !important;
+}
+
+/* line 891, ../sass/style.scss */
+#form-signup .signup-icon-social {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  float: left;
+  margin-left: 10px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left bottom;
+}
+
+/* line 902, ../sass/style.scss */
+#form-signup .signup-icon-social-focus {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  float: left;
+  margin-left: 10px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left top !important;
+}
+
+/* line 913, ../sass/style.scss */
+#form-signup .signup-bottom {
+  margin-bottom: 50px;
+}
+
+/* line 917, ../sass/style.scss */
+#form-signup .signup-radio input[type='radio'] + label {
+  height: 30px;
+  width: auto;
+  background-image: url(../images/icon/check.png);
+  background-repeat: no-repeat;
+  background-position: left bottom !important;
+  line-height: 30px;
+  margin-right: 20px;
+  padding: 0 0px 0 30px;
+}
+
+/* line 928, ../sass/style.scss */
+#form-signup .signup-radio input[type='radio']:checked + label {
+  background-position: left top !important;
+}
+
+/* line 932, ../sass/style.scss */
+.addComponents {
+  cursor: pointer;
+}
+
+/* line 936, ../sass/style.scss */
+#form-signup select {
+  cursor: pointer;
+  padding: 2px !important;
+  color: #d8d8d8 !important;
+  background-color: #232323;
+  border: 1px solid #303030;
+  height: 30px;
+  background: #232323 url(../images/icon/small/other.png) no-repeat right !important;
+  -webkit-appearance: none;
+}
+/* line 946, ../sass/style.scss */
+#form-signup select:focus {
+  border: 1px solid #303030;
+  background-color: #303030;
+  border-bottom: 1px solid #787878;
+}
+
+/* line 954, ../sass/style.scss */
+.reveal-modal {
+  top: -100px !important;
+}
+
+/* line 957, ../sass/style.scss */
+.location-reveal {
+  text-align: right !important;
+  position: absolute;
+  right: 0px;
+}
+
+/* line 964, ../sass/style.scss */
 ._menu {
   background-image: url(../images/icon/menu.png);
 }
 
-/* line 667, ../sass/style.scss */
+/* line 965, ../sass/style.scss */
 ._notify {
   background-image: url(../images/icon/notify.png);
 }
 
-/* line 668, ../sass/style.scss */
+/* line 966, ../sass/style.scss */
 ._friend {
   background-image: url(../images/icon/friend.png);
 }
 
-/* line 669, ../sass/style.scss */
+/* line 967, ../sass/style.scss */
 ._setting {
   background-image: url(../images/icon/setting.png);
 }
 
-/* line 670, ../sass/style.scss */
+/* line 968, ../sass/style.scss */
 ._add {
   background-image: url(../images/icon/add.png);
 }
 
-/* line 671, ../sass/style.scss */
+/* line 969, ../sass/style.scss */
 ._flag {
   background-image: url(../images/icon/flag.png);
 }
 
-/* line 672, ../sass/style.scss */
+/* line 970, ../sass/style.scss */
 ._message {
   background-image: url(../images/icon/message.png);
 }
 
-/* line 673, ../sass/style.scss */
+/* line 971, ../sass/style.scss */
 ._calendar {
   background-image: url(../images/icon/calendar.png);
 }
 
-/* line 674, ../sass/style.scss */
+/* line 972, ../sass/style.scss */
 ._compass {
   background-image: url(../images/icon/compass.png);
 }
 
-/* line 675, ../sass/style.scss */
+/* line 973, ../sass/style.scss */
 ._note {
   background-image: url(../images/icon/note.png);
 }
 
-/* line 676, ../sass/style.scss */
+/* line 974, ../sass/style.scss */
 ._pin {
   background-image: url(../images/icon/pin.png);
 }
 
-/* line 677, ../sass/style.scss */
+/* line 975, ../sass/style.scss */
 ._facebook {
   background-image: url(../images/icon/facebook.png);
 }
 
-/* line 678, ../sass/style.scss */
+/* line 976, ../sass/style.scss */
 ._twitter {
   background-image: url(../images/icon/twitter.png);
 }
 
-/* line 679, ../sass/style.scss */
+/* line 977, ../sass/style.scss */
 ._google {
   background-image: url(../images/icon/google.png);
 }
 
-/* line 680, ../sass/style.scss */
+/* line 978, ../sass/style.scss */
 ._youtube {
   background-image: url(../images/icon/youtube.png);
 }
 
-/* line 681, ../sass/style.scss */
+/* line 979, ../sass/style.scss */
 ._web {
   background-image: url(../images/icon/web.png);
 }
 
-/* line 682, ../sass/style.scss */
+/* line 980, ../sass/style.scss */
 ._back_page {
   background-image: url(../images/icon/back_page.png);
 }
 
-/* line 683, ../sass/style.scss */
+/* line 981, ../sass/style.scss */
 ._play-large {
   background-image: url(../images/icon/play.png);
 }
 
-/* line 684, ../sass/style.scss */
+/* line 982, ../sass/style.scss */
 ._off {
   background-image: url(../images/icon/off.png);
 }
 
-/* line 687, ../sass/style.scss */
+/* line 984, ../sass/style.scss */
+._facebook-double {
+  background-image: url(../images/icon/facebook-double.png);
+}
+
+/* line 985, ../sass/style.scss */
+._twitter-double {
+  background-image: url(../images/icon/twitter-double.png);
+}
+
+/* line 986, ../sass/style.scss */
+._youtube-double {
+  background-image: url(../images/icon/youtube-double.png);
+}
+
+/* line 987, ../sass/style.scss */
+._google-double {
+  background-image: url(../images/icon/google-double.png);
+}
+
+/* line 988, ../sass/style.scss */
+._web-double {
+  background-image: url(../images/icon/web-double.png);
+}
+
+/* line 990, ../sass/style.scss */
+._check {
+  background-image: url(../images/icon/check.png);
+}
+
+/* line 993, ../sass/style.scss */
 ._back {
   background-image: url(../images/icon/musicplayer/back.png);
 }
 
-/* line 688, ../sass/style.scss */
+/* line 994, ../sass/style.scss */
 ._pause {
   background-image: url(../images/icon/musicplayer/pause.png);
 }
 
-/* line 689, ../sass/style.scss */
+/* line 995, ../sass/style.scss */
 ._next {
   background-image: url(../images/icon/musicplayer/next.png);
 }
 
-/* line 690, ../sass/style.scss */
+/* line 996, ../sass/style.scss */
 ._play {
   background-image: url(../images/icon/musicplayer/play.png);
 }
 
-/* line 693, ../sass/style.scss */
+/* line 999, ../sass/style.scss */
 ._message-small {
   background-image: url(../images/icon/small/message-small.png);
 }
 
-/* line 694, ../sass/style.scss */
+/* line 1000, ../sass/style.scss */
 ._compass-small {
   background-image: url(../images/icon/small/compass-small.png);
 }
 
-/* line 695, ../sass/style.scss */
+/* line 1001, ../sass/style.scss */
 ._love {
   background-image: url(../images/icon/small/love.png);
 }
 
-/* line 696, ../sass/style.scss */
+/* line 1002, ../sass/style.scss */
 ._unlove {
   background-image: url(../images/icon/small/unlove.png);
 }
 
-/* line 697, ../sass/style.scss */
+/* line 1003, ../sass/style.scss */
 ._comment {
   background-image: url(../images/icon/small/comment.png);
 }
 
-/* line 698, ../sass/style.scss */
+/* line 1004, ../sass/style.scss */
 ._shere {
   background-image: url(../images/icon/small/shere.png);
 }
 
-/* line 699, ../sass/style.scss */
+/* line 1005, ../sass/style.scss */
 ._review {
   background-image: url(../images/icon/small/review.png);
 }
 
-/* line 700, ../sass/style.scss */
+/* line 1006, ../sass/style.scss */
 ._menu-small {
   background-image: url(../images/icon/small/menu-small.png);
 }
 
-/* line 701, ../sass/style.scss */
+/* line 1007, ../sass/style.scss */
 ._star-orange {
   background-image: url(../images/icon/small/star-orange.png);
 }
 
-/* line 702, ../sass/style.scss */
+/* line 1008, ../sass/style.scss */
 ._star-grey {
   background-image: url(../images/icon/small/star-grey.png);
 }
 
-/* line 705, ../sass/style.scss */
+/* line 1011, ../sass/style.scss */
 ._target1 {
   background-image: url(../images/icon/achievement/target1.png);
 }
 
-/* line 706, ../sass/style.scss */
+/* line 1012, ../sass/style.scss */
 ._target2 {
   background-image: url(../images/icon/achievement/target2.png);
 }
 
-/* line 707, ../sass/style.scss */
+/* line 1013, ../sass/style.scss */
 ._target3 {
   background-image: url(../images/icon/achievement/target3.png);
 }
 
-/* line 710, ../sass/style.scss */
+/* line 1016, ../sass/style.scss */
 ._message_status {
   background-image: url(../images/icon/status/message.png);
 }
 
-/* line 711, ../sass/style.scss */
+/* line 1017, ../sass/style.scss */
 ._follower_status {
   background-image: url(../images/icon/status/follower.png);
 }

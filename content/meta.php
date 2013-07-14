@@ -24,4 +24,9 @@
 <link rel="stylesheet" href="stylesheets/app.css" />
 <link rel="stylesheet" href="stylesheets/style.css" />
 
+<script src="javascripts/jquery/jquery-1.8.3.min.js"></script>
+<script src="javascripts/jquery/jquery.easing.1.3.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+
 <script src="javascripts/vendor/custom.modernizr.js"></script>
+
