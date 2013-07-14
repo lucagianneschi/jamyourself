@@ -22,22 +22,13 @@ class SignupController extends REST {
      * in sessione tutte le informazioni che possono essere necessarie
      * poter essere visualizzata correttamente
      * 
-     * ACTION :  GET
-     * DATA: non c'è bisogno di inviare nulla
-     * 
      */
-    public function onLoad() {
-        // Verifico che sia una GET altrimenti restituisco un codice di Errore 
-        // "Not Acceptable"
-        if ($this->get_request_method() != "GET") {
-            $this->response('', 406);
-        }
+    public function init() {
+
+        if (!isset($_SESSION['currentUser']))
+            $_SESSION['currentUser'] = null;
         
-        //ad esempio si può inizializzare un utente a NULL
-        $_SESSION['currentUser'] = null;
-        
-        //restituisco messaggio di conferma
-        $this->response(array("OK"),200);
+        //return qualcosa se c'è qualcosa da ritornare...
     }
 
     /**
@@ -48,31 +39,31 @@ class SignupController extends REST {
      * 
      */
     public function signup() {
-        
+
         if ($this->get_request_method() != "POST") {
             $this->response('', 406);
         }
 
         //controllo che l'utente sia già collegato
-        if(!isset($_SESSION['currentUser'])){
-        // If invalid inputs "Bad Request" status message and reason
+        if (!isset($_SESSION['currentUser'])) {
+            // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Unauthorized", "msg" => "User already Logged");
             $this->response($this->json($error), 401);
         }
-        
-        if(!isset($this->request['newUser'])){
-          // If invalid inputs "Bad Request" status message and reason
+
+        if (!isset($this->request['newUser'])) {
+            // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "No new user specified");
-            $this->response($this->json($error), 400);          
+            $this->response($this->json($error), 400);
         }
-        
+
         //recupero le variabili
-        if ($this->checkUser($user) == false){
-          // If invalid inputs "Bad Request" status message and reason
+        if ($this->checkUser($user) == false) {
+            // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "Invalid new user");
-            $this->response($this->json($error), 400);  
+            $this->response($this->json($error), 400);
         }
-            
+
 
         //tenta di effettuare il salvataggio
         $pUser = new UserParse();
@@ -81,7 +72,7 @@ class SignupController extends REST {
         if (is_a($user, "Error")) {
             //result è un errore e contiene il motivo dell'errore
             $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
-            $this->response($this->json($error), 503);  
+            $this->response($this->json($error), 503);
         }
 
         //se va a buon fine salvo una nuova activity       
@@ -100,7 +91,7 @@ class SignupController extends REST {
         //aggiorno l'oggetto User in sessione
         $_SESSION['currentUser'] = $user;
         //restituire true o lo user....
-        $this->response($this->json(array("OK")), 200);  
+        $this->response($this->json(array("OK")), 200);
     }
 
     private function checkUser($user) {
@@ -130,18 +121,4 @@ class SignupController extends REST {
     }
 
 }
-
-////////////////////////////////////////////////////////////////////////////////
-//
-// ESECUZIONE DELLO SCRIPT 
-//  
-//////////////////////////////////////////////////////////////////////////////// 
-
-//inizializza la sessione
-session_start();
-
-// Initiiate Library
-$controller = new SignupController();
-$controller->processApi();
-
 ?>

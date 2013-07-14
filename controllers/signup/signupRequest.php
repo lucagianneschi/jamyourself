@@ -1,0 +1,17 @@
+<?php
+require_once CONTROLLERS_DIR . 'signup.controller.php';
+
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// ESECUZIONE DELLO SCRIPT 
+//  
+//////////////////////////////////////////////////////////////////////////////// 
+//inizializza la sessione
+session_start();
+
+// Initiiate Library
+$controller = new SignupController();
+$controller->processApi();
+
+?>
