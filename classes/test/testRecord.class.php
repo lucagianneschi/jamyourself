@@ -137,7 +137,7 @@ echo 'Aggiornato un campo GeoPoint<br />';
 
 $parseACL = new parseACL();
 $parseACL->setPublicWriteAccess(false);
-$cmtParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+$recordParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
 echo 'Aggiornato un campo ACL<br />';
 
 $recordParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
