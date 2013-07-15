@@ -596,7 +596,7 @@ class Record {
 			}            
 		}
 		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-		$string .= '[songCounter] => ' . $this->getsSongCounter() . '<br />';
+		$string .= '[songCounter] => ' . $this->getSongCounter() . '<br />';
 		$string .= '[thumbnailCover] .= > '.$this->thumbnailCover .'<br/>';
 		$string .= '[title] .= > '.$this->title .'<br/>';
 		if ($this->tracklist && count($this->tracklist > 0)){
