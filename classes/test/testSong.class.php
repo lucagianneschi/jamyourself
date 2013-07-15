@@ -27,7 +27,6 @@ $song->setLoveCounter(100);
 $song->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $song->setRecord('4zD865KrXo');
 $song->setShareCounter(10000);
-$song->setSongCounter(707070);
 $song->setTitle('un titolo');
 //$song->setACL();
 

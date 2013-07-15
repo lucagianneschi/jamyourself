@@ -1,53 +1,39 @@
-<html>
+<?php
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+require_once CONTROLLERS_DIR . 'signup/signup.controller.php';
+
+$sc = new SignupController();
+$sc->init();
+?>
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
+
     <head>
-        <title>Home</title>
 
-        <style type="text/css">
-            .error {
-                color: red;
-            }
-
-            .message {
-                color: green;
-            }
-
-            #formlogin label.error {
-                margin-left: 10px;
-                width: auto;
-                display: inline;
-                color: red;
-            }
-        </style>
+        <title>Jamyourself</title>
+        <!-------------------------- METADATI --------------------------->
+        <?php require_once(VIEW_DIR . "content/general/meta.php"); ?>
 
     </head>
+
     <body>
-        <!-- div di avviso  -->
-        <div id="error" class='error'></div>
-        <div id="message" class='message'></div>
 
-        <div id="signupDiv">
-            <h1>REGISTRAZIONE</h1>
-            <form id="formSignup" action=javascript:signup()>
-                <p>
-                    <label for="username">Nuovo Username</label> <input id="username"
-                                                                        name="username" type="text" onblur="javascript:checkUserExists();">
-                </p>
-                <p>
-                    <label for="password">Nuova Password</label> <input id="password"
-                                                                        name="password" type="password">
-                </p>
+        <!-------------------------- HEADER --------------------------->
+        <?php require_once(VIEW_DIR . 'content/general/header.php'); ?>
 
-                <p>
-                    <input id="signupButton" name="signupButton" type="submit"
-                           value="signup">
-                </p>
-            </form>         
+        <!-------------------------- BODY --------------------------->
+        <div class="body-content">
+            <?php require_once(VIEW_DIR . 'content/signup/signup-main.php'); ?>
         </div>
+        <!-------------------------- FOOTER --------------------------->
+        <?php require_once(VIEW_DIR . 'content/general/footer.php'); ?>	
 
-        <!-- 	Inclusione javascript -->
-        <script type="text/javascript" src="./scripts/jquery-min.js"></script>
-        <script type="text/javascript" src="./scripts/jquery.validate.js"></script>
-        <script type="text/javascript" src="./scripts/signup.js"></script>
-
+        <!-------------------------- SCRIPT --------------------------->
+        <?php require_once(VIEW_DIR . "content/general/script.php"); ?>
     </body>
+
 </html>
