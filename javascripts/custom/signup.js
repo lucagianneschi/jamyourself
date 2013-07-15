@@ -10,7 +10,7 @@ function signup(){
     var newUser = getFormFieldValues();    
     
      var json_signup = {};
-    json_signup.rquest = "signup";
+    json_signup.request = "signup";
     json_signup.newUser = newUser;
 
     $.ajax({

@@ -24,6 +24,9 @@ class SignupController extends REST {
      * 
      */
     public function init() {
+        
+        //inizializzo la sessione
+        session_start();
 
         if (!isset($_SESSION['currentUser']))
             $_SESSION['currentUser'] = null;
