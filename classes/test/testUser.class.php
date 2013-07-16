@@ -34,11 +34,15 @@ $user->setActive(true);
 $user->setBackground('Un background');
 $user->setBirthDay('1982-02-18');
 $user->setCity('Una citta');
+$user->setCollaborationCounter(666);
 $user->setComments(array("nJr1ulgfVo"));
 $user->setCountry('Un paese');
 $user->setDescription('Una descrizione');
 $user->setEmail('test'. $r .'@xxx.xx');
 $user->setFbPage('Una pagina FB');
+$user->setFollowersCounter(666);
+$user->setFollowingCounter(666);
+$user->setFriendshipCounter(666);
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $user->setGeoCoding($parseGeoPoint);
 //$user->setImages();
@@ -198,6 +202,18 @@ $userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'c
 echo 'Aggiornato (add) un campo Relation<br />';
 
 $userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'collaboration', array('WeTEWWfASn'), true, 'remove', '_User');
+echo 'Aggiornato (remove) un campo Relation<br />';
+
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'followers', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
+echo 'Aggiornato (add) un campo Relation<br />';
+
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'followers', array('WeTEWWfASn'), true, 'remove', '_User');
+echo 'Aggiornato (remove) un campo Relation<br />';
+
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'following', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
+echo 'Aggiornato (add) un campo Relation<br />';
+
+$userParse->updateField($resSave->getObjectId(), $resSave->getSessionToken(), 'following', array('WeTEWWfASn'), true, 'remove', '_User');
 echo 'Aggiornato (remove) un campo Relation<br />';
 
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL Comment<br />';
