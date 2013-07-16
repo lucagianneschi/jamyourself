@@ -259,7 +259,7 @@ class UserParse {
 			$user->setMusic($res->music);
 			# $user->setPlaylists(fromParseRelation('_User', 'playlist', $res->objectId, 'Playlist'));
 			$user->setPremium($res->premium);
-			$user->setPremiumExpirationDate(fromParseDate($res->premiumExpirationDate));
+			$res->premium ? $user->setPremiumExpirationDate(fromParseDate($res->premiumExpirationDate)) : $user->setPremiumExpirationDate(null);
 			$user->setProfilePicture($res->profilePicture);
 			$user->setProfilePictureFile($res->profilePictureFile);
 			$user->setProfileThumbnail($res->profileThumbnail);
