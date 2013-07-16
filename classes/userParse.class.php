@@ -232,6 +232,7 @@ class UserParse {
 			$user->setBirthDay($res->birthDay);
 			$user->setCity($res->city);
 			# $user->setCollaboration(fromParseRelation('_User', 'collaboration', $res->objectId, '_User'));
+			$user->setCollaborationCounter($res->collaborationCounter);
 			# $user->setComments(fromParseRelation('_User', 'comments', $res->objectId, 'Comment'));
 			$user->setCountry($res->country);
 			$user->setDescription($res->description);
@@ -240,8 +241,12 @@ class UserParse {
 			$user->setFacebookId($res->facebookId);
 			$user->setFbPage($res->fbPage);
 			$user->setFirstname($res->firstname);
+			# $user->setFollowers(fromParseRelation('_User', 'followers', $res->objectId, '_User'));
+			$user->setFollowersCounter($res->followersCounter);
 			# $user->setFollowing(fromParseRelation('_User', 'following', $res->objectId, '_User'));
+			$user->setFollowingCounter($res->followingCounter);
 			# $user->setFriendship(fromParseRelation('_User', 'friendship', $res->objectId, '_User'));
+			$user->setFriendshipCounter($res->friendshipCounter);
 			$user->setGeoCoding(fromParseGeoPoint($res->geoCoding));
 			# $user->setImages(fromParseRelation('_User', 'images', $res->objectId, 'Image'));
 			$user->setJammerType($res->jammerType);
@@ -303,6 +308,7 @@ class UserParse {
 			is_null($user->getBirthDay()) ? $parseUser->birthDay = null : $parseUser->birthDay = $user->getBirthDay();
 			is_null($user->getCity()) ? $parseUser->city = null : $parseUser->city = $user->getCity();
 			is_null($user->getCollaboration()) ? $parseUser->collaboration = null : $parseUser->collaboration = toParseAddRelation('_User', $user->getCollaboration());
+			is_null($user->getCollaborationCounter()) ? $parseUser->collaborationCounter = -1 : $parseUser->collaborationCounter = $user->getCollaborationCounter();
 			is_null($user->getComments()) ? $parseUser->comments = null : $parseUser->comments = toParseAddRelation('Comment', $user->getComments());
 			is_null($user->getCountry()) ? $parseUser->country = null : $parseUser->country = $user->getCountry();
 			is_null($user->getDescription()) ? $parseUser->description = null : $parseUser->description = $user->getDescription();
@@ -311,14 +317,18 @@ class UserParse {
 			is_null($user->getFacebookId()) ? $parseUser->facebookId = null : $parseUser->facebookId = $user->getFacebookId();
 			is_null($user->getFbPage()) ? $parseUser->fbPage = null : $parseUser->fbPage = $user->getFbPage();
 			is_null($user->getFirstname()) ? $parseUser->firstname = null : $parseUser->firstname = $user->getFirstname();
+			is_null($user->getFollowers()) ? $parseUser->followers = null : $parseUser->followers = toParseAddRelation('_User', $user->getFollowers());
+			is_null($user->getFollowersCounter()) ? $parseUser->followersCounter = -1 : $parseUser->followersCounter = $user->getFollowersCounter();
 			is_null($user->getFollowing()) ? $parseUser->following = null : $parseUser->following = toParseAddRelation('_User', $user->getFollowing());
+			is_null($user->getFollowingCounter()) ? $parseUser->followingCounter = -1 : $parseUser->followingCounter = $user->getFollowingCounter();
 			is_null($user->getFriendship()) ? $parseUser->friendship = null : $parseUser->friendship = toParseAddRelation('_User', $user->getFriendship());
+			is_null($user->getFriendshipCounter()) ? $parseUser->friendshipCounter = -1 : $parseUser->friendshipCounter = $user->getFriendshipCounter();
 			is_null($user->getGeoCoding()) ? $parseUser->geoCoding = null : $parseUser->geoCoding = toParseGeoPoint($user->getGeoCoding());
 			is_null($user->getImages()) ? $parseUser->images = null : $parseUser->images = toParseAddRelation('Image', $user->getImages());
 			is_null($user->getJammerType()) ? $parseUser->jammerType = null : $parseUser->jammerType = $user->getJammerType();
 			is_null($user->getLastname()) ? $parseUser->lastname = null : $parseUser->lastname = $user->getLastname();
-			is_null($user->getLevel()) ? $parseUser->level = null : $parseUser->level = $user->getLevel();
-			is_null($user->getLevelValue()) ? $parseUser->levelValue = null : $parseUser->levelValue = $user->getLevelValue();
+			is_null($user->getLevel()) ? $parseUser->level = -1 : $parseUser->level = $user->getLevel();
+			is_null($user->getLevelValue()) ? $parseUser->levelValue = -1 : $parseUser->levelValue = $user->getLevelValue();
 			is_null($user->getLocalType()) ? $parseUser->localType = null : $parseUser->localType = $user->getLocalType();
 			is_null($user->getLoveSongs()) ? $parseUser->loveSongs = null : $parseUser->loveSongs = toParseAddRelation('Song', $user->getLoveSongs());
 			is_null($user->getMembers()) ? $parseUser->members = null : $parseUser->members = $user->getMembers();
@@ -471,15 +481,6 @@ class UserParse {
 		$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
 	}
 
-	/**
-	 * \fn		void whereInclude($field)
-	 * \brief	Sets a condition for which the field $field, that represent a Pointer, must return all the entire object
-	 * \param	$field	the string which represent the field
-	 */
-	public function whereInclude($field) {
-		$this->parseQuery->whereInclude($field);
-	}
-	
 	/**
 	 * \fn		void whereLessThan($field, $value)
 	 * \brief	Sets a condition for which the field $field must value less than $value

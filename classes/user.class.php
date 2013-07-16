@@ -32,6 +32,7 @@ class User {
 	private $birthDay;
 	private $city;
 	private $collaboration;
+	private $collaborationCounter;
 	private $comments;
 	private $country;
 	private $description;
@@ -40,8 +41,12 @@ class User {
 	private $facebookId;
 	private $fbPage;
 	private $firstname;
+	private $followers;
+	private $followersCounter;
 	private $following;
+	private $followingCounter;
 	private $friendship;
+	private $friendshipCounter;
 	private $geoCoding;
 	private $images;
 	private $jammerType;
@@ -199,6 +204,15 @@ class User {
 	}
 
 	/**
+	 * \fn		number getCollaborationCounter()
+	 * \brief	Return the number of User in collaboration with
+	 * \return	number
+	 */
+	public function getCollaborationCounter() {
+		return $this->collaborationCounter;
+	}
+	
+	/**
 	 * \fn		array getComments()
 	 * \brief	Return an array of objectId of the Comment related with the User
 	 * \return	array
@@ -271,12 +285,39 @@ class User {
 	}
 
 	/**
+	 * \fn		array getFollowers()
+	 * \brief	Return an array of objectId of the User who are following the User
+	 * \return	array
+	 */
+	public function getFollowers() {
+		return $this->followers;
+	}
+	
+	/**
+	 * \fn		number getLevel()
+	 * \brief	Return the number of User followed
+	 * \return	number
+	 */
+	public function getFollowersCounter() {
+		return $this->followersCounter;
+	}
+	
+	/**
 	 * \fn		array getFollowing()
 	 * \brief	Return an array of objectId of the User related with the User
 	 * \return	array
 	 */
 	public function getFollowing() {
 		return $this->following;
+	}
+	
+	/**
+	 * \fn		number getFollowingCounter()
+	 * \brief	Return the number of User followed
+	 * \return	number
+	 */
+	public function getFollowingCounter() {
+		return $this->followingCounter;
 	}
 
 	/**
@@ -286,6 +327,15 @@ class User {
 	 */
 	public function getFriendship() {
 		return $this->friendship;
+	}
+	
+	/**
+	 * \fn		number getLevel()
+	 * \brief	Return the number of User in friendship relation
+	 * \return	number
+	 */
+	public function getFriendshipCounter() {
+		return $this->friendshipCounter;
 	}
 
 	/**
@@ -667,6 +717,15 @@ class User {
 	public function setCollaboration($collaboration) {
 		$this->collaboration = $collaboration;
 	}
+	
+	/**
+	 * \fn		void setLevel($collaborationCounter)
+	 * \brief	Sets the collaborationCounter of the User
+	 * \param	number
+	 */
+	public function setCollaborationCounter($collaborationCounter) {
+		$this->collaborationCounter = $collaborationCounter;
+	}
 
 	/**
 	 * \fn		void setComments($comments)
@@ -741,6 +800,24 @@ class User {
 	}
 
 	/**
+	 * \fn		void setFollowers($followers)
+	 * \brief	Sets an array of objectId of the User related with the User
+	 * \param	array
+	 */
+	public function setFollowers($followers) {
+		$this->followers = $followers;
+	}
+
+	/**
+	 * \fn		void setLevel($followersCounter)
+	 * \brief	Sets the followersCounter of the User
+	 * \param	number
+	 */
+	public function setFollowersCounter($followersCounter) {
+		$this->followersCounter = $followersCounter;
+	}
+	
+	/**
 	 * \fn		void setFollowing($following)
 	 * \brief	Sets an array of objectId of the User related with the User
 	 * \param	array
@@ -750,12 +827,30 @@ class User {
 	}
 
 	/**
+	 * \fn		void setFollowingCounter($followingCounter)
+	 * \brief	Sets the followingCounter of the User
+	 * \param	number
+	 */
+	public function setFollowingCounter($followingCounter) {
+		$this->followingCounter = $followingCounter;
+	}
+	
+	/**
 	 * \fn		void setFriendship($friendship)
 	 * \brief	Sets an array of objectId of the User related with the User
 	 * \param	array
 	 */
 	public function setFriendship($friendship) {
 		$this->friendship = $friendship;
+	}
+	
+	/**
+	 * \fn		void setFriendshipCounter($friendshipCounter)
+	 * \brief	Sets the friendshipCounter of the User
+	 * \param	number
+	 */
+	public function setFriendshipCounter($friendshipCounter) {
+		$this->friendshipCounter = $friendshipCounter;
 	}
 
 	/**
@@ -1076,6 +1171,7 @@ class User {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[comments] => NULL<br />';
 		}
+		$string .= '[collaborationCounter] => ' . $this->getCollaborationCounter() . '<br />';
 		$string .= '[country] => ' . $this->getCountry() . '<br />';
 		$string .= '[description] => ' . $this->getDescription() . '<br />';
 		$string .= '[email] => ' . $this->getEmail() . '<br />';
@@ -1091,6 +1187,16 @@ class User {
 		$string .= '[facebookId] => ' . $this->getFacebookId() . '<br />';
 		$string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
 		$string .= '[firstname] => ' . $this->getFirstname() . '<br />';
+		if (count($this->getFollowers()) != 0) {
+			foreach ($this->getFollowers() as $follower) {
+				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				$string .= '[follower] => ' . $follower . '<br />';
+			}
+		} else {
+			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			$string .= '[follower] => NULL<br />';
+		}
+		$string .= '[followersCounter] => ' . $this->getFollowersCounter() . '<br />';
 		if (count($this->getFollowing()) != 0) {
 			foreach ($this->getFollowing() as $following) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -1100,6 +1206,7 @@ class User {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[following] => NULL<br />';
 		}
+		$string .= '[followingCounter] => ' . $this->getFollowingCounter() . '<br />';
 		if (count($this->getFriendship()) != 0) {
 			foreach ($this->getFriendship() as $friendship) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -1109,6 +1216,7 @@ class User {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[friendship] => NULL<br />';
 		}
+		$string .= '[friendshipCounter] => ' . $this->getFriendshipCounter() . '<br />';
 		if ($this->getGeoCoding() != null) {
 			$geoCoding = $this->getGeoCoding();
 			$string .= '[geoCoding] => ' . $geoCoding->lat . ', ' . $geoCoding->long . '<br />';
