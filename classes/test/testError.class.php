@@ -57,7 +57,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO IL RECUPERO DI UN Error<br /><br />';
 
 $errorParse = new ErrorParse();
-$resGet = $errorParse->getError('lFgJYFTZyM');
+$resGet = $errorParse->getError($resSave->getObjectId());
 if ( !method_exists($resSave, 'getObjectId') ) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {

@@ -25,8 +25,9 @@ try {
 
 $user->setObjectId();
 $r = rand();
-$user->setUsername('test' . $r);
-$user->setPassword('test' . $r);
+$userEpass = 'test' . $r;
+$user->setUsername($userEpass);
+$user->setPassword($userEpass);
 //$user->setAuthData();
 //$user->setEmailVerified();
 $user->setActive(true);
@@ -156,8 +157,8 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />INIZIO IL LOGIN DI UNO User<br />';
 
 $userParse = new UserParse();
-$username = 'test1193803186';
-$password = 'test1193803186';
+$username = $userEpass;
+$password = $userEpass;
 $resLogin = $userParse->loginUser($username, $password);
 if (get_class($resLogin) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resLogin->getErrorMessage() . '<br/>';
