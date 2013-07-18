@@ -9,7 +9,7 @@ class parseQuery extends parseRestClient{
 	private $_include = array();
 
 	public function __construct($class=''){
-		if($class == 'users'){
+		if($class == 'users' || $class == 'installation'){
 			$this->_requestUrl = $class;
 		}
 		elseif($class != ''){
@@ -18,14 +18,16 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('include the className when creating a parseQuery');
 		}
-		
 		parent::__construct();
-
 	}
 
 	public function find(){
 		if(empty($this->_query)){
-			$this->throwError('No query set yet.');
+			$request = $this->request(array(
+				'method' => 'GET',
+				'requestUrl' => $this->_requestUrl
+			));
+			return $request;
 		}
 		else{
 			$urlParams = array(
@@ -37,7 +39,7 @@ class parseQuery extends parseRestClient{
 			if(!empty($this->_order)){
 				$urlParams['order'] = implode(',',$this->_order);
 			}
-			if(!empty($this->_limit)){
+			if(!empty($this->_limit) || $this->_limit == 0){
 				$urlParams['limit'] = $this->_limit;
 			}
 			if(!empty($this->_skip)){
@@ -56,6 +58,16 @@ class parseQuery extends parseRestClient{
 
 			return $request;
 		}
+	}
+	
+	//setting this to 1 by default since you'd typically only call this function if you were wanting to turn it on
+	public function setCount($bool=1){
+		if(is_bool($bool)){
+			$this->_count = $bool;
+		}
+		else{
+			$this->throwError('setCount requires a boolean paremeter');
+		}		
 	}
 
 	public function getCount(){
@@ -143,7 +155,6 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
 		}
-	
 	}
 
 	public function whereLessThan($key,$value){
@@ -155,7 +166,6 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
 		}
-	
 	}
 
 	public function whereGreaterThanOrEqualTo($key,$value){
@@ -167,7 +177,6 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
 		}
-	
 	}
 
 	public function whereLessThanOrEqualTo($key,$value){
@@ -179,7 +188,22 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
 		}
-	
+	}
+
+	public function whereAll($key,$value){
+		if(isset($key) && isset($value)){
+			if(is_array($value)){
+				$this->_query[$key] = array(
+					'$all' => $value
+				);		
+			}
+			else{
+				$this->throwError('$value must be an array to check through');		
+			}
+		}	
+		else{
+			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
+		}
 	}
 
 	public function whereContainedIn($key,$value){
@@ -196,7 +220,6 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
 		}
-	
 	}
 
 	public function whereNotContainedIn($key,$value){
@@ -213,7 +236,6 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
 		}
-	
 	}
 
 	public function whereExists($key){
@@ -245,7 +267,6 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
 		}
-		
 	}
 
 	public function wherePointer($key,$className,$objectId){
@@ -255,7 +276,6 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $className parameters must be set when setting a "where" pointer query method');		
 		}
-		
 	}
 
 	public function whereInQuery($key,$className,$inQuery){
@@ -268,7 +288,6 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
 		}
-		
 	}
 
 	public function whereNotInQuery($key,$className,$inQuery){
@@ -281,32 +300,31 @@ class parseQuery extends parseRestClient{
 		else{
 			$this->throwError('the $key and $value parameters must be set when setting a "where" query method');		
 		}
-		
 	}
-        
-    /**
-    * Example - to find users with a particular role id
-    * ES: per trovare gli Utenti in relazione con un Album, dove
-    * nella tabella album abbiamo una colonna "userRelation"
-    * la query si fa su : $query->parseQuery('_User);
-    * $query->whereRelatedTo('users', '_Role', $roleId);
-    * 
-    * @param type $key = nome colonna del tipo relazione
-    * @param type $className = classe di cui si cerca la relazione
-    * @param type $objectId = id dell'oggetto di cui si cercano le relazioni
-    */
-        public function whereRelatedTo($key,$className,$objectId) {
-            if(isset($key) && isset($className) && isset($objectId)){
-                if($className === 'Role')
-                    $className = '_Role';
-                if($className === 'User')
-                    $className = '_User';
-                $pointer = $this->dataType('pointer', array($className, $objectId));
-                $this->_query['$relatedTo'] = $this->dataType('relatedTo', array($pointer, $key));
-            } else {
-		$this->throwError('the $key and $classname and $objectId parameters must be set when setting a "whereRelatedTo" query method');		
-            }
-        }        
-}
 
+	/**
+	* Example - to find users with a particular role id
+	* ES: per trovare gli Utenti in relazione con un Album, dove
+	* nella tabella album abbiamo una colonna "userRelation"
+	* la query si fa su : $query->parseQuery('_User);
+	* $query->whereRelatedTo('users', '_Role', $roleId);
+	* 
+	* @param type $key = nome colonna del tipo relazione
+	* @param type $className = classe di cui si cerca la relazione
+	* @param type $objectId = id dell'oggetto di cui si cercano le relazioni
+	*/
+	public function whereRelatedTo($key,$className,$objectId) {
+		if(isset($key) && isset($className) && isset($objectId)){
+			if($className === 'Role')
+				$className = '_Role';
+			if($className === 'User')
+				$className = '_User';
+			$pointer = $this->dataType('pointer', array($className, $objectId));
+			$this->_query['$relatedTo'] = $this->dataType('relatedTo', array($pointer, $key));
+		} else {
+			$this->throwError('the $key and $classname and $objectId parameters must be set when setting a "whereRelatedTo" query method');		
+		}
+	}        
+
+}
 ?>
