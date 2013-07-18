@@ -161,7 +161,7 @@ switch ($type) {
 	$activityParse1 = new ActivityParse();
 	$activityParse1->setLimit(4);
 	$activityParse->wherePointer('fromUser', '_User', $id);
-	$activityParse1->whereEqualTo('type', 'FRIENDSHIP');
+	$activityParse1->whereEqualTo('type', 'FRIENDSHIPREQUEST');
 	$activityParse1->whereEqualTo('status', 'A');
 	$activityParse1->whereInclude('toUser');
 	$activityParse1->orderByDescending('createdAt');
@@ -187,6 +187,16 @@ switch ($type) {
 	$include_stop = microtime();
 
 	$notification3Venue_start = microtime();
+	$activity1 = 'COLLABORATIONREQUEST';
+	$activity2 = 'FOLLOWING';
+	$activityTypes = array($activity1,$activity2);
+	$notification3Venue = new parseQuery();
+	$notification3Venue->where('$or', $activityTypes);
+	$notification3Venue->where('status', 'W');
+	$notification3Venue->where('read', false);
+	$notification3Venue->setLimit(0);
+	$invitations = $notification3Venue->getCount();
+	echo '<br />[N° di relazioni di interesse] => ' . $invitations . '<br />';
 	$notification3Venue_stop = microtime();
 
 	echo '<br />[localType] => ' . $user->getlocalType() . '<br />';
@@ -233,11 +243,11 @@ switch ($type) {
 	$include_stop = microtime();
 
 	$notification3Jammer_start = microtime();
-
-	$notification3Jammer = new ActivityParse();
-	$notification3Jammer->wherePointer('toUser', '_User', $id);
-	$notification3Jammer->where('type', 'COLLABORATIONREQUEST'); //qui va messa la $or
-	//FOLLOWING
+	$activity1 = 'COLLABORATIONREQUEST';
+	$activity2 = 'FOLLOWING';
+	$activityTypes = array($activity1,$activity2);
+	$notification3Jammer = new parseQuery();
+	$notification3Jammer->where('$or', $activityTypes);
 	$notification3Jammer->where('status', 'W');
 	$notification3Jammer->where('read', false);
 	$notification3Jammer->setLimit(0);
