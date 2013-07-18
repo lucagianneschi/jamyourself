@@ -34,7 +34,9 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 $i_end = microtime();
 
-$id = '7fes1RyY77';
+//$id = '7fes1RyY77';
+$id = 'uMxy47jSjg';
+
 $user_start = microtime();
 $userParse = new UserParse();
 $user = $userParse->getUser($id);
@@ -50,12 +52,12 @@ echo '<br />[WebSite Page] => ' . $user->getWebsite() . '<br />';
 echo '<br />[Youtube Channel] => ' . $user->getYoutubeChannel() . '<br />';
 echo '<br />[punteggio] => ' . $user->getLevel() . '<br />'; //BOX 4 
 $user_stop = microtime();
+/*
 $notification1_start = microtime();
 $notification1 = new ActivityParse();
 $notification1->wherePointer('toUser', 'User', $id);
 $notification1->where('type', 'MESSAGESENT');
 $notification1->where('read', false);
-$notification1->setLimit(0);
 $unreadMessages = $notification1->getCount();
 echo '<br />[N° di messaggi da leggere] => ' . $unreadMessages . '<br />';
 $notification1_stop = microtime();
@@ -65,10 +67,10 @@ $notification2 = new ActivityParse();
 $notification2->wherePointer('toUser', 'User', $id);
 $notification2->where('type', 'INVITED');
 $notification2->where('read', false);
-$notification2->setLimit(0);
 $invitations = $notification2->getCount();
 echo '<br />[N° di inviti] => ' . $invitations . '<br />';
 $notification2_stop = microtime();
+*/
 
 $album_start = microtime();
 $album = new AlbumParse();
@@ -96,13 +98,14 @@ $parsePost = new CommentParse();
 $parsePost->wherePointer('toUser', '_User', $id);
 $parsePost->where('type', 'P');
 $parsePost->setLimit(3);
-$parsePost->orderByDescending('createdAt');
 $parsePost->whereInclude('fromUser');
+$parsePost->orderByDescending('createdAt');
 $last3post = $parsePost->getComments();
 if ($last3post != 0) {
     if (get_class($last3post) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $last3post->getErrorMessage() . '<br/>';
     } else {
+
 	foreach ($last3post->fromUser as $fromUser) {
 	    echo '<br />[username] => ' . $fromUser->getUsername() . '<br />';
 	    echo '<br />[type] => ' . $fromUser->getType() . '<br />';
@@ -124,18 +127,19 @@ switch ($type) {
     case 'SPOTTER':
 	$include_start = microtime();
 	$include_stop = microtime();
-
+    
+	/*
 	$notification3Spotter_start = microtime();
 	$notification3Spotter = new ActivityParse();
 	$notification3Spotter->wherePointer('toUser', '_User', $id);
-	$notification2->where('type', 'FRIENDREQUEST');
-	$notification2->where('status', 'W');
-	$notification2->where('read', false);
-	$notification2->setLimit(0);
-	$invitations = $notification2->getCount();
+	$notification3Spotter->where('type', 'FRIENDREQUEST');
+	$notification3Spotter->where('status', 'W');
+	$notification3Spotter->where('read', false);
+	$invitations = $notification3Spotter->getCount();
 	echo '<br />[N° di relazioni di interesse] => ' . $invitations . '<br />';
 	$notification3Spotter_stop = microtime();
 
+*/
 	$following_start = microtime();
 	$activityParse = new ActivityParse();
 	$activityParse->setLimit(4);
@@ -186,20 +190,20 @@ switch ($type) {
 	require_once CLASSES_DIR . 'eventParse.class.php';
 	$include_stop = microtime();
 
+	echo '<br />[localType] => ' . $user->getlocalType() . '<br />';
+
 	$notification3Venue_start = microtime();
 	$activity1 = 'COLLABORATIONREQUEST';
 	$activity2 = 'FOLLOWING';
-	$activityTypes = array($activity1,$activity2);
-	$notification3Venue = new parseQuery();
+	$activityTypes = array($activity1, $activity2);
+	$notification3Venue = new parseQuery('Activity');
 	$notification3Venue->where('$or', $activityTypes);
 	$notification3Venue->where('status', 'W');
 	$notification3Venue->where('read', false);
-	$notification3Venue->setLimit(0);
-	$invitations = $notification3Venue->getCount();
+	$invitations = $notification3Venue->count;
 	echo '<br />[N° di relazioni di interesse] => ' . $invitations . '<br />';
 	$notification3Venue_stop = microtime();
 
-	echo '<br />[localType] => ' . $user->getlocalType() . '<br />';
 	$eventVenue_start = microtime();
 	$eventParse = new EventParse();
 	$eventParse->setLimit(4);
@@ -232,6 +236,52 @@ switch ($type) {
 	    }
 	}
 	$eventVenue_stop = microtime();
+
+	$collaborationVenueVenue_start = microtime();
+	$parseUser = new UserParse();
+	$parseUser->whereRelatedTo('collaboration', '_User', $id);
+	$parseUser->whereEqualTo('type', 'VENUE');
+	$parseUser->setLimit(4);
+	$parseUser->orderByDescending('createdAt');
+	$last4venues = $parseUser->getUsers();
+	foreach ($last4venues as $venue) {
+	    echo '<br />[username] => ' . $venue->getUsername() . '<br />';
+	    echo '<br />[thumbnail] => ' . $venue->getProfileThumbnail() . '<br />';
+	}
+	$venueCount = $parseUser->getCount();
+	echo '<br />[venue count] => ' . $venueCount . '<br />'; //mettere opportuno contatore nello User
+	$collaborationVenueVenue_stop = microtime();
+	$collaborationVenueJammer_start = microtime();
+	$parseUser1 = new UserParse();
+	$parseUser1->whereRelatedTo('collaboration', '_User', $id);
+	$parseUser1->whereEqualTo('type', 'JAMMER');
+	$parseUser1->setLimit(4);
+	$parseUser1->orderByDescending('createdAt');
+	$last4jammers = $parseUser1->getUsers();
+	foreach ($last4jammers as $jammer) {
+	    echo '<br />[username] => ' . $jammer->getUsername() . '<br />';
+	    echo '<br />[thumbnail] => ' . $jammer->getProfileThumbnail() . '<br />';
+	}
+	$jammerCount = $parseUser->getCount();
+	echo '<br />[jammer count] => ' . $jammerCount . '<br />'; //mettere contatore nello User
+	echo '<br />[jammer+venue] => ' . $user->getCollaborationCounter() . '<br />';
+	$collaborationVenueJammer_stop = microtime();
+
+	$followingVenue_start = microtime();
+	$parseActivity = new ActivityParse();
+	$parseActivity->wherePointer('toUser', '_User', $id);
+	$parseActivity->whereEqualTo('type', 'FOLLOWING');
+	$parseActivity->whereInclude('fromUser');
+	$parseActivity->setLimit(4);
+	$parseActivity->orderByDescending('createdAt');
+	$last4followers = $parseActivity->getActivities();
+	foreach ($last4followers->fromUser as $fromUser) {
+	    echo '<br />[username] => ' . $fromUser->getUsername() . '<br />';
+	    echo '<br />[thumbnail] => ' . $fromUser->getProfileThumbnail() . '<br />';
+	}
+	echo '<br />[spotters count] => ' . $user->getFollowersCounter() . '<br />';
+	$followingVenue_stop = microtime();
+
 	echo '<br />----------------------VENUE---------------------------<br />';
 	break;
     case 'JAMMER':
@@ -245,14 +295,19 @@ switch ($type) {
 	$notification3Jammer_start = microtime();
 	$activity1 = 'COLLABORATIONREQUEST';
 	$activity2 = 'FOLLOWING';
-	$activityTypes = array($activity1,$activity2);
-	$notification3Jammer = new parseQuery();
+	$activityTypes = array($activity1, $activity2);
+	$notification3Jammer = new parseQuery('Activity');
 	$notification3Jammer->where('$or', $activityTypes);
 	$notification3Jammer->where('status', 'W');
 	$notification3Jammer->where('read', false);
-	$notification3Jammer->setLimit(0);
-	$invitations = $notification3Jammer->getCount();
-	echo '<br />[N° di relazioni di interesse] => ' . $invitations . '<br />';
+	$invitations = $notification3Jammer->count;
+	if ($invitations != 0) {
+	    if (get_class($invitations) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $invitations->getErrorMessage() . '<br/>';
+	    } else {
+		echo '<br />[N° di relazioni di interesse] => ' . $invitations . '<br />';
+	    }
+	}
 	$notification3Jammer_stop = microtime();
 
 	echo '<br />[followersCounter] => ' . $user->getFollowersCounter() . '<br />'; //BOX 4
@@ -285,6 +340,7 @@ switch ($type) {
 	    }
 	}
 	$record_stop = microtime();
+
 	$eventJammer_start = microtime();
 	$eventParse = new EventParse();
 	$eventParse->setLimit(4);
@@ -315,6 +371,70 @@ switch ($type) {
 	}
 	$eventJammer_stop = microtime();
 
+	$collaborationJammerVenue_start = microtime();
+	$parseUser = new UserParse();
+	$parseUser->whereRelatedTo('collaboration', '_User', $id);
+	$parseUser->whereEqualTo('type', 'VENUE');
+	$parseUser->setLimit(4);
+	$parseUser->orderByDescending('createdAt');
+	$last4venues = $parseUser->getUsers();
+	if ($last4venues != 0) {
+	    if (get_class($last4venues) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $last4venues->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($last4venues as $venue) {
+		    echo '<br />[username] => ' . $venue->getUsername() . '<br />';
+		    echo '<br />[thumbnail] => ' . $venue->getProfileThumbnail() . '<br />';
+		}
+		$venueCount = $parseUser->getCount();
+		echo '<br />[venue count] => ' . $venueCount . '<br />'; //mettere opportuno contatore nello User
+	    }
+	}
+	$collaborationJammerVenue_stop = microtime();
+
+	$collaborationJammerJammer_start = microtime();
+	$parseUser1 = new UserParse();
+	$parseUser1->whereRelatedTo('collaboration', '_User', $id);
+	$parseUser1->whereEqualTo('type', 'JAMMER');
+	$parseUser1->setLimit(4);
+	$parseUser1->orderByDescending('createdAt');
+	$last4jammers = $parseUser1->getUsers();
+	if ($last4jammers != 0) {
+	    if (get_class($last4jammers) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $last4jammers->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($last4jammers as $jammer) {
+		    echo '<br />[username] => ' . $jammer->getUsername() . '<br />';
+		    echo '<br />[thumbnail] => ' . $jammer->getProfileThumbnail() . '<br />';
+		}
+		$jammerCount = $parseUser->getCount();
+		echo '<br />[jammer count] => ' . $jammerCount . '<br />'; //mettere contatore nello User
+	    }
+	}
+	echo '<br />[jammer+venue] => ' . $user->getCollaborationCounter() . '<br />';
+	$collaborationJammerJammer_stop = microtime();
+
+	$followingVenue_start = microtime();
+	$parseActivity = new ActivityParse();
+	$parseActivity->wherePointer('toUser', '_User', $id);
+	$parseActivity->whereEqualTo('type', 'FOLLOWING');
+	$parseActivity->whereInclude('fromUser');
+	$parseActivity->setLimit(4);
+	$parseActivity->orderByDescending('createdAt');
+	$last4followers = $parseActivity->getActivities();
+	if ($last4followers != 0) {
+	    if (get_class($last4followers) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $last4followers->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($last4followers->fromUser as $fromUser) {
+		    echo '<br />[username] => ' . $fromUser->getUsername() . '<br />';
+		    echo '<br />[thumbnail] => ' . $fromUser->getProfileThumbnail() . '<br />';
+		}
+		echo '<br />[spotters count] => ' . $user->getFollowersCounter() . '<br />';
+	    }
+	}
+	$followingVenue_stop = microtime();
+
 	echo '<br />----------------------JAMMER---------------------------<br />';
 	break;
     default:
@@ -325,8 +445,8 @@ echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo recupero User proprietario pagina ' . executionTime($user_start, $user_stop) . '<br />';
 echo 'Tempo include specifico ' . executionTime($include_start, $include_stop) . '<br />';
-echo 'Tempo messaggi da leggere ' . executionTime($notification1_start, $notification1_stop) . '<br />';
-echo 'Tempo inviti ' . executionTime($notification2_start, $notification2_stop) . '<br />';
+//echo 'Tempo messaggi da leggere ' . executionTime($notification1_start, $notification1_stop) . '<br />';
+//echo 'Tempo inviti ' . executionTime($notification2_start, $notification2_stop) . '<br />';
 echo 'Tempo ultimi 4 album ' . executionTime($album_start, $album_stop) . '<br />';
 echo 'Tempo ultimi 3 post ' . executionTime($post_start, $post_stop) . '<br />';
 switch ($type) {
@@ -334,18 +454,25 @@ switch ($type) {
 	echo '<br />----------------------SPOTTER---------------------------<br />';
 	echo 'Tempo ultimi 4 following ' . executionTime($following_start, $following_stop) . '<br />';
 	echo 'Tempo ultimi 4 friends ' . executionTime($friendship_start, $friendship_stop) . '<br />';
-	echo 'Tempo relazioni di interesse ' . executionTime($notification3Spotter_start, $notification3Spotter_stop) . '<br />';
+	//echo 'Tempo relazioni di interesse ' . executionTime($notification3Spotter_start, $notification3Spotter_stop) . '<br />';
 	break;
     case 'VENUE':
 	echo '<br />----------------------VENUE---------------------------<br />';
 	echo 'Tempo ultimi 4 eventi ' . executionTime($eventVenue_start, $eventVenue_stop) . '<br />';
 	echo 'Tempo relazioni di interesse ' . executionTime($notification3Venue_start, $notification3Venue_stop) . '<br />';
+	echo 'Tempo recupero relazione following ' . executionTime($followingVenue_start, $followingVenue_stop) . '<br />';
+	echo 'Tempo recupero relazione relazione Venue - Venue ' . executionTime($collaborationVenueVenue_start, $collaborationVenueVenue_stop) . '<br />';
+	echo 'Tempo recupero relazione Venue - Jammer ' . executionTime($collaborationVenueJammer_start, $collaborationVenueJammer_stop) . '<br />';
+	echo 'Tempo recupero relazione Following' . executionTime($followingVenue_start, $followingVenue_stop) . '<br />';
 	break;
     case 'JAMMER':
 	echo '<br />----------------------JAMMER---------------------------<br />';
 	echo 'Tempo ultimi 4 record ' . executionTime($record_start, $record_stop) . '<br />';
 	echo 'Tempo ultimi 4 eventi ' . executionTime($eventJammer_start, $eventJammer_stop) . '<br />';
 	echo 'Tempo relazioni di interesse ' . executionTime($notification3Jammer_start, $notification3Jammer_stop) . '<br />';
+	echo 'Tempo recupero relazione relazione Jammer - Venue' . executionTime($collaborationJammerVenue_start, $collaborationJammerVenue_stop) . '<br />';
+	echo 'Tempo recupero relazione Jammer - Jammer' . executionTime($collaborationJammerJammer_start, $collaborationJammerJammer_stop) . '<br />';
+	echo 'Tempo recupero relazione Following ' . executionTime($followingVenue_start, $followingVenue_stop) . '<br />';
 	break;
     default:
 	break;
