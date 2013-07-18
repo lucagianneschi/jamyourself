@@ -80,7 +80,6 @@ class ActivityParse {
 		try {
 			$activities = null;
 			$res = $this->parseQuery->find();
-			print_r($res);
 			if (is_array($res->results) && count($res->results) > 0) {
 				$activities = array();
 				foreach ($res->results as $obj) {
