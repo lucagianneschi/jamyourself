@@ -24,19 +24,20 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'activity.class.php';
+require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
+require_once CLASSES_DIR . 'userParse.class.php';
 $i_end = microtime();
 
 $id = '7fes1RyY77';
 $user_start = microtime();
 $userParse = new UserParse();
 $user = $userParse->getUser($id);
-$user_stop = microtime();
 echo '<br />[username] => ' . $user->getUsername() . '<br />'; //BOX 5
 echo '<br />[backGround] => ' . $user->getBackGround() . '<br />'; //BOX 5
 echo '<br />[profilePicture] => ' . $user->getProfilePicture() . '<br />'; //BOX 5
@@ -48,6 +49,27 @@ echo '<br />[Twitter Page] => ' . $user->getTwitterPage() . '<br />';
 echo '<br />[WebSite Page] => ' . $user->getWebsite() . '<br />';
 echo '<br />[Youtube Channel] => ' . $user->getYoutubeChannel() . '<br />';
 echo '<br />[punteggio] => ' . $user->getLevel() . '<br />'; //BOX 4 
+$user_stop = microtime();
+$notification1_start = microtime();
+$notification1 = new ActivityParse();
+$notification1->wherePointer('toUser', 'User', $id);
+$notification1->where('type', 'MESSAGESENT');
+$notification1->where('read', false);
+$notification1->setLimit(0);
+$unreadMessages = $notification1->getCount();
+echo '<br />[N° di messaggi da leggere] => ' . $unreadMessages . '<br />';
+$notification1_stop = microtime();
+
+$notification2_start = microtime();
+$notification2 = new ActivityParse();
+$notification2->wherePointer('toUser', 'User', $id);
+$notification2->where('type', 'INVITED');
+$notification2->where('read', false);
+$notification2->setLimit(0);
+$invitations = $notification2->getCount();
+echo '<br />[N° di inviti] => ' . $invitations . '<br />';
+$notification2_stop = microtime();
+
 $album_start = microtime();
 $album = new AlbumParse();
 $album->wherePointer('fromUser', '_User', $id);
@@ -96,14 +118,23 @@ if ($last3post != 0) {
     }
 }
 $post_stop = microtime();
-//qui carichi solo la roba che interessa a quel tipo di utente
+
 $type = $user->getType();
 switch ($type) {
     case 'SPOTTER':
 	$include_start = microtime();
-	require_once CLASSES_DIR . 'activity.class.php';
-	require_once CLASSES_DIR . 'activityParse.class.php';
 	$include_stop = microtime();
+
+	$notification3Spotter_start = microtime();
+	$notification3Spotter = new ActivityParse();
+	$notification3Spotter->wherePointer('toUser', '_User', $id);
+	$notification2->where('type', 'FRIENDREQUEST');
+	$notification2->where('status', 'W');
+	$notification2->where('read', false);
+	$notification2->setLimit(0);
+	$invitations = $notification2->getCount();
+	echo '<br />[N° di relazioni di interesse] => ' . $invitations . '<br />';
+	$notification3Spotter_stop = microtime();
 
 	$following_start = microtime();
 	$activityParse = new ActivityParse();
@@ -155,6 +186,9 @@ switch ($type) {
 	require_once CLASSES_DIR . 'eventParse.class.php';
 	$include_stop = microtime();
 
+	$notification3Venue_start = microtime();
+	$notification3Venue_stop = microtime();
+
 	echo '<br />[localType] => ' . $user->getlocalType() . '<br />';
 	$eventVenue_start = microtime();
 	$eventParse = new EventParse();
@@ -197,6 +231,19 @@ switch ($type) {
 	require_once CLASSES_DIR . 'record.class.php';
 	require_once CLASSES_DIR . 'recordParse.class.php';
 	$include_stop = microtime();
+
+	$notification3Jammer_start = microtime();
+
+	$notification3Jammer = new ActivityParse();
+	$notification3Jammer->wherePointer('toUser', '_User', $id);
+	$notification3Jammer->where('type', 'COLLABORATIONREQUEST'); //qui va messa la $or
+	//FOLLOWING
+	$notification3Jammer->where('status', 'W');
+	$notification3Jammer->where('read', false);
+	$notification3Jammer->setLimit(0);
+	$invitations = $notification3Jammer->getCount();
+	echo '<br />[N° di relazioni di interesse] => ' . $invitations . '<br />';
+	$notification3Jammer_stop = microtime();
 
 	echo '<br />[followersCounter] => ' . $user->getFollowersCounter() . '<br />'; //BOX 4
 	$musicGenres = $user->getMusic();
@@ -268,6 +315,8 @@ echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo recupero User proprietario pagina ' . executionTime($user_start, $user_stop) . '<br />';
 echo 'Tempo include specifico ' . executionTime($include_start, $include_stop) . '<br />';
+echo 'Tempo messaggi da leggere ' . executionTime($notification1_start, $notification1_stop) . '<br />';
+echo 'Tempo inviti ' . executionTime($notification2_start, $notification2_stop) . '<br />';
 echo 'Tempo ultimi 4 album ' . executionTime($album_start, $album_stop) . '<br />';
 echo 'Tempo ultimi 3 post ' . executionTime($post_start, $post_stop) . '<br />';
 switch ($type) {
@@ -275,15 +324,18 @@ switch ($type) {
 	echo '<br />----------------------SPOTTER---------------------------<br />';
 	echo 'Tempo ultimi 4 following ' . executionTime($following_start, $following_stop) . '<br />';
 	echo 'Tempo ultimi 4 friends ' . executionTime($friendship_start, $friendship_stop) . '<br />';
+	echo 'Tempo relazioni di interesse ' . executionTime($notification3Spotter_start, $notification3Spotter_stop) . '<br />';
 	break;
     case 'VENUE':
 	echo '<br />----------------------VENUE---------------------------<br />';
 	echo 'Tempo ultimi 4 eventi ' . executionTime($eventVenue_start, $eventVenue_stop) . '<br />';
+	echo 'Tempo relazioni di interesse ' . executionTime($notification3Venue_start, $notification3Venue_stop) . '<br />';
 	break;
     case 'JAMMER':
 	echo '<br />----------------------JAMMER---------------------------<br />';
 	echo 'Tempo ultimi 4 record ' . executionTime($record_start, $record_stop) . '<br />';
 	echo 'Tempo ultimi 4 eventi ' . executionTime($eventJammer_start, $eventJammer_stop) . '<br />';
+	echo 'Tempo relazioni di interesse ' . executionTime($notification3Jammer_start, $notification3Jammer_stop) . '<br />';
 	break;
     default:
 	break;
