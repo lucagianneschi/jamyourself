@@ -1,0 +1,1 @@
+In questa cartella si salvano i thumb delle cover degli Event, generati automaticamente da codice; la property XXX delle istanze della classe Event puntano ad immagini contenute in questa cartella.
