@@ -4,50 +4,60 @@
 
 class ValidateNewUserService {
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//        Funzioni per la validazione del nuovo utente (che è un json)
+//        
+////////////////////////////////////////////////////////////////////////////////  
+
     public static function checkNewUser($user) {
 
-//verifico la presenza dei cambi obbligatori per tutti gli utenti
+//verifico la presenza dei campi obbligatori per tutti gli utenti
         if (is_null($user) ||
-                !is_a($user, "User") ||
-                is_null($user->getUsername()) ||
-                is_null($user->getPassword()) ||
-                is_null($user->getCity()) ||
-                is_null($user->getCountry()) ||
-                is_null($user->getEmail()) ||
-                is_null($user->getType())
+                !isset($user->username) || is_null($user->username) ||
+                !isset($user->password) || is_null($user->password) ||
+                !isset($user->city) || is_null($user->city) ||
+                !isset($user->country) || is_null($user->country) ||
+                !isset($user->email) || is_null($user->email) ||
+                !isset($user->type) || is_null($user->type)
         )
             return false;
 
 //verifico la correttezza dei campi obbligatori per tutti gli utenti
         if (
-                !$this::checkUsername($user->getUsername()) ||
-                !$this::checkPassword($user->getPassword()) ||
-                !$this::checkEmail($user->getEmail())
+                !$this::checkUsername($user->username) ||
+                !$this::checkPassword($user->password) ||
+                !$this::checkEmail($user->email)
         )
             return false;
 
 //verifico i campi specifici per tipologia di utente
 
-        switch ($user->getType()) {
+        switch ($user->type) {
             case "SPOTTER" :
-                return $this::checkNewSpotter();
+                return $this::checkNewSpotter($user);
                 break;
             case "VENUE" :
-                return $this::checkNewVenue();
+                return $this::checkNewVenue($user);
                 break;
             case "JAMMER" :
-                return $this::checkNewJammer();
+                return $this::checkNewJammer($user);
                 break;
             default :
                 return false;
         }
     }
 
+////////////////////////////////////////////////////////////////////////////////
+//
+//        Funzioni per la validazione specifiche per profilo
+//        
+////////////////////////////////////////////////////////////////////////////////  
     private static function checkNewVenue($user) {
         if (
-                is_null($user->getAddress()) ||
-                is_null($user->getDescription()) ||
-                is_null($user->getLocalType())
+                !isset($user->address) || is_null($user->address) ||
+                !isset($user->description) || is_null($user->description) ||
+                !isset($user->localType) || is_null($user->localType)
         )
             return false;
         else
@@ -56,7 +66,7 @@ class ValidateNewUserService {
 
     private static function checkNewSpotter($user) {
         if (
-                is_null($user->getMusic())
+                !isset($user->music) || is_null($user->music)
         )
             return false;
         else
@@ -65,14 +75,21 @@ class ValidateNewUserService {
 
     private static function checkNewJammer($user) {
         if (
-                is_null($user->getDescription()) ||
-                is_null($user->getMusic())
+                !isset($user->description) || is_null($user->description) ||
+                !isset($user->music) || is_null($user->music)
         )
             return false;
         else
             return true;
     }
 
+    
+////////////////////////////////////////////////////////////////////////////////
+//
+//        Funzioni per la validazione specifiche per property
+//        
+//////////////////////////////////////////////////////////////////////////////// 
+    
     private static function checkEmail($email) {
 // First, we check that there's one @ symbol, 
 // and that the lengths are right.
@@ -143,5 +160,20 @@ class ValidateNewUserService {
         }
     }
 
+    private static function checkAddress(){
+        
+    }
+    
+    private static function checkMusic(){
+        
+    }
+    
+    private static function checkDescription(){
+
+    }
+    
+    private static function checkBirthday(){
+        
+    }
 }
 ?>
