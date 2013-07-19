@@ -128,6 +128,18 @@ class ActivityParse {
 	public function orderByDescending($field) {
 		$this->parseQuery->orderByDescending($field);
 	}
+	
+	/**
+	 * \fn		void orWherePointer($value)
+	 * \brief	Sets a condition for which the field in the array $value must value al least one value
+	 * \param	$field	the array representing the field and the value to put in or
+	 */
+	/*
+	public function orWherePointer($value) {
+		$param['where'] = json_encode(array('$or' => $compoundQuery));
+		$this->parseQuery->where($field, $value);
+	}
+	*/
 
 	/**
 	 * \fn		Activity parseToActivity($res)
