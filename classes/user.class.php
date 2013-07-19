@@ -49,6 +49,7 @@ class User {
 	private $friendshipCounter;
 	private $geoCoding;
 	private $images;
+	private $jammerCounter;
 	private $jammerType;
 	private $lastname;
 	private $level;
@@ -70,6 +71,7 @@ class User {
 	private $statuses;
 	private $twitterPage;
 	private $type;
+	private $venueCounter;
 	private $videos;
 	private $website;
 	private $youtubeChannel;
@@ -348,6 +350,14 @@ class User {
 	}
 
 	/**
+	 * \fn		number getJammerCounter()
+	 * \brief	Return the jammer counter, number of Jammer in collaboration
+	 * \return	number
+	 */
+	public function getJammerCounter() {
+		return $this->jammerCounter;
+	}
+	/**
 	 * \fn		string getJammerType()
 	 * \brief	Return the jammer type of the User
 	 * \return	string
@@ -545,6 +555,15 @@ class User {
 		return $this->type;
 	}
 
+	/**
+	 * \fn		number getVenueCounter()
+	 * \brief	Return venue counter, number of venue in collaboration
+	 * \return	number
+	 */
+	public function getVenueCounter() {
+		return $this->venueCounter;
+	}
+	
 	/**
 	 * \fn		array getVideos()
 	 * \brief	Return an array of objectId of the Video related with the User
@@ -872,6 +891,15 @@ class User {
 	}
 
 	/**
+	 * \fn		void setJammerCounter($jammerCounter)
+	 * \brief	Sets the jammer counter 
+	 * \param	number
+	 */
+	public function setJammerCounter($jammerCounter) {
+		$this->jammerCounter = $jammerCounter;
+	}
+	
+	/**
 	 * \fn		void setJammerType($jammerType)
 	 * \brief	Sets the jammer type of the User
 	 * \param	string
@@ -1061,6 +1089,15 @@ class User {
 	}
 
 	/**
+	 * \fn		void setVenueCounter($venueCounter)
+	 * \brief	Sets the venue counter 
+	 * \param	number
+	 */
+	public function setVenueCounter($venueCounter) {
+		$this->venueCounter = $venueCounter;
+	}
+	
+	/**
 	 * \fn		void setVideos($videos)
 	 * \brief	Sets an array of objectId of the Video related with the User
 	 * \param	array
@@ -1232,6 +1269,7 @@ class User {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[image] => NULL<br />';
 		}
+		$string .= '[jammerCounter] => ' . $this->getJammerCounter() . '<br />';
 		$string .= '[jammerType] => ' . $this->getJammerType() . '<br />';
 		$string .= '[lastname] => ' . $this->getLastname() . '<br />';
 		$string .= '[level] => ' . $this->getLevel() . '<br />';
@@ -1312,6 +1350,7 @@ class User {
 		}
 		$string .= '[twitterPage] => ' . $this->getTwitterPage() . '<br />';
 		$string .= '[type] => ' . $this->getType() . '<br />';
+		$string .= '[venueCounter] => ' . $this->getVenueCounter() . '<br />';
 		if (count($this->getVideos()) != 0) {
 			foreach ($this->getVideos() as $video) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
