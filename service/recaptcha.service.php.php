@@ -18,7 +18,7 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:user">API</a>
  */
 
-require_once UTILITY_DIR . 'recaptchalib.php';
+require_once SERVICES_DIR . 'recaptchalib.php';
 
 class Recaptcha {
 
