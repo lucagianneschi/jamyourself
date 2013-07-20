@@ -249,6 +249,7 @@ class UserParse {
 			$user->setFriendshipCounter($res->friendshipCounter);
 			$user->setGeoCoding(fromParseGeoPoint($res->geoCoding));
 			# $user->setImages(fromParseRelation('_User', 'images', $res->objectId, 'Image'));
+			$user->setJammerCounter($res->jammerCounter);
 			$user->setJammerType($res->jammerType);
 			$user->setLastname($res->lastname);
 			$user->setLevel($res->level);
@@ -271,6 +272,7 @@ class UserParse {
 			# $user->setStatuses(fromParseRelation('_User', 'statuses', $res->objectId, 'Status'));
 			$user->setTwitterPage($res->twitterPage);
 			$user->setType($res->type);
+			$user->setVenueCounter($res->venueCounter);
 			# $user->setVideos(fromParseRelation('_User', 'videos', $res->objectId, 'Video'));
 			$user->setWebsite($res->website);
 			$user->setYoutubeChannel($res->youtubeChannel);
@@ -325,6 +327,7 @@ class UserParse {
 			is_null($user->getFriendshipCounter()) ? $parseUser->friendshipCounter = -1 : $parseUser->friendshipCounter = $user->getFriendshipCounter();
 			is_null($user->getGeoCoding()) ? $parseUser->geoCoding = null : $parseUser->geoCoding = toParseGeoPoint($user->getGeoCoding());
 			is_null($user->getImages()) ? $parseUser->images = null : $parseUser->images = toParseAddRelation('Image', $user->getImages());
+			is_null($user->getJammerCounter()) ? $parseUser->jammerCounter = -1 : $parseUser->jammerCounter = $user->getJammerCounter();
 			is_null($user->getJammerType()) ? $parseUser->jammerType = null : $parseUser->jammerType = $user->getJammerType();
 			is_null($user->getLastname()) ? $parseUser->lastname = null : $parseUser->lastname = $user->getLastname();
 			is_null($user->getLevel()) ? $parseUser->level = -1 : $parseUser->level = $user->getLevel();
@@ -348,6 +351,7 @@ class UserParse {
 			is_null($user->getStatuses()) ? $parseUser->statuses = null : $parseUser->statuses = toParseAddRelation('Status', $user->getStatuses());
 			is_null($user->getTwitterPage()) ? $parseUser->twitterPage = null : $parseUser->twitterPage = $user->getTwitterPage();
 			is_null($user->getType()) ? $parseUser->type = null : $parseUser->type = $user->getType();
+			is_null($user->getVenueCounter()) ? $parseUser->venueCounter = -1 : $parseUser->venueCounter = $user->getVenueCounter();
 			is_null($user->getVideos()) ? $parseUser->videos = null : $parseUser->videos = toParseAddRelation('Video', $user->getVideos());
 			is_null($user->getWebsite()) ? $parseUser->website = null : $parseUser->website = $user->getWebsite();
 			is_null($user->getYoutubeChannel()) ? $parseUser->youtubeChannel = null : $parseUser->youtubeChannel = $user->getYoutubeChannel();
