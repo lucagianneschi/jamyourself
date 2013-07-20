@@ -8,6 +8,8 @@ require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once SERVICES_DIR_DIR . 'validateNewUser.service.php';
+require_once SERVICES_DIR_DIR . 'geocoder.service.php';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -24,17 +26,17 @@ class SignupController extends REST {
      * 
      */
     public function init() {
-        
+
         //inizializzo la sessione
         session_start();
 
         if (!isset($_SESSION['currentUser']))
-            //dovrei inizializzarlo vuoto... ma il costruttore non  me lo permette.. :(
+        //dovrei inizializzarlo vuoto... ma il costruttore non  me lo permette.. :(
             $sessionUser = new User("SPOTTER");
-            $sessionUser->setType(null);
-            $_SESSION['currentUser'] = $sessionUser;
-        
-            //return qualcosa se c'è qualcosa da ritornare...
+        $sessionUser->setType(null);
+        $_SESSION['currentUser'] = $sessionUser;
+
+        //return qualcosa se c'è qualcosa da ritornare...
     }
 
     /**
@@ -46,17 +48,10 @@ class SignupController extends REST {
      */
     public function signup() {
 
-// variabili del metodo       
-//        $newUser = null;
-//        $pUser = null;
-//        $user = null;
-//        $activity = null; 
-//        $pActivity = null;
-                
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
-        
+
         //verifico che ci sia il nuovo utente nei paraemtri
         if (!isset($this->request['newUser'])) {
             // If invalid inputs "Bad Request" status message and reason
@@ -65,14 +60,93 @@ class SignupController extends REST {
         }
 
         //recupero l'utente passato come parametro nella request
-        $newUser = $this->request['newUser'];
-        
-        //verifico la validit� dell'utente
-        if ($this->checkUser($newUser) == false) {
+        $userJSON = $this->request['newUser'];
+
+        //creo l'oggetto per la validazione dell'utente
+        $userValidator = new ValidateNewUserService();
+
+        //verifico la validit� dell'utente
+        if ($userValidator->checkUser($userJSON) == false) {
             // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "Invalid new user");
             $this->response($this->json($error), 400);
         }
+
+        //recupero i campi dell'utente
+        switch ($userJSON->type) {
+            case "SPOTTER" :
+                $newUser = new User("SPOTTER");
+                break;
+            case "JAMMER" :
+                $newUser = new User("JAMMER");
+                break;
+            case "VENUE" :
+                $newUser = new User("VENUE");
+                break;
+        }
+
+        //uguali per tutti gli utenti
+        $newUser->setUsername($userJSON->username);
+        $newUser->setPassword($userJSON->password);
+        $newUser->setEmail($userJSON->email);
+
+        //differenziazioni
+        switch ($userJSON->type) {
+            case "SPOTTER" :
+
+                //step 2    
+                if (isset($userJSON->firstname) && !_null($userJSON->firstname))
+                    $newUser->setFirstname($userJSON->firstname);
+                if (isset($userJSON->lastname) && !_null($userJSON->lastname))
+                    $newUser->set($userJSON->lastname);
+                $newUser->setGeoCoding(geocoder::getLocation($userJSON->location));
+                $newUser->set($userJSON->music);
+                //step 3
+                $newUser->setDescription($userJSON->description);
+                $newUser->setSex($userJSON->sex);
+                if (isset($userJSON->birthday) && !_null($userJSON->birthday))
+                    $newUser->setBirthDay(new DateTime($userJSON->birthday->year . " - " . $userJSON->birthday->month . " - " . $userJSON->birthday->day));
+                break;
+            case "JAMMER" :
+                //step 2
+                $newUser->setGeoCoding(geocoder::getLocation($userJSON->location));
+                $newUser->setJammerType($userJSON->location);
+                if (isset($userJSON->members) && !is_null($userJSON->members)) {
+                    $members = array();
+                    foreach ($userJSON->members as $member) {
+                        $members[] = $member;
+                    }
+                }
+                //step 3
+                $newUser->setDescription($userJSON->description);
+                $newUser->set($userJSON->music);
+
+                break;
+            case "VENUE" :
+
+                //step2
+                $venueLocation = $newUser->address . " , " . $newUser->number . " , ";
+                $venueLocation .= $newUser->city + "( " . $newUser->provence . " ) , ";
+                $venueLocation .= $newUser->country;
+                $newUser->setGeoCoding(geocoder::getLocation($venueLocation));
+                //step 3
+                $newUser->setDescription($userJSON->description);
+                $newUser->set($userJSON->music);
+                break;
+        }
+
+        //imposto i parametri social
+        if (isset($userJSON->facebookId) && !is_null($userJSON->facebookId))
+            $newUser->setFacebookId($userJSON->facebookId);
+        if (isset($userJSON->fbPage) && !is_null($userJSON->fbPage))
+            $newUser->setFbPage($userJSON->fbPage);
+        if (isset($userJSON->twitterPage) && !is_null($userJSON->twitterPage))
+            $newUser->setTwitterPage($userJSON->twitterPage);
+//        if (isset($userJSON->gmail) && !_null($userJSON->gmail))$newUser->setGmail($userJSON->gmail); //gmail non era previsto nell'utente.... -.-
+        if (isset($userJSON->youtubeChannel) && !is_null($userJSON->youtubeChannel))
+            $newUser->setYoutubeChannel($userJSON->youtubeChannel);
+        if (isset($userJSON->website) && !is_null($userJSON->website))
+            $newUser->setWebsite($userJSON->website);
 
 
         //tenta di effettuare il salvataggio
@@ -103,5 +177,7 @@ class SignupController extends REST {
         //restituire true o lo user....
         $this->response($this->json(array("OK")), 200);
     }
+
 }
+
 ?>
