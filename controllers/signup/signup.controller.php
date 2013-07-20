@@ -48,10 +48,15 @@ class SignupController extends REST {
      */
     public function signup() {
 
+//        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser']) ||
+//                !isset($_SESSION['recaptcha']) || !$_SESSION['recaptcha']) {
+//            $this->response('', 406);
+//        }
+        
+        //senza captcha:
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
-
         //verifico che ci sia il nuovo utente nei paraemtri
         if (!isset($this->request['newUser'])) {
             // If invalid inputs "Bad Request" status message and reason
@@ -176,6 +181,53 @@ class SignupController extends REST {
         $_SESSION['currentUser'] = $user;
         //restituire true o lo user....
         $this->response($this->json(array("OK")), 200);
+    }
+
+    /**
+     * verifica la correttezza del recaptcha inserito, salva in sessione
+     * il risultato e risponde  alla chiamata con un codice di conferma 
+     * 
+     */
+
+    public function recaptcha() {
+
+        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+            $this->response('', 406);
+        }
+        
+        //verifico che ci sia il codice recaptcha nei parametri
+        if (!isset($this->request['recaptcha'])) {
+            // If invalid inputs "Bad Request" status message and reason
+            $error = array('status' => "Bad Request", "msg" => "No new user specified");
+            $this->response($this->json($error), 400);
+        }
+        
+        //da implementare
+        
+        $this->response($this->json(array("OK")), 200);
+    }
+    
+    
+    /**
+     * 
+     * Permette l'upload dell'immagine dell'utente utilizzando un plugin (plupload?)
+     * 
+     */
+    public function uploaProfileImage(){
+        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+            $this->response('', 406);
+        }
+        
+        //verifico che ci sia il codice recaptcha nei parametri
+//        if (!isset($this->request['recaptcha'])) {
+//            // If invalid inputs "Bad Request" status message and reason
+//            $error = array('status' => "Bad Request", "msg" => "No new user specified");
+//            $this->response($this->json($error), 400);
+//        }
+        
+        //da implementare
+        
+        $this->response($this->json(array("OK")), 200); 
     }
 
 }
