@@ -15,12 +15,11 @@ class ValidateNewUserService {
     public function checkNewUser($user) {
 
 //verifico la presenza dei campi obbligatori per tutti gli utenti
-        if (is_null($user) ||
+        if (
+                is_null($user) ||
                 !isset($user->username) || is_null($user->username) ||
                 !isset($user->password) || is_null($user->password) ||
                 !isset($user->verifyPassword) || is_null($user->verifyPassword) ||
-                !isset($user->city) || is_null($user->city) ||
-                !isset($user->country) || is_null($user->country) ||
                 !isset($user->email) || is_null($user->email) ||
                 !isset($user->type) || is_null($user->type)
         )
