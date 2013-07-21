@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../../');
 
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'userParse.class.php';
@@ -29,8 +29,8 @@ class SignupController extends REST {
         //inizializzo la sessione
         session_start();
 
-        if (!isset($_SESSION['currentUser'])){
-        //dovrei inizializzarlo vuoto... ma il costruttore non  me lo permette.. :(
+        if (!isset($_SESSION['currentUser'])) {
+            //dovrei inizializzarlo vuoto... ma il costruttore non  me lo permette.. :(
             $sessionUser = new User("SPOTTER");
             $sessionUser->setType(null);
             $_SESSION['currentUser'] = $sessionUser;
@@ -59,7 +59,7 @@ class SignupController extends REST {
         if (!isset($this->request['newUser'])) {
             // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "No new user specified");
-            $this->response($this->json($error), 400);
+            $this->response($error, 400);
         }
 
         //recupero l'utente passato come parametro nella request
@@ -72,7 +72,7 @@ class SignupController extends REST {
         if ($userValidator->checkUser($userJSON) == false) {
             // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "Invalid new user");
-            $this->response($this->json($error), 400);
+            $this->response($error, 400);
         }
 
         //recupero i campi dell'utente
@@ -159,7 +159,7 @@ class SignupController extends REST {
         if (is_a($user, "Error")) {
             //result è un errore e contiene il motivo dell'errore
             $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
-            $this->response($this->json($error), 503);
+            $this->response($error, 503);
         }
 
         //se va a buon fine salvo una nuova activity       
@@ -178,7 +178,7 @@ class SignupController extends REST {
         //aggiorno l'oggetto User in sessione
         $_SESSION['currentUser'] = $user;
         //restituire true o lo user....
-        $this->response($this->json(array("OK")), 200);
+        $this->response(array("OK"), 200);
     }
 
     /**
@@ -196,12 +196,12 @@ class SignupController extends REST {
         if (!isset($this->request['recaptcha'])) {
             // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "No new user specified");
-            $this->response($this->json($error), 400);
+            $this->response($error, 400);
         }
 
         //da implementare
 
-        $this->response($this->json(array("OK")), 200);
+        $this->response(array("OK"), 200);
     }
 
     /**
@@ -218,11 +218,78 @@ class SignupController extends REST {
 //        if (!isset($this->request['recaptcha'])) {
 //            // If invalid inputs "Bad Request" status message and reason
 //            $error = array('status' => "Bad Request", "msg" => "No new user specified");
-//            $this->response($this->json($error), 400);
+//            $this->response($error), 400);
 //        }
         //da implementare
 
-        $this->response($this->json(array("OK")), 200);
+        $this->response(array("OK"), 200);
+    }
+
+    /**
+     * Risponde alla chiamata API "checkUsernameExists"
+     * In post riceve:
+     *              username => lo username di cui si verifica l'esistenza
+     */
+    public function checkUsernameExists() {
+        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+            $this->response('', 406);
+        }
+
+        //verifico che ci sia il nuovo utente nei paraemtri
+        if (!isset($this->request['username'])) {
+            // If invalid inputs "Bad Request" status message and reason
+            $error = array('status' => "Bad Request", "msg" => "No username specified");
+            $this->response($error, 400);
+        }
+
+        $username = $this->request['username'];
+        //query per la verifica dello username
+        $up = new UserParse();
+        $up->whereEqualTo("username", $username);
+        $res = $up->getCount();
+
+        if (is_a($res, "Error")) {
+            //result è un errore e contiene il motivo dell'errore
+            $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
+            $this->response($error, 503);
+        }
+
+        //restituisco $res che assume valori 0 o 1
+        $this->response(array($res), 200);
+    }
+
+    /**
+     * Risponde alla chiamata API "checkEmailExists"
+     * In post riceve:
+     *              email => l'email di cui si verifica l'esistenza
+     */
+    public function checkEmailExists() {
+        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+            $this->response('', 406);
+        }
+
+        if (!isset($this->request['email'])) {
+            // If invalid inputs "Bad Request" status message and reason
+            $error = array('status' => "Bad Request", "msg" => "No username specified");
+            $this->response($error, 400);
+        }
+        $email = $this->request['email'];
+        //query per la verifica dell'email
+        $up = new UserParse();
+        $up->whereEqualTo("email", $email);
+        $res = $up->getCount();
+
+        if (is_a($res, "Error")) {
+            //result è un errore e contiene il motivo dell'errore
+            $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
+            $this->response($error, 503);
+        }
+        if ($res == 0)
+        //non esiste
+            $this->response(array(false), 200);
+        else
+        //esiste
+            $this->response(array(true), 200);
     }
 
 }
