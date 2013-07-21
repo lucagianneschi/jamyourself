@@ -129,7 +129,7 @@ class SignupController extends REST {
 
                 //step2
                 $venueLocation = $newUser->address . " , " . $newUser->number . " , ";
-                $venueLocation .= $newUser->city + "( " . $newUser->provence . " ) , ";
+                $venueLocation .= $newUser->city + "( " . $newUser->province . " ) , ";
                 $venueLocation .= $newUser->country;
                 $newUser->setGeoCoding(geocoder::getLocation($venueLocation));
                 //step 3
@@ -284,12 +284,8 @@ class SignupController extends REST {
             $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
             $this->response($error, 503);
         }
-        if ($res == 0)
-        //non esiste
-            $this->response(array(false), 200);
-        else
-        //esiste
-            $this->response(array(true), 200);
+        //restituisco $res che assume valori 0 o 1
+        $this->response(array($res), 200);
     }
 
 }
