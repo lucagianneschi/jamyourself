@@ -9,7 +9,7 @@
 			
 			<div class="row signup-box-image">
 				<div  class="small-3 columns signup-box-avatar">
-					<div class="signup-image"><img src="../images/avatar-signup/spotter.png" style="height: 99px;"/></div>
+					<div class="signup-image"><img src="resources/images/avatar-signup/spotter.png" style="height: 99px;"/></div>
 				</div>
 				<div  class="small-9 columns signup-box-avatar-text">
 					<div class="text grey-light">Drop here an image</div>

@@ -17,8 +17,8 @@
 				<label for="signup-ok-explore">
 					<input name="signup-ok-explore" type="radio" id="signup-ok-explore" class="no-display">
 					<span class="custom radio">
-                                            <img src="../images/avatar-signup/explore.png" class="img-grey "/>
-						<img src="../images/avatar-signup/explore-select.png" class="img-white no-display"/>	
+                                            <img src="resources/images/avatar-signup/explore.png" class="img-grey "/>
+						<img src="resources/images/avatar-signup/explore-select.png" class="img-white no-display"/>	
 						<h3>Explore functionality</h3>
 					</span> 
 				</label>
@@ -26,16 +26,16 @@
 			<div  class="small-4 columns">
 				<label for="signup-ok-checkout">
 					<input name="signup-ok-checkout" type="radio" id="signup-ok-checkout" class="no-display"><span class="custom radio"></span>
-					<img src="../images/avatar-signup/checkout.png" class="img-grey"/>
-					<img src="../images/avatar-signup/checkout-select.png" class="no-display img-white"/>	 
+					<img src="resources/images/avatar-signup/checkout.png" class="img-grey"/>
+					<img src="resources/images/avatar-signup/checkout-select.png" class="no-display img-white"/>	 
 					<h3>Check out the FAQ</h3>
 				</label>		
 			</div>
 			<div  class="small-4 columns">
 				<label for="signup-ok-event">
 					<input name="signup-ok-event" type="radio" id="signup-ok-event" class="no-display"><span class="custom radio"></span>
-					<img src="../images/avatar-signup/event.png" class="img-grey"/> 
-					<img src="../images/avatar-signup/event-select.png" class="no-display img-white"/>
+					<img src="resources/images/avatar-signup/event.png" class="img-grey"/> 
+					<img src="resources/images/avatar-signup/event-select.png" class="no-display img-white"/>
 					<h3>Start create an event</h3>
 				</label>		
 			</div>	

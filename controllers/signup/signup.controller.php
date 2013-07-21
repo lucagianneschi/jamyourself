@@ -4,12 +4,11 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once SERVICES_DIR_DIR . 'validateNewUser.service.php';
-require_once SERVICES_DIR_DIR . 'geocoder.service.php';
+require_once SERVICES_DIR . 'validateNewUser.service.php';
+require_once SERVICES_DIR . 'geocoder.service.php';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -30,12 +29,12 @@ class SignupController extends REST {
         //inizializzo la sessione
         session_start();
 
-        if (!isset($_SESSION['currentUser']))
+        if (!isset($_SESSION['currentUser'])){
         //dovrei inizializzarlo vuoto... ma il costruttore non  me lo permette.. :(
             $sessionUser = new User("SPOTTER");
-        $sessionUser->setType(null);
-        $_SESSION['currentUser'] = $sessionUser;
-
+            $sessionUser->setType(null);
+            $_SESSION['currentUser'] = $sessionUser;
+        }
         //return qualcosa se c'è qualcosa da ritornare...
     }
 
@@ -52,7 +51,6 @@ class SignupController extends REST {
 //                !isset($_SESSION['recaptcha']) || !$_SESSION['recaptcha']) {
 //            $this->response('', 406);
 //        }
-        
         //senza captcha:
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
@@ -188,46 +186,43 @@ class SignupController extends REST {
      * il risultato e risponde  alla chiamata con un codice di conferma 
      * 
      */
-
     public function recaptcha() {
 
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
-        
+
         //verifico che ci sia il codice recaptcha nei parametri
         if (!isset($this->request['recaptcha'])) {
             // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "No new user specified");
             $this->response($this->json($error), 400);
         }
-        
+
         //da implementare
-        
+
         $this->response($this->json(array("OK")), 200);
     }
-    
-    
+
     /**
      * 
      * Permette l'upload dell'immagine dell'utente utilizzando un plugin (plupload?)
      * 
      */
-    public function uploaProfileImage(){
+    public function uploaProfileImage() {
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
-        
+
         //verifico che ci sia il codice recaptcha nei parametri
 //        if (!isset($this->request['recaptcha'])) {
 //            // If invalid inputs "Bad Request" status message and reason
 //            $error = array('status' => "Bad Request", "msg" => "No new user specified");
 //            $this->response($this->json($error), 400);
 //        }
-        
         //da implementare
-        
-        $this->response($this->json(array("OK")), 200); 
+
+        $this->response($this->json(array("OK")), 200);
     }
 
 }

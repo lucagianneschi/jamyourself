@@ -27,7 +27,7 @@
 							<div class="row">
 								<div  class="large-2 columns hide-for-small">
 									<div class="icon-header">
-										<img src="../images/albumcoverthumb/albumThumbnail.jpg">
+										<img src="resources/images/albumcoverthumb/albumThumbnail.jpg">
 									</div>
 								</div>
 								<div  class="large-10 columns ">
@@ -40,7 +40,7 @@
 							<div class="row">
 								<div  class="large-2 columns hide-for-small">
 									<div class="icon-header">
-										<img src="../images/albumcoverthumb/albumThumbnail2.jpg">
+										<img src="resources/images/albumcoverthumb/albumThumbnail2.jpg">
 									</div>
 								</div>
 								<div  class="large-10 columns">
@@ -53,7 +53,7 @@
 							<div class="row">
 								<div  class="large-2 columns hide-for-small">
 									<div class="icon-header">
-										<img src="../images/albumcoverthumb/albumThumbnail2.jpg">
+										<img src="resources//images/albumcoverthumb/albumThumbnail2.jpg">
 									</div>
 								</div>
 								<div  class="large-10 columns">
@@ -66,7 +66,7 @@
 							<div class="row">
 								<div  class="large-2 columns hide-for-small">
 									<div class="icon-header">
-										<img src="../images/albumcoverthumb/albumThumbnail.jpg">
+										<img src="resources//images/albumcoverthumb/albumThumbnail.jpg">
 									</div>
 								</div>
 								<div  class="large-10 columns">
@@ -79,7 +79,7 @@
 							<div class="row">
 								<div  class="large-2 columns hide-for-small">
 									<div class="icon-header">
-										<img src="../images/albumcoverthumb/albumThumbnail.jpg">
+										<img src="resources//images/albumcoverthumb/albumThumbnail.jpg">
 									</div>
 								</div>
 								<div  class="large-10 columns">
@@ -96,7 +96,7 @@
 							<div class="row">
 								<div  class="large-2 columns hide-for-small">
 									<div class="icon-header">
-										<img src="../images/albumcoverthumb/albumThumbnail.jpg">
+										<img src="resources//images/albumcoverthumb/albumThumbnail.jpg">
 									</div>
 								</div>
 								<div  class="large-10 columns">
@@ -109,7 +109,7 @@
 							<div class="row">
 								<div  class="large-2 columns hide-for-small">
 									<div class="icon-header">
-										<img src="../images/albumcoverthumb/albumThumbnail2.jpg">
+										<img src="resources//images/albumcoverthumb/albumThumbnail2.jpg">
 									</div>
 								</div>
 								<div  class="large-10 columns">
@@ -146,7 +146,7 @@
 			<div class="row">
 				<div  class="large-1 columns hide-for-small">
 					<div class="icon-header">
-						<img src="../images/avatarthumb/images.jpg">
+						<img src="resources//images/avatarthumb/images.jpg">
 					</div>
 				</div>
 				<div  class="large-11 columns">
@@ -159,7 +159,7 @@
 			<div class="row">
 				<div  class="large-1 columns hide-for-small">
 					<div class="icon-header">
-						<img src="../images/avatarthumb/photo2.jpg">
+						<img src="resources//images/avatarthumb/photo2.jpg">
 					</div>
 				</div>
 				<div  class="large-11 columns">
@@ -172,7 +172,7 @@
 			<div class="row">
 				<div  class="large-1 columns hide-for-small">
 					<div class="icon-header">
-						<img src="../images/avatarthumb/photo2.jpg">
+						<img src="resources//images/avatarthumb/photo2.jpg">
 					</div>
 				</div>
 				<div  class="large-11 columns">
@@ -185,7 +185,7 @@
 			<div class="row">
 				<div  class="large-1 columns hide-for-small">
 					<div class="icon-header">
-						<img src="../images/avatarthumb/photo2.jpg">
+						<img src="resources/images/avatarthumb/photo2.jpg">
 					</div>
 				</div>
 				<div  class="large-11 columns">
@@ -198,7 +198,7 @@
 			<div class="row">
 				<div  class="large-1 columns hide-for-small">
 					<div class="icon-header">
-						<img src="../images/avatarthumb/photo2.jpg">
+						<img src="resources//images/avatarthumb/photo2.jpg">
 					</div>
 				</div>
 				<div  class="large-11 columns">
@@ -228,7 +228,7 @@
 						<div class="icon-header _menu" onClick="headerShow()"></div>
 						<!------------------------------------- thumbnail album ----------------------------->			
 						<div class="icon-header  hide-for-small">
-							<img src="../images/albumcoverthumb/albumThumbnail.jpg">
+							<img src="resources/images/albumcoverthumb/albumThumbnail.jpg">
 						</div>				
 					
 						<!------------------------------------- PLAYER ----------------------------->
@@ -261,7 +261,7 @@
 				<!------------------------------------- LOGO --------------------------------------------->
 				<div class="small-2 columns hide-for-small logo">				
 					<div id="logo">
-						 <img src="../images/logo.png">
+						 <img src="resources/images/logo.png">
 						
 					</div>					
 				</div>

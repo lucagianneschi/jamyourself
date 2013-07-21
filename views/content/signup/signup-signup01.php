@@ -51,7 +51,7 @@
 						 
 						<?php
 							
-							require_once UTILITY_DIR.'recaptcha.class.php';
+							require_once SERVICES_DIR.'recaptcha.service.php';
 							$captch = new Recaptcha();
 							echo $captch->getRecaptchaHtml();
 							  

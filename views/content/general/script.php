@@ -2,18 +2,18 @@
 <!--   *** JQUERY *** -->
 	<script>
 		document.write('<script src=' +
-		('__proto__' in {} ? '../javascripts/vendor/zepto' : '../javascripts/vendor/jquery') +
+		('__proto__' in {} ? 'resources/javascripts/plugins/vendor/zepto' : 'resources/javascripts/plugins/vendor/jquery') +
 		'.js><\/script>')
 	</script>
-	<script src="../javascripts/jquery/jquery-1.8.3.min.js"></script>
-	<script src="../javascripts/jquery/jquery.easing.1.3.js"></script>
+	<script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
+	<script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <!--   /// JQUERY /// -->
 
-<script src="../javascripts/foundation/foundation.js"></script>
-<script src="../javascripts/foundation/foundation.section.js"></script>
-<script src="../javascripts/foundation/foundation.clearing.js"></script>
-<script src="../javascripts/foundation/foundation.reveal.js"></script>
+<script src="resources/javascripts/plugins/foundation/foundation.js"></script>
+<script src="resources/javascripts/plugins/foundation/foundation.section.js"></script>
+<script src="resources/javascripts/plugins/foundation/foundation.clearing.js"></script>
+<script src="resources/javascripts/plugins/foundation/foundation.reveal.js"></script>
 <!--
 <script src="javascripts/foundation/foundation.alerts.js"></script>
 
@@ -34,8 +34,8 @@ $(document).foundation();
 </script>
 
 <!----------- JAMYOURSELF --------------->
-<script type="text/javascript" src="../javascripts/utilities/layout.js"></script>
-<script type="text/javascript" src="../javascripts/utilities/player.js"></script>
-<script src="../javascripts/utilities/signup.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
+<script src="resources/javascripts/customs/signup.js"></script>
 <!----------- plugin nicescroll ---------->
-<script type="text/javascript" src="../javascripts/nicescroll/jquery.nicescroll.js"></script>	
+<script type="text/javascript" src="resources/javascripts/plugins/nicescroll/jquery.nicescroll.js"></script>	

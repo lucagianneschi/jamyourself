@@ -5,8 +5,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'signup/signup.controller.php';
 
-session_start();
-
 $sc = new SignupController();
 $sc->init();
 ?>
@@ -18,24 +16,24 @@ $sc->init();
 
         <title>Jamyourself</title>
         <!-------------------------- METADATI --------------------------->
-        <?php require_once(VIEW_DIR . "content/general/meta.php"); ?>
+        <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
 
     </head>
 
     <body>
 
         <!-------------------------- HEADER --------------------------->
-        <?php require_once(VIEW_DIR . 'content/general/header.php'); ?>
+        <?php require_once(VIEWS_DIR . 'content/general/header.php'); ?>
 
         <!-------------------------- BODY --------------------------->
         <div class="body-content">
-            <?php require_once(VIEW_DIR . 'content/signup/signup-main.php'); ?>
+            <?php require_once(VIEWS_DIR . 'content/signup/signup-main.php'); ?>
         </div>
         <!-------------------------- FOOTER --------------------------->
-        <?php require_once(VIEW_DIR . 'content/general/footer.php'); ?>	
+        <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
 
         <!-------------------------- SCRIPT --------------------------->
-        <?php require_once(VIEW_DIR . "content/general/script.php"); ?>
+        <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
     </body>
 
 </html>

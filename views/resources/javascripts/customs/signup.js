@@ -1,86 +1,3 @@
-function signup() {
-    //recupero tutti i campi che l'utente
-    //ha inizializzato nel form
-    var newUser = getFormFieldValues();
-
-    var json_signup = {};
-    json_signup.request = "signup";
-    json_signup.newUser = newUser;
-
-    $.ajax({
-        type: "POST",
-        url: "../controllers/signupRequest.php",
-        data: json_signup,
-        async: false,
-        "beforeSend": function(xhr) {
-            xhr.setRequestHeader("X-AjaxRequest", "1");
-        },
-        success: function(data, status) {
-            console.log("[onLoad] [SUCCESS] Status: " + status);
-        },
-        error: function(data, status) {
-            console.log("[onLoad] [ERROR] Status: " + status);
-        }
-    });
-
-}
-
-function uploadProfileImage() {
-
-}
-
-
-function getFormFieldValues() {
-    var user = {};
-
-    user.username = $("#username").val().length >0 ? $('#username').val() : null;
-    user.password = '';
-    user.verifyPassword = '';
-    user.email = '';
-    user.type = '';
-    user.fbPage = '';
-    user.twitterPage = '';
-    user.youtubeChannel = '';
-
-    switch (user.type) {
-        case "JAMMER" :
-            user.jammerType = '';
-            user.description = '';
-            user.music = '';
-            user.location = '';
-            user.location = '';
-            user.members = '';
-            break;
-        case "SPOTTER":
-            user.music = '';
-            user.description = '';
-            user.firstname = '';
-            user.lastname = '';
-            user.location = '';
-            user.sex = '';
-            user.birthday = '';
-            user.facebookId = '';
-            break;
-        case "VENUE":
-            user.country = '';
-            user.city = '';
-            user.provence = '';
-            user.address = '';
-            user.number = '';
-            user.description = '';
-            user.localType = '';
-            break;
-
-
-    }
-
-    return user;
-}
-
-function verifyCaptcha() {
-
-}
-
 $(document).ready(function() {
 // ----------------------------- SCELTA TIPO UTENTE ----------------------	
     $('#signup01 label').click(function() {
@@ -402,3 +319,95 @@ $(document).ready(function() {
 
     //----------------------------------- FINE SIGNUP -----------------------------------
 });
+
+
+//---------------------------------- STEFANO ---------------------------------------------//
+
+function signup() {
+    //recupero tutti i campi che l'utente
+    //ha inizializzato nel form
+    var newUser = getFormFieldValues();
+
+    var json_signup = {};
+    json_signup.request = "signup";
+    json_signup.newUser = newUser;
+
+    $.ajax({
+        type: "POST",
+        url: "../controllers/signupRequest.php",
+        data: json_signup,
+        async: false,
+        "beforeSend": function(xhr) {
+            xhr.setRequestHeader("X-AjaxRequest", "1");
+        },
+        success: function(data, status) {
+            console.log("[onLoad] [SUCCESS] Status: " + status);
+        },
+        error: function(data, status) {
+            console.log("[onLoad] [ERROR] Status: " + status);
+        }
+    });
+
+}
+
+function uploadProfileImage() {
+
+}
+
+
+function getFormFieldValues() {
+    var user = {};
+
+    user.username = $("#username").val().length >0 ? $('#username').val() : null;
+    user.password = '';
+    user.verifyPassword = '';
+    user.email = '';
+    user.type = '';
+    user.fbPage = '';
+    user.twitterPage = '';
+    user.youtubeChannel = '';
+
+    switch (user.type) {
+        case "JAMMER" :
+            user.jammerType = '';
+            user.description = '';
+            user.music = '';
+            user.location = '';
+            user.location = '';
+            user.members = '';
+            break;
+        case "SPOTTER":
+            user.music = '';
+            user.description = '';
+            user.firstname = '';
+            user.lastname = '';
+            user.location = '';
+            user.sex = '';
+            
+            var birtdhay = {}; 
+            birtdhay.year = '';
+            birtdhay.month = '';
+            birtdhay.day = '';
+            
+            user.birthday = birtdhay;
+            user.facebookId = '';
+            break;
+        case "VENUE":
+            user.country = '';
+            user.city = '';
+            user.provence = '';
+            user.address = '';
+            user.number = '';
+            user.description = '';
+            user.localType = '';
+            break;
+
+
+    }
+
+    return user;
+}
+
+function verifyCaptcha() {
+
+}
