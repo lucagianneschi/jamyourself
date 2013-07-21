@@ -319,18 +319,30 @@ $(document).ready(function() {
 
     //----------------------------------- FINE SIGNUP -----------------------------------
 
-    $('#signup01-username').blur(function() {
+    //---------------------------------- STEFANO (was here) ---------------------------------------------//
 
-        var us = $(this).val();
-        console.log("[onblur username] val: " + us);
-        checkUsernameExists(us);
+    //imposto un event-handler per la password e la email onblur:
+    $('#signup01-username').blur(function() {
+        checkUsernameExists($(this).val());
     });
 
+    $('#signup01-mail').blur(function() {
+        checkEmailExists($(this).val());
+    });
+
+    $('#spotter-signup03-next, #jammer-signup03-next, #venue-signup03-next').click(function() {
+        var nuovoUtente = getFormFieldValues();
+        console.debug(nuovoUtente);
+    });
 });
 
 
-//---------------------------------- STEFANO ---------------------------------------------//
 
+/**
+ * Da chiamare al momento dell'esecuzione effettiva 
+ * della registrazione (onClick "complete")
+ * 
+ */
 function signup() {
     //recupero tutti i campi che l'utente
     //ha inizializzato nel form
@@ -358,69 +370,73 @@ function signup() {
 
 }
 
-function uploadProfileImage() {
-
-}
-
-
+/**
+ * Recupera i valori dei campi del form d'iscrizione
+ */
 function getFormFieldValues() {
     var user = {};
-
-    user.username = $("#username").val().length > 0 ? $('#username').val() : null;
-    user.password = '';
-    user.verifyPassword = '';
-    user.email = '';
-    user.type = '';
-    user.fbPage = '';
-    user.twitterPage = '';
-    user.youtubeChannel = '';
+    user.username = $("#signup01-username").val()? $("#signup01-username").val() : null;
+    user.email = $("#signup01-mail").val()? $("#signup01-mail").val() : null;
+    user.password = $("#signup01-password").val()? $("#signup01-password").val() : null;
+    user.verifyPassword = $("#signup01-verifyPassword").val()? $("#signup01-verifyPassword").val() : null;
+    user.type = $('#signup01 label').attr('for').toUpperCase();
 
     switch (user.type) {
         case "JAMMER" :
-            user.jammerType = '';
-            user.description = '';
-            user.music = '';
-            user.location = '';
-            user.location = '';
+            user.jammerType = $("#jammerType").val()? $().val() : null;
+            user.description = $("#jammer-description").val()? $("#jammer-description").val() : null;
+            user.music = "";
+            user.location = $("#jammer-location").val()? $("#jammer-location").val() : null;
             user.members = '';
+            user.fbPage = $("#jammer-facebook").val()? $("#-facebook").val() : null;
+            user.twitterPage = $("#jammer-twitter").val()? $("#-twitter").val() : null;
+            user.youtubeChannel = $("#jammer-youtube").val()? $("#-youtube").val() : null;
+            user.google = $("#jammer-google").val()? $("#-google").val() : null;
             break;
         case "SPOTTER":
-            user.music = '';
-            user.description = '';
-            user.firstname = '';
-            user.lastname = '';
-            user.location = '';
-            user.sex = '';
+            user.music = "";
+            user.description = $("#spotter-description").val()? $().val() : null;
+            user.firstname = $("#spotter-firstname").val()? $().val() : null;
+            user.lastname = $("#spotter-lastname").val()? $().val() : null;
+            user.location = $("#spotter-location").val()? $().val() : null;
+            user.sex = "";
 
             var birtdhay = {};
-            birtdhay.year = '';
-            birtdhay.month = '';
-            birtdhay.day = '';
+            birtdhay.year = $("#spotter-birth-year").val()? $().val() : null;
+            birtdhay.month = $("#spotter-birth-month").val()? $().val() : null;
+            birtdhay.day = $("#spotter-birth-day").val()? $().val() : null;
 
             user.birthday = birtdhay;
-            user.facebookId = '';
+            //user.facebookId = $("#").val()? $().val() : null;
+
+            user.fbPage = $("#spotter-facebook").val()? $("#-facebook").val() : null;
+            user.twitterPage = $("#spotter-twitter").val()? $("#-twitter").val() : null;
+            user.youtubeChannel = $("#spotter-youtube").val()? $("#-youtube").val() : null;
+            user.google = $("#spotter-google").val()? $("#-google").val() : null;
             break;
         case "VENUE":
-            user.country = '';
-            user.city = '';
-            user.provence = '';
-            user.address = '';
-            user.number = '';
-            user.description = '';
-            user.localType = '';
+            user.country = $("#venue-country").val()? $().val() : null;
+            user.city = $("#venue-city").val()? $().val() : null;
+            user.province = $("#venue-province").val()? $().val() : null;
+            user.address = $("#venue-adress").val()? $().val() : null;
+            user.number = $("#venue-number").val()? $().val() : null;
+            user.description = $("#venue-description").val()? $().val() : null;
+            user.localType = "";
+
+            user.fbPage = $("#venue-facebook").val()? $("#-facebook").val() : null;
+            user.twitterPage = $("#venue-twitter").val()? $("#-twitter").val() : null;
+            user.youtubeChannel = $("#venue-youtube").val()? $("#-youtube").val() : null;
+            user.google = $("#venue-google").val()? $("#-google").val() : null;
             break;
-
-
     }
 
     return user;
 }
 
-function verifyCaptcha() {
 
-}
-
-
+/**
+ * Verifica se l'email inserita dall'utente esiste gia'
+ */
 function checkEmailExists(email) {
     var json_email = {};
     json_email.request = "checkEmailExists";
@@ -451,6 +467,9 @@ function checkEmailExists(email) {
     });
 }
 
+/**
+ * Verifica se lo username inserito dall'utente esiste gia'
+ */
 function checkUsernameExists(username) {
     var json_username = {};
     json_username.request = "checkUsernameExists";
