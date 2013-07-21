@@ -318,6 +318,14 @@ $(document).ready(function() {
     });
 
     //----------------------------------- FINE SIGNUP -----------------------------------
+
+    $('#signup01-username').blur(function() {
+
+        var us = $(this).val();
+        console.log("[onblur username] val: " + us);
+        checkUsernameExists(us);
+    });
+
 });
 
 
@@ -334,7 +342,7 @@ function signup() {
 
     $.ajax({
         type: "POST",
-        url: "../controllers/signupRequest.php",
+        url: "../controllers/signup/signupRequest.php",
         data: json_signup,
         async: false,
         "beforeSend": function(xhr) {
@@ -358,7 +366,7 @@ function uploadProfileImage() {
 function getFormFieldValues() {
     var user = {};
 
-    user.username = $("#username").val().length >0 ? $('#username').val() : null;
+    user.username = $("#username").val().length > 0 ? $('#username').val() : null;
     user.password = '';
     user.verifyPassword = '';
     user.email = '';
@@ -383,12 +391,12 @@ function getFormFieldValues() {
             user.lastname = '';
             user.location = '';
             user.sex = '';
-            
-            var birtdhay = {}; 
+
+            var birtdhay = {};
             birtdhay.year = '';
             birtdhay.month = '';
             birtdhay.day = '';
-            
+
             user.birthday = birtdhay;
             user.facebookId = '';
             break;
@@ -410,4 +418,64 @@ function getFormFieldValues() {
 
 function verifyCaptcha() {
 
+}
+
+
+function checkEmailExists(email) {
+    var json_email = {};
+    json_email.request = "checkEmailExists";
+    json_email.email = email; //recupero il valore della email o lo passo come parametro
+
+    $.ajax({
+        type: "POST",
+        url: "../controllers/signup/signupRequest.php",
+        data: json_email,
+        async: true, //mettiamo asincrone se no si blocca la pagina...
+        "beforeSend": function(xhr) {
+            xhr.setRequestHeader("X-AjaxRequest", "1");
+        },
+        success: function(data, status) {
+//            console.log("[onLoad] [SUCCESS] Data: " + data);
+//            console.log("[onLoad] [SUCCESS] Status: " + status);
+            if (data == 1) {
+                //gestire in qualche modo la segnalazione all'utente
+                alert("Email already exists!");
+            }
+            else {
+                //email va bene
+            }
+        },
+        error: function(data, status) {
+//            console.log("[onLoad] [ERROR] Status: " + status);
+        }
+    });
+}
+
+function checkUsernameExists(username) {
+    var json_username = {};
+    json_username.request = "checkUsernameExists";
+    json_username.username = username; //recupero il valore della email o lo passo come parametro
+
+    $.ajax({
+        type: "POST",
+        url: "../controllers/signup/signupRequest.php",
+        data: json_username,
+        async: true, //mettiamo asincrone se no si blocca la pagina...
+        "beforeSend": function(xhr) {
+            xhr.setRequestHeader("X-AjaxRequest", "1");
+        },
+        success: function(data, status) {
+//            console.log("[onLoad] [SUCCESS] Data: " + data);
+//            console.log("[onLoad] [SUCCESS] Status: " + status);
+            if (data == 1) {
+                //gestire in qualche modo la segnalazione all'utente
+                alert("Username already taken!");
+            } else {
+                //username va bene
+            }
+        },
+        error: function(data, status) {
+//            console.log("[onLoad] [ERROR] Status: " + status);
+        }
+    });
 }
