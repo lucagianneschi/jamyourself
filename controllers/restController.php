@@ -119,7 +119,7 @@ class REST {
     }
 
     public function processApi() {
-        $func = strtolower(trim(str_replace("/", "", $_REQUEST['rquest'])));
+        $func = strtolower(trim(str_replace("/", "", $_REQUEST['request'])));
         if ((int) method_exists($this, $func) > 0)
             $this->$func();
         else
@@ -130,7 +130,7 @@ class REST {
      * 	Encode array into JSON
      */
 
-    private function json($data) {
+    public function json($data) {
         if (is_array($data)) {
             return json_encode($data);
         }
