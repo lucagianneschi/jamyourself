@@ -48,6 +48,7 @@ class User {
 	private $friendship;
 	private $friendshipCounter;
 	private $geoCoding;
+	private $googlePlusPage;
 	private $images;
 	private $jammerCounter;
 	private $jammerType;
@@ -349,6 +350,15 @@ class User {
 		return $this->geoCoding;
 	}
 
+	/**
+	 * \fn		string getGooglePlusPage()
+	 * \brief	Return the googlePlus page link of the User
+	 * \return	string
+	 */
+	public function getGooglePlusPage() {
+		return $this->googlePlusPage;
+	}
+	
 	/**
 	 * \fn		number getJammerCounter()
 	 * \brief	Return the jammer counter, number of Jammer in collaboration
@@ -882,6 +892,15 @@ class User {
 	}
 
 	/**
+	 * \fn		void setGooglePlusPage($googlePlusPage)
+	 * \brief	Sets the google plus page link of the User
+	 * \param	string
+	 */
+	public function setGooglePlusPage($googlePlusPage) {
+		$this->googlePlusPage = $googlePlusPage;
+	}
+	
+	/**
 	 * \fn		void setImages($images)
 	 * \brief	Sets an array of objectId of the Image related with the User
 	 * \param	array
@@ -1254,6 +1273,7 @@ class User {
 			$string .= '[friendship] => NULL<br />';
 		}
 		$string .= '[friendshipCounter] => ' . $this->getFriendshipCounter() . '<br />';
+		$string .= '[googlePlusPage] => ' . $this->getGooglePlusPage() . '<br />';
 		if ($this->getGeoCoding() != null) {
 			$geoCoding = $this->getGeoCoding();
 			$string .= '[geoCoding] => ' . $geoCoding->lat . ', ' . $geoCoding->long . '<br />';

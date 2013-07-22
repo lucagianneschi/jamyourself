@@ -45,6 +45,7 @@ $user->setFollowersCounter(666);
 $user->setFollowingCounter(666);
 $user->setFriendshipCounter(666);
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
+$user->setGooglePlusPage('Una pagina Google Plus');
 $user->setGeoCoding($parseGeoPoint);
 //$user->setImages();
 $user->setJammerCounter(6665665656);

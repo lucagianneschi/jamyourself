@@ -247,6 +247,7 @@ class UserParse {
 			$user->setFollowingCounter($res->followingCounter);
 			# $user->setFriendship(fromParseRelation('_User', 'friendship', $res->objectId, '_User'));
 			$user->setFriendshipCounter($res->friendshipCounter);
+			$user->setGooglePlusPage($res->googlePlusPage);
 			$user->setGeoCoding(fromParseGeoPoint($res->geoCoding));
 			# $user->setImages(fromParseRelation('_User', 'images', $res->objectId, 'Image'));
 			$user->setJammerCounter($res->jammerCounter);
@@ -325,6 +326,7 @@ class UserParse {
 			is_null($user->getFollowingCounter()) ? $parseUser->followingCounter = -1 : $parseUser->followingCounter = $user->getFollowingCounter();
 			is_null($user->getFriendship()) ? $parseUser->friendship = null : $parseUser->friendship = toParseAddRelation('_User', $user->getFriendship());
 			is_null($user->getFriendshipCounter()) ? $parseUser->friendshipCounter = -1 : $parseUser->friendshipCounter = $user->getFriendshipCounter();
+			is_null($user->getGooglePlusPage()) ? $parseUser->googlePlusPage = null : $parseUser->googlePlusPage = $user->getGooglePlusPage();
 			is_null($user->getGeoCoding()) ? $parseUser->geoCoding = null : $parseUser->geoCoding = toParseGeoPoint($user->getGeoCoding());
 			is_null($user->getImages()) ? $parseUser->images = null : $parseUser->images = toParseAddRelation('Image', $user->getImages());
 			is_null($user->getJammerCounter()) ? $parseUser->jammerCounter = -1 : $parseUser->jammerCounter = $user->getJammerCounter();
