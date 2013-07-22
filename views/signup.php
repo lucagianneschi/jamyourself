@@ -7,6 +7,10 @@ require_once CONTROLLERS_DIR . 'signup/signup.controller.php';
 
 $sc = new SignupController();
 $sc->init();
+
+//recupero la chiave pubblica del captcha dalla sessione
+$captchaPublicKey = $_SESSION['captchaPublicKey'];
+
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->

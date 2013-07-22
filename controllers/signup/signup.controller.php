@@ -9,12 +9,17 @@ require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'validateNewUser.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
+require_once SERVICES_DIR . 'recaptcha.lib.php';
 
 ////////////////////////////////////////////////////////////////////////////////
 //
 // DEFINIZIONE DELLE FUNZIONI DEL CONTROLLER PER LA REGISTRAZIONE
 //  
 //////////////////////////////////////////////////////////////////////////////// 
+
+//Domain Name:	socialmusicdiscovering.com
+define("CAPTCHA_PUBLIC_KEY","6LfMnNcSAAAAABls9QS4oPvL86A0RzstkhSFWKud");
+define("CAPTCHA_PRIVATE_KEY","6LfMnNcSAAAAAKYZCjSxFXMpTTYeclVzAsuke0Vu");
 
 class SignupController extends REST {
 
@@ -34,6 +39,11 @@ class SignupController extends REST {
             $sessionUser = new User("SPOTTER");
             $sessionUser->setType(null);
             $_SESSION['currentUser'] = $sessionUser;
+            
+            //passo la chiave pubblica del captcha qua
+            $_SESSION['captchaPublicKey'] = CAPTCHA_PUBLIC_KEY;
+            $_SESSION['captchaValidation'] = false;
+            
         }
         //return qualcosa se c'è qualcosa da ritornare...
     }
@@ -55,6 +65,14 @@ class SignupController extends REST {
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
+        
+        //verifico che l'utente abbia effettivamente completato il captcha
+        if($_SESSION['captchaValidation'] == false){
+              // If invalid inputs "Bad Request" status message and reason
+            $error = array('status' => "Bad Request", "msg" => "Captcha test failed");
+            $this->response($error, 400);          
+        }
+        
         //verifico che ci sia il nuovo utente nei paraemtri
         if (!isset($this->request['newUser'])) {
             // If invalid inputs "Bad Request" status message and reason
@@ -145,11 +163,27 @@ class SignupController extends REST {
             $newUser->setFbPage($userJSON->fbPage);
         if (isset($userJSON->twitterPage) && !is_null($userJSON->twitterPage))
             $newUser->setTwitterPage($userJSON->twitterPage);
-//        if (isset($userJSON->gmail) && !_null($userJSON->gmail))$newUser->setGmail($userJSON->gmail); //gmail non era previsto nell'utente.... -.-
+        if (isset($userJSON->google) && !_null($userJSON->google))
+            $newUser->setGooglePlusPage($userJSON->google);
         if (isset($userJSON->youtubeChannel) && !is_null($userJSON->youtubeChannel))
             $newUser->setYoutubeChannel($userJSON->youtubeChannel);
         if (isset($userJSON->website) && !is_null($userJSON->website))
             $newUser->setWebsite($userJSON->website);
+
+//imposto i parametri di Jam
+//        $newUser->setAuthData($authData);
+        $newUser->setActive(true);
+//        $newUser->setBackground();
+        $newUser->setCollaborationCounter(0);
+        $newUser->setFollowersCounter(0);
+        $newUser->setFollowingCounter(0);
+        $newUser->setFriendshipCounter(0);
+        $newUser->setJammerCounter(0);
+        $newUser->setLevel(0);
+        $newUser->setLevelValue(1);
+        $newUser->setPremium(false);
+        $newUser->setSettings(defineSettings($newUser->getType(), $userJSON->language, $userJSON->localTime, $newUser->getProfilePicture()));
+        $newUser->setVenueCounter(0);
 
 
         //tenta di effettuare il salvataggio
@@ -193,15 +227,26 @@ class SignupController extends REST {
         }
 
         //verifico che ci sia il codice recaptcha nei parametri
-        if (!isset($this->request['recaptcha'])) {
+        if (!isset($this->request['recaptcha']) || !isset($this->request['responseField']) ||
+                !isset($this->request['challengeField'])) {
             // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "No new user specified");
             $this->response($error, 400);
         }
+        $challengeField = $this->request['challengeField'];
+        $responseField = $this->request['responseField'];
 
         //da implementare
 
-        $this->response(array("OK"), 200);
+        $resp = recaptcha_check_answer(CAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $challengeField, $responseField);
+
+        if ($resp->is_valid) {
+            $_SESSION['captchaValidation'] = true;
+            $this->response(array("success"), 200);
+        } else {
+            $this->response(array("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
+                "(reCAPTCHA said: " . $resp->error . ")"), 200);
+        }
     }
 
     /**

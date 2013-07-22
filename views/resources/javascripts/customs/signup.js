@@ -321,6 +321,10 @@ $(document).ready(function() {
 
     //---------------------------------- STEFANO (was here) ---------------------------------------------//
 
+
+    //chiamata stile captcha
+//    var RecaptchaOptions = { theme: "red" };
+
     //imposto un event-handler per la password e la email onblur:
     $('#signup01-username').blur(function() {
         checkUsernameExists($(this).val());
@@ -375,58 +379,58 @@ function signup() {
  */
 function getFormFieldValues() {
     var user = {};
-    user.username = $("#signup01-username").val()? $("#signup01-username").val() : null;
-    user.email = $("#signup01-mail").val()? $("#signup01-mail").val() : null;
-    user.password = $("#signup01-password").val()? $("#signup01-password").val() : null;
-    user.verifyPassword = $("#signup01-verifyPassword").val()? $("#signup01-verifyPassword").val() : null;
+    user.username = $("#signup01-username").val() ? $("#signup01-username").val() : null;
+    user.email = $("#signup01-mail").val() ? $("#signup01-mail").val() : null;
+    user.password = $("#signup01-password").val() ? $("#signup01-password").val() : null;
+    user.verifyPassword = $("#signup01-verifyPassword").val() ? $("#signup01-verifyPassword").val() : null;
     user.type = $('#signup01 label').attr('for').toUpperCase();
 
     switch (user.type) {
         case "JAMMER" :
-            user.jammerType = $("#jammerType").val()? $().val() : null;
-            user.description = $("#jammer-description").val()? $("#jammer-description").val() : null;
+            user.jammerType = $("#jammerType").val() ? $().val() : null;
+            user.description = $("#jammer-description").val() ? $("#jammer-description").val() : null;
             user.music = "";
-            user.location = $("#jammer-location").val()? $("#jammer-location").val() : null;
+            user.location = $("#jammer-location").val() ? $("#jammer-location").val() : null;
             user.members = '';
-            user.fbPage = $("#jammer-facebook").val()? $("#-facebook").val() : null;
-            user.twitterPage = $("#jammer-twitter").val()? $("#-twitter").val() : null;
-            user.youtubeChannel = $("#jammer-youtube").val()? $("#-youtube").val() : null;
-            user.google = $("#jammer-google").val()? $("#-google").val() : null;
+            user.fbPage = $("#jammer-facebook").val() ? $("#-facebook").val() : null;
+            user.twitterPage = $("#jammer-twitter").val() ? $("#-twitter").val() : null;
+            user.youtubeChannel = $("#jammer-youtube").val() ? $("#-youtube").val() : null;
+            user.google = $("#jammer-google").val() ? $("#-google").val() : null;
             break;
         case "SPOTTER":
             user.music = "";
-            user.description = $("#spotter-description").val()? $().val() : null;
-            user.firstname = $("#spotter-firstname").val()? $().val() : null;
-            user.lastname = $("#spotter-lastname").val()? $().val() : null;
-            user.location = $("#spotter-location").val()? $().val() : null;
+            user.description = $("#spotter-description").val() ? $().val() : null;
+            user.firstname = $("#spotter-firstname").val() ? $().val() : null;
+            user.lastname = $("#spotter-lastname").val() ? $().val() : null;
+            user.location = $("#spotter-location").val() ? $().val() : null;
             user.sex = "";
 
             var birtdhay = {};
-            birtdhay.year = $("#spotter-birth-year").val()? $().val() : null;
-            birtdhay.month = $("#spotter-birth-month").val()? $().val() : null;
-            birtdhay.day = $("#spotter-birth-day").val()? $().val() : null;
+            birtdhay.year = $("#spotter-birth-year").val() ? $().val() : null;
+            birtdhay.month = $("#spotter-birth-month").val() ? $().val() : null;
+            birtdhay.day = $("#spotter-birth-day").val() ? $().val() : null;
 
             user.birthday = birtdhay;
             //user.facebookId = $("#").val()? $().val() : null;
 
-            user.fbPage = $("#spotter-facebook").val()? $("#-facebook").val() : null;
-            user.twitterPage = $("#spotter-twitter").val()? $("#-twitter").val() : null;
-            user.youtubeChannel = $("#spotter-youtube").val()? $("#-youtube").val() : null;
-            user.google = $("#spotter-google").val()? $("#-google").val() : null;
+            user.fbPage = $("#spotter-facebook").val() ? $("#-facebook").val() : null;
+            user.twitterPage = $("#spotter-twitter").val() ? $("#-twitter").val() : null;
+            user.youtubeChannel = $("#spotter-youtube").val() ? $("#-youtube").val() : null;
+            user.google = $("#spotter-google").val() ? $("#-google").val() : null;
             break;
         case "VENUE":
-            user.country = $("#venue-country").val()? $().val() : null;
-            user.city = $("#venue-city").val()? $().val() : null;
-            user.province = $("#venue-province").val()? $().val() : null;
-            user.address = $("#venue-adress").val()? $().val() : null;
-            user.number = $("#venue-number").val()? $().val() : null;
-            user.description = $("#venue-description").val()? $().val() : null;
+            user.country = $("#venue-country").val() ? $().val() : null;
+            user.city = $("#venue-city").val() ? $().val() : null;
+            user.province = $("#venue-province").val() ? $().val() : null;
+            user.address = $("#venue-adress").val() ? $().val() : null;
+            user.number = $("#venue-number").val() ? $().val() : null;
+            user.description = $("#venue-description").val() ? $().val() : null;
             user.localType = "";
 
-            user.fbPage = $("#venue-facebook").val()? $("#-facebook").val() : null;
-            user.twitterPage = $("#venue-twitter").val()? $("#-twitter").val() : null;
-            user.youtubeChannel = $("#venue-youtube").val()? $("#-youtube").val() : null;
-            user.google = $("#venue-google").val()? $("#-google").val() : null;
+            user.fbPage = $("#venue-facebook").val() ? $("#-facebook").val() : null;
+            user.twitterPage = $("#venue-twitter").val() ? $("#-twitter").val() : null;
+            user.youtubeChannel = $("#venue-youtube").val() ? $("#-youtube").val() : null;
+            user.google = $("#venue-google").val() ? $("#-google").val() : null;
             break;
     }
 
@@ -496,5 +500,33 @@ function checkUsernameExists(username) {
         error: function(data, status) {
 //            console.log("[onLoad] [ERROR] Status: " + status);
         }
+    });
+}
+
+function validateCaptcha()
+{
+    var json_captcha = {};
+
+    json_captcha.request = "recaptcha";
+    //variabile captcha challenge_field
+    json_captcha.responseField = $("input#recaptcha_response_field").val();   
+    //variabile captcha response_field
+    json_captcha.challengeField = $("input#recaptcha_challenge_field").val();
+
+    //chiamata Ajax allo script di controllo dell'inserimento corretto del captcha
+    $.ajax({
+        type: "POST",
+        url: "../controllers/signup/signupRequest.php",
+//		data: "recaptcha_challenge_field=" + challengeField + "&recaptcha_response_field=" + responseField,
+        data: json_captcha,
+        async: false,
+        success : function(data,status){
+            //gestione success
+            
+            
+        },
+        error: function(data,status){
+    
+        }       
     });
 }
