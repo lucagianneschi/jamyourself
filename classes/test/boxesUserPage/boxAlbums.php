@@ -25,8 +25,6 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 $i_end = microtime();
 
 $id = '7fes1RyY77';//LDF
@@ -35,7 +33,7 @@ $album_start = microtime();
 $album = new AlbumParse();
 $album->wherePointer('fromUser', '_User', $id);
 $album->where('active',true);
-$album->setLimit(4);
+$album->setLimit(1000);
 $album->orderByDescending('createdAt');
 $albums = $album->getAlbums();
 if ($albums != 0) {
@@ -45,6 +43,7 @@ if ($albums != 0) {
 	foreach ($albums as $album) {
 	    echo '<br />[thumbnailCover] => ' . $album->getThumbnailCover() . '<br />';
 	    echo '<br />[title] => ' . $album->getTitle() . '<br />';
+	    echo '<br />[imageCounter] => ' . $album->getImageCounter() . '<br />';
 	    echo '<br />[loveCounter] => ' . $album->getLoveCounter() . '<br />';
 	    echo '<br />[commentCounter] => ' . $album->getCommentCounter() . '<br />';
 	    echo '<br />[shareCounter] => ' . $album->getShareCounter() . '<br />';
