@@ -70,6 +70,10 @@ $(document).ready(function() {
      */
 
     $('#signup01-signup01 .signup-button').click(function() {
+        //aggiungo validazione captcha
+
+        validateCaptcha();
+
         var id = $(this).attr('id');
 
         var type_user = "";
@@ -321,9 +325,8 @@ $(document).ready(function() {
 
     //---------------------------------- STEFANO (was here) ---------------------------------------------//
 
-
-    //chiamata stile captcha
-//    var RecaptchaOptions = { theme: "red" };
+    //creo il recaptcha all'interno del div "signup01-captcha"
+    showCaptcha();
 
     //imposto un event-handler per la password e la email onblur:
     $('#signup01-username').blur(function() {
@@ -503,30 +506,63 @@ function checkUsernameExists(username) {
     });
 }
 
+
+/**
+ * Mostra il captcha nel div "signup01-captcha"
+ * @returns {undefined}
+ */
+function showCaptcha() {
+    var publickey = "6LfMnNcSAAAAABls9QS4oPvL86A0RzstkhSFWKud"; //CHIAVE PUBBLICA PER IL RECAPTCHA
+    var captchaDiv = "signup01-captcha"; //div in cui va scritto il 
+    var theme = "red"; //esiste anche "red", "white", "clean","blackglass"
+    Recaptcha.create(publickey, captchaDiv, {
+        theme: theme,
+        callback: Recaptcha.focus_response_field});
+}
+
+/**
+ * Valida il codice inserito nel captcha
+ * via ajax. 
+ * La chiamata ajax restituisce "success" in caso di successo
+ * @returns {undefined}
+ */
 function validateCaptcha()
 {
     var json_captcha = {};
 
     json_captcha.request = "recaptcha";
     //variabile captcha challenge_field
-    json_captcha.responseField = $("input#recaptcha_response_field").val();   
+    json_captcha.responseField = $("input#recaptcha_response_field").val();
     //variabile captcha response_field
     json_captcha.challengeField = $("input#recaptcha_challenge_field").val();
 
-    //chiamata Ajax allo script di controllo dell'inserimento corretto del captcha
+//    console.log("[validateCaptcha] recaptcha_response_field => " + json_captcha.responseField);
+//    console.log("[validateCaptcha] challengeField => " + json_captcha.challengeField);
+//    
+    //********  chiamata Ajax allo script di controllo dell'inserimento corretto del captcha
     $.ajax({
         type: "POST",
         url: "../controllers/signup/signupRequest.php",
-//		data: "recaptcha_challenge_field=" + challengeField + "&recaptcha_response_field=" + responseField,
         data: json_captcha,
         async: false,
-        success : function(data,status){
+        success: function(data, status) {
             //gestione success
-            
-            
+            console.log("[validateCaptcha] esito captcha : " + data);
+            if (data == "success") {
+                //ok...
+            }
+            else {
+                //errore
+                Recaptcha.reload(); //ricarico il captcha
+                
+            }
+
         },
-        error: function(data,status){
-    
-        }       
+        error: function(data, status) {
+            debugger;
+            console.log("[validateCaptcha] errore.data : " + data);
+            console.log("[validateCaptcha] errore.status : " + status);
+
+        }
     });
 }
