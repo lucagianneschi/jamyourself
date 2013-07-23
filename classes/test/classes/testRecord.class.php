@@ -27,6 +27,7 @@ $record->setGenre('Un genere');
 $record->setLabel('Un label');
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $record->setLocation($parseGeoPoint);
+$record->setLocationName('Puppa');
 $record->setLoveCounter(100);
 $record->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $record->setShareCounter(666);

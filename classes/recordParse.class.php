@@ -165,6 +165,7 @@ class RecordParse {
 			$record->setGenre($res->genre);
 			$record->setLabel($res->label);
 			$record->setLocation(fromParseGeoPoint($res->location));
+			$record->setLocationName($res->locationName);
 			$record->setLoveCounter($res->loveCounter);
 			#$record->setLovers(fromParseRelation('Record', 'lovers', $res->objectId, '_User'));
 			$record->setShareCounter($res->shareCounter);
@@ -209,6 +210,7 @@ class RecordParse {
 			is_null($record->getGenre()) ? $parseObject->genre = null : $parseObject->genre = $record->getGenre();
 			is_null($record->getLabel()) ? $parseObject->label = null : $parseObject->label = $record->getLabel();
 			is_null($record->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($record->getLocation());
+			is_null($record->getLocationName()) ? $parseObject->locationName = null : $parseObject->locationName = $record->getLocationName();
 			is_null($record->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $record->getLoveCounter();
 			is_null($record->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseAddRelation('_User', $record->getLovers());
 			is_null($record->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $record->getShareCounter();

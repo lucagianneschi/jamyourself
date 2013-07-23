@@ -34,6 +34,7 @@ class Record {
 	private $genre;
 	private $label;
 	private $location;
+	private $locationName;
 	private $loveCounter;
 	private $lovers;
 	private $shareCounter;
@@ -188,6 +189,15 @@ class Record {
 	 */
 	public function getLocation() {
 		return $this->location;
+	}
+	
+	/**
+	 * \fn		string getLocation()
+	 * \brief	Return the location value 
+	 * \return	string
+	 */
+	public function getLocationName() {
+		return $this->locationName;
 	}
 
 	/**
@@ -432,6 +442,15 @@ class Record {
 	public function setLocation($location) {
 		$this->location = $location;
 	}
+	
+	/**
+	 * \fn		void setLocationName($locationName) 
+	 * \brief	Sets the locationName value
+	 * \param	string
+	 */
+	public function setLocationName($locationName) {
+		$this->locationName = $locationName;
+	}
 
 	/**
 	 * \fn		void setLovers($lovers)
@@ -588,6 +607,7 @@ class Record {
 		} else {
 			$string .= '[location] => NULL<br />';
 		}
+		$string .= '[locationName] => ' . $this->locationName . '<br/>';
 		$string .= '[loveCounter] .= > '.$this->loveCounter .'<br/>';
 		if ($this->lovers && count($this->lovers > 0)) {
 			foreach ($this->lovers as $lovers) {
