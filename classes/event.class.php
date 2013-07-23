@@ -42,6 +42,7 @@ class Event {
 	private $loveCounter;
 	private $lovers;
 	private $refused;
+	private $reviewCounter;
 	private $shareCounter;
 	private $tags;
 	private $thumbnail;
@@ -229,6 +230,15 @@ class Event {
 	 */
 	public function getLovers() {
 		return $this->lovers;
+	}
+	
+	/**
+	 * \fn		int getReviewCounter()
+	 * \brief	Return the review counter value (number of review)
+	 * \return	int
+	 */
+	public function getReviewCounter() {
+		return $this->reviewCounter;
 	}
 	
 	/**
@@ -484,6 +494,15 @@ class Event {
 	}
 
 	/**
+	 * \fn		void setReviewCounter($reviewCounter)
+	 * \brief	Sets the reviewCounter value
+	 * \param	int
+	 */
+	public function setReviewCounter($reviewCounter) {
+		$this->reviewCounter = $reviewCounter;
+	}
+	
+	/**
 	 * \fn		void setCounter($shareCounter)
 	 * \brief	Sets the shareCounter value
 	 * \param	int
@@ -660,6 +679,7 @@ class Event {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[refused] => NULL<br />';
 		}
+		$string .= '[reviewCounter] => ' . $this->getReviewCounter() . '<br />';
 		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 		if ($this->getTags() != 0) {
 			foreach ($this->getTags() as $tags) {

@@ -50,6 +50,7 @@ $event->setLocation($parseGeoPoint);
 $event->setLocationName('Una localita');
 $event->setLoveCounter(100);
 $event->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setReviewCounter(10000987492387928374928734);
 $event->setShareCounter(1000);
 $event->setRefused(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setTags(array('tag1', 'tag2'));
