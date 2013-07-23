@@ -24,6 +24,8 @@ class Event {
 	private $objectId;
 	private $active;
 	private $attendee;
+	private $address;
+	private $city;
 	private $commentCounter;
 	private $commentators;
 	private $comments;
@@ -65,6 +67,15 @@ class Event {
 	public function getActive() {
 		return $this->active;
 	}
+	
+	/**
+	 * \fn		string getAddress()
+	 * \brief	Return the address value
+	 * \return	string
+	 */
+	public function getAddress() {
+		return $this->address;
+	}
 
 	/**
 	 * \fn		array getAttendee()
@@ -73,6 +84,15 @@ class Event {
 	 */
 	public function getAttendee() {
 		return $this->attendee;
+	}
+	
+	/**
+	 * \fn		string getCity()
+	 * \brief	Return the city value
+	 * \return	string
+	 */
+	public function getCity() {
+		return $this->city;
 	}
 	
 	/**
@@ -302,12 +322,30 @@ class Event {
 	}
 
 	/**
+	 * \fn		void setAddress($address)
+	 * \brief	Sets the address value
+	 * \param	string
+	 */
+	public function setAddress($address) {
+		$this->address = $address;
+	}
+	
+	/**
 	 * \fn		void setAttendee($attendee)
 	 * \brief	Sets the attendee value,array of pointer to ParseUser
 	 * \param	array
 	 */
 	public function setAttendee($attendee) {
 		$this->attendee = $attendee;
+	}
+	
+	/**
+	 * \fn		void setCity($city)
+	 * \brief	Sets the city value
+	 * \param	string
+	 */
+	public function setCity($city) {
+		$this->city = $city;
 	}
 
 	/**
@@ -530,6 +568,7 @@ class Event {
 		} else {
 			$this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 		}
+		$string .= '[address] => ' . $this->getAddress() . '<br />';
 		if (count($this->getAttendee()) != 0) {
 			foreach ($this->getAttendee() as $attendee) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -539,6 +578,7 @@ class Event {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[attendee] => NULL<br />';
 		}
+		$string .= '[city] => ' . $this->getCity() . '<br />';
 		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 		if ($this->getCommentators() != 0) {
 			foreach ($this->getCommentators() as $commentators) {

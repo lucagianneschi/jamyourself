@@ -147,8 +147,10 @@ class EventParse {
 			$event = new Event();
 			$event->setObjectId($res->objectId);
 			$event->setActive($res->active);
-			$event->setCommentCounter($res->commentCounter);
+			$event->setAddress($res->address);
 			#$event->setAttendee(fromParseRelation('Event', 'attendee', $res->objectId, '_User'));
+			$event->setCity($res->city);
+			$event->setCommentCounter($res->commentCounter);
 			#$event->setCommentators(fromParseRelation('Event', 'commentators', $res->objectId, '_User'));
 			#$event->setComments(fromParseRelation('Event', 'comments', $res->objectId, 'Comment'));
 			$event->setCounter($res->counter);
@@ -190,7 +192,9 @@ class EventParse {
 		try {
 			$parseEvent = new parseObject('Event');
 			is_null($event->getActive()) ? $parseEvent->active = true : $parseEvent->active = $event->getActive();
+			is_null($event->getAddress()) ? $parseEvent->address = null : $parseEvent->address = $event->getAddress();
 			is_null($event->getAttendee()) ? $parseEvent->attendee = null : $parseEvent->attendee = toParseAddRelation('_User', $event->getAttendee());
+			is_null($event->getCity()) ? $parseEvent->city = null : $parseEvent->city = $event->getCity();
 			is_null($event->getCommentCounter()) ? $parseEvent->commentCounter = -1 : $parseEvent->commentCounter = $event->getCommentCounter();
 			is_null($event->getCommentators()) ? $parseEvent->commentators = null : $parseEvent->commentators = toParseAddRelation('_User', $event->getCommentators());
 			is_null($event->getComments()) ? $parseEvent->comments = null : $parseEvent->comments = toParseAddRelation('Comment', $event->getComments());
