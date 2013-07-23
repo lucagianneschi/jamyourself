@@ -16,10 +16,9 @@ require_once SERVICES_DIR . 'recaptcha.lib.php';
 // DEFINIZIONE DELLE FUNZIONI DEL CONTROLLER PER LA REGISTRAZIONE
 //  
 //////////////////////////////////////////////////////////////////////////////// 
-
 //Domain Name:	socialmusicdiscovering.com
-define("CAPTCHA_PUBLIC_KEY","6LfMnNcSAAAAABls9QS4oPvL86A0RzstkhSFWKud");
-define("CAPTCHA_PRIVATE_KEY","6LfMnNcSAAAAAKYZCjSxFXMpTTYeclVzAsuke0Vu");
+define("CAPTCHA_PUBLIC_KEY", "6LfMnNcSAAAAABls9QS4oPvL86A0RzstkhSFWKud");
+define("CAPTCHA_PRIVATE_KEY", "6LfMnNcSAAAAAKYZCjSxFXMpTTYeclVzAsuke0Vu");
 
 class SignupController extends REST {
 
@@ -39,11 +38,10 @@ class SignupController extends REST {
             $sessionUser = new User("SPOTTER");
             $sessionUser->setType(null);
             $_SESSION['currentUser'] = $sessionUser;
-            
+
             //passo la chiave pubblica del captcha qua
             $_SESSION['captchaPublicKey'] = CAPTCHA_PUBLIC_KEY;
             $_SESSION['captchaValidation'] = false;
-            
         }
         //return qualcosa se c'è qualcosa da ritornare...
     }
@@ -65,14 +63,14 @@ class SignupController extends REST {
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
-        
+
         //verifico che l'utente abbia effettivamente completato il captcha
-        if($_SESSION['captchaValidation'] == false){
-              // If invalid inputs "Bad Request" status message and reason
+        if ($_SESSION['captchaValidation'] == false) {
+            // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "Captcha test failed");
-            $this->response($error, 400);          
+            $this->response($error, 400);
         }
-        
+
         //verifico che ci sia il nuovo utente nei paraemtri
         if (!isset($this->request['newUser'])) {
             // If invalid inputs "Bad Request" status message and reason
@@ -227,8 +225,7 @@ class SignupController extends REST {
         }
 
         //verifico che ci sia il codice recaptcha nei parametri
-        if (!isset($this->request['recaptcha']) || !isset($this->request['responseField']) ||
-                !isset($this->request['challengeField'])) {
+        if (!isset($this->request['challengeField']) || !isset($this->request['responseField'])) {
             // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "No new user specified");
             $this->response($error, 400);
