@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
+	define('ROOT_DIR', '../../../');
 	
 ini_set('display_errors', '1');
 
