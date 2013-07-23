@@ -52,10 +52,6 @@ echo '<br />[username] => ' . $fromUser->getUsername() . '<br />';
 echo '<br />[thumbnail] => ' . $fromUser->getProfileThumbnail() . '<br />';
 echo '<br />[type] => ' . $fromUser->getProfileThumbnail() . '<br />';
 
-
-
-
-
 $tracklist = new SongParse();
 $tracklist->wherePointer('record', 'Record', $id);
 $tracklist->setLimit(50);
