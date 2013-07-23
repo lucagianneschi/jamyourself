@@ -37,6 +37,7 @@ class Record {
 	private $locationName;
 	private $loveCounter;
 	private $lovers;
+	private $reviewCounter;
 	private $shareCounter;
 	private $songCounter;
 	private $thumbnailCover;
@@ -216,6 +217,15 @@ class Record {
 	 */
 	public function getLovers() {
 		return $this->lovers;
+	}
+	
+	/**
+	 * \fn		int getReviewCounter()
+	 * \brief	Return the review counter value (number of review)
+	 * \return	int
+	 */
+	public function getReviewCounter() {
+		return $this->reviewCounter;
 	}
 	
 	/**
@@ -471,12 +481,12 @@ class Record {
 	}
 
 	/**
-	 * \fn		void  setSongCounter($songCounter)
-	 * \brief	Sets the songCounter value
+	 * \fn		void setReviewCounter($reviewCounter)
+	 * \brief	Sets the reviewCounter value
 	 * \param	int
 	 */
-	public function setSongCounter($songCounter) {
-		$this->songCounter = $songCounter;
+	public function setReviewCounter($reviewCounter) {
+		$this->reviewCounter = $reviewCounter;
 	}
 	
 	/**
@@ -486,6 +496,15 @@ class Record {
 	 */
 	public function setShareCounter($shareCounter) {
 		$this->shareCounter = $shareCounter;
+	}
+	
+	/**
+	 * \fn		void  setSongCounter($songCounter)
+	 * \brief	Sets the songCounter value
+	 * \param	int
+	 */
+	public function setSongCounter($songCounter) {
+		$this->songCounter = $songCounter;
 	}
 	
 	/**
@@ -615,6 +634,7 @@ class Record {
 				$string .= '[lovers] => ' . $lovers . '<br />';
 			}            
 		}
+		$string .= '[reviewCounter] => ' . $this->getReviewCounter() . '<br />';
 		$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 		$string .= '[songCounter] => ' . $this->getSongCounter() . '<br />';
 		$string .= '[thumbnailCover] .= > '.$this->thumbnailCover .'<br/>';

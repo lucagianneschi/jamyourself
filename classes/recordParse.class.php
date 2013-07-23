@@ -168,6 +168,7 @@ class RecordParse {
 			$record->setLocationName($res->locationName);
 			$record->setLoveCounter($res->loveCounter);
 			#$record->setLovers(fromParseRelation('Record', 'lovers', $res->objectId, '_User'));
+			$record->setReviewCounter($res->reviewCounter);
 			$record->setShareCounter($res->shareCounter);
 			$record->setSongCounter($res->songCounter);
 			$record->setThumbnailCover($res->thumbnailCover);
@@ -213,6 +214,7 @@ class RecordParse {
 			is_null($record->getLocationName()) ? $parseObject->locationName = null : $parseObject->locationName = $record->getLocationName();
 			is_null($record->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $record->getLoveCounter();
 			is_null($record->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseAddRelation('_User', $record->getLovers());
+			is_null($record->getReviewCounter()) ? $parseObject->reviewCounter = -1 : $parseObject->reviewCounter = $record->getReviewCounter();
 			is_null($record->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $record->getShareCounter();
 			is_null($record->getSongCounter()) ? $parseObject->songCounter = -1 : $parseObject->songCounter = $record->getSongCounter();
 			is_null($record->getThumbnailCover()) ? $parseObject->thumbnailCover = 'images/defult/recordThumb.jpg' : $parseObject->thumbnailCover = $record->getThumbnailCover();

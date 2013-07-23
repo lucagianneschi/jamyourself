@@ -30,6 +30,7 @@ $record->setLocation($parseGeoPoint);
 $record->setLocationName('Puppa');
 $record->setLoveCounter(100);
 $record->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$record->setReviewCounter(10775757);
 $record->setShareCounter(666);
 $record->setThumbnailCover('Un thumbnail cover');
 $record->setTitle('Un titolo');
