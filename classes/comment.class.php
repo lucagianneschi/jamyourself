@@ -38,6 +38,7 @@ class Comment {
 	private $song;
 	private $status;
 	private $tags;
+	private $title;
 	private $text;
 	private $toUser;
 	private $type;
@@ -226,7 +227,7 @@ class Comment {
 	public function getTags() {
 		return $this->tags;
 	}
-
+	
 	/**
 	 * \fn		string getText()
 	 * \brief	Return the text value
@@ -234,6 +235,15 @@ class Comment {
 	 */
 	public function getText() {
 		return $this->text;
+	}
+	
+	/**
+	 * \fn		string getTitle()
+	 * \brief	Return the title value, NULL for any type but Review R
+	 * \return	array
+	 */
+	public function getTitle() {
+		return $this->title;
 	}
 
 	/**
@@ -487,6 +497,15 @@ class Comment {
 	public function setText($text) {
 		$this->text = $text;
 	}
+	
+	/**
+	 * \fn		void setTitle($title)
+	 * \brief	Sets the title
+	 * \param	string
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
+	}
 
 	/**
 	 * \fn		void setToUser($toUser)
@@ -660,6 +679,7 @@ class Comment {
 			$string .= '[tags] => NULL<br />';
 		}
 		$string .= '[text] => ' . $this->getText() . '<br />';
+		$string .= '[title] => ' . $this->getTitle() . '<br />';
 		if ($this->getToUser() != null) {
 			$string .= '[toUser] => ' . $this->getToUser() . '<br />';
 		} else {

@@ -164,6 +164,7 @@ class CommentParse {
 			$cmt->setStatus(fromParsePointer($res->status));
 			$cmt->setTags($res->tags);
 			$cmt->setText($res->text);
+			$cmt->setTitle($res->title);
 			$cmt->setToUser(fromParsePointer($res->toUser));
 			$cmt->setType($res->type);
 			$cmt->setVideo(fromParsePointer($res->video));
@@ -211,6 +212,7 @@ class CommentParse {
 			is_null($cmt->getStatus()) ? $parseObject->status = null : $parseObject->status = toParsePointer('Status', $cmt->getStatus());
 			is_null($cmt->getTags()) ? $parseObject->tags = null : $parseObject->tags = $cmt->getTags();
 			is_null($cmt->getText()) ? $parseObject->text = null : $parseObject->text = $cmt->getText();
+			is_null($cmt->getTitle()) ? $parseObject->title = null : $parseObject->title = $cmt->getTitle();
 			is_null($cmt->getToUser()) ? $parseObject->toUser = null : $parseObject->toUser = toParsePointer('_User', $cmt->getToUser());
 			is_null($cmt->getType()) ? $parseObject->type = null : $parseObject->type = $cmt->getType();
 			is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = toParsePointer('Video', $cmt->getVideo());

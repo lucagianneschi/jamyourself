@@ -47,6 +47,7 @@ $cmt->setOpinions(array('opinions1', 'opinions2'));
 $cmt->setShareCounter(6666);
 $cmt->setTags(array('tag1', 'tag2'));
 $cmt->setText('Il testo del commento');
+$cmt->setTitle('Il titolo delle review');
 $cmt->setToUser('GuUAj83MGH');
 $cmt->setType('Il tipo del commento');
 //$cmt->setVideo(Video $video);
