@@ -6,8 +6,8 @@
  * \date		2013
  * \copyright	Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		box informazioni record
- * \details		Recupera le informazioni da mostrare per la pagina del record
+ * \brief		box commenti record
+ * \details		Recupera i commenti legati al record
  * \par			Commenti:
  * \warning
  * \bug
