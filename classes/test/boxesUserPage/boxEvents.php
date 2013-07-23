@@ -18,7 +18,7 @@ $t_start = microtime(); //timer tempo totale
 $i_start = microtime(); //timer include
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../../');
 
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
@@ -35,7 +35,8 @@ $id = '1oT7yYrpfZ';
 $user_start = microtime();
 $userParse = new UserParse();
 $user = $userParse->getUser($id);
- 
+$user_stop = microtime(); 
+
 $type = $user->getType();
 $event_start = microtime();
 switch ($type) {
@@ -110,7 +111,7 @@ $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo recupero User proprietario pagina ' . executionTime($user_start, $user_stop) . '<br />';
-echo 'Tempo recupero ultimi 4 eventi ' . executionTime($event_start, $event_stop) . '<br />'
+echo 'Tempo recupero ultimi 4 eventi ' . executionTime($event_start, $event_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>

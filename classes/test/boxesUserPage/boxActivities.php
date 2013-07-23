@@ -20,7 +20,7 @@ $t_start = microtime(); //timer tempo totale
 $i_start = microtime(); //timer include
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../../');
 
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
@@ -38,6 +38,7 @@ $id = '7fes1RyY77';//LDF
 $user_start = microtime();
 $userParse = new UserParse();
 $user = $userParse->getUser($id);
+$user_stop = microtime();
 
 $type = $user->getType();
 switch ($type) {
@@ -149,8 +150,6 @@ switch ($type) {
 	require_once CLASSES_DIR . 'recordParse.class.php';
 	$include_stop = microtime();
 	
-
-
 	$activityJammer_start = microtime();
 	$updatedEvent = 'EVENTUPDATED';
 	$updatedAlbum = 'ALBUMUPDATED';
@@ -164,7 +163,7 @@ switch ($type) {
 	//$parseActivity1->whereInclude('record');
 	$parseActivity1->setLimit(3);
 	$parseActivity1->orderByDescending('updatedAt');
-	$last3activities = $parseActivity1->getActivities();
+	$last3activities = $parseActivity1->find();
 	if ($last3activities != 0) {
 	    if (get_class($last3activities) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $last3activities->getErrorMessage() . '<br/>';
@@ -186,6 +185,7 @@ switch ($type) {
 			echo '<br />[commentCounter] => ' . $album->getCommentCounter() . '<br />';
 			echo '<br />[shareCounter] => ' . $album->getShareCounter() . '<br />';
 		    } elseif ($activity->record != null) {
+			$record = $activity->record;
 			echo '<br />[thumbnailCover] => ' . $record->getThumbnailCover() . '<br />';
 			echo '<br />[title] => ' . $record->getTitle() . '<br />';
 			echo '<br />[loveCounter] => ' . $record->getLoveCounter() . '<br />';
@@ -227,6 +227,3 @@ switch ($type) {
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
-
-
-

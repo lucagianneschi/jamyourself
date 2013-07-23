@@ -18,7 +18,7 @@ $t_start = microtime(); //timer tempo totale
 $i_start = microtime(); //timer include
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../../');
 
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
@@ -35,6 +35,7 @@ $id = '1oT7yYrpfZ';
 $user_start = microtime();
 $userParse = new UserParse();
 $user = $userParse->getUser($id);
+$user_stop = microtime();
 $type = $user->getType();
 $record_start = microtime();
 switch ($type) {
