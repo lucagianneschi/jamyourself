@@ -29,46 +29,40 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 $i_end = microtime();
 
-//$id = '7fes1RyY77';LDF
+//JAMMER
 //$id = 'uMxy47jSjg';//ROSESINBLOOM
-$id = '1oT7yYrpfZ';
-$user_start = microtime();
-$userParse = new UserParse();
-$user = $userParse->getUser($id);
-$user_stop = microtime();
-$type = $user->getType();
+//$id = ' HdqSpIhiXo';//Stanis
+$id = '7fes1RyY77'; //LDF
+
 $record_start = microtime();
-switch ($type) {
-	case 'JAMMER':
-		$record = new RecordParse();
-		$record->wherePointer('fromUser', '_User', $id);
-		$record->setLimit(4);
-		$record->orderByDescending('createdAt');
-		$resGets = $record->getRecords();
-		if ($resGets != 0) {
-			if (get_class($resGets) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
-			} else {
-			foreach ($resGets as $record) {
-				echo '<br />[thumbnailCover] => ' . $record->getThumbnailCover() . '<br />';
-				echo '<br />[title] => ' . $record->getTitle() . '<br />';
-				echo '<br />[loveCounter] => ' . $record->getLoveCounter() . '<br />';
-				echo '<br />[commentCounter] => ' . $record->getCommentCounter() . '<br />';
-				echo '<br />[shareCounter] => ' . $record->getShareCounter() . '<br />';
-				echo '<br />[year] => ' . $record->getYear() . '<br />';
-				echo '<br />[songCounter] => ' . $record->getSongCounter() . '<br />';
-			}
-			}
-		}
-		break;
-	default:
-	break;
+$record = new RecordParse();
+$record->wherePointer('fromUser','_User', $id);
+$record->where('active', true);
+$record->setLimit(1000);
+$record->orderByDescending('createdAt');
+$resGets = $record->getRecords();
+if ($resGets != 0) {
+    if (get_class($resGets) == 'Error') {
+	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+    } else {
+	foreach ($resGets as $record) {
+	    echo '<br />[thumbnailCover] => ' . $record->getThumbnailCover() . '<br />';
+	    echo '<br />[title] => ' . $record->getTitle() . '<br />';
+	    echo '<br />[loveCounter] => ' . $record->getLoveCounter() . '<br />';
+	    echo '<br />[commentCounter] => ' . $record->getCommentCounter() . '<br />';
+	    echo '<br />[shareCounter] => ' . $record->getShareCounter() . '<br />';
+	    echo '<br />[year] => ' . $record->getYear() . '<br />';
+	    echo '<br />[songCounter] => ' . $record->getSongCounter() . '<br />';
+	    echo '<br />[genre] => ' . $record->getGenre() . '<br />';
 	}
+    }
+}
+
+
 $record_stop = microtime();
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
-echo 'Tempo recupero User proprietario pagina ' . executionTime($user_start, $user_stop) . '<br />';
 echo 'Tempo ultimi 4 record ' . executionTime($record_start, $record_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
