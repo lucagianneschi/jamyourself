@@ -18,7 +18,7 @@
 $i_start = microtime(); //timer include
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../../');
 
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
