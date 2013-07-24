@@ -7,7 +7,7 @@
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento info album
- * \details		Recupera le informazioni dell'utente, le inserisce in un array da passare alla view
+ * \details		Recupera le informazioni dell'album, le inserisce in un array da passare alla view
  * \par			Commenti:
  * \warning
  * \bug
@@ -34,7 +34,7 @@ class albumBox {
 	$album->setLimit(1000);
 	$album->orderByDescending('createdAt');
 	$albums = $album->getAlbums();
-	if ($albums != 0) {
+	if (count($albums) != 0) {
 	    if (get_class($albums) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $albums->getErrorMessage() . '<br/>';
 	    } else {
@@ -57,7 +57,6 @@ class albumBox {
 	    return $resultArray;
 	}
     }
-
 }
 
 ?>
