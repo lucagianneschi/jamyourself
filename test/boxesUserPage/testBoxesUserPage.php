@@ -28,6 +28,7 @@ require_once BOXES_DIR . 'info.box.php';
 require_once BOXES_DIR . 'album.box.php';
 require_once BOXES_DIR . 'event.box.php';
 require_once BOXES_DIR . 'reviewRecords.box.php';
+require_once BOXES_DIR . 'record.box.php';
 
 
 //SPOTTER
@@ -223,13 +224,14 @@ echo '<br />--------------------------------------------------------------------
 echo '<br /FINE TEST EVENT BOX JAMMER<br />';
 echo '<br />-------------------------FINE TEST ALBUM BOX-------------------------------------------<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />------------------------- TEST REVIEW RECORD BOX GuUAj83MGH-------------------------------------------<br />';
+echo '<br />------------------------- TEST REVIEW RECORD BOX -------------------------------------------<br />';
+echo '<br />------------------------- TEST REVIEW RECORD BOX SPATAFORA-------------------------------------------<br />';
 $reviewBoxP = new reviewRecordsBox();
 $reviewBox = $reviewBoxP->sendInfo('GuUAj83MGH');
 print "<pre>";
 print_r($reviewBox);
 print "</pre>";
-echo '<br />-------------------------FINE TEST REVIEW RECORD BOX GuUAj83MGH-------------------------------------------<br />';
+echo '<br />-------------------------FINE TEST REVIEW RECORD BOX SPATAFORA-------------------------------------------<br />';
 echo '<br />------------------------- TEST REVIEW RECORD BOX LDF-------------------------------------------<br />';
 $reviewBoxP = new reviewRecordsBox();
 $reviewBox = $reviewBoxP->sendInfo($LDF);
@@ -237,4 +239,16 @@ print "<pre>";
 print_r($reviewBox);
 print "</pre>";
 echo '<br />-------------------------FINE TEST REVIEW RECORD BOX LDF-------------------------------------------<br />';
+echo '<br />-------------------------FINE TEST REVIEW RECORD BOX -------------------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RECORD BOX -------------------------------------------<br />';
+
+echo '<br />------------------------- TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
+$recordBoxP = new recordBox();
+$recordBox = $recordBoxP->sendInfo('GuUAj83MGH');
+print "<pre>";
+print_r($recordBox);
+print "</pre>";
+echo '<br />-------------------------FINE TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
+echo '<br />-------------------------FINE TEST RECORD BOX -------------------------------------------<br />';
 ?>
