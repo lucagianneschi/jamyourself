@@ -50,6 +50,8 @@ class infoBox {
 		case 'SPOTTER':
 		    $followingCounter = $user->getFollowingCounter();
 		    $frindshipCounter = $user->getFriendshipCounter();
+		    $venueCounter = $user->getVenueCounter();
+		    $jammerCounter = $user->getJammerCounter();
 		    $music = $user->getMusic();
 		    $resultArray = array('userName' => $userName,
 			'backGround' => $backGround,
@@ -66,10 +68,11 @@ class infoBox {
 			'levelValue' => $levelValue,
 			'music' => $music,
 			'followingCounter' => $followingCounter,
-			'frindshipCounter' => $frindshipCounter);
+			'frindshipCounter' => $frindshipCounter,
+			'venueCounter' => $venueCounter,
+			'jammerCounter' => $jammerCounter);
 		    break;
 		case 'JAMMER':
-		    $jammerType = $user->getJammerType();
 		    $followersCounter = $user->getFollowersCounter();
 		    $collaborationCounter = $user->getCollaborationCounter();
 		    $venueCounter = $user->getVenueCounter();
@@ -128,6 +131,7 @@ class infoBox {
 	}
 	return $resultArray;
     }
+
 }
 
 ?>
