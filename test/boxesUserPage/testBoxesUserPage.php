@@ -127,29 +127,84 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />FINE TEST INFO BOX JAMMER<br />';
 echo '<br />-------------------------FINE TEST INFO BOX-------------------------------------------<br />';
 echo '<br />-------------------------TEST ALBUM BOX-------------------------------------------<br />';
-
-echo '<br />TEST INFO BOX LDF<br />';
+echo '<br />TEST ALBUM BOX SPOTTER<br />';
+echo '<br />TEST ALBUM BOX MARI<br />';
+$albumBoxP = new albumBox();
+$albumBox = $albumBoxP->sendInfo($mari);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST ALBUM BOX MARI<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX FLAVYCAP<br />';
+$albumBoxP = new albumBox();
+$albumBox = $albumBoxP->sendInfo($FLAVYCAP);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST ALBUM BOX FLAVYCAP<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX Kessingtong<br />';
+$albumBoxP = new albumBox();
+$albumBox = $albumBoxP->sendInfo($Kessingtong);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST ALBUM BOX Kessingtong<br />';
+echo '<br />FINE TEST ALBUM BOX SPOTTER<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX JAMMER<br />';
+echo '<br />TEST ALBUM BOX ROSESINBLOOM<br />';
+$albumBoxP = new albumBox();
+$albumBox = $albumBoxP->sendInfo($ROSESINBLOOM);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST ALBUM BOX ROSESINBLOOM<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX STANIS<br />';
+$albumBoxP = new albumBox();
+$albumBox = $albumBoxP->sendInfo($Stanis);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST ALBUM BOX STANIS<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX LDF<br />';
 $albumBoxP = new albumBox();
 $albumBox = $albumBoxP->sendInfo($LDF);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
-echo '<br />TEST INFO BOX LDF<br />';
-
-
-
-
-
-
-
-
+echo '<br />TEST ALBUM BOX LDF<br />';
+echo '<br /FINE TEST ALBUM BOX JAMMER<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br /TEST ALBUM BOX VENUE<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX ZonaPlayed<br />';
+$albumBoxP = new albumBox();
+$albumBox = $albumBoxP->sendInfo($ZonaPlayed);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST ALBUM BOX ZonaPlayed<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX Ultrasuono<br />';
+$albumBoxP = new albumBox();
+$albumBox = $albumBoxP->sendInfo($Ultrasuono);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST ALBUM BOX Ultrasuono<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX Jump<br />';
+$albumBoxP = new albumBox();
+$albumBox = $albumBoxP->sendInfo($jump);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST ALBUM BOX Jump<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br /FINE TEST ALBUM BOX VENUE<br />';
 echo '<br />-------------------------FINE TEST ALBUM BOX-------------------------------------------<br />';
-
-
-
-
-
-
-
-
 ?>
