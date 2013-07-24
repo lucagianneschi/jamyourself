@@ -26,6 +26,7 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'info.box.php';
 require_once BOXES_DIR . 'album.box.php';
+require_once BOXES_DIR . 'event.box.php';
 
 
 //SPOTTER
@@ -207,4 +208,22 @@ echo '<br />TEST ALBUM BOX Jump<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br /FINE TEST ALBUM BOX VENUE<br />';
 echo '<br />-------------------------FINE TEST ALBUM BOX-------------------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST EVENT BOX-------------------------------------------<br />';
+echo '<br /TEST EVENT BOX JAMMER<br />';
+echo '<br />TEST EVENT BOX LDF<br />';
+$eventBoxP = new eventBox();
+$eventBox = $eventBoxP->sendInfo('HDgcsTLpEx');
+print "<pre>";
+print_r($eventBox);
+print "</pre>";
+echo '<br />TEST EVENT BOX LDF<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br /FINE TEST EVENT BOX JAMMER<br />';
+echo '<br />-------------------------FINE TEST ALBUM BOX-------------------------------------------<br />';
+
+
+
+
+
 ?>
