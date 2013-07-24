@@ -70,6 +70,7 @@ class eventBox {
 			    array_push($feats, $username);
 			}
 		    }
+		    
 		    $eventInfo = array('thumbnail' => $thumbnail,
 			'locationName' => $locationName,
 			'title' => $title,
