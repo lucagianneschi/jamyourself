@@ -84,11 +84,10 @@ class eventBox {
 			'featuring' => $feats);
 		    array_push($resultArray, $eventInfo);
 		}
-		return $resultArray;
 	    }
 	}
+	return $resultArray;
     }
-
 }
 
 ?>
