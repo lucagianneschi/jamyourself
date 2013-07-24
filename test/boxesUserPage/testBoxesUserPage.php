@@ -27,6 +27,7 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'info.box.php';
 require_once BOXES_DIR . 'album.box.php';
 require_once BOXES_DIR . 'event.box.php';
+require_once BOXES_DIR . 'reviewRecords.box.php';
 
 
 //SPOTTER
@@ -211,19 +212,29 @@ echo '<br />-------------------------FINE TEST ALBUM BOX------------------------
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />-------------------------TEST EVENT BOX-------------------------------------------<br />';
 echo '<br /TEST EVENT BOX JAMMER<br />';
-echo '<br />TEST EVENT BOX LDF<br />';
+echo '<br />TEST EVENT BOX HDgcsTLpEx<br />';
 $eventBoxP = new eventBox();
 $eventBox = $eventBoxP->sendInfo('HDgcsTLpEx');
 print "<pre>";
-print_r($eventBox);
+print_r($eventBox);//
 print "</pre>";
-echo '<br />TEST EVENT BOX LDF<br />';
+echo '<br />TEST EVENT BOX HDgcsTLpEx<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br /FINE TEST EVENT BOX JAMMER<br />';
 echo '<br />-------------------------FINE TEST ALBUM BOX-------------------------------------------<br />';
-
-
-
-
-
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />------------------------- TEST REVIEW RECORD BOX GuUAj83MGH-------------------------------------------<br />';
+$reviewBoxP = new reviewRecordsBox();
+$reviewBox = $reviewBoxP->sendInfo('GuUAj83MGH');
+print "<pre>";
+print_r($reviewBox);
+print "</pre>";
+echo '<br />-------------------------FINE TEST REVIEW RECORD BOX GuUAj83MGH-------------------------------------------<br />';
+echo '<br />------------------------- TEST REVIEW RECORD BOX LDF-------------------------------------------<br />';
+$reviewBoxP = new reviewRecordsBox();
+$reviewBox = $reviewBoxP->sendInfo($LDF);
+print "<pre>";
+print_r($reviewBox);
+print "</pre>";
+echo '<br />-------------------------FINE TEST REVIEW RECORD BOX LDF-------------------------------------------<br />';
 ?>
