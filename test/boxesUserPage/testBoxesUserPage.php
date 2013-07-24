@@ -1,0 +1,155 @@
+<?php
+
+/* ! \par	    Info Generali:
+ * \author	    Daniele Caldelli
+ * \version	    1.0
+ * \date		    2013
+ * \copyright	    Jamyourself.com 2013
+ *
+ * \par		    Info Classe:
+ * \brief	    Classe di test
+ * \details	    Classe di test per i box della pagina utente
+ *
+ * \par Commenti:
+ * \warning
+ * \bug
+ * \todo 
+ *
+ */
+
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../');
+
+ini_set('display_errors', '1');
+
+require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
+require_once BOXES_DIR . 'info.box.php';
+require_once BOXES_DIR . 'album.box.php';
+
+
+//SPOTTER
+$mari = '1oT7yYrpfZ';//MARI
+$FLAVYCAP = 'oN7Pcp2lxf';//FLAVYCAP 
+$Kessingtong = '2OgmANcYaT';//Kessingtong
+
+
+//JAMMER
+$ROSESINBLOOM = 'uMxy47jSjg';//ROSESINBLOOM
+$Stanis = 'HdqSpIhiXo';//Stanis
+$LDF = '7fes1RyY77'; //LDF
+
+//Venue
+$ZonaPlayed = '2K5Lv7qxzw';//ZonaPlayed  
+$Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
+$jump = 'wrpgRuSgRA';//jump rock club
+
+echo '<br />------------------------- TEST INFO BOX-------------------------------------------<br />';
+echo '<br />TEST INFO BOX SPOTTER<br />';
+echo '<br />TEST INFO BOX MARI<br />';
+$infoBoxP = new infoBox();
+$info = $infoBoxP->sendInfo($mari);
+print "<pre>";
+print_r($info);
+print "</pre>";
+echo '<br />TEST INFO BOX MARI<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST INFO BOX FLAVYCAP<br />';
+$infoBoxP = new infoBox();
+$info = $infoBoxP->sendInfo($FLAVYCAP);
+print "<pre>";
+print_r($info);
+print "</pre>";
+echo '<br />TEST INFO BOX FLAVYCAP<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST INFO BOX Kessingtong<br />';
+$infoBoxP = new infoBox();
+$info = $infoBoxP->sendInfo($Kessingtong);
+print "<pre>";
+print_r($info);
+print "</pre>";
+echo '<br />TEST INFO BOX Kessingtong<br />';
+echo '<br />FINE TEST INFO BOX SPOTTER<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST INFO BOX VENUE<br />';
+echo '<br />TEST INFO BOX ZonaPlayed<br />';
+$infoBoxP = new infoBox();
+$info = $infoBoxP->sendInfo($ZonaPlayed);
+print "<pre>";
+print_r($info);
+print "</pre>";
+echo '<br />TEST INFO BOX ZonaPlayed<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST INFO BOX Ultrasuono<br />';
+$infoBoxP = new infoBox();
+$info = $infoBoxP->sendInfo($Ultrasuono);
+print "<pre>";
+print_r($info);
+print "</pre>";
+echo '<br />TEST INFO BOX Ultrasuono<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST INFO BOX jump<br />';
+$infoBoxP = new infoBox();
+$info = $infoBoxP->sendInfo($jump);
+print "<pre>";
+print_r($info);
+print "</pre>";
+echo '<br />TEST INFO BOX jump<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />FINE TEST INFO BOX VENUE<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST INFO BOX JAMMER<br />';
+echo '<br />TEST INFO BOX ROSESINBLOOM<br />';
+$infoBoxP = new infoBox();
+$info = $infoBoxP->sendInfo($ROSESINBLOOM);
+print "<pre>";
+print_r($info);
+print "</pre>";
+echo '<br />TEST INFO BOX ROSESINBLOOM<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST INFO BOX Stanis<br />';
+$infoBoxP = new infoBox();
+$info = $infoBoxP->sendInfo($Stanis);
+print "<pre>";
+print_r($info);
+print "</pre>";
+echo '<br />TEST INFO BOX Stanis<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST INFO BOX LDF<br />';
+$infoBoxP = new infoBox();
+$info = $infoBoxP->sendInfo($LDF);
+print "<pre>";
+print_r($info);
+print "</pre>";
+echo '<br />TEST INFO BOX LDF<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />FINE TEST INFO BOX JAMMER<br />';
+echo '<br />-------------------------FINE TEST INFO BOX-------------------------------------------<br />';
+echo '<br />-------------------------TEST ALBUM BOX-------------------------------------------<br />';
+
+echo '<br />TEST INFO BOX LDF<br />';
+$albumBoxP = new albumBox();
+$albumBox = $albumBoxP->sendInfo($LDF);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST INFO BOX LDF<br />';
+
+
+
+
+
+
+
+
+echo '<br />-------------------------FINE TEST ALBUM BOX-------------------------------------------<br />';
+
+
+
+
+
+
+
+
+?>
