@@ -1,5 +1,19 @@
 <?php
 
+/* ! \par		Info Generali:
+ * \author		Luca Gianneschi
+ * \version		1.0
+ * \date		2013
+ * \copyright	Jamyourself.com 2013
+ * \par			Info Classe:
+ * \brief		box caricamento ultimi 4 eventi caricati
+ * \details		Recupera le informazioni utente
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo		utilizzare variabili di sessione
+ *
+ */
 $t_start = microtime(); //timer tempo totale
 $i_start = microtime(); //timer include
 
