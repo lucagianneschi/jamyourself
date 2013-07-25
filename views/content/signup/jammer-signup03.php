@@ -9,8 +9,8 @@
 			<div class="row signup-bottom">
 				<div  class="small-12 columns">
 					<!------------------------------------------------ DESCRIPTION --------------------------------->
-					<label for="jammer-description">Description <span class="orange">*</span></label>			
-					<textarea name="jammer-description" id="jammer-description"></textarea>
+					<label for="jammer-description">Description <span class="orange">*</span><small class="error"> Please enter a valid Description</small></label>			
+					<textarea name="jammer-description" id="jammer-description" pattern="description" maxlength="800" required></textarea>
 				</div>
 			</div>
 			<div class="row">
@@ -33,24 +33,24 @@
 			<div class="row signup-social">
 				<div  class="small-12 columns">
 					<div class="facebook-label">
-						<input type="text" name="jammer-facebook" id="jammer-facebook" />								
-						<label for="jammer-facebook" >Url of your Facebook profile</label>
+						<input type="text" name="jammer-facebook" id="jammer-facebook" pattern="url" placeholder="http://"/>								
+						<label for="jammer-facebook" >Url of your Facebook profile<small class="error"> Please enter a valid url</small></label>
 					</div>
 					<div class="twitter-label no-display">
-						<input type="text" name="jammer-twitter" id="jammer-twitter" />								
-						<label for="jammer-twitter">Url of your Twitter profile</label>
+						<input type="text" name="jammer-twitter" id="jammer-twitter" pattern="url" placeholder="http://"/>								
+						<label for="jammer-twitter">Url of your Twitter profile<small class="error"> Please enter a valid url</small></label>
 					</div>
 					<div class="google-label no-display">
-						<input type="text" name="jammer-google" id="jammer-google" />								
-						<label for="jammer-google" >Url of your Google Plus profile</label>
+						<input type="text" name="jammer-google" id="jammer-google" pattern="url" placeholder="http://"/>								
+						<label for="jammer-google" >Url of your Google Plus profile<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					<div class="youtube-label no-display">
-						<input type="text" name="jammer-youtube" id="jammer-youtube" />								
-						<label for="jammer-youtube">Url of your Youtube profile</label>
+						<input type="text" name="jammer-youtube" id="jammer-youtube" pattern="url" placeholder="http://"/>								
+						<label for="jammer-youtube">Url of your Youtube profile<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					<div class="web-label no-display">
-						<input type="text" name="jammer-web" id="jammer-web" />								
-						<label for="jammer-web">Url of your Web Site</label>
+						<input type="text" name="jammer-web" id="jammer-web" pattern="url" placeholder="http://"/>								
+						<label for="jammer-web">Url of your Web Site<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					
 				</div>	
@@ -59,7 +59,7 @@
 		<div  class="small-6 columns">
 			<div class="row" style="padding-top: 30px">
 				<div  class="small-12 columns">
-					<div class="text grey-light">Select at least one genre (max 5) <span class="orange">*</span></div>
+					<div class="label-signup-genre text grey-light">Select at least one genre (max 5) <span class="orange">*</span><small class="error"> Please select a genre</small></div>
 				</div>	
 			</div>
 			<div class="row" >
