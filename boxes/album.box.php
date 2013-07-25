@@ -34,12 +34,12 @@ class albumInfo {
     public $title;
 
     function __construct($commentCounter, $imageCounter, $loveCounter, $shareCounter, $thumbnailCover, $title) {
-	$this->commentCounter = $commentCounter;
-	$this->imageCounter = $imageCounter;
-	$this->loveCounter = $loveCounter;
-	$this->shareCounter = $shareCounter;
-	$this->thumbnailCover = $thumbnailCover;
-	$this->title = $title;
+	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
+	is_null($imageCounter) ? $this->imageCounter = NODATA : $this->imageCounter = $imageCounter;
+	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
+	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
+	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
+	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
 
 }
