@@ -23,14 +23,20 @@
 					<label for="signup01-username" id="signup01-username-spotter">Username <span class="orange">*</span><small class="error"> Please enter a valid Username</small></label>
 					<label for="signup01-username" id="signup01-username-jammer">Artist / Group name <span class="orange">*</span><small class="error "> Please enter a valid name Artist</small></label>
 					<label for="signup01-username" id="signup01-username-venue">Name of your venue <span class="orange">*</span><small class="error"> Please enter a valid name Venue</small></label>
-				</div>							
+				</div>
+                                    <!-- Questo bottone serve solo per verificare l'esistenza dello username in fase di test-->
+                                    <div><button onclick="javascript:checkUsernameExists();">Clicca per verificare se lo username esiste:vedi console!</button></div>
+                                    <!-- Fine bottone test captcha-->
 			</div>								
 			
 			<div class="row signup01-mail-signup01">
 				<div  class="small-5 small-centered columns">									
 					<input type="text" name="signup01-mail" id="signup01-mail" pattern="mail" maxlength="50" required/>
 					<label for="signup01-mail" >Mail <span class="orange">*</span><small class="error"> Please enter a valid mail</small></label>
-				</div>							
+				</div>	
+                                    <!-- Questo bottone serve solo per verificare l'esistenza dell email in fase di test-->
+                                    <div><button onclick="javascript:checkEmailExists();">Clicca per verificare se la email esiste:vedi console!</button></div>
+                                    <!-- Fine bottone test captcha-->
 			</div>
 			
 			<div class="row signup01-password-signup01">
@@ -51,8 +57,11 @@
 				<div  class="small-5 small-centered   columns">
 					<div id="signup01-captcha" >						 
 						
-					</div>									
-				</div>	
+					</div>	
+                                    <!-- Questo bottone serve solo per verificare il captcha in fase di test-->
+                                    <div><button onclick="javascript:validateCaptcha();">Clicca per verificare il captcha:vedi console!</button></div>
+                                    <!-- Fine bottone test captcha-->
+                                </div>	
 			</div>
 		</div>			
 	</div>

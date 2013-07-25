@@ -695,11 +695,12 @@ function getFormFieldValues() {
 /**
  * Verifica se l'email inserita dall'utente esiste gia'
  */
-function checkEmailExists(email) {
+function checkEmailExists() {
     var json_email = {};
     json_email.request = "checkEmailExists";
-    json_email.email = email; //recupero il valore della email o lo passo come parametro
+    json_email.email = $("#signup01-mail").val(); //recupero il valore della email o lo passo come parametro
 
+    console.log("[checkEmailExists] email :" + $("#signup01-mail").val());
     $.ajax({
         type: "POST",
         url: "../controllers/signup/signupRequest.php",
@@ -709,18 +710,18 @@ function checkEmailExists(email) {
             xhr.setRequestHeader("X-AjaxRequest", "1");
         },
         success: function(data, status) {
-//            console.log("[onLoad] [SUCCESS] Data: " + data);
-//            console.log("[onLoad] [SUCCESS] Status: " + status);
             if (data == 1) {
                 //gestire in qualche modo la segnalazione all'utente
-                alert("Email already exists!");
+                console.log("[checkEmailExists] email esistente");
             }
             else {
                 //email va bene
+                console.log("[checkEmailExists] email NON esistente");
             }
         },
         error: function(data, status) {
-//            console.log("[onLoad] [ERROR] Status: " + status);
+            console.log("[checkEmailExists] errore.data : " + data);
+            console.log("[checkEmailExists] errore.status : " + status);
         }
     });
 }
@@ -728,11 +729,11 @@ function checkEmailExists(email) {
 /**
  * Verifica se lo username inserito dall'utente esiste gia'
  */
-function checkUsernameExists(username) {
+function checkUsernameExists() {
     var json_username = {};
     json_username.request = "checkUsernameExists";
-    json_username.username = username; //recupero il valore della email o lo passo come parametro
-
+    json_username.username = $("#signup01-username").val(); //recupero il valore della email o lo passo come parametro
+    console.log("[checkUsernameExists] username :" + $("#signup01-username").val());
     $.ajax({
         type: "POST",
         url: "../controllers/signup/signupRequest.php",
@@ -746,13 +747,15 @@ function checkUsernameExists(username) {
 //            console.log("[onLoad] [SUCCESS] Status: " + status);
             if (data == 1) {
                 //gestire in qualche modo la segnalazione all'utente
-                alert("Username already taken!");
+                    console.log("[checkUsernameExists] username esistente");
             } else {
                 //username va bene
+                console.log("[checkUsernameExists] username NON esistente");
             }
         },
         error: function(data, status) {
-//            console.log("[onLoad] [ERROR] Status: " + status);
+            console.log("[checkUsernameExists] errore.data : " + data);
+            console.log("[checkUsernameExists] errore.status : " + status);
         }
     });
 }
@@ -787,8 +790,8 @@ function validateCaptcha()
     //variabile captcha response_field
     json_captcha.challengeField = $("input#recaptcha_challenge_field").val();
 
-//    console.log("[validateCaptcha] recaptcha_response_field => " + json_captcha.responseField);
-//    console.log("[validateCaptcha] challengeField => " + json_captcha.challengeField);
+    console.log("[validateCaptcha] recaptcha_response_field => " + json_captcha.responseField);
+    console.log("[validateCaptcha] challengeField => " + json_captcha.challengeField);
 //    
     //********  chiamata Ajax allo script di controllo dell'inserimento corretto del captcha
     $.ajax({
@@ -801,11 +804,12 @@ function validateCaptcha()
             console.log("[validateCaptcha] esito captcha : " + data);
             if (data == "success") {
                 //ok...
+                console.log("[validateCaptcha] =  captcha valido");
             }
             else {
                 //errore
+                console.log("[validateCaptcha] =  captcha  NON valido");
                 Recaptcha.reload(); //ricarico il captcha
-                
             }
 
         },
