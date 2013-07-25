@@ -18,7 +18,7 @@
  */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../');
 
 ini_set('display_errors', '1');
 
@@ -33,20 +33,18 @@ require_once BOXES_DIR . 'record.box.php';
 
 
 //SPOTTER
-$mari = '1oT7yYrpfZ';//MARI
-$FLAVYCAP = 'oN7Pcp2lxf';//FLAVYCAP 
-$Kessingtong = '2OgmANcYaT';//Kessingtong
-
-
+$mari = '1oT7yYrpfZ'; //MARI
+$FLAVYCAP = 'oN7Pcp2lxf'; //FLAVYCAP 
+$Kessingtong = '2OgmANcYaT'; //Kessingtong
 //JAMMER
-$ROSESINBLOOM = 'uMxy47jSjg';//ROSESINBLOOM
-$Stanis = 'HdqSpIhiXo';//Stanis
+$ROSESINBLOOM = 'uMxy47jSjg'; //ROSESINBLOOM
+$Stanis = 'HdqSpIhiXo'; //Stanis
 $LDF = '7fes1RyY77'; //LDF
-
 //Venue
-$ZonaPlayed = '2K5Lv7qxzw';//ZonaPlayed  
+$ZonaPlayed = '2K5Lv7qxzw'; //ZonaPlayed  
 $Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
-$jump = 'wrpgRuSgRA';//jump rock club
+$jump = 'wrpgRuSgRA'; //jump rock club
+
 
 echo '<br />------------------------- TEST INFO BOX-------------------------------------------<br />';
 echo '<br />TEST INFO BOX SPOTTER<br />';
@@ -65,7 +63,8 @@ print "<pre>";
 print_r($info1);
 print "</pre>";
 echo '<br />TEST INFO BOX OBJ FLAVYCAP<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';echo '<br />TEST INFO BOX OBJ MARI<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST INFO BOX OBJ MARI<br />';
 echo '<br />TEST INFO BOX Kessingtong<br />';
 $info1BoxP = new infoBox();
 $info1 = $info1BoxP->init($Kessingtong);
@@ -127,15 +126,11 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />------------------------- FINE TEST INFO BOX-------------------------------------------<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />-------------------------TEST ALBUM BOX-------------------------------------------<br />';
 echo '<br />TEST ALBUM BOX SPOTTER<br />';
 echo '<br />TEST ALBUM BOX MARI<br />';
 $albumBoxP = new albumBox();
-$albumBox = $albumBoxP->sendInfo($mari);
+$albumBox = $albumBoxP->init($mari);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
@@ -143,7 +138,7 @@ echo '<br />TEST ALBUM BOX MARI<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ALBUM BOX FLAVYCAP<br />';
 $albumBoxP = new albumBox();
-$albumBox = $albumBoxP->sendInfo($FLAVYCAP);
+$albumBox = $albumBoxP->init($FLAVYCAP);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
@@ -151,7 +146,7 @@ echo '<br />TEST ALBUM BOX FLAVYCAP<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ALBUM BOX Kessingtong<br />';
 $albumBoxP = new albumBox();
-$albumBox = $albumBoxP->sendInfo($Kessingtong);
+$albumBox = $albumBoxP->init($Kessingtong);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
@@ -161,7 +156,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />TEST ALBUM BOX JAMMER<br />';
 echo '<br />TEST ALBUM BOX ROSESINBLOOM<br />';
 $albumBoxP = new albumBox();
-$albumBox = $albumBoxP->sendInfo($ROSESINBLOOM);
+$albumBox = $albumBoxP->init($ROSESINBLOOM);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
@@ -169,7 +164,7 @@ echo '<br />TEST ALBUM BOX ROSESINBLOOM<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ALBUM BOX STANIS<br />';
 $albumBoxP = new albumBox();
-$albumBox = $albumBoxP->sendInfo($Stanis);
+$albumBox = $albumBoxP->init($Stanis);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
@@ -177,7 +172,7 @@ echo '<br />TEST ALBUM BOX STANIS<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ALBUM BOX LDF<br />';
 $albumBoxP = new albumBox();
-$albumBox = $albumBoxP->sendInfo($LDF);
+$albumBox = $albumBoxP->init($LDF);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
@@ -188,7 +183,7 @@ echo '<br /TEST ALBUM BOX VENUE<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ALBUM BOX ZonaPlayed<br />';
 $albumBoxP = new albumBox();
-$albumBox = $albumBoxP->sendInfo($ZonaPlayed);
+$albumBox = $albumBoxP->init($ZonaPlayed);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
@@ -196,7 +191,7 @@ echo '<br />TEST ALBUM BOX ZonaPlayed<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ALBUM BOX Ultrasuono<br />';
 $albumBoxP = new albumBox();
-$albumBox = $albumBoxP->sendInfo($Ultrasuono);
+$albumBox = $albumBoxP->init($Ultrasuono);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
@@ -204,7 +199,7 @@ echo '<br />TEST ALBUM BOX Ultrasuono<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ALBUM BOX Jump<br />';
 $albumBoxP = new albumBox();
-$albumBox = $albumBoxP->sendInfo($jump);
+$albumBox = $albumBoxP->init($jump);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
@@ -213,44 +208,51 @@ echo '<br />--------------------------------------------------------------------
 echo '<br /FINE TEST ALBUM BOX VENUE<br />';
 echo '<br />-------------------------FINE TEST ALBUM BOX-------------------------------------------<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />-------------------------TEST EVENT BOX-------------------------------------------<br />';
-echo '<br /TEST EVENT BOX JAMMER<br />';
-echo '<br />TEST EVENT BOX HDgcsTLpEx<br />';
-$eventBoxP = new eventBox();
-$eventBox = $eventBoxP->sendInfo('HDgcsTLpEx');
-print "<pre>";
-print_r($eventBox);//
-print "</pre>";
-echo '<br />TEST EVENT BOX HDgcsTLpEx<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br /FINE TEST EVENT BOX JAMMER<br />';
-echo '<br />-------------------------FINE TEST ALBUM BOX-------------------------------------------<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />------------------------- TEST REVIEW RECORD BOX -------------------------------------------<br />';
-echo '<br />------------------------- TEST REVIEW RECORD BOX SPATAFORA-------------------------------------------<br />';
-$reviewBoxP = new reviewRecordsBox();
-$reviewBox = $reviewBoxP->sendInfo('GuUAj83MGH');
-print "<pre>";
-print_r($reviewBox);
-print "</pre>";
-echo '<br />-------------------------FINE TEST REVIEW RECORD BOX SPATAFORA-------------------------------------------<br />';
-echo '<br />------------------------- TEST REVIEW RECORD BOX LDF-------------------------------------------<br />';
-$reviewBoxP = new reviewRecordsBox();
-$reviewBox = $reviewBoxP->sendInfo($LDF);
-print "<pre>";
-print_r($reviewBox);
-print "</pre>";
-echo '<br />-------------------------FINE TEST REVIEW RECORD BOX LDF-------------------------------------------<br />';
-echo '<br />-------------------------FINE TEST REVIEW RECORD BOX -------------------------------------------<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />-------------------------TEST  RECORD BOX -------------------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+/*
+  echo '<br />-------------------------TEST EVENT BOX-------------------------------------------<br />';
+  echo '<br /TEST EVENT BOX JAMMER<br />';
+  echo '<br />TEST EVENT BOX HDgcsTLpEx<br />';
+  $eventBoxP = new eventBox();
+  $eventBox = $eventBoxP->sendInfo('HDgcsTLpEx');
+  print "<pre>";
+  print_r($eventBox);//
+  print "</pre>";
+  echo '<br />TEST EVENT BOX HDgcsTLpEx<br />';
+  echo '<br />-------------------------------------------------------------------------------------------<br />';
+  echo '<br /FINE TEST EVENT BOX JAMMER<br />';
+  echo '<br />-------------------------FINE TEST ALBUM BOX-------------------------------------------<br />';
+  echo '<br />-------------------------------------------------------------------------------------------<br />';
+  echo '<br />------------------------- TEST REVIEW RECORD BOX -------------------------------------------<br />';
+  echo '<br />------------------------- TEST REVIEW RECORD BOX SPATAFORA-------------------------------------------<br />';
+  $reviewBoxP = new reviewRecordsBox();
+  $reviewBox = $reviewBoxP->sendInfo('GuUAj83MGH');
+  print "<pre>";
+  print_r($reviewBox);
+  print "</pre>";
+  echo '<br />-------------------------FINE TEST REVIEW RECORD BOX SPATAFORA-------------------------------------------<br />';
+  echo '<br />------------------------- TEST REVIEW RECORD BOX LDF-------------------------------------------<br />';
+  $reviewBoxP = new reviewRecordsBox();
+  $reviewBox = $reviewBoxP->sendInfo($LDF);
+  print "<pre>";
+  print_r($reviewBox);
+  print "</pre>";
+  echo '<br />-------------------------FINE TEST REVIEW RECORD BOX LDF-------------------------------------------<br />';
+  echo '<br />-------------------------FINE TEST REVIEW RECORD BOX -------------------------------------------<br />';
+  echo '<br />-------------------------------------------------------------------------------------------<br />';
+  echo '<br />-------------------------TEST  RECORD BOX -------------------------------------------<br />';
 
-echo '<br />------------------------- TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
-$recordBoxP = new recordBox();
-$recordBox = $recordBoxP->sendInfo('GuUAj83MGH');
-print "<pre>";
-print_r($recordBox);
-print "</pre>";
-echo '<br />-------------------------FINE TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
-echo '<br />-------------------------FINE TEST RECORD BOX -------------------------------------------<br />';
+  echo '<br />------------------------- TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
+  $recordBoxP = new recordBox();
+  $recordBox = $recordBoxP->sendInfo('GuUAj83MGH');
+  print "<pre>";
+  print_r($recordBox);
+  print "</pre>";
+  echo '<br />-------------------------FINE TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
+  echo '<br />-------------------------FINE TEST RECORD BOX -------------------------------------------<br />';
+ * *
+ */
 ?>
