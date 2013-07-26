@@ -19,7 +19,7 @@
 		<div  class="large-12 columns ">
 			<div class="signup-box" >
 				
-				<form action="" method="POST" name="form-signup" id="form-signup">
+				<form action="" method="POST" name="form-signup" id="form-signup" data-abide>
 					<div id="signup01">
 						<div class="row">
 							<div  class="large-12 columns signup-title">

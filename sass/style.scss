@@ -4,6 +4,7 @@
 /* classi generiche */
 
 .no-display { display:none }
+.inline-display { display:inline }
 
 // -------------------- TESTO -------------------------------
 body{
@@ -700,8 +701,7 @@ footer {
   font-size: 14px;
   color: $grey-light;
   text-align:left !important; 
-  padding-bottom:20px !important;
-  
+  padding-bottom:20px !important;  
 }
 
 
@@ -754,6 +754,7 @@ footer {
 
 #form-signup input[type='text'].error,input[type='password'].error{
   border: 1px solid $red;
+  
 }
 
 #form-signup select + #spotter-birth-day{
@@ -958,6 +959,20 @@ footer {
   text-align:right !important;
   position: absolute;
   right:0px;
+}
+
+
+#form-signup .error{
+  background-color: inherit !important;
+  color: $red !important;
+  float:center !important;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+ // margin-top: 10px !important;  
+  
+}
+#form-signup small.error{ 
+  float:right !important;
 }
 //---------------- ICON -----------------------------
 
