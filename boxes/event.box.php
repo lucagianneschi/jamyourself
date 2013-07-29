@@ -60,14 +60,14 @@ class EventInfo {
 
 }
 
-class EventBox1 {
+class EventBox {
 
     public $eventInfoArray;
     public $eventCounter;
 
     public function init($objectId) {
 
-	$eventBox = new EventBox1();
+	$eventBox = new EventBox();
 	$info = array();
 	$counter = 0;
 	$event = new EventParse();
