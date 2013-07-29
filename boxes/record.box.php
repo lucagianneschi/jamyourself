@@ -47,7 +47,7 @@ class RecordInfo {
 
 }
 
-class RecordBox1 {
+class RecordBox {
 
     public $recordInfoArray;
     public $recordCounter;
