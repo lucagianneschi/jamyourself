@@ -330,6 +330,27 @@ class SignupController extends REST {
         $this->response(array($res), 200);
     }
 
+    public function signupTest() {
+        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+            $this->response('', 406);
+        }
+
+        if (!isset($this->request['formData'])) {
+            // If invalid inputs "Bad Request" status message and reason
+            $error = array('status' => "Bad Request", "msg" => "No form data specified");
+            $this->response($error, 400);
+        }
+
+
+        $data = $this->request['formData'];
+//        $decoded = json_decode($this->request['formData']);
+        $params = array();
+        parse_str($data, $params);
+        
+        $this->response(array('ok'), 200);
+        
+    }
+
 }
 
 ?>

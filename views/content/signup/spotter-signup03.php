@@ -9,8 +9,8 @@
 			<div class="row signup-bottom">
 				<div  class="small-12 columns">
 					<!------------------------------------------------ DESCRIPTION --------------------------------->
-					<label for="spotter-description">Description <span class="orange">*</span></label>			
-					<textarea name="spotter-description" id="spotter-description"></textarea>
+					<label for="spotter-description">Description <span class="orange">*</span><small class="error"> Please enter a valid Description</small></label>			
+					<textarea name="spotter-description" id="spotter-description" pattern="description" maxlength="200" required></textarea>
 				</div>
 			</div>
 			<div class="row">
@@ -33,24 +33,24 @@
 			<div class="row signup-social">
 				<div  class="small-12 columns">
 					<div class="facebook-label">
-						<input type="text" name="spotter-facebook" id="spotter-facebook" />								
-						<label for="spotter-facebook" >Url of your Facebook profile</label>
+						<input type="text" name="spotter-facebook" id="spotter-facebook" pattern="url" placeholder="http://"/>								
+						<label for="spotter-facebook" >Url of your Facebook profile<small class="error"> Please enter a valid url</small></label>
 					</div>
 					<div class="twitter-label no-display">
-						<input type="text" name="spotter-twitter" id="spotter-twitter" />								
-						<label for="spotter-twitter">Url of your Twitter profile</label>
+						<input type="text" name="spotter-twitter" id="spotter-twitter" pattern="url" placeholder="http://"/>								
+						<label for="spotter-twitter">Url of your Twitter profile<small class="error"> Please enter a valid url</small></label>
 					</div>
 					<div  class="google-label no-display">
-						<input type="text" name="spotter-google" id="spotter-google" />								
-						<label for="spotter-google" >Url of your Google Plus profile</label>
+						<input type="text" name="spotter-google" id="spotter-google" pattern="url" placeholder="http://"/>								
+						<label for="spotter-google" >Url of your Google Plus profile<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					<div class="youtube-label no-display">
-						<input type="text" name="spotter-youtube" id="spotter-youtube" />								
-						<label for="spotter-youtube">Url of your Youtube profile</label>
+						<input type="text" name="spotter-youtube" id="spotter-youtube" pattern="url" placeholder="http://"/>								
+						<label for="spotter-youtube">Url of your Youtube profile<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					<div class="web-label no-display">
-						<input type="text" name="spotter-web" id="spotter-web" />								
-						<label for="spotter-web">Url of your Web Site</label>
+						<input type="text" name="spotter-web" id="spotter-web" pattern="url" placeholder="http://"/>								
+						<label for="spotter-web">Url of your Web Site<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					
 				</div>	

@@ -14,7 +14,7 @@
 <script src="resources/javascripts/plugins/foundation/foundation.section.js"></script>
 <script src="resources/javascripts/plugins/foundation/foundation.clearing.js"></script>
 <script src="resources/javascripts/plugins/foundation/foundation.reveal.js"></script>
-
+<script src="resources/javascripts/plugins/foundation/foundation.abide.js"></script>
 <!-- recatpcha -->
 <script src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>  
 

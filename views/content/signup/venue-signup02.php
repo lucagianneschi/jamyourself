@@ -1,4 +1,4 @@
-<div id="venue-signup02" class="no-display">
+<div id="venue-signup02"class="no-display">
 	<div class="row">
 		<div  class="large-12 columns signup-title">
 			<h2>Tell us something about your Venue:</h2>		
@@ -21,24 +21,24 @@
 		<div  class="small-6 columns">
 			<div class="row venue-country-singup02">
 				<div  class="small-12 columns">									
-					<input type="text" name="venue-country" id="venue-country" />								
-					<label for="venue-country" >Country <span class="orange">*</span></label>
+					<input type="text" name="venue-country" id="venue-country" pattern="username" required/>								
+					<label for="venue-country" >Country <span class="orange">*</span><small class="error"> Please enter a valid Country</small></label>
 				</div>							
 			</div>
 			<div class="row">
 				<div  class="small-8 columns">	
 					<div class="row venue-city-singup02">
 						<div  class="small-12 columns">									
-							<input type="text" name="venue-city" id="venue-city" />								
-							<label for="venue-city" >City <span class="orange">*</span></label>
+							<input type="text" name="venue-city" id="venue-city" pattern="username" required/>								
+							<label for="venue-city" >City <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>
 						</div>							
 					</div>	
 				</div>
 				<div  class="small-4 columns">	
 					<div class="row venue-province-singup02">
 						<div  class="small-12 columns">									
-							<input type="text" name="venue-province" id="venue-province" />								
-							<label for="venue-province" >Province <span class="orange">*</span></label>
+							<input type="text" name="venue-province" id="venue-province" pattern="username" required/>								
+							<label for="venue-province" >Zip Code <span class="orange">*</span><small class="error"> Please enter a valid zip code</small></label>
 						</div>							
 					</div>	
 				</div>
@@ -47,16 +47,16 @@
 				<div  class="small-9 columns">	
 					<div class="row venue-adress-singup02">
 						<div  class="small-12 columns">									
-							<input type="text" name="venue-adress" id="venue-adress" />								
-							<label for="venue-adress" >Adress <span class="orange">*</span></label>
+							<input type="text" name="venue-adress" id="venue-adress" pattern="username" required/>								
+							<label for="venue-adress" >Adress <span class="orange">*</span><small class="error"> Please enter a valid Adress</small></label>
 						</div>							
 					</div>	
 				</div>
 				<div  class="small-3 columns">	
 					<div class="row venue-number-singup02">
 						<div  class="small-12 columns">									
-							<input type="text" name="venue-number" id="venue-number" />								
-							<label for="venue-number" >Number <span class="orange">*</span></label>
+							<input type="text" name="venue-number" id="venue-number" pattern="username" required/>								
+							<label for="venue-number" >Number <span class="orange">*</span><small class="error"> Please enter a valid Number</small></label>
 						</div>							
 					</div>	
 				</div>

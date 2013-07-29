@@ -18,25 +18,32 @@
 			</div>
 			<div class="row spotter-firstname-singup02">
 				<div  class="small-12 columns">									
-					<input type="text" name="spotter-firstname" id="spotter-firstname" />								
-					<label for="spotter-firstname" >First Name</label>
+					<input type="text" name="spotter-firstname" id="spotter-firstname" pattern="username" maxlength="50" />								
+					<label for="spotter-firstname" >First Name<small class="error"> Please enter a valid First Name</small></label>
 				</div>							
 			</div>
 			<div class="row spotter-lastname-singup02">
 				<div  class="small-12 columns">									
-					<input type="text" name="spotter-lastname" id="spotter-lastname" />								
-					<label for="spotter-lastname" >Last Name</label>
+					<input type="text" name="spotter-lastname" id="spotter-lastname" pattern="username" maxlength="50" />								
+					<label for="spotter-lastname" >Last Name<small class="error"> Please enter a valid Last Name</small></label>
 				</div>							
 			</div>
-			<div class="row spotter-location-singup02">
+			<div class="row spotter-country-singup02">
 				<div  class="small-12 columns">									
-					<input type="text" name="spotter-location" id="spotter-location" />								
-					<label for="spotter-location " class="inline">Where do you live? <span class="orange">*</span></label>
+					<input type="text" name="spotter-country" id="spotter-country" pattern="username" maxlength="50" required/>								
+					<label for="spotter-country" >Country <span class="orange">*</span><small class="error"> Please enter a valid Country</small></label>
+				</div>							
+			</div>
+			<div class="row spotter-city-singup02">
+				<div  class="small-12 columns">									
+					<input type="text" name="spotter-location" id="spotter-city" pattern="username" maxlength="50" required />					
+					<label for="spotter-city " class="inline">City <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>
+				
 					<a href="#" data-reveal-id="spotter-myModal" class="location-reveal text grey">Why do you ask me?</a>
 					<div id="spotter-myModal" class="reveal-modal">
-					  <h3>Why do you ask me?</h3>					 
-					  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
-					  <a class="close-reveal-modal">&#215;</a>
+						  <h3>Why do you ask me?</h3>					 
+						  <p class="grey">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+						  <a class="close-reveal-modal">&#215;</a>
 					</div>
 				</div>							
 			</div>
@@ -46,13 +53,13 @@
 			<h3>What kind of music do you like?</h3>
 			<div class="row" style="padding-top: 30px">
 				<div  class="small-12 columns">
-					<div class="text grey-light">Select at least one genre (max 10)<span class="orange">*</span></div>
+					<div class="label-signup-genre text grey-light">Select at least one genre (max 10)<span class="orange">*</span><small class="error"> Please select a genre</small></div>
 				</div>	
 			</div>
 			<div class="row" >
 				<div  class="small-12 columns">
 					<div class="signup-genre">
-						<input type="checkbox" name="spotter-genre[0]" id="spotter-genre[0]" value="rock" class="no-display"><label for="spotter-genre[0]">Rock</label>
+						<input type="checkbox" name="spotter-genre[0]" id="spotter-genre[0]" value="rock" class="no-display" required><label for="spotter-genre[0]">Rock</label>
 						<input type="checkbox" name="spotter-genre[1]" id="spotter-genre[1]" value="indie-rock" class="no-display"><label for="spotter-genre[1]">Indie Rock</label>
 						<input type="checkbox" name="spotter-genre[2]" id="spotter-genre[2]" value="metal" class="no-display"><label for="spotter-genre[2]">Metal</label>
 						<input type="checkbox" name="spotter-genre[3]" id="spotter-genre[3]" value="songwriter" class="no-display"><label for="spotter-genre[3]">Songwriter</label>

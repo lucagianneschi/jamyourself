@@ -130,18 +130,6 @@ class ActivityParse {
 	}
 	
 	/**
-	 * \fn		void orWherePointer($value)
-	 * \brief	Sets a condition for which the field in the array $value must value al least one value
-	 * \param	$field	the array representing the field and the value to put in or
-	 */
-	/*
-	public function orWherePointer($value) {
-		$param['where'] = json_encode(array('$or' => $compoundQuery));
-		$this->parseQuery->where($field, $value);
-	}
-	*/
-
-	/**
 	 * \fn		Activity parseToActivity($res)
 	 * \brief	The function returns a representation of an Activity object in Parse
 	 * \param	$res		represent the Activity object returned from Parse
@@ -389,6 +377,20 @@ class ActivityParse {
 	 */
 	public function whereNotExists($field) {
 		$this->parseQuery->whereDoesNotExist($field);
+	}
+
+	/**
+	 * \fn		void whereOr($value)
+	 * \brief	Sets a condition for which the field in the array $value must value al least one value
+	 *			An example of $value is:
+	 *			$value = array(
+	 *				array('type' => 'EVENTUPDATED'),
+	 *				array('album' => array('__type' => 'Pointer', 'className' => 'Album', 'objectId' => 'lK0bNWIi7k'))
+	 *			);
+	 * \param	$field	the array representing the field and the value to put in or
+	 */
+	public function whereOr($value) {
+		$this->parseQuery->where('$or', $value);
 	}
 
 	/**
