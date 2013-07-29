@@ -207,6 +207,30 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
 }
 
 /**
+ * \fn		string parse_decode_string($string)
+ * \brief	The function returns a string read from Parse that can be interpreted by the user
+ * \param	$string 	represent the string from Parse to decode
+ * \return	string		the decoded string
+ */
+function parse_decode_string($string) {
+	$string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+	$string = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
+	return $string;
+}
+
+/**
+ * \fn		string parse_encode_string($string)
+ * \brief	The function returns a string that can be saved to Parse
+ * \param	$string 	represent the string to be saved
+ * \return	string		the string encoded for Parse
+ */
+function parse_encode_string($string) {
+	$string = htmlentities($string, ENT_QUOTES, 'UTF-8');
+	$string = str_replace(array("\r\n", "\r", "\n"), "<br />", $string);
+	return $string;
+}
+
+/**
  * \fn		array toParseACL($parseACL)
  * \brief	The function returns an array like representation of parseACL object
  * \param	$parseACL 	represent the parseACL object
