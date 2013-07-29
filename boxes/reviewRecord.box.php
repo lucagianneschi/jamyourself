@@ -19,6 +19,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 
 require_once ROOT_DIR . 'config.php';
+require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
@@ -29,109 +30,91 @@ require_once CLASSES_DIR . 'recordParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 
-class reviewRecordsBox {
+class ReviewInfoRecord {
 
-    public function sendInfo($objectId) {
-	$resultArray = array();
-	$userParse = new UserParse();
-	$user = $userParse->getUser($objectId);
-	$type = $user->getType();
+    public $avatarThumb; //fromUser del comment
+    public $commentCounter; //comment
+    public $loveCounter; //comment
+    public $rating; //comment
+    public $reviewCounter; //comment
+    public $shareCounter; //comment
+    public $text; //comment
+    public $title; //record
+    public $thumbnailCover; //record
+    public $username; //fromUser del comment
+
+    function __construct($avatarThumb, $commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $username) {
+	is_null($avatarThumb) ? $this->avatarThumb = NODATA : $this->avatarThumb = $avatarThumb;
+	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
+	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
+	is_null($rating) ? $this->rating = NODATA : $this->rating = $rating;
+	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
+	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
+	is_null($text) ? $this->text = NODATA : $this->text = $text;
+	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
+	is_null($username) ? $this->username = NODATA : $this->username = $username;
+    }
+
+}
+
+class ReviewRecordBox {
+
+    public $reviewArray;
+    public $reviewCounter;
+
+    public function init($objectId, $type) {
+	$info = array();
+	$counter = 0;
+	$reviewRecordBox = new ReviewRecordBox();
+	$recordReview = new ActivityParse();
+	$recordReview->where('type', 'RECORDREVIEW');
 	switch ($type) {
 	    case 'SPOTTER':
-		$parseReviewRecord = new ActivityParse();
-		$parseReviewRecord->where('type', 'RECORDREVIEW');
-		$parseReviewRecord->wherePointer('fromUser', '_User', $objectId);
-		$parseReviewRecord->where('active', true);
-		$parseReviewRecord->orderByDescending('createdAt');
-		$activities = $parseReviewRecord->getActivities();
-		if ($activities != 0) {
-		    if (get_class($activities) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $activities->getErrorMessage() . '<br/>';
-		    } else {
-			foreach ($activities as $activity) {
-			    $recordP = new RecordParse();
-			    $record = $recordP->getRecord($activity->getRecord());
-			    $thumbnailCover = $record->getThumbnailCover();
-			    $title = $record->getTitle();
-
-			    $userP = new UserParse();
-			    $user = $userP->getUser($record->getFromUser());
-			    $userName = $user->getUsername();
-
-			    $reviewP = new CommentParse();
-			    $review = $reviewP->getComment($activity->getComment());
-			    $rating = $review->getVote();
-			    $text = $review->getText();
-			    $loveCounter = $review->getLoveCounter();
-			    $commentCounter = $review->getCommentCounter();
-			    $shareCounter = $review->getShareCounter();
-			    $reviewCounter = $parseReviewRecord->getCount();
-			    $reviewRecordInfo = array('thumbnailCover' => $thumbnailCover,
-				'title' => $title,
-				'userName' => $userName,
-				'rating' => $rating,
-				'text' => $text,
-				'loveCounter' => $loveCounter,
-				'commentCounter' => $commentCounter,
-				'shareCounter' => $shareCounter,
-				'reviewCounter' => $reviewCounter);
-			    array_push($resultArray, $reviewRecordInfo);
-			}
-		    }
-		}
+		$field = 'fromUser';
 		break;
-	    case 'JAMMER':
-		$parseReviewRecord = new ActivityParse();
-		$parseReviewRecord->wherePointer('toUser', '_User', $objectId);
-		$parseReviewRecord->where('type', 'RECORDREVIEW');
-		$parseReviewRecord->where('active', true);
-		$parseReviewRecord->setLimit(1000);
-		$parseReviewRecord->orderByDescending('createdAt');
-		$activities = $parseReviewRecord->getActivities();
-		if ($activities != 0) {
-		    if (get_class($activities) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $activities->getErrorMessage() . '<br/>';
-		    } else {
-			foreach ($activities as $activity) {
-
-			    $reviewP = new CommentParse();
-			    $review = $reviewP->getComment($activity->getComment());
-			    $rating = $review->getVote();
-			    $text = $review->getText();
-			    $loveCounter = $review->getLoveCounter();
-			    $commentCounter = $review->getCommentCounter();
-			    $shareCounter = $review->getShareCounter();
-
-			    $userP = new UserParse();
-			    $user = $userP->getUser($activity->getFromUser());
-			    $username = $user->getUsername();
-			    $thumbnail = $user->getProfileThumbnail();
-
-			    $recordP = new RecordParse();
-			    $record = $recordP->getRecord($activity->getRecord());
-			    $thumbnailCover = $record->getThumbnailCover();
-			    $title = $record->getTitle();
-			    $reviewCounter = $parseReviewRecord->getCount();
-			    $reviewRecordInfo = array(
-				'rating' => $rating,
-				'text' => $text,
-				'loveCounter' => $loveCounter,
-				'commentCounter' => $commentCounter,
-				'shareCounter' => $shareCounter,
-				'username' => $username,
-				'thumbnail' => $thumbnail,
-				'title' => $title,
-				'thumbnailCover' => $thumbnailCover,
-				'reviewCounter' => $reviewCounter);
-			    array_push($resultArray, $reviewRecordInfo);
-			}
-		    }
-		}
-		break;
-	    default:
+	    default :
+		$field = 'toUser';
 		break;
 	}
-	return $resultArray;
+	$recordReview->wherePointer($field, '_User', $objectId);
+	$recordReview->where('active', true);
+	$recordReview->orderByDescending('createdAt');
+	$activities = $recordReview->getActivities();
+	if ($activities != 0) {
+	    if (get_class($activities) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $activities->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($activities as $activity) {
+		    $counter = ++$counter;
+
+		    $recordP = new RecordParse();
+		    $record = $recordP->getRecord($activity->getRecord());
+		    $thumbnailCover = $record->getThumbnailCover();
+		    $title = $record->getTitle();
+
+		    $userP = new UserParse();
+		    $user = $userP->getUser($record->getFromUser());
+		    $userName = $user->getUsername();
+		    $avatarThumb = $user->getProfileThumbnail();
+
+		    $reviewP = new CommentParse();
+		    $review = $reviewP->getComment($activity->getComment());
+		    $rating = $review->getVote();
+		    $text = $review->getText();
+		    $loveCounter = $review->getLoveCounter();
+		    $commentCounter = $review->getCommentCounter();
+		    $shareCounter = $review->getShareCounter();
+		    $reviewCounter = $recordReview->getCount();
+
+		    $infoReviewRecord = new ReviewInfoRecord($avatarThumb, $commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $userName);
+		    array_push($info, $infoReviewRecord);
+		}
+	    }
+	}
+	$reviewRecordBox->reviewArray = $info;
+	$reviewRecordBox->reviewCounter = $counter;
+	return $reviewRecordBox;
     }
 
 }
