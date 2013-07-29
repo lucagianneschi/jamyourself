@@ -29,7 +29,7 @@ require_once BOXES_DIR . 'album.box.php';
 require_once BOXES_DIR . 'event.box.php';
 require_once BOXES_DIR . 'reviewRecords.box.php';
 require_once BOXES_DIR . 'record.box.php';
-
+require_once BOXES_DIR . 'post.box.php';
 
 
 //SPOTTER
@@ -47,8 +47,18 @@ $jump = 'wrpgRuSgRA'; //jump rock club
 
 
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />-------------------------TEST  RECORD BOX -------------------------------------------<br />';
+echo '<br />-------------------------TEST  POST BOX -------------------------------------------<br />';
+echo '<br />------------------------- TEST POST BOX LDF-------------------------------------------<br />';
+$recordPostP = new PostBox();
+$recordPost = $recordPostP->init($LDF);
+print "<pre>";
+print_r($recordPost);
+echo '<br />-------------------------FINE TEST POST BOX LDF-------------------------------------------<br />';
+echo '<br />-------------------------FINE TEST POST BOX -------------------------------------------<br />';
 
+
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RECORD BOX -------------------------------------------<br />';
 echo '<br />------------------------- TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
 $recordBoxP = new RecordBox();
 $recordBox = $recordBoxP->init('GuUAj83MGH');
@@ -61,7 +71,7 @@ echo '<br />-------------------------FINE TEST RECORD BOX ----------------------
 echo '<br />-------------------------TEST EVENT BOX-------------------------------------------<br />';
 echo '<br /TEST EVENT BOX JAMMER<br />';
 echo '<br />TEST EVENT BOX HDgcsTLpEx<br />';
-$eventBoxP = new EventBox1();
+$eventBoxP = new EventBox();
 $eventBox = $eventBoxP->init('HDgcsTLpEx');
 print "<pre>";
 print_r($eventBox); //
