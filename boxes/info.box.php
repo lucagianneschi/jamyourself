@@ -50,12 +50,17 @@ class InfoBox {
     public $webSite;
     public $youtubeChannel;
     public $venueCounter;
-    
+
+    /**
+     * \fn	init($objectId)
+     * \brief	Init InfoBox instance
+     * \return	infoBox
+     */
     public function init($objectId) {//questa la puoi fare esterna e passare tutto lo user??
 	$userParse = new UserParse();
 	$user = $userParse->getUser($objectId);
 	if (count($user) == 0) {
-	    echo '<br />NO USER FOUND<br/>';//qui potresti mandare un box di no data
+	    echo '<br />NO USER FOUND<br/>'; //qui potresti mandare un box di no data
 	} else if (get_class($user) == 'Error') {
 	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
 	} else {
@@ -112,4 +117,5 @@ class InfoBox {
     }
 
 }
+
 ?>
