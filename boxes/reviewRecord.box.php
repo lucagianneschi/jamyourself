@@ -60,8 +60,8 @@ class ReviewInfoRecord {
 
 class ReviewRecordBox {
 
-    public $reviewArray;
-    public $reviewCounter;
+    public $reviewRecordArray;
+    public $reviewRecordCounter;
 
     public function init($objectId, $type) {
 	$info = array();
@@ -112,8 +112,8 @@ class ReviewRecordBox {
 		}
 	    }
 	}
-	$reviewRecordBox->reviewArray = $info;
-	$reviewRecordBox->reviewCounter = $counter;
+	$reviewRecordBox->reviewRecordArray = $info;
+	$reviewRecordBox->reviewRecordCounter = $counter;
 	return $reviewRecordBox;
     }
 
