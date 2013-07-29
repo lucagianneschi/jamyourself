@@ -24,7 +24,7 @@ require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
 
-class albumInfo {
+class AlbumInfo {
 
     public $commentCounter;
     public $imageCounter;
@@ -44,7 +44,7 @@ class albumInfo {
 
 }
 
-class albumBox {
+class AlbumBox {
 
     public $albumInfoArray;
     public $albumCounter;
@@ -71,7 +71,7 @@ class albumBox {
 		    $shareCounter = $album->getShareCounter();
 		    $thumbnailCover = $album->getThumbnailCover();
 		    $title = $album->getTitle();
-		    $albumInfo = new albumInfo($commentCounter, $imageCounter, $loveCounter, $shareCounter, $thumbnailCover, $title);
+		    $albumInfo = new AlbumInfo($commentCounter, $imageCounter, $loveCounter, $shareCounter, $thumbnailCover, $title);
 		    array_push($info, $albumInfo);
 		}
 		$albumBox->albumInfoArray = $info;
