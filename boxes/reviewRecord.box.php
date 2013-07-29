@@ -88,24 +88,25 @@ class ReviewRecordBox {
 		foreach ($activities as $activity) {
 		    $counter = ++$counter;
 
-		    $recordP = new RecordParse();
-		    $record = $recordP->getRecord($activity->getRecord());
-		    $thumbnailCover = $record->getThumbnailCover();
-		    $title = $record->getTitle();
-
-		    $userP = new UserParse();
-		    $user = $userP->getUser($record->getFromUser());
-		    $userName = $user->getUsername();
-		    $avatarThumb = $user->getProfileThumbnail();
-
 		    $reviewP = new CommentParse();
 		    $review = $reviewP->getComment($activity->getComment());
-		    $rating = $review->getVote();
-		    $text = $review->getText();
-		    $loveCounter = $review->getLoveCounter();
+		    
+		    $recordP = new RecordParse();
+		    $record = $recordP->getRecord($activity->getRecord());
+		    
+		    $userP = new UserParse();
+		    $user = $userP->getUser($record->getFromUser());
+		    
+		    $avatarThumb = $user->getProfileThumbnail();
 		    $commentCounter = $review->getCommentCounter();
-		    $shareCounter = $review->getShareCounter();
+		    $loveCounter = $review->getLoveCounter();
+		    $rating = $review->getVote();
 		    $reviewCounter = $recordReview->getCount();
+		    $shareCounter = $review->getShareCounter();
+		    $text = $review->getText();
+		    $thumbnailCover = $record->getThumbnailCover();
+		    $title = $record->getTitle();
+		    $userName = $user->getUsername();
 
 		    $infoReviewRecord = new ReviewInfoRecord($avatarThumb, $commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $userName);
 		    array_push($info, $infoReviewRecord);
