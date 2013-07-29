@@ -30,6 +30,7 @@ require_once BOXES_DIR . 'event.box.php';
 require_once BOXES_DIR . 'reviewRecords.box.php';
 require_once BOXES_DIR . 'record.box.php';
 require_once BOXES_DIR . 'post.box.php';
+require_once BOXES_DIR . 'relations.box.php';
 
 
 //SPOTTER
@@ -47,12 +48,28 @@ $jump = 'wrpgRuSgRA'; //jump rock club
 
 
 echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RELATION BOX -------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX LDF-------------------------------------------<br />';
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($LDF,'JAMMER');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+echo '<br />-------------------------FINE TEST  RELATION BOX BOX LDF-------------------------------------------<br />';
+echo '<br />-------------------------FINE TEST  RELATION BOX -------------------------------------------<br />';
+
+
+
+
+
+echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />-------------------------TEST  POST BOX -------------------------------------------<br />';
 echo '<br />------------------------- TEST POST BOX LDF-------------------------------------------<br />';
 $recordPostP = new PostBox();
 $recordPost = $recordPostP->init($LDF);
 print "<pre>";
 print_r($recordPost);
+print "</pre>";
 echo '<br />-------------------------FINE TEST POST BOX LDF-------------------------------------------<br />';
 echo '<br />-------------------------FINE TEST POST BOX -------------------------------------------<br />';
 
