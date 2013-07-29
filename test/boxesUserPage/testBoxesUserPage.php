@@ -46,6 +46,17 @@ $Ultrasuono = 'iovioSH5mq'; //Ultrasuono
 $jump = 'wrpgRuSgRA'; //jump rock club
 
 
+echo '<br />-------------------------TEST EVENT BOX-------------------------------------------<br />';
+echo '<br /TEST EVENT BOX JAMMER<br />';
+echo '<br />TEST EVENT BOX HDgcsTLpEx<br />';
+$eventBoxP = new EventBox1();
+$eventBox = $eventBoxP->init('HDgcsTLpEx');
+print "<pre>";
+print_r($eventBox); //
+print "</pre>";
+echo '<br />TEST EVENT BOX HDgcsTLpEx<br />';
+
+
 echo '<br />------------------------- TEST INFO BOX-------------------------------------------<br />';
 echo '<br />TEST INFO BOX SPOTTER<br />';
 echo '<br />TEST INFO BOX OBJ MARI<br />';
