@@ -29,7 +29,7 @@ require_once BOXES_DIR . 'album.box.php';
 require_once BOXES_DIR . 'event.box.php';
 require_once BOXES_DIR . 'reviewRecords.box.php';
 require_once BOXES_DIR . 'record.box.php';
-
+require_once BOXES_DIR . 'record1.box.php';
 
 
 //SPOTTER
@@ -45,6 +45,18 @@ $ZonaPlayed = '2K5Lv7qxzw'; //ZonaPlayed
 $Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
 $jump = 'wrpgRuSgRA'; //jump rock club
 
+
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RECORD BOX -------------------------------------------<br />';
+
+echo '<br />------------------------- TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
+$recordBoxP = new RecordBox1();
+$recordBox = $recordBoxP->init('GuUAj83MGH');
+print "<pre>";
+print_r($recordBox);
+print "</pre>";
+echo '<br />-------------------------FINE TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
+echo '<br />-------------------------FINE TEST RECORD BOX -------------------------------------------<br />';
 
 echo '<br />-------------------------TEST EVENT BOX-------------------------------------------<br />';
 echo '<br /TEST EVENT BOX JAMMER<br />';
