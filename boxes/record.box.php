@@ -53,7 +53,7 @@ class RecordBox {
     public $recordCounter;
 
     public function init($objectId) {
-	$recordBox = new RecordBox1();
+	$recordBox = new RecordBox();
 	$info = array();
 	$counter = 0;
 	$record = new RecordParse();
