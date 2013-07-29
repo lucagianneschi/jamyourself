@@ -29,7 +29,7 @@ require_once BOXES_DIR . 'album.box.php';
 require_once BOXES_DIR . 'event.box.php';
 require_once BOXES_DIR . 'reviewRecords.box.php';
 require_once BOXES_DIR . 'record.box.php';
-require_once BOXES_DIR . 'record1.box.php';
+
 
 
 //SPOTTER
@@ -50,7 +50,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />-------------------------TEST  RECORD BOX -------------------------------------------<br />';
 
 echo '<br />------------------------- TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
-$recordBoxP = new RecordBox1();
+$recordBoxP = new RecordBox();
 $recordBox = $recordBoxP->init('GuUAj83MGH');
 print "<pre>";
 print_r($recordBox);
