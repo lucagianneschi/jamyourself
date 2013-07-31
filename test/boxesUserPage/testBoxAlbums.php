@@ -23,8 +23,7 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'album.class.php';
-require_once CLASSES_DIR . 'albumParse.class.php';
+require_once BOXES_DIR . 'album.box.php';
 $i_end = microtime();
 
 //SPOTTER
