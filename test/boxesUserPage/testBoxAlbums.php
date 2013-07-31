@@ -27,34 +27,132 @@ require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
 $i_end = microtime();
 
-$id = '7fes1RyY77';//LDF
+//SPOTTER
+$mari = '1oT7yYrpfZ'; //MARI
+$FLAVYCAP = 'oN7Pcp2lxf'; //FLAVYCAP 
+$Kessingtong = '2OgmANcYaT'; //Kessingtong
+//JAMMER
+$ROSESINBLOOM = 'uMxy47jSjg'; //ROSESINBLOOM
+$Stanis = 'HdqSpIhiXo'; //Stanis
+$LDF = '7fes1RyY77'; //LDF
+//Venue
+$ZonaPlayed = '2K5Lv7qxzw'; //ZonaPlayed  
+$Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
+$jump = 'wrpgRuSgRA'; //jump rock club
+
 
 $album_start = microtime();
-$album = new AlbumParse();
-$album->wherePointer('fromUser', '_User', $id);
-$album->where('active',true);
-$album->setLimit(1000);
-$album->orderByDescending('createdAt');
-$albums = $album->getAlbums();
-if ($albums != 0) {
-    if (get_class($albums) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $albums->getErrorMessage() . '<br/>';
-    } else {
-	foreach ($albums as $album) {
-	    echo '<br />[thumbnailCover] => ' . $album->getThumbnailCover() . '<br />';
-	    echo '<br />[title] => ' . $album->getTitle() . '<br />';
-	    echo '<br />[imageCounter] => ' . $album->getImageCounter() . '<br />';
-	    echo '<br />[loveCounter] => ' . $album->getLoveCounter() . '<br />';
-	    echo '<br />[commentCounter] => ' . $album->getCommentCounter() . '<br />';
-	    echo '<br />[shareCounter] => ' . $album->getShareCounter() . '<br />';
-	}
-    }
-}
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST ALBUM BOX-------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX SPOTTER<br />';
+echo '<br />TEST ALBUM BOX MARI<br />';
+$album_start = microtime();
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->init($mari);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
 $album_stop = microtime();
+echo '<br />TEST ALBUM BOX MARI<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX FLAVYCAP<br />';
+$album1_start = microtime();
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->init($FLAVYCAP);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+$album1_stop = microtime();
+echo '<br />TEST ALBUM BOX FLAVYCAP<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX Kessingtong<br />';
+$album2_start = microtime();
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->init($Kessingtong);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+$album2_stop = microtime();
+echo '<br />TEST ALBUM BOX Kessingtong<br />';
+echo '<br />FINE TEST ALBUM BOX SPOTTER<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX JAMMER<br />';
+echo '<br />TEST ALBUM BOX ROSESINBLOOM<br />';
+$album3_start = microtime();
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->init($ROSESINBLOOM);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+$album3_stop = microtime();
+echo '<br />TEST ALBUM BOX ROSESINBLOOM<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX STANIS<br />';
+$album4_start = microtime();
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->init($Stanis);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+$album4_stop = microtime();
+echo '<br />TEST ALBUM BOX STANIS<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX LDF<br />';
+$album5_start = microtime();
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->init($LDF);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+$album5_stop = microtime();
+echo '<br />TEST ALBUM BOX LDF<br />';
+echo '<br /FINE TEST ALBUM BOX JAMMER<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br /TEST ALBUM BOX VENUE<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX ZonaPlayed<br />';
+$album6_start = microtime();
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->init($ZonaPlayed);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+$album6_stop = microtime();
+echo '<br />TEST ALBUM BOX ZonaPlayed<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX Ultrasuono<br />';
+$album7_start = microtime();
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->init($Ultrasuono);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+$album7_stop = microtime();
+echo '<br />TEST ALBUM BOX Ultrasuono<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX Jump<br />';
+$album8_start = microtime();
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->init($jump);
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />TEST ALBUM BOX Jump<br />';
+$album8_stop = microtime();
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo recupero ultimi 4 album ' . executionTime($album_start, $album_stop) . '<br />';
+echo 'Tempo recupero ultimi 4 album ' . executionTime($album1_start, $album1_stop) . '<br />';
+echo 'Tempo recupero ultimi 4 album ' . executionTime($album2_start, $album2_stop) . '<br />';
+echo 'Tempo recupero ultimi 4 album ' . executionTime($album3_start, $album3_stop) . '<br />';
+echo 'Tempo recupero ultimi 4 album ' . executionTime($album4_start, $album4_stop) . '<br />';
+echo 'Tempo recupero ultimi 4 album ' . executionTime($album5_start, $album5_stop) . '<br />';
+echo 'Tempo recupero ultimi 4 album ' . executionTime($album6_start, $album6_stop) . '<br />';
+echo 'Tempo recupero ultimi 4 album ' . executionTime($album7_start, $album7_stop) . '<br />';
+echo 'Tempo recupero ultimi 4 album ' . executionTime($album8_start, $album8_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
