@@ -10,7 +10,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo        utilizzare le variabili di sessione e non fare la get dello user
+ * \todo        
  *
  */
 $t_start = microtime(); //timer tempo totale
@@ -22,206 +22,138 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'activity.class.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'relations.box.php';
 $i_end = microtime();
 
-$id = '7fes1RyY77';//LDF
-$userParse = new UserParse();
-$user = $userParse->getUser($id);
-$type = $user->getType();
-switch ($type) {
-    case 'SPOTTER':
-		$following_start = microtime();
-		$activityParse = new ActivityParse();
-		$activityParse->setLimit(4);
-		$activityParse->whereEqualTo('type', 'FOLLOWING');
-		$activityParse->wherePointer('fromUser', '_User', $id);
-		$activityParse->where('active', true);
-		$activityParse->whereInclude('toUser');
-		$activityParse->orderByDescending('createdAt');
-		$activities = $activityParse->getActivities();
-		if ($activities != 0) {
-			if (get_class($activities) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $activities->getErrorMessage() . '<br/>';
-			} else {
-			foreach ($activities->toUser as $toUser) {
-				echo '<br />[username] => ' . $toUser->getUsername() . '<br />';
-				echo '<br />[thumbnail] => ' . $toUser->getProfileThumbnail() . '<br />';
-			}
-			}
-		}
-		$following_stop = microtime();
-	
-		$friendship_start = microtime();
-		$activityParse1 = new ActivityParse();
-		$activityParse1->setLimit(4);
-		$activityParse1->wherePointer('fromUser', '_User', $id);
-		$activityParse1->whereEqualTo('type', 'FRIENDSHIPREQUEST');
-		$activityParse1->where('active', true);
-		$activityParse1->whereEqualTo('status', 'A');
-		$activityParse1->whereInclude('toUser');
-		$activityParse1->orderByDescending('createdAt');
-		$activities1 = $activityParse1->getActivities();
-		if ($activities1 != 0) {
-			if (get_class($activities1) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $activities->getErrorMessage() . '<br/>';
-			} else {
-			foreach ($activities->toUser as $toUser) {
-				echo '<br />[username] => ' . $toUser->getUsername() . '<br />';
-				echo '<br />[thumbnail] => ' . $toUser->getProfileThumbnail() . '<br />';
-			}
-			}
-		}
-	
-		$friendship_stop = microtime();
-		echo '<br />----------------------SPOTTER---------------------------<br />';
-	break;
-    case 'VENUE':
-		$collaborationVenueVenue_start = microtime();
-		$parseUser = new UserParse();
-		$parseUser->whereRelatedTo('collaboration', '_User', $id);
-		$parseUser->whereEqualTo('type', 'VENUE');
-		$parseUser->where('active', true);
-		$parseUser->setLimit(4);
-		$parseUser->orderByDescending('createdAt');
-		$last4venues = $parseUser->getUsers();
-		foreach ($last4venues as $venue) {
-			echo '<br />[username] => ' . $venue->getUsername() . '<br />';
-			echo '<br />[thumbnail] => ' . $venue->getProfileThumbnail() . '<br />';
-		}
-		echo '<br />[venue count] => ' . $venueCount . '<br />'; //mettere opportuno contatore nello User
-		$collaborationVenueVenue_stop = microtime();
-		$collaborationVenueJammer_start = microtime();
-		$parseUser1 = new UserParse();
-		$parseUser1->whereRelatedTo('collaboration', '_User', $id);
-		$parseUser1->whereEqualTo('type', 'JAMMER');
-		$parseUser1->setLimit(4);
-		$parseUser1->orderByDescending('createdAt');
-		$last4jammers = $parseUser1->getUsers();
-		foreach ($last4jammers as $jammer) {
-			echo '<br />[username] => ' . $jammer->getUsername() . '<br />';
-			echo '<br />[thumbnail] => ' . $jammer->getProfileThumbnail() . '<br />';
-		}
-		
-		echo '<br />[jammer count] => ' . $jammerCount . '<br />'; //mettere contatore nello User
-	
-		$collaborationVenueJammer_stop = microtime();
-	
-		$followingVenue_start = microtime();
-		$parseActivity = new ActivityParse();
-		$parseActivity->wherePointer('toUser', '_User', $id);
-		$parseActivity->whereEqualTo('type', 'FOLLOWING');
-		$parseActivity->where('active', true);
-		$parseActivity->whereInclude('fromUser');
-		$parseActivity->setLimit(4);
-		$parseActivity->orderByDescending('createdAt');
-		$last4followers = $parseActivity->getActivities();
-		foreach ($last4followers->fromUser as $fromUser) {
-			echo '<br />[username] => ' . $fromUser->getUsername() . '<br />';
-			echo '<br />[thumbnail] => ' . $fromUser->getProfileThumbnail() . '<br />';
-		}
-		$followingVenue_stop = microtime();
-		echo '<br />----------------------VENUE---------------------------<br />';
-	break;
-    case 'JAMMER':
+//SPOTTER
+$mari = '1oT7yYrpfZ'; //MARI
+$FLAVYCAP = 'oN7Pcp2lxf'; //FLAVYCAP 
+$Kessingtong = '2OgmANcYaT'; //Kessingtong
+//JAMMER
+$ROSESINBLOOM = 'uMxy47jSjg'; //ROSESINBLOOM
+$Stanis = 'HdqSpIhiXo'; //Stanis
+$LDF = '7fes1RyY77'; //LDF
+//Venue
+$ZonaPlayed = '2K5Lv7qxzw'; //ZonaPlayed  
+$Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
+$jump = 'wrpgRuSgRA'; //jump rock club
 
 
-	$collaborationJammerVenue_start = microtime();
-	$parseUser = new UserParse();
-	$parseUser->whereRelatedTo('collaboration', '_User', $id);
-	$parseUser->whereEqualTo('type', 'VENUE');
-	$parseUser->where('active', true);
-	$parseUser->setLimit(4);
-	$parseUser->orderByDescending('createdAt');
-	$last4venues = $parseUser->getUsers();
-	if ($last4venues != 0) {
-	    if (get_class($last4venues) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $last4venues->getErrorMessage() . '<br/>';
-	    } else {
-		foreach ($last4venues as $venue) {
-		    echo '<br />[username] => ' . $venue->getUsername() . '<br />';
-		    echo '<br />[thumbnail] => ' . $venue->getProfileThumbnail() . '<br />';
-		}
-	    }
-	}
-	$collaborationJammerVenue_stop = microtime();
-
-	$collaborationJammerJammer_start = microtime();
-	$parseUser1 = new UserParse();
-	$parseUser1->whereRelatedTo('collaboration', '_User', $id);
-	$parseUser1->whereEqualTo('type', 'JAMMER');
-	$parseUser1->where('active', true);
-	$parseUser1->setLimit(4);
-	$parseUser1->orderByDescending('createdAt');
-	$last4jammers = $parseUser1->getUsers();
-	if ($last4jammers != 0) {
-	    if (get_class($last4jammers) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $last4jammers->getErrorMessage() . '<br/>';
-	    } else {
-		foreach ($last4jammers as $jammer) {
-		    echo '<br />[username] => ' . $jammer->getUsername() . '<br />';
-		    echo '<br />[thumbnail] => ' . $jammer->getProfileThumbnail() . '<br />';
-			
-		}	
-	    }
-	}
-	$collaborationJammerJammer_stop = microtime();
-
-	$followingVenue_start = microtime();
-	$parseActivity = new ActivityParse();
-	$parseActivity->wherePointer('toUser', '_User', $id);
-	$parseActivity->whereEqualTo('type', 'FOLLOWING');
-	$parseActivity->where('active', true);
-	$parseActivity->whereInclude('fromUser');
-	$parseActivity->setLimit(4);
-	$parseActivity->orderByDescending('createdAt');
-	$last4followers = $parseActivity->getActivities();
-	if ($last4followers != 0) {
-	    if (get_class($last4followers) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $last4followers->getErrorMessage() . '<br/>';
-	    } else {
-		foreach ($last4followers->fromUser as $fromUser) {
-			if($fromUser->getActive != false){
-		    echo '<br />[username] => ' . $fromUser->getUsername() . '<br />';
-		    echo '<br />[thumbnail] => ' . $fromUser->getProfileThumbnail() . '<br />';
-		}
-		}
-	    }
-	}
-	$followingVenue_stop = microtime();
-	echo '<br />----------------------JAMMER---------------------------<br />';
-	break;
-    default:
-	break;
-}
+echo '<br />-------------------------SPOTTER---------------- ------------------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RELATION BOX -----------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX mari------------------------------------------<br />';
+$rel1_start = microtime();
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($mari,'SPOTTER');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+$rel1_stop = microtime();
+echo '<br />-------------------------FINE TEST  RELATION BOX  mari-------------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RELATION BOX -----------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX FLAVYCAP--------------------------------------<br />';
+$rel2_start = microtime();
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($FLAVYCAP,'SPOTTER');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+$rel2_stop = microtime();
+echo '<br />-------------------------FINE TEST  RELATION BOX  FLAVYCAP---------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RELATION BOX -----------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX Kessingtong-----------------------------------<br />';
+$rel3_start = microtime();
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($Kessingtong,'SPOTTER');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+$rel3_stop = microtime();
+echo '<br />-------------------------FINE TEST  RELATION BOX  Kessingtong------------------------------<br />';
+echo '<br />-------------------------JAMMER---------------- -------------------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RELATION BOX -----------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX ROSESINBLOOM----------------------------------<br />';
+$rel4_start = microtime();
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($ROSESINBLOOM,'JAMMER');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+$rel4_stop = microtime();
+echo '<br />-------------------------FINE TEST  RELATION BOX  ROSESINBLOOM-----------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RELATION BOX -----------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX Stanis----------------------------------------<br />';
+$rel5_start = microtime();
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($Stanis,'JAMMER');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+$rel5_stop = microtime();
+echo '<br />-------------------------FINE TEST  RELATION BOX BOX Stanis--------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX LDF-------------------------------------------<br />';
+$rel6_start = microtime();
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($LDF,'JAMMER');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+$rel6_stop = microtime();
+echo '<br />-------------------------FINE TEST  RELATION BOX BOX LDF------------------------------------<br />';
+echo '<br />-------------------------FINE TEST  RELATION BOX -------------------------------------------<br />';
+echo '<br />-------------------------VENUE---------------- ---------------------------------------------<br />';
+echo '<br />--------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RELATION BOX ------------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX ZonaPlayed-------------------------------------<br />';
+$rel7_start = microtime();
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($ZonaPlayed,'VENUE');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+$rel7_stop = microtime();
+echo '<br />-------------------------FINE TEST  RELATION BOX  ZonaPlayed--------------------------------<br />';
+echo '<br />--------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RELATION BOX ------------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX $Ultrasuono------------------------------------<br />';
+$rel8_start = microtime();
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($Ultrasuono,'VENUE');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+$rel8_stop = microtime();
+echo '<br />-------------------------FINE TEST  RELATION BOX  $Ultrasuono------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RELATION BOX -----------------------------------------------<br />';
+echo '<br />------------------------- TEST  RELATION BOX $jump-----------------------------------<br />';
+$rel9_stop = microtime();
+$relationsP = new RelationsBox();
+$rel = $relationsP->init($jump,'VENUE');
+print "<pre>";
+print_r($rel);
+print "</pre>";
+$rel9_stop = microtime();
+echo '<br />-------------------------FINE TEST  RELATION BOX  $jump------------------------------<br />';
 $t_end = microtime();
-echo '<br />----------------------TIMERS---------------------------<br />';
+echo '<br />----------------------TIMERS----------------------------------------------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
-switch ($type) {
-    case 'SPOTTER':
-		echo '<br />----------------------SPOTTER---------------------------<br />';
-		echo 'Tempo ultimi 4 following ' . executionTime($following_start, $following_stop) . '<br />';
-		echo 'Tempo ultimi 4 friends ' . executionTime($friendship_start, $friendship_stop) . '<br />';
-	break;
-    case 'VENUE':
-		echo '<br />----------------------VENUE---------------------------<br />';
-		echo 'Tempo recupero relazione following ' . executionTime($followingVenue_start, $followingVenue_stop) . '<br />';
-		echo 'Tempo recupero relazione relazione Venue - Venue ' . executionTime($collaborationVenueVenue_start, $collaborationVenueVenue_stop) . '<br />';
-		echo 'Tempo recupero relazione Venue - Jammer ' . executionTime($collaborationVenueJammer_start, $collaborationVenueJammer_stop) . '<br />';
-		echo 'Tempo recupero relazione Following' . executionTime($followingVenue_start, $followingVenue_stop) . '<br />';
-	break;
-    case 'JAMMER':
-		echo '<br />----------------------JAMMER---------------------------<br />';
-		echo 'Tempo recupero relazione relazione Jammer - Venue' . executionTime($collaborationJammerVenue_start, $collaborationJammerVenue_stop) . '<br />';
-		echo 'Tempo recupero relazione Jammer - Jammer' . executionTime($collaborationJammerJammer_start, $collaborationJammerJammer_stop) . '<br />';
-		echo 'Tempo recupero relazione Following ' . executionTime($followingVenue_start, $followingVenue_stop) . '<br />';
-	break;
-    default:
-	break;
-}
+echo 'Tempo Relazione 1' . executionTime($rel1_start, $rel1_stop'<br />';
+echo 'Tempo Relazione 2' . executionTime($rel2_start, $rel2_stop'<br />';
+echo 'Tempo Relazione 3' . executionTime($rel3_start, $rel3_stop'<br />';
+echo 'Tempo Relazione 4' . executionTime($rel4_start, $rel4_stop'<br />';
+echo 'Tempo Relazione 5' . executionTime($rel5_start, $rel5_stop'<br />';
+echo 'Tempo Relazione 6' . executionTime($rel6_start, $rel6_stop'<br />';
+echo 'Tempo Relazione 7' . executionTime($rel7_start, $rel7_stop'<br />';
+echo 'Tempo Relazione 8' . executionTime($rel8_start, $rel8_stop'<br />';
+echo 'Tempo Relazione 9' . executionTime($rel9_start, $rel9_stop'<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
-echo '<br />----------------------TIMERS---------------------------<br />';
+echo '<br />----------------------TIMERS----------------------------------------------------------------<br />';
 ?>
