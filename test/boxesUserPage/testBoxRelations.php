@@ -134,7 +134,7 @@ echo '<br />-------------------------FINE TEST  RELATION BOX  $Ultrasuono-------
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />-------------------------TEST  RELATION BOX -----------------------------------------------<br />';
 echo '<br />------------------------- TEST  RELATION BOX $jump-----------------------------------<br />';
-$rel9_stop = microtime();
+$rel9_start = microtime();
 $relationsP = new RelationsBox();
 $rel = $relationsP->init($jump,'VENUE');
 print "<pre>";
@@ -145,15 +145,15 @@ echo '<br />-------------------------FINE TEST  RELATION BOX  $jump-------------
 $t_end = microtime();
 echo '<br />----------------------TIMERS----------------------------------------------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
-echo 'Tempo Relazione 1' . executionTime($rel1_start, $rel1_stop'<br />';
-echo 'Tempo Relazione 2' . executionTime($rel2_start, $rel2_stop'<br />';
-echo 'Tempo Relazione 3' . executionTime($rel3_start, $rel3_stop'<br />';
-echo 'Tempo Relazione 4' . executionTime($rel4_start, $rel4_stop'<br />';
-echo 'Tempo Relazione 5' . executionTime($rel5_start, $rel5_stop'<br />';
-echo 'Tempo Relazione 6' . executionTime($rel6_start, $rel6_stop'<br />';
-echo 'Tempo Relazione 7' . executionTime($rel7_start, $rel7_stop'<br />';
-echo 'Tempo Relazione 8' . executionTime($rel8_start, $rel8_stop'<br />';
-echo 'Tempo Relazione 9' . executionTime($rel9_start, $rel9_stop'<br />';
+echo 'Tempo Relazione 1: ' . executionTime($rel1_start, $rel1_stop) . '<br />';
+echo 'Tempo Relazione 2: ' . executionTime($rel2_start, $rel2_stop) . '<br />';
+echo 'Tempo Relazione 3: ' . executionTime($rel3_start, $rel3_stop) . '<br />';
+echo 'Tempo Relazione 4: ' . executionTime($rel4_start, $rel4_stop) . '<br />';
+echo 'Tempo Relazione 5: ' . executionTime($rel5_start, $rel5_stop) . '<br />';
+echo 'Tempo Relazione 6: ' . executionTime($rel6_start, $rel6_stop) . '<br />';
+echo 'Tempo Relazione 7: ' . executionTime($rel7_start, $rel7_stop) . '<br />';
+echo 'Tempo Relazione 8: ' . executionTime($rel8_start, $rel8_stop) . '<br />';
+echo 'Tempo Relazione 9: ' . executionTime($rel9_start, $rel9_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS----------------------------------------------------------------<br />';
 ?>
