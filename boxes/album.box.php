@@ -50,7 +50,7 @@ class AlbumBox {
     public $albumCounter;
 
     public function init($objectId) {
-	$albumBox = new albumBox();
+	$albumBox = new AlbumBox();
 	$info = array();
 	$counter = 0;
 	$album = new AlbumParse();
