@@ -23,47 +23,54 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'record.class.php';
-require_once CLASSES_DIR . 'recordParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'record.box.php';
 $i_end = microtime();
 
 //JAMMER
-//$id = 'uMxy47jSjg';//ROSESINBLOOM
-//$id = ' HdqSpIhiXo';//Stanis
-$id = '7fes1RyY77'; //LDF
+$SPATAFORA = 'GuUAj83MGH';
+$glam = '5bZoNsZq7M';
+$camera133 = 'tYSECCWBcy';
 
-$record_start = microtime();
-$record = new RecordParse();
-$record->wherePointer('fromUser','_User', $id);
-$record->where('active', true);
-$record->setLimit(1000);
-$record->orderByDescending('createdAt');
-$resGets = $record->getRecords();
-if ($resGets != 0) {
-    if (get_class($resGets) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
-    } else {
-	foreach ($resGets as $record) {
-	    echo '<br />[thumbnailCover] => ' . $record->getThumbnailCover() . '<br />';
-	    echo '<br />[title] => ' . $record->getTitle() . '<br />';
-	    echo '<br />[loveCounter] => ' . $record->getLoveCounter() . '<br />';
-	    echo '<br />[commentCounter] => ' . $record->getCommentCounter() . '<br />';
-	    echo '<br />[shareCounter] => ' . $record->getShareCounter() . '<br />';
-	    echo '<br />[year] => ' . $record->getYear() . '<br />';
-	    echo '<br />[songCounter] => ' . $record->getSongCounter() . '<br />';
-	    echo '<br />[genre] => ' . $record->getGenre() . '<br />';
-	}
-    }
-}
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST  RECORD BOX -------------------------------------------<br />';
+echo '<br />------------------------- TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
+$record1_start = microtime();
+$recordBoxP = new RecordBox();
+$recordBox = $recordBoxP->init($SPATAFORA);
+print "<pre>";
+print_r($recordBox);
+print "</pre>";
+$record1_stop = microtime();
+echo '<br />-------------------------FINE TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
+echo '<br />-------------------------FINE TEST RECORD BOX -------------------------------------------<br />';
+$record2_start = microtime();
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />------------------------- TEST RECORD BOX GLAM-------------------------------------------<br />';
+$recordBoxP = new RecordBox();
+$recordBox = $recordBoxP->init($glam);
+print "<pre>";
+print_r($recordBox);
+print "</pre>";
+$record2_stop = microtime();
+echo '<br />-------------------------FINE TEST RECORD BOX GLAM-------------------------------------------<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />------------------------- TEST RECORD BOX CAMERA133-------------------------------------------<br />';
+$record3_start = microtime();
+$recordBoxP = new RecordBox();
+$recordBox = $recordBoxP->init($camera133);
+print "<pre>";
+print_r($recordBox);
+print "</pre>";
+$record3_stop = microtime();
+echo '<br />-------------------------FINE TEST RECORD BOX CAMERA133-------------------------------------------<br />';
+echo '<br />-------------------------FINE TEST RECORD BOX -------------------------------------------<br />';
 
-
-$record_stop = microtime();
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
-echo 'Tempo ultimi 4 record ' . executionTime($record_start, $record_stop) . '<br />';
+echo 'Tempo ultimi 4 record ' . executionTime($record1_start, $record1_stop) . '<br />';
+echo 'Tempo ultimi 4 record ' . executionTime($record2_start, $record2_stop) . '<br />';
+echo 'Tempo ultimi 4 record ' . executionTime($record3_start, $record3_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
