@@ -65,15 +65,6 @@
 			<div class="row" >
 				<div  class="small-12 columns">
 					<div class="signup-genre">
-						<input type="checkbox" name="venue-genre[0]" id="venue-genre[0]" value="happy_hour-appetizer" class="no-display"><label for="venue-genre[0]">Happy hour / Appetizer</label>
-						<input type="checkbox" name="venue-genre[1]" id="venue-genre[1]" value="dinner" class="no-display"><label for="venue-genre[1]">Dinner</label>
-						<input type="checkbox" name="venue-genre[2]" id="venue-genre[2]" value="live_music" class="no-display"><label for="venue-genre[2]">Live Music</label>
-						<input type="checkbox" name="venue-genre[3]" id="venue-genre[3]" value="contest_Area" class="no-display"><label for="venue-genre[3]">Contest Area</label>
-						<input type="checkbox" name="venue-genre[4]" id="venue-genre[4]" value="pub" class="no-display"><label for="venue-genre[4]">Pub</label>
-						<input type="checkbox" name="venue-genre[5]" id="venue-genre[5]" value="happy_hour-appetizer" class="no-display"><label for="venue-genre[5]">Happy hour / Appetizer</label>
-						<input type="checkbox" name="venue-genre[6]" id="venue-genre[6]" value="dinner" class="no-display"><label for="venue-genre[6]">Dinner</label>
-						<input type="checkbox" name="venue-genre[7]" id="venue-genre[7]" value="pub" class="no-display"><label for="venue-genre[7]">Pub</label>
-						<input type="checkbox" name="venue-genre[8]" id="venue-genre[8]" value="live_music" class="no-display"><label for="venue-genre[8]">Live Music</label>
 						
 					</div>
 				</div>	

@@ -65,29 +65,7 @@
 			<div class="row" >
 				<div  class="small-12 columns">
 					<div class="signup-genre">
-						<input type="checkbox" name="jammer-genre[0]" id="jammer-genre[0]" value="rock" class="no-display"><label for="jammer-genre[0]">Rock</label>
-						<input type="checkbox" name="jammer-genre[1]" id="jammer-genre[1]" value="indie-rock" class="no-display"><label for="jammer-genre[1]">Indie Rock</label>
-						<input type="checkbox" name="jammer-genre[2]" id="jammer-genre[2]" value="metal" class="no-display"><label for="jammer-genre[2]">Metal</label>
-						<input type="checkbox" name="jammer-genre[3]" id="jammer-genre[3]" value="songwriter" class="no-display"><label for="jammer-genre[3]">Songwriter</label>
-						<input type="checkbox" name="jammer-genre[4]" id="jammer-genre[4]" value="punk" class="no-display"><label for="jammer-genre[4]">Punk</label>
-						<input type="checkbox" name="jammer-genre[5]" id="jammer-genre[5]" value="rap_hip-hop" class="no-display"><label for="jammer-genre[5]">Rap/Hip-Hop</label>
-						<input type="checkbox" name="jammer-genre[6]" id="jammer-genre[6]" value="ska" class="no-display"><label for="jammer-genre[6]">Ska</label>
-						<input type="checkbox" name="jammer-genre[7]" id="jammer-genre[7]" value="pop" class="no-display"><label for="jammer-genre[7]">Pop</label>
-						<input type="checkbox" name="jammer-genre[8]" id="jammer-genre[8]" value="instrumental" class="no-display"><label for="jammer-genre[8]">Instrumental</label>
-						<input type="checkbox" name="jammer-genre[9]" id="jammer-genre[9]" value="electronic" class="no-display"><label for="jammer-genre[9]">Electronic</label>
-						<input type="checkbox" name="jammer-genre[10]" id="jammer-genre[10]" value="dance" class="no-display"><label for="jammer-genre[10]">Dance</label>
-						<input type="checkbox" name="jammer-genre[11]" id="jammer-genre[11]" value="jazz-blues" class="no-display"><label for="jammer-genre[11]">Jazz/Blues</label>
-						<input type="checkbox" name="jammer-genre[12]" id="jammer-genre[12]" value="esperimental" class="no-display"><label for="jammer-genre[12]">Experimental</label>
-						<input type="checkbox" name="jammer-genre[13]" id="jammer-genre[13]" value="folk" class="no-display"><label for="jammer-genre[13]">Folk</label>
-						<input type="checkbox" name="jammer-genre[14]" id="jammer-genre[14]" value="ambient" class="no-display"><label for="jammer-genre[14]">Ambient</label>
-						<input type="checkbox" name="jammer-genre[15]" id="jammer-genre[15]" value="acoustic" class="no-display"><label for="jammer-genre[15]">Acoustic</label>
-						<input type="checkbox" name="jammer-genre[16]" id="jammer-genre[16]" value="hard-core" class="no-display"><label for="jammer-genre[16]">Hard Core</label>
-						<input type="checkbox" name="jammer-genre[17]" id="jammer-genre[17]" value="house" class="no-display"><label for="jammer-genre[17]">House</label>
-						<input type="checkbox" name="jammer-genre[18]" id="jammer-genre[18]" value="techno" class="no-display"><label for="jammer-genre[18]">Techno</label>
-						<input type="checkbox" name="jammer-genre[19]" id="jammer-genre[19]" value="punk" class="no-display"><label for="jammer-genre[19]">Punk</label>
-						<input type="checkbox" name="jammer-genre[20]" id="jammer-genre[20]" value="grounge" class="no-display"><label for="jammer-genre[20]">Grounge</label>
-						<input type="checkbox" name="jammer-genre[21]" id="jammer-genre[21]" value="progessive" class="no-display"><label for="jammer-genre[21]">Progressive</label>
-						<input type="checkbox" name="jammer-genre[22]" id="jammer-genre[22]" value="dark" class="no-display"><label for="jammer-genre[22]">Dark</label>
+						
 					</div>
 				</div>	
 			</div>		

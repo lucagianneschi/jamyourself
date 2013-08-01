@@ -8,12 +8,46 @@
 		<div  class="small-6 columns">
 			
 			<div class="row signup-box-image">
-				<div  class="small-3 columns signup-box-avatar">
-					<div class="signup-image"><img src="resources/images/avatar-signup/spotter.png" style="height: 99px;"/></div>
+				<div  class="small-3 columns signup-box-avatar">									
+				     <div class="signup-image">
+				     	<div id="spotter_uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane"><img src="resources/images/avatar-signup/spotter.png" id="spotter_uploadImage_tumbnail" name="spotter_uploadImage_tumbnail"/></div>
+				     </div>
 				</div>
-				<div  class="small-9 columns signup-box-avatar-text">
-					<div class="text grey-light">Drop here an image</div>
-					<div class="text grey-light">or <span class="orange">Upload Image</span></div>
+				<div  class="small-9 columns signup-box-avatar-text">							        						
+					<a data-reveal-id="spotter-uploadImage" class="text orange">Upload Image</a>
+					<div id="spotter-uploadImage" class="reveal-modal uploadImage-reveal">
+						<div class="uploadImage" >
+							<div class="row">
+								<div  class="large-12 columns signup-title">
+									<h2>Upload Image</h2>		
+								</div>	
+							</div>
+							<div class="row">							
+								<div  class="small-4 small-centered columns align-center" >
+									<label class="uploadImage_file_label" for="spotter_uploadImage_file">Select a file from your computer</label>
+									<input type="file" id="spotter_uploadImage_file" name="spotter_uploadImage_file" accept="image/*"/>			
+								</div>
+							</div>
+							<div class="row">							
+								<div  class="small-10 small-centered columns align-center spotter_uploadImage_box-preview">
+									<div id="spotter_uploadImage_preview_box">
+										<img src="" id="spotter_uploadImage_preview"/>
+								    	<input type="hidden" id="spotter_x" name="spotter_x" value="0"/>
+										<input type="hidden" id="spotter_y" name="spotter_y" value="0"/>
+										<input type="hidden" id="spotter_w" name="spotter_w" value="100"/>
+										<input type="hidden" id="spotter_h" name="spotter_h" value="100"/>
+									</div>											   		
+								</div>
+								
+							</div>
+							
+							<div class="row">							
+								<div  class="small-3 small-offset-9 columns">
+									<input type="button" id="spotter_uploadImage_save" name="spotter_uploadImage_save" class="signup-button no-display uploadImage_save" value="Save"/>
+								</div>
+							</div>
+						</div>
+					</div>							
 				</div>	
 			</div>
 			<div class="row spotter-firstname-singup02">
@@ -59,29 +93,7 @@
 			<div class="row" >
 				<div  class="small-12 columns">
 					<div class="signup-genre">
-						<input type="checkbox" name="spotter-genre[0]" id="spotter-genre[0]" value="rock" class="no-display" required><label for="spotter-genre[0]">Rock</label>
-						<input type="checkbox" name="spotter-genre[1]" id="spotter-genre[1]" value="indie-rock" class="no-display"><label for="spotter-genre[1]">Indie Rock</label>
-						<input type="checkbox" name="spotter-genre[2]" id="spotter-genre[2]" value="metal" class="no-display"><label for="spotter-genre[2]">Metal</label>
-						<input type="checkbox" name="spotter-genre[3]" id="spotter-genre[3]" value="songwriter" class="no-display"><label for="spotter-genre[3]">Songwriter</label>
-						<input type="checkbox" name="spotter-genre[4]" id="spotter-genre[4]" value="punk" class="no-display"><label for="spotter-genre[4]">Punk</label>
-						<input type="checkbox" name="spotter-genre[5]" id="spotter-genre[5]" value="rap_hip-hop" class="no-display"><label for="spotter-genre[5]">Rap/Hip-Hop</label>
-						<input type="checkbox" name="spotter-genre[6]" id="spotter-genre[6]" value="ska" class="no-display"><label for="spotter-genre[6]">Ska</label>
-						<input type="checkbox" name="spotter-genre[7]" id="spotter-genre[7]" value="pop" class="no-display"><label for="spotter-genre[7]">Pop</label>
-						<input type="checkbox" name="spotter-genre[8]" id="spotter-genre[8]" value="instrumental" class="no-display"><label for="spotter-genre[8]">Instrumental</label>
-						<input type="checkbox" name="spotter-genre[9]" id="spotter-genre[9]" value="electronic" class="no-display"><label for="spotter-genre[9]">Electronic</label>
-						<input type="checkbox" name="spotter-genre[10]" id="spotter-genre[10]" value="dance" class="no-display"><label for="spotter-genre[10]">Dance</label>
-						<input type="checkbox" name="spotter-genre[11]" id="spotter-genre[11]" value="jazz-blues" class="no-display"><label for="spotter-genre[11]">Jazz/Blues</label>
-						<input type="checkbox" name="spotter-genre[12]" id="spotter-genre[12]" value="esperimental" class="no-display"><label for="spotter-genre[12]">Experimental</label>
-						<input type="checkbox" name="spotter-genre[13]" id="spotter-genre[13]" value="folk" class="no-display"><label for="spotter-genre[13]">Folk</label>
-						<input type="checkbox" name="spotter-genre[14]" id="spotter-genre[14]" value="ambient" class="no-display"><label for="spotter-genre[14]">Ambient</label>
-						<input type="checkbox" name="spotter-genre[15]" id="spotter-genre[15]" value="acoustic" class="no-display"><label for="spotter-genre[15]">Acoustic</label>
-						<input type="checkbox" name="spotter-genre[16]" id="spotter-genre[16]" value="hard-core" class="no-display"><label for="spotter-genre[16]">Hard Core</label>
-						<input type="checkbox" name="spotter-genre[17]" id="spotter-genre[17]" value="house" class="no-display"><label for="spotter-genre[17]">House</label>
-						<input type="checkbox" name="spotter-genre[18]" id="spotter-genre[18]" value="techno" class="no-display"><label for="spotter-genre[18]">Techno</label>
-						<input type="checkbox" name="spotter-genre[19]" id="spotter-genre[19]" value="punk" class="no-display"><label for="spotter-genre[19]">Punk</label>
-						<input type="checkbox" name="spotter-genre[20]" id="spotter-genre[20]" value="grounge" class="no-display"><label for="spotter-genre[20]">Grounge</label>
-						<input type="checkbox" name="spotter-genre[21]" id="spotter-genre[21]" value="progessive" class="no-display"><label for="spotter-genre[21]">Progressive</label>
-						<input type="checkbox" name="spotter-genre[22]" id="spotter-genre[22]" value="dark" class="no-display"><label for="spotter-genre[22]">Dark</label>
+						
 					</div>
 				</div>	
 			</div>

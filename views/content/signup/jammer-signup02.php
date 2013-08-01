@@ -1,4 +1,4 @@
-<div id="jammer-signup02" class="no-display" >
+<div id="jammer-signup02"  class="no-display">
 	<div class="row">
 		<div  class="large-12 columns signup-title">
 			<h2><span id="signup02-jammer-name-artist"></span>tell us something about you:</h2>		
@@ -7,15 +7,48 @@
 	<div class="row signup-body">
 		<div class="row ">
 			<div  class="small-12 columns">
-				<div  class="small-6 columns">
-					
+				<div  class="small-6 columns">					
 					<div class="row signup-box-image">
-						<div  class="small-3 columns signup-box-avatar">
-							<div class="signup-image"><img src="resources/images/avatar-signup/jammer.png" style="height: 99px;"/></div>
+						<div  class="small-3 columns signup-box-avatar">									
+						     <div class="signup-image">
+						     	<div id="jammer_uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane"><img src="resources/images/avatar-signup/jammer.png" id="jammer_uploadImage_tumbnail" name="jammer_uploadImage_tumbnail"/></div>
+						     </div>
 						</div>
-						<div  class="small-9 columns signup-box-avatar-text">
-							<div class="text grey-light">Drop here an image</div>
-							<div class="text grey-light">or <span class="orange">Upload Image</span></div>
+						<div  class="small-9 columns signup-box-avatar-text">							        						
+							<a data-reveal-id="jammer-uploadImage" class="text orange">Upload Image</a>
+							<div id="jammer-uploadImage" class="reveal-modal uploadImage-reveal">
+								<div class="uploadImage" >
+									<div class="row">
+										<div  class="large-12 columns signup-title">
+											<h2>Upload Image</h2>		
+										</div>	
+									</div>
+									<div class="row">							
+										<div  class="small-4 small-centered columns align-center" >
+											<label class="uploadImage_file_label" for="jammer_uploadImage_file">Select a file from your computer</label>
+											<input type="file" id="jammer_uploadImage_file" name="jammer_uploadImage_file" accept="image/*"/>			
+										</div>
+									</div>
+									<div class="row">							
+										<div  class="small-10 small-centered columns align-center jammer_uploadImage_box-preview">
+											<div id="jammer_uploadImage_preview_box">
+												<img src="" id="jammer_uploadImage_preview"/>
+										    	<input type="hidden" id="jammer_x" name="jammer_x" value="0"/>
+												<input type="hidden" id="jammer_y" name="jammer_y" value="0"/>
+												<input type="hidden" id="jammer_w" name="jammer_w" value="100"/>
+												<input type="hidden" id="jammer_h" name="jammer_h" value="100"/>
+											</div>											   		
+										</div>
+										
+									</div>
+									
+									<div class="row">							
+										<div  class="small-3 small-offset-9 columns">
+											<input type="button" id="jammer_uploadImage_save" name="jammer_uploadImage_save" class="signup-button no-display uploadImage_save" value="Save"/>
+										</div>
+									</div>
+								</div>
+							</div>							
 						</div>	
 					</div>
 				</div>
@@ -78,14 +111,16 @@
 				</div>
 				<div  class="small-6 columns">
 					<div class="row jammer-componentInstrument1-singup02">
-						<div  class="small-12 columns">									
-							<input type="text" name="jammer-componentInstrument1" id="jammer-componentInstrument1" pattern="username" maxlength="50"/>								
+						<div  class="small-12 columns">
+							<select id="jammer_componentInstrument1">																
+							</select>							
 							<label for="jammer-componentInstrument1" >Instrument<small class="error"> Please enter a valid Instrument</small></label>
 						</div>							
 					</div>
 					<div class="row jammer-componentInstrument2-singup02">
 						<div  class="small-12 columns">									
-							<input type="text" name="jammer-componentInstrument2" id="jammer-componentInstrument2" pattern="username" maxlength="50"/>								
+							<select id="jammer_componentInstrument2">																
+							</select>								
 							<label for="jammer-componentInstrument2" >Instrument<small class="error"> Please enter a valid Instrument</small></label>
 						</div>							
 					</div>

@@ -975,12 +975,24 @@ footer {
   width: 99px !important;
 }
 
-/* line 869, ../../../sass/style.scss */
+/* line 871, ../../../sass/style.scss */
+.uploadImage_tumbnail-pane {
+  width: 99px !important;
+  height: 99px !important;
+  overflow: hidden;
+}
+
+/* line 877, ../../../sass/style.scss */
+.uploadImage_tumbnail-pane img {
+  max-width: none !important;
+}
+
+/* line 880, ../../../sass/style.scss */
 .signup-box-avatar-text {
   padding-top: 30px !important;
 }
 
-/* line 873, ../../../sass/style.scss */
+/* line 884, ../../../sass/style.scss */
 #form-signup .signup-genre label {
   background-color: #303030 !important;
   height: 25px !important;
@@ -993,12 +1005,12 @@ footer {
   padding-right: 10px;
 }
 
-/* line 885, ../../../sass/style.scss */
+/* line 896, ../../../sass/style.scss */
 #form-signup .signup-genre input[type='checkbox']:checked + label {
   background-color: #ff7505 !important;
 }
 
-/* line 892, ../../../sass/style.scss */
+/* line 903, ../../../sass/style.scss */
 #form-signup .signup-icon-social {
   width: 30px;
   height: 30px;
@@ -1010,7 +1022,7 @@ footer {
   background-position: left bottom;
 }
 
-/* line 903, ../../../sass/style.scss */
+/* line 914, ../../../sass/style.scss */
 #form-signup .signup-icon-social-focus {
   width: 30px;
   height: 30px;
@@ -1022,12 +1034,12 @@ footer {
   background-position: left top !important;
 }
 
-/* line 914, ../../../sass/style.scss */
+/* line 925, ../../../sass/style.scss */
 #form-signup .signup-bottom {
   margin-bottom: 50px;
 }
 
-/* line 918, ../../../sass/style.scss */
+/* line 929, ../../../sass/style.scss */
 #form-signup .signup-radio input[type='radio'] + label {
   height: 30px;
   width: auto;
@@ -1039,17 +1051,17 @@ footer {
   padding: 0 0px 0 30px;
 }
 
-/* line 929, ../../../sass/style.scss */
+/* line 940, ../../../sass/style.scss */
 #form-signup .signup-radio input[type='radio']:checked + label {
   background-position: left top !important;
 }
 
-/* line 933, ../../../sass/style.scss */
+/* line 944, ../../../sass/style.scss */
 .addComponents {
   cursor: pointer;
 }
 
-/* line 937, ../../../sass/style.scss */
+/* line 948, ../../../sass/style.scss */
 #form-signup select {
   cursor: pointer;
   padding: 2px !important;
@@ -1060,26 +1072,26 @@ footer {
   background: #232323 url(../images/icon/small/other.png) no-repeat right !important;
   -webkit-appearance: none;
 }
-/* line 947, ../../../sass/style.scss */
+/* line 958, ../../../sass/style.scss */
 #form-signup select:focus {
   border: 1px solid #303030;
   background-color: #303030;
   border-bottom: 1px solid #787878;
 }
 
-/* line 955, ../../../sass/style.scss */
+/* line 966, ../../../sass/style.scss */
 .reveal-modal {
   top: -100px !important;
 }
 
-/* line 958, ../../../sass/style.scss */
+/* line 969, ../../../sass/style.scss */
 .location-reveal {
   text-align: right !important;
   position: absolute;
   right: 0px;
 }
 
-/* line 965, ../../../sass/style.scss */
+/* line 976, ../../../sass/style.scss */
 #form-signup .error {
   background-color: inherit !important;
   color: #ed1c24 !important;
@@ -1088,227 +1100,258 @@ footer {
   padding-bottom: 0px;
 }
 
-/* line 974, ../../../sass/style.scss */
+/* line 985, ../../../sass/style.scss */
 #form-signup small.error {
   float: right !important;
 }
 
-/* line 979, ../../../sass/style.scss */
+/* line 989, ../../../sass/style.scss */
+.uploadImage-reveal {
+  top: -20px;
+  width: 950px !important;
+  left: -10px !important;
+  margin-bottom: 30px;
+  background-color: #232323;
+}
+
+/* line 998, ../../../sass/style.scss */
+.uploadImage {
+  min-height: 400px;
+}
+
+/* line 1003, ../../../sass/style.scss */
+.uploadImage input[type='file'] {
+  display: none;
+}
+
+/* line 1007, ../../../sass/style.scss */
+.uploadImage .uploadImage_file_label {
+  background-color: #ff7505;
+  height: 40px;
+  padding: 13px;
+  padding-left: 40px;
+  background-image: url(../images/icon/add.png) !important;
+  background-repeat: no-repeat;
+  font-size: 14px !important;
+  margin-bottom: 50px;
+}
+
+/* line 1024, ../../../sass/style.scss */
 ._menu {
   background-image: url(../images/icon/menu.png);
 }
 
-/* line 980, ../../../sass/style.scss */
+/* line 1025, ../../../sass/style.scss */
 ._notify {
   background-image: url(../images/icon/notify.png);
 }
 
-/* line 981, ../../../sass/style.scss */
+/* line 1026, ../../../sass/style.scss */
 ._friend {
   background-image: url(../images/icon/friend.png);
 }
 
-/* line 982, ../../../sass/style.scss */
+/* line 1027, ../../../sass/style.scss */
 ._setting {
   background-image: url(../images/icon/setting.png);
 }
 
-/* line 983, ../../../sass/style.scss */
+/* line 1028, ../../../sass/style.scss */
 ._add {
   background-image: url(../images/icon/add.png);
 }
 
-/* line 984, ../../../sass/style.scss */
+/* line 1029, ../../../sass/style.scss */
 ._flag {
   background-image: url(../images/icon/flag.png);
 }
 
-/* line 985, ../../../sass/style.scss */
+/* line 1030, ../../../sass/style.scss */
 ._message {
   background-image: url(../images/icon/message.png);
 }
 
-/* line 986, ../../../sass/style.scss */
+/* line 1031, ../../../sass/style.scss */
 ._calendar {
   background-image: url(../images/icon/calendar.png);
 }
 
-/* line 987, ../../../sass/style.scss */
+/* line 1032, ../../../sass/style.scss */
 ._compass {
   background-image: url(../images/icon/compass.png);
 }
 
-/* line 988, ../../../sass/style.scss */
+/* line 1033, ../../../sass/style.scss */
 ._note {
   background-image: url(../images/icon/note.png);
 }
 
-/* line 989, ../../../sass/style.scss */
+/* line 1034, ../../../sass/style.scss */
 ._pin {
   background-image: url(../images/icon/pin.png);
 }
 
-/* line 990, ../../../sass/style.scss */
+/* line 1035, ../../../sass/style.scss */
 ._facebook {
   background-image: url(../images/icon/facebook.png);
 }
 
-/* line 991, ../../../sass/style.scss */
+/* line 1036, ../../../sass/style.scss */
 ._twitter {
   background-image: url(../images/icon/twitter.png);
 }
 
-/* line 992, ../../../sass/style.scss */
+/* line 1037, ../../../sass/style.scss */
 ._google {
   background-image: url(../images/icon/google.png);
 }
 
-/* line 993, ../../../sass/style.scss */
+/* line 1038, ../../../sass/style.scss */
 ._youtube {
   background-image: url(../images/icon/youtube.png);
 }
 
-/* line 994, ../../../sass/style.scss */
+/* line 1039, ../../../sass/style.scss */
 ._web {
   background-image: url(../images/icon/web.png);
 }
 
-/* line 995, ../../../sass/style.scss */
+/* line 1040, ../../../sass/style.scss */
 ._back_page {
   background-image: url(../images/icon/back_page.png);
 }
 
-/* line 996, ../../../sass/style.scss */
+/* line 1041, ../../../sass/style.scss */
 ._play-large {
   background-image: url(../images/icon/play.png);
 }
 
-/* line 997, ../../../sass/style.scss */
+/* line 1042, ../../../sass/style.scss */
 ._off {
   background-image: url(../images/icon/off.png);
 }
 
-/* line 999, ../../../sass/style.scss */
+/* line 1044, ../../../sass/style.scss */
 ._facebook-double {
   background-image: url(../images/icon/facebook-double.png);
 }
 
-/* line 1000, ../../../sass/style.scss */
+/* line 1045, ../../../sass/style.scss */
 ._twitter-double {
   background-image: url(../images/icon/twitter-double.png);
 }
 
-/* line 1001, ../../../sass/style.scss */
+/* line 1046, ../../../sass/style.scss */
 ._youtube-double {
   background-image: url(../images/icon/youtube-double.png);
 }
 
-/* line 1002, ../../../sass/style.scss */
+/* line 1047, ../../../sass/style.scss */
 ._google-double {
   background-image: url(../images/icon/google-double.png);
 }
 
-/* line 1003, ../../../sass/style.scss */
+/* line 1048, ../../../sass/style.scss */
 ._web-double {
   background-image: url(../images/icon/web-double.png);
 }
 
-/* line 1005, ../../../sass/style.scss */
+/* line 1050, ../../../sass/style.scss */
 ._check {
   background-image: url(../images/icon/check.png);
 }
 
-/* line 1008, ../../../sass/style.scss */
+/* line 1053, ../../../sass/style.scss */
 ._back {
   background-image: url(../images/icon/musicplayer/back.png);
 }
 
-/* line 1009, ../../../sass/style.scss */
+/* line 1054, ../../../sass/style.scss */
 ._pause {
   background-image: url(../images/icon/musicplayer/pause.png);
 }
 
-/* line 1010, ../../../sass/style.scss */
+/* line 1055, ../../../sass/style.scss */
 ._next {
   background-image: url(../images/icon/musicplayer/next.png);
 }
 
-/* line 1011, ../../../sass/style.scss */
+/* line 1056, ../../../sass/style.scss */
 ._play {
   background-image: url(../images/icon/musicplayer/play.png);
 }
 
-/* line 1014, ../../../sass/style.scss */
+/* line 1059, ../../../sass/style.scss */
 ._message-small {
   background-image: url(../images/icon/small/message-small.png);
 }
 
-/* line 1015, ../../../sass/style.scss */
+/* line 1060, ../../../sass/style.scss */
 ._compass-small {
   background-image: url(../images/icon/small/compass-small.png);
 }
 
-/* line 1016, ../../../sass/style.scss */
+/* line 1061, ../../../sass/style.scss */
 ._love {
   background-image: url(../images/icon/small/love.png);
 }
 
-/* line 1017, ../../../sass/style.scss */
+/* line 1062, ../../../sass/style.scss */
 ._unlove {
   background-image: url(../images/icon/small/unlove.png);
 }
 
-/* line 1018, ../../../sass/style.scss */
+/* line 1063, ../../../sass/style.scss */
 ._comment {
   background-image: url(../images/icon/small/comment.png);
 }
 
-/* line 1019, ../../../sass/style.scss */
+/* line 1064, ../../../sass/style.scss */
 ._shere {
   background-image: url(../images/icon/small/shere.png);
 }
 
-/* line 1020, ../../../sass/style.scss */
+/* line 1065, ../../../sass/style.scss */
 ._review {
   background-image: url(../images/icon/small/review.png);
 }
 
-/* line 1021, ../../../sass/style.scss */
+/* line 1066, ../../../sass/style.scss */
 ._menu-small {
   background-image: url(../images/icon/small/menu-small.png);
 }
 
-/* line 1022, ../../../sass/style.scss */
+/* line 1067, ../../../sass/style.scss */
 ._star-orange {
   background-image: url(../images/icon/small/star-orange.png);
 }
 
-/* line 1023, ../../../sass/style.scss */
+/* line 1068, ../../../sass/style.scss */
 ._star-grey {
   background-image: url(../images/icon/small/star-grey.png);
 }
 
-/* line 1026, ../../../sass/style.scss */
+/* line 1071, ../../../sass/style.scss */
 ._target1 {
   background-image: url(../images/icon/achievement/target1.png);
 }
 
-/* line 1027, ../../../sass/style.scss */
+/* line 1072, ../../../sass/style.scss */
 ._target2 {
   background-image: url(../images/icon/achievement/target2.png);
 }
 
-/* line 1028, ../../../sass/style.scss */
+/* line 1073, ../../../sass/style.scss */
 ._target3 {
   background-image: url(../images/icon/achievement/target3.png);
 }
 
-/* line 1031, ../../../sass/style.scss */
+/* line 1076, ../../../sass/style.scss */
 ._message_status {
   background-image: url(../images/icon/status/message.png);
 }
 
-/* line 1032, ../../../sass/style.scss */
+/* line 1077, ../../../sass/style.scss */
 ._follower_status {
   background-image: url(../images/icon/status/follower.png);
 }
