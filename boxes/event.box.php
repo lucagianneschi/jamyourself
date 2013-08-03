@@ -71,7 +71,7 @@ class EventBox {
 	$info = array();
 	$counter = 0;
 	$event = new EventParse();
-	$event->wherePointer('fromUser', '_User', $objectId);
+	$event->wherePointer('fromUser','_User', $objectId);
 	$event->where('active', true);
 	$event->setLimit(1000);
 	$event->orderByDescending('createdAt');
@@ -89,7 +89,7 @@ class EventBox {
 		    $eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
 		    $featuring = array();
 		    $parseUser = new UserParse();
-		    $parseUser->whereRelatedTo('featuring', 'Event', $objectId);
+		    $parseUser->whereRelatedTo('featuring','Event', $objectId);
 		    $parseUser->where('active', true);
 		    $parseUser->setLimit(1000);
 		    $feats = $parseUser->getUsers();
