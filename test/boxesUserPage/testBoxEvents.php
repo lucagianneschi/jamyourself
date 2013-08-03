@@ -23,61 +23,38 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'event.class.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'event.box.php';
 $i_end = microtime();
 
-//$id = '7fes1RyY77';LDF
-//$id = 'uMxy47jSjg';//ROSESINBLOOM
-$id = 'HDgcsTLpEx';
+$id1 = 'HDgcsTLpEx';//test1499427772
+$id2 = 'GuUAj83MGH';//SPATAFORA
 
-
-$eventParse = new EventParse();
-$eventParse->wherePointer('fromUser', '_User', $id);
-$eventParse->where('active', true);
-$eventParse->setLimit(1000);
-$eventParse->orderByDescending('createdAt');
-$events = $eventParse->getEvents();
-if ($events != 0) {
-    if (get_class($events) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
-    } else {
-	foreach ($events as $event) {
-	    echo '<br />[thumbnail] => ' . $event->getThumbnail() . '<br />';
-	    echo '<br />[locationName] => ' . $event->getLocationName() . '<br />';
-	    echo '<br />[title] => ' . $event->getTitle() . '<br />';
-	    if ($event->getTags() != 0) {
-		foreach ($event->getTags() as $tags) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[tags] => ' . $tags . '<br />';
-		    echo $string;
-		}
-	    }
-	    $parseUser = new UserParse();
-	    $parseUser->whereRelatedTo('featuring', 'Event', $id);
-	    $parseUser->where('active', true);
-	    $featuring = $parseUser->getUsers();
-	    if (count($featuring) != 0) {
-		foreach ($featuring as $user) {
-		    echo '<br />[username] => ' . $user->getUsername() . '<br />';
-		}
-	    }
-	    echo '<br />[eventDate] => ' . $event->getEventDate()->format('d-m-Y H:i:s') . '<br />';
-	    echo '<br />[city] => ' . $event->getCity() . '<br />';
-	    echo '<br />[address] => ' . $event->getAddress() . '<br />';
-	    echo '<br />[loveCounter] => ' . $event->getLoveCounter() . '<br />';
-	    echo '<br />[commentCounter] => ' . $event->getCommentCounter() . '<br />';
-	    echo '<br />[shareCounter] => ' . $event->getShareCounter() . '<br />';
-	    echo '<br />[reviewCounter] => ' . $event->getReviewCounter() . '<br />';
-	}
-    }
-}
-
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />-------------------------TEST EVENT BOX-------------------------------------------<br />';
+echo '<br />TEST EVENT BOX test1499427772<br />';
+$event1_start = microtime();
+$eventBoxP = new EventBox();
+$eventBox = $eventBoxP->init($id1);
+print "<pre>";
+print_r($eventBox);
+print "</pre>";
+$event1_stop = microtime();
+echo '<br />TEST TEST EVENT BOX test1499427772<br />';
+echo '<br />TEST EVENT BOX SPATAFORA<br />';
+$event2_start = microtime();
+$eventBoxP2 = new EventBox();
+$eventBox2 = $eventBoxP2->init($id2);
+print "<pre>";
+print_r($eventBox2);
+print "</pre>";
+$event2_stop = microtime();
+echo '<br />TEST TEST EVENT BOX SPATAFORA<br />';
+echo '<br />-------------------------FINE TEST EVENT BOX-------------------------------------------<br />';
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
+echo 'Tempo event 1:  ' . executionTime($event1_start, $event1_stop) . '<br />';
+echo 'Tempo event 2:  ' . executionTime($event2_start, $event2_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
