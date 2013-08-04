@@ -17,9 +17,8 @@
 
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../../');
 
-ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
