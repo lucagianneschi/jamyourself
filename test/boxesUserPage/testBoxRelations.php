@@ -22,7 +22,7 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once BOXES_DIR . 'relations.box.php';
+require_once BOXES_DIR . 'relation.box.php';
 $i_end = microtime();
 
 //SPOTTER
