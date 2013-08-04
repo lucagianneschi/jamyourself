@@ -86,7 +86,7 @@ class PostBox {
 		    $username = $fromUser->getUsername();
 
 		    $commentCounter = $post->getCommentCounter();
-		    $createdAt = $post->getCreatedAt();
+		    $createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
 		    $loveCounter = $post->getLoveCounter();
 		    $shareCounter = $post->getShareCounter();
 		    $text = $post->getText();
