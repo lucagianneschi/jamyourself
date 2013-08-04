@@ -61,7 +61,7 @@ class ReviewRecordBox {
     public $reviewRecordArray;
     public $reviewRecordCounter;
 
-    public function init1($objectId, $type) {
+    public function init($objectId, $type) {
 	$info = array();
 	$counter = 0;
 	$reviewRecordBox = new ReviewRecordBox();
@@ -90,17 +90,23 @@ class ReviewRecordBox {
 		    $counter = ++$counter;
 
 		    $recordP = new RecordParse();
-		    $record = $recordP->getRecord($review->record);
+		    $record = $recordP->getRecord($review->getRecord());
+		    
+		    //fare un controllo se il record esiste
 
 		    $userP = new UserParse();
 		    switch ($type) {
 			case 'SPOTTER':
 			    $user = $userP->getUser($record->getFromUser());
 			    break;
-			default :
+			case 'JAMMER':
 			    $user = $userP->getUser($review->getFromUser());
 			    break;
+			default :
+			    break;
 		    }
+		    
+		    //fare un controllo se lo user esiste
 
 		    $avatarThumb = $user->getProfileThumbnail();
 		    $commentCounter = $review->getCommentCounter();
