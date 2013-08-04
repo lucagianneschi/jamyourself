@@ -28,16 +28,18 @@ class RecordInfo {
     public $commentCounter;
     public $genre;
     public $loveCounter;
+    public $reviewCounter;
     public $shareCounter;
     public $songCounter;
-    public $thumbnailCoverCover;
+    public $thumbnailCover;
     public $title;
     public $year;
 
-    function __construct($commentCounter, $genre, $loveCounter, $shareCounter, $songCounter, $thumbnailCover, $title, $year) {
+    function __construct($commentCounter, $genre, $loveCounter, $reviewCounter, $shareCounter, $songCounter, $thumbnailCover, $title, $year) {
 	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
 	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
 	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
+	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
 	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($songCounter) ? $this->songCounter = NODATA : $this->songCounter = $songCounter;
 	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
@@ -57,7 +59,7 @@ class RecordBox {
 	$info = array();
 	$counter = 0;
 	$record = new RecordParse();
-	$record->wherePointer('fromUser','_User', $objectId);
+	$record->wherePointer('fromUser', '_User', $objectId);
 	$record->where('active', true);
 	$record->setLimit(1000);
 	$record->orderByDescending('createdAt');
@@ -72,12 +74,13 @@ class RecordBox {
 		    $commentCounter = $record->getCommentCounter();
 		    $genre = $record->getGenre();
 		    $loveCounter = $record->getLoveCounter();
+		    $reviewCounter = $record->getReviewCounter();
 		    $shareCounter = $record->getShareCounter();
 		    $songCounter = $record->getSongCounter();
 		    $thumbnailCover = $record->getThumbnailCover();
 		    $title = $record->getTitle();
 		    $year = $record->getYear();
-		    $recordInfo = new RecordInfo($commentCounter, $genre, $loveCounter, $shareCounter, $songCounter, $thumbnailCover, $title, $year);
+		    $recordInfo = new RecordInfo($commentCounter, $genre, $loveCounter, $reviewCounter, $shareCounter, $songCounter, $thumbnailCover, $title, $year);
 		    array_push($info, $recordInfo);
 		}
 		$recordBox->recordInfoArray = $info;
