@@ -27,21 +27,31 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'reviewRecord.box.php';
 $i_end = microtime();
 
-
-$objectId = 'sveemvaUN8';
+$objectId = 'GuUAj83MGH';
 	
 $reviewRecord_start = microtime();
 $reviewRecordBoxP = new ReviewRecordBox();
-$reviewRecordBox = $reviewRecordBoxP->init($objectId);
+$reviewRecordBox = $reviewRecordBoxP->init($objectId,'SPOTTER');
 print "<pre>";
 print_r($reviewRecordBox);
 print "</pre>";
 $reviewRecord_stop = microtime();
 
+
+$reviewRecord1_start = microtime();
+$reviewRecordBoxP = new ReviewRecordBox();
+$reviewRecordBox = $reviewRecordBoxP->init($objectId,'JAMMER');
+print "<pre>";
+print_r($reviewRecordBox);
+print "</pre>";
+$reviewRecord1_stop = microtime();
+
+
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo review' . executionTime($reviewRecord_start, $reviewRecord_stop) . '<br />';
+echo 'Tempo review' . executionTime($reviewRecord1_start, $reviewRecord1_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
