@@ -27,10 +27,10 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'info.box.php';
 require_once BOXES_DIR . 'album.box.php';
 require_once BOXES_DIR . 'event.box.php';
-require_once BOXES_DIR . 'reviewRecords.box.php';
+require_once BOXES_DIR . 'reviewRecord.box.php';
 require_once BOXES_DIR . 'record.box.php';
 require_once BOXES_DIR . 'post.box.php';
-require_once BOXES_DIR . 'relations.box.php';
+require_once BOXES_DIR . 'relation.box.php';
 
 
 //SPOTTER
