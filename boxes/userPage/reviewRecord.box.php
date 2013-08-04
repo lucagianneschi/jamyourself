@@ -21,8 +21,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'activity.class.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'record.class.php';
@@ -32,16 +30,16 @@ require_once CLASSES_DIR . 'userParse.class.php';
 
 class ReviewInfoRecord {
 
-    public $avatarThumb; //fromUser del comment
-    public $commentCounter; //comment
-    public $loveCounter; //comment
-    public $rating; //comment
-    public $reviewCounter; //comment
-    public $shareCounter; //comment
-    public $text; //comment
-    public $title; //record
-    public $thumbnailCover; //record
-    public $username; //fromUser del comment
+    public $avatarThumb; 
+    public $commentCounter; 
+    public $loveCounter; 
+    public $rating; 
+    public $reviewCounter;
+    public $shareCounter; 
+    public $text; 
+    public $title; 
+    public $thumbnailCover; 
+    public $username; 
 
     function __construct($avatarThumb, $commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $username) {
 	is_null($avatarThumb) ? $this->avatarThumb = NODATA : $this->avatarThumb = $avatarThumb;
@@ -63,12 +61,13 @@ class ReviewRecordBox {
     public $reviewRecordArray;
     public $reviewRecordCounter;
 
-    public function init($objectId, $type) {
+    public function init1($objectId, $type) {
 	$info = array();
 	$counter = 0;
 	$reviewRecordBox = new ReviewRecordBox();
-	$recordReview = new ActivityParse();
-	$recordReview->where('type', 'RECORDREVIEW');
+
+	$recordReview = new CommentParse();
+	$recordReview->where('type','RR');
 	switch ($type) {
 	    case 'SPOTTER':
 		$field = 'fromUser';
@@ -79,29 +78,35 @@ class ReviewRecordBox {
 	}
 	$recordReview->wherePointer($field, '_User', $objectId);
 	$recordReview->where('active', true);
+	$recordReview->setLimit(1000);
+	$recordReview->whereInclude('record');
 	$recordReview->orderByDescending('createdAt');
-	$activities = $recordReview->getActivities();
-	if ($activities != 0) {
-	    if (get_class($activities) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $activities->getErrorMessage() . '<br/>';
+	$results = $recordReview->getComments();
+	if (count($results) != 0) {
+	    if (get_class($results) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $results->getErrorMessage() . '<br/>';
 	    } else {
-		foreach ($activities as $activity) {
+		foreach ($results as $review) {
 		    $counter = ++$counter;
 
-		    $reviewP = new CommentParse();
-		    $review = $reviewP->getComment($activity->getComment());
-		    
 		    $recordP = new RecordParse();
-		    $record = $recordP->getRecord($activity->getRecord());
-		    
+		    $record = $recordP->getRecord($review->record);
+
 		    $userP = new UserParse();
-		    $user = $userP->getUser($record->getFromUser());
-		    
+		    switch ($type) {
+			case 'SPOTTER':
+			    $user = $userP->getUser($record->getFromUser());
+			    break;
+			default :
+			    $user = $userP->getUser($review->getFromUser());
+			    break;
+		    }
+
 		    $avatarThumb = $user->getProfileThumbnail();
 		    $commentCounter = $review->getCommentCounter();
 		    $loveCounter = $review->getLoveCounter();
 		    $rating = $review->getVote();
-		    $reviewCounter = $recordReview->getCount();
+		    $reviewCounter = $record->getReviewCounter();
 		    $shareCounter = $review->getShareCounter();
 		    $text = $review->getText();
 		    $thumbnailCover = $record->getThumbnailCover();
@@ -111,10 +116,10 @@ class ReviewRecordBox {
 		    $infoReviewRecord = new ReviewInfoRecord($avatarThumb, $commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $userName);
 		    array_push($info, $infoReviewRecord);
 		}
+		$reviewRecordBox->reviewArray = $info;
+		$reviewRecordBox->reviewCounter = $counter;
 	    }
 	}
-	$reviewRecordBox->reviewRecordArray = $info;
-	$reviewRecordBox->reviewRecordCounter = $counter;
 	return $reviewRecordBox;
     }
 
