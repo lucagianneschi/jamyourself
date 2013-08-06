@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		sistemare il campo featuring	
+ * \todo		trattare attendee ed invited	
  *
  */
 
@@ -37,6 +37,7 @@ class EventInfoBox {
     public $description;
     public $eventDate;
     public $featuring;
+    public $featuringCounter;
     public $image;
     public $invited;
     public $invitedCounter;
@@ -75,8 +76,10 @@ class EventInfoBox {
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($event->getFromUser);
 	    if ($fromUser != null) {
-		is_null($fromUser->getUsername()) ? $eventInfoBox->username = NODATA : $eventInfoBox->username = $fromUser->getUsername();
-		is_null($fromUser->getProfilePictureThumbnail) ? $eventInfoBox->thumbnail = NODATA : $eventInfoBox->thumbnail = $fromUser->getProfilePictureThumbnail;
+		is_null($fromUser->profilePictureThumbnail) ? $eventInfoBox->thumbnail = NODATA : $eventInfoBox->thumbnail = $fromUser->profilePictureThumbnail;
+		is_null($fromUser->type) ? $eventInfoBox->type = NODATA : $eventInfoBox->type = $fromUser->type;
+		is_null($fromUser->username) ? $eventInfoBox->username = NODATA : $eventInfoBox->username = $fromUser->username;
+		
 	    }
 	    $featuring = array();
 	    $parseUser = new UserParse();
@@ -89,10 +92,13 @@ class EventInfoBox {
 	    } elseif (get_class($feats) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
+		$featuringCounter = 0;
 		foreach ($feats as $user) {
+		    $featuringCounter = ++$featuringCounter;
 		    $username = $user->getUsername();
 		    array_push($featuring, $username);
 		}
+		$eventInfoBox->featuringCounter = $featuringCounter;
 		$eventInfoBox->featuring = $featuring;
 	    }
 	}
