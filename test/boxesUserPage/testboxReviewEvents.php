@@ -27,7 +27,6 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'reviewEvent.box.php';
 $i_end = microtime();
 
-
 $objectId = 'sveemvaUN8';
 	
 $reviewEvent_start = microtime();
