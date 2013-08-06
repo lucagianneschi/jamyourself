@@ -70,7 +70,7 @@ class EventBox {
 	$info = array();
 	$counter = 0;
 	$event = new EventParse();
-	$event->wherePointer('fromUser','_User', $objectId);
+	$event->wherePointer('fromUser', '_User', $objectId);
 	$event->where('active', true);
 	$event->setLimit(1000);
 	$event->orderByDescending('createdAt');
@@ -88,17 +88,22 @@ class EventBox {
 		    $eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
 		    $featuring = array();
 		    $parseUser = new UserParse();
-		    $parseUser->whereRelatedTo('featuring','Event', $objectId);
+		    $parseUser->whereRelatedTo('featuring', 'Event', $objectId);
 		    $parseUser->where('active', true);
 		    $parseUser->setLimit(1000);
 		    $feats = $parseUser->getUsers();
-		    echo $feats;
-		    if (get_class($feats) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
-		    } elseif (count($feats) != 0) {
-			foreach ($feats as $user) {
-			    $username = $user->getUsername();
-			    array_push($featuring, $username);
+		    if (count($feats) != 0) {
+			if (get_class($feats) == 'Error') {
+			    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
+			} else {
+			    foreach ($feats as $user) {
+				if ($user != null) {
+				    $username = $user->getUsername();
+				}
+				else
+				    $username = NODATA;
+				array_push($featuring, $username);
+			    }
 			}
 		    }
 		    $locationName = $event->getLocationName();
@@ -106,7 +111,7 @@ class EventBox {
 		    $reviewCounter = $event->getReviewCounter();
 		    $shareCounter = $event->getShareCounter();
 		    $tags = array();
-		    if ($event->getTags() != 0) {
+		    if (count($event->getTags()) != 0 && $event->getTags() != null) {
 			foreach ($event->getTags() as $tag) {
 			    array_push($tags, $tag);
 			}
