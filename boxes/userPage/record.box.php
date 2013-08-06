@@ -64,7 +64,7 @@ class RecordBox {
 	$record->setLimit(1000);
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
-	if ($records != 0) {
+	if (count($records) != 0) {
 	    if (get_class($records) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
 	    } else {
