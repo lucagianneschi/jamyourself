@@ -61,17 +61,17 @@ class RelationsBox {
 		$activityFollowing->whereInclude('toUser');
 		$activityFollowing->orderByDescending('createdAt');
 		$following = $activityFollowing->getActivities();
-		if ($following != 0) {
-		    if (get_class($following) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $following->getErrorMessage() . '<br/>';
-		    } else {
-			foreach ($following->toUser as $toUser) {
-			    $thumbnail = $toUser->getProfileThumbnail();
-			    $username = $toUser->getUserName();
+		if (count($following) == 0) {
+		    $following = NODATA;
+		} elseif (get_class($following) == 'Error') {
+		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $following->getErrorMessage() . '<br/>';
+		} else {
+		    foreach ($following->toUser as $toUser) {
+			$thumbnail = $toUser->getProfileThumbnail();
+			$username = $toUser->getUserName();
 
-			    $relationInfo = new RelationInfo($thumbnail, $username);
-			    array_push($followingArray, $relationInfo);
-			}
+			$relationInfo = new RelationInfo($thumbnail, $username);
+			array_push($followingArray, $relationInfo);
 		    }
 		}
 
@@ -102,8 +102,8 @@ class RelationsBox {
 		break;
 	    default :
 		$collaboratorVenue = new UserParse();
-		$collaboratorVenue->whereRelatedTo('collaboration','_User', $objectId);
-		$collaboratorVenue->whereEqualTo('type','VENUE');
+		$collaboratorVenue->whereRelatedTo('collaboration', '_User', $objectId);
+		$collaboratorVenue->whereEqualTo('type', 'VENUE');
 		$collaboratorVenue->where('active', true);
 		$collaboratorVenue->setLimit(1000);
 		$collaboratorVenue->orderByDescending('createdAt');
@@ -117,8 +117,8 @@ class RelationsBox {
 		}
 
 		$collaboratorJammer = new UserParse();
-		$collaboratorJammer->whereRelatedTo('collaboration','_User', $objectId);
-		$collaboratorJammer->whereEqualTo('type','JAMMER');
+		$collaboratorJammer->whereRelatedTo('collaboration', '_User', $objectId);
+		$collaboratorJammer->whereEqualTo('type', 'JAMMER');
 		$collaboratorJammer->setLimit(1000);
 		$collaboratorJammer->orderByDescending('createdAt');
 		$jammers = $collaboratorJammer->getUsers();
@@ -131,8 +131,8 @@ class RelationsBox {
 		}
 
 		$following = new ActivityParse();
-		$following->wherePointer('toUser','_User', $objectId);
-		$following->whereEqualTo('type','FOLLOWING');
+		$following->wherePointer('toUser', '_User', $objectId);
+		$following->whereEqualTo('type', 'FOLLOWING');
 		$following->where('active', true);
 		$following->setLimit(1000);
 		$following->orderByDescending('createdAt');
@@ -142,7 +142,7 @@ class RelationsBox {
 		    $followerId = $follower->getFromUser();
 		    $userP = new UserParse();
 		    $user = $userP->getUser($followerId);
-		    
+
 		    $thumbnail = $user->getProfileThumbnail();
 		    $username = $user->getUserName();
 
