@@ -64,14 +64,14 @@ class PostBox {
 	$counter = 0;
 
 	$post = new CommentParse();
-	$post->wherePointer('toUser','_User', $objectId);
+	$post->wherePointer('toUser', '_User', $objectId);
 	$post->where('type', 'P');
 	$post->where('active', true);
 	$post->setLimit(1000);
 	$post->whereInclude('fromUser');
 	$post->orderByDescending('createdAt');
 	$lastposts = $post->getComments();
-	if ($lastposts != 0) {
+	if (count($lastposts) != 0) {
 	    if (get_class($lastposts) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $lastposts->getErrorMessage() . '<br/>';
 	    } else {
@@ -80,11 +80,17 @@ class PostBox {
 
 		    $post = $lastposts[$i];
 
-		    $fromUser = $post->fromUser;
-		    $thumbnail = $fromUser->getProfileThumbnail();
-		    $type = $fromUser->getType();
-		    $username = $fromUser->getUsername();
-
+		    if ($post->fromUser != null) {
+			$fromUser = $post->fromUser;
+			$thumbnail = $fromUser->getProfileThumbnail();
+			$type = $fromUser->getType();
+			$username = $fromUser->getUsername();
+		    } else{
+			$fromUser = null;
+			$thumbnail = null;
+			$type = null;
+			$username = null;
+		    }
 		    $commentCounter = $post->getCommentCounter();
 		    $createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
 		    $loveCounter = $post->getLoveCounter();
