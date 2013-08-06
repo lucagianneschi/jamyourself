@@ -73,7 +73,7 @@ class RecordInfoBox {
     public function init($objectId) {
 
 	$recordInfoBox = new RecordInfoBox ();
-	
+
 	$recordP = new RecordParse();
 	$record = $recordP->getRecord($objectId);
 
