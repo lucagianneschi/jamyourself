@@ -67,7 +67,10 @@ class RecordInfoBox {
     public $featuring;
     public $genre;
     public $songList;
+    public $thumbnail;
     public $title;
+    public $type;
+    public $username;
     public $year;
 
     public function init($objectId) {
@@ -83,13 +86,16 @@ class RecordInfoBox {
 	    is_null($record->getDescription()) ? $recordInfoBox->description = NODATA : $recordInfoBox->description = $record->getDescription();
 	    is_null($record->getFeaturing()) ? $recordInfoBox->featuring = NODATA : $recordInfoBox->featuring = $record->getFeaturing();
 	    is_null($record->getGenre()) ? $recordInfoBox->genre = NODATA : $recordInfoBox->genre = $record->getGenre();
-	    is_null($record->getTitle()) ? $recordInfoBox->title = NODATA : $recordInfoBox->$title = $record->getTitle();
+	    is_null($record->getTitle()) ? $recordInfoBox->title = NODATA : $recordInfoBox->title = $record->getTitle();
+	    is_null($record->getYear()) ? $recordInfoBox->year = NODATA : $recordInfoBox->year = $record->getYear();
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($record->getFromUser);
 	    if ($fromUser != null) {
-		is_null($fromUser->getUsername()) ? $recordInfoBox->username = NODATA : $recordInfoBox->username = $fromUser->getUsername();
-		is_null($fromUser->getProfilePictureThumbnail()) ? $recordInfoBox->thumbnail = NODATA : $recordInfoBox->thumbnail = $fromUser->getProfilePictureThumbnail;
+		is_null($fromUser->thumbnail) ? $recordInfoBox->thumbnail = NODATA : $recordInfoBox->thumbnail = $fromUser->thumbnail;
+		is_null($fromUser->type) ? $recordInfoBox->type = NODATA : $recordInfoBox->type = $fromUser->type;
+		is_null($fromUser->username) ? $recordInfoBox->username = NODATA : $recordInfoBox->username = $fromUser->username;
+		
 	    }
 
 	    $featuring = array();
@@ -116,6 +122,7 @@ class RecordInfoBox {
 
 	$songList = array();
 	$parseSong = new SongParse();
+	$parseSong->wherePointer('record', 'Record', $objectId);
 	$parseSong->where('active', true);
 	$parseSong->setLimit(50);
 	$songs = $parseSong->getSongs();
