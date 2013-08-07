@@ -26,22 +26,35 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'comment.box.php';
 $i_end = microtime();
 
-$id = 'gdZovTbFRk';
-echo '<br />-------------------------TEST COMMENT BOX-------------------------------------------<br />';
+$id = 'gdZowTbFRk';
+echo '<br />-------------------------TEST COMMENT BOX IMAGE-------------------------------------------<br />';
 $comment_start = microtime();
 $commentBoxP = new CommentBox();
-$commentBox = $commentBoxP->init('image','Image',$id);
+$commentBox = $commentBoxP->init('Image',$id);
 print "<pre>";
 print_r($commentBox);
 print "</pre>";
 $comment_stop = microtime();
-echo '<br />-------------------------FINE TEST COMMENT BOX-------------------------------------------<br />';
+echo '<br />-------------------------FINE TEST COMMENT BOX IMAGE-------------------------------------------<br />';
+
+$idRec = 'sveemvaUN8';
+echo '<br />-------------------------TEST COMMENT BOX RECORD-------------------------------------------<br />';
+$comment1_start = microtime();
+$commentBoxP = new CommentBox();
+$commentBox = $commentBoxP->init('Record',$idRec);
+print "<pre>";
+print_r($commentBox);
+print "</pre>";
+$comment1_stop = microtime();
+echo '<br />-------------------------FINE TEST COMMENT BOX RECORD-------------------------------------------<br />';
+
 
 
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo recupero commento ' . executionTime($comment_start, $comment_stop) . '<br />';
+echo 'Tempo recupero commento ' . executionTime($comment1_start, $comment1_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
