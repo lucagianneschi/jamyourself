@@ -31,19 +31,15 @@ require_once BOXES_DIR . 'utils.box.php';
 
 class PostInfo {
 
-    public $commentCounter;
+    public $counters;
     public $createdAt;
     public $fromUserInfo;
-    public $loveCounter;
-    public $shareCounter;
     public $text;
 
-    function __construct($commentCounter, $createdAt, $fromUserInfo, $loveCounter, $shareCounter, $text) {
-	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
+    function __construct($counters, $createdAt, $fromUserInfo, $text) {
+	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
-	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
-	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($text) ? $this->text = NODATA : $this->text = $text;
     }
 
@@ -93,8 +89,9 @@ class PostBox {
 		    $loveCounter = $post->getLoveCounter();
 		    $shareCounter = $post->getShareCounter();
 		    $text = $post->getText();
+		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
 
-		    $postInfo = new PostInfo($commentCounter, $createdAt, $fromUserInfo, $loveCounter, $shareCounter, $text);
+		    $postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
 		    array_push($info, $postInfo);
 		}
 		$postBox->postInfoArray = $info;
