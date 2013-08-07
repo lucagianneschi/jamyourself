@@ -25,18 +25,8 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'utils.box.php';
 
-class RelationInfo {
-
-    public $thumbnail;
-    public $username;
-
-    function __construct($thumbnail, $username) {
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
-	is_null($username) ? $this->username = NODATA : $this->username = $username;
-    }
-
-}
 
 class RelationsBox {
 
@@ -68,10 +58,10 @@ class RelationsBox {
 		} else {
 		    foreach ($following->toUser as $toUser) {
 			$thumbnail = $toUser->getProfileThumbnail();
+			$type = $toUser->getType();
 			$username = $toUser->getUserName();
-
-			$relationInfo = new RelationInfo($thumbnail, $username);
-			array_push($followingArray, $relationInfo);
+			$userInfo = new UserInfo($thumbnail, $type, $username);
+			array_push($followingArray, $userInfo);
 		    }
 		}
 
@@ -90,10 +80,10 @@ class RelationsBox {
 		    } else {
 			foreach ($friendship->toUser as $toUser) {
 			    $thumbnail = $toUser->getProfileThumbnail();
+			    $type = $toUser->getType();
 			    $username = $toUser->getUserName();
-
-			    $relationInfo = new RelationInfo($thumbnail, $username);
-			    array_push($friendshipArray, $relationInfo);
+			    $userInfo = new UserInfo($thumbnail, $type, $username);
+			    array_push($friendshipArray, $userInfo);
 			}
 		    }
 		}
@@ -108,12 +98,12 @@ class RelationsBox {
 		$collaboratorVenue->setLimit(1000);
 		$collaboratorVenue->orderByDescending('createdAt');
 		$venues = $collaboratorVenue->getUsers();
-		foreach ($venues as $venue) {
-		    $thumbnail = $venue->getProfileThumbnail();
-		    $username = $venue->getUserName();
-
-		    $relationInfo = new RelationInfo($thumbnail, $username);
-		    array_push($venuesArray, $relationInfo);
+		foreach ($venues as $toUser) {
+		    $thumbnail = $toUser->getProfileThumbnail();
+		    $type = $toUser->getType();
+		    $username = $toUser->getUserName();
+		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    array_push($venuesArray, $userInfo);
 		}
 
 		$collaboratorJammer = new UserParse();
@@ -122,12 +112,12 @@ class RelationsBox {
 		$collaboratorJammer->setLimit(1000);
 		$collaboratorJammer->orderByDescending('createdAt');
 		$jammers = $collaboratorJammer->getUsers();
-		foreach ($jammers as $jammer) {
-		    $thumbnail = $jammer->getProfileThumbnail();
-		    $username = $jammer->getUserName();
-
-		    $relationInfo = new RelationInfo($thumbnail, $username);
-		    array_push($jammersArray, $relationInfo);
+		foreach ($jammers as $toUser) {
+		    $thumbnail = $toUser->getProfileThumbnail();
+		    $type = $toUser->getType();
+		    $username = $toUser->getUserName();
+		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    array_push($jammersArray, $userInfo);
 		}
 
 		$following = new ActivityParse();
@@ -138,16 +128,16 @@ class RelationsBox {
 		$following->orderByDescending('createdAt');
 		$followers = $following->getActivities();
 
-		foreach ($followers as $follower) {
-		    $followerId = $follower->getFromUser();
+		foreach ($followers as $toUser) {
+		    $followerId = $toUser->getFromUser();
 		    $userP = new UserParse();
 		    $user = $userP->getUser($followerId);
 
 		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
 		    $username = $user->getUserName();
-
-		    $relationInfo = new RelationInfo($thumbnail, $username);
-		    array_push($followersArray, $relationInfo);
+		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    array_push($followersArray, $userInfo);
 		}
 		$info = array('followers' => $followersArray, 'following' => NOTDEFINED, 'friendship' => NOTDEFINED, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
 		break;

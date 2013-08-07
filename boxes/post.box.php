@@ -27,27 +27,24 @@ require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'utils.box.php';
 
 class PostInfo {
 
     public $commentCounter;
     public $createdAt;
+    public $fromUserInfo;
     public $loveCounter;
     public $shareCounter;
     public $text;
-    public $thumbnail;
-    public $type;
-    public $username;
 
-    function __construct($commentCounter, $createdAt, $loveCounter, $shareCounter, $text, $thumbnail, $type, $username) {
+    function __construct($commentCounter, $createdAt, $fromUserInfo, $loveCounter, $shareCounter, $text) {
 	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
 	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
+	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
 	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($text) ? $this->text = NODATA : $this->text = $text;
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
-	is_null($type) ? $this->type = NODATA : $this->type = $type;
-	is_null($username) ? $this->username = NODATA : $this->username = $username;
     }
 
 }
@@ -85,19 +82,19 @@ class PostBox {
 			$thumbnail = $fromUser->getProfileThumbnail();
 			$type = $fromUser->getType();
 			$username = $fromUser->getUsername();
-		    } else{
-			$fromUser = null;
+		    } else {
 			$thumbnail = null;
 			$type = null;
 			$username = null;
 		    }
+		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		    $commentCounter = $post->getCommentCounter();
 		    $createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
 		    $loveCounter = $post->getLoveCounter();
 		    $shareCounter = $post->getShareCounter();
 		    $text = $post->getText();
 
-		    $postInfo = new PostInfo($commentCounter, $createdAt, $loveCounter, $shareCounter, $text, $thumbnail, $type, $username);
+		    $postInfo = new PostInfo($commentCounter, $createdAt, $fromUserInfo, $loveCounter, $shareCounter, $text);
 		    array_push($info, $postInfo);
 		}
 		$postBox->postInfoArray = $info;

@@ -23,6 +23,7 @@ require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'utils.box.php';
 
 class EventInfo {
 
@@ -116,20 +117,6 @@ class SongInfo {
 	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
 	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
-    }
-
-}
-
-class UserInfo {
-
-    public $thumbnail;
-    public $type;
-    public $username;
-
-    function __construct($thumbnail, $type, $username) {
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
-	is_null($type) ? $this->type = NODATA : $this->type = $type;
-	is_null($username) ? $this->username = NODATA : $this->username = $username;
     }
 
 }
