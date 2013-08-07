@@ -30,25 +30,35 @@ class ReviewInfo {
 
     public $commentCounter;
     public $loveCounter;
-    public $profileThumbnail;
     public $rating;
     public $reviewCounter;
     public $shareCounter;
     public $text;
     public $title;
     public $thumbnailCover;
-    public $username;
 
-    function __construct($commentCounter, $loveCounter, $profileThumbnail, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $username) {
+    function __construct($commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title) {
 	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
 	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
-	is_null($profileThumbnail) ? $this->profileThumbnail = NODATA : $this->profileThumbnail = $profileThumbnail;
 	is_null($rating) ? $this->rating = NODATA : $this->rating = $rating;
 	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
 	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($text) ? $this->text = NODATA : $this->text = $text;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
 	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
+    }
+
+}
+
+class UserInfo {
+
+    public $thumbnail;
+    public $type;
+    public $username;
+
+    function __construct($thumbnail, $type, $username) {
+	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
+	is_null($type) ? $this->type = NODATA : $this->type = $type;
 	is_null($username) ? $this->username = NODATA : $this->username = $username;
     }
 
@@ -56,6 +66,7 @@ class ReviewInfo {
 
 class ReviewBox {
 
+    public $fromUserInfo;
     public $reviewArray;
     public $reviewCounter;
 
@@ -100,7 +111,6 @@ class ReviewBox {
 	    } else {
 		foreach ($reviews as $review) {
 		    $counter = ++$counter;
-
 		    switch ($className) {
 			case 'Event':
 			    $id = $review->getEvent();
@@ -149,16 +159,18 @@ class ReviewBox {
 
 		    $userP = new UserParse();
 		    $user = $userP->getUser($userId);
-		    echo $userId;
 		    if (get_class($user) == 'Error') {
 			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
 		    } else {
-			$profileThumbnail = $user->getProfileThumbnail();
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
 			$username = $user->getUsername();
+			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		    }
-		    $reviewInfo = new ReviewInfo($commentCounter, $loveCounter, $profileThumbnail, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $username);
+		    $reviewInfo = new ReviewInfo($commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title);
 		    array_push($info, $reviewInfo);
 		}
+		$reviewBox->fromUserInfo = $fromUserInfo;
 		$reviewBox->reviewArray = $info;
 		$reviewBox->reviewCounter = $counter;
 	    }
