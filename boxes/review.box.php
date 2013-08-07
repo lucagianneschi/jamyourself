@@ -29,21 +29,17 @@ require_once BOXES_DIR . 'utils.box.php';
 
 class ReviewInfo {
 
-    public $commentCounter;
-    public $loveCounter;
+    public $counters;
     public $rating;
     public $reviewCounter;
-    public $shareCounter;
     public $text;
     public $title;
     public $thumbnailCover;
 
-    function __construct($commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title) {
-	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
-	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
+    function __construct($counters, $rating, $reviewCounter, $text, $thumbnailCover, $title) {
+	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($rating) ? $this->rating = NODATA : $this->rating = $rating;
 	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
-	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($text) ? $this->text = NODATA : $this->text = $text;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
 	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
@@ -144,6 +140,8 @@ class ReviewBox {
 		    $shareCounter = $review->getShareCounter();
 		    $text = $review->getText();
 
+		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+
 		    $userP = new UserParse();
 		    $user = $userP->getUser($userId);
 		    if (get_class($user) == 'Error') {
@@ -154,7 +152,7 @@ class ReviewBox {
 			$username = $user->getUsername();
 			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		    }
-		    $reviewInfo = new ReviewInfo($commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title);
+		    $reviewInfo = new ReviewInfo($counters, $rating, $reviewCounter, $text, $thumbnailCover, $title);
 		    array_push($info, $reviewInfo);
 		}
 		$reviewBox->fromUserInfo = $fromUserInfo;
