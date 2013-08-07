@@ -6,8 +6,8 @@
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		box caricamento review event 
- * \details		Recupera le informazioni sulla review dell'event, le inserisce in un array da passare alla view
+ * \brief		box caricamento review record
+ * \details		Recupera le informazioni sulal review del record, le inserisce in un array da passare alla view
  * \par			Commenti:
  * \warning
  * \bug
@@ -16,30 +16,30 @@
  */
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'event.class.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
+require_once CLASSES_DIR . 'record.class.php';
+require_once CLASSES_DIR . 'recordParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 
-class ReviewInfoEvent {
+class ReviewInfoRecord {
 
-    public $avatarThumb; //fromUser del comment
-    public $commentCounter;
-    public $loveCounter;
-    public $rating;
+    public $avatarThumb; 
+    public $commentCounter; 
+    public $loveCounter; 
+    public $rating; 
     public $reviewCounter;
-    public $shareCounter;
-    public $text;
-    public $title;
-    public $thumbnailCover;
-    public $username; //fromUser del comment
+    public $shareCounter; 
+    public $text; 
+    public $title; 
+    public $thumbnailCover; 
+    public $username; 
 
     function __construct($avatarThumb, $commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $username) {
 	is_null($avatarThumb) ? $this->avatarThumb = NODATA : $this->avatarThumb = $avatarThumb;
@@ -56,18 +56,18 @@ class ReviewInfoEvent {
 
 }
 
-class ReviewEventBox {
+class ReviewRecordBox {
 
-    public $reviewEventArray;
-    public $reviewEventCounter;
+    public $reviewRecordArray;
+    public $reviewRecordCounter;
 
     public function init($objectId, $type) {
 	$info = array();
 	$counter = 0;
-	$reviewEventBox = new ReviewEventBox();
+	$reviewRecordBox = new ReviewRecordBox();
 
-	$eventReview = new CommentParse();
-	$eventReview->where('type', 'RE');
+	$recordReview = new CommentParse();
+	$recordReview->where('type','RR');
 	switch ($type) {
 	    case 'SPOTTER':
 		$field = 'fromUser';
@@ -76,12 +76,12 @@ class ReviewEventBox {
 		$field = 'toUser';
 		break;
 	}
-	$eventReview->wherePointer($field, '_User', $objectId);
-	$eventReview->where('active', true);
-	$eventReview->setLimit(1000);
-	$eventReview->whereInclude('event');
-	$eventReview->orderByDescending('createdAt');
-	$results = $eventReview->getComments();
+	$recordReview->wherePointer($field, '_User', $objectId);
+	$recordReview->where('active', true);
+	$recordReview->setLimit(1000);
+	$recordReview->whereInclude('record');
+	$recordReview->orderByDescending('createdAt');
+	$results = $recordReview->getComments();
 	if (count($results) != 0) {
 	    if (get_class($results) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $results->getErrorMessage() . '<br/>';
@@ -89,38 +89,44 @@ class ReviewEventBox {
 		foreach ($results as $review) {
 		    $counter = ++$counter;
 
-		    $eventP = new EventParse();
-		    $event = $eventP->getEvent($review->event);
+		    $recordP = new RecordParse();
+		    $record = $recordP->getRecord($review->getRecord());
+		    
+		    //fare un controllo se il record esiste
 
 		    $userP = new UserParse();
 		    switch ($type) {
 			case 'SPOTTER':
-			    $user = $userP->getUser($event->getFromUser());
+			    $user = $userP->getUser($record->getFromUser());
 			    break;
-			default :
+			case 'JAMMER':
 			    $user = $userP->getUser($review->getFromUser());
 			    break;
+			default :
+			    break;
 		    }
+		    
+		    //fare un controllo se lo user esiste
 
 		    $avatarThumb = $user->getProfileThumbnail();
 		    $commentCounter = $review->getCommentCounter();
 		    $loveCounter = $review->getLoveCounter();
 		    $rating = $review->getVote();
-		    $reviewCounter = $event->getReviewCounter();
+		    $reviewCounter = $record->getReviewCounter();
 		    $shareCounter = $review->getShareCounter();
 		    $text = $review->getText();
-		    $thumbnailCover = $event->getThumbnailCover();
-		    $title = $event->getTitle();
+		    $thumbnailCover = $record->getThumbnailCover();
+		    $title = $record->getTitle();
 		    $userName = $user->getUsername();
 
 		    $infoReviewRecord = new ReviewInfoRecord($avatarThumb, $commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $userName);
 		    array_push($info, $infoReviewRecord);
 		}
-		$reviewEventBox->reviewArray = $info;
-		$reviewEventBox->reviewCounter = $counter;
+		$reviewRecordBox->reviewArray = $info;
+		$reviewRecordBox->reviewCounter = $counter;
 	    }
 	}
-	return $reviewEventBox;
+	return $reviewRecordBox;
     }
 
 }
