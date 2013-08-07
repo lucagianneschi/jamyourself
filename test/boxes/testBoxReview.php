@@ -24,15 +24,15 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once BOXES_DIR . 'reviewRecord.box.php';
+require_once BOXES_DIR . 'review.box.php';
 $i_end = microtime();
 
 $objectId = 'GuUAj83MGH';
 $objectId1 = 'nXvzqUuPHW';
 	
 $reviewRecord_start = microtime();
-$reviewRecordBoxP = new ReviewRecordBox();
-$reviewRecordBox = $reviewRecordBoxP->init($objectId,'SPOTTER');
+$reviewRecordBoxP = new ReviewBox();
+$reviewRecordBox = $reviewRecordBoxP->init($objectId,'SPOTTER','Record');
 print "<pre>";
 print_r($reviewRecordBox);
 print "</pre>";
@@ -40,8 +40,8 @@ $reviewRecord_stop = microtime();
 
 
 $reviewRecord1_start = microtime();
-$reviewRecordBoxP = new ReviewRecordBox();
-$reviewRecordBox = $reviewRecordBoxP->init($objectId1,'JAMMER');
+$reviewRecordBoxP = new ReviewBox();
+$reviewRecordBox = $reviewRecordBoxP->init($objectId1,'JAMMER','Record');
 print "<pre>";
 print_r($reviewRecordBox);
 print "</pre>";
