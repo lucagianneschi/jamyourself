@@ -184,14 +184,86 @@ class MediaInfoBox {
 		$mediaInfoBox->fromUserInfo = $userInfo;
 		break;
 	    case 'Record':
+		require_once CLASSES_DIR . 'record.class.php';
+		require_once CLASSES_DIR . 'recordParse.class.php';
+		require_once CLASSES_DIR . 'song.class.php';
+		require_once CLASSES_DIR . 'songParse.class.php';
+
+		$recordP = new RecordParse();
+		$record = $recordP->getRecord($objectId);
+		if (get_class($record) == 'Error') {
+		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $record->getErrorMessage() . '<br/>';
+		} elseif ($record->getActive() == true) {
+		    $buylink = $record->getBuylink();
+		    $cover = $record->getCover();
+		    $description = $record->getDescription();
+
+		    $featuring = array();
+		    $parseUser = new UserParse();
+		    $parseUser->whereRelatedTo('featuring', 'Record', $objectId);
+		    $parseUser->where('active', true);
+		    $parseUser->setLimit(1000);
+		    $feats = $parseUser->getUsers();
+		    if (count($feats) == 0) {
+			$featuring = NODATA;
+		    } elseif (get_class($feats) == 'Error') {
+			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+		    } else {
+			foreach ($feats as $user) {
+			    $thumbnail = $user->getProfilePictureThumbnail();
+			    $type = $user->getType();
+			    $username = $user->getUsername();
+			    $userInfo = new UserInfo($thumbnail, $type, $username);
+			    array_push($featuring, $userInfo);
+			}
+		    }
+
+		    $genre = $record->getGenre();
+		    $title = $record->getTitle();
+
+		    $tracklist = array();
+		    $parseSong = new SongParse();
+		    $parseSong->wherePointer('record', 'Record', $objectId);
+		    $parseSong->where('active', true);
+		    $parseSong->setLimit(50);
+		    $songs = $parseSong->getSongs();
+		    if (count($songs) == 0) {
+			$tracklist = NODATA;
+		    } elseif (get_class($songs) == 'Error') {
+			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $songs->getErrorMessage() . '<br/>';
+		    } else {
+			foreach ($songs as $song) {
+			    $duration = $song->getDuration();
+			    $title = $song->getTitle();
+			    $loveCounter = $song->getLoveCounter();
+			    $shareCounter = $song->getShareCounter();
+			    $songInfo = new SongInfo($duration, $loveCounter, $shareCounter, $title);
+			    array_push($tracklist, $songInfo);
+			}
+		    }
+		    $year = $record->getYear();
+		    $recordInfo = new RecordInfo($buylink, $cover, $description, $featuring, $genre, $locationName, $loveCounter, $reviewCounter, $shareCounter, $tracklist, $tags, $title, $year);
+
+		    $fromUserId = $record->getFromUser();
+		    $userP = new UserParse();
+		    $fromUser = $userP->getUser($fromUserId);
+		    if (get_class($fromUser) == 'Error') {
+			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $fromUser->getErrorMessage() . '<br/>';
+		    } else {
+			$thumbnail = $fromUser->getProfileThumbnail();
+			$type = $fromUser->getType();
+			$username = $fromUser->getUsername();
+			$userInfo = new UserInfo($thumbnail, $type, $username);
+		    }
+		}
+		$mediaInfoBox->mediaInfo = $recordInfo;
+		$mediaInfoBox->fromUserInfo = $userInfo;
 		break;
 	    case 'Album':
 		break;
 	    default:
 		break;
 	}
-
-
 	return $mediaInfoBox;
     }
 
