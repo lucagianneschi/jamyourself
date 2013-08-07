@@ -75,7 +75,9 @@ class EventInfoBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($event->getFromUser);
-	    if ($fromUser != null) {
+	    if(get_class($fromUser) == 'Error'){
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $fromUser->getErrorMessage() . '<br/>';
+	    } else  {
 		is_null($fromUser->profilePictureThumbnail) ? $eventInfoBox->thumbnail = NODATA : $eventInfoBox->thumbnail = $fromUser->profilePictureThumbnail;
 		is_null($fromUser->type) ? $eventInfoBox->type = NODATA : $eventInfoBox->type = $fromUser->type;
 		is_null($fromUser->username) ? $eventInfoBox->username = NODATA : $eventInfoBox->username = $fromUser->username;
