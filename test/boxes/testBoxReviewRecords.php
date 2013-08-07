@@ -28,6 +28,7 @@ require_once BOXES_DIR . 'reviewRecord.box.php';
 $i_end = microtime();
 
 $objectId = 'GuUAj83MGH';
+$objectId1 = 'nXvzqUuPHW';
 	
 $reviewRecord_start = microtime();
 $reviewRecordBoxP = new ReviewRecordBox();
@@ -40,7 +41,7 @@ $reviewRecord_stop = microtime();
 
 $reviewRecord1_start = microtime();
 $reviewRecordBoxP = new ReviewRecordBox();
-$reviewRecordBox = $reviewRecordBoxP->init($objectId,'JAMMER');
+$reviewRecordBox = $reviewRecordBoxP->init($objectId1,'JAMMER');
 print "<pre>";
 print_r($reviewRecordBox);
 print "</pre>";
