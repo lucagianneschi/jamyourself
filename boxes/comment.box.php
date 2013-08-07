@@ -16,7 +16,7 @@
  */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
@@ -54,7 +54,7 @@ class CommentBox {
 	$info = array();
 	switch ($className) {
 	    case 'Album':
-		$field = 'image';
+		$field = 'album';
 		break;
 	    case 'Comment':
 		$field = 'comment';
@@ -79,24 +79,26 @@ class CommentBox {
 	}
 
 	$commentP = new CommentParse();
-	$commentP->whereRelatedTo($field, $className, $objectId);
+	$commentP->wherePointer($field, $className, $objectId);
+	$commentP->where('type', 'C');
 	$commentP->where('active', true);
 	$commentP->setLimit(1000);
 	$commentP->orderByDescending('createdAt');
-	$commentP->whereInclude('fromUser');
 	$comments = $commentP->getComments();
+	
 	if (count($comments) != 0) {
 	    if (get_class($comments) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $comments->getErrorMessage() . '<br/>';
 	    } else {
-		for ($i = 0; i < count($comments); ++$i) {
-		    $comment = $comments[$i];
-
+		foreach ($comments as $comment) {
+		    
 		    $createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
 		    $text = $comment->getText();
+		    
+		    $fromUserId = $comment->getFromUser();
 
 		    $userP = new UserParse();
-		    $fromUser = $userP->getUser($comment->fromUser);
+		    $fromUser = $userP->getUser($fromUserId);
 		    $thumbnail = $fromUser->getProfileThumbnail();
 		    $type = $fromUser->getType();
 		    $username = $fromUser->getUsername();
