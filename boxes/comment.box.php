@@ -25,6 +25,7 @@ require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'utils.box.php';
 
 class CommentInfo {
 
@@ -36,20 +37,6 @@ class CommentInfo {
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
 	is_null($text) ? $this->text = NODATA : $this->text = $text;
-    }
-
-}
-
-class UserInfo {
-
-    public $thumbnail;
-    public $type;
-    public $username;
-
-    function __construct($thumbnail, $type, $username) {
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
-	is_null($type) ? $this->type = NODATA : $this->type = $type;
-	is_null($username) ? $this->username = NODATA : $this->username = $username;
     }
 
 }
