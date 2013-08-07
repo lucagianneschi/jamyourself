@@ -28,15 +28,25 @@ require_once CLASSES_DIR . 'userParse.class.php';
 
 class CommentInfo {
 
+    public $fromUserInfo;
     public $createdAt;
     public $text;
+
+    function __construct($fromUserInfo,$createdAt, $text) {
+	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
+	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
+	is_null($text) ? $this->text = NODATA : $this->text = $text;
+    }
+
+}
+
+class UserInfo {
+
     public $thumbnail;
     public $type;
     public $username;
 
-    function __construct($createdAt, $text, $thumbnail, $type, $username) {
-	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
-	is_null($text) ? $this->text = NODATA : $this->text = $text;
+    function __construct($thumbnail, $type, $username) {
 	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = NODATA : $this->type = $type;
 	is_null($username) ? $this->username = NODATA : $this->username = $username;
@@ -97,15 +107,17 @@ class CommentBox {
 		    $fromUserId = $comment->getFromUser();
 
 		    $userP = new UserParse();
-		    $fromUser = $userP->getUser($fromUserId);
-		    if (get_class($fromUser) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $fromUser->getErrorMessage() . '<br/>';
+		    $user = $userP->getUser($fromUserId);
+		    if (get_class($user) == 'Error') {
+			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
 		    } else {
-			$thumbnail = $fromUser->getProfileThumbnail();
-			$type = $fromUser->getType();
-			$username = $fromUser->getUsername();
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
+			$username = $user->getUsername();
+			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		    }
-		    $commentInfo = new CommentInfo($createdAt, $text, $thumbnail, $type, $username);
+
+		    $commentInfo = new CommentInfo($fromUserInfo,$createdAt, $text);
 		    array_push($info, $commentInfo);
 		}
 		$commentBox->commentInfoArray = $info;
