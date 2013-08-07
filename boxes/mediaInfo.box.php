@@ -46,7 +46,7 @@ class EventInfo {
     public $tags;
     public $title;
 
-    function __construct($address, $attendee,$city, $commentCounter, $description, $eventDate, $featuring, $image, $invited,$location, $locationName, $loveCounter, $reviewCounter, $shareCounter, $tags, $title) {
+    function __construct($address, $attendee, $city, $commentCounter, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $loveCounter, $reviewCounter, $shareCounter, $tags, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($attendee) ? $this->attendee = NODATA : $this->attendee = $attendee;
 	$this->attendeeCounter = count($attendee);
