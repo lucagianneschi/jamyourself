@@ -15,6 +15,20 @@
  *
  */
 
+class Counters {
+
+    public $commentCounter;
+    public $loveCounter;
+    public $shareCounter;
+
+    function __construct($commentCounter, $loveCounter, $shareCounter) {
+	is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
+	is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
+	is_null($shareCounter) ? $this->shareCounter = 0 : $this->shareCounter = $shareCounter;
+    }
+
+}
+
 class UserInfo {
 
     public $thumbnail;
