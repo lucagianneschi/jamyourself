@@ -31,7 +31,7 @@ class EventInfo {
     public $attendee;
     public $attendeeCounter;
     public $city;
-    public $commentCounter;
+    public $counters;
     public $description;
     public $eventDate;
     public $featuring;
@@ -41,18 +41,16 @@ class EventInfo {
     public $invitedCounter;
     public $location;
     public $locationName;
-    public $loveCounter;
     public $reviewCounter;
-    public $shareCounter;
     public $tags;
     public $title;
 
-    function __construct($address, $attendee, $city, $commentCounter, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $loveCounter, $reviewCounter, $shareCounter, $tags, $title) {
+    function __construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($attendee) ? $this->attendee = NODATA : $this->attendee = $attendee;
 	$this->attendeeCounter = count($attendee);
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
-	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
+	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($description) ? $this->description = NODATA : $this->description = $description;
 	is_null($eventDate) ? $this->eventDate = NODATA : $this->eventDate = $eventDate;
 	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
@@ -62,9 +60,7 @@ class EventInfo {
 	$this->invitedCounter = count($invited);
 	is_null($location) ? $this->location = NODATA : $this->location = $location;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
 	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
-	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
@@ -74,29 +70,27 @@ class EventInfo {
 class RecordInfo {
 
     public $buylink;
+    public $counters;
     public $cover;
     public $description;
     public $featuring;
     public $genre;
     public $locationName;
-    public $loveCounter;
     public $reviewCounter;
-    public $shareCounter;
     public $tracklist;
     public $tags;
     public $title;
     public $year;
 
-    function __construct($buylink, $cover, $description, $featuring, $genre, $locationName, $loveCounter, $reviewCounter, $shareCounter, $tracklist, $tags, $title, $year) {
+    function __construct($buylink, $counters, $cover, $description, $featuring, $genre, $locationName, $reviewCounter, $tracklist, $tags, $title, $year) {
 	is_null($buylink) ? $this->buylink = NODATA : $this->buylink = $buylink;
+	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($cover) ? $this->cover = NODATA : $this->cover = $cover;
 	is_null($description) ? $this->description = NODATA : $this->description = $description;
 	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
 	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
 	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
-	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($tracklist) ? $this->tracklist = NODATA : $this->tracklist = $tracklist;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
@@ -107,15 +101,13 @@ class RecordInfo {
 
 class SongInfo {
 
+    public $counters;
     public $duration;
-    public $loveCounter;
-    public $shareCounter;
     public $title;
 
-    function __construct($duration, $loveCounter, $shareCounter, $title) {
+    function __construct($counters, $duration, $title) {
+	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($duration) ? $this->duration = NODATA : $this->duration = $duration;
-	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
-	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
 
@@ -153,8 +145,9 @@ class MediaInfoBox {
 		    $shareCounter = $event->getShareCounter();
 		    $tags = $event->getTags();
 		    $title = $event->getTitle();
-
-		    $eventInfo = new EventInfo($address, $attendee, $city, $commentCounter, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $loveCounter, $reviewCounter, $shareCounter, $tags, $title);
+		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		    
+		    $eventInfo = new EventInfo($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title);
 		    $fromUserId = $event->getFromUser();
 		    $userP = new UserParse();
 		    $fromUser = $userP->getUser($fromUserId);
@@ -222,9 +215,11 @@ class MediaInfoBox {
 			foreach ($songs as $song) {
 			    $duration = $song->getDuration();
 			    $title = $song->getTitle();
+			    $commentCounter = null;
 			    $loveCounter = $song->getLoveCounter();
 			    $shareCounter = $song->getShareCounter();
-			    $songInfo = new SongInfo($duration, $loveCounter, $shareCounter, $title);
+			    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+			    $songInfo = new SongInfo($counters, $duration, $title);
 			    array_push($tracklist, $songInfo);
 			}
 		    }
