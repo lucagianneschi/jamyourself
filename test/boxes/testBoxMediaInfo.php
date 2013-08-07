@@ -37,10 +37,22 @@ print "</pre>";
 echo '<br />FINE TEST  INFO EVENT MEDIA PAGE<br />';
 $event_stop = microtime();
 
+$idR = 'b8r9q9b5se';
+$record_start = microtime();
+echo '<br />TEST  INFO RECORD MEDIA PAGE<br />';
+$recordBoxP = new MediaInfoBox();
+$recordBox = $recordBoxP->init($idR,'Record');
+print "<pre>";
+print_r($recordBox);
+print "</pre>";
+echo '<br />FINE TEST  INFO RECORD MEDIA PAGE<br />';
+$record_stop = microtime();
+
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo recupero info record ' . executionTime($event_start, $event_stop) . '<br />';
+echo 'Tempo recupero info record ' . executionTime($record_start, $record_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
