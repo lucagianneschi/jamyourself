@@ -210,7 +210,7 @@ class MediaInfoBox {
 			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 		    } else {
 			foreach ($feats as $user) {
-			    $thumbnail = $user->getProfilePictureThumbnail();
+			    $thumbnail = $user->getProfileThumbnail();
 			    $type = $user->getType();
 			    $username = $user->getUsername();
 			    $userInfo = new UserInfo($thumbnail, $type, $username);
