@@ -23,21 +23,18 @@ require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
+require_once BOXES_DIR . 'utils.box.php';
 
 class AlbumInfo {
 
-    public $commentCounter;
+    public $counters;
     public $imageCounter;
-    public $loveCounter;
-    public $shareCounter;
     public $thumbnailCover;
     public $title;
 
-    function __construct($commentCounter, $imageCounter, $loveCounter, $shareCounter, $thumbnailCover, $title) {
-	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
+    function __construct($counters, $imageCounter, $thumbnailCover, $title) {
+	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($imageCounter) ? $this->imageCounter = NODATA : $this->imageCounter = $imageCounter;
-	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
-	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
@@ -65,13 +62,16 @@ class AlbumBox {
 	    } else {
 		foreach ($albums as $album) {
 		    $counter = ++$counter;
+		    
 		    $commentCounter = $album->getCommentCounter();
 		    $imageCounter = $album->getImageCounter();
 		    $loveCounter = $album->getLoveCounter();
 		    $shareCounter = $album->getShareCounter();
 		    $thumbnailCover = $album->getThumbnailCover();
 		    $title = $album->getTitle();
-		    $albumInfo = new AlbumInfo($commentCounter, $imageCounter, $loveCounter, $shareCounter, $thumbnailCover, $title);
+		    
+		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		    $albumInfo = new AlbumInfo($counters, $imageCounter,$thumbnailCover, $title);
 		    array_push($info, $albumInfo);
 		}
 		$albumBox->albumInfoArray = $info;
