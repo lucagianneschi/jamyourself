@@ -23,14 +23,14 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once BOXES_DIR . 'eventInfo.box.php';
+require_once BOXES_DIR . 'mediaInfo.box.php';
 $i_end = microtime();
 
 $id = 'AdPPB6Rcao';
 $event_start = microtime();
 echo '<br />TEST  INFO EVENT MEDIA PAGE<br />';
-$eventBoxP = new EventInfoBox();
-$eventBox = $eventBoxP->init($id);
+$eventBoxP = new MediaInfoBox();
+$eventBox = $eventBoxP->init($id,'Event');
 print "<pre>";
 print_r($eventBox);
 print "</pre>";
