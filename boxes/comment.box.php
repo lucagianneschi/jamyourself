@@ -85,24 +85,26 @@ class CommentBox {
 	$commentP->setLimit(1000);
 	$commentP->orderByDescending('createdAt');
 	$comments = $commentP->getComments();
-	
 	if (count($comments) != 0) {
 	    if (get_class($comments) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $comments->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($comments as $comment) {
-		    
+
 		    $createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
 		    $text = $comment->getText();
-		    
+
 		    $fromUserId = $comment->getFromUser();
 
 		    $userP = new UserParse();
 		    $fromUser = $userP->getUser($fromUserId);
-		    $thumbnail = $fromUser->getProfileThumbnail();
-		    $type = $fromUser->getType();
-		    $username = $fromUser->getUsername();
-
+		    if (get_class($fromUser) == 'Error') {
+			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $fromUser->getErrorMessage() . '<br/>';
+		    } else {
+			$thumbnail = $fromUser->getProfileThumbnail();
+			$type = $fromUser->getType();
+			$username = $fromUser->getUsername();
+		    }
 		    $commentInfo = new CommentInfo($createdAt, $text, $thumbnail, $type, $username);
 		    array_push($info, $commentInfo);
 		}
