@@ -30,21 +30,21 @@ require_once CLASSES_DIR . 'userParse.class.php';
 
 class ReviewInfoRecord {
 
-    public $avatarThumb; 
-    public $commentCounter; 
-    public $loveCounter; 
-    public $rating; 
+    public $commentCounter;
+    public $loveCounter;
+    public $profileThumbnail;
+    public $rating;
     public $reviewCounter;
-    public $shareCounter; 
-    public $text; 
-    public $title; 
-    public $thumbnailCover; 
-    public $username; 
+    public $shareCounter;
+    public $text;
+    public $title;
+    public $thumbnailCover;
+    public $username;
 
-    function __construct($avatarThumb, $commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $username) {
-	is_null($avatarThumb) ? $this->avatarThumb = NODATA : $this->avatarThumb = $avatarThumb;
+    function __construct($commentCounter, $loveCounter, $profileThumbnail, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $username) {
 	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
 	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
+	is_null($profileThumbnail) ? $this->profileThumbnail = NODATA : $this->profileThumbnail = $profileThumbnail;
 	is_null($rating) ? $this->rating = NODATA : $this->rating = $rating;
 	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
 	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
@@ -72,43 +72,48 @@ class ReviewRecordBox {
 	    case 'SPOTTER':
 		$field = 'fromUser';
 		break;
-	    default :
+	    case 'JAMMER':
 		$field = 'toUser';
+		break;
+	    default :
 		break;
 	}
 	$recordReview->wherePointer($field, '_User', $objectId);
 	$recordReview->where('active', true);
 	$recordReview->setLimit(1000);
-	$recordReview->whereInclude('record');
 	$recordReview->orderByDescending('createdAt');
-	$results = $recordReview->getComments();
-	if (count($results) != 0) {
-	    if (get_class($results) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $results->getErrorMessage() . '<br/>';
+	$reviews = $recordReview->getComments();
+	if (count($reviews) != 0) {
+	    if (get_class($reviews) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
 	    } else {
-		foreach ($results as $review) {
+		foreach ($reviews as $review) {
 		    $counter = ++$counter;
 
+		    $idRecord = $review->getRecord();
+
 		    $recordP = new RecordParse();
-		    $record = $recordP->getRecord($review->getRecord());
-		    
-		    //fare un controllo se il record esiste
+		    $record = $recordP->getRecord($idRecord);
 
 		    $userP = new UserParse();
 		    switch ($type) {
 			case 'SPOTTER':
-			    $user = $userP->getUser($record->getFromUser());
+			    $id = $record->getFromUser();
 			    break;
 			case 'JAMMER':
-			    $user = $userP->getUser($review->getFromUser());
+			    $id = $review->getFromUser();
 			    break;
 			default :
 			    break;
 		    }
-		    
-		    //fare un controllo se lo user esiste
-
-		    $avatarThumb = $user->getProfileThumbnail();
+		    $user = $userP->getUser($id);
+		    if ($user != null) {
+			$profileThumbnail = $user->getProfileThumbnail();
+			$username = $user->getUsername();
+		    } else {
+			$profileThumbnail = null;
+			$username = null;
+		    }
 		    $commentCounter = $review->getCommentCounter();
 		    $loveCounter = $review->getLoveCounter();
 		    $rating = $review->getVote();
@@ -117,13 +122,12 @@ class ReviewRecordBox {
 		    $text = $review->getText();
 		    $thumbnailCover = $record->getThumbnailCover();
 		    $title = $record->getTitle();
-		    $userName = $user->getUsername();
 
-		    $infoReviewRecord = new ReviewInfoRecord($avatarThumb, $commentCounter, $loveCounter, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $userName);
+		    $infoReviewRecord = new ReviewInfoRecord($commentCounter, $loveCounter, $profileThumbnail, $rating, $reviewCounter, $shareCounter, $text, $thumbnailCover, $title, $username);
 		    array_push($info, $infoReviewRecord);
 		}
-		$reviewRecordBox->reviewArray = $info;
-		$reviewRecordBox->reviewCounter = $counter;
+		$reviewRecordBox->reviewRecordArray = $info;
+		$reviewRecordBox->reviewRecordCounter = $counter;
 	    }
 	}
 	return $reviewRecordBox;
