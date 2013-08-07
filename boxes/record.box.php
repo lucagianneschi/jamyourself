@@ -22,25 +22,22 @@ require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'record.class.php';
 require_once CLASSES_DIR . 'recordParse.class.php';
+require_once BOXES_DIR . 'utils.box.php';
 
 class RecordInfo {
 
-    public $commentCounter;
+    public $counters;
     public $genre;
-    public $loveCounter;
     public $reviewCounter;
-    public $shareCounter;
     public $songCounter;
     public $thumbnailCover;
     public $title;
     public $year;
 
-    function __construct($commentCounter, $genre, $loveCounter, $reviewCounter, $shareCounter, $songCounter, $thumbnailCover, $title, $year) {
-	is_null($commentCounter) ? $this->commentCounter = NODATA : $this->commentCounter = $commentCounter;
+    function __construct($counters, $genre, $reviewCounter, $songCounter, $thumbnailCover, $title, $year) {
+	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
-	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
 	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
-	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
 	is_null($songCounter) ? $this->songCounter = NODATA : $this->songCounter = $songCounter;
 	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
@@ -80,7 +77,8 @@ class RecordBox {
 		    $thumbnailCover = $record->getThumbnailCover();
 		    $title = $record->getTitle();
 		    $year = $record->getYear();
-		    $recordInfo = new RecordInfo($commentCounter, $genre, $loveCounter, $reviewCounter, $shareCounter, $songCounter, $thumbnailCover, $title, $year);
+		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		    $recordInfo = new RecordInfo($counters, $genre, $reviewCounter, $songCounter, $thumbnailCover, $title, $year);
 		    array_push($info, $recordInfo);
 		}
 		$recordBox->recordInfoArray = $info;
