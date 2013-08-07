@@ -81,12 +81,12 @@ class RecordInfo {
     public $loveCounter;
     public $reviewCounter;
     public $shareCounter;
-    public $songList;
+    public $tracklist;
     public $tags;
     public $title;
     public $year;
 
-    function __construct($buylink, $cover, $description, $featuring, $genre, $locationName, $loveCounter, $reviewCounter, $shareCounter, $songList, $tags, $title, $year) {
+    function __construct($buylink, $cover, $description, $featuring, $genre, $locationName, $loveCounter, $reviewCounter, $shareCounter, $tracklist, $tags, $title, $year) {
 	is_null($buylink) ? $this->buylink = NODATA : $this->buylink = $buylink;
 	is_null($cover) ? $this->cover = NODATA : $this->cover = $cover;
 	is_null($description) ? $this->description = NODATA : $this->description = $description;
@@ -96,7 +96,7 @@ class RecordInfo {
 	is_null($loveCounter) ? $this->loveCounter = NODATA : $this->loveCounter = $loveCounter;
 	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
 	is_null($shareCounter) ? $this->shareCounter = NODATA : $this->shareCounter = $shareCounter;
-	is_null($songList) ? $this->songList = NODATA : $this->songList = $songList;
+	is_null($tracklist) ? $this->tracklist = NODATA : $this->tracklist = $tracklist;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
 	is_null($year) ? $this->year = NODATA : $this->year = $year;
