@@ -32,7 +32,7 @@ $objectId1 = 'nXvzqUuPHW'; //disinteresse
 	
 $reviewRecord_start = microtime();
 $reviewRecordBoxP = new ReviewBox();
-$reviewRecordBox = $reviewRecordBoxP->init($objectId,'SPOTTER','Record');
+$reviewRecordBox = $reviewRecordBoxP->initForPersonalPage($objectId,'SPOTTER','Record');
 print "<pre>";
 print_r($reviewRecordBox);
 print "</pre>";
@@ -41,7 +41,7 @@ $reviewRecord_stop = microtime();
 
 $reviewRecord1_start = microtime();
 $reviewRecordBoxP = new ReviewBox();
-$reviewRecordBox = $reviewRecordBoxP->init($objectId1,'JAMMER','Record');
+$reviewRecordBox = $reviewRecordBoxP->initForPersonalPage($objectId1,'JAMMER','Record');
 print "<pre>";
 print_r($reviewRecordBox);
 print "</pre>";
@@ -50,7 +50,7 @@ $reviewRecord1_stop = microtime();
 
 $reviewEvent_start = microtime();
 $reviewEventBoxP = new ReviewBox();
-$reviewEventBox = $reviewEventBoxP->init($objectId,'SPOTTER','Event');
+$reviewEventBox = $reviewEventBoxP->initForPersonalPage($objectId,'SPOTTER','Event');
 print "<pre>";
 print_r($reviewEventBox);
 print "</pre>";
@@ -58,7 +58,7 @@ $reviewEvent_stop = microtime();
 
 $reviewEvent1_start = microtime();
 $reviewEventBoxP = new ReviewBox();
-$reviewEventBox = $reviewEventBoxP->init($objectId1,'JAMMER','Event');
+$reviewEventBox = $reviewEventBoxP->initForPersonalPage($objectId1,'JAMMER','Event');
 print "<pre>";
 print_r($reviewEventBox);
 print "</pre>";

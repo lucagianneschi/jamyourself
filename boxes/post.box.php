@@ -50,7 +50,7 @@ class PostBox {
     public $postInfoArray;
     public $postCounter;
 
-    public function init($objectId) {
+    public function initForPersonalPage($objectId) {
 
 	$postBox = new PostBox();
 	$info = array();

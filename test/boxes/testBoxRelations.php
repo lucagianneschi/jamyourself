@@ -45,7 +45,7 @@ echo '<br />-------------------------TEST  RELATION BOX ------------------------
 echo '<br />------------------------- TEST  RELATION BOX mari------------------------------------------<br />';
 $rel1_start = microtime();
 $relationsP = new RelationsBox();
-$rel = $relationsP->init($mari,'SPOTTER');
+$rel = $relationsP->initForPersonalPage($mari,'SPOTTER');
 print "<pre>";
 print_r($rel);
 print "</pre>";
@@ -56,7 +56,7 @@ echo '<br />-------------------------TEST  RELATION BOX ------------------------
 echo '<br />------------------------- TEST  RELATION BOX FLAVYCAP--------------------------------------<br />';
 $rel2_start = microtime();
 $relationsP = new RelationsBox();
-$rel = $relationsP->init($FLAVYCAP,'SPOTTER');
+$rel = $relationsP->initForPersonalPage($FLAVYCAP,'SPOTTER');
 print "<pre>";
 print_r($rel);
 print "</pre>";
@@ -67,7 +67,7 @@ echo '<br />-------------------------TEST  RELATION BOX ------------------------
 echo '<br />------------------------- TEST  RELATION BOX Kessingtong-----------------------------------<br />';
 $rel3_start = microtime();
 $relationsP = new RelationsBox();
-$rel = $relationsP->init($Kessingtong,'SPOTTER');
+$rel = $relationsP->initForPersonalPage($Kessingtong,'SPOTTER');
 print "<pre>";
 print_r($rel);
 print "</pre>";
@@ -79,7 +79,7 @@ echo '<br />-------------------------TEST  RELATION BOX ------------------------
 echo '<br />------------------------- TEST  RELATION BOX ROSESINBLOOM----------------------------------<br />';
 $rel4_start = microtime();
 $relationsP = new RelationsBox();
-$rel = $relationsP->init($ROSESINBLOOM,'JAMMER');
+$rel = $relationsP->initForPersonalPage($ROSESINBLOOM,'JAMMER');
 print "<pre>";
 print_r($rel);
 print "</pre>";
@@ -91,7 +91,7 @@ echo '<br />-------------------------TEST  RELATION BOX ------------------------
 echo '<br />------------------------- TEST  RELATION BOX Stanis----------------------------------------<br />';
 $rel5_start = microtime();
 $relationsP = new RelationsBox();
-$rel = $relationsP->init($Stanis,'JAMMER');
+$rel = $relationsP->initForPersonalPage($Stanis,'JAMMER');
 print "<pre>";
 print_r($rel);
 print "</pre>";
@@ -101,7 +101,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />------------------------- TEST  RELATION BOX LDF-------------------------------------------<br />';
 $rel6_start = microtime();
 $relationsP = new RelationsBox();
-$rel = $relationsP->init($LDF,'JAMMER');
+$rel = $relationsP->initForPersonalPage($LDF,'JAMMER');
 print "<pre>";
 print_r($rel);
 print "</pre>";
@@ -114,7 +114,7 @@ echo '<br />-------------------------TEST  RELATION BOX ------------------------
 echo '<br />------------------------- TEST  RELATION BOX ZonaPlayed-------------------------------------<br />';
 $rel7_start = microtime();
 $relationsP = new RelationsBox();
-$rel = $relationsP->init($ZonaPlayed,'VENUE');
+$rel = $relationsP->initForPersonalPage($ZonaPlayed,'VENUE');
 print "<pre>";
 print_r($rel);
 print "</pre>";
@@ -125,7 +125,7 @@ echo '<br />-------------------------TEST  RELATION BOX ------------------------
 echo '<br />------------------------- TEST  RELATION BOX $Ultrasuono------------------------------------<br />';
 $rel8_start = microtime();
 $relationsP = new RelationsBox();
-$rel = $relationsP->init($Ultrasuono,'VENUE');
+$rel = $relationsP->initForPersonalPage($Ultrasuono,'VENUE');
 print "<pre>";
 print_r($rel);
 print "</pre>";
@@ -136,7 +136,7 @@ echo '<br />-------------------------TEST  RELATION BOX ------------------------
 echo '<br />------------------------- TEST  RELATION BOX $jump-----------------------------------<br />';
 $rel9_start = microtime();
 $relationsP = new RelationsBox();
-$rel = $relationsP->init($jump,'VENUE');
+$rel = $relationsP->initForPersonalPage($jump,'VENUE');
 print "<pre>";
 print_r($rel);
 print "</pre>";

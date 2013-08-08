@@ -45,7 +45,7 @@ echo '<br />-------------------------------SPOTTER------------------------------
 echo '<br />------------------------- TEST POST BOX mari-------------------------------------------<br />';
 $post1_start = microtime(); 
 $recordPostP = new PostBox();
-$recordPost = $recordPostP->init($mari);
+$recordPost = $recordPostP->initForPersonalPage($mari);
 print "<pre>";
 print_r($recordPost);
 print "</pre>";
@@ -55,7 +55,7 @@ echo '<br />-------------------------FINE TEST POST BOX ------------------------
 echo '<br />------------------------- TEST POST BOX $FLAVYCAP-------------------------------------------<br />';
 $post2_start = microtime(); 
 $recordPostP = new PostBox();
-$recordPost = $recordPostP->init($FLAVYCAP);
+$recordPost = $recordPostP->initForPersonalPage($FLAVYCAP);
 print "<pre>";
 print_r($recordPost);
 print "</pre>";
@@ -64,7 +64,7 @@ echo '<br />-------------------------FINE TEST POST BOX $FLAVYCAP---------------
 echo '<br />------------------------- TEST POST BOX $Kessingtong-------------------------------------------<br />';
 $post3_start = microtime(); 
 $recordPostP = new PostBox();
-$recordPost = $recordPostP->init($LDF);
+$recordPost = $recordPostP->initForPersonalPage($LDF);
 print "<pre>";
 print_r($recordPost);
 print "</pre>";
@@ -74,7 +74,7 @@ echo '<br />-------------------------------JAMMER-------------------------------
 echo '<br />------------------------- TEST POST BOX ROSESINBLOOM-------------------------------------------<br />';
 $post4_start = microtime(); 
 $recordPostP = new PostBox();
-$recordPost = $recordPostP->init($ROSESINBLOOM);
+$recordPost = $recordPostP->initForPersonalPage($ROSESINBLOOM);
 print "<pre>";
 print_r($recordPost);
 print "</pre>";
@@ -84,7 +84,7 @@ echo '<br />-------------------------FINE TEST POST BOX ------------------------
 echo '<br />------------------------- TEST POST BOX Stanis-------------------------------------------<br />';
 $post5_start = microtime(); 
 $recordPostP = new PostBox();
-$recordPost = $recordPostP->init($Stanis);
+$recordPost = $recordPostP->initForPersonalPage($Stanis);
 print "<pre>";
 print_r($recordPost);
 print "</pre>";
@@ -93,7 +93,7 @@ echo '<br />-------------------------FINE TEST POST BOX Stanis------------------
 echo '<br />------------------------- TEST POST BOX LDF-------------------------------------------<br />';
 $post6_start = microtime(); 
 $recordPostP = new PostBox();
-$recordPost = $recordPostP->init($LDF);
+$recordPost = $recordPostP->initForPersonalPage($LDF);
 print "<pre>";
 print_r($recordPost);
 print "</pre>";
@@ -105,7 +105,7 @@ echo '<br />-------------------------------VENUE--------------------------------
 echo '<br />------------------------- TEST POST BOX ZonaPlayed-------------------------------------------<br />';
 $post7_start = microtime(); 
 $recordPostP = new PostBox();
-$recordPost = $recordPostP->init($ZonaPlayed);
+$recordPost = $recordPostP->initForPersonalPage($ZonaPlayed);
 print "<pre>";
 print_r($recordPost);
 print "</pre>";
@@ -115,7 +115,7 @@ echo '<br />-------------------------FINE TEST POST BOX ------------------------
 echo '<br />------------------------- TEST POST BOX Ultrasuono-------------------------------------------<br />';
 $post8_start = microtime();
 $recordPostP = new PostBox();
-$recordPost = $recordPostP->init($Ultrasuono);
+$recordPost = $recordPostP->initForPersonalPage($Ultrasuono);
 print "<pre>";
 print_r($recordPost);
 print "</pre>";
@@ -124,7 +124,7 @@ echo '<br />-------------------------FINE TEST POST BOX Ultrasuono--------------
 echo '<br />------------------------- TEST POST BOX JUMP-------------------------------------------<br />';
 $post9_start = microtime();
 $recordPostP = new PostBox();
-$recordPost = $recordPostP->init($jump);
+$recordPost = $recordPostP->initForPersonalPage($jump);
 print "<pre>";
 print_r($recordPost);
 print "</pre>";
