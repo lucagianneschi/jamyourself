@@ -46,7 +46,7 @@ class AlbumBox {
     public $albumInfoArray;
     public $albumCounter;
 
-    public function init($objectId) {
+    public function initForPersonalPage($objectId) {
 	$albumBox = new AlbumBox();
 	$info = array();
 	$counter = 0;
