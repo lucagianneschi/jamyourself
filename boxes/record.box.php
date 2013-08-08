@@ -78,6 +78,18 @@ class RecordInfoForPersonalPage {
 
 }
 
+class RecorInfoForUploadReviewPage {
+
+    public $featuring;
+    public $genre;
+
+    function __construct($featuring, $genre) {
+	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
+	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
+    }
+
+}
+
 class SongInfo {
 
     public $counters;
@@ -116,10 +128,10 @@ class RecordBox {
 	    $loveCounter = $record->getLoveCounter();
 	    $shareCounter = $record->getShareCounter();
 	    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-	    
+
 	    $cover = $record->getCover();
 	    $description = $record->getDescription();
-	    
+
 	    $featuring = array();
 	    $parseUser = new UserParse();
 	    $parseUser->whereRelatedTo('featuring', 'Record', $objectId);
@@ -195,7 +207,7 @@ class RecordBox {
 	$info = array();
 	$counter = 0;
 	$record = new RecordParse();
-	$record->wherePointer('fromUser','_User', $objectId);
+	$record->wherePointer('fromUser', '_User', $objectId);
 	$record->where('active', true);
 	$record->setLimit(1000);
 	$record->orderByDescending('createdAt');
@@ -225,6 +237,51 @@ class RecordBox {
 		$recordBox->recordInfoArray = $info;
 	    }
 	}
+	return $recordBox;
+    }
+
+    public function initForUploadReviewPage($objectId) {
+	$recordBox = new RecordBox();
+	$recordBox->recordCounter = NDB;
+
+	$recordP = new RecordParse();
+	$record = $recordP->getRecord($objectId);
+	if (get_class($record) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $record->getErrorMessage() . '<br/>';
+	} else {
+
+	    $featuring = array();
+	    $parseUser = new UserParse();
+	    $parseUser->whereRelatedTo('featuring', 'Record', $objectId);
+	    $parseUser->where('active', true);
+	    $parseUser->setLimit(1000);
+	    $feats = $parseUser->getUsers();
+	    if (count($feats) == 0) {
+		$featuring = NODATA;
+	    } elseif (get_class($feats) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($feats as $user) {
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    array_push($featuring, $userInfo);
+		}
+	    }
+	    $genre = $record->getGenre();
+	    $recordInfo = new RecorInfoForUploadReviewPage($featuring, $genre);
+	    $recordBox->recordInfoArray = $recordInfo;
+
+	    $fromUserP = new UserParse();
+	    $fromUser = $fromUserP->getUser($record->getFromUser());
+	    $thumbnail = $fromUser->getProfileThumbnail();
+	    $type = $fromUser->getType();
+	    $username = $fromUser->getUsername();
+	    $userInfo = new UserInfo($thumbnail, $type, $username);
+	    $recordBox->fromUserInfo = $userInfo;
+	}
+
 	return $recordBox;
     }
 
