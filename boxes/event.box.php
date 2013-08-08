@@ -100,6 +100,30 @@ class EventInfoForPersonalPage {
 
 }
 
+class EventInfoForUploadReviewPage {
+
+    public $address;
+    public $city;
+    public $eventDate;
+    public $featuring;
+    public $locationName;
+    public $tags;
+    public $thumbnail;
+    public $title;
+
+    function __construct($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title) {
+	is_null($address) ? $this->address = NODATA : $this->address = $address;
+	is_null($city) ? $this->city = NODATA : $this->city = $city;
+	is_null($eventDate) ? $this->eventDate = NODATA : $this->eventDate = $eventDate;
+	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
+	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
+	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
+	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
+	is_null($title) ? $this->title = NODATA : $this->title = $title;
+    }
+
+}
+
 class EventBox {
 
     public $eventCounter;
@@ -177,7 +201,7 @@ class EventBox {
 		}
 	    }
 	    $geopoint = $event->getLocation();
-	    $location = array('latitude'=>$geopoint->location['latitude'],'longitude'=>$geopoint->location['longitude']);
+	    $location = array('latitude' => $geopoint->location['latitude'], 'longitude' => $geopoint->location['longitude']);
 	    $locationName = $event->getLocationName();
 	    $loveCounter = $event->getLoveCounter();
 	    $reviewCounter = $event->getReviewCounter();
@@ -269,6 +293,60 @@ class EventBox {
 		$eventBox->eventInfoArray = $info;
 		$eventBox->fromUserInfo = NDB;
 	    }
+	}
+	return $eventBox;
+    }
+
+    public function initForUploadReviewPage($objectId) {
+	$eventBox = new EventBox();
+	$eventBox->eventCounter = NDB;
+
+	$recordP = new EventParse();
+	$event = $recordP->getEvent($objectId);
+	if (get_class($event) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $event->getErrorMessage() . '<br/>';
+	} else {
+	    $address = $event->getAddress();
+	    $city = $event->getCity();
+	    $eventDate = $event->getEventDate();
+	    $featuring = array();
+	    $parseUser = new UserParse();
+	    $parseUser->whereRelatedTo('featuring', 'Event', $objectId);
+	    $parseUser->where('active', true);
+	    $parseUser->setLimit(1000);
+	    $feats = $parseUser->getUsers();
+	    if (count($feats) == 0) {
+		$featuring = NODATA;
+	    } elseif (get_class($feats) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($feats as $user) {
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    array_push($featuring, $userInfo);
+		}
+	    }
+	    $locationName = $event->getLocationName();
+	    $tags = array();
+	    if (count($event->getTags()) != 0 && $event->getTags() != null) {
+		foreach ($event->getTags() as $tag) {
+		    array_push($tags, $tag);
+		}
+	    }
+	    $thumbnail = $event->getThumbnail();
+	    $title = $event->getTitle();
+	    $eventInfo = new EventInfoForUploadReviewPage($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title);
+	    $eventBox->recordInfoArray = $eventInfo;
+
+	    $fromUserP = new UserParse();
+	    $fromUser = $fromUserP->getUser($event->getFromUser());
+	    $thumbnailUser = $fromUser->getProfileThumbnail();
+	    $type = $fromUser->getType();
+	    $username = $fromUser->getUsername();
+	    $userInfo = new UserInfo($thumbnailUser, $type, $username);
+	    $eventBox->fromUserInfo = $userInfo;
 	}
 	return $eventBox;
     }
