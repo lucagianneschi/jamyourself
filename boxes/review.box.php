@@ -51,11 +51,77 @@ class ReviewInfo {
 
 class ReviewBox {
 
-    public $fromUserInfo;
     public $reviewArray;
     public $reviewCounter;
-    
-    public function initForPersonalPage($objectId, $type, $className) {
+
+    public function initForMediaPage($objectId, $className) {
+	$reviewBox = new ReviewBox();
+	$counter = 0;
+	$info = array();
+
+	$review = new CommentParse();
+	switch ($className) {
+	    case 'Event':
+		require_once CLASSES_DIR . 'event.class.php';
+		require_once CLASSES_DIR . 'eventParse.class.php';
+		$review->where('type','RE');
+		$field = 'event';
+		break;
+	    case 'Record':
+		require_once CLASSES_DIR . 'record.class.php';
+		require_once CLASSES_DIR . 'recordParse.class.php';
+		$review->where('type', 'RR');
+		$field = 'record';
+		break;
+	    default:
+		break;
+	}
+	$review->wherePointer($field, $className, $objectId);
+	$review->where('active', true);
+	$review->setLimit(1000);
+	$review->orderByDescending('createdAt');
+	$reviews = $review->getComments();
+	if (count($reviews) != 0) {
+	    if (get_class($reviews) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($reviews as $review) {
+		    $counter = ++$counter;
+
+		    $userP = new UserParse();
+		    $user = $userP->getUser($review->getFromUser());
+		    if (get_class($user) == 'Error') {
+			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
+		    } else {
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
+			$username = $user->getUsername();
+			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		    }
+
+		    $commentCounter = $review->getCommentCounter();
+		    $loveCounter = $review->getLoveCounter();
+		    $shareCounter = $review->getShareCounter();
+		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+
+		    $rating = $review->getVote();
+		    $reviewCounter = NDB;
+		    $text = $review->getText();
+		    $thumbnailCover = NDB;
+
+		    $title = $review->getTitle();
+
+		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title);
+		    array_push($info, $reviewInfo);
+		}
+		$reviewBox->reviewArray = $info;
+		$reviewBox->reviewCounter = $counter;
+	    }
+	}
+	return $reviewBox;
+    }
+
+    function initForPersonalPage($objectId, $type, $className) {
 	$info = array();
 	$counter = 0;
 	switch ($type) {
@@ -154,10 +220,9 @@ class ReviewBox {
 			$username = $user->getUsername();
 			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		    }
-		    $reviewInfo = new ReviewInfo($counters, $rating, $reviewCounter, $text, $thumbnailCover, $title);
+		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title);
 		    array_push($info, $reviewInfo);
 		}
-		$reviewBox->fromUserInfo = $fromUserInfo;
 		$reviewBox->reviewArray = $info;
 		$reviewBox->reviewCounter = $counter;
 	    }
@@ -166,5 +231,4 @@ class ReviewBox {
     }
 
 }
-
 ?>
