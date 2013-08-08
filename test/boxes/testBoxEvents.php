@@ -61,6 +61,18 @@ print "</pre>";
 echo '<br />FINE TEST  INFO EVENT MEDIA PAGE<br />';
 $event_stop = microtime();
 
+$event3_start = microtime();
+echo '<br />TEST  INFO EVENT UPLOADREVIEW PAGE<br />';
+$eventBoxP = new EventBox;
+$eventBox = $eventBoxP->initForUploadReviewPage($id);
+print "<pre>";
+print_r($eventBox);
+print "</pre>";
+echo '<br />FINE TEST  INFO EVENT UPLOADREVIEW PAGE<br />';
+$event3_stop = microtime();
+
+
+
 echo '<br />-------------------------FINE TEST EVENT BOX-------------------------------------------<br />';
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
@@ -68,6 +80,7 @@ echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo event 1:  ' . executionTime($event1_start, $event1_stop) . '<br />';
 echo 'Tempo event 2:  ' . executionTime($event2_start, $event2_stop) . '<br />';
 echo 'Tempo event media page:  ' . executionTime($event_start, $event_stop) . '<br />';
+echo 'Tempo event uploadREview:  ' . executionTime($event3_start, $event3_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
