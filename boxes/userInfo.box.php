@@ -64,7 +64,7 @@ class UserInfoBox {
 	} else if (get_class($user) == 'Error') {
 	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
 	} else {
-	    $infoBox = new infoBox();
+	    $infoBox = new UserInfoBox();
 	    is_null($user->getBackGround()) ? $infoBox->backGround = NODATA : $infoBox->backGround = $user->getBackGround();
 	    is_null($user->getCity()) ? $infoBox->city = NODATA : $infoBox->city = $user->getCity();
 	    is_null($user->getCountry()) ? $infoBox->country = NODATA : $infoBox->country = $user->getCountry();
