@@ -249,7 +249,6 @@ class RecordBox {
 	if (get_class($record) == 'Error') {
 	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $record->getErrorMessage() . '<br/>';
 	} else {
-
 	    $featuring = array();
 	    $parseUser = new UserParse();
 	    $parseUser->whereRelatedTo('featuring', 'Record', $objectId);
@@ -281,7 +280,6 @@ class RecordBox {
 	    $userInfo = new UserInfo($thumbnail, $type, $username);
 	    $recordBox->fromUserInfo = $userInfo;
 	}
-
 	return $recordBox;
     }
 
