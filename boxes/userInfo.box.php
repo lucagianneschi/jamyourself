@@ -25,7 +25,7 @@ require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 
-class InfoBox {
+class UserInfoBox {
 
     public $backGround;
     public $city;
@@ -52,11 +52,11 @@ class InfoBox {
     public $venueCounter;
 
     /**
-     * \fn	init($objectId)
+     * \fn	initForPersonalPage($objectId)
      * \brief	Init InfoBox instance
      * \return	infoBox
      */
-    public function init($objectId) {//questa la puoi fare esterna e passare tutto lo user??
+    public function initForPersonalPage($objectId) {//questa la puoi fare esterna e passare tutto lo user??
 	$userParse = new UserParse();
 	$user = $userParse->getUser($objectId);
 	if (count($user) == 0) {
