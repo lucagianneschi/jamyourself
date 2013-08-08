@@ -48,7 +48,7 @@ class RecordInfoForMediaPage {
 	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
 	is_null($label) ? $this->label = NODATA : $this->label = $label;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
+	is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
 	is_null($tracklist) ? $this->tracklist = NODATA : $this->tracklist = $tracklist;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
 	is_null($year) ? $this->year = NODATA : $this->year = $year;
@@ -183,7 +183,7 @@ class RecordBox {
 		$userInfo = new UserInfo($thumbnail, $type, $username);
 	    }
 	    $recordBox->fromUserInfo = $userInfo;
-	    $recordBox->recordCounter = NOTDEFINEDBOX;
+	    $recordBox->recordCounter = NDB;
 	    $recordBox->recordInfoArray = $recordInfo;
 	}
 	return $recordBox;
@@ -195,7 +195,7 @@ class RecordBox {
 	$info = array();
 	$counter = 0;
 	$record = new RecordParse();
-	$record->wherePointer('fromUser', '_User', $objectId);
+	$record->wherePointer('fromUser','_User', $objectId);
 	$record->where('active', true);
 	$record->setLimit(1000);
 	$record->orderByDescending('createdAt');
@@ -220,7 +220,7 @@ class RecordBox {
 		    $recordInfo = new RecordInfoForPersonalPage($counters, $genre, $reviewCounter, $songCounter, $thumbnailCover, $title, $year);
 		    array_push($info, $recordInfo);
 		}
-		$recordBox->fromUserInfo = NOTDEFINEDBOX;
+		$recordBox->fromUserInfo = NDB;
 		$recordBox->recordCounter = $counter;
 		$recordBox->recordInfoArray = $info;
 	    }
