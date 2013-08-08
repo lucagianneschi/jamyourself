@@ -86,6 +86,16 @@ print "</pre>";
 echo '<br />FINE TEST INFO RECORD REVIEW UPLOAD PAGE<br />';
 $record_stop = microtime();
 
+echo '<br />------------------------- TEST UPLOAD RECORD PAGE SPATAFORA-------------------------------------------<br />';
+$record4_start = microtime();
+$recordBoxP = new RecordBox();
+$recordBox = $recordBoxP->initForUploadRecordPage($SPATAFORA);
+print "<pre>";
+print_r($recordBox);
+print "</pre>";
+$record4_stop = microtime();
+echo '<br />-------------------------FINE TEST UPLOAD RECORD PAGE SPATAFORA-------------------------------------------<br />';
+
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
@@ -93,6 +103,7 @@ echo 'Tempo ultimi 4 record ' . executionTime($record1_start, $record1_stop) . '
 echo 'Tempo ultimi 4 record ' . executionTime($record2_start, $record2_stop) . '<br />';
 echo 'Tempo ultimi 4 record ' . executionTime($record3_start, $record3_stop) . '<br />';
 echo 'Tempo RECORD PAGINA MEDIA ' . executionTime($record_start, $record_stop) . '<br />';
+echo 'Tempo ultimi UPLOAD RECORD' . executionTime($record4_start, $record4_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
