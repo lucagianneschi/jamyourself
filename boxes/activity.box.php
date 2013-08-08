@@ -107,15 +107,13 @@ class ActivityBox {
 	if (get_class($albums) == 'Error') {
 	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $albums->getErrorMessage() . '<br/>';
 	} else {
-	    foreach ($albums as $albumId) {
-		$albumP = new AlbumParse();
-		$album = $albumP->getAlbum($albumId);
+	    foreach ($albums as $album) {
 		$imageCounter = $album->getImageCounter();
 		$title = $album->getTitle();
 
 		$imageArray = array();
 		$imageP = new ImageParse();
-		$imageP->wherePointer('album', 'Album', $albumId);
+		$imageP->wherePointer('album', 'Album', $album->getObjectId());
 		$imageP->setLimit(4);
 		$imageP->orderByDescending('updatedAt');
 		$images = $imageP->getImages();
@@ -123,7 +121,7 @@ class ActivityBox {
 		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $images->getErrorMessage() . '<br/>';
 		} else {
 		    foreach ($images as $image) {
-			$thumbnail = $image->getThumbnail(); //da implementare
+			$thumbnail = $image->getThumbnail();
 			$imageInfo = new ImageInfoForPersonalPage($thumbnail);
 			array_push($imageArray, $imageInfo);
 		    }
@@ -136,6 +134,32 @@ class ActivityBox {
 	    case 'SPOTTER':
 		break;
 	    case 'JAMMER':
+		$recordP = new RecordParse();
+		$recordP->setLimit(1);
+		$recordP->wherePointer('fromUser', '_User', $objectId);
+		$recordP->where('active', true);
+		$recordP->orderByDescending('updatedAt');
+		$records = $recordP->getAlbums();
+		if (get_class($records) == 'Error') {
+		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
+		} else {
+		    foreach ($records as $record) {
+			$fromUserId = $record->getFromUser();
+			$fromUserP = new UserParse();
+			$fromUser = $fromUserP->getUser($fromUserId);
+
+			$thumbnail = $fromUser->getThumbnail();
+			$type = $fromUser->getType();
+			$username = $fromUser->getUsername();
+			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+
+			$thumbnailCover = $record->getThumbnailCover();
+			$title = $record->getTitle();
+
+			$recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $thumbnailCover, $title);
+		    }
+		    $activityBox->recordInfo = $recordInfo;
+		}
 		break;
 	    case 'VENUE':
 		break;
