@@ -75,6 +75,16 @@ print_r($recordBoxMP);
 print "</pre>";
 echo '<br />FINE TEST  INFO RECORD MEDIA PAGE<br />';
 $record_stop = microtime();
+$idR = 'b8r9q9b5se';
+$record_start = microtime();
+echo '<br />TEST  INFO RECORD REVIEW UPLOAD PAGE<br />';
+$recordBoxPM = new RecordBox();
+$recordBoxMP = $recordBoxPM->initForUploadReviewPage($idR);
+print "<pre>";
+print_r($recordBoxMP);
+print "</pre>";
+echo '<br />FINE TEST INFO RECORD REVIEW UPLOAD PAGE<br />';
+$record_stop = microtime();
 
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
