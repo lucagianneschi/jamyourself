@@ -36,7 +36,7 @@ echo '<br />-------------------------TEST  RECORD BOX --------------------------
 echo '<br />------------------------- TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
 $record1_start = microtime();
 $recordBoxP = new RecordBox();
-$recordBox = $recordBoxP->init($SPATAFORA);
+$recordBox = $recordBoxP->initForPersonalPage($SPATAFORA);
 print "<pre>";
 print_r($recordBox);
 print "</pre>";
@@ -47,7 +47,7 @@ $record2_start = microtime();
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />------------------------- TEST RECORD BOX GLAM-------------------------------------------<br />';
 $recordBoxP = new RecordBox();
-$recordBox = $recordBoxP->init($glam);
+$recordBox = $recordBoxP->initForPersonalPage($glam);
 print "<pre>";
 print_r($recordBox);
 print "</pre>";
@@ -57,7 +57,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />------------------------- TEST RECORD BOX CAMERA133-------------------------------------------<br />';
 $record3_start = microtime();
 $recordBoxP = new RecordBox();
-$recordBox = $recordBoxP->init($camera133);
+$recordBox = $recordBoxP->initForPersonalPage($camera133);
 print "<pre>";
 print_r($recordBox);
 print "</pre>";
@@ -65,12 +65,24 @@ $record3_stop = microtime();
 echo '<br />-------------------------FINE TEST RECORD BOX CAMERA133-------------------------------------------<br />';
 echo '<br />-------------------------FINE TEST RECORD BOX -------------------------------------------<br />';
 
+$idR = 'b8r9q9b5se';
+$record_start = microtime();
+echo '<br />TEST  INFO RECORD MEDIA PAGE<br />';
+$recordBoxPM = new RecordBox();
+$recordBoxMP = $recordBoxPM->initForMediaPage($idR);
+print "<pre>";
+print_r($recordBoxMP);
+print "</pre>";
+echo '<br />FINE TEST  INFO RECORD MEDIA PAGE<br />';
+$record_stop = microtime();
+
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo ultimi 4 record ' . executionTime($record1_start, $record1_stop) . '<br />';
 echo 'Tempo ultimi 4 record ' . executionTime($record2_start, $record2_stop) . '<br />';
 echo 'Tempo ultimi 4 record ' . executionTime($record3_start, $record3_stop) . '<br />';
+echo 'Tempo RECORD PAGINA MEDIA ' . executionTime($record_start, $record_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
