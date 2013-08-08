@@ -78,7 +78,21 @@ class RecordInfoForPersonalPage {
 
 }
 
-class RecorInfoForUploadReviewPage {
+class RecordInfoForUploadRecordPage {
+
+    public $songCounter;
+    public $thumbnailCover;
+    public $title;
+
+    function __construct($songCounter, $thumbnailCover, $title) {
+	is_null($songCounter) ? $this->songCounter = NODATA : $this->songCounter = $songCounter;
+	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
+	is_null($title) ? $this->title = NODATA : $this->title = $title;
+    }
+
+}
+
+class RecordInfoForUploadReviewPage {
 
     public $featuring;
     public $genre;
@@ -239,6 +253,38 @@ class RecordBox {
 	}
 	return $recordBox;
     }
+    
+    public function initForUploadRecordPage($objectId) {
+	$recordBox = new RecordBox();
+
+	$info = array();
+	$counter = 0;
+	$record = new RecordParse();
+	$record->wherePointer('fromUser', '_User', $objectId);
+	$record->where('active', true);
+	$record->setLimit(1000);
+	$record->orderByDescending('createdAt');
+	$records = $record->getRecords();
+	if (count($records) != 0) {
+	    if (get_class($records) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($records as $record) {
+		    $counter = ++$counter;
+		    
+		    $songCounter = $record->getSongCounter();
+		    $thumbnailCover = $record->getThumbnailCover();
+		    $title = $record->getTitle();
+		    $recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
+		    array_push($info, $recordInfo);
+		}
+		$recordBox->fromUserInfo = NDB;
+		$recordBox->recordCounter = $counter;
+		$recordBox->recordInfoArray = $info;
+	    }
+	}
+	return $recordBox;
+    }
 
     public function initForUploadReviewPage($objectId) {
 	$recordBox = new RecordBox();
@@ -269,7 +315,7 @@ class RecordBox {
 		}
 	    }
 	    $genre = $record->getGenre();
-	    $recordInfo = new RecorInfoForUploadReviewPage($featuring, $genre);
+	    $recordInfo = new RecordInfoForUploadReviewPage($featuring, $genre);
 	    $recordBox->recordInfoArray = $recordInfo;
 
 	    $fromUserP = new UserParse();
