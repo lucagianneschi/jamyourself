@@ -34,7 +34,7 @@ echo '<br />-------------------------TEST EVENT BOX-----------------------------
 echo '<br />TEST EVENT BOX test1499427772<br />';
 $event1_start = microtime();
 $eventBoxP = new EventBox();
-$eventBox = $eventBoxP->init($id1);
+$eventBox = $eventBoxP->initForPersonalPage($id1);
 print "<pre>";
 print_r($eventBox);
 print "</pre>";
@@ -43,7 +43,7 @@ echo '<br />TEST TEST EVENT BOX test1499427772<br />';
 echo '<br />TEST EVENT BOX SPATAFORA<br />';
 $event2_start = microtime();
 $eventBoxP2 = new EventBox();
-$eventBox2 = $eventBoxP2->init($id2);
+$eventBox2 = $eventBoxP2->initForPersonalPage($id2);
 print "<pre>";
 print_r($eventBox2);
 print "</pre>";

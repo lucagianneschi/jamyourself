@@ -63,7 +63,7 @@ class EventBox {
     public $eventInfoArray;
     public $eventCounter;
 
-    public function init($objectId) {
+    public function initForPersonalPage($objectId) {
 
 	$eventBox = new EventBox();
 	$info = array();
