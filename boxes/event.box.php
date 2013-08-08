@@ -205,7 +205,6 @@ class EventBox {
 	return $eventBox;
     }
 
-    //rivedere se vengono mostrati diversi a seconda del profilo
     public function initForPersonalPage($objectId) {
 
 	$eventBox = new EventBox();
