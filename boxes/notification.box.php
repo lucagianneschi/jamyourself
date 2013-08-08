@@ -27,17 +27,32 @@ require_once CLASSES_DIR . 'activityParse.class.php';
 
 class NotificationInfo {
 
-    public $eventTitle;
-    public $sender;
     public $createdAt;
+    public $sender;
+    public $title;
+    
+    function __construct($createdAt,$sender,$title ) {
+	
+    }
 
 }
 
 class NotificationBox {
 
+    public $notificationArray;
     public $invitationCounter;
     public $messageCounter;
     public $relationCounter;
+
+    public function initForDetail() {
+	$notificationBox = new NotificationBox();
+	
+	
+	$notificationBox->invitationCounter = NDB;
+	$notificationBox->messageCounter = NDB;
+	$notificationBox->relationCounter = NDB;
+	return $notificationBox;
+    }
 
     /**
      * \fn	init($objectId,$type)
@@ -104,6 +119,8 @@ class NotificationBox {
 		}
 		break;
 	}
+	$notificationBox->notificationArray = NDB;
+	return $notificationBox;
     }
 
 }
