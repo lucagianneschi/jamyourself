@@ -158,6 +158,7 @@ class ImageParse {
 			#$image->setLovers(fromParseRelation('Image', 'lovers', $res->objectId, '_User'));
 			$image->setShareCounter($res->shareCounter);
 			$image->setTags($res->tags);
+			$image->setThumbnail($res->thumbnail);
 			$image->setCreatedAt(fromParseDate($res->createdAt));
 			$image->setUpdatedAt(fromParseDate($res->updatedAt));
 			$image->setACL(fromParseACL($res->ACL));
@@ -195,6 +196,7 @@ class ImageParse {
 			is_null($image->getLovers()) ? $parseImage->lovers = null : $parseImage->lovers = toParseAddRelation('_User', $image->getLovers());
 			is_null($image->getShareCounter()) ? $parseImage->shareCounter = null : $parseImage->shareCounter = $image->getShareCounter();
 			is_null($image->getTags()) ? $parseImage->tags = null : $parseImage->tags = $image->getTags();
+			is_null($image->getThumbnail()) ? $parseImage->thumbnail = null : $parseImage->thumbnail = $image->getThumbnail();
 			is_null($image->getACL()) ? $parseImage->ACL = toParseDefaultACL() : $parseImage->ACL = toParseACL($image->getACL());
 			if ($image->getObjectId() == '') {
 				$res = $parseImage->save();

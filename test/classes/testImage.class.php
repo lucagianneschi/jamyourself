@@ -43,6 +43,7 @@ $image->setLocation($parseGeoPoint);
 $image->setLoveCounter(100);
 $image->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $image->setTags(array('tag1', 'tag2'));
+$image->setThumbnail('path for thumbnail');
 $image->setShareCounter(100000);
 //$image->setACL();
 
