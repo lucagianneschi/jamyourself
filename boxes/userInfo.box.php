@@ -83,31 +83,31 @@ class UserInfoBox {
 	    $infoBox->type = $user->getType(); //qui dovresti tirare un errore
 	    switch ($infoBox->type) {
 		case 'SPOTTER':
-		    $infoBox->collaborationCounter = NOTDEFINED;
-		    $infoBox->followersCounter = NOTDEFINED;
+		    $infoBox->collaborationCounter = ND;
+		    $infoBox->followersCounter = ND;
 		    is_null($user->getFollowingCounter()) ? $infoBox->followingCounter = NODATA : $infoBox->followingCounter = $user->getFollowingCounter();
 		    is_null($user->getFriendshipCounter()) ? $infoBox->frindshipCounter = NODATA : $infoBox->frindshipCounter = $user->getFriendshipCounter();
-		    $infoBox->localType = NOTDEFINED;
-		    $infoBox->members = NOTDEFINED;
+		    $infoBox->localType = ND;
+		    $infoBox->members = ND;
 		    is_null($user->getMusic()) ? $infoBox->music = NODATA : $infoBox->music = $user->getMusic();
 		    break;
 		case 'JAMMER':
 		    is_null($user->getCollaborationCounter()) ? $infoBox->collaborationCounter = NODATA : $infoBox->collaborationCounter = $user->getCollaborationCounter();
 		    is_null($user->getFollowersCounter()) ? $infoBox->followersCounter = NODATA : $infoBox->followersCounter = $user->getFollowersCounter();
-		    $infoBox->followingCounter = NOTDEFINED;
-		    $infoBox->frindshipCounter = NOTDEFINED;
-		    $infoBox->localType = NOTDEFINED;
+		    $infoBox->followingCounter = ND;
+		    $infoBox->frindshipCounter = ND;
+		    $infoBox->localType = ND;
 		    is_null($user->getMembers()) ? $infoBox->members = NODATA : $infoBox->members = $user->getMembers();
 		    is_null($user->getMusic()) ? $infoBox->music = NODATA : $infoBox->music = $user->getMusic();
 		    break;
 		case 'VENUE':
 		    is_null($user->getCollaborationCounter()) ? $infoBox->collaborationCounter = NODATA : $infoBox->collaborationCounter = $user->getCollaborationCounter();
 		    is_null($user->getFollowersCounter()) ? $infoBox->followersCounter = NODATA : $infoBox->followersCounter = $user->getFollowersCounter();
-		    $infoBox->followingCounter = NOTDEFINED;
-		    $infoBox->frindshipCounter = NOTDEFINED;
+		    $infoBox->followingCounter = ND;
+		    $infoBox->frindshipCounter = ND;
 		    is_null($user->getLocalType()) ? $infoBox->localType = NODATA : $infoBox->localType = $user->getLocalType();
-		    $infoBox->members = NOTDEFINED;
-		    $infoBox->music = NOTDEFINED;
+		    $infoBox->members = ND;
+		    $infoBox->music = ND;
 		    break;
 		default :
 		    break;

@@ -52,7 +52,7 @@ class ReviewBox {
     public $fromUserInfo;
     public $reviewArray;
     public $reviewCounter;
-
+    
     public function initForPersonalPage($objectId, $type, $className) {
 	$info = array();
 	$counter = 0;

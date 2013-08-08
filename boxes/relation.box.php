@@ -88,7 +88,7 @@ class RelationsBox {
 		    }
 		}
 
-		$info = array('followers' => NOTDEFINED, 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => NOTDEFINED, 'jammersCollaborators' => NOTDEFINED);
+		$info = array('followers' => ND, 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => ND, 'jammersCollaborators' => ND);
 		break;
 	    default :
 		$collaboratorVenue = new UserParse();
@@ -139,7 +139,7 @@ class RelationsBox {
 		    $userInfo = new UserInfo($thumbnail, $type, $username);
 		    array_push($followersArray, $userInfo);
 		}
-		$info = array('followers' => $followersArray, 'following' => NOTDEFINED, 'friendship' => NOTDEFINED, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
+		$info = array('followers' => $followersArray, 'following' => ND, 'friendship' => ND, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
 		break;
 	}
 	$relationsBox->relationArray = $info;
