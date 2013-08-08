@@ -30,14 +30,16 @@ require_once BOXES_DIR . 'utils.box.php';
 class ReviewInfo {
 
     public $counters;
+    public $fromUserInfo;
     public $rating;
     public $reviewCounter;
     public $text;
     public $title;
     public $thumbnailCover;
 
-    function __construct($counters, $rating, $reviewCounter, $text, $thumbnailCover, $title) {
+    function __construct($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
+	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($rating) ? $this->rating = NODATA : $this->rating = $rating;
 	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
 	is_null($text) ? $this->text = NODATA : $this->text = $text;
