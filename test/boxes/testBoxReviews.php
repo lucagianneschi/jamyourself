@@ -64,6 +64,16 @@ print_r($reviewEventBox);
 print "</pre>";
 $reviewEvent1_stop = microtime();
 
+echo '<br />-------------------------------MEDIAPAGE-------------------------------------------<br />';
+$idReview = 'OXi0VJUoao';
+$reviewEvent2_start = microtime();
+$reviewEventBoxP = new ReviewBox();
+$reviewEventBox = $reviewEventBoxP->initForMediaPage($idReview,'Event');
+print "<pre>";
+print_r($reviewEventBox);
+print "</pre>";
+$reviewEvent2_stop = microtime();
+
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
@@ -71,6 +81,7 @@ echo 'Tempo review record' . executionTime($reviewRecord_start, $reviewRecord_st
 echo 'Tempo review record' . executionTime($reviewRecord1_start, $reviewRecord1_stop) . '<br />';
 echo 'Tempo review event' . executionTime($reviewEvent_start, $reviewEvent_stop) . '<br />';
 echo 'Tempo review event' . executionTime($reviewEvent1_start, $reviewEvent1_stop) . '<br />';
+echo 'Tempo review event' . executionTime($reviewEvent2_start, $reviewEvent2_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
