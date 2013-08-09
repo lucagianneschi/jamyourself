@@ -26,7 +26,7 @@ require_once CLASSES_DIR . 'event.class.php';
 require_once CLASSES_DIR . 'eventParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
-require_once BOXES_DIR . 'utils.box.php';
+require_once BOXES_DIR . 'utilsBox.php';
 
 class EventInfoForMediaPage {
 

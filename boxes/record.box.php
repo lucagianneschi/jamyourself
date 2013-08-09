@@ -22,7 +22,7 @@ require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'record.class.php';
 require_once CLASSES_DIR . 'recordParse.class.php';
-require_once BOXES_DIR . 'utils.box.php';
+require_once BOXES_DIR . 'utilsBox.php';
 
 class RecordInfoForMediaPage {
 

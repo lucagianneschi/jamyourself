@@ -25,7 +25,7 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
-require_once BOXES_DIR . 'utils.box.php';
+require_once BOXES_DIR . 'utilsBox.php';
 
 
 class RelationsBox {
