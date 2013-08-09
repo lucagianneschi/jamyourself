@@ -144,17 +144,15 @@ class EventBox {
 	    $parseUser->where('active', true);
 	    $parseUser->setLimit(1000);
 	    $att = $parseUser->getUsers();
-	    if (count($att) != 0) {
-		if (get_class($att) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $att->getErrorMessage() . '<br/>';
-		} else {
-		    foreach ($att as $user) {
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$username = $user->getUsername();
-			$userInfo = new UserInfo($thumbnail, $type, $username);
-			array_push($attendee, $userInfo);
-		    }
+	    if (get_class($att) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $att->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($att as $user) {
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    array_push($attendee, $userInfo);
 		}
 	    }
 	    $city = $event->getCity();
@@ -167,19 +165,18 @@ class EventBox {
 	    $parseUser1->where('active', true);
 	    $parseUser1->setLimit(1000);
 	    $feats = $parseUser1->getUsers();
-	    if (count($feats) != 0) {
-		if (get_class($feats) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
-		} else {
-		    foreach ($feats as $user) {
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$username = $user->getUsername();
-			$userInfo = new UserInfo($thumbnail, $type, $username);
-			array_push($featuring, $userInfo);
-		    }
+	    if (get_class($feats) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($feats as $user) {
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    array_push($featuring, $userInfo);
 		}
 	    }
+
 	    $image = $event->getImage();
 	    $invited = array();
 	    $parseUser2 = new UserParse();
@@ -187,17 +184,15 @@ class EventBox {
 	    $parseUser2->where('active', true);
 	    $parseUser2->setLimit(1000);
 	    $inv = $parseUser2->getUsers();
-	    if (count($inv) != 0) {
-		if (get_class($inv) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $inv->getErrorMessage() . '<br/>';
-		} else {
-		    foreach ($inv as $user) {
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$username = $user->getUsername();
-			$userInfo = new UserInfo($thumbnail, $type, $username);
-			array_push($invited, $userInfo);
-		    }
+	    if (get_class($inv) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $inv->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($inv as $user) {
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    array_push($invited, $userInfo);
 		}
 	    }
 	    $geopoint = $event->getLocation();
@@ -240,59 +235,55 @@ class EventBox {
 	$event->setLimit(1000);
 	$event->orderByDescending('createdAt');
 	$events = $event->getEvents();
-	if (count($events) != 0) {
-	    if (get_class($events) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
-	    } else {
-		foreach ($events as $event) {
-		    $counter = ++$counter;
+	if (get_class($events) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($events as $event) {
+		$counter = ++$counter;
 
-		    $address = $event->getAddress();
-		    $city = $event->getCity();
-		    $commentCounter = $event->getCommentCounter();
-		    $loveCounter = $event->getLoveCounter();
-		    $reviewCounter = $event->getReviewCounter();
-		    $shareCounter = $event->getShareCounter();
-		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-		    $eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
+		$address = $event->getAddress();
+		$city = $event->getCity();
+		$commentCounter = $event->getCommentCounter();
+		$loveCounter = $event->getLoveCounter();
+		$reviewCounter = $event->getReviewCounter();
+		$shareCounter = $event->getShareCounter();
+		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
 
-		    $featuring = array();
-		    $parseUser = new UserParse();
-		    $parseUser->whereRelatedTo('featuring', 'Event', $objectId);
-		    $parseUser->where('active', true);
-		    $parseUser->setLimit(1000);
-		    $feats = $parseUser->getUsers();
-		    if (count($feats) != 0) {
-			if (get_class($feats) == 'Error') {
-			    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
-			} else {
-			    foreach ($feats as $user) {
-				$thumbnail = $user->getProfileThumbnail();
-				$type = $user->getType();
-				$username = $user->getUsername();
-				$userInfo = new UserInfo($thumbnail, $type, $username);
-				array_push($featuring, $userInfo);
-			    }
-			}
+		$featuring = array();
+		$parseUser = new UserParse();
+		$parseUser->whereRelatedTo('featuring', 'Event', $objectId);
+		$parseUser->where('active', true);
+		$parseUser->setLimit(1000);
+		$feats = $parseUser->getUsers();
+		if (get_class($feats) == 'Error') {
+		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+		} else {
+		    foreach ($feats as $user) {
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
+			$username = $user->getUsername();
+			$userInfo = new UserInfo($thumbnail, $type, $username);
+			array_push($featuring, $userInfo);
 		    }
-		    $fromUserInfo = null;
-		    $locationName = $event->getLocationName();
-
-		    $tags = array();
-		    if (count($event->getTags()) != 0 && $event->getTags() != null) {
-			foreach ($event->getTags() as $tag) {
-			    array_push($tags, $tag);
-			}
-		    }
-		    $thumbnail = $event->getThumbnail();
-		    $title = $event->getTitle();
-		    $eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $reviewCounter, $tags, $thumbnail, $title);
-		    array_push($info, $eventInfo);
 		}
-		$eventBox->eventCounter = $counter;
-		$eventBox->eventInfoArray = $info;
-		$eventBox->fromUserInfo = NDB;
+		$fromUserInfo = null;
+		$locationName = $event->getLocationName();
+
+		$tags = array();
+		if (count($event->getTags()) != 0 && $event->getTags() != null) {
+		    foreach ($event->getTags() as $tag) {
+			array_push($tags, $tag);
+		    }
+		}
+		$thumbnail = $event->getThumbnail();
+		$title = $event->getTitle();
+		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $reviewCounter, $tags, $thumbnail, $title);
+		array_push($info, $eventInfo);
 	    }
+	    $eventBox->eventCounter = $counter;
+	    $eventBox->eventInfoArray = $info;
+	    $eventBox->fromUserInfo = NDB;
 	}
 	return $eventBox;
     }
@@ -315,9 +306,7 @@ class EventBox {
 	    $parseUser->where('active', true);
 	    $parseUser->setLimit(1000);
 	    $feats = $parseUser->getUsers();
-	    if (count($feats) == 0) {
-		$featuring = NODATA;
-	    } elseif (get_class($feats) == 'Error') {
+	    if (get_class($feats) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($feats as $user) {
