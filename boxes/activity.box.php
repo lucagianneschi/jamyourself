@@ -135,6 +135,9 @@ class ActivityBox {
 	}
 	switch ($type) {
 	    case 'SPOTTER':
+		require_once CLASSES_DIR . 'record.class.php';
+		require_once CLASSES_DIR . 'recordParse.class.php';
+
 		$activityP = new ActivityParse();
 		$activityP->setLimit(1);
 		$activityP->wherePointer('fromUser', '_User', $objectId);
@@ -171,6 +174,9 @@ class ActivityBox {
 		}
 		break;
 	    case 'JAMMER':
+		require_once CLASSES_DIR . 'record.class.php';
+		require_once CLASSES_DIR . 'recordParse.class.php';
+
 		$recordP = new RecordParse();
 		$recordP->setLimit(1);
 		$recordP->wherePointer('fromUser', '_User', $objectId);
