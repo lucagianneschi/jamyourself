@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		sistemare il campo featuring	
+ * \todo		sistemare il campo featuring
  *
  */
 if (!defined('ROOT_DIR'))
@@ -152,9 +152,7 @@ class RecordBox {
 	    $parseUser->where('active', true);
 	    $parseUser->setLimit(1000);
 	    $feats = $parseUser->getUsers();
-	    if (count($feats) == 0) {
-		$featuring = NODATA;
-	    } elseif (get_class($feats) == 'Error') {
+	    if (get_class($feats) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($feats as $user) {
@@ -165,7 +163,6 @@ class RecordBox {
 		    array_push($featuring, $userInfo);
 		}
 	    }
-
 	    $genre = $record->getGenre();
 	    $label = $record->getLabel();
 	    $locationName = $record->getLocationName();
@@ -178,9 +175,7 @@ class RecordBox {
 	    $parseSong->where('active', true);
 	    $parseSong->setLimit(50);
 	    $songs = $parseSong->getSongs();
-	    if (count($songs) == 0) {
-		$tracklist = NODATA;
-	    } elseif (get_class($songs) == 'Error') {
+	    if (get_class($songs) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $songs->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($songs as $song) {
@@ -226,34 +221,33 @@ class RecordBox {
 	$record->setLimit(1000);
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
-	if (count($records) != 0) {
-	    if (get_class($records) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
-	    } else {
-		foreach ($records as $record) {
-		    $counter = ++$counter;
+	if (get_class($records) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($records as $record) {
+		$counter = ++$counter;
 
-		    $commentCounter = $record->getCommentCounter();
-		    $genre = $record->getGenre();
-		    $loveCounter = $record->getLoveCounter();
-		    $reviewCounter = $record->getReviewCounter();
-		    $shareCounter = $record->getShareCounter();
-		    $songCounter = $record->getSongCounter();
-		    $thumbnailCover = $record->getThumbnailCover();
-		    $title = $record->getTitle();
-		    $year = $record->getYear();
-		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-		    $recordInfo = new RecordInfoForPersonalPage($counters, $genre, $reviewCounter, $songCounter, $thumbnailCover, $title, $year);
-		    array_push($info, $recordInfo);
-		}
-		$recordBox->fromUserInfo = NDB;
-		$recordBox->recordCounter = $counter;
-		$recordBox->recordInfoArray = $info;
+		$commentCounter = $record->getCommentCounter();
+		$genre = $record->getGenre();
+		$loveCounter = $record->getLoveCounter();
+		$reviewCounter = $record->getReviewCounter();
+		$shareCounter = $record->getShareCounter();
+		$songCounter = $record->getSongCounter();
+		$thumbnailCover = $record->getThumbnailCover();
+		$title = $record->getTitle();
+		$year = $record->getYear();
+		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$recordInfo = new RecordInfoForPersonalPage($counters, $genre, $reviewCounter, $songCounter, $thumbnailCover, $title, $year);
+		array_push($info, $recordInfo);
 	    }
+	    $recordBox->fromUserInfo = NDB;
+	    $recordBox->recordCounter = $counter;
+	    $recordBox->recordInfoArray = $info;
 	}
+
 	return $recordBox;
     }
-    
+
     public function initForUploadRecordPage($objectId) {
 	$recordBox = new RecordBox();
 
@@ -265,23 +259,21 @@ class RecordBox {
 	$record->setLimit(1000);
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
-	if (count($records) != 0) {
-	    if (get_class($records) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
-	    } else {
-		foreach ($records as $record) {
-		    $counter = ++$counter;
-		    
-		    $songCounter = $record->getSongCounter();
-		    $thumbnailCover = $record->getThumbnailCover();
-		    $title = $record->getTitle();
-		    $recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
-		    array_push($info, $recordInfo);
-		}
-		$recordBox->fromUserInfo = NDB;
-		$recordBox->recordCounter = $counter;
-		$recordBox->recordInfoArray = $info;
+	if (get_class($records) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($records as $record) {
+		$counter = ++$counter;
+
+		$songCounter = $record->getSongCounter();
+		$thumbnailCover = $record->getThumbnailCover();
+		$title = $record->getTitle();
+		$recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
+		array_push($info, $recordInfo);
 	    }
+	    $recordBox->fromUserInfo = NDB;
+	    $recordBox->recordCounter = $counter;
+	    $recordBox->recordInfoArray = $info;
 	}
 	return $recordBox;
     }
@@ -301,9 +293,7 @@ class RecordBox {
 	    $parseUser->where('active', true);
 	    $parseUser->setLimit(1000);
 	    $feats = $parseUser->getUsers();
-	    if (count($feats) == 0) {
-		$featuring = NODATA;
-	    } elseif (get_class($feats) == 'Error') {
+	    if (get_class($feats) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($feats as $user) {
