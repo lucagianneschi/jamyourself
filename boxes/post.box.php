@@ -55,49 +55,49 @@ class PostBox {
 	$postBox = new PostBox();
 	$info = array();
 	$counter = 0;
+	$value = array(array('fromUser' => $objectId), array('toUser' => $objectId));
 
 	$post = new CommentParse();
-	$post->wherePointer('toUser', '_User', $objectId);
+	$post->whereOr($value);
 	$post->where('type', 'P');
 	$post->where('active', true);
 	$post->setLimit(1000);
 	$post->whereInclude('fromUser');
 	$post->orderByDescending('createdAt');
-	$lastposts = $post->getComments();
-	if (count($lastposts) != 0) {
-	    if (get_class($lastposts) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $lastposts->getErrorMessage() . '<br/>';
-	    } else {
-		for ($i = 0; i < count($lastposts); ++$i) {
-		    $counter = ++$counter;
+	$posts = $post->getComments();
+	if (get_class($posts) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $posts->getErrorMessage() . '<br/>';
+	} else {
+	    for ($i = 0; i < count($posts); ++$i) {
+		$counter = ++$counter;
 
-		    $post = $lastposts[$i];
+		$post = $posts[$i];
 
-		    if ($post->fromUser != null) {
-			$fromUser = $post->fromUser;
-			$thumbnail = $fromUser->getProfileThumbnail();
-			$type = $fromUser->getType();
-			$username = $fromUser->getUsername();
-		    } else {
-			$thumbnail = null;
-			$type = null;
-			$username = null;
-		    }
-		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
-		    $commentCounter = $post->getCommentCounter();
-		    $createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
-		    $loveCounter = $post->getLoveCounter();
-		    $shareCounter = $post->getShareCounter();
-		    $text = $post->getText();
-		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-
-		    $postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
-		    array_push($info, $postInfo);
+		if ($post->fromUser != null) {
+		    $fromUser = $post->fromUser;
+		    $thumbnail = $fromUser->getProfileThumbnail();
+		    $type = $fromUser->getType();
+		    $username = $fromUser->getUsername();
+		} else {
+		    $thumbnail = null;
+		    $type = null;
+		    $username = null;
 		}
-		$postBox->postInfoArray = $info;
-		$postBox->postCounter = $counter;
+		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		$commentCounter = $post->getCommentCounter();
+		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
+		$loveCounter = $post->getLoveCounter();
+		$shareCounter = $post->getShareCounter();
+		$text = $post->getText();
+		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+
+		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
+		array_push($info, $postInfo);
 	    }
+	    $postBox->postInfoArray = $info;
+	    $postBox->postCounter = $counter;
 	}
+
 	return $postBox;
     }
 
