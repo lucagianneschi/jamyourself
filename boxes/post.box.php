@@ -19,7 +19,6 @@
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
-ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
@@ -51,7 +50,6 @@ class PostBox {
     public $postCounter;
 
     public function initForPersonalPage($objectId) {
-
 	$postBox = new PostBox();
 	$info = array();
 	$counter = 0;
@@ -70,20 +68,15 @@ class PostBox {
 	} else {
 	    for ($i = 0; i < count($posts); ++$i) {
 		$counter = ++$counter;
-
 		$post = $posts[$i];
-
-		if ($post->fromUser != null) {
+		if ($post->fromUser) {
 		    $fromUser = $post->fromUser;
 		    $thumbnail = $fromUser->getProfileThumbnail();
 		    $type = $fromUser->getType();
 		    $username = $fromUser->getUsername();
-		} else {
-		    $thumbnail = null;
-		    $type = null;
-		    $username = null;
 		}
 		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+
 		$commentCounter = $post->getCommentCounter();
 		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
 		$loveCounter = $post->getLoveCounter();

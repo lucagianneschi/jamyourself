@@ -64,7 +64,7 @@ class ReviewBox {
 	    case 'Event':
 		require_once CLASSES_DIR . 'event.class.php';
 		require_once CLASSES_DIR . 'eventParse.class.php';
-		$review->where('type','RE');
+		$review->where('type', 'RE');
 		$field = 'event';
 		break;
 	    case 'Record':
@@ -81,42 +81,40 @@ class ReviewBox {
 	$review->setLimit(1000);
 	$review->orderByDescending('createdAt');
 	$reviews = $review->getComments();
-	if (count($reviews) != 0) {
-	    if (get_class($reviews) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
-	    } else {
-		foreach ($reviews as $review) {
-		    $counter = ++$counter;
+	if (get_class($reviews) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($reviews as $review) {
+		$counter = ++$counter;
 
-		    $userP = new UserParse();
-		    $user = $userP->getUser($review->getFromUser());
-		    if (get_class($user) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
-		    } else {
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$username = $user->getUsername();
-			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
-		    }
-
-		    $commentCounter = $review->getCommentCounter();
-		    $loveCounter = $review->getLoveCounter();
-		    $shareCounter = $review->getShareCounter();
-		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-
-		    $rating = $review->getVote();
-		    $reviewCounter = NDB;
-		    $text = $review->getText();
-		    $thumbnailCover = NDB;
-
-		    $title = $review->getTitle();
-
-		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title);
-		    array_push($info, $reviewInfo);
+		$userP = new UserParse();
+		$user = $userP->getUser($review->getFromUser());
+		if (get_class($user) == 'Error') {
+		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
+		} else {
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		}
-		$reviewBox->reviewArray = $info;
-		$reviewBox->reviewCounter = $counter;
+
+		$commentCounter = $review->getCommentCounter();
+		$loveCounter = $review->getLoveCounter();
+		$shareCounter = $review->getShareCounter();
+		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+
+		$rating = $review->getVote();
+		$reviewCounter = NDB;
+		$text = $review->getText();
+		$thumbnailCover = NDB;
+
+		$title = $review->getTitle();
+
+		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title);
+		array_push($info, $reviewInfo);
 	    }
+	    $reviewBox->reviewArray = $info;
+	    $reviewBox->reviewCounter = $counter;
 	}
 	return $reviewBox;
     }
@@ -231,4 +229,5 @@ class ReviewBox {
     }
 
 }
+
 ?>
