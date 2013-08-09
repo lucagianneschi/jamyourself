@@ -27,6 +27,7 @@ require_once BOXES_DIR . 'utilsBox.php';
 class RecordInfoForMediaPage {
 
     public $buylink;
+    public $city;
     public $counters;
     public $cover;
     public $description;
@@ -39,8 +40,9 @@ class RecordInfoForMediaPage {
     public $title;
     public $year;
 
-    function __construct($buylink, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $reviewCounter, $tracklist, $title, $year) {
+    function __construct($buylink,$city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $reviewCounter, $tracklist, $title, $year) {
 	is_null($buylink) ? $this->buylink = NODATA : $this->buylink = $buylink;
+	is_null($city) ? $this->city = NODATA : $this->city = $city;
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($cover) ? $this->cover = NODATA : $this->cover = $cover;
 	is_null($description) ? $this->description = NODATA : $this->description = $description;
@@ -168,6 +170,7 @@ class RecordBox {
 	    $locationName = $record->getLocationName();
 	    $reviewCounter = $record->getReviewCounter();
 	    $title = $record->getTitle();
+	    $year = $record->getYear();
 
 	    $tracklist = array();
 	    $parseSong = new SongParse();
@@ -181,7 +184,7 @@ class RecordBox {
 		foreach ($songs as $song) {
 		    $duration = $song->getDuration();
 		    $title = $song->getTitle();
-		    $commentCounter = null;
+		    $commentCounter = $song->getCommentCounter();
 		    $loveCounter = $song->getLoveCounter();
 		    $shareCounter = $song->getShareCounter();
 		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
@@ -189,7 +192,6 @@ class RecordBox {
 		    array_push($tracklist, $songInfo);
 		}
 	    }
-	    $year = $record->getYear();
 	    $recordInfo = new RecordInfoForMediaPage($buylink, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $reviewCounter, $tracklist, $title, $year);
 
 	    $fromUserId = $record->getFromUser();
