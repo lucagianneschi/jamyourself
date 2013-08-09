@@ -14,7 +14,6 @@
  * \todo		
  *
  */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -25,10 +24,13 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
+require_once CLASSES_DIR . 'event.class.php';
+require_once CLASSES_DIR . 'eventParse.class.php';
 require_once CLASSES_DIR . 'image.class.php';
 require_once CLASSES_DIR . 'imageParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'utilsBox.php';
 
 class AlbumInfoForPersonalPage {
 
@@ -64,20 +66,6 @@ Class EventInfoForPersonalPage {
 
 }
 
-class RecordInfoForPersonalPage {
-
-    public $fromUserInfo;
-    public $thumbnailCover;
-    public $title;
-
-    function __construct($fromUserInfo, $thumbnailCover, $title) {
-	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
-	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
-    }
-
-}
-
 class ImageInfoForPersonalPage {
 
     public $thumbnail;
@@ -88,12 +76,27 @@ class ImageInfoForPersonalPage {
 
 }
 
+class RecordInfoForPersonalPage {
+
+    public $fromUserInfo;
+    public $songTitle;
+    public $thumbnailCover;
+    public $title;
+
+    function __construct($fromUserInfo, $songTitle, $thumbnailCover, $title) {
+	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
+	is_null($songTitle) ? $this->songTitle = NODATA : $this->songTitle = $songTitle;
+	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
+	is_null($title) ? $this->title = NODATA : $this->title = $title;
+    }
+
+}
+
 class ActivityBox {
 
     public $albumInfo;
     public $eventInfo;
     public $recordInfo;
-    public $relationInfo;
 
     public function initForPersonalPage($objectId, $type) {
 	$activityBox = new ActivityBox();
@@ -132,6 +135,40 @@ class ActivityBox {
 	}
 	switch ($type) {
 	    case 'SPOTTER':
+		$activityP = new ActivityParse();
+		$activityP->setLimit(1);
+		$activityP->wherePointer('fromUser', '_User', $objectId);
+		$activityP->where('type', 'SONGLISTENED');
+		$activityP->where('active', true);
+		$activityP->orderByDescending('createdAt');
+		$activities = $activityP->getActivities();
+		if (get_class($activities) == 'Error') {
+		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $activities->getErrorMessage() . '<br/>';
+		} else {
+		    foreach ($activities as $activity) {
+			$songId = $activity->getSong();
+
+			$songP = new SongParse();
+			$song = $songP->getSong($songId);
+			$songTitle = $song->getTitle();
+
+			$recordId = $activity->getRecord();
+			$recordP = new RecordParse();
+			$record = $recordP->getRecord($recordId);
+			$thumbnailCover = $record->getThumbnailCover();
+			$title = $record->getTitle();
+
+			$fromUserId = $record->getFromUser();
+			$fromUserP = new UserParse();
+			$user = $fromUserP->getUser($fromUserId);
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
+			$username = $user->getUsername();
+			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+			$recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $songTitle, $thumbnailCover, $title);
+		    }
+		    $activityBox->recordInfo = $recordInfo;
+		}
 		break;
 	    case 'JAMMER':
 		$recordP = new RecordParse();
@@ -144,24 +181,57 @@ class ActivityBox {
 		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
 		} else {
 		    foreach ($records as $record) {
-			$fromUserId = $record->getFromUser();
-			$fromUserP = new UserParse();
-			$fromUser = $fromUserP->getUser($fromUserId);
-
-			$thumbnail = $fromUser->getThumbnail();
-			$type = $fromUser->getType();
-			$username = $fromUser->getUsername();
-			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
-
 			$thumbnailCover = $record->getThumbnailCover();
 			$title = $record->getTitle();
-
-			$recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $thumbnailCover, $title);
+			$recordInfo = new RecordInfoForPersonalPage(NDB, NDB, $thumbnailCover, $title);
 		    }
 		    $activityBox->recordInfo = $recordInfo;
 		}
+		$eventP = new EventParse();
+		$eventP->setLimit(1);
+		$eventP->wherePointer('fromUser', '_User', $objectId);
+		$eventP->where('active', true);
+		$eventP->orderByDescending('updatedAt');
+		$events = $eventP->getEvents();
+		if (get_class($events) == 'Error') {
+		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
+		} else {
+		    foreach ($events as $event) {
+			$address = $event->getAddress();
+			$city = $event->getCity();
+			$eventDate = $event->getEventDate();
+			$locationName = $event->getLocationName();
+			$thumbnail = $event->getThumbnail();
+			$title = $event->getTitle();
+
+			$eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $thumbnail, $title);
+		    }
+		    $activityBox->eventInfo = $eventInfo;
+		}
 		break;
 	    case 'VENUE':
+		$eventP = new EventParse();
+		$eventP->setLimit(1);
+		$eventP->wherePointer('fromUser', '_User', $objectId);
+		$eventP->where('active', true);
+		$eventP->orderByDescending('updatedAt');
+		$events = $eventP->getEvents();
+		if (get_class($events) == 'Error') {
+		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
+		} else {
+		    foreach ($events as $event) {
+			$address = $event->getAddress();
+			$city = $event->getCity();
+			$eventDate = $event->getEventDate();
+			$locationName = $event->getLocationName();
+			$thumbnail = $event->getThumbnail();
+			$title = $event->getTitle();
+
+			$eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $thumbnail, $title);
+		    }
+		    $activityBox->eventInfo = $eventInfo;
+		    $activityBox->recordInfo = NDB;
+		}
 		break;
 	    default :
 		break;
