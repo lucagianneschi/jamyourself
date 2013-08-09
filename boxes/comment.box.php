@@ -33,7 +33,7 @@ class CommentInfo {
     public $createdAt;
     public $text;
 
-    function __construct($fromUserInfo,$createdAt, $text) {
+    function __construct($fromUserInfo, $createdAt, $text) {
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
 	is_null($text) ? $this->text = NODATA : $this->text = $text;
@@ -82,33 +82,31 @@ class CommentBox {
 	$commentP->setLimit(1000);
 	$commentP->orderByDescending('createdAt');
 	$comments = $commentP->getComments();
-	if (count($comments) != 0) {
-	    if (get_class($comments) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $comments->getErrorMessage() . '<br/>';
-	    } else {
-		foreach ($comments as $comment) {
+	if (get_class($comments) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $comments->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($comments as $comment) {
 
-		    $createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
-		    $text = $comment->getText();
+		$createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
+		$text = $comment->getText();
 
-		    $fromUserId = $comment->getFromUser();
+		$fromUserId = $comment->getFromUser();
 
-		    $userP = new UserParse();
-		    $user = $userP->getUser($fromUserId);
-		    if (get_class($user) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
-		    } else {
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$username = $user->getUsername();
-			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
-		    }
-
-		    $commentInfo = new CommentInfo($fromUserInfo,$createdAt, $text);
-		    array_push($info, $commentInfo);
+		$userP = new UserParse();
+		$user = $userP->getUser($fromUserId);
+		if (get_class($user) == 'Error') {
+		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
+		} else {
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		}
-		$commentBox->commentInfoArray = $info;
+
+		$commentInfo = new CommentInfo($fromUserInfo, $createdAt, $text);
+		array_push($info, $commentInfo);
 	    }
+	    $commentBox->commentInfoArray = $info;
 	}
 	return $commentBox;
     }
