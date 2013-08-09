@@ -400,6 +400,20 @@ class CommentParse {
 		$this->parseQuery->whereDoesNotExist($field);
 	}
 
+		/**
+	 * \fn		void whereOr($value)
+	 * \brief	Sets a condition for which the field in the array $value must value al least one value
+	 *			An example of $value is:
+	 *			$value = array(
+	 *				array('type' => 'EVENTUPDATED'),
+	 *				array('album' => array('__type' => 'Pointer', 'className' => 'Album', 'objectId' => 'lK0bNWIi7k'))
+	 *			);
+	 * \param	$field	the array representing the field and the value to put in or
+	 */
+	public function whereOr($value) {
+		$this->parseQuery->where('$or', $value);
+	}
+	
 	/**
 	 * \fn		void wherePointer($field, $className, $objectId)
 	 * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
