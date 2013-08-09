@@ -16,7 +16,7 @@
  */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
@@ -56,27 +56,25 @@ class AlbumBox {
 	$album->setLimit(1000);
 	$album->orderByDescending('createdAt');
 	$albums = $album->getAlbums();
-	if (count($albums) != 0) {
-	    if (get_class($albums) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $albums->getErrorMessage() . '<br/>';
-	    } else {
-		foreach ($albums as $album) {
-		    $counter = ++$counter;
-		    
-		    $commentCounter = $album->getCommentCounter();
-		    $imageCounter = $album->getImageCounter();
-		    $loveCounter = $album->getLoveCounter();
-		    $shareCounter = $album->getShareCounter();
-		    $thumbnailCover = $album->getThumbnailCover();
-		    $title = $album->getTitle();
-		    
-		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-		    $albumInfo = new AlbumInfo($counters, $imageCounter,$thumbnailCover, $title);
-		    array_push($info, $albumInfo);
-		}
-		$albumBox->albumInfoArray = $info;
-		$albumBox->albumCounter = $counter;
+	if (get_class($albums) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $albums->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($albums as $album) {
+		$counter = ++$counter;
+
+		$commentCounter = $album->getCommentCounter();
+		$imageCounter = $album->getImageCounter();
+		$loveCounter = $album->getLoveCounter();
+		$shareCounter = $album->getShareCounter();
+		$thumbnailCover = $album->getThumbnailCover();
+		$title = $album->getTitle();
+
+		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$albumInfo = new AlbumInfo($counters, $imageCounter, $thumbnailCover, $title);
+		array_push($info, $albumInfo);
 	    }
+	    $albumBox->albumInfoArray = $info;
+	    $albumBox->albumCounter = $counter;
 	}
 	return $albumBox;
     }
