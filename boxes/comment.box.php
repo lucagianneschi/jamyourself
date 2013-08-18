@@ -27,6 +27,10 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
+/**
+ * \brief	CommentInfo class 
+ * \details	contains info for comment to be displayed 
+ */
 class CommentInfo {
 
     public $fromUserInfo;
@@ -41,10 +45,20 @@ class CommentInfo {
 
 }
 
+/**
+ * \brief	CommentBox class 
+ * \details	box class to pass info to the view 
+ */
 class CommentBox {
 
     public $commentInfoArray;
 
+    /**
+     * \fn	init($className,$objectId)
+     * \brief	Init CommentBox instance all over the website
+     * \param	$className fot the istance of the class that has been commented, $objectId for object that has been commented
+     * \return	commentBox
+     */
     public function init($className, $objectId) {
 
 	$commentBox = new CommentBox();

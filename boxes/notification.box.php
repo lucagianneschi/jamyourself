@@ -24,14 +24,14 @@ require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 
-class NotificationInfo {
+class NotificationForMessageList {
 
     public $createdAt;
-    public $sender;
-    public $title;
-    
-    function __construct($createdAt,$sender,$title ) {
-	
+    public $fromUserInfo;
+
+    function __construct($createdAt, $fromUserInfo) {
+	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
+	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
     }
 
 }
@@ -40,16 +40,43 @@ class NotificationBox {
 
     public $notificationArray;
     public $invitationCounter;
+    public $messageArray;
     public $messageCounter;
-    public $relationCounter;
 
-    public function initForDetail() {
+    public function initForMessageList($objectId) {
 	$notificationBox = new NotificationBox();
-	
-	
+
 	$notificationBox->invitationCounter = NDB;
 	$notificationBox->messageCounter = NDB;
 	$notificationBox->relationCounter = NDB;
+
+	$messageArray = array();
+
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', 'User', $objectId);
+	$activity->where('type', 'MESSAGESENT');
+	$activity->where('read', false);
+	$activity->where('active', true);
+	$messages = $activity->getActivities();
+	if (get_class($messages) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $messages->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($messages as $message) {
+		$createdAt = $message->getCreatedAt();
+		$userId = $message->getFromUser();
+		$userP = new UserParse();
+		$user = $userP->getUser($userId);
+
+		$thumbnail = $user->getProfileThumbnail();
+		$type = $user->getType();
+		$username = $user->getUsername();
+		$userInfo = new UserInfo($thumbnail, $type, $username);
+		
+		$notificationInfo = new NotificationForMessageList($createdAt, $userInfo);
+		array_push($messageArray, $notificationInfo);
+	    }
+	    $notificationBox->messageArray = $messageArray;
+	}
 	return $notificationBox;
     }
 

@@ -53,7 +53,8 @@ class UserInfoBox {
 
     /**
      * \fn	initForPersonalPage($objectId)
-     * \brief	Init InfoBox instance
+     * \brief	Init InfoBox instance for Personal Page
+     * \param	$objectId for user that owns the page
      * \return	infoBox
      */
     public function initForPersonalPage($objectId) {//questa la puoi fare esterna e passare tutto lo user??

@@ -25,6 +25,10 @@ require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
+/**
+ * \brief	AlbumInfo class 
+ * \details	contains info for album to be displayed 
+ */
 class AlbumInfo {
 
     public $counters;
@@ -41,11 +45,21 @@ class AlbumInfo {
 
 }
 
+/**
+ * \brief	AlbumBox class 
+ * \details	box class to pass info to the view 
+ */
 class AlbumBox {
 
     public $albumInfoArray;
     public $albumCounter;
 
+    /**
+     * \fn	initForPersonalPage($objectId, $type)
+     * \brief	Init ActivityBox instance for Personal Page
+     * \param	$objectId for user that owns the page
+     * \return	albumBox
+     */
     public function initForPersonalPage($objectId) {
 	$albumBox = new AlbumBox();
 	$info = array();

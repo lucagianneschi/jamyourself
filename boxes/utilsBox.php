@@ -6,8 +6,8 @@
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		box caricamento info utente 
- * \details		Recupera le informazioni dell'utente, le inserisce in oggetto e le passa agli altri oggetti
+ * \brief		file utilities box 
+ * \details		file utilities box
  * \par			Commenti:
  * \warning
  * \bug
@@ -15,12 +15,21 @@
  *
  */
 
+/**
+ * \brief	Counters class 
+ * \details	counters shared beetwen many boxes 
+ */
 class Counters {
 
     public $commentCounter;
     public $loveCounter;
     public $shareCounter;
 
+    /**
+     * \fn	__construct($commentCounter, $loveCounter, $shareCounter)
+     * \brief	construct for the Counter class
+     * \param	$commentCounter, $loveCounter, $shareCounter
+     */
     function __construct($commentCounter, $loveCounter, $shareCounter) {
 	is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
 	is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
@@ -29,12 +38,21 @@ class Counters {
 
 }
 
+/**
+ * \brief	UserInfo class 
+ * \details	user info to be displayed in thumbnail view over all the website 
+ */
 class UserInfo {
 
     public $thumbnail;
     public $type;
     public $username;
 
+    /**
+     * \fn	__construct($thumbnail, $type, $username)
+     * \brief	construct for the UserInfo class
+     * \param	$thumbnail, $type, $username
+     */
     function __construct($thumbnail, $type, $username) {
 	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = NODATA : $this->type = $type;

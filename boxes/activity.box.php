@@ -32,6 +32,10 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
+/**
+ * \brief	AlbumInfoForPersonalPage class 
+ * \details	contains info for album to be displayed in Personal Page
+ */
 class AlbumInfoForPersonalPage {
 
     public $imageArray;
@@ -46,7 +50,11 @@ class AlbumInfoForPersonalPage {
 
 }
 
-Class EventInfoForPersonalPage {
+/**
+ * \brief	EventInfoForPersonalPage class 
+ * \details	contains info for event to be displayed in Personal Page
+ */
+class EventInfoForPersonalPage {
 
     public $address;
     public $city;
@@ -66,6 +74,10 @@ Class EventInfoForPersonalPage {
 
 }
 
+/**
+ * \brief	ImageInfoForPersonalPage class 
+ * \details	contains info for image to be displayed in Personal Page
+ */
 class ImageInfoForPersonalPage {
 
     public $thumbnail;
@@ -76,6 +88,10 @@ class ImageInfoForPersonalPage {
 
 }
 
+/**
+ * \brief	RecordInfoForPersonalPage class 
+ * \details	contains info for record to be displayed in Personal Page
+ */
 class RecordInfoForPersonalPage {
 
     public $fromUserInfo;
@@ -92,12 +108,22 @@ class RecordInfoForPersonalPage {
 
 }
 
+/**
+ * \brief	ActivityBox class 
+ * \details	box class to pass info to the view 
+ */
 class ActivityBox {
 
     public $albumInfo;
     public $eventInfo;
     public $recordInfo;
 
+    /**
+     * \fn	initForPersonalPage($objectId, $type)
+     * \brief	Init ActivityBox instance for Personal Page
+     * \param	$objectId for user that owns the page, $type of user that owns the page
+     * \return	activityBox
+     */
     public function initForPersonalPage($objectId, $type) {
 	$activityBox = new ActivityBox();
 
