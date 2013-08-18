@@ -42,6 +42,11 @@ class AlbumInfoForPersonalPage {
     public $imageCounter;
     public $title;
 
+    /**
+     * \fn	__construct($imageArray, $imageCounter, $title)
+     * \brief	construct for the AlbumInfoForPersonalPage class
+     * \param	$imageArray, $imageCounter, $title
+     */
     function __construct($imageArray, $imageCounter, $title) {
 	is_null($imageArray) ? $this->imageArray = NODATA : $this->imageArray = $imageArray;
 	is_null($imageCounter) ? $this->imageCounter = NODATA : $this->imageCounter = $imageCounter;
@@ -63,6 +68,11 @@ class EventInfoForPersonalPage {
     public $thumbnail;
     public $title;
 
+    /**
+     * \fn	__construct($address, $city, $eventDate, $locationName, $thumbnail, $title)
+     * \brief	construct for the ImageInfoForPersonalPage class
+     * \param	$address, $city, $eventDate, $locationName, $thumbnail, $title
+     */
     function __construct($address, $city, $eventDate, $locationName, $thumbnail, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
@@ -82,6 +92,11 @@ class ImageInfoForPersonalPage {
 
     public $thumbnail;
 
+    /**
+     * \fn	__construct($thumbnail)
+     * \brief	construct for the ImageInfoForPersonalPage class
+     * \param	$thumbnail
+     */
     function __construct($thumbnail) {
 	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
     }
@@ -99,6 +114,11 @@ class RecordInfoForPersonalPage {
     public $thumbnailCover;
     public $title;
 
+    /**
+     * \fn	__construct($fromUserInfo, $songTitle, $thumbnailCover, $title)
+     * \brief	construct for the RecordInfoForPersonalPage class
+     * \param	$fromUserInfo, $songTitle, $thumbnailCover, $title
+     */
     function __construct($fromUserInfo, $songTitle, $thumbnailCover, $title) {
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($songTitle) ? $this->songTitle = NODATA : $this->songTitle = $songTitle;

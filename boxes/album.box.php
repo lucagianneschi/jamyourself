@@ -36,6 +36,11 @@ class AlbumInfo {
     public $thumbnailCover;
     public $title;
 
+    /**
+     * \fn	__construct($counters, $imageCounter, $thumbnailCover, $title)
+     * \brief	construct for the AlbumInfo class
+     * \param	$counters, $imageCounter, $thumbnailCover, $title
+     */
     function __construct($counters, $imageCounter, $thumbnailCover, $title) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($imageCounter) ? $this->imageCounter = NODATA : $this->imageCounter = $imageCounter;
