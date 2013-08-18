@@ -37,6 +37,11 @@ class CommentInfo {
     public $createdAt;
     public $text;
 
+    /**
+     * \fn	__construct($fromUserInfo, $createdAt, $text)
+     * \brief	construct for the CommentInfo class
+     * \param	$fromUserInfo, $createdAt, $text
+     */
     function __construct($fromUserInfo, $createdAt, $text) {
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;

@@ -15,7 +15,6 @@
  *
  */
 
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -28,6 +27,10 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
+/**
+ * \brief	EventInfoForMediaPage class 
+ * \details	contains info for event to be displayed in the media page
+ */
 class EventInfoForMediaPage {
 
     public $address;
@@ -48,6 +51,11 @@ class EventInfoForMediaPage {
     public $tags;
     public $title;
 
+    /**
+     * \fn	__construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title)
+     * \brief	construct for the EventInfoForMediaPage class
+     * \param	$address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title
+     */
     function __construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($attendee) ? $this->attendee = NODATA : $this->attendee = $attendee;
@@ -70,6 +78,10 @@ class EventInfoForMediaPage {
 
 }
 
+/**
+ * \brief	EventInfoForPersonalPage class 
+ * \details	contains info for event to be displayed in the personal page
+ */
 class EventInfoForPersonalPage {
 
     public $address;
@@ -84,6 +96,11 @@ class EventInfoForPersonalPage {
     public $thumbnail;
     public $title;
 
+    /**
+     * \fn	__construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $reviewCounter, $tags, $thumbnail, $title)
+     * \brief	construct for the EventInfoForPersonalPage class
+     * \param	$address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $reviewCounter, $tags, $thumbnail, $title
+     */
     function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $reviewCounter, $tags, $thumbnail, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
@@ -100,6 +117,10 @@ class EventInfoForPersonalPage {
 
 }
 
+/**
+ * \brief	EventInfoForUploadReviewPage class 
+ * \details	contains info for event to be displayed in the upload review
+ */
 class EventInfoForUploadReviewPage {
 
     public $address;
@@ -111,6 +132,11 @@ class EventInfoForUploadReviewPage {
     public $thumbnail;
     public $title;
 
+    /**
+     * \fn	__construct($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title)
+     * \brief	construct for the EventInfoForUploadReviewPage class
+     * \param	$address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title
+     */
     function __construct($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
@@ -124,12 +150,22 @@ class EventInfoForUploadReviewPage {
 
 }
 
+/**
+ * \brief	EventBox class 
+ * \details	box class to pass info to the view 
+ */
 class EventBox {
 
     public $eventCounter;
     public $eventInfoArray;
     public $fromUserInfo;
 
+    /**
+     * \fn	initForMediaPage($objectId)
+     * \brief	Init EventBox instance for Media Page
+     * \param	$objectId for event
+     * \return	eventBox
+     */
     public function initForMediaPage($objectId) {
 	$eventBox = new EventBox();
 	$eventP = new EventParse();
@@ -224,6 +260,12 @@ class EventBox {
 	return $eventBox;
     }
 
+    /**
+     * \fn	initForPersonalPage($objectId)
+     * \brief	Init EventBox instance for Personal Page
+     * \param	$objectId for user that owns the page
+     * \return	eventBox
+     */
     public function initForPersonalPage($objectId) {
 
 	$eventBox = new EventBox();
@@ -288,6 +330,12 @@ class EventBox {
 	return $eventBox;
     }
 
+    /**
+     * \fn	initForUploadReviewPage($objectId)
+     * \brief	Init EventBox instance for Upload Review Page
+     * \param	$objectId for the event
+     * \return	eventBox
+     */
     public function initForUploadReviewPage($objectId) {
 	$eventBox = new EventBox();
 	$eventBox->eventCounter = NDB;
