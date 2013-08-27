@@ -1,6 +1,6 @@
 <?php
 
-class geocoder {
+class GeocoderService {
 
 	static private $url = "http://maps.google.com/maps/api/geocode/json?sensor=false&address=";
 

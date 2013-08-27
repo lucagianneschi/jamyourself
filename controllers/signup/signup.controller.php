@@ -55,11 +55,12 @@ class SignupController extends REST {
      */
     public function signup() {
 
+//con captcha:
 //        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser']) ||
 //                !isset($_SESSION['recaptcha']) || !$_SESSION['recaptcha']) {
 //            $this->response('', 406);
 //        }
-        //senza captcha:
+//senza captcha:
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
@@ -346,9 +347,122 @@ class SignupController extends REST {
 //        $decoded = json_decode($this->request['formData']);
         $params = array();
         parse_str($data, $params);
-        
+
         $this->response(array('ok'), 200);
-        
+    }
+
+    private function createSpotter($userJSON) {
+        if (!is_null($userJSON)) {
+            $decoded = json_decode($userJSON);
+            $user = new User("SPOTTER");
+            //step0
+            $imgProfile = "";
+            $user->setSettings(defineSettings("SPOTTER", $decoded->language, $decoded->localTime, $imgProfile));
+            
+            //step1 
+            $user->setUsername($decoded->username);
+            $user->setEmail($decoded->email);
+            $user->setPassword($decoded->password);
+
+            //step 2
+            $user->setFirstname($decoded->firstname);
+            $user->setLastname($decoded->lastname);
+            $user->setCountry($decoded->country);
+            $user->setCity($decoded->city);
+            $user->setMusic($this->getMusicArray($decoded->genre));
+
+            //step 3
+            $user->setDescription($decoded->description);
+            $user->setSex($decoded->sex);
+
+            //birthday            
+            $birthday = json_decode($decoded->birthday);
+            //nei test bday è messo così: '1982-02-18' (secondo me è un errore, dovrebbe esserre un datetime)
+            $user->setBirthDay($birthday->year . "-" . $birthday->month . "-" . $birthday->day);
+
+            $user->setFbPage($decoded->facebook);
+            $user->setTwitterPage($decoded->twitter);
+            $user->setGooglePlusPage($decoded->google);
+            $user->setYoutubeChannel($decoded->youtube);
+            $user->setWebsite($decoded->web);
+
+            return $user;
+        }
+        return null;
+    }
+
+    private function createJammer($userJSON) {
+        if (!is_null($userJSON)) {
+            $decoded = json_decode($userJSON);
+            $user = new User("JAMMER");
+            //step0
+            $imgProfile = "";
+            $user->setSettings(defineSettings("JAMMER", $decoded->language, $decoded->localTime, $imgProfile));
+            
+            //step1 
+            $user->setUsername($decoded->username);
+            $user->setEmail($decoded->email);
+            $user->setPassword($decoded->password);
+            
+            //step2
+            $user->setJammerType($decoded->jammerType);
+            $user->setCountry($decoded->country);
+            $user->setCity($decoded->city);
+            if ($decoded->jammerType == "band") {                
+                $user->setMembers($this->getMembersArray($decoded->members ));               
+            }
+            //step 3
+            $user->setMusic($this->getMusicArray($decoded->genre));
+            $user->setDescription($decoded->description);
+            $user->setFbPage($decoded->facebook);
+            $user->setTwitterPage($decoded->twitter);
+            $user->setGooglePlusPage($decoded->google);
+            $user->setYoutubeChannel($decoded->youtube);
+            $user->setWebsite($decoded->web);
+            
+            return $user;
+        }
+        return null;
+    }
+
+    private function createVenue($userJSON) {
+        if (!is_null($userJSON)) {
+            $decoded = json_decode($userJSON);
+            $user = new User("VENUE");
+
+            //step0
+            $imgProfile = "";
+            $user->setSettings(defineSettings("VENUE", $decoded->language, $decoded->localTime, $imgProfile));
+            
+            //step1 
+            $user->setUsername($decoded->username);
+            $user->setEmail($decoded->email);
+            $user->setPassword($decoded->password);
+            
+            //@todo: completare con lo step 2
+            $user->setCountry($decoded->country);
+            $user->setCity($decoded->city);
+            $geocoding = GeocoderService::getLocation($decoded->country.",".$decoded->city.",".$decoded->province.",".$decoded->address.",".$decoded->number);
+            $user->setGeoCoding($geocoding);
+            
+            //step 3
+            $user->setDescription($decoded->description);
+            $user->setFbPage($decoded->facebook);
+            $user->setTwitterPage($decoded->twitter);
+            $user->setGooglePlusPage($decoded->google);
+            $user->setYoutubeChannel($decoded->youtube);
+            $user->setWebsite($decoded->web);
+            return $user;
+        }
+        return null;
+    }
+
+    private function getMusicArray($genre) {
+        $decoded = json_decode($genre);
+    }
+    
+    private function getMembersArray($members){
+        $decoded = json_decode($members);
     }
 
 }

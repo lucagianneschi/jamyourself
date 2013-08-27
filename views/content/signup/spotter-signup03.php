@@ -62,9 +62,9 @@
 					<p class="text grey-light inline">I’m </p>					
 				</div>
 				<div  class="small-11 columns inline signup-radio">			
-					<input type="radio" name="spotter-sex" id="spotter-sex-m" class="no-display inline"><label for="spotter-sex-m" class="inline">M</label>
-					<input type="radio" name="spotter-sex" id="spotter-sex-f" class="no-display inline"><label for="spotter-sex-f" class="inline">F</label>
-					<input type="radio" name="spotter-sex" id="spotter-sex-none" class="no-display inline" checked><label for="spotter-sex-none" class="inline" >Don't want to declare</label>
+					<input type="radio" name="spotter-sex" id="spotter-sex-m" class="no-display inline" value="M"><label for="spotter-sex-m" class="inline">M</label>
+					<input type="radio" name="spotter-sex" id="spotter-sex-f" class="no-display inline" value="F"><label for="spotter-sex-f" class="inline">F</label>
+					<input type="radio" name="spotter-sex" id="spotter-sex-none" class="no-display inline" value="ND" checked><label for="spotter-sex-none" class="inline" >Don't want to declare</label>
 				</div>	
 			</div>
 			

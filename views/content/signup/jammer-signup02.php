@@ -58,8 +58,8 @@
 							<p id="jammer-typeArtist-label" class="text grey-light inline">I'm recording as <span class="orange">*</span><small class="error"> Please enter a type recording</small></p>					
 						</div>
 						<div  class="small-8 columns inline signup-radio">			
-							<input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-musician" class="no-display inline" required><label for="jammer-typeArtist-musician" unchecked class="inline">Musician</label>
-							<input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-band" class="no-display inline" required><label for="jammer-typeArtist-band" unchecked class="inline">Band</label>
+							<input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-musician" class="no-display inline" value ="musician" required><label for="jammer-typeArtist-musician" unchecked class="inline">Musician</label>
+							<input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-band" class="no-display inline" value="band" required><label for="jammer-typeArtist-band" unchecked class="inline">Band</label>
 						</div>	
 					</div>
 					<div class="row jammer-country-singup02">
