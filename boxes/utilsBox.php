@@ -27,9 +27,9 @@ class Counters {
     public $shareCounter;
 
     /**
-     * \fn	__construct($commentCounter, $loveCounter, $shareCounter)
+     * \fn	__construct($commentCounter, $loveCounter,$reviewCounter, $shareCounter)
      * \brief	construct for the Counter class
-     * \param	$commentCounter, $loveCounter, $shareCounter
+     * \param	$commentCounter, $loveCounter,$reviewCounter, $shareCounter
      */
     function __construct($commentCounter, $loveCounter,$reviewCounter, $shareCounter) {
 	is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
