@@ -35,12 +35,16 @@ class RecordInfoForMediaPage {
     public $genre;
     public $label;
     public $locationName;
-    public $reviewCounter;
     public $tracklist;
     public $title;
     public $year;
 
-    function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $reviewCounter, $tracklist, $title, $year) {
+    /**
+     * \fn	__construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $tracklist, $title, $year)
+     * \brief	construct for the RecordInfoForMediaPage class
+     * \param	$buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $tracklist, $title, $year
+     */
+    function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $tracklist, $title, $year) {
 	is_null($buylink) ? $this->buylink = NODATA : $this->buylink = $buylink;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
@@ -50,7 +54,6 @@ class RecordInfoForMediaPage {
 	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
 	is_null($label) ? $this->label = NODATA : $this->label = $label;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
 	is_null($tracklist) ? $this->tracklist = NODATA : $this->tracklist = $tracklist;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
 	is_null($year) ? $this->year = NODATA : $this->year = $year;
@@ -62,16 +65,19 @@ class RecordInfoForPersonalPage {
 
     public $counters;
     public $genre;
-    public $reviewCounter;
     public $songCounter;
     public $thumbnailCover;
     public $title;
     public $year;
 
-    function __construct($counters, $genre, $reviewCounter, $songCounter, $thumbnailCover, $title, $year) {
+    /**
+     * \fn	__construct($counters, $genre, $songCounter, $thumbnailCover, $title, $year)
+     * \brief	construct for the RecordInfoForPersonalPage class
+     * \param	$counters, $genre, $songCounter, $thumbnailCover, $title, $year
+     */
+    function __construct($counters, $genre, $songCounter, $thumbnailCover, $title, $year) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
-	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
 	is_null($songCounter) ? $this->songCounter = NODATA : $this->songCounter = $songCounter;
 	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
@@ -86,6 +92,11 @@ class RecordInfoForUploadRecordPage {
     public $thumbnailCover;
     public $title;
 
+    /**
+     * \fn	__construct($songCounter, $thumbnailCover, $title)
+     * \brief	construct for the RecordInfoForUploadRecordPage class
+     * \param	$songCounter, $thumbnailCover, $title
+     */
     function __construct($songCounter, $thumbnailCover, $title) {
 	is_null($songCounter) ? $this->songCounter = NODATA : $this->songCounter = $songCounter;
 	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
@@ -99,6 +110,11 @@ class RecordInfoForUploadReviewPage {
     public $featuring;
     public $genre;
 
+    /**
+     * \fn	__construct($featuring, $genre)
+     * \brief	construct for the RecordInfoForUploadReviewPage class
+     * \param	$featuring, $genre
+     */
     function __construct($featuring, $genre) {
 	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
 	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
@@ -112,6 +128,11 @@ class SongInfo {
     public $duration;
     public $title;
 
+    /**
+     * \fn	__construct($counters, $duration, $title)
+     * \brief	construct for the SongInfo class
+     * \param	$counters, $duration, $title
+     */
     function __construct($counters, $duration, $title) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($duration) ? $this->duration = NODATA : $this->duration = $duration;
@@ -127,13 +148,18 @@ class RecordBox {
     public $recordInfoArray;
     public $tracklist;
 
-    public function initForDetail($objectId) {//objectId del record
+    /**
+     * \fn	initForDetail($objectId)
+     * \brief	init for detailed view in personal page for the record box object
+     * \param	$objectId of the record to display info
+     */
+    public function initForDetail($objectId) {
 	$recordBox = new RecordBox();
 	$recordBox->fromUserInfo = NDB;
 	$recordBox->recordCounter = NDB;
-	$recordBox->recordInfoArray = NDB; //te le passi dal box precedente
+	$recordBox->recordInfoArray = NDB;
 	$tracklist = array();
-	
+
 	$song = new SongParse();
 	$song->wherePointer('record', 'Record', $objectId);
 	$song->where('active', true);
@@ -147,8 +173,9 @@ class RecordBox {
 		$title = $song->getTitle();
 		$commentCounter = $song->getCommentCounter();
 		$loveCounter = $song->getLoveCounter();
+		$reviewCounter = NDB;
 		$shareCounter = $song->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$songInfo = new SongInfo($counters, $duration, $title);
 		array_push($tracklist, $songInfo);
 	    }
@@ -157,7 +184,11 @@ class RecordBox {
 	return $recordBox;
     }
 
-//rivedere con proprerty tracklist del box --> metti la tracklist nella property del box e toglila delle info
+    /**
+     * \fn	initForMediaPage($objectId)
+     * \brief	init for Media Page
+     * \param	$objectId of the record to display in MEdia Page
+     */
     public function initForMediaPage($objectId) {
 
 	require_once CLASSES_DIR . 'song.class.php';
@@ -174,8 +205,9 @@ class RecordBox {
 	    $buylink = $record->getBuylink();
 	    $commentCounter = $record->getCommentCounter();
 	    $loveCounter = $record->getLoveCounter();
+	    $reviewCounter = $record->getReviewCounter();
 	    $shareCounter = $record->getShareCounter();
-	    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
 	    $cover = $record->getCover();
 	    $description = $record->getDescription();
@@ -200,7 +232,6 @@ class RecordBox {
 	    $genre = $record->getGenre();
 	    $label = $record->getLabel();
 	    $locationName = $record->getLocationName();
-	    $reviewCounter = $record->getReviewCounter();
 	    $title = $record->getTitle();
 	    $year = $record->getYear();
 
@@ -244,6 +275,11 @@ class RecordBox {
 	return $recordBox;
     }
 
+    /**
+     * \fn	initForPersonalPage($objectId)
+     * \brief	init for recordBox for personal Page
+     * \param	$objectId of the user who owns the page
+     */
     public function initForPersonalPage($objectId) {
 	$recordBox = new RecordBox();
 
@@ -270,8 +306,8 @@ class RecordBox {
 		$thumbnailCover = $record->getThumbnailCover();
 		$title = $record->getTitle();
 		$year = $record->getYear();
-		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-		$recordInfo = new RecordInfoForPersonalPage($counters, $genre, $reviewCounter, $songCounter, $thumbnailCover, $title, $year);
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+		$recordInfo = new RecordInfoForPersonalPage($counters, $genre, $songCounter, $thumbnailCover, $title, $year);
 		array_push($info, $recordInfo);
 	    }
 	    $recordBox->fromUserInfo = NDB;
@@ -283,6 +319,11 @@ class RecordBox {
 	return $recordBox;
     }
 
+    /**
+     * \fn	initForUploadRecordPage($objectId)
+     * \brief	init for recordBox for upload record page
+     * \param	$objectId of the user who owns the record
+     */
     public function initForUploadRecordPage($objectId) {
 	$recordBox = new RecordBox();
 	$recordBox->tracklist = NDB;
@@ -314,6 +355,11 @@ class RecordBox {
 	return $recordBox;
     }
 
+    /**
+     * \fn	initForUploadReviewPage($objectId)
+     * \brief	init for recordBox for upload review page
+     * \param	$objectId of the user who owns the review
+     */
     public function initForUploadReviewPage($objectId) {
 	$recordBox = new RecordBox();
 	$recordBox->recordCounter = NDB;
