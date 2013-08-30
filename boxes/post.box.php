@@ -80,10 +80,10 @@ class PostBox {
 		$commentCounter = $post->getCommentCounter();
 		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
 		$loveCounter = $post->getLoveCounter();
+		$reviewCounter = NDB;
 		$shareCounter = $post->getShareCounter();
 		$text = $post->getText();
-		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
 		array_push($info, $postInfo);
 	    }
