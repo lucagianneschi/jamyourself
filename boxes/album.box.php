@@ -82,8 +82,8 @@ class AlbumBox {
     
     public function initForDetail($objectId) {//id dell'album
 	$albumBox = new AlbumBox();
-	$albumBox->albumCounter = NULL;
-	$albumBox->albumInfoArray = NULL;
+	$albumBox->albumCounter = NDB;
+	$albumBox->albumInfoArray = NDB;
 	$info = array();
 
 	$image = new ImageParse();
@@ -112,6 +112,7 @@ class AlbumBox {
 	    }
 	    $albumBox->imageArray = $info;
 	}
+	return $albumBox;
     }
 
     /**
@@ -122,7 +123,7 @@ class AlbumBox {
      */
     public function initForPersonalPage($objectId) {
 	$albumBox = new AlbumBox();
-	$albumBox->imageArray = NULL;
+	$albumBox->imageArray = NDB;
 
 	$info = array();
 	$counter = 0;
