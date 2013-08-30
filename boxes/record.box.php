@@ -40,7 +40,7 @@ class RecordInfoForMediaPage {
     public $title;
     public $year;
 
-    function __construct($buylink,$city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $reviewCounter, $tracklist, $title, $year) {
+    function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $reviewCounter, $tracklist, $title, $year) {
 	is_null($buylink) ? $this->buylink = NODATA : $this->buylink = $buylink;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
@@ -125,7 +125,39 @@ class RecordBox {
     public $fromUserInfo;
     public $recordCounter;
     public $recordInfoArray;
+    public $tracklist;
 
+    public function initForDetail($objectId) {//objectId del record
+	$recordBox = new RecordBox();
+	$recordBox->fromUserInfo = NDB;
+	$recordBox->recordCounter = NDB;
+	$recordBox->recordInfoArray = NDB; //te le passi dal box precedente
+	$tracklist = array();
+	
+	$song = new SongParse();
+	$song->wherePointer('record', 'Record', $objectId);
+	$song->where('active', true);
+	$song->setLimit(50);
+	$songs = $song->getSongs();
+	if (get_class($songs) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $songs->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($songs as $song) {
+		$duration = $song->getDuration();
+		$title = $song->getTitle();
+		$commentCounter = $song->getCommentCounter();
+		$loveCounter = $song->getLoveCounter();
+		$shareCounter = $song->getShareCounter();
+		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$songInfo = new SongInfo($counters, $duration, $title);
+		array_push($tracklist, $songInfo);
+	    }
+	    $recordBox->tracklist = $tracklist;
+	}
+	return $recordBox;
+    }
+
+//rivedere con proprerty tracklist del box --> metti la tracklist nella property del box e toglila delle info
     public function initForMediaPage($objectId) {
 
 	require_once CLASSES_DIR . 'song.class.php';
@@ -245,6 +277,7 @@ class RecordBox {
 	    $recordBox->fromUserInfo = NDB;
 	    $recordBox->recordCounter = $counter;
 	    $recordBox->recordInfoArray = $info;
+	    $recordBox->tracklist = NDB;
 	}
 
 	return $recordBox;
@@ -252,6 +285,7 @@ class RecordBox {
 
     public function initForUploadRecordPage($objectId) {
 	$recordBox = new RecordBox();
+	$recordBox->tracklist = NDB;
 
 	$info = array();
 	$counter = 0;
@@ -283,6 +317,7 @@ class RecordBox {
     public function initForUploadReviewPage($objectId) {
 	$recordBox = new RecordBox();
 	$recordBox->recordCounter = NDB;
+	$recordBox->tracklist = NDB;
 
 	$recordP = new RecordParse();
 	$record = $recordP->getRecord($objectId);
