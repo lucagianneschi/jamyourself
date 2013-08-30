@@ -110,7 +110,7 @@ class AlbumBox {
 
 		$commentCounter = $image->getCommentCounter();
 		$loveCounter = $image->getLoveCounter();
-		$reviewCounter = NULL;
+		$reviewCounter = NDB;
 		$shareCounter = $image->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
@@ -154,7 +154,7 @@ class AlbumBox {
 		$commentCounter = $album->getCommentCounter();
 		$imageCounter = $album->getImageCounter();
 		$loveCounter = $album->getLoveCounter();
-		$reviewCounter = NULL;
+		$reviewCounter = NDB;
 		$shareCounter = $album->getShareCounter();
 		$thumbnailCover = $album->getThumbnailCover();
 		$title = $album->getTitle();
