@@ -23,6 +23,8 @@ require_once ROOT_DIR . 'string.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
+require_once CLASSES_DIR . 'image.class.php';
+require_once CLASSES_DIR . 'imageParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
@@ -50,6 +52,24 @@ class AlbumInfo {
 
 }
 
+class ImageInfo {
+
+    public $counters;
+    public $description;
+    public $filePath;
+    public $tags;
+    public $thumbnail;
+
+    function __construct($counters, $description,$filePath, $tags, $thumbnail) {
+	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
+	is_null($description) ? $this->description = NODATA : $this->description = $description;
+	is_null($filePath) ? $this->filePath = NODATA : $this->filePath = $filePath;
+	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
+	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
+    }
+
+}
+
 /**
  * \brief	AlbumBox class 
  * \details	box class to pass info to the view 
@@ -58,6 +78,41 @@ class AlbumBox {
 
     public $albumInfoArray;
     public $albumCounter;
+    public $imageArray;
+    
+    public function initForDetail($objectId) {//id dell'album
+	$albumBox = new AlbumBox();
+	$albumBox->albumCounter = NULL;
+	$albumBox->albumInfoArray = NULL;
+	$info = array();
+
+	$image = new ImageParse();
+	$image->wherePointer('album', 'Album', $objectId);
+	$image->where('active', true);
+	$image->setLimit(1000);
+	$image->orderByDescending('createdAt');
+	$images = $image->getImages();
+	if (get_class($images) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $images->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($images as $image) {
+
+		$commentCounter = $image->getCommentCounter();
+		$loveCounter = $image->getLoveCounter();
+		$shareCounter = $image->getShareCounter();
+		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+
+		$description = $image->getDescription();
+		$filePath = $image->getFilePath();
+		$tags = $image->getTags();
+		$thumbnail = $image->getThumbnail();
+
+		$imageInfo = new ImageInfo($counters, $description, $filePath, $tags, $thumbnail);
+		array_push($info, $imageInfo);
+	    }
+	    $albumBox->imageArray = $info;
+	}
+    }
 
     /**
      * \fn	initForPersonalPage($objectId, $type)
@@ -67,6 +122,8 @@ class AlbumBox {
      */
     public function initForPersonalPage($objectId) {
 	$albumBox = new AlbumBox();
+	$albumBox->imageArray = NULL;
+
 	$info = array();
 	$counter = 0;
 	$album = new AlbumParse();
