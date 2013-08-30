@@ -47,16 +47,15 @@ class EventInfoForMediaPage {
     public $invitedCounter;
     public $location;
     public $locationName;
-    public $reviewCounter;
     public $tags;
     public $title;
 
     /**
-     * \fn	__construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title)
+     * \fn	__construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $tags, $title)
      * \brief	construct for the EventInfoForMediaPage class
-     * \param	$address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title
+     * \param	$address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $tags, $title
      */
-    function __construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title) {
+    function __construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $tags, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($attendee) ? $this->attendee = NODATA : $this->attendee = $attendee;
 	$this->attendeeCounter = count($attendee);
@@ -71,7 +70,6 @@ class EventInfoForMediaPage {
 	$this->invitedCounter = count($invited);
 	is_null($location) ? $this->location = NODATA : $this->location = $location;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
@@ -91,17 +89,16 @@ class EventInfoForPersonalPage {
     public $featuring;
     public $fromUserInfo;
     public $locationName;
-    public $reviewCounter;
     public $tags;
     public $thumbnail;
     public $title;
 
     /**
-     * \fn	__construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $reviewCounter, $tags, $thumbnail, $title)
+     * \fn	__construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title)
      * \brief	construct for the EventInfoForPersonalPage class
-     * \param	$address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $reviewCounter, $tags, $thumbnail, $title
+     * \param	$address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title
      */
-    function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $reviewCounter, $tags, $thumbnail, $title) {
+    function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
@@ -109,7 +106,6 @@ class EventInfoForPersonalPage {
 	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
@@ -239,7 +235,7 @@ class EventBox {
 	    $shareCounter = $event->getShareCounter();
 	    $tags = $event->getTags();
 	    $title = $event->getTitle();
-	    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 	    $eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title);
 
 	    $fromUserId = $event->getFromUser();
@@ -289,7 +285,7 @@ class EventBox {
 		$loveCounter = $event->getLoveCounter();
 		$reviewCounter = $event->getReviewCounter();
 		$shareCounter = $event->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
 
 		$featuring = array();
@@ -320,7 +316,7 @@ class EventBox {
 		}
 		$thumbnail = $event->getThumbnail();
 		$title = $event->getTitle();
-		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $reviewCounter, $tags, $thumbnail, $title);
+		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
 	    }
 	    $eventBox->eventCounter = $counter;
