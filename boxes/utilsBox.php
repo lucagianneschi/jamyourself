@@ -23,6 +23,7 @@ class Counters {
 
     public $commentCounter;
     public $loveCounter;
+    public $reviewCounter;
     public $shareCounter;
 
     /**
@@ -30,9 +31,10 @@ class Counters {
      * \brief	construct for the Counter class
      * \param	$commentCounter, $loveCounter, $shareCounter
      */
-    function __construct($commentCounter, $loveCounter, $shareCounter) {
+    function __construct($commentCounter, $loveCounter,$reviewCounter, $shareCounter) {
 	is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
 	is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
+	is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
 	is_null($shareCounter) ? $this->shareCounter = 0 : $this->shareCounter = $shareCounter;
     }
 
