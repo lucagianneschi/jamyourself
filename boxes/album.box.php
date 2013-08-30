@@ -60,7 +60,12 @@ class ImageInfo {
     public $tags;
     public $thumbnail;
 
-    function __construct($counters, $description,$filePath, $tags, $thumbnail) {
+    /**
+     * \fn	__construct($counters, $description,$filePath, $tags, $thumbnail)
+     * \brief	construct for the ImageInfo class
+     * \param	$counters, $description,$filePath, $tags, $thumbnail
+     */
+    function __construct($counters, $description, $filePath, $tags, $thumbnail) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($description) ? $this->description = NODATA : $this->description = $description;
 	is_null($filePath) ? $this->filePath = NODATA : $this->filePath = $filePath;
@@ -79,7 +84,13 @@ class AlbumBox {
     public $albumInfoArray;
     public $albumCounter;
     public $imageArray;
-    
+
+    /**
+     * \fn	initForDetail($objectId)
+     * \brief	Init AlbumBox instance for Personal Page, detailed view
+     * \param	$objectId of the album to display information
+     * \return	albumBox
+     */
     public function initForDetail($objectId) {//id dell'album
 	$albumBox = new AlbumBox();
 	$albumBox->albumCounter = NDB;
@@ -99,8 +110,9 @@ class AlbumBox {
 
 		$commentCounter = $image->getCommentCounter();
 		$loveCounter = $image->getLoveCounter();
+		$reviewCounter = NULL;
 		$shareCounter = $image->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
 		$description = $image->getDescription();
 		$filePath = $image->getFilePath();
@@ -117,7 +129,7 @@ class AlbumBox {
 
     /**
      * \fn	initForPersonalPage($objectId, $type)
-     * \brief	Init ActivityBox instance for Personal Page
+     * \brief	Init AlbumBox instance for Personal Page
      * \param	$objectId for user that owns the page
      * \return	albumBox
      */
@@ -142,11 +154,12 @@ class AlbumBox {
 		$commentCounter = $album->getCommentCounter();
 		$imageCounter = $album->getImageCounter();
 		$loveCounter = $album->getLoveCounter();
+		$reviewCounter = NULL;
 		$shareCounter = $album->getShareCounter();
 		$thumbnailCover = $album->getThumbnailCover();
 		$title = $album->getTitle();
 
-		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$albumInfo = new AlbumInfo($counters, $imageCounter, $thumbnailCover, $title);
 		array_push($info, $albumInfo);
 	    }
