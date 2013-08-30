@@ -28,6 +28,10 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
+/**
+ * \brief	PostInfo class 
+ * \details	contains info for post to be displayed 
+ */
 class PostInfo {
 
     public $counters;
@@ -35,6 +39,11 @@ class PostInfo {
     public $fromUserInfo;
     public $text;
 
+    /**
+     * \fn	__construct($counters, $createdAt, $fromUserInfo, $text)
+     * \brief	construct for the PostInfo class
+     * \param	$counters, $createdAt, $fromUserInfo, $text
+     */
     function __construct($counters, $createdAt, $fromUserInfo, $text) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
@@ -49,6 +58,12 @@ class PostBox {
     public $postInfoArray;
     public $postCounter;
 
+    /**
+     * \fn	initForPersonalPage($objectId)
+     * \brief	Init PostBox instance for Personal Page
+     * \param	$objectId for user that owns the page
+     * \return	postBox
+     */
     public function initForPersonalPage($objectId) {
 	$postBox = new PostBox();
 	$info = array();

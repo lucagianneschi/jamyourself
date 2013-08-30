@@ -52,6 +52,10 @@ class AlbumInfo {
 
 }
 
+/**
+ * \brief	ImageInfo class 
+ * \details	contains info for image to be displayed 
+ */
 class ImageInfo {
 
     public $counters;
