@@ -95,6 +95,13 @@ print_r($recordBox);
 print "</pre>";
 $record4_stop = microtime();
 echo '<br />-------------------------FINE TEST UPLOAD RECORD PAGE SPATAFORA-------------------------------------------<br />';
+echo '<br />------------------------- TEST METODO INITFORDETAIL-------------------------------------------<br />';
+$recordBoxP = new RecordBox();
+$recordBox = $recordBoxP->initForDetail("b8r9q9b5se");
+print "<pre>";
+print_r($recordBox);
+print "</pre>";
+echo '<br />-------------------------FINE TEST TEST METODO INITFORDETAIL-------------------------------------------<br />';
 
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
