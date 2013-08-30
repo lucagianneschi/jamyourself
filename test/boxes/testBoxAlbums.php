@@ -139,6 +139,14 @@ print "</pre>";
 echo '<br />TEST ALBUM BOX Jump<br />';
 $album8_stop = microtime();
 echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST ALBUM BOX DEATILVIEW<br />';
+$albumBoxP = new AlbumBox();
+$albumBox = $albumBoxP->initForDetail("6nl9mn8a4I");
+print "<pre>";
+print_r($albumBox);
+print "</pre>";
+echo '<br />FINE TEST ALBUM BOX DEATILVIEW<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
 
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
