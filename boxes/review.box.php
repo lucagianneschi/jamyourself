@@ -119,6 +119,66 @@ class ReviewBox {
 	return $reviewBox;
     }
 
+    public function initForDetail($objectId, $className) {//objetId record/event
+	$reviewBox = new ReviewBox();
+	$reviewBox->reviewCounter = NDB;
+	$info = array();
+
+	$review = new CommentParse();
+	switch ($className) {
+	    case 'Event':
+		require_once CLASSES_DIR . 'event.class.php';
+		require_once CLASSES_DIR . 'eventParse.class.php';
+		$review->where('type', 'RE');
+		$field = "event";
+		break;
+	    case 'Record':
+		require_once CLASSES_DIR . 'record.class.php';
+		require_once CLASSES_DIR . 'recordParse.class.php';
+		$review->where('type', 'RR');
+		$field = "record";
+		break;
+	    default:
+		break;
+	}
+	$review->wherePointer($field, $className, $objectId);
+	$review->where('active', true);
+	$review->setLimit(1000);
+	$review->orderByDescending('createdAt');
+	$reviews = $review->getComments();
+	if (get_class($reviews) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($reviews as $review) {
+
+		$userP = new UserParse();
+		$user = $userP->getUser($review->getFromUser());
+		$thumbnail = $user->getProfileThumbnail();
+		$type = $user->getType();
+		$username = $user->getUsername();
+		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		$rating = $review->getVote();
+
+		$commentCounter = $review->getCommentCounter();
+		$loveCounter = $review->getLoveCounter();
+		$shareCounter = $review->getShareCounter();
+		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		
+		$reviewCounter = NULL;
+		$text = $review->getText();
+		$title = $review->getTitle();
+		$thumbnailCover = NULL;
+		
+		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title);
+		array_push($info, $reviewInfo);
+	    }
+	    $reviewBox->reviewArray = $info;
+	}
+	return $reviewBox;
+    }
+
+    
+  
     function initForPersonalPage($objectId, $type, $className) {
 	$info = array();
 	$counter = 0;
