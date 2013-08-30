@@ -40,11 +40,11 @@ class RecordInfoForMediaPage {
     public $year;
 
     /**
-     * \fn	__construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $tracklist, $title, $year)
+     * \fn	__construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $title, $year)
      * \brief	construct for the RecordInfoForMediaPage class
-     * \param	$buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $tracklist, $title, $year
+     * \param	$buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName,  $title, $year
      */
-    function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $tracklist, $title, $year) {
+    function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $title, $year) {
 	is_null($buylink) ? $this->buylink = NODATA : $this->buylink = $buylink;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
@@ -54,7 +54,6 @@ class RecordInfoForMediaPage {
 	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
 	is_null($label) ? $this->label = NODATA : $this->label = $label;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($tracklist) ? $this->tracklist = NODATA : $this->tracklist = $tracklist;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
 	is_null($year) ? $this->year = NODATA : $this->year = $year;
     }
@@ -190,7 +189,6 @@ class RecordBox {
      * \param	$objectId of the record to display in MEdia Page
      */
     public function initForMediaPage($objectId) {
-
 	require_once CLASSES_DIR . 'song.class.php';
 	require_once CLASSES_DIR . 'songParse.class.php';
 	require_once CLASSES_DIR . 'user.class.php';
@@ -255,7 +253,7 @@ class RecordBox {
 		    array_push($tracklist, $songInfo);
 		}
 	    }
-	    $recordInfo = new RecordInfoForMediaPage($buylink, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $reviewCounter, $tracklist, $title, $year);
+	    $recordInfo = new RecordInfoForMediaPage($buylink, $counters, $cover, $description, $featuring, $genre, $label, $locationName,$tracklist, $title, $year);
 
 	    $fromUserId = $record->getFromUser();
 	    $userP = new UserParse();
@@ -271,6 +269,7 @@ class RecordBox {
 	    $recordBox->fromUserInfo = $userInfo;
 	    $recordBox->recordCounter = NDB;
 	    $recordBox->recordInfoArray = $recordInfo;
+	    $recordBox->tracklist = $tracklist;
 	}
 	return $recordBox;
     }
