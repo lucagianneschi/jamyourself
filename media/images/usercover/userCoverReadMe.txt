@@ -1,1 +1,0 @@
-In questa cartella si salvano le immagini caricate come background per l'avatar utilizzato nella pagina utente.

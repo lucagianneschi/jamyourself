@@ -2,3 +2,7 @@
 /nbproject/private/
 nbproject/project.properties
 nbproject/project.xml
+
+# foundation
+config.rb
+.sass-cache/

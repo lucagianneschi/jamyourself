@@ -4,7 +4,7 @@
 <meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
 <meta name="viewport" id="vp" content="initial-scale=1.0,user-scalable=no,maximum-scale=1" media="(device-height: 568px)" />
 <meta name="format-detection" content="telephone=no">
-
+<!-- Mobile -->
 <link rel="apple-touch-icon" href="resources/images/icon/touch-icon-iphone.png" />
 <link rel="apple-touch-icon" sizes="72x72" href="resources/images/icon/touch-icon-ipad.png" />
 <link rel="apple-touch-icon" sizes="114x114" href="resources/images/icon/touch-icon-iphone-retina.png" />
@@ -19,14 +19,25 @@
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-<link rel="stylesheet" href="resources/stylesheets/normalize.css" />
+<!-- font style -->
 <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,400italic,600,700,200' rel='stylesheet' type='text/css'>
+
+<!-- fountation style -->
+<link rel="stylesheet" href="resources/stylesheets/normalize.css" />
 <link rel="stylesheet" href="resources/stylesheets/app.css" />
 <link rel="stylesheet" href="resources/stylesheets/style.css" />
+<link rel="stylesheet" href="resources/stylesheets/profilestyle.css" />
 
-<script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
-<script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>
-<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<link rel="stylesheet" href="resources/stylesheets/plugins/touchCarousel/touchcarousel.css" />
+<link rel="stylesheet" href="resources/stylesheets/plugins/touchCarousel/grey-blue-skin.css" />
+
+<!---------------- jcrop style--------------------------->
+<link rel="stylesheet" href="resources/stylesheets/plugins/jquery.Jcrop.min.css" type="text/css">
 
 <script src="resources/javascripts/plugins/vendor/custom.modernizr.js"></script>
+
+
+<!--------------- google map ---------------------------->
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
 
