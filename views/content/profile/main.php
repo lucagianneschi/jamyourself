@@ -1,4 +1,4 @@
-<?php 
+<?php
 $userType = $_GET['userType'];
 $currentUserType = $_GET['currentType'];
 
@@ -17,18 +17,19 @@ $objectId = '1oT7yYrpfZ';
 
 $userInfo = new UserInfoBox();
 
-$info = $userInfo->initForPersonalPage($objectId);
+$info = $userInfo -> initForPersonalPage($objectId);
 
-$username = $info->userName;
+$username = $info -> userName;
 
-$city = $info->city;
+$city = $info -> city;
 
 //genere musicale è  un array
-$music = $info->music;
-  
-$backGround = $info->backGround;
+$music = $info -> music;
 
-$profilePicture = $info->profilePicture;
+$backGround = $info -> backGround;
+
+$profilePicture = $info -> profilePicture;
+
 
 
 ?>
@@ -37,42 +38,43 @@ $profilePicture = $info->profilePicture;
 <div  class="row">	
 
 	<div id="profile" class="large-6 columns hcento">		
-		<?php 
-		include('box-profile/box-info1.php');		
+		<?php
+		include ('box-profile/box-info1.php');
 
-		include('box-profile/box-information.php');
+		include ('box-profile/box-information.php');
 
-		if($userType == "jammer")
-		 include('box-profile/box-music.php');
+		if ($userType == "jammer")
+			include ('box-profile/box-music.php');
 
-		if($userType == "jammer" || $userType == "venue")
-			include('box-profile/box-event.php');
+		if ($userType == "jammer" || $userType == "venue")
+			include ('box-profile/box-event.php');
 
-		if($userType == "spotter"){
-			include('box-profile/box-friends.php');
-			include('box-profile/box-following.php');
-		}	
-		
-		include('box-profile/box-photografy.php');
+		if ($userType == "spotter") {
+			include ('box-profile/box-friends.php');
+			include ('box-profile/box-following.php');
+		}
+
+		include ('box-profile/box-photografy.php');
 		?>
 		
 	</div>
 	<div id="social" class="large-6 columns hcento">
-		<?php 
-		
-		include('box-social/box-status.php');
-		if($userType != "venue")
-			include('box-social/box-albumReview.php');
-		include('box-social/box-eventReview.php');
-		include('box-social/box-activities.php');
-		
-		if($userType != "spotter"){
-			include('box-social/box-collaboration.php');
-			include('box-social/box-followers.php');
-		 }
-		
-		include('box-social/box-post.php');?>
-	</div>
+		<?php
+
+		include ('box-social/box-status.php');
+		if ($userType != "venue")
+			include ('box-social/box-albumReview.php');
+		include ('box-social/box-eventReview.php');
+		include ('box-social/box-activities.php');
+
+		if ($userType != "spotter") {
+			include ('box-social/box-collaboration.php');
+			include ('box-social/box-followers.php');
+		}
+
+		include ('box-social/box-post.php');
+	?>
+</div>
 </div>
 
 </div>

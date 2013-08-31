@@ -56,99 +56,99 @@ section.active > .title a {
   background-color: #232323;
   padding: 20px !important;
   padding-bottom: 0px !important;
-  margin-bottom: 40px !important;
+  margin-bottom: 40px;
 }
 
-/* line 57, ../../../sass/profilestyle.scss */
+/* line 58, ../../../sass/profilestyle.scss */
 #event-list .sottotitle {
   margin-bottom: 10px;
 }
-/* line 60, ../../../sass/profilestyle.scss */
+/* line 61, ../../../sass/profilestyle.scss */
 #event-list .ico-label {
   margin-bottom: -10px !important;
 }
-/* line 64, ../../../sass/profilestyle.scss */
+/* line 65, ../../../sass/profilestyle.scss */
 #event-list .box-single-event {
   cursor: pointer !important;
 }
 
-/* line 70, ../../../sass/profilestyle.scss */
+/* line 71, ../../../sass/profilestyle.scss */
 .box-album {
   border-bottom: 1px solid #303030 !important;
   padding-bottom: 10px !important;
   cursor: pointer;
 }
 
-/* line 76, ../../../sass/profilestyle.scss */
+/* line 77, ../../../sass/profilestyle.scss */
 .box-album .play_now {
   background-color: #787878 !important;
   width: 100px;
   height: 33px;
 }
-/* line 80, ../../../sass/profilestyle.scss */
+/* line 81, ../../../sass/profilestyle.scss */
 .box-album .play_now:hover {
   background-color: #ff7505 !important;
 }
 
-/* line 85, ../../../sass/profilestyle.scss */
+/* line 86, ../../../sass/profilestyle.scss */
 .box#albumcover-single {
   padding: 10px !important;
 }
 
-/* line 89, ../../../sass/profilestyle.scss */
+/* line 90, ../../../sass/profilestyle.scss */
 .box#album-single {
   padding: 10px !important;
 }
 
-/* line 93, ../../../sass/profilestyle.scss */
+/* line 94, ../../../sass/profilestyle.scss */
 .album {
   padding-top: 10px;
 }
-/* line 95, ../../../sass/profilestyle.scss */
+/* line 96, ../../../sass/profilestyle.scss */
 .album .sottotitle, .album .text, .album .note {
   padding-bottom: 20px;
 }
 
-/* line 100, ../../../sass/profilestyle.scss */
+/* line 101, ../../../sass/profilestyle.scss */
 .album-thumb {
   width: 110px;
   height: 110px;
 }
 
-/* line 105, ../../../sass/profilestyle.scss */
+/* line 106, ../../../sass/profilestyle.scss */
 .album-select {
   cursor: pointer;
 }
 
-/* line 109, ../../../sass/profilestyle.scss */
+/* line 110, ../../../sass/profilestyle.scss */
 .track {
   padding-top: 5px;
   padding-bottom: 5px;
   border-bottom: 1px solid #303030 !important;
 }
-/* line 113, ../../../sass/profilestyle.scss */
+/* line 114, ../../../sass/profilestyle.scss */
 .track:hover {
   background-color: #1c1c1c;
 }
 
-/* line 118, ../../../sass/profilestyle.scss */
+/* line 119, ../../../sass/profilestyle.scss */
 .userThumb {
   width: 45px;
   height: 45px;
 }
 
-/* line 124, ../../../sass/profilestyle.scss */
+/* line 125, ../../../sass/profilestyle.scss */
 .track ._play-large:hover {
   color: #f3f3f3 !important;
 }
 
-/* line 129, ../../../sass/profilestyle.scss */
+/* line 130, ../../../sass/profilestyle.scss */
 .track-propriety {
   padding: 2px;
   display: none;
 }
 
-/* line 134, ../../../sass/profilestyle.scss */
+/* line 135, ../../../sass/profilestyle.scss */
 .album-other {
   cursor: pointer;
   text-align: right;
@@ -159,20 +159,20 @@ section.active > .title a {
   background-position: Center;
 }
 
-/* line 144, ../../../sass/profilestyle.scss */
+/* line 145, ../../../sass/profilestyle.scss */
 .album-single-propriety {
   border-top: 1px solid #303030 !important;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-/* line 150, ../../../sass/profilestyle.scss */
+/* line 151, ../../../sass/profilestyle.scss */
 .propriety {
   padding-right: 5px;
   text-align: right;
 }
 
-/* line 155, ../../../sass/profilestyle.scss */
+/* line 156, ../../../sass/profilestyle.scss */
 .icon-propriety {
   width: auto;
   height: 15px;
@@ -184,19 +184,19 @@ section.active > .title a {
   cursor: pointer;
   background-repeat: no-repeat;
 }
-/* line 166, ../../../sass/profilestyle.scss */
+/* line 167, ../../../sass/profilestyle.scss */
 .icon-propriety:hover {
   color: #787878;
 }
 
-/* line 171, ../../../sass/profilestyle.scss */
+/* line 172, ../../../sass/profilestyle.scss */
 .content #map_venue {
   width: 100% !important;
   height: 300px !important;
   margin-bottom: 10px;
 }
 
-/* line 178, ../../../sass/profilestyle.scss */
+/* line 179, ../../../sass/profilestyle.scss */
 .albumcover {
   width: 310px;
   height: 160px;
@@ -204,105 +204,111 @@ section.active > .title a {
   cursor: pointer;
 }
 
-/* line 185, ../../../sass/profilestyle.scss */
+/* line 186, ../../../sass/profilestyle.scss */
 .box-coveralbum {
   padding: 10px !important;
   border: 1px solid #303030 !important;
 }
 
-/* line 191, ../../../sass/profilestyle.scss */
-#albumcover-single .clearing-thumbs {
+/* line 192, ../../../sass/profilestyle.scss */
+#albumcover-single .large-block-grid-3 {
   padding-top: 10px !important;
 }
 
-/* line 195, ../../../sass/profilestyle.scss */
+/* line 196, ../../../sass/profilestyle.scss */
 #albumcover-single [data-clearing] li {
   margin-right: 0px !important;
 }
 
-/* line 199, ../../../sass/profilestyle.scss */
+/* line 200, ../../../sass/profilestyle.scss */
 .photo {
   cursor: pointer;
 }
 
-/* line 203, ../../../sass/profilestyle.scss */
+/* line 204, ../../../sass/profilestyle.scss */
 .event {
   padding: 0px !important;
   padding-right: 5px !important;
 }
 
-/* line 208, ../../../sass/profilestyle.scss */
+/* line 209, ../../../sass/profilestyle.scss */
 .eventcover {
   height: 130px;
   width: 130px;
 }
 
-/* line 215, ../../../sass/profilestyle.scss */
+/* line 214, ../../../sass/profilestyle.scss */
+#albumcover-single .reveal-modal {
+  height: 100%;
+  width: 100%;
+}
+
+/* line 221, ../../../sass/profilestyle.scss */
 #social {
   padding-top: 65px;
   background-color: #f3f3f3;
 }
 
-/* line 221, ../../../sass/profilestyle.scss */
+/* line 227, ../../../sass/profilestyle.scss */
 .status {
   text-align: right;
 }
 
-/* line 225, ../../../sass/profilestyle.scss */
+/* line 231, ../../../sass/profilestyle.scss */
 .livel-status {
   font-weight: 700;
   margin-bottom: 4px !important;
 }
 
-/* line 230, ../../../sass/profilestyle.scss */
+/* line 236, ../../../sass/profilestyle.scss */
 .coverThumb {
   height: 60px;
   width: 60px;
 }
 
-/* line 235, ../../../sass/profilestyle.scss */
+/* line 241, ../../../sass/profilestyle.scss */
 #social #albumreviews .box {
   padding: 10px 10px 0px 10px !important;
 }
 
-/* line 238, ../../../sass/profilestyle.scss */
+/* line 244, ../../../sass/profilestyle.scss */
 #social #eventreviews .box {
   padding: 10px 10px 0px 10px !important;
 }
 
-/* line 241, ../../../sass/profilestyle.scss */
+/* line 247, ../../../sass/profilestyle.scss */
 .touchcarousel {
   width: auto !important;
   height: auto !important;
 }
 
-/* line 246, ../../../sass/profilestyle.scss */
+/* line 252, ../../../sass/profilestyle.scss */
 .textAlbumReview {
   margin-top: 10px;
 }
 
-/* line 249, ../../../sass/profilestyle.scss */
+/* line 255, ../../../sass/profilestyle.scss */
 .textEventReview {
   margin-top: 10px;
 }
 
-/* line 253, ../../../sass/profilestyle.scss */
+/* line 259, ../../../sass/profilestyle.scss */
 #social_list_achievement .arrow-holder {
   height: 250px;
 }
 
-/* line 256, ../../../sass/profilestyle.scss */
+/* line 262, ../../../sass/profilestyle.scss */
 #social_list_achievement {
   margin-left: 30px !important;
   margin-right: 30px !important;
 }
 
-/* line 260, ../../../sass/profilestyle.scss */
+/* line 266, ../../../sass/profilestyle.scss */
 .arrow-holder {
   height: 60px !important;
 }
 
-/* line 266, ../../../sass/profilestyle.scss */
+/* line 272, ../../../sass/profilestyle.scss */
 .achievement {
   margin: 10px;
   height: 40px;
@@ -316,7 +322,7 @@ section.active > .title a {
   border-radius: 1000px;
 }
 
-/* line 275, ../../../sass/profilestyle.scss */
+/* line 281, ../../../sass/profilestyle.scss */
 .achievement-target {
   margin: 10px;
   border: #ff7505 3px solid;
@@ -329,45 +335,45 @@ section.active > .title a {
   -o-transition-property: background-position, color;
   transition-property: background-position, color;
 }
-/* line 283, ../../../sass/profilestyle.scss */
+/* line 289, ../../../sass/profilestyle.scss */
 .achievement-target:hover {
   background-color: #ff7505;
   background-position: left bottom;
 }
 
-/* line 290, ../../../sass/profilestyle.scss */
+/* line 296, ../../../sass/profilestyle.scss */
 .status-button {
   text-align: right;
   height: 35px;
   margin-bottom: 40px;
 }
 
-/* line 297, ../../../sass/profilestyle.scss */
+/* line 303, ../../../sass/profilestyle.scss */
 .button {
   height: 35px !important;
   border: 0px !important;
   padding-top: 10px !important;
 }
 
-/* line 303, ../../../sass/profilestyle.scss */
+/* line 309, ../../../sass/profilestyle.scss */
 .bg-orange {
   background-color: #ff7505 !important;
 }
-/* line 305, ../../../sass/profilestyle.scss */
+/* line 311, ../../../sass/profilestyle.scss */
 .bg-orange:hover {
   background-color: #c95600 !important;
 }
 
-/* line 310, ../../../sass/profilestyle.scss */
+/* line 316, ../../../sass/profilestyle.scss */
 .bg-grey {
   background-color: #787878 !important;
 }
-/* line 312, ../../../sass/profilestyle.scss */
+/* line 318, ../../../sass/profilestyle.scss */
 .bg-grey:hover {
   background-color: #303030 !important;
 }
 
-/* line 317, ../../../sass/profilestyle.scss */
+/* line 323, ../../../sass/profilestyle.scss */
 .icon-button {
   width: auto;
   height: 20px;
@@ -380,53 +386,53 @@ section.active > .title a {
   background-repeat: no-repeat;
 }
 
-/* line 329, ../../../sass/profilestyle.scss */
+/* line 335, ../../../sass/profilestyle.scss */
 #social .box {
   border: #d8d8d8 1px solid;
   background-color: #fff !important;
 }
 
-/* line 334, ../../../sass/profilestyle.scss */
+/* line 340, ../../../sass/profilestyle.scss */
 #social .text {
   margin-bottom: 10px;
 }
 
-/* line 338, ../../../sass/profilestyle.scss */
+/* line 344, ../../../sass/profilestyle.scss */
 #social .album-thumb {
   width: 90px;
   height: 80px;
   margin-right: 0px;
 }
 
-/* line 343, ../../../sass/profilestyle.scss */
+/* line 349, ../../../sass/profilestyle.scss */
 .box-info {
   padding-left: 0px !important;
 }
 
-/* line 347, ../../../sass/profilestyle.scss */
+/* line 353, ../../../sass/profilestyle.scss */
 #social .line {
   border-bottom: 1px solid #d8d8d8;
   padding-bottom: 5px !important;
 }
 
-/* line 352, ../../../sass/profilestyle.scss */
+/* line 358, ../../../sass/profilestyle.scss */
 #activities .small-block-grid-4 {
   padding-top: 10px;
 }
 
-/* line 356, ../../../sass/profilestyle.scss */
+/* line 362, ../../../sass/profilestyle.scss */
 #social .box-membre {
   height: 55px;
   background-color: #f3f3f3;
 }
 
-/* line 363, ../../../sass/profilestyle.scss */
+/* line 369, ../../../sass/profilestyle.scss */
 .box-post {
   border: 1px solid #d8d8d8;
   padding: 5px;
 }
 
-/* line 368, ../../../sass/profilestyle.scss */
+/* line 374, ../../../sass/profilestyle.scss */
 .post {
   color: #787878 !important;
   font-size: 14px !important;
@@ -436,7 +442,7 @@ section.active > .title a {
   background: url(../images/icon/write.png) no-repeat 8px 6px !important;
 }
 
-/* line 377, ../../../sass/profilestyle.scss */
+/* line 383, ../../../sass/profilestyle.scss */
 .box-write {
   background-color: #fff !important;
   padding: 5px !important;
@@ -444,7 +450,7 @@ section.active > .title a {
   height: 45px;
 }
 
-/* line 384, ../../../sass/profilestyle.scss */
+/* line 390, ../../../sass/profilestyle.scss */
 .post-button {
   color: #fff;
   background: #ff7505 !important;
@@ -453,16 +459,40 @@ section.active > .title a {
   width: 90px !important;
 }
 
-/* line 392, ../../../sass/profilestyle.scss */
-.box-post-comment {
-  padding: 5px;
-  background: #d8d8d8 !important;
-}
-/* line 395, ../../../sass/profilestyle.scss */
-.box-post-comment .box {
-  padding: 10px !important;
-}
 /* line 398, ../../../sass/profilestyle.scss */
-.box-post-comment .columns {
+.comment-button {
+  color: #fff;
+  background: #787878 !important;
+  border: #fff 0px solid !important;
+  height: 34px !important;
+  width: 90px !important;
+}
+
+/* line 409, ../../../sass/profilestyle.scss */
+.box-comment {
+  padding: 5px !important;
+  padding-bottom: 1px !important;
+  background: #d8d8d8 !important;
+  margin-bottom: 50px;
+}
+/* line 414, ../../../sass/profilestyle.scss */
+.box-comment .box-write {
+  margin-bottom: 5px !important;
+}
+/* line 417, ../../../sass/profilestyle.scss */
+.box-comment .line {
+  border-bottom: 1px solid #d8d8d8;
+  padding-bottom: 5px !important;
+}
+/* line 421, ../../../sass/profilestyle.scss */
+.box-comment .text {
+  margin-bottom: 10px;
+}
+
+/* line 427, ../../../sass/profilestyle.scss */
+.box-singole-comment {
   padding: 10px !important;
+  padding-bottom: 1px !important;
+  background: #fff !important;
+  margin-bottom: 5px;
 }

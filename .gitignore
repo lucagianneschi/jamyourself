@@ -6,3 +6,6 @@ nbproject/project.xml
 # foundation
 config.rb
 .sass-cache/
+
+# aptana
+.project

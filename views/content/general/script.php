@@ -46,5 +46,5 @@ $(document).foundation();
 <script src="resources/javascripts/customs/signup.js"></script>
 <!----------- plugin nicescroll ---------->
 <script type="text/javascript" src="resources/javascripts/plugins/nicescroll/jquery.nicescroll.js"></script>	
-
-
+<!--------------- royalslider ------------->
+<script src="resources/javascripts/plugins/royalslider/jquery.royalslider.min.js"></script>

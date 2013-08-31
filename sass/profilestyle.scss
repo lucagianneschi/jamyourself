@@ -50,7 +50,8 @@ section.active > .title a{
   background-color:$grey-superdark;
   padding: 20px !important;
   padding-bottom:0px !important;
-  margin-bottom:40px !important;
+  margin-bottom:40px;
+  
 }
 
 #event-list{
@@ -188,7 +189,7 @@ section.active > .title a{
  // margin: 5px;
 }
 
-#albumcover-single .clearing-thumbs{
+#albumcover-single .large-block-grid-3{
   padding-top: 10px !important;
 }
 
@@ -208,6 +209,11 @@ section.active > .title a{
 .eventcover{
   height:130px;
   width:130px;
+}
+
+#albumcover-single .reveal-modal{
+  height:100%;
+  width:100%;
 }
 
 
@@ -389,15 +395,40 @@ section.active > .title a{
   width: 90px !important;
 }
 
-.box-post-comment{
-  padding: 5px;
-   background: $grey-light !important;
-   .box{
-     padding:10px !important;
-   }
-   .columns{
-     padding:10px !important;
-   }
+.comment-button{
+  color: #fff;
+  background: $grey !important;
+  border:#fff 0px solid !important; 
+  height: 34px !important; 
+  width: 90px !important;
+}
+
+
+//--------------------- COMMENT ----------------------------
+
+.box-comment{
+  padding: 5px !important;
+  padding-bottom: 1px !important;
+  background: $grey-light !important;
+  margin-bottom: 50px;
+  .box-write{
+    margin-bottom:5px !important;
+  }
+  .line{
+    border-bottom: 1px solid $grey-light; 
+    padding-bottom: 5px !important;
+  }
+  .text{
+    margin-bottom: 10px;
+  }
+  
+}
+
+.box-singole-comment{
+  padding: 10px !important;
+  padding-bottom: 1px !important;
+  background: #fff !important;
+  margin-bottom: 5px;
 }
 
 

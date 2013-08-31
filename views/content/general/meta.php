@@ -36,7 +36,10 @@
 
 <script src="resources/javascripts/plugins/vendor/custom.modernizr.js"></script>
 
+<!----------------- royalslider ------------------------->
 
+<link rel="stylesheet" href="resources/stylesheets/plugins/royalslider/royalslider.css"></link>
+<link rel="stylesheet" href="resources/stylesheets/plugins/royalslider/rs-default.css"></link>
 <!--------------- google map ---------------------------->
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
