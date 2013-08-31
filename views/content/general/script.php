@@ -6,8 +6,8 @@
 		'.js><\/script>')
 	</script>
 	<script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
-	<script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>	
+	<script src="resources/javascripts/plugins/jquery/jquery-ui-1.10.3.custom.min.js"></script>
 	
 <!--   /// JQUERY /// -->
 
@@ -18,7 +18,7 @@
 <script src="resources/javascripts/plugins/foundation/foundation.abide.js"></script>
 <!-- recatpcha -->
 <script src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>  
-
+<script src="resources/javascripts/plugins/touchCarousel/jquery.touchcarousel-1.1.min.js"></script> 
 <!--
 <script src="javascripts/foundation/foundation.alerts.js"></script>
 
@@ -41,6 +41,7 @@ $(document).foundation();
 <script type="text/javascript" src="resources/javascripts/plugins/jcrop/jquery.Jcrop.js"></script>  
 <!----------- JAMYOURSELF --------------->
 <script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
 <script src="resources/javascripts/customs/signup.js"></script>
 <!----------- plugin nicescroll ---------->

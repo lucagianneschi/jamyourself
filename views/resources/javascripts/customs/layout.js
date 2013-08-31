@@ -1,4 +1,6 @@
+
 $(document).ready(function() {
+	
 	
 	hcento();
 	
@@ -6,23 +8,11 @@ $(document).ready(function() {
 		switch_stat = 1;
 		jamswitch();
 	}
-	$("#profile").niceScroll({cursorcolor:"#222",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8});
-	$("#social").niceScroll({cursorcolor:"#CCC",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8});
-	/*$("#profile").niceScroll({
-		touchbehavior:false,
-		cursorcolor:"#222",
-		cursoropacitymax:0.4,
-		cursorwidth:8,
-		cursorborder:"none",
-		cursorborderradius:"4px",
-		background:"none",
-		autohidemode:"false",
-		horizrailenabled: "false",		
-		zindex:3}).cursor.css({"background-image":"none"});
-		console.log($("#profile").niceScroll());*/
-	//$("#social").niceScroll({touchbehavior:false,cursorcolor:"#CCC",cursoropacitymax:0.4,cursorwidth:8,cursorborder:"none",cursorborderradius:"4px",background:"none",autohidemode:"false", zindex:3}).cursor.css({"background-image":"none"});	
 	
+	$("#profile").niceScroll({cursorcolor:"#222",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
+	$("#social").niceScroll({cursorcolor:"#CCC",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
 	
+		
 	//permette di modifica il background del body in base al file php caricato in index
 	var children = $(".body-content").children();
 	if(children.hasClass('bg-grey-dark')){
@@ -32,67 +22,8 @@ $(document).ready(function() {
 		$("body").addClass("bg-double");
 	}
 	
-	
-	//--------- propriety element --------------
-	//------------- LOVE ---------------------- 
-	$('._love').click(function() {
-		$(this).toggleClass('_love _unlove');
-		$(this).toggleClass('orange grey');
-		$(this).toggleClass(function() {
-			var number_love = parseInt($(this).text(),10);
-			  if ($(this).hasClass('_unlove')) {			  	
-			  	// diminuisce
-			   return $(this).text(number_love-1);
-			  } else {
-			  	
-			  	//aumenta
-			    return $(this).text(number_love+1);
-			  }
-		});
-		
-	});
-	$('._unlove').click(function() {
-		$(this).toggleClass('_unlove _love');
-		$(this).toggleClass('grey orange');
-		$(this).toggleClass(function() {
-			var number_love = parseInt($(this).text(),10);
-			  if ($(this).hasClass('_unlove')) {			  	
-			  	// diminuisce
-			   return $(this).text(number_love-1);
-			  } else {
-			  	
-			  	//aumenta
-			    return $(this).text(number_love+1);
-			  }
-		});
-		
-	});
-	
-	$('#album-single ._back_page').click(function() {
-	//	$('#album-list').show('slide', { direction: "left" }, "slow");		
-		$('#album-single').hide('slide', { direction: "right" }, "slow");
-		setTimeout(function() {
-       		$('#album-list').show('slide', { direction: "left" }, "slow");     
-      	}, 600 );
-	});
-	$('#albumcover-single ._back_page').click(function() {
-		//$('#albumcover-list').show('slide', { direction: "left" }, "slow");
-		$('#albumcover-single').hide('slide', { direction: "right" }, "slow");
-		setTimeout(function() {
-       		$('#albumcover-list').show('slide', { direction: "left" }, "slow");     
-      	}, 600 );
-	});
-	
-	$('.track').mouseover(function() {
-		console.log($(this).attr('id'));
-		var track = '#'+$(this).attr('id');
-		$(track+' .track-propriety').show();
-	});
-	
-	$('.track').mouseout(function() {
-		$('.track-propriety').hide();
-	});
-	
+
+
 	
 	
 });
@@ -100,7 +31,6 @@ $(document).ready(function() {
 $(window).resize(function(){	
 	hcento();
 	if($('.switch').is(':visible')){
-		console.log("ok");
 		jamswitch();
 	}
 	else{
@@ -109,6 +39,15 @@ $(window).resize(function(){
 	}
 });
 
+// hcento() imposta le altezze rispetto alla viewport	
+function hcento() {
+	var h = $(window).height();
+	var hr = h - 80;
+	var hrhero = h - 300;
+	$('.hcento').css('height', hr);
+	$('.hcento-hero').css('height', hrhero);           
+}
+
 //Show header
 function headerShow() {
 	
@@ -116,7 +55,7 @@ function headerShow() {
  		$("#profile").getNiceScroll().resize();
  		$("#social").getNiceScroll().resize();
     // Animation complete.
-  		console.log($('#header-hide').height());
+  		$('#header-hide').height();
   	});
 	
 }
@@ -151,36 +90,8 @@ function jamswitch() {
 	}
 }
 
-//funzione per gestire la visualizzazione dell'album
-function albumSelect(album){	
-	$('#album-list').hide('slide', { direction: "left" }, "slow");
-	setTimeout(function() {
-       $('#album-single').show('slide', { direction: "right" }, "slow");     
-      }, 600 );
-	
-	
-}
 
-//funzione per gestire la visualizzazione della cover
-function albumcover(albumcover){
-	$('#albumcover-list').hide('slide', { direction: "left" }, "slow");
-	setTimeout(function() {
-       $('#albumcover-single').show('slide', { direction: "right" }, "slow");     
-      }, 600 );
-}
 
-function photo(photo){
-	
-}
-
-// hcento() imposta le altezze rispetto alla viewport	
-function hcento() {
-	var h = $(window).height();
-	var hr = h - 45;
-	var hrhero = h - 300;
-	$('.hcento').css('height', hr);
-	$('.hcento-hero').css('height', hrhero);              
-}
 
 
 // scroll
@@ -193,10 +104,9 @@ function resizeScroll() {
 	$('#social').getNiceScroll().resize();
 }
 
-function openComment(){
-	$('.box').slideToggle(600, 'swing', resizeScroll);
-	
-}
+
+
+
 
 
 
