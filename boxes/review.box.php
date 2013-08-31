@@ -27,21 +27,28 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
+/**
+ * \brief	ReviewInfo class 
+ * \details	contains info for review to be displayed 
+ */
 class ReviewInfo {
 
     public $counters;
     public $fromUserInfo;
     public $rating;
-    public $reviewCounter;
     public $text;
     public $title;
     public $thumbnailCover;
 
-    function __construct($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title) {
+    /**
+     * \fn	__construct($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title)
+     * \brief	construct for the ReviewInfo class
+     * \param	$counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title
+     */
+    function __construct($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($rating) ? $this->rating = NODATA : $this->rating = $rating;
-	is_null($reviewCounter) ? $this->reviewCounter = NODATA : $this->reviewCounter = $reviewCounter;
 	is_null($text) ? $this->text = NODATA : $this->text = $text;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
 	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
@@ -49,11 +56,85 @@ class ReviewInfo {
 
 }
 
+/**
+ * \brief	ReviewBox class 
+ * \details	box class to pass info to the view 
+ */
 class ReviewBox {
 
     public $reviewArray;
     public $reviewCounter;
 
+    /**
+     * \fn	initForDetail($objectId)
+     * \brief	Init ReviewBox instance for Personal Page, detailed view
+     * \param	$objectId of the review to display information
+     * \return	reviewBox
+     */
+    public function initForDetail($objectId, $className) {//objetId record/event
+	$reviewBox = new ReviewBox();
+	$reviewBox->reviewCounter = NDB;
+	$info = array();
+
+	$review = new CommentParse();
+	switch ($className) {
+	    case 'Event':
+		require_once CLASSES_DIR . 'event.class.php';
+		require_once CLASSES_DIR . 'eventParse.class.php';
+		$review->where('type', 'RE');
+		$field = "event";
+		break;
+	    case 'Record':
+		require_once CLASSES_DIR . 'record.class.php';
+		require_once CLASSES_DIR . 'recordParse.class.php';
+		$review->where('type', 'RR');
+		$field = "record";
+		break;
+	    default:
+		break;
+	}
+	$review->wherePointer($field, $className, $objectId);
+	$review->where('active', true);
+	$review->setLimit(1000);
+	$review->orderByDescending('createdAt');
+	$reviews = $review->getComments();
+	if (get_class($reviews) == 'Error') {
+	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
+	} else {
+	    foreach ($reviews as $review) {
+
+		$userP = new UserParse();
+		$user = $userP->getUser($review->getFromUser());
+		$thumbnail = $user->getProfileThumbnail();
+		$type = $user->getType();
+		$username = $user->getUsername();
+		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		$rating = $review->getVote();
+
+		$commentCounter = $review->getCommentCounter();
+		$loveCounter = $review->getLoveCounter();
+		$reviewCounter = NULL;
+		$shareCounter = $review->getShareCounter();
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+
+		$text = $review->getText();
+		$title = $review->getTitle();
+		$thumbnailCover = NULL;
+
+		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title);
+		array_push($info, $reviewInfo);
+	    }
+	    $reviewBox->reviewArray = $info;
+	}
+	return $reviewBox;
+    }
+
+    /**
+     * \fn	initForMediaPage($objectId, $className)
+     * \brief	Init ReviewBox instance for Media Page
+     * \param	$objectId of the review to display information, Event or Record class
+     * \return	reviewBox
+     */
     public function initForMediaPage($objectId, $className) {
 	$reviewBox = new ReviewBox();
 	$counter = 0;
@@ -100,17 +181,18 @@ class ReviewBox {
 
 		$commentCounter = $review->getCommentCounter();
 		$loveCounter = $review->getLoveCounter();
+		$reviewCounter = NDB;
 		$shareCounter = $review->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
 		$rating = $review->getVote();
-		$reviewCounter = NDB;
+
 		$text = $review->getText();
 		$thumbnailCover = NDB;
 
 		$title = $review->getTitle();
 
-		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title);
+		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
 	    $reviewBox->reviewArray = $info;
@@ -119,66 +201,12 @@ class ReviewBox {
 	return $reviewBox;
     }
 
-    public function initForDetail($objectId, $className) {//objetId record/event
-	$reviewBox = new ReviewBox();
-	$reviewBox->reviewCounter = NDB;
-	$info = array();
-
-	$review = new CommentParse();
-	switch ($className) {
-	    case 'Event':
-		require_once CLASSES_DIR . 'event.class.php';
-		require_once CLASSES_DIR . 'eventParse.class.php';
-		$review->where('type', 'RE');
-		$field = "event";
-		break;
-	    case 'Record':
-		require_once CLASSES_DIR . 'record.class.php';
-		require_once CLASSES_DIR . 'recordParse.class.php';
-		$review->where('type', 'RR');
-		$field = "record";
-		break;
-	    default:
-		break;
-	}
-	$review->wherePointer($field, $className, $objectId);
-	$review->where('active', true);
-	$review->setLimit(1000);
-	$review->orderByDescending('createdAt');
-	$reviews = $review->getComments();
-	if (get_class($reviews) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
-	} else {
-	    foreach ($reviews as $review) {
-
-		$userP = new UserParse();
-		$user = $userP->getUser($review->getFromUser());
-		$thumbnail = $user->getProfileThumbnail();
-		$type = $user->getType();
-		$username = $user->getUsername();
-		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
-		$rating = $review->getVote();
-
-		$commentCounter = $review->getCommentCounter();
-		$loveCounter = $review->getLoveCounter();
-		$shareCounter = $review->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-		
-		$reviewCounter = NULL;
-		$text = $review->getText();
-		$title = $review->getTitle();
-		$thumbnailCover = NULL;
-		
-		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title);
-		array_push($info, $reviewInfo);
-	    }
-	    $reviewBox->reviewArray = $info;
-	}
-	return $reviewBox;
-    }
-
-    
-  
+    /**
+     * \fn	initForPersonalPage($objectId, $type, $className)
+     * \brief	Init ReviewBox instance for Media Page
+     * \param	$objectId of the user who owns the page, $type of user, $className Record or Event class
+     * \return	reviewBox
+     */
     function initForPersonalPage($objectId, $type, $className) {
 	$info = array();
 	$counter = 0;
@@ -266,7 +294,7 @@ class ReviewBox {
 		    $shareCounter = $review->getShareCounter();
 		    $text = $review->getText();
 
-		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
 		    $userP = new UserParse();
 		    $user = $userP->getUser($userId);
@@ -278,7 +306,7 @@ class ReviewBox {
 			$username = $user->getUsername();
 			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		    }
-		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $reviewCounter, $text, $thumbnailCover, $title);
+		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title);
 		    array_push($info, $reviewInfo);
 		}
 		$reviewBox->reviewArray = $info;
