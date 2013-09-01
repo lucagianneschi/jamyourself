@@ -6,11 +6,57 @@ require_once SERVICES_DIR . 'geocoder.service.php';
 
 class ValidateNewUserService {
 
-//$exp_username = "/^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27][!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27][!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]{0,0})$/";
-    private $exp_mail = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+[\.]([a-z0-9-]+)*([a-z]{2,3})$/";
-    private $exp_password = "/(^[a-zA-Z0-9]{7,})+([a-zA-Z0-9])$/";
-//private $exp_description = "/^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})$/";
-    private $exp_url = "/(https?|ftp|file|ssh):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?/";
+    private $instruments = array(
+        "Voice",
+        "Choir",
+        "Drum",
+        "Electric guitar",
+        "Classic guitar",
+        "Bass",
+        "Mouth organ",
+        "Accordion",
+        "Violin",
+        "Piano",
+        "Double bass",
+        "Harpsichord",
+        "Flute",
+        "Clarinet",
+        "Trumpet",
+        "Keyboard",
+        "Xylophone",
+        "Ukulele",
+        "Banjo",
+        "Synthesizer",
+        "Harp",
+        "Bongo drum"
+    );
+    private $music = array(
+        "Rock",
+        "Indie Rock",
+        "Metal",
+        "Songwriter",
+        "Punk",
+        "Rap/Hip-Hop",
+        "Ska",
+        "Pop",
+        "Instrumental",
+        "Electronic",
+        "Dance",
+        "Jazz&Blues",
+        "Experimental",
+        "Alternative",
+        "Folk",
+        "Ambient",
+        "Acoustic",
+        "Hardcore",
+        "House",
+        "Techno",
+        "Funk",
+        "Folk",
+        "Grunge",
+        "Progressive",
+        "Dark"
+    );
 
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -62,8 +108,8 @@ class ValidateNewUserService {
 
 
 
-        //verifico la correttezza dei campi social (comuni a tutti e 3 i profili)
-        //se sono stati definiti e non sono null controllo...
+//verifico la correttezza dei campi social (comuni a tutti e 3 i profili)
+//se sono stati definiti e non sono null controllo...
         if (isset($user->fbPage) && !is_null($user->fbPage) && !$this->checkURL($user->fbPage))
             return false;
         if (isset($user->twitterPage) && !is_null($user->twitterPage) && !$this->checkURL($user->twitterPage))
@@ -75,7 +121,7 @@ class ValidateNewUserService {
         if (isset($user->webSite) && !is_null($user->webSite) && !$this->checkURL($user->webSite))
             return false;
 
-        //tutto ok
+//tutto ok
         return true;
     }
 
@@ -85,6 +131,14 @@ class ValidateNewUserService {
 //        
 ////////////////////////////////////////////////////////////////////////////////  
     private function checkNewVenue($user) {
+//            address
+//            city
+//            country
+//            description
+//            genre
+//            number
+//            password
+//            province
         if (
                 !isset($user->country) || is_null($user->country) ||
                 !isset($user->city) || is_null($user->city) ||
@@ -108,13 +162,24 @@ class ValidateNewUserService {
     }
 
     private function checkNewSpotter($user) {
+
+//birthday.day: "2"
+//birthday.month: "April"
+//birthday.year: "1925"
+//city: "pis"
+//country: "ita"
+//description: "lorem ipsum at doloret"
+//firstname: "stefa"
+//genre: "["4","24"]"
+//lastname: "musca"
+//sex: "M"        
         if (
                 !isset($user->music) || is_null($user->music) || !$this->checkMusic($user->music) ||
                 !isset($user->description) || is_null($user->description) || !$this->checkDescription($user->description)
         )
             return false;
         else {
-            //verifica specifica dei campi
+//verifica specifica dei campi
             if (isset($user->firstname) && !is_null($user->firstname) && !$this->checkFirstName($user->firstname))
                 return false;
             if (isset($user->lastname) && !is_null($user->lastname) && !$this->checkLastname($user->lastname))
@@ -130,6 +195,11 @@ class ValidateNewUserService {
     }
 
     private function checkNewJammer($user) {
+//        city: "asd"
+//        country: "asd"
+//        description: "asdsadasd"
+//        genre: "["1","4","8"]"
+//        jammerType: "musician"
         if (
                 !isset($user->jammerType) || is_null($user->jammerType) || !$this->checkJammerType($user->jammerType) ||
                 !isset($user->description) || is_null($user->description) || !$this->checkDescription($user->description) ||
@@ -138,7 +208,7 @@ class ValidateNewUserService {
         )
             return false;
         else {
-            //controllo dei parametri non obbligatori
+//controllo dei parametri non obbligatori
 
             if (isset($user->members) && !is_null($user->members) && !$this->checkMembers($user->members))
                 return false;
@@ -220,11 +290,11 @@ class ValidateNewUserService {
 
     public function checkEmail($email) {
 
-        // First, we check that there's one @ symbol, 
-        // and that the lengths are right.
+// First, we check that there's one @ symbol, 
+// and that the lengths are right.
         if (!ereg("^[^@]{1,64}@[^@]{1,255}$", $email)) {
-            // Email invalid because wrong number of characters 
-            // in one section or wrong number of @ symbols.
+// Email invalid because wrong number of characters 
+// in one section or wrong number of @ symbols.
             return false;
         }
 // Split it into sections to make life easier
@@ -303,7 +373,7 @@ class ValidateNewUserService {
     }
 
     public function checkLocation($location) {
-        //direi di usare il reverse geocoding qua...
+//direi di usare il reverse geocoding qua...
         if (!geocoder::getLocation($location))
             return false;
         else
