@@ -77,7 +77,7 @@
 		</div>	
 		<div  class="small-8 columns">
 			<input type="button" name="jammer-signup03-back" id="jammer-signup03-back" class="signup-button-back" value="Go Back"/>
-			<input type="button" name="jammer-signup03-next" id="jammer-signup03-next" class="signup-button" value="Complete"/>
+			<input type="submit" name="jammer-signup03-next" id="jammer-signup03-next" class="signup-button" value="Complete"/>
 		</div>	
 	</div>	
 </div>
