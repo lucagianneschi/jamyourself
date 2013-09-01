@@ -42,6 +42,11 @@ class SignupController extends REST {
             //passo la chiave pubblica del captcha qua
             $_SESSION['captchaPublicKey'] = CAPTCHA_PUBLIC_KEY;
             $_SESSION['captchaValidation'] = false;
+            
+            //recupero il JSON di configurazione
+            $configFile = file_get_contents("signup.config.json");
+            $config=json_decode($configFile,true);
+            $_SESSION['config'] = $config;
         }
         //return qualcosa se c'è qualcosa da ritornare...
     }
@@ -66,21 +71,14 @@ class SignupController extends REST {
         }
 
         //verifico che l'utente abbia effettivamente completato il captcha
-        if ($_SESSION['captchaValidation'] == false) {
-            // If invalid inputs "Bad Request" status message and reason
-            $error = array('status' => "Bad Request", "msg" => "Captcha test failed");
-            $this->response($error, 400);
-        }
-
-        //verifico che ci sia il nuovo utente nei paraemtri
-        if (!isset($this->request['newUser'])) {
-            // If invalid inputs "Bad Request" status message and reason
-            $error = array('status' => "Bad Request", "msg" => "No new user specified");
-            $this->response($error, 400);
-        }
+//        if ($_SESSION['captchaValidation'] == false) {
+//            // If invalid inputs "Bad Request" status message and reason
+//            $error = array('status' => "Bad Request", "msg" => "Captcha test failed");
+//            $this->response($error, 400);
+//        }
 
         //recupero l'utente passato come parametro nella request
-        $userJSON = $this->request['newUser'];
+        $userJSON = $this->request;
 
         //creo l'oggetto per la validazione dell'utente
         $userValidator = new ValidateNewUserService();
@@ -93,98 +91,19 @@ class SignupController extends REST {
         }
 
         //recupero i campi dell'utente
+        $newUser = null;
         switch ($userJSON->type) {
             case "SPOTTER" :
-                $newUser = new User("SPOTTER");
+                $newUser = $this->createSpotter($userJSON);
                 break;
             case "JAMMER" :
-                $newUser = new User("JAMMER");
+                $newUser = $this->createJammer($userJSON);
                 break;
             case "VENUE" :
-                $newUser = new User("VENUE");
+                $newUser = $this->createVenue($userJSON);
                 break;
         }
-
-        //uguali per tutti gli utenti
-        $newUser->setUsername($userJSON->username);
-        $newUser->setPassword($userJSON->password);
-        $newUser->setEmail($userJSON->email);
-
-        //differenziazioni
-        switch ($userJSON->type) {
-            case "SPOTTER" :
-
-                //step 2    
-                if (isset($userJSON->firstname) && !_null($userJSON->firstname))
-                    $newUser->setFirstname($userJSON->firstname);
-                if (isset($userJSON->lastname) && !_null($userJSON->lastname))
-                    $newUser->set($userJSON->lastname);
-                $newUser->setGeoCoding(geocoder::getLocation($userJSON->location));
-                $newUser->set($userJSON->music);
-                //step 3
-                $newUser->setDescription($userJSON->description);
-                $newUser->setSex($userJSON->sex);
-                if (isset($userJSON->birthday) && !_null($userJSON->birthday))
-                    $newUser->setBirthDay(new DateTime($userJSON->birthday->year . " - " . $userJSON->birthday->month . " - " . $userJSON->birthday->day));
-                break;
-            case "JAMMER" :
-                //step 2
-                $newUser->setGeoCoding(geocoder::getLocation($userJSON->location));
-                $newUser->setJammerType($userJSON->location);
-                if (isset($userJSON->members) && !is_null($userJSON->members)) {
-                    $members = array();
-                    foreach ($userJSON->members as $member) {
-                        $members[] = $member;
-                    }
-                }
-                //step 3
-                $newUser->setDescription($userJSON->description);
-                $newUser->set($userJSON->music);
-
-                break;
-            case "VENUE" :
-
-                //step2
-                $venueLocation = $newUser->address . " , " . $newUser->number . " , ";
-                $venueLocation .= $newUser->city + "( " . $newUser->province . " ) , ";
-                $venueLocation .= $newUser->country;
-                $newUser->setGeoCoding(geocoder::getLocation($venueLocation));
-                //step 3
-                $newUser->setDescription($userJSON->description);
-                $newUser->set($userJSON->music);
-                break;
-        }
-
-        //imposto i parametri social
-        if (isset($userJSON->facebookId) && !is_null($userJSON->facebookId))
-            $newUser->setFacebookId($userJSON->facebookId);
-        if (isset($userJSON->fbPage) && !is_null($userJSON->fbPage))
-            $newUser->setFbPage($userJSON->fbPage);
-        if (isset($userJSON->twitterPage) && !is_null($userJSON->twitterPage))
-            $newUser->setTwitterPage($userJSON->twitterPage);
-        if (isset($userJSON->google) && !_null($userJSON->google))
-            $newUser->setGooglePlusPage($userJSON->google);
-        if (isset($userJSON->youtubeChannel) && !is_null($userJSON->youtubeChannel))
-            $newUser->setYoutubeChannel($userJSON->youtubeChannel);
-        if (isset($userJSON->website) && !is_null($userJSON->website))
-            $newUser->setWebsite($userJSON->website);
-
-//imposto i parametri di Jam
-//        $newUser->setAuthData($authData);
-        $newUser->setActive(true);
-//        $newUser->setBackground();
-        $newUser->setCollaborationCounter(0);
-        $newUser->setFollowersCounter(0);
-        $newUser->setFollowingCounter(0);
-        $newUser->setFriendshipCounter(0);
-        $newUser->setJammerCounter(0);
-        $newUser->setLevel(0);
-        $newUser->setLevelValue(1);
-        $newUser->setPremium(false);
-        $newUser->setSettings(defineSettings($newUser->getType(), $userJSON->language, $userJSON->localTime, $newUser->getProfilePicture()));
-        $newUser->setVenueCounter(0);
-
-
+        
         //tenta di effettuare il salvataggio
         $pUser = new UserParse();
         $user = $pUser->saveUser($newUser);
@@ -352,17 +271,23 @@ class SignupController extends REST {
     }
 
     private function createSpotter($userJSON) {
+        //birthday.day: "2"
+        //birthday.month: "April"
+        //birthday.year: "1925"
+        //city: "pis"
+        //country: "ita"
+        //description: "lorem ipsum at doloret"
+        //firstname: "stefa"
+        //genre: "["4","24"]"
+        //lastname: "musca"
+        //sex: "M"        
+        
         if (!is_null($userJSON)) {
             $decoded = json_decode($userJSON);
             $user = new User("SPOTTER");
-            //step0
-            $imgProfile = "";
-            $user->setSettings(defineSettings("SPOTTER", $decoded->language, $decoded->localTime, $imgProfile));
+
             
-            //step1 
-            $user->setUsername($decoded->username);
-            $user->setEmail($decoded->email);
-            $user->setPassword($decoded->password);
+            $this->setCommonValues($user, $decoded);
 
             //step 2
             $user->setFirstname($decoded->firstname);
@@ -372,37 +297,26 @@ class SignupController extends REST {
             $user->setMusic($this->getMusicArray($decoded->genre));
 
             //step 3
-            $user->setDescription($decoded->description);
             $user->setSex($decoded->sex);
 
             //birthday            
             $birthday = json_decode($decoded->birthday);
-            //nei test bday è messo così: '1982-02-18' (secondo me è un errore, dovrebbe esserre un datetime)
-            $user->setBirthDay($birthday->year . "-" . $birthday->month . "-" . $birthday->day);
-
-            $user->setFbPage($decoded->facebook);
-            $user->setTwitterPage($decoded->twitter);
-            $user->setGooglePlusPage($decoded->google);
-            $user->setYoutubeChannel($decoded->youtube);
-            $user->setWebsite($decoded->web);
-
+            if($birthday->year.length > 0 && $birthday->month.length > 0 && $birthday->day.length > 0){
+                $user->setBirthDay($birthday->year . "-" . $birthday->month . "-" . $birthday->day);
+            }
+            
             return $user;
         }
         return null;
     }
 
     private function createJammer($userJSON) {
+        
         if (!is_null($userJSON)) {
             $decoded = json_decode($userJSON);
             $user = new User("JAMMER");
-            //step0
-            $imgProfile = "";
-            $user->setSettings(defineSettings("JAMMER", $decoded->language, $decoded->localTime, $imgProfile));
-            
-            //step1 
-            $user->setUsername($decoded->username);
-            $user->setEmail($decoded->email);
-            $user->setPassword($decoded->password);
+            //step1
+            $this->setCommonValues($user, $decoded);
             
             //step2
             $user->setJammerType($decoded->jammerType);
@@ -413,56 +327,82 @@ class SignupController extends REST {
             }
             //step 3
             $user->setMusic($this->getMusicArray($decoded->genre));
-            $user->setDescription($decoded->description);
-            $user->setFbPage($decoded->facebook);
-            $user->setTwitterPage($decoded->twitter);
-            $user->setGooglePlusPage($decoded->google);
-            $user->setYoutubeChannel($decoded->youtube);
-            $user->setWebsite($decoded->web);
-            
             return $user;
         }
         return null;
     }
 
     private function createVenue($userJSON) {
+
         if (!is_null($userJSON)) {
             $decoded = json_decode($userJSON);
             $user = new User("VENUE");
 
-            //step0
-            $imgProfile = "";
-            $user->setSettings(defineSettings("VENUE", $decoded->language, $decoded->localTime, $imgProfile));
+            //step1
+            $this->setCommonValues($user, $decoded);
             
-            //step1 
-            $user->setUsername($decoded->username);
-            $user->setEmail($decoded->email);
-            $user->setPassword($decoded->password);
-            
-            //@todo: completare con lo step 2
             $user->setCountry($decoded->country);
             $user->setCity($decoded->city);
+            $location = $decoded->country . " , ";
+            $location .= $decoded->city . " , ";
+            $location .= $decoded->province . " , ";
+            $location .= $decoded->address . " , ";
+            $location .= $decoded->number;
             $geocoding = GeocoderService::getLocation($decoded->country.",".$decoded->city.",".$decoded->province.",".$decoded->address.",".$decoded->number);
             $user->setGeoCoding($geocoding);
+
+            //genre
+
+
+
             
-            //step 3
-            $user->setDescription($decoded->description);
-            $user->setFbPage($decoded->facebook);
-            $user->setTwitterPage($decoded->twitter);
-            $user->setGooglePlusPage($decoded->google);
-            $user->setYoutubeChannel($decoded->youtube);
-            $user->setWebsite($decoded->web);
             return $user;
         }
         return null;
     }
 
     private function getMusicArray($genre) {
-        $decoded = json_decode($genre);
+
     }
     
     private function getMembersArray($members){
         $decoded = json_decode($members);
+    }
+    
+    private function getGenreArray($members){
+        
+    }
+    
+   
+    
+    private function setCommonValues($user, $decoded){
+        //la parte dello step 1
+        $user->setUsername($decoded->username);
+        $user->setEmail($decoded->email);
+        $user->setPassword($decoded->password);
+        $user->setDescription($decoded->description);
+        $imgProfile = ""; //@todo
+        $user->setSettings(defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgProfile));
+        //la parte social        
+        $user->setFbPage($decoded->facebook);
+        $user->setTwitterPage($decoded->twitter);
+        $user->setGooglePlusPage($decoded->google);
+        $user->setYoutubeChannel($decoded->youtube);
+        $user->setWebsite($decoded->web);
+        
+        //imposto i parametri di Jam
+//        $user->setAuthData($authData);
+        $user->setActive(true);
+//        $user->setBackground();
+        $user->setCollaborationCounter(0);
+        $user->setFollowersCounter(0);
+        $user->setFollowingCounter(0);
+        $user->setFriendshipCounter(0);
+        $user->setJammerCounter(0);
+        $user->setLevel(0);
+        $user->setLevelValue(1);
+        $user->setPremium(false);
+        $user->setVenueCounter(0);
     }
 
 }
