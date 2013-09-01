@@ -722,12 +722,7 @@ $(document).ready(function() {
         $('#' + input_h).val(c.h);
     }
 
-
-
-
     //----------------------------------- FINE SIGNUP -----------------------------------
-
-    //---------------------------------- STEFANO (was here) ---------------------------------------------//
 
     //creo il recaptcha all'interno del div "signup01-captcha"
     showCaptcha();
@@ -789,30 +784,11 @@ function readFile(fileName, typeSelect, typeUser, scheda, max_check, number) {
  * della registrazione (onClick "complete")
  * 
  */
-function signup() {
-    //recupero tutti i campi che l'utente
-    //ha inizializzato nel form
-    var json_signup = {};
-
-    json_signup.request = "signup";
-    json_signup.newUser = json_signup_user;
-
-    $.ajax({
-        type: "POST",
-        url: "../controllers/signup/signupRequest.php",
-        data: json_signup,
-        async: false,
-        "beforeSend": function(xhr) {
-            xhr.setRequestHeader("X-AjaxRequest", "1");
-        },
-        success: function(data, status) {
-            console.log("[onLoad] [SUCCESS] Status: " + status);
-        },
-        error: function(data, status) {
-            console.log("[onLoad] [ERROR] Status: " + status);
-        }
-    });
-
+function signup() {   
+    //recupero i valori del form
+    getFormValues();
+    //invio la richiesta al server
+    sendRequest("signup",json_signup_user,signupCallback,false);
 }
 
 /**
@@ -948,8 +924,8 @@ function getFormValues() {
     //----------- json d'iscrizione -----------------------
     //step 0 (configurazione browser-utente
     //@todo: completare language e localTime
-    json_signup_user.language = "";
-    json_signup_user.localTime = "";
+    json_signup_user.language = navigator.language || navigator.userLanguage;;
+    json_signup_user.localTime = ((new Date()).getTimezoneOffset());
 
     //step 1
     json_signup_user.username = $('#signup01-username').val();
@@ -1007,6 +983,7 @@ function getFormValues() {
             
             //step3            
             json_signup_user.description = $('#venue-description').val();
+            json_signup_user.genre = getSelectedGenre();
             json_signup_user.facebook = $('#venue-facebook').val();
             json_signup_user.twitter = $('#venue-twitter').val();
             json_signup_user.google = $('#venue-google').val();
@@ -1017,7 +994,7 @@ function getFormValues() {
 }
 
 function getBandComponents() {
-    var components = Array();
+    var components = new Array();
     var currComponent = 1;
     var componentName = $("#jammer-componentName" + currComponent).val();
     var componentInstrument = $("#jammer_componentInstrument" + currComponent).val();
@@ -1032,10 +1009,11 @@ function getBandComponents() {
         } else
             component.instrument = null;
 
-        components[currComponent - 1] = component;
+        components.push(component);
 
         currComponent++;
 
+        //aggiornamento per il while
         componentName = $("#jammer-componentName" + currComponent).val();
         componentInstrument = $("#jammer_componentInstrument" + currComponent).val();
     }
@@ -1049,7 +1027,7 @@ function getBandComponents() {
 }
 
 function getSelectedGenre() {
-    var genre = Array();
+    var genre = new Array();
     $('.signup-genre :checked').each(function() {
         genre.push($(this).val());
     });
@@ -1067,7 +1045,7 @@ function getSelectedGenre() {
  * @param {boolean} _async parametro non obbligatorio, se FALSE la chiamata è asincrona,
  *                         se omesso o TRUE la chiamata è sincrona
  */
-function sendToServer(_action,_data,callback,_async){
+function sendRequest(_action,_data,callback,_async){
     if(_action === undefined || _action === null || _data === undefined || _data === null){
         callback(null);
     }
@@ -1090,4 +1068,14 @@ function sendToServer(_action,_data,callback,_async){
             callback(data,status);
         }
     });   
+}
+
+$( "#form-signup" ).on( "submit", function( event ) {
+  event.preventDefault();
+  console.log(json_signup_user);
+  signup();
+});
+
+function signupCallback(data, status){
+    console.log("Data : " + JSON.stringify(data) + " | Status: " + status);
 }
