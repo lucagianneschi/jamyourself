@@ -24,8 +24,6 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
-require_once CLASSES_DIR . 'event.class.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
 require_once CLASSES_DIR . 'image.class.php';
 require_once CLASSES_DIR . 'imageParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
@@ -179,114 +177,76 @@ class ActivityBox {
 	    }
 	    $activityBox->albumInfo = $albumInfo;
 	}
-	switch ($type) {
-	    case 'SPOTTER':
-		require_once CLASSES_DIR . 'record.class.php';
-		require_once CLASSES_DIR . 'recordParse.class.php';
+	if ($type == 'SPOTTER') {
+	    require_once CLASSES_DIR . 'event.class.php';
+	    require_once CLASSES_DIR . 'eventParse.class.php';
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'recordParse.class.php';
 
-		$activityP = new ActivityParse();
-		$activityP->setLimit(1);
-		$activityP->wherePointer('fromUser', '_User', $objectId);
-		$activityP->where('type', 'SONGLISTENED');
-		$activityP->where('active', true);
-		$activityP->orderByDescending('createdAt');
-		$activities = $activityP->getActivities();
-		if (get_class($activities) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $activities->getErrorMessage() . '<br/>';
-		} else {
-		    foreach ($activities as $activity) {
-			$songId = $activity->getSong();
+	    $lastSongP = new ActivityParse();
+	    $lastSongP->setLimit(1);
+	    $lastSongP->wherePointer('fromUser', '_User', $objectId);
+	    $lastSongP->where('type', 'SONGLISTENED');
+	    $lastSongP->where('active', true);
+	    $lastSongP->orderByDescending('createdAt');
+	    $lastSong = $lastSongP->getActivities();
+	    if (get_class($lastSong) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $lastSong->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($lastSong as $activity) {
+		    $songId = $activity->getSong();
 
-			$songP = new SongParse();
-			$song = $songP->getSong($songId);
-			$songTitle = $song->getTitle();
+		    $songP = new SongParse();
+		    $song = $songP->getSong($songId);
+		    $songTitle = $song->getTitle();
 
-			$recordId = $activity->getRecord();
-			$recordP = new RecordParse();
-			$record = $recordP->getRecord($recordId);
-			$thumbnailCover = $record->getThumbnailCover();
-			$title = $record->getTitle();
+		    $recordId = $activity->getRecord();
+		    $recordP = new RecordParse();
+		    $record = $recordP->getRecord($recordId);
+		    $thumbnailCover = $record->getThumbnailCover();
+		    $title = $record->getTitle();
 
-			$fromUserId = $record->getFromUser();
-			$fromUserP = new UserParse();
-			$user = $fromUserP->getUser($fromUserId);
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$username = $user->getUsername();
-			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
-			$recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $songTitle, $thumbnailCover, $title);
-		    }
-		    $activityBox->recordInfo = $recordInfo;
+		    $fromUserId = $record->getFromUser();
+		    $fromUserP = new UserParse();
+		    $user = $fromUserP->getUser($fromUserId);
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $songTitle, $thumbnailCover, $title);
 		}
-		break;
-	    case 'JAMMER':
-		require_once CLASSES_DIR . 'record.class.php';
-		require_once CLASSES_DIR . 'recordParse.class.php';
+		$activityBox->recordInfo = $recordInfo;
+	    }
+	    $lastEventP = new ActivityParse();
+	    $lastEventP->setLimit(1);
+	    $lastEventP->wherePointer('fromUser', '_User', $objectId);
+	    $lastEventP->where('type', 'EVENTCONFIRMED');
+	    $lastEventP->where('active', true);
+	    $lastEventP->orderByDescending('createdAt');
+	    $lastEvent = $lastEventP->getActivities();
+	    if (get_class($lastSong) == 'Error') {
+		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $lastEvent->getErrorMessage() . '<br/>';
+	    } else {
+		foreach ($lastEvent as $activity) {
+		    $eventId = $activity->getEvent();
 
-		$recordP = new RecordParse();
-		$recordP->setLimit(1);
-		$recordP->wherePointer('fromUser', '_User', $objectId);
-		$recordP->where('active', true);
-		$recordP->orderByDescending('updatedAt');
-		$records = $recordP->getAlbums();
-		if (get_class($records) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
-		} else {
-		    foreach ($records as $record) {
-			$thumbnailCover = $record->getThumbnailCover();
-			$title = $record->getTitle();
-			$recordInfo = new RecordInfoForPersonalPage(NDB, NDB, $thumbnailCover, $title);
-		    }
-		    $activityBox->recordInfo = $recordInfo;
-		}
-		$eventP = new EventParse();
-		$eventP->setLimit(1);
-		$eventP->wherePointer('fromUser', '_User', $objectId);
-		$eventP->where('active', true);
-		$eventP->orderByDescending('updatedAt');
-		$events = $eventP->getEvents();
-		if (get_class($events) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
-		} else {
-		    foreach ($events as $event) {
-			$address = $event->getAddress();
-			$city = $event->getCity();
-			$eventDate = $event->getEventDate();
-			$locationName = $event->getLocationName();
-			$thumbnail = $event->getThumbnail();
-			$title = $event->getTitle();
+		    $eventP = new EventParse();
+		    $event = $eventP->getEvent($eventId);
 
-			$eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $thumbnail, $title);
-		    }
-		    $activityBox->eventInfo = $eventInfo;
-		}
-		break;
-	    case 'VENUE':
-		$eventP = new EventParse();
-		$eventP->setLimit(1);
-		$eventP->wherePointer('fromUser', '_User', $objectId);
-		$eventP->where('active', true);
-		$eventP->orderByDescending('updatedAt');
-		$events = $eventP->getEvents();
-		if (get_class($events) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
-		} else {
-		    foreach ($events as $event) {
-			$address = $event->getAddress();
-			$city = $event->getCity();
-			$eventDate = $event->getEventDate();
-			$locationName = $event->getLocationName();
-			$thumbnail = $event->getThumbnail();
-			$title = $event->getTitle();
+		    $address = $event->getAddress();
+		    $city = $event->getCity();
+		    $eventDate = $event->getEventDate();
+		    $locationName = $event->getLocationName();
+		    $thumbnail = $event->getThumbnail();
+		    $title = $event->getTitle();
 
-			$eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $thumbnail, $title);
-		    }
-		    $activityBox->eventInfo = $eventInfo;
-		    $activityBox->recordInfo = NDB;
+		    $eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $thumbnail, $title);
 		}
-		break;
-	    default :
-		break;
+		$activityBox->eventInfo = $eventInfo;
+	    }
+	} else {
+	    $activityBox->eventInfo = "INFO TO BE PASSED FROM USERINFO BOX, ALREADY LOADED";
+	    $activityBox->recordInfo = "INFO TO BE PASSED FROM USERINFO BOX, ALREADY LOADED";
 	}
 	return $activityBox;
     }
