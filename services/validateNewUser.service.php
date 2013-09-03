@@ -6,57 +6,6 @@ require_once SERVICES_DIR . 'geocoder.service.php';
 
 class ValidateNewUserService {
 
-    private $instruments = array(
-        "Voice",
-        "Choir",
-        "Drum",
-        "Electric guitar",
-        "Classic guitar",
-        "Bass",
-        "Mouth organ",
-        "Accordion",
-        "Violin",
-        "Piano",
-        "Double bass",
-        "Harpsichord",
-        "Flute",
-        "Clarinet",
-        "Trumpet",
-        "Keyboard",
-        "Xylophone",
-        "Ukulele",
-        "Banjo",
-        "Synthesizer",
-        "Harp",
-        "Bongo drum"
-    );
-    private $music = array(
-        "Rock",
-        "Indie Rock",
-        "Metal",
-        "Songwriter",
-        "Punk",
-        "Rap/Hip-Hop",
-        "Ska",
-        "Pop",
-        "Instrumental",
-        "Electronic",
-        "Dance",
-        "Jazz&Blues",
-        "Experimental",
-        "Alternative",
-        "Folk",
-        "Ambient",
-        "Acoustic",
-        "Hardcore",
-        "House",
-        "Techno",
-        "Funk",
-        "Folk",
-        "Grunge",
-        "Progressive",
-        "Dark"
-    );
 
 ////////////////////////////////////////////////////////////////////////////////
 //
