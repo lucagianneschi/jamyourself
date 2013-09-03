@@ -55,15 +55,13 @@ class UserInfoBox {
      * \fn	initForPersonalPage($objectId)
      * \brief	Init InfoBox instance for Personal Page
      * \param	$objectId for user that owns the page
-     * \return	infoBox
+     * \return	infoBox if the user has been found, otherwise return an error;
      */
-    public function initForPersonalPage($objectId) {//questa la puoi fare esterna e passare tutto lo user??
+    public function initForPersonalPage($objectId) {
 	$userParse = new UserParse();
 	$user = $userParse->getUser($objectId);
-	if (count($user) == 0) {
-	    echo '<br />NO USER FOUND<br/>'; //qui potresti mandare un box di no data
-	} else if (get_class($user) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
+	if (get_class($user) == 'Error') {
+	    return $user;
 	} else {
 	    $infoBox = new UserInfoBox();
 	    is_null($user->getBackGround()) ? $infoBox->backGround = NODATA : $infoBox->backGround = $user->getBackGround();

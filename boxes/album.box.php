@@ -108,7 +108,7 @@ class AlbumBox {
 	$image->orderByDescending('createdAt');
 	$images = $image->getImages();
 	if (get_class($images) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $images->getErrorMessage() . '<br/>';
+	    return $images;
 	} else {
 	    foreach ($images as $image) {
 
@@ -150,7 +150,7 @@ class AlbumBox {
 	$album->orderByDescending('createdAt');
 	$albums = $album->getAlbums();
 	if (get_class($albums) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $albums->getErrorMessage() . '<br/>';
+	    return $albums;
 	} else {
 	    foreach ($albums as $album) {
 		$counter = ++$counter;

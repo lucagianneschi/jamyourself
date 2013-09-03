@@ -152,7 +152,7 @@ class ActivityBox {
 	$albumUpdated->orderByDescending('updatedAt');
 	$albums = $albumUpdated->getAlbums();
 	if (get_class($albums) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $albums->getErrorMessage() . '<br/>';
+	    return $albums;
 	} else {
 	    foreach ($albums as $album) {
 		$imageCounter = $album->getImageCounter();
@@ -165,7 +165,7 @@ class ActivityBox {
 		$imageP->orderByDescending('updatedAt');
 		$images = $imageP->getImages();
 		if (get_class($images) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $images->getErrorMessage() . '<br/>';
+		    return $images ;
 		} else {
 		    foreach ($images as $image) {
 			$thumbnail = $image->getThumbnail();
@@ -191,7 +191,7 @@ class ActivityBox {
 	    $lastSongP->orderByDescending('createdAt');
 	    $lastSong = $lastSongP->getActivities();
 	    if (get_class($lastSong) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $lastSong->getErrorMessage() . '<br/>';
+			return $lastSong;
 	    } else {
 		foreach ($lastSong as $activity) {
 		    $songId = $activity->getSong();
@@ -224,8 +224,8 @@ class ActivityBox {
 	    $lastEventP->where('active', true);
 	    $lastEventP->orderByDescending('createdAt');
 	    $lastEvent = $lastEventP->getActivities();
-	    if (get_class($lastSong) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $lastEvent->getErrorMessage() . '<br/>';
+	    if (get_class($lastEvent) == 'Error') {
+			return $lastEvent;
 	    } else {
 		foreach ($lastEvent as $activity) {
 		    $eventId = $activity->getEvent();
