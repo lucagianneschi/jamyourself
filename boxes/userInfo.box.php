@@ -36,6 +36,7 @@ class UserInfoBox {
     public $followersCounter;
     public $followingCounter;
     public $frindshipCounter;
+	public geoCoding;
     public $googlePlusPage;
     public $level;
     public $levelValue;
@@ -86,6 +87,7 @@ class UserInfoBox {
 		    $infoBox->followersCounter = ND;
 		    is_null($user->getFollowingCounter()) ? $infoBox->followingCounter = NODATA : $infoBox->followingCounter = $user->getFollowingCounter();
 		    is_null($user->getFriendshipCounter()) ? $infoBox->frindshipCounter = NODATA : $infoBox->frindshipCounter = $user->getFriendshipCounter();
+			$infoBox->geoCoding = ND;
 		    $infoBox->localType = ND;
 		    $infoBox->members = ND;
 		    is_null($user->getMusic()) ? $infoBox->music = NODATA : $infoBox->music = $user->getMusic();
@@ -95,6 +97,7 @@ class UserInfoBox {
 		    is_null($user->getFollowersCounter()) ? $infoBox->followersCounter = NODATA : $infoBox->followersCounter = $user->getFollowersCounter();
 		    $infoBox->followingCounter = ND;
 		    $infoBox->frindshipCounter = ND;
+			$infoBox->geoCoding = ND;
 		    $infoBox->localType = ND;
 		    is_null($user->getMembers()) ? $infoBox->members = NODATA : $infoBox->members = $user->getMembers();
 		    is_null($user->getMusic()) ? $infoBox->music = NODATA : $infoBox->music = $user->getMusic();
@@ -102,6 +105,7 @@ class UserInfoBox {
 		case 'VENUE':
 		    is_null($user->getCollaborationCounter()) ? $infoBox->collaborationCounter = NODATA : $infoBox->collaborationCounter = $user->getCollaborationCounter();
 		    is_null($user->getFollowersCounter()) ? $infoBox->followersCounter = NODATA : $infoBox->followersCounter = $user->getFollowersCounter();
+			is_null($user->getGeoCoding()) ? $infoBox->geoCoding = NODATA : $infoBox->geoCoding = $user->getGeoCoding();
 		    $infoBox->followingCounter = ND;
 		    $infoBox->frindshipCounter = ND;
 		    is_null($user->getLocalType()) ? $infoBox->localType = NODATA : $infoBox->localType = $user->getLocalType();
