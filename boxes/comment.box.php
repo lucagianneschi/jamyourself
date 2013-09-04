@@ -116,10 +116,11 @@ class CommentBox {
 		if (get_class($user) == 'Error') {
 		    return $user;
 		} else {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		    $fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		}
 
 		$commentInfo = new CommentInfo($fromUserInfo, $createdAt, $text);

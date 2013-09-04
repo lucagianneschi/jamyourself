@@ -46,16 +46,18 @@ class Counters {
  */
 class UserInfo {
 
+    public $objectId;
     public $thumbnail;
     public $type;
     public $username;
 
     /**
-     * \fn	__construct($thumbnail, $type, $username)
+     * \fn	__construct($objectId, $thumbnail, $type, $username)
      * \brief	construct for the UserInfo class
-     * \param	$thumbnail, $type, $username
+     * \param	$objectId, $thumbnail, $type, $username
      */
-    function __construct($thumbnail, $type, $username) {
+    function __construct($objectId, $thumbnail, $type, $username) {
+	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
 	is_null($thumbnail) ? $this->thumbnail = DEFTHUMB : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = NODATA : $this->type = $type;
 	is_null($username) ? $this->username = NODATA : $this->username = $username;

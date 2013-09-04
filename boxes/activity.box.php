@@ -38,16 +38,18 @@ class AlbumInfoForPersonalPage {
 
     public $imageArray;
     public $imageCounter;
+	public $objectId;
     public $title;
 
     /**
-     * \fn	__construct($imageArray, $imageCounter, $title)
+     * \fn	__construct($imageArray, $imageCounter, $objectId, $title)
      * \brief	construct for the AlbumInfoForPersonalPage class
-     * \param	$imageArray, $imageCounter, $title
+     * \param	$imageArray, $imageCounter, $objectId, $title
      */
-    function __construct($imageArray, $imageCounter, $title) {
+    function __construct($imageArray, $imageCounter, $objectId, $title) {
 	is_null($imageArray) ? $this->imageArray = NODATA : $this->imageArray = $imageArray;
-	is_null($imageCounter) ? $this->imageCounter = NODATA : $this->imageCounter = $imageCounter;
+	is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
+	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
 
@@ -63,20 +65,22 @@ class EventInfoForPersonalPage {
     public $city;
     public $eventDate;
     public $locationName;
+	public $objectId;
     public $thumbnail;
     public $title;
 
     /**
-     * \fn	__construct($address, $city, $eventDate, $locationName, $thumbnail, $title)
+     * \fn	__construct($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title)
      * \brief	construct for the ImageInfoForPersonalPage class
-     * \param	$address, $city, $eventDate, $locationName, $thumbnail, $title
+     * \param	$address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title
      */
-    function __construct($address, $city, $eventDate, $locationName, $thumbnail, $title) {
+    function __construct($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
 	is_null($eventDate) ? $this->eventDate = NODATA : $this->eventDate = $eventDate;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
+	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
+	is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
 
@@ -108,19 +112,21 @@ class ImageInfoForPersonalPage {
 class RecordInfoForPersonalPage {
 
     public $fromUserInfo;
+	public $objectId;
     public $songTitle;
     public $thumbnailCover;
     public $title;
 
     /**
-     * \fn	__construct($fromUserInfo, $songTitle, $thumbnailCover, $title)
+     * \fn	__construct($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title)
      * \brief	construct for the RecordInfoForPersonalPage class
-     * \param	$fromUserInfo, $songTitle, $thumbnailCover, $title
+     * \param	$fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title
      */
-    function __construct($fromUserInfo, $songTitle, $thumbnailCover, $title) {
+    function __construct($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title) {
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
+	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
 	is_null($songTitle) ? $this->songTitle = NODATA : $this->songTitle = $songTitle;
-	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
+	is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
 
@@ -156,6 +162,7 @@ class ActivityBox {
 	} else {
 	    foreach ($albums as $album) {
 		$imageCounter = $album->getImageCounter();
+		$objectId = $album->getObjectId();
 		$title = $album->getTitle();
 
 		$imageArray = array();
@@ -173,7 +180,7 @@ class ActivityBox {
 			array_push($imageArray, $imageInfo);
 		    }
 		}
-		$albumInfo = new AlbumInfoForPersonalPage($imageArray, $imageCounter, $title);
+		$albumInfo = new AlbumInfoForPersonalPage($imageArray, $imageCounter, $objectId, $title);
 	    }
 	    $activityBox->albumInfo = $albumInfo;
 	}
@@ -204,16 +211,19 @@ class ActivityBox {
 		    $recordP = new RecordParse();
 		    $record = $recordP->getRecord($recordId);
 		    $thumbnailCover = $record->getThumbnailCover();
+			$objectId = $record->getObjectId();
 		    $title = $record->getTitle();
-
+			
+			
 		    $fromUserId = $record->getFromUser();
 		    $fromUserP = new UserParse();
 		    $user = $fromUserP->getUser($fromUserId);
+			$objectIdUser = $fromUserP->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
-		    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $songTitle, $thumbnailCover, $title);
+		    $fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
+		    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title);
 		}
 		$activityBox->recordInfo = $recordInfo;
 	    }
@@ -239,8 +249,9 @@ class ActivityBox {
 		    $locationName = $event->getLocationName();
 		    $thumbnail = $event->getThumbnail();
 		    $title = $event->getTitle();
+			$objectId = $event->getObjectId();
 
-		    $eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $thumbnail, $title);
+		    $eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title);
 		}
 		$activityBox->eventInfo = $eventInfo;
 	    }
