@@ -218,10 +218,11 @@ class ActivityBox {
 		    $fromUserId = $record->getFromUser();
 		    $fromUserP = new UserParse();
 		    $user = $fromUserP->getUser($fromUserId);
+			$objectIdUser = $fromUserP->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		    $fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 		    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title);
 		}
 		$activityBox->recordInfo = $recordInfo;
