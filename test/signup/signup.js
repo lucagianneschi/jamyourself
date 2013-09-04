@@ -9,7 +9,7 @@ function sendRequest(_action, _data, callback, _async) {
         callback(null);
     }
     _data.request = _action;
-    var url = "../controllers/signup/signupRequest.php";
+    var url = "../../controllers/signup/signupRequest.php";
     var type = "POST";
     var async = true;
     if (async !== undefined && async !== null)

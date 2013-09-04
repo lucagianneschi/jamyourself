@@ -44,7 +44,7 @@ class SignupController extends REST {
             $_SESSION['captchaValidation'] = false;
             
             //recupero il JSON di configurazione
-            $configFile = file_get_contents("signup.config.json");
+            $configFile = file_get_contents(CONTROLLERS_DIR."signup/signup.config.json");
             $config=json_decode($configFile,true);
             $_SESSION['config'] = $config;
         }
@@ -404,7 +404,6 @@ class SignupController extends REST {
         $user->setPremium(false);
         $user->setVenueCounter(0);
     }
-
 }
 
 ?>
