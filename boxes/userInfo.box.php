@@ -36,7 +36,7 @@ class UserInfoBox {
     public $followersCounter;
     public $followingCounter;
     public $frindshipCounter;
-	public geoCoding;
+	public $geoCoding;
     public $googlePlusPage;
     public $level;
     public $levelValue;
