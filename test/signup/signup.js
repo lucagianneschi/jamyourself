@@ -1,5 +1,5 @@
 function signupCallback(data, status) {
-    console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+    console.debug("Data : " + data + " | Status: " + status);
 }
 
 function sendRequest(_action, _data, callback, _async) {
@@ -30,27 +30,27 @@ function sendRequest(_action, _data, callback, _async) {
 
 function spotter() {
     $.getJSON("spotter.json", function(json) {
-        console.log("Caricato : \n " + JSON.stringify(json));
+        console.log("Caricato : \n " + json);
         sendRequest("signup", json, signupCallback, true);
     });
 }
 function venue() {
-    var json = $.getJSON("venue.json", function(json) {
-        console.log("Caricato : \n " + JSON.stringify(json));
+    $.getJSON("venue.json", function(json) {
+        console.log("Caricato : \n " + json);
         sendRequest("signup", json, signupCallback, true);
     });
 
 }
 function jartist() {
-    var json = $.getJSON("jammer_artist.json", function(json) {
-        console.log("Caricato : \n " + JSON.stringify(json));
+    $.getJSON("jammer_artist.json", function(json) {
+        console.log("Caricato : \n " + json);
         sendRequest("signup", json, signupCallback, true);
     });
 
 }
 function jband() {
-    var json = $.getJSON("jammer_band.json", function(json) {
-        console.log("Caricato : \n " + JSON.stringify(json));
+    $.getJSON("jammer_band.json", function(json) {
+        console.log("Caricato : \n " + json);
         sendRequest("signup", json, signupCallback, true);
     });
 
