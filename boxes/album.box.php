@@ -35,18 +35,20 @@ class AlbumInfo {
 
     public $counters;
     public $imageCounter;
+	public $objectId;
     public $thumbnailCover;
     public $title;
 
     /**
-     * \fn	__construct($counters, $imageCounter, $thumbnailCover, $title)
+     * \fn	__construct($counters, $imageCounter, $objectId, $thumbnailCover, $title)
      * \brief	construct for the AlbumInfo class
-     * \param	$counters, $imageCounter, $thumbnailCover, $title
+     * \param	$counters, $imageCounter, $objectId, $thumbnailCover, $title
      */
-    function __construct($counters, $imageCounter, $thumbnailCover, $title) {
+    function __construct($counters, $imageCounter, $objectId, $thumbnailCover, $title) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
-	is_null($imageCounter) ? $this->imageCounter = NODATA : $this->imageCounter = $imageCounter;
-	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
+	is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
+	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
+	is_null($thumbnailCover) ? $this->thumbnailCover = DEFALBUMTHUMB : $this->thumbnailCover = $thumbnailCover;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
 
@@ -61,18 +63,20 @@ class ImageInfo {
     public $counters;
     public $description;
     public $filePath;
+	public $objectId;
     public $tags;
     public $thumbnail;
 
     /**
-     * \fn	__construct($counters, $description,$filePath, $tags, $thumbnail)
+     * \fn	__construct($counters, $description, $filePath, $objectId, $tags, $thumbnail)
      * \brief	construct for the ImageInfo class
-     * \param	$counters, $description,$filePath, $tags, $thumbnail
+     * \param	$counters, $description, $filePath, $objectId, $tags, $thumbnail
      */
-    function __construct($counters, $description, $filePath, $tags, $thumbnail) {
+    function __construct($counters, $description, $filePath, $objectId, $tags, $thumbnail) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($description) ? $this->description = NODATA : $this->description = $description;
 	is_null($filePath) ? $this->filePath = NODATA : $this->filePath = $filePath;
+	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
     }
@@ -95,7 +99,7 @@ class AlbumBox {
      * \param	$objectId of the album to display information
      * \return	albumBox
      */
-    public function initForDetail($objectId) {//id dell'album
+    public function initForDetail($objectId) {
 	$albumBox = new AlbumBox();
 	$albumBox->albumCounter = NDB;
 	$albumBox->albumInfoArray = NDB;
@@ -119,11 +123,12 @@ class AlbumBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
 		$description = $image->getDescription();
+		$objectId = $image->getObjectId();
 		$filePath = $image->getFilePath();
 		$tags = $image->getTags();
 		$thumbnail = $image->getThumbnail();
 
-		$imageInfo = new ImageInfo($counters, $description, $filePath, $tags, $thumbnail);
+		$imageInfo = new ImageInfo($counters, $description, $filePath,$objectId, $tags, $thumbnail);
 		array_push($info, $imageInfo);
 	    }
 	    $albumBox->imageArray = $info;
@@ -160,11 +165,12 @@ class AlbumBox {
 		$loveCounter = $album->getLoveCounter();
 		$reviewCounter = NDB;
 		$shareCounter = $album->getShareCounter();
+		$objectId = $album->getObjectId();
 		$thumbnailCover = $album->getThumbnailCover();
 		$title = $album->getTitle();
 
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$albumInfo = new AlbumInfo($counters, $imageCounter, $thumbnailCover, $title);
+		$albumInfo = new AlbumInfo($counters, $imageCounter,$objectId, $thumbnailCover, $title);
 		array_push($info, $albumInfo);
 	    }
 	    $albumBox->albumInfoArray = $info;
