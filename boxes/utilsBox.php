@@ -56,7 +56,7 @@ class UserInfo {
      * \param	$thumbnail, $type, $username
      */
     function __construct($thumbnail, $type, $username) {
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
+	is_null($thumbnail) ? $this->thumbnail = DEFTHUMB : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = NODATA : $this->type = $type;
 	is_null($username) ? $this->username = NODATA : $this->username = $username;
     }
