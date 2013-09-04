@@ -84,7 +84,7 @@ class SignupController extends REST {
         $userValidator = new ValidateNewUserService();
 
         //verifico la validit� dell'utente
-        if ($userValidator->checkUser($userJSON) == false) {
+        if ($userValidator->checkNewUser($userJSON) == false) {
             // If invalid inputs "Bad Request" status message and reason
             $error = array('status' => "Bad Request", "msg" => "Invalid new user");
             $this->response($error, 400);

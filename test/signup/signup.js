@@ -1,10 +1,8 @@
 function signupCallback(data, status) {
-    debugger;
     console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
 }
 
 function sendRequest(_action, _data, callback, _async) {
-    debugger;
     if (_action === undefined || _action === null || _data === undefined || _data === null) {
         callback(null);
     }
