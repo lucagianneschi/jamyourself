@@ -107,7 +107,7 @@ class EventInfoForPersonalPage {
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
+	is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
 
@@ -167,7 +167,7 @@ class EventBox {
 	$eventP = new EventParse();
 	$event = $eventP->getEvent($objectId);
 	if (get_class($event) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $event->getErrorMessage() . '<br/>';
+	    return $event;
 	} elseif ($event->getActive() == true) {
 	    $address = $event->getAddress();
 	    $attendee = array();
@@ -242,7 +242,7 @@ class EventBox {
 	    $userP = new UserParse();
 	    $fromUser = $userP->getUser($fromUserId);
 	    if (get_class($fromUser) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $fromUser->getErrorMessage() . '<br/>';
+			return $fromUser;
 	    } else {
 		$thumbnail = $fromUser->getProfileThumbnail();
 		$type = $fromUser->getType();
