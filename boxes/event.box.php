@@ -89,6 +89,7 @@ class EventInfoForPersonalPage {
     public $featuring;
     public $fromUserInfo;
     public $locationName;
+	public $objectId;
     public $tags;
     public $thumbnail;
     public $title;
@@ -98,7 +99,7 @@ class EventInfoForPersonalPage {
      * \brief	construct for the EventInfoForPersonalPage class
      * \param	$address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title
      */
-    function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title) {
+    function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName,$objectId, $tags, $thumbnail, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
@@ -106,6 +107,7 @@ class EventInfoForPersonalPage {
 	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
+	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
@@ -307,6 +309,7 @@ class EventBox {
 		}
 		$fromUserInfo = null;
 		$locationName = $event->getLocationName();
+		$objectId = $event->getObjectId();
 
 		$tags = array();
 		if (count($event->getTags()) != 0 && $event->getTags() != null) {
@@ -316,7 +319,7 @@ class EventBox {
 		}
 		$thumbnail = $event->getThumbnail();
 		$title = $event->getTitle();
-		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title);
+		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName,$objectId, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
 	    }
 	    $eventBox->eventCounter = $counter;
