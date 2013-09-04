@@ -1,3 +1,26 @@
 {
-    "name": "Stefano"
+    "type": "SPOTTER",
+    "localTime": -120,
+    "language": "it",
+    "username": "testtesttest",
+    "email": "ma@peu.it",
+    "password": "44d3qfkE",
+    "verifyPassword": "44d3qfkE",
+    "lastname": "Puppazzola", 
+    "firstname": "Stefano",
+    "birthday": {
+        "day": "7",
+        "month": "June",
+        "year": "1931"
+    },
+    "city": "Pisa",
+    "country": "Italy",
+    "description": "this is a description yo",    
+    "genre": ["0","2","4","14","15","21","22"],
+    "google": "",
+    "facebook": "",
+    "sex": "F",
+    "twitter": "",
+    "web": "",
+    "youtube": ""
 }

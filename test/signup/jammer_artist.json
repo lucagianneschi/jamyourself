@@ -9,7 +9,7 @@
     "city": "pisa",
     "country": "italy",
     "description": "questa è una descrizione molto corta",
-    "genre": "[0,1,12,16,19]",
+    "genre": ["0","1","12","16","19"],
     "facebook": "",
     "google": "",
     "twitter": "",

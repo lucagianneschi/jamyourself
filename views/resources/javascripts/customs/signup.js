@@ -1022,7 +1022,7 @@ function getBandComponents() {
     }
 
     if (components.length > 0)
-        return JSON.stringify(components);
+        return components;
     else
         return null;
 
@@ -1036,7 +1036,7 @@ function getSelectedGenre() {
         genre.push($(this).val());
     });
     if (genre.length > 0)
-        return JSON.stringify(genre);
+        return genre;
     else
         return null;
 }
