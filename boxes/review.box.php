@@ -35,19 +35,21 @@ class ReviewInfo {
 
     public $counters;
     public $fromUserInfo;
+	public $objectId;
     public $rating;
     public $text;
     public $title;
     public $thumbnailCover;
 
     /**
-     * \fn	__construct($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title)
+     * \fn	__construct($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title)
      * \brief	construct for the ReviewInfo class
-     * \param	$counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title
+     * \param	$counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title
      */
-    function __construct($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title) {
+    function __construct($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
+	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
 	is_null($rating) ? $this->rating = NODATA : $this->rating = $rating;
 	is_null($text) ? $this->text = NODATA : $this->text = $text;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
@@ -109,6 +111,7 @@ class ReviewBox {
 		$type = $user->getType();
 		$username = $user->getUsername();
 		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		$objectId = $review->getObjectId();
 		$rating = $review->getVote();
 
 		$commentCounter = $review->getCommentCounter();
@@ -121,7 +124,7 @@ class ReviewBox {
 		$title = $review->getTitle();
 		$thumbnailCover = NULL;
 
-		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title);
+		$reviewInfo = new ReviewInfo($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
 	    $reviewBox->reviewArray = $info;
@@ -184,7 +187,7 @@ class ReviewBox {
 		$reviewCounter = NDB;
 		$shareCounter = $review->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-
+		$objectId = $review->getObjectId();
 		$rating = $review->getVote();
 
 		$text = $review->getText();
@@ -192,7 +195,7 @@ class ReviewBox {
 
 		$title = $review->getTitle();
 
-		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title);
+		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
 	    $reviewBox->reviewArray = $info;
@@ -290,6 +293,7 @@ class ReviewBox {
 		    }
 		    $commentCounter = $review->getCommentCounter();
 		    $loveCounter = $review->getLoveCounter();
+			$objectId = $review->getObjectId();
 		    $rating = $review->getVote();
 		    $shareCounter = $review->getShareCounter();
 		    $text = $review->getText();
@@ -306,7 +310,7 @@ class ReviewBox {
 			$username = $user->getUsername();
 			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		    }
-		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $rating, $text, $thumbnailCover, $title);
+		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title);
 		    array_push($info, $reviewInfo);
 		}
 		$reviewBox->reviewArray = $info;
