@@ -785,7 +785,6 @@ function readFile(fileName, typeSelect, typeUser, scheda, max_check, number) {
  * 
  */
 function signup() {   
-    debugger;
     //recupero i valori del form
     getFormValues();
     //invio la richiesta al server
@@ -912,7 +911,6 @@ function validateCaptcha()
 
         },
         error: function(data, status) {
-            debugger;
             console.log("[validateCaptcha] errore.data : " + data);
             console.log("[validateCaptcha] errore.status : " + status);
 
@@ -921,7 +919,6 @@ function validateCaptcha()
 }
 
 function getFormValues() {
-    debugger;
 
     //----------- json d'iscrizione -----------------------
     //step 0 (configurazione browser-utente
@@ -996,7 +993,6 @@ function getFormValues() {
 }
 
 function getBandComponents() {
-    debugger;
     var components = new Array();
     var currComponent = 1;
     var componentName = $("#jammer-componentName" + currComponent).val();
@@ -1030,7 +1026,6 @@ function getBandComponents() {
 }
 
 function getSelectedGenre() {
-    debugger;
     var genre = new Array();
     $('.signup-genre :checked').each(function() {
         genre.push($(this).val());
@@ -1050,7 +1045,6 @@ function getSelectedGenre() {
  *                         se omesso o TRUE la chiamata è sincrona
  */
 function sendRequest(_action,_data,callback,_async){
-    debugger;
     if(_action === undefined || _action === null || _data === undefined || _data === null){
         callback(null);
     }
@@ -1076,13 +1070,11 @@ function sendRequest(_action,_data,callback,_async){
 }
 
 $( "#form-signup" ).on( "submit", function( event ) {
-  debugger;
   event.preventDefault();
   console.log(json_signup_user);
   signup();
 });
 
 function signupCallback(data, status){
-    debugger;
     console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
 }
