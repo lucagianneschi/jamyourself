@@ -65,7 +65,7 @@ class EventInfoForMediaPage {
 	is_null($eventDate) ? $this->eventDate = NODATA : $this->eventDate = $eventDate;
 	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
 	$this->featuringCounter = count($featuring);
-	is_null($image) ? $this->image = NODATA : $this->image = $image;
+	is_null($image) ? $this->image = DEFEVENTIMAGE : $this->image = $image;
 	is_null($invited) ? $this->invited = NODATA : $this->invited = $invited;
 	$this->invitedCounter = count($invited);
 	is_null($location) ? $this->location = NODATA : $this->location = $location;
