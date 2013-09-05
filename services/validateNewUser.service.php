@@ -9,9 +9,10 @@ class ValidateNewUserService {
     private $isValid;
     private $errors;            //lista delle properties che sono errate
 
-    public function __construct() {
+    public function __construct($configFile) {
         $this->isValid = true;
         $this->errors = array();
+        $this->config = $configFile;
     }
 
     public function getIsValid() {
@@ -32,11 +33,13 @@ class ValidateNewUserService {
 //        Funzioni per la validazione del nuovo utente (che � un json)
 //        
 //////////////////////////////////////////////////////////////////////////////// 
-    public function checkNewUser($user) {
+    public function checkNewUser($userJSON) {
 
 //verifico la presenza dei campi obbligatori per tutti gli utenti
-        if (is_null($user))
+        if (is_null($userJSON))
             return null;
+
+        $user = json_decode(json_encode($userJSON));
 
         if (!isset($user->username) || is_null($user->username) || !$this->checkUsername($user->username))
             $this->setInvalid("username");
@@ -49,24 +52,18 @@ class ValidateNewUserService {
         if (!isset($user->type) || is_null($user->type))
             $this->setInvalid("type");
 
-
 //verifico i campi specifici per tipologia di utente
-
         switch ($user->type) {
-            case "SPOTTER" :
+            case "SPOTTER":
                 $this->checkNewSpotter($user);
                 break;
-            case "VENUE" :
+            case "VENUE":
                 $this->checkNewVenue($user);
                 break;
-            case "JAMMER" :
+            case "JAMMER":
                 $this->checkNewJammer($user);
                 break;
-            default :
-                return null;
         }
-
-
 
 //verifico la correttezza dei campi social (comuni a tutti e 3 i profili)
 //se sono stati definiti e non sono null controllo...
@@ -93,78 +90,67 @@ class ValidateNewUserService {
     private function checkNewVenue($user) {
 
         if (!isset($user->country) || is_null($user->country))
-            $this->setInvalid ("country");
+            $this->setInvalid("country");
         if (!isset($user->city) || is_null($user->city))
-            $this->setInvalid ("city");
+            $this->setInvalid("city");
         if (!isset($user->province) || is_null($user->province))
-            $this->setInvalid ("province");
+            $this->setInvalid("province");
         if (!isset($user->address) || is_null($user->address))
-            $this->setInvalid ("address");
+            $this->setInvalid("address");
         if (!isset($user->number) || is_null($user->number))
-            $this->setInvalid ("number");
+            $this->setInvalid("number");
         if (!isset($user->description) || is_null($user->description) || $this->checkDescription($user->description))
-            $this->setInvalid ("description");
+            $this->setInvalid("description");
         if (!isset($user->genre) || is_null($user->genre) || $this->checkLocalType($user->genre))
-            $this->setInvalid ("genre");
+            $this->setInvalid("genre");
 
-        if($this->isValid){
+        if ($this->isValid) {
             $venueLocation = $user->address . " , " . $user->number . " , ";
             $venueLocation .= $user->city + " , " . $user->province . " , ";
             $venueLocation .= $user->country;
             if (!$this->checkLocation($venueLocation))
-                    $this->setInvalid ("location");
+                $this->setInvalid("location");
         }
-
-        
-        
     }
 
     private function checkNewSpotter($user) {
-        
+
         //@stefano : continua da qui
-    
-        if (
-                !isset($user->music) || is_null($user->music) || !$this->checkMusic($user->music) ||
-                !isset($user->description) || is_null($user->description) || !$this->checkDescription($user->description)
-        )
-            return false;
-        else {
-//verifica specifica dei campi
-            if (isset($user->firstname) && !is_null($user->firstname) && !$this->checkFirstName($user->firstname))
-                return false;
-            if (isset($user->lastname) && !is_null($user->lastname) && !$this->checkLastname($user->lastname))
-                return false;
-            if (isset($user->location) && !is_null($user->location) && !$this->checkLocation($user->location))
-                return false;
-            if (isset($user->sex) && !is_null($user->sex) && !$this->checkSex($user->sex))
-                return false;
-            if (isset($user->birthday) && !is_null($user->birthday) && !$this->checkBirthday($user->birthday))
-                return false;
+        if (!isset($user->lastname) || !$this->checkFirstName($user->lastname))
+            $this->setInvalid("lastname");
+        if (!isset($user->firstname) || !$this->checkFirstName($user->firstname))
+            $this->setInvalid("firstname");
+        if (!isset($user->birthday) || !$this->checkBirthday($user->sex)) {
+            $this->setInvalid("birthday");
+        } else {
+            
         }
-        return true;
+        if (!isset($user->city))
+            $this->setInvalid("city");
+        if (!isset($user->country))
+            $this->setInvalid("country");
+        if (!isset($user->description) || !$this->checkDescription($user->sex))
+            $this->setInvalid("description");
+        if (!isset($user->genre) || !$this->checkMusic($user->sex))
+            $this->setInvalid("genre");
+        if (!isset($user->sex) || !$this->checkSex($user->sex))
+            $this->setInvalid("sex");
     }
 
     private function checkNewJammer($user) {
-//        city: "asd"
-//        country: "asd"
-//        description: "asdsadasd"
-//        genre: "["1","4","8"]"
-//        jammerType: "musician"
-        if (
-                !isset($user->jammerType) || is_null($user->jammerType) || !$this->checkJammerType($user->jammerType) ||
-                !isset($user->description) || is_null($user->description) || !$this->checkDescription($user->description) ||
-                !isset($user->music) || is_null($user->music) || !$this->checkMusic($user->music) ||
-                !isset($user->location) || is_null($user->location) || !$this->checkLocation($user->location)
-        )
-            return false;
-        else {
-//controllo dei parametri non obbligatori
 
-            if (isset($user->members) && !is_null($user->members) && !$this->checkMembers($user->members))
-                return false;
-            else
-                return true;
-        }
+        if (!isset($user->city))
+            $this->setInvalid("city");
+        if (!isset($user->country))
+            $this->setInvalid("country");
+        if (!isset($user->description) || !$this->checkDescription($user->description))
+            $this->setInvalid("description");
+        if (!isset($user->genre) || !$this->checkMusic($user->genre))
+            $this->setInvalid("genre");
+        if (!isset($user->jammerType) || !$this->checkJammerType($user->jammerType))
+            $this->setInvalid("jammerType");
+        if (!isset($user->members) || !$this->checkMembers($user->members))
+            $this->setInvalid("members");
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -216,7 +202,8 @@ class ValidateNewUserService {
             return true;
     }
 
-    public function checkBirthday($birthday) {
+    public function checkBirthday($birthdayJSON) {
+        $birthday = json_decode(json_encode($birthdayJSON));
         if (
                 is_null($birthday) ||
                 !isset($birthday->day) || is_null($birthday->day) ||

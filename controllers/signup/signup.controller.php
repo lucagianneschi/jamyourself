@@ -22,6 +22,8 @@ define("CAPTCHA_PRIVATE_KEY", "6LfMnNcSAAAAAKYZCjSxFXMpTTYeclVzAsuke0Vu");
 
 class SignupController extends REST {
 
+    private $config;
+    
     /**
      * Viene chiamata al caircamento della View Signup.php e inizializza 
      * in sessione tutte le informazioni che possono essere necessarie
@@ -46,6 +48,7 @@ class SignupController extends REST {
             //recupero il JSON di configurazione
             $configFile = file_get_contents(CONTROLLERS_DIR."signup/signup.config.json");
             $config=json_decode($configFile,true);
+            $this->config = $config;
             $_SESSION['config'] = $config;
         }
         //return qualcosa se c'è qualcosa da ritornare...

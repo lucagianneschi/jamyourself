@@ -1,4 +1,6 @@
 {
+    "maxDescriptionLength" : 1000,
+            
     "instruments": [
 		"Accordion",
 		"Banjo",
