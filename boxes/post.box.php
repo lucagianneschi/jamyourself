@@ -86,6 +86,7 @@ class PostBox {
 		$post = $posts[$i];
 		if ($post->fromUser) {
 		    $fromUser = $post->fromUser;
+			$objectId = $fromUser->getObjectId();
 		    $thumbnail = $fromUser->getProfileThumbnail();
 		    $type = $fromUser->getType();
 		    $username = $fromUser->getUsername();

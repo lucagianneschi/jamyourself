@@ -182,10 +182,11 @@ class EventBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $att->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($att as $user) {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($attendee, $userInfo);
 		}
 	    }
@@ -203,10 +204,11 @@ class EventBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($feats as $user) {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($featuring, $userInfo);
 		}
 	    }
@@ -222,10 +224,11 @@ class EventBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $inv->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($inv as $user) {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($invited, $userInfo);
 		}
 	    }
@@ -246,10 +249,11 @@ class EventBox {
 	    if (get_class($fromUser) == 'Error') {
 			return $fromUser;
 	    } else {
-		$thumbnail = $fromUser->getProfileThumbnail();
-		$type = $fromUser->getType();
-		$username = $fromUser->getUsername();
-		$userInfo = new UserInfo($thumbnail, $type, $username);
+			$objectId = $user->getObjectId();
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 	    }
 	    $eventBox->eventCounter = NDB;
 	    $eventBox->eventInfoArray = $eventInfo;
@@ -300,11 +304,12 @@ class EventBox {
 		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 		} else {
 		    foreach ($feats as $user) {
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$username = $user->getUsername();
-			$userInfo = new UserInfo($thumbnail, $type, $username);
-			array_push($featuring, $userInfo);
+				$objectId = $user->getObjectId();
+				$thumbnail = $user->getProfileThumbnail();
+				$type = $user->getType();
+				$username = $user->getUsername();
+				$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+				array_push($featuring, $userInfo);
 		    }
 		}
 		$fromUserInfo = null;
@@ -357,10 +362,11 @@ class EventBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($feats as $user) {
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+			$objectId = $user->getObjectId();
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
+			$username = $user->getUsername();
+			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($featuring, $userInfo);
 		}
 	    }
@@ -378,10 +384,11 @@ class EventBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($event->getFromUser());
+		$objectIdUser = $fromUserP->getObjectId();
 	    $thumbnailUser = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();
 	    $username = $fromUser->getUsername();
-	    $userInfo = new UserInfo($thumbnailUser, $type, $username);
+	    $userInfo = new UserInfo($objectIdUser, $thumbnailUser, $type, $username);
 	    $eventBox->fromUserInfo = $userInfo;
 	}
 	return $eventBox;

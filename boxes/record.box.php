@@ -225,10 +225,11 @@ class RecordBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($feats as $user) {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($featuring, $userInfo);
 		}
 	    }
@@ -267,10 +268,11 @@ class RecordBox {
 	    if (get_class($fromUser) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $fromUser->getErrorMessage() . '<br/>';
 	    } else {
-		$thumbnail = $fromUser->getProfileThumbnail();
-		$type = $fromUser->getType();
-		$username = $fromUser->getUsername();
-		$userInfo = new UserInfo($thumbnail, $type, $username);
+			$objectIdUser = $fromUser->getObjectId();
+			$thumbnail = $fromUser->getProfileThumbnail();
+			$type = $fromUser->getType();
+			$username = $fromUser->getUsername();
+			$userInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 	    }
 	    $recordBox->fromUserInfo = $userInfo;
 	    $recordBox->recordCounter = NDB;
@@ -386,10 +388,11 @@ class RecordBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($feats as $user) {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($featuring, $userInfo);
 		}
 	    }
@@ -399,10 +402,11 @@ class RecordBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($record->getFromUser());
+		$objectIdUser = $fromUser->getObjectId();
 	    $thumbnail = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();
 	    $username = $fromUser->getUsername();
-	    $userInfo = new UserInfo($thumbnail, $type, $username);
+	    $userInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 	    $recordBox->fromUserInfo = $userInfo;
 	}
 	return $recordBox;

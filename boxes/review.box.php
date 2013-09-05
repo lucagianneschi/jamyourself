@@ -107,6 +107,7 @@ class ReviewBox {
 
 		$userP = new UserParse();
 		$user = $userP->getUser($review->getFromUser());
+		$objectId = $user->getObjectId();
 		$thumbnail = $user->getProfileThumbnail();
 		$type = $user->getType();
 		$username = $user->getUsername();
@@ -176,10 +177,11 @@ class ReviewBox {
 		if (get_class($user) == 'Error') {
 		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
 		} else {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		    $fromUserInfo = new UserInfo($objectId,$thumbnail, $type, $username);
 		}
 
 		$commentCounter = $review->getCommentCounter();
@@ -305,10 +307,11 @@ class ReviewBox {
 		    if (get_class($user) == 'Error') {
 			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
 		    } else {
+			$objectId = $user->getObjectId();
 			$thumbnail = $user->getProfileThumbnail();
 			$type = $user->getType();
 			$username = $user->getUsername();
-			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+			$fromUserInfo = new UserInfo($objectId,$thumbnail, $type, $username);
 		    }
 		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title);
 		    array_push($info, $reviewInfo);
