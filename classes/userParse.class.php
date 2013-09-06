@@ -43,6 +43,27 @@ class UserParse {
 	}
 
 	/**
+	 * \fn		void decrementUser(string $objectId, string $field, int $value)
+	 * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the User
+	 * \param	$field		the string that represent the field to decrement
+	 * \param 	$value		the number that represent the quantity to decrease the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function decrementImage($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('_User');
+			//we use the increment function with a negative value because decrement function still not work
+			$parseObject->increment($field, array(0 - $value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
 	 * \fn		void deleteUser(string $objectId)
 	 * \brief	The function delete an User, setting active property to false
 	 * \param	$objectId the string that represent the objectId of the User to delete
@@ -147,6 +168,26 @@ class UserParse {
 		}
 	}
 
+	/**
+	 * \fn		void incrementUser(string $objectId, string $field, int $value)
+	 * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the User
+	 * \param	$field		the string that represent the field to increment
+	 * \param 	$value		the number that represent the quantity to increase the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function incrementImage($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('_User');
+			$parseObject->increment($field, array($value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
 	/**
 	 * \fn		User loginUser()
 	 * \brief	The function returns the User logged by the username or email $usernameEmail and password $password
