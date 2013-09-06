@@ -37,6 +37,27 @@ class RecordParse {
 	}
 
 	/**
+	 * \fn		void decrementRecord(string $objectId, string $field, int $value)
+	 * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the Record
+	 * \param	$field		the string that represent the field to decrement
+	 * \param 	$value		the number that represent the quantity to decrease the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function decrementImage($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('Record');
+			//we use the increment function with a negative value because decrement function still not work
+			$parseObject->increment($field, array(0 - $value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
 	 * \fn		void deleteRecord(string $objectId)
 	 * \brief	Set unactive a specified Record by objectId
 	 * \param	$objectId the string that represent the objectId of the Record
@@ -109,7 +130,27 @@ class RecordParse {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
 	}
-
+	
+	/**
+	 * \fn		void incrementRecord(string $objectId, string $field, int $value)
+	 * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the Record
+	 * \param	$field		the string that represent the field to increment
+	 * \param 	$value		the number that represent the quantity to increase the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function incrementRecord($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('Record');
+			$parseObject->increment($field, array($value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
 	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Record
