@@ -102,7 +102,7 @@ class CommentBox {
 	$commentP->orderByDescending('createdAt');
 	$comments = $commentP->getComments();
 	if (get_class($comments) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $comments->getErrorMessage() . '<br/>';
+	    return $comments;
 	} else {
 	    foreach ($comments as $comment) {
 
@@ -114,12 +114,13 @@ class CommentBox {
 		$userP = new UserParse();
 		$user = $userP->getUser($fromUserId);
 		if (get_class($user) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
+		    return $user;
 		} else {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		    $fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		}
 
 		$commentInfo = new CommentInfo($fromUserInfo, $createdAt, $text);

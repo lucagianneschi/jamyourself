@@ -911,7 +911,6 @@ function validateCaptcha()
 
         },
         error: function(data, status) {
-            debugger;
             console.log("[validateCaptcha] errore.data : " + data);
             console.log("[validateCaptcha] errore.status : " + status);
 
@@ -1019,7 +1018,7 @@ function getBandComponents() {
     }
 
     if (components.length > 0)
-        return JSON.stringify(components);
+        return components;
     else
         return null;
 
@@ -1032,7 +1031,7 @@ function getSelectedGenre() {
         genre.push($(this).val());
     });
     if (genre.length > 0)
-        return JSON.stringify(genre);
+        return genre;
     else
         return null;
 }
@@ -1077,5 +1076,5 @@ $( "#form-signup" ).on( "submit", function( event ) {
 });
 
 function signupCallback(data, status){
-    console.log("Data : " + JSON.stringify(data) + " | Status: " + status);
+    console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
 }

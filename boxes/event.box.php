@@ -65,7 +65,7 @@ class EventInfoForMediaPage {
 	is_null($eventDate) ? $this->eventDate = NODATA : $this->eventDate = $eventDate;
 	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
 	$this->featuringCounter = count($featuring);
-	is_null($image) ? $this->image = NODATA : $this->image = $image;
+	is_null($image) ? $this->image = DEFEVENTIMAGE : $this->image = $image;
 	is_null($invited) ? $this->invited = NODATA : $this->invited = $invited;
 	$this->invitedCounter = count($invited);
 	is_null($location) ? $this->location = NODATA : $this->location = $location;
@@ -89,6 +89,7 @@ class EventInfoForPersonalPage {
     public $featuring;
     public $fromUserInfo;
     public $locationName;
+	public $objectId;
     public $tags;
     public $thumbnail;
     public $title;
@@ -98,7 +99,7 @@ class EventInfoForPersonalPage {
      * \brief	construct for the EventInfoForPersonalPage class
      * \param	$address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title
      */
-    function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title) {
+    function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName,$objectId, $tags, $thumbnail, $title) {
 	is_null($address) ? $this->address = NODATA : $this->address = $address;
 	is_null($city) ? $this->city = NODATA : $this->city = $city;
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
@@ -106,8 +107,9 @@ class EventInfoForPersonalPage {
 	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
+	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
+	is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
 	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
 
@@ -167,7 +169,7 @@ class EventBox {
 	$eventP = new EventParse();
 	$event = $eventP->getEvent($objectId);
 	if (get_class($event) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $event->getErrorMessage() . '<br/>';
+	    return $event;
 	} elseif ($event->getActive() == true) {
 	    $address = $event->getAddress();
 	    $attendee = array();
@@ -180,10 +182,11 @@ class EventBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $att->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($att as $user) {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($attendee, $userInfo);
 		}
 	    }
@@ -201,10 +204,11 @@ class EventBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($feats as $user) {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($featuring, $userInfo);
 		}
 	    }
@@ -220,10 +224,11 @@ class EventBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $inv->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($inv as $user) {
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($invited, $userInfo);
 		}
 	    }
@@ -242,12 +247,13 @@ class EventBox {
 	    $userP = new UserParse();
 	    $fromUser = $userP->getUser($fromUserId);
 	    if (get_class($fromUser) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $fromUser->getErrorMessage() . '<br/>';
+			return $fromUser;
 	    } else {
-		$thumbnail = $fromUser->getProfileThumbnail();
-		$type = $fromUser->getType();
-		$username = $fromUser->getUsername();
-		$userInfo = new UserInfo($thumbnail, $type, $username);
+			$objectId = $user->getObjectId();
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 	    }
 	    $eventBox->eventCounter = NDB;
 	    $eventBox->eventInfoArray = $eventInfo;
@@ -298,15 +304,17 @@ class EventBox {
 		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 		} else {
 		    foreach ($feats as $user) {
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$username = $user->getUsername();
-			$userInfo = new UserInfo($thumbnail, $type, $username);
-			array_push($featuring, $userInfo);
+				$objectId = $user->getObjectId();
+				$thumbnail = $user->getProfileThumbnail();
+				$type = $user->getType();
+				$username = $user->getUsername();
+				$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+				array_push($featuring, $userInfo);
 		    }
 		}
 		$fromUserInfo = null;
 		$locationName = $event->getLocationName();
+		$objectId = $event->getObjectId();
 
 		$tags = array();
 		if (count($event->getTags()) != 0 && $event->getTags() != null) {
@@ -316,7 +324,7 @@ class EventBox {
 		}
 		$thumbnail = $event->getThumbnail();
 		$title = $event->getTitle();
-		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title);
+		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName,$objectId, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
 	    }
 	    $eventBox->eventCounter = $counter;
@@ -354,10 +362,11 @@ class EventBox {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
 	    } else {
 		foreach ($feats as $user) {
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+			$objectId = $user->getObjectId();
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
+			$username = $user->getUsername();
+			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($featuring, $userInfo);
 		}
 	    }
@@ -375,10 +384,11 @@ class EventBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($event->getFromUser());
+		$objectIdUser = $fromUserP->getObjectId();
 	    $thumbnailUser = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();
 	    $username = $fromUser->getUsername();
-	    $userInfo = new UserInfo($thumbnailUser, $type, $username);
+	    $userInfo = new UserInfo($objectIdUser, $thumbnailUser, $type, $username);
 	    $eventBox->fromUserInfo = $userInfo;
 	}
 	return $eventBox;

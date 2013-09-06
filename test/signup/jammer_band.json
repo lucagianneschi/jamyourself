@@ -1,0 +1,33 @@
+{
+    "city": "Pisa",
+    "country": "Italy",
+    "description": "La nostra band è formata dai raccattarori di Putzu Idu, manca solo il Ghilarducci ucci ucci sento odor di  Ghilarducci",
+    "email": "ma@peu.it",
+    "facebook": "",
+    "genre": ["0", "6", "11", "16", "21"],
+    "google": "",
+    "jammerType": "band",
+    "language": "it",
+    "localTime": -120,
+    "members": [
+        {
+            "instrument": "Electric guitar",
+            "name": "Piergiollone",
+        },
+        {
+            "instrument": "Violin",
+            "name": "Peppiolla",
+        },
+        {
+            "instrument": "Piano",
+            "name": "Patzolla",
+        }
+    ],
+    "password": "44d3qfkE",
+    "twitter": "",
+    "type": "JAMMER",
+    "username": "bandtest",
+    "verifyPassword": "44d3qfkE",
+    "web": "",
+    "youtube": ""
+}

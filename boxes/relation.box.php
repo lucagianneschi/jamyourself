@@ -56,10 +56,11 @@ class RelationsBox {
 		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $following->getErrorMessage() . '<br/>';
 		} else {
 		    foreach ($following->toUser as $toUser) {
+			$objectId = $toUser->getObjectId();
 			$thumbnail = $toUser->getProfileThumbnail();
 			$type = $toUser->getType();
 			$username = $toUser->getUserName();
-			$userInfo = new UserInfo($thumbnail, $type, $username);
+			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			array_push($followingArray, $userInfo);
 		    }
 		}
@@ -78,10 +79,11 @@ class RelationsBox {
 			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $friendship->getErrorMessage() . '<br/>';
 		    } else {
 			foreach ($friendship->toUser as $toUser) {
+			    $objectId = $toUser->getObjectId();
 			    $thumbnail = $toUser->getProfileThumbnail();
 			    $type = $toUser->getType();
 			    $username = $toUser->getUserName();
-			    $userInfo = new UserInfo($thumbnail, $type, $username);
+			    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			    array_push($friendshipArray, $userInfo);
 			}
 		    }
@@ -98,10 +100,11 @@ class RelationsBox {
 		$collaboratorVenue->orderByDescending('createdAt');
 		$venues = $collaboratorVenue->getUsers();
 		foreach ($venues as $toUser) {
+			$objectId = $toUser->getObjectId();
 		    $thumbnail = $toUser->getProfileThumbnail();
 		    $type = $toUser->getType();
 		    $username = $toUser->getUserName();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($venuesArray, $userInfo);
 		}
 
@@ -112,10 +115,11 @@ class RelationsBox {
 		$collaboratorJammer->orderByDescending('createdAt');
 		$jammers = $collaboratorJammer->getUsers();
 		foreach ($jammers as $toUser) {
+			$objectId = $toUser->getObjectId();
 		    $thumbnail = $toUser->getProfileThumbnail();
 		    $type = $toUser->getType();
 		    $username = $toUser->getUserName();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($jammersArray, $userInfo);
 		}
 
@@ -131,11 +135,11 @@ class RelationsBox {
 		    $followerId = $toUser->getFromUser();
 		    $userP = new UserParse();
 		    $user = $userP->getUser($followerId);
-
+			$objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $username = $user->getUserName();
-		    $userInfo = new UserInfo($thumbnail, $type, $username);
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($followersArray, $userInfo);
 		}
 		$info = array('followers' => $followersArray, 'following' => ND, 'friendship' => ND, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
