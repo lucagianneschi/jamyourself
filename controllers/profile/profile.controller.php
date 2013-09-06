@@ -18,21 +18,19 @@ class ProfileController extends REST {
 		if ($this->get_request_method() != 'POST') {
             $this->response('', 406);
         }
-		
 		$objectId = $_REQUEST['objectId'];
 		$classType = $_REQUEST['classType'];
 		switch ($classType) {
 			case 'Image':
-				$parseObject = new parseObject($classType);
-				$parseObject->increment('loveCounter', array(1));
-				$res = $parseObject->update($objectId);
+				$imageParse = new ImageParse();
+				$res = $imageParse->incrementImage($objectId, 'loveCounter', 1);
 				break;
 			case 'Song':
 				//ecc...
 				break;
 		}
 		
-        $this->response(array($res->loveCounter), 200);
+		$this->response(array($res), 200);
     }
 	
 	public function decrementLove() {
