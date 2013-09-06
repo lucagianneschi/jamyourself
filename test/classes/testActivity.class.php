@@ -30,6 +30,7 @@ $activity->setAccepted(true);
 $activity->setActive(true);
 $activity->setAlbum('lK0bNWIi7k');
 $activity->setComment('nJr1ulgfVo');
+$activity->setCounter(66666);
 $activity->setEvent('TnYLd1XF8O');
 $activity->setFromUser('GuUAj83MGH');
 $activity->setImage('5yJMK9dyQh');
