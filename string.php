@@ -18,4 +18,6 @@ define('DEFEVENTIMAGE', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/scr
 define('DEFRECORDCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultRecordCover.jpg');
 define('DEFRECORDTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultRecordThumb.jpg');
 
+
+
 ?>

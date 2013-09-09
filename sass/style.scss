@@ -96,7 +96,7 @@ label.text{
 }
 
 .bg-grey-dark{ 
-  background-color: $grey-dark;
+  background-color: $grey-dark !important;
   height:100%;
 }
 
@@ -284,6 +284,28 @@ a.ico-label-btn {
   }
 }
 
+a.icon-block{
+  word-wrap: break-word !important;
+  width:auto;
+  height:30px;
+  float:right;
+  font-size:13px;
+  color:$grey;
+  margin-top: 15px !important;
+  line-height:30px;
+  margin-right:1px;
+  padding:0 0px 0 30px;
+  cursor:pointer;   
+  background-repeat:no-repeat;
+  background-position:left top;
+  @include transition-property(background-position);
+  &:hover {
+    background-position:left bottom;
+  }
+ 
+};
+
+
 .add{
   width:43px;
   height:43px;
@@ -367,6 +389,15 @@ footer {
   font-size:12px; 
   color:$grey !important;
   margin-bottom:0.2em !important;
+}
+
+//-------------------------- error -----------------------
+#error_page{
+	background-color: $grey-superdark !important;
+	height: 700px;
+	body{
+		background-color: $grey-superdark !important;
+	}
 }
 
 //---------------- signup------------------------------
@@ -750,6 +781,9 @@ footer {
 ._web-double { background-image:url(../images/icon/web-double.png); }
 
 ._check { background-image:url(../images/icon/check.png); }
+
+._nextPage { background-image:url(../images/icon/nextPage.png); }
+._prevPage { background-image:url(../images/icon/prevPage.png); }
 
 //--------------------------- icon music player ------------------------
 ._back { background-image:url(../images/icon/musicplayer/back.png); }
