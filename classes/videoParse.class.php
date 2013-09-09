@@ -45,7 +45,7 @@ class VideoParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function decrementImage($objectId, $field, $value) {
+	public function decrementVideo($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('Video');
 			//we use the increment function with a negative value because decrement function still not work
@@ -133,7 +133,7 @@ class VideoParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function incrementImage($objectId, $field, $value) {
+	public function incrementVideo($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('Video');
 			$parseObject->increment($field, array($value));

@@ -44,7 +44,7 @@ class SongParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function decrementImage($objectId, $field, $value) {
+	public function decrementSong($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('Song');
 			//we use the increment function with a negative value because decrement function still not work
@@ -131,7 +131,7 @@ class SongParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function incrementImage($objectId, $field, $value) {
+	public function incrementSong($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('Song');
 			$parseObject->increment($field, array($value));

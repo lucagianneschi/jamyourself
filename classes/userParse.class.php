@@ -51,7 +51,7 @@ class UserParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function decrementImage($objectId, $field, $value) {
+	public function decrementUser($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('_User');
 			//we use the increment function with a negative value because decrement function still not work
@@ -177,7 +177,7 @@ class UserParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function incrementImage($objectId, $field, $value) {
+	public function incrementUser($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('_User');
 			$parseObject->increment($field, array($value));

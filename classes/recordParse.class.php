@@ -45,7 +45,7 @@ class RecordParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function decrementImage($objectId, $field, $value) {
+	public function decrementRecord($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('Record');
 			//we use the increment function with a negative value because decrement function still not work

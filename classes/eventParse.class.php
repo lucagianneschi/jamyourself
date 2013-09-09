@@ -48,7 +48,7 @@ class EventParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function decrementImage($objectId, $field, $value) {
+	public function decrementEvent($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('Event');
 			//we use the increment function with a negative value because decrement function still not work
@@ -136,7 +136,7 @@ class EventParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function incrementImage($objectId, $field, $value) {
+	public function incrementEvent($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('Event');
 			$parseObject->increment($field, array($value));

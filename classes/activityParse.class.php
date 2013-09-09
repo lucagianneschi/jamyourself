@@ -46,7 +46,7 @@ class ActivityParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function decrementAlbum($objectId, $field, $value) {
+	public function decrementActivity($objectId, $field, $value) {
 		try {
 			$parseObject = new parseObject('Activity');
 			//we use the increment function with a negative value because decrement function still not work
