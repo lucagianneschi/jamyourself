@@ -6,7 +6,7 @@
     "minMusicSize": 1,
     "maxMusicSize": 5,
     "minLocalTypeSize": 1,
-    "maxLocalTypeSize": 3,
+    "maxLocalTypeSize": 5,
     "maxFirstnameSize": 50,
     "instruments": [
 		"Accordion",
