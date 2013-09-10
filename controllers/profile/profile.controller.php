@@ -20,11 +20,6 @@ class ProfileController extends REST {
 		$objectId = $_REQUEST['objectId'];
 		$classType = $_REQUEST['classType'];
 		switch ($classType) {
-			case 'Activity':
-				require_once CLASSES_DIR . 'activityParse.class.php';
-				$activityParse = new ActivityParse();
-				$res = $activityParse->incrementActivity($objectId, 'loveCounter', 1);
-				break;
 			case 'Album':
 				require_once CLASSES_DIR . 'albumParse.class.php';
 				$albumParse = new AlbumParse();
@@ -79,11 +74,6 @@ class ProfileController extends REST {
 		$objectId = $_REQUEST['objectId'];
 		$classType = $_REQUEST['classType'];
 		switch ($classType) {
-			case 'Activity':
-				require_once CLASSES_DIR . 'activityParse.class.php';
-				$activityParse = new ActivityParse();
-				$res = $activityParse->decrementActivity($objectId, 'loveCounter', 1);
-				break;
 			case 'Album':
 				require_once CLASSES_DIR . 'albumParse.class.php';
 				$albumParse = new AlbumParse();
