@@ -5,16 +5,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once PARSE_DIR . 'parse.php';
-//spostarli dentro lo switch??
-require_once CLASSES_DIR . 'activityParse.class.php';
-require_once CLASSES_DIR . 'albumParse.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
-require_once CLASSES_DIR . 'imageParse.class.php';
-require_once CLASSES_DIR . 'recordParse.class.php';
-require_once CLASSES_DIR . 'songParse.class.php';
-require_once CLASSES_DIR . 'statusParse.class.php';
-require_once CLASSES_DIR . 'videoParse.class.php';
 
 class ProfileController extends REST {
 
@@ -31,38 +21,47 @@ class ProfileController extends REST {
 		$classType = $_REQUEST['classType'];
 		switch ($classType) {
 			case 'Activity':
+				require_once CLASSES_DIR . 'activityParse.class.php';
 				$activityParse = new ActivityParse();
 				$res = $activityParse->incrementActivity($objectId, 'loveCounter', 1);
 				break;
 			case 'Album':
+				require_once CLASSES_DIR . 'albumParse.class.php';
 				$albumParse = new AlbumParse();
 				$res = $albumParse->incrementAlbum($objectId, 'loveCounter', 1);
 				break;
 			case 'Comment':
+				require_once CLASSES_DIR . 'commentParse.class.php';
 				$commentParse = new CommentParse();
 				$res = $commentParse->incrementComment($objectId, 'loveCounter', 1);
 				break;
 			case 'Event':
+				require_once CLASSES_DIR . 'eventParse.class.php';
 				$eventParse = new EventParse();
 				$res = $eventParse->incrementEvent($objectId, 'loveCounter', 1);
 				break;
 			case 'Image':
+				require_once CLASSES_DIR . 'imageParse.class.php';
 				$imageParse = new ImageParse();
 				$res = $imageParse->incrementImage($objectId, 'loveCounter', 1);
 				break;
 			case 'Record':
+				require_once CLASSES_DIR . 'recordParse.class.php';
 				$recordParse = new RecordParse();
 				$res = $recordParse->incrementRecord($objectId, 'loveCounter', 1);
 				break;
 			case 'Song':
+				require_once CLASSES_DIR . 'songParse.class.php';
 				$songParse = new SongParse();
 				$res = $songParse->incrementSong($objectId, 'loveCounter', 1);
 				break;
 			case 'Status':
+				require_once CLASSES_DIR . 'statusParse.class.php';
 				$statusParse = new StatusParse();
 				$res = $statusParse->incrementStatus($objectId, 'loveCounter', 1);
 				break;
 			case 'Video':
+				require_once CLASSES_DIR . 'videoParse.class.php';
 				$videoParse = new VideoParse();
 				$res = $videoParse->incrementVideo($objectId, 'loveCounter', 1);
 				break;
@@ -80,12 +79,50 @@ class ProfileController extends REST {
 		$objectId = $_REQUEST['objectId'];
 		$classType = $_REQUEST['classType'];
 		switch ($classType) {
+			case 'Activity':
+				require_once CLASSES_DIR . 'activityParse.class.php';
+				$activityParse = new ActivityParse();
+				$res = $activityParse->decrementActivity($objectId, 'loveCounter', 1);
+				break;
+			case 'Album':
+				require_once CLASSES_DIR . 'albumParse.class.php';
+				$albumParse = new AlbumParse();
+				$res = $albumParse->decrementAlbum($objectId, 'loveCounter', 1);
+				break;
+			case 'Comment':
+				require_once CLASSES_DIR . 'commentParse.class.php';
+				$commentParse = new CommentParse();
+				$res = $commentParse->decrementComment($objectId, 'loveCounter', 1);
+				break;
+			case 'Event':
+				require_once CLASSES_DIR . 'eventParse.class.php';
+				$eventParse = new EventParse();
+				$res = $eventParse->decrementEvent($objectId, 'loveCounter', 1);
+				break;
 			case 'Image':
+				require_once CLASSES_DIR . 'imageParse.class.php';
 				$imageParse = new ImageParse();
 				$res = $imageParse->decrementImage($objectId, 'loveCounter', 1);
 				break;
+			case 'Record':
+				require_once CLASSES_DIR . 'recordParse.class.php';
+				$recordParse = new RecordParse();
+				$res = $recordParse->decrementRecord($objectId, 'loveCounter', 1);
+				break;
 			case 'Song':
-				//ecc...
+				require_once CLASSES_DIR . 'songParse.class.php';
+				$songParse = new SongParse();
+				$res = $songParse->decrementSong($objectId, 'loveCounter', 1);
+				break;
+			case 'Status':
+				require_once CLASSES_DIR . 'statusParse.class.php';
+				$statusParse = new StatusParse();
+				$res = $statusParse->decrementStatus($objectId, 'loveCounter', 1);
+				break;
+			case 'Video':
+				require_once CLASSES_DIR . 'videoParse.class.php';
+				$videoParse = new VideoParse();
+				$res = $videoParse->decrementVideo($objectId, 'loveCounter', 1);
 				break;
 		}
         
