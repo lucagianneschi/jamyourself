@@ -23,6 +23,7 @@ class Activity {
 	private $active;
 	private $album;
 	private $comment;
+	private $counter;
 	private $event;
 	private $fromUser;
 	private $image;
@@ -83,6 +84,15 @@ class Activity {
 	 */
 	public function getComment() {
 		return $this->comment;
+	}
+	
+	/**
+	 * \fn		int getCounter()
+	 * \brief	Return the counter value
+	 * \return	int
+	 */
+	public function getCounter() {
+		return $this->counter;
 	}
 
 	/**
@@ -273,6 +283,15 @@ class Activity {
 	public function setComment($comment) {
 		$this->comment = $comment;
 	}
+	
+	/**
+	 * \fn		void setCounter($counter)
+	 * \brief	Sets the counter value
+	 * \param	int
+	 */
+	public function setCounter($counter) {
+		$this->counter = $counter;
+	}
 
 	/**
 	 * \fn		void setEvent($event)
@@ -446,6 +465,7 @@ class Activity {
 		} else {
 			$string .= '[comment] => NULL<br />';
 		}
+		$string .= '[counter] => ' . $this->getCounter() . '<br />';
 		if ($this->getEvent() != null) {
 			$string .= '[event] => ' . $this->getEvent() . '<br />';
 		} else {

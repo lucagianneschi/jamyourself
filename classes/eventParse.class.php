@@ -40,6 +40,27 @@ class EventParse {
 	}
 	
 	/**
+	 * \fn		void decrementEvent(string $objectId, string $field, int $value)
+	 * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the Event
+	 * \param	$field		the string that represent the field to decrement
+	 * \param 	$value		the number that represent the quantity to decrease the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function decrementEvent($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('Event');
+			//we use the increment function with a negative value because decrement function still not work
+			$parseObject->increment($field, array(0 - $value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
 	 * \fn		void deleteEvent(string $objectId)
 	 * \brief	Set unactive a specified Event by objectId
 	 * \param   $objectId the string that represent the objectId of the Event
@@ -101,6 +122,26 @@ class EventParse {
 				}
 			}
 			return $events;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
+	 * \fn		void incrementEvent(string $objectId, string $field, int $value)
+	 * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the Event
+	 * \param	$field		the string that represent the field to increment
+	 * \param 	$value		the number that represent the quantity to increase the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function incrementEvent($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('Event');
+			$parseObject->increment($field, array($value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}

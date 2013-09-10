@@ -40,6 +40,7 @@
 
 <link rel="stylesheet" href="resources/stylesheets/plugins/royalslider/royalslider.css"></link>
 <link rel="stylesheet" href="resources/stylesheets/plugins/royalslider/rs-default.css"></link>
+<link class="rs-file" href="resources/stylesheets/plugins/royalslider/rs-minimal-white.css" rel="stylesheet">
 <!--------------- google map ---------------------------->
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 

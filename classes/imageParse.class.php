@@ -37,6 +37,27 @@ class ImageParse {
 	}
 
 	/**
+	 * \fn		void decrementImage(string $objectId, string $field, int $value)
+	 * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the Image
+	 * \param	$field		the string that represent the field to decrement
+	 * \param 	$value		the number that represent the quantity to decrease the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function decrementImage($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('Image');
+			//we use the increment function with a negative value because decrement function still not work
+			$parseObject->increment($field, array(0 - $value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
 	 * \fn		void deleteImage(string $objectId)
 	 * \brief	Set unactive a specified Image by objectId
 	 * \param	$objectId	the string that represent the objectId of the Image
@@ -97,6 +118,26 @@ class ImageParse {
 				}
 			}
 			return $images;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
+	 * \fn		void incrementImage(string $objectId, string $field, int $value)
+	 * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the Image
+	 * \param	$field		the string that represent the field to increment
+	 * \param 	$value		the number that represent the quantity to increase the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function incrementImage($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('Image');
+			$parseObject->increment($field, array($value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
@@ -400,7 +441,7 @@ class ImageParse {
 	public function whereRelatedTo($field, $className, $objectId) {
 		$this->parseQuery->whereRelatedTo($field, $className, $objectId);
 	}
-
+	
 }
 
 ?>

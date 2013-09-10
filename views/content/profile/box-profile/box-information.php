@@ -6,40 +6,28 @@
  * jammer: abount e member
  * venue: abount e map
  * 
- * box chiamato tramite ajax con:
- * data: {currentUser: objectId, typeUser: typeUser}, 
- * data-type: html,
- * type: POST o GET
+ * box chiamato tramite load con:
+ * data: array conente infomazoini di tipo userInfo, 
  * 
  * 
  */
 
- 
- $description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu est dui. Etiam eu elit at lacus eleifend consectetur. Curabitur dolor diam, fringilla quis dignissim eget, tempus et lectus. Quisque sollicitudin laoreet tincidunt. In pretium massa quis diam dignissim dapibus. Donec sed mi mauris, a mollis nibh. Mauris et arcu eu quam mollis convallis ultricies id lacus. Donec dignissim sollicitudin nunc ultrices consectetur. ";
- $music = "Hard Rock - Indie Rock - Dub";
- $city = "Torino (CN)";
- 
- //address per venue
- $address = "Via Roma, 224 / B";
+$data = $_POST['data'];
 
- 
- $facebook = "fb.com/jammer";
- $twitter = "@jammer";
- $google = "jammer";
- $youtube = "nome jammer";
- $web = "www.jammer.com";
- 
- 
- //--- membre se typeuser== jammer
- $membre1_name = 'Member name';
- $membre1_instrument = "Drummer";
- 
- $membre2_name = 'Member name';
- $membre2_instrument = "Guitarist";
- 
- $membre3_name = 'Member name';
- $membre3_instrument = "Sax";
- 
+$username = $data['username'];
+$information_description = $data['description'] != "" ? '<div class="content" data-section-content>' : '<div class="no-display">';
+$information_pin = $data['city'] == "" ? '' : '_pin';
+if($username != 'VENUE')
+	$information_note = $data['music'] == "" ? '' : '_note';
+if($username == 'VENUE'){
+	$latitude = $data['geoCoding']['lat'];
+	$longitude = $data['geoCoding']['long'];
+	
+}
+
+function noDisplay($dato){
+	return $dato == "" ? 'no-display' : '';
+}
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row">
@@ -49,44 +37,40 @@
 		  <section class="active" >
 		  	<!--------------------------------- ABOUT ---------------------------------------------------->
 		    <p class="title" data-section-title><a href="#">About</a></p>
-		    <div class="content" data-section-content>
-		    	<p id="text grey"><?php echo $description;?></p> 
+		    <?php echo $information_description; ?>
+		    	<p id="text grey"><?php echo $data['description'];?></p> 
 		    </div>
 		    <div class="content" data-section-content>
 		    	<div class="row">
-		    		<div class="small-6 columns">
-		    			
-						<a class="ico-label _note white"><?php echo $music;?></a>		    				
-				
-						<a class="ico-label _pin white"><?php echo $city;?></br><div class="grey"><?php if($userType == "venue") echo $address;?></div></a>
-		    				
-		    			
+		    		<div class="small-6 columns">				
+						<a class="ico-label <?php echo $information_pin; ?> white"><?php echo $data['city'];?></br><div class="grey" id="informatio-address"></div></a>
+		    			<a class="ico-label <?php echo $information_note; ?> white"><?php echo $data['music'];?></a>			    			
 		    		</div>
 		    		<div class="small-6 columns">
-		    			<div class="row">
+		    			<div class="row <?php echo noDisplay($data['facebook']); ?>">
 		    				<div class="small-12 columns">
-		    					<a class="ico-label _facebook"><?php echo $facebook;?></a>
+		    					<a class="ico-label _facebook"><?php echo $data['facebook'];?></a>
 		    					
 		    				</div>	
 		    			</div>
-		    			<div class="row">
+		    			<div class="row <?php echo noDisplay($data['twitter']); ?>">
 		    				<div class="small-12 columns">
-		    					<a class="ico-label _twitter"><?php echo $twitter; ?></a>
+		    					<a class="ico-label _twitter"><?php echo $data['twitter']; ?></a>
 		    				</div>	
 		    			</div>
-		    			<div class="row">
+		    			<div class="row  <?php echo noDisplay($data['google']); ?>">
 		    				<div class="small-12 columns">
-		    					<a class="ico-label _google"><?php echo $google; ?></a>
+		    					<a class="ico-label _google"><?php echo $data['google']; ?></a>
 		    				</div>	
 		    			</div>
-		    			<div class="row">
+		    			<div class="row  <?php echo noDisplay($data['youtube']); ?>">
 		    				<div class="small-12 columns">
-		    					<a class="ico-label _youtube"><?php echo $youtube; ?></a>
+		    					<a class="ico-label _youtube"><?php echo $data['youtube']; ?></a>
 		    				</div>	
 		    			</div>
-		    			<div class="row">
+		    			<div class="row  <?php echo noDisplay($data['web']); ?>">
 		    				<div class="small-12 columns">
-		    					<a class="ico-label _web"><?php echo $web; ?></a>
+		    					<a href="<?php echo $data['web']; ?>" class="ico-label _web"><?php echo $data['web']; ?></a>
 		    				</div>	
 		    			</div>
 		    		</div>		
@@ -94,48 +78,50 @@
 		    </div>			    
 		  </section>
 		  <?php 
-		  	if($userType == "jammer"){
+		  	if($data['type'] == "JAMMER"){
 		  ?>
 		  <!--------------------------------------- MEMBRES --------------------------------------->
 		  <section>
 		    <p class="title" data-section-title><a href="#">Membres</a></p>
 		    <div class="content" data-section-content>
+		    	<?php if(is_array($data['membres'])){ ?>
 			     <div class="row">
     				<div class="small-6 columns">
     					<div class="box-membre">
-    						<span class="text white"><?php echo $membre1_name ?></span></br>
-    						<span class="note grey"><?php echo $membre1_instrument ?></span>
+    						<span class="text white"><?php echo $data['membres'] ?></span></br>
+    						<span class="note grey"><?php echo $data['membres'] ?></span>
     					</div>
     					<div class="box-membre">
-    						<span class="text white"><?php echo $membre2_name ?></span></br>
-    						<span class="note grey"><?php echo $membre2_instrument ?></span>
+    						<span class="text white"><?php echo $data['membres'] ?></span></br>
+    						<span class="note grey"><?php echo $data['membres'] ?></span>
     					</div>
     					<div class="box-membre">
-    						<span class="text white"><?php echo $membre3_name ?></span></br>
-    						<span class="note grey"><?php echo $membre3_instrument ?></span>
+    						<span class="text white"><?php echo $data['membres'] ?></span></br>
+    						<span class="note grey"><?php echo $data['membres'] ?></span>
     					</div>
     				</div>
     				<div class="small-6 columns">
     					<div class="box-membre">
-    						<span class="text white"><?php echo $membre3_name ?></span></br>
-    						<span class="note grey"><?php echo $membre3_instrument ?></span>
+    						<span class="text white"><?php echo $data['membres'] ?></span></br>
+    						<span class="note grey"><?php echo $data['membres'] ?></span>
     					</div>
     					<div class="box-membre">
-    						<span class="text white"><?php echo $membre3_name ?></span></br>
-    						<span class="note grey"><?php echo $membre3_instrument ?></span>
+    						<span class="text white"><?php echo $data['membres'] ?></span></br>
+    						<span class="note grey"><?php echo $data['membres'] ?></span>
     					</div>
     					
     				</div>		
-    			</div>	    			
+    			</div>
+    			<?php }?>	    			
 		    </div>
 		  </section>
 		   <?php 
 		  	}
 			// su utente e' tipo venue allora viene mostrato il section del map
-			if($userType == "venue"){
+			if($data['type'] == "VENUE"){
 		  ?>		  
 		  <!--------------------------------------- MAP --------------------------------------->
-		  <section id="profile_map_venue" > 
+		  <section id="profile_map_venue" onclick="viewMap(<?php echo $latitude ?>,<?php echo $longitude ?>)"> 
 		  	<p class="title" data-section-title><a href="#">Map</a></p>
 		  	<div class="content" data-section-content>
 		  		<div class="row">

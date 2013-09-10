@@ -38,6 +38,27 @@ class ActivityParse {
 	}
 
 	/**
+	 * \fn		void decrementActivity(string $objectId, string $field, int $value)
+	 * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the Activity
+	 * \param	$field		the string that represent the field to decrement
+	 * \param 	$value		the number that represent the quantity to decrease the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function decrementActivity($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('Activity');
+			//we use the increment function with a negative value because decrement function still not work
+			$parseObject->increment($field, array(0 - $value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
 	 * \fn		void deleteActivity(string $objectId)
 	 * \brief	Set unactive a specified Activity by objectId
 	 * \param	$objectId the string that represent the objectId of the Activity
@@ -103,6 +124,26 @@ class ActivityParse {
 	}
 
 	/**
+	 * \fn		void incrementActivity(string $objectId, string $field, int $value)
+	 * \brief	increment the value of the $field of the objectId $objectId of $value unit
+	 * \param	$objectId	the string that represent the objectId of the Activity
+	 * \param	$field		the string that represent the field to increment
+	 * \param 	$value		the number that represent the quantity to increase the $field
+	 * \return	int			the new value of the $field
+	 * \return	error		in case of exception
+	 */
+	public function incrementActivity($objectId, $field, $value) {
+		try {
+			$parseObject = new parseObject('Activity');
+			$parseObject->increment($field, array($value));
+			$res = $parseObject->update($objectId);
+			return $res->$field;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+	}
+	
+	/**
 	 * \fn		void orderBy($field)
 	 * \brief	Specifies which field need to be ordered of requested Activity
 	 * \param	$field	the field on which to sort
@@ -146,6 +187,7 @@ class ActivityParse {
 			$activity->setAccepted($res->accepted);
 			$activity->setAlbum(fromParsePointer($res->album));
 			$activity->setComment(fromParsePointer($res->comment));
+			$activity->setCounter($res->counter);
 			$activity->setFromUser(fromParsePointer($res->fromUser));
 			$activity->setEvent(fromParsePointer($res->event));
 			$activity->setImage(fromParsePointer($res->image));
@@ -184,6 +226,7 @@ class ActivityParse {
 			is_null($activity->getActive()) ? $parseActivity->active = true : $parseActivity->active = $activity->getActive();
 			is_null($activity->getAlbum()) ? $parseActivity->album = null : $parseActivity->album = toParsePointer('Album', $activity->getAlbum());
 			is_null($activity->getComment()) ? $parseActivity->comment = null : $parseActivity->comment = toParsePointer('Comment', $activity->getComment());
+			is_null($activity->getCounter()) ? $parseAlbum->counter = -1 : $parseAlbum->counter = $activity->getCounter();
 			is_null($activity->getEvent()) ? $parseActivity->event = null : $parseActivity->event = toParsePointer('Event', $activity->getEvent());
 			$parseActivity->fromUser = toParsePointer('_User', $activity->getFromUser());
 			is_null($activity->getImage()) ? $parseActivity->image = null : $parseActivity->image = toParsePointer('Image', $activity->getImage());

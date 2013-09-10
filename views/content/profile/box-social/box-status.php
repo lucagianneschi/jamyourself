@@ -1,17 +1,19 @@
 <?php
 /* box status utente 
- * box chiamato tramite ajax con:
- * data: {user: objectId}, 
- * data-type: html,
- * type: POST o GET
+ * box chiamato tramite load con:
+ * data: {data,typeCurrentUser}, 
  * 
  * 
  */
 
- $status_level = '2.541';
- $status_namelevel = 'STUDIO';
- 
- //achievement array
+ $data = $_POST['data'];
+ $currentUserType = $_POST['typeCurrentUser'];
+
+ $status_level = $data['level'];
+ $status_namelevel = $data['levelValue'];
+ $userType = $data['type'];
+
+ //achievement array -------- DA DEFINIRE -----------------
  $status_achievement1 = '_target1';
  $status_achievement2 = '_target2';
  $status_achievement3 = '_target3';
@@ -77,7 +79,7 @@
 <div class="row">
 	<div  class="large-12 columns"><div class="line"></div></div>
 </div>
-<?php if($userType == "spotter" && $currentUserType == "spotter"){?>
+<?php if($userType == "SPOTTER" && $currentUserType == "SPOTTER"){?>
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
@@ -87,7 +89,7 @@
 	</div>
 </div>
 <?php }?>
-<?php if($userType == "jammer" && ($currentUserType == "jammer" || $currentUserType == "venue")){?>
+<?php if($userType == "JAMMER" && ($currentUserType == "JAMMER" || $currentUserType == "VENUE")){?>
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
@@ -97,7 +99,7 @@
 	</div>
 </div>
 <?php }?>
-<?php if($userType == "jammer" && ($currentUserType == "spotter")){?>
+<?php if($userType == "JAMMER" && ($currentUserType == "SPOTTER")){?>
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
@@ -107,7 +109,7 @@
 	</div>
 </div>
 <?php }?>
-<?php if($userType == "venue" && ($currentUserType == "spotter")){?>
+<?php if($userType == "VENUE" && ($currentUserType == "SPOTTER")){?>
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
@@ -117,7 +119,7 @@
 	</div>
 </div>
 <?php }?>
-<?php if($userType == "venue" && ($currentUserType == "jammer")){?>
+<?php if($userType == "VENUE" && ($currentUserType == "JAMMER")){?>
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
@@ -126,4 +128,4 @@
 	</div>
 	</div>
 </div>
-<?php }?>
+<?php } ?>

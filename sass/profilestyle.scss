@@ -54,7 +54,7 @@ section.active > .title a{
   
 }
 
-#event-list{
+#event{
   .sottotitle{
     margin-bottom: 10px;
   }
@@ -121,12 +121,18 @@ section.active > .title a{
  height: 45px; 
 }
 
-.track ._play-large{
-  &:hover {
-   color:$white !important;
+.track{
+  &:hover {  	 
+   .track-propriety{
+   	 display:block !important;
+   }
   } 
 }
-
+.track ._play-large{
+	&:hover {	
+  		color:$white !important;
+  	}
+} 
 .track-propriety{
   padding: 2px;
   display:none;
@@ -175,7 +181,46 @@ section.active > .title a{
   margin-bottom: 10px; 
 }
 
+//---------- music -------------------
+#record.royalSlider {
+	width: auto !important;
+	height: 480px !important;
+	.rsContent{
+		background-color: $grey-superdark !important;		
+	}
+		
+}
+
+//---------- record review ---------------
+
+#recordReviewSlide.royalSlider{
+	width: auto !important;
+	//height: 100px !important;	
+	.rsContent{
+		background: #fff !important;		
+	}
+	
+	
+}
+#eventReviewSlide.royalSlider{
+	width: auto !important;
+	//height: 100px !important;	
+	.rsContent{
+		background: #fff !important;		
+	}
+	
+	
+}
+
 //------------------------ Photo -------------------------
+.albumcover-list{
+	padding-bottom: 10px !important; 
+}
+#albumcover-list.box{
+	padding-bottom: 5px !important;
+	padding-top: 5px !important;
+}
+
 .albumcover{
   width:310px;
   height:160px;
@@ -201,6 +246,8 @@ section.active > .title a{
  cursor: pointer;
 }
 
+
+//----------------- event ---------------------
 .event{
   padding:0px !important;
   padding-right:5px !important;
@@ -214,6 +261,22 @@ section.active > .title a{
 #albumcover-single .reveal-modal{
   height:100%;
   width:100%;
+}
+#event.royalSlider {
+	width: auto !important;
+	height: 550px !important;
+	.rsContent{
+		background-color: $grey-superdark !important;		
+	}
+		
+}
+
+#box-event .box{
+	padding: 10px !important;
+	.propriety {
+		padding-right: 20px !important;
+		padding-left: 0px !important;
+	}	
 }
 
 
@@ -238,10 +301,10 @@ section.active > .title a{
   width:60px;
 }
 
-#social #albumreviews .box{
+#social #recordReview .box{
   padding: 10px 10px 0px 10px !important;
 }
-#social #eventreviews .box{
+#social #eventReview .box{
   padding: 10px 10px 0px 10px !important;
 }
 .touchcarousel{

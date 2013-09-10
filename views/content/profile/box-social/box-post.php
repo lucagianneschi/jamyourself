@@ -1,3 +1,17 @@
+<?php
+/* box post
+ * box chiamato tramite load con:
+ * data: {data,typeuser}
+ *
+ */
+
+$data = $_POST['data'];
+$typeUser = $_POST['typeUser'];
+
+$postCounter = $data['postCounter'];
+
+?>
+
 <!------------------------------------- Post ------------------------------------>
 <div class="row" id="post">
 	<div  class="large-12 columns">
@@ -24,23 +38,30 @@
 					</div>
 				</div>
 				<div class="box">
+					
+					<?php 
+					if($postCounter > 0){
+					for($i=0; $i< $postCounter; $i++){
+						$post_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['post' . $key]['createdAt']);
+						$post_createdAd = $event_eventDate_DateTime->format('l j F - ore H:i');
+						?>
 					<div class="row  line">
 						<div  class="small-1 columns ">
 							<div class="icon-header">
-								<img src="../media/images/profilepicturethumb/photo1.jpg">
+								<img src="../media/<?php echo $data['post' . $i]['user_thumbnail'];?>">
 							</div>
 						</div>
 						<div  class="small-5 columns">
 							<div class="text grey" style="margin-bottom: 0px;">
-								<strong>Nome Cognome</strong>
+								<strong><?php echo $data['post' . $i]['user_username'];?></strong>
 							</div>
 							<div class="note orange">
-								<strong>Spotter</strong>
+								<strong><?php echo $data['post' . $i]['user_type'];?></strong>
 							</div>
 						</div>
 						<div  class="small-6 columns propriety">
 							<div class="note grey-light">
-								Venerdì 16 maggio - ore 10.15
+								<?php echo $post_createdAd;?>
 							</div>
 						</div>
 
@@ -50,7 +71,7 @@
 							<div class="row ">
 								<div  class="small-12 columns ">
 									<div class="text grey">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu est dui. Etiam eu elit at lacus eleifend consectetur. Curabitur dolor diam, fringilla quis dignissim eget, tempus et lectus.
+										<?php echo $data['post' . $i]['text'];?>	
 									</div>
 								</div>
 							</div>
@@ -64,103 +85,24 @@
 								<a class="note grey">Comment</a>
 							</div>
 							<div class="small-5 columns propriety ">
-								<a class="icon-propriety _love orange">32</a>
-								<a class="icon-propriety _comment ">32</a>
+								<a class="icon-propriety _love orange"><?php echo $data['post' . $i]['counters']['loveCounter'];?></a>
+								<a class="icon-propriety _comment "><?php echo $data['post' . $i]['counters']['commentCounter'];?></a>
 							</div>
 						</div>
 					</div>
-
-				</div>
-				<div class="box-comment no-display">
-					<div class="box-singole-comment">
-						<div class='line'>
-							<div class="row">
-								<div  class="small-1 columns ">
-
-									<div class="icon-header">
-										<img src="../media/images/profilepicturethumb/photo1.jpg">
-									</div>
-								</div>
-								<div  class="small-5 columns">
-									<div class="text grey" style="margin-bottom: 0p">
-										<strong>Nome Cognome</strong>
-									</div>
-								</div>
-								<div  class="small-6 columns align-right">
-									<div class="note grey-light">
-										Venerdì 16 maggio - ore 10.15
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row ">
-							<div  class="small-12 columns ">
-								<div class="row ">
-									<div  class="small-12 columns ">
-										<div class="text grey">
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu est dui. Etiam eu elit at lacus eleifend consectetur. Curabitur dolor diam, fringilla quis dignissim eget, tempus et lectus.
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<div class="box-singole-comment">
-						<div class='line'>
-							<div class="row">
-								<div  class="small-1 columns ">
-
-									<div class="icon-header">
-										<img src="../media/images/profilepicturethumb/photo3.jpg">
-									</div>
-								</div>
-								<div  class="small-5 columns">
-									<div class="text grey" style="margin-bottom: 0p">
-										<strong>Nome Cognome</strong>
-									</div>
-								</div>
-								<div  class="small-6 columns align-right">
-									<div class="note grey-light">
-										Venerdì 16 maggio - ore 10.15
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="row ">
-							<div  class="small-12 columns ">
-								<div class="row ">
-									<div  class="small-12 columns ">
-										<div class="text grey">
-											Phasellus eu est dui. Etiam eu elit at lacus eleifend consectetur.
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-					</div>
-					<div class="row  ">
+					<?php }}
+					else{
+						?>
+						<div class="row">
 						<div  class="large-12 columns ">
-							<form action="" class="box-write">
-								<div class="">
-									<div class="row  ">
-										<div  class="small-9 columns ">
-											<input type="text" class="post inline" placeholder="Write a comment" />
-										</div>
-										<div  class="small-3 columns ">
-											<input type="button" class="comment-button inline" value="Comment"/>
-										</div>
-									</div>
-								</div>
-
-							</form>
+							<p class="grey">There are no Post</p>
 						</div>
-					</div>
-				</div>
-			</div>
+						</div>
+						<?php
+					}
+					 ?>
+				</div> <!--------------- BOX -------------------->
+				
 		</div>
 	</div>
 </div>

@@ -8,156 +8,120 @@
  * box solo per spotter
  */
 
-$totVenue = "3"; 
- 
-//elenco following 
-$venue1_photo = "photo3.jpg";
-$venue1_username = "Venue name";
-$venue1_type = "Venue";	
+ $data = $_POST['data'];
+$typeUser = $_POST['typeUser'];
 
 
+$followersCounter = $data['relation']['following']['followingCounter'];
+$followingVenueCounter = $data['relation']['followingVenue']['followingVenueCounter'];
+$followingJammerCounter = $data['relation']['followingVenue']['followingJammerCounter'];
 
-$totjammer = "45"; 
- 
-//elenco following 
-$jammer1_photo = "photo1.jpg";
-$jammer1_username = "Member name";
-$jammer1_type = "Jammer";	
 ?>
 <!----------------------------------- FOLLOWING -------------------------------------------------->
 <div class="row">
 	<div class="large-12 columns ">
 		<h3>Following</h3>	
 		<div class="box" id="following-list">
+			<?php if($followersCounter > 0 ){ ?>
 			<div class="row">
 				<div class="large-12 columns">
-					<div class="text orange">Venue <span class="white">[<?php echo $totVenue;?>]</span></div>	
+					<div class="text orange">Venue <span class="white">[<?php echo $followingVenueCounter;?>]</span></div>	
 				</div>
 			</div>
-			<div class="row ">
-				<div class="large-6 columns">
-					<div class="box-membre">
-						<div class="row ">
-							<div  class="small-3 columns ">
-								<div class="userThumb">
-									<img src="../media/images/profilepicturethumb/<?php echo $venue1_photo;?>">
+			<?php 
+					$totalView = $followingVenueCounter > 4 ? 4 : $followingVenueCounter;
+					for($i=0; $i<$totalView; $i=$i+2){
+						
+						?>	
+					
+					<div class="row">
+						<div  class="small-6 columns">
+							<div class="box-membre">
+	    						<div class="row " id="collaborator_<?php echo $data['relation']['followingVenue'. $i]['objectId']?>">
+									<div  class="small-3 columns ">
+										<div class="icon-header">
+											<img src="../media/<?php echo $data['relation']['followingVenue'. $i]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+										</div>
+									</div>
+									<div  class="small-9 columns ">
+										<div class="text grey-dark"><strong><?php echo $data['relation']['followingVenue'. $i]['username']?></strong></div>
+									</div>		
+								</div>	
+	    					</div>
+						</div>
+						
+						<div  class="small-6 columns ">
+							<div class="box-membre">
+	    						<div class="row " id="collaborator_<?php echo $data['relation']['followingVenue'. $i+1]['objectId']?>">
+									<div  class="small-3 columns ">
+										<div class="icon-header">
+											<img src="../media/<?php echo $data['relation']['followingVenue'. $i+1]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+										</div>
+									</div>
+									<div  class="small-9 columns ">
+										<div class="text grey-dark"><strong><?php echo $data['relation']['followingVenue'. $i+1]['username']?></strong></div>
+									</div>		
 								</div>
-							</div>
-							<div  class="small-9 columns ">
-								<div class="text white"><?php echo $venue1_username;?></div>
-								<div class="note orange"><?php echo $venue1_type;?></div>
-							</div>		
-						</div>	
-					</div>					
-				</div>
-				<div class="large-6 columns">
-					<div class="box-membre">
-						<div class="row ">
-							<div  class="small-3 columns ">
-								<div class="userThumb">
-									<img src="../media/images/profilepicturethumb/<?php echo $venue1_photo;?>">
-								</div>
-							</div>
-							<div  class="small-9 columns ">
-								<div class="text white"><?php echo $venue1_username;?></div>
-								<div class="note orange"><?php echo $venue1_type;?></div>
-							</div>		
-						</div>	
-					</div>					
-				</div>
-			</div>
-			<div class="row ">
-				<div class="large-6 columns">
-					<div class="box-membre">
-						<div class="row ">
-							<div  class="small-3 columns ">
-								<div class="userThumb">
-									<img src="../media/images/profilepicturethumb/<?php echo $venue1_photo;?>">
-								</div>
-							</div>
-							<div  class="small-9 columns ">
-								<div class="text white"><?php echo $venue1_username;?></div>
-								<div class="note orange"><?php echo $venue1_type;?></div>
-							</div>		
-						</div>	
-					</div>					
-				</div>
-				
-			</div>
+	    					</div>
+						</div>
+						
+					</div>
+					<?php } ?>
 			<div class="row">
 				<div  class="large-12 columns"><div class="line"></div></div>
 			</div>
 			<!------------------------------------------ JAMMER ----------------------------------->
 			<div class="row">
 				<div class="large-12 columns">
-					<div class="text orange">Jammer <span class="white">[<?php echo $totjammer;?>]</span></div>	
+					<div class="text orange">Jammer <span class="white">[<?php echo $followingJammerCounter;?>]</span></div>	
 				</div>
 			</div>
-			<div class="row ">
-				<div class="large-6 columns">
-					<div class="box-membre">
-						<div class="row ">
-							<div  class="small-3 columns ">
-								<div class="userThumb">
-									<img src="../media/images/profilepicturethumb/<?php echo $jammer1_photo;?>">
+			<?php 
+					$totalView = $followingVenueCounter > 4 ? 4 : $followingVenueCounter;
+					for($i=0; $i<$totalView; $i=$i+2){
+						
+						?>	
+					
+					<div class="row">
+						<div  class="small-6 columns">
+							<div class="box-membre">
+	    						<div class="row " id="collaborator_<?php echo $data['relation']['followingVenue'. $i]['objectId']?>">
+									<div  class="small-3 columns ">
+										<div class="icon-header">
+											<img src="../media/<?php echo $data['relation']['followingVenue'. $i]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+										</div>
+									</div>
+									<div  class="small-9 columns ">
+										<div class="text grey-dark"><strong><?php echo $data['relation']['followingVenue'. $i]['username']?></strong></div>
+									</div>		
+								</div>	
+	    					</div>
+						</div>
+						
+						<div  class="small-6 columns ">
+							<div class="box-membre">
+	    						<div class="row " id="collaborator_<?php echo $data['relation']['followingVenue'. $i+1]['objectId']?>">
+									<div  class="small-3 columns ">
+										<div class="icon-header">
+											<img src="../media/<?php echo $data['relation']['followingVenue'. $i+1]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+										</div>
+									</div>
+									<div  class="small-9 columns ">
+										<div class="text grey-dark"><strong><?php echo $data['relation']['followingVenue'. $i+1]['username']?></strong></div>
+									</div>		
 								</div>
-							</div>
-							<div  class="small-9 columns ">
-								<div class="text white"><?php echo $jammer1_username;?></div>
-								<div class="note orange"><?php echo $jammer1_type;?></div>
-							</div>		
-						</div>	
-					</div>					
-				</div>
-				<div class="large-6 columns">
-					<div class="box-membre">
-						<div class="row ">
-							<div  class="small-3 columns ">
-								<div class="userThumb">
-									<img src="../media/images/profilepicturethumb/<?php echo $jammer1_photo;?>">
+	    					</div>
+						</div>
+						
+					</div>
+			<?php }}
+ 					else{?>	
+						 <div class="row  ">
+								<div  class="large-12 columns ">
+									<p class="grey">There are no Following</p>
 								</div>
-							</div>
-							<div  class="small-9 columns ">
-								<div class="text white"><?php echo $jammer1_username;?></div>
-								<div class="note orange"><?php echo $jammer1_type;?></div>
-							</div>		
-						</div>	
-					</div>					
-				</div>
-			</div>
-			<div class="row ">
-				<div class="large-6 columns">
-					<div class="box-membre">
-						<div class="row ">
-							<div  class="small-3 columns ">
-								<div class="userThumb">
-									<img src="../media/images/profilepicturethumb/<?php echo $jammer1_photo;?>">
-								</div>
-							</div>
-							<div  class="small-9 columns ">
-								<div class="text white"><?php echo $jammer1_username;?></div>
-								<div class="note orange"><?php echo $jammer1_type;?></div>
-							</div>		
-						</div>	
-					</div>					
-				</div>
-				<div class="large-6 columns">
-					<div class="box-membre">
-						<div class="row ">
-							<div  class="small-3 columns ">
-								<div class="userThumb">
-									<img src="../media/images/profilepicturethumb/<?php echo $jammer1_photo;?>">
-								</div>
-							</div>
-							<div  class="small-9 columns ">
-								<div class="text white"><?php echo $jammer1_username;?></div>
-								<div class="note orange"><?php echo $jammer1_type;?></div>
-							</div>		
-						</div>	
-					</div>					
-				</div>
-			</div>
-				
+						</div>
+						 <?php } ?>			
 		</div>
 	</div>
 </div>
