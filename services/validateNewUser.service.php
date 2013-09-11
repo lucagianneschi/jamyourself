@@ -11,7 +11,7 @@ class ValidateNewUserService {
     private $config;            //puntatore al JSON di configurazione della registsrazione
 
     public function __construct($configFile) {
-        if ($confiFile == null)
+        if ($configFile == null)
             return null;
         $this->isValid = true;
         $this->errors = array();
