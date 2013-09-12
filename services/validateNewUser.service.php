@@ -163,12 +163,20 @@ class ValidateNewUserService {
 
 
     public function checkUsername($username) {
-//Campo ‘Artist/Group Name’. (campo DB: username - string) A) Max numero caratteri pari a 50 B)
-//Controllo che non sia presente spazio alla fine dell’ultima parola; Gli spazi interni sono consentiti Es.
-//‘Modena City Ramblers’ C) Controllare che non siano presenti caratteri speciali non stampabili (vedi
-//lista allegata a mail) D) Gestione lettere accentate E) Case Sensitive attivo per distinzione
-//maiuscole/minuscole e non creare problemi su DB F) Controllare che Username non sia già presente nel
-//DB
+        
+        //Max numero caratteri pari a 50
+        if(count($username)>50) return false;
+        
+        //Controllare che Username non sia già presente nel DB
+        $up = new UserParse();
+        $up->whereEqualTo("username", $username);
+        $res = $up->getCount();
+
+        if (!is_a($res, "Error")) {
+            if($res != 0) return false;
+        }else return false;
+ 
+        //nessun errore
         return true;
     }
 
@@ -178,20 +186,39 @@ class ValidateNewUserService {
      * @return boolean
      */
     public function checkPassword($password) {
-//Campo ‘Password’ (campo DB: password - string ) A) Max numero caratteri pari a 50 B) Controllo che
-//nel campo non siano presenti spazi sia all’interno della password che alla fine C) Controllare che nel
-//campo non siano presenti caratteri speciali non stampabili (vedi lista allegata a mail) D) Controllare che
-//nel campo non siano presenti lettere accentate E) Controllo che password non sia composta da un solo
-//ed unico carattere F) Controllo che dimensione minima password 8 caratteri G) Case Sensitive attivo
-//per la password (distinzione maiuscole minuscole)
+
+        
+        //A) Max numero caratteri pari a 50
+        //F) Controllo che dimensione minima password 8 caratteri 
+        if(count($password)<=8 || count($password)>50) return false;
+        
+       // B) Controllo che nel campo non siano presenti spazi sia all’interno della password che alla fine
+        if(strpos($password, ' ')  !== false) return false;
+        
+        //C) Controllare che nel campo non siano presenti caratteri speciali non stampabili (vedi lista allegata a mail)
+        //D) Controllare che nel campo non siano presenti lettere accentate 
+        $charList = "!#$%&'()*+,-./:;<=>?[]^_`{|}~àèìòùáéíóúüñ¿¡";
+        foreach($charList as $char){
+           if(stripos($password, $char)  !== false) return false; 
+        }
+        //E) Controllo che password non sia composta da un solo ed unico carattere
+        $boolCheckDiffChar = false;
+        for($i=0; $i<strlen($password); $i++){
+            for($j=$i+1; $j<strlen($password); $j++){
+                if($password[$i]!=$password[$j]){
+                    $boolCheckDiffChar = true;
+                    break;
+                }
+            }
+            if($boolCheckDiffChar)break;
+        }
+        if(!$boolCheckDiffChar) return false;
+        
         return true;
     }
 
     public function checkVerifyPassword($verifyPassword, $password) {
-        if ($verifyPassword != $password)
-            return false;
-        else
-            return true;
+        return $verifyPassword == $password;
     }
 
     public function checkBirthday($birthdayJSON) {
@@ -213,7 +240,7 @@ class ValidateNewUserService {
 //maiuscole/minuscole e non creaare problemi su DB F) Unico carattere speciale per il momento non
 //consentito “ (vedere mail Mari)
         if (
-                count($description) <= 0 ||
+                count($description) < 0 ||
                 count($description) > $this->config->maxDescriptionLength
         )
             return false;
