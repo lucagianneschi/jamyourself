@@ -184,6 +184,8 @@ class ValidateNewUserService {
 //nel campo non siano presenti lettere accentate E) Controllo che password non sia composta da un solo
 //ed unico carattere F) Controllo che dimensione minima password 8 caratteri G) Case Sensitive attivo
 //per la password (distinzione maiuscole minuscole)
+        if(count($password) > 50) return false;
+        
         return true;
     }
 
