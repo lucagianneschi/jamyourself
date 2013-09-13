@@ -9,6 +9,7 @@ class ValidateNewUserService {
     private $isValid;
     private $errors;            //lista delle properties che sono errate
     private $config;            //puntatore al JSON di configurazione della registsrazione
+    private $user;
 
     public function __construct($configFile) {
         if ($configFile == null)
@@ -160,22 +161,24 @@ class ValidateNewUserService {
 //        
 //////////////////////////////////////////////////////////////////////////////// 
 
-
-
     public function checkUsername($username) {
-        
+
         //Max numero caratteri pari a 50
-        if(count($username)>50) return false;
-        
+        if (count($username) > 50)
+            return false;
+
         //Controllare che Username non sia già presente nel DB
         $up = new UserParse();
         $up->whereEqualTo("username", $username);
         $res = $up->getCount();
 
         if (!is_a($res, "Error")) {
-            if($res != 0) return false;
-        }else return false;
- 
+            if ($res != 0)
+                return false;
+        }
+        else
+            return false;
+
         //nessun errore
         return true;
     }
@@ -187,33 +190,38 @@ class ValidateNewUserService {
      */
     public function checkPassword($password) {
 
-        
+
         //A) Max numero caratteri pari a 50
         //F) Controllo che dimensione minima password 8 caratteri 
-        if(count($password)<=8 || count($password)>50) return false;
-        
-       // B) Controllo che nel campo non siano presenti spazi sia all’interno della password che alla fine
-        if(strpos($password, ' ')  !== false) return false;
-        
+        if (count($password) <= 8 || count($password) > 50)
+            return false;
+
+        // B) Controllo che nel campo non siano presenti spazi sia all’interno della password che alla fine
+        if (strpos($password, ' ') !== false)
+            return false;
+
         //C) Controllare che nel campo non siano presenti caratteri speciali non stampabili (vedi lista allegata a mail)
         //D) Controllare che nel campo non siano presenti lettere accentate 
         $charList = "!#$%&'()*+,-./:;<=>?[]^_`{|}~àèìòùáéíóúüñ¿¡";
-        foreach($charList as $char){
-           if(stripos($password, $char)  !== false) return false; 
+        foreach ($charList as $char) {
+            if (stripos($password, $char) !== false)
+                return false;
         }
         //E) Controllo che password non sia composta da un solo ed unico carattere
         $boolCheckDiffChar = false;
-        for($i=0; $i<strlen($password); $i++){
-            for($j=$i+1; $j<strlen($password); $j++){
-                if($password[$i]!=$password[$j]){
+        for ($i = 0; $i < strlen($password); $i++) {
+            for ($j = $i + 1; $j < strlen($password); $j++) {
+                if ($password[$i] != $password[$j]) {
                     $boolCheckDiffChar = true;
                     break;
                 }
             }
-            if($boolCheckDiffChar)break;
+            if ($boolCheckDiffChar)
+                break;
         }
-        if(!$boolCheckDiffChar) return false;
-        
+        if (!$boolCheckDiffChar)
+            return false;
+
         return true;
     }
 
@@ -247,13 +255,38 @@ class ValidateNewUserService {
     }
 
     public function checkEmail($email) {
-//Campo ‘mail’ (campo DB: email – string) A) Max numero caratteri pari a 50 B) Controllo che nel campo
-//non siano presenti spazi sia all’interno della mail che alla fine C) Controllo che nel campo sia presente
-//‘@’ D) Controllo che nel campo sia presente il . (punto) D) Controllare che non siano presenti nel
-//campo caratteri speciali non stampabili (vedi lista allegata a mail) E) Controllare che non siano presenti
-//nel campo lettere accentate F) Controllare che indirizzo mail inserito sia un indirizzo mail valido G)
-//Controllare che indirizzo mail non sia già presente nel DB H) Validazione indirizzo mail anche se presenti
-//caratteri Underscore _ o -
+//Campo ‘mail’ (campo DB: email – string) 
+//A) Max numero caratteri pari a 50 
+        if (strlen($email) > 50)
+            return false;
+//B) Controllo che nel campo non siano presenti spazi sia all’interno della mail che alla fine 
+        if (stripos($email, " ") !== false)
+            return false;
+//C) Controllo che nel campo sia presente ‘@’ D) Controllo che nel campo sia presente il . (punto) 
+        if (!(stripos($email, "@") !== false))
+            return false;
+//D) Controllare che non siano presenti nel campo caratteri speciali non stampabili (vedi lista allegata a mail) 
+//E) Controllare che non siano presenti nel campo lettere accentate 
+
+        if ($this->checkSpecialChars($email))
+            return false;
+
+//F) Controllare che indirizzo mail inserito sia un indirizzo mail valido 
+        if (!(filter_var($email, FILTER_VALIDATE_EMAIL)))
+            return false;
+//G)Controllare che indirizzo mail non sia già presente nel DB 
+        $up = new UserParse();
+        $up->whereEqualTo("email", $email);
+        $res = $up->getCount();
+
+        if (is_a($res, "Error")) {
+            //result è un errore e contiene il motivo dell'errore
+            return false;
+        }
+        if ($res != 0)
+            return false;
+//H) Validazione indirizzo mail anche se presenti caratteri Underscore _ o -
+        return true;
     }
 
     public function checkJammerType($jammerType) {
@@ -338,28 +371,55 @@ class ValidateNewUserService {
     private function checkUrl($url) {
 //Campo ‘I’m also on’ (campo DB: fbPage – string ; twitterPage – string ; youtubeChannel – string ;
 //website - string ) A) Controllo che campo sia una URL
-
-        return true;
+        if (filter_var($string, FILTER_VALIDATE_URL))
+            return true;
+        else
+            return false;
     }
 
     private function checkFirstname($firstname) {
-//Campo “First Name” (campo DB: firstname - string) A) Max numero caratteri pari a 50 B) Controllo che
-//non sia presente spazio alla fine dell’ultima parola; Gli spazi interni sono consentiti Es. “Gian Maria” C)
-//Controllare che non siano presenti caratteri speciali non stampabili (vedi lista allegata a mail) D)
-//Gestione lettere accentate E) Case Sensitive attivo per distinzione maiuscole/minuscole e non creare
-//problemi su DB
+//Campo “Last Name” (campo DB: lastname - string) 
+//A) Max numero caratteri pari a 50 B) 
+        if (strlen($lastname) > 50)
+            return false;
+
+//Controllo che non sia presente spazio alla fine dell’ultima parola; Gli spazi interni sono consentiti Es. “Gian Maria” 
+//C)Controllare che non siano presenti caratteri speciali non stampabili (vedi lista allegata a mail)
+        if ($this->checkSpecialChars())
+            return false;
+
+//D)Gestione lettere accentate 
+//E) Case Sensitive attivo per distinzione maiuscole/minuscole e non creare problemi su DB 
+
+        return true;
 
         return true;
     }
 
     private function checkLastname($lastname) {
-//Campo “Last Name” (campo DB: lastname - string) A) Max numero caratteri pari a 50 B) Controllo che
-//non sia presente spazio alla fine dell’ultima parola; Gli spazi interni sono consentiti Es. “Gian Maria” C)
-//Controllare che non siano presenti caratteri speciali non stampabili (vedi lista allegata a mail) D)
-//Gestione lettere accentate E) Case Sensitive attivo per distinzione maiuscole/minuscole e non creare
-//problemi su DB 
+//Campo “Last Name” (campo DB: lastname - string) 
+//A) Max numero caratteri pari a 50 B) 
+        if (strlen($lastname) > 50)
+            return false;
+
+//Controllo che non sia presente spazio alla fine dell’ultima parola; Gli spazi interni sono consentiti Es. “Gian Maria” 
+//C)Controllare che non siano presenti caratteri speciali non stampabili (vedi lista allegata a mail)
+        if ($this->checkSpecialChars())
+            return false;
+
+//D)Gestione lettere accentate 
+//E) Case Sensitive attivo per distinzione maiuscole/minuscole e non creare problemi su DB 
 
         return true;
+    }
+
+    private function checkSpecialChars($string) {
+        $charList = "!#$%&'()*+,-./:;<=>?[]^_`{|}~àèìòùáéíóúüñ¿¡";
+        foreach ($charList as $char) {
+            if (stripos($string, $char) !== false)
+                return true;
+        }
+        return false;
     }
 
 }
