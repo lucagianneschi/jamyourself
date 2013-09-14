@@ -106,7 +106,7 @@ class PlaylistBox {
 					
 					$recordP = new RecordParse();
 					$record = $recordP->getRecord($song->getRecord());
-					$thumbnail = $recordP->getThumbnailCover();
+					$thumbnail = $record->getThumbnailCover();
 				
 					$newSong = new SongInfo($author, $thumbnail, $title);
 					array_push($tracklist, $newSong);

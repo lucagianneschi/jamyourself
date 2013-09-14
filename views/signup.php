@@ -28,7 +28,7 @@ $captchaPublicKey = $_SESSION['captchaPublicKey'];
     <body>
 
         <!-------------------------- HEADER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/general/header.php'); ?>
+        <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
 
         <!-------------------------- BODY --------------------------->
         <div class="body-content">

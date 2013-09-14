@@ -1,4 +1,5 @@
 <?php
+
 $userType = $_GET['userType'];
 $currentUserType = $_GET['currentType'];
 
@@ -7,7 +8,7 @@ $currentUserType = $_GET['currentType'];
 	
 <div  class="row">	
 
-	<div id="profile" class="large-6 columns hcento">
+<div id="profile" class="large-6 columns hcento">
 		<div id='box-userinfo' ></div>	
 		<div id='box-information' ></div>
 		<div id="box-record"></div>
