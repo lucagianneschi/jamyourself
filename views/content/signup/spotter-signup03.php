@@ -82,17 +82,18 @@
 				<div  class="small-6 columns">	
 					<select name="spotter-birth-month" id="spotter-birth-month">
 						<option >- Month -</option>
-						<option value="January">January</option>
-						<option value="February">February</option>
-						<option value="Mars">Mars</option>
-						<option value="April">April</option>
-						<option value="May">May</option>
-						<option value="June">June</option>
-						<option value="July">July</option>
-						<option value="September">September</option>
-						<option value="October">October</option>
-						<option value="November">November</option>
-						<option value="December">December</option>
+						<option value="January">1</option>
+						<option value="February">2</option>
+						<option value="Mars">3</option>
+						<option value="April">4</option>
+						<option value="May">5</option>
+						<option value="June">6</option>
+						<option value="July">7</option>
+						<option value="August">8</option>
+						<option value="September">9</option>
+						<option value="October">10</option>
+						<option value="November">11</option>
+						<option value="December">12</option>
 					</select>
 				</div>
 				<div  class="small-3 columns">	
