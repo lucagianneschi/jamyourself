@@ -31,12 +31,14 @@ function sendRequest(_action, _data, callback, _async) {
 function spotter() {
     $.getJSON("spotter.json", function(json) {
         console.log("Caricato : \n " + json);
+        console.debug(json);
         sendRequest("signup", json, signupCallback, true);
     });
 }
 function venue() {
     $.getJSON("venue.json", function(json) {
         console.log("Caricato : \n " + json);
+        console.debug(json);
         sendRequest("signup", json, signupCallback, true);
     });
 
@@ -44,6 +46,7 @@ function venue() {
 function jartist() {
     $.getJSON("jammer_artist.json", function(json) {
         console.log("Caricato : \n " + json);
+        console.debug(json);
         sendRequest("signup", json, signupCallback, true);
     });
 
@@ -51,6 +54,7 @@ function jartist() {
 function jband() {
     $.getJSON("jammer_band.json", function(json) {
         console.log("Caricato : \n " + json);
+        console.debug(json);
         sendRequest("signup", json, signupCallback, true);
     });
 
