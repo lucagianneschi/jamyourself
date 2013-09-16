@@ -1,0 +1,155 @@
+@import "compass/css3";
+@import "settings";
+
+#header{ 
+  width:100%;
+  height:43px;
+  background:$black;
+}
+
+.header{
+ margin-bottom:5px; 
+ margin-top:5px;
+ height: 33px;
+}
+
+.icon-header{
+ width: 33px;
+ height: 33px;
+ background:$grey-dark;
+ float:left;
+ margin-right:3px;
+ cursor:pointer; 
+ @include transition-property(background-color);
+ @include transition-duration($transition-duration);
+ &:hover {
+    background-color: $grey-superdark;
+ }   
+}
+
+#header-profile{
+	background-color: $grey-dark !important;
+}
+
+#header-social{
+	background-color: $white !important;
+}
+
+
+
+/*----- PLAYER -----*/
+#player{
+ 
+}
+.title-player{
+  font-size:14px;
+  color: $white;
+  padding-bottom:8px;
+}
+
+
+.inline{
+  float:left;
+}
+#controls-player{ 
+  
+}
+
+#bar-player{
+  width:157px;
+  height:5px;   
+  background-color: $grey-dark;
+  margin-left:5px;
+  margin-right:5px; 
+  margin-top:3px;
+  z-index:1;
+}
+
+#playhead-player{ 
+  position:absolute;
+  height:10px;
+  width:3px;  
+  background-color: $orange !important;
+  left:154px;  
+  cursor:pointer;
+  z-index:3;  
+}
+
+#statusbar-player{
+  position:absolute;
+  width:44px;
+  height:5px;   
+  background-color:  $grey !important;
+  margin-left:5px;
+  margin-right:5px; 
+  margin-top:3px; 
+  z-index:2;   
+}
+
+.icon-player{
+   width: 10px;
+   height: 10px;
+   float:left;
+   margin-right:3px;
+   cursor:pointer;
+   margin-left:5px; 
+   @include transition-property(background-position);
+   &:hover {    
+      background-position: bottom;
+   } 
+}
+/*----- END PLAYER -----*/
+
+
+// ------ LOGO ------------------
+#logo{ 
+
+  position:relative;
+  z-index:998;
+  margin-top:-45px;
+	
+ 
+}
+.logo{
+  height:5px;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  top: -10px !important;
+}
+.columns{
+  //border:$grey 1px solid !important;
+}
+
+
+
+//------------  search  ------------------
+.search_form{
+  width:  235px !important;
+  margin: 0px !important;
+}
+
+.search {
+  color: $grey !important; 
+  font-size:14px !important;
+  width:235px !important;
+  padding:6px 15px 6px 30px !important;
+  border:$grey-superdark 1px solid !important;
+  @include border-radius(5px);   
+  background-color: $black !important;
+  background: url(../images/icon/search.png) no-repeat 8px 6px !important;  
+}
+
+.search-small {
+  color: $grey !important; 
+  font-size:14px !important;
+  width:150px !important;
+  padding:6px 15px 6px 30px !important;
+  border:$grey-superdark 1px solid !important;
+  @include border-radius(5px);   
+  background-color: $black !important;
+  background: url(../images/icon/search.png) no-repeat 8px 6px !important;  
+}
+
+
+._menu { background-image:url(../images/icon/menu.png); }
+  

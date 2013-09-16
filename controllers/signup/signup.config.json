@@ -2,7 +2,7 @@
     "maxUsernameSize": 50,
     "maxEmailSize": 50,
     "maxDescriptionLength" : 800,   
-    "jammerType":["Musician","Band"],
+    "jammerType":["musician","band"],
     "minMusicSize": 1,
     "maxMusicSize": 5,
     "minLocalTypeSize": 1,

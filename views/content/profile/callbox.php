@@ -24,15 +24,16 @@ require_once ROOT_DIR . 'config.php';
 $box = $_POST['typebox'];
 $objectId = $_POST['objectId'];
 $type = $_POST['type'];
+$objectIdCurrentUser = $_POST['objectIdCurrentUser'];
 $class = $_POST['classBox'];
 /*
- $box = 'comment';
+ $box = 'header';
  $objectId = 'gdZowTbFRk';
  $type = 'SPOTTER';
  $class = 'Image';
- */
+$objectIdCurrentUser = 'GuUAj83MGH';
 $result = array();
-
+*/
 $result['error']['code'] = 0;
 $result['error']['message'] = 'ok';
 
@@ -346,6 +347,28 @@ switch ($box) {
 		}
 		$result = json_encode($result);
 		break;
+	case 'header' :
+		require_once BOXES_DIR . 'playlist.box.php';
+		$playListBoxP = new PlaylistBox();
+		$playListBox = $playListBoxP->init($objectIdCurrentUser);
+		if (!($playListBox instanceof Error)) {
+			$result['playlist']['name'] = $playListBox->name != NODATA ? $playListBox->name : '';
+			$result['playlist']['tracklist'] = array();
+			foreach ($playListBox->tracklist as $key => $value) {
+				$track['author']['objectId'] = 	$value -> author->objectId != NODATA ? $value -> author->objectId : '';
+				$track['author']['thumbnail'] = 	$value -> author->thumbnail != NODATA ? $value -> author->thumbnail : DEFPROFILEPICTURETHUM;
+				$track['author']['type'] = 	$value -> author->type != NODATA ? $value -> author->type : '';
+				$track['author']['username'] = 	$value -> author->username != NODATA ? $value -> author->username : '';
+				$track['thumbnail'] = 	$value -> thumbnail != NODATA ? $value -> thumbnail : DEFRECORDCOVERTHUM;
+				$track['title'] = $value -> title != NODATA ? $value -> title : '';
+				array_push($result['playlist']['tracklist'], $track);
+			}
+		}else {
+			$result['error']['code'] = 101;
+			$result['error']['message'] = 'object not found for get';
+		}
+		$result = json_encode($result);
+		break;
 	default :
 		$result = json_encode($result);
 		break;
@@ -354,8 +377,7 @@ switch ($box) {
 echo $result;
 /*
  print "<pre>";
- print_r($commentBox);
+ print_r($result);
  print "</pre>";
- *
- */
+*/
 ?>

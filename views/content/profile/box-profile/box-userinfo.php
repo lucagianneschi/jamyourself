@@ -1,8 +1,19 @@
 <?php
+/*
+ * box userinfo
+ * chiamato tramite load con:
+ * data: {data: data} 
+ * @data: array contenente le informazioni relative al box userInfo.box
+ * 
+ * box per tutti gli utenti
+ */
+
 $data = $_POST['data'];
 
 $userinfo_pin = $data['city'] == "" ? '' : '_pin';
 $userinfo_note = $data['music'] == "" ? '' : '_note';
+
+
 ?>
 <div class="row">
 	<div class="large-12 columns">

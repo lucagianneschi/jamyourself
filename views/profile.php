@@ -5,9 +5,11 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 
 //esempio: objectId dell'utente collegato 
-$correntUser = "";
+$correntUser = "GuUAj83MGH";
+$correntUserType = 'SPOTTER';
 //esempio: objectId dell'utente a cui si vuole vedere il profilo 
-$profileUser = "";
+$profileUser = "1oT7yYrpfZ";
+
 
 ?>
 <!DOCTYPE html>
@@ -25,7 +27,7 @@ $profileUser = "";
     <body>
 
         <!-------------------------- HEADER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/general/header.php'); ?>
+        <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
 
         <!-------------------------- BODY --------------------------->
         <div class="body-content">
@@ -36,6 +38,16 @@ $profileUser = "";
 
         <!-------------------------- SCRIPT --------------------------->
         <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
+        
+        <script type="text/javascript">
+        	//carica i box partendo da userInfo        	
+    		callBox.objectId = '<?php echo $profileUser; ?>';
+    		callBox.objectIdCurrentUser = '<?php echo $correntUser; ?>';
+			callBox.typeCurrentUser = '<?php echo $correntUserType; ?>';			
+			callBox.load('userinfo');
+			callBox.load('header');
+        </script>
+        
     </body>
 
 </html>

@@ -27,6 +27,9 @@
 <link rel="stylesheet" href="resources/stylesheets/app.css" />
 <link rel="stylesheet" href="resources/stylesheets/style.css" />
 <link rel="stylesheet" href="resources/stylesheets/profilestyle.css" />
+<link rel="stylesheet" href="resources/stylesheets/headerstyle.css" />
+
+
 
 <link rel="stylesheet" href="resources/stylesheets/plugins/touchCarousel/touchcarousel.css" />
 <link rel="stylesheet" href="resources/stylesheets/plugins/touchCarousel/grey-blue-skin.css" />
