@@ -34,10 +34,7 @@ function love(classType, objectId, opType) {
 }
 </script>
 <title>Il titolo della pagina</title>
-<!-- meta name="description" content="La descrizione della pagina" / -->
-<meta property="og:title" content="El titulo" />
-<meta property="og:description" content="La Descricion" />
-<meta property="og:image" content="http://www.scoutadventure.org/img/sa/intro.png" />
+<meta name="description" content="La descrizione della pagina" />
 </head>
 <body>
 Cliccando i bottoni seguenti si incrementa e decrementa il campo loveCounter delle classi che possono aveve azioni di love e unlove<br />
@@ -76,8 +73,9 @@ Cliccando i bottoni seguenti si incrementa e decrementa il campo loveCounter del
 <hr>
 
 <!-- AddThis Button BEGIN -->
-<!-- div class="addthis_toolbox addthis_default_style addthis_32x32_style" addThis:url="http://www.scoutadventure.org/page.php?id=1" -->
-<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style"
+	 addThis:url="http://socialmusicdiscovering.com/script/wp_daniele/root/test/views/testShare.php"
+	 addThis:title="Titolo per Twitter">
 <a class="addthis_button_facebook"></a>
 <a class="addthis_button_twitter"></a>
 <a class="addthis_button_google_plusone_share"></a>
@@ -99,11 +97,6 @@ Cliccando i bottoni seguenti si incrementa e decrementa il campo loveCounter del
 </script>
 <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-522dd258579a55ca"></script>
 <!-- AddThis Button END -->
-
-addThis:url funziona e addThis:title/description non funzionano per Facebook. Fb si preoccupa di cercare tutti i tag "img" per creare delle miniature, oppure gli si possono forzare via header di pagina.
-Con Open Graph protocol è possibile istruire Fb su tutte le istruzioni che vogliamo.<br />
-addThis:url/title funzionano e addThis:description non funzionano per Twitter.<br />
-addThis:url funziona e addThis:title/description non funzionano per Google+. Le immagini e certe modifiche su G+ devono essere digerite dal sistema. Qui c'è una guida: https://developers.google.com/+/web/+1button/?hl=it#plus-snippet<br />
 
 </body>
 </html>
