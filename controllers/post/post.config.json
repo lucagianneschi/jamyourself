@@ -1,0 +1,6 @@
+{
+    "minCommentSize" : 1,
+    "maxCommentSize" : 50,
+    "inputPostRowNumber": 2,
+    "inputPostColumnNumber": 50
+}
