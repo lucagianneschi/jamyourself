@@ -26,7 +26,51 @@ class MessageController extends REST {
         session_start();
     }
 
-    public function post() {
+	public function readMessage(){
+		try{
+		
+		//controllo che la chiamata sia una POST
+        //controllo che l'utente sia loggato: cioè se nella sessione è presente il currentUser 
+//        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+//            //codice di errore
+//            $this->response('', 406);
+//        }
+        if ($this->get_request_method() != "POST") {
+            //codice di errore
+            $this->response('', 406);
+        }
+        //recupero l'utente che effettua il commento
+        //$currentUser = $_SESSION['currentUser'];
+		
+		//devo controllare che il currentUser sia il toUser
+		
+		
+		
+		$activityId = $_REQUEST['activityId'];
+		$parseActivity = new ActivityParse();
+		$activity = $parseActivity->getActivity($activityId);
+		$activity->read = true;
+		$parseActivity->saveActivity($activity);
+		
+		
+		
+		}catch (Exception $e) {
+            $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
+            $this->response($error, 503);
+        }
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+    public function sendMessage() {
         try{
             
         //controllo che la chiamata sia una POST
