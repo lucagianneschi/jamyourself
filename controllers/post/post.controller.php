@@ -63,7 +63,7 @@ class PostController extends REST {
 			$this->response(array("Dimensione post troppo lunga | lungh: ".strlen($text)), 200);
 		} 
 		
-		//imposto i valori per il salvataggio del commento
+		//imposto i valori per il salvataggio del post
 		$cmt = new parseObject('Comment');
 		$cmt->active = true;
 		$cmt->commentators = null;
@@ -80,7 +80,7 @@ class PostController extends REST {
 		$cmt->type = 'P';
 		$cmt->vote = null;
 		
-		//imposto i valori per il salvataggio dell'activity collegata al commento
+		//imposto i valori per il salvataggio dell'activity collegata al post
 		$activity = new parseObject('Activity');
 		$activity->active = true;
 		$activity->accepted = true;
@@ -116,9 +116,9 @@ class PostController extends REST {
 		$activity->type =    'POSTED';
  		$activity->video =   null;
 		
-		//salvo commento
-		$parseComment = new CommentParse();
-		$parseComment->saveComment($cmt);
+		//salvo post
+		$parsePost = new CommentParse();
+		$parsePost->saveComment($cmt);
 		//salvo activity
 		$parseActivity = new ActivityParse();
 		$parseActivity->saveActivity($activity);
