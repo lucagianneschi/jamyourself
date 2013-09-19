@@ -63,19 +63,21 @@ class ImageInfo {
     public $counters;
     public $description;
     public $filePath;
+	public $location;
 	public $objectId;
     public $tags;
     public $thumbnail;
 
     /**
-     * \fn	__construct($counters, $description, $filePath, $objectId, $tags, $thumbnail)
+     * \fn	__construct($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail)
      * \brief	construct for the ImageInfo class
      * \param	$counters, $description, $filePath, $objectId, $tags, $thumbnail
      */
-    function __construct($counters, $description, $filePath, $objectId, $tags, $thumbnail) {
+    function __construct($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($description) ? $this->description = NODATA : $this->description = $description;
 	is_null($filePath) ? $this->filePath = NODATA : $this->filePath = $filePath;
+	is_null($location) ? $this->location = NODATA : $this->location = $location;
 	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
@@ -123,12 +125,13 @@ class AlbumBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
 		$description = $image->getDescription();
-		$objectId = $image->getObjectId();
 		$filePath = $image->getFilePath();
+		$location = $image->getLocation();
+		$objectId = $image->getObjectId();
 		$tags = $image->getTags();
 		$thumbnail = $image->getThumbnail();
 
-		$imageInfo = new ImageInfo($counters, $description, $filePath,$objectId, $tags, $thumbnail);
+		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail);
 		array_push($info, $imageInfo);
 	    }
 	    $albumBox->imageArray = $info;
