@@ -110,6 +110,9 @@ var callBox = {
 							addBoxHeader(data, __this.typeUser);
 							break;
 							
+						case 'comment':
+							return data;
+							break;	
 						default:
 
 					}
@@ -261,7 +264,8 @@ function addBoxAlbum(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: 
-		//slideReview('albumSlide');
+		slideReview('albumSlide');
+		lightBoxPhoto('photo-colorbox-group');
 		hcento();
 	});
 }
@@ -289,6 +293,9 @@ function addBoxHeader(data, typeUser){
 	}, function() { success: hcento();
 	});
 }
+
+
+
 
 /*
  * scorrimento dei box

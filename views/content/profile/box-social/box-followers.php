@@ -12,7 +12,7 @@ $typeUser = $_POST['typeUser'];
 $followersCounter = $data['relation']['followers']['followersCounter'];
 
 ?>
-<div class="row" id="followers">
+<div class="row" id="social-followers">
 	<div  class="large-12 columns">
 		<h3>Followers <span class="orange">[<?php echo $followersCounter ?>]</span></h3>
 		<div class="row  ">

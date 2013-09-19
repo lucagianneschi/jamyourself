@@ -13,7 +13,7 @@ $typeUser = $_POST['typeUser'];
 
 ?>
 <!------------------------------------- Reviews ------------------------------------>
-<div class="row" id="eventReview">
+<div class="row" id="social-eventReview">
 	<div  class="large-12 columns">
 	<div class="row">
 		<div  class="large-5 columns">

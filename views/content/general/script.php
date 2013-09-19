@@ -49,3 +49,5 @@ $(document).foundation();
 <script type="text/javascript" src="resources/javascripts/plugins/nicescroll/jquery.nicescroll.js"></script>	
 <!--------------- royalslider ------------->
 <script src="resources/javascripts/plugins/royalslider/jquery.royalslider.min.js"></script>
+<!--------------- colorbox ---------------->
+<script src="resources/javascripts/plugins/colorbox/jquery.colorbox.js"></script>

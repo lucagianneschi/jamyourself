@@ -40,10 +40,13 @@
 <script src="resources/javascripts/plugins/vendor/custom.modernizr.js"></script>
 
 <!----------------- royalslider ------------------------->
-
 <link rel="stylesheet" href="resources/stylesheets/plugins/royalslider/royalslider.css"></link>
 <link rel="stylesheet" href="resources/stylesheets/plugins/royalslider/rs-default.css"></link>
 <link class="rs-file" href="resources/stylesheets/plugins/royalslider/rs-minimal-white.css" rel="stylesheet">
+
+<!----------------- colorbox ---------------------------->
+<link rel="stylesheet" href="resources/stylesheets/plugins/colorbox/colorbox.css"></link>
+
 <!--------------- google map ---------------------------->
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 

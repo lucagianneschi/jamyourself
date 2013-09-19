@@ -13,7 +13,7 @@ $postCounter = $data['postCounter'];
 ?>
 
 <!------------------------------------- Post ------------------------------------>
-<div class="row" id="post">
+<div class="row" id="social-post">
 	<div  class="large-12 columns">
 		<h3>Post</h3>
 

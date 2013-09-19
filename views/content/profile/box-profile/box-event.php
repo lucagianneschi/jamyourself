@@ -14,20 +14,20 @@
 
 
 ?>
-<!----------------------------------- Event -------------------------------------------------->
 
-<div class="row" id='boxEvent'>
-	<div class="large-12 columns ">		
-		<div  class="large-9 columns">
-			<h3>Event </h3>
-		</div>	
-		<div  class="large-3 columns align-right">
-			<?php if($eventCounter > 0){ ?>
-				<a class="icon-block _nextPage grey" onclick="royalSlideNext(this,'boxEvent')" style="top: 5px !important; margin-top: 15px !important"></a>
-			<a class="icon-block _prevPage grey text" onclick="royalSlidePrev(this,'boxEvent')" style="top: 5px !important; margin-top: 15px !important; "><span class="indexBox">1</span>/<?php echo $eventCounter ?></a>
-	 		
-			<?php } ?>
-		</div>	
+<div class="row" id='profile-event'>
+	<div class="large-12 columns ">	
+		<div class="row">
+			<div  class="large-9 columns">
+				<h3>Event </h3>
+			</div>	
+			<div  class="large-3 columns align-right">
+				<?php if($eventCounter > 0){ ?>
+					<a class="icon-block _nextPage grey" onclick="royalSlideNext(this,'profile-event')" style="top: 5px !important; margin-top: 15px !important"></a>
+					<a class="icon-block _prevPage grey text" onclick="royalSlidePrev(this,'profile-event')" style="top: 5px !important; margin-top: 15px !important; "><span class="indexBox">1</span>/<?php echo $eventCounter ?></a>
+		 		<?php } ?>
+			</div>
+		</div>		
 		<!------------------------------------ LISTA Event --------------------------------------->
 		<div class="box">
 		<?php if($eventCounter > 0){?>

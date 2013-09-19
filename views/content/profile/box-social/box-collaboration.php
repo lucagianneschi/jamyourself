@@ -16,7 +16,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 ?>
 
 <!------------------------------------- Collaboration ------------------------------------>
-	<div class="row" id="collaboration">
+	<div class="row" id="social-collaboration">
 		<div  class="large-12 columns">
 		<h3>Collaboration <span class="orange">[<?php echo $totCollaborators ?>]</span></h3>
 		<div class="row  ">
