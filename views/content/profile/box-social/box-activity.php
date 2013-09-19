@@ -81,8 +81,10 @@ $titleLastALbum =  $typeUser == 'JAMMER' ? 'Last album updated' : 'Last listenin
 								</div>
 							</div>
 							<ul class="small-block-grid-4">
-								<?php for($i=0;$i<$data['albumInfo']['imageCounter']; $i++){ ?>
-							  <li><img src="../media/<?php ?>"></li>
+								<?php 
+								$counterPhoto = $data['albumInfo']['imageCounter'] > 4 ? 4 : $data['albumInfo']['imageCounter'];
+								for($i=0;$i<$counterPhoto; $i++){ ?>
+							  <li><img src="../media/<?php ?>" onerror="this.src='../media/images/default/defaultImage.jpg'"></li>
 							  <?php } ?>
 							</ul>
 						</div>								

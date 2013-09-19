@@ -138,7 +138,7 @@ $albumCounter = $data['albumCounter'];
 		<div class="row no-display">
 			<div class="large-12 columns">
 				 <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>				 	
-					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo">
+					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo <?php echo $j; echo $data['album' . $i]['image' . $j]['filePath'];?>">
 						<div class="row ">
 							<div class="large-12 columns lightbox-photo-box" >
 								<img src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/images/default/defaultImage.jpg'"/>
@@ -157,6 +157,31 @@ $albumCounter = $data['albumCounter'];
 										<a class="icon-propriety _shere"><?php echo $data['album' . $i]['image' . $j]['counters']['shareCounter']; ?></a>	
 					 				</div>
 					 			</div>
+					 			<div class="row">
+					 				<div  class="small-5 columns">
+					 					<div class="sottotitle white"><?php echo $data['album' . $i]['title']; ?></div>
+					 					<?php if($data['album' . $i]['image' . $j]['description'] != ""){?>
+					 					<div class="text grey"><?php echo $data['album' . $i]['image' . $j]['description']; ?></div>
+					 					
+					 					<?php }if($data['album' . $i]['image' . $j]['location'] != ""){?>
+					 						
+					 					<div class="text grey"><?php echo $data['album' . $i]['image' . $j]['location'];?></div>
+					 					
+					 					<?php
+										} 
+					 						$tag = "";
+					 						if(is_array ($data['album' . $i]['image' . $j]['tags'])){					 							
+					 							foreach ($data['album' . $i]['image' . $j]['tags'] as $key => $value) {
+													 $tag = $tag + ' ' + $value;
+												 }
+					 						?>
+											<div class="text grey"><?php echo $tag; ?></div>
+										<?php	} 
+					 						?>
+					 				</div>
+					 				<div  class="small-7 columns">
+					 				</div>
+					 			</div>			
 					 		</div>
 					 	</div>
 					</div>

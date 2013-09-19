@@ -19,7 +19,7 @@ if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../../');
 
 require_once ROOT_DIR . 'config.php';
-
+require_once SERVICES_DIR . 'geocoder.service.php';
 
 $box = $_POST['typebox'];
 $objectId = $_POST['objectId'];
@@ -27,13 +27,15 @@ $type = $_POST['type'];
 $objectIdCurrentUser = $_POST['objectIdCurrentUser'];
 $class = $_POST['classBox'];
 /*
- $box = 'header';
- $objectId = 'gdZowTbFRk';
+ $box = 'album';
+ $objectId = 'iovioSH5mq';
  $type = 'SPOTTER';
  $class = 'Image';
 $objectIdCurrentUser = 'GuUAj83MGH';
-$result = array();
 */
+
+$result = array();
+
 $result['error']['code'] = 0;
 $result['error']['message'] = 'ok';
 
@@ -135,6 +137,21 @@ switch ($box) {
 					$result['album' . $key]['image' . $keyImage]['objectId'] = $valueImage -> objectId != NODATA ? $valueImage -> objectId : '';
 					$result['album' . $key]['image' . $keyImage]['tags'] = $valueImage -> tags != NODATA ? $valueImage -> tags : '';
 					$result['album' . $key]['image' . $keyImage]['thumbnail'] = $valueImage -> thumbnail != NODATA ? $valueImage -> thumbnail : DEFIMAGE;
+					$location = $valueImage -> location != NODATA ? $valueImage -> location : '';
+					$address = "";	
+								
+					if($location instanceof parseGeoPoint){
+												
+						$lat = $location->lat;
+						$lng = $location->long;						
+						$geocode = new GeocoderService();
+						
+						$addressCode = $geocode->getAddress($lat, $lng);
+						if(count($addressCode)>0){
+							$address = $addressCode['locality'] . " - " . $addressCode['country'];
+						}						 
+					}
+					$result['album' . $key]['image' . $keyImage]['location'] = $address;
 				}
 
 			}
@@ -377,6 +394,8 @@ switch ($box) {
 }
 
 echo $result;
+
+
 /*
  print "<pre>";
  print_r($result);
