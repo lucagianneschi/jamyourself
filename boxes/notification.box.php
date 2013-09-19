@@ -25,6 +25,10 @@ require_once BOXES_DIR . 'utilsBox.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 
+/**
+ * \brief	NotificationForDetailedList 
+ * \details	contains info for detailed list to be displayed in the header 
+ */
 class NotificationForDetailedList {
 
     public $createdAt;
@@ -36,7 +40,11 @@ class NotificationForDetailedList {
     }
 
 }
-
+/**
+ * \brief	NotificationBox class 
+ * \details	box class to pass info to the view for the notification
+ */
+ 
 class NotificationBox {
 
     public $notificationArray;
@@ -117,7 +125,7 @@ class NotificationBox {
 
    /**
      * \fn	initForMessageList($objectId,$type)
-     * \brief	Init NotificationBox instance
+     * \brief	Init NotificationBox instance for message list
      * \param	$objectId
      * \return	infoBox
      */
@@ -160,8 +168,8 @@ class NotificationBox {
     } 
 
 	/**
-     * \fn	initForEventionList($objectId,$type)
-     * \brief	Init NotificationBox instance
+     * \fn	initForEventList($objectId,$type)
+     * \brief	Init NotificationBox instance for event list
      * \param	$objectId
      * \return	infoBox
      */
@@ -204,7 +212,7 @@ class NotificationBox {
 	
 	/**
      * \fn	initForRelationList($objectId,$type)
-     * \brief	Init NotificationBox instance
+     * \brief	Init NotificationBox instancef for relation list
      * \param	$objectId
 	 * \param	$type
      * \return	infoBox
