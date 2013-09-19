@@ -1,6 +1,6 @@
 <?php
 //
-ini_set('display_errors', '1');
+//ini_set('display_errors', '1');
 /*
  * DEFINE DEFAULT IMAGE DA SPOSTARE
  */
@@ -129,7 +129,7 @@ switch ($box) {
 				$result['album' . $key]['title'] = $value -> title != NODATA ? $value -> title : '';
 				$albumDetail = $albumBoxP -> initForDetail($value -> objectId);
 				foreach ($albumDetail->imageArray as $keyImage => $valueImage) {
-					$result['album' . $key]['image' . $keyImage]['counters'] = $valueImage -> albumCounter;
+					$result['album' . $key]['image' . $keyImage]['counters'] = $valueImage -> counters;
 					$result['album' . $key]['image' . $keyImage]['description'] = $valueImage -> description != NODATA ? $valueImage -> description : '';
 					$result['album' . $key]['image' . $keyImage]['filePath'] = $valueImage -> filePath != NODATA ? $valueImage -> filePath : DEFIMAGE;
 					$result['album' . $key]['image' . $keyImage]['objectId'] = $valueImage -> objectId != NODATA ? $valueImage -> objectId : '';
@@ -148,14 +148,16 @@ switch ($box) {
 		require_once BOXES_DIR . 'comment.box.php';
 		$commentBoxP = new CommentBox();
 		$commentBox = $commentBoxP -> init($class, $objectId);
+		$result['playlist']['comment'] = array();
 		if (!($commentBox instanceof Error)) {
 			foreach ($commentBox->commentInfoArray as $key => $value) {
-				$result['comment' . $key]['user_objectId'] = $value -> fromUserInfo -> objectId;
-				$result['comment' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != NODATA ? $value -> fromUserInfo -> thumbnail : DEFPROFILEPICTURETHUM;
-				$result['comment' . $key]['user_type'] = $value -> fromUserInfo -> type != NODATA ? $value -> fromUserInfo -> type : '';
-				$result['comment' . $key]['user_username'] = $value -> fromUserInfo -> username != NODATA ? $value -> fromUserInfo -> username : '';
-				$result['comment' . $key]['createdAt'] = $value -> createdAt;
-				$result['comment' . $key]['text'] = $value -> text;
+				$comment['user_objectId'] = $value -> fromUserInfo -> objectId;
+				$comment['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != NODATA ? $value -> fromUserInfo -> thumbnail : DEFPROFILEPICTURETHUM;
+				$comment['user_type'] = $value -> fromUserInfo -> type != NODATA ? $value -> fromUserInfo -> type : '';
+				$comment['user_username'] = $value -> fromUserInfo -> username != NODATA ? $value -> fromUserInfo -> username : '';
+				$comment['createdAt'] = $value -> createdAt;
+				$comment['text'] = $value -> text;
+				array_push($result['playlist']['comment'], $comment);
 			}
 		} else {
 			$result['error']['code'] = 101;

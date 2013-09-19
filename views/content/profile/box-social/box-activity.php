@@ -19,7 +19,7 @@ $titleLastALbum =  $typeUser == 'JAMMER' ? 'Last album updated' : 'Last listenin
 
 ?>
 <!------------------------------------- Activities ------------------------------------>
-	<div class="row" id="activities">
+	<div class="row" id="social-activity">
 		<div  class="large-12 columns">
 		<h3>Activities</h3>
 		<div class="row  ">

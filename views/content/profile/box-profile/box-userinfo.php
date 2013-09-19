@@ -15,7 +15,7 @@ $userinfo_note = $data['music'] == "" ? '' : '_note';
 
 
 ?>
-<div class="row">
+<div class="row" id="profile-userInfo">
 	<div class="large-12 columns">
 		<h2><?php echo $data['username']?></h2>			
 		<div class="row">

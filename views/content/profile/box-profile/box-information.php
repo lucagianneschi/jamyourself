@@ -30,7 +30,7 @@ function noDisplay($dato){
 }
 ?>
 <!--------- INFORMATION --------------------->
-<div class="row">
+<div class="row" id="profile-information">
 	<div class="large-12 columns">
 	<h3>Information</h3>		
 		<div class="section-container accordion" data-section="accordion">
@@ -38,12 +38,12 @@ function noDisplay($dato){
 		  	<!--------------------------------- ABOUT ---------------------------------------------------->
 		    <p class="title" data-section-title><a href="#">About</a></p>
 		    <?php echo $information_description; ?>
-		    	<p id="text grey"><?php echo $data['description'];?></p> 
+		    	<p class="text grey"><?php echo $data['description'];?></p> 
 		    </div>
 		    <div class="content" data-section-content>
 		    	<div class="row">
 		    		<div class="small-6 columns">				
-						<a class="ico-label <?php echo $information_pin; ?> white"><?php echo $data['city'];?></br><div class="grey" id="informatio-address"></div></a>
+						<a class="ico-label <?php echo $information_pin; ?> white"><?php echo $data['city'];?></br><div class="grey" id="information-address"></div></a>
 		    			<a class="ico-label <?php echo $information_note; ?> white"><?php echo $data['music'];?></a>			    			
 		    		</div>
 		    		<div class="small-6 columns">
@@ -91,25 +91,12 @@ function noDisplay($dato){
     						<span class="text white"><?php echo $data['membres'] ?></span></br>
     						<span class="note grey"><?php echo $data['membres'] ?></span>
     					</div>
-    					<div class="box-membre">
-    						<span class="text white"><?php echo $data['membres'] ?></span></br>
-    						<span class="note grey"><?php echo $data['membres'] ?></span>
-    					</div>
-    					<div class="box-membre">
-    						<span class="text white"><?php echo $data['membres'] ?></span></br>
-    						<span class="note grey"><?php echo $data['membres'] ?></span>
-    					</div>
     				</div>
     				<div class="small-6 columns">
     					<div class="box-membre">
     						<span class="text white"><?php echo $data['membres'] ?></span></br>
     						<span class="note grey"><?php echo $data['membres'] ?></span>
-    					</div>
-    					<div class="box-membre">
-    						<span class="text white"><?php echo $data['membres'] ?></span></br>
-    						<span class="note grey"><?php echo $data['membres'] ?></span>
-    					</div>
-    					
+    					</div>	
     				</div>		
     			</div>
     			<?php }?>	    			

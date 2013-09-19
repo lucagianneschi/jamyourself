@@ -12,7 +12,7 @@
 ?>
 
 <!------------------------------------- Reviews ------------------------------------>
-<div class="row" id="recordReview">
+<div class="row" id="social-recordReview">
 	<div  class="large-12 columns">	
 	<div class="row">
 		<div  class="small-5 columns">

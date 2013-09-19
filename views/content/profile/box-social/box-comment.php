@@ -1,4 +1,5 @@
-<div class="box-comment no-display">
+
+<div class="box-comment no-display" id="social-comment">
 			<div class="box-singole-comment">
 				<div class='line'>
 					<div class="row">

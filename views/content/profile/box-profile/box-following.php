@@ -18,7 +18,7 @@ $followingJammerCounter = $data['relation']['followingVenue']['followingJammerCo
 
 ?>
 <!----------------------------------- FOLLOWING -------------------------------------------------->
-<div class="row">
+<div class="row" id="profile-following">
 	<div class="large-12 columns ">
 		<h3>Following</h3>	
 		<div class="box" id="following-list">

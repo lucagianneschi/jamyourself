@@ -183,31 +183,22 @@ function albumSelect(recordId) {
 
 }
 
-function albumSelectNext(recordId){
-	$('.'+recordId).hide('slide', {
-			direction : "right"
-		}, "slow");
-		setTimeout(function() {
-			$('#album-list').show('slide', {
-				direction : "left"
-			}, "slow");
-		}, 600);
-	
-}
 
-//funzione per gestire la visualizzazione della cover
-function albumcover(albumcover,num) {
-	if(num>0) {
-		$('#albumcover-list').hide('slide', {
-		direction : "left"
-	}, "slow");
-	setTimeout(function() {
-		$('#albumcover-single').show('slide', {
-			direction : "right"
-		}, "slow");
-	}, 600);
+//visualizza foto di singolo album e nasconde lista album
+function albumSelectSingle(albumcover,num) {
+	//effettua transizione se ci sono foto all'interno dell'album
+	if(num>0) {		
+		 $( "#albumSlide" ).fadeOut( 100, function() {
+    		$('#'+albumcover ).fadeIn( 100 );
+		});
 	}
 	
+}
+//nasconde foto singolo album e visualizza lista album
+function albumSelectNext(recordId){		
+	$('#'+recordId ).fadeOut( 100, function() {
+    	$('#albumSlide').fadeIn( 100 );
+	});	
 }
 
 function photo(photo) {
@@ -263,6 +254,20 @@ var toggleText = function(_this){
 		} 
 		else $(_this).text('Read');	
 	});	
+}
+
+//lightbox photo
+function lightBoxPhoto(classBox){
+	$("."+classBox).colorbox({
+			rel:'group',
+			inline:true, 
+			width: '600px',
+			scrolling: true,
+			onComplete: function(){
+			 	$(this).niceScroll({cursorcolor:"#222",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
+			}
+		});
+		
 }
 
 
