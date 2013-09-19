@@ -1,0 +1,6 @@
+{
+    "minMessageSize" : 1,
+    "maxMessageSize" : 3500,
+    "inputPostRowNumber": 2,
+    "inputPostColumnNumber": 50
+}
