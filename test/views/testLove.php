@@ -37,7 +37,7 @@ function love(classType, objectId, opType) {
 <meta name="description" content="La descrizione della pagina" />
 </head>
 <body>
-Cliccando i bottoni seguenti si incrementa e decrementa il campo loveCounter delle classi che possono aveve azioni di love e unlove<br />
+Cliccando i bottoni seguenti si incrementa e decrementa il campo loveCounter delle classi che possono aveve azioni di love e unlove. L'utente che esegue l'operazione e' di default "GuUAj83MGH"<br />
 <br />
 <button type="button" onclick="love('Album', 'cjqaTR1kQW', 'increment')">Increment Love Album cjqaTR1kQW</button>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
