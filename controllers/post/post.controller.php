@@ -5,12 +5,12 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'activity.php';
-require_once CLASSES_DIR . 'activityParse.php';
-require_once CLASSES_DIR . 'comment.php';
-require_once CLASSES_DIR . 'commentParse.php';
-require_once CLASSES_DIR . 'user.php';
-require_once CLASSES_DIR . 'userParse.php';
+require_once CLASSES_DIR . 'activity.class.php';
+require_once CLASSES_DIR . 'activityParse.class.php';
+require_once CLASSES_DIR . 'comment.class.php';
+require_once CLASSES_DIR . 'commentParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
+require_once CLASSES_DIR . 'userParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
 class PostController extends REST {
@@ -27,118 +27,123 @@ class PostController extends REST {
     }
 
     public function post() {
-        try{
-            
-        //controllo che la chiamata sia una POST
-        //controllo che l'utente sia loggato: cioè se nella sessione è presente il currentUser 
-//        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
-//            //codice di errore
-//            $this->response('', 406);
-//        }
-        if ($this->get_request_method() != "POST") {
-            //codice di errore
-            $this->response('', 406);
-        }
-        //recupero l'utente che effettua il commento
-        //$currentUser = $_SESSION['currentUser'];
 		
-		if (!isset($this->request['text'])) {
-            $error = array('status' => "Bad Request", "msg" => "No comment specified");
-            $this->response($error, 400);
-        } elseif(!isset($this->request['toUser'])){
-            $error = array('status' => "Bad Request", "msg" => "No toUser specified");
-            $this->response($error, 400);
-		} elseif(!isset($this->request['fromUser'])){
-            $error = array('status' => "Bad Request", "msg" => "No fromUser specified");
-            $this->response($error, 400);
-		}
+		#TODO
+		//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
+		//questa sezione prima del try-catch dovr� sparire
+		$userParse = new UserParse();
+		$fromUser = $userParse->getUser($this->request['fromUser']);
+		$toUser = $fromUser;
 		
-		$text = $_REQUEST['text'];
-		
+		try {
+            //controllo la richiesta
+			//if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
+			if ($this->get_request_method() != "POST") {
+				$this->response('', 406);
+			}
 
+			//controllo i parametri
+			if (!isset($this->request['text'])) {
+				$this->response(array('status' => "Bad Request", "msg" => "No comment specified"), 400);
+			} elseif (!isset($this->request['toUser'])) {
+				$this->response(array('status' => "Bad Request", "msg" => "No toUser specified"), 400);
+			} elseif (!isset($this->request['fromUser'])) {
+				$this->response(array('status' => "Bad Request", "msg" => "No fromUser specified"), 400);
+			}
+			
+			//recupero l'utente che effettua il commento
+			//$currentUser = $_SESSION['currentUser'];
 		
-        if(strlen($text)<$this->config->minPostSize){
-			$this->response(array("Dimensione post troppo corta | lungh: ".strlen($text)), 200);
-		} elseif(strlen($text)>$this->config->maxPostSize){
-			$this->response(array("Dimensione post troppo lunga | lungh: ".strlen($text)), 200);
-		} 
-		
-		//imposto i valori per il salvataggio del post
-		$cmt = new parseObject('Comment');
-		$cmt->active = true;
-		$cmt->commentators = null;
-		$cmt->comments = null;
-		$cmt->counter = 0;
-		//$cmt->fromUser = $currentUser;
-		$cmt->location = null;
-		$cmt->loveCounter = 0;
-		$cmt->lovers = null;
-		$cmt->opinions = null;
-		$cmt->shareCounter = 0;
-		$cmt->tags = null;
-		$cmt->title = null;
-		$cmt->type = 'P';
-		$cmt->vote = null;
-		
-		//imposto i valori per il salvataggio dell'activity collegata al post
-		$activity = new parseObject('Activity');
-		$activity->active = true;
-		$activity->accepted = true;
-		$activity->counter = 0;
-		//$activity->fromUser = $currentUser;
-		$activity->loveCounter = 0;
-		$activity->playlist = null;
-		$activity->question = null;
-		$activity->read = false;
-		$activity->status = 'A';
-		
-		$parseUser = new UserParse();
-		$toUser = $parseUser->getUser($this->request['fromUser']);
-	
-		$cmt->album =   null;
-		$cmt->comment = null;
-		$cmt->event =   null;
-		$cmt->image =   null;
-		$cmt->record =  null;
-		$cmt->song =    null;
-		$cmt->status =  null;
-		$cmt->toUser = $toUser;
-		$cmt->video =   null;
-		 
-	    $activity->album =   null;
-		$activity->comment = null;
-		$activity->event =   null;
-		$activity->image =   null;
-		$activity->record =  null;
-		$activity->song =    null;
-		$activity->status =  null;
-		$activity->toUser =  null;
-		$activity->type =    'POSTED';
- 		$activity->video =   null;
-		
-		//salvo post
-		$parsePost = new CommentParse();
-		$parsePost->saveComment($cmt);
-		//salvo activity
-		$parseActivity = new ActivityParse();
-		$parseActivity->saveActivity($activity);
-		
-		//qui va fatto il 
-		        //gestione risposta alla view:
-        // if (true) {
-            // $messaggioDiRispostaSuccesso = "success"; //può essere anche un json con varie informazioni                                       
-            // $this->response(array("Commento ricevuto: ".$comment), 200);
-        // } else {
-            // errore: 200 perché la richiesta è arrivata corretta, ma è successo qualcosa che non va..
-            // $this->response(array("Can't save your comment right now"), 200);
-        // }
-		
-		
-		$this->response(array('Your post has been saved'), 200);
-		}
-	catch (Exception $e) {
-            $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
-            $this->response($error, 503);
+			//recupero e controllo il post
+			$text = $_REQUEST['text'];
+			if (strlen($text) < $this->config->minPostSize) {
+				$this->response(array("Dimensione post troppo corta | lungh: ".strlen($text)), 200);
+			} elseif (strlen($text) > $this->config->maxPostSize) {
+				$this->response(array("Dimensione post troppo lunga | lungh: ".strlen($text)), 200);
+			} 
+			
+			//imposto i valori per il salvataggio del post
+			//$cmt = new parseObject('Comment');
+			$cmt = new Comment();
+			$cmt->setActive(true);
+			$cmt->setAlbum(null);
+			$cmt->setComment(null);
+			$cmt->setCommentCounter(0);
+			$cmt->setCommentators(null);
+			$cmt->setComments(null);
+			$cmt->setCounter(0);
+			$cmt->setEvent(null);
+			
+			#TODO
+			//$cmt->setFromUser($currentUser);
+			$cmt->setFromUser($fromUser->getObjectId());
+			
+			$cmt->setImage(null);
+			$cmt->setLocation(null);
+			$cmt->setLoveCounter(0);
+			$cmt->setLovers(null);
+			$cmt->setOpinions(null);
+			$cmt->setRecord(null);
+			$cmt->setShareCounter(0);
+			$cmt->setSong(null);
+			$cmt->setStatus(null);
+			$cmt->setTags(null);
+			$cmt->setTitle(null);
+			$cmt->setText($text);
+			
+			#TODO
+			//$userParse = new UserParse();
+			//$toUser = $userParse->getUser($this->request['fromUser']);
+			$cmt->setToUser($toUser->getObjectId());
+			
+			$cmt->setType('P');
+			$cmt->setVideo(null);
+			$cmt->setVote(null);
+			
+			//imposto i valori per il salvataggio dell'activity collegata al post
+			//$activity = new parseObject('Activity');
+			$activity = new Activity();
+			$activity->setActive(true);
+			$activity->setAccepted(true);
+			$activity->setAlbum(null);
+			$activity->setComment(null);
+			$activity->setCounter(0);
+			$activity->setEvent(null);
+			
+			#TODO
+			//$activity->setFromUser($currentUser);
+			$activity->setFromUser($fromUser->getObjectId());
+
+			$activity->setImage(null);
+			$activity->setPlaylist(null);
+			$activity->setQuestion(null);
+			$activity->setRead(false);
+			$activity->setRecord(null);
+			$activity->setSong(null);
+			$activity->setStatus(null); 	//-->
+			$activity->setStatus('A');		//-->
+			$activity->setToUser(null);
+			$activity->setType('POSTED');
+			$activity->setVideo(null);
+			
+			//salvo post
+			$commentParse = new CommentParse();
+			$res = $commentParse->saveComment($cmt);
+			if (get_class($res) == 'Error') {
+				$this->response(array($res), 503);
+			}
+			
+			//salvo activity
+			$activityParse = new ActivityParse();
+			$res = $activityParse->saveActivity($activity);
+			if (get_class($res) == 'Error') {
+				$this->response(array($res), 503);
+			}
+			
+			//risposta
+			$this->response(array('Your post has been saved'), 200);
+		} catch (Exception $e) {
+            $this->response($e, 503);
         }
     }
 }
