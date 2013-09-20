@@ -5,19 +5,19 @@
 <script type="text/javascript">
 function love(classType, objectId, opType) {
 	
-	var json_profile = {};
+	var json_love = {};
 	if (opType == 'increment') {
-		json_profile.request = "incrementLove";
+		json_love.request = "incrementLove";
 	} else {
-		json_profile.request = "decrementLove";
+		json_love.request = "decrementLove";
 	}
-	json_profile.classType = classType;
-	json_profile.objectId = objectId;
+	json_love.classType = classType;
+	json_love.objectId = objectId;
 	
 	$.ajax({
 		type:         "POST",
 		url:          "../../controllers/love/loveRequest.php",
-		data:         json_profile,
+		data:         json_love,
 		async:        false,
 		"beforeSend": function(xhr) {
 			xhr.setRequestHeader("X-AjaxRequest", "1");
