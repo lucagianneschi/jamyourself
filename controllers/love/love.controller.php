@@ -6,7 +6,7 @@ require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once PARSE_DIR . 'parse.php';
 
-class ProfileController extends REST {
+class LoveController extends REST {
 
     public function init() {
 		session_start();
