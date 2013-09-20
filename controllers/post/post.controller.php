@@ -63,7 +63,7 @@ class PostController extends REST {
 			} 
 			
 			//imposto i valori per il salvataggio del post
-			//$cmt = new parseObject('Comment');
+
 			$cmt = new Comment();
 			$cmt->setActive(true);
 			$cmt->setAlbum(null);
@@ -101,7 +101,6 @@ class PostController extends REST {
 			$cmt->setVote(null);
 			
 			//imposto i valori per il salvataggio dell'activity collegata al post
-			//$activity = new parseObject('Activity');
 			$activity = new Activity();
 			$activity->setActive(true);
 			$activity->setAccepted(true);
@@ -120,10 +119,10 @@ class PostController extends REST {
 			$activity->setRead(false);
 			$activity->setRecord(null);
 			$activity->setSong(null);
-			$activity->setStatus(null); 	//-->
-			$activity->setStatus('A');		//-->
+			$activity->setStatus('A');
 			$activity->setToUser(null);
 			$activity->setType('POSTED');
+			$activity->setUserStatus(null); 
 			$activity->setVideo(null);
 			
 			//salvo post
