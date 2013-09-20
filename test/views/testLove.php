@@ -16,7 +16,7 @@ function love(classType, objectId, opType) {
 	
 	$.ajax({
 		type:         "POST",
-		url:          "../../controllers/profile/profileRequest.php",
+		url:          "../../controllers/love/loveRequest.php",
 		data:         json_profile,
 		async:        false,
 		"beforeSend": function(xhr) {
