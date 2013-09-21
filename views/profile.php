@@ -8,7 +8,7 @@ require_once ROOT_DIR . 'config.php';
 $correntUser = "GuUAj83MGH";
 $correntUserType = 'SPOTTER';
 //esempio: objectId dell'utente a cui si vuole vedere il profilo 
-$profileUser = "iovioSH5mq";
+$profileUser = "HDgcsTLpEx";
 
 
 ?>

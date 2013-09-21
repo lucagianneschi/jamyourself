@@ -1,48 +1,5 @@
 $(document).ready(function() {
-	//--------- propriety element --------------
-	//------------- LOVE ----------------------
-	$('.box-propriety a').click(function() {
-		typeOpt = $(this).text();
-		switch(typeOpt) {
-			case 'Love':
-				parent = $(this).parent().parent();
-				objectLove = $(parent).find("a._unlove");
-				$(objectLove).toggleClass('orange grey');
-				var number_love = parseInt($(objectLove).text(), 10);
-				$(objectLove).text(number_love + 1);
-				$(objectLove).toggleClass('_love _unlove');
-				$(this).text('Unlove');
-				break;
-			case 'Unlove':
-				parent = $(this).parent().parent();
-				objectLove = $(parent).find("a._love");
-				$(objectLove).toggleClass('grey orange');
-				var number_love = parseInt($(objectLove).text(), 10);
-				$(objectLove).text(number_love - 1);
-				$(objectLove).toggleClass('_unlove _love');
-				$(this).text('Love');
-				break;
-			case 'Comment':
-				parent = $(this).parent().parent().parent().parent();
-
-				if ($(parent.next()).hasClass('no-display')) {
-					$(parent).css({
-						'margin-bottom' : '0px'
-					});
-					$(parent.next()).removeClass('no-display');
-				} else {
-					$(parent).css({
-						'margin-bottom' : '40px'
-					});
-					$(parent.next()).addClass('no-display');
-				}
-				break;
-			default:
-				console.log(typeOpt);
-		}
-
-	});
-
+	
 	$('#album-single ._back_page').click(function() {
 		//	$('#album-list').show('slide', { direction: "left" }, "slow");
 		$('#album-single').hide('slide', {
@@ -54,6 +11,7 @@ $(document).ready(function() {
 			}, "slow");
 		}, 600);
 	});
+	
 	$('#albumcover-single ._back_page').click(function() {
 		//$('#albumcover-list').show('slide', { direction: "left" }, "slow");
 		$('#albumcover-single').hide('slide', {
@@ -64,9 +22,7 @@ $(document).ready(function() {
 				direction : "left"
 			}, "slow");
 		}, 600);
-	});
-
-	
+	});	
 
 	$('#profile_map_venue').click(function() {
 		if (!$(this).hasClass('active')) {
@@ -204,43 +160,8 @@ function albumSelectNext(recordId){
 function photo(photo) {
 
 }
-var rsi;
-function slideReview(idBox) {
- rsi = $('#' + idBox).royalSlider({
-		arrowsNav : false,
-		arrowsNavAutoHide : false,
-		fadeinLoadedSlide : false,
-		controlNavigationSpacing : 0,
-		controlNavigation : 'none',
-		imageScaleMode : 'none',
-		imageAlignCenter : false,
-		blockLoop : false,
-		loop : false,
-		numImagesToPreload : 6,
-		transitionType : 'fade',
-		keyboardNavEnabled : true,
-		autoHeight: true,
-		block : {
-			delay : 400
-		}
-	}).data('royalSlider');
-	
-}
 
-function royalSlideNext(_this,id){
-	$(_this).click(function() {
-   		rsi.next();
-   		$('#'+id+' .indexBox').text(rsi.currSlideId+1);
-  	});
-}
-function royalSlidePrev(_this,id){
-  $(_this).click(function() {
-    rsi.prev();
-    $('#'+id+' .indexBox').text(rsi.currSlideId+1);  
-    console.log(rsi);  
-    console.log(rsi.height);
-  });
- }
+
  
 // record review
 var toggleText = function(_this){

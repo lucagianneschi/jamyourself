@@ -25,11 +25,11 @@ $albumCounter = $data['albumCounter'];
 			<div  class="large-7 columns align-right">
 				<?php if($albumCounter > 4){ ?>
 					<div class="row">					
-						<div  class="small-6 columns">
-							<a class="icon-block _prevPage grey text" onclick="royalSlidePrev(this,'album')" style="top: 5px !important; margin-top: 15px !important; ">Previous </a>
+						<div  class="small-9 columns">
+							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('album')">Previous </a>
 						</div>
-						<div  class="small-6 columns">
-							<a class="icon-block _nextPage " id="profile-album-next" onclick="royalSlideNext(this,'album')" style="top: 5px !important; margin-top: 15px !important">Next </a>
+						<div  class="small-3 columns">
+							<a class="slide-button-next _nextPage" id="profile-album-next" onclick="royalSlideNext('album')">Next </a>
 						</div>
 					</div>
 					

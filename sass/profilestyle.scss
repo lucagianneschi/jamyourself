@@ -54,7 +54,7 @@ section.active > .title a{
   
 }
 
-#event{
+#eventSlide{
   .sottotitle{
     margin-bottom: 10px;
   }
@@ -328,28 +328,36 @@ section.active > .title a{
 .eventcover{
   height:130px;
   width:130px;
+  padding-bottom: 5px !important;
 }
 
 #albumcover-single .reveal-modal{
   height:100%;
   width:100%;
 }
-#event.royalSlider {
+#eventSlide.royalSlider {
 	width: auto !important;
-	height: 550px !important;
+	height: auto !important;
 	.rsContent{
 		background-color: $grey-superdark !important;		
 	}
 		
 }
 
-#box-event .box{
-	padding: 10px !important;
+#profile-event .box{
+	padding: 5px !important;
 	.propriety {
 		padding-right: 20px !important;
 		padding-left: 0px !important;
 	}	
 }
+
+.box-event{
+	border: 1px solid $grey-dark;
+	margin-bottom: 5px !important;
+	padding: 5px !important;
+}
+
 
 
 //-------------- SOCIAL ---------------------------

@@ -132,6 +132,13 @@ var callBox = {
 }
 
 /*
+ * Variabili
+ */
+var rsi_event;
+var rsi_album;
+
+
+/*
  * box userInfo: chiama box-userinfo.php, box-status.php e box-information.php
  */
 function addBoxUserInfo(data,typeCurrentUser) {
@@ -181,7 +188,7 @@ function addBoxEvent(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: {
-			royalSlide('event');
+			rsi_event = slideReview('eventSlide');
 			hcento();
 		}
 	});
@@ -264,7 +271,7 @@ function addBoxAlbum(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: 
-		slideReview('albumSlide');
+		rsi_album = slideReview('albumSlide');
 		lightBoxPhoto('photo-colorbox-group');
 		hcento();
 	});
@@ -300,7 +307,7 @@ function addBoxHeader(data, typeUser){
 /*
  * scorrimento dei box
  */
-var rsi
+
 function royalSlide(idBox) {
  $('#' + idBox).royalSlider({
 		arrowsNav : true,
@@ -322,6 +329,63 @@ function royalSlide(idBox) {
 	}).data('royalSlider');
 	
 }
+
+
+function slideReview(idBox) {
+var rsi = $('#' + idBox).royalSlider({
+		arrowsNav : false,
+		arrowsNavAutoHide : false,
+		navigateByClick: false,
+		fadeinLoadedSlide : false,
+		controlNavigationSpacing : 0,
+		controlNavigation : 'none',
+		imageScaleMode : 'none',
+		imageAlignCenter : false,
+		blockLoop : false,
+		loop : false,
+		numImagesToPreload : 6,
+		transitionType : 'fade',
+		keyboardNavEnabled : true,
+		autoHeight: true,
+		block : {
+			delay : 400
+		}
+	}).data('royalSlider');
+	return rsi;
+}
+
+function royalSlideNext(box){
+	var rsi;
+	switch(box) {
+		case 'event':
+		rsi = rsi_event;
+		break;
+		case 'album':
+		rsi = rsi_album;
+		break;
+		default:
+		break;
+	}
+	rsi.next();
+   	
+  
+}
+
+function royalSlidePrev(box){
+	var rsi;
+	switch(box) {
+		case 'event':
+		rsi = rsi_event;
+		break;
+		case 'album':
+		rsi = rsi_album;
+		break;
+		default:
+		break;
+	}
+	rsi.prev();
+	
+ }
 
 
 

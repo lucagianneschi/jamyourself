@@ -159,7 +159,49 @@ a.icon-block{
     background-position:left bottom;
   }
  
-};
+}
+
+.slide-button-next{
+	word-wrap: break-word !important;
+	width:auto;
+	height:30px;
+	float:right;
+	font-size:13px;
+	color:$grey;
+	line-height:30px;
+  	margin-right:1px;
+    cursor:pointer;   
+	top: 5px !important; 
+	margin-top: 15px !important; 
+	padding: 0px 30px 0px 0px !important;	
+  	background-repeat:no-repeat;
+	background-position: right top;
+	&:hover{
+		background-position: right bottom;
+		color: $white;
+	}
+}
+
+.slide-button-prev{
+	word-wrap: break-word !important;
+  width:auto;
+  height:30px;
+  float:right;
+  font-size:13px;
+  color:$grey;
+  margin-top: 15px !important;
+  line-height:30px;
+  margin-right:1px;
+  padding:0 0px 0 30px;
+  cursor:pointer;   
+  background-repeat:no-repeat;
+  background-position:left top;
+  @include transition-property(background-position);
+  &:hover {
+    background-position:left bottom;
+    color: $white;
+  }
+}
 
 
 .add{
