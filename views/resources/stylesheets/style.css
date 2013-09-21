@@ -624,7 +624,7 @@ footer {
 #form-signup .signup-radio input[type='radio'] + label {
   height: 30px;
   width: auto;
-  background-image: url(../images/icon/check.png);
+  background-image: url(../images/icon/double-icone/check.png);
   background-repeat: no-repeat;
   background-position: left bottom !important;
   line-height: 30px;
@@ -728,231 +728,241 @@ footer {
 }
 
 /* line 655, ../../../sass/style.scss */
-._notify {
-  background-image: url(../images/icon/notify.png);
+._back_page {
+  background-image: url(../images/icon/double-icone/back_page.png);
 }
 
 /* line 656, ../../../sass/style.scss */
-._friend {
-  background-image: url(../images/icon/friend.png);
+._calendar {
+  background-image: url(../images/icon/double-icone/calendar.png);
 }
 
 /* line 657, ../../../sass/style.scss */
-._setting {
-  background-image: url(../images/icon/setting.png);
+._check {
+  background-image: url(../images/icon/double-icone/check.png);
 }
 
 /* line 658, ../../../sass/style.scss */
+._compass {
+  background-image: url(../images/icon/double-icone/compass.png);
+}
+
+/* line 659, ../../../sass/style.scss */
+._facebook {
+  background-image: url(../images/icon/double-icone/facebook.png);
+}
+
+/* line 660, ../../../sass/style.scss */
+._facebook-double {
+  background-image: url(../images/icon/double-icone/facebook-double.png);
+}
+
+/* line 661, ../../../sass/style.scss */
+._flag {
+  background-image: url(../images/icon/double-icone/flag.png);
+}
+
+/* line 662, ../../../sass/style.scss */
+._friend {
+  background-image: url(../images/icon/double-icone/friend.png);
+}
+
+/* line 663, ../../../sass/style.scss */
+._google {
+  background-image: url(../images/icon/double-icone/google.png);
+}
+
+/* line 664, ../../../sass/style.scss */
+._google-double {
+  background-image: url(../images/icon/double-icone/google-double.png);
+}
+
+/* line 665, ../../../sass/style.scss */
+._message {
+  background-image: url(../images/icon/double-icone/message.png);
+}
+
+/* line 666, ../../../sass/style.scss */
+._nextPage {
+  background-image: url(../images/icon/double-icone/nextPage.png);
+}
+
+/* line 667, ../../../sass/style.scss */
+._note {
+  background-image: url(../images/icon/double-icone/note.png);
+}
+
+/* line 668, ../../../sass/style.scss */
+._note-white {
+  background-image: url(../images/icon/double-icone/note-white.png);
+}
+
+/* line 669, ../../../sass/style.scss */
+._notify {
+  background-image: url(../images/icon/double-icone/notify.png);
+}
+
+/* line 670, ../../../sass/style.scss */
+._off {
+  background-image: url(../images/icon/double-icone/off.png);
+}
+
+/* line 671, ../../../sass/style.scss */
+._pin {
+  background-image: url(../images/icon/double-icone/pin.png);
+}
+
+/* line 672, ../../../sass/style.scss */
+._pin-white {
+  background-image: url(../images/icon/double-icone/pin-white.png);
+}
+
+/* line 673, ../../../sass/style.scss */
+._play-large {
+  background-image: url(../images/icon/double-icone/play.png);
+}
+
+/* line 674, ../../../sass/style.scss */
+._play_white {
+  background-image: url(../images/icon/double-icone/play_white.png);
+}
+
+/* line 675, ../../../sass/style.scss */
+._prevPage {
+  background-image: url(../images/icon/double-icone/prevPage.png);
+}
+
+/* line 676, ../../../sass/style.scss */
+._setting {
+  background-image: url(../images/icon/double-icone/setting.png);
+}
+
+/* line 677, ../../../sass/style.scss */
+._twitter {
+  background-image: url(../images/icon/double-icone/twitter.png);
+}
+
+/* line 678, ../../../sass/style.scss */
+._twitter-double {
+  background-image: url(../images/icon/double-icone/twitter-double.png);
+}
+
+/* line 679, ../../../sass/style.scss */
+._web {
+  background-image: url(../images/icon/double-icone/web.png);
+}
+
+/* line 680, ../../../sass/style.scss */
+._web-double {
+  background-image: url(../images/icon/double-icone/web-double.png);
+}
+
+/* line 681, ../../../sass/style.scss */
+._youtube {
+  background-image: url(../images/icon/double-icone/youtube.png);
+}
+
+/* line 682, ../../../sass/style.scss */
+._youtube-double {
+  background-image: url(../images/icon/double-icone/youtube-double.png);
+}
+
+/* line 685, ../../../sass/style.scss */
 ._add {
   background-image: url(../images/icon/add.png);
 }
 
-/* line 659, ../../../sass/style.scss */
-._flag {
-  background-image: url(../images/icon/flag.png);
-}
-
-/* line 660, ../../../sass/style.scss */
-._message {
-  background-image: url(../images/icon/message.png);
-}
-
-/* line 661, ../../../sass/style.scss */
-._calendar {
-  background-image: url(../images/icon/calendar.png);
-}
-
-/* line 662, ../../../sass/style.scss */
-._compass {
-  background-image: url(../images/icon/compass.png);
-}
-
-/* line 663, ../../../sass/style.scss */
-._note {
-  background-image: url(../images/icon/note.png);
-}
-
-/* line 664, ../../../sass/style.scss */
-._pin {
-  background-image: url(../images/icon/pin.png);
-}
-
-/* line 665, ../../../sass/style.scss */
-._facebook {
-  background-image: url(../images/icon/facebook.png);
-}
-
-/* line 666, ../../../sass/style.scss */
-._twitter {
-  background-image: url(../images/icon/twitter.png);
-}
-
-/* line 667, ../../../sass/style.scss */
-._google {
-  background-image: url(../images/icon/google.png);
-}
-
-/* line 668, ../../../sass/style.scss */
-._youtube {
-  background-image: url(../images/icon/youtube.png);
-}
-
-/* line 669, ../../../sass/style.scss */
-._web {
-  background-image: url(../images/icon/web.png);
-}
-
-/* line 670, ../../../sass/style.scss */
-._back_page {
-  background-image: url(../images/icon/back_page.png);
-}
-
-/* line 671, ../../../sass/style.scss */
-._play-large {
-  background-image: url(../images/icon/play.png);
-}
-
-/* line 672, ../../../sass/style.scss */
-._off {
-  background-image: url(../images/icon/off.png);
-}
-
-/* line 673, ../../../sass/style.scss */
-._play_white {
-  background-image: url(../images/icon/play_white.png);
-}
-
-/* line 675, ../../../sass/style.scss */
-._facebook-double {
-  background-image: url(../images/icon/facebook-double.png);
-}
-
-/* line 676, ../../../sass/style.scss */
-._twitter-double {
-  background-image: url(../images/icon/twitter-double.png);
-}
-
-/* line 677, ../../../sass/style.scss */
-._youtube-double {
-  background-image: url(../images/icon/youtube-double.png);
-}
-
-/* line 678, ../../../sass/style.scss */
-._google-double {
-  background-image: url(../images/icon/google-double.png);
-}
-
-/* line 679, ../../../sass/style.scss */
-._web-double {
-  background-image: url(../images/icon/web-double.png);
-}
-
-/* line 681, ../../../sass/style.scss */
-._check {
-  background-image: url(../images/icon/check.png);
-}
-
-/* line 683, ../../../sass/style.scss */
-._nextPage {
-  background-image: url(../images/icon/nextPage.png);
-}
-
-/* line 684, ../../../sass/style.scss */
-._prevPage {
-  background-image: url(../images/icon/prevPage.png);
-}
-
-/* line 687, ../../../sass/style.scss */
+/* line 689, ../../../sass/style.scss */
 ._back {
   background-image: url(../images/icon/musicplayer/back.png);
 }
 
-/* line 688, ../../../sass/style.scss */
+/* line 690, ../../../sass/style.scss */
 ._pause {
   background-image: url(../images/icon/musicplayer/pause.png);
 }
 
-/* line 689, ../../../sass/style.scss */
+/* line 691, ../../../sass/style.scss */
 ._next {
   background-image: url(../images/icon/musicplayer/next.png);
 }
 
-/* line 690, ../../../sass/style.scss */
+/* line 692, ../../../sass/style.scss */
 ._play {
   background-image: url(../images/icon/musicplayer/play.png);
 }
 
-/* line 693, ../../../sass/style.scss */
+/* line 695, ../../../sass/style.scss */
 ._message-small {
   background-image: url(../images/icon/small/message-small.png);
 }
 
-/* line 694, ../../../sass/style.scss */
+/* line 696, ../../../sass/style.scss */
 ._compass-small {
   background-image: url(../images/icon/small/compass-small.png);
 }
 
-/* line 695, ../../../sass/style.scss */
+/* line 697, ../../../sass/style.scss */
 ._love {
   background-image: url(../images/icon/small/love.png);
 }
 
-/* line 696, ../../../sass/style.scss */
+/* line 698, ../../../sass/style.scss */
 ._unlove {
   background-image: url(../images/icon/small/unlove.png);
 }
 
-/* line 697, ../../../sass/style.scss */
+/* line 699, ../../../sass/style.scss */
 ._comment {
   background-image: url(../images/icon/small/comment.png);
 }
 
-/* line 698, ../../../sass/style.scss */
+/* line 700, ../../../sass/style.scss */
 ._shere {
   background-image: url(../images/icon/small/shere.png);
 }
 
-/* line 699, ../../../sass/style.scss */
+/* line 701, ../../../sass/style.scss */
 ._review {
   background-image: url(../images/icon/small/review.png);
 }
 
-/* line 700, ../../../sass/style.scss */
+/* line 702, ../../../sass/style.scss */
 ._menu-small {
   background-image: url(../images/icon/small/menu-small.png);
 }
 
-/* line 701, ../../../sass/style.scss */
+/* line 703, ../../../sass/style.scss */
 ._star-orange {
   background-image: url(../images/icon/small/star-orange.png);
 }
 
-/* line 702, ../../../sass/style.scss */
+/* line 704, ../../../sass/style.scss */
 ._star-grey {
   background-image: url(../images/icon/small/star-grey.png);
 }
 
-/* line 705, ../../../sass/style.scss */
+/* line 707, ../../../sass/style.scss */
 ._target1 {
   background-image: url(../images/icon/achievement/target1.png);
 }
 
-/* line 706, ../../../sass/style.scss */
+/* line 708, ../../../sass/style.scss */
 ._target2 {
   background-image: url(../images/icon/achievement/target2.png);
 }
 
-/* line 707, ../../../sass/style.scss */
+/* line 709, ../../../sass/style.scss */
 ._target3 {
   background-image: url(../images/icon/achievement/target3.png);
 }
 
-/* line 710, ../../../sass/style.scss */
+/* line 712, ../../../sass/style.scss */
 ._message_status {
   background-image: url(../images/icon/status/message.png);
 }
 
-/* line 711, ../../../sass/style.scss */
+/* line 713, ../../../sass/style.scss */
 ._follower_status {
   background-image: url(../images/icon/status/follower.png);
 }

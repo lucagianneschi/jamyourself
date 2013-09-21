@@ -16,9 +16,9 @@ $data = $_POST['data'];
 
 $username = $data['username'];
 $information_description = $data['description'] != "" ? '<div class="content" data-section-content>' : '<div class="no-display">';
-$information_pin = $data['city'] == "" ? '' : '_pin';
+$information_pin = $data['city'] == "" ? '' : '_pin-white';
 if($username != 'VENUE')
-	$information_note = $data['music'] == "" ? '' : '_note';
+	$information_note = $data['music'] == "" ? '' : '_note-white';
 if($username == 'VENUE'){
 	$latitude = $data['geoCoding']['lat'];
 	$longitude = $data['geoCoding']['long'];

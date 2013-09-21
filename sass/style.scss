@@ -549,7 +549,7 @@ footer {
 #form-signup .signup-radio input[type='radio'] + label{
   height: 30px;
   width:auto;
-  background-image:url(../images/icon/check.png);
+  background-image:url(../images/icon/double-icone/check.png);
   background-repeat:no-repeat;
   background-position:left bottom !important;
   line-height:30px;
@@ -651,37 +651,39 @@ footer {
 
 //---------------- ICON -----------------------------
 
+//------------------ double icon -------------------
+._back_page { background-image:url(../images/icon/double-icone/back_page.png); }
+._calendar { background-image:url(../images/icon/double-icone/calendar.png); }
+._check { background-image:url(../images/icon/double-icone/check.png); }
+._compass { background-image:url(../images/icon/double-icone/compass.png); }
+._facebook { background-image:url(../images/icon/double-icone/facebook.png); }
+._facebook-double { background-image:url(../images/icon/double-icone/facebook-double.png); }
+._flag { background-image:url(../images/icon/double-icone/flag.png); }
+._friend { background-image:url(../images/icon/double-icone/friend.png); }
+._google { background-image:url(../images/icon/double-icone/google.png); }
+._google-double { background-image:url(../images/icon/double-icone/google-double.png); }
+._message { background-image:url(../images/icon/double-icone/message.png); }
+._nextPage { background-image:url(../images/icon/double-icone/nextPage.png); }
+._note { background-image:url(../images/icon/double-icone/note.png); }
+._note-white { background-image:url(../images/icon/double-icone/note-white.png); }
+._notify { background-image:url(../images/icon/double-icone/notify.png); }
+._off { background-image:url(../images/icon/double-icone/off.png); }
+._pin { background-image:url(../images/icon/double-icone/pin.png); }
+._pin-white { background-image:url(../images/icon/double-icone/pin-white.png); }
+._play-large { background-image:url(../images/icon/double-icone/play.png); }
+._play_white { background-image:url(../images/icon/double-icone/play_white.png); }
+._prevPage { background-image:url(../images/icon/double-icone/prevPage.png); }
+._setting { background-image:url(../images/icon/double-icone/setting.png); }
+._twitter { background-image:url(../images/icon/double-icone/twitter.png); }
+._twitter-double { background-image:url(../images/icon/double-icone/twitter-double.png); }
+._web { background-image:url(../images/icon/double-icone/web.png); }
+._web-double { background-image:url(../images/icon/double-icone/web-double.png); }
+._youtube { background-image:url(../images/icon/double-icone/youtube.png); }
+._youtube-double { background-image:url(../images/icon/double-icone/youtube-double.png); }
 
-._notify { background-image:url(../images/icon/notify.png); }
-._friend { background-image:url(../images/icon/friend.png); }
-._setting { background-image:url(../images/icon/setting.png); }
+
 ._add { background-image:url(../images/icon/add.png); }
-._flag { background-image:url(../images/icon/flag.png); }
-._message { background-image:url(../images/icon/message.png); }
-._calendar { background-image:url(../images/icon/calendar.png); }
-._compass { background-image:url(../images/icon/compass.png); }
-._note { background-image:url(../images/icon/note.png); }
-._pin { background-image:url(../images/icon/pin.png); }
-._facebook { background-image:url(../images/icon/facebook.png); }
-._twitter { background-image:url(../images/icon/twitter.png); }
-._google { background-image:url(../images/icon/google.png); }
-._youtube { background-image:url(../images/icon/youtube.png); }
-._web { background-image:url(../images/icon/web.png); }
-._back_page { background-image:url(../images/icon/back_page.png); }
-._play-large { background-image:url(../images/icon/play.png); }
-._off { background-image:url(../images/icon/off.png); }
-._play_white { background-image:url(../images/icon/play_white.png); }
 
-._facebook-double { background-image:url(../images/icon/facebook-double.png); }
-._twitter-double { background-image:url(../images/icon/twitter-double.png); }
-._youtube-double { background-image:url(../images/icon/youtube-double.png); }
-._google-double { background-image:url(../images/icon/google-double.png); }
-._web-double { background-image:url(../images/icon/web-double.png); }
-
-._check { background-image:url(../images/icon/check.png); }
-
-._nextPage { background-image:url(../images/icon/nextPage.png); }
-._prevPage { background-image:url(../images/icon/prevPage.png); }
 
 //--------------------------- icon music player ------------------------
 ._back { background-image:url(../images/icon/musicplayer/back.png); }
