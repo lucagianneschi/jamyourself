@@ -20,7 +20,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
-require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'event.class.php';
 require_once CLASSES_DIR . 'eventParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
