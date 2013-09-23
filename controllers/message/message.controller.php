@@ -4,7 +4,6 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 
 require_once ROOT_DIR . 'config.php';
-require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'activity.php';
 require_once CLASSES_DIR . 'activityParse.php';
 require_once CLASSES_DIR . 'comment.php';
@@ -25,52 +24,15 @@ class MessageController extends REST {
     public function init() {
         session_start();
     }
-
-	public function readMessage(){
-		try{
-		
-		//controllo che la chiamata sia una POST
-        //controllo che l'utente sia loggato: cioè se nella sessione è presente il currentUser 
-//        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
-//            //codice di errore
-//            $this->response('', 406);
-//        }
-        if ($this->get_request_method() != "POST") {
-            //codice di errore
-            $this->response('', 406);
-        }
-        //recupero l'utente che effettua il commento
-        //$currentUser = $_SESSION['currentUser'];
-		
-		//devo controllare che il currentUser sia il toUser
-		
-		
-		
-		$activityId = $_REQUEST['activityId'];
-		$parseActivity = new ActivityParse();
-		$activity = $parseActivity->getActivity($activityId);
-		$activity->read = true;
-		$parseActivity->saveActivity($activity);
-		
-		
-		
-		}catch (Exception $e) {
-            $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
-            $this->response($error, 503);
-        }
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
     public function sendMessage() {
+			#TODO
+		//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
+		//questa sezione prima del try-catch dovrà sparire
+		$userParse = new UserParse();
+		$fromUser = $userParse->getUser($this->request['fromUser']);
+		$toUser = $fromUser;
+	
         try{
             
         //controllo che la chiamata sia una POST
@@ -104,76 +66,79 @@ class MessageController extends REST {
 		} elseif(strlen($text)>$this->config->maxPostSize){
 			$this->response(array("Dimensione messaggio troppo lunga | lungh: ".strlen($text)), 200);
 		} 
-		
-		//imposto i valori per il salvataggio del commento
-		$cmt = new parseObject('Comment');
-		$cmt->active = true;
-		$cmt->commentators = null;
-		$cmt->comments = null;
-		$cmt->counter = 0;
-		//$cmt->fromUser = $currentUser;
-		$cmt->location = null;
-		$cmt->loveCounter = 0;
-		$cmt->lovers = null;
-		$cmt->opinions = null;
-		$cmt->shareCounter = 0;
-		$cmt->tags = null;
-		$cmt->title = null;
-		$cmt->type = 'M';
-		$cmt->vote = null;
-		
-		//imposto i valori per il salvataggio dell'activity collegata al commento
-		$activity = new parseObject('Activity');
-		$activity->active = true;
-		$activity->accepted = true;
-		$activity->counter = 0;
-		//$activity->fromUser = $currentUser;
-		$activity->loveCounter = 0;
-		$activity->playlist = null;
-		$activity->question = null;
-		$activity->read = false;
-		$activity->status = 'A';
-		
-		$parseUser = new UserParse();
-		$toUser = $parseUser->getUser($this->request['fromUser']);
 	
-		$cmt->album =   null;
-		$cmt->comment = null;
-		$cmt->event =   null;
-		$cmt->image =   null;
-		$cmt->record =  null;
-		$cmt->song =    null;
-		$cmt->status =  null;
-		$cmt->toUser = $toUser;
-		$cmt->video =   null;
-		 
-	    $activity->album =   null;
-		$activity->comment = null;
-		$activity->event =   null;
-		$activity->image =   null;
-		$activity->record =  null;
-		$activity->song =    null;
-		$activity->status =  null;
-		$activity->toUser =  null;
-		$activity->type =    'MESSAGESENT';
- 		$activity->video =   null;
+		//imposto i valori per il salvataggio del commento
+		$message = new Comment();
+		$message->setActive(true);
+		$message->setAlbum(null);
+		$message->setComment(null);
+		$message->setCommentCounter(0);
+		$message->setCommentators(null);
+		$message->setComments(null);
+		$message->setCounter(0);
+		$message->setEvent(null);
+		$message->setImage(null);
+		$message->setcation(null);
+		$message->setLoveCounter(0);
+		$message->setLovers(null);
+		$message->setOpinions(null);
+		$message->setRecord(null);
+		$message->setShareCounter(0);
+		$message->setStatus(null);
+		$message->setTags(null);
+		$message->setTitle(null);
+		$message->setType('M');
+		$message->setVideo(null);
+		$message->setVote(null);
+			
+		#TODO
+		//$message->setFromUser($currentUser);
+		$message->setFromUser($fromUser->getObjectId());
+
+		//$userParse = new UserParse();
+		//$toUser = $userParse->getUser($this->request['fromUser']);
+		$message->setToUser($toUser->getObjectId());	
+			
+			
+	    //imposto i valori per il salvataggio dell'activity collegata al post
+		$activity = new Activity();
+		$activity->setActive(true);
+		$activity->setAccepted(true);
+		$activity->setAlbum(null);
+		$activity->setComment(null);
+		$activity->setCounter(0);
+		$activity->setEvent(null);
 		
-		//salvo commento
-		$parseComment = new CommentParse();
-		$parseComment->saveComment($cmt);
+		#TODO
+		//$activity->setFromUser($currentUser);
+		$activity->setFromUser($fromUser->getObjectId());
+
+		$activity->setImage(null);
+		$activity->setPlaylist(null);
+		$activity->setQuestion(null);
+		$activity->setRead(false);
+		$activity->setRecord(null);
+		$activity->setSong(null);
+		$activity->setStatus('A');
+		$activity->setToUser(null);
+		$activity->setType('MESSAGESENT');
+		$activity->setUserStatus(null); 
+		$activity->setVideo(null);
+
+			
+		//salvo post
+		$messageParse = new CommentParse();
+		$res = $messageParse->saveComment($message);
+		if (get_class($res) == 'Error') {
+			$this->response(array($res), 503);
+		}
+		
 		//salvo activity
-		$parseActivity = new ActivityParse();
-		$parseActivity->saveActivity($activity);
-		
-		//qui va fatto il 
-		        //gestione risposta alla view:
-        // if (true) {
-            // $messaggioDiRispostaSuccesso = "success"; //può essere anche un json con varie informazioni                                       
-            // $this->response(array("Commento ricevuto: ".$comment), 200);
-        // } else {
-            // errore: 200 perché la richiesta è arrivata corretta, ma è successo qualcosa che non va..
-            // $this->response(array("Can't save your comment right now"), 200);
-        // }
+		$activityParse = new ActivityParse();
+		$res = $activityParse->saveActivity($activity);
+		if (get_class($res) == 'Error') {
+			$this->response(array($res), 503);
+		}
 		
 		
 		$this->response(array('Your message has been sent'), 200);
