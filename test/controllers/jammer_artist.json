@@ -1,0 +1,19 @@
+{
+    "type": "JAMMER",
+    "username": "usertest",
+    "email": "ma@peu.it",
+    "password": "22d3qfkH",
+    "verifyPassword": "22d3qfkH",
+    "jammerType": "Musician",
+    "language": "it",
+    "localTime": -120,
+    "city": "pisa",
+    "country": "italy",
+    "description": "questa è una descrizione molto corta",
+    "genre": ["0","1","12","16","19"],
+    "facebook": "",
+    "google": "",
+    "twitter": "",
+    "web": "",
+    "youtube": ""
+}
