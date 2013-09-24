@@ -84,15 +84,6 @@ class AlbumParse {
 	}
 
 	/**
-	 * \fn number getCount()
-	 * \brief	Returns the number of requests Album
-	 * \return	number
-	 */
-	public function getCount() {
-		return $this->parseQuery->getCount()->count;
-	}
-
-	/**
 	 * \fn		void getAlbum($objectId)
 	 * \brief	The function returns the Album object specified
 	 * \param	$objectId the string that represent the objectId of the Album
@@ -133,6 +124,15 @@ class AlbumParse {
 		}
 	}
 
+	/**
+	 * \fn number getCount()
+	 * \brief	Returns the number of requests Album
+	 * \return	number
+	 */
+	public function getCount() {
+		return $this->parseQuery->getCount()->count;
+	}
+	
 	/**
 	 * \fn		void incrementAlbum(string $objectId, string $field, int $value)
 	 * \brief	increment the value of the $field of the objectId $objectId of $value unit
