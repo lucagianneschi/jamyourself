@@ -1,4 +1,18 @@
 <?php
+/* ! \par		Info Generali:
+ * \author		Daniele Caldelli
+ * \version		1.0
+ * \date		2013
+ * \copyright	Jamyourself.com 2013
+ * \par			Info Classe:
+ * \brief		controller di love/unlove 
+ * \details		incrementa/decrementa il loveCounter di una classe e istanza corrispondente activity
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo		implementare i parametri di sessione (es currentUser)
+ *
+ */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 
@@ -7,12 +21,25 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 
+/**
+ * \brief	LoveController class 
+ * \details	controller di love/unlove
+ */
 class LoveController extends REST {
 
+	/**
+	 * \fn		init()
+	 * \brief   start the session
+	 */
     public function init() {
 		session_start();
     }
 
+	/**
+	 * \fn		incrementLove()
+	 * \brief   increments loveCounter property of an istance of a class
+	 * \todo    usare la sessione
+	 */
     public function incrementLove() {
 		
 		#TODO
@@ -130,6 +157,11 @@ class LoveController extends REST {
 		}
     }
 	
+	/**
+	 * \fn		decrementLove()
+	 * \brief   decrements loveCounter property of an istance of a class
+	 * \todo    usare la sessione
+	 */
 	public function decrementLove() {
 		
 		#TODO

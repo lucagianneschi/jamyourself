@@ -1,4 +1,18 @@
 <?php
+/* ! \par		Info Generali:
+ * \author		Luca Gianneschi
+ * \version		1.0
+ * \date		2013
+ * \copyright	Jamyourself.com 2013
+ * \par			Info Classe:
+ * \brief		controller di cancellazione 
+ * \details		controller di cancellazione istanza di una classe
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo		implementare i parametri di sessione (es currentUser)
+ *
+ */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 
@@ -9,12 +23,24 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 
+/**
+ * \brief	DeleteController class 
+ * \details	controller di cancellazione 
+ */
 class DeleteController extends REST {
 
+	/**
+	 * \fn		init()
+	 * \brief   start the session
+	 */
     public function init() {
 		session_start();
     }
-
+	
+	/**
+	 * \fn		delete()
+	 * \brief   logical delete of instance of a class
+	 */
     public function delete() {
 		
 		#TODO

@@ -1,5 +1,18 @@
 <?php
-
+/* ! \par		Info Generali:
+ * \author		Daniele Caldelli
+ * \version		1.0
+ * \date		2013
+ * \copyright	Jamyourself.com 2013
+ * \par			Info Classe:
+ * \brief		controller per l'azione di post
+ * \details		effettua il post in bacheca di un utente, istanza della classe Comment con type P
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo		implementare i parametri di sessione (es currentUser)
+ *
+ */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 
@@ -12,19 +25,36 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
+/**
+ * \brief	PostController class 
+ * \details	controller per l'azione di post
+ */
 class PostController extends REST {
 
     public $config;
 
+	/**
+	 * \fn		construct()
+	 * \brief   load config file for the controller
+	 */
     function __construct() {
         parent::__construct();
         $this->config = json_decode(file_get_contents(CONTROLLERS_DIR . "post/post.config.json"), false);
     }
-
+	
+	/**
+	 * \fn		init()
+	 * \brief   start the session
+	 */
     public function init() {
         session_start();
     }
 
+	/**
+	 * \fn		post()
+	 * \brief   save a post an the related activity
+	 * \todo    usare la sessione
+	 */
     public function post() {
 		
 		#TODO
