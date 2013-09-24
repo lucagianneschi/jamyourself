@@ -96,7 +96,7 @@ class LoveController extends REST {
 					require_once CLASSES_DIR . 'statusParse.class.php';
 					$statusParse = new StatusParse();
 					$res = $statusParse->incrementStatus($objectId, 'loveCounter', 1);
-					$activity->setStatus($objectId);
+					$activity->setUserStatus($objectId);
 					$activity->setType("LOVEDSTATUS");
 					//$status = $statusParse->getStatus($objectId);
 					//$activity->setToUser($status->getFromUser());
@@ -214,7 +214,7 @@ class LoveController extends REST {
 					require_once CLASSES_DIR . 'statusParse.class.php';
 					$statusParse = new StatusParse();
 					$res = $statusParse->decrementStatus($objectId, 'loveCounter', 1);
-					$activity->setStatus($objectId);
+					$activity->setUserStatus($objectId);
 					$activity->setType("UNLOVEDSTATUS");
 					//$status = $statusParse->getStatus($objectId);
 					//$activity->setToUser($status->getFromUser());
