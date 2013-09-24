@@ -21,7 +21,7 @@ and open the template in the editor.
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
              <script src="jquery.js"></script>
-            <script src="comment.js"></script>
+            <script src="post.js"></script>
         <title></title>
     </head>
     <body>
