@@ -24,7 +24,7 @@ class CommentController extends REST {
     function __construct() {
         parent::__construct();
         //carica il json di configurazione
-        $this->config = json_decode(file_get_contents(CONTROLLERS_DIR . "comment/comment.config.json"), false);
+        $this->config = json_decode(file_get_contents(CONTROLLERS_DIR . "config/comment.config.json"), false);
     }
 
     /**
