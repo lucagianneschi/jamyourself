@@ -1,5 +1,18 @@
 <?php
-
+/* ! \par		Info Generali:
+ * \author		Luca Gianneschi
+ * \version		1.0
+ * \date		2013
+ * \copyright	Jamyourself.com 2013
+ * \par			Info Classe:
+ * \brief		controller per l'azione di mesaggio
+ * \details		invia il messaggio e corrispondente activity;legge il messaggio
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo		implementare i parametri di sessione (es currentUser)
+ *
+ */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 
@@ -12,19 +25,36 @@ require_once CLASSES_DIR . 'user.php';
 require_once CLASSES_DIR . 'userParse.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
+/**
+ * \brief	MessageController class 
+ * \details	controller per l'invio di messaggi
+ */
 class MessageController extends REST {
 
     public $config;
 
+	/**
+	 * \fn		construct()
+	 * \brief   load config file for the controller
+	 */
     function __construct() {
         parent::__construct();
-        $this->config = json_decode(file_get_contents(CONTROLLERS_DIR . "message/message.config.json"), false);
+        $this->config = json_decode(file_get_contents(CONTROLLERS_DIR . "config/message.config.json"), false);
     }
 
-    public function init() {
+    /**
+	 * \fn		init()
+	 * \brief   start the session
+	 */
+	public function init() {
         session_start();
     }
 	
+	/**
+	 * \fn		sendMessage()
+	 * \brief   save a message an the related activity
+	 * \todo    usare la sessione
+	 */
     public function sendMessage() {
 			#TODO
 		//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
