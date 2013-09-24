@@ -76,7 +76,7 @@ class DeleteController extends REST {
 						//$activity = $activityParse->getActivity($objectId);
 						//$activity->setToUser($activity->getFromUser());
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}
 					break;			
 				case 'Album':
@@ -90,7 +90,7 @@ class DeleteController extends REST {
 						//$album = $albumParse->getAlbum($objectId);
 						//$activity->setToUser($album->getFromUser());
 					}else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}
 					break;
 				case 'Comment':
@@ -104,7 +104,7 @@ class DeleteController extends REST {
 						//$comment = $commentParse->getComment($objectId);
 						//$activity->setToUser($comment->getFromUser());
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}
 					break;
 				case 'Event':
@@ -118,7 +118,7 @@ class DeleteController extends REST {
 						//$event = $eventParse->getEvent($objectId);
 						//$activity->setToUser($event->getFromUser());
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}
 					break;
 				case 'Image':
@@ -132,7 +132,7 @@ class DeleteController extends REST {
 						//$image = $imageParse->getEvent($objectId);
 						//$activity->setToUser($image->getFromUser());					
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}
 					break;
 				case 'Playlist':
@@ -146,7 +146,7 @@ class DeleteController extends REST {
 						//$playlist = $playlistParse->getPlaylist($objectId);
 						//$activity->setToUser($playlist->getFromUser());
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}
 					break;
 				case 'Record':
@@ -160,7 +160,7 @@ class DeleteController extends REST {
 						//$record = $recordParse->getRecord($objectId);
 						//$activity->setToUser($record->getFromUser());					
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}				
 					break;
 				case 'Song':
@@ -174,7 +174,7 @@ class DeleteController extends REST {
 						//$song = $songParse->getSong($objectId);
 						//$activity->setToUser($song->getFromUser());
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}					
 					break;
 				case 'Status':
@@ -188,7 +188,7 @@ class DeleteController extends REST {
 						//$status = $statusParse->getStatus($objectId);
 						//$activity->setToUser($status->getFromUser());					
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}
 					break;
 				case 'User':
@@ -201,7 +201,7 @@ class DeleteController extends REST {
 						$activity->setToUser($objectId);
 						//$activity->setToUser($objectId);
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}
 					break;
 				case 'Video':
@@ -215,7 +215,7 @@ class DeleteController extends REST {
 						//$video = $videoParse->getVideo($objectId);
 						//$activity->setToUser($video->getFromUser());
 					} else {
-						$this->response(array(CND), 200);
+						$this->response(array(CND), 401);
 					}				
 					break;
 			}
