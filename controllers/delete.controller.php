@@ -17,7 +17,8 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 
 	
-define('CND', 'Cannot delete this element: you are not its owner!');	
+define('CND', 'Cannot delete this element: you are not its owner!');
+define('SBJ', 'Account delation confirmed');	
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
@@ -193,13 +194,31 @@ class DeleteController extends REST {
 					break;
 				case 'User':
 					require_once CLASSES_DIR . 'userParse.class.php';
+					require_once CLASSES_DIR . 'utils.php';
+					require_once ROOT_DIR . 'services/mail.service.php';
 					$userParse = new UserParse();
 					$user = $userParse->getUser($objectId);
-					if($currentUser == $song->fromUser()){
+					if($currentUser == $user->fromUser()){
 						$res = $userParse->deleteUser($objectId);
 						$activity->setType("DELETEDUSER");
 						$activity->setToUser($objectId);
 						//$activity->setToUser($objectId);
+						try{
+							$mail = new MailService(true);
+							$mail->IsHTML(true);
+
+							$mail->AddAddress('luca.gianneschi@gmail.com');
+							//$mail->AddAddress($user->email);
+							$mail->Subject = SBJ;
+							$mail->MsgHTML(file_get_contents('userDeletion.html'));
+							$mail->Send(); 
+							} catch (phpmailerException $e) {//OK??
+								throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+							} catch (Exception $e) {
+								throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+							}
+							$mail->SmtpClose();
+							unset($mail);
 					} else {
 						$this->response(array(CND), 401);
 					}
