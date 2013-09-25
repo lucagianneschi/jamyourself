@@ -22,6 +22,9 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
+require_once ROOT_DIR . 'services/mail.service.php'; //meglio definire una SERVICE_DIR
+define('SBJE', 'Your Event has been reviewed');
+define('SBJR', 'Your Record has been reviewed');
 
 /**
  * \brief	ReviewController class 
@@ -135,12 +138,20 @@ class ReviewController extends REST {
 			$review->setVideo(null);
 			$review->setVote(null);
 			
+			$mail = new MailService(true);
+			$mail->IsHTML(true);
+			$mail->AddAddress('luca.gianneschi@gmail.com');
+			//$mail->AddAddress($user->email);
+			
+			
 			switch ($classType) {
 				case 'Event'://posso fare la recensione di un mio evento??
 					$reviewEvent->setEvent($objectId);
 					$review->setType('RE');
 					$activity->setEvent($objectId);
-					$activity->setType("NEWEVENTREVIEW");
+					$activity->setType("NEWEVENTREVIEW");					
+					$mail->Subject = SBJE;
+					$mail->MsgHTML(file_get_contents(STDHTML_DIR .'eventReviewReceived.html'));
 					//$event = $eventParse->getEvent($objectId);
 					//$activity->setToUser($event->getFromUser());
 					break;
@@ -151,6 +162,8 @@ class ReviewController extends REST {
 					$activity->setType("NEWRECORDREVIEW");
 					//$event = $eventParse->getEvent($objectId);
 					//$activity->setToUser($event->getFromUser());
+					$mail->Subject = SBJR;
+					$mail->MsgHTML(file_get_contents(STDHTML_DIR .'recordReviewReceived.html'));
 					break;
 			}
 			
@@ -167,7 +180,10 @@ class ReviewController extends REST {
 			if (get_class($res) == 'Error') {
 				$this->response(array($res), 503);
 			}
-			
+			//invio mail
+			$mail->Send(); 
+			$mail->SmtpClose();
+			unset($mail);
 			//risposta
 			$this->response(array('Your review has been saved'), 200);
 	
