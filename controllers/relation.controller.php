@@ -74,14 +74,7 @@ class RelationController extends REST {
 					//following
 					}
 				break;
-				case 'JAMMER':
-					if($toUserType == 'SPOTTER'){
-					//NO RELATION ALLOWED
-					} else {
-					//collaboration
-					}
-				break;
-				case 'VENUE':
+				default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
 					if($toUserType == 'SPOTTER'){
 					//NO RELATION ALLOWED
 					} else {
