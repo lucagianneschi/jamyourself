@@ -15,13 +15,14 @@
 $data = $_POST['data'];
 
 $username = $data['username'];
+$typeUser = $data['type'];
 $information_description = $data['description'] != "" ? '<div class="content" data-section-content>' : '<div class="no-display">';
 $information_pin = $data['city'] == "" ? '' : '_pin-white';
-if($username != 'VENUE')
+if($typeUser != 'VENUE')
 	$information_note = $data['music'] == "" ? '' : '_note-white';
-if($username == 'VENUE'){
-	$latitude = $data['geoCoding']['lat'];
-	$longitude = $data['geoCoding']['long'];
+if($typeUser == 'VENUE'){
+	$latitude = $data['lat'];
+	$longitude = $data['lng'];
 	
 }
 
@@ -36,7 +37,7 @@ function noDisplay($dato){
 		<div class="section-container accordion" data-section="accordion">
 		  <section class="active" >
 		  	<!--------------------------------- ABOUT ---------------------------------------------------->
-		    <p class="title" data-section-title><a href="#">About</a></p>
+		    <p class="title" data-section-title onclick="removeMap()"><a href="#">About</a></p>
 		    <?php echo $information_description; ?>
 		    	<p class="text grey"><?php echo $data['description'];?></p> 
 		    </div>
@@ -108,8 +109,8 @@ function noDisplay($dato){
 			if($data['type'] == "VENUE"){
 		  ?>		  
 		  <!--------------------------------------- MAP --------------------------------------->
-		  <section id="profile_map_venue" onclick="viewMap(<?php echo $latitude ?>,<?php echo $longitude ?>)"> 
-		  	<p class="title" data-section-title><a href="#">Map</a></p>
+		  <section id="profile_map_venue" > 
+		  	<p class="title" data-section-title onclick="viewMap('<?php echo $latitude ?>','<?php echo $longitude ?>')"><a href="#">Map</a></p>
 		  	<div class="content" data-section-content>
 		  		<div class="row">
     				<div class="small-12 columns">     					  	
@@ -117,8 +118,8 @@ function noDisplay($dato){
     				</div>
     			</div>
     			<div class="row">
-    				<div class="small-4 small-offset-8  columns ">
-    					<a class="ico-label _pin white ">Get direction</a> 
+    				<div class="small-12 columns ">
+    					<a class="ico-label _pin white " onclick="getDirectionMap()">Get direction</a> 
     				</div>
     			</div>				 	
 			</div>

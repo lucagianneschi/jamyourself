@@ -76,7 +76,8 @@ switch ($box) {
 			}
 			$result['geoCoding'] = '';
 			if ($result['type'] == 'VENUE') {
-				$result['geoCoding'] = $dati -> geoCoding;
+				$result['lat'] = $dati->geoCoding->lat;
+				$result['lng'] = $dati->geoCoding->long;
 			}
 		} else {
 			$result['error']['code'] = 101;

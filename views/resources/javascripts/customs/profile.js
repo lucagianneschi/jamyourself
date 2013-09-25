@@ -1,36 +1,4 @@
 $(document).ready(function() {
-	
-	$('#album-single ._back_page').click(function() {
-		//	$('#album-list').show('slide', { direction: "left" }, "slow");
-		$('#album-single').hide('slide', {
-			direction : "right"
-		}, "slow");
-		setTimeout(function() {
-			$('#album-list').show('slide', {
-				direction : "left"
-			}, "slow");
-		}, 600);
-	});
-	
-	$('#albumcover-single ._back_page').click(function() {
-		//$('#albumcover-list').show('slide', { direction: "left" }, "slow");
-		$('#albumcover-single').hide('slide', {
-			direction : "right"
-		}, "slow");
-		setTimeout(function() {
-			$('#albumcover-list').show('slide', {
-				direction : "left"
-			}, "slow");
-		}, 600);
-	});	
-
-	$('#profile_map_venue').click(function() {
-		if (!$(this).hasClass('active')) {
-			//viewMap();
-		} else {
-			$('#map_venue').html("");
-		}
-	});
 
 	/*
 	 * apertura e chiusura testo review album e eventi social
@@ -127,17 +95,18 @@ function slideAchievement(){
 	
 
 //funzione per gestire la visualizzazione dell'album
-function albumSelect(recordId) {
-	$('#album-list').hide('slide', {
-		direction : "left"
-	}, "slow");
-	setTimeout(function() {
-		$('.'+recordId).show('slide', {
-			direction : "right"
-		}, "slow");
-	}, 600);
-
+function recordSelectSingle(recordId) {
+ 	$( "#record-list" ).fadeOut( 100, function() {
+    		$('.'+recordId).fadeIn( 100 );
+	});
 }
+//nasconde foto singolo album e visualizza lista album
+function recordSelectNext(recordId){		
+	$('.'+recordId ).fadeOut( 100, function() {
+    	$('#record-list').fadeIn( 100 );
+	});	
+}
+
 
 
 //visualizza foto di singolo album e nasconde lista album
@@ -155,10 +124,6 @@ function albumSelectNext(recordId){
 	$('#'+recordId ).fadeOut( 100, function() {
     	$('#albumSlide').fadeIn( 100 );
 	});	
-}
-
-function photo(photo) {
-
 }
 
 
@@ -191,43 +156,35 @@ function lightBoxPhoto(classBox){
 		
 }
 
-
-
 //visualizza la map del box information delle venue
-function viewMap(lat, lon) {
-	/*var latlng = new google.maps.LatLng(lat, lon);
-	 geoCode = new google.maps.Geocoder();
-	 // segnapunto
-	 // definizione della mappa
-	 var myOptions = {
-	 zoom : 15,
-	 center : latlng,
-	 mapTypeId : google.maps.MapTypeId.ROADMAP,
-	 mapTypeControlOptions : {
-	 style : google.maps.MapTypeControlStyle.HORIZONTAL_BAR
-	 }
-	 }
-	 mymap = new google.maps.Map(document.getElementById("map_venue"), myOptions);
-	 // definizione segnapunto
-	 var marker = new google.maps.Marker({
-	 position : latlng,
-	 map : mymap
-	 });
-	 console.log(myOptions);
-	 */
-	geocoder = new google.maps.Geocoder();
+function initialize(lat, lon) {	
 	var latlng = new google.maps.LatLng(lat, lon);
 	var mapOptions = {
 		zoom : 15,
-		center : latlng,
-		mapTypeId : google.maps.MapTypeId.ROADMAP		
+		center : latlng
+		//mapTypeId : google.maps.MapTypeId.ROADMAP		
 	}
-	map = new google.maps.Map(document.getElementById('map_venue'), mapOptions);
+	
+	var map = new google.maps.Map(document.getElementById('map_venue'), mapOptions);
 	var marker = new google.maps.Marker({
 		position : latlng,
 		map : map
 	});
+	google.maps.event.trigger(map, 'resize');	
+}
+
+function viewMap(lat, lon){
+	google.maps.event.addDomListener(window, 'load', initialize(lat, lon));
 	
+}
+
+function removeMap(){
+	//$("#map_venue").empty();
+}
+//google.maps.event.addDomListener(window, 'load', viewMap(lat, lon));
+
+function getDirectionMap(){
+		
 }
 
 function openComment() {

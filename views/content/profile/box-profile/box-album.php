@@ -29,7 +29,7 @@ $albumCounter = $data['albumCounter'];
 							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('album')">Previous </a>
 						</div>
 						<div  class="small-3 columns">
-							<a class="slide-button-next _nextPage" id="profile-album-next" onclick="royalSlideNext('album')">Next </a>
+							<a class="slide-button-next _nextPage" onclick="royalSlideNext('album')">Next </a>
 						</div>
 					</div>
 					

@@ -30,7 +30,7 @@
 							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('event')">Previous </a>
 						</div>
 						<div  class="small-3 columns">
-							<a class="slide-button-next _nextPage" id="profile-album-next" onclick="royalSlideNext('event')">Next </a>
+							<a class="slide-button-next _nextPage" onclick="royalSlideNext('event')">Next </a>
 						</div>
 					</div>
 		 		<?php } ?>
@@ -39,7 +39,7 @@
 		<!------------------------------------ LISTA Event --------------------------------------->
 		<div class="box">
 		<?php if($eventCounter > 0){?>
-		<div class=" royalSlider rsMinW" id="eventSlide">
+		<div class="royalSlider rsMinW" id="eventSlide">
 		<?php
 			$index = 0;
 			for ($i=0; $i < $eventCounter ; $i++) {
@@ -70,68 +70,68 @@
 					$event_share = $data['event'.$index]['counters']['shareCounter'];
 			?>
 			<!----------------------------------- SINGLE Event ------------------------------------>
-			<div class="box-event">
-			<div class="row box-single-event" id='<?php echo  $event_objectId ?>'>				
-				<div class="small-12 columns">
-					<div class="small-4 columns event">
-						<img class="eventcover" src="../media/<?php echo  $event_thumbnail?>" onError="this.src='../media/images/default/defaultEventcoverthumb.jpg'">
-					</div>
-					<div class="small-8 columns">
-						<?php if($typeUser == "JAMMER"){ ?>						
-						<div class="row">
-							<div class="large-12 colums">
-								<div class="sottotitle white "><?php echo $event_locationName ?></div>
-							</div>
+			<div class="box-element" id='<?php echo  $event_objectId ?>'>
+				<div class="row">				
+					<div class="small-12 columns">
+						<div class="small-4 columns event">
+							<img class="eventcover" src="../media/<?php echo  $event_thumbnail?>" onError="this.src='../media/images/default/defaultEventcoverthumb.jpg'">
 						</div>
-						<div class="row">
-							<div class="large-12 colums">
-								<div class="sottotitle grey"><?php echo $event_title  ?></div>
+						<div class="small-8 columns">
+							<?php if($typeUser == "JAMMER"){ ?>						
+							<div class="row">
+								<div class="large-12 colums">
+									<div class="sottotitle white "><?php echo $event_locationName ?></div>
+								</div>
 							</div>
+							<div class="row">
+								<div class="large-12 colums">
+									<div class="sottotitle grey"><?php echo $event_title  ?></div>
+								</div>
+							</div>
+							<?php } else{?>	
+							<div class="row">
+								<div class="large-12 colums">
+									<div class="sottotitle white"><?php echo $event_title  ?></div>
+								</div>
+							</div>
+							<?php } ?>
+							<div class="row">
+								<div class="large-12 colums">
+									<div class="sottotitle white"><?php echo $event_featuting  ?></div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="large-12 colums">
+									<a class="ico-label _calendar inline text grey"><?php echo $event_eventDate ?> </a>
+								</div>
+							</div>
+							<?php if($typeUser == "JAMMER"){ ?>		
+							<div class="row">
+								<div class="large-12 colums">
+									<a class="ico-label _pin inline text grey"><?php echo $event_location ?> </a>
+								</div>
+							</div>	
+							<?php } ?>		
 						</div>
-						<?php } else{?>	
-						<div class="row">
-							<div class="large-12 colums">
-								<div class="sottotitle white"><?php echo $event_title  ?></div>
-							</div>
-						</div>
-						<?php } ?>
-						<div class="row">
-							<div class="large-12 colums">
-								<div class="sottotitle white"><?php echo $event_featuting  ?></div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="large-12 colums">
-								<a class="ico-label _calendar inline text grey"><?php echo $event_eventDate ?> </a>
-							</div>
-						</div>
-						<?php if($typeUser == "JAMMER"){ ?>		
-						<div class="row">
-							<div class="large-12 colums">
-								<a class="ico-label _pin inline text grey"><?php echo $event_location ?> </a>
-							</div>
-						</div>	
-						<?php } ?>		
 					</div>
 				</div>
-			</div>
-			<div class="row album-single-propriety">
-				<div class="box-propriety ">					
-					<div class="small-7 columns no-display">
-						<a class="icon-propriety _menu-small note orange "> Add to Calendar</a>	
-						<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Love</a>
-						<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Comment</a>
-						<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Shere</a>
-						<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Review</a>	
-					</div>
-					<div class="small-5 columns propriety ">					
-						<a class="icon-propriety _unlove grey"><?php echo $event_love ?></a>
-						<a class="icon-propriety _comment"><?php echo $event_comment ?></a>
-						<a class="icon-propriety _shere"><?php echo $event_share ?></a>
-						<a class="icon-propriety _review"><?php echo $event_review ?></a>		
-					</div>
-				</div>		
-			</div>	
+				<div class="row album-single-propriety">
+					<div class="box-propriety ">					
+						<div class="small-7 columns no-display">
+							<a class="icon-propriety _menu-small note orange "> Add to Calendar</a>	
+							<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Love</a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Comment</a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Shere</a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Review</a>	
+						</div>
+						<div class="small-5 columns propriety ">					
+							<a class="icon-propriety _unlove grey"><?php echo $event_love ?></a>
+							<a class="icon-propriety _comment"><?php echo $event_comment ?></a>
+							<a class="icon-propriety _shere"><?php echo $event_share ?></a>
+							<a class="icon-propriety _review"><?php echo $event_review ?></a>		
+						</div>
+					</div>		
+				</div>	
 			</div>					
 		
 		<?php 

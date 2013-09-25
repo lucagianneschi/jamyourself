@@ -157,11 +157,13 @@ function addBoxUserInfo(data,typeCurrentUser) {
 	$('#box-information').load('content/profile/box-profile/box-information.php', {
 		'data' : data
 	}, function() { 
-		success: 
-		viewMap();
-		hcento();
+		success:{
+			
+			hcento();
+		}
+	
 	});
-	//viewMap();
+	
 
 }
 
@@ -173,7 +175,7 @@ function addBoxRecord(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: {
-			royalSlide('record');
+			rsi_record = slideReview('recordSlide');
 			hcento();
 		}
 	});
@@ -357,6 +359,9 @@ var rsi = $('#' + idBox).royalSlider({
 function royalSlideNext(box){
 	var rsi;
 	switch(box) {
+		case 'record':
+		rsi = rsi_record;
+		break;
 		case 'event':
 		rsi = rsi_event;
 		break;
@@ -374,6 +379,9 @@ function royalSlideNext(box){
 function royalSlidePrev(box){
 	var rsi;
 	switch(box) {
+		case 'record':
+		rsi = rsi_record;
+		break;
 		case 'event':
 		rsi = rsi_event;
 		break;

@@ -8,7 +8,7 @@
  background-color: $grey-dark;
 }
 
-.avatar{
+.background{
   border: 1px solid $grey;
   margin-top:5px !important; 
   margin-bottom: 40px;
@@ -28,6 +28,7 @@ section.active > .title a{
     z-index:3;
 }
 
+//--- selection for information ----
 .section-container .title{
   font-size:17px;
   border-bottom: 1px solid $grey-dark; 
@@ -36,16 +37,10 @@ section.active > .title a{
 .section-container{
   margin-bottom:40px !important;
 }
+//--- end selection for information ----
 
-.box-membre{
-  padding: 10px;
-  margin-bottom: 10px;
-  width:auto;
-  height: 64px;
-  background-color:$black;  
-  cursor:pointer;
-}
 
+//--------- box -----------
 .box{
   background-color:$grey-superdark;
   padding: 20px !important;
@@ -54,40 +49,26 @@ section.active > .title a{
   
 }
 
-#eventSlide{
-  .sottotitle{
-    margin-bottom: 10px;
-  }
-  .ico-label{
-    margin-bottom: -10px !important;
-  }
-  
-  .box-single-event{
-    cursor: pointer !important;
-  }
+.box-element{
+	border: 1px solid $grey-dark;
+	margin-bottom: 5px !important;
+	padding: 5px !important;
+	cursor: pointer !important;
+	 .sottotitle{
+	    margin-bottom: 10px;
+	  }
+	  .ico-label{
+	    margin-bottom: -10px !important;
+	  } 
 }
+
+
 
 .box-singleAlbum{
 	padding-top: 10px !important;
 }
 
-.box-album{
-  padding-bottom: 5px !important;  
-  cursor: pointer;
-  .columns{
-  	padding-left: 5px !important;
-  	padding-bottom: 0px !important;
-  }
-}
 
-.box-album .play_now{
-  background-color: $grey !important;
-  width: 100px;
-  height: 33px;
-  &:hover {
-    background-color: $orange !important;
- } 
-}
 
 .box#albumcover-single{
   padding: 10px !important;
@@ -97,52 +78,21 @@ section.active > .title a{
   padding: 10px !important;
 }
 
-.album{
-  padding-top: 10px;
-  .sottotitle, .text, .note{
-    padding-bottom: 20px;
-  }
-}
 
-.album-thumb{
-  width:110px;
-  height:110px;
-}
 
-.album-select{
+//mini box for thumnail and name user
+.box-membre{
+  padding: 10px;
+  margin-bottom: 10px;
+  width:auto;
+  height: 64px;
+  background-color:$black;  
   cursor:pointer;
 }
 
-.track{
-  padding-top: 5px;
-  padding-bottom: 5px;  
-   border-bottom: 1px solid $grey-dark !important; 
-    &:hover {
-   background-color: $black;
-   }  
-}
 
-.userThumb{
- width: 45px;
- height: 45px; 
-}
 
-.track{
-  &:hover {  	 
-   .track-propriety{
-   	 display:block !important;
-   }
-  } 
-}
-.track ._play-large{
-	&:hover {	
-  		color:$white !important;
-  	}
-} 
-.track-propriety{
-  padding: 2px;
-  display:none;
-}
+
 
 .album-other{
  cursor:pointer;
@@ -187,35 +137,46 @@ section.active > .title a{
   margin-bottom: 10px; 
 }
 
-//---------- music -------------------
-#record.royalSlider {
-	width: auto !important;
+
+
+#colorbox{
+	top: 0px !important;
 	
-	.rsContent{
-		background-color: $grey-superdark !important;		
-	}
-		
 }
 
-//---------- record review ---------------
-
-#recordReviewSlide.royalSlider{
-	width: auto !important;
-	//height: 100px !important;	
-	.rsContent{
-		background: #fff !important;		
-	}
-	
-	
+#cboxLoadedContent{
+	border: 0px solid #000 !important;
+	width: 540px !important;
+	margin-left: 30px !important;
 }
-#eventReviewSlide.royalSlider{
-	width: auto !important;
-	//height: 100px !important;	
-	.rsContent{
-		background: #fff !important;		
-	}
-	
-	
+#cboxContent {	
+	background: none !important;
+	margin-top: 25px !important;
+}
+
+#cboxCurrent {
+	right: 35px !important;
+	font-size: 14px !important;
+}
+
+#cboxNext {
+	box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#cboxPrevious {
+	box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+#cboxClose {
+	top: -18px !important;
+	box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
+	right: 0px !important;
+//	width: 26px !important;
+//	height: 32px !important;
+}
+
+#cboxLoadedContent{
+	background: none !important;
 }
 
 //------------------------ Photo -------------------------
@@ -280,45 +241,93 @@ section.active > .title a{
 		
 }
 
-#colorbox{
-	top: 0px !important;
-	
+
+//---------- record -------------------
+#profile-record .box{
+	padding: 5px !important; 
+	.propriety{
+		padding-right: 15px !important;
+	}
 }
 
-#cboxLoadedContent{
-	border: 0px solid #000 !important;
-	width: 540px !important;
-	margin-left: 30px !important;
-}
-#cboxContent {	
-	background: none !important;
-	margin-top: 25px !important;
+#recordSlide.royalSlider {
+	width: auto !important;	
+	.rsContent{
+		background-color: $grey-superdark !important;		
+	}		
 }
 
-#cboxCurrent {
-	right: 35px !important;
-	font-size: 14px !important;
+#record-list .play_now{
+  background-color: $grey !important;
+  width: 100px;
+  height: 33px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  &:hover {
+    background-color: $orange !important;
+ } 
 }
 
-#cboxNext {
-	box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
+#profile-record .box-info-element{
+ 	border-top: 1px solid $grey-dark !important;
+ 	margin-bottom: 5px !important;
+	padding: 5px !important;
+	cursor: pointer !important;
+	 .sottotitle{
+	    margin-bottom: 10px;
+	  }
+	  .ico-label{
+	    margin-bottom: -10px !important;
+	  }	
 }
 
-#cboxPrevious {
-	box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
+
+.album-thumb{
+  width:110px;
+  height:110px;
 }
 
-#cboxClose {
-	top: -18px !important;
-	box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
-	right: 0px !important;
-//	width: 26px !important;
-//	height: 32px !important;
+.album-select{
+  cursor:pointer;
 }
 
-#cboxLoadedContent{
-	background: none !important;
+#profile-record .track{
+  padding-top: 5px;  
+   border-top: 1px solid $grey-dark !important;
+   ._play-large{
+   	margin-bottom: 5px !important;
+   } 
+    &:hover {
+   		background-color: $black;
+   		border-top: 2px solid $orange !important; 
+   }  
 }
+
+.userThumb{
+ width: 45px;
+ height: 45px; 
+}
+
+.track{
+  &:hover {  	 
+   .track-propriety{
+   	 display:block !important;
+   }
+   .track-nopropriety{
+   	display:none !important;
+   }
+  } 
+}
+.track ._play-large{
+	&:hover {	
+  		color:$white !important;
+  	}
+} 
+.track-propriety{
+  padding: 2px;
+  display:none;
+}
+
 //----------------- event ---------------------
 .event{
   padding:0px !important;
@@ -335,6 +344,7 @@ section.active > .title a{
   height:100%;
   width:100%;
 }
+
 #eventSlide.royalSlider {
 	width: auto !important;
 	height: auto !important;
@@ -352,11 +362,6 @@ section.active > .title a{
 	}	
 }
 
-.box-event{
-	border: 1px solid $grey-dark;
-	margin-bottom: 5px !important;
-	padding: 5px !important;
-}
 
 
 
@@ -409,6 +414,7 @@ section.active > .title a{
 .arrow-holder {
   height: 60px !important;
 }
+
 
 
 //---------------- achievement -----------------------------
@@ -505,6 +511,27 @@ section.active > .title a{
 #social .box-membre{  
   height: 55px;
   background-color:$white;
+}
+
+//---------- record review ---------------
+
+#recordReviewSlide.royalSlider{
+	width: auto !important;
+	//height: 100px !important;	
+	.rsContent{
+		background: #fff !important;		
+	}
+	
+	
+}
+#eventReviewSlide.royalSlider{
+	width: auto !important;
+	//height: 100px !important;	
+	.rsContent{
+		background: #fff !important;		
+	}
+	
+	
 }
 
 
