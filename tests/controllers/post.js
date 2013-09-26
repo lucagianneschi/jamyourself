@@ -4,18 +4,17 @@ function sendRequest(_action, _data, callback, _async) {
     }
     _data.request = _action;
     var url = "../../controllers/request/postRequest.php";
-    var type = "POST";
+    var type = _action;
     var async = true;
     if (_async !== undefined && _async !== null)
         async = _async;
-
-    $.ajax({
+		
+	$.ajax({
         type: type,
         url: url,
         data: _data,
         async: async,
         success: function(data, status) {
-            //gestione success
             callback(data, status);
         },
         error: function(data, status) {
@@ -30,8 +29,14 @@ function confirmation(data, status){
 }
 
 function sendPost(){
-    //recuper il commento
-    var post = {"post" : $("#post").val() };
-    window.console.log("Sending post: " + post);
-    sendRequest("post", post, confirmation, true);
+	var post = {};
+    //recupero il commento
+	post.text = $("#post").val();
+	
+	//TODO
+	//forzo l'utente su cui sto facendo il commento
+	post.toUser = "GuUAj83MGH";
+	
+	window.console.log("Sending post: " + post);
+    sendRequest("POST", post, confirmation, true);
 }

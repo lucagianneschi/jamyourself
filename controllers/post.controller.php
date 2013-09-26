@@ -21,8 +21,6 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
 /**
@@ -58,11 +56,11 @@ class PostController extends REST {
     public function post() {
 		
 		#TODO
-		//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
+		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
 		//questa sezione prima del try-catch dovrà sparire
-		$userParse = new UserParse();
-		$fromUser = $userParse->getUser($this->request['fromUser']);
-		$toUser = $fromUser;
+		require_once CLASSES_DIR . 'user.class.php';
+		$fromUser = new User('SPOTTER');
+		$fromUser->setObjectId('GuUAj83MGH');
 		
 		try {
             //controllo la richiesta
@@ -70,18 +68,17 @@ class PostController extends REST {
 			if ($this->get_request_method() != "POST") {
 				$this->response('', 406);
 			}
-
+			
 			//controllo i parametri
 			if (!isset($this->request['text'])) {
 				$this->response(array('status' => "Bad Request", "msg" => "No comment specified"), 400);
 			} elseif (!isset($this->request['toUser'])) {
 				$this->response(array('status' => "Bad Request", "msg" => "No toUser specified"), 400);
-			} elseif (!isset($this->request['fromUser'])) {
-				$this->response(array('status' => "Bad Request", "msg" => "No fromUser specified"), 400);
 			}
 			
-			//recupero l'utente che effettua il commento
-			//$currentUser = $_SESSION['currentUser'];
+			//recupero gli utenti fromUser e toUser
+			//$fromUser = $_SESSION['currentUser'];
+			$toUserObjectId = $this->request['toUser'];
 		
 			//recupero e controllo il post
 			$text = $_REQUEST['text'];
@@ -92,7 +89,6 @@ class PostController extends REST {
 			} 
 			
 			//imposto i valori per il salvataggio del post
-
 			$cmt = new Comment();
 			$cmt->setActive(true);
 			$cmt->setAlbum(null);
@@ -104,7 +100,7 @@ class PostController extends REST {
 			$cmt->setEvent(null);
 			
 			#TODO
-			//$cmt->setFromUser($currentUser);
+			//$cmt->setFromUser($currentUser->getObjectId());
 			$cmt->setFromUser($fromUser->getObjectId());
 			
 			$cmt->setImage(null);
@@ -119,12 +115,7 @@ class PostController extends REST {
 			$cmt->setTags(null);
 			$cmt->setTitle(null);
 			$cmt->setText($text);
-			
-			#TODO
-			//$userParse = new UserParse();
-			//$toUser = $userParse->getUser($this->request['fromUser']);
-			$cmt->setToUser($toUser->getObjectId());
-			
+			$cmt->setToUser($toUserObjectId);
 			$cmt->setType('P');
 			$cmt->setVideo(null);
 			$cmt->setVote(null);
@@ -149,31 +140,40 @@ class PostController extends REST {
 			$activity->setRecord(null);
 			$activity->setSong(null);
 			$activity->setStatus('A');
-			$activity->setToUser(null);
+			$activity->setToUser($toUserObjectId);
 			$activity->setType('POSTED');
 			$activity->setUserStatus(null); 
 			$activity->setVideo(null);
 			
 			//salvo post
 			$commentParse = new CommentParse();
-			$res = $commentParse->saveComment($cmt);
-			if (get_class($res) == 'Error') {
-				$this->response(array($res), 503);
+			$resCmt = $commentParse->saveComment($cmt);
+			if (get_class($resCmt) == 'Error') {
+				$this->response(array($resCmt), 503);
+			} else {
+				//salvo activity
+				$activityParse = new ActivityParse();
+				$resActivity = $activityParse->saveActivity($activity);
+				if (get_class($resActivity) == 'Error') {
+					$this->rollback($resCmt->getObjectId());
+				}
 			}
-			
-			//salvo activity
-			$activityParse = new ActivityParse();
-			$res = $activityParse->saveActivity($activity);
-			if (get_class($res) == 'Error') {
-				$this->response(array($res), 503);
-			}
-			
 			//risposta
 			$this->response(array('Your post has been saved'), 200);
 		} catch (Exception $e) {
             $this->response($e, 503);
         }
     }
+	
+	private function rollback($objectId) {
+		$commentParse = new CommentParse();
+		$res = $commentParse->deleteComment($objectId);
+		if (get_class($res) == 'Error') {
+			$this->response(array("Rollback KO"), 503);
+		} else {
+			$this->response(array("Rollback OK"), 503);
+		}
+	}
 }
 
 ?>

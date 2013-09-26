@@ -19,18 +19,18 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-             <script src="jquery.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <script src="jquery.js"></script>
             <script src="post.js"></script>
         <title></title>
     </head>
     <body>
         <form action="javascript:sendPost()">
-            <label for="post">
+            <label for="post" />
             <?php 
-            echo "<textarea id=\"post\" rows=".$controller->config->inputPostRowNumber." cols=".$controller->config->inputPostColumnNumber."> </textarea>"
+            echo '<textarea id="post" rows="' . $controller->config->inputPostRowNumber . '" cols="' . $controller->config->inputPostColumnNumber . '"></textarea>';
             ?>
-            <input type="submit" value="Send Post" name="sendPost" id="sendPost">
+            <input type="submit" value="Send Post" name="sendPost" id="sendPost" />
         </form>
         <h2>
             Risposta del controller:           
