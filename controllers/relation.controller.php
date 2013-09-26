@@ -21,6 +21,7 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
+require_once SERVICES_DIR . 'mail.service.php';
 define('RELDENIED', 'You are not allowed to send a relationship request to this user!');
 define('SELF', 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!');
 /**

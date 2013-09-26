@@ -22,6 +22,7 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
+require_once SERVICES_DIR . 'mail.service.php';
 
 /**
  * \brief	CommentController class 
