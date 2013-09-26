@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -26,58 +27,57 @@ require_once CLASSES_DIR . 'activityParse.class.php';
  * \details	controller di inserimento di una review 
  */
 class AccessController extends REST {
-	
-	/**
-	 * \fn		init()
-	 * \brief   start the session
-	 */
+
+    /**
+     * \fn		init()
+     * \brief   start the session
+     */
     public function init() {
-		session_start();
+	session_start();
     }
-	
-	/**
-	 * \fn		login()
-	 * \brief   user login
-	 * \todo    usare la sessione
-	 */
+
+    /**
+     * \fn		login()
+     * \brief   user login
+     * \todo    usare la sessione
+     */
     public function login() {
-	
-			#TODO
-		//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
-		//questa sezione prima del try-catch dovrà sparire
-		$userParse = new UserParse();
-		$fromUser = $userParse->getUser($this->request['fromUser']);
-		$toUser = $fromUser;
-		
-		try {
-			$this->response(array('Your review has been saved'), 200);
-	
-	}catch (Exception $e) {
-            $this->response($e, 503);
-        }
+
+	#TODO
+	//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
+	//questa sezione prima del try-catch dovrà sparire
+	$userParse = new UserParse();
+	$fromUser = $userParse->getUser($this->request['fromUser']);
+	$toUser = $fromUser;
+
+	try {
+	    $this->response(array('Your review has been saved'), 200);
+	} catch (Exception $e) {
+	    $this->response(array('Error: ' . $e->getMessage()), 503);
 	}
-	
-	/**
-	 * \fn		logout()
-	 * \brief   user logout
-	 * \todo    usare la sessione
-	 */
-	public function logout() {
-	
-			#TODO
-		//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
-		//questa sezione prima del try-catch dovrà sparire
-		$userParse = new UserParse();
-		$fromUser = $userParse->getUser($this->request['fromUser']);
-		$toUser = $fromUser;
-		
-		try {
-			$this->response(array('Your review has been saved'), 200);
-	
-	}catch (Exception $e) {
-            $this->response($e, 503);
-        }
+    }
+
+    /**
+     * \fn		logout()
+     * \brief   user logout
+     * \todo    usare la sessione
+     */
+    public function logout() {
+
+	#TODO
+	//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
+	//questa sezione prima del try-catch dovrà sparire
+	$userParse = new UserParse();
+	$fromUser = $userParse->getUser($this->request['fromUser']);
+	$toUser = $fromUser;
+
+	try {
+	    $this->response(array('Your review has been saved'), 200);
+	} catch (Exception $e) {
+	    $this->response(array('Error: ' . $e->getMessage()), 503);
 	}
+    }
 
 }
+
 ?>
