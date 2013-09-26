@@ -21,6 +21,7 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
+define('RELDENIED', 'You are not allowed to send a relationship request to this user!');
 
 /**
  * \brief	RelationController class 
@@ -35,6 +36,7 @@ class RelationController extends REST {
     public function init() {
 		session_start();
     }
+
 	/**
 	 * \fn		acceptRelationRequest()
 	 * \brief   accept relationship request
@@ -84,6 +86,31 @@ class RelationController extends REST {
 	}
 	
 	/**
+	 * \fn		removeRelationship ()
+	 * \brief   remove an existing relationship 
+	 * \todo    usare la sessione
+	 */
+	public function removeRelationship () {
+		#TODO
+		//simulo che l'utente in sessione sia GuUAj83MGH
+		require_once CLASSES_DIR . 'user.class.php';
+		$currentUser = new User('SPOTTER');
+		$currentUser->setObjectId('GuUAj83MGH');
+	
+		try {
+			//if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
+			if ($this->get_request_method() != 'POST') {
+				$this->response('', 406);
+			}			
+			$this->response(array($res), 200);
+						
+		} catch (Exception $e) {
+			$this->response(array($e), 503);
+		}
+	}
+	
+	
+	/**
 	 * \fn		sendRelationRequest()
 	 * \brief   send request for relationships
 	 * \todo    usare la sessione
@@ -126,11 +153,12 @@ class RelationController extends REST {
 						$activity->setType("FRIENDSHIPREQUEST");
 					} else {
 						$activity->setType("FOLLOWING");
+						
 					}
 				break;
 				default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
 					if($toUserType == 'SPOTTER'){
-					//NO RELATION ALLOWED
+						$this->response(array(RELDENIED), 200);
 					} else {
 						$activity->setType("COLLABORATIONREQUEST");
 					}
