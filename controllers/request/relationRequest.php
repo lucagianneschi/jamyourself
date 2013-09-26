@@ -10,5 +10,4 @@ session_start();
 
 $controller = new RelationController();
 $controller->processApi();
-
 ?>
