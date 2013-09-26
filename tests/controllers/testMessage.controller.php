@@ -28,7 +28,7 @@ and open the template in the editor.
         <form action="javascript:sendMessage()">
             <label for="post">
             <?php 
-            echo "<textarea id=\"post\" rows=".$controller->config->inputPostRowNumber." cols=".$controller->config->inputPostColumnNumber."> </textarea>"
+            echo "<textarea id=\"post\" rows=".$controller->config->inputMessageRowNumber." cols=".$controller->config->inputMessageColumnNumber."> </textarea>"
             ?>
             <input type="submit" value="Send Message" name="sendMessage" id="sendMessage">
         </form>
