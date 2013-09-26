@@ -22,7 +22,7 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 define('RELDENIED', 'You are not allowed to send a relationship request to this user!');
-
+define('SELF', 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!');
 /**
  * \brief	RelationController class 
  * \details	controller per invio e ricezione relazioni
@@ -109,7 +109,6 @@ class RelationController extends REST {
 		}
 	}
 	
-	
 	/**
 	 * \fn		sendRelationRequest()
 	 * \brief   send request for relationships
@@ -133,11 +132,10 @@ class RelationController extends REST {
 			$fromUserType = $_REQUEST['fromUserType'];
 			$toUserType = $_REQUEST['toUserType'];
 			
-			//prendo User di partenza e user di arrivo
-			$fromUserP = new ParseUser();
-			$fromUser = $fromUserP->getUser($fromUserObjectId);
-			$toUserP = new ParseUser();
-			$toUser = $toUserP->getUser($toUserObjectId);
+			//se l'utente cerca di avere relazione con se stesso esco con risposta a schermo
+			if ($fromUserObjectId == $toUserObjectId ){
+				$this->response(array(SELF), 200); 
+			}
 			
             $activity = new Activity();
             $activity->setAccepted(true);
@@ -152,8 +150,7 @@ class RelationController extends REST {
 					if($toUserType == 'SPOTTER'){
 						$activity->setType("FRIENDSHIPREQUEST");
 					} else {
-						$activity->setType("FOLLOWING");
-						
+						$activity->setType("FOLLOWING");	
 					}
 				break;
 				default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
