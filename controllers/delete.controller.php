@@ -3,7 +3,7 @@
  * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di cancellazione 
  * \details		controller di cancellazione istanza di una classe
@@ -195,7 +195,7 @@ class DeleteController extends REST {
 				case 'User':
 					require_once CLASSES_DIR . 'userParse.class.php';
 					require_once CLASSES_DIR . 'utils.php';
-					require_once ROOT_DIR . 'services/mail.service.php';
+					require_once SERVICES_DIR . 'mail.service.php';
 					if($currentUser == $objectId){
 						$userParse = new UserParse();
 						$res = $userParse->deleteUser($objectId);
