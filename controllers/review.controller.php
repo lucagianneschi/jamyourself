@@ -154,7 +154,7 @@ class ReviewController extends REST {
 				case 'Record'://posso fare la recensione di un mio record??
 					$reviewEvent->setRecord($objectId);
 					$review->setType('RR');
-					$activity->setRecord(($objectId);
+					$activity->setRecord($objectId);
 					$activity->setType("NEWRECORDREVIEW");
 					//$event = $eventParse->getEvent($objectId);
 					//$activity->setToUser($event->getFromUser());
