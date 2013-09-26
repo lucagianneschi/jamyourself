@@ -32,6 +32,6 @@ function confirmation(data, status){
 function sendMessage(){
     //recuper il commento
     var message = {"message" : $("#message").val() };
-    window.console.log("Sending Message: " + post);
+    window.console.log("Sending Message: " + message);
     sendRequest("message", message, confirmation, true);
 }

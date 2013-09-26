@@ -32,6 +32,6 @@ function confirmation(data, status){
 function sendReview(){
     //recuper il commento
     var review = {"review" : $("#review").val() };
-    window.console.log("Sending Review: " + post);
+    window.console.log("Sending Review: " + review);
     sendRequest("review", review, confirmation, true);
 }
