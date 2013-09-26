@@ -112,7 +112,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'eventParse.class.php';
 					$eventParse = new EventParse();
 					$event = $eventParse->getEvent($objectId);
-					if($currentUser == $comment->getFromUser()){
+					if($currentUser == $event->getFromUser()){
 						$res = $eventParse->deleteEvent($objectId);
 						$activity->setEvent($objectId);
 						$activity->setType("DELETEDEVENT");
@@ -182,7 +182,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'statusParse.class.php';
 					$statusParse = new StatusParse();
 					$status = $statusParse->getStatus($objectId);
-					if($currentUser == $song->getFromUser()){
+					if($currentUser == $status->getFromUser()){
 						$res = $statusParse->deleteStatus($objectId);
 						$activity->setUserStatus($objectId);
 						$activity->setType("DELETEDSTATUS");
@@ -197,6 +197,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'utils.php';
 					require_once ROOT_DIR . 'services/mail.service.php';
 					if($currentUser == $objectId){
+						$userParse = new UserParse();
 						$res = $userParse->deleteUser($objectId);
 						$activity->setType("DELETEDUSER");
 						$activity->setToUser($objectId);
@@ -225,7 +226,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'videoParse.class.php';
 					$videoParse = new VideoParse();
 					$video = $videoParse->getVideo($objectId);
-					if($currentUser == $song->fromUser()){
+					if($currentUser == $video->fromUser()){
 						$res = $videoParse->deleteVideo($objectId);
 						$activity->setType("DELETEDVIDEO");
 						$activity->setVideo($objectId);
