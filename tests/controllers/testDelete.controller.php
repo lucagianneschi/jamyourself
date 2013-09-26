@@ -12,7 +12,7 @@ function deleteObj(classType, objectId) {
 	
 	$.ajax({
 		type:         "POST",
-		url:          "controllers/request/deleteRequest.php",
+		url:          "../controllers/request/deleteRequest.php",
 		data:         json_delete,
 		async:        false,
 		"beforeSend": function(xhr) {
