@@ -43,11 +43,12 @@ class LoveController extends REST {
     public function incrementLove() {
 		
 		#TODO
-		//simulo che l'utente in sessione sia GuUAj83MGH
+		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
+		//questa sezione prima del try-catch dovrà sparire
 		require_once CLASSES_DIR . 'user.class.php';
 		$currentUser = new User('SPOTTER');
 		$currentUser->setObjectId('GuUAj83MGH');
-	
+
 		try {
 			//if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
 			if ($this->get_request_method() != 'POST') {
@@ -140,20 +141,19 @@ class LoveController extends REST {
 			}
 			
 			if (get_class($res) == 'Error') {
-				$this->response(array($res), 503);
+				$this->response(array('Error incrementing Love'), 503);
+			} else {
+				//salvo activity
+				$activityParse = new ActivityParse();
+				$resActivity = $activityParse->saveActivity($activity);
+				if (get_class($resActivity) == 'Error') {
+					$this->rollback($classType, $objectId, 'decrement');
+				}
 			}
-			
-			$activityParse = new ActivityParse();
-			$resActivity = $activityParse->saveActivity($activity);
-			
-			if (get_class($resActivity) == 'Error') {
-				$this->response(array($resActivity), 503);
-			}
-							
+			//risposta
 			$this->response(array($res), 200);
-						
 		} catch (Exception $e) {
-			$this->response(array($e), 503);
+			$this->response(array('Error: ' . $e->getMessage()), 503);
 		}
     }
 	
@@ -165,11 +165,12 @@ class LoveController extends REST {
 	public function decrementLove() {
 		
 		#TODO
-		//simulo che l'utente in sessione sia GuUAj83MGH
+		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
+		//questa sezione prima del try-catch dovrà sparire
 		require_once CLASSES_DIR . 'user.class.php';
 		$currentUser = new User('SPOTTER');
 		$currentUser->setObjectId('GuUAj83MGH');
-	
+
 		try {
 			//if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
 			if ($this->get_request_method() != 'POST') {
@@ -263,22 +264,104 @@ class LoveController extends REST {
 			}
 			
         	if (get_class($res) == 'Error') {
-				$this->response(array($res), 503);
+				$this->response(array('Error decrementing Love'), 503);
+			} else {
+				//salvo activity
+				$activityParse = new ActivityParse();
+				$resActivity = $activityParse->saveActivity($activity);
+				if (get_class($resActivity) == 'Error') {
+					$this->rollback($classType, $objectId, 'increment');
+				}
 			}
-			
-			$activityParse = new ActivityParse();
-			$resActivity = $activityParse->saveActivity($activity);
-			
-			if (get_class($resActivity) == 'Error') {
-				$this->response(array($resActivity), 503);
-			}
-							
+			//risposta
 			$this->response(array($res), 200);
-			
 		} catch (Exception $e) {
-			$this->response(array($e), 503);
+			$this->response(array('Error: ' . $e->getMessage()), 503);
 		}
 
+	}
+	
+	private function rollback($classType, $objectId, $operation) {
+		switch ($classType) {
+			case 'Album':
+				require_once CLASSES_DIR . 'albumParse.class.php';
+				$albumParse = new AlbumParse();
+				if ($operation == 'increment') {
+					$res = $albumParse->incrementAlbum($objectId, 'loveCounter', 1);
+				} elseif ($operation == 'decrement') {
+					$res = $albumParse->decrementAlbum($objectId, 'loveCounter', 1);
+				}
+				break;
+			case 'Comment':
+				require_once CLASSES_DIR . 'commentParse.class.php';
+				$commentParse = new CommentParse();
+				if ($operation == 'increment') {
+					$res = $commentParse->incrementComment($objectId, 'loveCounter', 1);
+				} elseif ($operation == 'decrement') {
+					$res = $commentParse->decrementComment($objectId, 'loveCounter', 1);
+				}
+				break;
+			case 'Event':
+				require_once CLASSES_DIR . 'eventParse.class.php';
+				$eventParse = new EventParse();
+				if ($operation == 'increment') {
+					$res = $eventParse->incrementEvent($objectId, 'loveCounter', 1);
+				} elseif ($operation == 'decrement') {
+					$res = $eventParse->decrementEvent($objectId, 'loveCounter', 1);
+				}
+				break;
+			case 'Image':
+				require_once CLASSES_DIR . 'imageParse.class.php';
+				$imageParse = new ImageParse();
+				if ($operation == 'increment') {
+					$res = $imageParse->incrementImage($objectId, 'loveCounter', 1);
+				} elseif ($operation == 'decrement') {
+					$res = $imageParse->decrementImage($objectId, 'loveCounter', 1);
+				}
+				break;
+			case 'Record':
+				require_once CLASSES_DIR . 'recordParse.class.php';
+				$recordParse = new RecordParse();
+				if ($operation == 'increment') {
+					$res = $recordParse->incrementRecord($objectId, 'loveCounter', 1);
+				} elseif ($operation == 'decrement') {
+					$res = $recordParse->decrementRecord($objectId, 'loveCounter', 1);
+				}
+				break;
+			case 'Song':
+				require_once CLASSES_DIR . 'songParse.class.php';
+				$songParse = new SongParse();
+				if ($operation == 'increment') {
+					$res = $songParse->incrementSong($objectId, 'loveCounter', 1);
+				} elseif ($operation == 'decrement') {
+					$res = $songParse->decrementSong($objectId, 'loveCounter', 1);
+				}
+				break;
+			case 'Status':
+				require_once CLASSES_DIR . 'statusParse.class.php';
+				$statusParse = new StatusParse();
+				if ($operation == 'increment') {
+					$res = $statusParse->incrementStatus($objectId, 'loveCounter', 1);
+				} elseif ($operation == 'decrement') {
+					$res = $statusParse->decrementStatus($objectId, 'loveCounter', 1);
+				}
+				break;
+			case 'Video':
+				require_once CLASSES_DIR . 'videoParse.class.php';
+				$videoParse = new VideoParse();
+				if ($operation == 'increment') {
+					$res = $videoParse->incrementVideo($objectId, 'loveCounter', 1);
+				} elseif ($operation == 'decrement') {
+					$res = $videoParse->decrementVideo($objectId, 'loveCounter', 1);
+				}
+				break;
+		}
+		
+		if (get_class($res) == 'Error') {
+			$this->response(array("Rollback KO"), 503);
+		} else {
+			$this->response(array("Rollback OK"), 503);
+		}
 	}
 }
 ?>
