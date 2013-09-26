@@ -71,8 +71,6 @@ class ReviewController extends REST {
 			if ($this->get_request_method() != "POST") {
 				$this->response('', 406);
 			}
-			
-
 
 			//controllo i parametri
 			if (!isset($this->request['text'])) {
@@ -88,9 +86,9 @@ class ReviewController extends REST {
 		
 			//recupero e controllo il post
 			$text = $_REQUEST['text'];
-			if (strlen($text) < $this->config->minPostSize) {
+			if (strlen($text) < $this->config->minReviewSize) {
 				$this->response(array("Dimensione post troppo corta | lungh: ".strlen($text)), 200);
-			} elseif (strlen($text) > $this->config->maxPostSize) {
+			} elseif (strlen($text) > $this->config->maxReviewSize) {
 				$this->response(array("Dimensione post troppo lunga | lungh: ".strlen($text)), 200);
 			} 
 			
@@ -133,8 +131,6 @@ class ReviewController extends REST {
 			//$userParse = new UserParse();
 			//$toUser = $userParse->getUser($this->request['fromUser']);
 			$review->setToUser($toUser->getObjectId());
-			
-			$review->setType('P');
 			$review->setVideo(null);
 			$review->setVote(null);
 			
