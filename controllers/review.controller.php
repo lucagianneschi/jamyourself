@@ -22,7 +22,7 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
-require_once ROOT_DIR . 'services/mail.service.php'; //meglio definire una SERVICE_DIR
+require_once SERVICES_DIR . 'mail.service.php'; 
 define('SBJE', 'Your Event has been reviewed');
 define('SBJR', 'Your Record has been reviewed');
 
@@ -96,12 +96,12 @@ class ReviewController extends REST {
 			$classType = $_REQUEST['classType'];
 			
 			$activity = new Activity();
-            $activity->setAccepted(true);
-            $activity->setActive(true);
+			$activity->setAccepted(true);
+			$activity->setActive(true);
 			$activity->setCounter(0);
-            $activity->setFromUser($currentUser->getObjectId());
-            $activity->setRead(true);
-            $activity->setStatus("A");
+			$activity->setFromUser($fromUser->getObjectId());
+			$activity->setRead(true);
+			$activity->setStatus("A");
 			
 			$review = new CommentParse();
 			$review->setActive(true);
