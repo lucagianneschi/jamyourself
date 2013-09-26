@@ -14,7 +14,7 @@
  *
  */
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../');
 
 	
 define('CND', 'Cannot delete this element: you are not its owner!');
