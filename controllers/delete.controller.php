@@ -70,7 +70,7 @@ class DeleteController extends REST {
 				case 'Activity':
 					$activityParse = new ActivityParse();
 					$act = $activityParse->getActivity($objectId);
-					if($currentUser == $act->fromUser){
+					if($currentUser == $act->getFromUser(){
 						$res = $activityParse->deleteActivity($objectId);
 						$activity->setAlbum($objectId);
 						$activity->setType("DELETEDACTIVITY");
@@ -84,7 +84,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'albumParse.class.php';
 					$albumParse = new AlbumParse();
 					$album = $albumParse->getAlbum($objectId);
-					if($currentUser == $album->fromUser){
+					if($currentUser == $album->getFromUser()){
 						$res = $albumParse->deleteAlbum($objectId);
 						$activity->setAlbum($objectId);
 						$activity->setType("DELETEDALBUM");
@@ -98,7 +98,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'commentParse.class.php';
 					$commentParse = new CommentParse();
 					$comment = $commentParse->getComment($objectId);
-					if($currentUser == $comment->fromUser()){
+					if($currentUser == $comment->getFromUser()){
 						$res = $commentParse->deleteComment($objectId);
 						$activity->setComment($objectId);
 						$activity->setType("DELETEDCOMMENT");
@@ -112,7 +112,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'eventParse.class.php';
 					$eventParse = new EventParse();
 					$event = $eventParse->getEvent($objectId);
-					if($currentUser == $comment->fromUser()){
+					if($currentUser == $comment->getFromUser()){
 						$res = $eventParse->deleteEvent($objectId);
 						$activity->setEvent($objectId);
 						$activity->setType("DELETEDEVENT");
@@ -126,7 +126,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'imageParse.class.php';
 					$imageParse = new ImageParse();
 					$image = $imageParse->getImage($objectId);
-					if($currentUser == $image->fromUser()){
+					if($currentUser == $image->getFromUser()){
 						$res = $imageParse->deleteImage($objectId);
 						$activity->setImage($objectId);
 						$activity->setType("DELETEDIMAGE");
@@ -140,7 +140,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'playlistParse.class.php';
 					$playlistParse = new PlaylistParse();
 					$playlist = $playlistParse->getPlaylist($objectId);
-					if($currentUser == $playlist->fromUser()){
+					if($currentUser == $playlist->getFromUser()){
 						$res = $playlistParse->deletePlaylist($objectId);
 						$activity->setPlaylist($objectId);
 						$activity->setType("DELETEDPLAYLIST");
@@ -154,7 +154,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'recordParse.class.php';
 					$recordParse = new RecordParse();
 					$record = $recordParse->getRecord($objectId);
-					if($currentUser == $record->fromUser()){
+					if($currentUser == $record->getFromUser()){
 						$res = $recordParse->deleteRecord($objectId);
 						$activity->setRecord($objectId);
 						$activity->setType("DELETEDRECORD");
@@ -168,7 +168,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'songParse.class.php';
 					$songParse = new SongParse();
 					$song = $songParse->getSong($objectId);
-					if($currentUser == $song->fromUser()){
+					if($currentUser == $song->getFromUser()){
 						$res = $songParse->deleteSong($objectId);
 						$activity->setSong($objectId);
 						$activity->setType("DELETEDSONG");
@@ -182,7 +182,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'statusParse.class.php';
 					$statusParse = new StatusParse();
 					$status = $statusParse->getStatus($objectId);
-					if($currentUser == $song->fromUser()){
+					if($currentUser == $song->getFromUser()){
 						$res = $statusParse->deleteStatus($objectId);
 						$activity->setUserStatus($objectId);
 						$activity->setType("DELETEDSTATUS");
@@ -196,9 +196,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'userParse.class.php';
 					require_once CLASSES_DIR . 'utils.php';
 					require_once ROOT_DIR . 'services/mail.service.php';
-					$userParse = new UserParse();
-					$user = $userParse->getUser($objectId);
-					if($currentUser == $user->fromUser()){
+					if($currentUser == $objectId){
 						$res = $userParse->deleteUser($objectId);
 						$activity->setType("DELETEDUSER");
 						$activity->setToUser($objectId);
@@ -240,21 +238,84 @@ class DeleteController extends REST {
 			}
 			
 			if (get_class($res) == 'Error') {
-				$this->response(array($res), 503);
-			}
-			
-			$activityParse = new ActivityParse();
-			$resActivity = $activityParse->saveActivity($activity);
-			
-			if (get_class($resActivity) == 'Error') {
-				$this->response(array($resActivity), 503);
-			}
-							
-			$this->response(array($res), 200);
-						
+				$this->response(array('Error deleting this element'), 503);
+			} else{
+				$activityParse = new ActivityParse();
+				$resActivity = $activityParse->saveActivity($activity);
+				if (get_class($resActivity) == 'Error') {
+					$this->rollback($objectId,$classType);
+				}   	
+			}				
+			$this->response(array($res), 200);				
 		} catch (Exception $e) {
-			$this->response(array($e), 503);
+			$this->response(array('Error: ' . $e->getMessage()), 503);
 		}
     }
+	
+	private function rollback($classType, $objectId) {
+		switch ($classType) {
+			case 'Activity':
+				require_once CLASSES_DIR . 'activityParse.class.php';
+				$activityParse = new ActivityParse();
+				$activityParse->updateField($objectId, 'active', true); 
+				break;		
+			case 'Album':
+				require_once CLASSES_DIR . 'albumParse.class.php';
+				$albumParse = new AlbumParse();
+				$albumParse->updateField($objectId, 'active', true); 
+				break;
+			case 'Comment':
+				require_once CLASSES_DIR . 'commentParse.class.php';
+				$commentParse = new CommentParse();
+				$commentParse->updateField($objectId, 'active', true); 
+				break;
+			case 'Event':
+				require_once CLASSES_DIR . 'eventParse.class.php';
+				$eventParse = new EventParse();
+				$eventParse->updateField($objectId, 'active', true);
+				break;
+			case 'Image':
+				require_once CLASSES_DIR . 'imageParse.class.php';
+				$imageParse = new ImageParse();
+				$imageParse->updateField($objectId, 'active', true);
+				break;
+			case 'Playlist':
+				require_once CLASSES_DIR . 'playlistParse.class.php';
+				$playlistParse = new PlaylistParse();
+				$playlistParse->updateField($objectId, 'active', true);
+				break;				
+			case 'Record':
+				require_once CLASSES_DIR . 'recordParse.class.php';
+				$recordParse = new RecordParse();
+				$recordParse->updateField($objectId, 'active', true);
+				break;
+			case 'Song':
+				require_once CLASSES_DIR . 'songParse.class.php';
+				$songParse = new SongParse();
+				$songParse->updateField($objectId, 'active', true);
+				break;
+			case 'Status':
+				require_once CLASSES_DIR . 'statusParse.class.php';
+				$statusParse = new StatusParse();
+				$statusParse->updateField($objectId, 'active', true);
+				break;
+			case 'User':
+				require_once CLASSES_DIR . 'userParse.class.php';
+				$userParse = new UserParse();
+				$userParse->updateField($objectId, 'active', true);
+				break;	
+			case 'Video':
+				require_once CLASSES_DIR . 'videoParse.class.php';
+				$videoParse = new VideoParse();
+				$videoParse->updateField($objectId, 'active', true);
+				break;
+		}
+		
+		if (get_class($res) == 'Error') {
+			$this->response(array("Rollback KO"), 503);
+		} else {
+			$this->response(array("Rollback OK"), 503);
+		}
+	}	
 }
 ?>
