@@ -58,8 +58,8 @@ class AccessController extends REST {
 	}
 	
 	/**
-	 * \fn		login()
-	 * \brief   user login
+	 * \fn		logout()
+	 * \brief   user logout
 	 * \todo    usare la sessione
 	 */
 	public function logout() {
