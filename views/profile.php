@@ -8,7 +8,7 @@ require_once ROOT_DIR . 'config.php';
 $correntUser = "GuUAj83MGH";
 $correntUserType = 'SPOTTER';
 //esempio: objectId dell'utente a cui si vuole vedere il profilo 
-$profileUser = "8zqS8mjacf";
+$profileUser = "7fes1RyY77";
 
 
 ?>
@@ -41,11 +41,16 @@ $profileUser = "8zqS8mjacf";
         
         <script type="text/javascript">
         	//carica i box partendo da userInfo        	
-    		callBox.objectId = '<?php echo $profileUser; ?>';
+    		callBox.objectIdUser = '<?php echo $profileUser; ?>';
     		callBox.objectIdCurrentUser = '<?php echo $correntUser; ?>';
 			callBox.typeCurrentUser = '<?php echo $correntUserType; ?>';			
+			
 			callBox.load('userinfo');
-			callBox.load('header');
+			
+			//callBox.load('header');
+			
+			
+			
         </script>
         
     </body>

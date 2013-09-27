@@ -22,14 +22,14 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 
 $box = $_POST['typebox'];
-$objectId = $_POST['objectId'];
-$type = $_POST['type'];
+$objectId = $_POST['objectIdUser'];
+$type = $_POST['typeUser'];
 $objectIdCurrentUser = $_POST['objectIdCurrentUser'];
 $class = $_POST['classBox'];
 /*
- $box = 'album';
+ $box = 'relation';
  $objectId = 'iovioSH5mq';
- $type = 'SPOTTER';
+ $type = 'JAMMER';
  $class = 'Image';
 $objectIdCurrentUser = 'GuUAj83MGH';
 */
@@ -200,7 +200,9 @@ switch ($box) {
 				$result['event' . $key]['tags'] = $value -> tags != NODATA ? $value -> tags : '';
 				$result['event' . $key]['thumbnail'] = $value -> thumbnail != NODATA ? $value -> thumbnail : DEFEVENTCOVERTHUM;
 				$result['event' . $key]['title'] = $value -> title != NODATA ? $value -> title : '';
+				$result['event' . $key]['objectId'] = $value -> objectId != NODATA ? $value -> objectId : '';
 			}
+		$result['activity']['event'] = $result['event' . 0];
 		} else {
 			$result['error']['code'] = 101;
 			$result['error']['message'] = 'object not found for get';
@@ -244,8 +246,9 @@ switch ($box) {
 				$result['record' . $key]['title'] = $value -> title != NODATA ? $value -> title : '';
 				$result['record' . $key]['year'] = $value -> year != NODATA ? $value -> year : '';
 				$recordDetail = $recordBoxP -> initForDetail($result['record' . $key]['objectId']);
-				$result['record' . $key]['recordDetail'] = $recordDetail;
+				$result['record' . $key]['recordDetail'] = $recordDetail;				
 			}
+			$result['activity']['record'] = $result['record' . 0];
 		} else {
 			$result['error']['code'] = 101;
 			$result['error']['message'] = 'object not found for get';
@@ -256,65 +259,89 @@ switch ($box) {
 		require_once BOXES_DIR . 'relation.box.php';
 		$relationsP = new RelationsBox();
 		$relationsBox = $relationsP -> initForPersonalPage($objectId, $type);
+		$result['activity']['relation'] = "";
 		if (!($relationsBox instanceof Error)) {
-			if ($relationsBox -> relationArray -> followers != ND) {
-				$result['relation']['followers']['followersCounter'] = count($relationsBox -> relationArray -> followers);
-				foreach ($relationsBox->relationArray->followers->followersArray as $key => $value) {					
-					$result['relation']['followers'. $key]['objectId'] = $value -> userInfo -> objectId;
-					$result['relation']['followers'. $key]['thumbnail'] = $value -> userInfo -> thumbnail != NODATA ? $value -> userInfo -> thumbnail : DEFPROFILEPICTURETHUM;
-					$result['relation']['followers'. $key]['type'] = $value -> userInfo -> type;
-					$result['relation']['followers'. $key]['username'] = $value -> userInfo -> username;
+			if ($relationsBox -> relationArray['followers'] != ND) {
+				$result['relation']['followers']['followersCounter'] = count($relationsBox -> relationArray ['followers']);
+				foreach ($relationsBox->relationArray['followers'] as $key => $value) {					
+					$result['relation']['followers'. $key]['objectId'] = $value  -> objectId;
+					$result['relation']['followers'. $key]['thumbnail'] = $value  -> thumbnail != NODATA ? $value  -> thumbnail : DEFPROFILEPICTURETHUM;
+					$result['relation']['followers'. $key]['type'] = $value  -> type;
+					$result['relation']['followers'. $key]['username'] = $value  -> username;
 				}
 			}
-			if ($relationsBox -> relationArray -> following != ND) {
-				$result['relation']['following']['followingCounter'] = count($relationsBox -> relationArray -> following);
+			if ($relationsBox -> relationArray ['following'] != ND) {
+				$result['relation']['following']['followingCounter'] = count($relationsBox -> relationArray ['following']);
 				$followingVenueCounter = 0;
 				$followingJammerCounter = 0;
-				foreach ($relationsBox->relationArray->following->followingArray as $key => $value) {
-							if($value -> userInfo -> type == 'VENUE'){
-								$result['relation']['followingVenue'. $key]['objectId'] = $value -> userInfo -> objectId;
-								$result['relation']['followingVenue'. $key]['thumbnail'] = $value -> userInfo -> thumbnail != NODATA ? $value -> userInfo -> thumbnail : DEFPROFILEPICTURETHUM;
-								$result['relation']['followingVenue'. $key]['type'] = $value -> userInfo -> type;
-								$result['relation']['followingVenue'. $key]['username'] = $value -> userInfo -> username;
-								$followingVenueCounter++;
-							}
-							if($value -> userInfo -> type == 'JAMMER'){
-								$result['relation']['followingJammer'. $key]['objectId'] = $value -> userInfo -> objectId;
-								$result['relation']['followingJammer'. $key]['thumbnail'] = $value -> userInfo -> thumbnail != NODATA ? $value -> userInfo -> thumbnail : DEFPROFILEPICTURETHUM;
-								$result['relation']['followingJammer'. $key]['type'] = $value -> userInfo -> type;
-								$result['relation']['followingJammer'. $key]['username'] = $value -> userInfo -> username;
-								$followingJammerCounter++;
-							}
+				foreach ($relationsBox->relationArray['following'] as $key => $value) {
+						if($value  -> type == 'VENUE'){
+							$result['relation']['followingVenue'. $key]['objectId'] = $value  -> objectId;
+							$result['relation']['followingVenue'. $key]['thumbnail'] = $value  -> thumbnail != NODATA ? $value  -> thumbnail : DEFPROFILEPICTURETHUM;
+							$result['relation']['followingVenue'. $key]['type'] = $value  -> type;
+							$result['relation']['followingVenue'. $key]['username'] = $value  -> username;
+							$followingVenueCounter++;
+						}
+						if($value  -> type == 'JAMMER'){
+							$result['relation']['followingJammer'. $key]['objectId'] = $value  -> objectId;
+							$result['relation']['followingJammer'. $key]['thumbnail'] = $value  -> thumbnail != NODATA ? $value  -> thumbnail : DEFPROFILEPICTURETHUM;
+							$result['relation']['followingJammer'. $key]['type'] = $value  -> type;
+							$result['relation']['followingJammer'. $key]['username'] = $value  -> username;
+							$followingJammerCounter++;
+						}
+						if($key < 2){
+							$result['activity']['relation']['following'. $key]['objectId'] = $value  -> objectId;
+							$result['activity']['relation']['following'. $key]['thumbnail'] = $value  -> thumbnail != NODATA ? $value  -> thumbnail : DEFPROFILEPICTURETHUM;
+							$result['activity']['relation']['following'. $key]['type'] = $value  -> type;
+							$result['activity']['relation']['following'. $key]['username'] = $value  -> username;							
+						}
 				}
+				
+				
 				$result['relation']['followingVenue']['followingVenueCounter'] = $followingVenueCounter;
-				$result['relation']['followingVenue']['followingJammerCounter'] = $followingJammerCounter;
+				$result['relation']['followingJammer']['followingJammerCounter'] = $followingJammerCounter;
 			}
-			if ($relationsBox -> relationArray -> friendship != ND) {
-				$result['relation']['friendship']['friendshipCounter'] = count($relationsBox -> relationArray -> friendship);
-				foreach ($relationsBox->relationArray->friendship->friendshipArray as $key => $value) {
-					$result['relation']['friendship'. $key]['objectId'] = $value -> userInfo -> objectId;
-					$result['relation']['friendship'. $key]['thumbnail'] = $value -> userInfo -> thumbnail != NODATA ? $value -> userInfo -> thumbnail : DEFPROFILEPICTURETHUM;
-					$result['relation']['friendship'. $key]['type'] = $value -> userInfo -> type;
-					$result['relation']['friendship'. $key]['username'] = $value -> userInfo -> username;
+			if ($relationsBox -> relationArray ['friendship'] != ND) {
+				$result['relation']['friendship']['friendshipCounter'] = count($relationsBox -> relationArray ['friendship']);
+				foreach ($relationsBox->relationArray['friendship'] as $key => $value) {
+					$result['relation']['friendship'. $key]['objectId'] = $value  -> objectId;
+					$result['relation']['friendship'. $key]['thumbnail'] = $value  -> thumbnail != NODATA ? $value  -> thumbnail : DEFPROFILEPICTURETHUM;
+					$result['relation']['friendship'. $key]['type'] = $value  -> type;
+					$result['relation']['friendship'. $key]['username'] = $value  -> username;
+					
+					if($key < 2){
+						$result['activity']['relation']['friendship'.$key] = $result['relation']['friendship'. $key];
+					}				
 				}
+				
 			}
-			if ($relationsBox -> relationArray -> venuesCollaborators != ND) {
-				$result['relation']['venuesCollaborators']['venuesCollaboratorsCounter'] = count($relationsBox -> relationArray -> venuesCollaborators);
-				foreach ($relationsBox->relationArray->venuesCollaborators->venuesArray as $key => $value) {
-					$result['relation']['venuesCollaborators'. $key]['objectId'] = $value -> userInfo -> objectId;
-					$result['relation']['venuesCollaborators'. $key]['thumbnail'] = $value -> userInfo -> thumbnail != NODATA ? $value -> userInfo -> thumbnail : DEFPROFILEPICTURETHUM;
-					$result['relation']['venuesCollaborators'. $key]['type'] = $value -> userInfo -> type;
-					$result['relation']['venuesCollaborators'. $key]['username'] = $value -> userInfo -> username;
+			if ($relationsBox -> relationArray ['venuesCollaborators'] != ND) {
+				$result['relation']['venuesCollaborators']['venuesCollaboratorsCounter'] = count($relationsBox -> relationArray ['venuesCollaborators']);
+				foreach ($relationsBox->relationArray['venuesCollaborators'] as $key => $value) {
+					$result['relation']['venuesCollaborators'. $key]['objectId'] = $value  -> objectId;
+					$result['relation']['venuesCollaborators'. $key]['thumbnail'] = $value  -> thumbnail != NODATA ? $value  -> thumbnail : DEFPROFILEPICTURETHUM;
+					$result['relation']['venuesCollaborators'. $key]['type'] = $value  -> type;
+					$result['relation']['venuesCollaborators'. $key]['username'] = $value  -> username;
+					
+					if($key < 2){
+						$result['activity']['relation']['venuesCollaborators'.$key] = $result['relation']['venuesCollaborators'. $key];
+					}
 				}
+				
 			}
-			if ($relationsBox -> relationArray -> jammersCollaborators != ND) {
-				$result['relation']['jammersCollaborators']['jammersCollaboratorsCounter'] = count($relationsBox -> relationArray -> jammersCollaborators);
-				foreach ($relationsBox->relationArray->jammersCollaborators->jammersArray as $key => $value) {
-					$result['relation']['jammersCollaborators'. $key]['objectId'] = $value -> userInfo -> objectId;
-					$result['relation']['jammersCollaborators'. $key]['thumbnail'] = $value -> userInfo -> thumbnail != NODATA ? $value -> userInfo -> thumbnail : DEFPROFILEPICTURETHUM;
-					$result['relation']['jammersCollaborators'. $key]['type'] = $value -> userInfo -> type;
-					$result['relation']['jammersCollaborators'. $key]['username'] = $value -> userInfo -> username;
+			if ($relationsBox -> relationArray ['jammersCollaborators'] != ND) {
+				$result['relation']['jammersCollaborators']['jammersCollaboratorsCounter'] = count($relationsBox -> relationArray ['jammersCollaborators']);
+				foreach ($relationsBox->relationArray['jammersCollaborators'] as $key => $value) {
+					$result['relation']['jammersCollaborators'. $key]['objectId'] = $value  -> objectId;
+					$result['relation']['jammersCollaborators'. $key]['thumbnail'] = $value  -> thumbnail != NODATA ? $value  -> thumbnail : DEFPROFILEPICTURETHUM;
+					$result['relation']['jammersCollaborators'. $key]['type'] = $value  -> type;
+					$result['relation']['jammersCollaborators'. $key]['username'] = $value  -> username;
+					
+					if($key < 2){
+						$result['activity']['relation']['jammersCollaborators'.$key] = $result['relation']['jammersCollaborators' . $key];
+					}
 				}
+				
 			}
 		} else {
 			$result['error']['code'] = 101;
