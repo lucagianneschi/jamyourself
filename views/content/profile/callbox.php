@@ -25,15 +25,14 @@ $box = $_POST['typebox'];
 $objectId = $_POST['objectIdUser'];
 $type = $_POST['typeUser'];
 $objectIdCurrentUser = $_POST['objectIdCurrentUser'];
-$class = $_POST['classBox'];
+$classBox= $_POST['classBox'];
+$objectIdComment = $_POST['objectId'];
 /*
- $box = 'relation';
- $objectId = 'iovioSH5mq';
- $type = 'JAMMER';
- $class = 'Image';
-$objectIdCurrentUser = 'GuUAj83MGH';
+$box = 'comment';
+$objectId = '8zqS8mjacf';
+$classBox = 'Record';
+$objectIdComment = 'sveemvaUN8';
 */
-
 $result = array();
 
 $result['error']['code'] = 0;
@@ -44,6 +43,7 @@ switch ($box) {
 		require_once BOXES_DIR . 'userInfo.box.php';
 
 		$userInfo = new UserInfoBox();
+		try{
 		$dati = $userInfo -> initForPersonalPage($objectId);
 		if (!($dati instanceof Error)) {
 			$result['backGround'] = $dati -> backGround != NODATA ? $dati -> backGround : DEFBACKGROUND;
@@ -83,13 +83,18 @@ switch ($box) {
 			$result['error']['code'] = 101;
 			$result['error']['message'] = 'object not found for get';
 		}
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error infoUser';
+		}
 		$result = json_encode($result);
 		break;
 
 	case 'activity' :
 		require_once BOXES_DIR . 'activity.box.php';
 		$activityBoxP = new ActivityBox();
-		$activityBox = $activityBoxP -> initForPersonalPage($objectId, $type);
+		try{
+			$activityBox = $activityBoxP -> initForPersonalPage($objectId, $type);
 
 		if (!($activityBox instanceof Error)) {
 			$result['albumInfo']['imageCounter'] = $activityBox -> albumInfo -> imageCounter;
@@ -115,12 +120,17 @@ switch ($box) {
 			$result['error']['code'] = 101;
 			$result['error']['message'] = 'object not found for get';
 		}
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Activity';
+		}
 		$result = json_encode($result);
 		break;
 
 	case 'album' :
 		require_once BOXES_DIR . 'album.box.php';
 		$albumBoxP = new AlbumBox();
+		try{
 		$albumBox = $albumBoxP -> initForPersonalPage($objectId);
 		if (!($albumBox instanceof Error)) {
 			$result['albumCounter'] = $albumBox -> albumCounter;
@@ -160,104 +170,130 @@ switch ($box) {
 			$result['error']['code'] = 101;
 			$result['error']['message'] = 'object not found for get';
 		}
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Album';
+		}
 		$result = json_encode($result);
 		break;
 	case 'comment' :
 		require_once BOXES_DIR . 'comment.box.php';
-		$commentBoxP = new CommentBox();
-		$commentBox = $commentBoxP -> init($class, $objectId);
-		$result['playlist']['comment'] = array();
-		if (!($commentBox instanceof Error)) {
-			foreach ($commentBox->commentInfoArray as $key => $value) {
-				$comment['user_objectId'] = $value -> fromUserInfo -> objectId;
-				$comment['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != NODATA ? $value -> fromUserInfo -> thumbnail : DEFPROFILEPICTURETHUM;
-				$comment['user_type'] = $value -> fromUserInfo -> type != NODATA ? $value -> fromUserInfo -> type : '';
-				$comment['user_username'] = $value -> fromUserInfo -> username != NODATA ? $value -> fromUserInfo -> username : '';
-				$comment['createdAt'] = $value -> createdAt;
-				$comment['text'] = $value -> text;
-				array_push($result['playlist']['comment'], $comment);
+		$commentBoxP = new CommentBox();		
+		try  {
+			$commentBox = $commentBoxP -> init($classBox, $objectIdComment);			
+			if (!($commentBox instanceof Error)) {
+				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
+				foreach ($commentBox->commentInfoArray as $key => $value) {					
+					$result['comment'. $key]['user_objectId'] = $value -> fromUserInfo -> objectId;
+					$result['comment'. $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != NODATA ? $value -> fromUserInfo -> thumbnail : DEFPROFILEPICTURETHUM;
+					$result['comment'. $key]['user_type'] = $value -> fromUserInfo -> type != NODATA ? $value -> fromUserInfo -> type : '';
+					$result['comment'. $key]['user_username'] = $value -> fromUserInfo -> username != NODATA ? $value -> fromUserInfo -> username : '';
+					$result['comment'. $key]['createdAt'] = $value -> createdAt;
+					$result['comment'. $key]['text'] = $value -> text;					
+				}
+				
+			} else {
+				$result['error']['code'] = 101;
+				$result['error']['message'] = 'object not found for get';				
 			}
-		} else {
-			$result['error']['code'] = 101;
-			$result['error']['message'] = 'object not found for get';
+		}catch (Exception $e) {
+		   $result['comment'] = '';
+		   $result['error']['message'] = 'Error Comment';
 		}
-		break;
 		$result = json_encode($result);
+		break;
+		
 	case 'event' :
 		require_once BOXES_DIR . 'event.box.php';
 		$eventBoxP = new EventBox();
-		$eventBox = $eventBoxP -> initForPersonalPage($objectId);
-		if (!($eventBox instanceof Error)) {
-			$result['eventCounter'] = $eventBox -> eventCounter;
-			foreach ($eventBox->eventInfoArray as $key => $value) {
-				$result['event' . $key]['address'] = $value -> address != NODATA ? $value -> address : '';
-				$result['event' . $key]['city'] = $value -> city != NODATA ? $value -> city : '';
-				$result['event' . $key]['counters'] = $value -> counters != NODATA ? $value -> counters : '';
-				$result['event' . $key]['eventDate'] = $value -> eventDate != NODATA ? $value -> eventDate : '';
-				$result['event' . $key]['featuring'] = $value -> featuring != NODATA ? $value -> featuring : array();
-				$result['event' . $key]['fromUserInfo'] = $value -> fromUserInfo != NODATA ? $value -> fromUserInfo : '';
-				$result['event' . $key]['locationName'] = $value -> locationName != NODATA ? $value -> locationName : '';
-				$result['event' . $key]['tags'] = $value -> tags != NODATA ? $value -> tags : '';
-				$result['event' . $key]['thumbnail'] = $value -> thumbnail != NODATA ? $value -> thumbnail : DEFEVENTCOVERTHUM;
-				$result['event' . $key]['title'] = $value -> title != NODATA ? $value -> title : '';
-				$result['event' . $key]['objectId'] = $value -> objectId != NODATA ? $value -> objectId : '';
+		try  {
+			$eventBox = $eventBoxP -> initForPersonalPage($objectId);
+			if (!($eventBox instanceof Error)) {
+				$result['eventCounter'] = $eventBox -> eventCounter;
+				foreach ($eventBox->eventInfoArray as $key => $value) {
+					$result['event' . $key]['address'] = $value -> address != NODATA ? $value -> address : '';
+					$result['event' . $key]['city'] = $value -> city != NODATA ? $value -> city : '';
+					$result['event' . $key]['counters'] = $value -> counters != NODATA ? $value -> counters : '';
+					$result['event' . $key]['eventDate'] = $value -> eventDate != NODATA ? $value -> eventDate : '';
+					$result['event' . $key]['featuring'] = $value -> featuring != NODATA ? $value -> featuring : array();
+					$result['event' . $key]['fromUserInfo'] = $value -> fromUserInfo != NODATA ? $value -> fromUserInfo : '';
+					$result['event' . $key]['locationName'] = $value -> locationName != NODATA ? $value -> locationName : '';
+					$result['event' . $key]['tags'] = $value -> tags != NODATA ? $value -> tags : '';
+					$result['event' . $key]['thumbnail'] = $value -> thumbnail != NODATA ? $value -> thumbnail : DEFEVENTCOVERTHUM;
+					$result['event' . $key]['title'] = $value -> title != NODATA ? $value -> title : '';
+					$result['event' . $key]['objectId'] = $value -> objectId != NODATA ? $value -> objectId : '';
+				}
+			$result['activity']['event'] = $result['event' . 0];
+			} else {
+				$result['error']['code'] = 101;
+				$result['error']['message'] = 'object not found for get';
 			}
-		$result['activity']['event'] = $result['event' . 0];
-		} else {
-			$result['error']['code'] = 101;
-			$result['error']['message'] = 'object not found for get';
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Event';
 		}
 		$result = json_encode($result);
 		break;
 	case 'post' :
 		require_once BOXES_DIR . 'post.box.php';
 		$recordPostP = new PostBox();
+		try  {
 		$recordPost = $recordPostP -> initForPersonalPage($objectId);
-		if (!($eventBox instanceof Error)) {
-			$result['postCounter'] = $recordPost -> postCounter;
-			foreach ($recordPost->postInfoArray as $key => $value) {
-				$result['post' . $key]['counters'] = $value -> counters != NODATA ? $value -> counters : '';
-				$result['post' . $key]['createdAt'] = $value -> createdAt != NODATA ? $value -> createdAt : '';
-				$result['post' . $key]['user_type'] = $value -> fromUserInfo -> type != NODATA ? $value -> fromUserInfo -> type : '';
-				$result['post' . $key]['user_username'] = $value -> fromUserInfo -> username != NODATA ? $value -> fromUserInfo -> username : '';
-				$result['post' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != NODATA ? $value -> fromUserInfo -> thumbnail : '';
-				$result['post' . $key]['text'] = $value -> createdAt != NODATA ? $value -> text : '';
+			if (!($eventBox instanceof Error)) {
+				$result['postCounter'] = $recordPost -> postCounter;
+				foreach ($recordPost->postInfoArray as $key => $value) {
+					$result['post' . $key]['counters'] = $value -> counters != NODATA ? $value -> counters : '';
+					$result['post' . $key]['createdAt'] = $value -> createdAt != NODATA ? $value -> createdAt : '';
+					$result['post' . $key]['user_type'] = $value -> fromUserInfo -> type != NODATA ? $value -> fromUserInfo -> type : '';
+					$result['post' . $key]['user_username'] = $value -> fromUserInfo -> username != NODATA ? $value -> fromUserInfo -> username : '';
+					$result['post' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != NODATA ? $value -> fromUserInfo -> thumbnail : '';
+					$result['post' . $key]['text'] = $value -> createdAt != NODATA ? $value -> text : '';
+				}
+	
+			} else {
+				$result['error']['code'] = 101;
+				$result['error']['message'] = 'object not found for get';
 			}
-
-		} else {
-			$result['error']['code'] = 101;
-			$result['error']['message'] = 'object not found for get';
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Post';
 		}
 		$result = json_encode($result);
 		break;
 	case 'record' :
 		require_once BOXES_DIR . 'record.box.php';
 		$recordBoxP = new RecordBox();
-		$recordBox = $recordBoxP -> initForPersonalPage($objectId);
-		if (!($recordBox instanceof Error)) {
-			$result['recordCounter'] = $recordBox -> recordCounter;
-			$result['tracklist'] = $recordBox -> tracklist;
-			foreach ($recordBox->recordInfoArray as $key => $value) {
-				$result['record' . $key]['counters'] = $value -> counters != NODATA ? $value -> counters : '';
-				$result['record' . $key]['genre'] = $value -> genre != NODATA ? $value -> genre : '';
-				$result['record' . $key]['objectId'] = $value -> objectId != NODATA ? $value -> objectId : '';
-				$result['record' . $key]['songCounter'] = $value -> songCounter != NODATA ? $value -> songCounter : '';
-				$result['record' . $key]['thumbnailCover'] = $value -> thumbnailCover != NODATA ? $value -> thumbnailCover : DEFRECORDCOVERTHUM;
-				$result['record' . $key]['title'] = $value -> title != NODATA ? $value -> title : '';
-				$result['record' . $key]['year'] = $value -> year != NODATA ? $value -> year : '';
-				$recordDetail = $recordBoxP -> initForDetail($result['record' . $key]['objectId']);
-				$result['record' . $key]['recordDetail'] = $recordDetail;				
+		try  {
+			$recordBox = $recordBoxP -> initForPersonalPage($objectId);
+			if (!($recordBox instanceof Error)) {
+				$result['recordCounter'] = $recordBox -> recordCounter;
+				$result['tracklist'] = $recordBox -> tracklist;
+				foreach ($recordBox->recordInfoArray as $key => $value) {
+					$result['record' . $key]['counters'] = $value -> counters != NODATA ? $value -> counters : '';
+					$result['record' . $key]['genre'] = $value -> genre != NODATA ? $value -> genre : '';
+					$result['record' . $key]['objectId'] = $value -> objectId != NODATA ? $value -> objectId : '';
+					$result['record' . $key]['songCounter'] = $value -> songCounter != NODATA ? $value -> songCounter : '';
+					$result['record' . $key]['thumbnailCover'] = $value -> thumbnailCover != NODATA ? $value -> thumbnailCover : DEFRECORDCOVERTHUM;
+					$result['record' . $key]['title'] = $value -> title != NODATA ? $value -> title : '';
+					$result['record' . $key]['year'] = $value -> year != NODATA ? $value -> year : '';
+					$recordDetail = $recordBoxP -> initForDetail($result['record' . $key]['objectId']);
+					$result['record' . $key]['recordDetail'] = $recordDetail;				
+				}
+				$result['activity']['record'] = $result['record' . 0];
+			} else {
+				$result['error']['code'] = 101;
+				$result['error']['message'] = 'object not found for get';
 			}
-			$result['activity']['record'] = $result['record' . 0];
-		} else {
-			$result['error']['code'] = 101;
-			$result['error']['message'] = 'object not found for get';
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Record';
 		}
 		$result = json_encode($result);
 		break;
 	case 'relation' :
 		require_once BOXES_DIR . 'relation.box.php';
 		$relationsP = new RelationsBox();
+		try  {
 		$relationsBox = $relationsP -> initForPersonalPage($objectId, $type);
 		$result['activity']['relation'] = "";
 		if (!($relationsBox instanceof Error)) {
@@ -347,11 +383,16 @@ switch ($box) {
 			$result['error']['code'] = 101;
 			$result['error']['message'] = 'object not found for get';
 		}
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Relation';
+		}
 		$result = json_encode($result);
 		break;
 	case 'review' :
 		require_once BOXES_DIR . 'review.box.php';
 		$reviewBox = new ReviewBox();
+		try{
 		if ($type != 'VENUE') {
 			$reviewRecordBox = $reviewBox -> initForPersonalPage($objectId, $type, 'Record');
 			if (!($reviewRecordBox instanceof Error)) {
@@ -392,12 +433,16 @@ switch ($box) {
 			$result['error']['code'] = 101;
 			$result['error']['message'] = 'object not found for get';
 		}
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Review';
+		}
 		$result = json_encode($result);
 		break;
 	case 'header' :
 		require_once BOXES_DIR . 'playlist.box.php';
 		$playListBoxP = new PlaylistBox();
-		$playListBox = $playListBoxP->init($objectIdCurrentUser);
+		try{		$playListBox = $playListBoxP->init($objectIdCurrentUser);
 		if (!($playListBox instanceof Error)) {
 			$result['playlist']['name'] = $playListBox->name != NODATA ? $playListBox->name : '';
 			$result['playlist']['tracklist'] = array();
@@ -413,6 +458,10 @@ switch ($box) {
 		}else {
 			$result['error']['code'] = 101;
 			$result['error']['message'] = 'object not found for get';
+		}
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Header';
 		}
 		$result = json_encode($result);
 		break;

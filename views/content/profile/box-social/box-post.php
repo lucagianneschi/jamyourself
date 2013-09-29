@@ -13,7 +13,7 @@ $postCounter = $data['postCounter'];
 ?>
 
 <!------------------------------------- Post ------------------------------------>
-<div class="row" id="social-post">
+<div class="row" id="social-Post">
 	<div  class="large-12 columns">
 		<h3>Post</h3>
 
@@ -45,6 +45,7 @@ $postCounter = $data['postCounter'];
 						$post_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['post' . $key]['createdAt']);
 						$post_createdAd = $event_eventDate_DateTime->format('l j F - ore H:i');
 						?>
+					<div id='<?php echo  $data['post' . $i]['objectId'];?>'>
 					<div class="row  line">
 						<div  class="small-1 columns ">
 							<div class="icon-header">
@@ -81,15 +82,19 @@ $postCounter = $data['postCounter'];
 					<div class="row">
 						<div class="box-propriety">
 							<div class="small-5 columns ">
-								<a class="note grey">Unlove</a>
-								<a class="note grey">Comment</a>
+								<a class="note grey " onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')">Love</a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')">Comment</a>
 							</div>
 							<div class="small-5 columns propriety ">
-								<a class="icon-propriety _love orange"><?php echo $data['post' . $i]['counters']['loveCounter'];?></a>
-								<a class="icon-propriety _comment "><?php echo $data['post' . $i]['counters']['commentCounter'];?></a>
+								<a class="icon-propriety _unlove grey"><?php echo$data['post' . $i]['counters']['loveCounter']; ?></a>
+								<a class="icon-propriety _comment"><?php echo $data['post' . $i]['counters']['commentCounter']; ?></a>
+							
 							</div>
 						</div>
 					</div>
+					<!---------------------------------------- COMMENT ------------------------------------------------->
+					<div class="box-comment no-display"></div>
+					</div>	
 					<?php }}
 					else{
 						?>

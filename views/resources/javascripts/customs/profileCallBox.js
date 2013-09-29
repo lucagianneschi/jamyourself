@@ -24,6 +24,7 @@ var callBox = {
 	typeUser : '',
 	typeCurrentUser : '',
 	objectIdCurrentUser: '',
+	objectId: '',
 	classBox : '',
 	countBoxActivity: 0,
 	numBoxActivity: 1,
@@ -31,7 +32,7 @@ var callBox = {
 	load : function(typebox) {
 		__this = this;
 		this.typebox = typebox;
-
+		
 		$.ajax({
 			url : this.url,
 			data : {
@@ -39,7 +40,8 @@ var callBox = {
 				objectIdUser : this.objectIdUser,
 				typeUser : this.typeUser,
 				objectIdCurrentUser : this.objectIdCurrentUser,
-				classBox :  this.classBox
+				classBox :  this.classBox,
+				objectId: this.objectId
 			},
 			type : 'POST',
 			dataType : 'json',
@@ -136,7 +138,7 @@ var callBox = {
 							break;
 							
 						case 'comment':
-							return data;
+							addBoxComment(data, __this.typeUser, __this.classBox);							
 							break;	
 						default:
 
@@ -146,12 +148,13 @@ var callBox = {
 					return data;
 				} else {
 					
-				//	$('.body-content').load('content/general/error.php');
+					$('.body-content').load('content/general/error.php');
 				}
 
 			},
 			error : function(richiesta, stato, errori) {
-				console.log(stato);
+				console.log(richiesta+' '+stato+' '+errori);
+				console.log(richiesta);
 			}
 		});
 
@@ -231,7 +234,7 @@ function addBoxRecordReview(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: 
-		slideReview('recordReviewSlide');
+		rsi_recordReview = slideReview('recordReviewSlide');
 		hcento();
 	});
 }
@@ -244,7 +247,7 @@ function addBoxRecordEvent(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success:
-		slideReview('eventReviewSlide'); 
+		rsi_eventReview = slideReview('eventReviewSlide'); 
 		hcento();
 	});
 }
@@ -318,6 +321,27 @@ function addBoxPost(data, typeUser) {
 	});
 }
 
+/*
+ * box post chiama box-post.php
+ */
+function addBoxComment(data, typeUser,classbox) {
+	var idBox = '';
+	if(classbox == 'RecordReview' || classbox == 'EventReview'){
+		idBox = '#social-'+classbox;
+	}
+	if(classbox == 'Album' || classbox == 'Record'){
+		idBox = '#profile-'+classbox;
+	}
+	if(classbox == 'Image' || classbox == 'Post'){
+		idBox = '#'+objectId;
+	}
+	$(idBox+' .box-comment').load('content/profile/box-social/box-comment.php', {
+		'data' : data,
+		'typeUser' : typeUser
+	},function(){success: hcento();} );
+	
+}
+
 function addBoxHeader(data, typeUser){
 	$('#header-profile').load('content/header/box-profile.php', {
 		'data' : data,
@@ -333,95 +357,6 @@ function addBoxHeader(data, typeUser){
 
 
 
-
-/*
- * scorrimento dei box
- */
-
-function royalSlide(idBox) {
- $('#' + idBox).royalSlider({
-		arrowsNav : true,
-		arrowsNavAutoHide : false,
-		fadeinLoadedSlide : false,
-		controlNavigationSpacing : 0,
-		controlNavigation : 'none',
-		imageScaleMode : 'none',
-		imageAlignCenter : false,
-		blockLoop : false,
-		loop : false,
-		numImagesToPreload : 6,
-		transitionType : 'fade',
-		autoHeight: true,
-		keyboardNavEnabled : true,
-		block : {
-			delay : 400
-		}
-	}).data('royalSlider');
-	
-}
-
-
-function slideReview(idBox) {
-var rsi = $('#' + idBox).royalSlider({
-		arrowsNav : false,
-		arrowsNavAutoHide : false,
-		navigateByClick: false,
-		fadeinLoadedSlide : false,
-		controlNavigationSpacing : 0,
-		controlNavigation : 'none',
-		imageScaleMode : 'none',
-		imageAlignCenter : false,
-		blockLoop : false,
-		loop : false,
-		numImagesToPreload : 6,
-		transitionType : 'fade',
-		keyboardNavEnabled : true,
-		autoHeight: true,
-		block : {
-			delay : 400
-		}
-	}).data('royalSlider');
-	return rsi;
-}
-
-function royalSlideNext(box){
-	var rsi;
-	switch(box) {
-		case 'record':
-		rsi = rsi_record;
-		break;
-		case 'event':
-		rsi = rsi_event;
-		break;
-		case 'album':
-		rsi = rsi_album;
-		break;
-		default:
-		break;
-	}
-	rsi.next();
-   	
-  
-}
-
-function royalSlidePrev(box){
-	var rsi;
-	switch(box) {
-		case 'record':
-		rsi = rsi_record;
-		break;
-		case 'event':
-		rsi = rsi_event;
-		break;
-		case 'album':
-		rsi = rsi_album;
-		break;
-		default:
-		break;
-	}
-	rsi.prev();
-	
- }
 
 
 

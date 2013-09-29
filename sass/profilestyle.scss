@@ -91,8 +91,12 @@ section.active > .title a{
 }
 
 
-
-
+.royalSlider.rsDefault{
+	background: none !important;
+}
+.rsDefault .rsOverflow{
+	background: none !important;
+}
 
 .album-other{
  cursor:pointer;
@@ -243,7 +247,7 @@ section.active > .title a{
 
 
 //---------- record -------------------
-#profile-record .box{
+#profile-Record .box{
 	padding: 5px !important; 
 	.propriety{
 		padding-right: 15px !important;
@@ -268,7 +272,7 @@ section.active > .title a{
  } 
 }
 
-#profile-record .box-info-element{
+#profile-Record .box-info-element{
  	border-top: 1px solid $grey-dark !important;
  	margin-bottom: 5px !important;
 	padding: 5px !important;
@@ -291,7 +295,7 @@ section.active > .title a{
   cursor:pointer;
 }
 
-#profile-record .track{
+#profile-Record .track{
   padding-top: 5px;  
    border-top: 1px solid $grey-dark !important;
    ._play-large{
@@ -354,7 +358,7 @@ section.active > .title a{
 		
 }
 
-#profile-event .box{
+#profile-Event .box{
 	padding: 5px !important;
 	.propriety {
 		padding-right: 20px !important;
@@ -397,7 +401,7 @@ section.active > .title a{
   height: auto !important;
 }
 
-.textAlbumReview{
+.textReview{
   margin-top:10px;
 }
 .textEventReview{
@@ -599,6 +603,10 @@ section.active > .title a{
   padding-bottom: 1px !important;
   background: #fff !important;
   margin-bottom: 5px;
+}
+
+.box-commentSpace{
+	margin-bottom : 0px !important;
 }
 
 

@@ -17,7 +17,7 @@
 
 ?>
 
-<div class="row" id='profile-event'>
+<div class="row" id='profile-Event'>
 	<div class="large-12 columns ">	
 		<div class="row">
 			<div  class="small-5 columns">
@@ -119,10 +119,10 @@
 					<div class="box-propriety ">					
 						<div class="small-7 columns no-display">
 							<a class="icon-propriety _menu-small note orange "> Add to Calendar</a>	
-							<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Love</a>
-							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Comment</a>
-							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Shere</a>
-							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','event')">Review</a>	
+							<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')">Love</a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')">Comment</a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')">Shere</a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')">Review</a>	
 						</div>
 						<div class="small-5 columns propriety ">					
 							<a class="icon-propriety _unlove grey"><?php echo $event_love ?></a>

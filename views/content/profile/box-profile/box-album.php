@@ -16,7 +16,7 @@ $albumCounter = $data['albumCounter'];
 
 ?>
 <!----------------------------------- Photography -------------------------------------------------->
-<div class="row" id='profile-album'>
+<div class="row" id='profile-Album'>
 	<div class="large-12 columns ">
 		<div class="row">
 			<div  class="large-5 columns">
@@ -123,9 +123,9 @@ $albumCounter = $data['albumCounter'];
 			<div class="row album-single-propriety">
 				 <div class="box-propriety">
 					<div class="small-6 columns ">
-						<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','album')">Love</a>
-						<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','album')">Comment</a>
-						<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','album')">Shere</a>
+						<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Love</a>
+						<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Comment</a>
+						<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Shere</a>
 					</div>
 					<div class="small-6 columns propriety ">					
 						<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
@@ -135,7 +135,9 @@ $albumCounter = $data['albumCounter'];
 				</div>		
 			</div>	
 		</div>
-		<div class="row no-display">
+		<!---------------------------------------- COMMENT ------------------------------------------------->
+		<div class="box-comment no-display"></div>
+		<div class="row no-display box" id="profile-Image">
 			<div class="large-12 columns">
 				 <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>				 	
 					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo <?php echo $j; echo $data['album' . $i]['image' . $j]['filePath'];?>">
@@ -145,11 +147,11 @@ $albumCounter = $data['albumCounter'];
 					 			<div class="row">
 					 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
 					 			</div>
-					 			<div class="row">
+					 			<div class="row" style="margin-bottom: 10px">
 					 				<div  class="small-6 columns">
-					 					<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','album')">Love</a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','album')">Comment</a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','album')">Shere</a>
+					 					<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Love</a>
+										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Comment</a>
+										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Shere</a>
 					 				</div>
 					 				<div  class="small-6 columns propriety">
 					 					<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['image' . $j]['counters']['loveCounter']; ?></a>
@@ -158,7 +160,7 @@ $albumCounter = $data['albumCounter'];
 					 				</div>
 					 			</div>
 					 			<div class="row">
-					 				<div  class="small-5 columns">
+					 				<div  class="small-4 columns">
 					 					<div class="sottotitle white"><?php echo $data['album' . $i]['title']; ?></div>
 					 					<?php if($data['album' . $i]['image' . $j]['description'] != ""){?>
 					 					<div class="text grey"><?php echo $data['album' . $i]['image' . $j]['description']; ?></div>
@@ -179,15 +181,20 @@ $albumCounter = $data['albumCounter'];
 										<?php	} 
 					 						?>
 					 				</div>
-					 				<div  class="small-7 columns">
+					 				<div  class="small-8 columns">
+					 					<!---------------------------------------- COMMENT ------------------------------------------------->
+										<div class="box-comment no-display"></div>
 					 				</div>
 					 			</div>			
 					 		</div>
 					 	</div>
+					 	
 					</div>
 				<?php } ?>
+				
 			</div>	
 		</div>
+		
 		<?php  } ?>	
 	</div>
 	

@@ -12,7 +12,7 @@
 ?>
 
 <!------------------------------------- Reviews ------------------------------------>
-<div class="row" id="social-recordReview">
+<div class="row" id="social-RecordReview">
 	<div  class="large-12 columns">	
 	<div class="row">
 		<div  class="small-5 columns">
@@ -93,11 +93,11 @@
 							</div>													
 						</div>
 						<div  class="small-2 columns align-right viewAlbumReview">
-							<a href="#" class="orange"><strong onclick="toggleText(this)">Read</strong></a>
+							<a href="#" class="orange"><strong onclick="toggleTextRecordReview(this,'recordReview_<?php echo $recordReview_objectId ?>')">Read</strong></a>
 						</div>				
 					</div>
 					
-					<div class="textAlbumReview no-display">
+					<div class="textReview no-display">
 						<div class="row ">						
 							<div  class="small-12 columns ">
 								<div class="text grey">
@@ -112,9 +112,9 @@
 					<div class="row recordReview-propriety">
 						<div class="box-propriety">
 							<div class="small-6 columns ">
-								<a class="note grey " onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','recordReview')">Love</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','recordReview')">Comment</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','recordReview')">Shere</a>
+								<a class="note grey " onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')">Love</a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')">Comment</a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')">Shere</a>
 							</div>
 							<div class="small-6 columns propriety ">					
 								<a class="icon-propriety _unlove grey" ><?php echo $recordReview_love ?></a>
@@ -123,6 +123,7 @@
 							</div>	
 						</div>		
 					</div>
+					
 				</div>	
 				</div>	
 					<?php } }
@@ -137,6 +138,9 @@
 			</div>
 			</div>	
 		</div>
+		
 	</div>
+		<!---------------------------------------- comment ------------------------------------------------->
+		<div class="box-comment no-display"></div>
 	</div>
 </div>	

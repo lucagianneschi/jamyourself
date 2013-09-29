@@ -13,7 +13,7 @@ $typeUser = $_POST['typeUser'];
 $recordCounter = $data['recordCounter'];
 ?>
 <!----------------------------------------- PLAYER ALBUM ----------------------------------------------->
-<div class="row" id="profile-record">
+<div class="row" id="profile-Record">
 	<div class="large-12 columns">
 	<div class="row">
 			<div  class="small-5 columns">
@@ -174,8 +174,8 @@ $recordCounter = $data['recordCounter'];
 					<div class="row track-propriety" >
 						<div class="box-propriety album-single-propriety">
 							<div class="small-5 columns ">
-								<a class="note white" onclick="setCounter(this)">Love</a>
-								<a class="note white" onclick="setCounter(this)">Shere</a>	
+								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')">Love</a>
+								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')">Shere</a>	
 							</div>
 							<div class="small-5 columns propriety ">					
 								<a class="icon-propriety _unlove grey" ><?php echo $value['counters']['loveCounter'] ?></a>
@@ -189,10 +189,10 @@ $recordCounter = $data['recordCounter'];
 			<div class="row album-single-propriety">
 				<div class="box-propriety">
 					<div class="small-6 columns ">
-						<a class="note white" onclick="setCounter(this)">Love</a>
-						<a class="note white" onclick="setCounter(this)">Comment</a>
-						<a class="note white" onclick="setCounter(this)">Shere</a>
-						<a class="note white" onclick="setCounter(this)">Review</a>	
+						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Love</a>
+						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Comment</a>
+						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Shere</a>
+						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Review</a>	
 					</div>
 					<div class="small-6 columns propriety ">					
 						<a class="icon-propriety _unlove grey" ><?php echo $recordSingle_love ?></a>

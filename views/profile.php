@@ -6,10 +6,10 @@ require_once ROOT_DIR . 'config.php';
 
 //esempio: objectId dell'utente collegato 
 $correntUser = "GuUAj83MGH";
-$correntUserType = 'SPOTTER';
-//esempio: objectId dell'utente a cui si vuole vedere il profilo 
-$profileUser = "7fes1RyY77";
 
+//esempio: objectId dell'utente a cui si vuole vedere il profilo 
+$profileUser = $_GET['objectIdProfile'];
+$correntUserType = $_GET['typeCurrent'];
 
 ?>
 <!DOCTYPE html>
@@ -47,7 +47,7 @@ $profileUser = "7fes1RyY77";
 			
 			callBox.load('userinfo');
 			
-			//callBox.load('header');
+			callBox.load('header');
 			
 			
 			
