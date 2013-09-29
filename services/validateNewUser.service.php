@@ -4,6 +4,8 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
+require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 
 //Basato sul documento : http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:user
 
@@ -48,10 +50,13 @@ class ValidateNewUserService {
 
         $user = json_decode(json_encode($userJSON), false);
 
+        
         if (!isset($user->language) || is_null($user->language) || !$this->checkUsername($user->language) || strlen($user->language) <=0)
-            $this->setInvalid("language");        
+            $this->setInvalid("language");
         if (!isset($user->localTime) || is_null($user->localTime) || !$this->checkUsername($user->localTime) || strlen($user->localTime) <=0)
-            $this->setInvalid("language");        
+            $this->setInvalid("language");
+        if (!isset($user->type) || is_null($user->type))
+            $this->setInvalid("type");
         if (!isset($user->username) || is_null($user->username) || !$this->checkUsername($user->username))
             $this->setInvalid("username");        
         if (!isset($user->password) || is_null($user->password) || !$this->checkPassword($user->password))
@@ -60,9 +65,6 @@ class ValidateNewUserService {
             $this->setInvalid("verifyPassword");
         if (!isset($user->email) || is_null($user->email) || !$this->checkEmail($user->email) || !$this->checkEmail($user->email))
             $this->setInvalid("email");
-        if (!isset($user->type) || is_null($user->type))
-            $this->setInvalid("type");
-
 
 //verifico i campi specifici per tipologia di utente
         if (!isset($user->description) || is_null($user->description) || !$this->checkDescription($user->description))
