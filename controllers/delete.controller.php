@@ -207,7 +207,7 @@ class DeleteController extends REST {
 							$mail->IsHTML(true);
 
 							$mail->AddAddress('luca.gianneschi@gmail.com');
-							//$mail->AddAddress($user->email);
+							//$mail->AddAddress($user->getEmail());
 							$mail->Subject = SBJ;
 							$mail->MsgHTML(file_get_contents(STDHTML_DIR .'userDeletion.html'));
 							$mail->Send(); 
@@ -300,11 +300,6 @@ class DeleteController extends REST {
 				$statusParse = new StatusParse();
 				$res = $statusParse->updateField($objectId, 'active', true);
 				break;
-			case 'User':
-				require_once CLASSES_DIR . 'userParse.class.php';
-				$userParse = new UserParse();
-				$res = $userParse->updateField($objectId, 'active', true);
-				break;	
 			case 'Video':
 				require_once CLASSES_DIR . 'videoParse.class.php';
 				$videoParse = new VideoParse();
