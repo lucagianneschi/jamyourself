@@ -58,12 +58,12 @@ class ReviewController extends REST {
 	 */
     public function review() {
 	
-			#TODO
-		//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
+		#TODO
+		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
 		//questa sezione prima del try-catch dovrà sparire
-		$userParse = new UserParse();
-		$fromUser = $userParse->getUser($this->request['fromUser']);
-		$toUser = $fromUser;
+		require_once CLASSES_DIR . 'user.class.php';
+		$fromUser = new User('SPOTTER');
+		$fromUser->setObjectId('GuUAj83MGH');
 		
 		try {
             //controllo la richiesta
@@ -139,7 +139,6 @@ class ReviewController extends REST {
 			$mail->AddAddress('luca.gianneschi@gmail.com');
 			//$mail->AddAddress($user->email);
 			
-			
 			switch ($classType) {
 				case 'Event'://posso fare la recensione di un mio evento??
 					$reviewEvent->setEvent($objectId);
@@ -163,30 +162,39 @@ class ReviewController extends REST {
 					break;
 			}
 			
-			//salvo review
+			//salvo post
 			$commentParse = new CommentParse();
-			$res = $commentParse->saveComment($review);
-			if (get_class($res) == 'Error') {
-				$this->response(array($res), 503);
+			$resCmt = $commentParse->saveComment($cmt);
+			if (get_class($resCmt) == 'Error') {
+				$this->response(array($resCmt), 503);
+			} else {
+				//salvo activity
+				$activityParse = new ActivityParse();
+				$resActivity = $activityParse->saveActivity($activity);
+				if (get_class($resActivity) == 'Error') {
+					$this->rollback($resCmt->getObjectId());
+				}
 			}
-			
-			//salvo activity
-			$activityParse = new ActivityParse();
-			$res = $activityParse->saveActivity($activity);
-			if (get_class($res) == 'Error') {
-				$this->response(array($res), 503);
-			}
-			//invio mail
+
 			$mail->Send(); 
 			$mail->SmtpClose();
 			unset($mail);
-			//risposta
 			$this->response(array('Your review has been saved'), 200);
 	
-	}catch (Exception $e) {
-            $this->response($e, 503);
-        }
+		} catch (Exception $e) {
+			$this->response(array('Error: ' . $e->getMessage()), 503);
+		}
 	}
 
+	private function rollback($objectId) {
+		$commentParse = new CommentParse();
+		$res = $commentParse->deleteComment($objectId);
+		if (get_class($res) == 'Error') {
+			$this->response(array("Rollback KO"), 503);
+		} else {
+			$this->response(array("Rollback OK"), 503);
+		}
+	}
+	
 }
 ?>
