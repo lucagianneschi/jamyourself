@@ -57,46 +57,38 @@ class MessageController extends REST {
      * \todo    usare la sessione
      */
     public function sendMessage() {
-	#TODO
-	//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
-	//questa sezione prima del try-catch dovrà sparire
-	$userParse = new UserParse();
-	$fromUser = $userParse->getUser($this->request['fromUser']);
-	$toUser = $fromUser;
+		#TODO
+		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
+		//questa sezione prima del try-catch dovrà sparire
+		$fromUser = new User('SPOTTER');
+		$fromUser->setObjectId('GuUAj83MGH');
 
 	try {
 
-	    //controllo che la chiamata sia una POST
-	    //controllo che l'utente sia loggato: cioè se nella sessione è presente il currentUser 
-//        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
-//            //codice di errore
-//            $this->response('', 406);
-//        }
-	    if ($this->get_request_method() != "POST") {
-		//codice di errore
-		$this->response('', 406);
-	    }
+	  //controllo la richiesta
+		//if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
+		if ($this->get_request_method() != "POST") {
+			$this->response('', 406);
+		}
+
 	    //recupero l'utente che effettua il commento
 	    //$currentUser = $_SESSION['currentUser'];
-
-	    if (!isset($this->request['text'])) {
-		$error = array('status' => "Bad Request", "msg" => "No message specified");
-		$this->response($error, 400);
-	    } elseif (!isset($this->request['toUser'])) {
-		$error = array('status' => "Bad Request", "msg" => "No toUser specified");
-		$this->response($error, 400);
-	    } elseif (!isset($this->request['fromUser'])) {
-		$error = array('status' => "Bad Request", "msg" => "No fromUser specified");
-		$this->response($error, 400);
-	    }
+					//controllo i parametri
+			if (!isset($this->request['text'])) {
+				$this->response(array('status' => "Bad Request", "msg" => "No comment specified"), 400);
+			} elseif (!isset($this->request['toUser'])) {
+				$this->response(array('status' => "Bad Request", "msg" => "No toUser specified"), 400);
+			} elseif (!isset($this->request['fromUser'])) {
+				$this->response(array('status' => "Bad Request", "msg" => "No fromUser specified"), 400);
+			}
 
 	    $text = $_REQUEST['text'];
+		$toUserObjectId = $this->request['toUser'];
+		$fromUserObjectId = $this->request['fromUser'];
 
 	    if (strlen($text) < $this->config->minPostSize) {
-		$this->response(array("Dimensione messaggio troppo corta | lungh: " . strlen($text)), 200);
-	    } elseif (strlen($text) > $this->config->maxPostSize) {
-		$this->response(array("Dimensione messaggio troppo lunga | lungh: " . strlen($text)), 200);
-	    }
+			$this->response(array("Dimensione messaggio troppo corta | lungh: " . strlen($text)), 200);
+	    } 
 
 	    $message = new Comment();
 	    $message->setActive(true);
@@ -148,32 +140,40 @@ class MessageController extends REST {
 	    $activity->setRecord(null);
 	    $activity->setSong(null);
 	    $activity->setStatus('A');
-	    $activity->setToUser(null);
+	    $activity->setToUser($toUserObjectId);
 	    $activity->setType('MESSAGESENT');
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 
-	    //salvo post
-	    $messageParse = new CommentParse();
-	    $res = $messageParse->saveComment($message);
-	    if (get_class($res) == 'Error') {
-		$this->response(array($res), 503);
-	    }
-
-	    //salvo activity
-	    $activityParse = new ActivityParse();
-	    $res = $activityParse->saveActivity($activity);
-	    if (get_class($res) == 'Error') {
-		$this->response(array($res), 503);
-	    }
-
+		//salvo post
+		$commentParse = new CommentParse();
+		$resCmt = $commentParse->saveComment($message);
+		if (get_class($resCmt) == 'Error') {
+			$this->response(array($resCmt), 503);
+		} else {
+			//salvo activity
+			$activityParse = new ActivityParse();
+			$resActivity = $activityParse->saveActivity($activity);
+			if (get_class($resActivity) == 'Error') {
+				$this->rollback($resCmt->getObjectId());
+			}
+		}
 	    $this->response(array('Your message has been sent'), 200);
 	} catch (Exception $e) {
-	    $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
-	    $this->response($error, 503);
-	}
+		$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+		}
     }
 
+	private function rollback($objectId) {
+		$commentParse = new CommentParse();
+		$res = $commentParse->deleteComment($objectId);
+		if (get_class($res) == 'Error') {
+			$this->response(array("Rollback KO"), 503);
+		} else {
+			$this->response(array("Rollback OK"), 503);
+		}
+	}
+	
 }
 
 ?>

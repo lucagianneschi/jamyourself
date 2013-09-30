@@ -3,7 +3,7 @@ function sendRequest(_action, _data, callback, _async) {
         callback(null);
     }
     _data.request = _action;
-    var url = "../../controllers/request/commentRequest.php";
+    var url = "../controllers/request/commentRequest.php";
     var type = _action;
     var async = true;
     if (_async !== undefined && _async !== null)
@@ -31,7 +31,7 @@ function confirmation(data, status){
 function sendComment(){
 	var comment = {};
     //recupero il commento
-	comment.text = $("#post").val();
+	comment.text = $("#comment").val();
 	
 	//TODO
 	//forzo l'utente su cui sto facendo il commento
