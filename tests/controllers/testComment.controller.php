@@ -4,8 +4,9 @@
  * Classe di test per l'invio automatico di commenti JSON per il test
  */
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../');
 
+ini_set('error_reporting', E_ALL);	
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'comment.controller.php';
 $controller = new CommentController();
