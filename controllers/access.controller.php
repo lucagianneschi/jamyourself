@@ -51,7 +51,7 @@ class AccessController extends REST {
 	$toUser = $fromUser;
 
 	try {
-	    $this->response(array('Your review has been saved'), 200);
+	    $this->response(array('You are logged in'), 200);
 	} catch (Exception $e) {
 	    $this->response(array('Error: ' . $e->getMessage()), 503);
 	}
@@ -72,7 +72,7 @@ class AccessController extends REST {
 	$toUser = $fromUser;
 
 	try {
-	    $this->response(array('Your review has been saved'), 200);
+	    $this->response(array('You are logged out'), 200);
 	} catch (Exception $e) {
 	    $this->response(array('Error: ' . $e->getMessage()), 503);
 	}
