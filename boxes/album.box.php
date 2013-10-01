@@ -34,7 +34,7 @@ class AlbumInfo {
 
     public $counters;
     public $imageCounter;
-	public $objectId;
+    public $objectId;
     public $thumbnailCover;
     public $title;
 
@@ -62,8 +62,8 @@ class ImageInfo {
     public $counters;
     public $description;
     public $filePath;
-	public $location;
-	public $objectId;
+    public $location;
+    public $objectId;
     public $tags;
     public $thumbnail;
 
@@ -122,16 +122,16 @@ class AlbumBox {
 		$reviewCounter = NDB;
 		$shareCounter = $image->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-	
+
 		$encodedDescription = $image->getDescription();
 		$description = parse_decode_string($encodedDescription);
 		$filePath = $image->getFilePath();
 		$location = $image->getLocation();
 		$objectId = $image->getObjectId();
-		if(empty($image->getTags())){
-			$tags = 'NO TAGS TO DISPLAY';
+		if (empty($image->getTags())) {
+		    $tags = 'NO TAGS TO DISPLAY';
 		} else {
-			$tags = $image->getTags();
+		    $tags = $image->getTags();
 		}
 		$thumbnail = $image->getThumbnail();
 
@@ -178,7 +178,7 @@ class AlbumBox {
 		$title = parse_decode_string($encodedTitle);
 
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$albumInfo = new AlbumInfo($counters, $imageCounter,$objectId, $thumbnailCover, $title);
+		$albumInfo = new AlbumInfo($counters, $imageCounter, $objectId, $thumbnailCover, $title);
 		array_push($info, $albumInfo);
 	    }
 	    $albumBox->albumInfoArray = $info;

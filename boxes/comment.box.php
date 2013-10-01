@@ -117,7 +117,7 @@ class CommentBox {
 		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-			$encodedUsername = $user->getUsername();
+		    $encodedUsername = $user->getUsername();
 		    $username = parse_decode_string($encodedUsername);
 		    $fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		}
@@ -125,11 +125,11 @@ class CommentBox {
 		$commentInfo = new CommentInfo($fromUserInfo, $createdAt, $text);
 		array_push($info, $commentInfo);
 	    }
-		if(empty($info)){
-			$commentBox->commentInfoArray = NODATA;
-		} else {
-			$commentBox->commentInfoArray = $info;
-		}
+	    if (empty($info)) {
+		$commentBox->commentInfoArray = NODATA;
+	    } else {
+		$commentBox->commentInfoArray = $info;
+	    }
 	}
 	return $commentBox;
     }
