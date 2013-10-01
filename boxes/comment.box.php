@@ -106,7 +106,8 @@ class CommentBox {
 	    foreach ($comments as $comment) {
 
 		$createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
-		$text = $comment->getText();
+		$encodedText = $comment->getText();
+		$text = parse_decode_string($encodedText);
 
 		$fromUserId = $comment->getFromUser();
 
@@ -118,7 +119,8 @@ class CommentBox {
 		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-		    $username = $user->getUsername();
+			$encodedUsername = $user->getUsername();
+		    $username = parse_decode_string($encodedUsername);
 		    $fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		}
 
