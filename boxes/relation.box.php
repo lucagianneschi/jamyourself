@@ -89,7 +89,13 @@ class RelationsBox {
 			}
 		    }
 		}
-
+		if(empty($followingArray)){
+			$followingArray = 'YOU ARE CURRENTLY FOLLOWING NOONE';
+		} 
+		if(empty($friendshipArray)){
+			$friendshipArray = 'YOU HAVE NO FRIENDS YET';
+		} 
+		
 		$info = array('followers' => ND, 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => ND, 'jammersCollaborators' => ND);
 		break;
 	    default :
@@ -146,6 +152,15 @@ class RelationsBox {
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($followersArray, $userInfo);
 		}
+		if(empty($followersArray)){
+			$followersArray = 'NO FOLLOWERS YET';
+		} 
+		if(empty($venuesArray)){
+			$venuesArray = 'NO COLLABORATION WITH VENUES YET';
+		} 
+		if(empty($jammersArray)){
+			$jammersArray = 'NO COLLABORATION WITH JAMMER YET';
+		} 	
 		$info = array('followers' => $followersArray, 'following' => ND, 'friendship' => ND, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
 		break;
 	}
