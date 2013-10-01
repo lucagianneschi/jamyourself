@@ -37,7 +37,7 @@ class AlbumInfoForPersonalPage {
 
     public $imageArray;
     public $imageCounter;
-	public $objectId;
+    public $objectId;
     public $title;
 
     /**
@@ -64,7 +64,7 @@ class EventInfoForPersonalPage {
     public $city;
     public $eventDate;
     public $locationName;
-	public $objectId;
+    public $objectId;
     public $thumbnail;
     public $title;
 
@@ -111,7 +111,7 @@ class ImageInfoForPersonalPage {
 class RecordInfoForPersonalPage {
 
     public $fromUserInfo;
-	public $objectId;
+    public $objectId;
     public $songTitle;
     public $thumbnailCover;
     public $title;
@@ -172,7 +172,7 @@ class ActivityBox {
 		$imageP->orderByDescending('updatedAt');
 		$images = $imageP->getImages();
 		if (get_class($images) == 'Error') {
-		    return $images ;
+		    return $images;
 		} else {
 		    foreach ($images as $image) {
 			$thumbnail = $image->getThumbnail();
@@ -180,8 +180,8 @@ class ActivityBox {
 			array_push($imageArray, $imageInfo);
 		    }
 		}
-		if(empty($imageArray)){
-			$imageArray = 'YOUR ALBUM DOES NOT CONTAIN ANY IMAGES';
+		if (empty($imageArray)) {
+		    $imageArray = 'YOUR ALBUM DOES NOT CONTAIN ANY IMAGES';
 		}
 		$albumInfo = new AlbumInfoForPersonalPage($imageArray, $imageCounter, $objectId, $title);
 	    }
@@ -201,33 +201,32 @@ class ActivityBox {
 	    $lastSongP->orderByDescending('createdAt');
 	    $lastSong = $lastSongP->getActivities();
 	    if (get_class($lastSong) == 'Error') {
-			return $lastSong;
+		return $lastSong;
 	    } else {
 		foreach ($lastSong as $activity) {
 		    $songId = $activity->getSong();
 
 		    $songP = new SongParse();
 		    $song = $songP->getSong($songId);
-			$encodedTitle = $song->getTitle();
-		    $songTitle = 
-
+		    $encodedTitle = $song->getTitle();
+		    $songTitle = parse_decode_string($encodedTitle);
 		    $recordId = $activity->getRecord();
 		    $recordP = new RecordParse();
 		    $record = $recordP->getRecord($recordId);
 		    $thumbnailCover = $record->getThumbnailCover();
-			$objectId = $record->getObjectId();
-			$encodedTitle = $record->getTitle();
-		    $title = parse_decode_string($encodedTitle);
-			
+		    $objectId = $record->getObjectId();
+		    $encodedRecTitle = $record->getTitle();
+		    $title = parse_decode_string($encodedRecTitle);
+
 		    $fromUserId = $record->getFromUser();
 		    $fromUserP = new UserParse();
 		    $user = $fromUserP->getUser($fromUserId);
-			$objectIdUser = $fromUserP->getObjectId();
+		    $objectIdUser = $fromUserP->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-			$encodedUsername = $user->getUsername();
+		    $encodedUsername = $user->getUsername();
 		    $username = parse_decode_string($encodedUsername);
-			
+
 		    $fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 		    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title);
 		}
@@ -241,25 +240,25 @@ class ActivityBox {
 	    $lastEventP->orderByDescending('createdAt');
 	    $lastEvent = $lastEventP->getActivities();
 	    if (get_class($lastEvent) == 'Error') {
-			return $lastEvent;
+		return $lastEvent;
 	    } else {
 		foreach ($lastEvent as $activity) {
 		    $eventId = $activity->getEvent();
 
 		    $eventP = new EventParse();
 		    $event = $eventP->getEvent($eventId);
-			
-			$encodedAddress = $event->getAddress();
+
+		    $encodedAddress = $event->getAddress();
 		    $address = parse_decode_string($encodedAddress);
-			$encodedCity = $event->getCity();
+		    $encodedCity = $event->getCity();
 		    $city = parse_decode_string($encodedCity);
 		    $eventDate = $event->getEventDate();
-			$encodedLocationName = $event->getLocationName();
+		    $encodedLocationName = $event->getLocationName();
 		    $locationName = parse_decode_string($encodedLocationName);
 		    $thumbnail = $event->getThumbnail();
-			$encodedTitle = $event->getTitle();
+		    $encodedTitle = $event->getTitle();
 		    $title = parse_decode_string($encodedTitle);
-			$objectId = $event->getObjectId();
+		    $objectId = $event->getObjectId();
 
 		    $eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title);
 		}
