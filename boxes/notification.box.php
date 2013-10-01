@@ -51,8 +51,6 @@ class NotificationBox {
     public $messageArray;
     public $messageCounter;
 
-
-
     /**
      * \fn	init($objectId,$type)
      * \brief	Init NotificationBox instance
@@ -134,7 +132,8 @@ class NotificationBox {
 	  $notificationBox->invitationCounter = NDB;
 	  $notificationBox->messageCounter = NDB;
 	  $notificationBox->relationCounter = NDB;
-      
+      $notificationBox->notificationArray = NDB;
+	  
 	  $messageArray = array();
       
 	  $activity = new ActivityParse();
@@ -155,13 +154,18 @@ class NotificationBox {
 			$objectId = $user->getObjectId();
 			$thumbnail = $user->getProfileThumbnail();
 			$type = $user->getType();
-			$username = $user->getUsername();
+			$encodedUsername = $user->getUsername();
+			$username = parse_decode_string($encodedUsername);
 			$userInfo = new UserInfo($objectId,$thumbnail, $type, $username);
 			
 			$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 			array_push($messageArray, $notificationInfo);
 			}
-	      $notificationBox->messageArray = $messageArray;
+			if(empty($messageArray)){
+				$notificationBox->messageArray = NODATA;
+			} else {
+				$notificationBox->messageArray = $messageArray;
+			}
 	  }
 	  return $notificationBox;
     } 
@@ -178,6 +182,7 @@ class NotificationBox {
 		
 		$notificationBox->invitationCounter = NDB;
 		$notificationBox->messageCounter = NDB;
+		$notificationBox->messageArray = NDB;
 		$notificationBox->relationCounter = NDB;
 		
 		$invitationArray = array();
@@ -199,12 +204,17 @@ class NotificationBox {
 				$objectId = $user->getObjectId();
 				$thumbnail = $user->getProfileThumbnail();
 				$type = $user->getType();
-				$username = $user->getUsername();
+				$encodedUsername = $user->getUsername();
+				$username = parse_decode_string($encodedUsername);
 				$userInfo = new UserInfo($objectId,$thumbnail, $type, $username);
 				$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 				array_push($invitationArray, $notificationInfo);
 			}
-			$notificationBox->notificationArray = $invitationArray;	
+			if(empty($invitationArray)){
+				$notificationBox->notificationArray = NODATA;
+			} else {
+				$notificationBox->notificationArray = $invitationArray;
+			}
 	    }   
 	    return $notificationBox;
 	}
@@ -222,6 +232,7 @@ class NotificationBox {
 	  
 	  $notificationBox->invitationCounter = NDB;
 	  $notificationBox->messageCounter = NDB;
+	  $notificationBox->messageArray = NDB;
 	  $notificationBox->relationCounter = NDB;
 	  
 	  $relationArray = array();
@@ -248,17 +259,21 @@ class NotificationBox {
 				$userId = $relation->getFromUser();
 				$userP = new UserParse();
 				$user = $userP->getUser($userId);
-				
-				
+					
 				$objectId = $user->getObjectId();
 				$thumbnail = $user->getProfileThumbnail();
 				$type = $user->getType();
-				$username = $user->getUsername();
+				$encodedUsername = $user->getUsername();
+				$username = parse_decode_string($encodedUsername);
 				$userInfo = new UserInfo($objectId,$thumbnail, $type, $username);
 				$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 				array_push($relationArray, $notificationInfo);
 			}
-			$notificationBox->notificationArray = $relationArray;
+			if(empty($relationArray)){
+				$notificationBox->notificationArray = NODATA;
+			} else {
+				$notificationBox->notificationArray = $relationArray;
+			}
 		}
 		return $notificationBox;
 	  }	

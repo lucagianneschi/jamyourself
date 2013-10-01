@@ -104,7 +104,11 @@ class PostBox {
 		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
 		array_push($info, $postInfo);
 	    }
-	    $postBox->postInfoArray = $info;
+		if(empty($info)){
+			$postBox->postInfoArray = NODATA;
+		} else {
+			$postBox->postInfoArray = $info;
+		}
 	    $postBox->postCounter = $counter;
 	}
 

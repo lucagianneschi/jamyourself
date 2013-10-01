@@ -127,7 +127,11 @@ class CommentBox {
 		$commentInfo = new CommentInfo($fromUserInfo, $createdAt, $text);
 		array_push($info, $commentInfo);
 	    }
-	    $commentBox->commentInfoArray = $info;
+		if(empty($info)){
+			$commentBox->commentInfoArray = NODATA;
+		} else {
+			$commentBox->commentInfoArray = $info;
+		}
 	}
 	return $commentBox;
     }

@@ -114,7 +114,11 @@ class PlaylistBox {
 				}
 			}
 		}
-	$playlistBox->tracklist = $tracklist;
+		if(empty($tracklist)){
+				$playlistBox->tracklist = NODATA;
+		} else {
+				$playlistBox->tracklist = $tracklist;
+		}
 	$playlistBox->name = $name;
 	return $playlistBox;
 	}

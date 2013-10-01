@@ -58,7 +58,8 @@ class RelationsBox {
 			$objectId = $toUser->getObjectId();
 			$thumbnail = $toUser->getProfileThumbnail();
 			$type = $toUser->getType();
-			$username = $toUser->getUserName();
+			$encodedUsername = $toUser->getUserName();
+			$username = parse_decode_string($encodedUsername);
 			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			array_push($followingArray, $userInfo);
 		    }
@@ -81,7 +82,8 @@ class RelationsBox {
 			    $objectId = $toUser->getObjectId();
 			    $thumbnail = $toUser->getProfileThumbnail();
 			    $type = $toUser->getType();
-			    $username = $toUser->getUserName();
+			    $encodedUsername = $toUser->getUserName();
+			    $username = parse_decode_string($encodedUsername);
 			    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			    array_push($friendshipArray, $userInfo);
 			}
@@ -102,7 +104,8 @@ class RelationsBox {
 			$objectId = $toUser->getObjectId();
 		    $thumbnail = $toUser->getProfileThumbnail();
 		    $type = $toUser->getType();
-		    $username = $toUser->getUserName();
+			$encodedUsername = $toUser->getUserName();
+			$username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($venuesArray, $userInfo);
 		}
@@ -117,7 +120,8 @@ class RelationsBox {
 			$objectId = $toUser->getObjectId();
 		    $thumbnail = $toUser->getProfileThumbnail();
 		    $type = $toUser->getType();
-		    $username = $toUser->getUserName();
+			$encodedUsername = $toUser->getUserName();
+			$username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($jammersArray, $userInfo);
 		}
@@ -137,14 +141,19 @@ class RelationsBox {
 			$objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-		    $username = $user->getUserName();
+			$encodedUsername = $user->getUserName();
+			$username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($followersArray, $userInfo);
 		}
 		$info = array('followers' => $followersArray, 'following' => ND, 'friendship' => ND, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
 		break;
 	}
-	$relationsBox->relationArray = $info;
+	if(empty($info)){
+		$relationsBox->relationArray =  NODATA;
+	} else {
+		$relationsBox->relationArray = $info;
+	}
 	return $relationsBox;
     }
 

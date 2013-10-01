@@ -130,7 +130,11 @@ class ReviewBox {
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
-	    $reviewBox->reviewArray = $info;
+		if(empty($info)){
+			$reviewBox->reviewArray = NODATA;
+		} else {
+			$reviewBox->reviewArray = $info;
+		}
 	}
 	return $reviewBox;
     }
@@ -205,7 +209,11 @@ class ReviewBox {
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
-	    $reviewBox->reviewArray = $info;
+		if(empty($info)){
+			$reviewBox->reviewArray = NODATA;
+		} else {
+			$reviewBox->reviewArray = $info;
+		}
 	    $reviewBox->reviewCounter = $counter;
 	}
 	return $reviewBox;
@@ -325,7 +333,11 @@ class ReviewBox {
 		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title);
 		    array_push($info, $reviewInfo);
 		}
-		$reviewBox->reviewArray = $info;
+		if(empty($info)){
+			$reviewBox->reviewArray = NODATA;
+		} else {
+			$reviewBox->reviewArray = $info;
+		}
 		$reviewBox->reviewCounter = $counter;
 	    }
 	}
