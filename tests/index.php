@@ -7,7 +7,10 @@ foreach (glob("*.php") as $filename) {
 }
 */
 foreach (scandir('.') as $filename) {
-    echo "<a  href='$filename'>$filename</a><br>";
+	if($filename != 'index.php'){
+   		 echo "<a  href='$filename'>$filename</a><br>";
+	}
+
 }
 ?>
 

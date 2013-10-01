@@ -1,10 +1,16 @@
 <?php
 
-echo "<h2> Elenco dei file di test generici </h2>";
-
+echo "<h2>TEST GENERICI</h2>";
+/*
 foreach (glob("*.php") as $filename) {
     echo "<a  href='$filename'>$filename</a><br>";
 }
+*/
+foreach (scandir('.') as $filename) {
+	if($filename != 'index.php'){
+   		 echo "<a  href='$filename'>$filename</a><br>";
+	}
 
+}
 ?>
 
