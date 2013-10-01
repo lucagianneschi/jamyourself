@@ -80,8 +80,8 @@ class PlaylistBox {
 	    return $playlists;
 	} else {
 	    foreach ($playlists as $playlist) {
-			$name = $playlist->getName();
-			
+			$encodedName = $playlist->getName();
+			$name = parse_decode_string($encodedName);
 			
 			$song = new SongParse();
 			$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
@@ -93,14 +93,16 @@ class PlaylistBox {
 				return $songs;
 			} else {
 				foreach ($songs as $song) {
-					$title = $song->getTitle();
+					$encodedTitle = $song->getTitle();
+					$title = parse_decode_string($encodedTitle);
 					
 					$authorP = new UserParse();
 					$user = $authorP->getUser($song->getFromUser());
 					$objectId = $user->getObjectId();
 					$thumbnail= $user->getProfileThumbnail;
 					$type= $user->getType;
-					$username= $user->getUsername;
+					$encodedUsername = $user->getUsername;
+					$username = parse_decode_string($encodedUsername);
 					$author = new UserInfo($objectId, $thumbnail, $type, $username);
 					
 					$recordP = new RecordParse();
