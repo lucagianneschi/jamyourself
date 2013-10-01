@@ -117,6 +117,7 @@ class NotificationBox {
 		break;
 	}
 	$notificationBox->notificationArray = NDB;
+	$notificationBox->messageArray = NDB;
 	return $notificationBox;
     }
 
