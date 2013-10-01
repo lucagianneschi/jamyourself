@@ -31,7 +31,7 @@ class Counters {
      * \brief	construct for the Counter class
      * \param	$commentCounter, $loveCounter,$reviewCounter, $shareCounter
      */
-    function __construct($commentCounter, $loveCounter,$reviewCounter, $shareCounter) {
+    function __construct($commentCounter, $loveCounter, $reviewCounter, $shareCounter) {
 	is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
 	is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
 	is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
@@ -72,9 +72,9 @@ class UserInfo {
  * \return	string		the decoded string
  */
 function parse_decode_string($string) {
-	$string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-	$decodedString = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
-	return $decodedString;
+    $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+    $decodedString = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
+    return $decodedString;
 }
 
 ?>
