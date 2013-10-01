@@ -85,10 +85,10 @@ class PostBox {
 		$post = $posts[$i];
 		if ($post->fromUser) {
 		    $fromUser = $post->fromUser;
-			$objectId = $fromUser->getObjectId();
+		    $objectId = $fromUser->getObjectId();
 		    $thumbnail = $fromUser->getProfileThumbnail();
 		    $type = $fromUser->getType();
-			$encodedUsername = $fromUser->getUsername();
+		    $encodedUsername = $fromUser->getUsername();
 		    $username = parse_decode_string($encodedUsername);
 		}
 		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
@@ -104,11 +104,11 @@ class PostBox {
 		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
 		array_push($info, $postInfo);
 	    }
-		if(empty($info)){
-			$postBox->postInfoArray = NODATA;
-		} else {
-			$postBox->postInfoArray = $info;
-		}
+	    if (empty($info)) {
+		$postBox->postInfoArray = NODATA;
+	    } else {
+		$postBox->postInfoArray = $info;
+	    }
 	    $postBox->postCounter = $counter;
 	}
 

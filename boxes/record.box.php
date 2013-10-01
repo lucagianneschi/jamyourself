@@ -63,7 +63,7 @@ class RecordInfoForPersonalPage {
 
     public $counters;
     public $genre;
-	public $objectId;
+    public $objectId;
     public $songCounter;
     public $thumbnailCover;
     public $title;
@@ -74,7 +74,7 @@ class RecordInfoForPersonalPage {
      * \brief	construct for the RecordInfoForPersonalPage class
      * \param	$counters, $genre,$objectId, $songCounter, $thumbnailCover, $title, $year
      */
-    function __construct($counters, $genre,$objectId, $songCounter, $thumbnailCover, $title, $year) {
+    function __construct($counters, $genre, $objectId, $songCounter, $thumbnailCover, $title, $year) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
 	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
@@ -126,7 +126,7 @@ class SongInfo {
 
     public $counters;
     public $duration;
-	public $objectId;
+    public $objectId;
     public $title;
 
     /**
@@ -134,7 +134,7 @@ class SongInfo {
      * \brief	construct for the SongInfo class
      * \param	$counters, $duration,$objectId, $title
      */
-    function __construct($counters, $duration,$objectId, $title) {
+    function __construct($counters, $duration, $objectId, $title) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($duration) ? $this->duration = 0 : $this->duration = $duration;
 	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
@@ -180,14 +180,14 @@ class RecordBox {
 		$reviewCounter = NDB;
 		$shareCounter = $song->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$songInfo = new SongInfo($counters, $duration,$objectId, $title);
+		$songInfo = new SongInfo($counters, $duration, $objectId, $title);
 		array_push($tracklist, $songInfo);
 	    }
-		if(empty($tracklist)){
-			$recordBox->tracklist = NODATA;
-		} else {
-			$recordBox->tracklist = $tracklist;
-		}
+	    if (empty($tracklist)) {
+		$recordBox->tracklist = NODATA;
+	    } else {
+		$recordBox->tracklist = $tracklist;
+	    }
 	}
 	return $recordBox;
     }
@@ -217,8 +217,8 @@ class RecordBox {
 	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
 	    $cover = $record->getCover();
-		$encodedDescription = $record->getDescription();
-		$description = parse_decode_string($encodedDescription);
+	    $encodedDescription = $record->getDescription();
+	    $description = parse_decode_string($encodedDescription);
 
 	    $featuring = array();
 	    $parseUser = new UserParse();
@@ -233,19 +233,19 @@ class RecordBox {
 		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-			$encodedUsername = $user->getUsername();
+		    $encodedUsername = $user->getUsername();
 		    $username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($featuring, $userInfo);
 		}
 	    }
 	    $genre = $record->getGenre();
-		$encodedLabel = $record->getLabel();
-		$label = parse_decode_string($encodedLabel);
-		$encodedLocationName = $record->getLocationName();
-		$locationName = parse_decode_string($encodedLocationName);		
-		$encodedTitle = $record->getTitle();
-		$title = parse_decode_string($encodedTitle);
+	    $encodedLabel = $record->getLabel();
+	    $label = parse_decode_string($encodedLabel);
+	    $encodedLocationName = $record->getLocationName();
+	    $locationName = parse_decode_string($encodedLocationName);
+	    $encodedTitle = $record->getTitle();
+	    $title = parse_decode_string($encodedTitle);
 	    $year = $record->getYear();
 
 	    $tracklist = array();
@@ -259,18 +259,18 @@ class RecordBox {
 	    } else {
 		foreach ($songs as $song) {
 		    $duration = $song->getDuration();
-			$objectId = $song->getObjectId();
-			$encodedTitle = $song->getTitle();
-			$title = parse_decode_string($encodedTitle);
+		    $objectId = $song->getObjectId();
+		    $encodedTitle = $song->getTitle();
+		    $title = parse_decode_string($encodedTitle);
 		    $commentCounter = $song->getCommentCounter();
 		    $loveCounter = $song->getLoveCounter();
 		    $shareCounter = $song->getShareCounter();
 		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-		    $songInfo = new SongInfo($counters, $duration,$objectId, $title);
+		    $songInfo = new SongInfo($counters, $duration, $objectId, $title);
 		    array_push($tracklist, $songInfo);
 		}
 	    }
-	    $recordInfo = new RecordInfoForMediaPage($buylink, $counters, $cover, $description, $featuring, $genre, $label, $locationName,$tracklist, $title, $year);
+	    $recordInfo = new RecordInfoForMediaPage($buylink, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $tracklist, $title, $year);
 
 	    $fromUserId = $record->getFromUser();
 	    $userP = new UserParse();
@@ -278,21 +278,21 @@ class RecordBox {
 	    if (get_class($fromUser) == 'Error') {
 		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $fromUser->getErrorMessage() . '<br/>';
 	    } else {
-			$objectIdUser = $fromUser->getObjectId();
-			$thumbnail = $fromUser->getProfileThumbnail();
-			$type = $fromUser->getType();
-			$encodedUsername = $fromUser->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-			$userInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
+		$objectIdUser = $fromUser->getObjectId();
+		$thumbnail = $fromUser->getProfileThumbnail();
+		$type = $fromUser->getType();
+		$encodedUsername = $fromUser->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$userInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 	    }
 	    $recordBox->fromUserInfo = $userInfo;
 	    $recordBox->recordCounter = NDB;
 	    $recordBox->recordInfoArray = $recordInfo;
-	    if(empty($tracklist)){
-			$recordBox->tracklist = NODATA;
-		} else {
-			$recordBox->tracklist = $tracklist;
-		}
+	    if (empty($tracklist)) {
+		$recordBox->tracklist = NODATA;
+	    } else {
+		$recordBox->tracklist = $tracklist;
+	    }
 	}
 	return $recordBox;
     }
@@ -335,11 +335,11 @@ class RecordBox {
 	    }
 	    $recordBox->fromUserInfo = NDB;
 	    $recordBox->recordCounter = $counter;
-		if(empty($info)){
-			$recordBox->recordInfoArray = NODATA;
-		} else {
-			$recordBox->recordInfoArray = $info;
-		}
+	    if (empty($info)) {
+		$recordBox->recordInfoArray = NODATA;
+	    } else {
+		$recordBox->recordInfoArray = $info;
+	    }
 	    $recordBox->tracklist = NDB;
 	}
 	return $recordBox;
@@ -376,11 +376,11 @@ class RecordBox {
 	    }
 	    $recordBox->fromUserInfo = NDB;
 	    $recordBox->recordCounter = $counter;
-		if(empty($info)){
-			$recordBox->recordInfoArray = NODATA;
-		} else {
-			$recordBox->recordInfoArray = $info;
-		}
+	    if (empty($info)) {
+		$recordBox->recordInfoArray = NODATA;
+	    } else {
+		$recordBox->recordInfoArray = $info;
+	    }
 	}
 	return $recordBox;
     }
@@ -424,7 +424,7 @@ class RecordBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($record->getFromUser());
-		$objectIdUser = $fromUser->getObjectId();
+	    $objectIdUser = $fromUser->getObjectId();
 	    $thumbnail = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();
 	    $username = $fromUser->getUsername();

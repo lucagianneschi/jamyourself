@@ -25,7 +25,6 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
-
 class RelationsBox {
 
     public $relationArray;
@@ -89,13 +88,13 @@ class RelationsBox {
 			}
 		    }
 		}
-		if(empty($followingArray)){
-			$followingArray = 'YOU ARE CURRENTLY FOLLOWING NOONE';
-		} 
-		if(empty($friendshipArray)){
-			$friendshipArray = 'YOU HAVE NO FRIENDS YET';
-		} 
-		
+		if (empty($followingArray)) {
+		    $followingArray = 'YOU ARE CURRENTLY FOLLOWING NOONE';
+		}
+		if (empty($friendshipArray)) {
+		    $friendshipArray = 'YOU HAVE NO FRIENDS YET';
+		}
+
 		$info = array('followers' => ND, 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => ND, 'jammersCollaborators' => ND);
 		break;
 	    default :
@@ -107,11 +106,11 @@ class RelationsBox {
 		$collaboratorVenue->orderByDescending('createdAt');
 		$venues = $collaboratorVenue->getUsers();
 		foreach ($venues as $toUser) {
-			$objectId = $toUser->getObjectId();
+		    $objectId = $toUser->getObjectId();
 		    $thumbnail = $toUser->getProfileThumbnail();
 		    $type = $toUser->getType();
-			$encodedUsername = $toUser->getUserName();
-			$username = parse_decode_string($encodedUsername);
+		    $encodedUsername = $toUser->getUserName();
+		    $username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($venuesArray, $userInfo);
 		}
@@ -123,11 +122,11 @@ class RelationsBox {
 		$collaboratorJammer->orderByDescending('createdAt');
 		$jammers = $collaboratorJammer->getUsers();
 		foreach ($jammers as $toUser) {
-			$objectId = $toUser->getObjectId();
+		    $objectId = $toUser->getObjectId();
 		    $thumbnail = $toUser->getProfileThumbnail();
 		    $type = $toUser->getType();
-			$encodedUsername = $toUser->getUserName();
-			$username = parse_decode_string($encodedUsername);
+		    $encodedUsername = $toUser->getUserName();
+		    $username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($jammersArray, $userInfo);
 		}
@@ -144,30 +143,30 @@ class RelationsBox {
 		    $followerId = $toUser->getFromUser();
 		    $userP = new UserParse();
 		    $user = $userP->getUser($followerId);
-			$objectId = $user->getObjectId();
+		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-			$encodedUsername = $user->getUserName();
-			$username = parse_decode_string($encodedUsername);
+		    $encodedUsername = $user->getUserName();
+		    $username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($followersArray, $userInfo);
 		}
-		if(empty($followersArray)){
-			$followersArray = 'NO FOLLOWERS YET';
-		} 
-		if(empty($venuesArray)){
-			$venuesArray = 'NO COLLABORATION WITH VENUES YET';
-		} 
-		if(empty($jammersArray)){
-			$jammersArray = 'NO COLLABORATION WITH JAMMER YET';
-		} 	
+		if (empty($followersArray)) {
+		    $followersArray = 'NO FOLLOWERS YET';
+		}
+		if (empty($venuesArray)) {
+		    $venuesArray = 'NO COLLABORATION WITH VENUES YET';
+		}
+		if (empty($jammersArray)) {
+		    $jammersArray = 'NO COLLABORATION WITH JAMMER YET';
+		}
 		$info = array('followers' => $followersArray, 'following' => ND, 'friendship' => ND, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
 		break;
 	}
-	if(empty($info)){
-		$relationsBox->relationArray =  NODATA;
+	if (empty($info)) {
+	    $relationsBox->relationArray = NODATA;
 	} else {
-		$relationsBox->relationArray = $info;
+	    $relationsBox->relationArray = $info;
 	}
 	return $relationsBox;
     }
