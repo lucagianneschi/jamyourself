@@ -90,7 +90,7 @@ class NotificationBox {
 		$activity2 = new ActivityParse();
 		$activity2->wherePointer('toUser', '_User', $objectId);
 		$activity2->where('type', 'FRIENDREQUEST');
-		$activity2->where('status', 'W');
+		$activity2->where('status', 'P');
 		$activity2->where('read', false);
 		$activity2->where('active', true);
 		$relationCounter = $activity2->getCount();
@@ -105,7 +105,7 @@ class NotificationBox {
 		$activity2 = new ActivityParse();
 		$activity2->wherePointer('toUser', '_User', $objectId);
 		$activity2->whereOr($activityTypes);
-		$activity2->where('status', 'W');
+		$activity2->where('status', 'P');
 		$activity2->where('read', false);
 		$activity2->where('active', true);
 		$relationCounter = $activity2->getCount();
