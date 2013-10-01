@@ -122,8 +122,9 @@ class AlbumBox {
 		$reviewCounter = NDB;
 		$shareCounter = $image->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-
-		$description = $image->getDescription();
+	
+		$encodedDescription = $image->getDescription();
+		$description = parse_decode_string($encodedDescription);
 		$filePath = $image->getFilePath();
 		$location = $image->getLocation();
 		$objectId = $image->getObjectId();
@@ -169,7 +170,8 @@ class AlbumBox {
 		$shareCounter = $album->getShareCounter();
 		$objectId = $album->getObjectId();
 		$thumbnailCover = $album->getThumbnailCover();
-		$title = $album->getTitle();
+		$encodedTitle = $album->getTitle();
+		$title = parse_decode_string($encodedTitle);
 
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$albumInfo = new AlbumInfo($counters, $imageCounter,$objectId, $thumbnailCover, $title);
