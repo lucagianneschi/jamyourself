@@ -170,7 +170,8 @@ class EventBox {
 	if (get_class($event) == 'Error') {
 	    return $event;
 	} elseif ($event->getActive() == true) {
-	    $address = $event->getAddress();
+		$encodedAddress = $event->getAddress();
+	    $address = parse_decode_string($encodedAddress);
 	    $attendee = array();
 	    $parseUser = new UserParse();
 	    $parseUser->whereRelatedTo('attendee', 'Event', $objectId);
@@ -247,6 +248,13 @@ class EventBox {
 		$encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle );
 	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+		if(empty($attendee)){
+			$attendee = 'NO ATTENDEE RIGHT NOW';
+		} elseif (empty($featuring)){
+			$featuring = 'NO FEATURING FOR THIS EVENT';
+		} elseif (empty($invited)){
+			$invited = 'NO INVITED FOR THIS EVENT';
+		}
 	    $eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title);
 
 	    $fromUserId = $event->getFromUser();
@@ -329,14 +337,18 @@ class EventBox {
 		$objectId = $event->getObjectId();
 
 		$tags = array();
-		if (count($event->getTags()) != 0 && $event->getTags() != null) {
+		if (empty($event->getTags()) && $event->getTags() != null) {
 		    foreach ($event->getTags() as $tag) {
+			$tag = parse_decode_string($tag);
 			array_push($tags, $tag);
 		    }
 		}
 		$thumbnail = $event->getThumbnail();
 		$encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle );
+		if (empty($featuring)){
+			$featuring = 'NO FEATURING FOR THIS EVENT';
+		} 
 		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName,$objectId, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
 	    }
@@ -390,14 +402,18 @@ class EventBox {
 		$encodedLocationName = $event->getLocationName();
 	    $locationName = parse_decode_string($encodedLocationName);
 	    $tags = array();
-	    if (count($event->getTags()) != 0 && $event->getTags() != null) {
+	    if (empty($event->getTags()) && $event->getTags() != null) {
 		foreach ($event->getTags() as $tag) {
+			$tag = parse_decode_string($tag);
 		    array_push($tags, $tag);
 		}
 	    }
 	    $thumbnail = $event->getThumbnail();
 		$encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle );
+		if (empty($featuring)){
+			$featuring = 'NO FEATURING FOR THIS EVENT';
+		} 
 	    $eventInfo = new EventInfoForUploadReviewPage($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title);
 	    $eventBox->recordInfoArray = $eventInfo;
 
@@ -406,7 +422,7 @@ class EventBox {
 		$objectIdUser = $fromUserP->getObjectId();
 	    $thumbnailUser = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();
-	    $encodedUsername = $user->getUsername();
+	    $encodedUsername = $fromUser->getUsername();
 		$username = parse_decode_string($encodedUsername);
 	    $userInfo = new UserInfo($objectIdUser, $thumbnailUser, $type, $username);
 	    $eventBox->fromUserInfo = $userInfo;
