@@ -128,7 +128,11 @@ class AlbumBox {
 		$filePath = $image->getFilePath();
 		$location = $image->getLocation();
 		$objectId = $image->getObjectId();
-		$tags = $image->getTags();
+		if(empty($image->getTags())){
+			$tags = 'NO TAGS TO DISPLAY';
+		} else {
+			$tags = $image->getTags();
+		}
 		$thumbnail = $image->getThumbnail();
 
 		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail);
