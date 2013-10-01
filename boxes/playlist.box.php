@@ -34,19 +34,19 @@ require_once CLASSES_DIR . 'userParse.class.php';
  */
 class SongInfo {
 
-	public $author;
-	public $thumbnail;
-	public $title;
-    
-	/**
+    public $author;
+    public $thumbnail;
+    public $title;
+
+    /**
      * \fn	__construct($author, $thumbnail,$title)
      * \brief	construct for the SongInfo class
      * \param	$author, $thumbnail,$title
      */
-    function __construct($author, $thumbnail,$title) {
-		is_null($author) ? $this->author = NODATA : $this->author = $author;
-		is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
-		is_null($title) ? $this->title = NODATA : $this->title = $title;
+    function __construct($author, $thumbnail, $title) {
+	is_null($author) ? $this->author = NODATA : $this->author = $author;
+	is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
+	is_null($title) ? $this->title = NODATA : $this->title = $title;
     }
 
 }
@@ -56,11 +56,11 @@ class SongInfo {
  * \details	box to display user's playlist in each page of the website 
  */
 class PlaylistBox {
-	
-	public $name;
-	public $tracklist;
 
-	/**
+    public $name;
+    public $tracklist;
+
+    /**
      * \fn	init($objectId)
      * \brief	Init Playslist Box instance
      * \param	$objectId
@@ -69,9 +69,9 @@ class PlaylistBox {
     public function init($objectId) {
 	$playlistBox = new PlaylistBox();
 	$tracklist = array();
-	
+
 	$playlist = new PlaylistParse();
-	$playlist->wherePointer('fromUser','_User', $objectId);
+	$playlist->wherePointer('fromUser', '_User', $objectId);
 	$playlist->where('active', true);
 	$playlist->orderByDescending('createdAt');
 	$playlist->setLimit(1);
@@ -80,49 +80,49 @@ class PlaylistBox {
 	    return $playlists;
 	} else {
 	    foreach ($playlists as $playlist) {
-			$encodedName = $playlist->getName();
-			$name = parse_decode_string($encodedName);
-			
-			$song = new SongParse();
-			$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
-			$song->where('active', true);
-			$song->orderByDescending('createdAt');
-			$song->setLimit(50);
-			$songs = $song->getSongs();
-			if (get_class($songs) == 'Error') {
-				return $songs;
-			} else {
-				foreach ($songs as $song) {
-					$encodedTitle = $song->getTitle();
-					$title = parse_decode_string($encodedTitle);
-					
-					$authorP = new UserParse();
-					$user = $authorP->getUser($song->getFromUser());
-					$objectId = $user->getObjectId();
-					$thumbnail= $user->getProfileThumbnail;
-					$type= $user->getType;
-					$encodedUsername = $user->getUsername;
-					$username = parse_decode_string($encodedUsername);
-					$author = new UserInfo($objectId, $thumbnail, $type, $username);
-					
-					$recordP = new RecordParse();
-					$record = $recordP->getRecord($song->getRecord());
-					$thumbnail = $record->getThumbnailCover();
-				
-					$newSong = new SongInfo($author, $thumbnail, $title);
-					array_push($tracklist, $newSong);
-				}
-			}
-		}
-		if(empty($tracklist)){
-				$playlistBox->tracklist = NODATA;
+		$encodedName = $playlist->getName();
+		$name = parse_decode_string($encodedName);
+
+		$song = new SongParse();
+		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
+		$song->where('active', true);
+		$song->orderByDescending('createdAt');
+		$song->setLimit(50);
+		$songs = $song->getSongs();
+		if (get_class($songs) == 'Error') {
+		    return $songs;
 		} else {
-				$playlistBox->tracklist = $tracklist;
+		    foreach ($songs as $song) {
+			$encodedTitle = $song->getTitle();
+			$title = parse_decode_string($encodedTitle);
+
+			$authorP = new UserParse();
+			$user = $authorP->getUser($song->getFromUser());
+			$objectId = $user->getObjectId();
+			$thumbnail = $user->getProfileThumbnail;
+			$type = $user->getType;
+			$encodedUsername = $user->getUsername;
+			$username = parse_decode_string($encodedUsername);
+			$author = new UserInfo($objectId, $thumbnail, $type, $username);
+
+			$recordP = new RecordParse();
+			$record = $recordP->getRecord($song->getRecord());
+			$thumbnailRec = $record->getThumbnailCover();
+
+			$newSong = new SongInfo($author, $thumbnailRec, $title);
+			array_push($tracklist, $newSong);
+		    }
 		}
-	$playlistBox->name = $name;
-	return $playlistBox;
+	    }
+	    if (empty($tracklist)) {
+		$playlistBox->tracklist = NODATA;
+	    } else {
+		$playlistBox->tracklist = $tracklist;
+	    }
+	    $playlistBox->name = $name;
+	    return $playlistBox;
 	}
-}
+    }
 
 }
 
