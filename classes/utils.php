@@ -212,11 +212,11 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
  * \param	$string 	represent the string from Parse to decode
  * \return	string		the decoded string
  */
-function parse_decode_string($string) {
-	$string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-	$string = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
-	return $string;
-}
+// function parse_decode_string($string) {
+	// $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+	// $string = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
+	// return $string;
+// }
 
 /**
  * \fn		string parse_encode_string($string)

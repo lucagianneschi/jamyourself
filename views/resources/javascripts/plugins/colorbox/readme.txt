@@ -1,0 +1,1 @@
+utilizzato per creare un lightbox delle foto

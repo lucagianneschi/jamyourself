@@ -19,7 +19,7 @@
  $status_achievement3 = '_target3';
 ?>
 <!------------------------------------------- STATUS ----------------------------------->
-<div class="row">
+<div class="row" id="social-status">
 	<div class="small-9 columns status">			
 		<h3><strong><?php echo $status_level; ?><span class="text">pt.</span></strong></h3>					
 	</div>
@@ -40,7 +40,7 @@
 	<div  class="large-12 columns"><div class="line"></div></div>
 </div>
 <!------------------------------------ ACHIEVEMENT ----------------------------------------->
-<div class="row">
+<div class="row" id="social-achievement">
 	<div id="social_list_achievement" class="touchcarousel grey-blue">
 		<ul class="touchcarousel-container">
 			<li class="touchcarousel-item">  

@@ -12,7 +12,7 @@ $typeUser = $_POST['typeUser'];
 $friendshipCounter = $data['relation']['friendship']['friendshipCounter'];
 
 ?>
-<div class="row" id="friends">
+<div class="row" id="profile-friends">
 	<div  class="large-12 columns">
 		<h3>Friends <span class="orange">[<?php echo $friendshipCounter ?>]</span></h3>
 		<div class="row  ">

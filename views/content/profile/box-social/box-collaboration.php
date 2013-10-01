@@ -9,14 +9,14 @@ $typeUser = $_POST['typeUser'];
 
 
 $venuesCollaboratorsCounter = $data['relation']['venuesCollaborators']['venuesCollaboratorsCounter'];
-$jammersCollaboratorsCounter = $result['relation']['jammersCollaborators']['jammersCollaboratorsCounter'];
+$jammersCollaboratorsCounter = $data['relation']['jammersCollaborators']['jammersCollaboratorsCounter'];
 
 $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 
 ?>
 
 <!------------------------------------- Collaboration ------------------------------------>
-	<div class="row" id="collaboration">
+	<div class="row" id="social-collaboration">
 		<div  class="large-12 columns">
 		<h3>Collaboration <span class="orange">[<?php echo $totCollaborators ?>]</span></h3>
 		<div class="row  ">
@@ -35,6 +35,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 						?>	
 					
 					<div class="row">
+						<?php if(isset( $data['relation']['venuesCollaborators'. $i]['objectId']) &&  $data['relation']['venuesCollaborators'. $i]['objectId'] != ''){ ?>
 						<div  class="small-6 columns">
 							<div class="box-membre">
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['venuesCollaborators'. $i]['objectId']?>">
@@ -49,7 +50,9 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 								</div>	
 	    					</div>
 						</div>
-						
+						<?php } 
+						if(isset( $data['relation']['venuesCollaborators'. ($i+1)]['objectId']) &&  $data['relation']['venuesCollaborators'. ($i+1)]['objectId'] != ''){
+						?>
 						<div  class="small-6 columns ">
 							<div class="box-membre">
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['venuesCollaborators'. ($i+1)]['objectId']?>">
@@ -64,7 +67,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 								</div>
 	    					</div>
 						</div>
-						
+						<?php } ?>
 					</div>
 					<?php }?>
 					<!-------------------------- FINE venue ---------------------------------->
@@ -83,6 +86,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 						?>	
 					
 					<div class="row">
+						<?php if(isset($data['relation']['jammersCollaborators'. $i]['objectId']) && $data['relation']['jammersCollaborators'. $i]['objectId'] != ''){?>
 						<div  class="small-6 columns">
 							<div class="box-membre">
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['jammersCollaborators'. $i]['objectId']?>">
@@ -97,7 +101,8 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 								</div>	
 	    					</div>
 						</div>
-						
+						<?php } 
+						if(isset($data['relation']['jammersCollaborators'. ($i+1)]['objectId']) && $data['relation']['jammersCollaborators'. ($i+1)]['objectId'] != ''){?>
 						<div  class="small-6 columns ">
 							<div class="box-membre">
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['jammersCollaborators'. ($i+1)]['objectId']?>">
@@ -112,7 +117,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 								</div>
 	    					</div>
 						</div>
-						
+						<?php } ?>
 					</div>
 					<?php }?>
 					<?php }
@@ -120,7 +125,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 						 ?>	
 						 <div class="row  ">
 								<div  class="large-12 columns ">
-									<p class="grey">There are no Collaborators</p>
+									<p class="grey">There are no Collaboration</p>
 								</div>
 						</div>
 						 <?php } ?>			

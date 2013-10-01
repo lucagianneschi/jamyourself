@@ -1,9 +1,7 @@
 <?php
 /* box review eventi
- * box chiamato tramite ajax con:
- * data: {user: objectId}, 
- * data-type: html,
- * type: POST o GET
+ * box chiamato tramite load con:
+ * data: {data: data, typeUser: typeUser},
  * 
  * box per tutti gli utenti, su spotter non viene visualizzato l'autore 
  */
@@ -13,7 +11,7 @@ $typeUser = $_POST['typeUser'];
 
 ?>
 <!------------------------------------- Reviews ------------------------------------>
-<div class="row" id="eventReview">
+<div class="row" id="social-EventReview">
 	<div  class="large-12 columns">
 	<div class="row">
 		<div  class="large-5 columns">
@@ -92,11 +90,11 @@ $typeUser = $_POST['typeUser'];
 							</div>													
 						</div>
 						<div  class="small-2 columns align-right viewAlbumReview">
-							<a href="#" class="orange"><strong onclick="toggleText(this)">Read</strong></a>
+							<a href="#" class="orange"><strong onclick="toggleTextEventReview(this,'eventReview_<?php echo $recordReview_objectId ?>')">Read</strong></a>
 						</div>				
 					</div>
 					
-					<div class="textAlbumReview no-display">
+					<div class="textReview no-display">
 						<div class="row ">						
 							<div  class="small-12 columns ">
 								<div class="text grey">
@@ -111,9 +109,9 @@ $typeUser = $_POST['typeUser'];
 					<div class="row recordReview-propriety">
 						<div class="box-propriety">
 							<div class="small-6 columns ">
-								<a class="note grey " onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','recordReview')">Love</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','recordReview')">Comment</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','recordReview')">Shere</a>
+								<a class="note grey " onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Love</a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Comment</a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Shere</a>
 							</div>
 							<div class="small-6 columns propriety ">					
 								<a class="icon-propriety _unlove grey" ><?php echo $eventReview_love ?></a>
@@ -122,6 +120,9 @@ $typeUser = $_POST['typeUser'];
 							</div>	
 						</div>		
 					</div>
+					<!---------------------------------------- comment ------------------------------------------------->
+					<div class="box-comment no-display" ></div>
+					
 				</div>
 			</div>	
 				<?php } }

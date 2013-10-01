@@ -1,80 +1,4 @@
 $(document).ready(function() {
-	//--------- propriety element --------------
-	//------------- LOVE ----------------------
-	$('.box-propriety a').click(function() {
-		typeOpt = $(this).text();
-		switch(typeOpt) {
-			case 'Love':
-				parent = $(this).parent().parent();
-				objectLove = $(parent).find("a._unlove");
-				$(objectLove).toggleClass('orange grey');
-				var number_love = parseInt($(objectLove).text(), 10);
-				$(objectLove).text(number_love + 1);
-				$(objectLove).toggleClass('_love _unlove');
-				$(this).text('Unlove');
-				break;
-			case 'Unlove':
-				parent = $(this).parent().parent();
-				objectLove = $(parent).find("a._love");
-				$(objectLove).toggleClass('grey orange');
-				var number_love = parseInt($(objectLove).text(), 10);
-				$(objectLove).text(number_love - 1);
-				$(objectLove).toggleClass('_unlove _love');
-				$(this).text('Love');
-				break;
-			case 'Comment':
-				parent = $(this).parent().parent().parent().parent();
-
-				if ($(parent.next()).hasClass('no-display')) {
-					$(parent).css({
-						'margin-bottom' : '0px'
-					});
-					$(parent.next()).removeClass('no-display');
-				} else {
-					$(parent).css({
-						'margin-bottom' : '40px'
-					});
-					$(parent.next()).addClass('no-display');
-				}
-				break;
-			default:
-				console.log(typeOpt);
-		}
-
-	});
-
-	$('#album-single ._back_page').click(function() {
-		//	$('#album-list').show('slide', { direction: "left" }, "slow");
-		$('#album-single').hide('slide', {
-			direction : "right"
-		}, "slow");
-		setTimeout(function() {
-			$('#album-list').show('slide', {
-				direction : "left"
-			}, "slow");
-		}, 600);
-	});
-	$('#albumcover-single ._back_page').click(function() {
-		//$('#albumcover-list').show('slide', { direction: "left" }, "slow");
-		$('#albumcover-single').hide('slide', {
-			direction : "right"
-		}, "slow");
-		setTimeout(function() {
-			$('#albumcover-list').show('slide', {
-				direction : "left"
-			}, "slow");
-		}, 600);
-	});
-
-	
-
-	$('#profile_map_venue').click(function() {
-		if (!$(this).hasClass('active')) {
-			//viewMap();
-		} else {
-			$('#map_venue').html("");
-		}
-	});
 
 	/*
 	 * apertura e chiusura testo review album e eventi social
@@ -136,20 +60,36 @@ function setCounter(_this, objectId, classbox){
 			$(_this).text('Love');
 			break;
 		case 'Comment':
-			parent = $(_this).parent().parent().parent().parent().parent();
-			box = $(_this).parent().parent().parent().parent();
-			boxComment = $(parent).find('.box-comment');			
-			if ($(boxComment).hasClass('no-display')) {
-				$(box).css({
-					'margin-bottom' : '0px'
-				});
-				$(boxComment).removeClass('no-display');
-			} else {
-				$(box).css({
-					'margin-bottom' : '40px'
-				});
-				$(boxComment).addClass('no-display');
+		 	var idBox = '';
+			if(classbox == 'RecordReview' || classbox == 'EventReview'){
+				idBox = '#social-'+classbox;
 			}
+			if(classbox == 'Album' || classbox == 'Record'){
+				idBox = '#profile-'+classbox;
+			}
+			if(classbox == 'Image' || classbox == 'Post'){
+				idBox = '#'+objectId;
+			}
+			
+			if($(idBox+' .box-comment').hasClass('no-display')){
+				$(idBox+' .box-comment').removeClass('no-display');
+				$(idBox+' .box').addClass('box-commentSpace');
+				
+				callBox.objectId = 	objectId;					
+				callBox.classBox = classbox;
+				
+				callBox.load('comment');
+				
+			}
+			else{
+				$(idBox+' .box-comment').addClass('no-display');
+				$(idBox+' .box').removeClass('box-commentSpace');
+			}
+			
+			//$(idBox+' .box').toggleClass('box-commentSpace');
+	
+			//$(idBox+' .box-comment').toggle(function(){});	
+			
 			break;
 		default:
 			console.log(typeOpt);
@@ -171,53 +111,44 @@ function slideAchievement(){
 	
 
 //funzione per gestire la visualizzazione dell'album
-function albumSelect(recordId) {
-	$('#album-list').hide('slide', {
-		direction : "left"
-	}, "slow");
-	setTimeout(function() {
-		$('.'+recordId).show('slide', {
-			direction : "right"
-		}, "slow");
-	}, 600);
-
+function recordSelectSingle(recordId) {
+ 	$( "#record-list" ).fadeOut( 100, function() {
+    		$('.'+recordId).fadeIn( 100 );
+	});
+}
+//nasconde foto singolo album e visualizza lista album
+function recordSelectNext(recordId){		
+	$('.'+recordId ).fadeOut( 100, function() {
+    	$('#record-list').fadeIn( 100 );
+	});	
 }
 
-function albumSelectNext(recordId){
-	$('.'+recordId).hide('slide', {
-			direction : "right"
-		}, "slow");
-		setTimeout(function() {
-			$('#album-list').show('slide', {
-				direction : "left"
-			}, "slow");
-		}, 600);
-	
-}
 
-//funzione per gestire la visualizzazione della cover
-function albumcover(albumcover,num) {
-	if(num>0) {
-		$('#albumcover-list').hide('slide', {
-		direction : "left"
-	}, "slow");
-	setTimeout(function() {
-		$('#albumcover-single').show('slide', {
-			direction : "right"
-		}, "slow");
-	}, 600);
+
+//visualizza foto di singolo album e nasconde lista album
+function albumSelectSingle(albumcover,num) {
+	//effettua transizione se ci sono foto all'interno dell'album
+	if(num>0) {		
+		 $( "#albumSlide" ).fadeOut( 100, function() {
+    		$('#'+albumcover ).fadeIn( 100 );
+		});
 	}
 	
 }
-
-function photo(photo) {
-
+//nasconde foto singolo album e visualizza lista album
+function albumSelectNext(recordId){		
+	$('#'+recordId ).fadeOut( 100, function() {
+    	$('#albumSlide').fadeIn( 100 );
+	});	
 }
-var rsi;
+
+
+ 
 function slideReview(idBox) {
- rsi = $('#' + idBox).royalSlider({
+var rsi = $('#' + idBox).royalSlider({
 		arrowsNav : false,
 		arrowsNavAutoHide : false,
+		navigateByClick: false,
 		fadeinLoadedSlide : false,
 		controlNavigationSpacing : 0,
 		controlNavigation : 'none',
@@ -233,77 +164,132 @@ function slideReview(idBox) {
 			delay : 400
 		}
 	}).data('royalSlider');
+	return rsi;
+}
+
+function royalSlideNext(box){
+	var rsi;
+	switch(box) {
+		case 'record':
+		rsi = rsi_record;
+		break;
+		case 'event':
+		rsi = rsi_event;
+		break;
+		case 'album':
+		rsi = rsi_album;
+		break;
+		default:
+		break;
+	}
+	rsi.next();
+   	
+  
+}
+
+function royalSlidePrev(box){
+	var rsi;
+	switch(box) {
+		case 'record':
+		rsi = rsi_record;
+		break;
+		case 'event':
+		rsi = rsi_event;
+		break;
+		case 'album':
+		rsi = rsi_album;
+		break;
+		case 'recordReview':
+		rsi = rsi_recordReview;
+		break;
+		case 'eventReview':
+		rsi = rsi_eventReview;
+		break;
+		default:
+		break;
+	}
+	rsi.prev();
+	
+ }
+
+
+// gestione button READ recordReview
+var toggleTextRecordReview = function(_this,box){
+	typeOpt = $(_this).text();	
+	$('#'+box+' .textReview').toggle(function() {
+		if(typeOpt == 'Read'){
+			$(_this).text('Close');
+			rsi_recordReview.updateSliderSize(true);
+		}
+		else{
+			rsi_recordReview.updateSliderSize(false);
+			$(_this).text('Read');	
+		} 
+	});	
 	
 }
-
-function royalSlideNext(_this,id){
-	$(_this).click(function() {
-   		rsi.next();
-   		$('#'+id+' .indexBox').text(rsi.currSlideId+1);
-  	});
-}
-function royalSlidePrev(_this,id){
-  $(_this).click(function() {
-    rsi.prev();
-    $('#'+id+' .indexBox').text(rsi.currSlideId+1);  
-    console.log(rsi);  
-    console.log(rsi.height);
-  });
- }
- 
-// record review
-var toggleText = function(_this){
-	typeOpt = $(_this).text();
-	parent = $(_this).parent().parent().parent().next();
-	$(parent).toggle(function() {
+// gestione button READ eventReview
+var toggleTextEventReview = function(_this,box){
+	typeOpt = $(_this).text();	
+	$('#'+box+' .textReview').toggle(function() {
 		if(typeOpt == 'Read'){
-			console.log($(_this).parent().parent().parent().parent().height());
-			rsi.height = $(_this).parent().parent().parent().parent().height();
 			$(_this).text('Close');
+			rsi_eventReview.updateSliderSize(true);
+		}
+		else{
+			rsi_eventReview.updateSliderSize(false);
+			$(_this).text('Read');	
 		} 
-		else $(_this).text('Read');	
 	});	
+	
 }
-
-
+//lightbox photo
+function lightBoxPhoto(classBox){
+	$("."+classBox).colorbox({
+			rel:'group',
+			inline:true, 
+			width: '600px',
+			scrolling: true,
+			onComplete: function(){
+			 	$(this).niceScroll({cursorcolor:"#222",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
+			}
+		});
+		
+}
 
 //visualizza la map del box information delle venue
-function viewMap(lat, lon) {
-	/*var latlng = new google.maps.LatLng(lat, lon);
-	 geoCode = new google.maps.Geocoder();
-	 // segnapunto
-	 // definizione della mappa
-	 var myOptions = {
-	 zoom : 15,
-	 center : latlng,
-	 mapTypeId : google.maps.MapTypeId.ROADMAP,
-	 mapTypeControlOptions : {
-	 style : google.maps.MapTypeControlStyle.HORIZONTAL_BAR
-	 }
-	 }
-	 mymap = new google.maps.Map(document.getElementById("map_venue"), myOptions);
-	 // definizione segnapunto
-	 var marker = new google.maps.Marker({
-	 position : latlng,
-	 map : mymap
-	 });
-	 console.log(myOptions);
-	 */
-	geocoder = new google.maps.Geocoder();
+function initialize(lat, lon) {	
 	var latlng = new google.maps.LatLng(lat, lon);
 	var mapOptions = {
 		zoom : 15,
-		center : latlng,
-		mapTypeId : google.maps.MapTypeId.ROADMAP		
+		center : latlng
+		//mapTypeId : google.maps.MapTypeId.ROADMAP		
 	}
-	map = new google.maps.Map(document.getElementById('map_venue'), mapOptions);
+	
+	var map = new google.maps.Map(document.getElementById('map_venue'), mapOptions);
 	var marker = new google.maps.Marker({
 		position : latlng,
 		map : map
 	});
+	google.maps.event.trigger(map, 'resize');	
+}
+
+function viewMap(lat, lon){
+	google.maps.event.addDomListener(window, 'load', initialize(lat, lon));
 	
+}
+
+function removeMap(){
+	//$("#map_venue").empty();
+}
+//google.maps.event.addDomListener(window, 'load', viewMap(lat, lon));
+
+function getDirectionMap(){
+		
 }
 
 function openComment() {
 	$('.box').slideToggle(600, 'swing', resizeScroll);
 }
+
+

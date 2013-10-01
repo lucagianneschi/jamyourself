@@ -19,7 +19,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
-require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
@@ -59,7 +58,8 @@ class RelationsBox {
 			$objectId = $toUser->getObjectId();
 			$thumbnail = $toUser->getProfileThumbnail();
 			$type = $toUser->getType();
-			$username = $toUser->getUserName();
+			$encodedUsername = $toUser->getUserName();
+			$username = parse_decode_string($encodedUsername);
 			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			array_push($followingArray, $userInfo);
 		    }
@@ -82,13 +82,20 @@ class RelationsBox {
 			    $objectId = $toUser->getObjectId();
 			    $thumbnail = $toUser->getProfileThumbnail();
 			    $type = $toUser->getType();
-			    $username = $toUser->getUserName();
+			    $encodedUsername = $toUser->getUserName();
+			    $username = parse_decode_string($encodedUsername);
 			    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			    array_push($friendshipArray, $userInfo);
 			}
 		    }
 		}
-
+		if(empty($followingArray)){
+			$followingArray = 'YOU ARE CURRENTLY FOLLOWING NOONE';
+		} 
+		if(empty($friendshipArray)){
+			$friendshipArray = 'YOU HAVE NO FRIENDS YET';
+		} 
+		
 		$info = array('followers' => ND, 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => ND, 'jammersCollaborators' => ND);
 		break;
 	    default :
@@ -103,7 +110,8 @@ class RelationsBox {
 			$objectId = $toUser->getObjectId();
 		    $thumbnail = $toUser->getProfileThumbnail();
 		    $type = $toUser->getType();
-		    $username = $toUser->getUserName();
+			$encodedUsername = $toUser->getUserName();
+			$username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($venuesArray, $userInfo);
 		}
@@ -118,7 +126,8 @@ class RelationsBox {
 			$objectId = $toUser->getObjectId();
 		    $thumbnail = $toUser->getProfileThumbnail();
 		    $type = $toUser->getType();
-		    $username = $toUser->getUserName();
+			$encodedUsername = $toUser->getUserName();
+			$username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($jammersArray, $userInfo);
 		}
@@ -138,14 +147,28 @@ class RelationsBox {
 			$objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-		    $username = $user->getUserName();
+			$encodedUsername = $user->getUserName();
+			$username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($followersArray, $userInfo);
 		}
+		if(empty($followersArray)){
+			$followersArray = 'NO FOLLOWERS YET';
+		} 
+		if(empty($venuesArray)){
+			$venuesArray = 'NO COLLABORATION WITH VENUES YET';
+		} 
+		if(empty($jammersArray)){
+			$jammersArray = 'NO COLLABORATION WITH JAMMER YET';
+		} 	
 		$info = array('followers' => $followersArray, 'following' => ND, 'friendship' => ND, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
 		break;
 	}
-	$relationsBox->relationArray = $info;
+	if(empty($info)){
+		$relationsBox->relationArray =  NODATA;
+	} else {
+		$relationsBox->relationArray = $info;
+	}
 	return $relationsBox;
     }
 

@@ -21,9 +21,9 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
-require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once BOXES_DIR . 'utilsBox.php';
 
 class UserInfoBox {
 
@@ -66,18 +66,18 @@ class UserInfoBox {
 	} else {
 	    $infoBox = new UserInfoBox();
 	    is_null($user->getBackGround()) ? $infoBox->backGround = DEFBGD : $infoBox->backGround = $user->getBackGround();
-	    is_null($user->getCity()) ? $infoBox->city = NODATA : $infoBox->city = $user->getCity();
-	    is_null($user->getCountry()) ? $infoBox->country = NODATA : $infoBox->country = $user->getCountry();
-	    is_null($user->getDescription()) ? $infoBox->description = NODATA : $infoBox->description = $user->getDescription();
-	    is_null($user->getFbPage()) ? $infoBox->fbPage = NODATA : $infoBox->fbPage = $user->getFbPage();
-	    is_null($user->getGooglePlusPage()) ? $infoBox->googlePlusPage = NODATA : $infoBox->googlePlusPage = $user->getGooglePlusPage();
+	    is_null($user->getCity()) ? $infoBox->city = NODATA : $infoBox->city = parse_decode_string($user->getCity());
+	    is_null($user->getCountry()) ? $infoBox->country = NODATA : $infoBox->country = parse_decode_string($user->getCountry());
+	    is_null($user->getDescription()) ? $infoBox->description = NODATA : $infoBox->description = parse_decode_string($user->getDescription());
+	    is_null($user->getFbPage()) ? $infoBox->fbPage = NODATA : $infoBox->fbPage = parse_decode_string($user->getFbPage());
+	    is_null($user->getGooglePlusPage()) ? $infoBox->googlePlusPage = NODATA : $infoBox->googlePlusPage = parse_decode_string($user->getGooglePlusPage());
 	    is_null($user->getLevel()) ? $infoBox->level = 0 : $infoBox->level = $user->getLevel();
 	    is_null($user->getLevelValue()) ? $infoBox->levelValue = 1 : $infoBox->levelValue = $user->getLevelValue();
 	    is_null($user->getProfilePicture()) ? $infoBox->profilePicture = DEFAULTAVATAR : $infoBox->profilePicture = $user->getProfilePicture();
-	    is_null($user->getTwitterPage()) ? $infoBox->twitterPage = NODATA : $infoBox->twitterPage = $user->getTwitterPage();
-	    is_null($user->getUsername()) ? $infoBox->userName = NODATA : $infoBox->userName = $user->getUsername();
-	    is_null($user->getWebsite()) ? $infoBox->webSite = NODATA : $infoBox->webSite = $user->getWebsite();
-	    is_null($user->getYoutubeChannel()) ? $infoBox->youtubeChannel = NODATA : $infoBox->youtubeChannel = $user->getYoutubeChannel();
+	    is_null($user->getTwitterPage()) ? $infoBox->twitterPage = NODATA : $infoBox->twitterPage = parse_decode_string($user->getTwitterPage());
+	    is_null($user->getUsername()) ? $infoBox->userName = NODATA : $infoBox->userName = parse_decode_string($user->getUsername());
+	    is_null($user->getWebsite()) ? $infoBox->webSite = NODATA : $infoBox->webSite = parse_decode_string($user->getWebsite());
+	    is_null($user->getYoutubeChannel()) ? $infoBox->youtubeChannel = NODATA : $infoBox->youtubeChannel = parse_decode_string($user->getYoutubeChannel());
 	    is_null($user->getJammerCounter()) ? $infoBox->jammerCounter = NODATA : $infoBox->jammerCounter = $user->getJammerCounter();
 	    is_null($user->getVenueCounter()) ? $infoBox->venueCounter = NODATA : $infoBox->venueCounter = $user->getVenueCounter();
 	    $infoBox->type = $user->getType();

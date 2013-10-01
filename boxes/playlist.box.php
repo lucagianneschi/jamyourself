@@ -20,7 +20,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
-require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'utilsBox.php';
 require_once CLASSES_DIR . 'playlist.class.php';
 require_once CLASSES_DIR . 'playlistParse.class.php';
@@ -81,8 +80,8 @@ class PlaylistBox {
 	    return $playlists;
 	} else {
 	    foreach ($playlists as $playlist) {
-			$name = $playlist->getName();
-			
+			$encodedName = $playlist->getName();
+			$name = parse_decode_string($encodedName);
 			
 			$song = new SongParse();
 			$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
@@ -94,14 +93,16 @@ class PlaylistBox {
 				return $songs;
 			} else {
 				foreach ($songs as $song) {
-					$title = $song->getTitle();
+					$encodedTitle = $song->getTitle();
+					$title = parse_decode_string($encodedTitle);
 					
 					$authorP = new UserParse();
 					$user = $authorP->getUser($song->getFromUser());
 					$objectId = $user->getObjectId();
 					$thumbnail= $user->getProfileThumbnail;
 					$type= $user->getType;
-					$username= $user->getUsername;
+					$encodedUsername = $user->getUsername;
+					$username = parse_decode_string($encodedUsername);
 					$author = new UserInfo($objectId, $thumbnail, $type, $username);
 					
 					$recordP = new RecordParse();
@@ -113,7 +114,11 @@ class PlaylistBox {
 				}
 			}
 		}
-	$playlistBox->tracklist = $tracklist;
+		if(empty($tracklist)){
+				$playlistBox->tracklist = NODATA;
+		} else {
+				$playlistBox->tracklist = $tracklist;
+		}
 	$playlistBox->name = $name;
 	return $playlistBox;
 	}

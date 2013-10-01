@@ -20,7 +20,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
-require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
@@ -90,8 +89,6 @@ class CommentBox {
 	    case 'Video':
 		$field = 'video';
 		break;
-	    default:
-		break;
 	}
 
 	$commentP = new CommentParse();
@@ -107,7 +104,8 @@ class CommentBox {
 	    foreach ($comments as $comment) {
 
 		$createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
-		$text = $comment->getText();
+		$encodedText = $comment->getText();
+		$text = parse_decode_string($encodedText);
 
 		$fromUserId = $comment->getFromUser();
 
@@ -119,14 +117,19 @@ class CommentBox {
 		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-		    $username = $user->getUsername();
+			$encodedUsername = $user->getUsername();
+		    $username = parse_decode_string($encodedUsername);
 		    $fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		}
 
 		$commentInfo = new CommentInfo($fromUserInfo, $createdAt, $text);
 		array_push($info, $commentInfo);
 	    }
-	    $commentBox->commentInfoArray = $info;
+		if(empty($info)){
+			$commentBox->commentInfoArray = NODATA;
+		} else {
+			$commentBox->commentInfoArray = $info;
+		}
 	}
 	return $commentBox;
     }

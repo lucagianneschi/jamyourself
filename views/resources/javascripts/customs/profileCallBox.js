@@ -1,16 +1,14 @@
 /*
- * Il contenitore CallBox permette di definire un oggetto per effettuare la chiamata ai box,
- * ad ogni box viene prima effettuata una chiamata ajax per richiedere i dati al server e successivamente questi dati vengono passati
- * ai file php contenente l'html dei box.
- * Inizialmente si definisce l'objectId relativo al l'utente del profilo, typeCurrentUser il type dell'utente corrente
- * e viene chiamata la load su il primo box userinfo
- * All'interno della funzione load viene effettutato un cast per le varie operazioni a seconda del tipo di box
- * i successivi box vengono chiamati ricorsivamente all'interno della load stessa.
- *
+ * Il contenitore CallBox permette di effettuare una chiamata ajax a callBax.php 
+ * che restituisce le query per ogni box
+ * Inizialmente verrà effettuata la chiamata al box infoUser, in parallelo vengono chiamate 
+ * le query per tutti gli altri box
+ * Alla restituzione dei dati questi verranno inviati ai box html rispettivi e caricati sequenzialmente
+ * 
  * @url: url dello script callbox.php che effettua le chiamate ai boxes
  * @typebox: viene definito il nome del box che puo essere:
  * 			userinfo, review, activity, record, event, relation, album e post
- * @objectId: dell'utente del profilo
+ * @objectIdUser: dell'utente del profilo
  * @typeUser: definita all'interno della load nella prima chiamata in userinfo, specifica il type dell'utente
  * @typeCurrentUser: type dell'utente corrente
  * @classBox: definisce la classe per la quale viene chiamato il box (ad esempio se typebox == comment allora classBox
@@ -18,86 +16,108 @@
  *
  * @author: Maria Laura Fresu
  */
+
 var callBox = {
 	url : "content/profile/callbox.php",
 	typebox : '',
-	objectId : '',
+	objectIdUser : '',
 	typeUser : '',
 	typeCurrentUser : '',
 	objectIdCurrentUser: '',
+	objectId: '',
 	classBox : '',
+	countBoxActivity: 0,
+	numBoxActivity: 1,
+	dataActivity: {'record':'','event':'','relation':''},
 	load : function(typebox) {
 		__this = this;
 		this.typebox = typebox;
-
+		
 		$.ajax({
 			url : this.url,
 			data : {
 				typebox : this.typebox,
-				objectId : this.objectId,
-				type : this.typeUser,
+				objectIdUser : this.objectIdUser,
+				typeUser : this.typeUser,
 				objectIdCurrentUser : this.objectIdCurrentUser,
-				classBox :  this.classBox
+				classBox :  this.classBox,
+				objectId: this.objectId
 			},
 			type : 'POST',
 			dataType : 'json',
 			success : function(data, stato) {
 				//NOT ERROR
-				if (data != null && data['error']['code'] == 0) {
-					switch(typebox) {
-						
+				if (data != null && data['error']['code'] == 0) {					
+					switch(typebox) {						
 						case 'userinfo':
 							//Prelevo il type dell'utente
 							__this.typeUser = data.type;
 							//aggiungo i box: box-userinfo, box-information e box-status
 							addBoxUserInfo(data,__this.typeCurrentUser);
+							
 							//chiamata ricorsiva al box review
 							callBox.load('review');
+							if (__this.typeUser == 'JAMMER'){
+								__this.numBoxActivity++;
+								callBox.load('record');
+							} 
+							if (__this.typeUser != 'SPOTTER'){
+								__this.numBoxActivity++;
+								callBox.load('event');
+							} 
+							
+							callBox.load('album');
+							callBox.load('relation');
+							callBox.load('post');
 							break;
-
+						
 						case 'review':
 							//aggiungo box review Record se non utente venue
 							if (__this.typeUser != 'VENUE')
 								addBoxRecordReview(data, __this.typeUser);
 							//aggiungo box review Event
-							addBoxRecordEvent(data, __this.typeUser);
-							//chiamata ricorsiva al box record se jammer altrimenti chiama il box event
-							callBox.load('activity');
+							addBoxRecordEvent(data, __this.typeUser);							
 							break;
-
-						case 'activity':
-							//aggiunge box activity
-							addBoxActivity(data, __this.typeUser);
-							//chiamate ricorsive di record o event o album
-							if (__this.typeUser == 'JAMMER') callBox.load('record');
-							else {
-								if (__this.typeUser != 'SPOTTER') callBox.load('event');
-								else callBox.load('relation');
+						
+						case 'record':
+							addBoxRecord(data, __this.typeUser);
+						
+							__this.dataActivity['record'] = data.activity.record;
+							
+							__this.countBoxActivity = __this.countBoxActivity + 1;							
+							if(__this.countBoxActivity == __this.numBoxActivity){								
+								callBox.load('activity');
+							}
+							break;
+						case 'event':
+							addBoxEvent(data, __this.typeUser);
+							
+							__this.dataActivity['event'] = data.activity.event;
+							
+							__this.countBoxActivity = __this.countBoxActivity + 1;							
+							if(__this.countBoxActivity == __this.numBoxActivity){
+								callBox.load('activity');
 							}
 							break;
 
-						case 'record':
-							addBoxRecord(data, __this.typeUser);
-							callBox.load('event');
-							break;
-
-						case 'event':
-							addBoxEvent(data, __this.typeUser);
-							callBox.load('relation');
-							break;
-
-						case 'relation':
+						case 'relation':												
 							//se spotter aggiungi relation profile
 							if (__this.typeUser == 'SPOTTER') addBoxRelationProfile(data, __this.typeUser);
 							//se jammer o venue aggiunge social profile
 							else addBoxRelationSocial(data, __this.typeUser);
-							callBox.load('album');
+							
+							
+							__this.dataActivity['relation'] = data.activity.relation;
+							
+							__this.countBoxActivity = __this.countBoxActivity + 1;
+							if(__this.countBoxActivity == __this.numBoxActivity){
+								callBox.load('activity');
+							}
 							break;
 
 						case 'album':
 							//aggiunge box album
-							addBoxAlbum(data, __this.typeUser);
-							callBox.load('post');
+							addBoxAlbum(data, __this.typeUser);							
 							break;
 
 						case 'post':
@@ -105,28 +125,48 @@ var callBox = {
 							addBoxPost(data, __this.typeUser);
 							break;
 						
+						case 'activity':							
+							//aggiunge box activity
+							console.log(__this.dataActivity);
+							addBoxActivity(data,__this.dataActivity, __this.typeUser);
+							//chiamate ricorsive di record o event o album
+							break;
+						
 						case 'header':
 							//aggiunge box post
 							addBoxHeader(data, __this.typeUser);
 							break;
 							
+						case 'comment':
+							addBoxComment(data, __this.typeUser, __this.classBox);							
+							break;	
 						default:
 
 					}
-
-					console.log('Box: ' + typebox + ', TypeUser: ' + __this.typeUser + ', objectId: ' + __this.objectId);
+					
+					console.log('Box: ' + typebox + ', TypeUser: ' + __this.typeUser + ', objectId: ' + __this.objectIdUser);
+					return data;
 				} else {
+					
 					$('.body-content').load('content/general/error.php');
 				}
 
 			},
 			error : function(richiesta, stato, errori) {
-				console.log(stato);
+				console.log(richiesta+' '+stato+' '+errori);
+				console.log(richiesta);
 			}
 		});
 
 	}
 }
+
+/*
+ * Variabili
+ */
+var rsi_event;
+var rsi_album;
+
 
 /*
  * box userInfo: chiama box-userinfo.php, box-status.php e box-information.php
@@ -147,11 +187,13 @@ function addBoxUserInfo(data,typeCurrentUser) {
 	$('#box-information').load('content/profile/box-profile/box-information.php', {
 		'data' : data
 	}, function() { 
-		success: 
-		viewMap();
-		hcento();
+		success:{
+			
+			hcento();
+		}
+	
 	});
-	//viewMap();
+	
 
 }
 
@@ -163,7 +205,7 @@ function addBoxRecord(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: {
-			royalSlide('record');
+			rsi_record = slideReview('recordSlide');
 			hcento();
 		}
 	});
@@ -178,7 +220,7 @@ function addBoxEvent(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: {
-			royalSlide('event');
+			rsi_event = slideReview('eventSlide');
 			hcento();
 		}
 	});
@@ -192,7 +234,7 @@ function addBoxRecordReview(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: 
-		slideReview('recordReviewSlide');
+		rsi_recordReview = slideReview('recordReviewSlide');
 		hcento();
 	});
 }
@@ -205,7 +247,7 @@ function addBoxRecordEvent(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success:
-		slideReview('eventReviewSlide'); 
+		rsi_eventReview = slideReview('eventReviewSlide'); 
 		hcento();
 	});
 }
@@ -213,9 +255,10 @@ function addBoxRecordEvent(data, typeUser) {
 /*
  * box activity chiama box-activity.php
  */
-function addBoxActivity(data, typeUser) {
+function addBoxActivity(data,dataActivity, typeUser) {	
 	$('#box-activity').load('content/profile/box-social/box-activity.php', {
 		'data' : data,
+		'dataActivity' : dataActivity,
 		'typeUser' : typeUser
 	}, function() { success: hcento();
 	});
@@ -261,7 +304,8 @@ function addBoxAlbum(data, typeUser) {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: 
-		//slideReview('albumSlide');
+		rsi_album = slideReview('albumSlide');
+		lightBoxPhoto('photo-colorbox-group');
 		hcento();
 	});
 }
@@ -277,6 +321,27 @@ function addBoxPost(data, typeUser) {
 	});
 }
 
+/*
+ * box post chiama box-post.php
+ */
+function addBoxComment(data, typeUser,classbox) {
+	var idBox = '';
+	if(classbox == 'RecordReview' || classbox == 'EventReview'){
+		idBox = '#social-'+classbox;
+	}
+	if(classbox == 'Album' || classbox == 'Record'){
+		idBox = '#profile-'+classbox;
+	}
+	if(classbox == 'Image' || classbox == 'Post'){
+		idBox = '#'+objectId;
+	}
+	$(idBox+' .box-comment').load('content/profile/box-social/box-comment.php', {
+		'data' : data,
+		'typeUser' : typeUser
+	},function(){success: hcento();} );
+	
+}
+
 function addBoxHeader(data, typeUser){
 	$('#header-profile').load('content/header/box-profile.php', {
 		'data' : data,
@@ -290,31 +355,8 @@ function addBoxHeader(data, typeUser){
 	});
 }
 
-/*
- * scorrimento dei box
- */
-var rsi
-function royalSlide(idBox) {
- $('#' + idBox).royalSlider({
-		arrowsNav : true,
-		arrowsNavAutoHide : false,
-		fadeinLoadedSlide : false,
-		controlNavigationSpacing : 0,
-		controlNavigation : 'none',
-		imageScaleMode : 'none',
-		imageAlignCenter : false,
-		blockLoop : false,
-		loop : false,
-		numImagesToPreload : 6,
-		transitionType : 'fade',
-		autoHeight: true,
-		keyboardNavEnabled : true,
-		block : {
-			delay : 400
-		}
-	}).data('royalSlider');
-	
-}
+
+
 
 
 

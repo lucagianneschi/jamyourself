@@ -21,7 +21,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
-require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
@@ -89,7 +88,8 @@ class PostBox {
 			$objectId = $fromUser->getObjectId();
 		    $thumbnail = $fromUser->getProfileThumbnail();
 		    $type = $fromUser->getType();
-		    $username = $fromUser->getUsername();
+			$encodedUsername = $fromUser->getUsername();
+		    $username = parse_decode_string($encodedUsername);
 		}
 		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
 
@@ -98,12 +98,17 @@ class PostBox {
 		$loveCounter = $post->getLoveCounter();
 		$reviewCounter = NDB;
 		$shareCounter = $post->getShareCounter();
-		$text = $post->getText();
+		$encodedtext = $post->getText();
+		$text = parse_decode_string($encodedtext);
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
 		array_push($info, $postInfo);
 	    }
-	    $postBox->postInfoArray = $info;
+		if(empty($info)){
+			$postBox->postInfoArray = NODATA;
+		} else {
+			$postBox->postInfoArray = $info;
+		}
 	    $postBox->postCounter = $counter;
 	}
 

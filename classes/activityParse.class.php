@@ -226,7 +226,7 @@ class ActivityParse {
 			is_null($activity->getActive()) ? $parseActivity->active = true : $parseActivity->active = $activity->getActive();
 			is_null($activity->getAlbum()) ? $parseActivity->album = null : $parseActivity->album = toParsePointer('Album', $activity->getAlbum());
 			is_null($activity->getComment()) ? $parseActivity->comment = null : $parseActivity->comment = toParsePointer('Comment', $activity->getComment());
-			is_null($activity->getCounter()) ? $parseAlbum->counter = -1 : $parseAlbum->counter = $activity->getCounter();
+			is_null($activity->getCounter()) ? $parseActivity->counter = -1 : $parseActivity->counter = $activity->getCounter();
 			is_null($activity->getEvent()) ? $parseActivity->event = null : $parseActivity->event = toParsePointer('Event', $activity->getEvent());
 			$parseActivity->fromUser = toParsePointer('_User', $activity->getFromUser());
 			is_null($activity->getImage()) ? $parseActivity->image = null : $parseActivity->image = toParsePointer('Image', $activity->getImage());

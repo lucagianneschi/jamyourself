@@ -1,0 +1,6 @@
+{
+    "minPostSize" : 1,
+    "maxPostSize" : 50,
+    "inputPostRowNumber": 2,
+    "inputPostColumnNumber": 50
+}

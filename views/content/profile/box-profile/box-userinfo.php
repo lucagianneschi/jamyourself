@@ -15,7 +15,7 @@ $userinfo_note = $data['music'] == "" ? '' : '_note';
 
 
 ?>
-<div class="row">
+<div class="row" id="profile-userInfo">
 	<div class="large-12 columns">
 		<h2><?php echo $data['username']?></h2>			
 		<div class="row">
@@ -32,7 +32,7 @@ $userinfo_note = $data['music'] == "" ? '' : '_note';
 			
 <div class="row">
 	<div class="large-12 columns">
-		<img class="avatar" src="../media/<?php echo $data['backGround'] ?>"  onerror="this.src='../media/images/default/defaultBackground.jpg'" >
+		<img class="background" src="../media/<?php echo $data['backGround'] ?>"  onerror="this.src='../media/images/default/defaultBackground.jpg'" >
 		<img class="picture" src="../media/<?php echo $data['profilePicture'] ?>" onerror="this.src='../media/images/default/defaultProfilepicture.jpg'" width="150" height="150">							
 	</div>
 </div> 

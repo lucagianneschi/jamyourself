@@ -20,7 +20,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
-require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
 require_once CLASSES_DIR . 'image.class.php';
@@ -63,19 +62,21 @@ class ImageInfo {
     public $counters;
     public $description;
     public $filePath;
+	public $location;
 	public $objectId;
     public $tags;
     public $thumbnail;
 
     /**
-     * \fn	__construct($counters, $description, $filePath, $objectId, $tags, $thumbnail)
+     * \fn	__construct($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail)
      * \brief	construct for the ImageInfo class
      * \param	$counters, $description, $filePath, $objectId, $tags, $thumbnail
      */
-    function __construct($counters, $description, $filePath, $objectId, $tags, $thumbnail) {
+    function __construct($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($description) ? $this->description = NODATA : $this->description = $description;
 	is_null($filePath) ? $this->filePath = NODATA : $this->filePath = $filePath;
+	is_null($location) ? $this->location = NODATA : $this->location = $location;
 	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
 	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
@@ -121,14 +122,20 @@ class AlbumBox {
 		$reviewCounter = NDB;
 		$shareCounter = $image->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-
-		$description = $image->getDescription();
-		$objectId = $image->getObjectId();
+	
+		$encodedDescription = $image->getDescription();
+		$description = parse_decode_string($encodedDescription);
 		$filePath = $image->getFilePath();
-		$tags = $image->getTags();
+		$location = $image->getLocation();
+		$objectId = $image->getObjectId();
+		if(empty($image->getTags())){
+			$tags = 'NO TAGS TO DISPLAY';
+		} else {
+			$tags = $image->getTags();
+		}
 		$thumbnail = $image->getThumbnail();
 
-		$imageInfo = new ImageInfo($counters, $description, $filePath,$objectId, $tags, $thumbnail);
+		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail);
 		array_push($info, $imageInfo);
 	    }
 	    $albumBox->imageArray = $info;
@@ -167,7 +174,8 @@ class AlbumBox {
 		$shareCounter = $album->getShareCounter();
 		$objectId = $album->getObjectId();
 		$thumbnailCover = $album->getThumbnailCover();
-		$title = $album->getTitle();
+		$encodedTitle = $album->getTitle();
+		$title = parse_decode_string($encodedTitle);
 
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$albumInfo = new AlbumInfo($counters, $imageCounter,$objectId, $thumbnailCover, $title);

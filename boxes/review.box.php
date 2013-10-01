@@ -20,7 +20,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once ROOT_DIR . 'string.php';
-require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
@@ -110,7 +109,8 @@ class ReviewBox {
 		$objectId = $user->getObjectId();
 		$thumbnail = $user->getProfileThumbnail();
 		$type = $user->getType();
-		$username = $user->getUsername();
+		$encodedUsername = $user->getUserName();
+		$username = parse_decode_string($encodedUsername);
 		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
 		$objectId = $review->getObjectId();
 		$rating = $review->getVote();
@@ -121,14 +121,20 @@ class ReviewBox {
 		$shareCounter = $review->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
-		$text = $review->getText();
-		$title = $review->getTitle();
+		$encodedText = $review->getText();
+		$text = parse_decode_string($encodedText);
 		$thumbnailCover = NULL;
+		$encodedTitle = $review->getTitle();
+		$title = parse_decode_string($encodedTitle);
 
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
-	    $reviewBox->reviewArray = $info;
+		if(empty($info)){
+			$reviewBox->reviewArray = NODATA;
+		} else {
+			$reviewBox->reviewArray = $info;
+		}
 	}
 	return $reviewBox;
     }
@@ -180,7 +186,8 @@ class ReviewBox {
 		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-		    $username = $user->getUsername();
+			$encodedUsername = $user->getUsername();
+		    $username = parse_decode_string($encodedUsername);
 		    $fromUserInfo = new UserInfo($objectId,$thumbnail, $type, $username);
 		}
 
@@ -192,15 +199,21 @@ class ReviewBox {
 		$objectId = $review->getObjectId();
 		$rating = $review->getVote();
 
-		$text = $review->getText();
+		$encodedText = $review->getText();
+		$text = parse_decode_string($encodedText);
 		$thumbnailCover = NDB;
 
-		$title = $review->getTitle();
+		$encodedTitle = $review->getTitle();
+		$title = parse_decode_string($encodedTitle);
 
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
-	    $reviewBox->reviewArray = $info;
+		if(empty($info)){
+			$reviewBox->reviewArray = NODATA;
+		} else {
+			$reviewBox->reviewArray = $info;
+		}
 	    $reviewBox->reviewCounter = $counter;
 	}
 	return $reviewBox;
@@ -270,7 +283,8 @@ class ReviewBox {
 			    }
 			    $reviewCounter = $event->getReviewCounter();
 			    $thumbnailCover = $event->getThumbnail();
-			    $title = $event->getTitle();
+				$encodedTitle = $event->getTitle();
+			    $title = parse_decode_string($encodedTitle);
 			    break;
 			case 'Record':
 			    $id = $review->getRecord();
@@ -288,7 +302,8 @@ class ReviewBox {
 			    }
 			    $reviewCounter = $record->getReviewCounter();
 			    $thumbnailCover = $record->getThumbnailCover();
-			    $title = $record->getTitle();
+				$encodedTitle = $record->getTitle();
+			    $title = parse_decode_string($encodedTitle);
 			    break;
 			default:
 			    break;
@@ -298,7 +313,8 @@ class ReviewBox {
 			$objectId = $review->getObjectId();
 		    $rating = $review->getVote();
 		    $shareCounter = $review->getShareCounter();
-		    $text = $review->getText();
+			$encodedText = $review->getText();
+			$text = parse_decode_string($encodedText);
 
 		    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
@@ -310,13 +326,18 @@ class ReviewBox {
 			$objectId = $user->getObjectId();
 			$thumbnail = $user->getProfileThumbnail();
 			$type = $user->getType();
-			$username = $user->getUsername();
+			$encodedUsername = $user->getUsername();
+			$username = parse_decode_string($encodedUsername);
 			$fromUserInfo = new UserInfo($objectId,$thumbnail, $type, $username);
 		    }
 		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title);
 		    array_push($info, $reviewInfo);
 		}
-		$reviewBox->reviewArray = $info;
+		if(empty($info)){
+			$reviewBox->reviewArray = NODATA;
+		} else {
+			$reviewBox->reviewArray = $info;
+		}
 		$reviewBox->reviewCounter = $counter;
 	    }
 	}
