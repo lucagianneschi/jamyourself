@@ -34,7 +34,7 @@ class ReviewInfo {
 
     public $counters;
     public $fromUserInfo;
-	public $objectId;
+    public $objectId;
     public $rating;
     public $text;
     public $title;
@@ -45,7 +45,7 @@ class ReviewInfo {
      * \brief	construct for the ReviewInfo class
      * \param	$counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title
      */
-    function __construct($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title) {
+    function __construct($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title) {
 	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
 	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
 	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
@@ -106,12 +106,12 @@ class ReviewBox {
 
 		$userP = new UserParse();
 		$user = $userP->getUser($review->getFromUser());
-		$objectId = $user->getObjectId();
+		$objectIdUser = $user->getObjectId();
 		$thumbnail = $user->getProfileThumbnail();
 		$type = $user->getType();
 		$encodedUsername = $user->getUserName();
 		$username = parse_decode_string($encodedUsername);
-		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		$fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 		$objectId = $review->getObjectId();
 		$rating = $review->getVote();
 
@@ -127,14 +127,14 @@ class ReviewBox {
 		$encodedTitle = $review->getTitle();
 		$title = parse_decode_string($encodedTitle);
 
-		$reviewInfo = new ReviewInfo($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title);
+		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
-		if(empty($info)){
-			$reviewBox->reviewArray = NODATA;
-		} else {
-			$reviewBox->reviewArray = $info;
-		}
+	    if (empty($info)) {
+		$reviewBox->reviewArray = NODATA;
+	    } else {
+		$reviewBox->reviewArray = $info;
+	    }
 	}
 	return $reviewBox;
     }
@@ -186,9 +186,9 @@ class ReviewBox {
 		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-			$encodedUsername = $user->getUsername();
+		    $encodedUsername = $user->getUsername();
 		    $username = parse_decode_string($encodedUsername);
-		    $fromUserInfo = new UserInfo($objectId,$thumbnail, $type, $username);
+		    $fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		}
 
 		$commentCounter = $review->getCommentCounter();
@@ -209,11 +209,11 @@ class ReviewBox {
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
-		if(empty($info)){
-			$reviewBox->reviewArray = NODATA;
-		} else {
-			$reviewBox->reviewArray = $info;
-		}
+	    if (empty($info)) {
+		$reviewBox->reviewArray = NODATA;
+	    } else {
+		$reviewBox->reviewArray = $info;
+	    }
 	    $reviewBox->reviewCounter = $counter;
 	}
 	return $reviewBox;
@@ -283,7 +283,7 @@ class ReviewBox {
 			    }
 			    $reviewCounter = $event->getReviewCounter();
 			    $thumbnailCover = $event->getThumbnail();
-				$encodedTitle = $event->getTitle();
+			    $encodedTitle = $event->getTitle();
 			    $title = parse_decode_string($encodedTitle);
 			    break;
 			case 'Record':
@@ -302,7 +302,7 @@ class ReviewBox {
 			    }
 			    $reviewCounter = $record->getReviewCounter();
 			    $thumbnailCover = $record->getThumbnailCover();
-				$encodedTitle = $record->getTitle();
+			    $encodedTitle = $record->getTitle();
 			    $title = parse_decode_string($encodedTitle);
 			    break;
 			default:
@@ -310,11 +310,11 @@ class ReviewBox {
 		    }
 		    $commentCounter = $review->getCommentCounter();
 		    $loveCounter = $review->getLoveCounter();
-			$objectId = $review->getObjectId();
+		    $objectId = $review->getObjectId();
 		    $rating = $review->getVote();
 		    $shareCounter = $review->getShareCounter();
-			$encodedText = $review->getText();
-			$text = parse_decode_string($encodedText);
+		    $encodedText = $review->getText();
+		    $text = parse_decode_string($encodedText);
 
 		    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
@@ -328,15 +328,15 @@ class ReviewBox {
 			$type = $user->getType();
 			$encodedUsername = $user->getUsername();
 			$username = parse_decode_string($encodedUsername);
-			$fromUserInfo = new UserInfo($objectId,$thumbnail, $type, $username);
+			$fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    }
-		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title);
+		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		    array_push($info, $reviewInfo);
 		}
-		if(empty($info)){
-			$reviewBox->reviewArray = NODATA;
+		if (empty($info)) {
+		    $reviewBox->reviewArray = NODATA;
 		} else {
-			$reviewBox->reviewArray = $info;
+		    $reviewBox->reviewArray = $info;
 		}
 		$reviewBox->reviewCounter = $counter;
 	    }
