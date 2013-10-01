@@ -1,24 +1,25 @@
 <?php
 //GENERAL
-define('NODATA', 'NO YET DATA TO DISPLAY');
-define('ND', 'NOT DEFINED FOR THIS TYPE OF USER');
-define('NDB', 'NOT DEFINED FOR THIS TYPE OF BOX');
+define('NODATA', 'NESSUN DATO DA MOSTRARE');
+define('ND', 'NON DEFINITO PER QUESTO TIPO DI UTENTE');
+define('NDB', 'NON DEFINITO PER QUESTO TIPO DI BOX');
+
 //USER
-define('DEFAVATAR', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultAvatar.jpg');
-define('DEFTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultAvatarThumb.jpg');
-define('DEFBGD', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultBackground.jpg');
+define('DEFAVATAR', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAvatar.jpg');
+define('DEFTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAvatarThumb.jpg');
+define('DEFBGD', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultBackground.jpg');
 
 //ALBUM
-define('DEFALBUMCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultAlbumCover.jpg');
-define('DEFALBUMTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultAlbumThumb.jpg');
+define('DEFALBUMCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAlbumCover.jpg');
+define('DEFALBUMTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAlbumThumb.jpg');
 //EVENT
-define('DEFEVENTTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultEventThumb.jpg');
-define('DEFEVENTIMAGE', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultEventImage.jpg');
+define('DEFEVENTTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultEventThumb.jpg');
+define('DEFEVENTIMAGE', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultEventImage.jpg');
 //RECORD
-define('DEFRECORDCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultRecordCover.jpg');
-define('DEFRECORDTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultRecordThumb.jpg');
+define('DEFRECORDCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultRecordCover.jpg');
+define('DEFRECORDTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultRecordThumb.jpg');
 //SONG
-define('DEFSONGTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/script/wp_daniele/root/images/default/dafultSongThumb.jpg');
+define('DEFSONGTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultSongThumb.jpg');
 
 //SETTINGS JAMMER
 define('JAMMER_SETTING_0', 'lingua generale del sito');
@@ -150,5 +151,4 @@ define('VENUE_SETTING_37','nuovo rating a un evento');
 define('VENUE_SETTING_38','nuovo evento pubblicato di cui si &egrave; ospitante');
 define('VENUE_SETTING_39','nuovo livello di autorit&agrave; raggiunto/perso');
 define('VENUE_SETTING_40','nuovi badge conquistati');
-
 ?>
