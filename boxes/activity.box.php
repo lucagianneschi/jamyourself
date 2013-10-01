@@ -180,6 +180,9 @@ class ActivityBox {
 			array_push($imageArray, $imageInfo);
 		    }
 		}
+		if(empty($imageArray)){
+			$imageArray = 'YOUR ALBUM DOES NOT CONTAIN ANY IMAGES';
+		}
 		$albumInfo = new AlbumInfoForPersonalPage($imageArray, $imageCounter, $objectId, $title);
 	    }
 	    $activityBox->albumInfo = $albumInfo;
