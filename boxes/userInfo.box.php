@@ -36,7 +36,7 @@ class UserInfoBox {
     public $followersCounter;
     public $followingCounter;
     public $frindshipCounter;
-	public $geoCoding;
+    public $geoCoding;
     public $googlePlusPage;
     public $level;
     public $levelValue;
@@ -87,7 +87,7 @@ class UserInfoBox {
 		    $infoBox->followersCounter = ND;
 		    is_null($user->getFollowingCounter()) ? $infoBox->followingCounter = 0 : $infoBox->followingCounter = $user->getFollowingCounter();
 		    is_null($user->getFriendshipCounter()) ? $infoBox->frindshipCounter = 0 : $infoBox->frindshipCounter = $user->getFriendshipCounter();
-			$infoBox->geoCoding = ND;
+		    $infoBox->geoCoding = ND;
 		    $infoBox->localType = ND;
 		    $infoBox->members = ND;
 		    is_null($user->getMusic()) ? $infoBox->music = NODATA : $infoBox->music = $user->getMusic();
@@ -97,7 +97,7 @@ class UserInfoBox {
 		    is_null($user->getFollowersCounter()) ? $infoBox->followersCounter = 0 : $infoBox->followersCounter = $user->getFollowersCounter();
 		    $infoBox->followingCounter = ND;
 		    $infoBox->frindshipCounter = ND;
-			$infoBox->geoCoding = ND;
+		    $infoBox->geoCoding = ND;
 		    $infoBox->localType = ND;
 		    is_null($user->getMembers()) ? $infoBox->members = NODATA : $infoBox->members = $user->getMembers();
 		    is_null($user->getMusic()) ? $infoBox->music = NODATA : $infoBox->music = $user->getMusic();
@@ -105,14 +105,12 @@ class UserInfoBox {
 		case 'VENUE':
 		    is_null($user->getCollaborationCounter()) ? $infoBox->collaborationCounter = 0 : $infoBox->collaborationCounter = $user->getCollaborationCounter();
 		    is_null($user->getFollowersCounter()) ? $infoBox->followersCounter = 0 : $infoBox->followersCounter = $user->getFollowersCounter();
-			is_null($user->getGeoCoding()) ? $infoBox->geoCoding = NODATA : $infoBox->geoCoding = $user->getGeoCoding();
+		    is_null($user->getGeoCoding()) ? $infoBox->geoCoding = NODATA : $infoBox->geoCoding = $user->getGeoCoding();
 		    $infoBox->followingCounter = ND;
 		    $infoBox->frindshipCounter = ND;
 		    is_null($user->getLocalType()) ? $infoBox->localType = NODATA : $infoBox->localType = $user->getLocalType();
 		    $infoBox->members = ND;
 		    $infoBox->music = ND;
-		    break;
-		default :
 		    break;
 	    }
 	    return $infoBox;
