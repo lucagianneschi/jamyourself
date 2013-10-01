@@ -8,7 +8,7 @@
 Share di un Album<br />
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
-	 addThis:url="http://socialmusicdiscovering.com/script/wp_daniele/root/tests/controllers/testShare2.controller.php?classe=Album"
+	 addThis:url="http://socialmusicdiscovering.com/tests/controllers/testShare2.controller.php?classe=Album"
 	 addThis:title="Titolo della pagina di un album">
 <a class="addthis_button_facebook"></a>
 <a class="addthis_button_twitter"></a>
@@ -35,7 +35,7 @@ Share di un Album<br />
 Share di un Record<br />
 <!-- AddThis Button BEGIN -->
 <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
-	 addThis:url="http://socialmusicdiscovering.com/script/wp_daniele/root/tests/controllers/testShare2.controller.php?classe=Record"
+	 addThis:url="http://socialmusicdiscovering.com/tests/controllers/testShare2.controller.php?classe=Record"
 	 addThis:title="Titolo della pagina di un record">
 <a class="addthis_button_facebook"></a>
 <a class="addthis_button_twitter"></a>

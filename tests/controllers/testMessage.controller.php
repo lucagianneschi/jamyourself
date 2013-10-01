@@ -23,9 +23,9 @@ and open the template in the editor.
     <body>
         <form action="javascript:sendComment()">
             <label for="comment" />
-<?php
-echo '<textarea id="comment" rows="' . $controller->config->inputCommentRowNumber . '" cols="' . $controller->config->inputCommentColumnNumber . '"></textarea>';
-?>
+	    <?php
+	    echo '<textarea id="comment" rows="' . $controller->config->inputCommentRowNumber . '" cols="' . $controller->config->inputCommentColumnNumber . '"></textarea>';
+	    ?>
             <input type="submit" value="Send Comment" name="sendComment" id="sendComment" />
         </form>
         <h2>
