@@ -89,8 +89,6 @@ class CommentBox {
 	    case 'Video':
 		$field = 'video';
 		break;
-	    default:
-		break;
 	}
 
 	$commentP = new CommentParse();
