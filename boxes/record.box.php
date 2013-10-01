@@ -173,7 +173,8 @@ class RecordBox {
 	    foreach ($songs as $song) {
 		$duration = $song->getDuration();
 		$objectId = $song->getObjectId();
-		$title = $song->getTitle();
+		$encodedTitle = $song->getTitle();
+		$title = parse_decode_string($encodedTitle);
 		$commentCounter = $song->getCommentCounter();
 		$loveCounter = $song->getLoveCounter();
 		$reviewCounter = NDB;
