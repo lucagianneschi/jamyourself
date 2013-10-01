@@ -88,7 +88,8 @@ class PostBox {
 			$objectId = $fromUser->getObjectId();
 		    $thumbnail = $fromUser->getProfileThumbnail();
 		    $type = $fromUser->getType();
-		    $username = $fromUser->getUsername();
+			$encodedUsername = $fromUser->getUsername();
+		    $username = parse_decode_string($encodedUsername);
 		}
 		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
 
@@ -97,7 +98,8 @@ class PostBox {
 		$loveCounter = $post->getLoveCounter();
 		$reviewCounter = NDB;
 		$shareCounter = $post->getShareCounter();
-		$text = $post->getText();
+		$encodedtext = $post->getText();
+		$text = parse_decode_string($encodedtext);
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
 		array_push($info, $postInfo);
