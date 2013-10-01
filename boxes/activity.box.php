@@ -162,7 +162,8 @@ class ActivityBox {
 	    foreach ($albums as $album) {
 		$imageCounter = $album->getImageCounter();
 		$objectId = $album->getObjectId();
-		$title = $album->getTitle();
+		$encodedTitle = $album->getTitle();
+		$title = parse_decode_string($encodedTitle);
 
 		$imageArray = array();
 		$imageP = new ImageParse();
@@ -204,15 +205,16 @@ class ActivityBox {
 
 		    $songP = new SongParse();
 		    $song = $songP->getSong($songId);
-		    $songTitle = $song->getTitle();
+			$encodedTitle = $song->getTitle();
+		    $songTitle = 
 
 		    $recordId = $activity->getRecord();
 		    $recordP = new RecordParse();
 		    $record = $recordP->getRecord($recordId);
 		    $thumbnailCover = $record->getThumbnailCover();
 			$objectId = $record->getObjectId();
-		    $title = $record->getTitle();
-			
+			$encodedTitle = $record->getTitle();
+		    $title = parse_decode_string($encodedTitle);
 			
 		    $fromUserId = $record->getFromUser();
 		    $fromUserP = new UserParse();
@@ -220,7 +222,9 @@ class ActivityBox {
 			$objectIdUser = $fromUserP->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
-		    $username = $user->getUsername();
+			$encodedUsername = $user->getUsername();
+		    $username = parse_decode_string($encodedUsername);
+			
 		    $fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 		    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title);
 		}
@@ -241,13 +245,17 @@ class ActivityBox {
 
 		    $eventP = new EventParse();
 		    $event = $eventP->getEvent($eventId);
-
-		    $address = $event->getAddress();
-		    $city = $event->getCity();
+			
+			$encodedAddress = $event->getAddress();
+		    $address = parse_decode_string($encodedAddress);
+			$encodedCity = $event->getCity();
+		    $city = parse_decode_string($encodedCity);
 		    $eventDate = $event->getEventDate();
-		    $locationName = $event->getLocationName();
+			$encodedLocationName = $event->getLocationName();
+		    $locationName = parse_decode_string($encodedLocationName);
 		    $thumbnail = $event->getThumbnail();
-		    $title = $event->getTitle();
+			$encodedTitle = $event->getTitle();
+		    $title = parse_decode_string($encodedTitle);
 			$objectId = $event->getObjectId();
 
 		    $eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title);
@@ -255,8 +263,8 @@ class ActivityBox {
 		$activityBox->eventInfo = $eventInfo;
 	    }
 	} else {
-	    $activityBox->eventInfo = "INFO TO BE PASSED FROM USERINFO BOX, ALREADY LOADED";
-	    $activityBox->recordInfo = "INFO TO BE PASSED FROM USERINFO BOX, ALREADY LOADED";
+	    $activityBox->eventInfo = "INFO ALREADY LOADED";
+	    $activityBox->recordInfo = "INFO ALREADY LOADED";
 	}
 	return $activityBox;
     }
