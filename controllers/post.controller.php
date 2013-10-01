@@ -21,6 +21,7 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
+require_once CLASSES_DIR . 'utils.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
 /**
@@ -114,7 +115,8 @@ class PostController extends REST {
 			$cmt->setStatus(null);
 			$cmt->setTags(null);
 			$cmt->setTitle(null);
-			$cmt->setText($text);
+			$encodedText = parse_encode_string($text);
+			$cmt->setText($encodedText);
 			$cmt->setToUser($toUserObjectId);
 			$cmt->setType('P');
 			$cmt->setVideo(null);

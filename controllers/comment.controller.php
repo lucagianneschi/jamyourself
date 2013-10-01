@@ -23,6 +23,7 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
+require_once CLASSES_DIR . 'utils.php';
 require_once SERVICES_DIR . 'mail.service.php';
 
 /**
@@ -97,7 +98,8 @@ class CommentController extends REST {
 	    $cmt->setShareCounter(0);
 	    $cmt->setTags(null);
 	    $cmt->setTitle(null);
-	    $cmt->setText($text);
+		$encodedText = parse_encode_string($text);
+	    $cmt->setText($encodedText);
 	    $cmt->setToUser('GuUAj83MGH');
 	    $cmt->setType('C');
 	    $cmt->setVote(null);

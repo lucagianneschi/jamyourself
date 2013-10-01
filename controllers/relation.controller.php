@@ -21,11 +21,14 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
+require_once CLASSES_DIR . 'userParse.class.php';
 require_once SERVICES_DIR . 'mail.service.php';
+
 define('RELDENIED', 'You are not allowed to send a relationship request to this user!');
 define('SELF', 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!');
 define('SBJ', 'Relation Request');
 define('SBJOK', 'Relation Request Accepted');
+
 /**
  * \brief	RelationController class 
  * \details	controller per invio e ricezione relazioni
@@ -49,7 +52,7 @@ class RelationController extends REST {
 		require_once SERVICES_DIR . 'mail.service.php'; 
 		#TODO
 		//simulo che l'utente in sessione sia GuUAj83MGH
-		require_once CLASSES_DIR . 'user.class.php';
+
 		$currentUser = new User('SPOTTER');
 		$currentUser->setObjectId('GuUAj83MGH');
 	
@@ -207,10 +210,10 @@ class RelationController extends REST {
 			if ($this->get_request_method() != 'POST') {
 				$this->response('', 406);
 			}
-			$fromUserObjectId = $_REQUEST['objectId'];		//mettere valori corretti
-			$toUserObjectId = $_REQUEST['objectId'];        //mettere valori corretti
-			$fromUserType = $_REQUEST['fromUserType'];		//mettere valori corretti
-			$toUserType = $_REQUEST['toUserType'];          //mettere valori corretti
+			$fromUserObjectId = $_REQUEST['objectId'];		
+			$toUserObjectId = $_REQUEST['objectId'];        
+			$fromUserType = $_REQUEST['fromUserType'];		
+			$toUserType = $_REQUEST['toUserType'];          
 			
 			//se l'utente cerca di avere relazione con se stesso esco con risposta a schermo
 			if ($fromUserObjectId == $toUserObjectId ){

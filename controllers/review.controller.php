@@ -22,6 +22,7 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
+require_once CLASSES_DIR . 'utils.php';
 require_once SERVICES_DIR . 'mail.service.php'; 
 define('SBJE', 'Your Event has been reviewed');
 define('SBJR', 'Your Record has been reviewed');
@@ -125,7 +126,8 @@ class ReviewController extends REST {
 			$review->setStatus(null);
 			$review->setTags(null);
 			$review->setTitle(null);
-			$review->setText($text);
+			$encodedText = parse_encode_string($text);
+			$review->setText($encodedText);
 			
 			#TODO
 			//$userParse = new UserParse();

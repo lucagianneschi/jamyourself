@@ -24,6 +24,7 @@ require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'utils.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
 /**
@@ -108,6 +109,8 @@ class MessageController extends REST {
 	    $message->setShareCounter(0);
 	    $message->setStatus(null);
 	    $message->setTags(null);
+		$encodedText = parse_encode_string($text);
+		$message->setText($encodedText);
 	    $message->setTitle(null);
 	    $message->setType('M');
 	    $message->setVideo(null);
