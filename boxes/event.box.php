@@ -336,7 +336,7 @@ class EventBox {
 		$objectId = $event->getObjectId();
 
 		$tags = array();
-		if (empty($event->getTags()) && $event->getTags() != null) {
+		if (count($event->getTags()) >0 && $event->getTags() != null) {
 		    foreach ($event->getTags() as $tag) {
 			$tag = parse_decode_string($tag);
 			array_push($tags, $tag);
