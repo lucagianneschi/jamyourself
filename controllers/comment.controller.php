@@ -63,20 +63,20 @@ class CommentController extends REST {
 	try {
 	    //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
 	    if ($this->get_request_method() != 'POST') {
-			$this->response('', 406);
+		$this->response('', 406);
 	    }
 
 	    if (!isset($this->request['text'])) {
-			$this->response(array('status' => "Bad Request", "msg" => "No comment specified"), 400);
+		$this->response(array('status' => "Bad Request", "msg" => "No comment specified"), 400);
 	    } elseif (!isset($this->request['toUser'])) {
-			$this->response(array('status' => "Bad Request", "msg" => "No toUser specified"), 400);
+		$this->response(array('status' => "Bad Request", "msg" => "No toUser specified"), 400);
 	    }
 
 	    $text = $_REQUEST['text'];
 	    if (strlen($text) < $this->config->minCommentSize) {
-			$this->response(array("Dimensione commento troppo corta | lungh: " . strlen($text)), 200);
+		$this->response(array("Dimensione commento troppo corta | lungh: " . strlen($text)), 200);
 	    } elseif (strlen($text) > $this->config->maxCommentSize) {
-			$this->response(array("Dimensione commento troppo lunga | lungh: " . strlen($text)), 200);
+		$this->response(array("Dimensione commento troppo lunga | lungh: " . strlen($text)), 200);
 	    }
 
 	    $objectId = $_REQUEST['objectId'];
@@ -87,10 +87,8 @@ class CommentController extends REST {
 	    $cmt->setCommentCounter(0);
 	    $cmt->setCommentators(null);
 	    $cmt->setComments(null);
-
 	    #TODO
-	    //$cmt->setFromUser($currentUser->getObjectId());
-	    $cmt->setFromUser('GuUAj83MGH');
+	    $cmt->setFromUser($currentUser);
 	    $cmt->setLocation(null);
 	    $cmt->setLoveCounter(0);
 	    $cmt->setLovers(null);
@@ -98,9 +96,9 @@ class CommentController extends REST {
 	    $cmt->setShareCounter(0);
 	    $cmt->setTags(null);
 	    $cmt->setTitle(null);
-		$encodedText = parse_encode_string($text);
+	    $encodedText = parse_encode_string($text);
 	    $cmt->setText($encodedText);
-	    $cmt->setToUser('GuUAj83MGH');
+	    $cmt->setToUser($currentUser);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);
 
@@ -108,13 +106,10 @@ class CommentController extends REST {
 	    $activity->setActive(true);
 	    $activity->setAccepted(true);
 	    $activity->setCounter(0);
-
-	    #TODO
-	    //$activity->setFromUser($currentUser);
-	    $activity->setFromUser('GuUAj83MGH');
+	    $activity->setFromUser($currentUser);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
-	    $activity->setRead(false); //OK?
+	    $activity->setRead(false);
 	    $activity->setStatus('A');
 
 	    switch ($classType) {
@@ -158,28 +153,28 @@ class CommentController extends REST {
 	    $commentParse = new CommentParse();
 	    $resCmt = $commentParse->saveComment($cmt);
 	    if (get_class($resCmt) == 'Error') {
-			$this->response(array($resCmt), 503);
+		$this->response(array($resCmt), 503);
 	    } else {
-			$activityParse = new ActivityParse();
-			$resActivity = $activityParse->saveActivity($activity);
-			if (get_class($resActivity) == 'Error') {
-				$this->rollback($resCmt->getObjectId());
-			}
+		$activityParse = new ActivityParse();
+		$resActivity = $activityParse->saveActivity($activity);
+		if (get_class($resActivity) == 'Error') {
+		    $this->rollback($resCmt->getObjectId());
+		}
 	    }
 	    $this->response(array('Your comment has been saved'), 200);
 	} catch (Exception $e) {
 	    $this->response(array('Error: ' . $e->getMessage()), 503);
-		}
+	}
     }
 
     private function rollback($objectId) {
-		$commentParse = new CommentParse();
-		$res = $commentParse->deleteComment($objectId);			
-		if (get_class($res) == 'Error') {
-			$this->response(array("Rollback KO"), 503);
-		} else {
-			$this->response(array("Rollback OK"), 503);
-		}
+	$commentParse = new CommentParse();
+	$res = $commentParse->deleteComment($objectId);
+	if (get_class($res) == 'Error') {
+	    $this->response(array("Rollback KO"), 503);
+	} else {
+	    $this->response(array("Rollback OK"), 503);
+	}
     }
 
 }
