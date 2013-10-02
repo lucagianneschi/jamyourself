@@ -168,7 +168,7 @@ class RecordBox {
 	$song->setLimit(50);
 	$songs = $song->getSongs();
 	if (get_class($songs) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $songs->getErrorMessage() . '<br/>';
+		return $songs;
 	} else {
 	    foreach ($songs as $song) {
 		$duration = $song->getDuration();
@@ -207,7 +207,7 @@ class RecordBox {
 	$recordP = new RecordParse();
 	$record = $recordP->getRecord($objectId);
 	if (get_class($record) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $record->getErrorMessage() . '<br/>';
+	    return $record;
 	} elseif ($record->getActive() == true) {
 	    $buylink = $record->getBuylink();
 	    $commentCounter = $record->getCommentCounter();
@@ -227,7 +227,7 @@ class RecordBox {
 	    $parseUser->setLimit(1000);
 	    $feats = $parseUser->getUsers();
 	    if (get_class($feats) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+			return $feats;
 	    } else {
 		foreach ($feats as $user) {
 		    $objectId = $user->getObjectId();
@@ -255,7 +255,7 @@ class RecordBox {
 	    $parseSong->setLimit(50);
 	    $songs = $parseSong->getSongs();
 	    if (get_class($songs) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $songs->getErrorMessage() . '<br/>';
+			return $songs;
 	    } else {
 		foreach ($songs as $song) {
 		    $duration = $song->getDuration();
@@ -276,7 +276,7 @@ class RecordBox {
 	    $userP = new UserParse();
 	    $fromUser = $userP->getUser($fromUserId);
 	    if (get_class($fromUser) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $fromUser->getErrorMessage() . '<br/>';
+			return $fromUser;
 	    } else {
 		$objectIdUser = $fromUser->getObjectId();
 		$thumbnail = $fromUser->getProfileThumbnail();
@@ -314,7 +314,7 @@ class RecordBox {
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
 	if (get_class($records) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
+	    return $records;
 	} else {
 	    foreach ($records as $record) {
 		$counter = ++$counter;
@@ -363,7 +363,7 @@ class RecordBox {
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
 	if (get_class($records) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $records->getErrorMessage() . '<br/>';
+	    return $records;
 	} else {
 	    foreach ($records as $record) {
 		$counter = ++$counter;
@@ -398,7 +398,7 @@ class RecordBox {
 	$recordP = new RecordParse();
 	$record = $recordP->getRecord($objectId);
 	if (get_class($record) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $record->getErrorMessage() . '<br/>';
+	    return $record;
 	} else {
 	    $featuring = array();
 	    $parseUser = new UserParse();
@@ -407,7 +407,7 @@ class RecordBox {
 	    $parseUser->setLimit(1000);
 	    $feats = $parseUser->getUsers();
 	    if (get_class($feats) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+			return $feats;
 	    } else {
 		foreach ($feats as $user) {
 		    $objectId = $user->getObjectId();
@@ -424,6 +424,10 @@ class RecordBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($record->getFromUser());
+		if (get_class($fromUser) == 'Error') {
+			return $fromUser;
+		}
+		
 	    $objectIdUser = $fromUser->getObjectId();
 	    $thumbnail = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();
