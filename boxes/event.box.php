@@ -179,7 +179,7 @@ class EventBox {
 	    $parseUser->setLimit(1000);
 	    $att = $parseUser->getUsers();
 	    if (get_class($att) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $att->getErrorMessage() . '<br/>';
+			return $att;
 	    } else {
 		foreach ($att as $user) {
 		    $objectId = $user->getObjectId();
@@ -189,7 +189,7 @@ class EventBox {
 		    $username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($attendee, $userInfo);
-		}
+			}
 	    }
 	    $encodedCity = $event->getCity();
 	    $city = parse_decode_string($encodedCity);
@@ -204,7 +204,7 @@ class EventBox {
 	    $parseUser1->setLimit(1000);
 	    $feats = $parseUser1->getUsers();
 	    if (get_class($feats) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+			return $feats;
 	    } else {
 		foreach ($feats as $user) {
 		    $objectId = $user->getObjectId();
@@ -224,7 +224,7 @@ class EventBox {
 	    $parseUser2->setLimit(1000);
 	    $inv = $parseUser2->getUsers();
 	    if (get_class($inv) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $inv->getErrorMessage() . '<br/>';
+			return $inv;
 	    } else {
 		foreach ($inv as $user) {
 		    $objectId = $user->getObjectId();
@@ -294,7 +294,7 @@ class EventBox {
 	$event->orderByDescending('createdAt');
 	$events = $event->getEvents();
 	if (get_class($events) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $events->getErrorMessage() . '<br/>';
+	    return $events;
 	} else {
 	    foreach ($events as $event) {
 		$counter = ++$counter;
@@ -317,7 +317,7 @@ class EventBox {
 		$parseUser->setLimit(1000);
 		$feats = $parseUser->getUsers();
 		if (get_class($feats) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+		    return $feats;
 		} else {
 		    foreach ($feats as $user) {
 			$objectId = $user->getObjectId();
@@ -371,7 +371,7 @@ class EventBox {
 	$recordP = new EventParse();
 	$event = $recordP->getEvent($objectId);
 	if (get_class($event) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $event->getErrorMessage() . '<br/>';
+	    return $event;
 	} else {
 
 	    $encodedAddress = $event->getAddress();
@@ -386,7 +386,7 @@ class EventBox {
 	    $parseUser->setLimit(1000);
 	    $feats = $parseUser->getUsers();
 	    if (get_class($feats) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $feats->getErrorMessage() . '<br/>';
+			return $feats;
 	    } else {
 		foreach ($feats as $user) {
 		    $objectId = $user->getObjectId();
@@ -418,6 +418,9 @@ class EventBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($event->getFromUser());
+		if (get_class($fromUser) == 'Error') {
+			return $fromUser;
+		}
 	    $objectIdUser = $fromUser->getObjectId();
 	    $thumbnailUser = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();
