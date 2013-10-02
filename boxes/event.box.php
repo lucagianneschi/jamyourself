@@ -248,11 +248,11 @@ class EventBox {
 	    $title = parse_decode_string($encodedTitle);
 	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 	    if (empty($attendee)) {
-		$attendee = 'NO ATTENDEE RIGHT NOW';
+		$attendee = NOATTENDEE;
 	    } elseif (empty($featuring)) {
-		$featuring = 'NO FEATURING FOR THIS EVENT';
+		$featuring = NOFEATEVE;
 	    } elseif (empty($invited)) {
-		$invited = 'NO INVITED FOR THIS EVENT';
+		$invited = NOINVITED;
 	    }
 	    $eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title);
 
@@ -346,7 +346,7 @@ class EventBox {
 		$encodedTitle = $event->getTitle();
 		$title = parse_decode_string($encodedTitle);
 		if (empty($featuring)) {
-		    $featuring = 'NO FEATURING FOR THIS EVENT';
+		    $featuring = NOFEATEVE;
 		}
 		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $objectId, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
@@ -411,7 +411,7 @@ class EventBox {
 	    $encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle);
 	    if (empty($featuring)) {
-		$featuring = 'NO FEATURING FOR THIS EVENT';
+		$featuring = NOFEATEVE;
 	    }
 	    $eventInfo = new EventInfoForUploadReviewPage($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title);
 	    $eventBox->recordInfoArray = $eventInfo;
