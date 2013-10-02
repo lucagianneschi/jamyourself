@@ -18,6 +18,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once ROOT_DIR . 'string.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
@@ -25,10 +26,7 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once SERVICES_DIR . 'mail.service.php';
 
-define('RELDENIED', 'You are not allowed to send a relationship request to this user!');
-define('SELF', 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!');
-define('SBJ', 'Relation Request');
-define('SBJOK', 'Relation Request Accepted');
+
 
 /**
  * \brief	RelationController class 
@@ -109,7 +107,7 @@ class RelationController extends REST {
 	    }
 	    $mail->SmtpClose();
 	    unset($mail);
-	    $this->response(array('Your request has been sent correctly'), 200);
+	    $this->response(array(RELDENIED), 200);
 	} catch (Exception $e) {
 	    $this->response(array('Error: ' . $e->getMessage()), 503);
 	}
@@ -178,7 +176,7 @@ class RelationController extends REST {
 		    if ($toUserType == 'VENUE' || $toUserType == 'JAMMER') {
 			//rimuovi collaboration
 		    } else {
-			$this->response(array('No relation to remove'), 200);
+			$this->response(array(NORELDEL), 200);
 		    }
 		    break;
 	    }
@@ -266,7 +264,7 @@ class RelationController extends REST {
 		}
 		$mail->SmtpClose();
 		unset($mail);
-		$this->response(array('Your request has been sent correctly'), 200);
+		$this->response(array(RELSAVED), 200);
 	    }
 	} catch (Exception $e) {
 	    $this->response(array('Error: ' . $e->getMessage()), 503);
