@@ -130,7 +130,7 @@ class AlbumBox {
 		$objectId = $image->getObjectId();
 		$tags = $image->getTags();
 		if (empty($tags)) {
-		    $tags = 'NO TAGS TO DISPLAY';
+		    $tags = NOTAG;
 		}
 		$thumbnail = $image->getThumbnail();
 
