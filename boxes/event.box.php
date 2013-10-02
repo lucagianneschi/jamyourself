@@ -179,7 +179,7 @@ class EventBox {
 	    $parseUser->setLimit(1000);
 	    $att = $parseUser->getUsers();
 	    if (get_class($att) == 'Error') {
-			return $att;
+		return $att;
 	    } else {
 		foreach ($att as $user) {
 		    $objectId = $user->getObjectId();
@@ -189,7 +189,7 @@ class EventBox {
 		    $username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($attendee, $userInfo);
-			}
+		}
 	    }
 	    $encodedCity = $event->getCity();
 	    $city = parse_decode_string($encodedCity);
@@ -204,7 +204,7 @@ class EventBox {
 	    $parseUser1->setLimit(1000);
 	    $feats = $parseUser1->getUsers();
 	    if (get_class($feats) == 'Error') {
-			return $feats;
+		return $feats;
 	    } else {
 		foreach ($feats as $user) {
 		    $objectId = $user->getObjectId();
@@ -224,7 +224,7 @@ class EventBox {
 	    $parseUser2->setLimit(1000);
 	    $inv = $parseUser2->getUsers();
 	    if (get_class($inv) == 'Error') {
-			return $inv;
+		return $inv;
 	    } else {
 		foreach ($inv as $user) {
 		    $objectId = $user->getObjectId();
@@ -336,7 +336,7 @@ class EventBox {
 		$objectId = $event->getObjectId();
 
 		$tags = array();
-		if (count($event->getTags()) >0 && $event->getTags() != null) {
+		if (count($event->getTags()) > 0 && $event->getTags() != null) {
 		    foreach ($event->getTags() as $tag) {
 			$tag = parse_decode_string($tag);
 			array_push($tags, $tag);
@@ -386,7 +386,7 @@ class EventBox {
 	    $parseUser->setLimit(1000);
 	    $feats = $parseUser->getUsers();
 	    if (get_class($feats) == 'Error') {
-			return $feats;
+		return $feats;
 	    } else {
 		foreach ($feats as $user) {
 		    $objectId = $user->getObjectId();
@@ -401,7 +401,7 @@ class EventBox {
 	    $encodedLocationName = $event->getLocationName();
 	    $locationName = parse_decode_string($encodedLocationName);
 	    $tags = array();
-	    if (count($event->getTags()) > 0  && $event->getTags() != null) {
+	    if (count($event->getTags()) > 0 && $event->getTags() != null) {
 		foreach ($event->getTags() as $tag) {
 		    $tag = parse_decode_string($tag);
 		    array_push($tags, $tag);
@@ -418,9 +418,9 @@ class EventBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($event->getFromUser());
-		if (get_class($fromUser) == 'Error') {
-			return $fromUser;
-		}
+	    if (get_class($fromUser) == 'Error') {
+		return $fromUser;
+	    }
 	    $objectIdUser = $fromUser->getObjectId();
 	    $thumbnailUser = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();

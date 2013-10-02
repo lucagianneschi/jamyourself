@@ -131,16 +131,16 @@ class AlbumBox {
 		$tags = $image->getTags();
 		if (empty($tags)) {
 		    $tags = 'NO TAGS TO DISPLAY';
-		} 
+		}
 		$thumbnail = $image->getThumbnail();
 
 		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail);
 		array_push($info, $imageInfo);
 	    }
-		if (empty($info)) {
-			$albumBox->imageArray = NODATA;
+	    if (empty($info)) {
+		$albumBox->imageArray = NODATA;
 	    } else {
-			$albumBox->imageArray = $info;
+		$albumBox->imageArray = $info;
 	    }
 	}
 	return $albumBox;
@@ -184,10 +184,10 @@ class AlbumBox {
 		$albumInfo = new AlbumInfo($counters, $imageCounter, $objectId, $thumbnailCover, $title);
 		array_push($info, $albumInfo);
 	    }
-		if (empty($info)) {
-			$albumBox->albumInfoArray = NODATA;
+	    if (empty($info)) {
+		$albumBox->albumInfoArray = NODATA;
 	    } else {
-			$albumBox->albumInfoArray = $info;
+		$albumBox->albumInfoArray = $info;
 	    }
 	    $albumBox->albumCounter = $counter;
 	}

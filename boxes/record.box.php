@@ -168,7 +168,7 @@ class RecordBox {
 	$song->setLimit(50);
 	$songs = $song->getSongs();
 	if (get_class($songs) == 'Error') {
-		return $songs;
+	    return $songs;
 	} else {
 	    foreach ($songs as $song) {
 		$duration = $song->getDuration();
@@ -227,7 +227,7 @@ class RecordBox {
 	    $parseUser->setLimit(1000);
 	    $feats = $parseUser->getUsers();
 	    if (get_class($feats) == 'Error') {
-			return $feats;
+		return $feats;
 	    } else {
 		foreach ($feats as $user) {
 		    $objectId = $user->getObjectId();
@@ -255,7 +255,7 @@ class RecordBox {
 	    $parseSong->setLimit(50);
 	    $songs = $parseSong->getSongs();
 	    if (get_class($songs) == 'Error') {
-			return $songs;
+		return $songs;
 	    } else {
 		foreach ($songs as $song) {
 		    $duration = $song->getDuration();
@@ -276,7 +276,7 @@ class RecordBox {
 	    $userP = new UserParse();
 	    $fromUser = $userP->getUser($fromUserId);
 	    if (get_class($fromUser) == 'Error') {
-			return $fromUser;
+		return $fromUser;
 	    } else {
 		$objectIdUser = $fromUser->getObjectId();
 		$thumbnail = $fromUser->getProfileThumbnail();
@@ -407,7 +407,7 @@ class RecordBox {
 	    $parseUser->setLimit(1000);
 	    $feats = $parseUser->getUsers();
 	    if (get_class($feats) == 'Error') {
-			return $feats;
+		return $feats;
 	    } else {
 		foreach ($feats as $user) {
 		    $objectId = $user->getObjectId();
@@ -424,10 +424,10 @@ class RecordBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($record->getFromUser());
-		if (get_class($fromUser) == 'Error') {
-			return $fromUser;
-		}
-		
+	    if (get_class($fromUser) == 'Error') {
+		return $fromUser;
+	    }
+
 	    $objectIdUser = $fromUser->getObjectId();
 	    $thumbnail = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();

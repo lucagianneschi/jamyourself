@@ -107,14 +107,14 @@ class ReviewBox {
 		$userP = new UserParse();
 		$user = $userP->getUser($review->getFromUser());
 		if (get_class($user) == 'Error') {
-			return $user;
+		    return $user;
 		} else {
-			$objectIdUser = $user->getObjectId();
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$encodedUsername = $user->getUserName();
-			$username = parse_decode_string($encodedUsername);
-			$fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
+		    $objectIdUser = $user->getObjectId();
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $encodedUsername = $user->getUserName();
+		    $username = parse_decode_string($encodedUsername);
+		    $fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 		}
 
 		$objectId = $review->getObjectId();
@@ -267,7 +267,7 @@ class ReviewBox {
 	$reviews = $review->getComments();
 	if (count($reviews) != 0) {
 	    if (get_class($reviews) == 'Error') {
-			return $reviews;
+		return $reviews;
 	    } else {
 		foreach ($reviews as $review) {
 		    $counter = ++$counter;
@@ -276,9 +276,9 @@ class ReviewBox {
 			    $id = $review->getEvent();
 			    $eventP = new EventParse();
 			    $event = $eventP->getEvent($id);
-				if (get_class($event) == 'Error') {
-					return $event;
-				}
+			    if (get_class($event) == 'Error') {
+				return $event;
+			    }
 			    switch ($type) {
 				case 'SPOTTER':
 				    $userId = $event->getFromUser();
@@ -298,9 +298,9 @@ class ReviewBox {
 			    $id = $review->getRecord();
 			    $recordP = new RecordParse();
 			    $record = $recordP->getRecord($id);
-				if (get_class($record) == 'Error') {
-					return $record;
-				}
+			    if (get_class($record) == 'Error') {
+				return $record;
+			    }
 			    switch ($type) {
 				case 'SPOTTER':
 				    $userId = $record->getFromUser();
@@ -332,7 +332,7 @@ class ReviewBox {
 		    $userP = new UserParse();
 		    $user = $userP->getUser($userId);
 		    if (get_class($user) == 'Error') {
-				return $user;
+			return $user;
 		    } else {
 			$objectId = $user->getObjectId();
 			$thumbnail = $user->getProfileThumbnail();

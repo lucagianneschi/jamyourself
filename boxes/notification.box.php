@@ -95,7 +95,7 @@ class NotificationBox {
 		$activity2->where('active', true);
 		$relationCounter = $activity2->getCount();
 		if (get_class($relationCounter) == 'Error') {
-			return $relationCounter;
+		    return $relationCounter;
 		} else {
 		    $notificationBox->relationCounter = $relationCounter;
 		}
@@ -196,7 +196,7 @@ class NotificationBox {
 	$activity->where('active', true);
 	$invitations = $activity->getActivity();
 	if (get_class($invitations) == 'Error') {
-		return $invitations;
+	    return $invitations;
 	} else {
 	    foreach ($invitations as $invitation) {
 		$createdAt = $invitation->getCreatedAt();
@@ -216,9 +216,9 @@ class NotificationBox {
 		array_push($invitationArray, $notificationInfo);
 	    }
 	    if (empty($invitationArray)) {
-			$notificationBox->notificationArray = NODATA;
+		$notificationBox->notificationArray = NODATA;
 	    } else {
-			$notificationBox->notificationArray = $invitationArray;
+		$notificationBox->notificationArray = $invitationArray;
 	    }
 	}
 	return $notificationBox;
@@ -277,9 +277,9 @@ class NotificationBox {
 		array_push($relationArray, $notificationInfo);
 	    }
 	    if (empty($relationArray)) {
-			$notificationBox->notificationArray = NODATA;
+		$notificationBox->notificationArray = NODATA;
 	    } else {
-			$notificationBox->notificationArray = $relationArray;
+		$notificationBox->notificationArray = $relationArray;
 	    }
 	}
 	return $notificationBox;
