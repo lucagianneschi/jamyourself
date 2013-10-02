@@ -184,7 +184,7 @@ class RecordBox {
 		array_push($tracklist, $songInfo);
 	    }
 	    if (empty($tracklist)) {
-		$recordBox->tracklist = NODATA;
+		$recordBox->tracklist = NOTRACK;
 	    } else {
 		$recordBox->tracklist = $tracklist;
 	    }
@@ -289,7 +289,7 @@ class RecordBox {
 	    $recordBox->recordCounter = NDB;
 	    $recordBox->recordInfoArray = $recordInfo;
 	    if (empty($tracklist)) {
-		$recordBox->tracklist = NODATA;
+		$recordBox->tracklist = NOTRACK;
 	    } else {
 		$recordBox->tracklist = $tracklist;
 	    }

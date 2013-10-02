@@ -85,10 +85,10 @@ class RelationsBox {
 		    }
 		}
 		if (empty($followingArray)) {
-		    $followingArray = 'YOU ARE CURRENTLY FOLLOWING NOONE';
+		    $followingArray = NOFOLLOWING;
 		}
 		if (empty($friendshipArray)) {
-		    $friendshipArray = 'YOU HAVE NO FRIENDS YET';
+		    $friendshipArray = NOFRIENDS;
 		}
 
 		$info = array('followers' => ND, 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => ND, 'jammersCollaborators' => ND);
@@ -157,13 +157,13 @@ class RelationsBox {
 		    }
 		}
 		if (empty($followersArray)) {
-		    $followersArray = 'NO FOLLOWERS YET';
+		    $followersArray = NOFOLLOWERS;
 		}
 		if (empty($venuesArray)) {
-		    $venuesArray = 'NO COLLABORATION WITH VENUES YET';
+		    $venuesArray = NOVENUE;
 		}
 		if (empty($jammersArray)) {
-		    $jammersArray = 'NO COLLABORATION WITH JAMMER YET';
+		    $jammersArray = NOJAMMER;
 		}
 		$info = array('followers' => $followersArray, 'following' => ND, 'friendship' => ND, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
 		break;
