@@ -168,6 +168,7 @@ class ActivityBox {
 		$imageArray = array();
 		$imageP = new ImageParse();
 		$imageP->wherePointer('album', 'Album', $album->getObjectId());
+		$imageP->where('active', true);
 		$imageP->setLimit(4);
 		$imageP->orderByDescending('updatedAt');
 		$images = $imageP->getImages();
@@ -200,44 +201,51 @@ class ActivityBox {
 	    $lastSongP->where('active', true);
 	    $lastSongP->orderByDescending('createdAt');
 	    $lastSong = $lastSongP->getActivities();
-	    if (get_class($lastSong) == 'Error') 
-			return $lastSong;
+	    if (get_class($lastSong) == 'Error') {
+		return $lastSong;
 	    } else {
 		foreach ($lastSong as $activity) {
 		    $songId = $activity->getSong();
-
 		    $songP = new SongParse();
 		    $song = $songP->getSong($songId);
 		    if (get_class($song) == 'Error') {
-				return $song;
-		    }
-		    $encodedTitle = $song->getTitle();
-		    $songTitle = parse_decode_string($encodedTitle);
-		    $recordId = $activity->getRecord();
-		    $recordP = new RecordParse();
-		    $record = $recordP->getRecord($recordId);
-		    $thumbnailCover = $record->getThumbnailCover();
-		    $objectId = $record->getObjectId();
-		    $encodedRecTitle = $record->getTitle();
-		    $title = parse_decode_string($encodedRecTitle);
+			return $song;
+		    } elseif ($song->getActive() == true) {
+			$encodedTitle = $song->getTitle();
+			$songTitle = parse_decode_string($encodedTitle);
 
-		    $fromUserId = $record->getFromUser();
-		    $fromUserP = new UserParse();
-		    $user = $fromUserP->getUser($fromUserId);
-		    if (get_class($user) == 'Error') {
+			$recordId = $activity->getRecord();
+			$recordP = new RecordParse();
+			$record = $recordP->getRecord($recordId);
+			if (get_class($record) == 'Error') {
+			    return $record;
+			} else {
+			    $thumbnailCover = $record->getThumbnailCover();
+			    $objectId = $record->getObjectId();
+			    $encodedRecTitle = $record->getTitle();
+			    $title = parse_decode_string($encodedRecTitle);
+			    $fromUserId = $record->getFromUser();
+			    $fromUserP = new UserParse();
+			    $user = $fromUserP->getUser($fromUserId);
+			    if (get_class($user) == 'Error') {
 				return $user;
+			    } else {
+				$objectIdUser = $fromUserP->getObjectId();
+				$thumbnail = $user->getProfileThumbnail();
+				$type = $user->getType();
+				$encodedUsername = $user->getUsername();
+				$username = parse_decode_string($encodedUsername);
+				$fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
+			    }
+			    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title);
+			}
+		    } else {
+			$recordInfo = 'NO DATA FOR LAST SONG LISTENED';
 		    }
-		    $objectIdUser = $fromUserP->getObjectId();
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $encodedUsername = $user->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-
-		    $fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
-		    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title);
 		}
-		$activityBox->recordInfo = $recordInfo;
 	    }
+	    $activityBox->recordInfo = $recordInfo;
+
 	    $lastEventP = new ActivityParse();
 	    $lastEventP->setLimit(1);
 	    $lastEventP->wherePointer('fromUser', '_User', $objectId);
@@ -246,38 +254,39 @@ class ActivityBox {
 	    $lastEventP->orderByDescending('createdAt');
 	    $lastEvent = $lastEventP->getActivities();
 	    if (get_class($lastEvent) == 'Error') {
-			return $lastEvent;
+		return $lastEvent;
 	    } else {
 		foreach ($lastEvent as $activity) {
 		    $eventId = $activity->getEvent();
 		    $eventP = new EventParse();
 		    $event = $eventP->getEvent($eventId);
 		    if (get_class($event) == 'Error') {
-				return $event;
+			return $event;
+		    } elseif ($event->getActive() == true) {
+			$encodedAddress = $event->getAddress();
+			$address = parse_decode_string($encodedAddress);
+			$encodedCity = $event->getCity();
+			$city = parse_decode_string($encodedCity);
+			$eventDate = $event->getEventDate();
+			$encodedLocationName = $event->getLocationName();
+			$locationName = parse_decode_string($encodedLocationName);
+			$thumbnail = $event->getThumbnail();
+			$encodedTitle = $event->getTitle();
+			$title = parse_decode_string($encodedTitle);
+			$objectId = $event->getObjectId();
+			$eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title);
+		    } else {
+			$eventInfo = 'NO DATA FOR LAST CONFIRMED EVENT';
 		    }
-		    $encodedAddress = $event->getAddress();
-		    $address = parse_decode_string($encodedAddress);
-		    $encodedCity = $event->getCity();
-		    $city = parse_decode_string($encodedCity);
-		    $eventDate = $event->getEventDate();
-		    $encodedLocationName = $event->getLocationName();
-		    $locationName = parse_decode_string($encodedLocationName);
-		    $thumbnail = $event->getThumbnail();
-		    $encodedTitle = $event->getTitle();
-		    $title = parse_decode_string($encodedTitle);
-		    $objectId = $event->getObjectId();
-
-		    $eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title);
 		}
-		$activityBox->eventInfo = $eventInfo;
 	    }
+	    $activityBox->eventInfo = $eventInfo;
 	} else {
-	    $activityBox->eventInfo = "INFO ALREADY LOADED";
 	    $activityBox->recordInfo = "INFO ALREADY LOADED";
+	    $activityBox->eventInfo = "INFO ALREADY LOADED";
 	}
 	return $activityBox;
     }
 
 }
-
 ?>
