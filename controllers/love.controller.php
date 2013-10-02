@@ -17,6 +17,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 
 require_once ROOT_DIR . 'config.php';
+require_once ROOT_DIR . 'string.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
@@ -44,7 +45,7 @@ class LoveController extends REST {
 		
 		#TODO
 		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
-		//questa sezione prima del try-catch dovrà sparire
+		//questa sezione prima del try-catch dovrï¿½ sparire
 		require_once CLASSES_DIR . 'user.class.php';
 		$currentUser = new User('SPOTTER');
 		$currentUser->setObjectId('GuUAj83MGH');
@@ -141,7 +142,7 @@ class LoveController extends REST {
 			}
 			
 			if (get_class($res) == 'Error') {
-				$this->response(array('Error incrementing Love'), 503);
+				$this->response(array(LOVEPLUSERR), 503);
 			} else {
 				//salvo activity
 				$activityParse = new ActivityParse();
@@ -166,7 +167,7 @@ class LoveController extends REST {
 		
 		#TODO
 		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
-		//questa sezione prima del try-catch dovrà sparire
+		//questa sezione prima del try-catch dovrï¿½ sparire
 		require_once CLASSES_DIR . 'user.class.php';
 		$currentUser = new User('SPOTTER');
 		$currentUser->setObjectId('GuUAj83MGH');
@@ -264,7 +265,7 @@ class LoveController extends REST {
 			}
 			
         	if (get_class($res) == 'Error') {
-				$this->response(array('Error decrementing Love'), 503);
+				$this->response(array(LOVEMINUSERR), 503);
 			} else {
 				//salvo activity
 				$activityParse = new ActivityParse();
@@ -358,9 +359,9 @@ class LoveController extends REST {
 		}
 		
 		if (get_class($res) == 'Error') {
-			$this->response(array("Rollback KO"), 503);
+			$this->response(array(ROLLKO), 503);
 		} else {
-			$this->response(array("Rollback OK"), 503);
+			$this->response(array(ROLLOK), 503);
 		}
 	}
 }
