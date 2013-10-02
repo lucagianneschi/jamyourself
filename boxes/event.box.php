@@ -401,7 +401,7 @@ class EventBox {
 	    $encodedLocationName = $event->getLocationName();
 	    $locationName = parse_decode_string($encodedLocationName);
 	    $tags = array();
-	    if (empty($event->getTags()) && $event->getTags() != null) {
+	    if (count($event->getTags()) > 0  && $event->getTags() != null) {
 		foreach ($event->getTags() as $tag) {
 		    $tag = parse_decode_string($tag);
 		    array_push($tags, $tag);
@@ -418,7 +418,7 @@ class EventBox {
 
 	    $fromUserP = new UserParse();
 	    $fromUser = $fromUserP->getUser($event->getFromUser());
-	    $objectIdUser = $fromUserP->getObjectId();
+	    $objectIdUser = $fromUser->getObjectId();
 	    $thumbnailUser = $fromUser->getProfileThumbnail();
 	    $type = $fromUser->getType();
 	    $encodedUsername = $fromUser->getUsername();
