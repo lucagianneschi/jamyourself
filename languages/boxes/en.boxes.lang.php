@@ -1,0 +1,6 @@
+<?php
+
+define('NODATA', 'NO DATA TO DISPLAY');
+define('ND', 'NOT DEFINED FOR THIS USER');
+define('NDB', 'NON DEFININDE FOR THIS BOX');
+?>
