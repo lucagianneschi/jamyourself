@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 echo "<h2>TEST GENERICI</h2>";
 /*
