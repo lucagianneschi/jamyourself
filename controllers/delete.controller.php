@@ -17,10 +17,8 @@
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
-
-define('CND', 'Cannot delete this element: you are not its owner!');
-define('SBJ', 'Account delation confirmed');
 require_once ROOT_DIR . 'config.php';
+require_once ROOT_DIR . 'string.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
@@ -240,7 +238,7 @@ class DeleteController extends REST {
 	    }
 
 	    if (get_class($res) == 'Error') {
-		$this->response(array('Error deleting this element'), 503);
+		$this->response(array(DELERR), 503);
 	    } else {
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);
@@ -308,9 +306,9 @@ class DeleteController extends REST {
 		break;
 	}
 	if (get_class($res) == 'Error') {
-	    $this->response(array("Rollback KO"), 503);
+	    $this->response(array(ROLLKO), 503);
 	} else {
-	    $this->response(array("Rollback OK"), 503);
+	    $this->response(array(ROLLOK), 503);
 	}
     }
 
