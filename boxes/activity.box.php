@@ -157,7 +157,6 @@ class ActivityBox {
 	$albumUpdated->orderByDescending('updatedAt');
 	$albums = $albumUpdated->getAlbums();
 	if (get_class($albums) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $albums->getErrorMessage() . '<br/>';
 	    return $albums;
 	} else {
 	    foreach ($albums as $album) {
@@ -173,7 +172,6 @@ class ActivityBox {
 		$imageP->orderByDescending('updatedAt');
 		$images = $imageP->getImages();
 		if (get_class($images) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $images->getErrorMessage() . '<br/>';
 		    return $images;
 		} else {
 		    foreach ($images as $image) {
@@ -202,9 +200,8 @@ class ActivityBox {
 	    $lastSongP->where('active', true);
 	    $lastSongP->orderByDescending('createdAt');
 	    $lastSong = $lastSongP->getActivities();
-	    if (get_class($lastSong) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $lastSong->getErrorMessage() . '<br/>';
-		return $lastSong;
+	    if (get_class($lastSong) == 'Error') 
+			return $lastSong;
 	    } else {
 		foreach ($lastSong as $activity) {
 		    $songId = $activity->getSong();
@@ -212,8 +209,7 @@ class ActivityBox {
 		    $songP = new SongParse();
 		    $song = $songP->getSong($songId);
 		    if (get_class($song) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $song->getErrorMessage() . '<br/>';
-			return $song;
+				return $song;
 		    }
 		    $encodedTitle = $song->getTitle();
 		    $songTitle = parse_decode_string($encodedTitle);
@@ -229,8 +225,7 @@ class ActivityBox {
 		    $fromUserP = new UserParse();
 		    $user = $fromUserP->getUser($fromUserId);
 		    if (get_class($user) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
-			return $user;
+				return $user;
 		    }
 		    $objectIdUser = $fromUserP->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
@@ -251,18 +246,15 @@ class ActivityBox {
 	    $lastEventP->orderByDescending('createdAt');
 	    $lastEvent = $lastEventP->getActivities();
 	    if (get_class($lastEvent) == 'Error') {
-		return $lastEvent;
+			return $lastEvent;
 	    } else {
 		foreach ($lastEvent as $activity) {
 		    $eventId = $activity->getEvent();
-
 		    $eventP = new EventParse();
 		    $event = $eventP->getEvent($eventId);
 		    if (get_class($event) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $event->getErrorMessage() . '<br/>';
-			return $event;
+				return $event;
 		    }
-
 		    $encodedAddress = $event->getAddress();
 		    $address = parse_decode_string($encodedAddress);
 		    $encodedCity = $event->getCity();
