@@ -58,7 +58,7 @@ class PostController extends REST {
 		
 		#TODO
 		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
-		//questa sezione prima del try-catch dovrà sparire
+		//questa sezione prima del try-catch dovrï¿½ sparire
 		require_once CLASSES_DIR . 'user.class.php';
 		$fromUser = new User('SPOTTER');
 		$fromUser->setObjectId('GuUAj83MGH');
@@ -72,9 +72,9 @@ class PostController extends REST {
 			
 			//controllo i parametri
 			if (!isset($this->request['text'])) {
-				$this->response(array('status' => "Bad Request", "msg" => "No comment specified"), 400);
+				$this->response(array('status' => "Bad Request", "msg" => NOPOST), 400);
 			} elseif (!isset($this->request['toUser'])) {
-				$this->response(array('status' => "Bad Request", "msg" => "No toUser specified"), 400);
+				$this->response(array('status' => "Bad Request", "msg" => NOTOUSER), 400);
 			}
 			
 			//recupero gli utenti fromUser e toUser
@@ -84,9 +84,9 @@ class PostController extends REST {
 			//recupero e controllo il post
 			$text = $_REQUEST['text'];
 			if (strlen($text) < $this->config->minPostSize) {
-				$this->response(array("Dimensione post troppo corta | lungh: ".strlen($text)), 200);
+				$this->response(array(SHORTPOST .strlen($text)), 200);
 			} elseif (strlen($text) > $this->config->maxPostSize) {
-				$this->response(array("Dimensione post troppo lunga | lungh: ".strlen($text)), 200);
+				$this->response(array(LONGPOST .strlen($text)), 200);
 			} 
 			
 			//imposto i valori per il salvataggio del post
@@ -160,8 +160,7 @@ class PostController extends REST {
 					$this->rollback($resCmt->getObjectId());
 				}
 			}
-			//risposta
-			$this->response(array('Your post has been saved'), 200);
+			$this->response(array(POSTSAVED), 200);
 		} catch (Exception $e) {
             $this->response($e, 503);
         }
