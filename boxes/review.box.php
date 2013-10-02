@@ -100,18 +100,23 @@ class ReviewBox {
 	$review->orderByDescending('createdAt');
 	$reviews = $review->getComments();
 	if (get_class($reviews) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
+	    return $reviews;
 	} else {
 	    foreach ($reviews as $review) {
 
 		$userP = new UserParse();
 		$user = $userP->getUser($review->getFromUser());
-		$objectIdUser = $user->getObjectId();
-		$thumbnail = $user->getProfileThumbnail();
-		$type = $user->getType();
-		$encodedUsername = $user->getUserName();
-		$username = parse_decode_string($encodedUsername);
-		$fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
+		if (get_class($user) == 'Error') {
+			return $user;
+		} else {
+			$objectIdUser = $user->getObjectId();
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
+			$encodedUsername = $user->getUserName();
+			$username = parse_decode_string($encodedUsername);
+			$fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
+		}
+
 		$objectId = $review->getObjectId();
 		$rating = $review->getVote();
 
@@ -173,7 +178,7 @@ class ReviewBox {
 	$review->orderByDescending('createdAt');
 	$reviews = $review->getComments();
 	if (get_class($reviews) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
+	    return $review;
 	} else {
 	    foreach ($reviews as $review) {
 		$counter = ++$counter;
@@ -181,7 +186,7 @@ class ReviewBox {
 		$userP = new UserParse();
 		$user = $userP->getUser($review->getFromUser());
 		if (get_class($user) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
+		    return $user;
 		} else {
 		    $objectId = $user->getObjectId();
 		    $thumbnail = $user->getProfileThumbnail();
@@ -262,7 +267,7 @@ class ReviewBox {
 	$reviews = $review->getComments();
 	if (count($reviews) != 0) {
 	    if (get_class($reviews) == 'Error') {
-		echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $reviews->getErrorMessage() . '<br/>';
+			return $reviews;
 	    } else {
 		foreach ($reviews as $review) {
 		    $counter = ++$counter;
@@ -271,6 +276,9 @@ class ReviewBox {
 			    $id = $review->getEvent();
 			    $eventP = new EventParse();
 			    $event = $eventP->getEvent($id);
+				if (get_class($event) == 'Error') {
+					return $event;
+				}
 			    switch ($type) {
 				case 'SPOTTER':
 				    $userId = $event->getFromUser();
@@ -290,6 +298,9 @@ class ReviewBox {
 			    $id = $review->getRecord();
 			    $recordP = new RecordParse();
 			    $record = $recordP->getRecord($id);
+				if (get_class($record) == 'Error') {
+					return $record;
+				}
 			    switch ($type) {
 				case 'SPOTTER':
 				    $userId = $record->getFromUser();
@@ -321,7 +332,7 @@ class ReviewBox {
 		    $userP = new UserParse();
 		    $user = $userP->getUser($userId);
 		    if (get_class($user) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
+				return $user;
 		    } else {
 			$objectId = $user->getObjectId();
 			$thumbnail = $user->getProfileThumbnail();
