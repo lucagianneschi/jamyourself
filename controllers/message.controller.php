@@ -76,11 +76,11 @@ class MessageController extends REST {
 	    //$currentUser = $_SESSION['currentUser'];
 	    //controllo i parametri
 	    if (!isset($this->request['text'])) {
-		$this->response(array('status' => "Bad Request", "msg" => "No comment specified"), 400);
+		$this->response(array('status' => "Bad Request", "msg" => NOMESSAGE), 400);
 	    } elseif (!isset($this->request['toUser'])) {
-		$this->response(array('status' => "Bad Request", "msg" => "No toUser specified"), 400);
+		$this->response(array('status' => "Bad Request", "msg" => NOTOUSER), 400);
 	    } elseif (!isset($this->request['fromUser'])) {
-		$this->response(array('status' => "Bad Request", "msg" => "No fromUser specified"), 400);
+		$this->response(array('status' => "Bad Request", "msg" => NOFROMUSER), 400);
 	    }
 
 	    $text = $_REQUEST['text'];
@@ -88,7 +88,7 @@ class MessageController extends REST {
 	    $fromUserObjectId = $this->request['fromUser'];
 
 	    if (strlen($text) < $this->config->minMessageSize) {
-		$this->response(array("Dimensione messaggio troppo corta | lungh: " . strlen($text)), 200);
+		$this->response(array(SHORTMESSAGE . strlen($text)), 200);
 	    }
 
 	    $message = new Comment();
@@ -161,7 +161,7 @@ class MessageController extends REST {
 		    $this->rollback($resCmt->getObjectId());
 		}
 	    }
-	    $this->response(array('Your message has been sent'), 200);
+	    $this->response(array(MESSAGESAVED), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
@@ -171,9 +171,9 @@ class MessageController extends REST {
 	$commentParse = new CommentParse();
 	$res = $commentParse->deleteComment($objectId);
 	if (get_class($res) == 'Error') {
-	    $this->response(array("Rollback KO"), 503);
+	    $this->response(array(ROLLKO), 503);
 	} else {
-	    $this->response(array("Rollback OK"), 503);
+	    $this->response(array(ROLLOK), 503);
 	}
     }
 
