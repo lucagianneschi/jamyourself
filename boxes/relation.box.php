@@ -48,10 +48,8 @@ class RelationsBox {
 		$activityFollowing->whereInclude('toUser');
 		$activityFollowing->orderByDescending('createdAt');
 		$following = $activityFollowing->getActivities();
-		if (count($following) == 0) {
-		    $following = NODATA;
-		} elseif (get_class($following) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $following->getErrorMessage() . '<br/>';
+		if (get_class($following) == 'Error') {
+		    return $following;
 		} else {
 		    foreach ($following->toUser as $toUser) {
 			$objectId = $toUser->getObjectId();
@@ -73,10 +71,9 @@ class RelationsBox {
 		$activityFriendship->whereInclude('toUser');
 		$activityFriendship->orderByDescending('createdAt');
 		$friendship = $activityFriendship->getActivities();
-		if ($friendship != 0) {
-		    if (get_class($friendship) == 'Error') {
-			echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $friendship->getErrorMessage() . '<br/>';
-		    } else {
+		 if (get_class($friendship) == 'Error') {
+				return $friendship;
+		 } else {
 			foreach ($friendship->toUser as $toUser) {
 			    $objectId = $toUser->getObjectId();
 			    $thumbnail = $toUser->getProfileThumbnail();
@@ -86,7 +83,6 @@ class RelationsBox {
 			    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			    array_push($friendshipArray, $userInfo);
 			}
-		    }
 		}
 		if (empty($followingArray)) {
 		    $followingArray = 'YOU ARE CURRENTLY FOLLOWING NOONE';
@@ -105,23 +101,29 @@ class RelationsBox {
 		$collaboratorVenue->setLimit(1000);
 		$collaboratorVenue->orderByDescending('createdAt');
 		$venues = $collaboratorVenue->getUsers();
-		foreach ($venues as $toUser) {
-		    $objectId = $toUser->getObjectId();
-		    $thumbnail = $toUser->getProfileThumbnail();
-		    $type = $toUser->getType();
-		    $encodedUsername = $toUser->getUserName();
-		    $username = parse_decode_string($encodedUsername);
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		    array_push($venuesArray, $userInfo);
-		}
-
+		if (get_class($venues) == 'Error') {
+				return $venues;
+		 } else {
+		   foreach ($venues as $toUser) {
+			$objectId = $toUser->getObjectId();
+			$thumbnail = $toUser->getProfileThumbnail();
+			$type = $toUser->getType();
+			$encodedUsername = $toUser->getUserName();
+			$username = parse_decode_string($encodedUsername);
+			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+			array_push($venuesArray, $userInfo);
+			}
+		 }
 		$collaboratorJammer = new UserParse();
 		$collaboratorJammer->whereRelatedTo('collaboration', '_User', $objectId);
 		$collaboratorJammer->whereEqualTo('type', 'JAMMER');
 		$collaboratorJammer->setLimit(1000);
 		$collaboratorJammer->orderByDescending('createdAt');
 		$jammers = $collaboratorJammer->getUsers();
-		foreach ($jammers as $toUser) {
+		if (get_class($jammers) == 'Error') {
+				return $jammers;
+		 } else {
+		 	foreach ($jammers as $toUser) {
 		    $objectId = $toUser->getObjectId();
 		    $thumbnail = $toUser->getProfileThumbnail();
 		    $type = $toUser->getType();
@@ -129,8 +131,8 @@ class RelationsBox {
 		    $username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($jammersArray, $userInfo);
-		}
-
+			}
+		 }
 		$following = new ActivityParse();
 		$following->wherePointer('toUser', '_User', $objectId);
 		$following->whereEqualTo('type', 'FOLLOWING');
@@ -138,8 +140,10 @@ class RelationsBox {
 		$following->setLimit(1000);
 		$following->orderByDescending('createdAt');
 		$followers = $following->getActivities();
-
-		foreach ($followers as $toUser) {
+		if (get_class($followers) == 'Error') {
+				return $followers;
+		 } else {
+		 	foreach ($followers as $toUser) {
 		    $followerId = $toUser->getFromUser();
 		    $userP = new UserParse();
 		    $user = $userP->getUser($followerId);
@@ -150,7 +154,8 @@ class RelationsBox {
 		    $username = parse_decode_string($encodedUsername);
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		    array_push($followersArray, $userInfo);
-		}
+			}
+		 }
 		if (empty($followersArray)) {
 		    $followersArray = 'NO FOLLOWERS YET';
 		}
