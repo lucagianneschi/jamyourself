@@ -78,7 +78,7 @@ class PostBox {
 	$post->orderByDescending('createdAt');
 	$posts = $post->getComments();
 	if (get_class($posts) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $posts->getErrorMessage() . '<br/>';
+	    return $posts;
 	} else {
 	    for ($i = 0; i < count($posts); ++$i) {
 		$counter = ++$counter;
