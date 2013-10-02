@@ -17,6 +17,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once ROOT_DIR . 'string.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
@@ -24,8 +25,6 @@ require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'utils.php';
 require_once SERVICES_DIR . 'mail.service.php'; 
-define('SBJE', 'Your Event has been reviewed');
-define('SBJR', 'Your Record has been reviewed');
 
 /**
  * \brief	ReviewController class 
@@ -75,11 +74,11 @@ class ReviewController extends REST {
 
 			//controllo i parametri
 			if (!isset($this->request['text'])) {
-				$this->response(array('status' => "Bad Request", "msg" => "No comment specified"), 400);
+				$this->response(array('status' => "Bad Request", "msg" => NOREW), 400);
 			} elseif (!isset($this->request['toUser'])) {
-				$this->response(array('status' => "Bad Request", "msg" => "No toUser specified"), 400);
+				$this->response(array('status' => "Bad Request", "msg" => NOTOUSER), 400);
 			} elseif (!isset($this->request['fromUser'])) {
-				$this->response(array('status' => "Bad Request", "msg" => "No fromUser specified"), 400);
+				$this->response(array('status' => "Bad Request", "msg" => NOFROMUSER), 400);
 			}
 			
 			//recupero l'utente che effettua il commento
@@ -88,9 +87,9 @@ class ReviewController extends REST {
 			//recupero e controllo il post
 			$text = $_REQUEST['text'];
 			if (strlen($text) < $this->config->minReviewSize) {
-				$this->response(array("Dimensione post troppo corta | lungh: ".strlen($text)), 200);
+				$this->response(array(SHORTREW.strlen($text)), 200);
 			} elseif (strlen($text) > $this->config->maxReviewSize) {
-				$this->response(array("Dimensione post troppo lunga | lungh: ".strlen($text)), 200);
+				$this->response(array(LONGREW.strlen($text)), 200);
 			} 
 			
 			$objectId = $_REQUEST['objectId'];
@@ -181,7 +180,7 @@ class ReviewController extends REST {
 			$mail->Send(); 
 			$mail->SmtpClose();
 			unset($mail);
-			$this->response(array('Your review has been saved'), 200);
+			$this->response(array(REWSAVED), 200);
 	
 		} catch (Exception $e) {
 			$this->response(array('Error: ' . $e->getMessage()), 503);
@@ -192,9 +191,9 @@ class ReviewController extends REST {
 		$commentParse = new CommentParse();
 		$res = $commentParse->deleteComment($objectId);
 		if (get_class($res) == 'Error') {
-			$this->response(array("Rollback KO"), 503);
+			$this->response(array(ROLLKO), 503);
 		} else {
-			$this->response(array("Rollback OK"), 503);
+			$this->response(array(ROLLOK), 503);
 		}
 	}
 	
