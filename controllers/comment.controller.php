@@ -67,16 +67,16 @@ class CommentController extends REST {
 	    }
 
 	    if (!isset($this->request['text'])) {
-		$this->response(array('status' => "Bad Request", "msg" => "No comment specified"), 400);
+		$this->response(array('status' => "Bad Request", "msg" => NOCOMMENT), 400);
 	    } elseif (!isset($this->request['toUser'])) {
-		$this->response(array('status' => "Bad Request", "msg" => "No toUser specified"), 400);
+		$this->response(array('status' => "Bad Request", "msg" => NOTOUSER), 400);
 	    }
 
 	    $text = $_REQUEST['text'];
 	    if (strlen($text) < $this->config->minCommentSize) {
-		$this->response(array("Dimensione commento troppo corta | lungh: " . strlen($text)), 200);
+		$this->response(array(SHORTCOMMENT . strlen($text)), 200);
 	    } elseif (strlen($text) > $this->config->maxCommentSize) {
-		$this->response(array("Dimensione commento troppo lunga | lungh: " . strlen($text)), 200);
+		$this->response(array(LONGCOMMENT . strlen($text)), 200);
 	    }
 
 	    $objectId = $_REQUEST['objectId'];
@@ -161,7 +161,7 @@ class CommentController extends REST {
 		    $this->rollback($resCmt->getObjectId());
 		}
 	    }
-	    $this->response(array('Your comment has been saved'), 200);
+	    $this->response(array(COMMENTSAVED), 200);
 	} catch (Exception $e) {
 	    $this->response(array('Error: ' . $e->getMessage()), 503);
 	}
@@ -171,9 +171,9 @@ class CommentController extends REST {
 	$commentParse = new CommentParse();
 	$res = $commentParse->deleteComment($objectId);
 	if (get_class($res) == 'Error') {
-	    $this->response(array("Rollback KO"), 503);
+	    $this->response(array(ROLLKO), 503);
 	} else {
-	    $this->response(array("Rollback OK"), 503);
+	    $this->response(array(ROLLOK), 503);
 	}
     }
 
