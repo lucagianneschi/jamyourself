@@ -182,7 +182,7 @@ class ActivityBox {
 		    }
 		}
 		if (empty($imageArray)) {
-		    $imageArray = 'YOUR ALBUM DOES NOT CONTAIN ANY IMAGES';
+		    $imageArray = NOIMGS;
 		}
 		$albumInfo = new AlbumInfoForPersonalPage($imageArray, $imageCounter, $objectId, $title);
 	    }
@@ -240,7 +240,7 @@ class ActivityBox {
 			    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title);
 			}
 		    } else {
-			$recordInfo = 'NO DATA FOR LAST SONG LISTENED';
+			$recordInfo = NOLSNGLST;
 		    }
 		}
 	    }
@@ -276,14 +276,14 @@ class ActivityBox {
 			$objectId = $event->getObjectId();
 			$eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title);
 		    } else {
-			$eventInfo = 'NO DATA FOR LAST CONFIRMED EVENT';
+			$eventInfo = NOLSTEVNT;
 		    }
 		}
 	    }
 	    $activityBox->eventInfo = $eventInfo;
 	} else {
-	    $activityBox->recordInfo = "INFO ALREADY LOADED";
-	    $activityBox->eventInfo = "INFO ALREADY LOADED";
+	    $activityBox->recordInfo = IAL;
+	    $activityBox->eventInfo = IAL;
 	}
 	return $activityBox;
     }
