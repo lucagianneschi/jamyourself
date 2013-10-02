@@ -69,7 +69,7 @@ class NotificationBox {
 	$activity0->where('active', true);
 	$invitationCounter = $activity0->getCount();
 	if (get_class($invitationCounter) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $invitationCounter->getErrorMessage() . '<br/>';
+	    return $invitationCounter;
 	} else {
 	    $notificationBox->invitationCounter = $invitationCounter;
 	}
