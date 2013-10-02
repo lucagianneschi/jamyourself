@@ -81,7 +81,7 @@ class NotificationBox {
 	$activity1->where('active', true);
 	$messageCounter = $activity1->getCount();
 	if (get_class($messageCounter) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $messageCounter->getErrorMessage() . '<br/>';
+	    return $messageCounter;
 	} else {
 	    $notificationBox->messageCounter = $messageCounter;
 	}
@@ -95,7 +95,7 @@ class NotificationBox {
 		$activity2->where('active', true);
 		$relationCounter = $activity2->getCount();
 		if (get_class($relationCounter) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $relationCounter->getErrorMessage() . '<br/>';
+			return $relationCounter;
 		} else {
 		    $notificationBox->relationCounter = $relationCounter;
 		}
@@ -110,7 +110,7 @@ class NotificationBox {
 		$activity2->where('active', true);
 		$relationCounter = $activity2->getCount();
 		if (get_class($relationCounter) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $relationCounter->getErrorMessage() . '<br/>';
+		    return $relationCounter;
 		} else {
 		    $notificationBox->relationCounter = $relationCounter;
 		}
@@ -144,7 +144,7 @@ class NotificationBox {
 	$activity->where('active', true);
 	$messages = $activity->getActivities();
 	if (get_class($messages) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $messages->getErrorMessage() . '<br/>';
+	    return $messages;
 	} else {
 	    foreach ($messages as $message) {
 		$createdAt = $message->getCreatedAt();
@@ -152,7 +152,6 @@ class NotificationBox {
 		$userP = new UserParse();
 		$user = $userP->getUser($userId);
 		if (get_class($user) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
 		    return $user;
 		}
 
@@ -197,7 +196,7 @@ class NotificationBox {
 	$activity->where('active', true);
 	$invitations = $activity->getActivity();
 	if (get_class($invitations) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $invitations->getErrorMessage() . '<br/>';
+		return $invitations;
 	} else {
 	    foreach ($invitations as $invitation) {
 		$createdAt = $invitation->getCreatedAt();
@@ -205,10 +204,8 @@ class NotificationBox {
 		$userP = new UserParse();
 		$user = $userP->getUser($userId);
 		if (get_class($user) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
 		    return $user;
 		}
-
 		$objectId = $user->getObjectId();
 		$thumbnail = $user->getProfileThumbnail();
 		$type = $user->getType();
@@ -219,9 +216,9 @@ class NotificationBox {
 		array_push($invitationArray, $notificationInfo);
 	    }
 	    if (empty($invitationArray)) {
-		$notificationBox->notificationArray = NODATA;
+			$notificationBox->notificationArray = NODATA;
 	    } else {
-		$notificationBox->notificationArray = $invitationArray;
+			$notificationBox->notificationArray = $invitationArray;
 	    }
 	}
 	return $notificationBox;
@@ -259,7 +256,7 @@ class NotificationBox {
 	$activity->where('active', true);
 	$relations = $activity->getActivities();
 	if (get_class($relations) == 'Error') {
-	    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $relations->getErrorMessage() . '<br/>';
+	    return $relations;
 	} else {
 	    foreach ($relations as $relation) {
 		$createdAt = $relation->getCreatedAt();
@@ -267,7 +264,6 @@ class NotificationBox {
 		$userP = new UserParse();
 		$user = $userP->getUser($userId);
 		if (get_class($user) == 'Error') {
-		    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $user->getErrorMessage() . '<br/>';
 		    return $user;
 		}
 
@@ -281,9 +277,9 @@ class NotificationBox {
 		array_push($relationArray, $notificationInfo);
 	    }
 	    if (empty($relationArray)) {
-		$notificationBox->notificationArray = NODATA;
+			$notificationBox->notificationArray = NODATA;
 	    } else {
-		$notificationBox->notificationArray = $relationArray;
+			$notificationBox->notificationArray = $relationArray;
 	    }
 	}
 	return $notificationBox;
