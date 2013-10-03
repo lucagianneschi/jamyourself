@@ -36,9 +36,45 @@ define('NOLOGIN', 'Invalid login credentials');
 define('OKLOGIN', 'You are logged in');
 define('NOLOGOUT', 'Cannot log out');
 define('OKLOGOUT', 'You are logged out');
-
-
-
-
-
+define('100','Continue');
+define('101','Switching Protocols');
+define('200','OK');
+define('201','Created');
+define('202','Accepted');
+define('203','Non-Authoritative Information');
+define('204','No Content');
+define('205','Reset Content');
+define('206','Partial Content');
+define('300','Multiple Choices');
+define('301','Moved Permanently');
+define('302','Found');
+define('303','See Other');
+define('304','Not Modified');
+define('305','Use Proxy');
+define('306','(Unused)');
+define('307','Temporary Redirect');
+define('400','Bad Request');
+define('401','Unauthorized');
+define('402','Payment Required');
+define('403','Forbidden');
+define('404','Not Found');
+define('405','Method Not Allowed');
+define('406','Not Acceptable');
+define('407','Proxy Authentication Required');
+define('408','Request Timeout');
+define('409','Conflict');
+define('410','Gone');
+define('411','Length Required');
+define('412','Precondition Failed');
+define('413','Request Entity Too Large');
+define('414','Request-URI Too Long');
+define('415','Unsupported Media Type');
+define('416','Requested Range Not Satisfiable');
+define('417','Expectation Failed');
+define('500','Internal Server Error');
+define('501','Not Implemented');
+define('502','Bad Gateway');
+define('503','Service Unavailable');
+define('504','Gateway Timeout');
+define('505','HTTP Version Not Supported');
 ?>
