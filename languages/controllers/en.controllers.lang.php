@@ -32,4 +32,13 @@ define('NOREW', 'No review specified');
 define('SHORTREW', 'Your review is too short | lenght:');
 define('LONGREW', 'Your review is too long | lenght:');
 define('REWSAVED', 'Your review has been saved');
+define('NOLOGIN', 'Invalid login credentials');
+define('OKLOGIN', 'You are logged in');
+define('NOLOGOUT', 'Cannot log out');
+define('OKLOGOUT', 'You are logged out');
+
+
+
+
+
 ?>

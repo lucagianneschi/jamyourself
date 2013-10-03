@@ -32,4 +32,8 @@ define('NOREW', 'Nessuna recensione specificata');
 define('SHORTREW', 'Dimensione recensione troppo corta | lungh:');
 define('LONGREW', 'Dimensione recensione troppo lunga | lungh:');
 define('REWSAVED', 'Recensione salvata con successo');
+define('NOLOGIN', 'Credenziali di accesso non valide');
+define('OKLOGIN', 'Login eseguito');
+define('NOLOGOUT', 'Impossibile effettuare logout');
+define('OKLOGOUT', 'Logout Eseguito');
 ?>
