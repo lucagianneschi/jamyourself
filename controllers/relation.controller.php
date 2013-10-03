@@ -80,14 +80,14 @@ class RelationController extends REST {
 		case 'SPOTTER':
 		    if ($toUserType == 'SPOTTER') {
 			//friendship
-			$HTMLFile = 'friendshipRequestAccepted';
+			$HTMLFile = FRIENDSHIPACCEPTEDEMAIL;
 		    }
 		    break;
 		default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
 		    if ($toUserType == 'SPOTTER') {
 			$this->response(array(RELDENIED), 200);
 		    } else {
-			$HTMLFile = 'collaborationRequestAccepted';
+			$HTMLFile = COLLABORATIONACCEPTEDEMAIL;
 		    }
 		    break;
 	    }
@@ -227,10 +227,10 @@ class RelationController extends REST {
 		case 'SPOTTER':
 		    if ($toUserType == 'SPOTTER') {
 			$activity->setType("FRIENDSHIPREQUEST");
-			$HTMLFile = 'friendshipRequest.html';
+			$HTMLFile = FRIENDSHIPREQUESTEMAIL;
 		    } else {
 			$activity->setType("FOLLOWING");
-			$HTMLFile = 'following.html';
+			$HTMLFile = FOLLOWINGEMAIL;
 		    }
 		    break;
 		default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
@@ -238,7 +238,7 @@ class RelationController extends REST {
 			$this->response(array(RELDENIED), 200);
 		    } else {
 			$activity->setType("COLLABORATIONREQUEST");
-			$HTMLFile = 'collaborationRequest.html';
+			$HTMLFile = COLLABORATIONREQUESTEMAIL;
 		    }
 		    break;
 	    }

@@ -235,7 +235,7 @@ class DeleteController extends REST {
 			    $mail->AddAddress('luca.gianneschi@gmail.com');
 			    //$mail->AddAddress($user->getEmail());
 			    $mail->Subject = SBJ;
-			    $mail->MsgHTML(file_get_contents(STDHTML_DIR . 'userDeletion.html'));
+			    $mail->MsgHTML(file_get_contents(STDHTML_DIR . USERDELETED));
 			    $mail->Send();
 			} catch (phpmailerException $e) {//OK??
 			    throwError($e, __CLASS__, __FUNCTION__, func_get_args());

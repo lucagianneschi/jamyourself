@@ -36,6 +36,18 @@ define('NOLOGIN', 'Invalid login credentials');
 define('OKLOGIN', 'You are logged in');
 define('NOLOGOUT', 'Cannot log out');
 define('OKLOGOUT', 'You are logged out');
+//nomi dei file di sistema
+define('USERDELETED', 'en.userDeletion.html');
+define('FRIENDSHIPREQUESTEMAIL', 'en.friendshipRequest.html');
+define('COLLABORATIONREQUESTEMAIL', 'en.collaborationRequest.html');
+define('FOLLOWINGEMAIL', 'en.following.html');
+define('FRIENDSHIPACCEPTEDEMAIL', 'en.friendshipRequestAccepted.html');
+define('COLLABORATIONACCEPTEDEMAIL', 'en.collaborationRequestAccepted.html');
+define('EVENTREVIEWEMAIL', 'en.eventReviewReceived.html');
+define('RECORDREVIEWEMAIL', 'en.recordReviewReceived.html');
+
+
+//restController
 define('100','Continue');
 define('101','Switching Protocols');
 define('200','OK');

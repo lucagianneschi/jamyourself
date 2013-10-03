@@ -55,6 +55,16 @@ define('OKLOGIN', 'Login eseguito');
 define('NOLOGOUT', 'Impossibile effettuare logout');
 define('OKLOGOUT', 'Logout Eseguito');
 
+//mail di sistema
+define('USERDELETED', 'it.userDeletion.html');
+define('FRINDSHIPREQUESTEMAIL', 'it.friendshipRequest.html');
+define('COLLABORATIONREQUESTEMAIL', 'it.collaborationRequest.html');
+define('FOLLOWINGEMAIL', 'it.following.html');
+define('EVENTREVIEWEMAIL', 'it.eventReviewReceived.html');
+define('RECORDREVIEWEMAIL', 'it.recordReviewReceived.html');
+define('FRIENDSHIPACCEPTEDEMAIL', 'it.friendshipRequestAccepted.html');
+define('COLLABORATIONACCEPTEDEMAIL', 'it.collaborationRequestAccepted.html');
+
 //RESTCONTROLLER
 define('100','Continua');
 define('101','Cambio Di Protocolli');
