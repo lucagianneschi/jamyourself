@@ -1,92 +1,105 @@
 <?php
 
-define('POSTSAVED', 'Your post has been saved');
-define('SHORTPOST', 'Your post il too short | lenght:');
-define('LONGPOST', 'Your post il too long | lenght:');
-define('NOTOUSER', 'No toUser specified');
-define('NOFROMUSER', "No fromUser specified");
-define('NOPOST', 'No post specified');
-define('NOCOMMENT', 'No comment specified');
-define('SHORTPOST', 'Your comment is too short | lenght:');
-define('LONGPOST', 'Your comment is too long | lenght:');
-define('COMMENTSAVED', 'Your comment has been saved');
-define('ROLLKO', 'ROLLBACK KO');
-define('ROLLOK', 'ROLLBACK OK');
-define('CND', 'Cannot delete this element: you are not its owner!');
-define('SBJ', 'Account delation confirmed');
-define('DELERR', 'Error deleting this element');
-define('LOVEPLUSERR', 'Error incrementing Love');
-define('LOVEMINUSERR', 'Error decrementing Love');
-define('NOMESSAGE', "No message specified");
-define('SHORTMESSAGE', 'Your message is too short | lenght:');
-define('MESSAGESAVED', 'Your message has been sent');
-define('RELDENIED', 'You are not allowed to send a relationship request to this user!');
-define('SELF', 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!');
-define('SBJ', 'Relation Request');
-define('SBJOK', 'Relation Request Accepted');
-define('RELSAVED', 'Your request has been sent correctly');
-define('NORELDEL', 'No relation to remove');
-define('SBJE', 'Your Event has been reviewed');
-define('SBJR', 'Your Record has been reviewed');
-define('NOREW', 'No review specified');
-define('SHORTREW', 'Your review is too short | lenght:');
-define('LONGREW', 'Your review is too long | lenght:');
-define('REWSAVED', 'Your review has been saved');
-define('NOLOGIN', 'Invalid login credentials');
-define('OKLOGIN', 'You are logged in');
-define('NOLOGOUT', 'Cannot log out');
-define('OKLOGOUT', 'You are logged out');
-//nomi dei file di sistema
-define('USERDELETED', 'en.userDeletion.html');
-define('FRIENDSHIPREQUESTEMAIL', 'en.friendshipRequest.html');
-define('COLLABORATIONREQUESTEMAIL', 'en.collaborationRequest.html');
-define('FOLLOWINGEMAIL', 'en.following.html');
-define('FRIENDSHIPACCEPTEDEMAIL', 'en.friendshipRequestAccepted.html');
-define('COLLABORATIONACCEPTEDEMAIL', 'en.collaborationRequestAccepted.html');
-define('EVENTREVIEWEMAIL', 'en.eventReviewReceived.html');
-define('RECORDREVIEWEMAIL', 'en.recordReviewReceived.html');
+/* ! \par Info Generali:
+ *  \author    Luca Gianneschi
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par       Info:
+ *  \brief     English strings for controllers
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  
+ *  
+ */
 
-
-//restController
-define('100','Continue');
-define('101','Switching Protocols');
-define('200','OK');
-define('201','Created');
-define('202','Accepted');
-define('203','Non-Authoritative Information');
-define('204','No Content');
-define('205','Reset Content');
-define('206','Partial Content');
-define('300','Multiple Choices');
-define('301','Moved Permanently');
-define('302','Found');
-define('303','See Other');
-define('304','Not Modified');
-define('305','Use Proxy');
-define('306','(Unused)');
-define('307','Temporary Redirect');
-define('400','Bad Request');
-define('401','Unauthorized');
-define('402','Payment Required');
-define('403','Forbidden');
-define('404','Not Found');
-define('405','Method Not Allowed');
-define('406','Not Acceptable');
-define('407','Proxy Authentication Required');
-define('408','Request Timeout');
-define('409','Conflict');
-define('410','Gone');
-define('411','Length Required');
-define('412','Precondition Failed');
-define('413','Request Entity Too Large');
-define('414','Request-URI Too Long');
-define('415','Unsupported Media Type');
-define('416','Requested Range Not Satisfiable');
-define('417','Expectation Failed');
-define('500','Internal Server Error');
-define('501','Not Implemented');
-define('502','Bad Gateway');
-define('503','Service Unavailable');
-define('504','Gateway Timeout');
-define('505','HTTP Version Not Supported');
+$controllers = array(
+    'POSTSAVED' => 'Your post has been saved',
+    'SHORTPOST' => 'Your post il too short | lenght:',
+    'LONGPOST' => 'Your post il too long | lenght:',
+    'NOTOUSER' => 'No toUser specified',
+    'NOFROMUSER' => "No fromUser specified",
+    'NOPOST' => 'No post specified',
+    'NOCOMMENT' => 'No comment specified',
+    'SHORTPOST' => 'Your comment is too short | lenght:',
+    'LONGPOST' => 'Your comment is too long | lenght:',
+    'COMMENTSAVED' => 'Your comment has been saved',
+    'ROLLKO' => 'ROLLBACK KO',
+    'ROLLOK' => 'ROLLBACK OK',
+    'CND' => 'Cannot delete this element: you are not its owner!',
+    'SBJ' => 'Account delation confirmed',
+    'DELERR' => 'Error deleting this element',
+    'LOVEPLUSERR' => 'Error incrementing Love',
+    'LOVEMINUSERR' => 'Error decrementing Love',
+    'NOMESSAGE' => "No message specified",
+    'SHORTMESSAGE' => 'Your message is too short | lenght:',
+    'MESSAGESAVED' => 'Your message has been sent',
+    'RELDENIED' => 'You are not allowed to send a relationship request to this user!',
+    'SELF' => 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!',
+    'SBJ' => 'Relation Request',
+    'SBJOK' => 'Relation Request Accepted',
+    'RELSAVED' => 'Your request has been sent correctly',
+    'NORELDEL' => 'No relation to remove',
+    'SBJE' => 'Your Event has been reviewed',
+    'SBJR' => 'Your Record has been reviewed',
+    'NOREW' => 'No review specified',
+    'SHORTREW' => 'Your review is too short | lenght:',
+    'LONGREW' => 'Your review is too long | lenght:',
+    'REWSAVED' => 'Your review has been saved',
+    'NOLOGIN' => 'Invalid login credentials',
+    'OKLOGIN' => 'You are logged in',
+    'NOLOGOUT' => 'Cannot log out',
+    'OKLOGOUT' => 'You are logged out',
+    'USERDELETED' => 'en.userDeletion.html',
+    'FRIENDSHIPREQUESTEMAIL' => 'en.friendshipRequest.html',
+    'COLLABORATIONREQUESTEMAIL' => 'en.collaborationRequest.html',
+    'FOLLOWINGEMAIL' => 'en.following.html',
+    'FRIENDSHIPACCEPTEDEMAIL' => 'en.friendshipRequestAccepted.html',
+    'COLLABORATIONACCEPTEDEMAIL' => 'en.collaborationRequestAccepted.html',
+    'EVENTREVIEWEMAIL' => 'en.eventReviewReceived.html',
+    'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html',
+    '100' => 'Continue',
+    '101' => 'Switching Protocols',
+    '200' => 'OK',
+    '201' => 'Created',
+    '202' => 'Accepted',
+    '203' => 'Non-Authoritative Information',
+    '204' => 'No Content',
+    '205' => 'Reset Content',
+    '206' => 'Partial Content',
+    '300' => 'Multiple Choices',
+    '301' => 'Moved Permanently',
+    '302' => 'Found',
+    '303' => 'See Other',
+    '304' => 'Not Modified',
+    '305' => 'Use Proxy',
+    '306' => '(Unused)',
+    '307' => 'Temporary Redirect',
+    '400' => 'Bad Request',
+    '401' => 'Unauthorized',
+    '402' => 'Payment Required',
+    '403' => 'Forbidden',
+    '404' => 'Not Found',
+    '405' => 'Method Not Allowed',
+    '406' => 'Not Acceptable',
+    '407' => 'Proxy Authentication Required',
+    '408' => 'Request Timeout',
+    '409' => 'Conflict',
+    '410' => 'Gone',
+    '411' => 'Length Required',
+    '412' => 'Precondition Failed',
+    '413' => 'Request Entity Too Large',
+    '414' => 'Request-URI Too Long',
+    '415' => 'Unsupported Media Type',
+    '416' => 'Requested Range Not Satisfiable',
+    '417' => 'Expectation Failed',
+    '500' => 'Internal Server Error',
+    '501' => 'Not Implemented',
+    '502' => 'Bad Gateway',
+    '503' => 'Service Unavailable',
+    '504' => 'Gateway Timeout',
+    '505' => 'HTTP Version Not Supported',);
 ?>

@@ -1,93 +1,107 @@
 <?php
 
-define('POSTSAVED', 'Il tuo post è stato salvato');
-define('SHORTPOST', 'Dimensione post troppo corta | lungh:');
-define('LONGPOST', 'Dimensione post troppo lunga | lungh:');
-define('NOTOUSER', 'toUser non specificato');
-define('NOFROMUSER', "fromUser  non specificato");
-define('NOPOST', 'Post non specificato');
-define('NOCOMMENT', 'Commento non specificato');
-define('SHORTCOMMENT', 'Dimensione commento troppo corta | lungh:');
-define('LONGCOMMENT', 'Dimensione commment troppo lunga | lungh:');
-define('COMMENTSAVED', 'Il tuo commento è stato salvato');
-define('ROLLKO', 'ROLLBACK KO');
-define('ROLLOK', 'ROLLBACK OK');
-define('CND', 'Impossibile eliminare questo elemento: non sei il proprietario');
-define('SBJ', 'Il tuo account è stato cancellato');
-define('DELERR', 'Errore in fase di cancellazione');
-define('LOVEPLUSERR', 'Errore incrementando Love');
-define('LOVEMINUSERR', 'Error decrementando Love');
-define('NOMESSAGE', 'Messaggio non specificato');
-define('SHORTMESSAGE', 'Dimensione messaggio troppo corta | lungh:');
-define('MESSAGESAVED', 'Messaggio inviato');
-define('RELDENIED', 'Invio relazione negato');
-define('SELF', 'Non essere timido, invia la richiesta di relazione ad altri!');
-define('SBJ', 'Richiesta di relazione');
-define('SBJOK', 'Richiesta di relazione accettata');
-define('RELSAVED', 'La tua richiesta è stata correttamente inviata');
-define('NORELDEL', 'Nessuna relazione da cancellare');
-define('SBJE', 'Il tuo evento ha ricevuto una recensione');
-define('SBJR', 'Il tuo record ha ricevuto una recensione');
-define('NOREW', 'Nessuna recensione specificata');
-define('SHORTREW', 'Dimensione recensione troppo corta | lungh:');
-define('LONGREW', 'Dimensione recensione troppo lunga | lungh:');
-define('REWSAVED', 'Recensione salvata con successo');
-define('NOLOGIN', 'Credenziali di accesso non valide');
-define('OKLOGIN', 'Login eseguito');
-define('NOLOGOUT', 'Impossibile effettuare logout');
-define('OKLOGOUT', 'Logout Eseguito');
+/* ! \par Info Generali:
+ *  \author    Luca Gianneschi
+ *  \version   1.0
+ *  \date      2013
+ *  \copyright Jamyourself.com 2013
+ *
+ *  \par       Info:
+ *  \brief     Italian strings for controllers
+ *  \warning
+ *  \bug
+ *  \todo
+ *
+ *  
+ *  
+ */
+
+$controllers = array(
+    'POSTSAVED' => 'Il tuo post è stato salvato',
+    'SHORTPOST' => 'Dimensione post troppo corta | lungh:',
+    'LONGPOST' => 'Dimensione post troppo lunga | lungh:',
+    'NOTOUSER' => 'toUser non specificato',
+    'NOFROMUSER' => "fromUser  non specificato",
+    'NOPOST' => 'Post non specificato',
+    'NOCOMMENT' => 'Commento non specificato',
+    'SHORTCOMMENT' => 'Dimensione commento troppo corta | lungh:',
+    'LONGCOMMENT' => 'Dimensione commment troppo lunga | lungh:',
+    'COMMENTSAVED' => 'Il tuo commento è stato salvato',
+    'ROLLKO' => 'ROLLBACK KO',
+    'ROLLOK' => 'ROLLBACK OK',
+    'CND' => 'Impossibile eliminare questo elemento: non sei il proprietario',
+    'SBJ' => 'Il tuo account è stato cancellato',
+    'DELERR' => 'Errore in fase di cancellazione',
+    'LOVEPLUSERR' => 'Errore incrementando Love',
+    'LOVEMINUSERR' => 'Error decrementando Love',
+    'NOMESSAGE' => 'Messaggio non specificato',
+    'SHORTMESSAGE' => 'Dimensione messaggio troppo corta | lungh:',
+    'MESSAGESAVED' => 'Messaggio inviato',
+    'RELDENIED' => 'Invio relazione negato',
+    'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',
+    'SBJ' => 'Richiesta di relazione',
+    'SBJOK' => 'Richiesta di relazione accettata',
+    'RELSAVED' => 'La tua richiesta è stata correttamente inviata',
+    'NORELDEL' => 'Nessuna relazione da cancellare',
+    'SBJE' => 'Il tuo evento ha ricevuto una recensione',
+    'SBJR' => 'Il tuo record ha ricevuto una recensione',
+    'NOREW' => 'Nessuna recensione specificata',
+    'SHORTREW' => 'Dimensione recensione troppo corta | lungh:',
+    'LONGREW' => 'Dimensione recensione troppo lunga | lungh:',
+    'REWSAVED' => 'Recensione salvata con successo',
+    'NOLOGIN' => 'Credenziali di accesso non valide',
+    'OKLOGIN' => 'Login eseguito',
+    'NOLOGOUT' => 'Impossibile effettuare logout',
+    'OKLOGOUT' => 'Logout Eseguito',
 //mail di sistema
-define('USERDELETED', 'it.userDeletion.html');
-define('FRINDSHIPREQUESTEMAIL', 'it.friendshipRequest.html');
-define('COLLABORATIONREQUESTEMAIL', 'it.collaborationRequest.html');
-define('FRIENDSHIPACCEPTEDEMAIL', 'it.friendshipRequestAccepted.html');
-define('COLLABORATIONACCEPTEDEMAIL', 'it.collaborationRequestAccepted.html');
-define('FOLLOWINGEMAIL', 'it.following.html');
-define('EVENTREVIEWEMAIL', 'it.eventReviewReceived.html');
-define('RECORDREVIEWEMAIL', 'it.recordReviewReceived.html');
-
-
-
+    'USERDELETED' => 'it.userDeletion.html',
+    'FRINDSHIPREQUESTEMAIL' => 'it.friendshipRequest.html',
+    'COLLABORATIONREQUESTEMAIL' => 'it.collaborationRequest.html',
+    'FRIENDSHIPACCEPTEDEMAIL' => 'it.friendshipRequestAccepted.html',
+    'COLLABORATIONACCEPTEDEMAIL' => 'it.collaborationRequestAccepted.html',
+    'FOLLOWINGEMAIL' => 'it.following.html',
+    'EVENTREVIEWEMAIL' => 'it.eventReviewReceived.html',
+    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html',
 //restController
-define('100','Continua');
-define('101','Cambio Di Protocolli');
-define('200','OK');
-define('201','Creato');
-define('202','Accettato');
-define('203','Informazione Non Interessante');
-define('204','Nessun Contenuto');
-define('205','Reset del contenuto');
-define('206','Contenuto Parziale');
-define('300','Scelta Multipla');
-define('301','Spostato Definitivamente');
-define('302','Trovato');
-define('303','Vedi Altro');
-define('304','Non MOdificato');
-define('305','Usa Proxy');
-define('306','(Non Usato)');
-define('307','Redirect Temporaneo');
-define('400','Richiesta Non Valida');
-define('401','Non Autorizzato');
-define('402','Richiesto Pagamento');
-define('403','Non Consentito');
-define('404','Non Trovato');
-define('405','Metodo Non Consentito');
-define('406','Non Accettato');
-define('407','Richiesta Autenticazione Proxy');
-define('408','Richiesta Time Out');
-define('409','Conflitto');
-define('410','Andato');
-define('411','Lunghezza richiesta');
-define('412','Requisito Non Soddisfatto');
-define('413','Request Entity Troppo Estesa');
-define('414','Request-URI Troppo Lungo');
-define('415','Media Non Supportato');
-define('416','Requested Range Not Satisfiable');
-define('417','Richiesta Fallita');
-define('500','Errore Server');
-define('501','Non Implementato');
-define('502','Gateway Non Valido');
-define('503','Servizio Non Disponibile');
-define('504','Gateway Timeout');
-define('505','Versione HTTP Non Supportata');
+    '100' => 'Continua',
+    '101' => 'Cambio Di Protocolli',
+    '200' => 'OK',
+    '201' => 'Creato',
+    '202' => 'Accettato',
+    '203' => 'Informazione Non Interessante',
+    '204' => 'Nessun Contenuto',
+    '205' => 'Reset del contenuto',
+    '206' => 'Contenuto Parziale',
+    '300' => 'Scelta Multipla',
+    '301' => 'Spostato Definitivamente',
+    '302' => 'Trovato',
+    '303' => 'Vedi Altro',
+    '304' => 'Non MOdificato',
+    '305' => 'Usa Proxy',
+    '306' => '(Non Usato)',
+    '307' => 'Redirect Temporaneo',
+    '400' => 'Richiesta Non Valida',
+    '401' => 'Non Autorizzato',
+    '402' => 'Richiesto Pagamento',
+    '403' => 'Non Consentito',
+    '404' => 'Non Trovato',
+    '405' => 'Metodo Non Consentito',
+    '406' => 'Non Accettato',
+    '407' => 'Richiesta Autenticazione Proxy',
+    '408' => 'Richiesta Time Out',
+    '409' => 'Conflitto',
+    '410' => 'Andato',
+    '411' => 'Lunghezza richiesta',
+    '412' => 'Requisito Non Soddisfatto',
+    '413' => 'Request Entity Troppo Estesa',
+    '414' => 'Request-URI Troppo Lungo',
+    '415' => 'Media Non Supportato',
+    '416' => 'Requested Range Not Satisfiable',
+    '417' => 'Richiesta Fallita',
+    '500' => 'Errore Server',
+    '501' => 'Non Implementato',
+    '502' => 'Gateway Non Valido',
+    '503' => 'Servizio Non Disponibile',
+    '504' => 'Gateway Timeout',
+    '505' => 'Versione HTTP Non Supportata',);
 ?>
