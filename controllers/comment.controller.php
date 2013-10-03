@@ -135,7 +135,7 @@ class CommentController extends REST {
 		    break;
 		case 'Status':
 		    $cmt->setStatus($objectId);
-		    $activity->setStatus($objectId);
+		    $activity->setUserStatus($objectId);
 		    $activity->setType('COMMENTEDONSTATUS');
 		    break;
 		case 'Record':
