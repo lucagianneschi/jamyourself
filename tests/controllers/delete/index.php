@@ -2,10 +2,9 @@
 
 echo "<h2>TEST DELETE</h2>";
 
-foreach (scandir('.') as $filename) {
+foreach (glob("*.php") as $filename) {
 	if($filename != 'index.php'){
-   		 echo "<a  href='$filename'>$filename</a><br>";
+		echo "<a  href='$filename'>$filename</a><br>";
 	}
-
 }
 ?>
