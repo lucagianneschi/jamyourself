@@ -19,8 +19,8 @@ and open the template in the editor.
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<script src="jquery.js"></script>
-	<script src="review.js"></script>
+		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script src="review.js"></script>
         <title></title>
     </head>
     <body>
