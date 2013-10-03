@@ -18,9 +18,12 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once ROOT_DIR . 'string.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
+require_once CLASSES_DIR . 'userParse.class.php';
 
 /**
  * \brief	ReviewController class 
@@ -44,17 +47,52 @@ class AccessController extends REST {
     public function login() {
 
 	#TODO
-	//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
+	//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
 	//questa sezione prima del try-catch dovrà sparire
-	$userParse = new UserParse();
-	$fromUser = $userParse->getUser($this->request['fromUser']);
-	$toUser = $fromUser;
+	require_once CLASSES_DIR . 'user.class.php';
+	$currentUser = new User('SPOTTER');
+	$currentUser->setObjectId('GuUAj83MGH');
 
 	try {
+		//if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
+	    if ($this->get_request_method() != 'POST') {
+			$this->response('', 406);
+	    }
+	
+		$usernameEmail = $_REQUEST['username'];
+	    $password = $_REQUEST['password'];
+		
+		$activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAccepted(true);
+		$activity->setAlbum(null);
+		$activity->setComment(null);		
+	    $activity->setCounter(0);
+		$activity->setEvent(null);
+	    $activity->setFromUser($currentUser);
+		$activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+		$activity->setRecord(null);	
+	    $activity->setRead(true);
+		$activity->setSong(null);
+	    $activity->setStatus('A');
+		$activity->setToUser(null);
+		$activity->setType('LOGGEDIN');		
+		$activity->setUserStatus(null);
+		$activity->setVideo(null);
+	
+	    $res = loginUser($usernameEmail, $password);
+	    if (get_class($res) == 'Error') {
+			$this->response(array('Invalid login credentials'), 503);
+	    } else {
+			$activityParse = new ActivityParse();
+			$activityParse->saveActivity($activity);
+	    }
 	    $this->response(array('You are logged in'), 200);
 	} catch (Exception $e) {
 	    $this->response(array('Error: ' . $e->getMessage()), 503);
-	}
+		}
     }
 
     /**
@@ -72,10 +110,44 @@ class AccessController extends REST {
 	$toUser = $fromUser;
 
 	try {
+		//if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
+	    if ($this->get_request_method() != 'POST') {
+			$this->response('', 406);
+	    }
+	
+		$userId = $_REQUEST['userId'];
+		
+		$activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAccepted(true);
+		$activity->setAlbum(null);
+		$activity->setComment(null);		
+	    $activity->setCounter(0);
+		$activity->setEvent(null);
+	    $activity->setFromUser($currentUser);
+		$activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+		$activity->setRecord(null);	
+	    $activity->setRead(true);
+		$activity->setSong(null);
+	    $activity->setStatus('A');
+		$activity->setToUser(null);
+		$activity->setType('LOGGEDOUT');		
+		$activity->setUserStatus(null);
+		$activity->setVideo(null);
+	
+	    $res = logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
+	    if (get_class($res) == 'Error') {
+			$this->response(array('Invalid login credentials'), 503);
+	    } else {
+			$activityParse = new ActivityParse();
+			$activityParse->saveActivity($activity);
+	    }
 	    $this->response(array('You are logged out'), 200);
 	} catch (Exception $e) {
 	    $this->response(array('Error: ' . $e->getMessage()), 503);
-	}
+		}
     }
 
 }
