@@ -4,7 +4,7 @@ function sendRequest(_action, _data, callback, _async) {
     }
     _data.request = _action;
     var url = "../../../controllers/request/reviewRequest.php";
-    var type = "POST";
+    var type = _action;
     var async = true;
     if (_async !== undefined && _async !== null)
         async = _async;
@@ -15,7 +15,6 @@ function sendRequest(_action, _data, callback, _async) {
         data: _data,
         async: async,
         success: function(data, status) {
-            //gestione success
             callback(data, status);
         },
         error: function(data, status) {
@@ -30,8 +29,14 @@ function confirmation(data, status){
 }
 
 function sendReview(){
-    //recuper il commento
-    var review = {"review" : $("#review").val() };
-    window.console.log("Sending Review: " + review);
-    sendRequest("review", review, confirmation, true);
+	var review = {};
+    //recupero il commento
+	review.text = $("#review").val();
+	
+	//TODO
+	//forzo l'utente su cui sto facendo il commento
+	review.toUser = "GuUAj83MGH";
+	
+	window.console.log("Sending review: " + review);
+    sendRequest("POST", review, confirmation, true);
 }
