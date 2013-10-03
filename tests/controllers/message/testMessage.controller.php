@@ -17,16 +17,16 @@ and open the template in the editor.
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<script src="jquery.js"></script>
-	<script src="comment.js"></script>
+	<script src="message.js"></script>
         <title></title>
     </head>
     <body>
         <form action="javascript:sendComment()">
             <label for="comment" />
 	    <?php
-	    echo '<textarea id="comment" rows="' . $controller->config->inputCommentRowNumber . '" cols="' . $controller->config->inputCommentColumnNumber . '"></textarea>';
+	    echo '<textarea id="message" rows="' . $controller->config->inputMessageRowNumber . '" cols="' . $controller->config->inputMessageColumnNumber . '"></textarea>';
 	    ?>
-            <input type="submit" value="Send Comment" name="sendComment" id="sendComment" />
+            <input type="submit" value="Send Message" name="sendMessage" id="sendMessage" />
         </form>
         <h2>
             Risposta del controller:           
