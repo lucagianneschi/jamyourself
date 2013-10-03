@@ -278,7 +278,7 @@ class DeleteController extends REST {
 	    }
 	    $this->response(array($res), 200);
 	} catch (Exception $e) {
-	    $this->response(array('Error: ' . $e->getMessage()), 503);
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
     }
 

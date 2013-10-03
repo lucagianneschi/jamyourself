@@ -163,7 +163,7 @@ class PostController extends REST {
 			}
 			$this->response(array(POSTSAVED), 200);
 		} catch (Exception $e) {
-            $this->response($e, 503);
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
         }
     }
 	

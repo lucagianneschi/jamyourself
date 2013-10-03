@@ -109,7 +109,7 @@ class RelationController extends REST {
 	    unset($mail);
 	    $this->response(array(RELDENIED), 200);
 	} catch (Exception $e) {
-	    $this->response(array('Error: ' . $e->getMessage()), 503);
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
     }
 
@@ -136,7 +136,7 @@ class RelationController extends REST {
 	    $activityP->updateField($activityId, 'read', true); //passa da non letta  a letta
 	    $this->response(array($res), 200);
 	} catch (Exception $e) {
-	    $this->response(array('Error: ' . $e->getMessage()), 503);
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
     }
 
@@ -182,7 +182,7 @@ class RelationController extends REST {
 	    }
 	    $this->response(array($res), 200);
 	} catch (Exception $e) {
-	    $this->response(array('Error: ' . $e->getMessage()), 503);
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
     }
 
@@ -267,7 +267,7 @@ class RelationController extends REST {
 		$this->response(array(RELSAVED), 200);
 	    }
 	} catch (Exception $e) {
-	    $this->response(array('Error: ' . $e->getMessage()), 503);
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
     }
 
