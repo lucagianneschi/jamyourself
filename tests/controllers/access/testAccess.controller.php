@@ -18,7 +18,7 @@
 
 		$.ajax({
 		    type: "POST",
-		    url: "../controllers/request/accessRequest.php",
+		    url: "../../../controllers/request/accessRequest.php",
 		    data: json_love,
 		    async: false,
 		    "beforeSend": function(xhr) {

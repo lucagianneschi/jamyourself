@@ -12,7 +12,7 @@
 
 		$.ajax({
 		    type: "POST",
-		    url: "../controllers/request/relationRequest.php",
+		    url: "../../../controllers/request/relationRequest.php",
 		    data: json_relation,
 		    async: false,
 		    "beforeSend": function(xhr) {

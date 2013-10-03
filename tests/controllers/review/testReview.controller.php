@@ -3,7 +3,7 @@
  * Classe di test per l'invio automatico di post JSON per il test
  */
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../../');
 
 ini_set('error_reporting', E_ALL);
 require_once ROOT_DIR . 'config.php';

@@ -1,6 +1,6 @@
 <?php
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../../');
 
 ini_set('error_reporting', E_ALL);
 require_once ROOT_DIR . 'config.php';
