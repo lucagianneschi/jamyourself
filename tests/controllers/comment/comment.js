@@ -3,7 +3,7 @@ function sendRequest(_action, _data, callback, _async) {
         callback(null);
     }
     _data.request = _action;
-    var url = "../controllers/request/commentRequest.php";
+    var url = "../../../controllers/request/commentRequest.php";
     var type = _action;
     var async = true;
     if (_async !== undefined && _async !== null)
