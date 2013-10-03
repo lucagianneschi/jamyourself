@@ -3,7 +3,7 @@ function sendRequest(_action, _data, callback, _async) {
         callback(null);
     }
     _data.request = _action;
-    var url = "../../controllers/request/postRequest.php";
+    var url = "../../../controllers/request/postRequest.php";
     var type = _action;
     var async = true;
     if (_async !== undefined && _async !== null)
