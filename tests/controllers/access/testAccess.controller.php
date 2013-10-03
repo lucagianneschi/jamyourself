@@ -7,7 +7,7 @@
 
 		var json_access = {};
 		if (opType == 'login') {
-		    json_access.request "login";
+		    json_access.request = "login";
 			json_access.usernameEmail = usernameEmail;
 			json_access.password = password;
 			
