@@ -13,6 +13,7 @@
  * \todo		settare i parametri corretti per invio mail
  *
  */
+require ROOT_DIR . 'config.php';
 require SERVICES_DIR . 'mail/class.phpmailer.php';
 
 /**
