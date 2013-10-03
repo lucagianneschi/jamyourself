@@ -69,6 +69,9 @@ class DeleteController extends REST {
 		case 'Activity':
 		    $activityParse = new ActivityParse();
 		    $act = $activityParse->getActivity($objectId);
+			if (get_class($act) == 'Error') {
+				$this->response(array('Error: ' . $act->getMessage()), 503);
+			}
 		    if ($currentUser == $act->getFromUser()) {
 			$res = $activityParse->deleteActivity($objectId);
 			$activity->setAlbum($objectId);
@@ -83,6 +86,9 @@ class DeleteController extends REST {
 		    require_once CLASSES_DIR . 'albumParse.class.php';
 		    $albumParse = new AlbumParse();
 		    $album = $albumParse->getAlbum($objectId);
+			if (get_class($album) == 'Error') {
+				$this->response(array('Error: ' . $album->getMessage()), 503);
+			}
 		    if ($currentUser == $album->getFromUser()) {
 			$res = $albumParse->deleteAlbum($objectId);
 			$activity->setAlbum($objectId);
@@ -97,6 +103,9 @@ class DeleteController extends REST {
 		    require_once CLASSES_DIR . 'commentParse.class.php';
 		    $commentParse = new CommentParse();
 		    $comment = $commentParse->getComment($objectId);
+			if (get_class($comment) == 'Error') {
+				$this->response(array('Error: ' . $comment->getMessage()), 503);
+			}
 		    if ($currentUser == $comment->getFromUser()) {
 			$res = $commentParse->deleteComment($objectId);
 			$activity->setComment($objectId);
@@ -111,6 +120,9 @@ class DeleteController extends REST {
 		    require_once CLASSES_DIR . 'eventParse.class.php';
 		    $eventParse = new EventParse();
 		    $event = $eventParse->getEvent($objectId);
+			if (get_class($event) == 'Error') {
+				$this->response(array('Error: ' . $event->getMessage()), 503);
+			}
 		    if ($currentUser == $event->getFromUser()) {
 			$res = $eventParse->deleteEvent($objectId);
 			$activity->setEvent($objectId);
@@ -125,6 +137,9 @@ class DeleteController extends REST {
 		    require_once CLASSES_DIR . 'imageParse.class.php';
 		    $imageParse = new ImageParse();
 		    $image = $imageParse->getImage($objectId);
+			if (get_class($image) == 'Error') {
+				$this->response(array('Error: ' . $image->getMessage()), 503);
+			}
 		    if ($currentUser == $image->getFromUser()) {
 			$res = $imageParse->deleteImage($objectId);
 			$activity->setImage($objectId);
@@ -139,6 +154,9 @@ class DeleteController extends REST {
 		    require_once CLASSES_DIR . 'playlistParse.class.php';
 		    $playlistParse = new PlaylistParse();
 		    $playlist = $playlistParse->getPlaylist($objectId);
+			if (get_class($playlist) == 'Error') {
+				$this->response(array('Error: ' . $playlist->getMessage()), 503);
+			}
 		    if ($currentUser == $playlist->getFromUser()) {
 			$res = $playlistParse->deletePlaylist($objectId);
 			$activity->setPlaylist($objectId);
@@ -153,6 +171,9 @@ class DeleteController extends REST {
 		    require_once CLASSES_DIR . 'recordParse.class.php';
 		    $recordParse = new RecordParse();
 		    $record = $recordParse->getRecord($objectId);
+			if (get_class($record) == 'Error') {
+				$this->response(array('Error: ' . $record->getMessage()), 503);
+			}
 		    if ($currentUser == $record->getFromUser()) {
 			$res = $recordParse->deleteRecord($objectId);
 			$activity->setRecord($objectId);
@@ -167,6 +188,9 @@ class DeleteController extends REST {
 		    require_once CLASSES_DIR . 'songParse.class.php';
 		    $songParse = new SongParse();
 		    $song = $songParse->getSong($objectId);
+			if (get_class($song) == 'Error') {
+				$this->response(array('Error: ' . $song->getMessage()), 503);
+			}
 		    if ($currentUser == $song->getFromUser()) {
 			$res = $songParse->deleteSong($objectId);
 			$activity->setSong($objectId);
@@ -181,6 +205,9 @@ class DeleteController extends REST {
 		    require_once CLASSES_DIR . 'statusParse.class.php';
 		    $statusParse = new StatusParse();
 		    $status = $statusParse->getStatus($objectId);
+			if (get_class($status) == 'Error') {
+				$this->response(array('Error: ' . $status->getMessage()), 503);
+			}
 		    if ($currentUser == $status->getFromUser()) {
 			$res = $statusParse->deleteStatus($objectId);
 			$activity->setUserStatus($objectId);
@@ -225,6 +252,9 @@ class DeleteController extends REST {
 		    require_once CLASSES_DIR . 'videoParse.class.php';
 		    $videoParse = new VideoParse();
 		    $video = $videoParse->getVideo($objectId);
+			if (get_class($video) == 'Error') {
+				$this->response(array('Error: ' . $video->getMessage()), 503);
+			}
 		    if ($currentUser == $video->fromUser()) {
 			$res = $videoParse->deleteVideo($objectId);
 			$activity->setType("DELETEDVIDEO");
