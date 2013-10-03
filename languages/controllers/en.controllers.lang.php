@@ -53,14 +53,6 @@ $controllers = array(
     'OKLOGIN' => 'You are logged in',
     'NOLOGOUT' => 'Cannot log out',
     'OKLOGOUT' => 'You are logged out',
-    'USERDELETED' => 'en.userDeletion.html',
-    'FRIENDSHIPREQUESTEMAIL' => 'en.friendshipRequest.html',
-    'COLLABORATIONREQUESTEMAIL' => 'en.collaborationRequest.html',
-    'FOLLOWINGEMAIL' => 'en.following.html',
-    'FRIENDSHIPACCEPTEDEMAIL' => 'en.friendshipRequestAccepted.html',
-    'COLLABORATIONACCEPTEDEMAIL' => 'en.collaborationRequestAccepted.html',
-    'EVENTREVIEWEMAIL' => 'en.eventReviewReceived.html',
-    'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html',
     '100' => 'Continue',
     '101' => 'Switching Protocols',
     '200' => 'OK',
@@ -102,4 +94,15 @@ $controllers = array(
     '503' => 'Service Unavailable',
     '504' => 'Gateway Timeout',
     '505' => 'HTTP Version Not Supported',);
+
+$mail_files = array(
+    'USERDELETED' => 'en.userDeletion.html',
+    'FRIENDSHIPREQUESTEMAIL' => 'en.friendshipRequest.html',
+    'COLLABORATIONREQUESTEMAIL' => 'en.collaborationRequest.html',
+    'FOLLOWINGEMAIL' => 'en.following.html',
+    'FRIENDSHIPACCEPTEDEMAIL' => 'en.friendshipRequestAccepted.html',
+    'COLLABORATIONACCEPTEDEMAIL' => 'en.collaborationRequestAccepted.html',
+    'EVENTREVIEWEMAIL' => 'en.eventReviewReceived.html',
+    'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html',
+);
 ?>
