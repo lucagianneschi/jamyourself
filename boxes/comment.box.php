@@ -42,9 +42,9 @@ class CommentInfo {
      * \param	$fromUserInfo, $createdAt, $text
      */
     function __construct($fromUserInfo, $createdAt, $text) {
-	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
-	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
-	is_null($text) ? $this->text = NODATA : $this->text = $text;
+	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
     }
 
 }
@@ -126,7 +126,7 @@ class CommentBox {
 		array_push($info, $commentInfo);
 	    }
 	    if (empty($info)) {
-		$commentBox->commentInfoArray = NODATA;
+		$commentBox->commentInfoArray = $boxes['NODATA'];
 	    } else {
 		$commentBox->commentInfoArray = $info;
 	    }
