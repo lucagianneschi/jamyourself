@@ -46,10 +46,10 @@ class AlbumInfoForPersonalPage {
      * \param	$imageArray, $imageCounter, $objectId, $title
      */
     function __construct($imageArray, $imageCounter, $objectId, $title) {
-	is_null($imageArray) ? $this->imageArray = NODATA : $this->imageArray = $imageArray;
+	is_null($imageArray) ? $this->imageArray = $boxes['NODATA'] : $this->imageArray = $imageArray;
 	is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -74,13 +74,13 @@ class EventInfoForPersonalPage {
      * \param	$address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title
      */
     function __construct($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title) {
-	is_null($address) ? $this->address = NODATA : $this->address = $address;
-	is_null($city) ? $this->city = NODATA : $this->city = $city;
-	is_null($eventDate) ? $this->eventDate = NODATA : $this->eventDate = $eventDate;
-	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
+	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
+	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
+	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
+	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -99,7 +99,7 @@ class ImageInfoForPersonalPage {
      * \param	$thumbnail
      */
     function __construct($thumbnail) {
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
+	is_null($thumbnail) ? $this->thumbnail = DEFIMGTHUMB : $this->thumbnail = $thumbnail;
     }
 
 }
@@ -122,11 +122,11 @@ class RecordInfoForPersonalPage {
      * \param	$fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title
      */
     function __construct($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title) {
-	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
-	is_null($songTitle) ? $this->songTitle = NODATA : $this->songTitle = $songTitle;
+	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($songTitle) ? $this->songTitle = $boxes['NODATA'] : $this->songTitle = $songTitle;
 	is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -182,7 +182,7 @@ class ActivityBox {
 		    }
 		}
 		if (empty($imageArray)) {
-		    $imageArray = NOIMGS;
+		    $imageArray = $boxes['NOIMGS'];
 		}
 		$albumInfo = new AlbumInfoForPersonalPage($imageArray, $imageCounter, $objectId, $title);
 	    }
@@ -240,7 +240,7 @@ class ActivityBox {
 			    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title);
 			}
 		    } else {
-			$recordInfo = NOLSNGLST;
+			$recordInfo = $boxes['NOLSNGLST'];
 		    }
 		}
 	    }
@@ -276,14 +276,14 @@ class ActivityBox {
 			$objectId = $event->getObjectId();
 			$eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title);
 		    } else {
-			$eventInfo = NOLSTEVNT;
+			$eventInfo = $boxes['NOLSTEVNT'];
 		    }
 		}
 	    }
 	    $activityBox->eventInfo = $eventInfo;
 	} else {
-	    $activityBox->recordInfo = IAL;
-	    $activityBox->eventInfo = IAL;
+	    $activityBox->recordInfo = $boxes['IAL'];
+	    $activityBox->eventInfo = $boxes['IAL'];
 	}
 	return $activityBox;
     }
