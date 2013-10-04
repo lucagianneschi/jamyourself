@@ -26,8 +26,6 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once SERVICES_DIR . 'mail.service.php';
 
-
-
 /**
  * \brief	RelationController class 
  * \details	controller per invio e ricezione relazioni
@@ -80,14 +78,14 @@ class RelationController extends REST {
 		case 'SPOTTER':
 		    if ($toUserType == 'SPOTTER') {
 			//friendship
-			$HTMLFile = $controllers['FRIENDSHIPACCEPTEDEMAIL'];
+			$HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
 		    }
 		    break;
 		default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
 		    if ($toUserType == 'SPOTTER') {
 			$this->response(array($controllers['RELDENIED']), 200);
 		    } else {
-			$HTMLFile = $controllers['COLLABORATIONACCEPTEDEMAIL'];
+			$HTMLFile = $mail_files['COLLABORATIONACCEPTEDEMAIL'];
 		    }
 		    break;
 	    }
@@ -227,10 +225,10 @@ class RelationController extends REST {
 		case 'SPOTTER':
 		    if ($toUserType == 'SPOTTER') {
 			$activity->setType("FRIENDSHIPREQUEST");
-			$HTMLFile = $controllers['FRIENDSHIPREQUESTEMAIL'];
+			$HTMLFile = $mail_files['FRIENDSHIPREQUESTEMAIL'];
 		    } else {
 			$activity->setType("FOLLOWING");
-			$HTMLFile = $controllers['FOLLOWINGEMAIL'];
+			$HTMLFile = $mail_files['FOLLOWINGEMAIL'];
 		    }
 		    break;
 		default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
@@ -238,7 +236,7 @@ class RelationController extends REST {
 			$this->response(array($controllers['RELDENIED']), 200);
 		    } else {
 			$activity->setType("COLLABORATIONREQUEST");
-			$HTMLFile = $controllers['COLLABORATIONREQUESTEMAIL'];
+			$HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
 		    }
 		    break;
 	    }

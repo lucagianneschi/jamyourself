@@ -147,7 +147,7 @@ class ReviewController extends REST {
 					$activity->setEvent($objectId);
 					$activity->setType("NEWEVENTREVIEW");					
 					$mail->Subject = $controllers['SBJE'];
-					$mail->MsgHTML(file_get_contents(STDHTML_DIR .$controllers['EVENTREVIEWEMAIL']));
+					$mail->MsgHTML(file_get_contents(STDHTML_DIR .$mail_files['EVENTREVIEWEMAIL']));
 					//$event = $eventParse->getEvent($objectId);
 					//$activity->setToUser($event->getFromUser());
 					break;
@@ -159,7 +159,7 @@ class ReviewController extends REST {
 					//$event = $eventParse->getEvent($objectId);
 					//$activity->setToUser($event->getFromUser());
 					$mail->Subject = $controllers['SBJR'];
-					$mail->MsgHTML(file_get_contents(STDHTML_DIR .$controllers['RECORDREVIEWEMAIL']));
+					$mail->MsgHTML(file_get_contents(STDHTML_DIR .$mail_files['RECORDREVIEWEMAIL']));
 					break;
 			}
 			
