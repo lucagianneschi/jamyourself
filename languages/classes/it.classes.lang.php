@@ -141,5 +141,5 @@ $settings = array(
     'VENUE_SETTING_37' => 'nuovo rating a un evento',
     'VENUE_SETTING_38' => 'nuovo evento pubblicato di cui si &egrave; ospitante',
     'VENUE_SETTING_39' => 'nuovo livello di autorit&agrave; raggiunto/perso',
-    'VENUE_SETTING_40' => 'nuovi badge conquistati',);
+    'VENUE_SETTING_40' => 'nuovi badge conquistati');
 ?>
