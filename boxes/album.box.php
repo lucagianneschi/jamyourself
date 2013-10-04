@@ -44,11 +44,11 @@ class AlbumInfo {
      * \param	$counters, $imageCounter, $objectId, $thumbnailCover, $title
      */
     function __construct($counters, $imageCounter, $objectId, $thumbnailCover, $title) {
-	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($thumbnailCover) ? $this->thumbnailCover = DEFALBUMTHUMB : $this->thumbnailCover = $thumbnailCover;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -73,13 +73,13 @@ class ImageInfo {
      * \param	$counters, $description, $filePath, $objectId, $tags, $thumbnail
      */
     function __construct($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail) {
-	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
-	is_null($description) ? $this->description = NODATA : $this->description = $description;
-	is_null($filePath) ? $this->filePath = NODATA : $this->filePath = $filePath;
-	is_null($location) ? $this->location = NODATA : $this->location = $location;
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
-	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
+	is_null($filePath) ? $this->filePath = $boxes['NODATA'] : $this->filePath = $filePath;
+	is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
+	is_null($thumbnail) ? $this->thumbnail = $boxes['NODATA'] : $this->thumbnail = $thumbnail;
     }
 
 }
@@ -102,8 +102,8 @@ class AlbumBox {
      */
     public function initForDetail($objectId) {
 	$albumBox = new AlbumBox();
-	$albumBox->albumCounter = NDB;
-	$albumBox->albumInfoArray = NDB;
+	$albumBox->albumCounter = $boxes['NDB'];
+	$albumBox->albumInfoArray = $boxes['NDB'];
 	$info = array();
 
 	$image = new ImageParse();
@@ -119,7 +119,7 @@ class AlbumBox {
 
 		$commentCounter = $image->getCommentCounter();
 		$loveCounter = $image->getLoveCounter();
-		$reviewCounter = NDB;
+		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $image->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
@@ -130,7 +130,7 @@ class AlbumBox {
 		$objectId = $image->getObjectId();
 		$tags = $image->getTags();
 		if (empty($tags)) {
-		    $tags = NOTAG;
+		    $tags = $boxes['NOTAG'];
 		}
 		$thumbnail = $image->getThumbnail();
 
@@ -138,7 +138,7 @@ class AlbumBox {
 		array_push($info, $imageInfo);
 	    }
 	    if (empty($info)) {
-		$albumBox->imageArray = NODATA;
+		$albumBox->imageArray = $boxes['NODATA'];
 	    } else {
 		$albumBox->imageArray = $info;
 	    }
@@ -154,7 +154,7 @@ class AlbumBox {
      */
     public function initForPersonalPage($objectId) {
 	$albumBox = new AlbumBox();
-	$albumBox->imageArray = NDB;
+	$albumBox->imageArray = $boxes['NDB'];
 
 	$info = array();
 	$counter = 0;
@@ -173,7 +173,7 @@ class AlbumBox {
 		$commentCounter = $album->getCommentCounter();
 		$imageCounter = $album->getImageCounter();
 		$loveCounter = $album->getLoveCounter();
-		$reviewCounter = NDB;
+		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $album->getShareCounter();
 		$objectId = $album->getObjectId();
 		$thumbnailCover = $album->getThumbnailCover();
@@ -185,7 +185,7 @@ class AlbumBox {
 		array_push($info, $albumInfo);
 	    }
 	    if (empty($info)) {
-		$albumBox->albumInfoArray = NODATA;
+		$albumBox->albumInfoArray = $boxes['NODATA'];
 	    } else {
 		$albumBox->albumInfoArray = $info;
 	    }
