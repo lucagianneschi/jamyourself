@@ -93,7 +93,7 @@ $controllers = array(
     '502' => 'Gateway Non Valido',
     '503' => 'Servizio Non Disponibile',
     '504' => 'Gateway Timeout',
-    '505' => 'Versione HTTP Non Supportata',
+    '505' => 'Versione HTTP Non Supportata'
 );
 
 $mail_files = array(
@@ -104,6 +104,6 @@ $mail_files = array(
     'COLLABORATIONACCEPTEDEMAIL' => 'it.collaborationRequestAccepted.html',
     'FOLLOWINGEMAIL' => 'it.following.html',
     'EVENTREVIEWEMAIL' => 'it.eventReviewReceived.html',
-    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html',
+    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html'
 );
 ?>
