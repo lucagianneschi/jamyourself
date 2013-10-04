@@ -13,7 +13,11 @@
  * \todo		settare i parametri corretti per invio mail
  *
  */
+ if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
+ 
 require ROOT_DIR . 'config.php';
+require ROOT_DIR . 'string.php';
 require SERVICES_DIR . 'mail/class.phpmailer.php';
 
 /**
@@ -27,8 +31,10 @@ class MailService extends PHPMailer {
     var $FromName = "Jamyourself.com - Meritocratic Music Social Network";
     var $Host     = 'smtp.gmail.com'; //sostituire con il server di posta in uscita di Jam
     var $Mailer   = "smtp"; 
-	var $Password = "password"; // SMTP account username
+	var $Password = "test90321"; // SMTP account username
+	var $Port = 465;
 	var $ReplyTo  = 'info@jamyourself.com';
-	var $Username = "yourname@yourdomain"; // SMTP account username	
+	var $SMTPSecure = 'ssl';
+	var $Username = "info@socialmusicdiscovering.com"; // SMTP account username	
 }
 ?>
