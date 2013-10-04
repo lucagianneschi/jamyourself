@@ -34,8 +34,8 @@ class NotificationForDetailedList {
     public $fromUserInfo;
 
     function __construct($createdAt, $fromUserInfo) {
-	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
-	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
+	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
+	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
     }
 
 }
@@ -116,8 +116,8 @@ class NotificationBox {
 		}
 		break;
 	}
-	$notificationBox->notificationArray = NDB;
-	$notificationBox->messageArray = NDB;
+	$notificationBox->notificationArray = $boxes['NDB'];
+	$notificationBox->messageArray = $boxes['NDB'];
 	return $notificationBox;
     }
 
@@ -130,10 +130,10 @@ class NotificationBox {
     public function initForMessageList($objectId) {
 	$notificationBox = new NotificationBox();
 
-	$notificationBox->invitationCounter = NDB;
-	$notificationBox->messageCounter = NDB;
-	$notificationBox->relationCounter = NDB;
-	$notificationBox->notificationArray = NDB;
+	$notificationBox->invitationCounter = $boxes['NDB'];
+	$notificationBox->messageCounter = $boxes['NDB'];
+	$notificationBox->relationCounter = $boxes['NDB'];
+	$notificationBox->notificationArray = $boxes['NDB'];
 
 	$messageArray = array();
 
@@ -166,7 +166,7 @@ class NotificationBox {
 		array_push($messageArray, $notificationInfo);
 	    }
 	    if (empty($messageArray)) {
-		$notificationBox->messageArray = NODATA;
+		$notificationBox->messageArray = $boxes['NODATA'];
 	    } else {
 		$notificationBox->messageArray = $messageArray;
 	    }
@@ -183,10 +183,10 @@ class NotificationBox {
     public function initForEventList($objectId) {
 	$notificationBox = new NotificationBox();
 
-	$notificationBox->invitationCounter = NDB;
-	$notificationBox->messageCounter = NDB;
-	$notificationBox->messageArray = NDB;
-	$notificationBox->relationCounter = NDB;
+	$notificationBox->invitationCounter = $boxes['NDB'];
+	$notificationBox->messageCounter = $boxes['NDB'];
+	$notificationBox->messageArray = $boxes['NDB'];
+	$notificationBox->relationCounter = $boxes['NDB'];
 
 	$invitationArray = array();
 
@@ -216,7 +216,7 @@ class NotificationBox {
 		array_push($invitationArray, $notificationInfo);
 	    }
 	    if (empty($invitationArray)) {
-		$notificationBox->notificationArray = NODATA;
+		$notificationBox->notificationArray = $boxes['NODATA'];
 	    } else {
 		$notificationBox->notificationArray = $invitationArray;
 	    }
@@ -234,10 +234,10 @@ class NotificationBox {
     public function initForRelationList($objectId, $type) {
 	$notificationBox = new NotificationBox();
 
-	$notificationBox->invitationCounter = NDB;
-	$notificationBox->messageCounter = NDB;
-	$notificationBox->messageArray = NDB;
-	$notificationBox->relationCounter = NDB;
+	$notificationBox->invitationCounter = $boxes['NDB'];
+	$notificationBox->messageCounter = $boxes['NDB'];
+	$notificationBox->messageArray = $boxes['NDB'];
+	$notificationBox->relationCounter = $boxes['NDB'];
 
 	$relationArray = array();
 
@@ -277,7 +277,7 @@ class NotificationBox {
 		array_push($relationArray, $notificationInfo);
 	    }
 	    if (empty($relationArray)) {
-		$notificationBox->notificationArray = NODATA;
+		$notificationBox->notificationArray = $boxes['NODATA'];
 	    } else {
 		$notificationBox->notificationArray = $relationArray;
 	    }

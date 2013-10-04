@@ -57,10 +57,10 @@ class UserInfo {
      * \param	$objectId, $thumbnail, $type, $username
      */
     function __construct($objectId, $thumbnail, $type, $username) {
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($thumbnail) ? $this->thumbnail = DEFTHUMB : $this->thumbnail = $thumbnail;
-	is_null($type) ? $this->type = NODATA : $this->type = $type;
-	is_null($username) ? $this->username = NODATA : $this->username = $username;
+	is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
+	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
     }
 
 }

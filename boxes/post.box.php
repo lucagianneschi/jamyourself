@@ -44,10 +44,10 @@ class PostInfo {
      * \param	$counters, $createdAt, $fromUserInfo, $text
      */
     function __construct($counters, $createdAt, $fromUserInfo, $text) {
-	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
-	is_null($createdAt) ? $this->createdAt = NODATA : $this->createdAt = $createdAt;
-	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
-	is_null($text) ? $this->text = NODATA : $this->text = $text;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
+	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
     }
 
 }
@@ -96,7 +96,7 @@ class PostBox {
 		$commentCounter = $post->getCommentCounter();
 		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
 		$loveCounter = $post->getLoveCounter();
-		$reviewCounter = NDB;
+		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $post->getShareCounter();
 		$encodedtext = $post->getText();
 		$text = parse_decode_string($encodedtext);
@@ -105,7 +105,7 @@ class PostBox {
 		array_push($info, $postInfo);
 	    }
 	    if (empty($info)) {
-		$postBox->postInfoArray = NODATA;
+		$postBox->postInfoArray = $boxes['NODATA'];
 	    } else {
 		$postBox->postInfoArray = $info;
 	    }

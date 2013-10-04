@@ -44,17 +44,17 @@ class RecordInfoForMediaPage {
      * \param	$buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName,  $title, $year
      */
     function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $title, $year) {
-	is_null($buylink) ? $this->buylink = NODATA : $this->buylink = $buylink;
-	is_null($city) ? $this->city = NODATA : $this->city = $city;
-	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
+	is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = $buylink;
+	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($cover) ? $this->cover = DEFRECORDCOVER : $this->cover = $cover;
-	is_null($description) ? $this->description = NODATA : $this->description = $description;
-	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
-	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
-	is_null($label) ? $this->label = NODATA : $this->label = $label;
-	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
-	is_null($year) ? $this->year = NODATA : $this->year = $year;
+	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
+	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
+	is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
+	is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = $label;
+	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
 
 }
@@ -75,13 +75,13 @@ class RecordInfoForPersonalPage {
      * \param	$counters, $genre,$objectId, $songCounter, $thumbnailCover, $title, $year
      */
     function __construct($counters, $genre, $objectId, $songCounter, $thumbnailCover, $title, $year) {
-	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
-	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+	is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
 	is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
-	is_null($year) ? $this->year = NODATA : $this->year = $year;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
 
 }
@@ -100,7 +100,7 @@ class RecordInfoForUploadRecordPage {
     function __construct($songCounter, $thumbnailCover, $title) {
 	is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
 	is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -116,8 +116,8 @@ class RecordInfoForUploadReviewPage {
      * \param	$featuring, $genre
      */
     function __construct($featuring, $genre) {
-	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
-	is_null($genre) ? $this->genre = NODATA : $this->genre = $genre;
+	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
+	is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
     }
 
 }
@@ -135,10 +135,10 @@ class SongInfo {
      * \param	$counters, $duration,$objectId, $title
      */
     function __construct($counters, $duration, $objectId, $title) {
-	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($duration) ? $this->duration = 0 : $this->duration = $duration;
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -157,9 +157,9 @@ class RecordBox {
      */
     public function initForDetail($objectId) {
 	$recordBox = new RecordBox();
-	$recordBox->fromUserInfo = NDB;
-	$recordBox->recordCounter = NDB;
-	$recordBox->recordInfoArray = NDB;
+	$recordBox->fromUserInfo = $boxes['NDB'];
+	$recordBox->recordCounter = $boxes['NDB'];
+	$recordBox->recordInfoArray = $boxes['NDB'];
 	$tracklist = array();
 
 	$song = new SongParse();
@@ -177,14 +177,14 @@ class RecordBox {
 		$title = parse_decode_string($encodedTitle);
 		$commentCounter = $song->getCommentCounter();
 		$loveCounter = $song->getLoveCounter();
-		$reviewCounter = NDB;
+		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $song->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$songInfo = new SongInfo($counters, $duration, $objectId, $title);
 		array_push($tracklist, $songInfo);
 	    }
 	    if (empty($tracklist)) {
-		$recordBox->tracklist = NOTRACK;
+		$recordBox->tracklist = $boxes['NOTRACK'];
 	    } else {
 		$recordBox->tracklist = $tracklist;
 	    }
@@ -286,10 +286,10 @@ class RecordBox {
 		$userInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 	    }
 	    $recordBox->fromUserInfo = $userInfo;
-	    $recordBox->recordCounter = NDB;
+	    $recordBox->recordCounter = $boxes['NDB'];
 	    $recordBox->recordInfoArray = $recordInfo;
 	    if (empty($tracklist)) {
-		$recordBox->tracklist = NOTRACK;
+		$recordBox->tracklist = $boxes['NOTRACK'];
 	    } else {
 		$recordBox->tracklist = $tracklist;
 	    }
@@ -333,14 +333,14 @@ class RecordBox {
 		$recordInfo = new RecordInfoForPersonalPage($counters, $genre, $objectId, $songCounter, $thumbnailCover, $title, $year);
 		array_push($info, $recordInfo);
 	    }
-	    $recordBox->fromUserInfo = NDB;
+	    $recordBox->fromUserInfo = $boxes['NDB'];
 	    $recordBox->recordCounter = $counter;
 	    if (empty($info)) {
-		$recordBox->recordInfoArray = NODATA;
+		$recordBox->recordInfoArray = $boxes['NODATA'];
 	    } else {
 		$recordBox->recordInfoArray = $info;
 	    }
-	    $recordBox->tracklist = NDB;
+	    $recordBox->tracklist = $boxes['NDB'];
 	}
 	return $recordBox;
     }
@@ -352,7 +352,7 @@ class RecordBox {
      */
     public function initForUploadRecordPage($objectId) {
 	$recordBox = new RecordBox();
-	$recordBox->tracklist = NDB;
+	$recordBox->tracklist = $boxes['NDB'];
 
 	$info = array();
 	$counter = 0;
@@ -374,10 +374,10 @@ class RecordBox {
 		$recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
 		array_push($info, $recordInfo);
 	    }
-	    $recordBox->fromUserInfo = NDB;
+	    $recordBox->fromUserInfo = $boxes['NDB'];
 	    $recordBox->recordCounter = $counter;
 	    if (empty($info)) {
-		$recordBox->recordInfoArray = NODATA;
+		$recordBox->recordInfoArray = $boxes['NODATA'];
 	    } else {
 		$recordBox->recordInfoArray = $info;
 	    }
@@ -392,8 +392,8 @@ class RecordBox {
      */
     public function initForUploadReviewPage($objectId) {
 	$recordBox = new RecordBox();
-	$recordBox->recordCounter = NDB;
-	$recordBox->tracklist = NDB;
+	$recordBox->recordCounter = $boxes['NDB'];
+	$recordBox->tracklist = $boxes['NDB'];
 
 	$recordP = new RecordParse();
 	$record = $recordP->getRecord($objectId);

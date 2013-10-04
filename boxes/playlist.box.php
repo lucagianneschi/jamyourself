@@ -44,9 +44,9 @@ class SongInfo {
      * \param	$author, $thumbnail,$title
      */
     function __construct($author, $thumbnail, $title) {
-	is_null($author) ? $this->author = NODATA : $this->author = $author;
+	is_null($author) ? $this->author = $boxes['NODATA'] : $this->author = $author;
 	is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -122,7 +122,7 @@ class PlaylistBox {
 		}
 	    }
 	    if (empty($tracklist)) {
-		$playlistBox->tracklist = NODATA;
+		$playlistBox->tracklist = $boxes['NOTRACK'];
 	    } else {
 		$playlistBox->tracklist = $tracklist;
 	    }

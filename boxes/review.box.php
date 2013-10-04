@@ -46,13 +46,13 @@ class ReviewInfo {
      * \param	$counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title
      */
     function __construct($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title) {
-	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
-	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
-	is_null($rating) ? $this->rating = NODATA : $this->rating = $rating;
-	is_null($text) ? $this->text = NODATA : $this->text = $text;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
-	is_null($thumbnailCover) ? $this->thumbnailCover = NODATA : $this->thumbnailCover = $thumbnailCover;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($rating) ? $this->rating = $boxes['NODATA'] : $this->rating = $rating;
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($thumbnailCover) ? $this->thumbnailCover = $boxes['NODATA'] : $this->thumbnailCover = $thumbnailCover;
     }
 
 }
@@ -74,7 +74,7 @@ class ReviewBox {
      */
     public function initForDetail($objectId, $className) {//objetId record/event
 	$reviewBox = new ReviewBox();
-	$reviewBox->reviewCounter = NDB;
+	$reviewBox->reviewCounter = $boxes['NDB'];
 	$info = array();
 
 	$review = new CommentParse();
@@ -136,7 +136,7 @@ class ReviewBox {
 		array_push($info, $reviewInfo);
 	    }
 	    if (empty($info)) {
-		$reviewBox->reviewArray = NODATA;
+		$reviewBox->reviewArray = $boxes['NODATA'];
 	    } else {
 		$reviewBox->reviewArray = $info;
 	    }
@@ -198,7 +198,7 @@ class ReviewBox {
 
 		$commentCounter = $review->getCommentCounter();
 		$loveCounter = $review->getLoveCounter();
-		$reviewCounter = NDB;
+		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $review->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$objectId = $review->getObjectId();
@@ -206,7 +206,7 @@ class ReviewBox {
 
 		$encodedText = $review->getText();
 		$text = parse_decode_string($encodedText);
-		$thumbnailCover = NDB;
+		$thumbnailCover = $boxes['NDB'];
 
 		$encodedTitle = $review->getTitle();
 		$title = parse_decode_string($encodedTitle);
@@ -215,7 +215,7 @@ class ReviewBox {
 		array_push($info, $reviewInfo);
 	    }
 	    if (empty($info)) {
-		$reviewBox->reviewArray = NODATA;
+		$reviewBox->reviewArray = $boxes['NODATA'];
 	    } else {
 		$reviewBox->reviewArray = $info;
 	    }
@@ -345,7 +345,7 @@ class ReviewBox {
 		    array_push($info, $reviewInfo);
 		}
 		if (empty($info)) {
-		    $reviewBox->reviewArray = NODATA;
+		    $reviewBox->reviewArray = $boxes['NODATA'];
 		} else {
 		    $reviewBox->reviewArray = $info;
 		}

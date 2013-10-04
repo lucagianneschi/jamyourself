@@ -85,13 +85,13 @@ class RelationsBox {
 		    }
 		}
 		if (empty($followingArray)) {
-		    $followingArray = NOFOLLOWING;
+		    $followingArray = $boxes['NOFOLLOWING'];
 		}
 		if (empty($friendshipArray)) {
-		    $friendshipArray = NOFRIENDS;
+		    $friendshipArray = $boxes['NOFRIENDS'];
 		}
 
-		$info = array('followers' => ND, 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => ND, 'jammersCollaborators' => ND);
+		$info = array('followers' => $boxes['ND'], 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => $boxes['ND'], 'jammersCollaborators' => $boxes['ND']);
 		break;
 	    default :
 		$collaboratorVenue = new UserParse();
@@ -157,19 +157,19 @@ class RelationsBox {
 		    }
 		}
 		if (empty($followersArray)) {
-		    $followersArray = NOFOLLOWERS;
+		    $followersArray = $boxes['NOFOLLOWERS'];
 		}
 		if (empty($venuesArray)) {
-		    $venuesArray = NOVENUE;
+		    $venuesArray = $boxes['NOVENUE'];
 		}
 		if (empty($jammersArray)) {
-		    $jammersArray = NOJAMMER;
+		    $jammersArray = $boxes['NOJAMMER'];
 		}
-		$info = array('followers' => $followersArray, 'following' => ND, 'friendship' => ND, 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
+		$info = array('followers' => $followersArray, 'following' => $boxes['ND'], 'friendship' => $boxes['ND'], 'venuesCollaborators' => $venuesArray, 'jammersCollaborators' => $jammersArray);
 		break;
 	}
 	if (empty($info)) {
-	    $relationsBox->relationArray = NODATA;
+	    $relationsBox->relationArray = $boxes['NODATA'];
 	} else {
 	    $relationsBox->relationArray = $info;
 	}
