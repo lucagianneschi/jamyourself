@@ -86,9 +86,9 @@ class PostController extends REST {
 			//recupero e controllo il post
 			$text = $_REQUEST['text'];
 			if (strlen($text) < $this->config->minPostSize) {
-				$this->response(array(SHORTPOST .strlen($text)), 200);
+				$this->response(array($controllers['SHORTPOST'] .strlen($text)), 200);
 			} elseif (strlen($text) > $this->config->maxPostSize) {
-				$this->response(array(LONGPOST .strlen($text)), 200);
+				$this->response(array($controllers['LONGPOST'] .strlen($text)), 200);
 			} 
 			
 			//imposto i valori per il salvataggio del post
