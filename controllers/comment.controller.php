@@ -73,6 +73,10 @@ class CommentController extends REST {
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
 	    }
+		
+			//recupero gli utenti fromUser e toUser
+			//$fromUser = $_SESSION['currentUser'];
+		$toUserObjectId = $this->request['toUser'];
 
 	    $text = $_REQUEST['text'];
 	    if (strlen($text) < $this->config->minCommentSize) {

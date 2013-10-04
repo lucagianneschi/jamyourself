@@ -29,7 +29,7 @@ and open the template in the editor.
         <form action="javascript:sendComment()">
             <label for="comment">
             <?php 
-            echo "<textarea id=\"comment\" rows=".$controller->config->inputCommentRowNumber." cols=".$controller->config->inputCommentColumnNumber."> </textarea>"
+           	    echo '<textarea id="comment" rows="' . $controller->config->inputCommentRowNumber . '" cols="' . $controller->config->inputCommentColumnNumber . '"></textarea>';
             ?>
             <input type="submit" value="Send Comment" name="sendComment" id="sendComment">
         </form>
