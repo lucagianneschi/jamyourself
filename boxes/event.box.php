@@ -55,22 +55,22 @@ class EventInfoForMediaPage {
      * \param	$address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $tags, $title
      */
     function __construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $tags, $title) {
-	is_null($address) ? $this->address = NODATA : $this->address = $address;
-	is_null($attendee) ? $this->attendee = NODATA : $this->attendee = $attendee;
+	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
+	is_null($attendee) ? $this->attendee = $boxes['NODATA'] : $this->attendee = $attendee;
 	$this->attendeeCounter = count($attendee);
-	is_null($city) ? $this->city = NODATA : $this->city = $city;
-	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
-	is_null($description) ? $this->description = NODATA : $this->description = $description;
-	is_null($eventDate) ? $this->eventDate = NODATA : $this->eventDate = $eventDate;
-	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
+	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
+	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
+	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
 	$this->featuringCounter = count($featuring);
 	is_null($image) ? $this->image = DEFEVENTIMAGE : $this->image = $image;
-	is_null($invited) ? $this->invited = NODATA : $this->invited = $invited;
+	is_null($invited) ? $this->invited = $boxes['NODATA'] : $this->invited = $invited;
 	$this->invitedCounter = count($invited);
-	is_null($location) ? $this->location = NODATA : $this->location = $location;
-	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
+	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
+	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -99,17 +99,17 @@ class EventInfoForPersonalPage {
      * \param	$address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title
      */
     function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $objectId, $tags, $thumbnail, $title) {
-	is_null($address) ? $this->address = NODATA : $this->address = $address;
-	is_null($city) ? $this->city = NODATA : $this->city = $city;
-	is_null($counters) ? $this->counters = NODATA : $this->counters = $counters;
-	is_null($eventDate) ? $this->eventDate = NODATA : $this->eventDate = $eventDate;
-	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
-	is_null($fromUserInfo) ? $this->fromUserInfo = NODATA : $this->fromUserInfo = $fromUserInfo;
-	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($objectId) ? $this->objectId = NODATA : $this->objectId = $objectId;
-	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
+	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
+	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
+	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
+	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -135,14 +135,14 @@ class EventInfoForUploadReviewPage {
      * \param	$address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title
      */
     function __construct($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title) {
-	is_null($address) ? $this->address = NODATA : $this->address = $address;
-	is_null($city) ? $this->city = NODATA : $this->city = $city;
-	is_null($eventDate) ? $this->eventDate = NODATA : $this->eventDate = $eventDate;
-	is_null($featuring) ? $this->featuring = NODATA : $this->featuring = $featuring;
-	is_null($locationName) ? $this->locationName = NODATA : $this->locationName = $locationName;
-	is_null($tags) ? $this->tags = NODATA : $this->tags = $tags;
-	is_null($thumbnail) ? $this->thumbnail = NODATA : $this->thumbnail = $thumbnail;
-	is_null($title) ? $this->title = NODATA : $this->title = $title;
+	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
+	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
+	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
+	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
+	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
+	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
+	is_null($thumbnail) ? $this->thumbnail = $boxes['NODATA'] : $this->thumbnail = $thumbnail;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -248,11 +248,11 @@ class EventBox {
 	    $title = parse_decode_string($encodedTitle);
 	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 	    if (empty($attendee)) {
-		$attendee = NOATTENDEE;
+		$attendee = $boxes['NOATTENDEE'];
 	    } elseif (empty($featuring)) {
-		$featuring = NOFEATEVE;
+		$featuring = $boxes['NOFEATEVE'];
 	    } elseif (empty($invited)) {
-		$invited = NOINVITED;
+		$invited = $boxes['NOINVITED'];
 	    }
 	    $eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title);
 
@@ -269,7 +269,7 @@ class EventBox {
 		$username = parse_decode_string($encodedUsername);
 		$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 	    }
-	    $eventBox->eventCounter = NDB;
+	    $eventBox->eventCounter = $boxes['NDB'];
 	    $eventBox->eventInfoArray = $eventInfo;
 	    $eventBox->fromUserInfo = $userInfo;
 	}
@@ -346,14 +346,14 @@ class EventBox {
 		$encodedTitle = $event->getTitle();
 		$title = parse_decode_string($encodedTitle);
 		if (empty($featuring)) {
-		    $featuring = NOFEATEVE;
+		    $featuring = $boxes['NOFEATEVE'];
 		}
 		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $objectId, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
 	    }
 	    $eventBox->eventCounter = $counter;
 	    $eventBox->eventInfoArray = $info;
-	    $eventBox->fromUserInfo = NDB;
+	    $eventBox->fromUserInfo = $boxes['NDB'];
 	}
 	return $eventBox;
     }
@@ -366,7 +366,7 @@ class EventBox {
      */
     public function initForUploadReviewPage($objectId) {
 	$eventBox = new EventBox();
-	$eventBox->eventCounter = NDB;
+	$eventBox->eventCounter = $boxes['NDB'];
 
 	$recordP = new EventParse();
 	$event = $recordP->getEvent($objectId);
@@ -411,7 +411,7 @@ class EventBox {
 	    $encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle);
 	    if (empty($featuring)) {
-		$featuring = NOFEATEVE;
+		$featuring = $boxes['NOFEATEVE'];
 	    }
 	    $eventInfo = new EventInfoForUploadReviewPage($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title);
 	    $eventBox->recordInfoArray = $eventInfo;
