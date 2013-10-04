@@ -79,7 +79,7 @@ class DeleteController extends REST {
 			//$activity = $activityParse->getActivity($objectId);
 			//$activity->setToUser($activity->getFromUser());
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'Album':
@@ -96,7 +96,7 @@ class DeleteController extends REST {
 			//$album = $albumParse->getAlbum($objectId);
 			//$activity->setToUser($album->getFromUser());
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'Comment':
@@ -113,7 +113,7 @@ class DeleteController extends REST {
 			//$comment = $commentParse->getComment($objectId);
 			//$activity->setToUser($comment->getFromUser());
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'Event':
@@ -130,7 +130,7 @@ class DeleteController extends REST {
 			//$event = $eventParse->getEvent($objectId);
 			//$activity->setToUser($event->getFromUser());
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'Image':
@@ -147,7 +147,7 @@ class DeleteController extends REST {
 			//$image = $imageParse->getEvent($objectId);
 			//$activity->setToUser($image->getFromUser());					
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'Playlist':
@@ -164,7 +164,7 @@ class DeleteController extends REST {
 			//$playlist = $playlistParse->getPlaylist($objectId);
 			//$activity->setToUser($playlist->getFromUser());
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'Record':
@@ -181,7 +181,7 @@ class DeleteController extends REST {
 			//$record = $recordParse->getRecord($objectId);
 			//$activity->setToUser($record->getFromUser());					
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'Song':
@@ -198,7 +198,7 @@ class DeleteController extends REST {
 			//$song = $songParse->getSong($objectId);
 			//$activity->setToUser($song->getFromUser());
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'Status':
@@ -215,7 +215,7 @@ class DeleteController extends REST {
 			//$status = $statusParse->getStatus($objectId);
 			//$activity->setToUser($status->getFromUser());					
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'User':
@@ -235,7 +235,7 @@ class DeleteController extends REST {
 			    $mail->AddAddress('luca.gianneschi@gmail.com');
 			    //$mail->AddAddress($user->getEmail());
 			    $mail->Subject = SBJ;
-			    $mail->MsgHTML(file_get_contents(STDHTML_DIR . USERDELETED));
+			    $mail->MsgHTML(file_get_contents(STDHTML_DIR . $controllers['USERDELETED']));
 			    $mail->Send();
 			} catch (phpmailerException $e) {//OK??
 			    throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -245,7 +245,7 @@ class DeleteController extends REST {
 			$mail->SmtpClose();
 			unset($mail);
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 		case 'Video':
@@ -262,13 +262,13 @@ class DeleteController extends REST {
 			//$video = $videoParse->getVideo($objectId);
 			//$activity->setToUser($video->getFromUser());
 		    } else {
-			$this->response(array(CND), 401);
+			$this->response(array($controllers['CND']), 401);
 		    }
 		    break;
 	    }
 
 	    if (get_class($res) == 'Error') {
-		$this->response(array(DELERR), 503);
+		$this->response(array($controllers['DELERR']), 503);
 	    } else {
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);
@@ -336,9 +336,9 @@ class DeleteController extends REST {
 		break;
 	}
 	if (get_class($res) == 'Error') {
-	    $this->response(array(ROLLKO), 503);
+	    $this->response(array($controllers['ROLLKO']), 503);
 	} else {
-	    $this->response(array(ROLLOK), 503);
+	    $this->response(array($controllers['ROLLOK']), 503);
 	}
     }
 

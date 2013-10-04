@@ -80,14 +80,14 @@ class RelationController extends REST {
 		case 'SPOTTER':
 		    if ($toUserType == 'SPOTTER') {
 			//friendship
-			$HTMLFile = FRIENDSHIPACCEPTEDEMAIL;
+			$HTMLFile = $controllers['FRIENDSHIPACCEPTEDEMAIL'];
 		    }
 		    break;
 		default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
 		    if ($toUserType == 'SPOTTER') {
-			$this->response(array(RELDENIED), 200);
+			$this->response(array($controllers['RELDENIED']), 200);
 		    } else {
-			$HTMLFile = COLLABORATIONACCEPTEDEMAIL;
+			$HTMLFile = $controllers['COLLABORATIONACCEPTEDEMAIL'];
 		    }
 		    break;
 	    }
@@ -97,7 +97,7 @@ class RelationController extends REST {
 
 		$mail->AddAddress('luca.gianneschi@gmail.com');
 		//$mail->AddAddress($toUser->getEmail());
-		$mail->Subject = SBJOK;
+		$mail->Subject = $controllers['SBJOK'];
 		$mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
 		$mail->Send();
 	    } catch (phpmailerException $e) {//OK??
@@ -107,7 +107,7 @@ class RelationController extends REST {
 	    }
 	    $mail->SmtpClose();
 	    unset($mail);
-	    $this->response(array(RELDENIED), 200);
+	    $this->response(array($controllers['RELDENIED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
@@ -176,7 +176,7 @@ class RelationController extends REST {
 		    if ($toUserType == 'VENUE' || $toUserType == 'JAMMER') {
 			//rimuovi collaboration
 		    } else {
-			$this->response(array(NORELDEL), 200);
+			$this->response(array($controllers['NORELDEL']), 200);
 		    }
 		    break;
 	    }
@@ -227,18 +227,18 @@ class RelationController extends REST {
 		case 'SPOTTER':
 		    if ($toUserType == 'SPOTTER') {
 			$activity->setType("FRIENDSHIPREQUEST");
-			$HTMLFile = FRIENDSHIPREQUESTEMAIL;
+			$HTMLFile = $controllers['FRIENDSHIPREQUESTEMAIL'];
 		    } else {
 			$activity->setType("FOLLOWING");
-			$HTMLFile = FOLLOWINGEMAIL;
+			$HTMLFile = $controllers['FOLLOWINGEMAIL'];
 		    }
 		    break;
 		default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
 		    if ($toUserType == 'SPOTTER') {
-			$this->response(array(RELDENIED), 200);
+			$this->response(array($controllers['RELDENIED']), 200);
 		    } else {
 			$activity->setType("COLLABORATIONREQUEST");
-			$HTMLFile = COLLABORATIONREQUESTEMAIL;
+			$HTMLFile = $controllers['COLLABORATIONREQUESTEMAIL'];
 		    }
 		    break;
 	    }
@@ -254,7 +254,7 @@ class RelationController extends REST {
 
 		    $mail->AddAddress('luca.gianneschi@gmail.com');
 		    //$mail->AddAddress($toUser->getEmail());
-		    $mail->Subject = SBJ;
+		    $mail->Subject = $controllers['SBJ'];
 		    $mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
 		    $mail->Send();
 		} catch (phpmailerException $e) {//OK??
@@ -264,7 +264,7 @@ class RelationController extends REST {
 		}
 		$mail->SmtpClose();
 		unset($mail);
-		$this->response(array(RELSAVED), 200);
+		$this->response(array($controllers['RELSAVED']), 200);
 	    }
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);

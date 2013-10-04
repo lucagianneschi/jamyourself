@@ -68,16 +68,16 @@ class CommentController extends REST {
 	    }
 
 	    if (!isset($this->request['text'])) {
-		$this->response(array('status' => "Bad Request", "msg" => NOCOMMENT), 400);
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOCOMMENT']), 400);
 	    } elseif (!isset($this->request['toUser'])) {
-		$this->response(array('status' => "Bad Request", "msg" => NOTOUSER), 400);
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
 	    }
 
 	    $text = $_REQUEST['text'];
 	    if (strlen($text) < $this->config->minCommentSize) {
-		$this->response(array(SHORTCOMMENT . strlen($text)), 200);
+		$this->response(array($controllers['SHORTCOMMENT'] . strlen($text)), 200);
 	    } elseif (strlen($text) > $this->config->maxCommentSize) {
-		$this->response(array(LONGCOMMENT . strlen($text)), 200);
+		$this->response(array($controllers['LONGCOMMENT'] . strlen($text)), 200);
 	    }
 
 	    $objectId = $_REQUEST['objectId'];
@@ -162,7 +162,7 @@ class CommentController extends REST {
 		    $this->rollback($resCmt->getObjectId());
 		}
 	    }
-	    $this->response(array(COMMENTSAVED), 200);
+	    $this->response(array($controllers['COMMENTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
@@ -172,9 +172,9 @@ class CommentController extends REST {
 	$commentParse = new CommentParse();
 	$res = $commentParse->deleteComment($objectId);
 	if (get_class($res) == 'Error') {
-	    $this->response(array(ROLLKO), 503);
+	    $this->response(array($controllers['ROLLKO']), 503);
 	} else {
-	    $this->response(array(ROLLOK), 503);
+	    $this->response(array($controllers['ROLLOK']), 503);
 	}
     }
 

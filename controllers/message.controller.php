@@ -77,11 +77,11 @@ class MessageController extends REST {
 	    //$currentUser = $_SESSION['currentUser'];
 	    //controllo i parametri
 	    if (!isset($this->request['text'])) {
-		$this->response(array('status' => "Bad Request", "msg" => NOMESSAGE), 400);
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOMESSAGE']), 400);
 	    } elseif (!isset($this->request['toUser'])) {
-		$this->response(array('status' => "Bad Request", "msg" => NOTOUSER), 400);
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
 	    } elseif (!isset($this->request['fromUser'])) {
-		$this->response(array('status' => "Bad Request", "msg" => NOFROMUSER), 400);
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOFROMUSER']), 400);
 	    }
 
 	    $text = $_REQUEST['text'];
@@ -89,7 +89,7 @@ class MessageController extends REST {
 	    $fromUserObjectId = $this->request['fromUser'];
 
 	    if (strlen($text) < $this->config->minMessageSize) {
-		$this->response(array(SHORTMESSAGE . strlen($text)), 200);
+		$this->response(array($controllers['SHORTMESSAGE'] . strlen($text)), 200);
 	    }
 
 	    $message = new Comment();
@@ -162,7 +162,7 @@ class MessageController extends REST {
 		    $this->rollback($resCmt->getObjectId());
 		}
 	    }
-	    $this->response(array(MESSAGESAVED), 200);
+	    $this->response(array($controllers['MESSAGESAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
@@ -172,9 +172,9 @@ class MessageController extends REST {
 	$commentParse = new CommentParse();
 	$res = $commentParse->deleteComment($objectId);
 	if (get_class($res) == 'Error') {
-	    $this->response(array(ROLLKO), 503);
+	    $this->response(array($controllers['ROLLKO']), 503);
 	} else {
-	    $this->response(array(ROLLOK), 503);
+	    $this->response(array($controllers['ROLLOK']), 503);
 	}
     }
 

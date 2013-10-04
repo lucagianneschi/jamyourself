@@ -74,11 +74,11 @@ class ReviewController extends REST {
 
 			//controllo i parametri
 			if (!isset($this->request['text'])) {
-				$this->response(array('status' => "Bad Request", "msg" => NOREW), 400);
+				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOREW']), 400);
 			} elseif (!isset($this->request['toUser'])) {
-				$this->response(array('status' => "Bad Request", "msg" => NOTOUSER), 400);
+				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
 			} elseif (!isset($this->request['fromUser'])) {
-				$this->response(array('status' => "Bad Request", "msg" => NOFROMUSER), 400);
+				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOFROMUSER']), 400);
 			}
 			
 			//recupero l'utente che effettua il commento
@@ -87,9 +87,9 @@ class ReviewController extends REST {
 			//recupero e controllo il post
 			$text = $_REQUEST['text'];
 			if (strlen($text) < $this->config->minReviewSize) {
-				$this->response(array(SHORTREW.strlen($text)), 200);
+				$this->response(array($controllers['SHORTREW'].strlen($text)), 200);
 			} elseif (strlen($text) > $this->config->maxReviewSize) {
-				$this->response(array(LONGREW.strlen($text)), 200);
+				$this->response(array($controllers['LONGREW'].strlen($text)), 200);
 			} 
 			
 			$objectId = $_REQUEST['objectId'];
@@ -146,8 +146,8 @@ class ReviewController extends REST {
 					$review->setType('RE');
 					$activity->setEvent($objectId);
 					$activity->setType("NEWEVENTREVIEW");					
-					$mail->Subject = SBJE;
-					$mail->MsgHTML(file_get_contents(STDHTML_DIR .EVENTREVIEWEMAIL));
+					$mail->Subject = $controllers['SBJE'];
+					$mail->MsgHTML(file_get_contents(STDHTML_DIR .$controllers['EVENTREVIEWEMAIL']));
 					//$event = $eventParse->getEvent($objectId);
 					//$activity->setToUser($event->getFromUser());
 					break;
@@ -158,8 +158,8 @@ class ReviewController extends REST {
 					$activity->setType("NEWRECORDREVIEW");
 					//$event = $eventParse->getEvent($objectId);
 					//$activity->setToUser($event->getFromUser());
-					$mail->Subject = SBJR;
-					$mail->MsgHTML(file_get_contents(STDHTML_DIR .RECORDREVIEWEMAIL));
+					$mail->Subject = $controllers['SBJR'];
+					$mail->MsgHTML(file_get_contents(STDHTML_DIR .$controllers['RECORDREVIEWEMAIL']));
 					break;
 			}
 			
@@ -180,7 +180,7 @@ class ReviewController extends REST {
 			$mail->Send(); 
 			$mail->SmtpClose();
 			unset($mail);
-			$this->response(array(REWSAVED), 200);
+			$this->response(array($controllers['REWSAVED']), 200);
 	
 		} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
@@ -191,9 +191,9 @@ class ReviewController extends REST {
 		$commentParse = new CommentParse();
 		$res = $commentParse->deleteComment($objectId);
 		if (get_class($res) == 'Error') {
-			$this->response(array(ROLLKO), 503);
+			$this->response(array($controllers['ROLLKO']), 503);
 		} else {
-			$this->response(array(ROLLOK), 503);
+			$this->response(array($controllers['ROLLOK']), 503);
 		}
 	}
 	

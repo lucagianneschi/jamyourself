@@ -84,12 +84,12 @@ class AccessController extends REST {
 	
 	    $res = loginUser($usernameEmail, $password);
 	    if (get_class($res) == 'Error') {
-			$this->response(array(KOLOGIN), 503);
+			$this->response(array($controllers['KOLOGIN']), 503);
 	    } else {
 			$activityParse = new ActivityParse();
 			$activityParse->saveActivity($activity);
 	    }
-	    $this->response(array(OKLOGIN), 200);
+	    $this->response(array($controllers['OKLOGIN']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 		}
@@ -139,12 +139,12 @@ class AccessController extends REST {
 	
 	    $res = logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
 	    if (get_class($res) == 'Error') {
-			$this->response(array(KOLOGOUT), 503);
+			$this->response(array($controllers['KOLOGOUT']), 503);
 	    } else {
 			$activityParse = new ActivityParse();
 			$activityParse->saveActivity($activity);
 	    }
-	    $this->response(array(OKLOGOUT), 200);
+	    $this->response(array($controllers['OKLOGOUT']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 		}

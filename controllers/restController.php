@@ -3,7 +3,8 @@
 /* File : Rest.inc.php
  * Author : Arun Kumar Sekar
  */
-
+require_once ROOT_DIR . 'string.php';
+ 
 class REST {
 
     public $_allow = array();
@@ -30,47 +31,47 @@ class REST {
 
     private function get_status_message() {
         $status = array(
-            100 => '100',												
-            101 => '101',												
-            200 => '200',												
-            201 => '201',												
-            202 => '202',												
-            203 => '203',												
-            204 => '204',												
-            205 => '205',												
-            206 => '206',												
-            300 => '300',												
-            301 => '301',												
-            302 => '302',												
-            303 => '303',												
-            304 => '304',												
-            305 => '305',												
-            306 => '306',												
-            307 => '307',												
-            400 => '400',												
-            401 => '401',												
-            402 => '402',												
-            403 => '403',												
-            404 => '404',												
-            405 => '405',												
-            406 => '406',												
-            407 => '407',												
-            408 => '408',												
-            409 => '409',												
-            410 => '410',												
-            411 => '411',												
-            412 => '412',												
-            413 => '413',												
-            414 => '414',												
-            415 => '415',												
-            416 => '416',												
-            417 => '417',												
-            500 => '500',												
-            501 => '501',												
-            502 => '502',												
-            503 => '503',												
-            504 => '504',												
-            505 => '505');												
+            100 => $controllers['100'],												
+            101 => $controllers['101'],												
+            200 => $controllers['200'],												
+            201 => $controllers['201'],												
+            202 => $controllers['202'],												
+            203 => $controllers['203'],												
+            204 => $controllers['204'],												
+            205 => $controllers['205'],												
+            206 => $controllers['206'],												
+            300 => $controllers['300'],												
+            301 => $controllers['301'],												
+            302 => $controllers['302'],												
+            303 => $controllers['303'],												
+            304 => $controllers['304'],												
+            305 => $controllers['305'],												
+            306 => $controllers['306'],												
+            307 => $controllers['307'],												
+            400 => $controllers['400'],												
+            401 => $controllers['401'],												
+            402 => $controllers['402'],												
+            403 => $controllers['403'],												
+            404 => $controllers['404'],												
+            405 => $controllers['405'],												
+            406 => $controllers['406'],												
+            407 => $controllers['407'],												
+            408 => $controllers['408'],												
+            409 => $controllers['409'],												
+            410 => $controllers['410'],												
+            411 => $controllers['411'],												
+            412 => $controllers['412'],												
+            413 => $controllers['413'],												
+            414 => $controllers['414'],												
+            415 => $controllers['415'],												
+            416 => $controllers['416'],												
+            417 => $controllers['417'],												
+            500 => $controllers['500'],												
+            501 => $controllers['501'],												
+            502 => $controllers['502'],												
+            503 => $controllers['503'],												
+            504 => $controllers['504'],												
+            505 => $controllers['505']);												
         return ($status[$this->_code]) ? $status[$this->_code] : $status[500];
     }
 

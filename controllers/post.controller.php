@@ -73,9 +73,9 @@ class PostController extends REST {
 			
 			//controllo i parametri
 			if (!isset($this->request['text'])) {
-				$this->response(array('status' => "Bad Request", "msg" => NOPOST), 400);
+				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOPOST']), 400);
 			} elseif (!isset($this->request['toUser'])) {
-				$this->response(array('status' => "Bad Request", "msg" => NOTOUSER), 400);
+				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
 			}
 			
 			//recupero gli utenti fromUser e toUser
@@ -161,7 +161,7 @@ class PostController extends REST {
 					$this->rollback($resCmt->getObjectId());
 				}
 			}
-			$this->response(array(POSTSAVED), 200);
+			$this->response(array($controllers['POSTSAVED']), 200);
 		} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
         }
@@ -171,9 +171,9 @@ class PostController extends REST {
 		$commentParse = new CommentParse();
 		$res = $commentParse->deleteComment($objectId);
 		if (get_class($res) == 'Error') {
-			$this->response(array("Rollback KO"), 503);
+			$this->response(array($controllers['ROLLKO']), 503);
 		} else {
-			$this->response(array("Rollback OK"), 503);
+			$this->response(array($controllers['ROLLOK']), 503);
 		}
 	}
 }

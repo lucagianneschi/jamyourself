@@ -359,9 +359,9 @@ class LoveController extends REST {
 		}
 		
 		if (get_class($res) == 'Error') {
-			$this->response(array(ROLLKO), 503);
+			$this->response(array($controllers['ROLLKO']), 503);
 		} else {
-			$this->response(array(ROLLOK), 503);
+			$this->response(array($controllers['ROLLOK']), 503);
 		}
 	}
 }
