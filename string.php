@@ -93,7 +93,7 @@ $controllers = array(
     '502' => 'Gateway Non Valido',
     '503' => 'Servizio Non Disponibile',
     '504' => 'Gateway Timeout',
-    '505' => 'Versione HTTP Non Supportata',
+    '505' => 'Versione HTTP Non Supportata'
 );
 
 $mail_files = array(
@@ -104,7 +104,7 @@ $mail_files = array(
     'COLLABORATIONACCEPTEDEMAIL' => 'it.collaborationRequestAccepted.html',
     'FOLLOWINGEMAIL' => 'it.following.html',
     'EVENTREVIEWEMAIL' => 'it.eventReviewReceived.html',
-    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html',
+    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html'
 );
 
 $settings = array(
@@ -232,7 +232,7 @@ $settings = array(
     'VENUE_SETTING_37' => 'nuovo rating a un evento',
     'VENUE_SETTING_38' => 'nuovo evento pubblicato di cui si &egrave; ospitante',
     'VENUE_SETTING_39' => 'nuovo livello di autorit&agrave; raggiunto/perso',
-    'VENUE_SETTING_40' => 'nuovi badge conquistati',
+    'VENUE_SETTING_40' => 'nuovi badge conquistati'
     );
 
 $boxes = array(
@@ -252,7 +252,7 @@ $boxes = array(
     'NOFRIENDS' => 'NON HAI ANCORA AMICI',
     'NOFOLLOWERS' => 'NON HAI ANCORA FOLLOWERS',
     'NOVENUE' => 'NESSUNA COLLABORAZIONE CON VENUE AL MOMENTO',
-    'NOJAMMER' => 'NESSUNA COLLABORAZIONE CON JAMMER AL MOMENTO',
+    'NOJAMMER' => 'NESSUNA COLLABORAZIONE CON JAMMER AL MOMENTO'
 );
 
 
@@ -513,6 +513,5 @@ define('VENUE_SETTING_37','nuovo rating a un evento');
 define('VENUE_SETTING_38','nuovo evento pubblicato di cui si &egrave; ospitante');
 define('VENUE_SETTING_39','nuovo livello di autorit&agrave; raggiunto/perso');
 define('VENUE_SETTING_40','nuovi badge conquistati');
- * 
- */
+*/
 ?>
