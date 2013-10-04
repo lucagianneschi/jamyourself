@@ -93,7 +93,7 @@ $controllers = array(
     '502' => 'Bad Gateway',
     '503' => 'Service Unavailable',
     '504' => 'Gateway Timeout',
-    '505' => 'HTTP Version Not Supported',);
+    '505' => 'HTTP Version Not Supported');
 
 $mail_files = array(
     'USERDELETED' => 'en.userDeletion.html',
@@ -103,6 +103,6 @@ $mail_files = array(
     'FRIENDSHIPACCEPTEDEMAIL' => 'en.friendshipRequestAccepted.html',
     'COLLABORATIONACCEPTEDEMAIL' => 'en.collaborationRequestAccepted.html',
     'EVENTREVIEWEMAIL' => 'en.eventReviewReceived.html',
-    'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html',
+    'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html'
 );
 ?>
