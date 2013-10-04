@@ -255,6 +255,24 @@ $boxes = array(
     'NOJAMMER' => 'NESSUNA COLLABORAZIONE CON JAMMER AL MOMENTO',
 );
 
+
+//USER
+define('DEFAVATAR', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAvatar.jpg');
+define('DEFTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAvatarThumb.jpg');
+define('DEFBGD', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultBackground.jpg');
+
+//ALBUM
+define('DEFALBUMCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAlbumCover.jpg');
+define('DEFALBUMTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAlbumThumb.jpg');
+//EVENT
+define('DEFEVENTTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultEventThumb.jpg');
+define('DEFEVENTIMAGE', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultEventImage.jpg');
+//RECORD
+define('DEFRECORDCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultRecordCover.jpg');
+define('DEFRECORDTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultRecordThumb.jpg');
+//SONG
+define('DEFSONGTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultSongThumb.jpg');
+
 /*
 define('NODATA', 'NESSUN DATO DA MOSTRARE');
 define('ND', 'NON DEFINITO PER QUESTO TIPO DI UTENTE');
@@ -363,22 +381,7 @@ define('502','Gateway Non Valido');
 define('503','Servizio Non Disponibile');
 define('504','Gateway Timeout');
 define('505','Versione HTTP Non Supportata');
-//USER
-define('DEFAVATAR', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAvatar.jpg');
-define('DEFTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAvatarThumb.jpg');
-define('DEFBGD', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultBackground.jpg');
 
-//ALBUM
-define('DEFALBUMCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAlbumCover.jpg');
-define('DEFALBUMTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAlbumThumb.jpg');
-//EVENT
-define('DEFEVENTTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultEventThumb.jpg');
-define('DEFEVENTIMAGE', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultEventImage.jpg');
-//RECORD
-define('DEFRECORDCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultRecordCover.jpg');
-define('DEFRECORDTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultRecordThumb.jpg');
-//SONG
-define('DEFSONGTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultSongThumb.jpg');
 
 //SETTINGS JAMMER
 define('JAMMER_SETTING_0', 'lingua generale del sito');
