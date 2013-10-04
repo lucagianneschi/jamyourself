@@ -1,7 +1,7 @@
 <?php
 
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'userParse.class.php';
@@ -10,6 +10,7 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'validateNewUser.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once SERVICES_DIR . 'recaptcha.lib.php';
+require_once DEBUG_DIR . 'debug.php';
 
 ////////////////////////////////////////////////////////////////////////////////
 //

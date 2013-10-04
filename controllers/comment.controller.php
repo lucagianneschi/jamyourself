@@ -26,6 +26,7 @@ require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'utils.php';
 require_once SERVICES_DIR . 'mail.service.php';
+require_once DEBUG_DIR . 'debug.php';
 
 /**
  * \brief	CommentController class 

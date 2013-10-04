@@ -27,6 +27,7 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'utils.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once DEBUG_DIR . 'debug.php';
 
 /**
  * \brief	MessageController class 

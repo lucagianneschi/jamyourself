@@ -18,13 +18,12 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once ROOT_DIR . 'string.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
-require_once SERVICES_DIR . 'mail.service.php';
+require_once DEBUG_DIR . 'debug.php';
 
 /**
  * \brief	RelationController class 
@@ -47,6 +46,7 @@ class RelationController extends REST {
      */
     public function acceptRelationRequest() {
 	require_once SERVICES_DIR . 'mail.service.php';
+	require_once ROOT_DIR . 'string.php';
 	#TODO
 	//simulo che l'utente in sessione sia GuUAj83MGH
 
@@ -144,6 +144,7 @@ class RelationController extends REST {
      * \todo    usare la sessione
      */
     public function removeRelationship() {
+	require_once ROOT_DIR . 'string.php';
 	#TODO
 	//simulo che l'utente in sessione sia GuUAj83MGH
 	require_once CLASSES_DIR . 'user.class.php';
@@ -191,6 +192,7 @@ class RelationController extends REST {
      */
     public function sendRelationRequest() {
 	require_once SERVICES_DIR . 'mail.service.php';
+	require_once ROOT_DIR . 'string.php';
 	#TODO
 	//simulo che l'utente in sessione sia GuUAj83MGH
 
