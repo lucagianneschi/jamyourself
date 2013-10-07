@@ -341,10 +341,6 @@ class UserParse {
 			
 			is_null($user->getUsername()) ? $parseUser->username = null : $parseUser->username = $user->getUsername();
 			is_null($user->getPassword()) ? $parseUser->password = null : $parseUser->password = $user->getPassword();
-			# authData non può essere salvato su Parse perchè è una parola chiave
-			# is_null($user->getAuthData()) ? $parseUser->authData = null : $parseUser->authData = $user->getAuthData();
-			# emailVerified non può essere salvato su Parse perchè è una parola chiave
-			# is_null($user->getEmailVerified()) ? $parseUser->emailVerified = null : $parseUser->emailVerified = $user->getEmailVerified();
 			is_null($user->getActive()) ? $parseUser->active = null : $parseUser->active = $user->getActive();
 			is_null($user->getAddress()) ? $parseUser->address = null : $parseUser->address = $user->getAddress();
 			is_null($user->getAlbums()) ? $parseUser->albums = null : $parseUser->albums = toParseAddRelation('Album', $user->getAlbums());
@@ -385,8 +381,6 @@ class UserParse {
 			is_null($user->getProfilePicture()) ? $parseUser->profilePicture = null : $parseUser->profilePicture = $user->getProfilePicture();
 			is_null($user->getProfilePictureFile()) ? $parseUser->profilePictureFile = null : $parseUser->profilePictureFile = $user->getProfilePictureFile();
 			is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = null : $parseUser->profileThumbnail = $user->getProfileThumbnail();
-			# sessionToken non può essere salvato su Parse perchè è una parola chiave
-			# is_null($user->getSessionToken()) ? $parseUser->sessionToken = null : $parseUser->sessionToken = $user->getSessionToken();
 			is_null($user->getRecords()) ? $parseUser->records = null : $parseUser->records = toParseAddRelation('Record', $user->getRecords());
 			is_null($user->getSettings()) ? $parseUser->settings = null : $parseUser->settings = $user->getSettings();
 			is_null($user->getSex()) ? $parseUser->sex = null : $parseUser->sex = $user->getSex();
@@ -398,10 +392,6 @@ class UserParse {
 			is_null($user->getVideos()) ? $parseUser->videos = null : $parseUser->videos = toParseAddRelation('Video', $user->getVideos());
 			is_null($user->getWebsite()) ? $parseUser->website = null : $parseUser->website = $user->getWebsite();
 			is_null($user->getYoutubeChannel()) ? $parseUser->youtubeChannel = null : $parseUser->youtubeChannel = $user->getYoutubeChannel();
-			# createdAt non può essere salvato su Parse perchè è una parola chiave
-			# is_null($user->getCreatedAt()) ? $parseUser->createdAt = null : $parseUser->createdAt = $user->getCreatedAt();
-			# updatedAt non può essere salvato su Parse perchè è una parola chiave
-			# is_null($user->getUpdatedAt()) ? $parseUser->updatedAt = null : $parseUser->updatedAt = $user->getUpdatedAt();
 			is_null($user->getACL()) ? $parseUser->ACL = null : $parseUser->ACL = $user->getACL()->acl;
 			if ($user->getObjectId() == '') {
 				$res = $parseUser->signup($user->getUsername(), $user->getPassword());
