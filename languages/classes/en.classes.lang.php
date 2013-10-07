@@ -10,7 +10,7 @@
  *  \brief     Italian strings for classes
  *  \warning
  *  \bug
- *  \todo
+ *  \todo     FARE LA TRADUZIONE
  *
  *  
  *  
