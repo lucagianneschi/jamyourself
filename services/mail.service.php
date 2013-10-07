@@ -1,6 +1,6 @@
 <?php
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
+ * \author		Daniele Caldelli
  * \version		1.0
  * \date		2013
  * \copyright	Jamyourself.com 2013
@@ -10,31 +10,27 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		settare i parametri corretti per invio mail
+ * \todo
  *
  */
- if (!defined('ROOT_DIR'))
+if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
  
-require ROOT_DIR . 'config.php';
-require ROOT_DIR . 'string.php';
-require SERVICES_DIR . 'mail/class.phpmailer.php';
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'mail/class.phpmailer.php';
 
-/**
- * \brief	MailService class 
- * \details	extend  PHPMailer
- */
-class MailService extends PHPMailer {
-    // Set default variables for all new objects
-	var $AltBody  = 'To view the message, please use an HTML compatible email viewer!'; //mettere questo valore dentro i file di lingua
-    var $From     = 'info@jamyourself.com';
-    var $FromName = "Jamyourself.com - Meritocratic Music Social Network";
-    var $Host     = 'smtp.gmail.com'; //sostituire con il server di posta in uscita di Jam
-    var $Mailer   = "smtp"; 
-	var $Password = "test90321"; // SMTP account username
-	var $Port = 465;
-	var $ReplyTo  = 'info@jamyourself.com';
-	var $SMTPSecure = 'ssl';
-	var $Username = "info@socialmusicdiscovering.com"; // SMTP account username	
+function mailService() {
+	$mail = new PHPMailer;
+	$mail->isSMTP();
+	$mail->Host     	= 'smtp.piombino2.it'; 							#TODO sostituire con il server di posta in uscita di Jam
+	$mail->SMTPAuth 	= true;
+	$mail->Username 	= 'postmaster@piombino2.it'; 					#TODO SMTP account username di Jam
+	$mail->Password 	= 'b94cca2c2e'; 								#TODO SMTP account password di Jam
+	$mail->SMTPSecure 	= 'tls';
+	$mail->From     	= 'noreply@piombino2.it';					#TODO indirizzo da cui si desidera far recapitare le email 
+	$mail->FromName 	= 'Scout Piombino2';							#TODO il nome che si vuole far apparire all'arrivo di una email
+	$mail->addReplyTo('noreply@piombino2.it', 'Scout Piombino2');	#TODO il nome e la mail a cui l'utente deve rispondere
+	$mail->isHTML(true);
+	return $mail;
 }
 ?>
