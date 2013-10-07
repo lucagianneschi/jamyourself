@@ -228,23 +228,34 @@ class DeleteController extends REST {
 						$activity->setType("DELETEDUSER");
 						$activity->setToUser($objectId);
 						//$activity->setToUser($objectId);
+						
 						try {
+							$mail = mailService();
 							#TODO
-							//l'invio della mail sembra non funzionare
-							$mail = new MailService(true);
-							$mail->IsHTML(true);
-							$mail->AddAddress('daniele.caldelli@gmail.com');
 							//$mail->AddAddress($user->getEmail());
+							$mail->AddAddress('daniele.caldelli@gmail.com');
+							
 							$mail->Subject = $controllers['SBJ'];
-							$mail->MsgHTML(file_get_contents(STDHTML_DIR . $mail_files['USERDELETED']));
-							$mail->Send();
-						} catch (phpmailerException $e) {//OK??
-							throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+							$mail->Body    = file_get_contents(STDHTML_DIR . $mail_files['USERDELETED']);
+							#TODO
+							$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+							if(!$mail->send()) {
+							   #TODO
+							   //l'invio della mail è andato male
+							}
+							
+							#TODO
+							//l'invio della mail è andato a buon fine
+							
+							$mail->SmtpClose();
+						} catch (phpmailerException $e) {
+							echo 'Eccezione ' . $e->getMessage();
+							//throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 						} catch (Exception $e) {
-							throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+							echo 'Eccezione ' . $e->getMessage();
+							//throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 						}
-						$mail->SmtpClose();
-						unset($mail);
 					} else {
 						$this->response(array($controllers['CND']), 401);
 					}
