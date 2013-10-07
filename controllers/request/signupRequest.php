@@ -12,10 +12,15 @@ require_once CONTROLLERS_DIR . 'signup.controller.php';
 //  
 //////////////////////////////////////////////////////////////////////////////// 
 //inizializza la sessione
+try{
 session_start();
 
 // Initiiate Library
 $controller = new SignupController();
-$controller->processApi();
+$controller->processApi();    
+}catch(Exception $e){
+    //log di sistema
+}
+
 
 ?>

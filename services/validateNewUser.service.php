@@ -50,15 +50,15 @@ class ValidateNewUserService {
 
         $user = json_decode(json_encode($userJSON), false);
 
-        
-        if (!isset($user->language) || is_null($user->language) || !$this->checkUsername($user->language) || strlen($user->language) <=0)
+
+        if (!isset($user->language) || is_null($user->language) || !$this->checkUsername($user->language) || strlen($user->language) <= 0)
             $this->setInvalid("language");
-        if (!isset($user->localTime) || is_null($user->localTime) || !$this->checkUsername($user->localTime) || strlen($user->localTime) <=0)
+        if (!isset($user->localTime) || is_null($user->localTime) || !$this->checkUsername($user->localTime) || strlen($user->localTime) <= 0)
             $this->setInvalid("language");
         if (!isset($user->type) || is_null($user->type))
             $this->setInvalid("type");
         if (!isset($user->username) || is_null($user->username) || !$this->checkUsername($user->username))
-            $this->setInvalid("username");        
+            $this->setInvalid("username");
         if (!isset($user->password) || is_null($user->password) || !$this->checkPassword($user->password))
             $this->setInvalid("password");
         if (!isset($user->verifyPassword) || is_null($user->verifyPassword) || !$this->checkVerifyPassword($user->password, $user->verifyPassword))
@@ -353,16 +353,20 @@ class ValidateNewUserService {
 //E) Case Sensitive attivo per distinzione maiuscole/minuscole e non creare problemi su DB. Per Campo
 //“Instrument” utilizziamo lista strumenti fornita da Pinni (allegato file .txt)
         $component = json_decode(json_encode($componentJSON), false);
-        if(!isset($component->name) || is_null($component->name) || !isset($component->instrument) || is_null($component->instrument))
+        if (!isset($component->name) || is_null($component->name) || !isset($component->instrument) || is_null($component->instrument))
             return false;
-        
-        if(strlen($component->name) > 50) return false;
-        if($this->checkSpecialChars($component->name)) return false;
-        
-        if(strlen($component->instrument)<= 0) return false;
-        
+
+        if (strlen($component->name) > 50)
+            return false;
+        if ($this->checkSpecialChars($component->name))
+            return false;
+
+        if (strlen($component->instrument) <= 0)
+            return false;
+
         $instrumentList = $this->config->instruments;
-        if(!in_array($component->instrument, $instrumentList)) return false;
+        if (!in_array($component->instrument, $instrumentList))
+            return false;
 
         return true;
     }
@@ -430,7 +434,8 @@ class ValidateNewUserService {
 
     private function checkSpecialChars($string) {
         $charList = "!#$%&'()*+,-./:;<=>?[]^_`{|}~àèìòùáéíóúüñ¿¡";
-        foreach ($charList as $char) {
+        for ($i = 0; $i < strlen($charList); $i++) {
+            $char = $charList[$i];
             if (stripos($string, $char) !== false)
                 return true;
         }

@@ -10,8 +10,6 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'validateNewUser.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once SERVICES_DIR . 'recaptcha.lib.php';
-require_once DEBUG_DIR . 'debug.php';
-
 ////////////////////////////////////////////////////////////////////////////////
 //
 // DEFINIZIONE DELLE FUNZIONI DEL CONTROLLER PER LA REGISTRAZIONE
@@ -97,15 +95,15 @@ class SignupController extends REST {
 
             //recupero i campi dell'utente
             $newUser = json_decode(json_encode($userJSON), false);
-            switch ($userJSON->type) {
+            switch ($newUser->type) {
                 case "SPOTTER" :
-                    $newUser = $this->createSpotter($userJSON);
+                    $newUser = $this->createSpotter($newUser);
                     break;
                 case "JAMMER" :
-                    $newUser = $this->createJammer($userJSON);
+                    $newUser = $this->createJammer($newUser);
                     break;
                 case "VENUE" :
-                    $newUser = $this->createVenue($userJSON);
+                    $newUser = $this->createVenue($newUser);
                     break;
             }
 
@@ -115,7 +113,7 @@ class SignupController extends REST {
 
             if (is_a($user, "Error")) {
                 //result è un errore e contiene il motivo dell'errore
-                $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
+                $error = array('status' => "Service Unavailable", "msg" => $user->getErrorMessage());
                 $this->response($error, 503);
             }
 
@@ -294,7 +292,7 @@ class SignupController extends REST {
             //birthday            
             $birthday = json_decode(json_encode($userJSON->birthday),false);
             if (strlen($birthday->year) > 0 && strlen($birthday->month) > 0 && strlen($birthday->day) > 0) {
-                $user->setBirthDay($birthday->year . "-" . $birthday->month . "-" . $birthday->day);
+                $user->setBirthDay($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
             }
 
             return $user;
@@ -310,20 +308,19 @@ class SignupController extends REST {
     private function createJammer($userJSON) {
 
         if (!is_null($userJSON)) {
-            $decoded = json_decode($userJSON);
             $user = new User("JAMMER");
             //step1
-            $this->setCommonValues($user, $decoded);
+            $this->setCommonValues($user, $userJSON);
 
             //step2
-            $user->setJammerType($decoded->jammerType);
-            $user->setCountry($decoded->country);
-            $user->setCity($decoded->city);
-            if ($decoded->jammerType == "band") {
-                $user->setMembers($this->getMembersArray($decoded->members));
+            $user->setJammerType($userJSON->jammerType);
+            $user->setCountry($userJSON->country);
+            $user->setCity($userJSON->city);
+            if ($userJSON->jammerType == "band") {
+                $user->setMembers($this->getMembersArray($userJSON->members));
             }
             //step 3
-            $user->setMusic($this->getMusicArray($decoded->genre));
+            $user->setMusic($this->getMusicArray($userJSON->genre));
             return $user;
         }
         return null;
@@ -332,27 +329,22 @@ class SignupController extends REST {
     private function createVenue($userJSON) {
 
         if (!is_null($userJSON)) {
-            $decoded = json_decode($userJSON);
             $user = new User("VENUE");
 
             //step1
-            $this->setCommonValues($user, $decoded);
+            $this->setCommonValues($user, $userJSON);
 
-            $user->setCountry($decoded->country);
-            $user->setCity($decoded->city);
-            $location = $decoded->country . " , ";
-            $location .= $decoded->city . " , ";
-            $location .= $decoded->province . " , ";
-            $location .= $decoded->address . " , ";
-            $location .= $decoded->number;
-            $geocoding = GeocoderService::getLocation($decoded->country . "," . $decoded->city . "," . $decoded->province . "," . $decoded->address . "," . $decoded->number);
+            $user->setCountry($userJSON->country);
+            $user->setCity($userJSON->city);
+            $location = $userJSON->country . " , ";
+            $location .= $userJSON->city . " , ";
+            $location .= $userJSON->province . " , ";
+            $location .= $userJSON->address . " , ";
+            $location .= $userJSON->number;
+            $geocoding = GeocoderService::getLocation($userJSON->country . "," . $userJSON->city . "," . $userJSON->province . "," . $userJSON->address . "," . $userJSON->number);
             $user->setGeoCoding($geocoding);
-
-            //genre
-
-
-
-
+            $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
+            
             return $user;
         }
         return null;
@@ -371,11 +363,25 @@ class SignupController extends REST {
     }
 
     private function getMembersArray($members) {
-        $decoded = json_decode($members);
+        
+        if(count($members)> 0){
+            $return = array();
+            foreach($members as  $member){
+                $return[] = array("instrument" => $member->instrument, "name" => $member->name);
+            }
+            return $return;
+        }else return null;                
     }
 
-    private function getGenreArray($members) {
-        
+    private function getLocalTypeArray($genre) {
+          if(count($genre) > 0){
+              $return = array();
+              for($i=0; $i<count($genre); $i++){
+                  $return[] = $this->config->localType[$genre[$i]];
+              }
+              
+              return $return;
+          }else return null;         
     }
 
     private function setCommonValues($user, $decoded) {
@@ -396,6 +402,9 @@ class SignupController extends REST {
 
         //imposto i parametri di Jam
 //        $user->setAuthData($authData);
+        $parseACL = new parseACL();
+        $parseACL->setPublicReadAccess(true);
+        $user->setACL($parseACL);
         $user->setActive(true);
 //        $user->setBackground();
         $user->setCollaborationCounter(0);

@@ -5,7 +5,7 @@
  * registrazione
  */
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../../');
 
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'signup.controller.php';
@@ -26,6 +26,10 @@ $sc->init();
   <input type="button" value="Invia Jammer Band" onclick="javascript:jband()">
   <input type="button" value="Invia Jammer Artista" onclick="javascript:jartist()">
   <input type="button" value="Invia Venue" onclick="javascript:venue()">
+  
+  <div id="data"></div>
+  
+  <div id="status"</div>
   </body>
 </html>
 <?php
