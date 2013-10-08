@@ -7,7 +7,7 @@
 		
 		try {
 			$mail = mailService();
-			$mail->AddAddress('daniele.caldelli@gmail.com');
+			$mail->AddAddress($_POST['indirizzo']);
 			
 			$mail->Subject = 'Test';
 			$mail->Body    = $_POST['messaggio'];
