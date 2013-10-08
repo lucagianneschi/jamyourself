@@ -29,8 +29,7 @@ class REST {
     }
 
     private function get_status_message() {
-        $config = $this->stringConfig;
-        $controllers = $config['controllers'];
+        $controllers = $this->stringConfig['controllers'];
 
         $status = array(
             100 => $controllers['100'],

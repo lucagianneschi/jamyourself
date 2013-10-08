@@ -133,7 +133,7 @@ class SignupController extends REST {
             //aggiorno l'oggetto User in sessione
             $_SESSION['currentUser'] = $user;
             //restituire true o lo user....
-            $this->response(array("OK"), 200);
+            $this->response(array("OK"), 201);
             
         } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
