@@ -4,6 +4,7 @@ if (!defined('ROOT_DIR'))
 
 class REST {
 
+    public $stringConfig;
     public $_allow = array();
     public $_content_type = "application/json";
     public $request = array();
@@ -12,6 +13,7 @@ class REST {
     public $data = "";
 
     public function __construct() {
+        $this->stringConfig = json_decode(file_get_contents(CONTROLLERS_DIR."config/string.config.json"),true);
         $this->inputs();
     }
 
@@ -27,7 +29,9 @@ class REST {
     }
 
     private function get_status_message() {
-		require_once ROOT_DIR . 'string.php';
+        $config = $this->stringConfig;
+        $controllers = $config['controllers'];
+
         $status = array(
             100 => $controllers['100'],
             101 => $controllers['101'],
@@ -113,6 +117,8 @@ class REST {
     }
 
     private function set_headers() {
+        $msg = $this->get_status_message();
+        $content = $this->_content_type;
         header("HTTP/1.1 " . $this->_code . " " . $this->get_status_message());
         header("Content-Type:" . $this->_content_type);
     }
