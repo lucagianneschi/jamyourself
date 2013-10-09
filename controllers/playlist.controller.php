@@ -156,7 +156,7 @@ class PlaylistController extends REST {
 			$activityParse = new ActivityParse();
 			$resActivity = $activityParse->saveActivity($activity);
 			if (get_class($resActivity) == 'Error') {
-				$this->rollback($objectId, 'remove');
+				$this->rollback($playslitId, $songId, 'remove');
 			}
 			$this->response(array($res), 200);
 		} catch (Exception $e) {
