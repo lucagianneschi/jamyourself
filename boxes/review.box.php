@@ -45,6 +45,7 @@ class ReviewInfo {
      * \fn	__construct($counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title)
      * \brief	construct for the ReviewInfo class
      * \param	$counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title
+     * \todo    si potrebbe mettere un thumbnail di default, ma solo dopo aver capito se la review è di un record o di un event
      */
     function __construct($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title) {
 	global $boxes;

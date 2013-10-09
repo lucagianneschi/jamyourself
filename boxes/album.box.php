@@ -46,10 +46,11 @@ class AlbumInfo {
      */
     function __construct($counters, $imageCounter, $objectId, $thumbnailCover, $title) {
 	global $boxes;
+	global $default_img;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($thumbnailCover) ? $this->thumbnailCover = DEFALBUMTHUMB : $this->thumbnailCover = $thumbnailCover;
+	is_null($thumbnailCover) ? $this->thumbnailCover = $default_img['DEFALBUMTHUMB'] : $this->thumbnailCover = $thumbnailCover;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
@@ -76,13 +77,14 @@ class ImageInfo {
      */
     function __construct($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail) {
 	global $boxes;
+	global $default_img;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
 	is_null($filePath) ? $this->filePath = $boxes['NODATA'] : $this->filePath = $filePath;
 	is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
-	is_null($thumbnail) ? $this->thumbnail = $boxes['NODATA'] : $this->thumbnail = $thumbnail;
+	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFIMAGETHUMB'] : $this->thumbnail = $thumbnail;
     }
 
 }

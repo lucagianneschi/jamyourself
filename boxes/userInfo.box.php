@@ -60,15 +60,16 @@ class UserInfoBox {
      * \return	infoBox if the user has been found, otherwise return an error;
      */
     public function initForPersonalPage($objectId) {
-	
+
 	global $boxes;
+	global $default_img;
 	$userParse = new UserParse();
 	$user = $userParse->getUser($objectId);
 	if (get_class($user) == 'Error') {
 	    return $user;
 	} else {
 	    $infoBox = new UserInfoBox();
-	    is_null($user->getBackGround()) ? $infoBox->backGround = DEFBGD : $infoBox->backGround = $user->getBackGround();
+	    is_null($user->getBackGround()) ? $infoBox->backGround = $default_img['DEFBGD'] : $infoBox->backGround = $user->getBackGround();
 	    is_null($user->getCity()) ? $infoBox->city = $boxes['NODATA'] : $infoBox->city = parse_decode_string($user->getCity());
 	    is_null($user->getCountry()) ? $infoBox->country = $boxes['NODATA'] : $infoBox->country = parse_decode_string($user->getCountry());
 	    is_null($user->getDescription()) ? $infoBox->description = $boxes['NODATA'] : $infoBox->description = parse_decode_string($user->getDescription());
@@ -76,7 +77,7 @@ class UserInfoBox {
 	    is_null($user->getGooglePlusPage()) ? $infoBox->googlePlusPage = $boxes['NODATA'] : $infoBox->googlePlusPage = parse_decode_string($user->getGooglePlusPage());
 	    is_null($user->getLevel()) ? $infoBox->level = 0 : $infoBox->level = $user->getLevel();
 	    is_null($user->getLevelValue()) ? $infoBox->levelValue = 1 : $infoBox->levelValue = $user->getLevelValue();
-	    is_null($user->getProfilePicture()) ? $infoBox->profilePicture = DEFAULTAVATAR : $infoBox->profilePicture = $user->getProfilePicture();
+	    is_null($user->getProfilePicture()) ? $infoBox->profilePicture = $default_img['DEFAULTAVATAR'] : $infoBox->profilePicture = $user->getProfilePicture();
 	    is_null($user->getTwitterPage()) ? $infoBox->twitterPage = $boxes['NODATA'] : $infoBox->twitterPage = parse_decode_string($user->getTwitterPage());
 	    is_null($user->getUsername()) ? $infoBox->userName = $boxes['NODATA'] : $infoBox->userName = parse_decode_string($user->getUsername());
 	    is_null($user->getWebsite()) ? $infoBox->webSite = $boxes['NODATA'] : $infoBox->webSite = parse_decode_string($user->getWebsite());

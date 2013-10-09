@@ -57,6 +57,7 @@ class EventInfoForMediaPage {
      */
     function __construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $tags, $title) {
 	global $boxes;
+	global $default_img;
 	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
 	is_null($attendee) ? $this->attendee = $boxes['NODATA'] : $this->attendee = $attendee;
 	$this->attendeeCounter = count($attendee);
@@ -66,7 +67,7 @@ class EventInfoForMediaPage {
 	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
 	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
 	$this->featuringCounter = count($featuring);
-	is_null($image) ? $this->image = DEFEVENTIMAGE : $this->image = $image;
+	is_null($image) ? $this->image = $default_img['DEFEVENTIMAGE'] : $this->image = $image;
 	is_null($invited) ? $this->invited = $boxes['NODATA'] : $this->invited = $invited;
 	$this->invitedCounter = count($invited);
 	is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
@@ -102,6 +103,7 @@ class EventInfoForPersonalPage {
      */
     function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $objectId, $tags, $thumbnail, $title) {
 	global $boxes;
+	global $default_img;
 	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
 	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
@@ -111,7 +113,7 @@ class EventInfoForPersonalPage {
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
-	is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
+	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFEVENTTHUMB'] : $this->thumbnail = $thumbnail;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
@@ -139,13 +141,14 @@ class EventInfoForUploadReviewPage {
      */
     function __construct($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title) {
 	global $boxes;
+	global $default_img;
 	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
 	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
 	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
 	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
 	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
-	is_null($thumbnail) ? $this->thumbnail = $boxes['NODATA'] : $this->thumbnail = $thumbnail;
+	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFEVENTHUMB'] : $this->thumbnail = $thumbnail;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 

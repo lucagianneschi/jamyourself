@@ -60,8 +60,9 @@ class UserInfo {
 	require_once SERVICES_DIR . 'lang.service.php';
 	require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 	global $boxes;
+	global $default_img;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($thumbnail) ? $this->thumbnail = DEFTHUMB : $this->thumbnail = $thumbnail;
+	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFAVATARTHUMB'] : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
 	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
     }
