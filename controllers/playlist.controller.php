@@ -6,7 +6,7 @@
  * \copyright	Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di gestione della playlist
- * \details		gestisce l'inserimento e la cancellazione di una song dalla traclist di una playlist
+ * \details		gestisce l'inserimento e la cancellazione di una song dalla tracklist di una playlist
  * \par			Commenti:
  * \warning
  * \bug
@@ -93,7 +93,7 @@ class PlaylistController extends REST {
 			$activityParse = new ActivityParse();
 			$resActivity = $activityParse->saveActivity($activity);
 			if (get_class($resActivity) == 'Error') {
-				$this->rollback($objectId, 'add');
+				$this->rollback($playlistId, $songId, 'add');
 			}
 			$this->response(array($res), 200);
 		} catch (Exception $e) {
@@ -103,30 +103,84 @@ class PlaylistController extends REST {
 
 	/**
 	 * \fn		removeSong()
-	 * \brief   remove song to playlist
+	 * \brief   remove song to playlist 
 	 * \todo    usare la sessione
 	 */
-	public function removeSong() {
+    public function removeSong() {
 		
+		#TODO
+		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
+		//questa sezione prima del try-catch dovr� sparire
+		require_once CLASSES_DIR . 'user.class.php';
+		$currentUser = new User('SPOTTER');
+		$currentUser->setObjectId('GuUAj83MGH');
+
+		try {
+			//if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
+			if ($this->get_request_method() != 'POST') {
+				$this->response('', 406);
+			}
+			$playlistId = $_REQUEST['playlistId'];
+			$songId = $_REQUEST['songId'];
+			
+			$playlistP = new PlaylistParse();
+			$playlist = $playlistP->getPlaylist($playlistId);
+			if (get_class($playlist) == 'Error') {
+				$this->response(array('Error: ' . $playlist->getMessage()), 503);
+			} else {
+				$playlistP->updateField($playlistId, 'songs', $songId, true, 'remove', 'Song');
+		
+				$activity = new Activity();
+				$activity->setActive(true);
+				$activity->setAccepted(true);
+				$activity->setAlbum(null);
+				$activity->setComment(null);
+				$activity->setCounter(0);
+				$activity->setEvent(null);
+				#TODO
+				$activity->setFromUser($currentUser);
+				//$activity->setFromUser($fromUser->getObjectId());
+				$activity->setImage(null);
+				$activity->setPlaylist(null);
+				$activity->setQuestion(null);
+				$activity->setRead(false);
+				$activity->setRecord(null);
+				$activity->setSong(null);
+				$activity->setStatus('A');
+				$activity->setToUser($toUserObjectId);
+				$activity->setType("SONGREMOVEDFROMPLAYLIST");
+				$activity->setUserStatus(null);
+				$activity->setVideo(null);
+			}
+			$activityParse = new ActivityParse();
+			$resActivity = $activityParse->saveActivity($activity);
+			if (get_class($resActivity) == 'Error') {
+				$this->rollback($objectId, 'remove');
+			}
+			$this->response(array($res), 200);
+		} catch (Exception $e) {
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+		}
     }
 	
-
-	
-	private function rollback($objectId, $operation) {
-
-
-				if ($operation == 'add') {
-					//rimuovi 
-				} elseif ($operation == 'remove') {
-					//aggiungi
-				}
-
-		
+	/**
+	 * \fn		rollback($objectId, $operation)
+	 * \brief   rollback for addSong() e removeSong()
+	 * \param   $playslitId-> playlist objectId, $songId -> song objectId , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())
+	 * \todo    usare la sessione
+	 */
+	private function rollback($playslitId, $songId, $operation) {
+		$playlistP = new PlaylistParse();
+		if ($operation == 'add'){
+			$res = $playlistP->updateField($playlistId, 'songs', $songId, true, 'remove', 'Song');
+		} else {
+			$res = $playlistP->updateField($playlistId, 'songs', $songId, true, 'add', 'Song');
+		}
 		if (get_class($res) == 'Error') {
 			$this->response(array($controllers['ROLLKO']), 503);
 		} else {
 			$this->response(array($controllers['ROLLOK']), 503);
 		}
 	}
-}
+
 ?>
