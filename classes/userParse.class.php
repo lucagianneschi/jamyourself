@@ -20,6 +20,8 @@ if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.php';
 require_once CLASSES_DIR . 'user.class.php';
@@ -336,7 +338,8 @@ class UserParse {
 	 * \return	Exception	the Exception raised by the function
 	 */
 	public function saveUser($user) {
-		try {
+	    global $default_img;
+	    try {
 			$parseUser = new parseUser();
 			
 			is_null($user->getUsername()) ? $parseUser->username = null : $parseUser->username = $user->getUsername();
@@ -344,7 +347,7 @@ class UserParse {
 			is_null($user->getActive()) ? $parseUser->active = null : $parseUser->active = $user->getActive();
 			is_null($user->getAddress()) ? $parseUser->address = null : $parseUser->address = $user->getAddress();
 			is_null($user->getAlbums()) ? $parseUser->albums = null : $parseUser->albums = toParseAddRelation('Album', $user->getAlbums());
-			is_null($user->getBackground()) ? $parseUser->background = null : $parseUser->background = $user->getBackground();
+			is_null($user->getBackground()) ? $parseUser->background = $default_img['DEFBGD'] : $parseUser->background = $user->getBackground();
 			is_null($user->getBirthDay()) ? $parseUser->birthDay = null : $parseUser->birthDay = $user->getBirthDay();
 			is_null($user->getCity()) ? $parseUser->city = null : $parseUser->city = $user->getCity();
 			is_null($user->getCollaboration()) ? $parseUser->collaboration = null : $parseUser->collaboration = toParseAddRelation('_User', $user->getCollaboration());
@@ -378,8 +381,8 @@ class UserParse {
 			is_null($user->getPlaylists()) ? $parseUser->playlists = null : $parseUser->playlists = toParseAddRelation('Playlist', $user->getPlaylists());
 			is_null($user->getPremium()) ? $parseUser->premium = null : $parseUser->premium = $user->getPremium();
 			is_null($user->getPremiumExpirationDate()) ? $parseUser->premiumExpirationDate = null : $parseUser->premiumExpirationDate = toParseDate($user->getPremiumExpirationDate());
-			is_null($user->getProfilePicture()) ? $parseUser->profilePicture = null : $parseUser->profilePicture = $user->getProfilePicture();
-			is_null($user->getProfilePictureFile()) ? $parseUser->profilePictureFile = null : $parseUser->profilePictureFile = $user->getProfilePictureFile();
+			is_null($user->getProfilePicture()) ? $parseUser->profilePicture = $default_img['DEFAVATAR'] : $parseUser->profilePicture = $user->getProfilePicture();
+			is_null($user->getProfilePictureFile()) ? $parseUser->profilePictureFile = $default_img['DEFAVATARTHUMB'] : $parseUser->profilePictureFile = $user->getProfilePictureFile();
 			is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = null : $parseUser->profileThumbnail = $user->getProfileThumbnail();
 			is_null($user->getRecords()) ? $parseUser->records = null : $parseUser->records = toParseAddRelation('Record', $user->getRecords());
 			is_null($user->getSettings()) ? $parseUser->settings = null : $parseUser->settings = $user->getSettings();

@@ -20,6 +20,8 @@ if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.php';
 require_once CLASSES_DIR . 'video.class.php';
@@ -216,6 +218,7 @@ class VideoParse {
 	 * \return	Error	the Error raised by the function
 	 */
 	public function saveVideo($video) {
+	    global $default_img;
 		if (is_null($video->getFromUser()))
 			return throwError(new Exception('saveVideo parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
@@ -232,7 +235,7 @@ class VideoParse {
 			is_null($video->getLoveCounter()) ? $parseVideo->loveCounter = -1 : $parseVideo->loveCounter = $video->getLoveCounter();
 			is_null($video->getLovers()) ? $parseVideo->lovers = null : $parseVideo->lovers = toParseAddRelation('_User', $video->getLovers());
 			is_null($video->getTags()) ? $parseVideo->tags = null : $parseVideo->tags = $video->getTags();
-			is_null($video->getThumbnail()) ? $parseVideo->thumbnail = 'images/defult/videoThumb.jpg' : $parseVideo->thumbnail = $video->getThumbnail();
+			is_null($video->getThumbnail()) ? $parseVideo->thumbnail = $default_img['DEFVIDEOTHUMB'] : $parseVideo->thumbnail = $video->getThumbnail();
 			is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = $video->getTitle();
 			is_null($video->getURL()) ? $parseVideo->URL = null : $parseVideo->URL = $video->getURL();
 			is_null($video->getACL()) ? $parseVideo->ACL = toParseDefaultACL() : $parseVideo->ACL = toParseACL($video->getACL());

@@ -20,6 +20,8 @@ if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.php';
 require_once CLASSES_DIR . 'image.class.php';
@@ -217,6 +219,7 @@ class ImageParse {
 	 * \return	Error	the Error raised by the function
 	 */
 	function saveImage($image) {
+	    global $default_img;
 		if (is_null($image->getFromUser()))
 			return throwError(new Exception('saveImage parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
@@ -230,14 +233,14 @@ class ImageParse {
 			is_null($image->getDescription()) ? $parseImage->description = null : $parseImage->description = $image->getDescription();
 			is_null($image->getFeaturing()) ? $parseImage->featuring = null : $parseImage->featuring = toParseAddRelation('_User', $image->getFeaturing());
 			is_null($image->getFile()) ? $parseImage->file = null : $parseImage->file = toParseFile($image->getFile());
-			is_null($image->getFilePath()) ? $parseImage->filePath = null : $parseImage->filePath = $image->getFilePath();
+			is_null($image->getFilePath()) ? $parseImage->filePath = $default_img['DEFIMAGE'] : $parseImage->filePath = $image->getFilePath();
 			$parseImage->fromUser = toParsePointer('_User', $image->getFromUser());
 			is_null($image->getLocation()) ? $parseImage->location = null : $parseImage->location = toParseGeoPoint($image->getLocation());
 			is_null($image->getLoveCounter()) ? $parseImage->loveCounter = null : $parseImage->loveCounter = $image->getLoveCounter();
 			is_null($image->getLovers()) ? $parseImage->lovers = null : $parseImage->lovers = toParseAddRelation('_User', $image->getLovers());
 			is_null($image->getShareCounter()) ? $parseImage->shareCounter = null : $parseImage->shareCounter = $image->getShareCounter();
 			is_null($image->getTags()) ? $parseImage->tags = null : $parseImage->tags = $image->getTags();
-			is_null($image->getThumbnail()) ? $parseImage->thumbnail = null : $parseImage->thumbnail = $image->getThumbnail();
+			is_null($image->getThumbnail()) ? $parseImage->thumbnail = $default_img['DEFIMAGETHUMB'] : $parseImage->thumbnail = $image->getThumbnail();
 			is_null($image->getACL()) ? $parseImage->ACL = toParseDefaultACL() : $parseImage->ACL = toParseACL($image->getACL());
 			if ($image->getObjectId() == '') {
 				$res = $parseImage->save();

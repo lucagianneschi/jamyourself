@@ -19,6 +19,8 @@ if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utils.php';
 require_once CLASSES_DIR . 'record.class.php';
@@ -233,6 +235,7 @@ class RecordParse {
 	 * \return	Error		the Error raised by the function
 	 */
 	function saveRecord($record) {
+	    global $default_img;
 		if (is_null($record->getFromUser()))
 			return throwError(new Exception('saveRecord parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
@@ -243,7 +246,7 @@ class RecordParse {
 			is_null($record->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseAddRelation('_User', $record->getCommentators());
 			is_null($record->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseAddRelation('Comment', $record->getComments());
 			is_null($record->getCounter()) ? $parseObject->counter = -1 : $parseObject->counter = $record->getCounter();
-			is_null($record->getCover()) ? $parseObject->cover = 'images/defult/recordImage.jpg' : $parseObject->cover = $record->getCover();
+			is_null($record->getCover()) ? $parseObject->cover = $default_img['DEFRECORDCOVER'] : $parseObject->cover = $record->getCover();
 			is_null($record->getCoverFile()) ? $parseObject->coverFile = null : $parseObject->coverFile = toParseFile($record->getCoverFile());
 			is_null($record->getDescription()) ? $parseObject->description = null : $parseObject->description = $record->getDescription();
 			is_null($record->getDuration()) ? $parseObject->duration = 0 : $parseObject->duration = $record->getDuration();
@@ -258,7 +261,7 @@ class RecordParse {
 			is_null($record->getReviewCounter()) ? $parseObject->reviewCounter = -1 : $parseObject->reviewCounter = $record->getReviewCounter();
 			is_null($record->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $record->getShareCounter();
 			is_null($record->getSongCounter()) ? $parseObject->songCounter = -1 : $parseObject->songCounter = $record->getSongCounter();
-			is_null($record->getThumbnailCover()) ? $parseObject->thumbnailCover = 'images/defult/recordThumb.jpg' : $parseObject->thumbnailCover = $record->getThumbnailCover();
+			is_null($record->getThumbnailCover()) ? $parseObject->thumbnailCover = $default_img['DEFRECORDTHUMB'] : $parseObject->thumbnailCover = $record->getThumbnailCover();
 			is_null($record->getTitle()) ? $parseObject->title = null : $parseObject->title = $record->getTitle();
 			is_null($record->getTracklist()) ? $parseObject->tracklist = null : $parseObject->tracklist = toParseAddRelation('Song', $record->getTracklist());
 			is_null($record->getYear()) ? $parseObject->year = null : $parseObject->year = $record->getYear();
