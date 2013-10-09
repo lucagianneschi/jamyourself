@@ -98,7 +98,7 @@ class PlaylistController extends REST {
 			if (get_class($resActivity) == 'Error') {
 				$this->rollback($playlistId, $songId, 'add');
 			}
-			$this->response(array($res), 200);
+			$this->response(array($resActivity), 200);
 		} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 		}
@@ -158,9 +158,9 @@ class PlaylistController extends REST {
 			$activityParse = new ActivityParse();
 			$resActivity = $activityParse->saveActivity($activity);
 			if (get_class($resActivity) == 'Error') {
-				$this->rollback($playslitId, $songId, 'remove');
+				$this->rollback($playlistId, $songId, 'remove');
 			}
-			$this->response(array($res), 200);
+			$this->response(array($resActivity), 200);
 		} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 		}
@@ -172,7 +172,7 @@ class PlaylistController extends REST {
 	 * \param   $playslitId-> playlist objectId, $songId -> song objectId , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())
 	 * \todo    usare la sessione
 	 */
-	private function rollback($playslitId, $songId, $operation) {
+	private function rollback($playlistId, $songId, $operation) {
 	
 	global $controllers;
 		$playlistP = new PlaylistParse();
@@ -187,5 +187,6 @@ class PlaylistController extends REST {
 			$this->response(array($controllers['ROLLOK']), 503);
 		}
 	}
+}
 
 ?>
