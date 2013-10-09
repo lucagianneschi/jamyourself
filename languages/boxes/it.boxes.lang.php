@@ -15,6 +15,17 @@
  *  
  *  
  */
+$default_img = array(
+    'DEFALBUMTHUMB' => 'images/defult/albumCoverThumb.jpg',
+    'DEFEVENTIMAGE' => 'images/default/defaultEventImage.jpg',
+    'DEFEVENTTHUMB' => 'images/default/defaultEventThumb.jpg',
+    'DEFRECORDCOVER' => 'images/default/defaultEventImage.jpg',
+    'DEFRECORDTHUMB' => 'images/default/defaultRecordThumb.jpg',
+    'DEFIMAGETHUMB' => 'images/default/defaultImageThumb.jpg',
+    'DEFAVATAR' => 'images/default/defaultAvatar.jpg',
+    'DEFAVATARTHUMB' => 'images/default/defaultAvatarThumb.jpg',
+    'DEFBGD' => 'images/default/defaultBackground.jpg'
+);
 
 $boxes = array(
     'NODATA' => 'NESSUN DATO DA MOSTRARE',
@@ -33,6 +44,7 @@ $boxes = array(
     'NOFRIENDS' => 'NON HAI ANCORA AMICI',
     'NOFOLLOWERS' => 'NON HAI ANCORA FOLLOWERS',
     'NOVENUE' => 'NESSUNA COLLABORAZIONE CON VENUE AL MOMENTO',
-    'NOJAMMER' => 'NESSUNA COLLABORAZIONE CON JAMMER AL MOMENTO'
+    'NOJAMMER' => 'NESSUNA COLLABORAZIONE CON JAMMER AL MOMENTO',
+    'DEFALBUMTHUMB' => 'images/defult/albumCoverThumb.jpg'
 );
 ?>
