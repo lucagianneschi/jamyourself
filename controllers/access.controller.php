@@ -47,12 +47,14 @@ class AccessController extends REST {
      */
     public function login() {
 
+	global $controllers;
 	#TODO
 	//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
 	//questa sezione prima del try-catch dovrà sparire
 	require_once CLASSES_DIR . 'user.class.php';
 	$currentUser = new User('SPOTTER');
 	$currentUser->setObjectId('GuUAj83MGH');
+	global $controllers;
 
 	try {
 		//if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
@@ -103,6 +105,7 @@ class AccessController extends REST {
      */
     public function logout() {
 
+	global $controllers;
 	#TODO
 	//in questa fase di debug, il fromUser e il toUser sono uguali e passati staticamente
 	//questa sezione prima del try-catch dovrà sparire

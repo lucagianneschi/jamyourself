@@ -44,6 +44,7 @@ class PostInfo {
      * \param	$counters, $createdAt, $fromUserInfo, $text
      */
     function __construct($counters, $createdAt, $fromUserInfo, $text) {
+	global $boxes;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
@@ -64,6 +65,7 @@ class PostBox {
      * \return	postBox
      */
     public function initForPersonalPage($objectId) {
+	global $boxes;
 	$postBox = new PostBox();
 	$info = array();
 	$counter = 0;

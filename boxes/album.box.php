@@ -44,6 +44,7 @@ class AlbumInfo {
      * \param	$counters, $imageCounter, $objectId, $thumbnailCover, $title
      */
     function __construct($counters, $imageCounter, $objectId, $thumbnailCover, $title) {
+	global $boxes;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
@@ -73,6 +74,7 @@ class ImageInfo {
      * \param	$counters, $description, $filePath, $objectId, $tags, $thumbnail
      */
     function __construct($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail) {
+	global $boxes;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
 	is_null($filePath) ? $this->filePath = $boxes['NODATA'] : $this->filePath = $filePath;
@@ -101,6 +103,7 @@ class AlbumBox {
      * \return	albumBox
      */
     public function initForDetail($objectId) {
+	global $boxes;
 	$albumBox = new AlbumBox();
 	$albumBox->albumCounter = $boxes['NDB'];
 	$albumBox->albumInfoArray = $boxes['NDB'];
@@ -153,6 +156,7 @@ class AlbumBox {
      * \return	albumBox
      */
     public function initForPersonalPage($objectId) {
+	global $boxes;
 	$albumBox = new AlbumBox();
 	$albumBox->imageArray = $boxes['NDB'];
 

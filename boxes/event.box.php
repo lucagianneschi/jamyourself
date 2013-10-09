@@ -55,6 +55,7 @@ class EventInfoForMediaPage {
      * \param	$address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $tags, $title
      */
     function __construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $tags, $title) {
+	global $boxes;
 	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
 	is_null($attendee) ? $this->attendee = $boxes['NODATA'] : $this->attendee = $attendee;
 	$this->attendeeCounter = count($attendee);
@@ -99,6 +100,7 @@ class EventInfoForPersonalPage {
      * \param	$address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title
      */
     function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $objectId, $tags, $thumbnail, $title) {
+	global $boxes;
 	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
 	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
@@ -135,6 +137,7 @@ class EventInfoForUploadReviewPage {
      * \param	$address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title
      */
     function __construct($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title) {
+	global $boxes;
 	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
 	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
 	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
@@ -164,6 +167,7 @@ class EventBox {
      * \return	eventBox
      */
     public function initForMediaPage($objectId) {
+	global $boxes;
 	$eventBox = new EventBox();
 	$eventP = new EventParse();
 	$event = $eventP->getEvent($objectId);
@@ -284,6 +288,7 @@ class EventBox {
      */
     public function initForPersonalPage($objectId) {
 
+	global $boxes;
 	$eventBox = new EventBox();
 	$info = array();
 	$counter = 0;
@@ -365,6 +370,8 @@ class EventBox {
      * \return	eventBox
      */
     public function initForUploadReviewPage($objectId) {
+	
+	global $boxes;
 	$eventBox = new EventBox();
 	$eventBox->eventCounter = $boxes['NDB'];
 

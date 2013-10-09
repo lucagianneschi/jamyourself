@@ -34,6 +34,7 @@ class NotificationForDetailedList {
     public $fromUserInfo;
 
     function __construct($createdAt, $fromUserInfo) {
+	global $boxes;
 	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
     }
@@ -46,10 +47,10 @@ class NotificationForDetailedList {
  */
 class NotificationBox {
 
-    public $notificationArray;
-    public $invitationCounter;
+	public $invitationCounter;
     public $messageArray;
     public $messageCounter;
+	public $notificationArray;
 
     /**
      * \fn	init($objectId,$type)
@@ -59,7 +60,8 @@ class NotificationBox {
      * \return	infoBox
      */
     public function init($objectId, $type) {
-
+	
+	global $boxes;
 	$notificationBox = new NotificationBox();
 
 	$activity0 = new ActivityParse();
@@ -128,6 +130,8 @@ class NotificationBox {
      * \return	infoBox
      */
     public function initForMessageList($objectId) {
+	
+	global $boxes;
 	$notificationBox = new NotificationBox();
 
 	$notificationBox->invitationCounter = $boxes['NDB'];
@@ -181,6 +185,8 @@ class NotificationBox {
      * \return	infoBox
      */
     public function initForEventList($objectId) {
+	
+	global $boxes;
 	$notificationBox = new NotificationBox();
 
 	$notificationBox->invitationCounter = $boxes['NDB'];
@@ -232,6 +238,8 @@ class NotificationBox {
      * \return	infoBox
      */
     public function initForRelationList($objectId, $type) {
+	
+	global $boxes;
 	$notificationBox = new NotificationBox();
 
 	$notificationBox->invitationCounter = $boxes['NDB'];

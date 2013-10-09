@@ -59,6 +59,8 @@ class UserInfoBox {
      * \return	infoBox if the user has been found, otherwise return an error;
      */
     public function initForPersonalPage($objectId) {
+	
+	global $boxes;
 	$userParse = new UserParse();
 	$user = $userParse->getUser($objectId);
 	if (get_class($user) == 'Error') {
@@ -83,7 +85,7 @@ class UserInfoBox {
 	    $infoBox->type = $user->getType();
 	    switch ($infoBox->type) {
 		case 'SPOTTER':
-		    $infoBox->collaborationCounter = ND;
+		    $infoBox->collaborationCounter = $boxes['ND'];
 		    $infoBox->followersCounter = $boxes['ND'];
 		    is_null($user->getFollowingCounter()) ? $infoBox->followingCounter = 0 : $infoBox->followingCounter = $user->getFollowingCounter();
 		    is_null($user->getFriendshipCounter()) ? $infoBox->frindshipCounter = 0 : $infoBox->frindshipCounter = $user->getFriendshipCounter();
