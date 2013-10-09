@@ -1,7 +1,7 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Daniele Caldelli
+ * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
  * \copyright	Jamyourself.com 2013
@@ -69,7 +69,8 @@ class PlaylistController extends REST {
 	    if (get_class($playlist) == 'Error') {
 		$this->response(array('Error: ' . $playlist->getMessage()), 503);
 	    } else {
-		$res = $playlistP->updateField($playlistId, 'songs', $songId, true, 'add', 'Song');
+		//devo controllare che la song sia presente, se è presente non l'aggiungo
+		$res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
 		if(get_class($res) == 'Error'){
 		   $this->response(array('Error: ' . $res->getMessage()), 503); 
 		}
@@ -134,7 +135,8 @@ class PlaylistController extends REST {
 	    if (get_class($playlist) == 'Error') {
 		$this->response(array('Error: ' . $playlist->getMessage()), 503);
 	    } else {
-		$playlistP->updateField($playlistId, 'songs', $songId, true, 'remove', 'Song');
+		//devo controllare che la song sia presente, se è presente non la tolgo
+		$playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
 
 		$activity = new Activity();
 		$activity->setActive(true);
@@ -178,9 +180,9 @@ class PlaylistController extends REST {
 	global $controllers;
 	$playlistP = new PlaylistParse();
 	if ($operation == 'add') {
-	    $res = $playlistP->updateField($playlistId, 'songs', $songId, true, 'remove', 'Song');
+	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
 	} else {
-	    $res = $playlistP->updateField($playlistId, 'songs', $songId, true, 'add', 'Song');
+	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
 	}
 	if (get_class($res) == 'Error') {
 	    $this->response(array($controllers['ROLLKO']), 503);
