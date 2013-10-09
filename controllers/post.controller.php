@@ -58,6 +58,8 @@ class PostController extends REST {
 	 */
     public function post() {
 		
+		global $controllers;
+		
 		#TODO
 		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
 		//questa sezione prima del try-catch dovr� sparire
@@ -169,6 +171,9 @@ class PostController extends REST {
     }
 	
 	private function rollback($objectId) {
+		
+		global $controllers;
+		
 		$commentParse = new CommentParse();
 		$res = $commentParse->deleteComment($objectId);
 		if (get_class($res) == 'Error') {
