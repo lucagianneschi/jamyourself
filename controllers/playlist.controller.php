@@ -67,6 +67,7 @@ class PlaylistController extends REST {
 				$this->response(array('Error: ' . $playlist->getMessage()), 503);
 			} else {
 				$playlistP->updateField($playlistId, 'songs', $songId, true, 'add', 'Song');
+				//qui va aggiunto il check sul numero di canzoni, se sono più di 20 va cancellata la prima in ordine cronologico di aggiunta (come vengono inserire nell'arrau le song??)
 		
 				$activity = new Activity();
 				$activity->setActive(true);
