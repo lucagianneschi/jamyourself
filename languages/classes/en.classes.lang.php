@@ -15,6 +15,21 @@
  *  
  *  
  */
+$default_img = array(
+    'DEFALBUMCOVER' => 'images/defult/albumCover.jpg',
+    'DEFALBUMTHUMB' => 'images/defult/albumCoverThumb.jpg',
+    'DEFEVENTIMAGE' => 'images/default/defaultEventImage.jpg',
+    'DEFEVENTTHUMB' => 'images/default/defaultEventThumb.jpg',
+    'DEFRECORDCOVER' => 'images/default/defaultEventImage.jpg',
+    'DEFRECORDTHUMB' => 'images/default/defaultRecordThumb.jpg',
+    'DEFIMAGE' => 'images/default/defaultImage.jpg',
+    'DEFIMAGETHUMB' => 'images/default/defaultImageThumb.jpg',
+    'DEFVIDEOTHUMB' => 'images/defult/videoThumb.jpg',
+    'DEFAVATAR' => 'images/default/defaultAvatar.jpg',
+    'DEFAVATARTHUMB' => 'images/default/defaultAvatarThumb.jpg',
+    'DEFBGD' => 'images/default/defaultBackground.jpg'
+);
+
 
 $settings = array(
     'JAMMER_SETTING_0' => 'Lingua generale del sito',
