@@ -256,20 +256,4 @@ $boxes = array(
 );
 
 
-//USER
-define('DEFAVATAR', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAvatar.jpg');
-define('DEFTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAvatarThumb.jpg');
-define('DEFBGD', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultBackground.jpg');
-//ALBUM
-define('DEFALBUMCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAlbumCover.jpg');
-define('DEFALBUMTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultAlbumThumb.jpg');
-//EVENT
-define('DEFEVENTTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultEventThumb.jpg');
-define('DEFEVENTIMAGE', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultEventImage.jpg');
-//RECORD
-define('DEFRECORDCOVER', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultRecordCover.jpg');
-define('DEFRECORDTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultRecordThumb.jpg');
-//SONG
-define('DEFSONGTHUMB', '/var/www/vhosts/socialmusicdiscovering.com/httpdocs/images/default/dafultSongThumb.jpg');
-
 ?>

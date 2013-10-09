@@ -148,7 +148,7 @@ var callBox = {
 					return data;
 				} else {
 					
-					$('.body-content').load('content/general/error.php');
+				//	$('.body-content').load('content/general/error.php');
 				}
 
 			},
