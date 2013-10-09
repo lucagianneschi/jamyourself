@@ -56,7 +56,7 @@ class CommentController extends REST {
      * \todo    usare la sessione
      */
     public function comment() {
-	
+
 	global $controllers;
 	#TODO
 	//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
@@ -76,10 +76,10 @@ class CommentController extends REST {
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
 	    }
-		
-			//recupero gli utenti fromUser e toUser
-			//$fromUser = $_SESSION['currentUser'];
-		$toUserObjectId = $this->request['toUser'];
+
+	    //recupero gli utenti fromUser e toUser
+	    //$fromUser = $_SESSION['currentUser'];
+	    $toUserObjectId = $this->request['toUser'];
 
 	    $text = $_REQUEST['text'];
 	    if (strlen($text) < $this->config->minCommentSize) {
@@ -107,7 +107,7 @@ class CommentController extends REST {
 	    $cmt->setTitle(null);
 	    $encodedText = parse_encode_string($text);
 	    $cmt->setText($encodedText);
-	    $cmt->setToUser($currentUser);
+	    $cmt->setToUser($toUserObjectId);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);
 
@@ -120,6 +120,7 @@ class CommentController extends REST {
 	    $activity->setQuestion(null);
 	    $activity->setRead(false);
 	    $activity->setStatus('A');
+	    $activity->setToUser($toUserObjectId);
 
 	    switch ($classType) {
 		case 'Album':
@@ -177,6 +178,7 @@ class CommentController extends REST {
     }
 
     private function rollback($objectId) {
+	global $controllers;
 	$commentParse = new CommentParse();
 	$res = $commentParse->deleteComment($objectId);
 	if (get_class($res) == 'Error') {
