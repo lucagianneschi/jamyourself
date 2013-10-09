@@ -41,8 +41,10 @@ class DeleteController extends REST {
      * \brief   logical delete of instance of a class
      */
     public function deleteObj() {
+	
 		require_once ROOT_DIR . 'string.php';
-
+		global $controllers;
+		
 		#TODO
 		//simulo che l'utente in sessione sia GuUAj83MGH
 		require_once CLASSES_DIR . 'user.class.php';
@@ -222,6 +224,7 @@ class DeleteController extends REST {
 					require_once CLASSES_DIR . 'userParse.class.php';
 					require_once CLASSES_DIR . 'utils.php';
 					require_once SERVICES_DIR . 'mail.service.php';
+					global $mail_files;
 					if ($currentUser->getObjectId() == $objectId) {
 						$userParse = new UserParse();
 						$res = $userParse->deleteUser($objectId);
@@ -296,6 +299,8 @@ class DeleteController extends REST {
 	}
 
 	private function rollback($classType, $objectId) {
+	
+	global $controllers;
 		switch ($classType) {
 			case 'Activity':
 				require_once CLASSES_DIR . 'activityParse.class.php';

@@ -60,6 +60,8 @@ class MessageController extends REST {
      * \todo    usare la sessione
      */
     public function sendMessage() {
+	
+	global $controllers;
 	#TODO
 	//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
 	//questa sezione prima del try-catch dovrà sparire
@@ -170,6 +172,8 @@ class MessageController extends REST {
     }
 
     private function rollback($objectId) {
+	
+	global $controllers;
 	$commentParse = new CommentParse();
 	$res = $commentParse->deleteComment($objectId);
 	if (get_class($res) == 'Error') {

@@ -172,6 +172,8 @@ class PlaylistController extends REST {
 	 * \todo    usare la sessione
 	 */
 	private function rollback($playslitId, $songId, $operation) {
+	
+	global $controllers;
 		$playlistP = new PlaylistParse();
 		if ($operation == 'add'){
 			$res = $playlistP->updateField($playlistId, 'songs', $songId, true, 'remove', 'Song');

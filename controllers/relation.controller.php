@@ -47,6 +47,9 @@ class RelationController extends REST {
     public function acceptRelationRequest() {
 	require_once SERVICES_DIR . 'mail.service.php';
 	require_once ROOT_DIR . 'string.php';
+	
+	global $controllers;
+	global $mail_files;
 	#TODO
 	//simulo che l'utente in sessione sia GuUAj83MGH
 
@@ -145,6 +148,8 @@ class RelationController extends REST {
      */
     public function removeRelationship() {
 	require_once ROOT_DIR . 'string.php';
+	global $controllers;
+	
 	#TODO
 	//simulo che l'utente in sessione sia GuUAj83MGH
 	require_once CLASSES_DIR . 'user.class.php';
@@ -193,6 +198,9 @@ class RelationController extends REST {
     public function sendRelationRequest() {
 	require_once SERVICES_DIR . 'mail.service.php';
 	require_once ROOT_DIR . 'string.php';
+	global $controllers;
+	global $mail_files;
+	
 	#TODO
 	//simulo che l'utente in sessione sia GuUAj83MGH
 

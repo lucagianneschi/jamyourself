@@ -58,6 +58,8 @@ class ReviewController extends REST {
 	 * \todo    usare la sessione
 	 */
     public function review() {
+		global $controllers;
+		global $mail_files;
 	
 		#TODO
 		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
@@ -189,6 +191,8 @@ class ReviewController extends REST {
 	}
 
 	private function rollback($objectId) {
+		
+		global $controllers;
 		$commentParse = new CommentParse();
 		$res = $commentParse->deleteComment($objectId);
 		if (get_class($res) == 'Error') {

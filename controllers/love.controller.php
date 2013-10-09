@@ -44,6 +44,7 @@ class LoveController extends REST {
 	 */
     public function incrementLove() {
 		
+		global $controllers;
 		#TODO
 		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
 		//questa sezione prima del try-catch dovr� sparire
@@ -143,7 +144,7 @@ class LoveController extends REST {
 			}
 			
 			if (get_class($res) == 'Error') {
-				$this->response(array(LOVEPLUSERR), 503);
+				$this->response(array($controllers['LOVEPLUSERR']), 503);
 			} else {
 				//salvo activity
 				$activityParse = new ActivityParse();
@@ -166,6 +167,7 @@ class LoveController extends REST {
 	 */
 	public function decrementLove() {
 		
+		global $controllers;
 		#TODO
 		//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
 		//questa sezione prima del try-catch dovr� sparire
@@ -266,7 +268,7 @@ class LoveController extends REST {
 			}
 			
         	if (get_class($res) == 'Error') {
-				$this->response(array(LOVEMINUSERR), 503);
+				$this->response(array($controllers['LOVEMINUSERR']), 503);
 			} else {
 				//salvo activity
 				$activityParse = new ActivityParse();
@@ -284,6 +286,8 @@ class LoveController extends REST {
 	}
 	
 	private function rollback($classType, $objectId, $operation) {
+	
+	global $controllers;
 		switch ($classType) {
 			case 'Album':
 				require_once CLASSES_DIR . 'albumParse.class.php';
