@@ -60,6 +60,7 @@ class PlaylistController extends REST {
 			}
 			$playlistId = $_REQUEST['playlistId'];
 			$songId = $_REQUEST['songId'];
+			$fromUserId = $_REQUEST['fromUserId'];
 			
 			$playlistP = new PlaylistParse();
 			$playlist = $playlistP->getPlaylist($playlistId);
@@ -78,7 +79,7 @@ class PlaylistController extends REST {
 				$activity->setEvent(null);
 				#TODO
 				$activity->setFromUser($currentUser);
-				//$activity->setFromUser($fromUser->getObjectId());
+				//$activity->setFromUser($fromUserId);
 				$activity->setImage(null);
 				$activity->setPlaylist($playlistId);
 				$activity->setQuestion(null);
