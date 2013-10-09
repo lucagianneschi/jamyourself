@@ -47,6 +47,7 @@ class AccessController extends REST {
      */
     public function login() {
 
+	global $controllers;
 	#TODO
 	//in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
 	//questa sezione prima del try-catch dovrà sparire
