@@ -78,13 +78,11 @@ class PlaylistController extends REST {
 				$activity->setComment(null);
 				$activity->setCounter(0);
 				$activity->setEvent(null);
-				#TODO
-				$activity->setFromUser($currentUser);
-				//$activity->setFromUser($fromUserId);
+				$activity->setFromUser($fromUserId);
 				$activity->setImage(null);
 				$activity->setPlaylist($playlistId);
 				$activity->setQuestion(null);
-				$activity->setRead(false);
+				$activity->setRead(true);
 				$activity->setRecord(null);
 				$activity->setSong(null);
 				$activity->setStatus('A');
