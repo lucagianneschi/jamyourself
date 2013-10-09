@@ -59,6 +59,8 @@ class UserInfoBox {
      * \return	infoBox if the user has been found, otherwise return an error;
      */
     public function initForPersonalPage($objectId) {
+	
+	global $boxes;
 	$userParse = new UserParse();
 	$user = $userParse->getUser($objectId);
 	if (get_class($user) == 'Error') {

@@ -30,6 +30,8 @@ class RelationsBox {
     public $relationArray;
 
     public function initForPersonalPage($objectId, $type) {
+	
+	global $boxes;
 	$relationsBox = new RelationsBox();
 	$info = array();
 	$followingArray = array();

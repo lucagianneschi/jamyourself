@@ -25,7 +25,7 @@ require_once BOXES_DIR . 'utilsBox.php';
 
 class RecordInfoForMediaPage {
 
-    public $buylink;
+	public $buylink;
     public $city;
     public $counters;
     public $cover;
@@ -44,6 +44,7 @@ class RecordInfoForMediaPage {
      * \param	$buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName,  $title, $year
      */
     function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $title, $year) {
+	global $boxes;
 	is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = $buylink;
 	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
@@ -75,6 +76,7 @@ class RecordInfoForPersonalPage {
      * \param	$counters, $genre,$objectId, $songCounter, $thumbnailCover, $title, $year
      */
     function __construct($counters, $genre, $objectId, $songCounter, $thumbnailCover, $title, $year) {
+	global $boxes;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
@@ -98,6 +100,7 @@ class RecordInfoForUploadRecordPage {
      * \param	$songCounter, $thumbnailCover, $title
      */
     function __construct($songCounter, $thumbnailCover, $title) {
+	global $boxes;
 	is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
 	is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
@@ -116,6 +119,7 @@ class RecordInfoForUploadReviewPage {
      * \param	$featuring, $genre
      */
     function __construct($featuring, $genre) {
+	global $boxes;
 	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
 	is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
     }
@@ -135,6 +139,7 @@ class SongInfo {
      * \param	$counters, $duration,$objectId, $title
      */
     function __construct($counters, $duration, $objectId, $title) {
+	global $boxes;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($duration) ? $this->duration = 0 : $this->duration = $duration;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
@@ -156,6 +161,7 @@ class RecordBox {
      * \param	$objectId of the record to display info
      */
     public function initForDetail($objectId) {
+	global $boxes;
 	$recordBox = new RecordBox();
 	$recordBox->fromUserInfo = $boxes['NDB'];
 	$recordBox->recordCounter = $boxes['NDB'];
@@ -202,6 +208,8 @@ class RecordBox {
 	require_once CLASSES_DIR . 'songParse.class.php';
 	require_once CLASSES_DIR . 'user.class.php';
 	require_once CLASSES_DIR . 'userParse.class.php';
+	
+	global $boxes;
 
 	$recordBox = new RecordBox();
 	$recordP = new RecordParse();
@@ -303,6 +311,8 @@ class RecordBox {
      * \param	$objectId of the user who owns the page
      */
     public function initForPersonalPage($objectId) {
+	
+	global $boxes;
 	$recordBox = new RecordBox();
 
 	$info = array();
@@ -351,6 +361,8 @@ class RecordBox {
      * \param	$objectId of the user who owns the record
      */
     public function initForUploadRecordPage($objectId) {
+	
+	global $boxes;
 	$recordBox = new RecordBox();
 	$recordBox->tracklist = $boxes['NDB'];
 
@@ -391,6 +403,8 @@ class RecordBox {
      * \param	$objectId of the user who owns the review
      */
     public function initForUploadReviewPage($objectId) {
+	
+	global $boxes;
 	$recordBox = new RecordBox();
 	$recordBox->recordCounter = $boxes['NDB'];
 	$recordBox->tracklist = $boxes['NDB'];

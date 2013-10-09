@@ -42,6 +42,7 @@ class CommentInfo {
      * \param	$fromUserInfo, $createdAt, $text
      */
     function __construct($fromUserInfo, $createdAt, $text) {
+	global $boxes;
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
 	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
@@ -65,6 +66,7 @@ class CommentBox {
      */
     public function init($className, $objectId) {
 
+	global $boxes;
 	$commentBox = new CommentBox();
 	$info = array();
 	switch ($className) {

@@ -57,6 +57,8 @@ class UserInfo {
      * \param	$objectId, $thumbnail, $type, $username
      */
     function __construct($objectId, $thumbnail, $type, $username) {
+	require_once ROOT_DIR . 'string.php';
+	global $boxes;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($thumbnail) ? $this->thumbnail = DEFTHUMB : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;

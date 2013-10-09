@@ -46,6 +46,7 @@ class ReviewInfo {
      * \param	$counters, $fromUserInfo,$objectId, $rating, $text, $thumbnailCover, $title
      */
     function __construct($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title) {
+	global $boxes;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
@@ -73,6 +74,8 @@ class ReviewBox {
      * \return	reviewBox
      */
     public function initForDetail($objectId, $className) {//objetId record/event
+	
+	global $boxes;
 	$reviewBox = new ReviewBox();
 	$reviewBox->reviewCounter = $boxes['NDB'];
 	$info = array();
@@ -151,6 +154,8 @@ class ReviewBox {
      * \return	reviewBox
      */
     public function initForMediaPage($objectId, $className) {
+	
+	global $boxes;
 	$reviewBox = new ReviewBox();
 	$counter = 0;
 	$info = array();
@@ -231,6 +236,8 @@ class ReviewBox {
      * \return	reviewBox
      */
     function initForPersonalPage($objectId, $type, $className) {
+	
+	global $boxes;
 	$info = array();
 	$counter = 0;
 	switch ($type) {
