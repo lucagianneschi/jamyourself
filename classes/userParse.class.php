@@ -382,8 +382,8 @@ class UserParse {
 			is_null($user->getPremium()) ? $parseUser->premium = null : $parseUser->premium = $user->getPremium();
 			is_null($user->getPremiumExpirationDate()) ? $parseUser->premiumExpirationDate = null : $parseUser->premiumExpirationDate = toParseDate($user->getPremiumExpirationDate());
 			is_null($user->getProfilePicture()) ? $parseUser->profilePicture = $default_img['DEFAVATAR'] : $parseUser->profilePicture = $user->getProfilePicture();
-			is_null($user->getProfilePictureFile()) ? $parseUser->profilePictureFile = $default_img['DEFAVATARTHUMB'] : $parseUser->profilePictureFile = $user->getProfilePictureFile();
-			is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = null : $parseUser->profileThumbnail = $user->getProfileThumbnail();
+			is_null($user->getProfilePictureFile()) ? $parseUser->profilePictureFile = null : $parseUser->profilePictureFile = $user->getProfilePictureFile();
+			is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = $default_img['DEFAVATARTHUMB'] : $parseUser->profileThumbnail = $user->getProfileThumbnail();
 			is_null($user->getRecords()) ? $parseUser->records = null : $parseUser->records = toParseAddRelation('Record', $user->getRecords());
 			is_null($user->getSettings()) ? $parseUser->settings = null : $parseUser->settings = $user->getSettings();
 			is_null($user->getSex()) ? $parseUser->sex = null : $parseUser->sex = $user->getSex();
