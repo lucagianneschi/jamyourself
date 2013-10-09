@@ -17,7 +17,8 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once ROOT_DIR . 'string.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';

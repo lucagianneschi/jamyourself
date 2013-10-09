@@ -18,7 +18,8 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once ROOT_DIR . 'string.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once CLASSES_DIR . 'record.class.php';
 require_once CLASSES_DIR . 'recordParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';

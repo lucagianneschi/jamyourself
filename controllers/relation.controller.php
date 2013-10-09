@@ -18,6 +18,8 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
@@ -46,7 +48,6 @@ class RelationController extends REST {
      */
     public function acceptRelationRequest() {
 	require_once SERVICES_DIR . 'mail.service.php';
-	require_once ROOT_DIR . 'string.php';
 	
 	global $controllers;
 	global $mail_files;
@@ -147,7 +148,6 @@ class RelationController extends REST {
      * \todo    usare la sessione
      */
     public function removeRelationship() {
-	require_once ROOT_DIR . 'string.php';
 	global $controllers;
 	
 	#TODO
@@ -197,7 +197,6 @@ class RelationController extends REST {
      */
     public function sendRelationRequest() {
 	require_once SERVICES_DIR . 'mail.service.php';
-	require_once ROOT_DIR . 'string.php';
 	global $controllers;
 	global $mail_files;
 	
