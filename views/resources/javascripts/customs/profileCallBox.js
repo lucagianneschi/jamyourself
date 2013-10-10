@@ -147,8 +147,8 @@ var callBox = {
 					console.log('Box: ' + typebox + ', TypeUser: ' + __this.typeUser + ', objectId: ' + __this.objectIdUser);
 					return data;
 				} else {
-					
-				//	$('.body-content').load('content/general/error.php');
+					if(typebox == 'userinfo')
+						$('.body-content').load('content/general/error.php');
 				}
 
 			},

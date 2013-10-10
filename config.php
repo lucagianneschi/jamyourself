@@ -6,6 +6,7 @@ require_once 'path.php';
  define('BOXES_DIR', PROJECTFOLDER.'boxes/');
  define('CLASSES_DIR', PROJECTFOLDER.'classes/');
  define('CONTROLLERS_DIR', PROJECTFOLDER.'controllers/');
+ define('LANGUAGES_DIR', PROJECTFOLDER.'languages/'); 
  define('MEDIA_DIR', PROJECTFOLDER.'media/');
  define('PARSE_DIR', PROJECTFOLDER.'parse/');
  define('SERVICES_DIR', PROJECTFOLDER.'services/');

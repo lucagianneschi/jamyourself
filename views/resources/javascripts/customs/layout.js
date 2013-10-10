@@ -45,7 +45,8 @@ function hcento() {
 	var hr = h - 80;
 	var hrhero = h - 300;
 	$('.hcento').css('height', hr);
-	$('.hcento-hero').css('height', hrhero);           
+	$('.hcento-hero').css('height', hrhero); 
+	
 }
 
 //Show header

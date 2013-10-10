@@ -44,34 +44,35 @@ function noDisplay($dato){
 		    <div class="content" data-section-content>
 		    	<div class="row">
 		    		<div class="small-6 columns">				
-						<a class="ico-label <?php echo $information_pin; ?> white"><?php echo $data['city'];?></br><div class="grey" id="information-address"></div></a>
-		    			<a class="ico-label <?php echo $information_note; ?> white"><?php echo $data['music'];?></a>			    			
+						<a class="ico-label white breakOff <?php echo noDisplay($data['city']); ?><?php echo $information_pin; ?>"><?php echo $data['city'].' ajsisa iasjd asijd asdj iadsn aisdiasd ad aiusd';?></a>
+		    			<a class="ico-label grey breakOff <?php echo noDisplay($data['address']); ?>" id="information-address"><?php echo $data['address'];?></a>
+		    			<a class="ico-label white breakOff<?php echo $information_note; ?>"><?php echo $data['music']?></a>			    			
 		    		</div>
 		    		<div class="small-6 columns">
 		    			<div class="row <?php echo noDisplay($data['facebook']); ?>">
 		    				<div class="small-12 columns">
-		    					<a class="ico-label _facebook"><?php echo $data['facebook'];?></a>
+		    					<a class="ico-label _facebook breakOff"><?php echo $data['facebook'];?></a>
 		    					
 		    				</div>	
 		    			</div>
 		    			<div class="row <?php echo noDisplay($data['twitter']); ?>">
 		    				<div class="small-12 columns">
-		    					<a class="ico-label _twitter"><?php echo $data['twitter']; ?></a>
+		    					<a class="ico-label _twitter breakOff"><?php echo $data['twitter']; ?></a>
 		    				</div>	
 		    			</div>
 		    			<div class="row  <?php echo noDisplay($data['google']); ?>">
 		    				<div class="small-12 columns">
-		    					<a class="ico-label _google"><?php echo $data['google']; ?></a>
+		    					<a class="ico-label _google breakOff"><?php echo $data['google']; ?></a>
 		    				</div>	
 		    			</div>
 		    			<div class="row  <?php echo noDisplay($data['youtube']); ?>">
 		    				<div class="small-12 columns">
-		    					<a class="ico-label _youtube"><?php echo $data['youtube']; ?></a>
+		    					<a class="ico-label _youtube breakOff"><?php echo $data['youtube']; ?></a>
 		    				</div>	
 		    			</div>
 		    			<div class="row  <?php echo noDisplay($data['web']); ?>">
 		    				<div class="small-12 columns">
-		    					<a href="<?php echo $data['web']; ?>" class="ico-label _web"><?php echo $data['web']; ?></a>
+		    					<a href="<?php echo $data['web']; ?>" class="ico-label _web breakOff"><?php echo $data['web']; ?></a>
 		    				</div>	
 		    			</div>
 		    		</div>		
@@ -82,10 +83,11 @@ function noDisplay($dato){
 		  	if($data['type'] == "JAMMER"){
 		  ?>
 		  <!--------------------------------------- MEMBRES --------------------------------------->
+		  <?php if(is_array($data['membres'])){ ?>
 		  <section>
 		    <p class="title" data-section-title><a href="#">Membres</a></p>
 		    <div class="content" data-section-content>
-		    	<?php if(is_array($data['membres'])){ ?>
+		    	
 			     <div class="row">
     				<div class="small-6 columns">
     					<div class="box-membre">
@@ -100,11 +102,11 @@ function noDisplay($dato){
     					</div>	
     				</div>		
     			</div>
-    			<?php }?>	    			
+    			    			
 		    </div>
 		  </section>
 		   <?php 
-		  	}
+		  	}}
 			// su utente e' tipo venue allora viene mostrato il section del map
 			if($data['type'] == "VENUE"){
 		  ?>		  

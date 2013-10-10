@@ -20,8 +20,8 @@ $objectIdCurrentUser = $_POST['objectIdCurrentUser'];
 $classBox= $_POST['classBox'];
 $objectIdComment = $_POST['objectId'];
 /*
-$box = 'comment';
-$objectId = '8zqS8mjacf';
+$box = 'userinfo';
+$objectId = '7fes1RyY77';
 $classBox = 'Record';
 $objectIdComment = 'sveemvaUN8';
 */
@@ -30,54 +30,70 @@ $result = array();
 $result['error']['code'] = 0;
 $result['error']['message'] = 'ok';
 
+
+
 switch ($box) {
 	case 'userinfo' :
-		require_once BOXES_DIR . 'userInfo.box.php';
-
-		$userInfo = new UserInfoBox();
 		try{
-		$dati = $userInfo -> initForPersonalPage($objectId);
-		if (!($dati instanceof Error)) {
-			$result['backGround'] = $dati -> backGround != NODATA ? $dati -> backGround : DEFBGD;
-			$result['city'] = $dati -> city != NODATA ? $dati -> city : '';
-			$result['county'] = $dati -> county != NODATA ? $dati -> county : '';
-			$result['description'] = $dati -> description != NODATA ? $dati -> description : '';
-			$result['facebook'] = $dati -> fbPage != NODATA ? $dati -> fbPage : '';
-			$result['google'] = $dati -> googlePlusPage != NODATA ? $dati -> googlePlusPage : '';
-			$result['level'] = $dati -> level != NODATA ? $dati -> level : '0';
-			$result['levelValue'] = $dati -> levelValue != NODATA ? $dati -> levelValue : '';
-			$dati -> type != NODATA ? $result['type'] = $dati -> type : $result['error'] = 1;
-			$result['twitter'] = $dati -> twitterPage != NODATA ? $dati -> twitterPage : '';
-			$dati -> userName != NODATA ? $result['username'] = $dati -> userName : $result['error'] = 1;
-			$result['profilePicture'] = $dati -> profilePicture != DEFAULTAVATAR ? $dati -> profilePicture : DEFAVATAR;
-			$result['youtube'] = $dati -> youtubeChannel != NODATA ? $dati -> youtubeChannel : '';
-			$result['web'] = $dati -> webSite != NODATA ? $dati -> webSite : '';
-			if ($result['type'] == 'JAMMER' || $result['type'] == 'SPOTTER') {
-				$result['record'] = '';
-				if (is_array($dati -> record)) {
-					foreach ($dati -> record as $key => $value) {
-						$result['record'] = $value . ' ' . $result['record'];
+			
+			require_once BOXES_DIR . 'userInfo.box.php';
+				
+			$userInfo = new UserInfoBox();
+			
+			$dati = $userInfo -> initForPersonalPage($objectId);
+			
+			if (!($dati instanceof Error)) {
+				$result['backGround'] = $dati -> backGround != NODATA ? $dati -> backGround : DEFBGD;
+				$result['city'] = $dati -> city != NODATA ? $dati -> city : '';
+				$result['county'] = $dati -> county != NODATA ? $dati -> county : '';
+				$result['description'] = $dati -> description != NODATA ? $dati -> description : '';
+				$result['facebook'] = $dati -> fbPage != NODATA ? $dati -> fbPage : '';
+				$result['google'] = $dati -> googlePlusPage != NODATA ? $dati -> googlePlusPage : '';
+				$result['level'] = $dati -> level != NODATA ? $dati -> level : '0';
+				$result['levelValue'] = $dati -> levelValue != NODATA ? $dati -> levelValue : '';
+				$dati -> type != NODATA ? $result['type'] = $dati -> type : $result['error'] = 1;
+				$result['twitter'] = $dati -> twitterPage != NODATA ? $dati -> twitterPage : '';
+				$dati -> userName != NODATA ? $result['username'] = $dati -> userName : $result['error'] = 1;
+				$result['profilePicture'] = $dati -> profilePicture != DEFAULTAVATAR ? $dati -> profilePicture : DEFAVATAR;
+				$result['youtube'] = $dati -> youtubeChannel != NODATA ? $dati -> youtubeChannel : '';
+				$result['web'] = $dati -> webSite != NODATA ? $dati -> webSite : '';
+				if ($result['type'] == 'JAMMER' || $result['type'] == 'SPOTTER') {
+					$result['record'] = '';
+					if (is_array($dati -> record)) {
+						foreach ($dati -> record as $key => $value) {
+							$result['record'] = $value . ' ' . $result['record'];
+						}
+					}
+	
+					if (is_array($dati -> membres)) {
+						$result['membres'] = $dati -> membres;
+					} else
+						$result['membres'] = array();
+	
+				}
+				$result['lat'] = '';
+				$result['lng'] = '';
+				$result['address'] = '';
+				if ($result['type'] == 'VENUE') {					
+					if($dati->geoCoding instanceof parseGeoPoint){
+						$result['lat'] = $dati->geoCoding->lat;
+						$result['lng'] = $dati->geoCoding->long;												
+											
+						$geocode = new GeocoderService();
+						
+						$addressCode = $geocode->getAddress($result['lat'], $result['lng']);
+						if(count($addressCode)>0){
+							$result['address'] = $addressCode['route'] . " " . $addressCode['street_number'];
+						}						 
 					}
 				}
-
-				if (is_array($dati -> membres)) {
-					$result['membres'] = $dati -> membres;
-				} else
-					$result['membres'] = array();
-
+			} else {
+				$result['error']['code'] = 101;
+				$result['error']['message'] = 'object not found for get';
 			}
-			$result['geoCoding'] = '';
-			if ($result['type'] == 'VENUE') {
-				$result['lat'] = $dati->geoCoding->lat;
-				$result['lng'] = $dati->geoCoding->long;
-			}
-		} else {
-			$result['error']['code'] = 101;
-			$result['error']['message'] = 'object not found for get';
-		}
 		}catch (Exception $e) {
 		   $result['error']['code'] = 101;
-				$result['error']['message'] = 'Error infoUser';
+		   $result['error']['message'] = 'Error infoUser';
 		}
 		$result = json_encode($result);
 		break;
@@ -463,6 +479,7 @@ switch ($box) {
 }
 
 echo $result;
+
 
 
 /*

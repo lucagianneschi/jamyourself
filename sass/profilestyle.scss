@@ -3,6 +3,13 @@
 
 
 //-------------- PROFILE ---------------------------
+//tronca la parola
+.breakOff{
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	
+}
+
 #profile{
  padding-top: 30px;
  background-color: $grey-dark;
