@@ -72,12 +72,12 @@ $recordCounter = $data['recordCounter'];
 					<div class="small-8 columns">						
 						<div class="row">
 							<div class="large-12 colums">
-								<div class="sottotitle white" ><?php echo $record_title ?></div>
+								<div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="large-12 colums">
-								<div class="note grey">Recorded <?php echo $record_data ?></div>
+								<div class="note grey breakOffTest">Recorded <?php echo $record_data ?></div>
 							</div>
 						</div>
 						<div class="row">
@@ -138,7 +138,7 @@ $recordCounter = $data['recordCounter'];
 				<div class="small-8 columns">						
 					<div class="row">
 						<div class="large-12 colums">
-							<div class="sottotitle white "><?php echo $recordSingle_title ?></div>
+							<div class="sottotitle white breakOffTest"><?php echo $recordSingle_title ?></div>
 						</div>
 					</div>				
 					<div class="row">
@@ -160,7 +160,7 @@ $recordCounter = $data['recordCounter'];
 				
 					<div class="row">
 						<div class="small-9 columns ">					
-							<a class="ico-label _play-large text "><?php echo $key+1 ?>. <?php echo $value['title'] ?></a>
+							<a class="ico-label _play-large text breakOffTest"><?php echo $key+1 ?>. <?php echo $value['title'] ?></a>
 								
 						</div>
 						<div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">					

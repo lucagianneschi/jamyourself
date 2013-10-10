@@ -58,7 +58,7 @@ $albumCounter = $data['albumCounter'];
 						<?php if(isset($data['album' . ($i)]['objectId'])){ ?>				
 						<div class="small-6 columns box-coveralbum <?php echo $data['album' . ($i)]['objectId'] ?>"  onclick="albumSelectSingle('<?php echo $data['album' . $i]['objectId']; ?>',<?php echo $data['album' . $i]['imageCounter']; ?>)">
 							<img class="albumcover" src="../media/<?php echo $data['album' . $i]['thumbnailCover'] ?>" onError="this.src='../media/images/default/defaultAlbumcoverthumb.jpg'">  
-							<div class="text white"><?php echo $data['album' . $i]['title']; ?></div>
+							<div class="text white breakOffTest"><?php echo $data['album' . $i]['title']; ?></div>
 							<div class="row">
 								<div class="small-5 columns ">
 									<a class="note grey"><?php echo $data['album' . $i]['imageCounter']; ?> Foto</a>								
@@ -74,7 +74,7 @@ $albumCounter = $data['albumCounter'];
 						if(isset($data['album' . ($i+1)]['objectId'])){ ?>
 						<div class="small-6 columns box-coveralbum <?php echo $data['album' . ($i+1)]['objectId']?>"  onclick="albumSelectSingle('<?php echo $data['album' . ($i+1)]['objectId']; ?>',<?php echo $data['album' . ($i+1)]['imageCounter']; ?>)">
 							<img class="albumcover" src="../media/<?php echo $data['album' . ($i+1)]['thumbnailCover'] ?>" onError="this.src='../media/images/default/defaultAlbumcoverthumb.jpg'">  
-							<div class="text white"><?php echo $data['album' . ($i+1)]['title']; ?></div>
+							<div class="text white breakOffTest"><?php echo $data['album' . ($i+1)]['title']; ?></div>
 							<div class="row">
 								<div class="small-5 columns ">
 									<a class="note grey"><?php echo $data['album' . ($i+1)]['imageCounter']; ?> Foto</a>								
