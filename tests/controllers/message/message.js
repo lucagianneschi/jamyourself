@@ -15,8 +15,7 @@ function sendRequest(_action, _data, callback, _async) {
         data: _data,
         async: async,
         success: function(data, status) {
-            //gestione success
-			$("#data").html(data);
+            $("#data").html(data);
             callback(data, status);
         },
         error: function(data, status) {
@@ -26,13 +25,12 @@ function sendRequest(_action, _data, callback, _async) {
     });
 }
 
-function confirmation(data, status){
+function confirmation(data, status) {
     console.debug("Data : " + data + " | Status: " + status);
     $("#data").html(data);
 }
 
-function sendMessage(toUser){
-    //recuper il commento
+function sendMessage(toUser) {
     var message = {"text" : $("#message").val(), "toUser" : toUser };
     window.console.log("Sending Message: " + message);
     sendRequest("sendMessage", message, confirmation, true);
