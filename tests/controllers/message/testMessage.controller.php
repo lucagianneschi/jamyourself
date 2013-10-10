@@ -17,15 +17,17 @@ and open the template in the editor.
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="message.js"></script>
+		<script src="message.js"></script>
         <title></title>
     </head>
     <body>
-        <form action="javascript:sendComment()">
+        <form action="javascript:sendMessage('GuUAj83MGH')">
             <label for="comment" />
-	    <?php
-	    echo '<textarea id="message" rows="' . $controller->config->inputMessageRowNumber . '" cols="' . $controller->config->inputMessageColumnNumber . '"></textarea>';
-	    ?>
+			<?php
+			echo '
+			<textarea id="message" rows="' . $controller->config->inputMessageRowNumber . '" cols="' . $controller->config->inputMessageColumnNumber . '"></textarea>
+			';
+			?>
             <input type="submit" value="Send Message" name="sendMessage" id="sendMessage" />
         </form>
         <h2>
@@ -33,5 +35,6 @@ and open the template in the editor.
         </h2>
         <div id="data"> 
         </div>
+		ATTENZIONE: tutti i messaggi vengono scritti all'utente "GuUAj83MGH"
     </body>
 </html>
