@@ -155,6 +155,13 @@ class AccessController extends REST {
 		}
     }
 
+	 /**
+     * \fn		sociaLogin()
+     * \brief   login con account Social
+     * \todo    tutto
+     */
+	    public function sociaLogin() {}
+	
 }
 
 ?>
