@@ -41,27 +41,33 @@ class UserUtilitiesController extends REST {
 	session_start();
     }
 
+	/**
+     * \fn		linkSocialAccount()
+     * \brief   link con l'account social
+     * \todo    usare la sessione
+     */
+	public function linkSocialAccount(){}
+	
     /**
      * \fn		passwordReset()
-     * \brief   user login
+     * \brief   esegue una richiesta di reset della password
      * \todo    usare la sessione
      */
     public function passwordReset() {}
 	
 	/**
-     * \fn		linkSocialAccount()
-     * \brief   user login
-     * \todo    usare la sessione
-     */
-	public function linkSocialAccount(){}
-	
-	/**
      * \fn		unLinkSocialAccount()
-     * \brief   user login
+     * \brief   elimina il link con l'account social
      * \todo    usare la sessione
      */
 	public function unLinkSocialAccount(){}
 
+	/**
+     * \fn		public function updateSetting()
+     * \brief   effettua l'update dell'array dei settings
+     * \todo    usare la sessione
+     */
+	public function updateSetting(){}
 }
 
 ?>
