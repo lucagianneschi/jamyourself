@@ -45,7 +45,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark"><strong><?php echo $data['relation']['venuesCollaborators'. $i]['username']?></strong></div>
+										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['venuesCollaborators'. $i]['username']?></strong></div>
 									</div>		
 								</div>	
 	    					</div>
@@ -62,7 +62,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark"><strong><?php echo $data['relation']['venuesCollaborators'. ($i+1)]['username']?></strong></div>
+										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['venuesCollaborators'. ($i+1)]['username']?></strong></div>
 									</div>		
 								</div>
 	    					</div>
@@ -96,7 +96,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark"><strong><?php echo $data['relation']['jammersCollaborators'. $i]['username']?></strong></div>
+										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['jammersCollaborators'. $i]['username']?></strong></div>
 									</div>		
 								</div>	
 	    					</div>
@@ -112,7 +112,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark"><strong><?php echo $data['relation']['jammersCollaborators'. ($i+1)]['username']?></strong></div>
+										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['jammersCollaborators'. ($i+1)]['username']?></strong></div>
 									</div>		
 								</div>
 	    					</div>
