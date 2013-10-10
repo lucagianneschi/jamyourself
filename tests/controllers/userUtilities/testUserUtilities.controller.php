@@ -42,11 +42,17 @@
   <body>
 	Operazioni dell'utente<br />
 	<br />
-	<button type="button" onclick="userUtilities('Activity', 'passReset')">Richiesta reset password per lucagianneschi</button>
+	<button type="button" onclick="userUtilities('EKElKcMMRM', 'passReset')">Richiesta reset password per lucagianneschi</button>
 	&nbsp;
-	<button type="button" onclick="userUtilities('Activity', 'link')">Link Social Account per lucagianneschi</button>
+	<button type="button" onclick="userUtilities('EKElKcMMRM', 'link')">Link Social Account per lucagianneschi</button>
 	&nbsp;<hr>
-	<button type="button" onclick="userUtilities('Album', 'unlink')">UnLink Social Account per lucagianneschi</button>
+	<button type="button" onclick="userUtilities('EKElKcMMRM', 'unlink')">UnLink Social Account per lucagianneschi</button>
+	&nbsp;
+	<button type="button" onclick="userUtilities('7fes1RyY77', 'passReset')">Richiesta reset password per LDF</button>
+	&nbsp;
+	<button type="button" onclick="userUtilities('7fes1RyY77', 'link')">Link Social Account per LDF</button>
+	&nbsp;<hr>
+	<button type="button" onclick="userUtilities('7fes1RyY77', 'unlink')">UnLink Social Account per LDF</button>
 	&nbsp;
 	<hr>
   </body>
