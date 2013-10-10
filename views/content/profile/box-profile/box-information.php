@@ -44,7 +44,7 @@ function noDisplay($dato){
 		    <div class="content" data-section-content>
 		    	<div class="row">
 		    		<div class="small-6 columns">				
-						<a class="ico-label white breakOff <?php echo noDisplay($data['city']); ?><?php echo $information_pin; ?>"><?php echo $data['city'].' ajsisa iasjd asijd asdj iadsn aisdiasd ad aiusd';?></a>
+						<a class="ico-label white breakOff <?php echo noDisplay($data['city']); ?><?php echo $information_pin; ?>"><?php echo $data['city'];?></a>
 		    			<a class="ico-label grey breakOff <?php echo noDisplay($data['address']); ?>" id="information-address"><?php echo $data['address'];?></a>
 		    			<a class="ico-label white breakOff<?php echo $information_note; ?>"><?php echo $data['music']?></a>			    			
 		    		</div>
