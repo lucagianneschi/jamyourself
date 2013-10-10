@@ -19,11 +19,7 @@ $friendshipCounter = $data['relation']['friendship']['friendshipCounter'];
 			<div  class="large-12 columns ">
 				<div class="box">					
 					<?php if($friendshipCounter > 0 ){ ?>
-					<div class="row  ">
-						<div  class="large-12 columns ">
-							<div class="text orange">Venue <span class="grey">[<?php echo $venuesCollaboratorsCounter ?>]</span></div>
-						</div>
-					</div>
+					
 					<?php 
 					$totalView = $friendshipCounter > 4 ? 4 : $friendshipCounter;
 					for($i=0; $i<$totalView; $i=$i+2){
@@ -40,12 +36,12 @@ $friendshipCounter = $data['relation']['friendship']['friendshipCounter'];
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark"><strong><?php echo $data['relation']['friendship'. $i]['username']?></strong></div>
+										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['friendship'. $i]['username']?></strong></div>
 									</div>		
 								</div>	
 	    					</div>
 						</div>
-						
+						<?php if(isset($data['relation']['friendship'. $i+1]['objectId'])){?>
 						<div  class="small-6 columns ">
 							<div class="box-membre">
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['friendship'. $i+1]['objectId']?>">
@@ -55,12 +51,12 @@ $friendshipCounter = $data['relation']['friendship']['friendshipCounter'];
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark"><strong><?php echo $data['relation']['friendship'. $i+1]['username']?></strong></div>
+										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['friendship'. $i+1]['username']?></strong></div>
 									</div>		
 								</div>
 	    					</div>
 						</div>
-						
+						<?php } ?>
 					</div>
 					<?php }?>				
 					 <?php }

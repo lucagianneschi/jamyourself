@@ -11,13 +11,13 @@
   white-space: nowrap;
 }
 
-/* line 19, ../../../sass/profilestyle.scss */
+/* line 20, ../../../sass/profilestyle.scss */
 #profile {
   padding-top: 30px;
   background-color: #303030;
 }
 
-/* line 24, ../../../sass/profilestyle.scss */
+/* line 25, ../../../sass/profilestyle.scss */
 .background {
   border: 1px solid #787878;
   margin-top: 5px !important;
@@ -26,12 +26,12 @@
   height: 470px;
 }
 
-/* line 32, ../../../sass/profilestyle.scss */
+/* line 33, ../../../sass/profilestyle.scss */
 section.active > .title a {
   color: #f3f3f3 !important;
 }
 
-/* line 36, ../../../sass/profilestyle.scss */
+/* line 37, ../../../sass/profilestyle.scss */
 .picture {
   position: absolute;
   height: 150px;
@@ -43,18 +43,18 @@ section.active > .title a {
   z-index: 3;
 }
 
-/* line 45, ../../../sass/profilestyle.scss */
+/* line 46, ../../../sass/profilestyle.scss */
 .section-container .title {
   font-size: 17px;
   border-bottom: 1px solid #303030;
 }
 
-/* line 50, ../../../sass/profilestyle.scss */
+/* line 51, ../../../sass/profilestyle.scss */
 .section-container {
   margin-bottom: 40px !important;
 }
 
-/* line 57, ../../../sass/profilestyle.scss */
+/* line 58, ../../../sass/profilestyle.scss */
 .box {
   background-color: #232323;
   padding: 20px !important;
@@ -62,38 +62,38 @@ section.active > .title a {
   margin-bottom: 40px;
 }
 
-/* line 65, ../../../sass/profilestyle.scss */
+/* line 66, ../../../sass/profilestyle.scss */
 .box-element {
   border: 1px solid #303030;
   margin-bottom: 5px !important;
   padding: 5px !important;
   cursor: pointer !important;
 }
-/* line 70, ../../../sass/profilestyle.scss */
+/* line 71, ../../../sass/profilestyle.scss */
 .box-element .sottotitle {
   margin-bottom: 10px;
 }
-/* line 73, ../../../sass/profilestyle.scss */
+/* line 74, ../../../sass/profilestyle.scss */
 .box-element .ico-label {
   margin-bottom: -10px !important;
 }
 
-/* line 80, ../../../sass/profilestyle.scss */
+/* line 81, ../../../sass/profilestyle.scss */
 .box-singleAlbum {
   padding-top: 10px !important;
 }
 
-/* line 86, ../../../sass/profilestyle.scss */
+/* line 87, ../../../sass/profilestyle.scss */
 .box#albumcover-single {
   padding: 10px !important;
 }
 
-/* line 90, ../../../sass/profilestyle.scss */
+/* line 91, ../../../sass/profilestyle.scss */
 .box#album-single {
   padding: 10px !important;
 }
 
-/* line 97, ../../../sass/profilestyle.scss */
+/* line 98, ../../../sass/profilestyle.scss */
 .box-membre {
   padding: 10px;
   margin-bottom: 10px;
@@ -103,17 +103,17 @@ section.active > .title a {
   cursor: pointer;
 }
 
-/* line 107, ../../../sass/profilestyle.scss */
+/* line 108, ../../../sass/profilestyle.scss */
 .royalSlider.rsDefault {
   background: none !important;
 }
 
-/* line 110, ../../../sass/profilestyle.scss */
+/* line 111, ../../../sass/profilestyle.scss */
 .rsDefault .rsOverflow {
   background: none !important;
 }
 
-/* line 114, ../../../sass/profilestyle.scss */
+/* line 115, ../../../sass/profilestyle.scss */
 .album-other {
   cursor: pointer;
   text-align: right;
@@ -124,20 +124,20 @@ section.active > .title a {
   background-position: Center;
 }
 
-/* line 124, ../../../sass/profilestyle.scss */
+/* line 125, ../../../sass/profilestyle.scss */
 .album-single-propriety {
   border-top: 1px solid #303030 !important;
   padding-top: 5px;
   padding-bottom: 5px;
 }
 
-/* line 130, ../../../sass/profilestyle.scss */
+/* line 131, ../../../sass/profilestyle.scss */
 .propriety {
   padding-right: 5px;
   text-align: right;
 }
 
-/* line 135, ../../../sass/profilestyle.scss */
+/* line 136, ../../../sass/profilestyle.scss */
 .icon-propriety {
   width: auto;
   height: 15px;
@@ -149,117 +149,117 @@ section.active > .title a {
   cursor: pointer;
   background-repeat: no-repeat;
 }
-/* line 146, ../../../sass/profilestyle.scss */
+/* line 147, ../../../sass/profilestyle.scss */
 .icon-propriety:hover {
   color: #787878;
 }
 
-/* line 151, ../../../sass/profilestyle.scss */
+/* line 152, ../../../sass/profilestyle.scss */
 .content #map_venue {
   width: 100% !important;
   height: 300px !important;
   margin-bottom: 10px;
 }
 
-/* line 159, ../../../sass/profilestyle.scss */
+/* line 160, ../../../sass/profilestyle.scss */
 #colorbox {
   top: 0px !important;
 }
 
-/* line 164, ../../../sass/profilestyle.scss */
+/* line 165, ../../../sass/profilestyle.scss */
 #cboxLoadedContent {
   border: 0px solid #000 !important;
   width: 540px !important;
   margin-left: 30px !important;
 }
 
-/* line 169, ../../../sass/profilestyle.scss */
+/* line 170, ../../../sass/profilestyle.scss */
 #cboxContent {
   background: none !important;
   margin-top: 25px !important;
 }
 
-/* line 174, ../../../sass/profilestyle.scss */
+/* line 175, ../../../sass/profilestyle.scss */
 #cboxCurrent {
   right: 35px !important;
   font-size: 14px !important;
 }
 
-/* line 179, ../../../sass/profilestyle.scss */
+/* line 180, ../../../sass/profilestyle.scss */
 #cboxNext {
   box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
 }
 
-/* line 183, ../../../sass/profilestyle.scss */
+/* line 184, ../../../sass/profilestyle.scss */
 #cboxPrevious {
   box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
 }
 
-/* line 187, ../../../sass/profilestyle.scss */
+/* line 188, ../../../sass/profilestyle.scss */
 #cboxClose {
   top: -18px !important;
   box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
   right: 0px !important;
 }
 
-/* line 195, ../../../sass/profilestyle.scss */
+/* line 196, ../../../sass/profilestyle.scss */
 #cboxLoadedContent {
   background: none !important;
 }
 
-/* line 200, ../../../sass/profilestyle.scss */
+/* line 201, ../../../sass/profilestyle.scss */
 #albumSlide.royalSlider {
   width: auto !important;
   background: #232323 !important;
 }
-/* line 203, ../../../sass/profilestyle.scss */
+/* line 204, ../../../sass/profilestyle.scss */
 #albumSlide.royalSlider .rsContent {
   background: #232323 !important;
 }
 
-/* line 210, ../../../sass/profilestyle.scss */
+/* line 211, ../../../sass/profilestyle.scss */
 .albumcover-list {
   padding-bottom: 10px !important;
 }
 
-/* line 213, ../../../sass/profilestyle.scss */
+/* line 214, ../../../sass/profilestyle.scss */
 #albumSlide.box {
   padding: 5px 5px 5px 5px !important;
 }
-/* line 215, ../../../sass/profilestyle.scss */
+/* line 216, ../../../sass/profilestyle.scss */
 #albumSlide.box .box-coveralbum {
   cursor: pointer;
 }
 
-/* line 220, ../../../sass/profilestyle.scss */
+/* line 221, ../../../sass/profilestyle.scss */
 .albumcover {
   width: 310px;
   height: 160px;
   padding-bottom: 10px !important;
 }
 
-/* line 227, ../../../sass/profilestyle.scss */
+/* line 228, ../../../sass/profilestyle.scss */
 .box-coveralbum {
   padding: 10px !important;
   border: 1px solid #303030 !important;
 }
 
-/* line 233, ../../../sass/profilestyle.scss */
+/* line 234, ../../../sass/profilestyle.scss */
 #albumcover-single .large-block-grid-3 {
   padding-top: 10px !important;
 }
 
-/* line 237, ../../../sass/profilestyle.scss */
+/* line 238, ../../../sass/profilestyle.scss */
 #albumcover-single [data-clearing] li {
   margin-right: 0px !important;
 }
 
-/* line 241, ../../../sass/profilestyle.scss */
+/* line 242, ../../../sass/profilestyle.scss */
 .photo {
   cursor: pointer;
 }
 
-/* line 246, ../../../sass/profilestyle.scss */
+/* line 247, ../../../sass/profilestyle.scss */
 .lightbox-photo .lightbox-photo-box {
   background-color: #232323 !important;
   border: 1px solid #787878;
@@ -267,25 +267,25 @@ section.active > .title a {
   padding-bottom: 15px !important;
 }
 
-/* line 263, ../../../sass/profilestyle.scss */
+/* line 264, ../../../sass/profilestyle.scss */
 #profile-Record .box {
   padding: 5px !important;
 }
-/* line 265, ../../../sass/profilestyle.scss */
+/* line 266, ../../../sass/profilestyle.scss */
 #profile-Record .box .propriety {
   padding-right: 15px !important;
 }
 
-/* line 270, ../../../sass/profilestyle.scss */
+/* line 271, ../../../sass/profilestyle.scss */
 #recordSlide.royalSlider {
   width: auto !important;
 }
-/* line 272, ../../../sass/profilestyle.scss */
+/* line 273, ../../../sass/profilestyle.scss */
 #recordSlide.royalSlider .rsContent {
   background-color: #232323 !important;
 }
 
-/* line 277, ../../../sass/profilestyle.scss */
+/* line 278, ../../../sass/profilestyle.scss */
 #record-list .play_now {
   background-color: #787878 !important;
   width: 100px;
@@ -293,184 +293,184 @@ section.active > .title a {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-/* line 283, ../../../sass/profilestyle.scss */
+/* line 284, ../../../sass/profilestyle.scss */
 #record-list .play_now:hover {
   background-color: #ff7505 !important;
 }
 
-/* line 288, ../../../sass/profilestyle.scss */
+/* line 289, ../../../sass/profilestyle.scss */
 #profile-Record .box-info-element {
   border-top: 1px solid #303030 !important;
   margin-bottom: 5px !important;
   padding: 5px !important;
   cursor: pointer !important;
 }
-/* line 293, ../../../sass/profilestyle.scss */
+/* line 294, ../../../sass/profilestyle.scss */
 #profile-Record .box-info-element .sottotitle {
   margin-bottom: 10px;
 }
-/* line 296, ../../../sass/profilestyle.scss */
+/* line 297, ../../../sass/profilestyle.scss */
 #profile-Record .box-info-element .ico-label {
   margin-bottom: -10px !important;
 }
 
-/* line 302, ../../../sass/profilestyle.scss */
+/* line 303, ../../../sass/profilestyle.scss */
 .album-thumb {
   width: 110px;
   height: 110px;
 }
 
-/* line 307, ../../../sass/profilestyle.scss */
+/* line 308, ../../../sass/profilestyle.scss */
 .album-select {
   cursor: pointer;
 }
 
-/* line 311, ../../../sass/profilestyle.scss */
+/* line 312, ../../../sass/profilestyle.scss */
 #profile-Record .track {
   padding-top: 5px;
   border-top: 1px solid #303030 !important;
 }
-/* line 314, ../../../sass/profilestyle.scss */
+/* line 315, ../../../sass/profilestyle.scss */
 #profile-Record .track ._play-large {
   margin-bottom: 5px !important;
 }
-/* line 317, ../../../sass/profilestyle.scss */
+/* line 318, ../../../sass/profilestyle.scss */
 #profile-Record .track:hover {
   background-color: #1c1c1c;
   border-top: 2px solid #ff7505 !important;
 }
 
-/* line 323, ../../../sass/profilestyle.scss */
+/* line 324, ../../../sass/profilestyle.scss */
 .userThumb {
   width: 45px;
   height: 45px;
 }
 
-/* line 330, ../../../sass/profilestyle.scss */
+/* line 331, ../../../sass/profilestyle.scss */
 .track:hover .track-propriety {
   display: block !important;
 }
-/* line 333, ../../../sass/profilestyle.scss */
+/* line 334, ../../../sass/profilestyle.scss */
 .track:hover .track-nopropriety {
   display: none !important;
 }
 
-/* line 339, ../../../sass/profilestyle.scss */
+/* line 340, ../../../sass/profilestyle.scss */
 .track ._play-large:hover {
   color: #f3f3f3 !important;
 }
 
-/* line 343, ../../../sass/profilestyle.scss */
+/* line 344, ../../../sass/profilestyle.scss */
 .track-propriety {
   padding: 2px;
   display: none;
 }
 
-/* line 349, ../../../sass/profilestyle.scss */
+/* line 350, ../../../sass/profilestyle.scss */
 .event {
   padding: 0px !important;
   padding-right: 5px !important;
 }
 
-/* line 354, ../../../sass/profilestyle.scss */
+/* line 355, ../../../sass/profilestyle.scss */
 .eventcover {
   height: 130px;
   width: 130px;
   padding-bottom: 5px !important;
 }
 
-/* line 360, ../../../sass/profilestyle.scss */
+/* line 361, ../../../sass/profilestyle.scss */
 #albumcover-single .reveal-modal {
   height: 100%;
   width: 100%;
 }
 
-/* line 365, ../../../sass/profilestyle.scss */
+/* line 366, ../../../sass/profilestyle.scss */
 #eventSlide.royalSlider {
   width: auto !important;
   height: auto !important;
 }
-/* line 368, ../../../sass/profilestyle.scss */
+/* line 369, ../../../sass/profilestyle.scss */
 #eventSlide.royalSlider .rsContent {
   background-color: #232323 !important;
 }
 
-/* line 374, ../../../sass/profilestyle.scss */
+/* line 375, ../../../sass/profilestyle.scss */
 #profile-Event .box {
   padding: 5px !important;
 }
-/* line 376, ../../../sass/profilestyle.scss */
+/* line 377, ../../../sass/profilestyle.scss */
 #profile-Event .box .propriety {
   padding-right: 20px !important;
   padding-left: 0px !important;
 }
 
-/* line 386, ../../../sass/profilestyle.scss */
+/* line 387, ../../../sass/profilestyle.scss */
 #social {
   padding-top: 65px;
   background-color: #f3f3f3;
 }
 
-/* line 392, ../../../sass/profilestyle.scss */
+/* line 393, ../../../sass/profilestyle.scss */
 .status {
   text-align: right;
 }
 
-/* line 396, ../../../sass/profilestyle.scss */
+/* line 397, ../../../sass/profilestyle.scss */
 .livel-status {
   font-weight: 700;
   margin-bottom: 4px !important;
 }
 
-/* line 401, ../../../sass/profilestyle.scss */
+/* line 402, ../../../sass/profilestyle.scss */
 .coverThumb {
   height: 60px;
   width: 60px;
 }
 
-/* line 406, ../../../sass/profilestyle.scss */
+/* line 407, ../../../sass/profilestyle.scss */
 #social #recordReview .box {
   padding: 10px 10px 0px 10px !important;
 }
 
-/* line 409, ../../../sass/profilestyle.scss */
+/* line 410, ../../../sass/profilestyle.scss */
 #social #eventReview .box {
   padding: 10px 10px 0px 10px !important;
 }
 
-/* line 412, ../../../sass/profilestyle.scss */
+/* line 413, ../../../sass/profilestyle.scss */
 .touchcarousel {
   width: auto !important;
   height: auto !important;
 }
 
-/* line 417, ../../../sass/profilestyle.scss */
+/* line 418, ../../../sass/profilestyle.scss */
 .textReview {
   margin-top: 10px;
 }
 
-/* line 420, ../../../sass/profilestyle.scss */
+/* line 421, ../../../sass/profilestyle.scss */
 .textEventReview {
   margin-top: 10px;
 }
 
-/* line 424, ../../../sass/profilestyle.scss */
+/* line 425, ../../../sass/profilestyle.scss */
 #social_list_achievement .arrow-holder {
   height: 250px;
 }
 
-/* line 427, ../../../sass/profilestyle.scss */
+/* line 428, ../../../sass/profilestyle.scss */
 #social_list_achievement {
   margin-left: 30px !important;
   margin-right: 30px !important;
 }
 
-/* line 431, ../../../sass/profilestyle.scss */
+/* line 432, ../../../sass/profilestyle.scss */
 .arrow-holder {
   height: 60px !important;
 }
 
-/* line 438, ../../../sass/profilestyle.scss */
+/* line 439, ../../../sass/profilestyle.scss */
 .achievement {
   margin: 10px;
   height: 40px;
@@ -484,7 +484,7 @@ section.active > .title a {
   border-radius: 1000px;
 }
 
-/* line 447, ../../../sass/profilestyle.scss */
+/* line 448, ../../../sass/profilestyle.scss */
 .achievement-target {
   margin: 10px;
   border: #ff7505 3px solid;
@@ -497,45 +497,45 @@ section.active > .title a {
   -o-transition-property: background-position, color;
   transition-property: background-position, color;
 }
-/* line 455, ../../../sass/profilestyle.scss */
+/* line 456, ../../../sass/profilestyle.scss */
 .achievement-target:hover {
   background-color: #ff7505;
   background-position: left bottom;
 }
 
-/* line 462, ../../../sass/profilestyle.scss */
+/* line 463, ../../../sass/profilestyle.scss */
 .status-button {
   text-align: right;
   height: 35px;
   margin-bottom: 40px;
 }
 
-/* line 469, ../../../sass/profilestyle.scss */
+/* line 470, ../../../sass/profilestyle.scss */
 .button {
   height: 35px !important;
   border: 0px !important;
   padding-top: 10px !important;
 }
 
-/* line 475, ../../../sass/profilestyle.scss */
+/* line 476, ../../../sass/profilestyle.scss */
 .bg-orange {
   background-color: #ff7505 !important;
 }
-/* line 477, ../../../sass/profilestyle.scss */
+/* line 478, ../../../sass/profilestyle.scss */
 .bg-orange:hover {
   background-color: #c95600 !important;
 }
 
-/* line 482, ../../../sass/profilestyle.scss */
+/* line 483, ../../../sass/profilestyle.scss */
 .bg-grey {
   background-color: #787878 !important;
 }
-/* line 484, ../../../sass/profilestyle.scss */
+/* line 485, ../../../sass/profilestyle.scss */
 .bg-grey:hover {
   background-color: #303030 !important;
 }
 
-/* line 489, ../../../sass/profilestyle.scss */
+/* line 490, ../../../sass/profilestyle.scss */
 .icon-button {
   width: auto;
   height: 20px;
@@ -548,71 +548,71 @@ section.active > .title a {
   background-repeat: no-repeat;
 }
 
-/* line 501, ../../../sass/profilestyle.scss */
+/* line 502, ../../../sass/profilestyle.scss */
 #social .box {
   border: #d8d8d8 1px solid;
   background-color: #fff !important;
 }
 
-/* line 506, ../../../sass/profilestyle.scss */
+/* line 507, ../../../sass/profilestyle.scss */
 #social .text {
   margin-bottom: 10px;
 }
 
-/* line 510, ../../../sass/profilestyle.scss */
+/* line 511, ../../../sass/profilestyle.scss */
 #social .album-thumb {
   width: 90px;
   height: 80px;
   margin-right: 0px;
 }
 
-/* line 515, ../../../sass/profilestyle.scss */
+/* line 516, ../../../sass/profilestyle.scss */
 .box-info {
   padding-left: 0px !important;
 }
 
-/* line 519, ../../../sass/profilestyle.scss */
+/* line 520, ../../../sass/profilestyle.scss */
 #social .line {
   border-bottom: 1px solid #d8d8d8;
   padding-bottom: 5px !important;
 }
 
-/* line 524, ../../../sass/profilestyle.scss */
+/* line 525, ../../../sass/profilestyle.scss */
 #activities .small-block-grid-4 {
   padding-top: 10px;
 }
 
-/* line 528, ../../../sass/profilestyle.scss */
+/* line 529, ../../../sass/profilestyle.scss */
 #social .box-membre {
   height: 55px;
   background-color: #f3f3f3;
 }
 
-/* line 535, ../../../sass/profilestyle.scss */
+/* line 536, ../../../sass/profilestyle.scss */
 #recordReviewSlide.royalSlider {
   width: auto !important;
 }
-/* line 538, ../../../sass/profilestyle.scss */
+/* line 539, ../../../sass/profilestyle.scss */
 #recordReviewSlide.royalSlider .rsContent {
   background: #fff !important;
 }
 
-/* line 544, ../../../sass/profilestyle.scss */
+/* line 545, ../../../sass/profilestyle.scss */
 #eventReviewSlide.royalSlider {
   width: auto !important;
 }
-/* line 547, ../../../sass/profilestyle.scss */
+/* line 548, ../../../sass/profilestyle.scss */
 #eventReviewSlide.royalSlider .rsContent {
   background: #fff !important;
 }
 
-/* line 556, ../../../sass/profilestyle.scss */
+/* line 557, ../../../sass/profilestyle.scss */
 .box-post {
   border: 1px solid #d8d8d8;
   padding: 5px;
 }
 
-/* line 561, ../../../sass/profilestyle.scss */
+/* line 562, ../../../sass/profilestyle.scss */
 .post {
   color: #787878 !important;
   font-size: 14px !important;
@@ -622,7 +622,7 @@ section.active > .title a {
   background: url(../images/icon/write.png) no-repeat 8px 6px !important;
 }
 
-/* line 570, ../../../sass/profilestyle.scss */
+/* line 571, ../../../sass/profilestyle.scss */
 .box-write {
   background-color: #fff !important;
   padding: 5px !important;
@@ -630,7 +630,7 @@ section.active > .title a {
   height: 45px;
 }
 
-/* line 577, ../../../sass/profilestyle.scss */
+/* line 578, ../../../sass/profilestyle.scss */
 .post-button {
   color: #fff;
   background: #ff7505 !important;
@@ -639,7 +639,7 @@ section.active > .title a {
   width: 90px !important;
 }
 
-/* line 585, ../../../sass/profilestyle.scss */
+/* line 586, ../../../sass/profilestyle.scss */
 .comment-button {
   color: #fff;
   background: #787878 !important;
@@ -648,28 +648,28 @@ section.active > .title a {
   width: 90px !important;
 }
 
-/* line 596, ../../../sass/profilestyle.scss */
+/* line 597, ../../../sass/profilestyle.scss */
 .box-comment {
   padding: 5px !important;
   padding-bottom: 1px !important;
   background: #d8d8d8 !important;
   margin-bottom: 50px;
 }
-/* line 601, ../../../sass/profilestyle.scss */
+/* line 602, ../../../sass/profilestyle.scss */
 .box-comment .box-write {
   margin-bottom: 5px !important;
 }
-/* line 604, ../../../sass/profilestyle.scss */
+/* line 605, ../../../sass/profilestyle.scss */
 .box-comment .line {
   border-bottom: 1px solid #d8d8d8;
   padding-bottom: 5px !important;
 }
-/* line 608, ../../../sass/profilestyle.scss */
+/* line 609, ../../../sass/profilestyle.scss */
 .box-comment .text {
   margin-bottom: 10px;
 }
 
-/* line 614, ../../../sass/profilestyle.scss */
+/* line 615, ../../../sass/profilestyle.scss */
 .box-singole-comment {
   padding: 10px !important;
   padding-bottom: 1px !important;
@@ -677,7 +677,7 @@ section.active > .title a {
   margin-bottom: 5px;
 }
 
-/* line 621, ../../../sass/profilestyle.scss */
+/* line 622, ../../../sass/profilestyle.scss */
 .box-commentSpace {
   margin-bottom: 0px !important;
 }

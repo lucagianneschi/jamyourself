@@ -44,12 +44,12 @@ $followingJammerCounter = $data['relation']['followingVenue']['followingJammerCo
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark"><strong><?php echo $data['relation']['followingVenue'. $i]['username']?></strong></div>
+										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['followingVenue'. $i]['username']?></strong></div>
 									</div>		
 								</div>	
 	    					</div>
 						</div>
-						
+						<?php if(isset($data['relation']['followingVenue'. $i+1]['objectId'])){?>
 						<div  class="small-6 columns ">
 							<div class="box-membre">
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['followingVenue'. $i+1]['objectId']?>">
@@ -59,12 +59,12 @@ $followingJammerCounter = $data['relation']['followingVenue']['followingJammerCo
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark"><strong><?php echo $data['relation']['followingVenue'. $i+1]['username']?></strong></div>
+										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['followingVenue'. $i+1]['username']?></strong></div>
 									</div>		
 								</div>
 	    					</div>
 						</div>
-						
+						<?php } ?>
 					</div>
 					<?php } ?>
 			<div class="row">
