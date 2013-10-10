@@ -21,6 +21,7 @@ $controllers = array(
     'SHORTPOST' => 'Dimensione post troppo corta | lungh:',
     'LONGPOST' => 'Dimensione post troppo lunga | lungh:',
     'NOTOUSER' => 'toUser non specificato',
+	'NOCLASSTYPE' => 'classType non specificato',
     'NOFROMUSER' => "fromUser  non specificato",
     'NOPOST' => 'Post non specificato',
     'NOCOMMENT' => 'Commento non specificato',
