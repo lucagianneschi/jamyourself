@@ -55,7 +55,7 @@
 					$event_locationName = $data['event'.$index]['locationName'];
 					$event_title = $data['event'.$index]['title'];
 					$event_featuting = "";
-					if(count($data['event'.$index]['featuring'])>0){
+					if(is_array($data['event'.$index]['featuring']) && count($data['event'.$index]['featuring'])>0){
 						foreach ($data['event'.$index]['featuring'] as $key => $value) {
 							$event_featuting = $event_featuting.' '.$value['username'];
 						}
@@ -80,35 +80,35 @@
 							<?php if($typeUser == "JAMMER"){ ?>						
 							<div class="row">
 								<div class="large-12 colums">
-									<div class="sottotitle white "><?php echo $event_locationName ?></div>
+									<div class="sottotitle white breakOffTest"><?php echo $event_locationName ?></div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="large-12 colums">
-									<div class="sottotitle grey"><?php echo $event_title  ?></div>
+									<div class="sottotitle grey breakOffTest"><?php echo $event_title  ?></div>
 								</div>
 							</div>
 							<?php } else{?>	
 							<div class="row">
 								<div class="large-12 colums">
-									<div class="sottotitle white"><?php echo $event_title  ?></div>
+									<div class="sottotitle white breakOffTest"><?php echo $event_title  ?></div>
 								</div>
 							</div>
 							<?php } ?>
 							<div class="row">
 								<div class="large-12 colums">
-									<div class="sottotitle white"><?php echo $event_featuting  ?></div>
+									<div class="sottotitle white breakOffTest"><?php echo $event_featuting  ?></div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="large-12 colums">
-									<a class="ico-label _calendar inline text grey"><?php echo $event_eventDate ?> </a>
+									<a class="ico-label _calendar inline text grey breakOff"><?php echo $event_eventDate ?></a>
 								</div>
 							</div>
 							<?php if($typeUser == "JAMMER"){ ?>		
 							<div class="row">
 								<div class="large-12 colums">
-									<a class="ico-label _pin inline text grey"><?php echo $event_location ?> </a>
+									<a class="ico-label _pin inline text grey breakOff"><?php echo $event_location ?></a>
 								</div>
 							</div>	
 							<?php } ?>		

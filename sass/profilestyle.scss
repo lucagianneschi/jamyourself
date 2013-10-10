@@ -9,6 +9,12 @@
 	text-overflow: ellipsis !important;
 	
 }
+.breakOffTest{
+	overflow: hidden !important;
+	text-overflow: ellipsis !important;
+	white-space: nowrap;
+}
+
 
 #profile{
  padding-top: 30px;
