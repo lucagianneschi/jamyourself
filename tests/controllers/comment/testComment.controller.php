@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Classe di test per l'invio automatico di commenti JSON per il test
  */
@@ -11,7 +10,6 @@ require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'comment.controller.php';
 $controller = new CommentController();
 $controller->init();
-
 ?>
 <!--
 To change this template, choose Tools | Templates
@@ -26,11 +24,12 @@ and open the template in the editor.
         <title></title>
     </head>
     <body>
-        <form action="javascript:sendComment()">
-            <label for="comment" />
-	    <?php
-	    echo '<textarea id="comment" rows="' . $controller->config->inputCommentRowNumber . '" cols="' . $controller->config->inputCommentColumnNumber . '"></textarea>';
-	    ?>
+        <form action="javascript:sendComment('GuUAj83MGH', 'Album')">
+			<?php
+			echo '
+			<textarea id="comment" rows="' . $controller->config->inputCommentRowNumber . '" cols="' . $controller->config->inputCommentColumnNumber . '"></textarea>
+			';
+			?>
             <input type="submit" value="Send Comment" name="sendComment" id="sendComment" />
         </form>
         <h2>
