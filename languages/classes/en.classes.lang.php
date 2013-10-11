@@ -31,7 +31,7 @@ $default_img = array(
 );
 
 
-$settings = array(
+$settings_strings = array(
     'JAMMER_SETTING_0' => 'Lingua generale del sito',
     'JAMMER_SETTING_1' => 'Orario indicato negli oggetti del sito',
     'JAMMER_SETTING_2' => 'Immagine rappresentativa dell&apos;utente',

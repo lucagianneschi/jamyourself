@@ -30,7 +30,7 @@ $default_img = array(
     'DEFBGD' => 'images/default/defaultBackground.jpg'
 );
 
-$settings = array(
+$settings_strings = array(
     'JAMMER_SETTING_0' => 'lingua generale del sito',
     'JAMMER_SETTING_1' => 'orario indicato negli oggetti del sito',
     'JAMMER_SETTING_2' => 'immagine rappresentativa dell&apos;utente',
