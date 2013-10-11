@@ -41,80 +41,88 @@ class UserUtilitiesController extends REST {
 	session_start();
     }
 
-	/**
+    /**
      * \fn		linkSocialAccount()
      * \brief   link con l'account social
      * \todo    usare la sessione
      */
-	public function linkSocialAccount(){}
+    public function linkSocialAccount() {
 	
+    }
+
     /**
      * \fn		passwordReset()
      * \brief   esegue una richiesta di reset della password
      * \todo    usare la sessione
      */
-    public function passwordReset() {}
+    public function passwordReset() {
 	
-	/**
+    }
+
+    /**
      * \fn		unLinkSocialAccount()
      * \brief   elimina il link con l'account social
      * \todo    usare la sessione
      */
-	public function unLinkSocialAccount(){}
+    public function unLinkSocialAccount() {
+	
+    }
 
-	/**
+    /**
      * \fn		public function updateSetting()
      * \brief   effettua l'update dell'array dei settings
      * \todo    usare la sessione
      */
-	public function updateSetting(){
+    public function updateSetting() {
 	try {
 	    //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
 	    if ($this->get_request_method() != 'POST') {
-			$this->response('', 406);
+		$this->response('', 406);
 	    }
 	    $userId = $_REQUEST['userId'];
-		$settings = $_REQUEST['settings'];
+	    $settings = $_REQUEST['settings'];
 
-		$userP = new UserParse();
+	    $userP = new UserParse();
 	    $user = $userP->getuser($userId);
 	    if (get_class($user) == 'Error') {
-			$this->response(array('Error: ' . $user->getMessage()), 503);
+		$this->response(array('Error: ' . $user->getMessage()), 503);
 	    }
-		$res = $userP->updateField($userId, 'settings', array($settings));
-		if (get_class($res) == 'Error') {
-			$this->response(array('Error: ' . $res->getMessage()), 503);
+	    $res = $userP->updateField($userId, 'settings', array($settings));
+	    if (get_class($res) == 'Error') {
+		$this->response(array('Error: ' . $res->getMessage()), 503);
 	    }
-		
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAccepted(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($fromUserId);
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRead(true);
-		$activity->setRecord(null);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType("USERSETTINGSUPDATED");
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
-		
+
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAccepted(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($fromUserId);
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRead(true);
+	    $activity->setRecord(null);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser(null);
+	    $activity->setType("USERSETTINGSUPDATED");
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
+
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
 	    // if (get_class($resActivity) == 'Error') {
-			// $this->rollback($playlistId, $songId, 'remove');
+	    // $this->rollback($playlistId, $songId, 'remove');
 	    // }
 	    $this->response(array($resActivity), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
+    }
+
 }
 
 ?>
