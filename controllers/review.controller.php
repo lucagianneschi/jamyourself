@@ -58,7 +58,7 @@ class ReviewController extends REST {
 	 * \brief   save a review an the related activity
 	 * \todo    usare la sessione
 	 */
-    public function review() {
+    public function sendReview() {
 		global $controllers;
 		global $mail_files;
 	
@@ -79,35 +79,37 @@ class ReviewController extends REST {
 			//controllo i parametri
 			if (!isset($this->request['text'])) {
 				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOREW']), 400);
-			} elseif (!isset($this->request['toUser'])) {
-				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
-			} elseif (!isset($this->request['fromUser'])) {
-				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOFROMUSER']), 400);
+			} elseif (!isset($this->request['objectId'])) {
+				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOOBJECTID']), 400);
+			} elseif (!isset($this->request['classType'])) {
+				$this->response(array('status' => "Bad Request", "msg" => $controllers['NOCLASSTYPE']), 400);
 			}
 			
-			//recupero l'utente che effettua il commento
-			//$currentUser = $_SESSION['currentUser'];
+			//recupero fromUser, objectId, classType e testo
+			#TODO
+			//$fromUser = $_SESSION['currentUser'];
+			$fromUserObjectId = $fromUser->getObjectId();
+			$text = $this->request['text'];
+			$objectId = $this->request['objectId'];
+			$classType = $this->request['classType'];
 		
-			//recupero e controllo il post
-			$text = $_REQUEST['text'];
 			if (strlen($text) < $this->config->minReviewSize) {
-				$this->response(array($controllers['SHORTREW'].strlen($text)), 200);
+				$this->response(array($controllers['SHORTREW'] . strlen($text)), 200);
 			} elseif (strlen($text) > $this->config->maxReviewSize) {
-				$this->response(array($controllers['LONGREW'].strlen($text)), 200);
+				$this->response(array($controllers['LONGREW'] . strlen($text)), 200);
 			} 
-			
-			$objectId = $_REQUEST['objectId'];
-			$classType = $_REQUEST['classType'];
 			
 			$activity = new Activity();
 			$activity->setAccepted(true);
 			$activity->setActive(true);
 			$activity->setCounter(0);
+			#TODO
+			//$activity->setFromUser($fromUser->getObjectId());
 			$activity->setFromUser($fromUser->getObjectId());
 			$activity->setRead(true);
 			$activity->setStatus("A");
 			
-			$review = new CommentParse();
+			$review = new Comment();
 			$review->setActive(true);
 			$review->setAlbum(null);
 			$review->setComment(null);
@@ -115,10 +117,9 @@ class ReviewController extends REST {
 			$review->setCommentators(null);
 			$review->setComments(null);
 			$review->setCounter(0);
-			//TODO
-			//$review->setFromUser($currentUser);
+			#TODO
+			//$review->setFromUser($fromUser->getObjectId());
 			$review->setFromUser($fromUser->getObjectId());
-			 
 			$review->setImage(null);
 			$review->setLocation(null);
 			$review->setLoveCounter(0);
@@ -131,68 +132,65 @@ class ReviewController extends REST {
 			$review->setTitle(null);
 			$encodedText = parse_encode_string($text);
 			$review->setText($encodedText);
-			
-			#TODO
-			//$userParse = new UserParse();
-			//$toUser = $userParse->getUser($this->request['fromUser']);
-			$review->setToUser($toUser->getObjectId());
 			$review->setVideo(null);
 			$review->setVote(null);
 			
-			$mail = new MailService(true);
+			$mail = mailService();
 			$mail->IsHTML(true);
-			$mail->AddAddress('luca.gianneschi@gmail.com');
+			$mail->AddAddress('daniele.caldelli@gmail.com');
 			//$mail->AddAddress($user->email);
 			
 			switch ($classType) {
 				case 'Event'://posso fare la recensione di un mio evento??
-					$reviewEvent->setEvent($objectId);
+					$review->setEvent($objectId);
 					$review->setType('RE');
+					require_once CLASSES_DIR . 'eventParse.class.php';
+					$eventParse = new EventParse();
+					$event = $eventParse->getEvent($objectId);
+					//il toUser della review è il fromUser dell'Evento
+					$review->setToUser($event->getFromUser());
 					$activity->setEvent($objectId);
-					$activity->setType("NEWEVENTREVIEW");					
+					$activity->setType("NEWEVENTREVIEW");
 					$mail->Subject = $controllers['SBJE'];
-					$mail->MsgHTML(file_get_contents(STDHTML_DIR .$mail_files['EVENTREVIEWEMAIL']));
-					//$event = $eventParse->getEvent($objectId);
-					//$activity->setToUser($event->getFromUser());
+					$mail->MsgHTML(file_get_contents(STDHTML_DIR . $mail_files['EVENTREVIEWEMAIL']));
 					break;
 				case 'Record'://posso fare la recensione di un mio record??
-					$reviewEvent->setRecord($objectId);
+					$review->setRecord($objectId);
 					$review->setType('RR');
+					require_once CLASSES_DIR . 'recordParse.class.php';
+					$recordParse = new RecordParse();
+					$record = $recordParse->getRecord($objectId);
+					//il toUser della review è il fromUser dell'Evento
+					$review->setToUser($record->getFromUser());
 					$activity->setRecord($objectId);
 					$activity->setType("NEWRECORDREVIEW");
-					//$event = $eventParse->getEvent($objectId);
-					//$activity->setToUser($event->getFromUser());
 					$mail->Subject = $controllers['SBJR'];
 					$mail->MsgHTML(file_get_contents(STDHTML_DIR .$mail_files['RECORDREVIEWEMAIL']));
 					break;
 			}
 			
-			//salvo post
+			//salvo review
 			$commentParse = new CommentParse();
-			$resCmt = $commentParse->saveComment($cmt);
-			if (get_class($resCmt) == 'Error') {
-				$this->response(array($resCmt), 503);
+			$resRev = $commentParse->saveComment($review);
+			if (get_class($resRev) == 'Error') {
+				$this->response(array($resRev), 503);
 			} else {
 				//salvo activity
 				$activityParse = new ActivityParse();
 				$resActivity = $activityParse->saveActivity($activity);
 				if (get_class($resActivity) == 'Error') {
-					$this->rollback($resCmt->getObjectId());
+					$this->rollback($resRev->getObjectId());
 				}
 			}
-
 			$mail->Send(); 
 			$mail->SmtpClose();
-			unset($mail);
 			$this->response(array($controllers['REWSAVED']), 200);
-	
 		} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+			$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 		}
 	}
 
 	private function rollback($objectId) {
-		
 		global $controllers;
 		$commentParse = new CommentParse();
 		$res = $commentParse->deleteComment($objectId);
