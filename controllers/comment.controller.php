@@ -38,8 +38,8 @@ class CommentController extends REST {
     public $config;
 
     function __construct() {
-	parent::__construct();
-	$this->config = json_decode(file_get_contents(CONTROLLERS_DIR . "config/comment.config.json"), false);
+		parent::__construct();
+		$this->config = json_decode(file_get_contents(CONTROLLERS_DIR . "config/comment.config.json"), false);
     }
 
     /**
@@ -47,7 +47,7 @@ class CommentController extends REST {
      * \brief   start the session
      */
     public function init() {
-	session_start();
+		session_start();
     }
 
     /**
