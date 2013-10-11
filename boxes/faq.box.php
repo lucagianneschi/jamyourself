@@ -72,7 +72,7 @@ class FaqBox {
 
 	$faqP = new FaqParse();
 	$faqP->setLimit($limit);
-	$faqP->where('active', true);
+	$faqP->whereExists('createdAt');
 	if ($direction == 'true') {
 	    $faqP->orderByDescending($field);
 	} else {
@@ -83,6 +83,7 @@ class FaqBox {
 	    return $faqs;
 	} else {
 	    foreach ($faqs as $faq) {
+		//todo: gestire le diverse lingue
 		if ($lang == 'en') {
 		    //prendo la question e la answer in inglese
 		    $answer = parse_decode_string($faq->getAnswer());
