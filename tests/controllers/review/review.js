@@ -4,7 +4,7 @@ function sendRequest(_action, _data, callback, _async) {
     }
     _data.request = _action;
     var url = "../../../controllers/request/reviewRequest.php";
-    var type = _action;
+    var type = "POST";
     var async = true;
     if (_async !== undefined && _async !== null)
         async = _async;
@@ -15,28 +15,23 @@ function sendRequest(_action, _data, callback, _async) {
         data: _data,
         async: async,
         success: function(data, status) {
-            callback(data, status);
+            $("#data").html(data);
+			callback(data, status);
         },
         error: function(data, status) {
-            callback(data, status);
+            $("#data").html(data);
+			callback(data, status);
         }
     });
 }
 
-function confirmation(data, status){
+function confirmation(data, status) {
     console.debug("Data : " + data + " | Status: " + status);
     $("#data").html(data);
 }
 
-function sendReview(){
-	var review = {};
-    //recupero il commento
-	review.text = $("#review").val();
-	
-	//TODO
-	//forzo l'utente su cui sto facendo il commento
-	review.toUser = "GuUAj83MGH";
-	
+function sendReview(objectId, classType) {
+	var review = {"text" : $("#review").val(), "objectId" : objectId, "classType" : classType };
 	window.console.log("Sending review: " + review);
-    sendRequest("POST", review, confirmation, true);
+    sendRequest("sendReview", review, confirmation, true);
 }
