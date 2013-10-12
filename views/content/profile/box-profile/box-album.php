@@ -140,10 +140,10 @@ $albumCounter = $data['albumCounter'];
 		<div class="row no-display box" id="profile-Image">
 			<div class="large-12 columns">
 				 <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>				 	
-					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo <?php echo $j; echo $data['album' . $i]['image' . $j]['filePath'];?>">
+					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo <?php echo $data['album' . $i]['image' . $j]['filePath']; ?>">
 						<div class="row ">
 							<div class="large-12 columns lightbox-photo-box" >
-								<img src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/images/default/defaultImage.jpg'"/>
+								<div class="album-photo-box"><img class="album-photo" src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/images/default/defaultImage.jpg'"/></div>
 					 			<div class="row">
 					 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
 					 			</div>
@@ -160,7 +160,7 @@ $albumCounter = $data['albumCounter'];
 					 				</div>
 					 			</div>
 					 			<div class="row">
-					 				<div  class="small-4 columns">
+					 				<div  class="small-5 columns">
 					 					<div class="sottotitle white"><?php echo $data['album' . $i]['title']; ?></div>
 					 					<?php if($data['album' . $i]['image' . $j]['description'] != ""){?>
 					 					<div class="text grey"><?php echo $data['album' . $i]['image' . $j]['description']; ?></div>
@@ -181,9 +181,10 @@ $albumCounter = $data['albumCounter'];
 										<?php	} 
 					 						?>
 					 				</div>
-					 				<div  class="small-8 columns">
+					 				<div  class="small-7 columns">
 					 					<!---------------------------------------- COMMENT ------------------------------------------------->
-										<div class="box-comment no-display"></div>
+										<div class="box-comment no-display" >								
+										</div>
 					 				</div>
 					 			</div>			
 					 		</div>

@@ -138,7 +138,7 @@ var callBox = {
 							break;
 							
 						case 'comment':
-							addBoxComment(data, __this.typeUser, __this.classBox);							
+							addBoxComment(data, __this.typeUser, __this.classBox,__this.objectId);							
 							break;	
 						default:
 
@@ -324,7 +324,7 @@ function addBoxPost(data, typeUser) {
 /*
  * box post chiama box-post.php
  */
-function addBoxComment(data, typeUser,classbox) {
+function addBoxComment(data, typeUser,classbox,objectId) {
 	var idBox = '';
 	if(classbox == 'RecordReview' || classbox == 'EventReview'){
 		idBox = '#social-'+classbox;
@@ -338,7 +338,12 @@ function addBoxComment(data, typeUser,classbox) {
 	$(idBox+' .box-comment').load('content/profile/box-social/box-comment.php', {
 		'data' : data,
 		'typeUser' : typeUser
-	},function(){success: hcento();} );
+	},function(){
+		success:{ 
+			if(classbox == 'Image') $('#cboxLoadedContent').niceScroll({cursorcolor:"#303030",cursorborder:"none",zindex:9999,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4,autohidemode:"false",boxzoom:"true"});
+			hcento();
+		}
+	});
 	
 }
 

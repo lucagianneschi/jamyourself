@@ -2,6 +2,7 @@
 @import "settings";
 
 
+
 //-------------- PROFILE ---------------------------
 //tronca la parola
 .breakOff{
@@ -15,7 +16,9 @@
 	white-space: nowrap;
 }
 
-
+#ascrail2002 div{
+	cursor: pointer !important;
+}
 
 #profile{
  padding-top: 30px;
@@ -245,18 +248,28 @@ section.active > .title a{
 
 .lightbox-photo{	
 	.lightbox-photo-box{
-	//	width: 90% !important;
-	//	height: 90% !important;
 		background-color: $grey-superdark !important;
 		border: 1px solid $grey;
 		padding-top: 15px !important;
 		padding-bottom: 15px !important;
-		img{
-		//	max-width: 400px !important;
-		//	max-height: 400px !important;
+		
+		.album-photo{
+			width: auto !important;
+			max-height: 480px !important;
+		}
+		.box-comment{
+			margin-bottom: 5px;
+		}
+		.album-photo-box{
+			text-align: center;
 		}
 	}
 		
+}
+
+#cboxLoadedContent{	
+	padding-right: 8px !important;
+	width: auto !important;
 }
 
 

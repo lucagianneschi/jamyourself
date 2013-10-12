@@ -248,10 +248,12 @@ function lightBoxPhoto(classBox){
 	$("."+classBox).colorbox({
 			rel:'group',
 			inline:true, 
-			width: '600px',
+			height: '650px',
+			width: '100%',
 			scrolling: true,
 			onComplete: function(){
-			 	$(this).niceScroll({cursorcolor:"#222",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
+								
+			 	
 			}
 		});
 		
@@ -261,7 +263,7 @@ function lightBoxPhoto(classBox){
 function initialize(lat, lon) {	
 	var latlng = new google.maps.LatLng(lat, lon);
 	var mapOptions = {
-		zoom : 10,
+		zoom : 12,
 		center : latlng,
 		disableDefaultUI: true,
 		mapTypeId : google.maps.MapTypeId.ROADMAP		
