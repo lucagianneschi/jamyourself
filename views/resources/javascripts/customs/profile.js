@@ -261,9 +261,10 @@ function lightBoxPhoto(classBox){
 function initialize(lat, lon) {	
 	var latlng = new google.maps.LatLng(lat, lon);
 	var mapOptions = {
-		zoom : 15,
-		center : latlng
-		//mapTypeId : google.maps.MapTypeId.ROADMAP		
+		zoom : 10,
+		center : latlng,
+		disableDefaultUI: true,
+		mapTypeId : google.maps.MapTypeId.ROADMAP		
 	}
 	
 	var map = new google.maps.Map(document.getElementById('map_venue'), mapOptions);
@@ -282,7 +283,7 @@ function viewMap(lat, lon){
 function removeMap(){
 	//$("#map_venue").empty();
 }
-//google.maps.event.addDomListener(window, 'load', viewMap(lat, lon));
+
 
 function getDirectionMap(){
 		

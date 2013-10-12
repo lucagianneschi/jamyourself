@@ -6,6 +6,9 @@
  */
 
 error_reporting(0);
+/*--- define temporanee -----*/
+define('NODATA','NESSUN DATO DA MOSTRARE');
+define('ND','NON DEFINITO PER QUESTO TIPO DI UTENTE');
 
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../../');
