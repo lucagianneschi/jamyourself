@@ -29,6 +29,7 @@ require_once CLASSES_DIR . 'faqParse.class.php';
 $faq = new Faq();
 $faq->setAnswer('Questa è una answer');
 $faq->setArea('Area di interesse della Faq');
+$faq->setLang('it');
 $faq->setPosition('posizione 10');
 $faq->setQuestion('Questa è una question');
 $faq->setTags(array('tag1', 'tag2'));

@@ -38,7 +38,7 @@ class FaqInfo {
 
     /**
      * \fn	__construct($answer, $area, $position, $question, $tags)
-     * \brief	construct for the AFaqInfo class
+     * \brief	construct for the FaqInfo class
      * \param	$answer, $area, $position, $question, $tags
      */
     function __construct($answer, $area, $position, $question, $tags) {
@@ -63,7 +63,7 @@ class FaqBox {
     /**
      * \fn	initForFaqPage($limit,$lang,$field,$direction)
      * \brief	Init FaqBox instance for Faq Page
-     * \param	$limit, number of paq to display; $lang, language of the text to display; $field for ordering istances; $direction ascending or descending
+     * \param	$limit, number of paq to display; $lang, language of the text to display; $field for ordering instances; $direction ascending (true) or descending (false)
      * \return	faqBox
      */
     public function initForFaqPage($limit, $lang, $field, $direction) {
@@ -72,36 +72,28 @@ class FaqBox {
 
 	$faqP = new FaqParse();
 	$faqP->setLimit($limit);
-	$faqP->whereExists('createdAt');
+	$faqP->where('lang', $lang);
 	if ($direction == 'true') {
-	    $faqP->orderByDescending($field);
+		$faqP->orderByAscending($field);
 	} else {
-	    $faqP->orderByAscending($field);
+	    $faqP->orderByDescending($field);
 	}
 	$faqs = $faqP->getFaqs();
 	if (get_class($faqs) == 'Error') {
 	    return $faqs;
 	} else {
 	    foreach ($faqs as $faq) {
-		//todo: gestire le diverse lingue
-		if ($lang == 'en') {
-		    //prendo la question e la answer in inglese
-		    $answer = parse_decode_string($faq->getAnswer());
+			$answer = parse_decode_string($faq->getAnswer());
 		    $question = parse_decode_string($faq->getQuestion());
-		} else {
-		    //prendo la question e la answer in italiano
-		    $answer = parse_decode_string($faq->getAnswer());
-		    $question = parse_decode_string($faq->getQuestion());
-		}
-		$area = parse_decode_string($faq->getArea());
-		$position = $faq->getPosition();
-		$tags = array();
-		if (count($faq->getTags()) > 0 && $faq->getTags() != null) {
-		    foreach ($faq->getTags() as $tag) {
-			$tag = parse_decode_string($tag);
-			array_push($tags, $tag);
-		    }
-		}
+			$area = parse_decode_string($faq->getArea());
+			$position = $faq->getPosition();
+			$tags = array();
+			if (count($faq->getTags()) > 0 && $faq->getTags() != null) {
+				foreach ($faq->getTags() as $tag) {
+					$tag = parse_decode_string($tag);
+					array_push($tags, $tag);
+				}
+			}
 		$faqInfo = new FaqInfo($answer, $area, $position, $question, $tags);
 		array_push($array, $faqInfo);
 	    }
