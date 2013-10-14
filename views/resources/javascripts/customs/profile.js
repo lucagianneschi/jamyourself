@@ -64,8 +64,11 @@ function setCounter(_this, objectId, classbox){
 			if(classbox == 'RecordReview' || classbox == 'EventReview'){
 				idBox = '#social-'+classbox;
 			}
-			if(classbox == 'Album' || classbox == 'Record'){
+			if(classbox == 'Record'){
 				idBox = '#profile-'+classbox;
+			}
+			if(classbox == 'Album'){
+				idBox = '#profile-singleAlbum';
 			}
 			if(classbox == 'Image' || classbox == 'Post'){
 				idBox = '#'+objectId;
@@ -249,15 +252,35 @@ function lightBoxPhoto(classBox){
 	$("."+classBox).colorbox({
 			rel:'group',
 			inline:true, 
-			height: '650px',
-			width: '100%',
-			scrolling: true,
+			scalePhotos: true,
+			height: '110%',
+			width: '70%',			
+			fixed: true,
+			scrolling: true,			
 			onComplete: function(){
 				$("#cboxLoadedContent").getNiceScroll().hide();			
-			 	
-			}
+			 	if(!$('#cboxLoadedContent box-comment').hasClass('no-display')){
+					$('#cboxLoadedContent .box-comment').addClass('no-display');
+					//$("#cboxLoadedContent").getNiceScroll().hide();
+				}
+			 	var height = parseInt($('#cboxLoadedContent img').height());
+			 	console.log(height)			 	
+			 	if(height < 450){
+			 		divisione = ~~(height/2);
+			 		altezza = Math.abs(225-divisione)
+			 		console.log(altezza);
+			 		$('#cboxLoadedContent img').css({'margin-top':altezza+'px'});
+			 	}
+			},
+			onClosed: function(){
+				$("#cboxLoadedContent").getNiceScroll().hide();
+			} 
 		});
 		
+}
+
+function nextLightBox(){
+	$.colorbox.next();
 }
 
 //visualizza la map del box information delle venue

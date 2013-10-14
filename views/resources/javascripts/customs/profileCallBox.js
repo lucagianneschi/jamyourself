@@ -340,7 +340,10 @@ function addBoxComment(data, typeUser,classbox,objectId) {
 		'typeUser' : typeUser
 	},function(){
 		success:{ 
-			if(classbox == 'Image') $('#cboxLoadedContent').niceScroll({cursorcolor:"#303030",cursorborder:"none",zindex:9999,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4,autohidemode:"false",boxzoom:"true"});
+			if(classbox == 'Image'){
+				$('#cboxLoadedContent').niceScroll({cursorcolor:"#303030",cursorborder:"none",zindex:9999,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4,autohidemode:"false",boxzoom:"true"});
+				
+			} 
 			hcento();
 		}
 	});

@@ -162,7 +162,9 @@ section.active > .title a{
 
 #colorbox{
 	top: 0px !important;
-	
+	position: absolute !important ;
+    top: 50% !important;
+    margin-top: -310px !important;
 }
 
 #cboxLoadedContent{
@@ -186,6 +188,7 @@ section.active > .title a{
 
 #cboxPrevious {
 	box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
+	left: 0px !important;
 }
 
 #cboxClose {
@@ -246,22 +249,26 @@ section.active > .title a{
  cursor: pointer;
 }
 
-.lightbox-photo{	
+.lightbox-photo{
+		height: 100% !important;
 	.lightbox-photo-box{
 		background-color: $grey-superdark !important;
 		border: 1px solid $grey;
 		padding-top: 15px !important;
 		padding-bottom: 15px !important;
+		height: 100% !important;
 		
 		.album-photo{
 			width: auto !important;
-			max-height: 480px !important;
+			max-height: 450px !important;
+			cursor:pointer;
 		}
 		.box-comment{
 			margin-bottom: 5px;
 		}
 		.album-photo-box{
 			text-align: center;
+			height: 470px !important;
 		}
 	}
 		
@@ -270,6 +277,8 @@ section.active > .title a{
 #cboxLoadedContent{	
 	padding-right: 8px !important;
 	width: auto !important;
+	margin-right: 30px !important;
+	margin-bottom: 80px !important;
 }
 
 

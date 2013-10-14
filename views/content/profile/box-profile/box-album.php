@@ -105,45 +105,47 @@ $albumCounter = $data['albumCounter'];
 	<?php for($i=0; $i<$albumCounter; $i++){ 
 			
 		?>
-		<div class="box no-display box-singleAlbum" id="<?php echo $data['album' . $i]['objectId'];?>">
-			<div class="row box-album">
-				<div class="large-12 columns">					
-					<a class="ico-label _back_page text white" onclick="albumSelectNext('<?php echo $data['album' . $i]['objectId']; ?>')">Back to Set</a>
+		<div id="profile-singleAlbum">
+			<div class="box no-display box-singleAlbum" id="<?php echo $data['album' . $i]['objectId'];?>">
+				<div class="row box-album">
+					<div class="large-12 columns">					
+						<a class="ico-label _back_page text white" onclick="albumSelectNext('<?php echo $data['album' . $i]['objectId']; ?>')">Back to Set</a>
+					</div>
 				</div>
+				<div class="row" style="padding-bottom: 10px;">
+					<div  class="large-12 columns"><div class="line"></div></div>
+				</div>
+				<ul class="small-block-grid-3 small-block-grid-2 ">			
+				  <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>
+				  <li><a class="photo-colorbox-group" href="#<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>"><img class="photo" src="../media/<?php $data['album' . $i]['image' . $j]['thumbnail']?>" onerror="this.src='../media/images/default/defaultImage.jpg'"></a></li>
+					<?php } ?>
+				</ul>		
+				
+				<div class="row album-single-propriety">
+					 <div class="box-propriety">
+						<div class="small-6 columns ">
+							<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Love</a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Comment</a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Share</a>
+						</div>
+						<div class="small-6 columns propriety ">					
+							<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
+							<a class="icon-propriety _comment"><?php echo $data['album' . $i]['counters']['commentCounter']; ?></a>
+							<a class="icon-propriety _share"><?php echo $data['album' . $i]['counters']['shareCounter']; ?></a>	
+						</div>
+					</div>		
+				</div>	
 			</div>
-			<div class="row" style="padding-bottom: 10px;">
-				<div  class="large-12 columns"><div class="line"></div></div>
-			</div>
-			<ul class="small-block-grid-3 small-block-grid-2 ">			
-			  <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>
-			  <li><a class="photo-colorbox-group" href="#<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>"><img class="photo" src="../media/<?php $data['album' . $i]['image' . $j]['thumbnail']?>" onerror="this.src='../media/images/default/defaultImage.jpg'"></a></li>
-				<?php } ?>
-			</ul>		
-			
-			<div class="row album-single-propriety">
-				 <div class="box-propriety">
-					<div class="small-6 columns ">
-						<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Love</a>
-						<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Comment</a>
-						<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Share</a>
-					</div>
-					<div class="small-6 columns propriety ">					
-						<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
-						<a class="icon-propriety _comment"><?php echo $data['album' . $i]['counters']['commentCounter']; ?></a>
-						<a class="icon-propriety _share"><?php echo $data['album' . $i]['counters']['shareCounter']; ?></a>	
-					</div>
-				</div>		
-			</div>	
+			<!---------------------------------------- COMMENT ------------------------------------------------->
+			<div class="box-comment no-display"></div>
 		</div>
-		<!---------------------------------------- COMMENT ------------------------------------------------->
-		<div class="box-comment no-display"></div>
 		<div class="row no-display box" id="profile-Image">
 			<div class="large-12 columns">
 				 <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>				 	
 					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo <?php echo $data['album' . $i]['image' . $j]['filePath']; ?>">
 						<div class="row ">
 							<div class="large-12 columns lightbox-photo-box" >
-								<div class="album-photo-box"><img class="album-photo" src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/images/default/defaultImage.jpg'"/></div>
+								<div class="album-photo-box"><img class="album-photo" onclick="nextLightBox()" src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/images/default/defaultImage.jpg'"/></div>
 					 			<div class="row">
 					 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
 					 			</div>
