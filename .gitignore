@@ -2,8 +2,20 @@
 /nbproject/private/
 nbproject/project.properties
 nbproject/project.xml
-media/images/image
+
+# media folders
+media/images/image/
+media/images/albumcover/
+media/images/albumcoverthumb/
+media/images/background/
+media/images/eventcover/
+media/images/eventcoverthumb/
+media/images/profilepicture/
+media/images/profilepicturethumb7
+media/images/recordcover/
+media/images/recordcoverthumb/
 media/songs/
+
 
 # foundation
 config.rb
