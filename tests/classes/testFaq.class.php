@@ -27,11 +27,11 @@ require_once CLASSES_DIR . 'faq.class.php';
 require_once CLASSES_DIR . 'faqParse.class.php';
 
 $faq = new Faq();
-$faq->setAnswer('Questa è una answer');
+$faq->setAnswer('answer');
 $faq->setArea('Area di interesse della Faq');
 $faq->setLang('it');
 $faq->setPosition('posizione 10');
-$faq->setQuestion('Questa è una question');
+$faq->setQuestion('question');
 $faq->setTags(array('tag1', 'tag2'));
 //$faq->setACL();
 
@@ -93,7 +93,7 @@ $faqParse = new FaqParse();
 $faq = $faqParse->getFaq($resSave->getObjectId());
 $faq->setQuestion('Sono una faq aggiornata');
 $resUpdate = $faqParse->saveFaq($faq);
-if (get_class($resUpdate)) {
+if (get_class($resUpdate)== 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
 	echo '<br />FAQ UPDATED<br />';
