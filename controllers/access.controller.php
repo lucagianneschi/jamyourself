@@ -192,7 +192,7 @@ class AccessController extends REST {
 				} catch (Exception $e){
 					$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 				}
-			}
+			            
 		} catch (Exception $e){
 			$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 		}
