@@ -2,7 +2,8 @@
 /nbproject/private/
 nbproject/project.properties
 nbproject/project.xml
-media\images\image
+media/images/image
+media/songs/
 
 # foundation
 config.rb
