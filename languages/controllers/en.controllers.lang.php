@@ -57,6 +57,7 @@ $controllers = array(
     'OKLOGOUT' => 'You are logged out',
 	'OKSOCIALLINK' => 'Your Social account has been correctly linked to your Jamyourself account',
 	'OKSOCIALUNLINK' => 'Your Social account has been correctly unlinked from your Jamyourself account',
+	'OKPASSWORDRESETREQUEST' => 'Your password reset request has been sent',	
     '100' => 'Continue',
     '101' => 'Switching Protocols',
     '200' => 'OK',
