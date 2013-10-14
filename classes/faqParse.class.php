@@ -161,6 +161,7 @@ class FaqParse {
 			$faq->setObjectId($res->objectId);
 			$faq->setAnswer($res->answer);
 			$faq->setArea($res->area);
+			$faq->setLang($res->lang);
 			$faq->setPosition($res->position);
 			$faq->setQuestion($res->question);
 			$faq->setTags($res->tags);
@@ -187,6 +188,7 @@ class FaqParse {
 			$parseFaq= new parseObject('FAQ');
 			is_null($faq->getAnswer()) ? $parseFaq->answer = null : $parseFaq->answer = $faq->getAnswer();
 			is_null($faq->getArea()) ? $parseFaq->area = null : $parseFaq->area = $faq->getArea();
+			is_null($faq->getLang()) ? $parseFaq->lang = 'en' : $parseFaq->lang = $faq->getLang();
 			is_null($faq->getPosition()) ? $parseFaq->position = null : $parseFaq->position = $faq->getPosition();
 			is_null($faq->getQuestion()) ? $parseFaq->question = null : $parseFaq->question = $faq->getQuestion();
 			is_null($faq->getTags()) ? $parseFaq->tags = null : $parseFaq->tags = $faq->getTags();

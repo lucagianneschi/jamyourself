@@ -21,6 +21,7 @@ class Faq {
 	private $objectId;
 	private $answer;
 	private $area;
+	private $lang;
 	private $position;
 	private $question;
 	private $tags;
@@ -53,6 +54,15 @@ class Faq {
 	 */
 	public function getArea() {
 		return $this->area;
+	}
+	
+	/**
+	 * \fn		string getLang()
+	 * \brief	Return the language (lang) value
+	 * \return	string
+	 */
+	public function getLang() {
+		return $this->lang;
 	}
 
 	/**
@@ -135,6 +145,15 @@ class Faq {
 	public function setArea($area) {
 		$this->area = $area;
 	}
+	
+	/**
+	 * \fn		void setLang($lang)
+	 * \brief	Sets the lang value
+	 * \param	string
+	 */
+	public function setLang($lang) {
+		$this->lang = $lang;
+	}
 
 	/**
 	 * \fn		void setPosition($position)
@@ -200,6 +219,7 @@ class Faq {
 		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
 		$string .= '[answer] => ' . $this->getAnswer() . '<br />';
 		$string .= '[area] => ' . $this->getArea() . '<br />';
+		$string .= '[lang] => ' . $this->getLang() . '<br />';
 		$string .= '[position] => ' . $this->getPosition() . '<br />';
 		$string .= '[question] => ' . $this->getQuestion() . '<br />';
 		if (count($this->getTags()) != 0) {
