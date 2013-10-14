@@ -181,12 +181,12 @@
 						<div class="small-5 columns ">
 							<a class="note grey">Love</a>
 							<a class="note grey">Comment</a>
-							<a class="note grey">Shere</a>	
+							<a class="note grey">Share</a>	
 						</div>
 						<div class="small-5 columns propriety ">					
 							<a class="icon-propriety _love orange">32</a>
 							<a class="icon-propriety _comment ">32</a>
-							<a class="icon-propriety _shere">15</a>			
+							<a class="icon-propriety _share">15</a>			
 						</div>		
 					</div>
 					<div class="row album-other">
@@ -385,12 +385,12 @@
 						<div class="small-5 columns ">
 							<a class="note grey">Love</a>
 							<a class="note grey">Comment</a>
-							<a class="note grey">Shere</a>	
+							<a class="note grey">Share</a>	
 						</div>
 						<div class="small-5 columns propriety ">					
 							<a class="icon-propriety _love orange">32</a>
 							<a class="icon-propriety _comment ">32</a>
-							<a class="icon-propriety _shere">15</a>			
+							<a class="icon-propriety _share">15</a>			
 						</div>		
 					</div>
 				</div>

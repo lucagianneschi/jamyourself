@@ -59,7 +59,7 @@ $recordCounter = $data['recordCounter'];
 					
 					$record_love = $data['record'.$index]['counters']['loveCounter'];
 					$record_comment = $data['record'.$index]['counters']['commentCounter'];
-					$record_shere = $data['record'.$index]['counters']['shareCounter'];
+					$record_share = $data['record'.$index]['counters']['shareCounter'];
 					$record_review = $data['record'.$index]['counters']['reviewCounter'];			
 			
 		 ?>
@@ -93,7 +93,7 @@ $recordCounter = $data['recordCounter'];
 					<div class="large-12 colums">
 						<a class="icon-propriety _unlove grey"><?php echo $record_love ?></a>
 						<a class="icon-propriety _comment" ><?php echo $record_comment ?></a>
-						<a class="icon-propriety _shere" ><?php echo $record_shere ?></a>
+						<a class="icon-propriety _share" ><?php echo $record_share ?></a>
 						<a class="icon-propriety _review"><?php echo $record_review ?></a>
 					</div>
 				</div>
@@ -120,7 +120,7 @@ $recordCounter = $data['recordCounter'];
 			$recordSingle_detail = $data['record'.$i]['recordDetail']['tracklist'];
 			$recordSingle_love = $data['record'.$i]['counters']['loveCounter'];
 			$recordSingle_comment = $data['record'.$i]['counters']['commentCounter'];
-			$recordSingle_shere = $data['record'.$i]['counters']['shareCounter'];
+			$recordSingle_share = $data['record'.$i]['counters']['shareCounter'];
 			$recordSingle_review = $data['record'.$i]['counters']['reviewCounter'];	
 		?>
 	<div class="box no-display <?php echo $recordSingle_objectId ?>" >
@@ -175,11 +175,11 @@ $recordCounter = $data['recordCounter'];
 						<div class="box-propriety album-single-propriety">
 							<div class="small-5 columns ">
 								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')">Love</a>
-								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')">Shere</a>	
+								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')">Share</a>	
 							</div>
 							<div class="small-5 columns propriety ">					
 								<a class="icon-propriety _unlove grey" ><?php echo $value['counters']['loveCounter'] ?></a>
-								<a class="icon-propriety _shere" ><?php echo $value['counters']['shareCounter'] ?></a>			
+								<a class="icon-propriety _share" ><?php echo $value['counters']['shareCounter'] ?></a>			
 							</div>
 						</div>		
 					</div>
@@ -191,13 +191,13 @@ $recordCounter = $data['recordCounter'];
 					<div class="small-6 columns ">
 						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Love</a>
 						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Comment</a>
-						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Shere</a>
+						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Share</a>
 						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Review</a>	
 					</div>
 					<div class="small-6 columns propriety ">					
 						<a class="icon-propriety _unlove grey" ><?php echo $recordSingle_love ?></a>
 						<a class="icon-propriety _comment" ><?php echo $recordSingle_comment ?></a>
-						<a class="icon-propriety _shere" ><?php echo $recordSingle_shere ?></a>
+						<a class="icon-propriety _share" ><?php echo $recordSingle_share ?></a>
 						<a class="icon-propriety _review"><?php echo $recordSingle_review ?></a>
 					</div>	
 				</div>		

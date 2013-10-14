@@ -66,7 +66,7 @@ $albumCounter = $data['albumCounter'];
 								<div class="small-7 columns propriety ">					
 									<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
 									<a class="icon-propriety _comment"><?php echo $data['album' . $i]['counters']['commentCounter']; ?></a>
-									<a class="icon-propriety _shere"><?php echo $data['album' . $i]['counters']['shareCounter']; ?></a>	
+									<a class="icon-propriety _share"><?php echo $data['album' . $i]['counters']['shareCounter']; ?></a>	
 								</div>		
 							</div>
 						</div>
@@ -82,7 +82,7 @@ $albumCounter = $data['albumCounter'];
 								<div class="small-7 columns propriety ">					
 									<a class="icon-propriety _unlove grey"><?php echo $data['album' . ($i+1)]['counters']['loveCounter']; ?></a>
 									<a class="icon-propriety _comment"><?php echo $data['album' . ($i+1)]['counters']['commentCounter']; ?></a>
-									<a class="icon-propriety _shere"><?php echo $data['album' . ($i+1)]['counters']['shareCounter']; ?></a>	
+									<a class="icon-propriety _share"><?php echo $data['album' . ($i+1)]['counters']['shareCounter']; ?></a>	
 								</div>		
 							</div>
 						</div>
@@ -125,12 +125,12 @@ $albumCounter = $data['albumCounter'];
 					<div class="small-6 columns ">
 						<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Love</a>
 						<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Comment</a>
-						<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Shere</a>
+						<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Share</a>
 					</div>
 					<div class="small-6 columns propriety ">					
 						<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
 						<a class="icon-propriety _comment"><?php echo $data['album' . $i]['counters']['commentCounter']; ?></a>
-						<a class="icon-propriety _shere"><?php echo $data['album' . $i]['counters']['shareCounter']; ?></a>	
+						<a class="icon-propriety _share"><?php echo $data['album' . $i]['counters']['shareCounter']; ?></a>	
 					</div>
 				</div>		
 			</div>	
@@ -151,12 +151,12 @@ $albumCounter = $data['albumCounter'];
 					 				<div  class="small-6 columns">
 					 					<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Love</a>
 										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Comment</a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Shere</a>
+										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Share</a>
 					 				</div>
 					 				<div  class="small-6 columns propriety">
 					 					<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['image' . $j]['counters']['loveCounter']; ?></a>
 										<a class="icon-propriety _comment"><?php echo $data['album' . $i]['image' . $j]['counters']['commentCounter']; ?></a>
-										<a class="icon-propriety _shere"><?php echo $data['album' . $i]['image' . $j]['counters']['shareCounter']; ?></a>	
+										<a class="icon-propriety _share"><?php echo $data['album' . $i]['image' . $j]['counters']['shareCounter']; ?></a>	
 					 				</div>
 					 			</div>
 					 			<div class="row">

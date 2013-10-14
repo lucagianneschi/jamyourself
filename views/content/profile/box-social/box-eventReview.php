@@ -43,7 +43,7 @@ $typeUser = $_POST['typeUser'];
 						$eventReview_text = $data['eventReview'.$i]['text'];
 						$eventReview_love = $data['eventReview'.$i]['counters']['loveCounter'];
 						$eventReview_comment = $data['eventReview'.$i]['counters']['commentCounter'];
-						$eventReview_shere = $data['eventReview'.$i]['counters']['shareCounter'];
+						$eventReview_share = $data['eventReview'.$i]['counters']['shareCounter'];
 				?>
 				<div  class="rsContent">	
 				<div id='eventReview_<?php echo $eventReview_objectId ?>'>	
@@ -111,12 +111,12 @@ $typeUser = $_POST['typeUser'];
 							<div class="small-6 columns ">
 								<a class="note grey " onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Love</a>
 								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Comment</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Shere</a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Share</a>
 							</div>
 							<div class="small-6 columns propriety ">					
 								<a class="icon-propriety _unlove grey" ><?php echo $eventReview_love ?></a>
 								<a class="icon-propriety _comment" ><?php echo $eventReview_comment ?></a>
-								<a class="icon-propriety _shere" ><?php echo $eventReview_shere ?></a>
+								<a class="icon-propriety _share" ><?php echo $eventReview_share ?></a>
 							</div>	
 						</div>		
 					</div>

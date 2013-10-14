@@ -154,7 +154,7 @@
 							<div class="large-12 colums">
 								<a class="icon-propriety _love orange">32</a>
 								<a class="icon-propriety _comment">372</a>
-								<a class="icon-propriety _shere">15</a>
+								<a class="icon-propriety _share">15</a>
 								<a class="icon-propriety _review">5</a>
 							</div>
 						</div>
@@ -188,7 +188,7 @@
 							<div class="large-12 colums">
 								<a class="icon-propriety _love orange">1142</a>
 								<a class="icon-propriety _comment">452</a>
-								<a class="icon-propriety _shere">40</a>
+								<a class="icon-propriety _share">40</a>
 								<a class="icon-propriety _review">1</a>
 							</div>
 						</div>
@@ -222,7 +222,7 @@
 							<div class="large-12 colums">
 								<a class="icon-propriety _love orange">1000</a>
 								<a class="icon-propriety _comment">14</a>
-								<a class="icon-propriety _shere">74</a>
+								<a class="icon-propriety _share">74</a>
 								<a class="icon-propriety _review">3</a>
 							</div>
 						</div>
@@ -281,11 +281,11 @@
 					<div class="row track-propriety">
 						<div class="small-5 columns ">
 							<a class="note white">Love</a>
-							<a class="note white">Shere</a>	
+							<a class="note white">Share</a>	
 						</div>
 						<div class="small-5 columns propriety ">					
 							<a class="icon-propriety _love orange">32</a>
-							<a class="icon-propriety _shere">15</a>			
+							<a class="icon-propriety _share">15</a>			
 						</div>		
 					</div>
 				</div>
@@ -304,11 +304,11 @@
 					<div class="row track-propriety">
 						<div class="small-5 columns ">
 							<a class="note white">Love</a>
-							<a class="note white">Shere</a>	
+							<a class="note white">Share</a>	
 						</div>
 						<div class="small-5 columns propriety ">					
 							<a class="icon-propriety _love orange">2</a>
-							<a class="icon-propriety _shere">4</a>			
+							<a class="icon-propriety _share">4</a>			
 						</div>		
 					</div>
 				</div>
@@ -327,11 +327,11 @@
 					<div class="row track-propriety">
 						<div class="small-5 columns ">
 							<a class="note white">Love</a>
-							<a class="note white">Shere</a>	
+							<a class="note white">Share</a>	
 						</div>
 						<div class="small-5 columns propriety ">					
 							<a class="icon-propriety _love orange">10</a>
-							<a class="icon-propriety _shere">5</a>			
+							<a class="icon-propriety _share">5</a>			
 						</div>		
 					</div>
 				</div>
@@ -340,13 +340,13 @@
 				<div class="small-6 columns ">
 					<a class="note white">Love</a>
 					<a class="note white">Comment</a>
-					<a class="note white">Shere</a>
+					<a class="note white">Share</a>
 					<a class="note white">Review</a>	
 				</div>
 				<div class="small-6 columns propriety ">					
 					<a class="icon-propriety _unlove grey">25</a>
 					<a class="icon-propriety _comment">10</a>
-					<a class="icon-propriety _shere">1</a>
+					<a class="icon-propriety _share">1</a>
 					<a class="icon-propriety _review">0</a>		
 				</div>		
 			</div>	
@@ -403,13 +403,13 @@
 						<a class="icon-propriety _menu-small note orange "> Add to Calendar</a>	
 						<a class="note white">Love</a>
 						<a class="note white">Comment</a>
-						<a class="note white">Shere</a>
+						<a class="note white">Share</a>
 						<a class="note white">Review</a>	
 					</div>
 					<div class="small-5 columns propriety ">					
 						<a class="icon-propriety _unlove grey">25</a>
 						<a class="icon-propriety _comment">10</a>
-						<a class="icon-propriety _shere">1</a>
+						<a class="icon-propriety _share">1</a>
 						<a class="icon-propriety _review">0</a>		
 					</div>		
 				</div>
@@ -453,13 +453,13 @@
 						<a class="icon-propriety _menu-small note orange "> Add to Calendar</a>	
 						<a class="note white">Love</a>
 						<a class="note white">Comment</a>
-						<a class="note white">Shere</a>
+						<a class="note white">Share</a>
 						<a class="note white">Review</a>	
 					</div>
 					<div class="small-5 columns propriety ">					
 						<a class="icon-propriety _unlove grey">25</a>
 						<a class="icon-propriety _comment">10</a>
-						<a class="icon-propriety _shere">1</a>
+						<a class="icon-propriety _share">1</a>
 						<a class="icon-propriety _review">0</a>		
 					</div>		
 				</div>
@@ -503,13 +503,13 @@
 						<a class="icon-propriety _menu-small note orange "> Add to Calendar</a>	
 						<a class="note white">Love</a>
 						<a class="note white">Comment</a>
-						<a class="note white">Shere</a>
+						<a class="note white">Share</a>
 						<a class="note white">Review</a>	
 					</div>
 					<div class="small-5 columns propriety ">					
 						<a class="icon-propriety _unlove grey">25</a>
 						<a class="icon-propriety _comment">10</a>
-						<a class="icon-propriety _shere">1</a>
+						<a class="icon-propriety _share">1</a>
 						<a class="icon-propriety _review">0</a>		
 					</div>		
 				</div>				
@@ -533,7 +533,7 @@
 						<div class="small-7 columns propriety ">					
 							<a class="icon-propriety _love orange">25</a>
 							<a class="icon-propriety _comment">10</a>
-							<a class="icon-propriety _shere">1</a>	
+							<a class="icon-propriety _share">1</a>	
 						</div>		
 					</div>
 				</div>
@@ -547,7 +547,7 @@
 						<div class="small-7 columns propriety ">					
 							<a class="icon-propriety _unlove grey">45</a>
 							<a class="icon-propriety _comment">25</a>
-							<a class="icon-propriety _shere">5</a>	
+							<a class="icon-propriety _share">5</a>	
 						</div>		
 					</div>
 				</div>
@@ -563,7 +563,7 @@
 						<div class="small-7 columns propriety ">					
 							<a class="icon-propriety _unlove grey">2</a>
 							<a class="icon-propriety _comment">1</a>
-							<a class="icon-propriety _shere">0</a>	
+							<a class="icon-propriety _share">0</a>	
 						</div>		
 					</div>
 				</div>
@@ -577,7 +577,7 @@
 						<div class="small-7 columns propriety ">					
 							<a class="icon-propriety _love orange">245</a>
 							<a class="icon-propriety _comment">201</a>
-							<a class="icon-propriety _shere">54</a>	
+							<a class="icon-propriety _share">54</a>	
 						</div>		
 					</div>
 				</div>
@@ -611,12 +611,12 @@
 				<div class="small-6 columns ">
 					<a class="note white">Love</a>
 					<a class="note white">Comment</a>
-					<a class="note white">Shere</a>	
+					<a class="note white">Share</a>	
 				</div>
 				<div class="small-6 columns propriety ">					
 					<a class="icon-propriety _unlove grey">48</a>
 					<a class="icon-propriety _comment">3</a>
-					<a class="icon-propriety _shere">7</a>	
+					<a class="icon-propriety _share">7</a>	
 				</div>		
 			</div>	
 		</div>

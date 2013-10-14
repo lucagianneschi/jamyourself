@@ -35,7 +35,7 @@ $(document).ready(function() {
 
 });
 /*
- * Funzione per gestire i counters (love, comment, shere e review)
+ * Funzione per gestire i counters (love, comment, share e review)
  * 
  */
 function setCounter(_this, objectId, classbox){	
@@ -84,6 +84,7 @@ function setCounter(_this, objectId, classbox){
 			else{
 				$(idBox+' .box-comment').addClass('no-display');
 				$(idBox+' .box').removeClass('box-commentSpace');
+				$("#cboxLoadedContent").getNiceScroll().hide();
 			}
 			
 			//$(idBox+' .box').toggleClass('box-commentSpace');
@@ -252,7 +253,7 @@ function lightBoxPhoto(classBox){
 			width: '100%',
 			scrolling: true,
 			onComplete: function(){
-								
+				$("#cboxLoadedContent").getNiceScroll().hide();			
 			 	
 			}
 		});
