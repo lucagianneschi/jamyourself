@@ -63,7 +63,7 @@ class AccessController extends REST {
 			$this->response('', 406);
 	    }
 	
-		$usernameEmail = $_REQUEST['username'];
+		$usernameOrEmail = $_REQUEST['username'];
 	    $password = $_REQUEST['password'];
 		
 		$activity = new Activity();
@@ -85,9 +85,10 @@ class AccessController extends REST {
 		$activity->setType('LOGGEDIN');		
 		$activity->setUserStatus(null);
 		$activity->setVideo(null);
-	
-	    $res = loginUser($usernameEmail, $password);
-	    if (get_class($res) == 'Error') {
+		
+		$userParse = new UserParse();
+		$resLogin = $userParse->loginUser($usernameOrEmail, $password);
+	    if (get_class($resLogin) == 'Error') {
 			$this->response(array($controllers['KOLOGIN']), 503);
 	    } else {
 			$activityParse = new ActivityParse();
@@ -142,8 +143,8 @@ class AccessController extends REST {
 		$activity->setUserStatus(null);
 		$activity->setVideo(null);
 	
-	    $res = logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
-	    if (get_class($res) == 'Error') {
+	    $resLogout = logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
+	    if (get_class($resLogout) == 'Error') {
 			$this->response(array($controllers['KOLOGOUT']), 503);
 	    } else {
 			$activityParse = new ActivityParse();
@@ -160,7 +161,42 @@ class AccessController extends REST {
      * \brief   login con account Social
      * \todo    tutto
      */
-	    public function sociaLogin() {}
+	    public function sociaLogin() {
+			try {
+				$userLib = new parseUser();
+				try{
+					$socialLogin = $userLib->socialLogin();
+					
+					$activity = new Activity();
+					$activity->setActive(true);
+					$activity->setAccepted(true);
+					$activity->setAlbum(null);
+					$activity->setComment(null);		
+					$activity->setCounter(0);
+					$activity->setEvent(null);
+					$activity->setFromUser(null);
+					$activity->setImage(null);
+					$activity->setPlaylist(null);
+					$activity->setQuestion(null);
+					$activity->setRecord(null);	
+					$activity->setRead(true);
+					$activity->setSong(null);
+					$activity->setStatus('A');
+					$activity->setToUser(null);
+					$activity->setType('SOCIALLOGGEDIN');		
+					$activity->setUserStatus(null);
+					$activity->setVideo(null);
+					$activityParse = new ActivityParse();
+					$activityParse->saveActivity($activity);
+					$this->response(array($controllers['OKLOGIN']), 200);
+				} catch (Exception $e){
+					$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+				}
+			}
+		} catch (Exception $e){
+			$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+		}
+	}
 	
 }
 
