@@ -9,11 +9,12 @@
 		if (opType == 'login') {
 		    json_access.request = "login";
 			json_access.usernameEmail = usernameEmail;
-			json_access.password = password;
-			
-		} else {
+			json_access.password = password;	
+		} else if (opType == 'logout'){
 		    json_love.request = "logout";
 			json_access.userId = userId;
+		} else if (opType == 'socialLogin'){
+			json_access.request = "socialLogin";
 		}
 
 		$.ajax({
@@ -45,9 +46,11 @@
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<button type="button" onclick="access('lucagianneschi', 'luca131181', 'logout')">Logout lucagianneschi</button>
 	&nbsp;<hr>
-	// <button type="button" onclick="access('Comment', 'rEJJMsGCTo', 'increment')">Login </button>
-	// &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	// <button type="button" onclick="access('Comment', 'rEJJMsGCTo', 'decrement')">Logout </button>
-	// &nbsp;<hr>
+	<button type="button" onclick="access('Ldf', '7fes1RyY77', 'login')">Login Ldf</button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button type="button" onclick="access('Ldf', '7fes1RyY77', 'logout')">Logout Ldf</button>
+	&nbsp;<hr>
+	<button type="button" onclick="access('xxxxxxxx', '12345678', 'sociaLogin')">SocialLogin</button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </body>
 </html>
