@@ -106,7 +106,7 @@ class ReviewController extends REST {
 			#TODO
 			//$activity->setFromUser($fromUser->getObjectId());
 			$activity->setFromUser($fromUser->getObjectId());
-			$activity->setRead(true);
+			$activity->setRead(false);
 			$activity->setStatus("A");
 			
 			$review = new Comment();
