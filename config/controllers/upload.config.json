@@ -1,0 +1,6 @@
+{
+    "targetDir": "files",
+    "cleanUpTargetDir":true,
+    "maxFileAge":18000,
+    "timeLimit":300
+}
