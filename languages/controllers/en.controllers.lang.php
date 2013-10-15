@@ -18,8 +18,8 @@
 
 $controllers = array(
     'POSTSAVED' => 'Your post has been saved',
-    'SHORTPOST' => 'Your post il too short | lenght:',
-    'LONGPOST' => 'Your post il too long | lenght:',
+    'SHORTPOST' => 'Your post is too short | lenght:',
+    'LONGPOST' => 'Your post is too long | lenght:',
     'NOTOUSER' => 'No toUser specified',
 	'NOFROMUSER' => 'No fromUser specified',
 	'NOCLASSTYPE' => 'No classType specified',

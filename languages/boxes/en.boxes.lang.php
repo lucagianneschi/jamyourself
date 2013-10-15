@@ -16,7 +16,7 @@
  *  
  */
 $default_img = array(
-    'DEFALBUMTHUMB' => 'images/defult/albumCoverThumb.jpg',
+    'DEFALBUMTHUMB' => 'images/default/albumCoverThumb.jpg',
     'DEFEVENTIMAGE' => 'images/default/defaultEventImage.jpg',
     'DEFEVENTTHUMB' => 'images/default/defaultEventThumb.jpg',
     'DEFRECORDCOVER' => 'images/default/defaultEventImage.jpg',
@@ -45,7 +45,7 @@ $boxes = array(
     'NOFOLLOWERS' => 'NO FOLLOWERS YET',
     'NOVENUE' => 'NO COLLABORATION WITH VENUES YET',
     'NOJAMMER' => 'NO COLLABORATION WITH JAMMERS YET',
-    'DEFALBUMTHUMB' => 'images/defult/albumCoverThumb.jpg',
+    'DEFALBUMTHUMB' => 'images/default/albumCoverThumb.jpg',
     'DEFEVENTTHUMB' => 'images/default/defaultEventThumb.jpg',
     'DEFRECORDTHUMB' => 'images/default/defaultRecordThumb.jpg',
     'DEFSONGTHUMB' => 'images/default/defaultSongThumb.jpg'
