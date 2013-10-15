@@ -7,6 +7,7 @@ require_once 'path.php';
 ##################
 define('BOXES_DIR', ROOT_DIR . 'boxes/');
 define('CLASSES_DIR', ROOT_DIR . 'classes/');
+define('CONFIG_DIR', ROOT_DIR . 'config/');
 define('CONTROLLERS_DIR', ROOT_DIR . 'controllers/');
 define('DEBUG_DIR', ROOT_DIR . 'debug/');
 define('LANGUAGES_DIR', ROOT_DIR . 'languages/'); 
