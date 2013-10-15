@@ -44,7 +44,7 @@ class MessageController extends REST {
      */
     function __construct() {
 		parent::__construct();
-		$this->config = json_decode(file_get_contents(CONTROLLERS_DIR . "config/message.config.json"), false);
+		$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/message.config.json"), false);
     }
 
     /**
