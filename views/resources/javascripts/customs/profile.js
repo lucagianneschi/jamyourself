@@ -314,6 +314,7 @@ function prevLightBox(){
 }
 
 //visualizza la map del box information delle venue
+var mapProfile;
 function initialize(lat, lon) {	
 	var latlng = new google.maps.LatLng(lat, lon);
 	var mapOptions = {
@@ -323,22 +324,22 @@ function initialize(lat, lon) {
 		mapTypeId : google.maps.MapTypeId.ROADMAP		
 	}
 	
-	var map = new google.maps.Map(document.getElementById('map_venue'), mapOptions);
+	mapProfile = new google.maps.Map(document.getElementById('map_venue'), mapOptions);
 	var marker = new google.maps.Marker({
 		position : latlng,
-		map : map
+		map : mapProfile
 	});
-	google.maps.event.trigger(map, 'resize');	
 }
 
 function viewMap(lat, lon){
-	google.maps.event.addDomListener(window, 'load', initialize(lat, lon));
-	
+	if(mapProfile){
+		google.maps.visualRefresh = true;
+	}
+	else{
+		google.maps.event.addDomListener(window, 'load', initialize(lat, lon));
+	}	
 }
 
-function removeMap(){
-	//$("#map_venue").empty();
-}
 
 
 function getDirectionMap(){
