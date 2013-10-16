@@ -32,7 +32,9 @@ $(document).ready(function() {
 
 	});
 	 
-
+ 	
+ 	
+ 	
 });
 /*
  * Funzione per gestire i counters (love, comment, share e review)
@@ -87,7 +89,9 @@ function setCounter(_this, objectId, classbox){
 			else{
 				$(idBox+' .box-comment').addClass('no-display');
 				$(idBox+' .box').removeClass('box-commentSpace');
-				$("#cboxLoadedContent").getNiceScroll().hide();
+				//$("#cboxLoadedContent").getNiceScroll().hide();
+				$("#cboxLoadedContent").mCustomScrollbar("update");
+				hcento();
 			}
 			
 			//$(idBox+' .box').toggleClass('box-commentSpace');
@@ -144,6 +148,17 @@ function albumSelectNext(recordId){
 	$('#'+recordId ).fadeOut( 100, function() {
     	$('#albumSlide').fadeIn( 100 );
 	});	
+}
+
+function getScrollBar(boxId){
+	var scrollbar = $(boxId).mCustomScrollbar({
+ 		updateOnContentResize: true,
+ 		updateOnBrowserResize: true,
+		autoHideScrollbar:false,
+		mouseWheel: true,
+		scrollInertia:150
+	});
+	return scrollbar;
 }
 
 
@@ -249,38 +264,53 @@ var toggleTextEventReview = function(_this,box){
 }
 //lightbox photo
 function lightBoxPhoto(classBox){
+	
 	$("."+classBox).colorbox({
 			rel:'group',
 			inline:true, 
 			scalePhotos: true,
-			height: '110%',
 			width: '70%',			
 			fixed: true,
-			scrolling: true,			
-			onComplete: function(){
-				$("#cboxLoadedContent").getNiceScroll().hide();			
-			 	if(!$('#cboxLoadedContent box-comment').hasClass('no-display')){
+			scrolling: true,	
+			onComplete: function(){					
+			 if(!$('#cboxLoadedContent box-comment').hasClass('no-display')){					
 					$('#cboxLoadedContent .box-comment').addClass('no-display');
-					//$("#cboxLoadedContent").getNiceScroll().hide();
+					$('#cboxLoadedContent .box').removeClass('box-commentSpace');				
+					$("#cboxLoadedContent").mCustomScrollbar("update");
 				}
+				//posiziona la foto al centro su una base di altezza pari a 450px
 			 	var height = parseInt($('#cboxLoadedContent img').height());
-			 	console.log(height)			 	
 			 	if(height < 450){
 			 		divisione = ~~(height/2);
-			 		altezza = Math.abs(225-divisione)
-			 		console.log(altezza);
+			 		altezza = Math.abs(225-divisione);
 			 		$('#cboxLoadedContent img').css({'margin-top':altezza+'px'});
 			 	}
+			 	getScrollBar("#cboxLoadedContent");
+			 	document.getElementById('cboxNext').setAttribute("onclick", "nextLightBox()");
+			 	document.getElementById('cboxPrevious').setAttribute("onclick", "prevLightBox()");	 
+			 	$("#cboxNext").unbind( "click" );	
+			 	$("#cboxPrevious").unbind( "click" );
 			},
 			onClosed: function(){
-				$("#cboxLoadedContent").getNiceScroll().hide();
+				$("#cboxLoadedContent").mCustomScrollbar("destroy");				
 			} 
 		});
 		
 }
 
 function nextLightBox(){
+	console.log('ciao');
+	$('#cboxLoadedContent .box-comment').addClass('no-display');
+	$('#cboxLoadedContent .box').removeClass('box-commentSpace');				
+	$("#cboxLoadedContent").mCustomScrollbar("update");
 	$.colorbox.next();
+}
+
+function prevLightBox(){
+	$('#cboxLoadedContent .box-comment').addClass('no-display');
+	$('#cboxLoadedContent .box').removeClass('box-commentSpace');				
+	$("#cboxLoadedContent").mCustomScrollbar("update");
+	$.colorbox.prev();
 }
 
 //visualizza la map del box information delle venue

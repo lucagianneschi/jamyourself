@@ -51,3 +51,5 @@ $(document).foundation();
 <script src="resources/javascripts/plugins/royalslider/jquery.royalslider.min.js"></script>
 <!--------------- colorbox ---------------->
 <script src="resources/javascripts/plugins/colorbox/jquery.colorbox.js"></script>
+<!--------------- scrollbar --------------->
+<script src="resources/javascripts/plugins/scrollbar/jquery.mCustomScrollbar.js"></script>
