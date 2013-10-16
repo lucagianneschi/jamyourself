@@ -39,12 +39,7 @@ $(document).foundation();
 </script>
 <!-------------- plugin JCrop ------------>
 <script type="text/javascript" src="resources/javascripts/plugins/jcrop/jquery.Jcrop.js"></script>  
-<!----------- JAMYOURSELF --------------->
-<script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
-<script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script>
-<script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-<script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
-<script src="resources/javascripts/customs/signup.js"></script>
+
 <!----------- plugin nicescroll ---------->
 <script type="text/javascript" src="resources/javascripts/plugins/nicescroll/jquery.nicescroll.js"></script>	
 <!--------------- royalslider ------------->
@@ -53,3 +48,12 @@ $(document).foundation();
 <script src="resources/javascripts/plugins/colorbox/jquery.colorbox.js"></script>
 <!--------------- scrollbar --------------->
 <script src="resources/javascripts/plugins/scrollbar/jquery.mCustomScrollbar.js"></script>
+<!--------------- spinner ----------------->
+<script type="text/javascript" src="http://fgnass.github.io/spin.js/dist/spin.js"></script>
+<!----------- JAMYOURSELF --------------->
+<script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
+<script src="resources/javascripts/customs/signup.js"></script>
+

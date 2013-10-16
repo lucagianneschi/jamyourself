@@ -9,11 +9,11 @@ $currentUserType = $_GET['currentType'];
 			<div id="profile" style="max-width:500px; float:right">
 				<div class="row">
 					<div class="large-12 columns">
-						<div id='box-userinfo' ></div>	
+						<div id='box-userinfo'></div>	
 						<div id='box-information' ></div>
 						<div id="box-record"></div>
 						<div id='box-event' ></div>	
-						<div id='box-friends' ></div>	
+						<div id='box-friends'></div>	
 						<div id='box-following' ></div>	
 						<div id='box-album' ></div>
 					</div>

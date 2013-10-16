@@ -66,6 +66,18 @@
 	white-space: nowrap;
 }
 
+//spinner
+.spinner {  
+  	position: relative !important;
+	margin: 5px !important;
+	left: 50% !important;
+}
+
+.box-spinner{
+	position: relative; 
+	height: 50px;
+}
+
 #ascrail2002 div{
 	cursor: pointer !important;
 }

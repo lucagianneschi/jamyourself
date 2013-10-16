@@ -45,6 +45,44 @@ var callBox = {
 			},
 			type : 'POST',
 			dataType : 'json',
+			beforeSend: function(){
+				
+				switch(typebox){
+					case 'record':
+						$('#profile #box-record').html(getPinner('Music'));
+					break;
+					case 'event':
+						$('#profile #box-event').html(getPinner('Event'));
+					break;
+					case 'album':
+						$('#profile #box-album').html(getPinner('Photography'));
+					break;
+					case 'relation':
+						if (__this.typeUser == 'SPOTTER'){
+							$('#profile #box-friends').html(getPinner('Friends'));
+							$('#profile #box-following').html(getPinner('Following'));
+						}
+						else{
+							$('#social #box-collaboration').html(getPinner('Collaboration'));
+							$('#social #box-followers').html(getPinner('Followers'));
+						}
+						$('#social #box-activity').html(getPinner('Activities'));
+					break;
+					case 'post':
+						$('#social #box-post').html(getPinner('Post'));
+					break;
+					case 'review':					
+						if (__this.typeUser != 'VENUE')
+							$('#social #box-recordReview').html(getPinner('Album Reviews'));
+						$('#social #box-recordEvent').html(getPinner('Event Reviews'));						
+					break;
+				}
+							
+					
+				spinner();
+							
+					
+			},
 			success : function(data, stato) {
 				//NOT ERROR
 				if (data != null && data['error']['code'] == 0) {					
@@ -65,9 +103,8 @@ var callBox = {
 								__this.numBoxActivity++;
 								callBox.load('event');
 							} 
-							
-							callBox.load('album');
 							callBox.load('relation');
+							callBox.load('album');							
 							callBox.load('post');
 							break;
 						
@@ -159,6 +196,23 @@ var callBox = {
 		});
 
 	}
+}
+
+function getPinner(title){
+	var html = '<div class="row">'+
+					'<div  class="large-12 columns">'+
+						'<h3>'+title+'</h3>'+
+						'<div class="row" >'+
+							'<div class="large-12 columns ">'+
+								'<div class="box box-spinner">'+
+									'<div class="spinner"></div>'+
+								'</div>'+
+							'</div>'+
+						'</div>'+
+					'</div>'+
+				'</div>';
+	
+	return html;			
 }
 
 /*
