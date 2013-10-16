@@ -73,7 +73,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php } else{ ?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There are no Records</div>	
+									<div class="text grey-dark">There is no Record</div>	
 								</div>	
 							</div>						
 							<?php }?>
@@ -104,7 +104,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php }else{?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There are no Events</div>	
+									<div class="text grey-dark">There is no Event</div>	
 								</div>	
 							</div>		
 							<?php }?>	
@@ -133,7 +133,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php } else{ ?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There are no Records</div>	
+									<div class="text grey-dark">There is no Record</div>	
 								</div>	
 							</div>						
 							<?php }?>
@@ -159,7 +159,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php }else{?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There are no Events</div>	
+									<div class="text grey-dark">There is no Event</div>	
 								</div>	
 							</div>		
 							<?php }?>	

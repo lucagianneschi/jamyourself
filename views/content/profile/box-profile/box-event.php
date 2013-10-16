@@ -153,7 +153,7 @@
 			
 			?>
 			<div class="row">
-						<div  class="large-12 columns"><p class="grey">There are no Event</p></div>
+						<div  class="large-12 columns"><p class="grey">There are no Events</p></div>
 					</div>
 			<?php
 		}?>
