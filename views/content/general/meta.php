@@ -50,4 +50,5 @@
 <!--------------- google map ---------------------------->
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
-
+<!--------------- scrollbar ------------------------------->
+<link rel="stylesheet" href="resources/stylesheets/plugins/scrollbar/jquery.mCustomScrollbar.css"  />

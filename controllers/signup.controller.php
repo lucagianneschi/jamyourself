@@ -26,7 +26,7 @@ class SignupController extends REST {
 
     function __construct() {
         parent::__construct();
-        $this->config = json_decode(file_get_contents(CONTROLLERS_DIR . "config/signup.config.json"), false);
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/signup.config.json"), false);
         $this->userValidator = new ValidateNewUserService($this->config);
     }
 

@@ -341,8 +341,7 @@ function addBoxComment(data, typeUser,classbox,objectId) {
 	},function(){
 		success:{ 
 			if(classbox == 'Image'){
-				$('#cboxLoadedContent').niceScroll({cursorcolor:"#303030",cursorborder:"none",zindex:9999,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4,autohidemode:"false",boxzoom:"true"});
-				
+				$("#cboxLoadedContent").mCustomScrollbar("update");
 			} 
 			hcento();
 		}

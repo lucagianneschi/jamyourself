@@ -29,6 +29,12 @@ require_once DEBUG_DIR . 'debug.php';
  */
 class SearchController extends REST {
 
+    public $config;
+
+    function __construct() {
+		parent::__construct();
+		$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/search.config.json"), false);
+    }
     /**
      * \fn		init()
      * \brief   start the session
@@ -44,7 +50,18 @@ class SearchController extends REST {
      */
 	    public function search() {
 			try {
+				if ($this->get_request_method() != 'POST') {
+					$this->response('', 406);
+				}
+				if (!isset($this->request['text'])) {
+					$this->response(array('status' => "Bad Request", "msg" => $controllers['NOSEARCHTEXT']), 400);
+				} elseif (strlen($text) < $this->config->minSearchTextSize) {
+					$this->response(array($controllers['SHORTSEARCHTEXT'] . strlen($text)), 200);
+				}
 				
+				$classType = $_REQUEST['classType'];
+				$text = $_REQUEST['text'];
+								
 		} catch (Exception $e){
 			$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 		}

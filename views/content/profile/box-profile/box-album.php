@@ -143,9 +143,9 @@ $albumCounter = $data['albumCounter'];
 			<div class="large-12 columns">
 				 <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>				 	
 					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo <?php echo $data['album' . $i]['image' . $j]['filePath']; ?>">
-						<div class="row ">
-							<div class="large-12 columns lightbox-photo-box" >
-								<div class="album-photo-box"><img class="album-photo" onclick="nextLightBox()" src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/images/default/defaultImage.jpg'"/></div>
+						<div class="row " style="max-width: none;">
+							<div class="large-12 columns lightbox-photo-box"   >
+								<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/images/default/defaultImage.jpg'"/></div>
 					 			<div class="row">
 					 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
 					 			</div>
@@ -193,6 +193,7 @@ $albumCounter = $data['albumCounter'];
 					 	</div>
 					 	
 					</div>
+					
 				<?php } ?>
 				
 			</div>	

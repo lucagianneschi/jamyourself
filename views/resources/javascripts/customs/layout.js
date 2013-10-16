@@ -9,9 +9,21 @@ $(document).ready(function() {
 		jamswitch();
 	}
 	
-	$("#profile").niceScroll({cursorcolor:"#222",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
-	$("#social").niceScroll({cursorcolor:"#CCC",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
+	//$("#profile").niceScroll({cursorcolor:"#222",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
+	//$("#social").niceScroll({cursorcolor:"#CCC",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
 	
+	$("#scroll-profile").mCustomScrollbar({
+		updateOnContentResize: true,
+		autoHideScrollbar:false,
+		mouseWheel: true,
+		scrollInertia:150,
+	});
+	$("#scroll-social").mCustomScrollbar({
+		updateOnContentResize: true,
+		autoHideScrollbar:false,
+		mouseWheel: true,
+		scrollInertia:150,
+	});
 		
 	//permette di modifica il background del body in base al file php caricato in index
 	var children = $(".body-content").children();
@@ -46,15 +58,18 @@ function hcento() {
 	var hrhero = h - 300;
 	$('.hcento').css('height', hr);
 	$('.hcento-hero').css('height', hrhero); 
-	
+	$("#scroll-profile").mCustomScrollbar("update");
+	$("#scroll-social").mCustomScrollbar("update");
 }
 
 //Show header
 function headerShow() {
 	
  	$('#header-hide').slideToggle('slow', function() {
- 		$("#profile").getNiceScroll().resize();
- 		$("#social").getNiceScroll().resize();
+ 	//$("#profile").getNiceScroll().resize();
+ 	//$("#social").getNiceScroll().resize();
+ 	$("#scroll-profile").mCustomScrollbar("update");
+	$("#scroll-social").mCustomScrollbar("update");
     // Animation complete.
   		$('#header-hide').height();
   	});
@@ -101,8 +116,10 @@ function getScroll(name) {
 }
 
 function resizeScroll() {
-	$('#profile').getNiceScroll().resize();
-	$('#social').getNiceScroll().resize();
+	//$('#profile').getNiceScroll().resize();
+	//$('#social').getNiceScroll().resize();
+	$("#scroll-profile").mCustomScrollbar("update");
+	$("#scroll-social").mCustomScrollbar("update");
 }
 
 
