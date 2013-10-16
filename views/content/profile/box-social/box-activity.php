@@ -227,7 +227,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 											</div>
 											<div  class="small-9 columns ">
 												<div class="text grey-dark breakOffTest"><?php echo $dataActivityRelation['jammersCollaborators'.'0']['username'] ?></div>
-												<div class="note grey">Jammer</div>
+												
 											</div>		
 										</div>	
 			    					</div>
@@ -244,7 +244,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 											</div>
 											<div  class="small-9 columns ">
 												<div class="text grey-dark breakOffTest"><?php echo $dataActivityRelation['jammersCollaborators'.'1']['username'] ?></div>
-												<div class="note grey">Jammer</div>
+												
 											</div>		
 										</div>	
 			    					</div>
@@ -277,7 +277,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 											</div>
 											<div  class="small-9 columns ">
 												<div class="text grey-dark"><?php echo $dataActivityRelation['venuesCollaborators'.'0']['username'] ?></div>
-												<div class="note grey">Venue</div>
+												
 											</div>		
 										</div>	
 			    					</div>
@@ -294,7 +294,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 											</div>
 											<div  class="small-9 columns ">
 												<div class="text grey-dark"><?php echo $dataActivityRelation['venuesCollaborators'.'1']['username'] ?></div>
-												<div class="note grey">Venue</div>
+												
 											</div>		
 										</div>	
 			    					</div>
