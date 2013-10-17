@@ -352,16 +352,16 @@ function openComment() {
 
 function spinner(){
 	var opts = {
-		 lines: 11, // The number of lines to draw
-		  length: 9, // The length of each line
+		  lines: 9, // The number of lines to draw
+		  length: 0, // The length of each line
 		  width: 4, // The line thickness
-		  radius: 5, // The radius of the inner circle
+		  radius: 9, // The radius of the inner circle
 		  corners: 1, // Corner roundness (0..1)
 		  rotate: 4, // The rotation offset
 		  direction: 1, // 1: clockwise, -1: counterclockwise
 		  color: '#000', // #rgb or #rrggbb or array of colors
-		  speed: 1, // Rounds per second
-		  trail: 38, // Afterglow percentage
+		  speed: 2.2, // Rounds per second
+		  trail: 56, // Afterglow percentage
 		  shadow: false, // Whether to render a shadow
 		  hwaccel: false, // Whether to use hardware acceleration
 		  className: 'spinner', // The CSS class to assign to the spinner
