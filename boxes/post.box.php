@@ -70,8 +70,7 @@ class PostBox {
 	$postBox = new PostBox();
 	$info = array();
 	$counter = 0;
-	
-	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '$objectId')), array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '$objectId')));
+	$value = array(array('fromUser' => $objectId), array('toUser' => $objectId));
 
 	$post = new CommentParse();
 	$post->whereOr($value);
