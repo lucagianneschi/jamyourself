@@ -16,7 +16,7 @@
  *  
  */
 $default_img = array(
-    'DEFALBUMTHUMB' => 'images/default/albumCoverThumb.jpg',
+    'DEFALBUMTHUMB' => 'images/default/defaulAlbumCoverThumb.jpg',
     'DEFEVENTIMAGE' => 'images/default/defaultEventImage.jpg',
     'DEFEVENTTHUMB' => 'images/default/defaultEventThumb.jpg',
     'DEFRECORDCOVER' => 'images/default/defaultEventImage.jpg',
