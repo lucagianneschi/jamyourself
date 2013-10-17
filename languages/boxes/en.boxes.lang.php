@@ -24,7 +24,8 @@ $default_img = array(
     'DEFIMAGETHUMB' => 'images/default/defaultImageThumb.jpg',
     'DEFAVATAR' => 'images/default/defaultAvatar.jpg',
     'DEFAVATARTHUMB' => 'images/default/defaultAvatarThumb.jpg',
-    'DEFBGD' => 'images/default/defaultBackground.jpg'
+    'DEFBGD' => 'images/default/defaultBackground.jpg',
+    'DEFIMAGE' => 'images/default/defaultImage.jpg'
 );
 
 $boxes = array(

@@ -7,7 +7,15 @@
  * @data: array contenente tutti di dati relativi agli eventi
  * @typeUser: tipo utente (JAMMER, VENUE o SPOTTER)
  */
- 
+  if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';   
+
+
  $data = $_POST['data'];
  $typeUser = $_POST['typeUser'];
  
@@ -21,16 +29,16 @@
 	<div class="large-12 columns ">	
 		<div class="row">
 			<div  class="small-5 columns">
-				<h3>Event </h3>
+				<h3><?php echo $views['event']['TITLE'];?> </h3>
 			</div>	
 			<div  class="small-7 columns align-right">
 				<?php if($eventCounter > 0){ ?>
 					<div class="row">					
 						<div  class="small-9 columns">
-							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('event')">Previous </a>
+							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('event')"><?php echo $views['PREV'];?> </a>
 						</div>
 						<div  class="small-3 columns">
-							<a class="slide-button-next _nextPage" onclick="royalSlideNext('event')">Next </a>
+							<a class="slide-button-next _nextPage" onclick="royalSlideNext('event')"><?php echo $views['NEXT'];?> </a>
 						</div>
 					</div>
 		 		<?php } ?>
@@ -118,11 +126,11 @@
 				<div class="row album-single-propriety">
 					<div class="box-propriety ">					
 						<div class="small-7 columns no-display">
-							<a class="icon-propriety _menu-small note orange "> Add to Calendar</a>	
-							<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')">Love</a>
-							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')">Comment</a>
-							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')">Share</a>
-							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')">Review</a>	
+							<a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['CALENDAR']?></a>	
+							<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['LOVE']?></a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['COMM']?></a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['SHARE']?></a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['REVIEW']?></a>	
 						</div>
 						<div class="small-5 columns propriety ">					
 							<a class="icon-propriety _unlove grey"><?php echo $event_love ?></a>
@@ -153,7 +161,7 @@
 			
 			?>
 			<div class="row">
-						<div  class="large-12 columns"><p class="grey">There are no Events</p></div>
+						<div  class="large-12 columns"><p class="grey"><?php $views['event']['NODATA'] ?></p></div>
 					</div>
 			<?php
 		}?>

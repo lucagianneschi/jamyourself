@@ -7,7 +7,15 @@
  * 
  * box per tutti gli utenti
  */
- 
+
+ if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';   
+
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
 
@@ -20,21 +28,18 @@ $albumCounter = $data['albumCounter'];
 	<div class="large-12 columns ">
 		<div class="row">
 			<div  class="large-5 columns">
-				<h3>Photography</h3>
+				<h3><?php echo $views['album']['TITLE'];?></h3>
 			</div>	
 			<div  class="large-7 columns align-right">
 				<?php if($albumCounter > 4){ ?>
 					<div class="row">					
 						<div  class="small-9 columns">
-							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('album')">Previous </a>
+							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('album')"><?php echo $views['PREV'];?> </a>
 						</div>
 						<div  class="small-3 columns">
-							<a class="slide-button-next _nextPage" onclick="royalSlideNext('album')">Next </a>
+							<a class="slide-button-next _nextPage" onclick="royalSlideNext('album')"><?php echo $views['NEXT'];?> </a>
 						</div>
-					</div>
-					
-					
-		 		
+					</div>		 		
 				<?php } ?>
 			</div>
 		</div>	
@@ -57,11 +62,11 @@ $albumCounter = $data['albumCounter'];
 					<div class="row" style="margin-left: 0px; margin-right: 0px;">
 						<?php if(isset($data['album' . ($i)]['objectId'])){ ?>				
 						<div class="small-6 columns box-coveralbum <?php echo $data['album' . ($i)]['objectId'] ?>"  onclick="albumSelectSingle('<?php echo $data['album' . $i]['objectId']; ?>',<?php echo $data['album' . $i]['imageCounter']; ?>)">
-							<img class="albumcover" src="../media/<?php echo $data['album' . $i]['thumbnailCover'] ?>" onError="this.src='../media/images/default/defaultAlbumcoverthumb.jpg'">  
+							<img class="albumcover" src="../media/<?php echo $data['album' . $i]['thumbnailCover'] ?>" onError="this.src='<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
 							<div class="text white breakOffTest"><?php echo $data['album' . $i]['title']; ?></div>
 							<div class="row">
 								<div class="small-5 columns ">
-									<a class="note grey"><?php echo $data['album' . $i]['imageCounter']; ?> Foto</a>								
+									<a class="note grey"><?php echo $data['album' . $i]['imageCounter']; ?> <?php echo $views['album']['PHOTO'];?></a>								
 								</div>
 								<div class="small-7 columns propriety ">					
 									<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
@@ -73,11 +78,11 @@ $albumCounter = $data['albumCounter'];
 						<?php }
 						if(isset($data['album' . ($i+1)]['objectId'])){ ?>
 						<div class="small-6 columns box-coveralbum <?php echo $data['album' . ($i+1)]['objectId']?>"  onclick="albumSelectSingle('<?php echo $data['album' . ($i+1)]['objectId']; ?>',<?php echo $data['album' . ($i+1)]['imageCounter']; ?>)">
-							<img class="albumcover" src="../media/<?php echo $data['album' . ($i+1)]['thumbnailCover'] ?>" onError="this.src='../media/images/default/defaultAlbumcoverthumb.jpg'">  
+							<img class="albumcover" src="../media/<?php echo $data['album' . ($i+1)]['thumbnailCover'] ?>" onError="this.src='<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
 							<div class="text white breakOffTest"><?php echo $data['album' . ($i+1)]['title']; ?></div>
 							<div class="row">
 								<div class="small-5 columns ">
-									<a class="note grey"><?php echo $data['album' . ($i+1)]['imageCounter']; ?> Foto</a>								
+									<a class="note grey"><?php echo $data['album' . ($i+1)]['imageCounter']; ?> <?php echo $views['album']['PHOTO'];?></a>								
 								</div>
 								<div class="small-7 columns propriety ">					
 									<a class="icon-propriety _unlove grey"><?php echo $data['album' . ($i+1)]['counters']['loveCounter']; ?></a>
@@ -93,7 +98,7 @@ $albumCounter = $data['albumCounter'];
 					<?php }} else{ ?>
 						<div class="row  ">
 								<div  class="large-12 columns ">
-									<p class="grey">There are no Photo</p>
+									<p class="grey"><?php echo $views['album']['NODATA'];?></p>
 								</div>
 						</div>
 					<?php } ?>	
@@ -109,7 +114,7 @@ $albumCounter = $data['albumCounter'];
 			<div class="box no-display box-singleAlbum" id="<?php echo $data['album' . $i]['objectId'];?>">
 				<div class="row box-album">
 					<div class="large-12 columns">					
-						<a class="ico-label _back_page text white" onclick="albumSelectNext('<?php echo $data['album' . $i]['objectId']; ?>')">Back to Set</a>
+						<a class="ico-label _back_page text white" onclick="albumSelectNext('<?php echo $data['album' . $i]['objectId']; ?>')"><?php echo $views['BACK'];?></a>
 					</div>
 				</div>
 				<div class="row" style="padding-bottom: 10px;">
@@ -117,16 +122,16 @@ $albumCounter = $data['albumCounter'];
 				</div>
 				<ul class="small-block-grid-3 small-block-grid-2 ">			
 				  <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>
-				  <li><a class="photo-colorbox-group" href="#<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>"><img class="photo" src="../media/<?php $data['album' . $i]['image' . $j]['thumbnail']?>" onerror="this.src='../media/images/default/defaultImage.jpg'"></a></li>
+				  <li><a class="photo-colorbox-group" href="#<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>"><img class="photo" src="../media/<?php $data['album' . $i]['image' . $j]['thumbnail']?>" onerror="this.src='<?php echo $default_img['DEFIMAGE']; ?>'"></a></li>
 					<?php } ?>
 				</ul>		
 				
 				<div class="row album-single-propriety">
 					 <div class="box-propriety">
 						<div class="small-6 columns ">
-							<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Love</a>
-							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Comment</a>
-							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')">Share</a>
+							<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['LOVE'];?></a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['COMM'];?></a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['SHARE'];?></a>
 						</div>
 						<div class="small-6 columns propriety ">					
 							<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
@@ -145,15 +150,15 @@ $albumCounter = $data['albumCounter'];
 					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo <?php echo $data['album' . $i]['image' . $j]['filePath']; ?>">
 						<div class="row " style="max-width: none;">
 							<div class="large-12 columns lightbox-photo-box"   >
-								<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/images/default/defaultImage.jpg'"/></div>
+								<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='<?php echo $default_img['DEFIMAGE']; ?>'"/></div>
 					 			<div class="row">
 					 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
 					 			</div>
 					 			<div class="row" style="margin-bottom: 10px">
 					 				<div  class="small-6 columns">
-					 					<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Love</a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Comment</a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')">Share</a>
+					 					<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')"><?php echo $views['LOVE'];?></a>
+										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')"><?php echo $views['COMM'];?></a>
+										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')"><?php echo $views['SHARE'];?></a>
 					 				</div>
 					 				<div  class="small-6 columns propriety">
 					 					<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['image' . $j]['counters']['loveCounter']; ?></a>

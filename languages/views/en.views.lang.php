@@ -1,7 +1,7 @@
 <?php
 
 /* ! \par Info Generali:
- *  \author    Luca Gianneschi
+ *  \author    Maria Laura Fresu
  *  \version   1.0
  *  \date      2013
  *  \copyright Jamyourself.com 2013
@@ -15,6 +15,28 @@
  *  
  *  
  */
+$views = array(
+	'PREV' 	=> 'Previous',
+	'NEXT' 	=> 'Next',
+	'BACK' 	=> 'Back to Set',
+	'LOVE' 	=> 'Love',
+	'COMM' 	=> 'Comment',
+	'SHARE' => 'Share',
+	'REVIEW'=> 'Review',
+	
+	'album' => array(
+		'TITLE'  => 'Photography',
+		'PHOTO'  => 'photos',
+		'NODATA' => 'There are no Photo'
+	),
+	
+	'event' => array(
+		'TITLE'  	=> 'Event',
+		'CALENDAR' 	=> 'Add to Calendar',
+		'NODATA' 	=> 'There are no Events'
+	)
+	
+);
+ 
 
-$views = array();
 ?>

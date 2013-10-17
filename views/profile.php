@@ -3,6 +3,9 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 
 //esempio: objectId dell'utente collegato 
 $correntUser = "GuUAj83MGH";

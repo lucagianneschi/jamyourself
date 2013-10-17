@@ -42,9 +42,10 @@ $postCounter = $data['postCounter'];
 					<?php 
 					if($postCounter > 0){
 					for($i=0; $i< $postCounter; $i++){
-						$post_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['post' . $key]['createdAt']);
-						$post_createdAd = $event_eventDate_DateTime->format('l j F - ore H:i');
-						?>
+						$post_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['post' . $i]['createdAt']);
+						$post_createdAd = $post_DateTime->format('l j F Y - H:i');
+									
+					?>
 					<div id='<?php echo  $data['post' . $i]['objectId'];?>'>
 					<div class="row  line">
 						<div  class="small-1 columns ">

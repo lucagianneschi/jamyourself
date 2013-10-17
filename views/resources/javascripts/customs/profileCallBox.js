@@ -49,39 +49,34 @@ var callBox = {
 				
 				switch(typebox){
 					case 'record':
-						$('#profile #box-record').html(getPinner('Music'));
+						getPinner('record');
 					break;
 					case 'event':
-						$('#profile #box-event').html(getPinner('Event'));
+						getPinner('event');
 					break;
 					case 'album':
-						$('#profile #box-album').html(getPinner('Photography'));
+						getPinner('album');
 					break;
 					case 'relation':
-						if (__this.typeUser == 'SPOTTER'){
-							$('#profile #box-friends').html(getPinner('Friends'));
-							$('#profile #box-following').html(getPinner('Following'));
+						if (__this.typeUser == 'SPOTTER'){							
+							getPinner('friends');
+							getPinner('following');
 						}
 						else{
-							$('#social #box-collaboration').html(getPinner('Collaboration'));
-							$('#social #box-followers').html(getPinner('Followers'));
+							getPinner('collaboration');
+							getPinner('followers');
 						}
-						$('#social #box-activity').html(getPinner('Activities'));
+						getPinner('activity');
 					break;
 					case 'post':
-						$('#social #box-post').html(getPinner('Post'));
+						getPinner('post');
 					break;
 					case 'review':					
 						if (__this.typeUser != 'VENUE')
-							$('#social #box-recordReview').html(getPinner('Album Reviews'));
-						$('#social #box-recordEvent').html(getPinner('Event Reviews'));						
+							getPinner('recordReview');
+						getPinner('recordEvent');						
 					break;
-				}
-							
-					
-				spinner();
-							
-					
+				}					
 			},
 			success : function(data, stato) {
 				//NOT ERROR
@@ -198,21 +193,12 @@ var callBox = {
 	}
 }
 
-function getPinner(title){
-	var html = '<div class="row">'+
-					'<div  class="large-12 columns">'+
-						'<h3>'+title+'</h3>'+
-						'<div class="row" >'+
-							'<div class="large-12 columns ">'+
-								'<div class="box box-spinner">'+
-									'<div class="spinner"></div>'+
-								'</div>'+
-							'</div>'+
-						'</div>'+
-					'</div>'+
-				'</div>';
-	
-	return html;			
+function getPinner(box){	
+	$('#box-'+box).load('content/profile/box-general/box-spinner.php', {
+		'box' : box
+	}, function(){
+		success: spinner();
+	});			
 }
 
 /*
@@ -389,7 +375,7 @@ function addBoxComment(data, typeUser,classbox,objectId) {
 	if(classbox == 'Image' || classbox == 'Post'){
 		idBox = '#'+objectId;
 	}
-	$(idBox+' .box-comment').load('content/profile/box-social/box-comment.php', {
+	$(idBox+' .box-comment').load('content/profile/box-general/box-comment.php', {
 		'data' : data,
 		'typeUser' : typeUser
 	},function(){

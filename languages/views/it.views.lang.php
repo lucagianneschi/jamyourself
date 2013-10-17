@@ -1,7 +1,7 @@
 <?php
 
 /* ! \par Info Generali:
- *  \author    Luca Gianneschi
+ *  \author    Maria Laura Fresu
  *  \version   1.0
  *  \date      2013
  *  \copyright Jamyourself.com 2013

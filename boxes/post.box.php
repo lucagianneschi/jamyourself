@@ -24,8 +24,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
@@ -70,47 +69,55 @@ class PostBox {
 	$postBox = new PostBox();
 	$info = array();
 	$counter = 0;
-	$value = array(array('fromUser' => $objectId), array('toUser' => $objectId));
+	
+	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)), 
+				   array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
 
 	$post = new CommentParse();
 	$post->whereOr($value);
 	$post->where('type', 'P');
 	$post->where('active', true);
 	$post->setLimit(1000);
-	$post->whereInclude('fromUser');
 	$post->orderByDescending('createdAt');
 	$posts = $post->getComments();
 	if (get_class($posts) == 'Error') {
 	    return $posts;
 	} else {
-	    for ($i = 0; i < count($posts); ++$i) {
-		$counter = ++$counter;
-		$post = $posts[$i];
-		if ($post->fromUser) {
-		    $fromUser = $post->fromUser;
-		    $objectId = $fromUser->getObjectId();
-		    $thumbnail = $fromUser->getProfileThumbnail();
-		    $type = $fromUser->getType();
-		    $encodedUsername = $fromUser->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-		}
-		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
-
-		$commentCounter = $post->getCommentCounter();
-		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
-		$loveCounter = $post->getLoveCounter();
-		$reviewCounter = $boxes['NDB'];
-		$shareCounter = $post->getShareCounter();
-		$encodedtext = $post->getText();
-		$text = parse_decode_string($encodedtext);
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
-		array_push($info, $postInfo);
+		require_once CLASSES_DIR . 'user.class.php';
+		require_once CLASSES_DIR . 'userParse.class.php';
+	   
+	   
+		foreach ($posts as $key => $value) {		
+			$counter = ++$counter;
+			$post = $value;
+			$fromUserId = $post->getFromUser();
+			$fromUserP = new UserParse();
+			$fromUser = $fromUserP->getUser($fromUserId);
+			if (get_class($fromUser) == 'Error') {
+				return $fromUser;
+			} 
+			$objectId = $fromUser->getObjectId();
+			$thumbnail = $fromUser->getProfileThumbnail();
+			$type = $fromUser->getType();
+			$encodedUsername = $fromUser->getUsername();
+			$username = parse_decode_string($encodedUsername);
+			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+	
+			$commentCounter = $post->getCommentCounter();
+			$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
+			$loveCounter = $post->getLoveCounter();
+			$reviewCounter = $boxes['NDB'];
+			$shareCounter = $post->getShareCounter();
+			$encodedtext = $post->getText();
+			$text = parse_decode_string($encodedtext);
+			$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+			$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
+			array_push($info, $postInfo);
 	    }
 	    if (empty($info)) {
-		$postBox->postInfoArray = $boxes['NODATA'];
+			$postBox->postInfoArray = $boxes['NODATA'];
 	    } else {
-		$postBox->postInfoArray = $info;
+			$postBox->postInfoArray = $info;
 	    }
 	    $postBox->postCounter = $counter;
 	}

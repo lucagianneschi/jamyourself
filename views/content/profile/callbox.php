@@ -34,6 +34,7 @@ $objectIdComment 	 = $_POST['objectId'];
 
 $result = array();
 
+
 $result['error']['code'] = 0;
 $result['error']['message'] = 'ok';
 
