@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -13,7 +14,7 @@ class REST {
     public $data = "";
 
     public function __construct() {
-        $this->stringConfig = json_decode(file_get_contents(CONFIG_DIR."controllers/string.config.json"),true);
+        $this->stringConfig = json_decode(file_get_contents(CONFIG_DIR . "controllers/string.config.json"), true);
         $this->inputs();
     }
 
@@ -123,11 +124,13 @@ class REST {
     }
 
     public function processApi() {
-        $func = strtolower(trim(str_replace("/", "", $_REQUEST['request'])));
-        if ((int) method_exists($this, $func) > 0)
-            $this->$func();
-        else
-            $this->response('', 404);    // If the method not exist with in this class, response would be "Page not found".
+        if (isset($_REQUEST['request'])) {
+            $func = strtolower(trim(str_replace("/", "", $_REQUEST['request'])));
+            if ((int) method_exists($this, $func) > 0)
+                $this->$func();
+            else
+                $this->response('', 404);    // If the method not exist with in this class, response would be "Page not found".            
+        }
     }
 
     /*
