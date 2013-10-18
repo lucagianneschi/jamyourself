@@ -19,10 +19,11 @@ class UploadController extends REST {
                 @set_time_limit($this->config->timeLimit);
             }
 
-// Uncomment this one to fake upload time
-// usleep(5000);
 // settings
             $targetDir = $this->config->targetDir;
+
+//commentare per produzione
+            $targetDir = TESTS_DIR . "controllers/upload/uploadTestFolder";
 // creao la directory di destinazione se non esiste
             if (!file_exists($targetDir)) {
                 @mkdir($targetDir);
@@ -46,28 +47,28 @@ class UploadController extends REST {
 
 // rimuovo i vecchi files	
             if ($this->config->cleanUpTargetDir) {
-                if(!$this->cleanUpTargetDir($targetDir, $filePath)){
-                    $this->response(array("Failed to open temp directory."),100);
+                if (!$this->cleanUpTargetDir($targetDir, $filePath)) {
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
                 }
             }
 
 // Apro il file temporaneo
             if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
-                $this->response(array("Failed to open output stream."), 102);
+                die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
             }
 
             if (!empty($_FILES)) {
                 if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
-                    $this->response(array("Failed to move uploaded file."), 103);
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
                 }
 
                 // Read binary input stream and append it to temp file
                 if (!$in = @fopen($_FILES["file"]["tmp_name"], "rb")) {
-                    $this->response(array("Failed to open input stream."), 101);
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
                 }
             } else {
                 if (!$in = @fopen("php://input", "rb")) {
-                    $this->response(array("Failed to open input stream."), 101);
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
                 }
             }
 
@@ -84,8 +85,8 @@ class UploadController extends REST {
                 rename("{$filePath}.part", $filePath);
             }
 
-// Restituisco successo
-            $this->response(array($filePath), 200);
+// Restituisco successo         
+            die('{"jsonrpc" : "2.0", "result" : "' . $filePath . '", "id" : "id"}');
         } catch (Exception $e) {
             
         }
