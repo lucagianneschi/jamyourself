@@ -51,7 +51,8 @@ $(function() {
         up.refresh(); // Reposition Flash/Silverlight
     });
 
-    uploader.bind('FileUploaded', function(up, file) {
+    uploader.bind('FileUploaded', function(up, file,response) {
+        console.log(response);
         $('#' + file.id + " b").html("100%");
     });
 });
