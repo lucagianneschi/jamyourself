@@ -161,7 +161,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 			
 			?>
 			<div class="row">
-						<div  class="large-12 columns"><p class="grey"><?php $views['event']['NODATA'] ?></p></div>
+						<div  class="large-12 columns"><p class="grey"><?php echo $views['event']['NODATA'] ?></p></div>
 					</div>
 			<?php
 		}?>
