@@ -64,7 +64,7 @@ function setCounter(_this, objectId, classbox){
 		case 'Comment':
 		 	var idBox = '';
 			if(classbox == 'RecordReview' || classbox == 'EventReview'){
-				idBox = '#social-'+classbox;
+				idBox = '#social-'+classbox;				
 			}
 			if(classbox == 'Record'){
 				idBox = '#profile-'+classbox;

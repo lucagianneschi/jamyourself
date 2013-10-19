@@ -5,6 +5,14 @@
  *
  */
 
+ if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+ 
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
 
@@ -15,7 +23,7 @@ $postCounter = $data['postCounter'];
 <!------------------------------------- Post ------------------------------------>
 <div class="row" id="social-Post">
 	<div  class="large-12 columns">
-		<h3>Post</h3>
+		<h3><?php echo $views['post']['TITLE'];?></h3>
 
 		<div class="row ">
 			<div  class="large-12 columns ">
@@ -26,7 +34,7 @@ $postCounter = $data['postCounter'];
 							<div class="">
 								<div class="row  ">
 									<div  class="small-9 columns ">
-										<input type="text" class="post inline" placeholder="Write a post" />
+										<input type="text" class="post inline" placeholder="<?php echo $views['post']['WRITE'];?>" />
 									</div>
 									<div  class="small-3 columns ">
 										<input type="button" class="post-button inline" value="Post"/>
@@ -50,7 +58,7 @@ $postCounter = $data['postCounter'];
 					<div class="row  line">
 						<div  class="small-1 columns ">
 							<div class="icon-header">
-								<img src="../media/<?php echo $data['post' . $i]['user_thumbnail'];?>">
+								<img src="../media/<?php echo $data['post' . $i]['user_thumbnail'];?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 							</div>
 						</div>
 						<div  class="small-5 columns">
@@ -83,8 +91,8 @@ $postCounter = $data['postCounter'];
 					<div class="row">
 						<div class="box-propriety">
 							<div class="small-5 columns ">
-								<a class="note grey " onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')">Love</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')">Comment</a>
+								<a class="note grey " onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')"><?php echo $views['LOVE'];?></a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')"><?php echo $views['COMM'];?></a>
 							</div>
 							<div class="small-5 columns propriety ">
 								<a class="icon-propriety _unlove grey"><?php echo$data['post' . $i]['counters']['loveCounter']; ?></a>
@@ -101,7 +109,7 @@ $postCounter = $data['postCounter'];
 						?>
 						<div class="row">
 						<div  class="large-12 columns ">
-							<p class="grey">There are no Post</p>
+							<p class="grey"><?php echo $views['post']['NODATA'];?></p>
 						</div>
 						</div>
 						<?php

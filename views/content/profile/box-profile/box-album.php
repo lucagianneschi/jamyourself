@@ -62,7 +62,7 @@ $albumCounter = $data['albumCounter'];
 					<div class="row" style="margin-left: 0px; margin-right: 0px;">
 						<?php if(isset($data['album' . ($i)]['objectId'])){ ?>				
 						<div class="small-6 columns box-coveralbum <?php echo $data['album' . ($i)]['objectId'] ?>"  onclick="albumSelectSingle('<?php echo $data['album' . $i]['objectId']; ?>',<?php echo $data['album' . $i]['imageCounter']; ?>)">
-							<img class="albumcover" src="../media/<?php echo $data['album' . $i]['thumbnailCover'] ?>" onError="this.src='<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
+							<img class="albumcover" src="../media/<?php echo $data['album' . $i]['thumbnailCover'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
 							<div class="text white breakOffTest"><?php echo $data['album' . $i]['title']; ?></div>
 							<div class="row">
 								<div class="small-5 columns ">
@@ -78,7 +78,7 @@ $albumCounter = $data['albumCounter'];
 						<?php }
 						if(isset($data['album' . ($i+1)]['objectId'])){ ?>
 						<div class="small-6 columns box-coveralbum <?php echo $data['album' . ($i+1)]['objectId']?>"  onclick="albumSelectSingle('<?php echo $data['album' . ($i+1)]['objectId']; ?>',<?php echo $data['album' . ($i+1)]['imageCounter']; ?>)">
-							<img class="albumcover" src="../media/<?php echo $data['album' . ($i+1)]['thumbnailCover'] ?>" onError="this.src='<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
+							<img class="albumcover" src="../media/<?php echo $data['album' . ($i+1)]['thumbnailCover'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
 							<div class="text white breakOffTest"><?php echo $data['album' . ($i+1)]['title']; ?></div>
 							<div class="row">
 								<div class="small-5 columns ">
@@ -122,7 +122,7 @@ $albumCounter = $data['albumCounter'];
 				</div>
 				<ul class="small-block-grid-3 small-block-grid-2 ">			
 				  <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>
-				  <li><a class="photo-colorbox-group" href="#<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>"><img class="photo" src="../media/<?php $data['album' . $i]['image' . $j]['thumbnail']?>" onerror="this.src='<?php echo $default_img['DEFIMAGE']; ?>'"></a></li>
+				  <li><a class="photo-colorbox-group" href="#<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>"><img class="photo" src="../media/<?php $data['album' . $i]['image' . $j]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"></a></li>
 					<?php } ?>
 				</ul>		
 				
@@ -150,7 +150,7 @@ $albumCounter = $data['albumCounter'];
 					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo <?php echo $data['album' . $i]['image' . $j]['filePath']; ?>">
 						<div class="row " style="max-width: none;">
 							<div class="large-12 columns lightbox-photo-box"   >
-								<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='<?php echo $default_img['DEFIMAGE']; ?>'"/></div>
+								<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"/></div>
 					 			<div class="row">
 					 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
 					 			</div>

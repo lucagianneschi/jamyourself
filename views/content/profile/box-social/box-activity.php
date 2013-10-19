@@ -8,6 +8,14 @@
  * box solo per jammer
  */
 
+ if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+ 
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
 
@@ -50,7 +58,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 <!------------------------------------- Activities ------------------------------------>
 	<div class="row" id="social-activity">
 		<div  class="large-12 columns">
-		<h3>Activities</h3>
+		<h3><?php echo $views['activity']['TITLE'];?></h3>
 		<div class="row  ">
 			<div  class="large-12 columns ">
 				<div class="box">
@@ -58,22 +66,22 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<?php if($typeUser == 'JAMMER'){ ?>	
 					<div class="row">
 						<div  class="large-12 columns ">
-							<div class="text orange">Last album updated</div>
+							<div class="text orange"><?php echo $views['activity']['LASTALBUM'];?></div>
 							<?php if(isset($dataActivityRecord['objectId']) && $dataActivityRecord['objectId'] != ''){ ?>	
 							<div class="row " id="activity_<?php $dataActivityRecord['objectId']?>">								
 								<div  class="small-3 columns ">
-									<img class="album-thumb" src="../media/<?php echo $dataActivityRecord['thumbnailCover']?>" onerror="this.src='../media/images/default/defaultRecordCoverThumb.jpg'">
+									<img class="album-thumb" src="../media/<?php echo $dataActivityRecord['thumbnailCover']?>" onerror="this.src='../media/<?php echo $default_img['DEFALBUMTHUMB']; ?>'">
 								</div>
 								<div  class="small-9 columns box-info">
 									<div class="sottotitle grey-dark"><?php echo $dataActivityRecord['title']?></div>
-									<div class="text grey">Recorded <?php echo $dataActivityRecord['year']?></div>
-									<a class="ico-label _play-large text ">View Album</a>									
+									<div class="text grey"><?php echo $views['activity']['RECORDED'];?> <?php echo $dataActivityRecord['year']?></div>
+									<a class="ico-label _play-large text "><?php echo $views['activity']['VIEWALBUM'];?></a>									
 								</div>									
 							</div>
 							<?php } else{ ?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There is no Record</div>	
+									<div class="text grey-dark"><?php echo $views['activity']['NORECORD'];?></div>	
 								</div>	
 							</div>						
 							<?php }?>
@@ -89,11 +97,11 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					?>
 					<div class="row">
 						<div  class="large-12 columns ">
-							<div class="text orange">Last Event</div>
+							<div class="text orange"><?php echo $views['activity']['LASTEVENT'];?></div>
 							<?php if(isset($dataActivityEvent['objectId']) && $dataActivityEvent['objectId'] != ''){ ?>
 							<div class="row " id="activity_<?php $dataActivityEvent['objectId']?>">
 								<div  class="small-3 columns ">
-									<img class="album-thumb" src="../media/<?php echo $dataActivityEvent['thumbnail']?>" onerror="this.src='../media/images/default/defaultEventcoverthumb.jpg'">
+									<img class="album-thumb" src="../media/<?php echo $dataActivityEvent['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFEVENTTHUMB']; ?>'">
 								</div>
 								<div  class="small-9 columns box-info">
 									<div class="sottotitle grey-dark"><?php echo $dataActivityEvent['title']?></div>
@@ -104,7 +112,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php }else{?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There is no Event</div>	
+									<div class="text grey-dark"><?php echo $views['activity']['NOEVENT'];?></div>	
 								</div>	
 							</div>		
 							<?php }?>	
@@ -118,22 +126,22 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<?php if($typeUser == 'SPOTTER'){ 	 ?>
 					<div class="row">
 						<div  class="large-12 columns ">
-							<div class="text orange">Last listening</div>
+							<div class="text orange"><?php echo $views['activity']['LASTLISTERING'];?></div>
 							<?php if(isset($data['recordInfo']['objectId']) && $data['recordInfo']['objectId'] != ''){ ?>	
 							<div class="row " id="activity_<?php $data['recordInfo']['objectId']?>">								
 								<div  class="small-3 columns ">
-									<img class="album-thumb" src="../media/<?php echo $data['recordInfo']['thumbnailCover']?>" onerror="this.src='../media/images/default/defaultRecordCoverThumb.jpg'">
+									<img class="album-thumb" src="../media/<?php echo $data['recordInfo']['thumbnailCover']?>" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB']; ?>'">
 								</div>
 								<div  class="small-9 columns box-info">
 									<div class="sottotitle grey-dark"><?php echo $data['recordInfo']['title']?></div>
-									<div class="text grey">Recorded <?php echo $data['recordInfo']['songTitle']?></div>
-									<a class="ico-label _play-large text ">View Album</a>									
+									<div class="text grey"><?php echo $views['activity']['RECORDED'];?> <?php echo $data['recordInfo']['songTitle']?></div>
+									<a class="ico-label _play-large text "><?php echo $views['activity']['VIEWALBUM'];?></a>									
 								</div>									
 							</div>
 							<?php } else{ ?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There is no Record</div>	
+									<div class="text grey-dark"><?php echo $views['activity']['NORECORD'];?></div>	
 								</div>	
 							</div>						
 							<?php }?>
@@ -144,11 +152,11 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					</div>
 					<div class="row">
 						<div  class="large-12 columns ">
-							<div class="text orange">Attending the event</div>
+							<div class="text orange"><?php echo $views['activity']['ATTEVENT'];?></div>
 							<?php if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''){ ?>
 							<div class="row " id="activity_<?php $data['eventInfo']['objectId']?>">
 								<div  class="small-3 columns ">
-									<img class="album-thumb" src="../media/<?php echo $data['eventInfo']['thumbnail']?>" onerror="this.src='../media/images/default/defaultEventcoverthumb.jpg'">
+									<img class="album-thumb" src="../media/<?php echo $data['eventInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFEVENTTHUMB']; ?>'">
 								</div>
 								<div  class="small-9 columns box-info">
 									<div class="sottotitle grey-dark"><?php echo $data['eventInfo']['title']?></div>
@@ -159,7 +167,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php }else{?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There is no Event</div>	
+									<div class="text grey-dark"><?php echo $views['activity']['NOEVENT'];?></div>	
 								</div>	
 							</div>		
 							<?php }?>	
@@ -174,12 +182,12 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<!--------------------------------- LAST PHOTO --------------------->					
 					<div class="row  ">
 						<div  class="large-12 columns ">
-							<div class="text orange">Last photo set updated</div>
+							<div class="text orange"><?php echo $views['activity']['LASTPHOTO'];?></div>
 							<?php if(isset($data['albumInfo']['objectId']) && $data['albumInfo']['objectId'] != ''){?>
 							<div class="row " style="margin-bottom: 10px;">
 								<div  class="small-12 columns ">
 									<span class="text grey-dark"><?php echo $data['albumInfo']['title'];?></span>
-									<span class="text grey"> - <?php echo $data['albumInfo']['imageCounter'];?> photos </span>							
+									<span class="text grey"> - <?php echo $data['albumInfo']['imageCounter'];?> <?php echo $views['activity']['PHOTOS'];?> </span>							
 								</div>
 							</div>
 							<div class="row ">
@@ -188,7 +196,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 										<?php 
 										$counterPhoto = $data['albumInfo']['imageCounter'] > 4 ? 4 : $data['albumInfo']['imageCounter'];
 										for($i=0;$i<$counterPhoto; $i++){ ?>
-									  		<li><img src="../media/<?php echo $data['albumInfo']['imageArray'][$i]?>" onerror="this.src='../media/images/default/defaultImage.jpg'"></li>
+									  		<li><img src="../media/<?php echo $data['albumInfo']['imageArray'][$i]?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"></li>
 									  	<?php } ?>
 									</ul>
 								</div>
@@ -196,7 +204,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php }else{?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There are no Photo</div>	
+									<div class="text grey-dark"><?php echo $views['activity']['NOPHOTO'];?></div>	
 								</div>	
 							</div>		
 							<?php }?>
@@ -213,7 +221,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<!-------------------------- jammersCollaborators ------------------------->
 					<div class="row ">
 						<div  class="large-12 columns ">
-							<div class="text orange">Last collaboration with Jammer</div>
+							<div class="text orange"><?php echo $views['activity']['LASTJAMMER'];?></div>
 							<?php if(isset($dataActivityRelation['jammersCollaborators'.'0']) && $dataActivityRelation['jammersCollaborators'.'0'] != NULL){ ?>
 							<div class="row">
 								<?php if(isset($dataActivityRelation['jammersCollaborators'.'0']['objectId']) && isset($dataActivityRelation['jammersCollaborators'.'0']['objectId']) != '' ){?>
@@ -222,7 +230,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+													<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -239,7 +247,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+													<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -254,7 +262,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php }  else{?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There are no Collaboration</div>	
+									<div class="text grey-dark"><?php echo $views['activity']['NOCOLL'];?></div>	
 								</div>	
 							</div>		
 							<?php }?>			
@@ -263,7 +271,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<!-------------------------- venuesCollaborators ------------------------->
 					<div class="row ">
 						<div  class="large-12 columns ">
-							<div class="text orange">Last collaboration with Venue</div>
+							<div class="text orange"><?php echo $views['activity']['LASTVENUE'];?></div>
 							<?php if(isset($dataActivityRelation['venuesCollaborators'.'0']) && $dataActivityRelation['venuesCollaborators'.'0'] != NULL){ ?>
 							<div class="row">
 								<?php if(isset($dataActivityRelation['venuesCollaborators'.'0']['objectId']) && isset($dataActivityRelation['venuesCollaborators'.'0']['objectId']) != '' ){?>
@@ -272,7 +280,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+													<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -289,7 +297,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+													<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -304,7 +312,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php }  else{?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There are no Collaboration</div>	
+									<div class="text grey-dark"><?php echo $views['activity']['NOCOLL'];?></div>	
 								</div>	
 							</div>		
 							<?php }?>			
@@ -318,7 +326,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<!-------------------------- friendship ------------------------->
 					<div class="row ">
 						<div  class="large-12 columns ">
-							<div class="text orange">Last friends</div>
+							<div class="text orange"><?php echo $views['activity']['LASTFRIENDS'];?></div>
 							<?php if(isset($dataActivityRelation['friendship'.'0']) && $dataActivityRelation['friendship'.'0'] != NULL){ ?>
 							<div class="row">
 								<?php if(isset($dataActivityRelation['friendship'.'0']['objectId']) && isset($dataActivityRelation['friendship'.'0']['objectId']) != '' ){?>
@@ -327,12 +335,11 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['friendship'.'0']['thumbnail'] ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+													<img src="../media/<?php echo $dataActivityRelation['friendship'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
 												<div class="text grey-dark"><?php echo $dataActivityRelation['friendship'.'0']['username'] ?></div>
-												<div class="note grey">Spotter</div>
 											</div>		
 										</div>	
 			    					</div>
@@ -344,12 +351,11 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['friendship'.'1']['thumbnail'] ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+													<img src="../media/<?php echo $dataActivityRelation['friendship'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
 												<div class="text grey-dark"><?php echo $dataActivityRelation['friendship'.'1']['username'] ?></div>
-												<div class="note grey">Spotter</div>
 											</div>		
 										</div>	
 			    					</div>
@@ -359,7 +365,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php }  else{?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There are no Friends</div>	
+									<div class="text grey-dark"><?php echo $views['activity']['NOFRIENDS'];?></div>	
 								</div>	
 							</div>		
 							<?php }?>			
@@ -368,7 +374,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<!-------------------------- following ------------------------->
 					<div class="row ">
 						<div  class="large-12 columns ">
-							<div class="text orange">Last following</div>
+							<div class="text orange"><?php echo $views['activity']['NOFOLL'];?></div>
 							<?php if(isset($dataActivityRelation['following'.'0']) && $dataActivityRelation['following'.'0'] != NULL){ ?>
 							<div class="row">
 								<?php if(isset($dataActivityRelation['following'.'0']['objectId']) && isset($dataActivityRelation['following'.'0']['objectId']) != '' ){?>
@@ -377,7 +383,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['following'.'0']['thumbnail'] ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+													<img src="../media/<?php echo $dataActivityRelation['following'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -394,7 +400,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['following'.'1']['thumbnail'] ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+													<img src="../media/<?php echo $dataActivityRelation['following'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -409,7 +415,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php }  else{?>
 							<div class="row">
 								<div  class="small-12 columns ">
-									<div class="text grey-dark">There are no following</div>	
+									<div class="text grey-dark"><?php echo $views['activity']['NOFOLL'];?></div>	
 								</div>	
 							</div>		
 							<?php }?>			

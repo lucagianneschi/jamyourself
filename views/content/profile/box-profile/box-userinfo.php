@@ -7,6 +7,14 @@
  * 
  * box per tutti gli utenti
  */
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+
 
 $data = $_POST['data'];
 
@@ -32,7 +40,7 @@ $userinfo_note = $data['music'] == "" ? '' : '_note';
 			
 <div class="row">
 	<div class="large-12 columns">
-		<img class="background" src="../media/<?php echo $data['backGround'] ?>"  onerror="this.src='../media/images/default/defaultBackground.jpg'" >
-		<img class="picture" src="../media/<?php echo $data['profilePicture'] ?>" onerror="this.src='../media/images/default/defaultProfilepicture.jpg'" width="150" height="150">							
+		<img class="background" src="../media/<?php echo $data['backGround'] ?>"  onerror="this.src='../media/<?php echo $default_img['DEFBGD']; ?>'" >
+		<img class="picture" src="../media/<?php echo $data['profilePicture'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATAR']; ?>'" width="150" height="150">							
 	</div>
 </div> 

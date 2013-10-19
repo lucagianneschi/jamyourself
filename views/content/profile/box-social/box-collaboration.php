@@ -4,6 +4,14 @@
  * data: {data,typeuser}
  */
 
+ if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+ 
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
 
@@ -18,7 +26,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 <!------------------------------------- Collaboration ------------------------------------>
 	<div class="row" id="social-collaboration">
 		<div  class="large-12 columns">
-		<h3>Collaboration <span class="orange">[<?php echo $totCollaborators ?>]</span></h3>
+		<h3><?php echo $views['collaboration']['TITLE'];?> <span class="orange">[<?php echo $totCollaborators ?>]</span></h3>
 		<div class="row  ">
 			<div  class="large-12 columns ">
 				<div class="box">
@@ -41,7 +49,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['venuesCollaborators'. $i]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['venuesCollaborators'. $i]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+											<img src="../media/<?php echo $data['relation']['venuesCollaborators'. $i]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -58,7 +66,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['venuesCollaborators'. ($i+1)]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['venuesCollaborators'. ($i+1)]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+											<img src="../media/<?php echo $data['relation']['venuesCollaborators'. ($i+1)]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -92,7 +100,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['jammersCollaborators'. $i]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['jammersCollaborators'. $i]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+											<img src="../media/<?php echo $data['relation']['jammersCollaborators'. $i]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -108,7 +116,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['jammersCollaborators'. ($i+1)]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['jammersCollaborators'. ($i+1)]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+											<img src="../media/<?php echo $data['relation']['jammersCollaborators'. ($i+1)]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -125,7 +133,7 @@ $totCollaborators = $venuesCollaboratorsCounter + $jammersCollaboratorsCounter;
 						 ?>	
 						 <div class="row  ">
 								<div  class="large-12 columns ">
-									<p class="grey">There are no Collaboration</p>
+									<p class="grey"><?php echo $views['collaboration']['NODATA'];?></p>
 								</div>
 						</div>
 						 <?php } ?>			

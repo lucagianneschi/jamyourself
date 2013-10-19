@@ -1,10 +1,17 @@
 <?php
 
+if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
 
 $commentCounter = $data['comment']['commentCounter'];
-
  
 ?>
 
@@ -15,6 +22,7 @@ $commentCounter = $data['comment']['commentCounter'];
 			if($commentCounter > 0){
 			for($i=0 ; $i<$commentCounter; $i++){ 				
 				$comment_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['comment' . $i]['createdAt']);
+				var_dump( $data);
 				$comment_createdAd = $comment_DateTime->format('l j F Y - H:i');
 				?>		
 			<div class="box-singole-comment">
@@ -22,7 +30,7 @@ $commentCounter = $data['comment']['commentCounter'];
 					<div class="row">
 						<div  class="small-1 columns ">
 							<div class="icon-header">
-								<img src="../media/<?php echo $data['comment'.$i]['user_thumbnail'] ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+								<img src="../media/<?php echo $data['comment'.$i]['user_thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 							</div>
 						</div>
 						<div  class="small-5 columns">
@@ -55,7 +63,7 @@ $commentCounter = $data['comment']['commentCounter'];
 			<?php } }
 			else{ ?>
 			<div class="box-singole-comment">
-				<div class="row"><div  class="large-12 columns"><p class="grey">There are no Comment</p></div></div>
+				<div class="row"><div  class="large-12 columns"><p class="grey"><?php echo $views['comment']['NODATA'];?></p></div></div>
 			</div>	
 				
 			<?php }?>
@@ -65,7 +73,7 @@ $commentCounter = $data['comment']['commentCounter'];
 						<div class="">
 							<div class="row  ">
 								<div  class="small-9 columns ">
-									<input type="text" class="post inline" placeholder="Write a comment" />
+									<input type="text" class="post inline" placeholder="<?php echo $views['comment']['WRITE'];?>" />
 								</div>
 								<div  class="small-3 columns ">
 									<input type="button" class="comment-button inline" value="Comment"/>

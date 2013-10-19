@@ -6,6 +6,14 @@
  * 
  */
 
+ if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php'; 
+ 
  $data = $_POST['data'];
  $currentUserType = $_POST['typeCurrentUser'];
 
@@ -83,8 +91,8 @@
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> Send Message</div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status">Add Friend</div></a>
+		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['ADDFRIEND'];?></div></a>
 	</div>
 	</div>
 </div>
@@ -93,8 +101,8 @@
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> Send Message</div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status">Collaborate</div></a>
+		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['COLL'];?></div></a>
 	</div>
 	</div>
 </div>
@@ -103,8 +111,8 @@
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> Send Message</div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status">Follow</div></a>
+		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL'];?></div></a>
 	</div>
 	</div>
 </div>
@@ -113,8 +121,8 @@
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> Send Message</div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status">Follow</div></a>
+		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL'];?></div></a>
 	</div>
 	</div>
 </div>
@@ -123,8 +131,8 @@
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> Send Message</div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status">Collaborate</div></a>
+		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['COLL'];?></div></a>
 	</div>
 	</div>
 </div>

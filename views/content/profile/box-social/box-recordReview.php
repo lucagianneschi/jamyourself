@@ -6,6 +6,14 @@
  * box 
  */
  
+  if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+ 
  $data = $_POST['data'];
  $typeUser = $_POST['typeUser'];
 
@@ -16,7 +24,7 @@
 	<div  class="large-12 columns">	
 	<div class="row">
 		<div  class="small-5 columns">
-			<h3>Album Reviews</h3>
+			<h3><?php echo $views['RecordReview']['TITLE'];?></h3>
 		</div>	
 		<div  class="small-7 columns align-right">
 			<?php if($data['recordReviewCounter'] > 0){ ?>
@@ -55,7 +63,7 @@
 											
 						<div  class="small-1 columns ">
 							<div class="userThumb">
-								<img src="../media/<?php echo $recordReview_user_thumbnail ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+								<img src="../media/<?php echo $recordReview_user_thumbnail ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 							</div>
 						</div>
 						<div  class="small-11 columns">
@@ -69,7 +77,7 @@
 					<?php }?>
 					<div class="row">
 						<div  class="small-2 columns ">
-							<div class="coverThumb"><img src="../media/<?php echo $recordReview_thumbnailCover?>" onerror="this.src='../media/images/default/defaultRecordCoverThumb.jpg'"></div>						
+							<div class="coverThumb"><img src="../media/<?php echo $recordReview_thumbnailCover?>" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB']; ?>'"></div>						
 						</div>
 						<div  class="small-8 columns ">
 							<div class="row ">							
@@ -79,7 +87,7 @@
 							</div>	
 							<div class="row">						
 								<div  class="small-12 columns ">
-									<div class="note grey">Rating</div>
+									<div class="note grey"><?php echo $views['RecordReview']['RATING'];?></div>
 								</div>
 							</div>
 							<div class="row ">						
@@ -93,7 +101,7 @@
 							</div>													
 						</div>
 						<div  class="small-2 columns align-right viewAlbumReview">
-							<a href="#" class="orange"><strong onclick="toggleTextRecordReview(this,'recordReview_<?php echo $recordReview_objectId ?>')">Read</strong></a>
+							<a href="#" class="orange"><strong onclick="toggleTextRecordReview(this,'recordReview_<?php echo $recordReview_objectId ?>')"><?php echo $views['RecordReview']['READ'];?></strong></a>
 						</div>				
 					</div>
 					
@@ -112,9 +120,9 @@
 					<div class="row recordReview-propriety">
 						<div class="box-propriety">
 							<div class="small-6 columns ">
-								<a class="note grey " onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')">Love</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')">Comment</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')">Share</a>
+								<a class="note grey " onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['LOVE'];?></a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['COMM'];?></a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['SHARE'];?></a>
 							</div>
 							<div class="small-6 columns propriety ">					
 								<a class="icon-propriety _unlove grey" ><?php echo $recordReview_love ?></a>
@@ -131,7 +139,7 @@
 					?>
 					<div  class="rsContent">	
 					<div class="row">
-						<div  class="large-12 columns"><p class="grey">There are no reviews</p></div>
+						<div  class="large-12 columns"><p class="grey"><?php echo $views['RecordReview']['NODATA'];?></p></div>
 					</div>
 					</div>			
 				<?php } ?>

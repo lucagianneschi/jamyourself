@@ -73,8 +73,8 @@ var callBox = {
 					break;
 					case 'review':					
 						if (__this.typeUser != 'VENUE')
-							getPinner('recordReview');
-						getPinner('recordEvent');						
+							getPinner('RecordReview');
+						getPinner('EventReview');						
 					break;
 				}					
 			},
@@ -108,7 +108,7 @@ var callBox = {
 							if (__this.typeUser != 'VENUE')
 								addBoxRecordReview(data, __this.typeUser);
 							//aggiungo box review Event
-							addBoxRecordEvent(data, __this.typeUser);							
+							addBoxEventReview(data, __this.typeUser);							
 							break;
 						
 						case 'record':
@@ -267,14 +267,14 @@ function addBoxEvent(data, typeUser) {
 }
 
 /*
- * box recordReview chiama box-recordReview.php
+ * box RecordReview chiama box-RecordReview.php
  */
 function addBoxRecordReview(data, typeUser) {
-	$('#box-recordReview').load('content/profile/box-social/box-recordReview.php', {
+	$('#box-RecordReview').load('content/profile/box-social/box-RecordReview.php', {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: 
-		rsi_recordReview = slideReview('recordReviewSlide');
+		rsi_RecordReview = slideReview('recordReviewSlide');
 		hcento();
 	});
 }
@@ -282,8 +282,8 @@ function addBoxRecordReview(data, typeUser) {
 /*
  * box eventReview chiama box-eventReview.php
  */
-function addBoxRecordEvent(data, typeUser) {
-	$('#box-recordEvent').load('content/profile/box-social/box-eventReview.php', {
+function addBoxEventReview(data, typeUser) {
+	$('#box-EventReview').load('content/profile/box-social/box-eventReview.php', {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success:

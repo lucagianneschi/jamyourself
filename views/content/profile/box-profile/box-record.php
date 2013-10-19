@@ -8,6 +8,14 @@
  * box solo per jammer
  */
 
+ if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+ 
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
 $recordCounter = $data['recordCounter'];
@@ -17,16 +25,16 @@ $recordCounter = $data['recordCounter'];
 	<div class="large-12 columns">
 	<div class="row">
 			<div  class="small-5 columns">
-				<h3>Music </h3>
+				<h3><?php echo $views['record']['TITLE'];?></h3>
 			</div>	
 			<div  class="small-7 columns align-right">
 				<?php if($recordCounter > 0){ ?>
 					<div class="row">					
 						<div  class="small-9 columns">
-							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('record')">Previous </a>
+							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('record')"><?php echo $views['PREV'];?> </a>
 						</div>
 						<div  class="small-3 columns">
-							<a class="slide-button-next _nextPage" onclick="royalSlideNext('record')">Next </a>
+							<a class="slide-button-next _nextPage" onclick="royalSlideNext('record')"><?php echo $views['NEXT'];?> </a>
 						</div>
 					</div>
 		 		<?php } ?>
@@ -36,7 +44,7 @@ $recordCounter = $data['recordCounter'];
 	<div class="box" id="record-list">
 		<div class="row">
 			<div class="large-12 columns">
-				<div class="text white" style="padding: 10px;">Album List</div>
+				<div class="text white" style="padding: 10px;"><?php echo $views['record']['LIST'];?></div>
 			</div>
 		</div>
 		<div id="recordSlide" class="royalSlider rsMinW">
@@ -67,7 +75,7 @@ $recordCounter = $data['recordCounter'];
 			
 				<div class="row">
 					<div class="small-4 columns">
-						<img src="../media/<?php echo $record_thumbnailCover ?>"  onError="this.src='../media/images/default/defaultRecordCoverThumb.jpg'" style="padding-bottom: 5px;">
+						<img src="../media/<?php echo $record_thumbnailCover ?>"  onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'" style="padding-bottom: 5px;">
 					</div>
 					<div class="small-8 columns">						
 						<div class="row">
@@ -77,12 +85,12 @@ $recordCounter = $data['recordCounter'];
 						</div>
 						<div class="row">
 							<div class="large-12 colums">
-								<div class="note grey breakOffTest">Recorded <?php echo $record_data ?></div>
+								<div class="note grey breakOffTest"><?php echo $views['record']['RECORDED'];?> <?php echo $record_data ?></div>
 							</div>
 						</div>
 						<div class="row">
 							<div class="large-12 colums">
-								<div class="play_now"><a class="ico-label _play_white white" onclick="recordSelectSingle('<?php echo $record_objectId ?>')">Play Now</a></div>
+								<div class="play_now"><a class="ico-label _play_white white" onclick="recordSelectSingle('<?php echo $record_objectId ?>')"><?php echo $views['record']['PLAY'];?></a></div>
 							</div>
 						</div>
 						
@@ -127,13 +135,13 @@ $recordCounter = $data['recordCounter'];
 		
 		<div class="row" onclick="recordSelectNext('<?php echo $recordSingle_objectId ?>')">
 			<div class="large-12 columns">					
-				<a class="ico-label _back_page text white">Back to Album List</a>
+				<a class="ico-label _back_page text white"><?php echo $views['BACK'];?></a>
 			</div>
 		</div>
 		<div class="box-info-element">
 			<div class="row">
 				<div class="small-4 columns">
-					<img src="../media/<?php echo $recordSingle_thumbnailCover ?>" onError="this.src='../media/images/default/defaultRecordCoverThumb.jpg'" style="padding-bottom: 5px;">
+					<img src="../media/<?php echo $recordSingle_thumbnailCover ?>" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'" style="padding-bottom: 5px;">
 				</div>
 				<div class="small-8 columns">						
 					<div class="row">
@@ -143,7 +151,7 @@ $recordCounter = $data['recordCounter'];
 					</div>				
 					<div class="row">
 						<div class="large-12 colums">
-							<div class="note grey album-player-data">Recorded <?php echo $recordSingle_data ?></div>
+							<div class="note grey album-player-data"><?php echo $views['record']['RECORDED'];?> <?php echo $recordSingle_data ?></div>
 						</div>
 					</div>
 					
@@ -164,7 +172,7 @@ $recordCounter = $data['recordCounter'];
 								
 						</div>
 						<div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">					
-							<a class="icon-propriety _menu-small note orange "> add to playlist</a>
+							<a class="icon-propriety _menu-small note orange "> <?php echo $views['record']['ADDPLAYLIST'];?></a>
 																		
 						</div>
 						<div class="small-3 columns track-nopropriety align-right" style="padding-right: 15px;">
@@ -174,8 +182,8 @@ $recordCounter = $data['recordCounter'];
 					<div class="row track-propriety" >
 						<div class="box-propriety album-single-propriety">
 							<div class="small-5 columns ">
-								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')">Love</a>
-								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')">Share</a>	
+								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')"><?php echo $views['LOVE'];?></a>
+								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')"><?php echo $views['SHARE'];?></a>	
 							</div>
 							<div class="small-5 columns propriety ">					
 								<a class="icon-propriety _unlove grey" ><?php echo $value['counters']['loveCounter'] ?></a>
@@ -189,10 +197,10 @@ $recordCounter = $data['recordCounter'];
 			<div class="row album-single-propriety">
 				<div class="box-propriety">
 					<div class="small-6 columns ">
-						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Love</a>
-						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Comment</a>
-						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Share</a>
-						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')">Review</a>	
+						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')"><?php echo $views['LOVE'];?></a>
+						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')"><?php echo $views['COMM'];?></a>
+						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')"><?php echo $views['SHARE'];?></a>
+						<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')"><?php echo $views['REVIEW'];?></a>	
 					</div>
 					<div class="small-6 columns propriety ">					
 						<a class="icon-propriety _unlove grey" ><?php echo $recordSingle_love ?></a>

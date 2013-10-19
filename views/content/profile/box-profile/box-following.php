@@ -8,7 +8,15 @@
  * box solo per spotter
  */
 
- $data = $_POST['data'];
+ if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+
+$data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
 
 
@@ -20,7 +28,7 @@ $followingJammerCounter = $data['relation']['followingVenue']['followingJammerCo
 <!----------------------------------- FOLLOWING -------------------------------------------------->
 <div class="row" id="profile-following">
 	<div class="large-12 columns ">
-		<h3>Following</h3>	
+		<h3><?php echo $views['following']['TITLE'];?></h3>	
 		<div class="box" id="following-list">
 			<?php if($followersCounter > 0 ){ ?>
 			<div class="row">
@@ -40,7 +48,7 @@ $followingJammerCounter = $data['relation']['followingVenue']['followingJammerCo
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['followingVenue'. $i]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['followingVenue'. $i]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+											<img src="../media/<?php echo $data['relation']['followingVenue'. $i]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -55,7 +63,7 @@ $followingJammerCounter = $data['relation']['followingVenue']['followingJammerCo
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['followingVenue'. $i+1]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['followingVenue'. $i+1]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+											<img src="../media/<?php echo $data['relation']['followingVenue'. $i+1]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -88,7 +96,7 @@ $followingJammerCounter = $data['relation']['followingVenue']['followingJammerCo
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['followingVenue'. $i]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['followingVenue'. $i]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+											<img src="../media/<?php echo $data['relation']['followingVenue'. $i]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -103,7 +111,7 @@ $followingJammerCounter = $data['relation']['followingVenue']['followingJammerCo
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['followingVenue'. $i+1]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['followingVenue'. $i+1]['thumbnail']?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+											<img src="../media/<?php echo $data['relation']['followingVenue'. $i+1]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -118,7 +126,7 @@ $followingJammerCounter = $data['relation']['followingVenue']['followingJammerCo
  					else{?>	
 						 <div class="row  ">
 								<div  class="large-12 columns ">
-									<p class="grey">There are no Following</p>
+									<p class="grey"><?php echo $views['following']['NODATA'];?></p>
 								</div>
 						</div>
 						 <?php } ?>			

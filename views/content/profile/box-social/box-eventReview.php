@@ -6,6 +6,15 @@
  * box per tutti gli utenti, su spotter non viene visualizzato l'autore 
  */
  
+ 
+ if (!defined('ROOT_DIR'))
+	define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+ 
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];	
 
@@ -15,7 +24,7 @@ $typeUser = $_POST['typeUser'];
 	<div  class="large-12 columns">
 	<div class="row">
 		<div  class="large-5 columns">
-			<h3>Event Reviews</h3>
+			<h3><?php echo $views['EventReview']['TITLE'];?></h3>
 		</div>	
 		<div  class="large-7 columns align-right">
 			<?php if($data['eventReviewCounter'] > 0){ ?>
@@ -52,7 +61,7 @@ $typeUser = $_POST['typeUser'];
 											
 						<div  class="small-1 columns ">
 							<div class="userThumb">
-								<img src="../media/<?php echo $eventReview_user_thumbnail ?>" onerror="this.src='../media/images/default/defaultProfilepicturethumb.jpg'">
+								<img src="../media/<?php echo $eventReview_user_thumbnail ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 							</div>
 						</div>
 						<div  class="small-11 columns">
@@ -66,7 +75,7 @@ $typeUser = $_POST['typeUser'];
 					<?php }?>
 					<div class="row">
 						<div  class="small-2 columns ">
-							<div class="coverThumb"><img src="../media/<?php echo $eventReview_thumbnailCover?>" onerror="this.src='../media/images/default/defaultRecordCoverThumb.jpg'"></div>						
+							<div class="coverThumb"><img src="../media/<?php echo $eventReview_thumbnailCover?>" onerror="this.src='../media/<?php echo $default_img['DEFEVENTTHUMB']; ?>'"></div>						
 						</div>
 						<div  class="small-8 columns ">
 							<div class="row ">							
@@ -76,7 +85,7 @@ $typeUser = $_POST['typeUser'];
 							</div>	
 							<div class="row">						
 								<div  class="small-12 columns ">
-									<div class="note grey">Rating</div>
+									<div class="note grey"><?php echo $views['EventReview']['RATING'];?></div>
 								</div>
 							</div>
 							<div class="row ">						
@@ -90,7 +99,7 @@ $typeUser = $_POST['typeUser'];
 							</div>													
 						</div>
 						<div  class="small-2 columns align-right viewAlbumReview">
-							<a href="#" class="orange"><strong onclick="toggleTextEventReview(this,'eventReview_<?php echo $recordReview_objectId ?>')">Read</strong></a>
+							<a href="#" class="orange"><strong onclick="toggleTextEventReview(this,'eventReview_<?php echo $recordReview_objectId ?>')"><?php echo $views['EventReview']['READ'];?></strong></a>
 						</div>				
 					</div>
 					
@@ -109,9 +118,9 @@ $typeUser = $_POST['typeUser'];
 					<div class="row recordReview-propriety">
 						<div class="box-propriety">
 							<div class="small-6 columns ">
-								<a class="note grey " onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Love</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Comment</a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')">Share</a>
+								<a class="note grey " onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')"><?php echo $views['LOVE'];?></a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')"><?php echo $views['COMM'];?></a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')"><?php echo $views['SHARE'];?></a>
 							</div>
 							<div class="small-6 columns propriety ">					
 								<a class="icon-propriety _unlove grey" ><?php echo $eventReview_love ?></a>
@@ -130,7 +139,7 @@ $typeUser = $_POST['typeUser'];
 					?>
 				<div  class="rsContent">	
 					<div class="row">
-						<div  class="large-12 columns"><p class="grey">There are no reviews</p></div>
+						<div  class="large-12 columns"><p class="grey"><?php echo $views['EventReview']['NODATA'];?></p></div>
 					</div>
 				</div>
 			</div>				
