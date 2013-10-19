@@ -1,0 +1,51 @@
+/*
+ * 
+ */
+
+@import "compass/css3";
+@import "settings";
+
+#uploadRecord{
+  padding-top: 3%;
+  h2, h3{
+    color: $grey-light;
+  }
+}
+
+.uploadRecord-box{
+  border-top: 1px solid $orange;
+  background-color: $grey-superdark;
+  margin-bottom: 60px;
+}
+
+
+.uploadRecord-title{
+  text-align:center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+#uploadRecord-listRecord{
+	padding: 30px;
+}
+
+#uploadRecord-listRecord .uploadRecord-boxSingleRecord{
+	width: 260px;
+	height: 125px;
+	background-color: $white;
+	margin: 15px !important;
+	margin-right: 0px !important;
+}
+
+#uploadRecord-listRecord .arrow-holder{
+	height: 125px !important;
+	margin: 15px !important;
+}
+
+#uploadRecord-listRecord .arrow-holder.right{
+	right: -35px;
+}
+
+#uploadRecord-listRecord .arrow-icon.left{
+	left: -15px;
+}

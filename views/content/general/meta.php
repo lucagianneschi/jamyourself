@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="resources/stylesheets/app.css" />
 <link rel="stylesheet" href="resources/stylesheets/style.css" />
 <link rel="stylesheet" href="resources/stylesheets/profilestyle.css" />
+<link rel="stylesheet" href="resources/stylesheets/uploadRecordStyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/headerstyle.css" />
 
 

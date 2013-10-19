@@ -54,6 +54,7 @@ $(document).foundation();
 <script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/uploadRecord.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
 <script src="resources/javascripts/customs/signup.js"></script>
 

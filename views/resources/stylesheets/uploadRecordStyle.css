@@ -1,0 +1,55 @@
+/*
+ * 
+ */
+/* line 8, ../../../sass/uploadRecordStyle.scss */
+#uploadRecord {
+  padding-top: 3%;
+}
+/* line 10, ../../../sass/uploadRecordStyle.scss */
+#uploadRecord h2, #uploadRecord h3 {
+  color: #d8d8d8;
+}
+
+/* line 15, ../../../sass/uploadRecordStyle.scss */
+.uploadRecord-box {
+  border-top: 1px solid #ff7505;
+  background-color: #232323;
+  margin-bottom: 60px;
+}
+
+/* line 22, ../../../sass/uploadRecordStyle.scss */
+.uploadRecord-title {
+  text-align: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+/* line 28, ../../../sass/uploadRecordStyle.scss */
+#uploadRecord-listRecord {
+  padding: 30px;
+}
+
+/* line 32, ../../../sass/uploadRecordStyle.scss */
+#uploadRecord-listRecord .uploadRecord-boxSingleRecord {
+  width: 260px;
+  height: 125px;
+  background-color: #f3f3f3;
+  margin: 15px !important;
+  margin-right: 0px !important;
+}
+
+/* line 40, ../../../sass/uploadRecordStyle.scss */
+#uploadRecord-listRecord .arrow-holder {
+  height: 125px !important;
+  margin: 15px !important;
+}
+
+/* line 45, ../../../sass/uploadRecordStyle.scss */
+#uploadRecord-listRecord .arrow-holder.right {
+  right: -35px;
+}
+
+/* line 49, ../../../sass/uploadRecordStyle.scss */
+#uploadRecord-listRecord .arrow-icon.left {
+  left: -15px;
+}
