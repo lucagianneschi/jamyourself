@@ -16,15 +16,16 @@
  *  
  */
 $default_img = array(
-    'DEFALBUMTHUMB' => 'images/default/defaulAlbumCoverThumb.jpg',
+    'DEFALBUMTHUMB' => 'images/default/defaultAlbumCoverThumb.jpg',
     'DEFEVENTIMAGE' => 'images/default/defaultEventImage.jpg',
     'DEFEVENTTHUMB' => 'images/default/defaultEventThumb.jpg',
-    'DEFRECORDCOVER' => 'images/default/defaultEventImage.jpg',
+    'DEFRECORDCOVER' => 'images/default/defaultRecordImage.jpg',
     'DEFRECORDTHUMB' => 'images/default/defaultRecordThumb.jpg',
     'DEFIMAGETHUMB' => 'images/default/defaultImageThumb.jpg',
     'DEFAVATAR' => 'images/default/defaultAvatar.jpg',
     'DEFAVATARTHUMB' => 'images/default/defaultAvatarThumb.jpg',
-    'DEFBGD' => 'images/default/defaultBackground.jpg'
+    'DEFBGD' => 'images/default/defaultBackground.jpg',
+    'DEFIMAGE' => 'images/default/defaultImage.jpg'
 );
 
 $boxes = array(
