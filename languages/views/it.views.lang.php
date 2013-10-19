@@ -16,119 +16,118 @@
  *  
  */
 $views = array(
-	'PREV' 	=> 'Precedente',
-	'NEXT' 	=> 'Successivo',
-	'BACK' 	=> 'Ritorna alla Lista',
+	'PREV' 	=> 'Previous',
+	'NEXT' 	=> 'Next',
+	'BACK' 	=> 'Back to List',
 	'LOVE' 	=> 'Love',
-	'COMM' 	=> 'Commento',
+	'COMM' 	=> 'Comment',
 	'SHARE' => 'Share',
 	'REVIEW'=> 'Review',
 	
 	'activity' => array(
-		'TITLE'  => 'Attivit&agrave;',
-		'LASTALBUM'  => 'Ultimo Album Caricato',
+		'TITLE'  => 'Activities',
+		'LASTALBUM'  => 'Last album updated',
 		'RECORDED'   => 'Recorded',
-		'VIEWALBUM'  => 'Visualizza Album',
-		'NORECORD'   =>'Non ci sono Record',
-		'LASTEVENT'  => 'Ultimo Evento',
-		'NOEVENT'    => 'Non ci sono Eventi',
-		'LASTLISTERING'   => 'Ultimo Ascolto',
-		'ATTEVENT'   => 'Partecipa all\'Evento',
-		'LASTPHOTO'  => 'Ultime Foto Caricate',
-		'PHOTOS'     => 'foto',
-		'NOPHOTO'    => 'Non ci sono Foto',
-		'LASTJAMMER' => 'Ultime Collaborazioni con Jammer',
-		'LASTVENUE'  => 'Ultime Collaborazioni con Venue',
-		'NOCOLL'     => 'Non ci sono Collaborazioni',
-		'LASTFRIENDS' => 'Ultimi Amici',
-		'NOFRIENDS'  =>  'Non ci sono Amici',
-		'LASTFOLL'   =>  'Ultimi following',
-		'NOFOLL'     =>  'Non ci sono following'
+		'VIEWALBUM'  => 'View Album',
+		'NORECORD'   =>'There is no Record',
+		'LASTEVENT'  => 'Last Event',
+		'NOEVENT'    => 'There is no Event',
+		'LASTLISTERING'   => 'Last listening',
+		'ATTEVENT'   => 'Attending the event',
+		'LASTPHOTO'  => 'Last photo set updated',
+		'PHOTOS'     => 'photos',
+		'NOPHOTO'    => 'There are no Photo',
+		'LASTJAMMER' => 'Last collaboration with Jammer',
+		'LASTVENUE'  => 'Last collaboration with Venue',
+		'NOCOLL'     => 'There are no Collaboration',
+		'LASTFRIENDS' => 'Last friends',
+		'NOFRIENDS'  =>  'There are no Friends',
+		'LASTFOLL'   =>  'Last following',
+		'NOFOLL'     =>  'There are no following'
 	),
 	
 	'album' => array(
-		'TITLE'  => 'Album Foto',
-		'PHOTO'  => 'foto',
-		'NODATA' => 'Non ci sono Foto'
+		'TITLE'  => 'Photography',
+		'PHOTO'  => 'photos',
+		'NODATA' => 'There are no Photo'
 	),
 	
 	'collaboration' => array(
-		'TITLE' => 'Collaborazioni',
-		'NODATA' => 'Non ci sono Collaborazioni'
+		'TITLE' => 'Collaboration',
+		'NODATA' => 'There are no Collaboration'
 	),
 	
 	'comment' => array(
-		'WRITE' => 'Scrivi un commento',		
-		'NODATA' => 'Non ci sono Commenti'
+		'WRITE' => 'Write a comment',		
+		'NODATA' => 'There are no Comment'
 	),
 	
 	'event' => array(
-		'TITLE'  	=> 'Eventi',
-		'CALENDAR' 	=> 'Aggiungi al Calendario',
-		'NODATA' 	=> 'Non ci sono Eventi'
+		'TITLE'  	=> 'Event',
+		'CALENDAR' 	=> 'Add to Calendar',
+		'NODATA' 	=> 'There are no Events'
 	),
 	
 	'EventReview' =>  array(
-		'TITLE' => 'Reviews Eventi',
+		'TITLE' => 'Event Reviews',
 		'RATING' => 'Rating',
-		'READ' => 'Leggi',
-		'NODATA' => 'Non ci sono reviews' 
+		'READ' => 'Read',
+		'NODATA' => 'There are no reviews' 
 	
 	),
 	
 	'followers' => array(
 		'TITLE'  	=> 'Followers',
-		'NODATA' 	=> 'Non ci sono Followers'
+		'NODATA' 	=> 'There are no Followers'
 	),
 	
 	'following' => array(
 		'TITLE'  	=> 'Following',
-		'NODATA' 	=> 'Non ci sono Following'
+		'NODATA' 	=> 'There are no Following'
 	),
 	
 	'friends' => array(
-		'TITLE'  	=> 'Amici',
-		'NODATA' 	=> 'Non ci sono Amici'
+		'TITLE'  	=> 'Friends',
+		'NODATA' 	=> 'There are no Friends'
 	),
 	
 	'information' => array(
-		'TITLE'  			 => 'Informazioni',
+		'TITLE'  			 => 'Information',
 		'CONTENT1'  		 => 'About',
-		'CONTENT2'  		 => 'Membri',
-		'CONTENT3'  		 => 'Mappa',
-		'CONTENT3_DIRECTION' => 'Ottieni direzione'
+		'CONTENT2'  		 => 'Membres',
+		'CONTENT3'  		 => 'Map',
+		'CONTENT3_DIRECTION' => 'Get direction'
 	),
 	
 	'post'=> array(
 		'TITLE'  	=> 'Post',
-		'WRITE'  => 'Scrivi un post',
-		'NODATA' 	=> 'Non ci sono Post'
+		'WRITE'  => 'Write a post',
+		'NODATA' 	=> 'There are no Post'
 	),
 	
 	'record' => array(
 		'TITLE'  		 => 'Music',
-		'LIST'  		 => 'Lista Album',
+		'LIST'  		 => 'Album List',
 		'RECORDED'  	 => 'Recorded',
 		'PLAY'  		 => 'Play Now',
-		'ADDPLAYLIST'    => 'Aggiungi alla playlist'
+		'ADDPLAYLIST'    => 'add to playlist'
 	),
 	
 	'RecordReview' => array(
 		'TITLE' => 'Album Reviews',
 		'RATING' => 'Rating',
-		'READ'  => 'Leggi',
-		'NODATA'  => 'Non ci sono reviews'
+		'READ'  => 'Read',
+		'NODATA'  => 'There are no reviews'
 	),
 	
 	'status'  => array(
-		'SENDMSG' => 'Invia Messaggi',
-		'ADDFRIEND' => 'Aggingi Friend',
-		'COLL' => 'Collaborazioni',
+		'SENDMSG' => 'Send Message',
+		'ADDFRIEND' => 'Add Friend',
+		'COLL' => 'Collaborate',
 		'FOLL' => 'Follow'
 	
 	)
 	
 );
- 
 
 ?>
