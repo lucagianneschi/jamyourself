@@ -251,7 +251,15 @@ class EventBox {
 	    $loveCounter = $event->getLoveCounter();
 	    $reviewCounter = $event->getReviewCounter();
 	    $shareCounter = $event->getShareCounter();
-	    $tags = $event->getTags();
+		$tags = array();
+		if (count($event->getTags()) > 0 && $event->getTags() != null) {
+		    foreach ($event->getTags() as $tag) {
+				$tag = parse_decode_string($tag);
+				array_push($tags, $tag);
+		    }
+		} elseif(empty($tags)){
+			$tags = $boxes['NOTAG'];
+		}
 	    $encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle);
 	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
@@ -347,9 +355,11 @@ class EventBox {
 		$tags = array();
 		if (count($event->getTags()) > 0 && $event->getTags() != null) {
 		    foreach ($event->getTags() as $tag) {
-			$tag = parse_decode_string($tag);
-			array_push($tags, $tag);
+				$tag = parse_decode_string($tag);
+				array_push($tags, $tag);
 		    }
+		} elseif(empty($tags)){
+			$tags = $boxes['NOTAG'];
 		}
 		$thumbnail = $event->getThumbnail();
 		$encodedTitle = $event->getTitle();
@@ -411,13 +421,15 @@ class EventBox {
 	    }
 	    $encodedLocationName = $event->getLocationName();
 	    $locationName = parse_decode_string($encodedLocationName);
-	    $tags = array();
-	    if (count($event->getTags()) > 0 && $event->getTags() != null) {
-		foreach ($event->getTags() as $tag) {
-		    $tag = parse_decode_string($tag);
-		    array_push($tags, $tag);
+		$tags = array();
+		if (count($event->getTags()) > 0 && $event->getTags() != null) {
+		    foreach ($event->getTags() as $tag) {
+				$tag = parse_decode_string($tag);
+				array_push($tags, $tag);
+		    }
+		} elseif(empty($tags)){
+			$tags = $boxes['NOTAG'];
 		}
-	    }
 	    $thumbnail = $event->getThumbnail();
 	    $encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle);
