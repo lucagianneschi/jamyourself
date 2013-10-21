@@ -18,5 +18,7 @@
 	<br />
 	<a id="pickfiles" href="#">[Select files]</a>
 	<a id="uploadfiles" href="#">[Upload files]</a>
+        
+        <div id="preview"></div>
 </div>
 			
