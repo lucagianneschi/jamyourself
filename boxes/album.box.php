@@ -135,8 +135,14 @@ class AlbumBox {
 		$location = $image->getLocation();
 		$objectId = $image->getObjectId();
 		$tags = $image->getTags();
-		if (empty($tags)) {
-		    $tags = $boxes['NOTAG'];
+		$tags = array();
+		if (count($image->getTags()) > 0 && $image->getTags() != null) {
+		    foreach ($image->getTags() as $tag) {
+				$tag = parse_decode_string($tag);
+				array_push($tags, $tag);
+		    }
+		} elseif(empty($tags)){
+			$tags = $boxes['NOTAG'];
 		}
 		$thumbnail = $image->getThumbnail();
 
