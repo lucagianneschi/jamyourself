@@ -12,7 +12,12 @@ class UploadController extends REST {
 
     public function upload() {
         try {
-            $this->setHeader();
+//            $this->setHeader();
+            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+            header("Cache-Control: no-store, no-cache, must-revalidate");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Pragma: no-cache");
 
 // imposto limite di tempo di esecuzione
             if ($this->config->timeLimit > 0) {
@@ -38,7 +43,7 @@ class UploadController extends REST {
                 $fileName = uniqid("file_");
             }
 
-            $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+            $filePath = $targetDir . "/" . $fileName;
 
 // Chunking might be enabled
             $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
@@ -86,18 +91,14 @@ class UploadController extends REST {
             }
 
 // Restituisco successo         
-            die('{"jsonrpc" : "2.0", "result" : "' . $filePath . '", "id" : "id"}');
+            die('{"jsonrpc" : "2.0", "result" : "' . $filePath . '", "id" : "' . $fileName . '"}');
         } catch (Exception $e) {
             
         }
     }
 
     private function setHeader() {
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        header("Pragma: no-cache");
+        
     }
 
     private function cleanUpTargetDir($targetDir, $filePath) {
