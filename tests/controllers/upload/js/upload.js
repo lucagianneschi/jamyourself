@@ -1,17 +1,17 @@
 // Custom example logic
-
-$(function() {
+$(function() {    
     var uploader = new plupload.Uploader({
-        runtimes: 'html4',
-        browse_button: 'pickfiles',
-        container: container,
-        max_file_size: '10mb',
-        url: 'http://localhost/jamyourself/controllers/request/uploadRequest.php',
+        runtimes: 'html4',              //runtime di upload
+        browse_button: "pickfiles",//id del pulsante di selezione file
+        container: "container",    //id del div per l'upload
+        max_file_size: '10mb',          //dimensione max dei file da caricare
+        multi_selection:false,          //forza un file alla volta per upload
+        url: "http://localhost/jamyourself/controllers/request/uploadRequest.php",
         filters: [
-            {title: "Image files", extensions: "jpg,gif,png"},
+            {title: "Image files", extensions: "jpg,gif,png"}, //lista file accettati
             {title: "Zip files", extensions: "zip"}
         ],
-        multipart_params: {"request": "upload"},
+        multipart_params: {"request": "upload"},            //parametri passati in POST
         resize: {width: 320, height: 240, quality: 90}
     });
 
@@ -55,4 +55,5 @@ $(function() {
         console.log(response);
         $('#' + file.id + " b").html("100%");
     });
+    
 });
