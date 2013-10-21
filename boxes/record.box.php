@@ -145,7 +145,7 @@ class SongInfo {
     function __construct($counters, $duration, $objectId, $title) {
 	global $boxes;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-	is_null($duration) ? $this->duration = 0 : $this->duration = $duration;
+	is_null($duration) ? $this->duration = '0:00' : $this->duration = $duration;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
