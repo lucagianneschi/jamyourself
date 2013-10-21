@@ -20,7 +20,7 @@
 		$.ajax({
 		    type: "POST",
 		    url: "../../../controllers/request/accessRequest.php",
-		    data: json_love,
+		    data: json_access,
 		    async: false,
 		    "beforeSend": function(xhr) {
 			xhr.setRequestHeader("X-AjaxRequest", "1");
