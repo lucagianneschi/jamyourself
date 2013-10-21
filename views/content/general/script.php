@@ -50,6 +50,8 @@ $(document).foundation();
 <script src="resources/javascripts/plugins/scrollbar/jquery.mCustomScrollbar.js"></script>
 <!--------------- spinner ----------------->
 <script type="text/javascript" src="http://fgnass.github.io/spin.js/dist/spin.js"></script>
+<!--------------- plupload ---------------->
+<script src="resources/javascripts/plugins/plupload/plupload.full.min.js"></script>
 <!----------- JAMYOURSELF --------------->
 <script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script>
@@ -57,4 +59,5 @@ $(document).foundation();
 <script type="text/javascript" src="resources/javascripts/customs/uploadRecord.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
 <script src="resources/javascripts/customs/signup.js"></script>
+<script src="resources/javascripts/customs/upload.js"></script>
 
