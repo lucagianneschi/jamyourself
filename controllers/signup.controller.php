@@ -9,6 +9,7 @@ require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'validateNewUser.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
+require_once SERVICES_DIR . 'cropImage.service.php';
 require_once SERVICES_DIR . 'recaptcha.lib.php';
 ////////////////////////////////////////////////////////////////////////////////
 //
@@ -72,7 +73,7 @@ class SignupController extends REST {
 //        }
 //senza captcha:
             if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
-                $this->response('', 406);
+                $this->response(array(), 406);
             }
 
             //verifico che l'utente abbia effettivamente completato il captcha
@@ -116,7 +117,6 @@ class SignupController extends REST {
                 $error = array('status' => "Service Unavailable", "msg" => $user->getErrorMessage());
                 $this->response($error, 503);
             }
-
             //se va a buon fine salvo una nuova activity       
             $activity = new Activity();
             $activity->setAccepted(true);
@@ -176,27 +176,6 @@ class SignupController extends REST {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
             $this->response($error, 503);
         }
-    }
-
-    /**
-     * 
-     * Permette l'upload dell'immagine dell'utente utilizzando un plugin (plupload?)
-     * 
-     */
-    public function uploaProfileImage() {
-        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
-            $this->response('', 406);
-        }
-
-        //verifico che ci sia il codice recaptcha nei parametri
-//        if (!isset($this->request['recaptcha'])) {
-//            // If invalid inputs "Bad Request" status message and reason
-//            $error = array('status' => "Bad Request", "msg" => "No new user specified");
-//            $this->response($error), 400);
-//        }
-        //da implementare
-
-        $this->response(array("OK"), 200);
     }
 
     /**
@@ -417,6 +396,24 @@ class SignupController extends REST {
         $user->setPremium(false);
         $user->setVenueCounter(0);
     }
+    
+    private function cropImage($user, $decoded){
+        if(isset($decoded->profileImage) && !is_null($decoded->profileImage) && strlen($decoded->profileImage) > 0){
+                //salvo l'immagine
+            $cis = new CropImageService();
+            $images  = $cis->cropImage($decoded->profileImage, $decoded->x, $decoded->y, $decoded->w, $decoded->h, MEDIA_DIR.$this->config->profileFolder);
+            if(!is_null($images)){
+                
+                $user->setImageProfile();
+                
+            }        
+
+            
+        }
+            
+    }
+    
+
 
 }
 
