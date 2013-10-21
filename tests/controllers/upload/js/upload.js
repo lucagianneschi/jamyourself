@@ -27,13 +27,8 @@ $(function() {
     uploader.init();
 
     uploader.bind('FilesAdded', function(up, files) {
-//        $.each(files, function(i, file) {
-//            $('#filelist').append(
-//                    '<div id="' + file.id + '">' +
-//                    file.name + ' (' + plupload.formatSize(file.size) + ') <b></b>' +
-//                    '</div>');
-//        });
-
+        
+        //mostra la preview dell'immagine
         $.each(files, function() {
 
             var img = new mOxie.Image();

@@ -1,5 +1,4 @@
 <?php
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -14,11 +13,10 @@
 </script>
 <h3>Custom example</h3>
 <div id="container">
-	<div id="filelist">No runtime found.</div>
-	<br />
-	<a id="pickfiles" href="#">[Select files]</a>
-	<a id="uploadfiles" href="#">[Upload files]</a>
-        
-        <div id="preview"></div>
+    <div id="filelist">No runtime found.</div>
+    <br />
+    <a id="pickfiles" href="#">[Select files]</a>
+    <a id="uploadfiles" href="#">[Upload files]</a>
+
+    <div id="preview"></div>
 </div>
-			
