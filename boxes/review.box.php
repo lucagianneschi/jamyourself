@@ -97,8 +97,6 @@ class ReviewBox {
 		$review->where('type', 'RR');
 		$field = "record";
 		break;
-	    default:
-		break;
 	}
 	$review->wherePointer($field, $className, $objectId);
 	$review->where('active', true);
@@ -128,13 +126,13 @@ class ReviewBox {
 
 		$commentCounter = $review->getCommentCounter();
 		$loveCounter = $review->getLoveCounter();
-		$reviewCounter = NULL;
+		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $review->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 
 		$encodedText = $review->getText();
 		$text = parse_decode_string($encodedText);
-		$thumbnailCover = NULL;
+		$thumbnailCover = $boxes['NDB'];
 		$encodedTitle = $review->getTitle();
 		$title = parse_decode_string($encodedTitle);
 
@@ -177,8 +175,6 @@ class ReviewBox {
 		require_once CLASSES_DIR . 'recordParse.class.php';
 		$review->where('type', 'RR');
 		$field = 'record';
-		break;
-	    default:
 		break;
 	}
 	$review->wherePointer($field, $className, $objectId);
@@ -251,8 +247,6 @@ class ReviewBox {
 	    case 'JAMMER':
 		$field = 'toUser';
 		break;
-	    default :
-		break;
 	}
 
 	$reviewBox = new ReviewBox();
@@ -267,8 +261,6 @@ class ReviewBox {
 		require_once CLASSES_DIR . 'record.class.php';
 		require_once CLASSES_DIR . 'recordParse.class.php';
 		$review->where('type', 'RR');
-		break;
-	    default:
 		break;
 	}
 	$review->wherePointer($field, '_User', $objectId);
@@ -297,8 +289,6 @@ class ReviewBox {
 				case 'JAMMER':
 				    $userId = $review->getFromUser();
 				    break;
-				default:
-				    break;
 			    }
 			    $reviewCounter = $event->getReviewCounter();
 			    $thumbnailCover = $event->getThumbnail();
@@ -319,15 +309,11 @@ class ReviewBox {
 				case 'JAMMER':
 				    $userId = $review->getFromUser();
 				    break;
-				default :
-				    break;
 			    }
 			    $reviewCounter = $record->getReviewCounter();
 			    $thumbnailCover = $record->getThumbnailCover();
 			    $encodedTitle = $record->getTitle();
 			    $title = parse_decode_string($encodedTitle);
-			    break;
-			default:
 			    break;
 		    }
 		    $commentCounter = $review->getCommentCounter();
