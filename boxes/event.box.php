@@ -300,7 +300,7 @@ class EventBox {
 	$event->wherePointer('fromUser', '_User', $objectId);
 	$event->where('active', true);
 	$event->setLimit(1000);
-	$event->orderByDescending('createdAt');
+	$event->orderByDescending('eventDate');
 	$events = $event->getEvents();
 	if (get_class($events) == 'Error') {
 	    return $events;

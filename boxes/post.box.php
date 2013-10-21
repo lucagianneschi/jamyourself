@@ -63,6 +63,7 @@ class PostBox {
      * \brief	Init PostBox instance for Personal Page
      * \param	$objectId for user that owns the page
      * \return	postBox
+	 * \todo	usare whereInclude per il fromUser per avere una get in meno
      */
     public function initForPersonalPage($objectId) {
 	global $boxes;

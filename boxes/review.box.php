@@ -74,6 +74,7 @@ class ReviewBox {
      * \brief	Init ReviewBox instance for Personal Page, detailed view
      * \param	$objectId of the review to display information
      * \return	reviewBox
+	 * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
      */
     public function initForDetail($objectId, $className) {//objetId record/event
 	
@@ -154,6 +155,7 @@ class ReviewBox {
      * \brief	Init ReviewBox instance for Media Page
      * \param	$objectId of the review to display information, Event or Record class
      * \return	reviewBox
+	 * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
      */
     public function initForMediaPage($objectId, $className) {
 	

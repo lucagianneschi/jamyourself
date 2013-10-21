@@ -54,6 +54,7 @@ class CommentInfo {
 /**
  * \brief	CommentBox class 
  * \details	box class to pass info to the view 
+ * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get 
  */
 class CommentBox {
 
@@ -62,7 +63,7 @@ class CommentBox {
     /**
      * \fn	init($className,$objectId)
      * \brief	Init CommentBox instance all over the website
-     * \param	$className fot the istance of the class that has been commented, $objectId for object that has been commented
+     * \param	$className for the instance of the class that has been commented, $objectId for object that has been commented
      * \return	commentBox
      */
     public function init($className, $objectId) {
@@ -99,7 +100,7 @@ class CommentBox {
 	$commentP->where('type', 'C');
 	$commentP->where('active', true);
 	$commentP->setLimit(1000);
-	$commentP->orderByDescending('createdAt');
+	$commentP->orderByAscending('createdAt');
 	$comments = $commentP->getComments();
 	if (get_class($comments) == 'Error') {
 	    return $comments;
