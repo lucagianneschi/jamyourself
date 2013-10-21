@@ -93,6 +93,8 @@ class FaqBox {
 					$tag = parse_decode_string($tag);
 					array_push($tags, $tag);
 				}
+			} elseif(empty($tags)){
+				$tags = $boxes['NOTAG'];
 			}
 		$faqInfo = new FaqInfo($answer, $area, $position, $question, $tags);
 		array_push($array, $faqInfo);
