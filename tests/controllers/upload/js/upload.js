@@ -19,39 +19,12 @@ $(function() {
         $('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
     });
 
-    $('#uploadfiles').click(function(e) {
-        uploader.start();
-        e.preventDefault();
-    });
-
     uploader.init();
 
+//setup FileUploaded Action
     uploader.bind('FilesAdded', function(up, files) {
-        
-        //mostra la preview dell'immagine
-        $.each(files, function() {
-
-            var img = new mOxie.Image();
-
-            img.onload = function() {
-                this.embed($('#preview').get(0), {
-                    width: this.width,
-                    height: this.height,
-                    crop: true
-                });
-            };
-
-            img.onembedded = function() {
-                this.destroy();
-            };
-
-            img.onerror = function() {
-                this.destroy();
-            };
-
-            img.load(this.getSource());
-
-        });
+        uploader.start();
+//        e.preventDefault();
     });
 
     uploader.bind('UploadProgress', function(up, file) {
@@ -69,18 +42,11 @@ $(function() {
     });
 
     uploader.bind('FileUploaded', function(up, file, response) {
-        console.log(response);
+        console.log(response.response);
         $('#' + file.id + " b").html("100%");
+        var obj = JSON.parse(response.response);
+        
+        $('#immagine').attr("src","./uploadTestFolder/"+obj.id);
     });
 
 });
-
-function img_create(src, alt, title) {
-    var img = IEWIN ? new Image() : document.createElement('img');
-    img.src = src;
-    if (alt != null)
-        img.alt = alt;
-    if (title != null)
-        img.title = title;
-    return img;
-}

@@ -16,7 +16,8 @@
     <div id="filelist">No runtime found.</div>
     <br />
     <a id="pickfiles" href="#">[Select files]</a>
-    <a id="uploadfiles" href="#">[Upload files]</a>
 
     <div id="preview"></div>
+    
+    <img src="" id="immagine">
 </div>
