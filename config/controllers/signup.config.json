@@ -8,6 +8,7 @@
     "minLocalTypeSize": 1,
     "maxLocalTypeSize": 5,
     "maxFirstnameSize": 50,
+    "profileFolder": "images/profilepicture",
     "instruments": [
 		"Accordion",
 		"Banjo",
