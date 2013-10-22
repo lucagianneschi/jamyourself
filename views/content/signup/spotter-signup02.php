@@ -26,8 +26,7 @@
                                 <div id="spotter_container" class="small-4 small-centered columns align-center">
                                     <div id="filelist">Upload not supported.</div>
                                     <br />
-                                    <label class="uploadImage_file_label" for="spotter_uploadImage_file" id="spotter_uploadImage_file_label">Select a file from your computer (plupload)</label>
-<!--                                    <a type="file" id="spotter_uploadImage_file" name="spotter_uploadImage_file" accept="image/*"/>			-->
+                                    <label class="uploadImage_file_label" for="spotter_uploadImage_file" id="spotter_uploadImage_file_label">Select a file from your computer</label>
                                 </div>
                             </div>
                             <div class="row">							
