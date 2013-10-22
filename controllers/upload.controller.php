@@ -94,7 +94,7 @@ class UploadController extends REST {
             }
 
 // Restituisco successo         
-            die('{"jsonrpc" : "2.0", "result" : "' . $filePath . '", "id" : "' . $fileName . '"}');
+            die('{"jsonrpc" : "2.0", "id" : "' . $fileName . '"}');
         } catch (Exception $e) {
             
         }
