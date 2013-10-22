@@ -12,12 +12,7 @@ class UploadController extends REST {
 
     public function upload() {
         try {
-//            $this->setHeader();
-            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-            header("Cache-Control: no-store, no-cache, must-revalidate");
-            header("Cache-Control: post-check=0, pre-check=0", false);
-            header("Pragma: no-cache");
+            $this->setHeader();
 
 // imposto limite di tempo di esecuzione
             if ($this->config->timeLimit > 0) {
@@ -28,13 +23,16 @@ class UploadController extends REST {
             $targetDir = $this->config->targetDir;
 
 //commentare per produzione
-            $targetDir = TESTS_DIR . "controllers/upload/uploadTestFolder";
+            $targetDir = MEDIA_DIR . "cache";
 // creao la directory di destinazione se non esiste
             if (!file_exists($targetDir)) {
                 @mkdir($targetDir);
             }
 
-// recupero il nome del file
+
+          
+            
+// recupero l'estensione del file
             if (isset($_REQUEST["name"])) {
                 $fileName = $_REQUEST["name"];
             } elseif (!empty($_FILES)) {
@@ -42,7 +40,12 @@ class UploadController extends REST {
             } else {
                 $fileName = uniqid("file_");
             }
-
+            
+            $ext =  strtolower (pathinfo($fileName, PATHINFO_EXTENSION));
+            
+//nome file univoco            
+            $fileName = md5(time().rand()) . "." . $ext;  
+            
             $filePath = $targetDir . "/" . $fileName;
 
 // Chunking might be enabled
@@ -98,7 +101,11 @@ class UploadController extends REST {
     }
 
     private function setHeader() {
-        
+            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+            header("Cache-Control: no-store, no-cache, must-revalidate");
+            header("Cache-Control: post-check=0, pre-check=0", false);
+            header("Pragma: no-cache");        
     }
 
     private function cleanUpTargetDir($targetDir, $filePath) {
@@ -109,7 +116,7 @@ class UploadController extends REST {
             }
 
             while (($file = readdir($dir)) !== false) {
-                $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
+                $tmpfilePath = $targetDir . "/" . $file;
 
                 // If temp file is current file proceed to the next
                 if ($tmpfilePath == "{$filePath}.part") {
