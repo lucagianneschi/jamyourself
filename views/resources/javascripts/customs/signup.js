@@ -11,6 +11,7 @@ var max_genre_spotter = 10;
 var max_genre = 5;
 
 var json_signup_user = {};
+var uploader = null;
 
 // plugin di fondation per validare i campi tramite espressioni regolari (vedi sopra)
 $(document).foundation('abide', {
@@ -99,7 +100,10 @@ $(document).ready(function() {
             setTimeout(function() {
                 $('#signup01-signup01').show('slide', {direction: "right"}, "slow");
             }, 600);
-
+        }
+        //attivo il plugin per l'upload
+        if(uploader == null){
+            initUploader(json_signup_user.type);
         }
     });
 
@@ -784,11 +788,11 @@ function readFile(fileName, typeSelect, typeUser, scheda, max_check, number) {
  * della registrazione (onClick "complete")
  * 
  */
-function signup() {   
+function signup() {
     //recupero i valori del form
     getFormValues();
     //invio la richiesta al server
-    sendRequest("signup",json_signup_user,signupCallback,false);
+    sendRequest("signup", json_signup_user, signupCallback, false);
 }
 
 /**
@@ -923,7 +927,8 @@ function getFormValues() {
     //----------- json d'iscrizione -----------------------
     //step 0 (configurazione browser-utente
     //@todo: completare language e localTime
-    json_signup_user.language = navigator.language || navigator.userLanguage;;
+    json_signup_user.language = navigator.language || navigator.userLanguage;
+    ;
     json_signup_user.localTime = ((new Date()).getTimezoneOffset());
 
     //step 1
@@ -975,11 +980,11 @@ function getFormValues() {
         case "VENUE" :
             //step 2            
             json_signup_user.country = $('#venue-country').val();
-            json_signup_user.city =  $('#venue-city').val();
-            json_signup_user.province = $('#venue-province').val(); 
+            json_signup_user.city = $('#venue-city').val();
+            json_signup_user.province = $('#venue-province').val();
             json_signup_user.address = $('#venue-adress').val();
             json_signup_user.number = $('#venue-number').val();
-            
+
             //step3            
             json_signup_user.description = $('#venue-description').val();
             json_signup_user.genre = getSelectedGenre();
@@ -1044,37 +1049,123 @@ function getSelectedGenre() {
  * @param {boolean} _async parametro non obbligatorio, se FALSE la chiamata è asincrona,
  *                         se omesso o TRUE la chiamata è sincrona
  */
-function sendRequest(_action,_data,callback,_async){
-    if(_action === undefined || _action === null || _data === undefined || _data === null){
+function sendRequest(_action, _data, callback, _async) {
+    if (_action === undefined || _action === null || _data === undefined || _data === null) {
         callback(null);
     }
     _data.request = _action;
     var url = "../controllers/signup/signupRequest.php";
     var type = "POST";
-    var async  = true;
-    if(async !== undefined && async !== null) async = _async; 
-    
-        $.ajax({
+    var async = true;
+    if (async !== undefined && async !== null)
+        async = _async;
+
+    $.ajax({
         type: type,
         url: url,
         data: _data,
         async: async,
         success: function(data, status) {
             //gestione success
-            callback(data,status);
+            callback(data, status);
         },
         error: function(data, status) {
-            callback(data,status);
+            callback(data, status);
         }
-    });   
+    });
 }
 
-$( "#form-signup" ).on( "submit", function( event ) {
-  event.preventDefault();
-  console.log(json_signup_user);
-  signup();
+$("#form-signup").on("submit", function(event) {
+    event.preventDefault();
+    console.log(json_signup_user);
+    signup();
 });
 
-function signupCallback(data, status){
+function signupCallback(data, status) {
     console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+}
+
+function initUploader(userType){
+    var containerId = "";
+    var selectButtonId = "";
+    var url = "http://localhost/jamyourself/controllers/request/uploadRequest.php";
+    var previewId = "";
+    var runtime = 'html4';
+    var multi_selection = false;
+    var maxFileSize = "10mb";
+    
+    switch(userType){
+        case  "SPOTTER" :
+            previewId = "spotter_uploadImage_preview";
+            containerId = "spotter_container";
+            selectButtonId = "spotter_uploadImage_file_label";
+
+        break;
+        case  "VENUE" :
+            previewId = "venue_uploadImage_preview";
+            containerId = "venue_container";
+            selectButtonId = "venue_uploadImage_file_label";
+        break;
+        case  "JAMMER" :
+            previewId = "jammer_uploadImage_preview";
+            containerId = "jammer_container";
+            selectButtonId = "jammer_uploadImage_file_label";
+        break;
+    }
+
+//creo l'oggetto uploader (l'ho dichiarato ad inizio js in modo che sia globale)
+    uploader = new plupload.Uploader({
+        runtimes: runtime, //runtime di upload
+        browse_button: selectButtonId, //id del pulsante di selezione file
+        container: containerId, //id del div per l'upload
+        max_file_size: maxFileSize, //dimensione max dei file da caricare
+        multi_selection: multi_selection, //forza un file alla volta per upload
+        url: url,
+        filters: [
+            {title: "Image files", extensions: "jpg,gif,png"}, //lista file accettati
+        ],
+        multipart_params: {"request": "upload"}, //parametri passati in POST
+    });
+
+    uploader.bind('Init', function(up, params) {
+        $('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+    });
+
+//inizializo l'uploader
+    uploader.init();
+
+//evento: file aggiunto
+    uploader.bind('FilesAdded', function(up, files) {
+        //avvio subito l'upload
+        uploader.start();
+    });
+
+//evento: cambiamento percentuale di caricamento
+    uploader.bind('UploadProgress', function(up, file) {
+        window.console.log("UploadProgress : "+file.percent + "%");
+        //$('#' + file.id + " b").html(file.percent + "%");
+    });
+
+//evento: errore
+    uploader.bind('Error', function(up, err) {
+        window.console.log("Error: " + err.code +", Message: " + err.message +", File: " + err.file.name);
+        alert("Error occurred");
+        up.refresh();
+    });
+
+
+
+//evento: upload terminato
+    uploader.bind('FileUploaded', function(up, file, response) {
+
+        console.log(response.response);
+        var obj = JSON.parse(response.response);
+        $('#' + previewId).attr("src", "../media/cache/" + obj.id);
+        //aggiorno nel json l'immagine del profilo (mi basta il nome del file in cache)
+        json_signup_user.imageProfile = obj.id;
+        
+        //qua ora va attivato il jcrop
+        
+        
+    });
 }
