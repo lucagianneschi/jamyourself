@@ -59,5 +59,3 @@ $(document).foundation();
 <script type="text/javascript" src="resources/javascripts/customs/uploadRecord.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
 <script src="resources/javascripts/customs/signup.js"></script>
-<script src="resources/javascripts/customs/upload.js"></script>
-
