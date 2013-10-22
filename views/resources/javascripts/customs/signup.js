@@ -1089,7 +1089,7 @@ function initUploader(userType){
 //inizializzazione dei parametri
     var containerId = "";
     var selectButtonId = "";
-    var url = "http://localhost/jamyourself/controllers/request/uploadRequest.php";
+    var url = "../controllers/request/uploadRequest.php";
     var previewId = "";
     var runtime = 'html4';
     var multi_selection = false;
