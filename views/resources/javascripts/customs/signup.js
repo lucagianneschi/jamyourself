@@ -102,7 +102,7 @@ $(document).ready(function() {
             }, 600);
         }
         //attivo il plugin per l'upload
-        if(uploader == null){
+        if (uploader == null) {
             initUploader(json_signup_user.type);
         }
     });
@@ -697,28 +697,7 @@ $(document).ready(function() {
 
         $('#' + type_user + '-uploadImage').foundation('reveal', 'close');
     });
-    function  initJcrop(img, width, height) {
-        xsize = tumbnail_pane.width(),
-                ysize = tumbnail_pane.height();
-        preview.Jcrop({
-            onChange: updatePreview,
-            onSelect: updatePreview,
-            aspectRatio: xsize / ysize,
-        }, function() {
-            var bounds = this.getBounds();
-            boundx = bounds[0];
-            boundy = bounds[1];
-            jcrop_api = this;
-            jcrop_api.setImage(img);
-            jcrop_api.setOptions({
-                boxWidth: width,
-                boxHeight: height
-            });
-            jcrop_api.animateTo([0, 0, 100, 100]);
 
-        });
-
-    }
     function updatePreview(c) {
         $('#' + input_x).val(c.x);
         $('#' + input_y).val(c.y);
@@ -1085,7 +1064,30 @@ function signupCallback(data, status) {
     console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
 }
 
-function initUploader(userType){
+function  initJcrop(img, width, height) {
+    xsize = tumbnail_pane.width(),
+            ysize = tumbnail_pane.height();
+    preview.Jcrop({
+        onChange: updatePreview,
+        onSelect: updatePreview,
+        aspectRatio: xsize / ysize,
+    }, function() {
+        var bounds = this.getBounds();
+        boundx = bounds[0];
+        boundy = bounds[1];
+        jcrop_api = this;
+        jcrop_api.setImage(img);
+        jcrop_api.setOptions({
+            boxWidth: width,
+            boxHeight: height
+        });
+        jcrop_api.animateTo([0, 0, 100, 100]);
+
+    });
+
+}
+
+function initUploader(userType) {
 //inizializzazione dei parametri
     var containerId = "";
     var selectButtonId = "";
@@ -1094,24 +1096,24 @@ function initUploader(userType){
     var runtime = 'html4';
     var multi_selection = false;
     var maxFileSize = "10mb";
-    
-    switch(userType){
+
+    switch (userType) {
         case  "SPOTTER" :
             previewId = "spotter_uploadImage_preview";
             containerId = "spotter_container";
             selectButtonId = "spotter_uploadImage_file_label";
 
-        break;
+            break;
         case  "VENUE" :
             previewId = "venue_uploadImage_preview";
             containerId = "venue_container";
             selectButtonId = "venue_uploadImage_file_label";
-        break;
+            break;
         case  "JAMMER" :
             previewId = "jammer_uploadImage_preview";
             containerId = "jammer_container";
             selectButtonId = "jammer_uploadImage_file_label";
-        break;
+            break;
     }
 
 //creo l'oggetto uploader (l'ho dichiarato ad inizio js in modo che sia globale)
@@ -1144,13 +1146,13 @@ function initUploader(userType){
 
 //evento: cambiamento percentuale di caricamento
     uploader.bind('UploadProgress', function(up, file) {
-        window.console.log("UploadProgress : "+file.percent + "%");
+        window.console.log("UploadProgress : " + file.percent + "%");
         //$('#' + file.id + " b").html(file.percent + "%");
     });
 
 //evento: errore
     uploader.bind('Error', function(up, err) {
-        window.console.log("Error: " + err.code +", Message: " + err.message +", File: " + err.file.name);
+        window.console.log("Error: " + err.code + ", Message: " + err.message + ", File: " + err.file.name);
         alert("Error occurred");
         up.refresh();
     });
@@ -1163,9 +1165,13 @@ function initUploader(userType){
         $('#' + previewId).attr("src", "../media/cache/" + obj.id);
         //aggiorno nel json l'immagine del profilo (mi basta il nome del file in cache)
         json_signup_user.imageProfile = obj.id;
-        
+
         //qua ora va attivato il jcrop
-        
-        
+        var img = new Image();
+        img.src = "../media/cache/" + obj.id;
+        width = img.width;
+        height = img.height;
+        initJcrop(img.src, width, height);
+
     });
 }
