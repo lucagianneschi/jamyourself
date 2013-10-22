@@ -367,7 +367,7 @@ function addBoxPost(data, typeUser) {
 function addBoxComment(data, typeUser,classbox,objectId) {
 	var idBox = '';
 	if(classbox == 'RecordReview' || classbox == 'EventReview'){
-		idBox = '#social-'+classbox;
+		idBox = '#social-'+classbox;		
 	}
 	if(classbox == 'Album' || classbox == 'Record'){
 		idBox = '#profile-'+classbox;

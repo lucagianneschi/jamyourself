@@ -1,44 +1,20 @@
-/*
- * 
- */
-
 @import "compass/css3";
 @import "settings";
 
-#uploadRecord{
-  padding-top: 3%;
-  h2, h3{
-    color: $grey-light;
-  }
-}
-
-.uploadRecord-box{
-  border-top: 1px solid $orange;
-  background-color: $grey-superdark;
-  margin-bottom: 60px;
-}
-
-
-.uploadRecord-title{
-  text-align:center;
-  margin-top: 5%;
-  margin-bottom: 5%;
-}
-
-#uploadRecord-listRecord{
-	padding: 30px;
-}
 
 #uploadRecord-listRecord .uploadRecord-boxSingleRecord{
-	width: 260px;
-	height: 125px;
-	background-color: $white;
+	width: 284px;
+	height: 134px;
+	background-color: $grey-dark;
 	margin: 15px !important;
 	margin-right: 0px !important;
+	&:hover{
+		background-color: $orange;
+	}
 }
 
 #uploadRecord-listRecord .arrow-holder{
-	height: 125px !important;
+	height: 134px !important;
 	margin: 15px !important;
 }
 
@@ -48,4 +24,50 @@
 
 #uploadRecord-listRecord .arrow-icon.left{
 	left: -15px;
+}
+
+#uploadRecord-listRecord .coverRecord{
+	width: 134px;
+	height: 134px;
+	padding: 5px;
+}
+
+#uploadRecord-listRecord .title{
+	padding: 10px;
+}
+
+#uploadRecord-listSong table.singleSong {
+	border: none !important;
+	
+	td{
+		background-color: $grey-dark;
+		height: 63px;
+		margin-left:3px;
+		color: $white !important;
+		border-right: 3px $grey-superdark solid;
+	}
+	tr{
+		border-bottom: 5px $grey-superdark solid;
+	}
+	.title{
+		width: 425px;
+		font-weight: bold;
+		background-repeat: no-repeat;
+		padding: 0 0 0 45px;
+		background-position-y: 10px; 
+	}
+	.time{
+		width: 70px;
+		text-align: center;
+	}
+	.genre{
+		width: 350px;
+	}
+	.delete{
+		width: 63px;
+		background-color: $red !important;
+		background-repeat: no-repeat;
+		background-position-y: 50%;
+		background-position-x: 50%;
+	}
 }

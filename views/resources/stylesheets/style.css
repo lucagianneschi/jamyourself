@@ -872,97 +872,112 @@ footer {
   background-image: url(../images/icon/add.png);
 }
 
+/* line 688, ../../../sass/style.scss */
+._check-button {
+  background-image: url(../images/icon/button/check.png);
+}
+
 /* line 689, ../../../sass/style.scss */
+._note-button {
+  background-image: url(../images/icon/button/note.png);
+}
+
+/* line 690, ../../../sass/style.scss */
+._delete-button {
+  background-image: url(../images/icon/button/delete.png);
+}
+
+/* line 694, ../../../sass/style.scss */
 ._back {
   background-image: url(../images/icon/musicplayer/back.png);
 }
 
-/* line 690, ../../../sass/style.scss */
+/* line 695, ../../../sass/style.scss */
 ._pause {
   background-image: url(../images/icon/musicplayer/pause.png);
 }
 
-/* line 691, ../../../sass/style.scss */
+/* line 696, ../../../sass/style.scss */
 ._next {
   background-image: url(../images/icon/musicplayer/next.png);
 }
 
-/* line 692, ../../../sass/style.scss */
+/* line 697, ../../../sass/style.scss */
 ._play {
   background-image: url(../images/icon/musicplayer/play.png);
 }
 
-/* line 695, ../../../sass/style.scss */
+/* line 700, ../../../sass/style.scss */
 ._message-small {
   background-image: url(../images/icon/small/message-small.png);
 }
 
-/* line 696, ../../../sass/style.scss */
+/* line 701, ../../../sass/style.scss */
 ._compass-small {
   background-image: url(../images/icon/small/compass-small.png);
 }
 
-/* line 697, ../../../sass/style.scss */
+/* line 702, ../../../sass/style.scss */
 ._love {
   background-image: url(../images/icon/small/love.png);
 }
 
-/* line 698, ../../../sass/style.scss */
+/* line 703, ../../../sass/style.scss */
 ._unlove {
   background-image: url(../images/icon/small/unlove.png);
 }
 
-/* line 699, ../../../sass/style.scss */
+/* line 704, ../../../sass/style.scss */
 ._comment {
   background-image: url(../images/icon/small/comment.png);
 }
 
-/* line 700, ../../../sass/style.scss */
+/* line 705, ../../../sass/style.scss */
 ._share {
   background-image: url(../images/icon/small/share.png);
 }
 
-/* line 701, ../../../sass/style.scss */
+/* line 706, ../../../sass/style.scss */
 ._review {
   background-image: url(../images/icon/small/review.png);
 }
 
-/* line 702, ../../../sass/style.scss */
+/* line 707, ../../../sass/style.scss */
 ._menu-small {
   background-image: url(../images/icon/small/menu-small.png);
 }
 
-/* line 703, ../../../sass/style.scss */
+/* line 708, ../../../sass/style.scss */
 ._star-orange {
   background-image: url(../images/icon/small/star-orange.png);
 }
 
-/* line 704, ../../../sass/style.scss */
+/* line 709, ../../../sass/style.scss */
 ._star-grey {
   background-image: url(../images/icon/small/star-grey.png);
 }
 
-/* line 707, ../../../sass/style.scss */
+/* line 712, ../../../sass/style.scss */
 ._target1 {
   background-image: url(../images/icon/achievement/target1.png);
 }
 
-/* line 708, ../../../sass/style.scss */
+/* line 713, ../../../sass/style.scss */
 ._target2 {
   background-image: url(../images/icon/achievement/target2.png);
 }
 
-/* line 709, ../../../sass/style.scss */
+/* line 714, ../../../sass/style.scss */
 ._target3 {
   background-image: url(../images/icon/achievement/target3.png);
 }
 
-/* line 712, ../../../sass/style.scss */
+/* line 717, ../../../sass/style.scss */
 ._message_status {
   background-image: url(../images/icon/status/message.png);
 }
 
-/* line 713, ../../../sass/style.scss */
+/* line 718, ../../../sass/style.scss */
 ._follower_status {
   background-image: url(../images/icon/status/follower.png);
 }

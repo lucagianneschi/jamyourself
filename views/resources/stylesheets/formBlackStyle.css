@@ -1,0 +1,139 @@
+/*
+ * Style per form di tipo black
+ */
+/* line 9, ../../../sass/formBlackStyle.scss */
+.formBlack {
+  padding-top: 3%;
+}
+/* line 11, ../../../sass/formBlackStyle.scss */
+.formBlack h2, .formBlack h3 {
+  color: #d8d8d8;
+}
+
+/* line 16, ../../../sass/formBlackStyle.scss */
+.formBlack-box {
+  border-top: 1px solid #ff7505;
+  background-color: #232323;
+  margin-bottom: 60px;
+}
+
+/* line 23, ../../../sass/formBlackStyle.scss */
+.formBlack-title {
+  text-align: center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+/* line 29, ../../../sass/formBlackStyle.scss */
+.formBlack-body {
+  padding: 30px;
+}
+
+/* line 33, ../../../sass/formBlackStyle.scss */
+.formBlack label {
+  font-size: 14px;
+  color: #d8d8d8;
+  text-align: left !important;
+  padding-bottom: 20px !important;
+}
+/* line 38, ../../../sass/formBlackStyle.scss */
+.formBlack label .error {
+  background: none !important;
+  color: #ed1c24 !important;
+  float: right;
+}
+
+/* line 45, ../../../sass/formBlackStyle.scss */
+.formBlack input[type='text'], textarea, .error textarea {
+  background-color: #232323;
+  color: #f3f3f3;
+  border: 0px;
+  border-bottom: 1px solid #303030;
+  margin-left: 0px;
+}
+/* line 51, ../../../sass/formBlackStyle.scss */
+.formBlack input[type='text']:focus, textarea:focus, .error textarea:focus {
+  background-color: #303030;
+  border-bottom: 1px solid #787878;
+}
+
+/* line 57, ../../../sass/formBlackStyle.scss */
+.formBlack .error input {
+  margin-bottom: 14px !important;
+}
+
+/* line 61, ../../../sass/formBlackStyle.scss */
+.formBlack .buttonOrange {
+  width: auto;
+  height: 30px !important;
+  font-size: 14px;
+  color: #f3f3f3;
+  line-height: 20px;
+  margin-right: 5px;
+  padding: 8px 15px 10px 50px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-color: #ff7505;
+}
+
+/* line 74, ../../../sass/formBlackStyle.scss */
+.formBlack .buttonNext {
+  background-image: url(../images/button/signup-next.png) !important;
+  background-color: #232323;
+  border: 0px;
+  color: #f3f3f3;
+  width: 135px;
+  height: 35px;
+  margin: 20px !important;
+  background-repeat: no-repeat;
+}
+
+/* line 85, ../../../sass/formBlackStyle.scss */
+.formBlack .upload-box {
+  height: 108px;
+  border: #787878 1px solid;
+  margin: 0px !important;
+  cursor: pointer;
+  margin-bottom: 20px !important;
+}
+/* line 91, ../../../sass/formBlackStyle.scss */
+.formBlack .upload-box .thumbnail {
+  background-color: #303030 !important;
+  height: 106px;
+  width: 108px;
+}
+/* line 96, ../../../sass/formBlackStyle.scss */
+.formBlack .upload-box .small-3 {
+  padding: 0px !important;
+}
+/* line 99, ../../../sass/formBlackStyle.scss */
+.formBlack .upload-box .small-9 {
+  padding-left: 10% !important;
+  padding-top: 10% !important;
+}
+/* line 103, ../../../sass/formBlackStyle.scss */
+.formBlack .upload-box .upload-reveal {
+  background-color: #232323;
+  left: 10%;
+  top: -450% !important;
+  width: 270%;
+  height: 700%;
+}
+
+/* line 113, ../../../sass/formBlackStyle.scss */
+.formBlack input[type='checkbox'] + label {
+  background-color: #303030 !important;
+  height: 25px !important;
+  color: #f3f3f3;
+  float: left;
+  padding: 5px;
+  margin-right: 15px;
+  margin-top: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/* line 125, ../../../sass/formBlackStyle.scss */
+.formBlack input[type='checkbox']:checked + label {
+  background-color: #ff7505 !important;
+}

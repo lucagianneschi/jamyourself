@@ -1,0 +1,128 @@
+/*
+ * Style per form di tipo black
+ */
+
+@import "compass/css3";
+@import "settings";
+
+
+.formBlack{
+  padding-top: 3%;
+  h2, h3{
+    color: $grey-light;
+  }
+}
+
+.formBlack-box{
+  border-top: 1px solid $orange;
+  background-color: $grey-superdark;
+  margin-bottom: 60px;
+}
+
+
+.formBlack-title{
+  text-align:center;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.formBlack-body{
+	padding: 30px;
+}
+
+.formBlack label{
+  	font-size: 14px;
+  	color: $grey-light;
+  	text-align:left !important; 
+  	padding-bottom:20px !important; 
+  	.error{
+  		background: none !important;
+	  	color: $red !important;
+	  	float: right;
+  	} 
+}
+
+.formBlack input[type='text'], textarea, .error textarea{
+	background-color:$grey-superdark; 
+  	color: $white;  
+  	border: 0px;
+  	border-bottom: 1px solid $grey-dark;
+  	margin-left:0px;
+	&:focus{
+	    background-color:$grey-dark;
+	    border-bottom: 1px solid $grey;
+    }    
+}
+
+.formBlack .error input{
+	margin-bottom: 14px !important;	
+}
+
+.formBlack .buttonOrange{
+	width: auto;
+	height: 30px !important;
+	font-size: 14px;
+	color: $white;
+	line-height: 20px;
+	margin-right: 5px;
+	padding: 8px 15px 10px 50px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	background-color: $orange;	
+}
+
+.formBlack .buttonNext{
+	background-image:url(../images/button/signup-next.png) !important;
+	background-color: $grey-superdark;
+  	border: 0px;
+	color:$white;
+  	width:135px;
+  	height:35px;
+  	margin:20px !important;
+  	background-repeat:no-repeat;
+}
+
+.formBlack .upload-box{
+	height: 108px;
+	border: $grey 1px solid;
+	margin: 0px !important;
+	cursor: pointer;
+	margin-bottom: 20px !important;
+	.thumbnail{
+		background-color: $grey-dark !important;
+		height: 106px;
+		width: 108px;
+	}
+	.small-3{
+		padding: 0px !important;
+	}
+	.small-9{
+		padding-left: 10% !important;
+		padding-top: 10% !important;
+	}
+	.upload-reveal{
+		background-color: $grey-superdark;
+		left: 10%;
+		top: -450% !important;
+		width: 270%;
+		height: 700%;
+	}
+}
+
+
+.formBlack input[type='checkbox'] + label{
+    background-color: $grey-dark !important;
+  	height:25px !important;  
+  	color:$white;
+  	float:left;
+  	padding:5px;
+  	margin-right:15px;
+  	margin-top:15px;
+  	padding-left:10px;
+  	padding-right:10px;
+}
+
+.formBlack input[type='checkbox']:checked + label{
+    background-color: $orange !important;
+}
+
