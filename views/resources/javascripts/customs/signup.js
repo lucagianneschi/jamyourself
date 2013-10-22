@@ -1086,6 +1086,7 @@ function signupCallback(data, status) {
 }
 
 function initUploader(userType){
+//inizializzazione dei parametri
     var containerId = "";
     var selectButtonId = "";
     var url = "http://localhost/jamyourself/controllers/request/uploadRequest.php";
@@ -1128,7 +1129,8 @@ function initUploader(userType){
     });
 
     uploader.bind('Init', function(up, params) {
-        $('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+        //$('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+        $('#filelist').html("");
     });
 
 //inizializo l'uploader
@@ -1152,8 +1154,6 @@ function initUploader(userType){
         alert("Error occurred");
         up.refresh();
     });
-
-
 
 //evento: upload terminato
     uploader.bind('FileUploaded', function(up, file, response) {
