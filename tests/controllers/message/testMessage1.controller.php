@@ -27,8 +27,8 @@
 		});
 	    }
 	</script>
-	<title>Il titolo della pagina</title>
-	<meta name="description" content="La descrizione della pagina" />
+	<title>Pagina di test per la funzione read del message.controller.php</title>
+	<meta name="description" content="Pagina di test per la funzione read del message.controller.php" />
     </head>
     <body>
 	Cliccando i seguenti bottoni, le activities create dall'invio di messaggi vengono smarcate come lette, così non sia ha più notifica pendente<br />
