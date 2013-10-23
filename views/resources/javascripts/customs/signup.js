@@ -1117,7 +1117,7 @@ function initUploader(userType) {
         filters: [
             {title: "Image files", extensions: "jpg,gif,png"}, //lista file accettati
         ],
-        multipart_params: {"request": "upload"}, //parametri passati in POST
+        multipart_params: {"request": "uploadImage"}, //parametri passati in POST
     });
 
     uploader.bind('Init', function(up, params) {
