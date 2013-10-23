@@ -6,14 +6,14 @@
 	    function access(usernameOrEmail, password, opType) {
 
 		var json_access = {};
-		if (opType == 'login') {
+		if (opType === 'login') {
 		    json_access.request = "login";
 			json_access.usernameOrEmail = usernameOrEmail;
 			json_access.password = password;	
-		} else if (opType == 'logout'){
+		} else if (opType === 'logout'){
 		    json_love.request = "logout";
 			json_access.userId = userId;
-		} else if (opType == 'socialLogin'){
+		} else if (opType === 'socialLogin'){
 			json_access.request = "socialLogin";
 		}
 
