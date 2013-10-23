@@ -11,7 +11,7 @@ class UploadController extends REST {
         $this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/upload.config.json"), false);
     }
 
-    public function upload() {
+    public function uploadImage() {
         try {
             $this->setHeader();
 
@@ -91,9 +91,12 @@ class UploadController extends REST {
                 rename("{$filePath}.part", $filePath);
             }
 //effettuo il resize dell'immagine
-            $imgInfo = $this->resizeImg($filePath);
+//prelevo gli attributi dell'immagine
+            list($imgWidth, $imgHeight, $imgType, $imgAttr) = getimagesize($filePath);
+//calcolo le proporzioni da mostrare a video
+            $this->calculateNewProperties($imgWidth, $imgHeight);         
 // Restituisco successo         
-            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $imgInfo['width'] . '","height" : "' . $imgInfo['height'] . '"}');
+            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $imgWidth . '","height" : "' . $imgHeight . '" , "type" : "' . $imgType . '"}');
         } catch (Exception $e) {
             
         }
@@ -134,58 +137,27 @@ class UploadController extends REST {
         }
     }
 
-    private function resizeImg($img) {
+    private function calculateNewProperties($width, $height) {
         try {
-
-            //prelevo il tipo di estensione del file
-            list($width, $height, $type, $attr) = getimagesize($img);
-
-            //Controllo tipo di file: se è un file immagine (GIF, JPG o PNG), Altrimenti genera eccezione.
-            switch ($type) {
-                case IMAGETYPE_GIF:
-                    $image = imagecreatefromgif($img);
-                    break;
-                case IMAGETYPE_JPEG:
-                    $image = imagecreatefromjpeg($img);
-                    break;
-                case IMAGETYPE_PNG:
-                    $image = imagecreatefrompng($img);
-                    break;
-                default:
-                    return null;
-            }
-
-            $cis = new CropImageService();
-
-            $resized = null;
             if ($width > 700 || $height > 300) {
                 //modifico solo se almeno una delle dimensioni e' da ridurre
-                if ($width > $height) {
+                if ($height >= $width && $height > 300) {
                     //da modificare in base alla larghezza
-                    $resized = $cis->createThumbnail($image, 300, 0, 0, $width, $height);
-                } else if ($width < $height) {
-                    //da modificare in base alla altezza
-                    $resized = $cis->createThumbnail($image, 300, 0, 0, $width, $height);
-                } else {
-                    //l'immagine è quadrata
-                    $resized = $cis->createThumbnail($image, 300, 0, 0, $width, $height);
+                    $newWidth = ($width / $height ) * 300;
+                    return array("width" => $newWidth, "height" => $height);
                 }
-                //elimino i file vecchi
-                imagedestroy($image);
-                if (imagejpeg($resized, $img, 100)) {
-                    list($width, $height, $type, $attr) = getimagesize($img);
-                    return array("src" => $img, "width" => $width, "height" => $height);
+                if ($height < $width && $width > 700) {
+                    //da modificare in base alla larghezza
+                    $newHeight = ($height / $width) * 700;
+                    return array("width" => $width, "height" => $newHeight);
                 }
-                else
-                    return false;
+            } else {
+                return array("width" => $width, "height" => $height);
             }
-            else
-                return array("src" => $img, "width" => $width, "height" => $height);
         } catch (Exception $e) {
             return false;
         }
     }
-
 }
 
 ?>
