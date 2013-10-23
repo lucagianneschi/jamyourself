@@ -36,7 +36,7 @@ class AccessController extends REST {
      * \brief   start the session
      */
     public function init() {
-        session_start();
+	session_start();
     }
 
     /**
@@ -45,48 +45,48 @@ class AccessController extends REST {
      * \todo    usare la sessione
      */
     public function login() {
-        try {
-            global $controllers;
-            require_once CLASSES_DIR . 'user.class.php';
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
-            }
+	try {
+	    global $controllers;
+	    require_once CLASSES_DIR . 'user.class.php';
+	    //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
+	    if ($this->get_request_method() != 'POST') {
+		$this->response('', 406);
+	    }
 
-            $usernameOrEmail = $_REQUEST['usernameOrEmail'];
-            $password = $_REQUEST['password'];
-            $userParse = new UserParse();
-            $resLogin = $userParse->loginUser($usernameOrEmail, $password);
-            if (get_class($resLogin) == 'Error') {
-                $this->response(array($controllers['KOLOGIN']), 503);
-            } else {
-                $activity = new Activity();
-                $activity->setActive(true);
-                $activity->setAccepted(true);
-                $activity->setAlbum(null);
-                $activity->setComment(null);
-                $activity->setCounter(0);
-                $activity->setEvent(null);
-                $activity->setFromUser($resLogin->getObjectId());
-                $activity->setImage(null);
-                $activity->setPlaylist(null);
-                $activity->setQuestion(null);
-                $activity->setRecord(null);
-                $activity->setRead(true);
-                $activity->setSong(null);
-                $activity->setStatus('A');
-                $activity->setToUser(null);
-                $activity->setType('LOGGEDIN');
-                $activity->setUserStatus(null);
-                $activity->setVideo(null);
+	    $usernameOrEmail = $_REQUEST['usernameOrEmail'];
+	    $password = $_REQUEST['password'];
+	    $userParse = new UserParse();
+	    $resLogin = $userParse->loginUser($usernameOrEmail, $password);
+	    if (get_class($resLogin) == 'Error') {
+		$this->response(array($controllers['KOLOGIN']), 503);
+	    } else {
+		$activity = new Activity();
+		$activity->setActive(true);
+		$activity->setAccepted(true);
+		$activity->setAlbum(null);
+		$activity->setComment(null);
+		$activity->setCounter(0);
+		$activity->setEvent(null);
+		$activity->setFromUser($resLogin->getObjectId());
+		$activity->setImage(null);
+		$activity->setPlaylist(null);
+		$activity->setQuestion(null);
+		$activity->setRecord(null);
+		$activity->setRead(true);
+		$activity->setSong(null);
+		$activity->setStatus('A');
+		$activity->setToUser(null);
+		$activity->setType('LOGGEDIN');
+		$activity->setUserStatus(null);
+		$activity->setVideo(null);
 
-                $activityParse = new ActivityParse();
-                $activityParse->saveActivity($activity);
-                $this->response(array($controllers['OKLOGIN']), 200);
-            }
-        } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-        }
+		$activityParse = new ActivityParse();
+		$activityParse->saveActivity($activity);
+		$this->response(array($controllers['OKLOGIN']), 200);
+	    }
+	} catch (Exception $e) {
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	}
     }
 
     /**
@@ -95,42 +95,46 @@ class AccessController extends REST {
      * \todo    usare la sessione
      */
     public function logout() {
-        global $controllers;
-        try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
-            }
+	try {
+	    global $controllers;
+	    //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
+	    if ($this->get_request_method() != 'POST') {
+		$this->response('', 406);
+	    }
 
-            $userId = $_REQUEST['userId'];
-            $resLogout = logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
+	    $userId = $_REQUEST['userId'];
+	    $userParse = new UserParse();
+	    $resLogout = $userParse->logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
+	    if (get_class($resLogout) == 'Error') {
+		$this->response(array($controllers['KOLOGIN']), 503);
+	    } else {
+		$activity = new Activity();
+		$activity->setActive(true);
+		$activity->setAccepted(true);
+		$activity->setAlbum(null);
+		$activity->setComment(null);
+		$activity->setCounter(0);
+		$activity->setEvent(null);
+		$activity->setFromUser($userId);
+		$activity->setImage(null);
+		$activity->setPlaylist(null);
+		$activity->setQuestion(null);
+		$activity->setRecord(null);
+		$activity->setRead(true);
+		$activity->setSong(null);
+		$activity->setStatus('A');
+		$activity->setToUser(null);
+		$activity->setType('LOGGEDOUT');
+		$activity->setUserStatus(null);
+		$activity->setVideo(null);
 
-            $activity = new Activity();
-            $activity->setActive(true);
-            $activity->setAccepted(true);
-            $activity->setAlbum(null);
-            $activity->setComment(null);
-            $activity->setCounter(0);
-            $activity->setEvent(null);
-            $activity->setFromUser($userId);
-            $activity->setImage(null);
-            $activity->setPlaylist(null);
-            $activity->setQuestion(null);
-            $activity->setRecord(null);
-            $activity->setRead(true);
-            $activity->setSong(null);
-            $activity->setStatus('A');
-            $activity->setToUser(null);
-            $activity->setType('LOGGEDOUT');
-            $activity->setUserStatus(null);
-            $activity->setVideo(null);
-
-            $activityParse = new ActivityParse();
-            $activityParse->saveActivity($activity);
-            $this->response(array($controllers['OKLOGOUT']), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-        }
+		$activityParse = new ActivityParse();
+		$activityParse->saveActivity($activity);
+		$this->response(array($controllers['OKLOGOUT']), 200);
+	    }
+	} catch (Exception $e) {
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	}
     }
 
     /**
@@ -139,36 +143,40 @@ class AccessController extends REST {
      * \todo    tutto
      */
     public function sociaLogin() {
-        try {
-            $userLib = new parseUser();
-            $socialLogin = $userLib->socialLogin();
+	try {
+	    global $controllers;
+	    $userLib = new parseUser();
+	    $socialLogin = $userLib->socialLogin();
+	    if (get_class($socialLogin) == 'Error') {
+		$this->response(array($controllers['KOLOGIN']), 503);
+	    } else {
+		$activity = new Activity();
+		$activity->setActive(true);
+		$activity->setAccepted(true);
+		$activity->setAlbum(null);
+		$activity->setComment(null);
+		$activity->setCounter(0);
+		$activity->setEvent(null);
+		$activity->setFromUser(null); //come faccio a ricavarlo da questa funzione??
+		$activity->setImage(null);
+		$activity->setPlaylist(null);
+		$activity->setQuestion(null);
+		$activity->setRecord(null);
+		$activity->setRead(true);
+		$activity->setSong(null);
+		$activity->setStatus('A');
+		$activity->setToUser(null);
+		$activity->setType('SOCIALLOGGEDIN');
+		$activity->setUserStatus(null);
+		$activity->setVideo(null);
 
-            $activity = new Activity();
-            $activity->setActive(true);
-            $activity->setAccepted(true);
-            $activity->setAlbum(null);
-            $activity->setComment(null);
-            $activity->setCounter(0);
-            $activity->setEvent(null);
-            $activity->setFromUser(null); //come faccio a ricavarlo da questa funzione??
-            $activity->setImage(null);
-            $activity->setPlaylist(null);
-            $activity->setQuestion(null);
-            $activity->setRecord(null);
-            $activity->setRead(true);
-            $activity->setSong(null);
-            $activity->setStatus('A');
-            $activity->setToUser(null);
-            $activity->setType('SOCIALLOGGEDIN');
-            $activity->setUserStatus(null);
-            $activity->setVideo(null);
-
-            $activityParse = new ActivityParse();
-            $activityParse->saveActivity($activity);
-            $this->response(array($controllers['OKLOGIN']), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-        }
+		$activityParse = new ActivityParse();
+		$activityParse->saveActivity($activity);
+		$this->response(array($controllers['OKLOGIN']), 200);
+	    }
+	} catch (Exception $e) {
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	}
     }
 
 }
