@@ -88,14 +88,12 @@ class FaqBox {
 			$area = parse_decode_string($faq->getArea());
 			$position = $faq->getPosition();
 			$tags = array();
-			if (count($faq->getTags()) > 0 && $faq->getTags() != null) {
+			if (count($faq->getTags()) > 0) {
 				foreach ($faq->getTags() as $tag) {
 					$tag = parse_decode_string($tag);
 					array_push($tags, $tag);
 				}
-			} elseif(empty($tags)){
-				$tags = $boxes['NOTAG'];
-			}
+			} 
 		$faqInfo = new FaqInfo($answer, $area, $position, $question, $tags);
 		array_push($array, $faqInfo);
 	    }
