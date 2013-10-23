@@ -47,11 +47,12 @@ class UserUtilitiesController extends REST {
      * \brief   link con l'account social
      * \todo    usare la sessione
      */
-    public function linkSocialAccount($objectId) {
+    public function linkSocialAccount() {
 	try {
 	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
-
+	    
+	    $objectId = $_REQUEST['objectId'];
 	    $userP = new UserParse();
 	    $user = $userP->getUser($objectId);
 	    if (get_class($user) == 'Error') {
@@ -95,11 +96,13 @@ class UserUtilitiesController extends REST {
      * \brief   esegue una richiesta di reset della password
      * \todo    usare la sessione
      */
-    public function passwordReset($email) {
+    public function passwordReset() {
 	try {
 	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
 
+	    $email = $_REQUEST['email'];
+	    
 	    $userP = new UserParse();
 	    $userP->where('email', $email);
 	    $userP->where('active', true);
@@ -145,10 +148,12 @@ class UserUtilitiesController extends REST {
      * \brief   elimina il link con l'account social
      * \todo    usare la sessione
      */
-    public function unLinkSocialAccount($objectId) {
+    public function unLinkSocialAccount() {
 	try {
 	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
+	    
+	    $objectId = $_REQUEST['objectId'];
 	    $userP = new UserParse();
 	    $user = $userP->getUser($objectId);
 	    if (get_class($user) == 'Error') {
@@ -197,8 +202,8 @@ class UserUtilitiesController extends REST {
 	    if ($this->get_request_method() != 'POST') {
 		$this->response('', 406);
 	    }
-	    $userId = $_REQUEST['userId'];
-	    $settings = $_REQUEST['settings'];
+	    $userId = $_REQUEST['objectId'];
+	    $settings = $_REQUEST['setting'];
 
 	    $userP = new UserParse();
 	    $user = $userP->getuser($userId);
