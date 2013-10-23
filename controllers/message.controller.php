@@ -56,6 +56,15 @@ class MessageController extends REST {
     }
 
     /**
+     * \fn		readMessage()
+     * \brief   update activity for the current read message
+     * \todo    usare la sessione
+     */
+	public function readMessage() {
+		$activityId = $this->request['activityId'];
+	}	
+		
+    /**
      * \fn		sendMessage()
      * \brief   save a message an the related activity
      * \todo    usare la sessione
