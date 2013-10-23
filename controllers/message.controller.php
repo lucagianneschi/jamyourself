@@ -65,16 +65,16 @@ class MessageController extends REST {
 			if ($this->get_request_method() != "POST") {
 				$this->response('', 406);
 			}
-			$activityId = $this->request['activityId'];
+			$objectId = $this->request['objectId'];
 			$toUser = $this->request['toUser'];
 			
 			$activityP = new ActivityParse();
-			$activity = $activityP->getActivity($activityId);
+			$activity = $activityP->getActivity($objectId);
 			if (get_class($activity) == 'Error') {
 				$this->response(array('Error: ' . $activity->getMessage()), 503);
 			} else {
 				if($activity->getRead() != true && $activity->getToUser() == $toUser){
-					$res = $activity->updateField($activityId, 'read', array(true));//devo sempre passare array o solo true? fare test
+					$res = $activity->updateField($objectId, 'read', array(true));//devo sempre passare array o solo true? fare test
 					if(get_class($res) == 'Error'){
 						$this->response(array('Error: ' . $res->getMessage()), 503); 
 					}
