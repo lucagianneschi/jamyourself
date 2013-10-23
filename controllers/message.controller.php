@@ -66,14 +66,13 @@ class MessageController extends REST {
 				$this->response('', 406);
 			}
 			$objectId = $this->request['objectId'];
-			$toUser = $this->request['toUser'];
 			
 			$activityP = new ActivityParse();
 			$activity = $activityP->getActivity($objectId);
 			if (get_class($activity) == 'Error') {
 				$this->response(array('Error: ' . $activity->getMessage()), 503);
 			} else {
-				if($activity->getRead() != true && $activity->getToUser() == $toUser){
+				if($activity->getRead() == false){
 					$res = $activity->updateField($objectId, 'read', array(true));//devo sempre passare array o solo true? fare test
 					if(get_class($res) == 'Error'){
 						$this->response(array('Error: ' . $res->getMessage()), 503); 
