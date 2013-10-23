@@ -7,7 +7,8 @@
 
 		var json_message = {};
 		json_message.objectId = objectId;
-
+		json_message.request = 'readMessage';
+		
 		$.ajax({
 		    type: "POST",
 		    url: "../../../controllers/request/messageRequest.php",
@@ -33,9 +34,13 @@
     <body>
 	Cliccando i seguenti bottoni, le activities create dall'invio di messaggi vengono smarcate come lette, così non sia ha più notifica pendente<br />
 	<br />
-	<button type="button" onclick="readMessage('cjqaTR1kQW')">Mark Message XXXXXXXXX as read (set read property to true)</button>
+	<button type="button" onclick="readMessage('1xq66E2CWt')">Mark Message 1xq66E2CWt as read (set read property to true)</button>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<button type="button" onclick="readMessage('cjqaTR1kQW')">Mark Message XXXXXXXXX as read (set read property to true)</button>
+	<button type="button" onclick="readMessage('jXL9CIHVvI')">Mark Message jXL9CIHVvI as read (set read property to true)</button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button type="button" onclick="readMessage('WKOEVPusXY')">Mark Message WKOEVPusXY as read (set read property to true)</button>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<button type="button" onclick="readMessage('F4RUEvzr9E')">Mark Message F4RUEvzr9E as read (set read property to true)</button>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </body>
 </html>
