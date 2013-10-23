@@ -30,9 +30,6 @@ class UploadController extends REST {
                 @mkdir($targetDir);
             }
 
-
-
-
 // recupero l'estensione del file
             if (isset($_REQUEST["name"])) {
                 $fileName = $_REQUEST["name"];
@@ -96,7 +93,7 @@ class UploadController extends REST {
 //effettuo il resize dell'immagine
             $imgInfo = $this->resizeImg($filePath);
 // Restituisco successo         
-            die('{"jsonrpc" : "2.0", "src" : "'.$fileName.'", "width" : "'.$imgInfo['width'].'","height" : "'.$imgInfo['height'].'"}');
+            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $imgInfo['width'] . '","height" : "' . $imgInfo['height'] . '"}');
         } catch (Exception $e) {
             
         }
@@ -138,10 +135,10 @@ class UploadController extends REST {
     }
 
     private function resizeImg($img) {
-        try {           
-            
+        try {
+
             //prelevo il tipo di estensione del file
-            list($width, $height, $type, $attr) = getimagesize($img); 
+            list($width, $height, $type, $attr) = getimagesize($img);
 
             //Controllo tipo di file: se è un file immagine (GIF, JPG o PNG), Altrimenti genera eccezione.
             switch ($type) {
@@ -157,18 +154,33 @@ class UploadController extends REST {
                 default:
                     return null;
             }
-            
+
             $cis = new CropImageService();
-            $resized = $cis->createThumbnail($image, 300, 0, 0, $width, $height);
-            
-            //elimino i file vecchi
-            imagedestroy($image);
-            
-            if (imagejpeg($resized, $img, 100)) {
-                list($width, $height, $type, $attr) = getimagesize($img); 
+
+            $resized = null;
+            if ($width > 700 || $height > 300) {
+                //modifico solo se almeno una delle dimensioni e' da ridurre
+                if ($width > $height) {
+                    //da modificare in base alla larghezza
+                    $resized = $cis->createThumbnail($image, 300, 0, 0, $width, $height);
+                } else if ($width < $height) {
+                    //da modificare in base alla altezza
+                    $resized = $cis->createThumbnail($image, 300, 0, 0, $width, $height);
+                } else {
+                    //l'immagine è quadrata
+                    $resized = $cis->createThumbnail($image, 300, 0, 0, $width, $height);
+                }
+                //elimino i file vecchi
+                imagedestroy($image);
+                if (imagejpeg($resized, $img, 100)) {
+                    list($width, $height, $type, $attr) = getimagesize($img);
+                    return array("src" => $img, "width" => $width, "height" => $height);
+                }
+                else
+                    return false;
+            }
+            else
                 return array("src" => $img, "width" => $width, "height" => $height);
-            }else return false;            
-            
         } catch (Exception $e) {
             return false;
         }
