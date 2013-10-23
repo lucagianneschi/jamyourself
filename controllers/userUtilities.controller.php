@@ -51,7 +51,7 @@ class UserUtilitiesController extends REST {
 	try {
 	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
-	    
+
 	    $userP = new UserParse();
 	    $user = $userP->getUser($objectId);
 	    if (get_class($user) == 'Error') {
@@ -130,7 +130,7 @@ class UserUtilitiesController extends REST {
 		$activity->setType('PASSWORDRESETREQUEST');
 		$activity->setUserStatus(null);
 		$activity->setVideo(null);
-		
+
 		$activityParse = new ActivityParse();
 		$activityParse->saveActivity($activity);
 		$this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
@@ -157,7 +157,7 @@ class UserUtilitiesController extends REST {
 		$sessionToken = $user->getSessionToken();
 		$userLib = new parseUser();
 		$userLib->unlinkAccounts($objectId, $sessionToken, null);
-		
+
 		$activity = new Activity();
 		$activity->setActive(true);
 		$activity->setAccepted(true);
@@ -217,7 +217,7 @@ class UserUtilitiesController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($fromUserId);
+	    $activity->setFromUser($userId);
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
