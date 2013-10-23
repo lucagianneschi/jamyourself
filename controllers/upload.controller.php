@@ -2,6 +2,7 @@
 
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once SERVICES_DIR . 'cropImage.service.php';
 
 class UploadController extends REST {
 
@@ -30,8 +31,8 @@ class UploadController extends REST {
             }
 
 
-          
-            
+
+
 // recupero l'estensione del file
             if (isset($_REQUEST["name"])) {
                 $fileName = $_REQUEST["name"];
@@ -40,12 +41,12 @@ class UploadController extends REST {
             } else {
                 $fileName = uniqid("file_");
             }
-            
-            $ext =  strtolower (pathinfo($fileName, PATHINFO_EXTENSION));
-            
+
+            $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
 //nome file univoco            
-            $fileName = md5(time().rand()) . "." . $ext;  
-            
+            $fileName = md5(time() . rand()) . "." . $ext;
+
             $filePath = $targetDir . "/" . $fileName;
 
 // Chunking might be enabled
@@ -92,20 +93,21 @@ class UploadController extends REST {
                 // Strip the temp .part suffix off 
                 rename("{$filePath}.part", $filePath);
             }
-
+//effettuo il resize dell'immagine
+            $imgInfo = $this->resizeImg($filePath);
 // Restituisco successo         
-            die('{"jsonrpc" : "2.0", "id" : "' . $fileName . '"}');
+            die('{"jsonrpc" : "2.0", "src" : "'.$fileName.'", "width" : "'.$imgInfo['width'].'","height" : "'.$imgInfo['height'].'"}');
         } catch (Exception $e) {
             
         }
     }
 
     private function setHeader() {
-            header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-            header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-            header("Cache-Control: no-store, no-cache, must-revalidate");
-            header("Cache-Control: post-check=0, pre-check=0", false);
-            header("Pragma: no-cache");        
+        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+        header("Cache-Control: no-store, no-cache, must-revalidate");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
     }
 
     private function cleanUpTargetDir($targetDir, $filePath) {
@@ -130,6 +132,43 @@ class UploadController extends REST {
             }
             closedir($dir);
             return true;
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    private function resizeImg($img) {
+        try {           
+            
+            //prelevo il tipo di estensione del file
+            list($width, $height, $type, $attr) = getimagesize($img); 
+
+            //Controllo tipo di file: se è un file immagine (GIF, JPG o PNG), Altrimenti genera eccezione.
+            switch ($type) {
+                case IMAGETYPE_GIF:
+                    $image = imagecreatefromgif($img);
+                    break;
+                case IMAGETYPE_JPEG:
+                    $image = imagecreatefromjpeg($img);
+                    break;
+                case IMAGETYPE_PNG:
+                    $image = imagecreatefrompng($img);
+                    break;
+                default:
+                    return null;
+            }
+            
+            $cis = new CropImageService();
+            $resized = $cis->createThumbnail($image, 300, 0, 0, $width, $height);
+            
+            //elimino i file vecchi
+            imagedestroy($image);
+            
+            if (imagejpeg($resized, $img, 100)) {
+                list($width, $height, $type, $attr) = getimagesize($img); 
+                return array("src" => $img, "width" => $width, "height" => $height);
+            }else return false;            
+            
         } catch (Exception $e) {
             return false;
         }

@@ -13,6 +13,21 @@ var max_genre = 5;
 var json_signup_user = {};
 var uploader = null;
 
+//-------------- variabili per jcrop ----------------------//
+var type_user,
+        input_x,
+        input_y,
+        input_w,
+        input_h,
+        jcrop_api,
+        boundx,
+        boundy,
+        xsize,
+        ysize,
+        preview,
+        tumbnail,
+        tumbnail_pane;
+
 // plugin di fondation per validare i campi tramite espressioni regolari (vedi sopra)
 $(document).foundation('abide', {
     live_validate: true,
@@ -513,6 +528,14 @@ $(document).ready(function() {
 
     // ------------------------ FINE GESTIONE BOTTONI DI NEXT E BACK ------------------------------
 
+    // ------------------------ GESTIONE BOTTONE DI REGISTRAZIONE FINALE ------------------------------
+
+    $("#form-signup").on("submit", function(event) {
+        event.preventDefault();
+        console.log(json_signup_user);
+        signup();
+    });
+    // ------------------------ FINE GESTIONE BOTTONE DI REGISTRAZIONE FINALE ------------------------------
 
     /*
      * Permette di gestire i bottni social, a seconda dell'icona che viene cliccata 
@@ -584,104 +607,6 @@ $(document).ready(function() {
         $('#signup-labelStep-step2').css({"color": "#D8D8D8"});
     }
 
-    //----------------------------------- IMAGE UPLOAD ----------------------------------
-    var preview,
-            tumbnail,
-            tumbnail_pane,
-            image,
-            type_user,
-            input_x,
-            input_y,
-            input_w,
-            input_h,
-            jcrop_api,
-            boundx,
-            boundy,
-            xsize,
-            ysize;
-
-
-    $('.uploadImage input[type=file]').change(function(e) {
-        var img = new Image();
-        var type_user_split = this.id.split('_');
-
-        type_user = type_user_split[0];
-
-        preview = $('#' + type_user + '_uploadImage_preview');
-        tumbnail = $('#' + type_user + '_uploadImage_tumbnail');
-        tumbnail_pane = $('#' + type_user + '_uploadImage_tumbnail-pane');
-
-        id_tumbnail = tumbnail.attr('id');
-        id_preview = preview.attr('id');
-
-        $.each($('#' + type_user + '_uploadImage_preview_box input[type="hidden"]'), function(k, v) {
-            switch (k) {
-                case 0:
-                    input_x = v.id;
-                    break;
-                case 1:
-                    input_y = v.id;
-                    break;
-                case 2:
-                    input_w = v.id;
-                    break;
-                case 3:
-                    input_h = v.id;
-                    break;
-            }
-        });
-
-        if (jcrop_api) {
-            jcrop_api.destroy();
-            jcrop_api.setOptions({allowSelect: !!this.checked});
-            jcrop_api.focus();
-            tumbnail.remove();
-            $('#' + type_user + '_uploadImage_preview_box').html('<img src="" id="' + id_preview + '" /><input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/><input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/><input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/><input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>');
-            preview = $('#' + type_user + '_uploadImage_preview');
-            tumbnail_pane.html('<img src="" id="' + id_tumbnail + '"/>');
-            tumbnail = $('#' + id_tumbnail);
-        }
-
-        //FILE CARICATO NON DEFINITO
-        if (typeof FileReader == "undefined") {
-            alert("File undefined!");
-            return true;
-        }
-
-        var file = e.target.files[0];
-
-        if (file.type == 'image/gif' || file.type == 'image/jpeg' || file.type == 'image/png') {
-            var reader = new FileReader();
-            reader.onload = (function(theFile) {
-                return function(e) {
-                    //--- URL ------------
-                    img.src = e.target.result;
-
-                    image = img.src;
-
-                    preview.attr('src', img.src);
-
-                    width = img.width;
-                    height = img.height;
-                    if (img.width > $('.' + type_user + '_uploadImage_box-preview').width()) {
-                        width = $('.' + type_user + '_uploadImage_box-preview').width();
-                        height = $('.' + type_user + '_uploadImage_box-preview').height();
-                    }
-
-                    initJcrop(img.src, width, height);
-
-                };
-            })(file);
-
-            reader.readAsDataURL(file);
-
-            $('#' + type_user + '_uploadImage_save').removeClass('no-display');
-        }
-        else {
-            alert("Attenzione: \nErrore nel file " + file.name + "\nLe foto devono avere estensione di tipo: jpg/jpeg, gif, png");
-        }
-    });
-
     $('.uploadImage_save').click(function() {
 
         tumbnail.attr('src', image);
@@ -697,13 +622,6 @@ $(document).ready(function() {
 
         $('#' + type_user + '-uploadImage').foundation('reveal', 'close');
     });
-
-    function updatePreview(c) {
-        $('#' + input_x).val(c.x);
-        $('#' + input_y).val(c.y);
-        $('#' + input_w).val(c.w);
-        $('#' + input_h).val(c.h);
-    }
 
     //----------------------------------- FINE SIGNUP -----------------------------------
 
@@ -860,8 +778,7 @@ function showCaptcha() {
  * La chiamata ajax restituisce "success" in caso di successo
  * @returns {undefined}
  */
-function validateCaptcha()
-{
+function validateCaptcha() {
     var json_captcha = {};
 
     json_captcha.request = "recaptcha";
@@ -1054,16 +971,88 @@ function sendRequest(_action, _data, callback, _async) {
     });
 }
 
-$("#form-signup").on("submit", function(event) {
-    event.preventDefault();
-    console.log(json_signup_user);
-    signup();
-});
-
 function signupCallback(data, status) {
     console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
 }
 
+//----------------------------------- IMAGE CROP ----------------------------------
+
+
+//userType = "spotter"/"jammer"/"venue"
+//img è creato con img = new Image e definiti i campi img.src, img.width e img.height
+function onUploadedImage(userType, img) {
+
+    preview = $('#' + userType + '_uploadImage_preview');
+    tumbnail = $('#' + userType + '_uploadImage_tumbnail');
+    tumbnail_pane = $('#' + userType + '_uploadImage_tumbnail-pane');
+
+    id_tumbnail = tumbnail.attr('id');
+    id_preview = preview.attr('id');
+
+    $.each($('#' + userType + '_uploadImage_preview_box input[type="hidden"]'), function(k, v) {
+        switch (k) {
+            case 0:
+                input_x = v.id;
+                break;
+            case 1:
+                input_y = v.id;
+                break;
+            case 2:
+                input_w = v.id;
+                break;
+            case 3:
+                input_h = v.id;
+                break;
+        }
+    });
+
+    //jcrop_api e' sempre undefined, come si inzializza?
+    if (jcrop_api) {
+        jcrop_api.destroy();
+        jcrop_api.setOptions({allowSelect: !!this.checked});
+        jcrop_api.focus();
+        tumbnail.remove();
+        
+        //creo l'html per la preview dell'immagine
+        var html_uploadImage_preview_box = "";
+        html_uploadImage_preview_box += '<img src="" id="' + id_preview + ' height="200" width="200"/>';
+        html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
+        html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
+        html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
+        html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
+        $('#' + userType + '_uploadImage_preview_box').html(html_uploadImage_preview_box);
+        preview = $('#' + userType + '_uploadImage_preview');
+        
+        //creo l'html per la preview del thumbnail
+        var html_tumbnail_pane = '';
+        html_tumbnail_pane += '<img src="" id="' + id_tumbnail + '" height="50" width="50"/>';
+        tumbnail_pane.html(html_tumbnail_pane);
+        tumbnail = $('#' + id_tumbnail);
+    }
+
+
+    //--- URL ------------
+
+    preview.attr('src', img.src);
+    width = img.width;
+    height = img.height;
+    if (img.width > $('.' + userType + '_uploadImage_box-preview').width()) {
+        width = $('.' + userType + '_uploadImage_box-preview').width();
+        height = $('.' + userType + '_uploadImage_box-preview').height();
+    }
+
+    initJcrop(img, width, height);
+
+    $('#' + userType + '_uploadImage_save').removeClass('no-display');
+}
+
+function updatePreview(c) {
+    $('#' + input_x).val(c.x);
+    $('#' + input_y).val(c.y);
+    $('#' + input_w).val(c.w);
+    $('#' + input_h).val(c.h);
+}
+    
 function  initJcrop(img, width, height) {
     xsize = tumbnail_pane.width(),
             ysize = tumbnail_pane.height();
@@ -1076,7 +1065,7 @@ function  initJcrop(img, width, height) {
         boundx = bounds[0];
         boundy = bounds[1];
         jcrop_api = this;
-        jcrop_api.setImage(img);
+        jcrop_api.setImage(img.src);
         jcrop_api.setOptions({
             boxWidth: width,
             boxHeight: height
@@ -1086,6 +1075,7 @@ function  initJcrop(img, width, height) {
     });
 
 }
+//----------------------------------- IMAGE UPLOAD ----------------------------------
 
 function initUploader(userType) {
 //inizializzazione dei parametri
@@ -1162,16 +1152,15 @@ function initUploader(userType) {
 
         console.log(response.response);
         var obj = JSON.parse(response.response);
-        $('#' + previewId).attr("src", "../media/cache/" + obj.id);
+        //$('#' + previewId).attr("src", "../media/cache/" + obj.id);
         //aggiorno nel json l'immagine del profilo (mi basta il nome del file in cache)
-        json_signup_user.imageProfile = obj.id;
+        json_signup_user.imageProfile = obj.src;
 
         //qua ora va attivato il jcrop
         var img = new Image();
-        img.src = "../media/cache/" + obj.id;
-        width = img.width;
-        height = img.height;
-        initJcrop(img.src, width, height);
-
+        img.src = "../media/cache/" + obj.src;
+        img.width = obj.width;
+        img.height = obj.height;
+        onUploadedImage(json_signup_user.type.toLowerCase(), img);
     });
 }
