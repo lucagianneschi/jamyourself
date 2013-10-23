@@ -61,7 +61,25 @@ class MessageController extends REST {
      * \todo    usare la sessione
      */
 	public function readMessage() {
-		$activityId = $this->request['activityId'];
+		try {
+			if ($this->get_request_method() != "POST") {
+				$this->response('', 406);
+			}
+			$activityId = $this->request['activityId'];
+			
+			$activityP = new ActivityParse();
+			$activity = $activityP->getActivity($activityId);
+			if (get_class($activity) == 'Error') {
+				$this->response(array('Error: ' . $activity->getMessage()), 503);
+			} else {
+				$res = $activity->updateField($activityId, 'read', array(true));//devo sempre passare array o solo true? fare test
+				if(get_class($res) == 'Error'){
+					$this->response(array('Error: ' . $res->getMessage()), 503); 
+				}
+			}
+		} catch (Exception $e) {
+			$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+		}
 	}	
 		
     /**
