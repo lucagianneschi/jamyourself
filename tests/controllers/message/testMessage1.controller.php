@@ -3,10 +3,10 @@
     <head>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script type="text/javascript">
-	    function readMessage(activityId) {
+	    function readMessage(objectId) {
 
 		var json_message = {};
-		json_message.activityId = activityId;
+		json_message.objectId = objectId;
 
 		$.ajax({
 		    type: "POST",
