@@ -73,7 +73,7 @@ class MessageController extends REST {
 				$this->response(array('Error: ' . $activity->getMessage()), 503);
 			} else {
 				if($activity->getRead() == false){
-					$res = $activity->updateField($objectId, 'read', true);
+					$res = $activityP->updateField($objectId, 'read', true);
 					if(get_class($res) == 'Error'){
 						$this->response(array('Error: ' . $res->getMessage()), 503); 
 					}
