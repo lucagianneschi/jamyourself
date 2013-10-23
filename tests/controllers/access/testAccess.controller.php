@@ -3,12 +3,12 @@
     <head>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script type="text/javascript">
-	    function access(usernameEmail, password, opType) {
+	    function access(usernameOrEmail, password, opType) {
 
 		var json_access = {};
 		if (opType == 'login') {
 		    json_access.request = "login";
-			json_access.usernameEmail = usernameEmail;
+			json_access.usernameOrEmail = usernameOrEmail;
 			json_access.password = password;	
 		} else if (opType == 'logout'){
 		    json_love.request = "logout";
