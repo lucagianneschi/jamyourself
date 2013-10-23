@@ -72,7 +72,7 @@ class EventInfoForMediaPage {
 	$this->invitedCounter = count($invited);
 	is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
-	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
+	is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
@@ -112,7 +112,7 @@ class EventInfoForPersonalPage {
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
+	is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFEVENTTHUMB'] : $this->thumbnail = $thumbnail;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
@@ -147,7 +147,7 @@ class EventInfoForUploadReviewPage {
 	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
 	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
-	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
+	is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFEVENTHUMB'] : $this->thumbnail = $thumbnail;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
@@ -251,7 +251,13 @@ class EventBox {
 	    $loveCounter = $event->getLoveCounter();
 	    $reviewCounter = $event->getReviewCounter();
 	    $shareCounter = $event->getShareCounter();
-	    $tags = $event->getTags();
+		$tags = array();
+		if (count($event->getTags()) > 0) {
+		    foreach ($event->getTags() as $tag) {
+				$tag = parse_decode_string($tag);
+				array_push($tags, $tag);
+		    }
+		} 
 	    $encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle);
 	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
@@ -345,12 +351,12 @@ class EventBox {
 		$objectId = $event->getObjectId();
 
 		$tags = array();
-		if (count($event->getTags()) > 0 && $event->getTags() != null) {
+		if (count($event->getTags()) > 0) {
 		    foreach ($event->getTags() as $tag) {
-			$tag = parse_decode_string($tag);
-			array_push($tags, $tag);
+				$tag = parse_decode_string($tag);
+				array_push($tags, $tag);
 		    }
-		}
+		} 
 		$thumbnail = $event->getThumbnail();
 		$encodedTitle = $event->getTitle();
 		$title = parse_decode_string($encodedTitle);
@@ -411,13 +417,13 @@ class EventBox {
 	    }
 	    $encodedLocationName = $event->getLocationName();
 	    $locationName = parse_decode_string($encodedLocationName);
-	    $tags = array();
-	    if (count($event->getTags()) > 0 && $event->getTags() != null) {
-		foreach ($event->getTags() as $tag) {
-		    $tag = parse_decode_string($tag);
-		    array_push($tags, $tag);
-		}
-	    }
+		$tags = array();
+		if (count($event->getTags()) > 0) {
+		    foreach ($event->getTags() as $tag) {
+				$tag = parse_decode_string($tag);
+				array_push($tags, $tag);
+		    }
+		} 
 	    $thumbnail = $event->getThumbnail();
 	    $encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle);

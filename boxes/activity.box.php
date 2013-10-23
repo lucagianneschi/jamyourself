@@ -227,7 +227,7 @@ class ActivityBox {
 			$record = $recordP->getRecord($recordId);
 			if (get_class($record) == 'Error') {
 			    return $record;
-			} else {
+			} elseif($record->getActive() == true) {
 			    $thumbnailCover = $record->getThumbnailCover();
 			    $objectId = $record->getObjectId();
 			    $encodedRecTitle = $record->getTitle();
@@ -236,8 +236,8 @@ class ActivityBox {
 			    $fromUserP = new UserParse();
 			    $user = $fromUserP->getUser($fromUserId);
 			    if (get_class($user) == 'Error') {
-				return $user;
-			    } else {
+					return $user;
+			    } elseif($user->getActive() == true) {
 				$objectIdUser = $fromUserP->getObjectId();
 				$thumbnail = $user->getProfileThumbnail();
 				$type = $user->getType();

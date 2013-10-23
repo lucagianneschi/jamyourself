@@ -83,7 +83,7 @@ class ImageInfo {
 	is_null($filePath) ? $this->filePath = $boxes['NODATA'] : $this->filePath = $filePath;
 	is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($tags) ? $this->tags = $boxes['NODATA'] : $this->tags = $tags;
+	is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFIMAGETHUMB'] : $this->thumbnail = $thumbnail;
     }
 
@@ -135,9 +135,13 @@ class AlbumBox {
 		$location = $image->getLocation();
 		$objectId = $image->getObjectId();
 		$tags = $image->getTags();
-		if (empty($tags)) {
-		    $tags = $boxes['NOTAG'];
-		}
+		$tags = array();
+		if (count($image->getTags()) > 0) {
+		    foreach ($image->getTags() as $tag) {
+				$tag = parse_decode_string($tag);
+				array_push($tags, $tag);
+		    }
+		} 
 		$thumbnail = $image->getThumbnail();
 
 		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail);

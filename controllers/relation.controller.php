@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		implementare i parametri di sessione (es currentUser)
+ * \todo		implementare i parametri di sessione (es currentUser), terminare funzioni, verificare che siano state istanziate tutte le activity
  *
  */
 if (!defined('ROOT_DIR'))

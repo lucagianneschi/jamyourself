@@ -92,7 +92,7 @@ class NotificationBox {
 	    case 'SPOTTER':
 		$activity2 = new ActivityParse();
 		$activity2->wherePointer('toUser', '_User', $objectId);
-		$activity2->where('type', 'FRIENDREQUEST');
+		$activity2->where('type', 'FRIENDSHIPREQUEST');
 		$activity2->where('status', 'P');
 		$activity2->where('read', false);
 		$activity2->where('active', true);
@@ -254,7 +254,7 @@ class NotificationBox {
 	$activity->wherePointer('toUser', '_User', $objectId);
 	switch ($type) {
 	    case 'SPOTTER':
-		$activity->where('type', 'FRIENDREQUEST');
+		$activity->where('type', 'FRIENDSHIPREQUEST');
 		break;
 	    default:
 		$activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));

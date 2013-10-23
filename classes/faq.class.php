@@ -179,7 +179,7 @@ class Faq {
 	 * \param	array
 	 */
 	public function setTags($tags) {
-		$this->tag = $tags;
+		$this->tags = $tags;
 	}
 
 	/**
