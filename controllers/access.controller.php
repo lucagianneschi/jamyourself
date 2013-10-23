@@ -104,34 +104,31 @@ class AccessController extends REST {
 
 	    $userId = $_REQUEST['userId'];
 	    $userParse = new UserParse();
-	    $resLogout = $userParse->logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
-	    if (get_class($resLogout) == 'Error') {
-		$this->response(array($controllers['KOLOGIN']), 503);
-	    } else {
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAccepted(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($userId);
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType('LOGGEDOUT');
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
+	    $userParse->logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
 
-		$activityParse = new ActivityParse();
-		$activityParse->saveActivity($activity);
-		$this->response(array($controllers['OKLOGOUT']), 200);
-	    }
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAccepted(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($userId);
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRecord(null);
+	    $activity->setRead(true);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser(null);
+	    $activity->setType('LOGGEDOUT');
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
+
+	    $activityParse = new ActivityParse();
+	    $activityParse->saveActivity($activity);
+	    $this->response(array($controllers['OKLOGOUT']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
@@ -146,34 +143,30 @@ class AccessController extends REST {
 	try {
 	    global $controllers;
 	    $userLib = new parseUser();
-	    $socialLogin = $userLib->socialLogin();
-	    if (get_class($socialLogin) == 'Error') {
-		$this->response(array($controllers['KOLOGIN']), 503);
-	    } else {
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAccepted(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser(null); //come faccio a ricavarlo da questa funzione??
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType('SOCIALLOGGEDIN');
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
+	    $userLib->socialLogin();
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAccepted(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser(null); //come faccio a ricavarlo da questa funzione??
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRecord(null);
+	    $activity->setRead(true);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser(null);
+	    $activity->setType('SOCIALLOGGEDIN');
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
 
-		$activityParse = new ActivityParse();
-		$activityParse->saveActivity($activity);
-		$this->response(array($controllers['OKLOGIN']), 200);
-	    }
+	    $activityParse = new ActivityParse();
+	    $activityParse->saveActivity($activity);
+	    $this->response(array($controllers['OKLOGIN']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
