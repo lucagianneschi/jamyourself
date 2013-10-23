@@ -29,7 +29,6 @@ $i_end = microtime();
 $id1 = '7fes1RyY77';//LDF
 
 echo '<br />-------------------------TEST EVENT LDF-------------------------------------------<br />';
-echo '<br />TEST EVENT BOX test1499427772<br />';
 $event1_start = microtime();
 $eventBoxP = new EventBox();
 $eventBox = $eventBoxP->initForPersonalPage($id1);
