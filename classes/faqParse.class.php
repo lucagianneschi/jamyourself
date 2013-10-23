@@ -70,7 +70,7 @@ class FaqParse {
 		$faqs = $this->getFaqs();
 		$tags = array();
 		foreach ($faqs as $faq) {
-			$tags = array_merge($tags, $faq->getTag());
+			$tags = array_merge($tags, $faq->getTags());
 		}
 		$tags = array_unique($tags);
 		natcasesort($tags);
