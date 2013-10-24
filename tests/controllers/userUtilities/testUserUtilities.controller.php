@@ -49,13 +49,13 @@
     <body>
 	Operazioni dell'utente<br />
 	<br />
-	<button type="button" onclick="userUtilities('EKElKcMMRM', 'reset', 'lucagianneschi@hotmail.com',null)">Richiesta reset password per lucagianneschi</button>
+	<button type="button" onclick="userUtilities('EKElKcMMRM', 'reset', 'luca.gianneschi@gmail.com',null)">Richiesta reset password per lucagianneschi</button>
 	&nbsp;
 	<button type="button" onclick="userUtilities('EKElKcMMRM', 'link', null,null)">Link Social Account per lucagianneschi</button>
 	&nbsp;<hr>
 	<button type="button" onclick="userUtilities('EKElKcMMRM', 'unlink', null,null)">UnLink Social Account per lucagianneschi</button>
 	&nbsp;
-	<button type="button" onclick="userUtilities('7fes1RyY77', 'reset', null,null)">Richiesta reset password per LDF</button>
+	<button type="button" onclick="userUtilities('7fes1RyY77', 'reset', 'alessandrog@jamyourself.com',null)">Richiesta reset password per LDF</button>
 	&nbsp;
 	<button type="button" onclick="userUtilities('7fes1RyY77', 'link', null,null)">Link Social Account per LDF</button>
 	&nbsp;<hr>
