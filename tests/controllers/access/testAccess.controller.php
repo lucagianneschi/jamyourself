@@ -42,13 +42,13 @@
     <body>
         Cliccando i bottoni si effettuano operazioni di login e logout<br />
         <br />
-        <button type="button" onclick="access('lucagianneschi', 'luca131181', 'login', null)">Login lucagianneschi</button>
+        <button type="button" onclick="access('lucagianneschi', 'fVoZVNdm', 'login', null)">Login lucagianneschi</button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" onclick="access('lucagianneschi', 'luca131181', 'logout', null)">Logout lucagianneschi</button>
+        <button type="button" onclick="access('lucagianneschi', 'fVoZVNdm', 'logout', null)">Logout lucagianneschi</button>
         &nbsp;<hr>
-        <button type="button" onclick="access('Ldf', '7fes1RyY77', 'login', null)">Login Ldf</button>
+        <button type="button" onclick="access('Ldf', 'MHURRg5X', 'login', null)">Login Ldf</button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <button type="button" onclick="access('Ldf', '7fes1RyY77', 'logout', null)">Logout Ldf</button>
+        <button type="button" onclick="access('Ldf', 'MHURRg5X', 'logout', null)">Logout Ldf</button>
         &nbsp;<hr>
         <button type="button" onclick="access('xxxxxxxx', '12345678', 'sociaLogin', null)">SocialLogin</button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
