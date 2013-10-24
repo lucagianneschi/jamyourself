@@ -84,23 +84,6 @@ if (get_class($resGets) == 'Error') {
 }
 
 echo '<br />FINITO IL RECUPERO DI PIU\' FAQ<br />';
-
-echo '<br />-------------------------------------------------------------------------------<br />';
-
-echo '<br />INIZIO L\'AGGIORNAMENTO DI UNA FAQ<br />';
-
-$faqParse = new FaqParse();
-$faq = $faqParse->getFaq($resSave->getObjectId());
-$faq->setQuestion('Sono una faq aggiornata');
-$resUpdate = $faqParse->saveFaq($faq);
-if (get_class($resUpdate)== 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
-} else {
-	echo '<br />FAQ UPDATED<br />';
-}
-
-echo '<br />FINITO L\'AGGIORNAMENTO DI UN FAQ<br />';
-
 echo '<br />-------------------------------------------------------------------------------<br />';
 
 ?>
