@@ -53,8 +53,8 @@ class AccessController extends REST {
 		$this->response('', 406);
 	    }
 
-	    $usernameOrEmail = $_REQUEST['usernameOrEmail'];
-	    $password = $_REQUEST['password'];
+	    $usernameOrEmail = $this->request['usernameOrEmail'];
+	    $password = $this->request['password'];
 	    $userParse = new UserParse();
 	    $resLogin = $userParse->loginUser($usernameOrEmail, $password);
 	    if (get_class($resLogin) == 'Error') {
@@ -102,7 +102,7 @@ class AccessController extends REST {
 		$this->response('', 406);
 	    }
 
-	    $userId = $_REQUEST['userId'];
+	    $userId = $this->request['userId'];
 	    $userParse = new UserParse();
 	    $userParse->logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
 
