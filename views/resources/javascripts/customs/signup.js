@@ -998,7 +998,7 @@ function onUploadedImage(userType, img) {
 
     //creo l'html per la preview dell'immagine
     var html_uploadImage_preview_box = "";
-    html_uploadImage_preview_box += '<img src="' + img.src + '" id="' + id_preview + ' width="' + img.width + '" height="' + img.height + '" "/>';
+    html_uploadImage_preview_box += '<img src="' + img.src + '" id="' + id_preview + '" width="' + img.width + 'px" height="' + img.height + 'px" "/>';
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
@@ -1014,7 +1014,7 @@ function onUploadedImage(userType, img) {
     html_tumbnail_pane += '<img src="" id="' + id_tumbnail + '" height="50" width="50"/>';
 
 //mostra a video la preview del thumbnail 
-    ("#"+id_tumbnail).html(html_tumbnail_pane);
+    $("#"+id_tumbnail).html(html_tumbnail_pane);
     tumbnail = $('#' + id_tumbnail);
 
 //mostro a video l'immagine 
