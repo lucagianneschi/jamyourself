@@ -624,10 +624,11 @@ $(document).ready(function() {
 			realheight = this.height;
 		
                 
-        thm_w = Math.round(realwidth / $('#'+input_w).val()) * xsize;
-        thm_h = Math.round(realheight / $('#'+input_h).val()) * ysize;
+        thm_w = Math.round(realwidth / $('#'+input_w).val() * xsize) ;
+        thm_h = Math.round(realheight / $('#'+input_h).val() * ysize) ;
         
-        console.log(realwidth + ' '+ $('#'+input_w).val() + ' '+ xsize);        
+        console.log(realwidth + ' '+ $('#'+input_w).val() + ' '+ xsize + ' '+thm_w);        
+        console.log(realheight + ' '+ $('#'+input_h).val() + ' '+ ysize + ' '+ thm_h);   
         
         tumbnail.css({
             width: thm_w + 'px',
