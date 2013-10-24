@@ -23,10 +23,10 @@
                                 </div>	
                             </div>
                             <div class="row">
-                                <div id="spotter_container" class="small-4 small-centered columns align-center">
+                                <div id="spotter_container" class="small-5 small-centered columns align-center">
                                     <div id="filelist">Upload not supported.</div>
                                     <br />
-                                    <label class="uploadImage_file_label" for="spotter_uploadImage_file" id="spotter_uploadImage_file_label">Select a file from your computer</label>
+                                    <label class="uploadImage_file_label" for="spotter_uploadImage_file" id="spotter_uploadImage_file_label" style="width: 300px;">Select a file from your computer</label>
                                 </div>
                             </div>
                             <div class="row">							
@@ -44,7 +44,7 @@
 
                             <div class="row">							
                                 <div  class="small-3 small-offset-9 columns">
-                                    <input type="button" id="spotter_uploadImage_save" name="spotter_uploadImage_save" class="signup-button no-display uploadImage_save" value="Save"/>
+                                    <input type="button" id="spotter_uploadImage_save" name="spotter_uploadImage_save" class="signup-button no-display uploadImage_save" value="Save" />
                                 </div>
                             </div>
                         </div>

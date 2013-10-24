@@ -132,7 +132,7 @@ $(document).ready(function() {
      * La verifica vera e propria dei campi viene fatta da fondation abide con le espressioni regolari (vedi sopra)
      */
     $('#signup01-signup01 .signup-button').click(function() {
-        var type_user = "";
+        type_user = "";
         scheda_succ = "";
 
         var validation_username = false;
@@ -606,19 +606,46 @@ $(document).ready(function() {
         $('#signup-labelStep-step2').css({"background-color": "#C95600"});
         $('#signup-labelStep-step2').css({"color": "#D8D8D8"});
     }
-
+	
+		
     $('.uploadImage_save').click(function() {
-
-        tumbnail.attr('src', image);
-        rx = xsize / $('#' + input_w).val();
-        ry = ysize / $('#' + input_h).val();
+		tumbnail = $('#' + type_user + '_uploadImage_tumbnail');
+        
+        tumbnail.attr('src', preview.attr('src'));
+        
+        thmImage = new Image()
+        
+        thmImage.src = preview.attr('src');
+        
+        var realwidth,realheight;
+        
+        thmImage.onload=function(){
+			realwidth = this.width;
+			realheight = this.height;
+		
+                
+        thm_w = Math.round(realwidth / $('#'+input_w).val()) * xsize;
+        thm_h = Math.round(realheight / $('#'+input_h).val()) * ysize;
+        
+        console.log(realwidth + ' '+ $('#'+input_w).val() + ' '+ xsize);        
+        
         tumbnail.css({
-            width: Math.round(rx * boundx) + 'px',
-            height: Math.round(ry * boundy) + 'px',
-            marginLeft: '-' + Math.round(rx * $('#' + input_x).val()) + 'px',
-            marginTop: '-' + Math.round(ry * $('#' + input_y).val()) + 'px'
+            width: thm_w + 'px',
+            height: thm_h + 'px',
+            marginLeft: '-' + Math.round(thm_w * ($('#'+input_x).val() / realwidth)) + 'px',
+            marginTop: '-' + Math.round(thm_h * ($('#'+input_y).val() / realheight)) + 'px'
         });
-
+		
+		}
+		
+		json_crop = {
+			x : $('#'+input_x).val(),
+			y : $('#'+input_y).val(),
+			h : $('#'+input_h).val(),
+			w : $('#'+input_w).val(),
+		} ;
+		
+		json_signup_user.crop = json_crop;
 
         $('#' + type_user + '-uploadImage').foundation('reveal', 'close');
     });
@@ -997,6 +1024,12 @@ function onUploadedImage(userType, img) {
 //        tumbnail.remove();
 
     //creo l'html per la preview dell'immagine
+    
+    input_x = userType + '_x';
+    input_y = userType + '_y';
+    input_w = userType + '_w';
+    input_h = userType + '_h';
+    
     var html_uploadImage_preview_box = "";
     html_uploadImage_preview_box += '<img src="' + img.src + '" id="' + id_preview + '" width="' + img.width + 'px" height="' + img.height + 'px" "/>';
     html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
@@ -1020,27 +1053,9 @@ function onUploadedImage(userType, img) {
 //mostro a video l'immagine 
     $('#' + userType + '_uploadImage_save').removeClass('no-display');
 
-//questa porzione di codice non è mai utilizzata:
-    $.each($('#' + userType + '_uploadImage_preview_box input[type="hidden"]'), function(k, v) {
-        switch (k) {
-            case 0:
-                input_x = v.id;
-                break;
-            case 1:
-                input_y = v.id;
-                break;
-            case 2:
-                input_w = v.id;
-                break;
-            case 3:
-                input_h = v.id;
-                break;
-        }
-    });
-    
     
     //attivo il plugin jcrop (non funzionante per ora)
-    initJcrop(img);
+    initJcrop(img,preview);
 }
 
 function updatePreview(c) {
@@ -1048,39 +1063,45 @@ function updatePreview(c) {
     $('#' + input_y).val(c.y);
     $('#' + input_w).val(c.w);
     $('#' + input_h).val(c.h);
+    
 }
 
-function  initJcrop(img) {
+function  initJcrop(img,preview) {
 
     var imgWidth = img.width;
     var imgHeight = img.height;
-
+	
     //se jcrop è gia' stato attivato in precedenza lo disattivo
     if (jcrop_api) {
         jcrop_api.destroy();  
         jcrop_api.setOptions({allowSelect: !!this.checked});
         jcrop_api.focus();
-        tumbnail.remove();
+        //tumbnail.remove();
       }
         xsize = tumbnail_pane.width(),
         ysize = tumbnail_pane.height();
-//    $('#'+id_preview).Jcrop({
-//        onChange: updatePreview,
-//        onSelect: updatePreview,
-//        aspectRatio: xsize / ysize,
-//    }, function() {
-//        var bounds = this.getBounds();
-//        boundx = bounds[0];
-//        boundy = bounds[1];
-//        jcrop_api = this;
-//        jcrop_api.setImage(img.src);
-//        jcrop_api.setOptions({
-//            boxWidth: img.width,
-//            boxHeight: img.height
-//        });
-//        jcrop_api.animateTo([0, 0, 100, 100]);
-//    });
+        
+      $(preview).Jcrop({
+      	onChange: updatePreview,
+      	onSelect: updatePreview,
+      	aspectRatio: xsize / ysize,
+      }, function() {
+      	var bounds = this.getBounds();
+        boundx = bounds[0];
+        boundy = bounds[1];
+        jcrop_api = this;
+        jcrop_api.setImage(img.src);
+        jcrop_api.setOptions({
+            boxWidth: img.width,
+            boxHeight: img.height
+        });
+      	jcrop_api.animateTo([0, 0, 100, 100]);
+      });  
 
+
+}
+function saveImage(){
+	
 }
 //----------------------------------- IMAGE UPLOAD ----------------------------------
 
