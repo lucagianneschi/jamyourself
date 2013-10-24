@@ -39,22 +39,22 @@ class SignupController extends REST {
      */
     public function init() {
 
-        //inizializzo la sessione
+//inizializzo la sessione
         session_start();
 
 //        if (!isset($_SESSION['currentUser'])) { @Per il test
-        //dovrei inizializzarlo vuoto... ma il costruttore non  me lo permette.. :(
+//dovrei inizializzarlo vuoto... ma il costruttore non  me lo permette.. :(
         $sessionUser = new User("SPOTTER");
         $sessionUser->setType(null);
         $_SESSION['currentUser'] = $sessionUser;
 
-        //passo la chiave pubblica del captcha qua
+//passo la chiave pubblica del captcha qua
         $_SESSION['captchaPublicKey'] = CAPTCHA_PUBLIC_KEY;
         $_SESSION['captchaValidation'] = false;
         $_SESSION['config'] = $this->config;
 
-        //return qualcosa se c'è qualcosa da ritornare...
-        //}
+//return qualcosa se c'è qualcosa da ritornare...
+//}
     }
 
     /**
@@ -76,25 +76,24 @@ class SignupController extends REST {
                 $this->response(array(), 406);
             }
 
-            //verifico che l'utente abbia effettivamente completato il captcha
+//verifico che l'utente abbia effettivamente completato il captcha
 //        if ($_SESSION['captchaValidation'] == false) {
 //            // If invalid inputs "Bad Request" status message and reason
 //            $error = array('status' => "Bad Request", "msg" => "Captcha test failed");
 //            $this->response($error, 400);
 //        }
-            //recupero l'utente passato come parametro nella request
+//recupero l'utente passato come parametro nella request
             $userJSON = $this->request;
 
-            //effetuo la validazione dell'utente
+//effetuo la validazione dell'utente
             $this->userValidator->checkNewUser($userJSON);
             if (!$this->userValidator->getIsValid()) {
-                // If invalid inputs "Bad Request" status message and reason
-                $error = array('status' => "Bad Request", "msg" => "Invalid new user");
+// If invalid inputs "Bad Request" status message and reason
+                $error = array('status' => "Bad Request", "msg" => "Invalid new user", "errorList" => $this->userValidator->getErrors());
                 $this->response($error, 400);
             }
 
-
-            //recupero i campi dell'utente
+//recupero i campi dell'utente
             $newUser = json_decode(json_encode($userJSON), false);
             switch ($newUser->type) {
                 case "SPOTTER" :
@@ -108,16 +107,16 @@ class SignupController extends REST {
                     break;
             }
 
-            //tenta di effettuare il salvataggio
+//tenta di effettuare il salvataggio
             $pUser = new UserParse();
             $user = $pUser->saveUser($newUser);
 
             if (is_a($user, "Error")) {
-                //result è un errore e contiene il motivo dell'errore
+//result è un errore e contiene il motivo dell'errore
                 $error = array('status' => "Service Unavailable", "msg" => $user->getErrorMessage());
                 $this->response($error, 503);
             }
-            //se va a buon fine salvo una nuova activity       
+//se va a buon fine salvo una nuova activity       
             $activity = new Activity();
             $activity->setAccepted(true);
             $activity->setActive(true);
@@ -130,11 +129,10 @@ class SignupController extends REST {
             $pActivity = new ActivityParse();
             $pActivity->saveActivity($activity);
 
-            //aggiorno l'oggetto User in sessione
+//aggiorno l'oggetto User in sessione
             $_SESSION['currentUser'] = $user;
-            //restituire true o lo user....
+//restituire true o lo user....
             $this->response(array("OK"), 201);
-            
         } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
             $this->response($error, 503);
@@ -147,32 +145,32 @@ class SignupController extends REST {
      * 
      */
     public function recaptcha() {
-        try{
-        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
-            $this->response('', 406);
-        }
+        try {
+            if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+                $this->response('', 406);
+            }
 
-        //verifico che ci sia il codice recaptcha nei parametri
-        if (!isset($this->request['challengeField']) || !isset($this->request['responseField'])) {
-            // If invalid inputs "Bad Request" status message and reason
-            $error = array('status' => "Bad Request", "msg" => "No new user specified");
-            $this->response($error, 400);
-        }
-        $challengeField = $this->request['challengeField'];
-        $responseField = $this->request['responseField'];
+//verifico che ci sia il codice recaptcha nei parametri
+            if (!isset($this->request['challengeField']) || !isset($this->request['responseField'])) {
+// If invalid inputs "Bad Request" status message and reason
+                $error = array('status' => "Bad Request", "msg" => "No new user specified");
+                $this->response($error, 400);
+            }
+            $challengeField = $this->request['challengeField'];
+            $responseField = $this->request['responseField'];
 
-        //da implementare
+//da implementare
 
-        $resp = recaptcha_check_answer(CAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $challengeField, $responseField);
+            $resp = recaptcha_check_answer(CAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $challengeField, $responseField);
 
-        if ($resp->is_valid) {
-            $_SESSION['captchaValidation'] = true;
-            $this->response(array("success"), 200);
-        } else {
-            $this->response(array("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
-                "(reCAPTCHA said: " . $resp->error . ")"), 200);
-        }
-                } catch (Exception $e) {
+            if ($resp->is_valid) {
+                $_SESSION['captchaValidation'] = true;
+                $this->response(array("success"), 200);
+            } else {
+                $this->response(array("The reCAPTCHA wasn't entered correctly. Go back and try it again." .
+                    "(reCAPTCHA said: " . $resp->error . ")"), 200);
+            }
+        } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
             $this->response($error, 503);
         }
@@ -184,33 +182,33 @@ class SignupController extends REST {
      *              username => lo username di cui si verifica l'esistenza
      */
     public function checkUsernameExists() {
-        try{
-        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
-            $this->response('', 406);
-        }
+        try {
+            if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+                $this->response('', 406);
+            }
 
-        //verifico che ci sia il nuovo utente nei paraemtri
-        if (!isset($this->request['username'])) {
-            // If invalid inputs "Bad Request" status message and reason
-            $error = array('status' => "Bad Request", "msg" => "No username specified");
-            $this->response($error, 400);
-        }
+//verifico che ci sia il nuovo utente nei paraemtri
+            if (!isset($this->request['username'])) {
+// If invalid inputs "Bad Request" status message and reason
+                $error = array('status' => "Bad Request", "msg" => "No username specified");
+                $this->response($error, 400);
+            }
 
-        $username = $this->request['username'];
-        //query per la verifica dello username
-        $up = new UserParse();
-        $up->whereEqualTo("username", $username);
-        $res = $up->getCount();
+            $username = $this->request['username'];
+//query per la verifica dello username
+            $up = new UserParse();
+            $up->whereEqualTo("username", $username);
+            $res = $up->getCount();
 
-        if (is_a($res, "Error")) {
-            //result è un errore e contiene il motivo dell'errore
-            $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
-            $this->response($error, 503);
-        }
+            if (is_a($res, "Error")) {
+//result è un errore e contiene il motivo dell'errore
+                $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
+                $this->response($error, 503);
+            }
 
-        //restituisco $res che assume valori 0 o 1
-        $this->response(array($res), 200);
-                } catch (Exception $e) {
+//restituisco $res che assume valori 0 o 1
+            $this->response(array($res), 200);
+        } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
             $this->response($error, 503);
         }
@@ -222,30 +220,30 @@ class SignupController extends REST {
      *              email => l'email di cui si verifica l'esistenza
      */
     public function checkEmailExists() {
-        try{
-        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
-            $this->response('', 406);
-        }
+        try {
+            if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+                $this->response('', 406);
+            }
 
-        if (!isset($this->request['email'])) {
-            // If invalid inputs "Bad Request" status message and reason
-            $error = array('status' => "Bad Request", "msg" => "No username specified");
-            $this->response($error, 400);
-        }
-        $email = $this->request['email'];
-        //query per la verifica dell'email
-        $up = new UserParse();
-        $up->whereEqualTo("email", $email);
-        $res = $up->getCount();
+            if (!isset($this->request['email'])) {
+// If invalid inputs "Bad Request" status message and reason
+                $error = array('status' => "Bad Request", "msg" => "No username specified");
+                $this->response($error, 400);
+            }
+            $email = $this->request['email'];
+//query per la verifica dell'email
+            $up = new UserParse();
+            $up->whereEqualTo("email", $email);
+            $res = $up->getCount();
 
-        if (is_a($res, "Error")) {
-            //result è un errore e contiene il motivo dell'errore
-            $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
-            $this->response($error, 503);
-        }
-        //restituisco $res che assume valori 0 o 1
-        $this->response(array($res), 200);
-                } catch (Exception $e) {
+            if (is_a($res, "Error")) {
+//result è un errore e contiene il motivo dell'errore
+                $error = array('status' => "Service Unavailable", "msg" => "Cannot create a new user");
+                $this->response($error, 503);
+            }
+//restituisco $res che assume valori 0 o 1
+            $this->response(array($res), 200);
+        } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
             $this->response($error, 503);
         }
@@ -257,19 +255,19 @@ class SignupController extends REST {
             $user = new User("SPOTTER");
 
             $this->setCommonValues($user, $userJSON);
-            
-            //step 2
+
+//step 2
             $user->setFirstname($userJSON->firstname);
             $user->setLastname($userJSON->lastname);
             $user->setCountry($userJSON->country);
             $user->setCity($userJSON->city);
             $user->setMusic($this->getMusicArray($userJSON->genre));
 
-            //step 3
+//step 3
             $user->setSex($userJSON->sex);
 
-            //birthday            
-            $birthday = json_decode(json_encode($userJSON->birthday),false);
+//birthday            
+            $birthday = json_decode(json_encode($userJSON->birthday), false);
             if (strlen($birthday->year) > 0 && strlen($birthday->month) > 0 && strlen($birthday->day) > 0) {
                 $user->setBirthDay($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
             }
@@ -278,6 +276,7 @@ class SignupController extends REST {
         }
         return null;
     }
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //       Funzioni per la creazione del nuovo utente (non invocabili via REST API
@@ -288,17 +287,17 @@ class SignupController extends REST {
 
         if (!is_null($userJSON)) {
             $user = new User("JAMMER");
-            //step1
+//step1
             $this->setCommonValues($user, $userJSON);
 
-            //step2
+//step2
             $user->setJammerType($userJSON->jammerType);
             $user->setCountry($userJSON->country);
             $user->setCity($userJSON->city);
             if ($userJSON->jammerType == "band") {
                 $user->setMembers($this->getMembersArray($userJSON->members));
             }
-            //step 3
+//step 3
             $user->setMusic($this->getMusicArray($userJSON->genre));
             return $user;
         }
@@ -310,7 +309,7 @@ class SignupController extends REST {
         if (!is_null($userJSON)) {
             $user = new User("VENUE");
 
-            //step1
+//step1
             $this->setCommonValues($user, $userJSON);
 
             $user->setCountry($userJSON->country);
@@ -323,63 +322,71 @@ class SignupController extends REST {
             $geocoding = GeocoderService::getLocation($userJSON->country . "," . $userJSON->city . "," . $userJSON->province . "," . $userJSON->address . "," . $userJSON->number);
             $user->setGeoCoding($geocoding);
             $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
-            
+
             return $user;
         }
         return null;
     }
 
     private function getMusicArray($genre) {
-          if(count($genre) > 0){
-              $return = array();
-              for($i=0; $i<count($genre); $i++){
-                  $return[] = $this->config->music[$genre[$i]];
-              }
-              
-              return $return;
-          }else return null;        
-          
+        if (count($genre) > 0) {
+            $return = array();
+            for ($i = 0; $i < count($genre); $i++) {
+                $return[] = $this->config->music[$genre[$i]];
+            }
+
+            return $return;
+        }
+        else
+            return null;
     }
 
     private function getMembersArray($members) {
-        
-        if(count($members)> 0){
+
+        if (count($members) > 0) {
             $return = array();
-            foreach($members as  $member){
+            foreach ($members as $member) {
                 $return[] = array("instrument" => $member->instrument, "name" => $member->name);
             }
             return $return;
-        }else return null;                
+        }
+        else
+            return null;
     }
 
     private function getLocalTypeArray($genre) {
-          if(count($genre) > 0){
-              $return = array();
-              for($i=0; $i<count($genre); $i++){
-                  $return[] = $this->config->localType[$genre[$i]];
-              }
-              
-              return $return;
-          }else return null;         
+        if (count($genre) > 0) {
+            $return = array();
+            for ($i = 0; $i < count($genre); $i++) {
+                $return[] = $this->config->localType[$genre[$i]];
+            }
+
+            return $return;
+        }
+        else
+            return null;
     }
 
     private function setCommonValues($user, $decoded) {
-            
-        //la parte dello step 1
+
+//la parte dello step 1
         $user->setUsername($decoded->username);
         $user->setEmail($decoded->email);
         $user->setPassword($decoded->password);
         $user->setDescription($decoded->description);
-        $imgProfile = ""; //@todo
-        $user->setSettings(defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgProfile));
-        //la parte social        
+        
+        $imgInfo = $this->getImages($decoded);
+                $user->setSettings(defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['ProfilePicture']));
+//la parte social      
+        $user->setProfilePicture($imgInfo['ProfilePicture']);
+        $user->setProfileThumbnail($imgInfo['ProfileThumbnail']);
         $user->setFbPage($decoded->facebook);
         $user->setTwitterPage($decoded->twitter);
         $user->setGooglePlusPage($decoded->google);
         $user->setYoutubeChannel($decoded->youtube);
         $user->setWebsite($decoded->web);
 
-        //imposto i parametri di Jam
+//imposto i parametri di Jam
 //        $user->setAuthData($authData);
         $parseACL = new parseACL();
         $parseACL->setPublicReadAccess(true);
@@ -396,24 +403,23 @@ class SignupController extends REST {
         $user->setPremium(false);
         $user->setVenueCounter(0);
     }
-    
-    private function cropImage($user, $decoded){
-        if(isset($decoded->profileImage) && !is_null($decoded->profileImage) && strlen($decoded->profileImage) > 0){
-                //salvo l'immagine
-            $cis = new CropImageService();
-            $images  = $cis->cropImage($decoded->profileImage, $decoded->x, $decoded->y, $decoded->w, $decoded->h, MEDIA_DIR.$this->config->profileFolder);
-            if(!is_null($images)){
-                
-                $user->setImageProfile();
-                
-            }        
 
-            
-        }
-            
+    private function getImages($decoded) {
+        //in caso di anomalie ---> default
+        if(!isset($decoded->crop) || is_null($decoded->crop) || 
+        !isset($decoded->imageProfile)|| is_null($decoded->imageProfile)){
+            return array("ProfilePicture" => "", "ProfileThumbnail" => "");
+        }        
+        $cropInfo = json_decode(json_encode($decoded->crop), false);
+        $cis = new CropImageService();
+        
+        $cacheDir = MEDIA_DIR . "cache/";
+        $cacheImg = MEDIA_DIR . "cache/".$decoded->imageProfile;
+        
+        $imagesUrl = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h);
+        
+        return $imagesUrl;
     }
-    
-
 
 }
 
