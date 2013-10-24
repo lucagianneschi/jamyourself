@@ -32,7 +32,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 				<h3><?php echo $views['event']['TITLE'];?> </h3>
 			</div>	
 			<div  class="small-7 columns align-right">
-				<?php if($eventCounter > 0){ ?>
+				<?php if($eventCounter > 4){ ?>
 					<div class="row">					
 						<div  class="small-9 columns">
 							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('event')"><?php echo $views['PREV'];?> </a>

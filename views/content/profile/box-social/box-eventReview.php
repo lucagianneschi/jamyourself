@@ -27,7 +27,7 @@ $typeUser = $_POST['typeUser'];
 			<h3><?php echo $views['EventReview']['TITLE'];?></h3>
 		</div>	
 		<div  class="large-7 columns align-right">
-			<?php if($data['eventReviewCounter'] > 0){ ?>
+			<?php if($data['eventReviewCounter'] > 1){ ?>
 				<a class="icon-block _nextPage grey" onclick="royalSlideNext(this,'eventReview')" style="top: 5px !important; margin-top: 15px !important"></a>
 			<a class="icon-block _prevPage grey text" onclick="royalSlidePrev(this,'eventReview')" style="top: 5px !important; margin-top: 15px !important; "><span class="indexBox">1</span>/<?php echo $data['eventReviewCounter'] ?></a>
 	 		
