@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -17,8 +18,8 @@
  */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
-	
+    define('ROOT_DIR', '../../');
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -45,9 +46,9 @@ echo '<br />INIZIO IL SALVATAGGIO DELLA FAQ APPENA CREATA<br />';
 $faqParse = new FaqParse();
 $resSave = $faqParse->saveFaq($faq);
 if (get_class($resSave) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Faq SAVED:<br />' . $resSave . '<br />';
+    echo '<br />Faq SAVED:<br />' . $resSave . '<br />';
 }
 
 echo '<br />FINITO IL SALVATAGGIO DEL COMMENTO APPENA CREATO<br />';
@@ -59,9 +60,9 @@ echo '<br />INIZIO IL RECUPERO DI UNA FAQ<br /><br />';
 $faqParse = new FaqParse();
 $resGet = $faqParse->getFaq('qzArYWw1w5');
 if (get_class($resGet) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
-	echo $resGet;
+    echo $resGet;
 }
 
 echo '<br />FINITO IL RECUPERO DI UNA FAQ<br />';
@@ -76,31 +77,13 @@ $faqParse->orderByDescending('createdAt');
 $faqParse->setLimit(5);
 $resGets = $faqParse->getFaqs();
 if (get_class($resGets) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
-	foreach($resGets as $faq) {
-		echo '<br />' . $faq->getObjectId() . '<br />';
-	}
+    foreach ($resGets as $faq) {
+        echo '<br />' . $faq->getObjectId() . '<br />';
+    }
 }
 
 echo '<br />FINITO IL RECUPERO DI PIU\' FAQ<br />';
-
 echo '<br />-------------------------------------------------------------------------------<br />';
-
-echo '<br />INIZIO L\'AGGIORNAMENTO DI UNA FAQ<br />';
-
-$faqParse = new FaqParse();
-$faq = $faqParse->getFaq($resSave->getObjectId());
-$faq->setQuestion('Sono una faq aggiornata');
-$resUpdate = $faqParse->saveFaq($faq);
-if (get_class($resUpdate)== 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
-} else {
-	echo '<br />FAQ UPDATED<br />';
-}
-
-echo '<br />FINITO L\'AGGIORNAMENTO DI UN FAQ<br />';
-
-echo '<br />-------------------------------------------------------------------------------<br />';
-
 ?>

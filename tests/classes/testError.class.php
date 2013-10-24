@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par Info Generali:
  * \author Luca Gianneschi
  * \version 1.0
@@ -17,8 +18,8 @@
  */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
-	
+    define('ROOT_DIR', '../../');
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -45,9 +46,9 @@ echo 'INIZIO IL SALVATAGGIO DELLA Error APPENA CREATA<br />';
 $errorParse = new ErrorParse();
 $resSave = $errorParse->saveError($error);
 if (get_class($resSave) == 'Exception') {
-	echo 'ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getMessage() . '<br />';
+    echo 'ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getMessage() . '<br />';
 } else {
-	echo '<br />Error SAVED:<br />' . $resSave . '<br />';
+    echo '<br />Error SAVED:<br />' . $resSave . '<br />';
 }
 
 echo '<br />FINITO IL SALVATAGGIO DELLA Error APPENA CREATA<br />';
@@ -58,10 +59,10 @@ echo '<br />INIZIO IL RECUPERO DI UN Error<br /><br />';
 
 $errorParse = new ErrorParse();
 $resGet = $errorParse->getError($resSave->getObjectId());
-if ( !method_exists($resSave, 'getObjectId') ) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+if (!method_exists($resSave, 'getObjectId')) {
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
-	echo $resGet;
+    echo $resGet;
 }
 
 echo '<br />FINITO IL RECUPERO DI UN Error<br />';
@@ -76,31 +77,13 @@ $errorParse->orderByDescending('createdAt');
 $errorParse->setLimit(5);
 $resGets = $errorParse->getErrors();
 if (get_class($resGets)) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
-	foreach($resGets as $error) {
-		echo '<br />' . $error->getObjectId() . '<br />';
-	}
+    foreach ($resGets as $error) {
+        echo '<br />' . $error->getObjectId() . '<br />';
+    }
 }
 
 echo '<br />FINITO IL RECUPERO DI PIU\' Error<br />';
-
 echo '<br />-------------------------------------------------------------------------------<br />';
-
-echo '<br />INIZIO L\'AGGIORNAMENTO DI UN ERROR <br />';
-
-$errorParse = new ErrorParse();
-$error = $errorParse->getError($resSave->getObjectId());
-$error->setErrorCode(99999);
-$resUpdate = $errorParse->saveError($error);
-if (get_class($resUpdate) == 'Exception') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getMessage() . '<br/>';
-} else {
-	echo '<br />Error UPDATED<br />';
-}
-
-echo '<br />FINITO L\'AGGIORNAMENTO DI UN  ERROR <br />';
-
-echo '<br />-------------------------------------------------------------------------------<br />';
-
 ?>

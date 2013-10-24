@@ -60,9 +60,9 @@ class PlaylistController extends REST {
 	    if ($this->get_request_method() != 'POST') {
 		$this->response('', 406);
 	    }
-	    $playlistId = $_REQUEST['playlistId'];
-	    $songId = $_REQUEST['songId'];
-	    $fromUserId = $_REQUEST['fromUserId'];
+	    $playlistId = $this->request['playlistId'];
+	    $songId = $this->request['songId'];
+	    $fromUserId = $this->request['fromUserId'];
 
 	    $playlistP = new PlaylistParse();
 	    $playlist = $playlistP->getPlaylist($playlistId);
@@ -126,9 +126,9 @@ class PlaylistController extends REST {
 	    if ($this->get_request_method() != 'POST') {
 		$this->response('', 406);
 	    }
-	    $playlistId = $_REQUEST['playlistId'];
-	    $songId = $_REQUEST['songId'];
-	    $fromUserId = $_REQUEST['fromUserId'];
+	    $playlistId = $this->request['playlistId'];
+	    $songId = $this->request['songId'];
+	    $fromUserId = $this->request['fromUserId'];
 
 	    $playlistP = new PlaylistParse();
 	    $playlist = $playlistP->getPlaylist($playlistId);
