@@ -989,6 +989,38 @@ function onUploadedImage(userType, img) {
     id_tumbnail = tumbnail.attr('id');
     id_preview = preview.attr('id');
 
+//io farei questo lavoro tutto nella init jcrop
+//    if (jcrop_api) {
+//        jcrop_api.destroy();
+//        jcrop_api.setOptions({allowSelect: !!this.checked});
+//        jcrop_api.focus();
+//        tumbnail.remove();
+
+    //creo l'html per la preview dell'immagine
+    var html_uploadImage_preview_box = "";
+    html_uploadImage_preview_box += '<img src="' + img.src + '" id="' + id_preview + ' width="' + img.width + '" height="' + img.height + '" "/>';
+    html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
+    html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
+    html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
+    html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
+
+    //mostra a video la preview dell'immagine:
+    $('#' + userType + '_uploadImage_preview_box').html(html_uploadImage_preview_box);
+    preview = $('#' + userType + '_uploadImage_preview');
+
+
+    //creo l'html per la preview del thumbnail (l'immagine finale dopo il jcrop?)
+    var html_tumbnail_pane = '';
+    html_tumbnail_pane += '<img src="" id="' + id_tumbnail + '" height="50" width="50"/>';
+
+//mostra a video la preview del thumbnail 
+    ("#"+id_tumbnail).html(html_tumbnail_pane);
+    tumbnail = $('#' + id_tumbnail);
+
+//mostro a video l'immagine 
+    $('#' + userType + '_uploadImage_save').removeClass('no-display');
+
+//questa porzione di codice non è mai utilizzata:
     $.each($('#' + userType + '_uploadImage_preview_box input[type="hidden"]'), function(k, v) {
         switch (k) {
             case 0:
@@ -1005,45 +1037,10 @@ function onUploadedImage(userType, img) {
                 break;
         }
     });
-
-    //jcrop_api e' sempre undefined, come si inzializza?
-    if (jcrop_api) {
-        jcrop_api.destroy();
-        jcrop_api.setOptions({allowSelect: !!this.checked});
-        jcrop_api.focus();
-        tumbnail.remove();
-        
-        //creo l'html per la preview dell'immagine
-        var html_uploadImage_preview_box = "";
-        html_uploadImage_preview_box += '<img src="" id="' + id_preview + ' height="200" width="200"/>';
-        html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
-        html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
-        html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
-        html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
-        $('#' + userType + '_uploadImage_preview_box').html(html_uploadImage_preview_box);
-        preview = $('#' + userType + '_uploadImage_preview');
-        
-        //creo l'html per la preview del thumbnail
-        var html_tumbnail_pane = '';
-        html_tumbnail_pane += '<img src="" id="' + id_tumbnail + '" height="50" width="50"/>';
-        tumbnail_pane.html(html_tumbnail_pane);
-        tumbnail = $('#' + id_tumbnail);
-    }
-
-
-    //--- URL ------------
-
-    preview.attr('src', img.src);
-    width = img.width;
-    height = img.height;
-    if (img.width > $('.' + userType + '_uploadImage_box-preview').width()) {
-        width = $('.' + userType + '_uploadImage_box-preview').width();
-        height = $('.' + userType + '_uploadImage_box-preview').height();
-    }
-
-    initJcrop(img, width, height);
-
-    $('#' + userType + '_uploadImage_save').removeClass('no-display');
+    
+    
+    //attivo il plugin jcrop (non funzionante per ora)
+    initJcrop(img);
 }
 
 function updatePreview(c) {
@@ -1052,55 +1049,63 @@ function updatePreview(c) {
     $('#' + input_w).val(c.w);
     $('#' + input_h).val(c.h);
 }
-    
-function  initJcrop(img, width, height) {
-    xsize = tumbnail_pane.width(),
-            ysize = tumbnail_pane.height();
-    preview.Jcrop({
-        onChange: updatePreview,
-        onSelect: updatePreview,
-        aspectRatio: xsize / ysize,
-    }, function() {
-        var bounds = this.getBounds();
-        boundx = bounds[0];
-        boundy = bounds[1];
-        jcrop_api = this;
-        jcrop_api.setImage(img.src);
-        jcrop_api.setOptions({
-            boxWidth: width,
-            boxHeight: height
-        });
-        jcrop_api.animateTo([0, 0, 100, 100]);
 
-    });
+function  initJcrop(img) {
+
+    var imgWidth = img.width;
+    var imgHeight = img.height;
+
+    //se jcrop è gia' stato attivato in precedenza lo disattivo
+    if (jcrop_api) {
+        jcrop_api.destroy();  
+        jcrop_api.setOptions({allowSelect: !!this.checked});
+        jcrop_api.focus();
+        tumbnail.remove();
+      }
+        xsize = tumbnail_pane.width(),
+        ysize = tumbnail_pane.height();
+//    $('#'+id_preview).Jcrop({
+//        onChange: updatePreview,
+//        onSelect: updatePreview,
+//        aspectRatio: xsize / ysize,
+//    }, function() {
+//        var bounds = this.getBounds();
+//        boundx = bounds[0];
+//        boundy = bounds[1];
+//        jcrop_api = this;
+//        jcrop_api.setImage(img.src);
+//        jcrop_api.setOptions({
+//            boxWidth: img.width,
+//            boxHeight: img.height
+//        });
+//        jcrop_api.animateTo([0, 0, 100, 100]);
+//    });
 
 }
 //----------------------------------- IMAGE UPLOAD ----------------------------------
 
 function initUploader(userType) {
+
+//    window.console.log("initUploader - params : userType => " + userType);
 //inizializzazione dei parametri
     var containerId = "";
     var selectButtonId = "";
     var url = "../controllers/request/uploadRequest.php";
-    var previewId = "";
     var runtime = 'html4';
     var multi_selection = false;
     var maxFileSize = "10mb";
 
     switch (userType) {
         case  "SPOTTER" :
-            previewId = "spotter_uploadImage_preview";
             containerId = "spotter_container";
             selectButtonId = "spotter_uploadImage_file_label";
 
             break;
         case  "VENUE" :
-            previewId = "venue_uploadImage_preview";
             containerId = "venue_container";
             selectButtonId = "venue_uploadImage_file_label";
             break;
         case  "JAMMER" :
-            previewId = "jammer_uploadImage_preview";
             containerId = "jammer_container";
             selectButtonId = "jammer_uploadImage_file_label";
             break;
@@ -1121,28 +1126,30 @@ function initUploader(userType) {
     });
 
     uploader.bind('Init', function(up, params) {
-        //$('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+//        window.console.log("initUploader - EVENT: Ini");
         $('#filelist').html("");
     });
 
 //inizializo l'uploader
+//    window.console.log("initUploader - eseguo uploader.init()");
     uploader.init();
 
 //evento: file aggiunto
     uploader.bind('FilesAdded', function(up, files) {
         //avvio subito l'upload
+//        window.console.log("initUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
+//        window.console.log("initUploader - eseguo uploader.start()");
         uploader.start();
     });
 
 //evento: cambiamento percentuale di caricamento
     uploader.bind('UploadProgress', function(up, file) {
-        window.console.log("UploadProgress : " + file.percent + "%");
-        //$('#' + file.id + " b").html(file.percent + "%");
+//        window.console.log("initUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
     });
 
 //evento: errore
     uploader.bind('Error', function(up, err) {
-        window.console.log("Error: " + err.code + ", Message: " + err.message + ", File: " + err.file.name);
+//        window.console.log("initUploader - EVENT: Error - parametri: err => " + JSON.stringify(err));
         alert("Error occurred");
         up.refresh();
     });
@@ -1150,9 +1157,10 @@ function initUploader(userType) {
 //evento: upload terminato
     uploader.bind('FileUploaded', function(up, file, response) {
 
+//        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
+
         console.log(response.response);
         var obj = JSON.parse(response.response);
-        //$('#' + previewId).attr("src", "../media/cache/" + obj.id);
         //aggiorno nel json l'immagine del profilo (mi basta il nome del file in cache)
         json_signup_user.imageProfile = obj.src;
 
