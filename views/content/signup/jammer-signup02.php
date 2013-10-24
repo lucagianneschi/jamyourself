@@ -24,10 +24,10 @@
                                         </div>	
                                     </div>
                                     <div class="row">							
-                                        <div id="jammer_container" class="small-4 small-centered columns align-center">
+                                        <div id="jammer_container" class="small-5 small-centered columns align-center">
                                             <div id="filelist">Upload not supported.</div>
                                             <br />
-                                            <label class="uploadImage_file_label" for="jammer_uploadImage_file" id="jammer_uploadImage_file_label">Select a file from your computer</label>
+                                            <label class="uploadImage_file_label" for="jammer_uploadImage_file" id="jammer_uploadImage_file_label" style="width: 300px;">Select a file from your computer</label>
                                         </div>
                                     </div>
                                     <div class="row">							

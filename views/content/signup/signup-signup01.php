@@ -28,21 +28,21 @@
 			
 			<div class="row signup01-mail-signup01">
 				<div  class="small-5 small-centered columns">									
-					<input type="text" name="signup01-mail" id="signup01-mail" pattern="mail" maxlength="50" required/>
+					<input type="text" name="signup01-mail" id="signup01-mail" pattern="mail" maxlength="50" required />
 					<label for="signup01-mail" >Mail <span class="orange">*</span><small class="error"> Please enter a valid mail</small></label>
 				</div>	
 			</div>
 			
 			<div class="row signup01-password-signup01">
 				<div  class="small-5 small-centered  columns">									
-					<input type="password" name="signup01-password" id="signup01-password" pattern="password" maxlength="50" required/>
+					<input type="password" name="signup01-password" id="signup01-password" pattern="password" maxlength="50" required />
 					<label for="signup01-password" >Password <span class="orange">*</span><small class="error"> Please enter a valid password</small></label>
 				</div>								
 			</div>
 			
 			<div class="row signup01-verifyPassword-signup01">
 				<div  class="small-5 small-centered   columns">									
-					<input type="password" name="signup01-verifyPassword" id="signup01-verifyPassword" pattern="password" maxlength="50" required/>
+					<input type="password" name="signup01-verifyPassword" id="signup01-verifyPassword" pattern="password" maxlength="50" required />
 					<label for="signup01-verifyPassword" >Verify Password <span class="orange">*</span><small class="error"> Please enter a valid password</small></label>	
 				</div>								
 			</div>
