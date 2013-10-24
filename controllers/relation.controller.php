@@ -62,12 +62,12 @@ class RelationController extends REST {
 	    if ($this->get_request_method() != 'POST') {
 		$this->response('', 406);
 	    }
-	    $activityId = $_REQUEST['objectId'];
-	    $fromUserObjectId = $_REQUEST['objectId'];
-	    $toUserObjectId = $_REQUEST['objectId'];
-	    $fromUserType = $_REQUEST['fromUserType']; //passo diretto o ci risalgo a posteriori?	
-	    $toUserType = $_REQUEST['toUserType'];
-	    $sessionToken = $_REQUEST['$sessionToken']; //NB posso aggiornare solo l'utente che accetta la richiesta
+	    $activityId = $this->request['objectId'];
+	    $fromUserObjectId = $this->request['objectId'];
+	    $toUserObjectId = $this->request['objectId'];
+	    $fromUserType = $this->request['fromUserType']; //passo diretto o ci risalgo a posteriori?	
+	    $toUserType = $this->request['toUserType'];
+	    $sessionToken = $this->request['$sessionToken']; //NB posso aggiornare solo l'utente che accetta la richiesta
 
 	    $activityP = new ParseActivity();
 	    $activityP->updateField($activityId, 'status', 'A'); //passa da pending a accettata
@@ -132,7 +132,7 @@ class RelationController extends REST {
 	    if ($this->get_request_method() != 'POST') {
 		$this->response('', 406);
 	    }
-	    $activityId = $_REQUEST['objectId'];
+	    $activityId = $this->request['objectId'];
 	    $activityP = new ParseActivity();
 	    $activityP->updateField($activityId, 'status', 'R'); //passa da pending a refused
 	    $activityP->updateField($activityId, 'read', true); //passa da non letta  a letta
@@ -161,12 +161,12 @@ class RelationController extends REST {
 	    if ($this->get_request_method() != 'POST') {
 		$this->response('', 406);
 	    }
-	    $activityId = $_REQUEST['objectId'];
-	    $fromUserObjectId = $_REQUEST['objectId'];
-	    $toUserObjectId = $_REQUEST['objectId'];
-	    $fromUserType = $_REQUEST['fromUserType'];
-	    $toUserType = $_REQUEST['toUserType'];
-	    $sessionToken = $_REQUEST['$sessionToken'];
+	    $activityId = $this->request['objectId'];
+	    $fromUserObjectId = $this->request['objectId'];
+	    $toUserObjectId = $this->request['objectId'];
+	    $fromUserType = $this->request['fromUserType'];
+	    $toUserType = $this->request['toUserType'];
+	    $sessionToken = $this->request['$sessionToken'];
 
 	    switch ($fromUserType) {
 		case 'SPOTTER':
@@ -211,10 +211,10 @@ class RelationController extends REST {
 	    if ($this->get_request_method() != 'POST') {
 		$this->response('', 406);
 	    }
-	    $fromUserObjectId = $_REQUEST['objectId'];
-	    $toUserObjectId = $_REQUEST['objectId'];
-	    $fromUserType = $_REQUEST['fromUserType'];
-	    $toUserType = $_REQUEST['toUserType'];
+	    $fromUserObjectId = $this->request['objectId'];
+	    $toUserObjectId = $this->request['objectId'];
+	    $fromUserType = $this->request['fromUserType'];
+	    $toUserType = $this->request['toUserType'];
 
 	    //se l'utente cerca di avere relazione con se stesso esco con risposta a schermo
 	    if ($fromUserObjectId == $toUserObjectId) {

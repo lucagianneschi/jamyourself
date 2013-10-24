@@ -59,8 +59,8 @@ class SearchController extends REST {
 					$this->response(array($controllers['SHORTSEARCHTEXT'] . strlen($text)), 200);
 				}
 				
-				$classType = $_REQUEST['classType'];
-				$text = $_REQUEST['text'];
+				$classType = $this->request['classType'];
+				$text = $this->request['text'];
 								
 		} catch (Exception $e){
 			$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);

@@ -52,7 +52,7 @@ class UserUtilitiesController extends REST {
 	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
 	    
-	    $objectId = $_REQUEST['objectId'];
+	    $objectId = $this->request['objectId'];
 	    $userP = new UserParse();
 	    $user = $userP->getUser($objectId);
 	    if (get_class($user) == 'Error') {
@@ -101,7 +101,7 @@ class UserUtilitiesController extends REST {
 	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
 
-	    $email = $_REQUEST['email'];
+	    $email = $this->request['email'];
 	    
 	    $userP = new UserParse();
 	    $userP->where('email', $email);
@@ -153,7 +153,7 @@ class UserUtilitiesController extends REST {
 	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
 	    
-	    $objectId = $_REQUEST['objectId'];
+	    $objectId = $this->request['objectId'];
 	    $userP = new UserParse();
 	    $user = $userP->getUser($objectId);
 	    if (get_class($user) == 'Error') {
@@ -202,8 +202,8 @@ class UserUtilitiesController extends REST {
 	    if ($this->get_request_method() != 'POST') {
 		$this->response('', 406);
 	    }
-	    $userId = $_REQUEST['objectId'];
-	    $settings = $_REQUEST['setting'];
+	    $userId = $this->request['objectId'];
+	    $settings = $this->request['setting'];
 
 	    $userP = new UserParse();
 	    $user = $userP->getuser($userId);
