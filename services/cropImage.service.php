@@ -6,13 +6,19 @@ require_once ROOT_DIR . 'config.php';
 
 class CropImageService {
 
-    public function cropImage($img, $x, $y, $w, $h, $album_name) {
+    public function cropImage($img, $x, $y, $w, $h) {
         try {
-            list($width, $height, $type, $attr) = getimagesize($img); //prelevo il tipo di estensione del file
+//prelevo il tipo di estensione del file
+            list($width, $height, $type, $attr) = getimagesize($img);
 
-            $new_file_name = $_SESSION['user_id'] . "_" . $album_name . ".jpg";
+//recupero l'estensione del file
+            $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
 
-            //Controllo tipo di file: se è un file immagine (GIF, JPG o PNG), Altrimenti genera eccezione.
+//nome file univoco            
+            $profileImgName = md5(time() . rand()) . ".jpg";
+            $thumbnailImgName = md5(time() . rand()) . ".jpg";
+
+//Controllo tipo di file: se è un file immagine (GIF, JPG o PNG), Altrimenti genera eccezione.
             switch ($type) {
                 case IMAGETYPE_GIF:
                     $image = imagecreatefromgif($img);
@@ -24,7 +30,7 @@ class CropImageService {
                     $image = imagecreatefrompng($img);
                     break;
                 default:
-                    throw new Exception('Il file deve essere in formato gif, jpeg/jpg, png ' . $type);
+                    return null;
             }
 
             // CROP della cover
@@ -38,24 +44,20 @@ class CropImageService {
 
             $thumb_url = "";
 
-            if (imagejpeg($cover, "cover/" . $new_file_name, 100)) {
-
-                $cover_url = "cover/" . $new_file_name;
+            if (imagejpeg($cover, MEDIA_DIR."cache/".$profileImgName, 100)) {
+                $cover_url = $profileImgName;
             }
 
-            if (imagejpeg($thumbnail, "thumbnail_cover/" . $new_file_name, 100)) {
-
-                $thumb_url = "thumbnail_cover/" . $new_file_name;
+            if (imagejpeg($thumbnail, MEDIA_DIR."cache/".$thumbnailImgName, 100)) {
+                $thumb_url = $thumbnailImgName;
             }
 
             //elimino i file vecchi
-
+            imagedestroy($image);
             imagedestroy($cover);
-
             imagedestroy($thumbnail);
-
-
-            return array($cover_url, $thumb_url);       //ritorno l'url in cui ho salvsato l'immagine
+            //ritorno l'url in cui ho salvsato l'immagine
+            return array($cover_url, $thumb_url);
         } catch (Exception $e) {
             return null;
         }
