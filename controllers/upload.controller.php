@@ -140,22 +140,21 @@ class UploadController extends REST {
     private function calculateNewProperties($width, $height) {
         try {
             //modifico solo se almeno una delle dimensioni e' da ridurre
-            if ($width > 700 || $height > 300) {
-
-                if ($width >= $height) {
+            if ($width <= 700 && $height <= 300) {
+                return array("width" => $width, "height" => $height);
+            } else {
+                if ($width >= $height && $width > 700) {
                     $newWidth = 700;
-                    $newHeight = (700 * $height) / $width;
-                    return array("width" => $newWidth, "height" => round($newHeight));
+                    $newHeight = round((700 * $height) / $width);
+                    return $this->calculateNewProperties($newWidth, $newHeight);
                 } else {
                     $newHeight = 300;
-                    $newWidth = (300 * $width) / $height;
-                    return array("width" => round($newWidth), "height" => $newHeight);
+                    $newWidth = round((300 * $width) / $height);
+                    return $this->calculateNewProperties($newWidth, $newHeight);
                 }
-            } else {
-                return array("width" => $width, "height" => $height);
             }
         } catch (Exception $e) {
-            return false;
+            return array(0, 0);
         }
     }
 
