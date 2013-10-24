@@ -94,9 +94,9 @@ class UploadController extends REST {
 //prelevo gli attributi dell'immagine
             list($imgWidth, $imgHeight, $imgType, $imgAttr) = getimagesize($filePath);
 //calcolo le proporzioni da mostrare a video
-            $this->calculateNewProperties($imgWidth, $imgHeight);         
+            $prop = $this->calculateNewProperties($imgWidth, $imgHeight);
 // Restituisco successo         
-            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $imgWidth . '","height" : "' . $imgHeight . '" , "type" : "' . $imgType . '"}');
+            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $prop['width'] . '","height" : "' . $prop['height'] . '" }');
         } catch (Exception $e) {
             
         }
@@ -139,17 +139,17 @@ class UploadController extends REST {
 
     private function calculateNewProperties($width, $height) {
         try {
+            //modifico solo se almeno una delle dimensioni e' da ridurre
             if ($width > 700 || $height > 300) {
-                //modifico solo se almeno una delle dimensioni e' da ridurre
-                if ($height >= $width && $height > 300) {
-                    //da modificare in base alla larghezza
-                    $newWidth = ($width / $height ) * 300;
-                    return array("width" => $newWidth, "height" => $height);
-                }
-                if ($height < $width && $width > 700) {
-                    //da modificare in base alla larghezza
-                    $newHeight = ($height / $width) * 700;
-                    return array("width" => $width, "height" => $newHeight);
+
+                if ($width >= $height) {
+                    $newWidth = 700;
+                    $newHeight = (700 * $height) / $width;
+                    return array("width" => $newWidth, "height" => round($newHeight));
+                } else {
+                    $newHeight = 300;
+                    $newWidth = (300 * $width) / $height;
+                    return array("width" => round($newWidth), "height" => $newHeight);
                 }
             } else {
                 return array("width" => $width, "height" => $height);
@@ -158,6 +158,7 @@ class UploadController extends REST {
             return false;
         }
     }
+
 }
 
 ?>
