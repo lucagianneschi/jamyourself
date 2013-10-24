@@ -20,7 +20,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'utils.php';
+require_once CLASSES_DIR . 'utilsClass.php';
 require_once CLASSES_DIR . 'status.class.php';
 
 class StatusParse {
