@@ -158,7 +158,7 @@ $recordCounter = $data['recordCounter'];
 					
 				</div>
 			</div>
-			<?php if(count($recordSingle_detail)>0){ 
+			<?php if(count($recordSingle_detail) > 0 && $recordSingle_detail != $boxes['NOTRACK']){
 					foreach ($recordSingle_detail as $key => $value) {
 						
 					
