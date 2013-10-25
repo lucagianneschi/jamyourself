@@ -1,7 +1,6 @@
 function signupCallback(data, status) {
-    console.debug("Data : " + data + " | Status: " + status);
-    $("#data").html(data);
-    $("#status").html(status);
+    console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+    $("#log").html("Data : " + JSON.stringify(data) + " | Status: " + status);
 }
 
 function sendRequest(_action, _data, callback, _async) {
@@ -32,9 +31,9 @@ function sendRequest(_action, _data, callback, _async) {
 
 function spotter() {
     $.getJSON("spotter.json", function(json) {
-        json.username = json.username+getRandomInt();
+        json.username = json.username + getRandomInt();
         var arrMail = json.email.split("@");
-        json.email = arrMail[0]+getRandomInt()+"@"+arrMail[1];
+        json.email = arrMail[0] + getRandomInt() + "@" + arrMail[1];
         console.log("Caricato : \n " + json);
         console.debug(json);
         sendRequest("signup", json, signupCallback, true);
@@ -42,9 +41,9 @@ function spotter() {
 }
 function venue() {
     $.getJSON("venue.json", function(json) {
-        json.username = json.username+getRandomInt();
+        json.username = json.username + getRandomInt();
         var arrMail = json.email.split("@");
-        json.email = arrMail[0]+getRandomInt()+"@"+arrMail[1];        
+        json.email = arrMail[0] + getRandomInt() + "@" + arrMail[1];
         console.log("Caricato : \n " + json);
         console.debug(json);
         sendRequest("signup", json, signupCallback, true);
@@ -53,9 +52,9 @@ function venue() {
 }
 function jartist() {
     $.getJSON("jammer_artist.json", function(json) {
-        json.username = json.username+getRandomInt();
+        json.username = json.username + getRandomInt();
         var arrMail = json.email.split("@");
-        json.email = arrMail[0]+getRandomInt()+"@"+arrMail[1];
+        json.email = arrMail[0] + getRandomInt() + "@" + arrMail[1];
         console.log("Caricato : \n " + json);
         console.debug(json);
         sendRequest("signup", json, signupCallback, true);
@@ -64,9 +63,9 @@ function jartist() {
 }
 function jband() {
     $.getJSON("jammer_band.json", function(json) {
-        json.username = json.username+getRandomInt();
+        json.username = json.username + getRandomInt();
         var arrMail = json.email.split("@");
-        json.email = arrMail[0]+getRandomInt()+"@"+arrMail[1];
+        json.email = arrMail[0] + getRandomInt() + "@" + arrMail[1];
         console.log("Caricato : \n " + json);
         console.debug(json);
         sendRequest("signup", json, signupCallback, true);
@@ -74,8 +73,28 @@ function jband() {
 
 }
 
-function getRandomInt () {
+function getRandomInt() {
     var min = 0;
     var max = 100000;
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function checkEmailExists() {
+    var json_email = {};
+    json_email.email = $("#email").val(); //recupero il valore della email o lo passo come parametro
+
+    console.log("[checkEmailExists] email :" + $("#email").val());
+
+    sendRequest("checkEmailExists", json_email, signupCallback, true);
+
+
+}
+
+function checkUsernameExists() {
+    var json_username = {};
+    json_username.username = $("#username").val(); //recupero il valore della email o lo passo come parametro
+    console.log("[checkUsernameExists] username :" + $("#username").val());
+
+    sendRequest("checkUsernameExists", json_username, signupCallback, true);
+
 }
