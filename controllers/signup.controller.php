@@ -227,7 +227,7 @@ class SignupController extends REST {
 
             if (!isset($this->request['email'])) {
 // If invalid inputs "Bad Request" status message and reason
-                $error = array('status' => "Bad Request", "msg" => "No username specified");
+                $error = array('status' => "Bad Request", "msg" => "No email specified");
                 $this->response($error, 400);
             }
             $email = $this->request['email'];
@@ -374,9 +374,9 @@ class SignupController extends REST {
         $user->setEmail($decoded->email);
         $user->setPassword($decoded->password);
         $user->setDescription($decoded->description);
-        
+
         $imgInfo = $this->getImages($decoded);
-                $user->setSettings(defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['ProfilePicture']));
+        $user->setSettings(defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['ProfilePicture']));
 //la parte social      
         $user->setProfilePicture($imgInfo['ProfilePicture']);
         $user->setProfileThumbnail($imgInfo['ProfileThumbnail']);
@@ -405,20 +405,36 @@ class SignupController extends REST {
     }
 
     private function getImages($decoded) {
-        //in caso di anomalie ---> default
-        if(!isset($decoded->crop) || is_null($decoded->crop) || 
-        !isset($decoded->imageProfile)|| is_null($decoded->imageProfile)){
+//in caso di anomalie ---> default
+        if (!isset($decoded->crop) || is_null($decoded->crop) ||
+                !isset($decoded->imageProfile) || is_null($decoded->imageProfile)) {
             return array("ProfilePicture" => "", "ProfileThumbnail" => "");
-        }        
+        }
+
+        $PROFILE_IMG_SIZE = 300;
+        $THUMBNAIL_IMG_SIZE = 150;
+        
+//recupero i dati per effettuare l'editing
         $cropInfo = json_decode(json_encode($decoded->crop), false);
-        $cis = new CropImageService();
-        
         $cacheDir = MEDIA_DIR . "cache/";
-        $cacheImg = MEDIA_DIR . "cache/".$decoded->imageProfile;
+        $cacheImg = $cacheDir . $decoded->imageProfile;
         
-        $imagesUrl = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h);
+//Preparo l'oggetto per l'editign della foto
+        $cis = new CropImageService();
+
+//gestione dell'immagine di profilo
+        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, $PROFILE_IMG_SIZE);
+        $coverUrl = $cacheDir . $coverId;
+
+//gestione del thumbnail
+        $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
+        $thumbUrl = $cacheDir . $thumbId;
         
-        return $imagesUrl;
+//CANCELLAZIONE DELLA VECCHIA IMMAGINE
+        unlink($cacheImg);
+        
+//RETURN        
+        return array('ProfilePicture' => $coverUrl, 'ProfileThumbnail' => $thumbUrl);
     }
 
 }
