@@ -19,12 +19,17 @@ $cis = new CropImageService();
 
 $img = "../../media/cache/test.jpg";
 
-$x = 720;
-$y = 240;
-$h = 99;
-$w = 297;    
+$x = 170;
+$y = 675;
+$h = 244;
+$w = 244;    
 
-$res = $cis->cropImage($img, $x, $y, $w, $h);
+$cover = $cis->cropImage($img, $x, $y, $w, $h,300);
+
+$pathCover = MEDIA_DIR."cache/".$cover;
+
+$thum = $cis->cropImage($pathCover, 0, 0, 300, 300,150);
+
 unlink($img);
 
 
@@ -34,10 +39,10 @@ unlink($img);
 <br>
 <br>
 <p> Immagine ritagliata:</p>
-<img src ="<?php echo "../../media/cache/".$res[0] ?>" >
+<img src ="<?php echo "../../media/cache/".$cover ?>" >
 <br>
 <br>
 <p> Immagine per il thumbnail:</p>
-<img src ="<?php echo "../../media/cache/".$res[1] ?>" >
+<img src ="<?php echo "../../media/cache/".$thum ?>" >
 
 
