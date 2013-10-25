@@ -207,7 +207,7 @@ class SignupController extends REST {
             }
 
 //restituisco $res che assume valori 0 o 1
-            $this->response(array($res), 200);
+            $this->response(array("Result" => $res), 200);
         } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
             $this->response($error, 503);
@@ -242,7 +242,7 @@ class SignupController extends REST {
                 $this->response($error, 503);
             }
 //restituisco $res che assume valori 0 o 1
-            $this->response(array($res), 200);
+            $this->response(array("Result" => $res), 200);
         } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
             $this->response($error, 503);
