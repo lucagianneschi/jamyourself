@@ -116,7 +116,6 @@ class CommentController extends REST {
 
 			$activity = new Activity();
 			$activity->setActive(true);
-			$activity->setAccepted(true);
 			$activity->setCounter(0);
 			#TODO
 			//$activity->setFromUser($currentUser);
