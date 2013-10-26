@@ -2,6 +2,7 @@
 <html>
     <head>
         <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+		<script type="text/javascript" src="../../../views/resources/javascripts/customs/signupFacebook.js"></script>
         <script type="text/javascript">
             function access(usernameOrEmail, password, opType, userId) {
 
@@ -15,6 +16,8 @@
                     json_access.userId = userId;
                 } else {
                     json_access.request = "socialLogin";
+					json_access.usernameOrEmail = usernameOrEmail;
+                    json_access.password = password;
                 }
 
                 $.ajax({
@@ -50,7 +53,7 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <button type="button" onclick="access('Ldf', 'MHURRg5X', 'logout', null)">Logout Ldf</button>
         &nbsp;<hr>
-        <button type="button" onclick="access('xxxxxxxx', '12345678', 'sociaLogin', null)">SocialLogin</button>
+        <button type="button" onclick="signupFacebook()">SocialLogin</button>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     </body>
 </html>
