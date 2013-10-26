@@ -33,19 +33,18 @@ $activityParse = new ActivityParse();
 $activityParse->whereExists('objectId');
 $activityParse->orderByDescending('createdAt');
 $activityParse->setLimit(1000);
+$activityParse->whereInclude('fromUser');
 $resGets = $activityParse->getActivities();
 if (get_class($resGets) == 'Error') {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
 	foreach($resGets as $album) {
 		echo '<br />' . $album->getObjectId() . '<br />';
+		$user = $album->getFromUser();
+		echo '<br />' . $user->getUserName() . '<br />';
 	}
 }
 
 echo '<br />FINITO IL RECUPERO DI PIU\' Activity<br />';
 echo '<br />-------------------------------------------------------------------------------<br />';
-
-
-
-
 ?>
