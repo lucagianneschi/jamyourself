@@ -826,10 +826,9 @@ function getFormValues() {
     //step 0 (configurazione browser-utente
     //@todo: completare language e localTime
     json_signup_user.language = navigator.language || navigator.userLanguage;
-    ;
+    
     json_signup_user.localTime = ((new Date()).getTimezoneOffset());
-
-    //step 1
+    //step 1   
     json_signup_user.username = $('#signup01-username').val();
     json_signup_user.email = $('#signup01-mail').val();
     json_signup_user.password = $('#signup01-password').val();
