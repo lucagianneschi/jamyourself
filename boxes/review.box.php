@@ -6,12 +6,12 @@
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		box caricamento review event 
+ * \brief		box caricamento review event
  * \details		Recupera le informazioni sulla review dell'event, le inserisce in un array da passare alla view
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		
+ * \todo
  *
  */
 
@@ -28,8 +28,8 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
- * \brief	ReviewInfo class 
- * \details	contains info for review to be displayed 
+ * \brief	ReviewInfo class
+ * \details	contains info for review to be displayed
  */
 class ReviewInfo {
 
@@ -61,8 +61,8 @@ class ReviewInfo {
 }
 
 /**
- * \brief	ReviewBox class 
- * \details	box class to pass info to the view 
+ * \brief	ReviewBox class
+ * \details	box class to pass info to the view
  */
 class ReviewBox {
 
@@ -83,19 +83,16 @@ class ReviewBox {
 	$info = array();
 
 	$review = new CommentParse();
-	switch ($className) {
-	    case 'Event':
-		require_once CLASSES_DIR . 'event.class.php';
-		require_once CLASSES_DIR . 'eventParse.class.php';
-		$review->where('type', 'RE');
-		$field = "event";
-		break;
-	    case 'Record':
-		require_once CLASSES_DIR . 'record.class.php';
-		require_once CLASSES_DIR . 'recordParse.class.php';
-		$review->where('type', 'RR');
-		$field = "record";
-		break;
+	if ($className == 'Event') {
+	    require_once CLASSES_DIR . 'event.class.php';
+	    require_once CLASSES_DIR . 'eventParse.class.php';
+	    $review->where('type', 'RE');
+	    $field = "event";
+	} else {
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'recordParse.class.php';
+	    $review->where('type', 'RR');
+	    $field = "record";
 	}
 	$review->wherePointer($field, $className, $objectId);
 	$review->where('active', true);
@@ -163,19 +160,16 @@ class ReviewBox {
 	$info = array();
 
 	$review = new CommentParse();
-	switch ($className) {
-	    case 'Event':
-		require_once CLASSES_DIR . 'event.class.php';
-		require_once CLASSES_DIR . 'eventParse.class.php';
-		$review->where('type', 'RE');
-		$field = 'event';
-		break;
-	    case 'Record':
-		require_once CLASSES_DIR . 'record.class.php';
-		require_once CLASSES_DIR . 'recordParse.class.php';
-		$review->where('type', 'RR');
-		$field = 'record';
-		break;
+	if ($className == 'Event') {
+	    require_once CLASSES_DIR . 'event.class.php';
+	    require_once CLASSES_DIR . 'eventParse.class.php';
+	    $review->where('type', 'RE');
+	    $field = "event";
+	} else {
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'recordParse.class.php';
+	    $review->where('type', 'RR');
+	    $field = "record";
 	}
 	$review->wherePointer($field, $className, $objectId);
 	$review->where('active', true);
@@ -289,12 +283,12 @@ class ReviewBox {
 		    $user = $userP->getUser($userId);
 		    if (get_class($user) == 'Error') {
 			return $user;
-		    } 
+		    }
 		    $thumbnail = $user->getProfileThumbnail();
 		    $type = $user->getType();
 		    $encodedUsername = $user->getUsername();
 		    $username = parse_decode_string($encodedUsername);
-		    $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);    
+		    $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		} else {
 		    $user = $review->getToUser();
 		    var_dump($user);
@@ -323,7 +317,6 @@ class ReviewBox {
 		    }
 		    $thumbnailCover = $record->getThumbnailCover();
 		}
-		$fromUserInfo = null;
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
