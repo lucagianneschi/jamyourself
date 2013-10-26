@@ -7,7 +7,8 @@ $(document).ready(function() {
 		itemsPerMove : 1,
 		scrollToLast : false,
 		loopItems : false,
-		scrollbar : false
+		scrollbar : false,
+		dragUsingMouse: false
 	});
 	
 	//gestione select album record

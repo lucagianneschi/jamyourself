@@ -123,15 +123,19 @@ class SignupController extends REST {
             $activity->setRead(true);
             $activity->setStatus("A");
             $activity->setType("SIGNEDUP");
-            $activity->setACL(toParseDefaultACL());
+//            $activity->setACL(toParseDefaultACL());
 
             $pActivity = new ActivityParse();
             $pActivity->saveActivity($activity);
 
 //aggiorno l'oggetto User in sessione
             $_SESSION['currentUser'] = $user;
+//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE        
+        rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), MEDIA_DIR . "images/profilepicturethumb/" . $user->getProfileThumbnail());
+        rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), MEDIA_DIR . "images/profilepicture/" . $user->getProfilePicture());
+            
 //restituire true o lo user....
-            $this->response(array("OK"), 201);
+            $this->response(array("OK"), 200);
         } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
             $this->response($error, 503);
@@ -385,11 +389,11 @@ class SignupController extends REST {
         $user->setYoutubeChannel($decoded->youtube);
         $user->setWebsite($decoded->web);
 
-//imposto i parametri di Jam
-//        $user->setAuthData($authData);
+//imposto i parametri di Jam       
         $parseACL = new parseACL();
         $parseACL->setPublicReadAccess(true);
         $user->setACL($parseACL);
+
         $user->setActive(true);
 //        $user->setBackground();
         $user->setCollaborationCounter(0);
@@ -407,17 +411,24 @@ class SignupController extends REST {
 //in caso di anomalie ---> default
         if (!isset($decoded->crop) || is_null($decoded->crop) ||
                 !isset($decoded->imageProfile) || is_null($decoded->imageProfile)) {
-            return array("ProfilePicture" => "", "ProfileThumbnail" => "");
+            return array("ProfilePicture" => null, "ProfileThumbnail" => null);
         }
 
         $PROFILE_IMG_SIZE = 300;
         $THUMBNAIL_IMG_SIZE = 150;
-        
+
 //recupero i dati per effettuare l'editing
         $cropInfo = json_decode(json_encode($decoded->crop), false);
+
+        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
+                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
+                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
+                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
+            return array("ProfilePicture" => null, "ProfileThumbnail" => null);
+        }
         $cacheDir = MEDIA_DIR . "cache/";
         $cacheImg = $cacheDir . $decoded->imageProfile;
-        
+
 //Preparo l'oggetto per l'editign della foto
         $cis = new CropImageService();
 
@@ -428,12 +439,11 @@ class SignupController extends REST {
 //gestione del thumbnail
         $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
         $thumbUrl = $cacheDir . $thumbId;
-        
+
 //CANCELLAZIONE DELLA VECCHIA IMMAGINE
         unlink($cacheImg);
-        
 //RETURN        
-        return array('ProfilePicture' => $coverUrl, 'ProfileThumbnail' => $thumbUrl);
+        return array('ProfilePicture' => $coverId, 'ProfileThumbnail' => $thumbId);
     }
 
 }

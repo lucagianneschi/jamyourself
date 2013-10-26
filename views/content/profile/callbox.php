@@ -443,6 +443,7 @@ switch ($box) {
 				$result['eventReview' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : $default_img['DEFEVENTTHUMB'];
 				$result['eventReview' . $key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
 				$result['eventReview' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
+				$result['eventReview' . $key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
 			}
 		} else {
 			$result['error']['code'] = 101;

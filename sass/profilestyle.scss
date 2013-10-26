@@ -515,8 +515,17 @@ section.active > .title a{
   height: 60px !important;
 }
 
+.recordReview-propriety{
+	padding-bottom: 5px !important;
+}
 
+#social-EventReview .box{
+	padding-bottom: 5px !important;
+}
 
+#social-RecordReview .box{
+	padding-bottom: 5px !important;
+}
 //---------------- achievement -----------------------------
 .achievement{
   margin: 10px; 
@@ -583,7 +592,8 @@ section.active > .title a{
 
 #social .box{
   border:$grey-light 1px solid;
-  background-color: #fff !important;  
+  background-color: #fff !important;
+  padding-bottom: 5px !important; 
 }
 
 #social .text{
@@ -636,6 +646,11 @@ section.active > .title a{
 
 
 //------------------ POST ------------------------------
+
+#social-Post .box{
+	margin-bottom: 10px;
+}
+
 .box-post{
   border: 1px solid $grey-light;
   padding: 5px;
@@ -672,6 +687,8 @@ section.active > .title a{
   height: 34px !important; 
   width: 90px !important;
 }
+
+
 
 
 //--------------------- COMMENT ----------------------------

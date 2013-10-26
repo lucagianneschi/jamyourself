@@ -134,7 +134,7 @@ class ValidateNewUserService {
             $this->setInvalid("lastname");
         if (!isset($user->firstname) || is_null($user->firstname) || !$this->checkFirstname($user->firstname))
             $this->setInvalid("firstname");
-        if (isset($user->birthday) && !is_null($user->birthday) && $this->checkBirthday($user->birthday)) {
+        if (!isset($user->birthday) && is_null($user->birthday) && !$this->checkBirthday($user->birthday)) {
             $this->setInvalid("birthday");
         } else {
             
@@ -143,7 +143,7 @@ class ValidateNewUserService {
             $this->setInvalid("city");
         if (!isset($user->country) || is_null($user->country))
             $this->setInvalid("country");
-        if (!isset($user->genre) || is_null($user->genre) || !$this->checkMusic($user->genre))
+        if (!isset($user->genre) || is_null($user->genre) || !$this->checkMusic($user->genre, "SPOTTER"))
             $this->setInvalid("genre");
         if (!isset($user->sex) || is_null($user->sex) || !$this->checkSex($user->sex))
             $this->setInvalid("sex");
@@ -155,7 +155,7 @@ class ValidateNewUserService {
             $this->setInvalid("city");
         if (!isset($user->country) || is_null($user->country))
             $this->setInvalid("country");
-        if (!isset($user->genre) || is_null($user->genre) || !$this->checkMusic($user->genre))
+        if (!isset($user->genre) || is_null($user->genre) || !$this->checkMusic($user->genre, "JAMMER"))
             $this->setInvalid("genre");
         if (!isset($user->jammerType) || is_null($user->jammerType) || !$this->checkJammerType($user->jammerType))
             $this->setInvalid("jammerType");
@@ -264,8 +264,8 @@ class ValidateNewUserService {
 //D) Controllare che non siano presenti nel campo caratteri speciali non stampabili (vedi lista allegata a mail) 
 //E) Controllare che non siano presenti nel campo lettere accentate 
 
-        if ($this->checkSpecialChars($email))
-            return false;
+//        if ($this->checkSpecialChars($email))
+//            return false;
 
 //F) Controllare che indirizzo mail inserito sia un indirizzo mail valido 
         if (!(filter_var($email, FILTER_VALIDATE_EMAIL)))
@@ -317,11 +317,20 @@ class ValidateNewUserService {
         return true;
     }
 
-    private function checkMusic($music) {
+    private function checkMusic($music,$type) {
 //Campo ‘Genre’ (campo DB: music - array ) A) Controllo che almeno 1 Genere sia indicato dall’utente B)
 //Max numero selezioni da utente pari a 5. Controllare che selezioni dell’utente siano pari o inferiori a 5
-        $dim = $this->config->maxMusicSize;
-        if (is_null($music) || !is_array($music) || count($music) <= 0 || count($music) > $this->config->maxMusicSize)
+        $dim = 0;
+        switch($type){
+            case "JAMMER":
+                $dim = $this->config->maxMusicSizeJammer;
+                break;
+            case "SPOTTER":
+                $dim = $this->config->maxMusicSizeSpotter;
+                break;
+        }
+
+        if (is_null($music) || !is_array($music) || count($music) <= 0 || count($music) > $dim)
             return false;
         //controllo se sono numeri perché i valori nel form sono mappati come numeri (indici del corrispondente array)
         foreach ($music as $val) {

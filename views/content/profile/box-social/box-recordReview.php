@@ -28,8 +28,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		</div>	
 		<div  class="small-7 columns align-right">
 			<?php if($data['recordReviewCounter'] > 1){ ?>
-				<a class="icon-block _nextPage grey" onclick="royalSlideNext(this,'recordReview')" style="top: 5px !important; margin-top: 15px !important"></a>
-			<a class="icon-block _prevPage grey text" onclick="royalSlidePrev(this,'recordReview')" style="top: 5px !important; margin-top: 15px !important"><span class="indexBox">1</span>/<?php echo $data['recordReviewCounter'] ?></a>
+				<a class="icon-block _nextPage grey" onclick="royalSlideNext('RecordReview')" style="top: 5px !important; margin-top: 15px !important"></a>
+			<a class="icon-block _prevPage grey text" onclick="royalSlidePrev('RecordReview')" style="top: 5px !important; margin-top: 15px !important"><span class="indexBox">1</span>/<?php echo $data['recordReviewCounter'] ?></a>
 	 		
 			<?php } ?>
 		</div>	

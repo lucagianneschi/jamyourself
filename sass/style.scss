@@ -3,6 +3,10 @@
 
 /* classi generiche */
 
+html {
+	-webkit-font-smoothing: antialiased;
+}
+
 .no-display { display:none }
 .inline-display { display:inline }
 
@@ -339,7 +343,7 @@ footer {
 
 #signup01 label{
  text-align:center !important;
- color: $grey !important; 
+ color: $grey !important;
  &:hover {
     color: $grey-light !important;
     h3{color: $orange !important;} ;  
