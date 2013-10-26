@@ -3,6 +3,9 @@
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
+
 class REST {
 
     public $stringConfig;
@@ -14,7 +17,7 @@ class REST {
     public $data = "";
 
     public function __construct() {
-        $this->stringConfig = json_decode(file_get_contents(CONFIG_DIR . "controllers/string.config.json"), true);
+//        $this->stringConfig = json_decode(file_get_contents(CONFIG_DIR . "controllers/string.config.json"), true);
         $this->inputs();
     }
 
