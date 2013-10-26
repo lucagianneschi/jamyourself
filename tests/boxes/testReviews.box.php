@@ -27,61 +27,59 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'review.box.php';
 $i_end = microtime();
 
-$objectId = 'GuUAj83MGH'; //spatafora
-$objectId1 = 'nXvzqUuPHW'; //disinteresse
+$objectId  = '7fes1RyY77'; //JAMMER
+$objectId1 = '7wi6AvviK4'; //SPOTTER
+$objectId2 = 'iovioSH5mq'; //VENUE
 	
-$reviewRecord_start = microtime();
-$reviewRecordBoxP = new ReviewBox();
-$reviewRecordBox = $reviewRecordBoxP->initForPersonalPage($objectId,'SPOTTER','Record');
+echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
+$review1_start = microtime();
+$reviewBoxP1 = new ReviewBox();
+$reviewBox1 = $reviewBoxP1->initForPersonalPage($objectId,'JAMMER','Event');
 print "<pre>";
-print_r($reviewRecordBox);
+print_r($reviewBox1);
 print "</pre>";
-$reviewRecord_stop = microtime();
+$review1_stop = microtime();
 
+//    echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
+//    $review2_start = microtime();
+//    $reviewBoxP2 = new ReviewBox();
+//    $reviewBox2 = $reviewBoxP2->initForPersonalPage($objectId1,'SPOTTER','Event');
+//    print "<pre>";
+//    print_r($reviewBox2);
+//    print "</pre>";
+//    $review2_stop = microtime();
 
-$reviewRecord1_start = microtime();
-$reviewRecordBoxP = new ReviewBox();
-$reviewRecordBox = $reviewRecordBoxP->initForPersonalPage($objectId1,'JAMMER','Record');
+echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
+$reviewBoxP5 = new ReviewBox();
+$reviewBox5 = $reviewBoxP5->initForPersonalPage($objectId2,'VENUE','Event');
 print "<pre>";
-print_r($reviewRecordBox);
+print_r($reviewBox5);
 print "</pre>";
-$reviewRecord1_stop = microtime();
 
 
-$reviewEvent_start = microtime();
-$reviewEventBoxP = new ReviewBox();
-$reviewEventBox = $reviewEventBoxP->initForPersonalPage($objectId,'SPOTTER','Event');
-print "<pre>";
-print_r($reviewEventBox);
-print "</pre>";
-$reviewEvent_stop = microtime();
 
-$reviewEvent1_start = microtime();
-$reviewEventBoxP = new ReviewBox();
-$reviewEventBox = $reviewEventBoxP->initForPersonalPage($objectId1,'JAMMER','Event');
-print "<pre>";
-print_r($reviewEventBox);
-print "</pre>";
-$reviewEvent1_stop = microtime();
-
-echo '<br />-------------------------------MEDIAPAGE-------------------------------------------<br />';
-$idReview = 'OXi0VJUoao';
-$reviewEvent2_start = microtime();
-$reviewEventBoxP = new ReviewBox();
-$reviewEventBox = $reviewEventBoxP->initForMediaPage($idReview,'Event');
-print "<pre>";
-print_r($reviewEventBox);
-print "</pre>";
-$reviewEvent2_stop = microtime();
+//echo '<br />-------------------------------MEDIAPAGE-------------------------------------------<br />';
+//$idReview = 'Khlv07KRGH';
+//$review3_start = microtime();
+//$reviewBoxP3 = new ReviewBox();
+//$reviewBox3 = $reviewBoxP3->initForMediaPage($idReview,'Event');
+//print "<pre>";
+//print_r($reviewBox3);
+//print "</pre>";
+//
+//echo '<br />-------------------------------DETAIL-------------------------------------------<br />';
+//$review3_stop = microtime();
+//$reviewBox4 = $reviewBoxP3->initForDetail($idReview,'Event');
+//print "<pre>";
+//print_r($reviewBox4);
+//print "</pre>";
 
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
-echo 'Tempo review record' . executionTime($reviewRecord_start, $reviewRecord_stop) . '<br />';
-echo 'Tempo review record' . executionTime($reviewRecord1_start, $reviewRecord1_stop) . '<br />';
-echo 'Tempo review event' . executionTime($reviewEvent_start, $reviewEvent_stop) . '<br />';
-echo 'Tempo review event' . executionTime($reviewEvent1_start, $reviewEvent1_stop) . '<br />';
-echo 'Tempo review event' . executionTime($reviewEvent2_start, $reviewEvent2_stop) . '<br />';
+//echo 'Tempo review event' . executionTime($review1_start, $review1_stop) . '<br />';
+//echo 'Tempo review event' . executionTime($review2_start, $review2_stop) . '<br />';
+//echo 'Tempo review event' . executionTime($review3_start, $review3_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
