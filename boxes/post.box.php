@@ -101,7 +101,7 @@ class PostBox {
 		$type = $fromUser->getType();
 		$encodedUsername = $fromUser->getUsername();
 		$username = parse_decode_string($encodedUsername);
-		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		$fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 
 		$commentCounter = $post->getCommentCounter();
 		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
