@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		sistemare il campo featuring	
+ * \todo		sistemare il campo featuring, uso whereInclude	
  *
  */
 

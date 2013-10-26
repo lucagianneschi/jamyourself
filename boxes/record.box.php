@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		sistemare il campo featuring
+ * \todo		sistemare il campo featuring,suo whereInclude
  *
  */
 if (!defined('ROOT_DIR'))

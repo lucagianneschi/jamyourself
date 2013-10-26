@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo	    comprendere i profili premium	
+ * \todo	    comprendere i profili premium, uso whereInclude	
  *
  */
 
