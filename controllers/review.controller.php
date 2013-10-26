@@ -100,7 +100,6 @@ class ReviewController extends REST {
 			} 
 			
 			$activity = new Activity();
-			$activity->setAccepted(true);
 			$activity->setActive(true);
 			$activity->setCounter(0);
 			#TODO
