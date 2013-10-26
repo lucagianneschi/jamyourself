@@ -247,12 +247,12 @@ class ReviewBox {
 	    require_once CLASSES_DIR . 'event.class.php';
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $reviewP->where('type', 'RE');
-	    //$reviewP->whereInclude('event');
+	    $reviewP->whereInclude('event');
 	} else {
 	    require_once CLASSES_DIR . 'record.class.php';
 	    require_once CLASSES_DIR . 'recordParse.class.php';
 	    $reviewP->where('type', 'RR');
-	    //$reviewP->whereInclude('record');
+	    $reviewP->whereInclude('record');
 	}
 	$reviewP->where('active', true);
 	$reviewP->setLimit(1000);
@@ -278,43 +278,22 @@ class ReviewBox {
 		$text = parse_decode_string($encodedText);
 
 		if ($type === 'VENUE' || $type === 'JAMMER') {
-		    $userId = $review->getFromUser();
-		    $userP = new UserParse();
-		    $user = $userP->getUser($userId);
-		    if (get_class($user) == 'Error') {
-			return $user;
-		    }
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $encodedUsername = $user->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-		    $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+		    $user = $review->getFromUser();
 		} else {
 		    $user = $review->getToUser();
-		    var_dump($user);
-		    $userId = $user->getUserId();
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $encodedUsername = $user->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-		    $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		}
+		$userId = $user->getObjectId();
+		$thumbnail = $user->getProfileThumbnail();
+		$type = $user->getType();
+		$encodedUsername = $user->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		if ($className == 'Event') {
-		    $eventId = $review->getEvent();
-		    var_dump($eventId);
-		    $parseObj = new EventParse();
-		    $event = $parseObj->getEvent($eventId);
-		    if (get_class($event) == 'Error') {
-			return $event;
-		    }
+		    $event = $review->getEvent();
+		    var_dump($event);
 		    $thumbnailCover = $event->getThumbnail();
 		} else {
-		    $recordId = $review->getRecord();
-		    $parseObj = new RecordParse();
-		    $record = $parseObj->getRecord($recordId);
-		    if (get_class($record) == 'Error') {
-			return $record;
-		    }
+		    $record = $review->getRecord();
 		    $thumbnailCover = $record->getThumbnailCover();
 		}
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
