@@ -28,7 +28,7 @@ $recordCounter = $data['recordCounter'];
 				<h3><?php echo $views['record']['TITLE'];?></h3>
 			</div>	
 			<div  class="small-7 columns align-right">
-				<?php if($recordCounter > 0){ ?>
+				<?php if($recordCounter > 4){ ?>
 					<div class="row">					
 						<div  class="small-9 columns">
 							<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('record')"><?php echo $views['PREV'];?> </a>
@@ -158,7 +158,7 @@ $recordCounter = $data['recordCounter'];
 					
 				</div>
 			</div>
-			<?php if(count($recordSingle_detail)>0){ 
+			<?php if(count($recordSingle_detail) > 0 && $recordSingle_detail != $boxes['NOTRACK']){
 					foreach ($recordSingle_detail as $key => $value) {
 						
 					

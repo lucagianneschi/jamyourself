@@ -130,12 +130,11 @@ class ValidateNewUserService {
 
     private function checkNewSpotter($user) {
 
-        //@stefano : continua da qui
         if (!isset($user->lastname) || is_null($user->lastname) || !$this->checkLastname($user->lastname))
             $this->setInvalid("lastname");
         if (!isset($user->firstname) || is_null($user->firstname) || !$this->checkFirstname($user->firstname))
             $this->setInvalid("firstname");
-        if (!isset($user->birthday) || is_null($user->birthday) || !$this->checkBirthday($user->birthday)) {
+        if (isset($user->birthday) && !is_null($user->birthday) && $this->checkBirthday($user->birthday)) {
             $this->setInvalid("birthday");
         } else {
             

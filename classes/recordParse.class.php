@@ -22,7 +22,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'utils.php';
+require_once CLASSES_DIR . 'utilsClass.php';
 require_once CLASSES_DIR . 'record.class.php';
 require_once CLASSES_DIR . 'songParse.class.php';
 

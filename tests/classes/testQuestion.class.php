@@ -1,24 +1,25 @@
 <?php
+
 /* ! \par	    Info Generali:
-* \author	    Luca Gianneschi
-* \version	    1.0
-* \date		    2013
-* \copyright	    Jamyourself.com 2013
-*
-* \par		    Info Classe:
-* \brief	    Classe di test
-* \details	    Classe di test per la classe Question
-*
-* \par Commenti:
-* \warning
-* \bug
-* \todo 
-*
-*/
+ * \author	    Luca Gianneschi
+ * \version	    1.0
+ * \date		    2013
+ * \copyright	    Jamyourself.com 2013
+ *
+ * \par		    Info Classe:
+ * \brief	    Classe di test
+ * \details	    Classe di test per la classe Question
+ *
+ * \par Commenti:
+ * \warning
+ * \bug
+ * \todo 
+ *
+ */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
-	
+    define('ROOT_DIR', '../../');
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -60,9 +61,9 @@ echo '<br />INIZIO IL RECUPERO DI UNA Question<br /><br />';
 $questionParse = new QuestionParse();
 $resGet = $questionParse->getQuestion($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
-	echo $resGet;
+    echo $resGet;
 }
 
 echo '<br />FINITO IL RECUPERO DI UNA Question<br />';
@@ -77,49 +78,13 @@ $questionParse->orderByDescending('createdAt');
 $questionParse->setLimit(5);
 $resGets = $questionParse->getQuestions();
 if (get_class($resGets) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
-	foreach($resGets as $question) {
-		echo '<br />' . $question->getObjectId() . '<br />';
-	}
+    foreach ($resGets as $question) {
+        echo '<br />' . $question->getObjectId() . '<br />';
+    }
 }
 
 echo '<br />FINITO IL RECUPERO DI PIU\' Question<br />';
-
 echo '<br />-------------------------------------------------------------------------------<br />';
-
-echo '<br />INIZIO L\'AGGIORNAMENTO DI UNA Question<br />';
-
-$questionParse = new QuestionParse();
-$question = $questionParse->getQuestion($resSave->getObjectId());
-$question->setAnswer('Ciao Pippo');
-$question->setText('Sono una question modificata');
-$resUpdate = $questionParse->saveQuestion($question);
-if (get_class($resUpdate)) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
-} else {
-	echo '<br />Question UPDATED<br />';
-}
-echo '<br />FINITO L\'AGGIORNAMENTO DI UNA Question<br />';
-
-echo '<br />-------------------------------------------------------------------------------<br />';
-echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLA QUESTION<br />';
-
-$questionParse = new QuestionParse();
-
-$questionParse->updateField($resSave->getObjectId(), 'replied', true);
-echo 'Aggiornato un campo boolean<br />';
-$questionParse->updateField($resSave->getObjectId(), 'answer', 'Una answer modificata');
-echo 'Aggiornato un campo string<br />';
-
-$parseACL = new parseACL();
-$parseACL->setPublicWriteAccess(false);
-$questionParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
-echo 'Aggiornato un campo ACL<br />';
-
-echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLA QUESTION<br />';
-
-echo '<br />-------------------------------------------------------------------------------<br />';
-
-
 ?>

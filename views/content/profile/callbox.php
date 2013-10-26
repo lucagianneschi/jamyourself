@@ -291,7 +291,8 @@ switch ($box) {
 					$result['record' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 					$result['record' . $key]['year'] = $value -> year != $boxes['NODATA'] ? $value -> year : '';
 					$recordDetail = $recordBoxP -> initForDetail($result['record' . $key]['objectId']);
-					$result['record' . $key]['recordDetail'] = $recordDetail;				
+					if($recordDetail != $boxes['NOTRACK'])
+						$result['record' . $key]['recordDetail'] = $recordDetail;				
 				}
 				$result['activity']['record'] = $result['record' . 0];
 			} else {

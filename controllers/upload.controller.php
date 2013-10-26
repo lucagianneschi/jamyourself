@@ -94,9 +94,95 @@ class UploadController extends REST {
 //prelevo gli attributi dell'immagine
             list($imgWidth, $imgHeight, $imgType, $imgAttr) = getimagesize($filePath);
 //calcolo le proporzioni da mostrare a video
-            $this->calculateNewProperties($imgWidth, $imgHeight);         
+            $prop = $this->calculateNewProperties($imgWidth, $imgHeight);
 // Restituisco successo         
-            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $imgWidth . '","height" : "' . $imgHeight . '" , "type" : "' . $imgType . '"}');
+            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $prop['width'] . '","height" : "' . $prop['height'] . '" }');
+        } catch (Exception $e) {
+            
+        }
+    }
+
+    public function uploadMp3() {
+        try {
+            $this->setHeader();
+
+// imposto limite di tempo di esecuzione
+            if ($this->config->timeLimit > 0) {
+                @set_time_limit($this->config->timeLimit);
+            }
+
+// settings
+            $targetDir = $this->config->targetDir;
+
+//commentare per produzione
+            $targetDir = MEDIA_DIR . "cache";
+// creao la directory di destinazione se non esiste
+            if (!file_exists($targetDir)) {
+                @mkdir($targetDir);
+            }
+
+// recupero l'estensione del file
+            if (isset($_REQUEST["name"])) {
+                $fileName = $_REQUEST["name"];
+            } elseif (!empty($_FILES)) {
+                $fileName = $_FILES["file"]["name"];
+            } else {
+                $fileName = uniqid("file_");
+            }
+
+            $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+//nome file univoco            
+            $fileName = md5(time() . rand()) . "." . $ext;
+
+            $filePath = $targetDir . "/" . $fileName;
+
+// Chunking might be enabled
+            $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
+            $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
+
+
+// rimuovo i vecchi files	
+            if ($this->config->cleanUpTargetDir) {
+                if (!$this->cleanUpTargetDir($targetDir, $filePath)) {
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
+                }
+            }
+
+// Apro il file temporaneo
+            if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
+                die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
+            }
+
+            if (!empty($_FILES)) {
+                if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
+                }
+
+                // Read binary input stream and append it to temp file
+                if (!$in = @fopen($_FILES["file"]["tmp_name"], "rb")) {
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
+                }
+            } else {
+                if (!$in = @fopen("php://input", "rb")) {
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
+                }
+            }
+
+            while ($buff = fread($in, 4096)) {
+                fwrite($out, $buff);
+            }
+
+            @fclose($out);
+            @fclose($in);
+
+// Verifico che il file sia stato caricato
+            if (!$chunks || $chunk == $chunks - 1) {
+                // Strip the temp .part suffix off 
+                rename("{$filePath}.part", $filePath);
+            }
+// Restituisco successo         
+            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '"}');
         } catch (Exception $e) {
             
         }
@@ -137,27 +223,36 @@ class UploadController extends REST {
         }
     }
 
+    /**
+     * Per le immagini e' necessario mostrarle a video con una dimensione diversa
+     * di default
+     * @param type $width
+     * @param type $height
+     * @return type
+     */
     private function calculateNewProperties($width, $height) {
         try {
-            if ($width > 700 || $height > 300) {
-                //modifico solo se almeno una delle dimensioni e' da ridurre
-                if ($height >= $width && $height > 300) {
-                    //da modificare in base alla larghezza
-                    $newWidth = ($width / $height ) * 300;
-                    return array("width" => $newWidth, "height" => $height);
-                }
-                if ($height < $width && $width > 700) {
-                    //da modificare in base alla larghezza
-                    $newHeight = ($height / $width) * 700;
-                    return array("width" => $width, "height" => $newHeight);
-                }
-            } else {
+            $MAX_IMG_WIDTH = $this->config->maxImgWidth;
+            $MAX_IMG_HEIGHT = $this->config->maxImgHeight;
+            //modifico solo se almeno una delle dimensioni e' da ridurre
+            if ($width <= $MAX_IMG_WIDTH && $height <= $MAX_IMG_HEIGHT) {
                 return array("width" => $width, "height" => $height);
+            } else {
+                if ($width >= $height && $width > $MAX_IMG_WIDTH) {
+                    $newWidth = $MAX_IMG_WIDTH;
+                    $newHeight = round(($newWidth * $height) / $width);
+                    return $this->calculateNewProperties($newWidth, $newHeight);
+                } else {
+                    $newHeight = $MAX_IMG_HEIGHT;
+                    $newWidth = round(($newHeight * $width) / $height);
+                    return $this->calculateNewProperties($newWidth, $newHeight);
+                }
             }
         } catch (Exception $e) {
-            return false;
+            return array(0, 0);
         }
     }
+
 }
 
 ?>

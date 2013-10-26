@@ -20,7 +20,7 @@ ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once CLASSES_DIR . 'utils.php';
+require_once CLASSES_DIR . 'utilsClass.php';
 require_once CLASSES_DIR . 'video.class.php';
 require_once CLASSES_DIR . 'videoParse.class.php';
 

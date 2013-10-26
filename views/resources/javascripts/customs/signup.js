@@ -132,7 +132,7 @@ $(document).ready(function() {
      * La verifica vera e propria dei campi viene fatta da fondation abide con le espressioni regolari (vedi sopra)
      */
     $('#signup01-signup01 .signup-button').click(function() {
-        var type_user = "";
+        type_user = "";
         scheda_succ = "";
 
         var validation_username = false;
@@ -306,7 +306,6 @@ $(document).ready(function() {
         //il secondo blocco dello step sara' arancione gli altri arancione scuro
         signupStep2();
     });
-
     //funzione per la comparsa dei campi component in jammer signup02
     $('input[name="jammer-typeArtist"]').click(function() {
         var id = $(this).attr('id');
@@ -316,7 +315,6 @@ $(document).ready(function() {
         else
             $('#jammer-component-signup02').addClass('no-display');
     });
-
     //----------------------- jammer-signup02-next ------------------
     $('#jammer-signup02-next').click(function() {
 
@@ -363,9 +361,6 @@ $(document).ready(function() {
             signupStep3();
         }
     });
-
-
-
     //----------------------- jammer-signup02-back ------------------
     $('#jammer-signup02-back').click(function() {
         $('#jammer-signup02').hide('slide', {direction: "right"}, "slow");
@@ -526,8 +521,6 @@ $(document).ready(function() {
         signupStep2();
     });
 
-    // ------------------------ FINE GESTIONE BOTTONI DI NEXT E BACK ------------------------------
-
     // ------------------------ GESTIONE BOTTONE DI REGISTRAZIONE FINALE ------------------------------
 
     $("#form-signup").on("submit", function(event) {
@@ -607,18 +600,46 @@ $(document).ready(function() {
         $('#signup-labelStep-step2').css({"color": "#D8D8D8"});
     }
 
+
     $('.uploadImage_save').click(function() {
+        tumbnail = $('#' + type_user + '_uploadImage_tumbnail');
 
-        tumbnail.attr('src', image);
-        rx = xsize / $('#' + input_w).val();
-        ry = ysize / $('#' + input_h).val();
-        tumbnail.css({
-            width: Math.round(rx * boundx) + 'px',
-            height: Math.round(ry * boundy) + 'px',
-            marginLeft: '-' + Math.round(rx * $('#' + input_x).val()) + 'px',
-            marginTop: '-' + Math.round(ry * $('#' + input_y).val()) + 'px'
-        });
+        tumbnail.attr('src', preview.attr('src'));
 
+        thmImage = new Image()
+
+        thmImage.src = preview.attr('src');
+
+        var realwidth, realheight;
+
+        thmImage.onload = function() {
+            realwidth = this.width;
+            realheight = this.height;
+
+
+            thm_w = Math.round(realwidth / $('#' + input_w).val() * xsize);
+            thm_h = Math.round(realheight / $('#' + input_h).val() * ysize);
+
+            console.log(realwidth + ' ' + $('#' + input_w).val() + ' ' + xsize + ' ' + thm_w);
+            console.log(realheight + ' ' + $('#' + input_h).val() + ' ' + ysize + ' ' + thm_h);
+
+            tumbnail.css({
+                width: thm_w + 'px',
+                height: thm_h + 'px',
+                marginLeft: '-' + Math.round(thm_w * ($('#' + input_x).val() / realwidth)) + 'px',
+                marginTop: '-' + Math.round(thm_h * ($('#' + input_y).val() / realheight)) + 'px'
+            });
+
+        }
+
+        json_crop = {
+            x: $('#' + input_x).val(),
+            y: $('#' + input_y).val(),
+            h: $('#' + input_h).val(),
+            w: $('#' + input_w).val(),
+        };
+
+        json_signup_user.crop = json_crop;
 
         $('#' + type_user + '-uploadImage').foundation('reveal', 'close');
     });
@@ -703,7 +724,7 @@ function checkEmailExists() {
     console.log("[checkEmailExists] email :" + $("#signup01-mail").val());
     $.ajax({
         type: "POST",
-        url: "../controllers/signup/signupRequest.php",
+        url: "../controllers/request/signupRequest.php",
         data: json_email,
         async: true, //mettiamo asincrone se no si blocca la pagina...
         "beforeSend": function(xhr) {
@@ -736,7 +757,7 @@ function checkUsernameExists() {
     console.log("[checkUsernameExists] username :" + $("#signup01-username").val());
     $.ajax({
         type: "POST",
-        url: "../controllers/signup/signupRequest.php",
+        url: "../controllers/request/signupRequest.php",
         data: json_username,
         async: true, //mettiamo asincrone se no si blocca la pagina...
         "beforeSend": function(xhr) {
@@ -793,7 +814,7 @@ function validateCaptcha() {
     //********  chiamata Ajax allo script di controllo dell'inserimento corretto del captcha
     $.ajax({
         type: "POST",
-        url: "../controllers/signup/signupRequest.php",
+        url: "../controllers/request/signupRequest.php",
         data: json_captcha,
         async: false,
         success: function(data, status) {
@@ -950,7 +971,7 @@ function sendRequest(_action, _data, callback, _async) {
         callback(null);
     }
     _data.request = _action;
-    var url = "../controllers/signup/signupRequest.php";
+    var url = "../controllers/request/signupRequest.php";
     var type = "POST";
     var async = true;
     if (async !== undefined && async !== null)
@@ -989,61 +1010,38 @@ function onUploadedImage(userType, img) {
     id_tumbnail = tumbnail.attr('id');
     id_preview = preview.attr('id');
 
-    $.each($('#' + userType + '_uploadImage_preview_box input[type="hidden"]'), function(k, v) {
-        switch (k) {
-            case 0:
-                input_x = v.id;
-                break;
-            case 1:
-                input_y = v.id;
-                break;
-            case 2:
-                input_w = v.id;
-                break;
-            case 3:
-                input_h = v.id;
-                break;
-        }
-    });
+    //creo l'html per la preview dell'immagine
 
-    //jcrop_api e' sempre undefined, come si inzializza?
-    if (jcrop_api) {
-        jcrop_api.destroy();
-        jcrop_api.setOptions({allowSelect: !!this.checked});
-        jcrop_api.focus();
-        tumbnail.remove();
-        
-        //creo l'html per la preview dell'immagine
-        var html_uploadImage_preview_box = "";
-        html_uploadImage_preview_box += '<img src="" id="' + id_preview + ' height="200" width="200"/>';
-        html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
-        html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
-        html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
-        html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
-        $('#' + userType + '_uploadImage_preview_box').html(html_uploadImage_preview_box);
-        preview = $('#' + userType + '_uploadImage_preview');
-        
-        //creo l'html per la preview del thumbnail
-        var html_tumbnail_pane = '';
-        html_tumbnail_pane += '<img src="" id="' + id_tumbnail + '" height="50" width="50"/>';
-        tumbnail_pane.html(html_tumbnail_pane);
-        tumbnail = $('#' + id_tumbnail);
-    }
+    input_x = userType + '_x';
+    input_y = userType + '_y';
+    input_w = userType + '_w';
+    input_h = userType + '_h';
+
+    var html_uploadImage_preview_box = "";
+    html_uploadImage_preview_box += '<img src="' + img.src + '" id="' + id_preview + '" width="' + img.width + 'px" height="' + img.height + 'px" "/>';
+    html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
+    html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
+    html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
+    html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
+
+    //mostra a video la preview dell'immagine:
+    $('#' + userType + '_uploadImage_preview_box').html(html_uploadImage_preview_box);
+    preview = $('#' + userType + '_uploadImage_preview');
 
 
-    //--- URL ------------
+    //creo l'html per la preview del thumbnail (l'immagine finale dopo il jcrop?)
+    var html_tumbnail_pane = '';
+    html_tumbnail_pane += '<img src="" id="' + id_tumbnail + '" height="50" width="50"/>';
 
-    preview.attr('src', img.src);
-    width = img.width;
-    height = img.height;
-    if (img.width > $('.' + userType + '_uploadImage_box-preview').width()) {
-        width = $('.' + userType + '_uploadImage_box-preview').width();
-        height = $('.' + userType + '_uploadImage_box-preview').height();
-    }
+//mostra a video la preview del thumbnail 
+    $("#" + id_tumbnail).html(html_tumbnail_pane);
+    tumbnail = $('#' + id_tumbnail);
 
-    initJcrop(img, width, height);
-
+//mostro a video l'immagine 
     $('#' + userType + '_uploadImage_save').removeClass('no-display');
+
+    //attivo il plugin jcrop (non funzionante per ora)
+    initJcrop(img, preview);
 }
 
 function updatePreview(c) {
@@ -1051,12 +1049,25 @@ function updatePreview(c) {
     $('#' + input_y).val(c.y);
     $('#' + input_w).val(c.w);
     $('#' + input_h).val(c.h);
+
 }
-    
-function  initJcrop(img, width, height) {
+
+function  initJcrop(img, preview) {
+
+    var imgWidth = img.width;
+    var imgHeight = img.height;
+
+    //se jcrop è gia' stato attivato in precedenza lo disattivo
+    if (jcrop_api) {
+        jcrop_api.destroy();
+        jcrop_api.setOptions({allowSelect: !!this.checked});
+        jcrop_api.focus();
+        //tumbnail.remove();
+    }
     xsize = tumbnail_pane.width(),
             ysize = tumbnail_pane.height();
-    preview.Jcrop({
+
+    $(preview).Jcrop({
         onChange: updatePreview,
         onSelect: updatePreview,
         aspectRatio: xsize / ysize,
@@ -1067,40 +1078,39 @@ function  initJcrop(img, width, height) {
         jcrop_api = this;
         jcrop_api.setImage(img.src);
         jcrop_api.setOptions({
-            boxWidth: width,
-            boxHeight: height
+            boxWidth: img.width,
+            boxHeight: img.height
         });
         jcrop_api.animateTo([0, 0, 100, 100]);
-
     });
 
+
 }
+
 //----------------------------------- IMAGE UPLOAD ----------------------------------
 
 function initUploader(userType) {
+
+//    window.console.log("initUploader - params : userType => " + userType);
 //inizializzazione dei parametri
     var containerId = "";
     var selectButtonId = "";
     var url = "../controllers/request/uploadRequest.php";
-    var previewId = "";
     var runtime = 'html4';
     var multi_selection = false;
     var maxFileSize = "10mb";
 
     switch (userType) {
         case  "SPOTTER" :
-            previewId = "spotter_uploadImage_preview";
             containerId = "spotter_container";
             selectButtonId = "spotter_uploadImage_file_label";
 
             break;
         case  "VENUE" :
-            previewId = "venue_uploadImage_preview";
             containerId = "venue_container";
             selectButtonId = "venue_uploadImage_file_label";
             break;
         case  "JAMMER" :
-            previewId = "jammer_uploadImage_preview";
             containerId = "jammer_container";
             selectButtonId = "jammer_uploadImage_file_label";
             break;
@@ -1121,28 +1131,30 @@ function initUploader(userType) {
     });
 
     uploader.bind('Init', function(up, params) {
-        //$('#filelist').html("<div>Current runtime: " + params.runtime + "</div>");
+//        window.console.log("initUploader - EVENT: Ini");
         $('#filelist').html("");
     });
 
 //inizializo l'uploader
+//    window.console.log("initUploader - eseguo uploader.init()");
     uploader.init();
 
 //evento: file aggiunto
     uploader.bind('FilesAdded', function(up, files) {
         //avvio subito l'upload
+//        window.console.log("initUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
+//        window.console.log("initUploader - eseguo uploader.start()");
         uploader.start();
     });
 
 //evento: cambiamento percentuale di caricamento
     uploader.bind('UploadProgress', function(up, file) {
-        window.console.log("UploadProgress : " + file.percent + "%");
-        //$('#' + file.id + " b").html(file.percent + "%");
+//        window.console.log("initUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
     });
 
 //evento: errore
     uploader.bind('Error', function(up, err) {
-        window.console.log("Error: " + err.code + ", Message: " + err.message + ", File: " + err.file.name);
+//        window.console.log("initUploader - EVENT: Error - parametri: err => " + JSON.stringify(err));
         alert("Error occurred");
         up.refresh();
     });
@@ -1150,9 +1162,10 @@ function initUploader(userType) {
 //evento: upload terminato
     uploader.bind('FileUploaded', function(up, file, response) {
 
+//        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
+
         console.log(response.response);
         var obj = JSON.parse(response.response);
-        //$('#' + previewId).attr("src", "../media/cache/" + obj.id);
         //aggiorno nel json l'immagine del profilo (mi basta il nome del file in cache)
         json_signup_user.imageProfile = obj.src;
 
