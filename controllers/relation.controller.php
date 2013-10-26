@@ -222,7 +222,6 @@ class RelationController extends REST {
 	    }
 
 	    $activity = new Activity();
-	    $activity->setAccepted(true); // a cosa serve? per ora è inutilizzato per qualsiasi contatore, se non se chiarisce utilizzo si elimina
 	    $activity->setActive(true);
 	    $activity->setCounter(0);
 	    $activity->setFromUser($fromUserObjectId);

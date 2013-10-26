@@ -130,7 +130,6 @@ class PostController extends REST {
 			//imposto i valori per il salvataggio dell'activity collegata al post
 			$activity = new Activity();
 			$activity->setActive(true);
-			$activity->setAccepted(true);
 			$activity->setAlbum(null);
 			$activity->setComment(null);
 			$activity->setCounter(0);
