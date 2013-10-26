@@ -5,19 +5,19 @@
  * and open the template in the editor.
  */
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../../');
 
-require_once '../../services/cropImage.service.php';
+require_once '../../../services/cropImage.service.php';
 
 
 $source = "test.jpg";
-$dest = "../../media/cache/test.jpg";        
+$dest = "../../../media/cache/test.jpg";        
 copy($source,$dest);
 
 $cis = new CropImageService();
 
 
-$img = "../../media/cache/test.jpg";
+$img = "../../../media/cache/test.jpg";
 
 $x = 170;
 $y = 675;
