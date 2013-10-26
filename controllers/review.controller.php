@@ -123,7 +123,6 @@ class ReviewController extends REST {
 			$review->setLocation(null);
 			$review->setLoveCounter(0);
 			$review->setLovers(null);
-			$review->setOpinions(null);
 			$review->setShareCounter(0);
 			$review->setSong(null);
 			$review->setStatus(null);

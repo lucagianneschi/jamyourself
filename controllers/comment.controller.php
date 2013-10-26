@@ -105,7 +105,6 @@ class CommentController extends REST {
 			$cmt->setLocation(null);
 			$cmt->setLoveCounter(0);
 			$cmt->setLovers(null);
-			$cmt->setOpinions(null);
 			$cmt->setShareCounter(0);
 			$cmt->setTags(null);
 			$cmt->setTitle(null);

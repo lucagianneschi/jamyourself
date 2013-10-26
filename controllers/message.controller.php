@@ -141,7 +141,6 @@ class MessageController extends REST {
 			$message->setLocation(null);
 			$message->setLoveCounter(0);
 			$message->setLovers(null);
-			$message->setOpinions(null);
 			$message->setRecord(null);
 			$message->setShareCounter(0);
 			$message->setStatus(null);
