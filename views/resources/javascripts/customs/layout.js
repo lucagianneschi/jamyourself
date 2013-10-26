@@ -17,12 +17,18 @@ $(document).ready(function() {
 		autoHideScrollbar:false,
 		mouseWheel: true,
 		scrollInertia:150,
+		advanced:{
+			autoScrollOnFocus: false
+		}
 	});
 	$("#scroll-social").mCustomScrollbar({
 		updateOnContentResize: true,
 		autoHideScrollbar:false,
 		mouseWheel: true,
 		scrollInertia:150,
+		advanced:{
+			autoScrollOnFocus: false
+		}
 	});
 		
 	//permette di modifica il background del body in base al file php caricato in index
@@ -35,7 +41,7 @@ $(document).ready(function() {
 	}
 	
 
-
+	
 	
 	
 });

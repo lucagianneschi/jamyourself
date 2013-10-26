@@ -24,6 +24,10 @@ $correntUserType = $_GET['typeCurrent'];
         <title>Jamyourself</title>
         <!-------------------------- METADATI --------------------------->
         <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
+        
+        <style>
+        	
+        </style>
 
     </head>
 
@@ -33,9 +37,9 @@ $correntUserType = $_GET['typeCurrent'];
         <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
 
         <!-------------------------- BODY --------------------------->
-        <div class="body-content">
-            <?php require_once(VIEWS_DIR . 'content/profile/main.php'); ?>
-        </div>
+      
+        <?php require_once(VIEWS_DIR . 'content/profile/main.php'); ?>
+        
         <!-------------------------- FOOTER --------------------------->
         <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
 

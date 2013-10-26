@@ -37,7 +37,6 @@ body{
 
 .text{
   font-size: 14px !important;
-  
 }
 
 label.text{ 
@@ -101,6 +100,11 @@ label.text{
 
 .bg-grey-dark{ 
   background-color: $grey-dark !important;
+  height:100%;
+}
+
+.bg-white{
+	background-color: $white !important;
   height:100%;
 }
 
@@ -443,6 +447,7 @@ footer {
   height:35px;
   margin:20px !important;
   background-repeat:no-repeat;
+  
 }
 
 #signup .signup-button-back{
@@ -684,6 +689,8 @@ footer {
 ._web-double { background-image:url(../images/icon/double-icone/web-double.png); }
 ._youtube { background-image:url(../images/icon/double-icone/youtube.png); }
 ._youtube-double { background-image:url(../images/icon/double-icone/youtube-double.png); }
+._tag { background-image:url(../images/icon/double-icone/tag.png); }
+
 
 
 ._add { background-image:url(../images/icon/add.png); }
@@ -711,6 +718,9 @@ footer {
 ._menu-small { background-image:url(../images/icon/small/menu-small.png); }
 ._star-orange { background-image:url(../images/icon/small/star-orange.png); }
 ._star-grey { background-image:url(../images/icon/small/star-grey.png); }
+._star-orange-big { background-image:url(../images/icon/small/star-orange-big.png); width:20px !important; height:20px !important; display:block !important; float:left !important; }
+._star-grey-big { background-image:url(../images/icon/small/star-grey-big.png); width:20px !important; height:20px !important; display:block !important; float:left !important; }
+
 
 //---------------- icon achievement -----------------------------
 ._target1 { background-image:url(../images/icon/achievement/target1.png); }

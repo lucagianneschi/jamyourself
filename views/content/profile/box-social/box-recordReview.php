@@ -108,7 +108,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 					<div class="textReview no-display">
 						<div class="row ">						
 							<div  class="small-12 columns ">
-								<div class="text grey">
+								<div class="text grey" style="line-height: 18px !important;">
 									<?php echo $recordReview_text; ?>
 								</div>
 							</div>
