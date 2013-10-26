@@ -101,8 +101,9 @@ class PostBox {
 		$type = $fromUser->getType();
 		$encodedUsername = $fromUser->getUsername();
 		$username = parse_decode_string($encodedUsername);
-		$fromUserInfo = new UserInfo($thumbnail, $type, $username);
+		$fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 
+		$postId = $post->getObjectId();
 		$commentCounter = $post->getCommentCounter();
 		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
 		$loveCounter = $post->getLoveCounter();
@@ -111,7 +112,7 @@ class PostBox {
 		$encodedtext = $post->getText();
 		$text = parse_decode_string($encodedtext);
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $objectId, $text);
+		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $text);
 		array_push($info, $postInfo);
 	    }
 	    if (empty($info)) {

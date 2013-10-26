@@ -28,8 +28,8 @@ $typeUser = $_POST['typeUser'];
 		</div>	
 		<div  class="large-7 columns align-right">
 			<?php if($data['eventReviewCounter'] > 1){ ?>
-				<a class="icon-block _nextPage grey" onclick="royalSlideNext(this,'eventReview')" style="top: 5px !important; margin-top: 15px !important"></a>
-			<a class="icon-block _prevPage grey text" onclick="royalSlidePrev(this,'eventReview')" style="top: 5px !important; margin-top: 15px !important; "><span class="indexBox">1</span>/<?php echo $data['eventReviewCounter'] ?></a>
+				<a class="icon-block _nextPage grey" onclick="royalSlideNext('EventReview')" style="top: 5px !important; margin-top: 15px !important"></a>
+			    <a class="icon-block _prevPage grey text" onclick="royalSlidePrev('EventReview')" style="top: 5px !important; margin-top: 15px !important; "><span class="indexBox">1</span>/<?php echo $data['eventReviewCounter'] ?></a>
 	 		
 			<?php } ?>
 		</div>	
@@ -99,21 +99,23 @@ $typeUser = $_POST['typeUser'];
 							</div>													
 						</div>
 						<div  class="small-2 columns align-right viewAlbumReview">
-							<a href="#" class="orange"><strong onclick="toggleTextEventReview(this,'eventReview_<?php echo $recordReview_objectId ?>')"><?php echo $views['EventReview']['READ'];?></strong></a>
+							<a href="#" class="orange"><strong onclick="toggleTextEventReview(this,'eventReview_<?php echo $eventReview_objectId ?>')"><?php echo $views['EventReview']['READ'];?></strong></a>
 						</div>				
 					</div>
 					
 					<div class="textReview no-display">
 						<div class="row ">						
 							<div  class="small-12 columns ">
-								<div class="text grey">
+								<div class="text grey" style="line-height: 18px !important;">
 									<?php echo $eventReview_text; ?>
 								</div>
 							</div>
 						</div>					
 					</div>
 					<div class="row">
-						<div  class="large-12 columns"><div class="line"></div></div>
+						<div  class="large-12 columns">
+							<div class="line"></div>
+						</div>
 					</div>
 					<div class="row recordReview-propriety">
 						<div class="box-propriety">
@@ -129,23 +131,29 @@ $typeUser = $_POST['typeUser'];
 							</div>	
 						</div>		
 					</div>
-					<!---------------------------------------- comment ------------------------------------------------->
-					<div class="box-comment no-display" ></div>
+					
 					
 				</div>
-			</div>	
-				<?php } }
-					else{
-					?>
+				
+			</div>
+			
+			<?php } }
+				else{
+				?>
 				<div  class="rsContent">	
 					<div class="row">
 						<div  class="large-12 columns"><p class="grey"><?php echo $views['EventReview']['NODATA'];?></p></div>
 					</div>
 				</div>
-			</div>				
-		<?php } ?>
-		</div>			
+					
+			<?php } ?>
+			</div>	
+		</div>
+						
 		</div>
 	</div>
+	<!---------------------------------------- comment ------------------------------------------------->
+	<div class="box-comment no-display" ></div>
 	</div>
-</div>	
+</div>
+	

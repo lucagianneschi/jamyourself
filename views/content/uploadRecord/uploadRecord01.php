@@ -28,7 +28,7 @@ $countRecord = 10;
 					<div class="item-block uploadRecord-boxSingleRecord">
 						<div class="row">
 							<div  class="small-6 columns ">
-								<img class="coverRecord" src="../media/" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'">  
+								<img class="coverRecord" id="" src="../media/" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'">  
 							</div>
 							<div  class="small-6 columns title">
 								<div class="sottotitle white">In The Belly Of A Shark</div>
