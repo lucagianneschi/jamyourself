@@ -289,12 +289,8 @@ $(document).ready(function() {
             validation_description = true;
 
         if (validation_description) {
-            $('#spotter-signup03').hide('slide', {direction: "left"}, "slow");
-            setTimeout(function() {
-                $('#signup-ok').show('slide', {direction: "right"}, "slow");
-            }, 600);
-
-            $('.signup-labelStep').css({"display": "none"});
+            window.console.debug("chiamata signup da '#spotter-signup03-next'");
+            signup();
         }
     });
     //----------------------- spotter-signup03-back ------------------
@@ -397,13 +393,8 @@ $(document).ready(function() {
 
         //vado avanti se genre city e county sono validati    	
         if (validation_description && validation_genre) {
-            console.log("ciao");
-            $('#jammer-signup03').hide('slide', {direction: "left"}, "slow");
-            setTimeout(function() {
-                $('#signup-ok').show('slide', {direction: "right"}, "slow");
-            }, 600);
-
-            $('.signup-labelStep').css({"display": "none"});
+            window.console.debug("chiamata signup da '#jammer-signup03-next'");
+            signup();
         }
     });
     //----------------------- jammer-signup03-back ------------------
@@ -503,12 +494,8 @@ $(document).ready(function() {
 
         //vado avanti se genre city e county sono validati    	
         if (validation_description && validation_genre) {
-            $('#venue-signup03').hide('slide', {direction: "left"}, "slow");
-            setTimeout(function() {
-                $('#signup-ok').show('slide', {direction: "right"}, "slow");
-            }, 600);
-
-            $('.signup-labelStep').css({"display": "none"});
+            window.console.debug("chiamata signup da '#venue-signup03-next'");
+            signup();
         }
     });
     //----------------------- venue-signup03-back ------------------
@@ -521,13 +508,6 @@ $(document).ready(function() {
         signupStep2();
     });
 
-    // ------------------------ GESTIONE BOTTONE DI REGISTRAZIONE FINALE ------------------------------
-
-    $("#form-signup").on("submit", function(event) {
-        event.preventDefault();
-        console.log(json_signup_user);
-        signup();
-    });
     // ------------------------ FINE GESTIONE BOTTONE DI REGISTRAZIONE FINALE ------------------------------
 
     /*
@@ -710,6 +690,7 @@ function signup() {
     //recupero i valori del form
     getFormValues();
     //invio la richiesta al server
+    window.console.log("signup - Sending user => " + JSON.stringify(json_signup_user));
     sendRequest("signup", json_signup_user, signupCallback, false);
 }
 
@@ -866,10 +847,16 @@ function getFormValues() {
             json_signup_user.description = $('#spotter-description').val();
             json_signup_user.sex = $('input[name=spotter-sex]:checked').val();
             //birthday
-            json_signup_user.birthday = {};
-            json_signup_user.birthday.day = $('#spotter-birth-day').val();
-            json_signup_user.birthday.month = $('#spotter-birth-month').val();
-            json_signup_user.birthday.year = $('#spotter-birth-year').val();
+            json_signup_user.birthday = {"day": 01, "month": 01, "year": 1970};
+            if ($('#spotter-birth-day').val().length > 0 && $('#spotter-birth-day').val() != "- Day -") {
+                json_signup_user.birthday.day = $('#spotter-birth-day').val();
+            }
+            if ($('#spotter-birth-month').val().length > 0 && $('#spotter-birth-month').val() != "- Month -") {
+                json_signup_user.birthday.month = $('#spotter-birth-month').val();
+            }
+            if ($('#spotter-birth-year').val().length > 0 && $('#spotter-birth-year').val() != "- Year -") {
+                json_signup_user.birthday.year = $('#spotter-birth-year').val();
+            }
 
             json_signup_user.facebook = $('#spotter-facebook').val();
             json_signup_user.twitter = $('#spotter-twitter').val();
@@ -994,6 +981,14 @@ function sendRequest(_action, _data, callback, _async) {
 
 function signupCallback(data, status) {
     console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+    if (status == "success") {      
+        $('#'+json_signup_user.type.toLowerCase()+'-signup03').hide('slide', {direction: "left"}, "slow");
+        $('#signup-ok').show('slide', {direction: "right"}, "slow");
+    } else {
+        alert("Utente non valido");
+        console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+    }
+
 }
 
 //----------------------------------- IMAGE CROP ----------------------------------
