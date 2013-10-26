@@ -86,6 +86,7 @@ class CommentController extends REST {
 			$fromUserObjectId = $fromUser->getObjectId();
 			$text = $this->request['text'];
 			$classType = $this->request['classType'];
+			//$objectId = $this->request['$objectId']; DECOMMENTARE DOPO AVER AGGIORNATO IL POST
 
 			if (strlen($text) < $this->config->minCommentSize) {
 				$this->response(array($controllers['SHORTCOMMENT'] . strlen($text)), 200);
