@@ -141,7 +141,6 @@ class MessageController extends REST {
 			$message->setLocation(null);
 			$message->setLoveCounter(0);
 			$message->setLovers(null);
-			$message->setOpinions(null);
 			$message->setRecord(null);
 			$message->setShareCounter(0);
 			$message->setStatus(null);
@@ -164,7 +163,6 @@ class MessageController extends REST {
 			//imposto i valori per il salvataggio dell'activity collegata al post
 			$activity = new Activity();
 			$activity->setActive(true);
-			$activity->setAccepted(true);
 			$activity->setAlbum(null);
 			$activity->setComment(null);
 			$activity->setCounter(0);

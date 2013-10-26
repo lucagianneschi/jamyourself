@@ -199,7 +199,6 @@ class CommentParse {
 			$cmt->setLocation(fromParseGeoPoint($res->location));
 			$cmt->setLoveCounter($res->loveCounter);
 			# $cmt->setLovers(fromParseRelation('Comment', 'lovers', $res->objectId, '_User'));
-			$cmt->setOpinions($res->opinions);
 			$cmt->setRecord(fromParsePointer($res->record));
 			$cmt->setShareCounter($res->shareCounter);
 			$cmt->setSong(fromParsePointer($res->song));
@@ -247,7 +246,6 @@ class CommentParse {
 			is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($cmt->getLocation());
 			is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $cmt->getLoveCounter();
 			is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseAddRelation('_User', $cmt->getLovers());
-			is_null($cmt->getOpinions()) ? $parseObject->opinions = null : $parseObject->opinions = $cmt->getOpinions();
 			is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
 			is_null($cmt->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $cmt->getShareCounter();
 			is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());

@@ -63,7 +63,6 @@ class UserUtilitiesController extends REST {
 
 		$activity = new Activity();
 		$activity->setActive(true);
-		$activity->setAccepted(true);
 		$activity->setAlbum(null);
 		$activity->setComment(null);
 		$activity->setCounter(0);
@@ -115,7 +114,6 @@ class UserUtilitiesController extends REST {
 
 		$activity = new Activity();
 		$activity->setActive(true);
-		$activity->setAccepted(true);
 		$activity->setAlbum(null);
 		$activity->setComment(null);
 		$activity->setCounter(0);
@@ -164,7 +162,6 @@ class UserUtilitiesController extends REST {
 
 		$activity = new Activity();
 		$activity->setActive(true);
-		$activity->setAccepted(true);
 		$activity->setAlbum(null);
 		$activity->setComment(null);
 		$activity->setCounter(0);
@@ -216,7 +213,7 @@ class UserUtilitiesController extends REST {
 
 	    $activity = new Activity();
 	    $activity->setActive(true);
-	    $activity->setAccepted(true);
+
 	    $activity->setAlbum(null);
 	    $activity->setComment(null);
 	    $activity->setCounter(0);

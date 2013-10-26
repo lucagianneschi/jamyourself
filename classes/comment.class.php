@@ -32,7 +32,6 @@ class Comment {
 	private $location;
 	private $loveCounter;
 	private $lovers;
-	private $opinions;
 	private $record;
 	private $shareCounter;
 	private $song;
@@ -172,15 +171,6 @@ class Comment {
 	 */
 	public function getLovers() {
 		return $this->lovers;
-	}
-
-	/**
-	 * \fn		array  getOpinions()
-	 * \brief	Return the opinions value, array of string
-	 * \return	array
-	 */
-	public function getOpinions() {
-		return $this->opinions;
 	}
 
 	/**
@@ -433,15 +423,6 @@ class Comment {
 	 */
 	public function setLovers($lovers) {
 		$this->lovers = $lovers;
-	}
-
-	/**
-	 * \fn		void setOpinions($opinions)
-	 * \brief	Sets the opinions, array of string
-	 * \param	array
-	 */
-	public function setOpinions($opinions) {
-		$this->opinions = $opinions;
 	}
 
 	/**

@@ -86,6 +86,7 @@ class CommentController extends REST {
 			$fromUserObjectId = $fromUser->getObjectId();
 			$text = $this->request['text'];
 			$classType = $this->request['classType'];
+			//$objectId = $this->request['$objectId']; DECOMMENTARE DOPO AVER AGGIORNATO IL POST
 
 			if (strlen($text) < $this->config->minCommentSize) {
 				$this->response(array($controllers['SHORTCOMMENT'] . strlen($text)), 200);
@@ -104,7 +105,6 @@ class CommentController extends REST {
 			$cmt->setLocation(null);
 			$cmt->setLoveCounter(0);
 			$cmt->setLovers(null);
-			$cmt->setOpinions(null);
 			$cmt->setShareCounter(0);
 			$cmt->setTags(null);
 			$cmt->setTitle(null);
@@ -116,7 +116,6 @@ class CommentController extends REST {
 
 			$activity = new Activity();
 			$activity->setActive(true);
-			$activity->setAccepted(true);
 			$activity->setCounter(0);
 			#TODO
 			//$activity->setFromUser($currentUser);

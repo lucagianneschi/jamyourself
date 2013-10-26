@@ -19,7 +19,6 @@
 class Activity {
 
 	private $objectId;
-	private $accepted;
 	private $active;
 	private $album;
 	private $comment;
@@ -48,15 +47,6 @@ class Activity {
 	 */
 	public function getObjectId() {
 		return $this->objectId;
-	}
-
-	/**
-	 * \fn		BOOL getAccepted()
-	 * \brief	Return the accepted value
-	 * \return	BOOL
-	 */
-	public function getAccepted() {
-		return $this->accepted;
 	}
 
 	/**
@@ -249,15 +239,6 @@ class Activity {
 	}
 
 	/**
-	 * \fn		void setAccepted($accepted)
-	 * \brief	Sets the accepted value
-	 * \param	BOOL
-	 */
-	public function setAccepted($accepted) {
-		$this->accepted = $accepted;
-	}
-
-	/**
 	 * \fn		void setActive($active)
 	 * \brief	Sets the active value
 	 * \param	BOOL
@@ -445,11 +426,6 @@ class Activity {
 	public function __toString() {
 		$string = '';
 		$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-		if (is_null($this->getAccepted())) {
-			$string .= '[accepted] => NULL<br />';
-		} else {
-			$this->getAccepted() ? $string .= '[accepted] => 1<br />' : $string .= '[accepted] => 0<br />';
-		}
 		if (is_null($this->getActive())) {
 			$string .= '[active] => NULL<br />';
 		} else {

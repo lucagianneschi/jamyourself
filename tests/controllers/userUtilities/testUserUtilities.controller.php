@@ -3,7 +3,7 @@
     <head>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script type="text/javascript">
-	    function userUtilities(objectId, opType, email,setting) {
+	    function userUtilities(objectId, opType, email, setting) {
 
 		var json_userUtilities = {};
 
@@ -17,7 +17,6 @@
 		    json_userUtilities.objectId = objectId;
 		    json_userUtilities.request = "unLinkSocialAccount";
 		} else {
-		    
 		    json_userUtilities.objectId = objectId;
 		    json_userUtilities.request = "updateSetting";
 		    json_userUtilities.setting = setting;

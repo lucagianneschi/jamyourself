@@ -62,7 +62,6 @@ class AccessController extends REST {
             } else {
                 $activity = new Activity();
                 $activity->setActive(true);
-                $activity->setAccepted(true);
                 $activity->setAlbum(null);
                 $activity->setComment(null);
                 $activity->setCounter(0);
@@ -109,7 +108,6 @@ class AccessController extends REST {
 
             $activity = new Activity();
             $activity->setActive(true);
-            $activity->setAccepted(true);
             $activity->setAlbum(null);
             $activity->setComment(null);
             $activity->setCounter(0);
@@ -149,7 +147,6 @@ class AccessController extends REST {
             $userLib->socialLogin();
             $activity = new Activity();
             $activity->setActive(true);
-            $activity->setAccepted(true);
             $activity->setAlbum(null);
             $activity->setComment(null);
             $activity->setCounter(0);

@@ -35,7 +35,7 @@ require_once CLASSES_DIR . 'errorParse.class.php';
  */
 function executionTime($start, $end) {
     if (is_null($start) || is_null($end))
-        return throwError(new Exception('executionTime parameters are incorrect'), 'Utils', __FUNCTION__, func_get_args());
+	return throwError(new Exception('executionTime parameters are incorrect'), 'Utils', __FUNCTION__, func_get_args());
     $arrStart = explode(' ', $start);
     $arrEnd = explode(' ', $end);
     $secStart = $arrStart[1];
@@ -43,11 +43,11 @@ function executionTime($start, $end) {
     $msecStart = substr($arrStart[0], 2, 6);
     $msecEnd = substr($arrEnd[0], 2, 6);
     if (($secStart - $secEnd) == 0) {
-        $time = '0.' . str_pad($msecEnd - $msecStart, 6, 0, STR_PAD_LEFT);
+	$time = '0.' . str_pad($msecEnd - $msecStart, 6, 0, STR_PAD_LEFT);
     } else {
-        $timeStart = $secStart . '.' . $msecStart;
-        $timeEnd = $secEnd . '.' . $msecEnd;
-        $time = round(($timeEnd - $timeStart), 6);
+	$timeStart = $secStart . '.' . $msecStart;
+	$timeEnd = $secEnd . '.' . $msecEnd;
+	$time = round(($timeEnd - $timeStart), 6);
     }
     return $time;
 }
@@ -61,27 +61,27 @@ function executionTime($start, $end) {
  */
 function fromParseACL($parseACL) {
     if (is_null($parseACL)) {
-        return null;
+	return null;
     } else {
-        $pACL = new parseACL();
-        foreach ($parseACL as $key => $value) {
-            if ($key == "*") {
-                if (isset($value->read)) {
-                    $pACL->setPublicReadAccess($parseACL->{$key}->read);
-                }
-                if (isset($value->write)) {
-                    $pACL->setPublicWriteAccess($parseACL->{$key}->write);
-                }
-            } else {
-                if (isset($value->read)) {
-                    $pACL->setReadAccessForId($key, $parseACL->{$key}->read);
-                }
-                if (isset($value->write)) {
-                    $pACL->setWriteAccessForId($key, $parseACL->{$key}->write);
-                }
-            }
-        }
-        return $pACL;
+	$pACL = new parseACL();
+	foreach ($parseACL as $key => $value) {
+	    if ($key == "*") {
+		if (isset($value->read)) {
+		    $pACL->setPublicReadAccess($parseACL->{$key}->read);
+		}
+		if (isset($value->write)) {
+		    $pACL->setPublicWriteAccess($parseACL->{$key}->write);
+		}
+	    } else {
+		if (isset($value->read)) {
+		    $pACL->setReadAccessForId($key, $parseACL->{$key}->read);
+		}
+		if (isset($value->write)) {
+		    $pACL->setWriteAccessForId($key, $parseACL->{$key}->write);
+		}
+	    }
+	}
+	return $pACL;
     }
 }
 
@@ -94,11 +94,11 @@ function fromParseACL($parseACL) {
  */
 function fromParseDate($date) {
     if (is_null($date))
-        return throwError(new Exception('fromParseDate parameters are incorrect'), 'Utils', __FUNCTION__, func_get_args());
+	return throwError(new Exception('fromParseDate parameters are incorrect'), 'Utils', __FUNCTION__, func_get_args());
     if (is_object($date) && isset($date->__type) && $date->__type == 'Date' && isset($date->iso)) {
-        return new DateTime($date->iso);
+	return new DateTime($date->iso);
     } else {
-        return new DateTime($date);
+	return new DateTime($date);
     }
 }
 
@@ -113,16 +113,17 @@ function fromParseDate($date) {
  */
 function fromParseFile($filePointer, $mime_type) {
     if ($filePointer != null && isset($filePointer->url)) {
-        try {
-            $data = file_get_contents($filePointer->url);
-            $parseFile = new parseFile($mime_type, $data);
-            $parseFile->_fileName = $filePointer->name;
-            return $parseFile;
-        } catch (Exception $exception) {
-            return throwError($exception, 'utils', __FUNCTION__, func_get_args());
-        }
-    } else
-        return null;
+	try {
+	    $data = file_get_contents($filePointer->url);
+	    $parseFile = new parseFile($mime_type, $data);
+	    $parseFile->_fileName = $filePointer->name;
+	    return $parseFile;
+	} catch (Exception $exception) {
+	    return throwError($exception, 'utils', __FUNCTION__, func_get_args());
+	}
+    }
+    else
+	return null;
 }
 
 /**
@@ -134,10 +135,10 @@ function fromParseFile($filePointer, $mime_type) {
  */
 function fromParseGeoPoint($geoPoint) {
     if (is_null($geoPoint)) {
-        return null;
+	return null;
     } else {
-        $parseGeoPointer = new parseGeoPoint($geoPoint->latitude, $geoPoint->longitude);
-        return $parseGeoPointer;
+	$parseGeoPointer = new parseGeoPoint($geoPoint->latitude, $geoPoint->longitude);
+	return $parseGeoPointer;
     }
 }
 
@@ -150,17 +151,19 @@ function fromParseGeoPoint($geoPoint) {
  */
 function fromParsePointer($pointer) {
     if (is_null($pointer)) {
-        return null;
+	return null;
     } elseif ($pointer->__type == 'Pointer') {
-        return $pointer->objectId;
+	return $pointer->objectId;
     } elseif ($pointer->__type == 'Object') {
-        switch ($pointer->className) {
-            case '_User':
-                $userParse = new UserParse();
-                $object = $userParse->parseToUser($pointer);
-                break;
-        }
-        return $object;
+	switch ($pointer->className) {
+	    case '_User':
+		require_once CLASSES_DIR . 'user.class.php';
+		require_once CLASSES_DIR . 'userParse.class.php';
+		$userParse = new UserParse();
+		$object = $userParse->parseToUser($pointer);
+		break;
+	}
+	return $object;
     }
 }
 
@@ -178,30 +181,30 @@ function fromParsePointer($pointer) {
  */
 function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassName) {
     if (is_null($fromClassName) || is_null($fromField) || is_null($fromObjectId) || is_null($toClassName)) {
-        return throwError(new Exception('fromParseRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
+	return throwError(new Exception('fromParseRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
     } else {
-        try {
-            //inizializzo la variabile di ritorno a null
-            $objectIds = null;
-            //query sulla classe con cui devo fare la relazione
-            $parseQuery = new parseQuery($toClassName);
-            $parseQuery->whereRelatedTo($fromField, $fromClassName, $fromObjectId);
-            $res = $parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $objectIds = array();
-                foreach ($res->results as $obj) {
-                    //controllo che abbiano un objectId
-                    if (isset($obj->objectId)) {
-                        $objectIds[] = $obj->objectId;
-                    }
-                }
-                return $objectIds;
-            } else {
-                return null;
-            }
-        } catch (Exception $e) {
-            return throwError($e, 'utils', __FUNCTION__, func_get_args());
-        }
+	try {
+	    //inizializzo la variabile di ritorno a null
+	    $objectIds = null;
+	    //query sulla classe con cui devo fare la relazione
+	    $parseQuery = new parseQuery($toClassName);
+	    $parseQuery->whereRelatedTo($fromField, $fromClassName, $fromObjectId);
+	    $res = $parseQuery->find();
+	    if (is_array($res->results) && count($res->results) > 0) {
+		$objectIds = array();
+		foreach ($res->results as $obj) {
+		    //controllo che abbiano un objectId
+		    if (isset($obj->objectId)) {
+			$objectIds[] = $obj->objectId;
+		    }
+		}
+		return $objectIds;
+	    } else {
+		return null;
+	    }
+	} catch (Exception $e) {
+	    return throwError($e, 'utils', __FUNCTION__, func_get_args());
+	}
     }
 }
 
@@ -214,9 +217,9 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
  */
 function toParseACL($parseACL) {
     if (is_null($parseACL)) {
-        return null;
+	return null;
     } else {
-        return $parseACL->acl;
+	return $parseACL->acl;
     }
 }
 
@@ -229,10 +232,10 @@ function toParseACL($parseACL) {
  */
 function toParseDate($date) {
     if (is_null($date)) {
-        return null;
+	return null;
     } else {
-        $parseRestClient = new parseRestClient();
-        return $parseRestClient->dataType("date", $date->format("r"));
+	$parseRestClient = new parseRestClient();
+	return $parseRestClient->dataType("date", $date->format("r"));
     }
 }
 
@@ -245,12 +248,12 @@ function toParseDate($date) {
  */
 function toParseDefaultACL() {
     try {
-        $parseACL = new ParseACL();
-        $parseACL->setPublicWriteAccess(true);
-        $parseACL->setPublicReadAccess(true);
-        return toParseACL($parseACL);
+	$parseACL = new ParseACL();
+	$parseACL->setPublicWriteAccess(true);
+	$parseACL->setPublicReadAccess(true);
+	return toParseACL($parseACL);
     } catch (Exception $e) {
-        return throwError($e, 'utils', __FUNCTION__, func_get_args());
+	return throwError($e, 'utils', __FUNCTION__, func_get_args());
     }
 }
 
@@ -264,14 +267,15 @@ function toParseDefaultACL() {
  */
 function toParseFile($parseFile) {
     if ($parseFile != null && isset($parseFile->_fileName)) {
-        //carico i contenuti del file    
-        //ora recupero il nome del file e creo un puntatore al file col dataType
-        $parseRestClient = new parseRestClient();
-        $parseFile = $parseRestClient->dataType("file", array($parseFile->_fileName));
-        //restituisco...
-        return $parseFile;
-    } else
-        return null;
+	//carico i contenuti del file    
+	//ora recupero il nome del file e creo un puntatore al file col dataType
+	$parseRestClient = new parseRestClient();
+	$parseFile = $parseRestClient->dataType("file", array($parseFile->_fileName));
+	//restituisco...
+	return $parseFile;
+    }
+    else
+	return null;
 }
 
 /**
@@ -283,9 +287,9 @@ function toParseFile($parseFile) {
  */
 function toParseGeoPoint($geoPoint) {
     if (is_null($geoPoint)) {
-        return null;
+	return null;
     } else {
-        return $geoPoint->location;
+	return $geoPoint->location;
     }
 }
 
@@ -299,10 +303,10 @@ function toParseGeoPoint($geoPoint) {
  */
 function toParsePointer($className, $objectId) {
     if (is_null($className) || is_null($objectId)) {
-        return null;
+	return null;
     } else {
-        $parseRestClient = new parseRestClient();
-        return $parseRestClient->dataType("pointer", array($className, $objectId));
+	$parseRestClient = new parseRestClient();
+	return $parseRestClient->dataType("pointer", array($className, $objectId));
     }
 }
 
@@ -324,19 +328,19 @@ function toParsePointer($className, $objectId) {
  */
 function toParseAddRelation($className, $objectIds) {
     if (is_null($className) || is_null($objectIds)) {
-        return throwError(new Exception('toParseAddRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
+	return throwError(new Exception('toParseAddRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
     } else {
-        if (count($objectIds) > 0) {
-            $arrayPointer = array();
-            foreach ($objectIds as $objectId) {
-                $pointer = toParsePointer($className, $objectId);
-                $arrayPointer[] = $pointer;
-            }
-            $parseRestClient = new parseRestClient();
-            return $parseRestClient->dataType("addRelation", $arrayPointer);
-        } else {
-            return null;
-        }
+	if (count($objectIds) > 0) {
+	    $arrayPointer = array();
+	    foreach ($objectIds as $objectId) {
+		$pointer = toParsePointer($className, $objectId);
+		$arrayPointer[] = $pointer;
+	    }
+	    $parseRestClient = new parseRestClient();
+	    return $parseRestClient->dataType("addRelation", $arrayPointer);
+	} else {
+	    return null;
+	}
     }
 }
 
@@ -351,19 +355,19 @@ function toParseAddRelation($className, $objectIds) {
  */
 function toParseRemoveRelation($className, $objectIds) {
     if (is_null($className) || is_null($objectIds)) {
-        return throwError(new Exception('toParseRemoveRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
+	return throwError(new Exception('toParseRemoveRelation parameters are incorrect'), 'utils', __FUNCTION__, func_get_args());
     } else {
-        if (count($objectIds) > 0) {
-            $arrayPointer = array();
-            foreach ($objectIds as $objectId) {
-                $pointer = toParsePointer($className, $objectId);
-                $arrayPointer[] = $pointer;
-            }
-            $parseRestClient = new parseRestClient();
-            return $parseRestClient->dataType("removeRelation", $arrayPointer);
-        } else {
-            return null;
-        }
+	if (count($objectIds) > 0) {
+	    $arrayPointer = array();
+	    foreach ($objectIds as $objectId) {
+		$pointer = toParsePointer($className, $objectId);
+		$arrayPointer[] = $pointer;
+	    }
+	    $parseRestClient = new parseRestClient();
+	    return $parseRestClient->dataType("removeRelation", $arrayPointer);
+	} else {
+	    return null;
+	}
     }
 }
 
@@ -400,28 +404,30 @@ function throwError($exception, $class, $function, $args) {
  */
 function uploadFile($pathFile, $mime_type = '') {
     if ($pathFile != null && file_exists($pathFile) && $mime_type != null) {
-        try {
-            //carico i contenuti del file    
-            $data = file_get_contents($pathFile);
-            //carico le info del file
-            $path_parts = pathinfo($pathFile);
-            //creo il parseFile
-            $pFile = new parseFile($mime_type, $data);
-            //tento l'upload su parse
-            $result = $pFile->save($path_parts['filename']);
-            //
-            if ($result != null && isset($result->name)) {
-                //ora recupero il nome del file e creo un puntatore al file col dataType
-                $pFile->_fileName = $result->name;
-                //restituisco...
-                return $pFile;
-            } else
-                return null;
-        } catch (Exception $exception) {
-            return throwError($exception, 'utils', __FUNCTION__, func_get_args());
-        }
-    } else
-        return null;
+	try {
+	    //carico i contenuti del file    
+	    $data = file_get_contents($pathFile);
+	    //carico le info del file
+	    $path_parts = pathinfo($pathFile);
+	    //creo il parseFile
+	    $pFile = new parseFile($mime_type, $data);
+	    //tento l'upload su parse
+	    $result = $pFile->save($path_parts['filename']);
+	    //
+	    if ($result != null && isset($result->name)) {
+		//ora recupero il nome del file e creo un puntatore al file col dataType
+		$pFile->_fileName = $result->name;
+		//restituisco...
+		return $pFile;
+	    }
+	    else
+		return null;
+	} catch (Exception $exception) {
+	    return throwError($exception, 'utils', __FUNCTION__, func_get_args());
+	}
+    }
+    else
+	return null;
 }
 
 ?>

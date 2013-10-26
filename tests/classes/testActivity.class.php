@@ -26,7 +26,6 @@ require_once CLASSES_DIR . 'activityParse.class.php';
 
 $activity = new Activity();
 
-$activity->setAccepted(true);
 $activity->setActive(true);
 $activity->setAlbum('lK0bNWIi7k');
 $activity->setComment('nJr1ulgfVo');

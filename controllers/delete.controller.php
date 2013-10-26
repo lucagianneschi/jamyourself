@@ -61,7 +61,6 @@ class DeleteController extends REST {
 			$classType = $_REQUEST['classType'];
 			
 			$activity = new Activity();
-			$activity->setAccepted(true);
 			$activity->setActive(true);
 			$activity->setCounter(0);
 			$activity->setFromUser($currentUser->getObjectId());
@@ -246,11 +245,11 @@ class DeleteController extends REST {
 
 							if(!$mail->send()) {
 							   #TODO
-							   //l'invio della mail è andato male
+							   //l'invio della mail ï¿½ andato male
 							}
 							
 							#TODO
-							//l'invio della mail è andato a buon fine
+							//l'invio della mail ï¿½ andato a buon fine
 							
 							$mail->SmtpClose();
 						} catch (phpmailerException $e) {

@@ -184,7 +184,6 @@ class ActivityParse {
 			$activity = new Activity();
 			$activity->setObjectId($res->objectId);
 			$activity->setActive($res->active);
-			$activity->setAccepted($res->accepted);
 			$activity->setAlbum(fromParsePointer($res->album));
 			$activity->setComment(fromParsePointer($res->comment));
 			$activity->setCounter($res->counter);
@@ -222,7 +221,6 @@ class ActivityParse {
 			return throwError(new Exception('saveActivity parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			$parseActivity = new parseObject('Activity');
-			is_null($activity->getAccepted()) ? $parseActivity->accepted = true : $parseActivity->accepted = $activity->getAccepted();
 			is_null($activity->getActive()) ? $parseActivity->active = true : $parseActivity->active = $activity->getActive();
 			is_null($activity->getAlbum()) ? $parseActivity->album = null : $parseActivity->album = toParsePointer('Album', $activity->getAlbum());
 			is_null($activity->getComment()) ? $parseActivity->comment = null : $parseActivity->comment = toParsePointer('Comment', $activity->getComment());

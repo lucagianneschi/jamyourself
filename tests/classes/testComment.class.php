@@ -40,7 +40,6 @@ $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $cmt->setLocation($parseGeoPoint);
 $cmt->setLoveCounter(100);
 $cmt->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$cmt->setOpinions(array('opinions1', 'opinions2'));
 //$cmt->setRecord(Record $record);
 //$cmt->setSong(Song $song);
 //$cmt->setStatus(Status $status);
@@ -181,7 +180,7 @@ $cmtParse->updateField($resSave->getObjectId(), 'text', 'Un testo');
 echo 'Aggiornato un campo string<br />';
 $cmtParse->updateField($resSave->getObjectId(), 'counter', 100);
 echo 'Aggiornato un campo number<br />';
-$cmtParse->updateField($resSave->getObjectId(), 'opinions', array('op1', 'op2'));
+$cmtParse->updateField($resSave->getObjectId(), 'tags', array('ciao', 'pippo'));
 echo 'Aggiornato un campo array<br />';
 
 $cmtParse->updateField($resSave->getObjectId(), 'image', toParsePointer('Image', 'MuTAFCZIKd'));

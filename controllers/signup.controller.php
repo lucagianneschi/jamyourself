@@ -118,7 +118,6 @@ class SignupController extends REST {
             }
 //se va a buon fine salvo una nuova activity       
             $activity = new Activity();
-            $activity->setAccepted(true);
             $activity->setActive(true);
             $activity->setFromUser($user->getObjectId());
             $activity->setRead(true);

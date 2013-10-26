@@ -113,7 +113,6 @@ class PostController extends REST {
 			$cmt->setLocation(null);
 			$cmt->setLoveCounter(0);
 			$cmt->setLovers(null);
-			$cmt->setOpinions(null);
 			$cmt->setRecord(null);
 			$cmt->setShareCounter(0);
 			$cmt->setSong(null);
@@ -130,7 +129,6 @@ class PostController extends REST {
 			//imposto i valori per il salvataggio dell'activity collegata al post
 			$activity = new Activity();
 			$activity->setActive(true);
-			$activity->setAccepted(true);
 			$activity->setAlbum(null);
 			$activity->setComment(null);
 			$activity->setCounter(0);
