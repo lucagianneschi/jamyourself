@@ -517,6 +517,7 @@ section.active > .title a{
 
 .recordReview-propriety{
 	padding-bottom: 5px !important;
+	padding-right: 15px;
 }
 
 #social-EventReview .box{
@@ -616,6 +617,10 @@ section.active > .title a{
 
 #activities .small-block-grid-4{
   padding-top: 10px;
+}
+
+#social-activity .box-singleActivity{
+	cursor: pointer
 }
 
 #social .box-membre{  

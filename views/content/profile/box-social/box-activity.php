@@ -64,7 +64,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 				<div class="box">
 					<!------------------------- LAST RECORD -------------------------------->									
 					<?php if($typeUser == 'JAMMER'){ ?>	
-					<div class="row">
+					<div class="row box-singleActivity">
 						<div  class="large-12 columns ">
 							<div class="text orange"><?php echo $views['activity']['LASTALBUM'];?></div>
 							<?php if(isset($dataActivityRecord['objectId']) && $dataActivityRecord['objectId'] != ''){ ?>	
@@ -95,7 +95,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<?php
 					if($typeUser != 'SPOTTER'){ 					
 					?>
-					<div class="row">
+					<div class="row box-singleActivity">
 						<div  class="large-12 columns ">
 							<div class="text orange"><?php echo $views['activity']['LASTEVENT'];?></div>
 							<?php if(isset($dataActivityEvent['objectId']) && $dataActivityEvent['objectId'] != ''){ ?>
@@ -124,7 +124,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<?php } ?>
 					<!------------------ BOX SPOTTER LAST LISTERING AND ATTENGING EVENT ------------>
 					<?php if($typeUser == 'SPOTTER'){ 	 ?>
-					<div class="row">
+					<div class="row box-singleActivity">
 						<div  class="large-12 columns ">
 							<div class="text orange"><?php echo $views['activity']['LASTLISTERING'];?></div>
 							<?php if(isset($data['recordInfo']['objectId']) && $data['recordInfo']['objectId'] != ''){ ?>	
@@ -150,7 +150,8 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					<div class="row">
 						<div  class="large-12 columns"><div class="line"></div></div>
 					</div>
-					<div class="row">
+					<!--------------------------------------- event ---------------------------------------->
+					<div class="row box-singleActivity">
 						<div  class="large-12 columns ">
 							<div class="text orange"><?php echo $views['activity']['ATTEVENT'];?></div>
 							<?php if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''){ ?>
@@ -186,7 +187,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php if(isset($data['albumInfo']['objectId']) && $data['albumInfo']['objectId'] != ''){?>
 							<div class="row " style="margin-bottom: 10px;">
 								<div  class="small-12 columns ">
-									<span class="text grey-dark"><?php echo $data['albumInfo']['title'];?></span>
+									<span class="text grey-dark" style="cursor:pointer"><?php echo $data['albumInfo']['title'];?></span>
 									<span class="text grey"> - <?php echo $data['albumInfo']['imageCounter'];?> <?php echo $views['activity']['PHOTOS'];?> </span>							
 								</div>
 							</div>

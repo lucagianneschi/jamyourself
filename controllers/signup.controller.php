@@ -6,11 +6,14 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
+require_once CLASSES_DIR . 'albumParse.class.php';
+require_once CLASSES_DIR . 'recordParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'validateNewUser.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once SERVICES_DIR . 'cropImage.service.php';
 require_once SERVICES_DIR . 'recaptcha.service.php';
+require_once CONTROLLERS_DIR . 'utilsController.php';
 ////////////////////////////////////////////////////////////////////////////////
 //
 // DEFINIZIONE DELLE FUNZIONI DEL CONTROLLER PER LA REGISTRAZIONE
@@ -130,11 +133,21 @@ class SignupController extends REST {
 
 //aggiorno l'oggetto User in sessione
             $_SESSION['currentUser'] = $user;
-//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE        
-        rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), MEDIA_DIR . "images/profilepicturethumb/" . $user->getProfileThumbnail());
-        rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), MEDIA_DIR . "images/profilepicture/" . $user->getProfilePicture());
-            
-//restituire true o lo user....
+//creo la struttura base del file system
+            $this->createFileSystemStructure($user->getObjectId());
+
+//crea l'album immagini di default        
+            $this->createImageDefaultAlbum($user->getObjectId());
+
+//crea l'album record di default
+            $this->createRecordDefaultAlbum($user->getObjectId());
+
+//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE   
+            if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
+                rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicturethumb" . "/" . $user->getProfileThumbnail());
+                rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicture" . "/" . $user->getProfilePicture());
+            }
+//restituire true o lo user....            
             $this->response(array("OK"), 200);
         } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
@@ -260,8 +273,8 @@ class SignupController extends REST {
             $this->setCommonValues($user, $userJSON);
 
 //step 2
-            $user->setFirstname($userJSON->firstname);
-            $user->setLastname($userJSON->lastname);
+            $user->setFirstname(parse_encode_string($userJSON->firstname));
+            $user->setLastname(parse_encode_string($userJSON->lastname));
             $user->setCountry($userJSON->country);
             $user->setCity($userJSON->city);
             $user->setMusic($this->getMusicArray($userJSON->genre));
@@ -373,10 +386,10 @@ class SignupController extends REST {
     private function setCommonValues($user, $decoded) {
 
 //la parte dello step 1
-        $user->setUsername($decoded->username);
+        $user->setUsername(parse_encode_string($decoded->username));
         $user->setEmail($decoded->email);
-        $user->setPassword($decoded->password);
-        $user->setDescription($decoded->description);
+        $user->setPassword(parse_encode_string($decoded->password));
+        $user->setDescription(parse_encode_string($decoded->description));
 
         $imgInfo = $this->getImages($decoded);
         $user->setSettings(defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['ProfilePicture']));
@@ -444,6 +457,58 @@ class SignupController extends REST {
         unlink($cacheImg);
 //RETURN        
         return array('ProfilePicture' => $coverId, 'ProfileThumbnail' => $thumbId);
+    }
+
+    private function createFileSystemStructure($userId) {
+        try {
+            if (!is_null($userId) && strlen($userId) > 0) {
+                mkdir(USERS_DIR . $userId);
+                mkdir(USERS_DIR . $userId . "/" . "images");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "default");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicturethumb");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicture");
+                mkdir(USERS_DIR . $userId . "/" . "songs");
+                mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . "default");
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    private function createRecordDefaultAlbum($userId) {
+        $record = new Record();
+        $record->setActive(true);
+        $record->setCommentCounter(0);
+//$record->setCoverFile();
+        $record->setDuration(0);
+        $record->setFromUser($userId);
+        $record->setLoveCounter(0);
+        $record->setReviewCounter(0);
+        $record->setShareCounter(0);
+        $record->setTitle('Default Record');
+        $record->setYear(date("Y"));
+
+        $pRecord = new RecordParse();
+        return $pRecord->saveRecord($record);
+    }
+
+    private function createImageDefaultAlbum($userId) {
+        $album = new Album();
+
+        $album->setActive(true);
+        $album->setCommentCounter(0);
+        $album->setCounter(0);
+//        $album->setCoverFile("");
+        $album->setFromUser($userId);
+        $album->setCommentCounter(0);
+        $album->setLoveCounter(0);
+        $album->setShareCounter(0);
+        $album->setTitle('Default Album');
+
+        $pAlbum = new AlbumParse();
+
+//result è un errore e contiene il motivo dell'errore
+        return $pAlbum->saveAlbum($album);
     }
 
 }

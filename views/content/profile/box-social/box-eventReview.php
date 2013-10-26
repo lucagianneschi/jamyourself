@@ -106,7 +106,7 @@ $typeUser = $_POST['typeUser'];
 					<div class="textReview no-display">
 						<div class="row ">						
 							<div  class="small-12 columns ">
-								<div class="text grey">
+								<div class="text grey" style="line-height: 18px !important;">
 									<?php echo $eventReview_text; ?>
 								</div>
 							</div>
