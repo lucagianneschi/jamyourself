@@ -44,7 +44,7 @@ class RecordInfoForMediaPage {
      * \brief	construct for the RecordInfoForMediaPage class
      * \param	$buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName,  $title, $year
      */
-    function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $title, $year) {
+    function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $title, $tracklist, $year) {
 	global $boxes;
 	global $default_img;
 	is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = $buylink;
@@ -57,6 +57,7 @@ class RecordInfoForMediaPage {
 	is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = $label;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($tracklist) ? $this->tracklist = $boxes['NOTRACK'] : $this->tracklist = $tracklist;
 	is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
 
