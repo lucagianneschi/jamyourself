@@ -45,7 +45,7 @@ $postCounter = $data['postCounter'];
 						</form>
 					</div>
 				</div>
-				<div class="box">
+				
 					
 					<?php 
 					if($postCounter > 0){
@@ -54,7 +54,9 @@ $postCounter = $data['postCounter'];
 						$post_createdAd = $post_DateTime->format('l j F Y - H:i');
 									
 					?>
-					<div id='<?php echo  $data['post' . $i]['objectId'];?>'>
+				<div id='<?php echo  $data['post' . $i]['objectId'];?>'>
+					<div class="box">
+					
 					<div class="row  line">
 						<div  class="small-1 columns ">
 							<div class="icon-header">
@@ -101,9 +103,12 @@ $postCounter = $data['postCounter'];
 							</div>
 						</div>
 					</div>
+					
+					
+					</div> <!--------------- BOX -------------------->	
 					<!---------------------------------------- COMMENT ------------------------------------------------->
-					<div class="box-comment no-display"></div>
-					</div>	
+					<div class="box-comment no-display" ></div>
+					</div>
 					<?php }}
 					else{
 						?>
@@ -115,7 +120,7 @@ $postCounter = $data['postCounter'];
 						<?php
 					}
 					 ?>
-				</div> <!--------------- BOX -------------------->
+				
 				
 		</div>
 	</div>

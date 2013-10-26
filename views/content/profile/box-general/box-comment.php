@@ -19,11 +19,12 @@ $commentCounter = $data['comment']['commentCounter'];
 	<div  class="small-12 columns ">
 		
 			<?php 
-			if($commentCounter > 0){
-			for($i=0 ; $i<$commentCounter; $i++){ 				
-				$comment_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['comment' . $i]['createdAt']);
-				var_dump( $data);
-				$comment_createdAd = $comment_DateTime->format('l j F Y - H:i');
+			if($commentCounter > 0 && isset($data['comment0']['objectId'])){
+				
+				for($i=0 ; $i<$commentCounter; $i++){
+									
+						$comment_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['comment' . $i]['createdAt']);
+						$comment_createdAd = $comment_DateTime->format('l j F Y - H:i');
 				?>		
 			<div class="box-singole-comment">
 				<div class='line'>
@@ -60,7 +61,7 @@ $commentCounter = $data['comment']['commentCounter'];
 				</div>
 
 			</div>
-			<?php } }
+			<?php } } 
 			else{ ?>
 			<div class="box-singole-comment">
 				<div class="row"><div  class="large-12 columns"><p class="grey"><?php echo $views['comment']['NODATA'];?></p></div></div>

@@ -178,6 +178,7 @@ var rsi = $('#' + idBox).royalSlider({
 		loop : false,
 		numImagesToPreload : 6,
 		transitionType : 'fade',
+		transitionSpeed : 300,
 		keyboardNavEnabled : true,
 		autoHeight: true,
 		block : {
@@ -199,11 +200,33 @@ function royalSlideNext(box){
 		case 'album':
 		rsi = rsi_album;
 		break;
+		case 'EventReview':
+		rsi = rsi_eventReview;
+		console.log(rsi.currSlideId);
+		
+		break;
+		case 'RecordReview':
+		rsi = rsi_recordReview;
+		break;
 		default:
 		break;
 	}
+	if(box == 'EventReview'){   		
+   		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
+   			$(box+' .box-comment').addClass('no-display');
+   	}   		
+   	if(box == 'RecordReview'){   		
+   		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
+   			$(box+' .box-comment').addClass('no-display');
+   	}
 	rsi.next();
-   	
+   	if(box == 'EventReview'){
+   		$('#social-EventReview span.indexBox').html(rsi.currSlideId+1);
+   	}   		
+   	if(box == 'RecordReview'){
+   		$('#social-RecordReview span.indexBox').html(rsi.currSlideId+1);
+   	}
+   		
   
 }
 
@@ -219,17 +242,30 @@ function royalSlidePrev(box){
 		case 'album':
 		rsi = rsi_album;
 		break;
-		case 'recordReview':
+		case 'RecordReview':
 		rsi = rsi_recordReview;
 		break;
-		case 'eventReview':
+		case 'EventReview':
 		rsi = rsi_eventReview;
 		break;
 		default:
 		break;
 	}
+	if(box == 'EventReview'){   		
+   		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
+   			$(box+' .box-comment').addClass('no-display');
+   	}   		
+   	if(box == 'RecordReview'){   		
+   		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
+   			$(box+' .box-comment').addClass('no-display');
+   	}
 	rsi.prev();
-	
+   	if(box == 'EventReview'){
+   		$('#social-EventReview span.indexBox').html(rsi.currSlideId+1);
+   	}   		
+   	if(box == 'RecordReview'){
+   		$('#social-RecordReview span.indexBox').html(rsi.currSlideId+1);
+   	}
  }
 
 
@@ -251,7 +287,7 @@ var toggleTextRecordReview = function(_this,box){
 // gestione button READ eventReview
 var toggleTextEventReview = function(_this,box){
 	typeOpt = $(_this).text();	
-	$('#'+box+' .textReview').toggle(function() {
+	$('#'+box+' .textReview').slideToggle(300, function() {
 		if(typeOpt == 'Read'){
 			$(_this).text('Close');
 			rsi_eventReview.updateSliderSize(true);
