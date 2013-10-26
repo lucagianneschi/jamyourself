@@ -107,7 +107,10 @@ $albumCounter = $data['albumCounter'];
 			</div>
 		</div>
 	<!----------------------------------------- ALBUM PHOTO SINGLE ------------------------------>
-	<?php for($i=0; $i<$albumCounter; $i++){ 
+	
+	<?php 
+		
+		for($i=0; $i<$albumCounter; $i++){ 
 			
 		?>
 		<div id="profile-singleAlbum">
@@ -121,7 +124,9 @@ $albumCounter = $data['albumCounter'];
 					<div  class="large-12 columns"><div class="line"></div></div>
 				</div>
 				<ul class="small-block-grid-3 small-block-grid-2 ">			
-				  <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>
+				  <?php 
+				  $totalPhotoView = $data['album' . $i]['imageCounter'] > 15 ? 15 : $data['album' . $i]['imageCounter'];
+				  for($j=0; $j<$totalPhotoView; $j++){ ?>
 				  <li><a class="photo-colorbox-group" href="#<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>"><img class="photo" src="../media/<?php $data['album' . $i]['image' . $j]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"></a></li>
 					<?php } ?>
 				</ul>		
@@ -144,6 +149,7 @@ $albumCounter = $data['albumCounter'];
 			<!---------------------------------------- COMMENT ------------------------------------------------->
 			<div class="box-comment no-display"></div>
 		</div>
+		<!---------------------------------------- LIGHTBOX ------------------------------------------------->
 		<div class="row no-display box" id="profile-Image">
 			<div class="large-12 columns">
 				 <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ ?>				 	

@@ -6,11 +6,14 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
+require_once CLASSES_DIR . 'albumParse.class.php';
+require_once CLASSES_DIR . 'recordParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'validateNewUser.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once SERVICES_DIR . 'cropImage.service.php';
 require_once SERVICES_DIR . 'recaptcha.service.php';
+require_once CONTROLLERS_DIR . 'utilsController.php';
 ////////////////////////////////////////////////////////////////////////////////
 //
 // DEFINIZIONE DELLE FUNZIONI DEL CONTROLLER PER LA REGISTRAZIONE
@@ -123,15 +126,29 @@ class SignupController extends REST {
             $activity->setRead(true);
             $activity->setStatus("A");
             $activity->setType("SIGNEDUP");
-            $activity->setACL(toParseDefaultACL());
+//            $activity->setACL(toParseDefaultACL());
 
             $pActivity = new ActivityParse();
             $pActivity->saveActivity($activity);
 
 //aggiorno l'oggetto User in sessione
             $_SESSION['currentUser'] = $user;
-//restituire true o lo user....
-            $this->response(array("OK"), 201);
+//creo la struttura base del file system
+            $this->createFileSystemStructure($user->getObjectId());
+
+//crea l'album immagini di default        
+            $this->createImageDefaultAlbum($user->getObjectId());
+
+//crea l'album record di default
+            $this->createRecordDefaultAlbum($user->getObjectId());
+
+//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE   
+            if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
+                rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicturethumb" . "/" . $user->getProfileThumbnail());
+                rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicture" . "/" . $user->getProfilePicture());
+            }
+//restituire true o lo user....            
+            $this->response(array("OK"), 200);
         } catch (Exception $e) {
             $error = array('status' => "Service Unavailable", "msg" => $e->getMessage());
             $this->response($error, 503);
@@ -256,8 +273,8 @@ class SignupController extends REST {
             $this->setCommonValues($user, $userJSON);
 
 //step 2
-            $user->setFirstname($userJSON->firstname);
-            $user->setLastname($userJSON->lastname);
+            $user->setFirstname(parse_encode_string($userJSON->firstname));
+            $user->setLastname(parse_encode_string($userJSON->lastname));
             $user->setCountry($userJSON->country);
             $user->setCity($userJSON->city);
             $user->setMusic($this->getMusicArray($userJSON->genre));
@@ -369,10 +386,10 @@ class SignupController extends REST {
     private function setCommonValues($user, $decoded) {
 
 //la parte dello step 1
-        $user->setUsername($decoded->username);
+        $user->setUsername(parse_encode_string($decoded->username));
         $user->setEmail($decoded->email);
-        $user->setPassword($decoded->password);
-        $user->setDescription($decoded->description);
+        $user->setPassword(parse_encode_string($decoded->password));
+        $user->setDescription(parse_encode_string($decoded->description));
 
         $imgInfo = $this->getImages($decoded);
         $user->setSettings(defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['ProfilePicture']));
@@ -385,11 +402,11 @@ class SignupController extends REST {
         $user->setYoutubeChannel($decoded->youtube);
         $user->setWebsite($decoded->web);
 
-//imposto i parametri di Jam
-//        $user->setAuthData($authData);
+//imposto i parametri di Jam       
         $parseACL = new parseACL();
         $parseACL->setPublicReadAccess(true);
         $user->setACL($parseACL);
+
         $user->setActive(true);
 //        $user->setBackground();
         $user->setCollaborationCounter(0);
@@ -407,17 +424,24 @@ class SignupController extends REST {
 //in caso di anomalie ---> default
         if (!isset($decoded->crop) || is_null($decoded->crop) ||
                 !isset($decoded->imageProfile) || is_null($decoded->imageProfile)) {
-            return array("ProfilePicture" => "", "ProfileThumbnail" => "");
+            return array("ProfilePicture" => null, "ProfileThumbnail" => null);
         }
 
         $PROFILE_IMG_SIZE = 300;
         $THUMBNAIL_IMG_SIZE = 150;
-        
+
 //recupero i dati per effettuare l'editing
         $cropInfo = json_decode(json_encode($decoded->crop), false);
+
+        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
+                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
+                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
+                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
+            return array("ProfilePicture" => null, "ProfileThumbnail" => null);
+        }
         $cacheDir = MEDIA_DIR . "cache/";
         $cacheImg = $cacheDir . $decoded->imageProfile;
-        
+
 //Preparo l'oggetto per l'editign della foto
         $cis = new CropImageService();
 
@@ -428,12 +452,63 @@ class SignupController extends REST {
 //gestione del thumbnail
         $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
         $thumbUrl = $cacheDir . $thumbId;
-        
+
 //CANCELLAZIONE DELLA VECCHIA IMMAGINE
         unlink($cacheImg);
-        
 //RETURN        
-        return array('ProfilePicture' => $coverUrl, 'ProfileThumbnail' => $thumbUrl);
+        return array('ProfilePicture' => $coverId, 'ProfileThumbnail' => $thumbId);
+    }
+
+    private function createFileSystemStructure($userId) {
+        try {
+            if (!is_null($userId) && strlen($userId) > 0) {
+                mkdir(USERS_DIR . $userId);
+                mkdir(USERS_DIR . $userId . "/" . "images");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "default");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicturethumb");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicture");
+                mkdir(USERS_DIR . $userId . "/" . "songs");
+                mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . "default");
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    private function createRecordDefaultAlbum($userId) {
+        $record = new Record();
+        $record->setActive(true);
+        $record->setCommentCounter(0);
+//$record->setCoverFile();
+        $record->setDuration(0);
+        $record->setFromUser($userId);
+        $record->setLoveCounter(0);
+        $record->setReviewCounter(0);
+        $record->setShareCounter(0);
+        $record->setTitle('Default Record');
+        $record->setYear(date("Y"));
+
+        $pRecord = new RecordParse();
+        return $pRecord->saveRecord($record);
+    }
+
+    private function createImageDefaultAlbum($userId) {
+        $album = new Album();
+
+        $album->setActive(true);
+        $album->setCommentCounter(0);
+        $album->setCounter(0);
+//        $album->setCoverFile("");
+        $album->setFromUser($userId);
+        $album->setCommentCounter(0);
+        $album->setLoveCounter(0);
+        $album->setShareCounter(0);
+        $album->setTitle('Default Album');
+
+        $pAlbum = new AlbumParse();
+
+//result è un errore e contiene il motivo dell'errore
+        return $pAlbum->saveAlbum($album);
     }
 
 }

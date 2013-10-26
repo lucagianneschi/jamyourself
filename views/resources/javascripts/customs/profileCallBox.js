@@ -204,8 +204,8 @@ function getPinner(box){
 /*
  * Variabili
  */
-var rsi_event;
-var rsi_album;
+
+var rsi_event, rsi_album ,rsi_eventReview, rsi_recordReview ,rsi_record ;
 
 
 /*

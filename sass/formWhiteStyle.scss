@@ -1,0 +1,98 @@
+@import "compass/css3";
+@import "settings";
+
+body {
+	background-color: #F3F3F3;
+	overflow: scroll !important;
+}
+
+
+
+.box-upload-review-event {
+	padding-top: 3%;
+	.box-upload-title {
+		padding-top:40px;
+		padding-bottom:70px;
+	}
+	
+	.buttonNext{
+		background-image:url(../images/button/signup-next.png) !important;
+		background-color:white;
+		border: 0px;
+		color:$white;
+		width:135px;
+		height:35px;
+		margin:20px !important;
+		background-repeat:no-repeat;
+		float:right;
+	}
+	
+	textarea, .error textarea, textarea:focus {
+		background-color: white;
+		color: #666;
+		border: 1px solid $grey-light;
+		min-height:240px;
+		}
+
+	.line { 
+		border-bottom: 1px solid $grey-light;
+		padding-bottom: 5px !important;
+	}
+	
+	h2 {
+		color:$grey;
+		font-weight: normal;
+		text-align: center;
+
+	}
+	
+	h3 {
+			color:$orange;
+			font-weight: normal;
+		}
+		
+	h5 {
+		color:$grey;
+		font-weight: normal;
+	}
+	
+	.rating {
+		margin-top:45px;
+	}
+	
+	.big-star {
+		padding-top:8px;
+	}
+	
+	.box {
+		background-color: white;
+		border-top: $orange 1px solid;
+		
+		.sidebar {
+			padding-left:25px;
+			padding-top:9px;
+			.box-membre {
+				padding: 10px;
+				margin-bottom: 10px;
+				width: auto;
+				height: 55px;
+				background-color: #f3f3f3;
+				cursor: pointer;
+			}
+			
+			.note {
+				padding-top:4px;
+			}
+			
+			.text {
+				margin-bottom: 10px;
+			}
+			
+			.oggetto-review {
+				margin-bottom:80px;
+			}
+		}
+		
+	}
+	
+}

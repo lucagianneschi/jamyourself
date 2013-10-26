@@ -36,6 +36,7 @@ class PostInfo {
     public $counters;
     public $createdAt;
     public $fromUserInfo;
+    public $objectId;
     public $text;
 
     /**
@@ -43,11 +44,12 @@ class PostInfo {
      * \brief	construct for the PostInfo class
      * \param	$counters, $createdAt, $fromUserInfo, $text
      */
-    function __construct($counters, $createdAt, $fromUserInfo, $text) {
+    function __construct( $counters, $createdAt, $fromUserInfo,$objectId, $text) {
 	global $boxes;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
     }
 
@@ -63,16 +65,16 @@ class PostBox {
      * \brief	Init PostBox instance for Personal Page
      * \param	$objectId for user that owns the page
      * \return	postBox
-	 * \todo	usare whereInclude per il fromUser per avere una get in meno
+     * \todo	usare whereInclude per il fromUser per avere una get in meno
      */
     public function initForPersonalPage($objectId) {
 	global $boxes;
 	$postBox = new PostBox();
 	$info = array();
 	$counter = 0;
-	
-	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)), 
-				   array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
+
+	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
+	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
 
 	$post = new CommentParse();
 	$post->whereOr($value);
@@ -84,41 +86,39 @@ class PostBox {
 	if (get_class($posts) == 'Error') {
 	    return $posts;
 	} else {
-		require_once CLASSES_DIR . 'user.class.php';
-		require_once CLASSES_DIR . 'userParse.class.php';
-	   
-	   
-		foreach ($posts as $key => $value) {		
-			$counter = ++$counter;
-			$post = $value;
-			$fromUserId = $post->getFromUser();
-			$fromUserP = new UserParse();
-			$fromUser = $fromUserP->getUser($fromUserId);
-			if (get_class($fromUser) == 'Error') {
-				return $fromUser;
-			} 
-			$objectId = $fromUser->getObjectId();
-			$thumbnail = $fromUser->getProfileThumbnail();
-			$type = $fromUser->getType();
-			$encodedUsername = $fromUser->getUsername();
-			$username = parse_decode_string($encodedUsername);
-			$fromUserInfo = new UserInfo($thumbnail, $type, $username);
-	
-			$commentCounter = $post->getCommentCounter();
-			$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
-			$loveCounter = $post->getLoveCounter();
-			$reviewCounter = $boxes['NDB'];
-			$shareCounter = $post->getShareCounter();
-			$encodedtext = $post->getText();
-			$text = parse_decode_string($encodedtext);
-			$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-			$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $text);
-			array_push($info, $postInfo);
+	    require_once CLASSES_DIR . 'user.class.php';
+	    require_once CLASSES_DIR . 'userParse.class.php';
+	    foreach ($posts as $post) {
+		$counter = ++$counter;
+		$fromUserId = $post->getFromUser();
+		$fromUserP = new UserParse();
+		$fromUser = $fromUserP->getUser($fromUserId);
+		if (get_class($fromUser) == 'Error') {
+		    return $fromUser;
+		}
+		$objectId = $fromUser->getObjectId();
+		$thumbnail = $fromUser->getProfileThumbnail();
+		$type = $fromUser->getType();
+		$encodedUsername = $fromUser->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+
+		$postId = $post->getObjectId();
+		$commentCounter = $post->getCommentCounter();
+		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
+		$loveCounter = $post->getLoveCounter();
+		$reviewCounter = $boxes['NDB'];
+		$shareCounter = $post->getShareCounter();
+		$encodedtext = $post->getText();
+		$text = parse_decode_string($encodedtext);
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $text);
+		array_push($info, $postInfo);
 	    }
 	    if (empty($info)) {
-			$postBox->postInfoArray = $boxes['NODATA'];
+		$postBox->postInfoArray = $boxes['NODATA'];
 	    } else {
-			$postBox->postInfoArray = $info;
+		$postBox->postInfoArray = $info;
 	    }
 	    $postBox->postCounter = $counter;
 	}
