@@ -12,6 +12,10 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
+
+require_once CONTROLLERS_DIR . 'post.controller.php';
+$controller = new PostController();
+$controller->init();
  
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
@@ -33,11 +37,12 @@ $postCounter = $data['postCounter'];
 						<form action="" class="box-write">
 							<div class="">
 								<div class="row  ">
-									<div  class="small-9 columns ">
-										<input type="text" class="post inline" placeholder="<?php echo $views['post']['WRITE'];?>" />
+									<div class="small-9 columns ">
+										<input id="post" type="text" class="post inline" placeholder="<?php echo $views['post']['WRITE'];?>" />
 									</div>
-									<div  class="small-3 columns ">
-										<input type="button" class="post-button inline" value="Post"/>
+									<div class="small-3 columns ">
+										<script type="text/javascript" src="<?php echo ROOT_DIR; ?>tests/controllers/post/post.js"></script>
+										<input type="button" class="post-button inline" value="Post" onclick="sendPost()" />
 									</div>
 								</div>
 							</div>

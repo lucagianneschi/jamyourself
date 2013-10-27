@@ -37,6 +37,6 @@ function sendPost(){
 	//forzo l'utente su cui sto facendo il commento
 	post.toUser = "GuUAj83MGH";
 	
-	window.console.log("Sending post: " + post);
+	window.console.log("Sending post: " + JSON.stringify(post));
     sendRequest("POST", post, confirmation, true);
 }
