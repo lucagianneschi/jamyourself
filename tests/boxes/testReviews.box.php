@@ -31,14 +31,14 @@ $objectId  = '7fes1RyY77'; //JAMMER
 $objectId1 = '7wi6AvviK4'; //SPOTTER
 $objectId2 = 'iovioSH5mq'; //VENUE
 	
-echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
-$review1_start = microtime();
-$reviewBoxP1 = new ReviewBox();
-$reviewBox1 = $reviewBoxP1->initForPersonalPage($objectId,'JAMMER','Event');
-print "<pre>";
-print_r($reviewBox1);
-print "</pre>";
-$review1_stop = microtime();
+//echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
+//$review1_start = microtime();
+//$reviewBoxP1 = new ReviewBox();
+//$reviewBox1 = $reviewBoxP1->initForPersonalPage($objectId,'JAMMER','Event');
+//print "<pre>";
+//print_r($reviewBox1);
+//print "</pre>";
+//$review1_stop = microtime();
 
 //    echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
 //    $review2_start = microtime();
@@ -55,7 +55,12 @@ $reviewBox5 = $reviewBoxP5->initForPersonalPage($objectId2,'VENUE','Event');
 print "<pre>";
 print_r($reviewBox5);
 print "</pre>";
-
+echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
+$reviewBoxP5 = new ReviewBox();
+$reviewBox5 = $reviewBoxP5->initForPersonalPage($objectId,'JAMMER','Event');
+print "<pre>";
+print_r($reviewBox5);
+print "</pre>";
 
 
 //echo '<br />-------------------------------MEDIAPAGE-------------------------------------------<br />';
