@@ -169,6 +169,7 @@ class EventBox {
      * \brief	Init EventBox instance for Media Page
      * \param	$objectId for event
      * \return	eventBox
+     * todo utilizzate whereInclude
      */
     public function initForMediaPage($objectId) {
 	global $boxes;
@@ -270,6 +271,8 @@ class EventBox {
 	    }
 	    $eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title);
 
+
+	    //devi sostituire questo codice con la whereInclude
 	    $fromUserId = $event->getFromUser();
 	    $userP = new UserParse();
 	    $fromUser = $userP->getUser($fromUserId);
@@ -312,7 +315,6 @@ class EventBox {
 	} else {
 	    foreach ($events as $event) {
 		$counter = ++$counter;
-
 		$encodedAddress = $event->getAddress();
 		$address = parse_decode_string($encodedAddress);
 		$encodedCity = $event->getCity();
@@ -323,7 +325,6 @@ class EventBox {
 		$shareCounter = $event->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
-
 		$featuring = array();
 		$parseUser = new UserParse();
 		$parseUser->whereRelatedTo('featuring', 'Event', $objectId);
@@ -346,9 +347,7 @@ class EventBox {
 		$fromUserInfo = null;
 		$encodedLocationName = $event->getLocationName();
 		$locationName = parse_decode_string($encodedLocationName);
-
 		$objectId = $event->getObjectId();
-
 		$tags = array();
 		if (count($event->getTags()) > 0) {
 		    foreach ($event->getTags() as $tag) {
@@ -384,7 +383,6 @@ class EventBox {
 	global $boxes;
 	$eventBox = new EventBox();
 	$eventBox->eventCounter = $boxes['NDB'];
-
 	$recordP = new EventParse();
 	$recordP->where('objectId', $objectId);
 	$recordP->setLimit(1);
