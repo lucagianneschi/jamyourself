@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		uso whereIncude        
+ * \todo		uso whereIncude
  *
  */
 if (!defined('ROOT_DIR'))
@@ -22,8 +22,6 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 class RelationsBox {
@@ -93,50 +91,31 @@ class RelationsBox {
 		$info = array('followers' => $boxes['ND'], 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => $boxes['ND'], 'jammersCollaborators' => $boxes['ND']);
 		break;
 	    default :
-		
-		//usare una whereOr
+		require_once CLASSES_DIR . 'user.class.php';
+		require_once CLASSES_DIR . 'userParse.class.php';
 		$collaboratorVenue = new UserParse();
 		$collaboratorVenue->whereRelatedTo('collaboration', '_User', $objectId);
-		$collaboratorVenue->whereEqualTo('type', 'VENUE');
 		$collaboratorVenue->where('active', true);
 		$collaboratorVenue->setLimit(50);
 		$collaboratorVenue->orderByDescending('createdAt');
-		$venues = $collaboratorVenue->getUsers();
-		if (get_class($venues) == 'Error') {
-		    return $venues;
+		$collaborators = $collaboratorVenue->getUsers();
+		if (get_class($collaborators) == 'Error') {
+		    return $collaborators;
 		} else {
-		    foreach ($venues as $toUser) {
-			$objectId = $toUser->getObjectId();
-			$thumbnail = $toUser->getProfileThumbnail();
-			$type = $toUser->getType();
-			$encodedUsername = $toUser->getUserName();
+		    foreach ($collaborators as $collaborator) {
+			$objectId = $collaborator->getObjectId();
+			$thumbnail = $collaborator->getProfileThumbnail();
+			$type = $collaborator->getType();
+			$encodedUsername = $collaborator->getUserName();
 			$username = parse_decode_string($encodedUsername);
 			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-			array_push($venuesArray, $userInfo);
+			if ($type == 'VENUE') {
+			    array_push($venuesArray, $userInfo);
+			} else {
+			    array_push($jammersArray, $userInfo);
+			}
 		    }
 		}
-		$collaboratorJammer = new UserParse();
-		$collaboratorJammer->whereRelatedTo('collaboration', '_User', $objectId);
-		$collaboratorJammer->whereEqualTo('type', 'JAMMER');
-		$collaboratorJammer->setLimit(50);
-		$collaboratorJammer->orderByDescending('createdAt');
-		$jammers = $collaboratorJammer->getUsers();
-		if (get_class($jammers) == 'Error') {
-		    return $jammers;
-		} else {
-		    foreach ($jammers as $toUser) {
-			$objectId = $toUser->getObjectId();
-			$thumbnail = $toUser->getProfileThumbnail();
-			$type = $toUser->getType();
-			$encodedUsername = $toUser->getUserName();
-			$username = parse_decode_string($encodedUsername);
-			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-			array_push($jammersArray, $userInfo);
-		    }
-		}
-		//usare una whereOr
-		
-		
 		$following = new ActivityParse();
 		$following->wherePointer('toUser', '_User', $objectId);
 		$following->whereEqualTo('type', 'FOLLOWING');
