@@ -60,3 +60,4 @@ $(document).foundation();
 <script type="text/javascript" src="resources/javascripts/customs/uploadRecord.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
 
+<script type="text/javascript" src="<?php echo ROOT_DIR; ?>tests/controllers/post/post.js"></script>

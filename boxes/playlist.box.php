@@ -24,10 +24,6 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
 require_once CLASSES_DIR . 'playlist.class.php';
 require_once CLASSES_DIR . 'playlistParse.class.php';
-require_once CLASSES_DIR . 'song.class.php';
-require_once CLASSES_DIR . 'songParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 
 /**
  * \brief	SongInfo class 
@@ -69,11 +65,9 @@ class PlaylistBox {
      * \return	playlistBox
      */
     public function init($objectId) {
-	
 	global $boxes;
 	$playlistBox = new PlaylistBox();
 	$tracklist = array();
-
 	$playlist = new PlaylistParse();
 	$playlist->wherePointer('fromUser', '_User', $objectId);
 	$playlist->where('active', true);
@@ -86,40 +80,28 @@ class PlaylistBox {
 	    foreach ($playlists as $playlist) {
 		$encodedName = $playlist->getName();
 		$name = parse_decode_string($encodedName);
-
 		$song = new SongParse();
 		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
 		$song->where('active', true);
 		$song->orderByDescending('createdAt');
 		$song->setLimit(50);
+		$song->whereInclude('fromUser,record');
 		$songs = $song->getSongs();
 		if (get_class($songs) == 'Error') {
 		    return $songs;
 		} else {
+		    require_once CLASSES_DIR . 'song.class.php';
+		    require_once CLASSES_DIR . 'songParse.class.php';
 		    foreach ($songs as $song) {
 			$encodedTitle = $song->getTitle();
 			$title = parse_decode_string($encodedTitle);
-
-			$authorP = new UserParse();
-			$user = $authorP->getUser($song->getFromUser());
-			if (get_class($user) == 'Error') {
-			    return $user;
-			}
-
-			$objectId = $user->getObjectId();
-			$thumbnail = $user->getProfileThumbnail;
-			$type = $user->getType;
-			$encodedUsername = $user->getUsername;
+			$objectId = $song->getFromUser()->getObjectId();
+			$thumbnail = $song->getFromUser()->getProfileThumbnail();
+			$type = $song->getFromUser()->getType();
+			$encodedUsername = $song->getFromUser()->getUsername();
 			$username = parse_decode_string($encodedUsername);
 			$author = new UserInfo($objectId, $thumbnail, $type, $username);
-
-			$recordP = new RecordParse();
-			$record = $recordP->getRecord($song->getRecord());
-			if (get_class($record) == 'Error') {
-			    return $record;
-			}
-			$thumbnailRec = $record->getThumbnailCover();
-
+			$thumbnailRec = $song->getRecord()->getThumbnailCover();
 			$newSong = new SongInfo($author, $thumbnailRec, $title);
 			array_push($tracklist, $newSong);
 		    }

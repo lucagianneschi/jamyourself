@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		uso whereIncude
+ * \todo		
  *
  */
 
@@ -21,10 +21,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-require_once CLASSES_DIR . 'album.class.php';
-require_once CLASSES_DIR . 'albumParse.class.php';
-require_once CLASSES_DIR . 'image.class.php';
-require_once CLASSES_DIR . 'imageParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
@@ -106,6 +102,8 @@ class AlbumBox {
      * \return	albumBox
      */
     public function initForDetail($objectId) {
+	require_once CLASSES_DIR . 'image.class.php';
+	require_once CLASSES_DIR . 'imageParse.class.php';
 	global $boxes;
 	$albumBox = new AlbumBox();
 	$albumBox->albumCounter = $boxes['NDB'];
@@ -115,7 +113,7 @@ class AlbumBox {
 	$image = new ImageParse();
 	$image->wherePointer('album', 'Album', $objectId);
 	$image->where('active', true);
-	$image->setLimit(1000);
+	$image->setLimit(50);
 	$image->orderByDescending('createdAt');
 	$images = $image->getImages();
 	if (get_class($images) == 'Error') {
@@ -134,14 +132,13 @@ class AlbumBox {
 		$filePath = $image->getFilePath();
 		$location = $image->getLocation();
 		$objectId = $image->getObjectId();
-		$tags = $image->getTags();
 		$tags = array();
 		if (count($image->getTags()) > 0) {
 		    foreach ($image->getTags() as $tag) {
-				$tag = parse_decode_string($tag);
-				array_push($tags, $tag);
+			$tag = parse_decode_string($tag);
+			array_push($tags, $tag);
 		    }
-		} 
+		}
 		$thumbnail = $image->getThumbnail();
 
 		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail);
@@ -163,6 +160,8 @@ class AlbumBox {
      * \return	albumBox
      */
     public function initForPersonalPage($objectId) {
+	require_once CLASSES_DIR . 'album.class.php';
+	require_once CLASSES_DIR . 'albumParse.class.php';
 	global $boxes;
 	$albumBox = new AlbumBox();
 	$albumBox->imageArray = $boxes['NDB'];
