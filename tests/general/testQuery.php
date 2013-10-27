@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -15,7 +16,7 @@
  */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
+    define('ROOT_DIR', '../../');
 
 ini_set('display_errors', '1');
 
@@ -32,17 +33,20 @@ echo '<br />INIZIO IL RECUPERO DI PIU\' Activity<br />';
 $activityParse = new ActivityParse();
 $activityParse->whereExists('objectId');
 $activityParse->orderByDescending('createdAt');
-$activityParse->setLimit(1000);
-$activityParse->whereInclude('fromUser');
+$activityParse->setLimit(1);
+$activityParse->whereInclude('fromUser,toUser');
 $resGets = $activityParse->getActivities();
 if (get_class($resGets) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
-	foreach($resGets as $album) {
-		echo '<br />' . $album->getObjectId() . '<br />';
-		$user = $album->getFromUser();
-		echo '<br />' . $user->getUserName() . '<br />';
-	}
+    foreach ($resGets as $act) {
+	var_dump($act);
+//	echo '<br />' . $act->getObjectId() . '<br />';
+//	$fromUser = $act->getFromUser();
+//	echo '<br />' . $fromUser->getUserName() . '<br />';
+//	$toUser = $act->getToUser();
+//	echo '<br />' . $toUser->getUserName() . '<br />';
+    }
 }
 
 echo '<br />FINITO IL RECUPERO DI PIU\' Activity<br />';
