@@ -335,10 +335,12 @@ class SignupController extends REST {
             $location .= $userJSON->province . " , ";
             $location .= $userJSON->address . " , ";
             $location .= $userJSON->number;
-            $geocoding = GeocoderService::getLocation($userJSON->country . "," . $userJSON->city . "," . $userJSON->province . "," . $userJSON->address . "," . $userJSON->number);
-            $user->setGeoCoding($geocoding);
-            $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
-
+            $geocoding = GeocoderService::getLocation($location);
+            if ($geocoding != false) {
+                $parseGeopoint = new parseGeoPoint($geocoding['lat'], $geocoding['lng']);
+                $user->setGeoCoding($parseGeopoint);
+                $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
+            }
             return $user;
         }
         return null;
