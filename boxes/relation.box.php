@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		uso whereIncude
+ * \todo		
  *
  */
 if (!defined('ROOT_DIR'))
