@@ -23,8 +23,6 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
@@ -94,38 +92,27 @@ class CommentBox {
 		$field = 'video';
 		break;
 	}
-
 	$commentP = new CommentParse();
 	$commentP->wherePointer($field, $className, $objectId);
 	$commentP->where('type', 'C');
 	$commentP->where('active', true);
-	$commentP->setLimit(1000);
+	$commentP->setLimit(30);
+	$commentP->whereInclude('fromUser');
 	$commentP->orderByAscending('createdAt');
 	$comments = $commentP->getComments();
 	if (get_class($comments) == 'Error') {
 	    return $comments;
 	} else {
 	    foreach ($comments as $comment) {
-
 		$createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
 		$encodedText = $comment->getText();
 		$text = parse_decode_string($encodedText);
-
-		$fromUserId = $comment->getFromUser();
-
-		$userP = new UserParse();
-		$user = $userP->getUser($fromUserId);
-		if (get_class($user) == 'Error') {
-		    return $user;
-		} else {
-		    $objectId = $user->getObjectId();
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $encodedUsername = $user->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-		    $fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		}
-
+		$objectId = $comment->getFromUser()->getObjectId();
+		$thumbnail = $comment->getFromUser()->getProfileThumbnail();
+		$type = $comment->getFromUser()->getType();
+		$encodedUsername = $comment->getFromUser()->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 		$commentInfo = new CommentInfo($fromUserInfo, $createdAt, $text);
 		array_push($info, $commentInfo);
 	    }
