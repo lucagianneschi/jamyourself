@@ -10,15 +10,22 @@
 		if (opType === 'reset') {
 		    json_userUtilities.request = "passwordReset";
 		    json_userUtilities.email = email;
+		    json_userUtilities.objectId = objectId;
+		    json_userUtilities.setting = setting;
 		} else if (opType === 'link') {
-		    json_userUtilities.objectId = objectId;
 		    json_userUtilities.request = "linkSocialAccount";
-		} else if (opType === 'unlink') {
+		    json_userUtilities.email = email;
 		    json_userUtilities.objectId = objectId;
+		    json_userUtilities.setting = setting;
+		} else if (opType === 'unlink') {
+		    json_userUtilities.email = email;
+		    json_userUtilities.objectId = objectId;
+		    json_userUtilities.setting = setting;
 		    json_userUtilities.request = "unLinkSocialAccount";
 		} else {
-		    json_userUtilities.objectId = objectId;
 		    json_userUtilities.request = "updateSetting";
+		    json_userUtilities.email = email;
+		    json_userUtilities.objectId = objectId;
 		    json_userUtilities.setting = setting;
 		}
 
@@ -48,17 +55,17 @@
     <body>
 	Operazioni dell'utente<br />
 	<br />
-	<button type="button" onclick="userUtilities('EKElKcMMRM', 'reset', 'luca.gianneschi@gmail.com',null)">Richiesta reset password per lucagianneschi</button>
+	<button type="button" onclick="userUtilities('EKElKcMMRM', 'reset', 'luca.gianneschi@gmail.com', 1)">Richiesta reset password per lucagianneschi</button>
 	&nbsp;
-	<button type="button" onclick="userUtilities('EKElKcMMRM', 'link', null,null)">Link Social Account per lucagianneschi</button>
+	<button type="button" onclick="userUtilities('EKElKcMMRM', 'link', 'luca.gianneschi@gmail.com', 1)">Link Social Account per lucagianneschi</button>
 	&nbsp;<hr>
-	<button type="button" onclick="userUtilities('EKElKcMMRM', 'unlink', null,null)">UnLink Social Account per lucagianneschi</button>
+	<button type="button" onclick="userUtilities('EKElKcMMRM', 'unlink', 'luca.gianneschi@gmail.com', 1)">UnLink Social Account per lucagianneschi</button>
 	&nbsp;
-	<button type="button" onclick="userUtilities('7fes1RyY77', 'reset', 'alessandrog@jamyourself.com',null)">Richiesta reset password per LDF</button>
+	<button type="button" onclick="userUtilities('7fes1RyY77', 'reset', 'alessandrog@jamyourself.com', 2)">Richiesta reset password per LDF</button>
 	&nbsp;
-	<button type="button" onclick="userUtilities('7fes1RyY77', 'link', null,null)">Link Social Account per LDF</button>
+	<button type="button" onclick="userUtilities('7fes1RyY77', 'link', 'luca.gianneschi@gmail.com', 1)">Link Social Account per LDF</button>
 	&nbsp;<hr>
-	<button type="button" onclick="userUtilities('7fes1RyY77', 'unlink', null,null)">UnLink Social Account per LDF</button>
+	<button type="button" onclick="userUtilities('7fes1RyY77', 'unlink', 'luca.gianneschi@gmail.com', 1)">UnLink Social Account per LDF</button>
 	&nbsp;
 	<hr>
     </body>
