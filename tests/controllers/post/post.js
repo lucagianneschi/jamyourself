@@ -31,8 +31,12 @@ function sendRequest(_action, _data, callback, _async) {
 function confirmation(data, status){
     console.debug("Data : " + data + " | Status: " + status);
     $("#data").html(data);
-    if(status == 'error')
+    if(status == 'error'){
     	$('#post-error').delay(500).show();
+    	$('#social-Post #button-post').removeClass('post-button-send');
+        $('#social-Post #button-post').val('Post');
+    }
+    	
     else{
     	$('#post-error').delay(500).hide();
     	callBox.load('post');
