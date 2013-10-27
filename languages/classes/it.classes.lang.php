@@ -30,6 +30,7 @@ $default_img = array(
     'DEFBGD' => 'images/default/defaultBackground.jpg'
 );
 
+//se settings.php diventa un servizio queste devono essere spostate in file di traduzione di un servizio
 $settings_strings = array(
     'JAMMER_SETTING_0' =>   'Lingua generale del sito',
     'JAMMER_SETTING_1' =>   'Orario indicato negli oggetti del sito',
