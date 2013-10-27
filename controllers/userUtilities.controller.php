@@ -96,20 +96,21 @@ class UserUtilitiesController extends REST {
      */
     public function passwordReset() {
 	try {
+	    global $controllers;
 	    $email = $this->request['email'];
-
 	    $userP = new UserParse();
-	    $userP->where('email', $email);
-	    $userP->where('active', true);
-	    $users = $userP->getUsers();
-	    if (get_class($users) == 'Error') {
-		$this->response(array('status' => "Service Unavailable", "msg" => $users->getMessage()), 503);
-	    } else {
-		foreach ($users as $user) {
-		require_once PARSE_DIR . 'parse.php';
-		$parseUser = new parseUser();
-		$parseUser->email = $email;
-		$parseUser->requestPasswordReset($email);  
+	    $user = $userP->passwordReset($email);
+//	    $userP->where('email', $email);
+//	    $userP->where('active', true);
+//	    $users = $userP->getUsers();
+//	    if (get_class($users) == 'Error') {
+//		$this->response(array('status' => "Service Unavailable", "msg" => $users->getMessage()), 503);
+//	    } else {
+//		foreach ($users as $user) {
+//		require_once PARSE_DIR . 'parse.php';
+//		$parseUser = new parseUser();
+//		$parseUser->email = $email;
+//		$parseUser->requestPasswordReset($email);  
 		
 		$activity = new Activity();
 		$activity->setActive(true);
@@ -132,12 +133,12 @@ class UserUtilitiesController extends REST {
 		$activityParse = new ActivityParse();
 		$activityParse->saveActivity($activity);
 		$this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
-		}
-	    }
+		
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
     }
+    
 
     /**
      * \fn		unLinkSocialAccount()
