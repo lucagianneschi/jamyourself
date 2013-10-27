@@ -41,8 +41,8 @@ $postCounter = $data['postCounter'];
 										<input id="post" type="text" class="post inline" placeholder="<?php echo $views['post']['WRITE'];?>" />
 									</div>
 									<div class="small-3 columns ">
-										<script type="text/javascript" src="<?php echo ROOT_DIR; ?>tests/controllers/post/post.js"></script>
-										<input type="button" class="post-button inline" value="Post" onclick="sendPost()" />
+										
+										<input type="button" id="button-post" class="post-button inline" value="Post" onclick="sendPost()" />
 									</div>
 								</div>
 							</div>
@@ -50,7 +50,11 @@ $postCounter = $data['postCounter'];
 						</form>
 					</div>
 				</div>
-				
+				<div class="row  ">
+					<div  class="large-12 columns ">
+						<div id="post-error" onClick="postError()"><img src="./resources/images/error/error-post.png" /></div>
+					</div>
+				</div>
 					
 					<?php 
 					if($postCounter > 0){
