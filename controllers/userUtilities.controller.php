@@ -1,5 +1,4 @@
 <?php
-
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -48,49 +47,42 @@ class UserUtilitiesController extends REST {
      */
     public function linkSocialAccount() {
 	try {
-	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
-
 	    $objectId = $this->request['objectId'];
+	    $sessionToken = $this->request['sessionToken'];
 	    $userP = new UserParse();
-	    $user = $userP->getUser($objectId);
+	    $user = $userP->linkSocialAccount($objectId,$sessionToken);
 	    if (get_class($user) == 'Error') {
-		$this->response(array($user), 503);
-	    } else {
-		$sessionToken = $user->getSessionToken();
-		$userLib = new parseUser();
-		$userLib->linkAccounts($objectId, $sessionToken);
-
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($objectId);
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType('SOCIALACCOUNTLINKED');
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
-
-		$activityParse = new ActivityParse();
-		$activityParse->saveActivity($activity);
-		$this->response(array($controllers['OKSOCIALLINK']), 200);
+		$this->response(array('status' => "Service Unavailable", "msg" => $user->getMessage()), 503);
 	    }
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($objectId);
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRecord(null);
+	    $activity->setRead(true);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser(null);
+	    $activity->setType('SOCIALACCOUNTLINKED');
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
+	    $activityParse = new ActivityParse();
+	    $activityParse->saveActivity($activity);
+	    $this->response(array($controllers['OKSOCIALLINK']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
     }
 
     /**
-     * \fn		passwordReset()
+     * \fn	passwordReset()
      * \brief   esegue una richiesta di reset della password
      * \todo    usare la sessione
      */
@@ -100,45 +92,34 @@ class UserUtilitiesController extends REST {
 	    $email = $this->request['email'];
 	    $userP = new UserParse();
 	    $user = $userP->passwordReset($email);
-//	    $userP->where('email', $email);
-//	    $userP->where('active', true);
-//	    $users = $userP->getUsers();
-//	    if (get_class($users) == 'Error') {
-//		$this->response(array('status' => "Service Unavailable", "msg" => $users->getMessage()), 503);
-//	    } else {
-//		foreach ($users as $user) {
-//		require_once PARSE_DIR . 'parse.php';
-//		$parseUser = new parseUser();
-//		$parseUser->email = $email;
-//		$parseUser->requestPasswordReset($email);  
-		
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($user->getObjectId());
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType('PASSWORDRESETREQUEST');
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
-		$activityParse = new ActivityParse();
-		$activityParse->saveActivity($activity);
-		$this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
-		
+	    if (get_class($user) == 'Error') {
+		$this->response(array('status' => "Service Unavailable", "msg" => $user->getMessage()), 503);
+	    }
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($user->getObjectId());
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRecord(null);
+	    $activity->setRead(true);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser(null);
+	    $activity->setType('PASSWORDRESETREQUEST');
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
+	    $activityParse = new ActivityParse();
+	    $activityParse->saveActivity($activity);
+	    $this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
     }
-    
 
     /**
      * \fn		unLinkSocialAccount()
