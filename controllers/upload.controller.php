@@ -3,6 +3,7 @@
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'cropImage.service.php';
+require_once SERVICES_DIR . 'mp3.service.php';
 
 class UploadController extends REST {
 
@@ -181,8 +182,12 @@ class UploadController extends REST {
                 // Strip the temp .part suffix off 
                 rename("{$filePath}.part", $filePath);
             }
-// Restituisco successo         
-            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '"}');
+            
+//Analizzo l'mp3
+            $mp3Analysis = new Mp3file($filePath);
+            $metadata = $mp3Analysis->get_metadata();            
+// Restituisco successo            
+            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "duration" : "' .$metadata['Length mm:ss']. '"}');
         } catch (Exception $e) {
             
         }
