@@ -15,6 +15,8 @@
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 
+session_start();
+
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'access.controller.php';
 
