@@ -50,7 +50,7 @@ class UserUtilitiesController extends REST {
 	try {
 	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
-	    
+
 	    $objectId = $this->request['objectId'];
 	    $userP = new UserParse();
 	    $user = $userP->getUser($objectId);
@@ -96,22 +96,21 @@ class UserUtilitiesController extends REST {
      */
     public function passwordReset() {
 	try {
-	    require_once PARSE_DIR . 'parse.php';
-	    global $controllers;
-
 	    $email = $this->request['email'];
-	    
+
 	    $userP = new UserParse();
 	    $userP->where('email', $email);
 	    $userP->where('active', true);
-	    $userP->setLimit(1);
-	    $user = $userP->getUsers();
-	    if (get_class($user) == 'Error') {
-		$this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	    $users = $userP->getUsers();
+	    if (get_class($users) == 'Error') {
+		$this->response(array('status' => "Service Unavailable", "msg" => $users->getMessage()), 503);
 	    } else {
-		$userLib = new parseUser();
-		$userLib->requestPasswordReset($email);
-
+		foreach ($users as $user) {
+		require_once PARSE_DIR . 'parse.php';
+		$parseUser = new parseUser();
+		$parseUser->email = $email;
+		$parseUser->requestPasswordReset($email);  
+		
 		$activity = new Activity();
 		$activity->setActive(true);
 		$activity->setAlbum(null);
@@ -130,10 +129,10 @@ class UserUtilitiesController extends REST {
 		$activity->setType('PASSWORDRESETREQUEST');
 		$activity->setUserStatus(null);
 		$activity->setVideo(null);
-
 		$activityParse = new ActivityParse();
 		$activityParse->saveActivity($activity);
 		$this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
+		}
 	    }
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
@@ -149,7 +148,7 @@ class UserUtilitiesController extends REST {
 	try {
 	    require_once PARSE_DIR . 'parse.php';
 	    global $controllers;
-	    
+
 	    $objectId = $this->request['objectId'];
 	    $userP = new UserParse();
 	    $user = $userP->getUser($objectId);
