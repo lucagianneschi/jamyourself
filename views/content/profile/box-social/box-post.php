@@ -34,7 +34,7 @@ $postCounter = $data['postCounter'];
 
 				<div class="row  ">
 					<div  class="large-12 columns ">
-						<form action="" class="box-write">
+						<form action="" class="box-write" onsubmit="sendPost(); return false;">
 							<div class="">
 								<div class="row  ">
 									<div class="small-9 columns ">
