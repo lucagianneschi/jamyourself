@@ -13,8 +13,8 @@
 			<div  class="small-3 columns">
 				<img class="thumbnail" src="resources/images/uploadRecord/note.jpg" id="tumbnail" name="tumbnail"/>
 			</div>
-			<div  class="small-9 columns">							        						
-				<a  class="text orange">Upload an mp3 file *</a>										
+			<div  class="small-9 columns" id="uploader">							        						
+				<a  class="text orange" id ="uploader_button">Upload an mp3 file *</a>										
 			</div>	
 		</div>
 		<input type="text" name="trackFeaturing" id="trackFeaturing" pattern=""/>
@@ -30,7 +30,7 @@
 		<div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span> Mandatory fields</div>
 	</div>	
 	<div  class="small-7 columns" >
-		<a type="button" name="uploadRecord02-next" id="uploadRecord02-next" class="buttonOrange _check-button sottotitle" style="padding-right: 50px;"/>Ok</a>
+		<a type="button" name="uploadRecord03-next" id="uploadRecord03-next" class="buttonOrange _check-button sottotitle" style="padding-right: 50px;"/>Ok</a>
 	</div>	
 </div>
 <div id="uploadRecord-listSong">
@@ -44,19 +44,19 @@
 	</div>
 	<div class="row formBlack-body">		
 		<table class="singleSong"> 
-		  <tbody>
-		    <tr>
+		  <tbody id="songlist">
+<!--		    <tr>
 		      <td class="title _note-button">Titolo Brano, ft Nome Jammer</td>
 		      <td class="time">2:43</td>
 		      <td class="genre">Genre: Ska, Rock</td>
 		      <td class="delete _delete-button"></td>
 		    </tr>
-			<tr>
+                    <tr>
 		      <td class="title _note-button">Titolo Brano</td>
 		      <td class="time">3:43</td>
 		      <td class="genre">Genre: Rock</td>
 		      <td class="delete _delete-button"></td>
-		    </tr>
+		    </tr>-->
 		  </tbody>
 		</table>
 	</div>	
@@ -66,6 +66,6 @@
 		<div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span> Mandatory fields</div>
 	</div>	
 	<div  class="small-6 columns" >
-		<input type="button" name="uploadRecord03-next" id="uploadRecord03-next" class="buttonNext" value="Pubblish" style="float: right;"/>
+		<input type="button" name="uploadRecord03-publish" id="uploadRecord03-publish" class="buttonNext" value="Publish" style="float: right;"/>
 	</div>	
 </div>
