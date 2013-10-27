@@ -159,8 +159,10 @@ class ValidateNewUserService {
             $this->setInvalid("genre");
         if (!isset($user->jammerType) || is_null($user->jammerType) || !$this->checkJammerType($user->jammerType))
             $this->setInvalid("jammerType");
+        if($user->jammerType == "band"){
         if (!isset($user->members) || is_null($user->members) || !$this->checkMembers($user->members))
-            $this->setInvalid("members");
+            $this->setInvalid("members");            
+        }
     }
 
 ////////////////////////////////////////////////////////////////////////////////
