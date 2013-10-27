@@ -79,7 +79,6 @@ class ReviewBox {
 	$reviewBox = new ReviewBox();
 	$reviewBox->reviewCounter = $boxes['NDB'];
 	$info = array();
-
 	$review = new CommentParse();
 	if ($className == 'Event') {
 	    require_once CLASSES_DIR . 'event.class.php';
@@ -144,7 +143,6 @@ class ReviewBox {
 	$reviewBox = new ReviewBox();
 	$counter = 0;
 	$info = array();
-
 	$review = new CommentParse();
 	if ($className == 'Event') {
 	    require_once CLASSES_DIR . 'event.class.php';
@@ -234,44 +232,44 @@ class ReviewBox {
 	if (get_class($reviews) == 'Error') {
 	    return $reviews;
 	} else {
-	    foreach ($reviews as $review) {
-		$counter = ++$counter;
-		$commentCounter = $review->getCommentCounter();
-		$loveCounter = $review->getLoveCounter();
-		$reviewCounter = $boxes['NDB'];
-		$shareCounter = $review->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$objectId = $review->getObjectId();
-		$rating = $review->getVote();
-		$encodedText = $review->getText();
-		$text = parse_decode_string($encodedText);
-		$encodedTitle = $review->getTitle();
-		$title = parse_decode_string($encodedTitle);
-		if ($type == 'VENUE' || $type == 'JAMMER') {
-		    $user = $review->getFromUser();
-		} else {
-		    $user = $review->getToUser();
-		}
-		$userId = $user->getObjectId();
-		$thumbnail = $user->getProfileThumbnail();
-		$type = $user->getType();
-		$encodedUsername = $user->getUsername();
-		$username = parse_decode_string($encodedUsername);
-		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
-		if ($className === 'Event') {
-		    $thumbnailCover = $review->getEvent()->getThumbnail();
-		} else {
-		    $thumbnailCover = $review->getRecord()->getThumbnailCover();
-		}
-		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
-		array_push($info, $reviewInfo);
-	    }
-	    if (empty($info)) {
+	    if (count($reviews) == 0) {
 		$reviewBox->reviewArray = $boxes['NODATA'];
 	    } else {
+		foreach ($reviews as $review) {
+		    $counter = ++$counter;
+		    $commentCounter = $review->getCommentCounter();
+		    $loveCounter = $review->getLoveCounter();
+		    $reviewCounter = $boxes['NDB'];
+		    $shareCounter = $review->getShareCounter();
+		    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+		    $objectId = $review->getObjectId();
+		    $rating = $review->getVote();
+		    $encodedText = $review->getText();
+		    $text = parse_decode_string($encodedText);
+		    $encodedTitle = $review->getTitle();
+		    $title = parse_decode_string($encodedTitle);
+		    if ($type == 'VENUE' || $type == 'JAMMER') {
+			$user = $review->getFromUser();
+		    } else {
+			$user = $review->getToUser();
+		    }
+		    $userId = $user->getObjectId();
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $encodedUsername = $user->getUsername();
+		    $username = parse_decode_string($encodedUsername);
+		    $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+		    if ($className === 'Event') {
+			$thumbnailCover = $review->getEvent()->getThumbnail();
+		    } else {
+			$thumbnailCover = $review->getRecord()->getThumbnailCover();
+		    }
+		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
+		    array_push($info, $reviewInfo);
+		}
 		$reviewBox->reviewArray = $info;
+		$reviewBox->reviewCounter = $counter;
 	    }
-	    $reviewBox->reviewCounter = $counter;
 	}
 	return $reviewBox;
     }
