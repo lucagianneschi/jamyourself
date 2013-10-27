@@ -113,7 +113,7 @@ class AlbumBox {
 	$image = new ImageParse();
 	$image->wherePointer('album', 'Album', $objectId);
 	$image->where('active', true);
-	$image->setLimit(1000);
+	$image->setLimit(50);
 	$image->orderByDescending('createdAt');
 	$images = $image->getImages();
 	if (get_class($images) == 'Error') {

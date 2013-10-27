@@ -96,7 +96,7 @@ class CommentBox {
 	$commentP->wherePointer($field, $className, $objectId);
 	$commentP->where('type', 'C');
 	$commentP->where('active', true);
-	$commentP->setLimit(1000);
+	$commentP->setLimit(30);
 	$commentP->whereInclude('fromUser');
 	$commentP->orderByAscending('createdAt');
 	$comments = $commentP->getComments();
