@@ -56,9 +56,13 @@ class PostInfo {
 
 class PostBox {
 
+	public $config;
     public $postInfoArray;
     public $postCounter;
 
+	function __construct() {
+		$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/post.config.json"), false);
+    }
     /**
      * \fn	initForPersonalPage($objectId)
      * \brief	Init PostBox instance for Personal Page
@@ -80,11 +84,13 @@ class PostBox {
 		$post->where('type', 'P');
 		$post->where('active', true);
 		$post->whereInclude('fromUser,toUser');
-		$post->setLimit(5);
+		$post->setLimit($this->config->limitForPersonalPage);
 		$post->orderByDescending('createdAt');
 		$posts = $post->getComments();
 		if (get_class($posts) == 'Error') {
 			return $posts;
+		} elseif (count($posts) == 0) {
+			$postBox->postInfoArray = $boxes['NODATA'];
 		} else {
 			foreach ($posts as $post) {
 				$counter = ++$counter;
@@ -107,15 +113,9 @@ class PostBox {
 				$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $text);
 				array_push($info, $postInfo);
 			}
-			
-			if (empty($info)) {
-				$postBox->postInfoArray = $boxes['NODATA'];
-			} else {
-				$postBox->postInfoArray = $info;
-			}
+			$postBox->postInfoArray = $info;
 			$postBox->postCounter = $counter;
 		}
-
 		return $postBox;
     }
 
