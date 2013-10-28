@@ -1,3 +1,9 @@
 {
-    "limit" : 4
+    "limitForAlbum": 4,
+    "limitForComment": 4,
+    "limitForEvent": 4,
+    "limitForImage": 4,
+    "limitForRecord": 4,
+    "limitForSong": 4,
+    "limitForVideo": 4
 }
