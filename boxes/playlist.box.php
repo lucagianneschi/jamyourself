@@ -55,9 +55,14 @@ class SongInfo {
  */
 class PlaylistBox {
 
+	public $config;
     public $name;
     public $tracklist;
 
+	function __construct() {
+		$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
+    }
+	
     /**
      * \fn	init($objectId)
      * \brief	Init Playslist Box instance
@@ -72,51 +77,48 @@ class PlaylistBox {
 	$playlist->wherePointer('fromUser', '_User', $objectId);
 	$playlist->where('active', true);
 	$playlist->orderByDescending('createdAt');
-	$playlist->setLimit(1);
+	$playlist->setLimit($this->config->limitForPlaylist);
 	$playlists = $playlist->getPlaylists();
 	if (get_class($playlists) == 'Error') {
 	    return $playlists;
-	} else {
-	    foreach ($playlists as $playlist) {
-		$encodedName = $playlist->getName();
-		$name = parse_decode_string($encodedName);
-		$song = new SongParse();
-		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
-		$song->where('active', true);
-		$song->orderByDescending('createdAt');
-		$song->setLimit(50);
-		$song->whereInclude('fromUser,record');
-		$songs = $song->getSongs();
-		if (get_class($songs) == 'Error') {
-		    return $songs;
-		} else {
-		    require_once CLASSES_DIR . 'song.class.php';
-		    require_once CLASSES_DIR . 'songParse.class.php';
-		    foreach ($songs as $song) {
-			$encodedTitle = $song->getTitle();
-			$title = parse_decode_string($encodedTitle);
-			$objectId = $song->getFromUser()->getObjectId();
-			$thumbnail = $song->getFromUser()->getProfileThumbnail();
-			$type = $song->getFromUser()->getType();
-			$encodedUsername = $song->getFromUser()->getUsername();
-			$username = parse_decode_string($encodedUsername);
-			$author = new UserInfo($objectId, $thumbnail, $type, $username);
-			$thumbnailRec = $song->getRecord()->getThumbnailCover();
-			$newSong = new SongInfo($author, $thumbnailRec, $title);
-			array_push($tracklist, $newSong);
-		    }
-		}
-	    }
-	    if (empty($tracklist)) {
+	} elseif (count($playlists) == 0){
 		$playlistBox->tracklist = $boxes['NOTRACK'];
-	    } else {
-		$playlistBox->tracklist = $tracklist;
+	} else {
+		foreach ($playlists as $playlist) {
+			require_once CLASSES_DIR . 'song.class.php';
+			require_once CLASSES_DIR . 'songParse.class.php';
+			$encodedName = $playlist->getName();
+			$name = parse_decode_string($encodedName);
+			$song = new SongParse();
+			$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
+			$song->where('active', true);
+			$song->orderByDescending('createdAt');
+			$song->setLimit($this->config->limitForTracklist);
+			$song->whereInclude('fromUser,record');
+			$songs = $song->getSongs();
+			if (get_class($songs) == 'Error') {
+				return $songs;
+			} else {
+				foreach ($songs as $song) {
+					$encodedTitle = $song->getTitle();
+					$title = parse_decode_string($encodedTitle);
+					$objectId = $song->getFromUser()->getObjectId();
+					$thumbnail = $song->getFromUser()->getProfileThumbnail();
+					$type = $song->getFromUser()->getType();
+					$encodedUsername = $song->getFromUser()->getUsername();
+					$username = parse_decode_string($encodedUsername);
+					$author = new UserInfo($objectId, $thumbnail, $type, $username);
+					$thumbnailRec = $song->getRecord()->getThumbnailCover();
+					$newSong = new SongInfo($author, $thumbnailRec, $title);
+					array_push($tracklist, $newSong);
+				}
+			}
 	    }
-	    $playlistBox->name = $name;
-	    return $playlistBox;
 	}
-    }
-
+	$playlistBox->tracklist = $tracklist;
+	$playlistBox->name = $name;
+	return $playlistBox;
+	}
 }
 
 ?>
