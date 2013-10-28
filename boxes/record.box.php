@@ -52,7 +52,7 @@ class RecordInfoForMediaPage {
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($cover) ? $this->cover = $default_img['DEFRECORDCOVER'] : $this->cover = $cover;
 	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
-	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
+	is_null($featuring) ? $this->featuring = $boxes['NOFEATRECORD'] : $this->featuring = $featuring;
 	is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
 	is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = $label;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
@@ -125,7 +125,7 @@ class RecordInfoForUploadReviewPage {
      */
     function __construct($featuring, $genre) {
 	global $boxes;
-	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
+	is_null($featuring) ? $this->featuring = $boxes['NOFEATRECORD'] : $this->featuring = $featuring;
 	is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
     }
 
@@ -229,7 +229,6 @@ class RecordBox {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
 	    $recordBox->tracklist = $boxes['NOTRACK'];
 	    $recordBox->fromUserInfo = $boxes['NODATA'];
-	    return $recordBox;
 	} else {
 	    foreach ($records as $record) {
 		$buylink = $record->getBuylink();
@@ -252,6 +251,8 @@ class RecordBox {
 		if (get_class($feats) == 'Error') {
 		    return $feats;
 		} elseif (count($feats) == 0) {
+		    $featuring = $boxes['NOFEATRECORD'];
+		} else {
 		    foreach ($feats as $user) {
 			$objectId = $user->getObjectId();
 			$thumbnail = $user->getProfileThumbnail();
@@ -332,6 +333,7 @@ class RecordBox {
 	    return $records;
 	} elseif (count($records) == 0) {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
+	    $recordBox->recordCounter = $boxes['NODATA'];
 	} else {
 	    foreach ($records as $record) {
 		$counter = ++$counter;
@@ -362,19 +364,22 @@ class RecordBox {
      */
     public function initForUploadRecordPage($objectId) {
 	global $boxes;
-	$recordBox = new RecordBox();
-	$recordBox->tracklist = $boxes['NDB'];
-
 	$info = array();
 	$counter = 0;
+	$recordBox = new RecordBox();
+	$recordBox->tracklist = $boxes['NDB'];
+	$recordBox->fromUserInfo = $boxes['NDB'];
 	$record = new RecordParse();
 	$record->wherePointer('fromUser', '_User', $objectId);
 	$record->where('active', true);
-	$record->setLimit(10);
+	$record->setLimit($this->config->limitRecordForUploadRecordPage);
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
 	if (get_class($records) == 'Error') {
 	    return $records;
+	} elseif (count($records) == 0) {
+	    $recordBox->recordInfoArray = $boxes['NODATA'];
+	    $recordBox->recordCounter = $boxes['NODATA'];
 	} else {
 	    foreach ($records as $record) {
 		$counter = ++$counter;
@@ -384,13 +389,8 @@ class RecordBox {
 		$recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
 		array_push($info, $recordInfo);
 	    }
-	    $recordBox->fromUserInfo = $boxes['NDB'];
 	    $recordBox->recordCounter = $counter;
-	    if (empty($info)) {
-		$recordBox->recordInfoArray = $boxes['NODATA'];
-	    } else {
-		$recordBox->recordInfoArray = $info;
-	    }
+	    $recordBox->recordInfoArray = $info;
 	}
 	return $recordBox;
     }
@@ -408,39 +408,39 @@ class RecordBox {
 	$recordBox->tracklist = $boxes['NDB'];
 	$recordP = new RecordParse();
 	$recordP->where('objectId', $objectId);
-	$recordP->setLimit(1);
+	$recordP->setLimit($this->config->limitRecordForUploadReviewPage);
 	$recordP->whereInclude('fromUser');
 	$records = $recordP->getRecords();
 	if (get_class($records) == 'Error') {
 	    return $records;
+	} elseif (count($records) == 0) {
+	    $recordBox->recordInfoArray = $boxes['NODATA'];
+	    $recordBox->fromUserInfo = $boxes['NODATA'];
 	} else {
-	    if (count($records) == 0) {
-		$recordBox->recordInfoArray = $boxes['NODATA'];
-		$recordBox->fromUserInfo = $boxes['NODATA'];
-	    } else {
-		foreach ($records as $record) {
-		    $featuring = array();
-		    $parseUser = new UserParse();
-		    $parseUser->whereRelatedTo('featuring', 'Record', $objectId);
-		    $parseUser->where('active', true);
-		    $parseUser->setLimit(10);
-		    $feats = $parseUser->getUsers();
-		    if (get_class($feats) == 'Error') {
-			return $feats;
-		    } else {
-			foreach ($feats as $user) {
-			    $objectId = $user->getObjectId();
-			    $thumbnail = $user->getProfileThumbnail();
-			    $type = $user->getType();
-			    $username = $user->getUsername();
-			    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-			    array_push($featuring, $userInfo);
-			}
+	    foreach ($records as $record) {
+		$featuring = array();
+		$parseUser = new UserParse();
+		$parseUser->whereRelatedTo('featuring', 'Record', $objectId);
+		$parseUser->where('active', true);
+		$parseUser->setLimit($this->config->limitFeaturingForUploadReviewPage);
+		$feats = $parseUser->getUsers();
+		if (get_class($feats) == 'Error') {
+		    return $feats;
+		} elseif (count($feats) == 0) {
+		    $featuring = $boxes['NOFEATRECORD'];
+		} else {
+		    foreach ($feats as $user) {
+			$objectId = $user->getObjectId();
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
+			$username = $user->getUsername();
+			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+			array_push($featuring, $userInfo);
 		    }
-		    $genre = $record->getGenre();
-		    $recordInfo = new RecordInfoForUploadReviewPage($featuring, $genre);
-		    $recordBox->recordInfoArray = $recordInfo;
 		}
+		$genre = $record->getGenre();
+		$recordInfo = new RecordInfoForUploadReviewPage($featuring, $genre);
+		$recordBox->recordInfoArray = $recordInfo;
 	    }
 	    $objectIdUser = $record->getFromUser()->getObjectId();
 	    $thumbnail = $record->getFromUser()->getProfileThumbnail();
