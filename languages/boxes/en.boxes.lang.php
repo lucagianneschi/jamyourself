@@ -46,9 +46,6 @@ $boxes = array(
     'NOFOLLOWERS' => 'NO FOLLOWERS YET',
     'NOVENUE' => 'NO COLLABORATION WITH VENUES YET',
     'NOJAMMER' => 'NO COLLABORATION WITH JAMMERS YET',
-    'DEFALBUMTHUMB' => 'images/default/albumCoverThumb.jpg',
-    'DEFEVENTTHUMB' => 'images/default/defaultEventThumb.jpg',
-    'DEFRECORDTHUMB' => 'images/default/defaultRecordThumb.jpg',
-    'DEFSONGTHUMB' => 'images/default/defaultSongThumb.jpg'
+    'NOFEATRECORD' => 'NO FEATURING FOR THIS RECORD'
 );
 ?>
