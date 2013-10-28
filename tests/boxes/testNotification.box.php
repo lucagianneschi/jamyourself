@@ -24,10 +24,10 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'notification.box.php';
 $i_end = microtime();
-$id = 'uMxy47jSjg';
+$id = '7fes1RyY77';
 $notification_start = microtime();
 $notificationBoxP = new NotificationBox();
-$notificationBox = $notificationBoxP->init($id);
+$notificationBox = $notificationBoxP->init($objectId, 'JAMMER');
 print "<pre>";
 print_r($notificationBox);
 print "</pre>";
@@ -47,7 +47,7 @@ print_r($notificationBox1);
 print "</pre>";
 echo '<br />----------------------RELATIONLIST---------------------------<br />';
 $notificationBoxP2 = new NotificationBox();
-$notificationBox2 = $notificationBoxP2->initForRelationList($id);
+$notificationBox2 = $notificationBoxP2->initForRelationList($objectId, 'JAMMER');
 print "<pre>";
 print_r($notificationBox2);
 print "</pre>";
@@ -56,5 +56,4 @@ echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo include ' . executionTime($notification_start, $notification_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
-
 ?>
