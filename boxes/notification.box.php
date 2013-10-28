@@ -73,7 +73,6 @@ class NotificationBox {
     public function init($objectId, $type) {
 	global $boxes;
 	$notificationBox = new NotificationBox();
-	//$notificationBox->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
 	$notificationBox->notificationArray = $boxes['NDB'];
 	$notificationBox->messageArray = $boxes['NDB'];
 	$activity0 = new ActivityParse();
@@ -97,14 +96,20 @@ class NotificationBox {
 	    $activity2->where('active', true);
 	    $notificationBox->relationCounter = $activity2->getCount();
 	} else {
-	    $activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
 	    $activity2 = new ActivityParse();
 	    $activity2->wherePointer('toUser', '_User', $objectId);
-	    $activity2->whereOr($activityTypes);
+	    $activity2->where('type', 'COLLABORATIONREQUEST');
 	    $activity2->where('status', 'P');
 	    $activity2->where('read', false);
 	    $activity2->where('active', true);
-	    $notificationBox->relationCounter = $activity2->getCount();
+	    $collaborationNumber = $activity2->getCount();
+	    $activity3 = new ActivityParse();
+	    $activity3->wherePointer('toUser', '_User', $objectId);
+	    $activity3->where('type', 'FOLLOWING');
+	    $activity3->where('read', false);
+	    $activity3->where('active', true);
+	    $newFollowing = $activity3->getCount();
+	    $notificationBox->relationCounter = $newFollowing + $collaborationNumber;
 	}
 	return $notificationBox;
     }
@@ -133,10 +138,9 @@ class NotificationBox {
 	$messages = $activity->getActivities();
 	if (get_class($messages) == 'Error') {
 	    return $messages;
+	} elseif (count($messages) == 0) {
+	    $notificationBox->messageArray = $boxes['NODATA'];
 	} else {
-	    if (count($messages) == 0) {
-		$notificationBox->messageArray = $boxes['NODATA'];
-	    }
 	    foreach ($messages as $message) {
 		$createdAt = $message->getCreatedAt();
 		$objectId = $message->getFromUser()->getObjectId();
@@ -148,8 +152,8 @@ class NotificationBox {
 		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 		array_push($messageArray, $notificationInfo);
 	    }
-	    $notificationBox->messageArray = $messageArray;
 	}
+	$notificationBox->messageArray = $messageArray;
 	return $notificationBox;
     }
 
@@ -162,7 +166,6 @@ class NotificationBox {
     public function initForEventList($objectId) {
 	global $boxes;
 	$notificationBox = new NotificationBox();
-	//$notificationBox->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
 	$notificationBox->invitationCounter = $boxes['NDB'];
 	$notificationBox->messageCounter = $boxes['NDB'];
 	$notificationBox->messageArray = $boxes['NDB'];
@@ -178,24 +181,22 @@ class NotificationBox {
 	$invitations = $activity->getActivities();
 	if (get_class($invitations) == 'Error') {
 	    return $invitations;
+	} elseif (count($invitations) == 0) {
+	    $notificationBox->notificationArray = $boxes['NODATA'];
 	} else {
-	    if (count($invitations) == 0) {
-		$notificationBox->notificationArray = $boxes['NODATA'];
-	    } else {
-		foreach ($invitations as $invitation) {
-		    $createdAt = $invitation->getCreatedAt();
-		    $objectId = $invitation->getFromUser()->getObjectId();
-		    $thumbnail = $invitation->getFromUser()->getProfileThumbnail();
-		    $type = $invitation->getFromUser()->getType();
-		    $encodedUsername = $invitation->getFromUser()->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		    $notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
-		    array_push($invitationArray, $notificationInfo);
-		}
+	    foreach ($invitations as $invitation) {
+		$createdAt = $invitation->getCreatedAt();
+		$objectId = $invitation->getFromUser()->getObjectId();
+		$thumbnail = $invitation->getFromUser()->getProfileThumbnail();
+		$type = $invitation->getFromUser()->getType();
+		$encodedUsername = $invitation->getFromUser()->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
+		array_push($invitationArray, $notificationInfo);
 	    }
-	    $notificationBox->notificationArray = $invitationArray;
 	}
+	$notificationBox->notificationArray = $invitationArray;
 	return $notificationBox;
     }
 
@@ -209,7 +210,6 @@ class NotificationBox {
     public function initForRelationList($objectId, $type) {
 	global $boxes;
 	$notificationBox = new NotificationBox();
-	//$notificationBox->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
 	$notificationBox->invitationCounter = $boxes['NDB'];
 	$notificationBox->messageCounter = $boxes['NDB'];
 	$notificationBox->messageArray = $boxes['NDB'];
@@ -230,8 +230,7 @@ class NotificationBox {
 	$relations = $activity->getActivities();
 	if (get_class($relations) == 'Error') {
 	    return $relations;
-	} else {
-	    if (count($relations) == 0) {
+	} elseif (count($relations) == 0) {
 		$notificationBox->notificationArray = $boxes['NODATA'];
 	    } else {
 		foreach ($relations as $relation) {
@@ -245,9 +244,8 @@ class NotificationBox {
 		    $notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 		    array_push($relationArray, $notificationInfo);
 		}
-		$notificationBox->notificationArray = $relationArray;
 	    }
-	}
+	$notificationBox->notificationArray = $relationArray;
 	return $notificationBox;
     }
 
