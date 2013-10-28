@@ -65,7 +65,6 @@ class CommentBox {
      * \return	commentBox
      */
     public function init($className, $objectId) {
-
 	global $boxes;
 	$commentBox = new CommentBox();
 	$info = array();
