@@ -57,16 +57,16 @@ class EventInfoForMediaPage {
 	global $boxes;
 	global $default_img;
 	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
-	is_null($attendee) ? $this->attendee = $boxes['NODATA'] : $this->attendee = $attendee;
+	is_null($attendee) ? $this->attendee = $boxes['NOATTENDEE'] : $this->attendee = $attendee;
 	$this->attendeeCounter = count($attendee);
 	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
 	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
-	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
+	is_null($featuring) ? $this->featuring = $boxes['NOFEATEVE'] : $this->featuring = $featuring;
 	$this->featuringCounter = count($featuring);
 	is_null($image) ? $this->image = $default_img['DEFEVENTIMAGE'] : $this->image = $image;
-	is_null($invited) ? $this->invited = $boxes['NODATA'] : $this->invited = $invited;
+	is_null($invited) ? $this->invited = $boxes['NOINVITED'] : $this->invited = $invited;
 	$this->invitedCounter = count($invited);
 	is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
@@ -106,7 +106,7 @@ class EventInfoForPersonalPage {
 	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
-	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
+	is_null($featuring) ? $this->featuring = $boxes['NOFEATEVE'] : $this->featuring = $featuring;
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
@@ -143,7 +143,7 @@ class EventInfoForUploadReviewPage {
 	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
 	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
 	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
-	is_null($featuring) ? $this->featuring = $boxes['NODATA'] : $this->featuring = $featuring;
+	is_null($featuring) ? $this->featuring = $boxes['NOFEATEVE'] : $this->featuring = $featuring;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
 	is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFEVENTHUMB'] : $this->thumbnail = $thumbnail;
