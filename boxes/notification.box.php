@@ -48,17 +48,21 @@ class NotificationForDetailedList {
  */
 class NotificationBox {
 
-	public $config;
+    public $config;
     public $invitationCounter;
     public $messageArray;
     public $messageCounter;
     public $notificationArray;
-	public $relationCounter;
+    public $relationCounter;
 
-	function __construct() {
-		$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
     }
-	
+
     /**
      * \fn	init($objectId,$type)
      * \brief	Init NotificationBox instance
@@ -84,23 +88,23 @@ class NotificationBox {
 	$activity1->where('read', false);
 	$activity1->where('active', true);
 	$notificationBox->messageCounter = $activity1->getCount();
-	if($type == 'SPOTTER'){
-		$activity2 = new ActivityParse();
-		$activity2->wherePointer('toUser', '_User', $objectId);
-		$activity2->where('type', 'FRIENDSHIPREQUEST');
-		$activity2->where('status', 'P');
-		$activity2->where('read', false);
-		$activity2->where('active', true);
-		$notificationBox->relationCounter = $activity2->getCount();
+	if ($type == 'SPOTTER') {
+	    $activity2 = new ActivityParse();
+	    $activity2->wherePointer('toUser', '_User', $objectId);
+	    $activity2->where('type', 'FRIENDSHIPREQUEST');
+	    $activity2->where('status', 'P');
+	    $activity2->where('read', false);
+	    $activity2->where('active', true);
+	    $notificationBox->relationCounter = $activity2->getCount();
 	} else {
-		$activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
-		$activity2 = new ActivityParse();
-		$activity2->wherePointer('toUser', '_User', $objectId);
-		$activity2->whereOr($activityTypes);
-		$activity2->where('status', 'P');
-		$activity2->where('read', false);
-		$activity2->where('active', true); 
-		$notificationBox->relationCounter = $activity2->getCount();
+	    $activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
+	    $activity2 = new ActivityParse();
+	    $activity2->wherePointer('toUser', '_User', $objectId);
+	    $activity2->whereOr($activityTypes);
+	    $activity2->where('status', 'P');
+	    $activity2->where('read', false);
+	    $activity2->where('active', true);
+	    $notificationBox->relationCounter = $activity2->getCount();
 	}
 	return $notificationBox;
     }
@@ -134,15 +138,15 @@ class NotificationBox {
 		$notificationBox->messageArray = $boxes['NODATA'];
 	    }
 	    foreach ($messages as $message) {
-			$createdAt = $message->getCreatedAt();
-			$objectId = $message->getFromUser()->getObjectId();
-			$thumbnail = $message->getFromUser()->getProfileThumbnail();
-			$type = $message->getFromUser()->getType();
-			$encodedUsername = $message->getFromUser()->getUsername();
-			$username = parse_decode_string($encodedUsername);
-			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-			$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
-			array_push($messageArray, $notificationInfo);
+		$createdAt = $message->getCreatedAt();
+		$objectId = $message->getFromUser()->getObjectId();
+		$thumbnail = $message->getFromUser()->getProfileThumbnail();
+		$type = $message->getFromUser()->getType();
+		$encodedUsername = $message->getFromUser()->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
+		array_push($messageArray, $notificationInfo);
 	    }
 	    $notificationBox->messageArray = $messageArray;
 	}
@@ -213,11 +217,11 @@ class NotificationBox {
 	$relationArray = array();
 	$activity = new ActivityParse();
 	$activity->wherePointer('toUser', '_User', $objectId);
-	if($type == 'SPOTTER'){
-		$activity->where('type', 'FRIENDSHIPREQUEST');	
+	if ($type == 'SPOTTER') {
+	    $activity->where('type', 'FRIENDSHIPREQUEST');
 	} else {
-		$activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
-		$activity->whereOr($activityTypes);
+	    $activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
+	    $activity->whereOr($activityTypes);
 	}
 	$activity->where('status', 'P');
 	$activity->where('active', true);
