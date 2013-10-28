@@ -56,8 +56,12 @@ class CommentInfo {
  */
 class CommentBox {
 
+	public $config;
     public $commentInfoArray;
 
+	function __construct() {
+		$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/comment.config.json"), false);
+    }
     /**
      * \fn	init($className,$objectId)
      * \brief	Init CommentBox instance all over the website
@@ -65,43 +69,50 @@ class CommentBox {
      * \return	commentBox
      */
     public function init($className, $objectId) {
-
 	global $boxes;
 	$commentBox = new CommentBox();
 	$info = array();
+	$commentP = new CommentParse();
 	switch ($className) {
 	    case 'Album':
 		$field = 'album';
+		$commentP->setLimit($this->config->limitForAlbum);
 		break;
 	    case 'Comment':
 		$field = 'comment';
+		$commentP->setLimit($this->config->limitForComment);
 		break;
 	    case 'Event':
 		$field = 'event';
+		$commentP->setLimit($this->config->limitForEvent);
 		break;
 	    case 'Image':
 		$field = 'image';
+		$commentP->setLimit($this->config->limitForImage);
 		break;
 	    case 'Record':
 		$field = 'record';
+		$commentP->setLimit($this->config->limitForRecord);
 		break;
 	    case 'Song':
 		$field = 'song';
+		$commentP->setLimit($this->config->limitForSong);
 		break;
 	    case 'Video':
 		$field = 'video';
+		$commentP->setLimit($this->config->limitForVideo);
 		break;
 	}
-	$commentP = new CommentParse();
 	$commentP->wherePointer($field, $className, $objectId);
 	$commentP->where('type', 'C');
 	$commentP->where('active', true);
-	$commentP->setLimit(30);
 	$commentP->whereInclude('fromUser');
 	$commentP->orderByAscending('createdAt');
 	$comments = $commentP->getComments();
 	if (get_class($comments) == 'Error') {
 	    return $comments;
+	}elseif(count($comments) == 0){
+		$commentBox->commentInfoArray = $boxes['NODATA'];
 	} else {
 	    foreach ($comments as $comment) {
 		$createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
@@ -116,11 +127,7 @@ class CommentBox {
 		$commentInfo = new CommentInfo($fromUserInfo, $createdAt, $text);
 		array_push($info, $commentInfo);
 	    }
-	    if (empty($info)) {
-		$commentBox->commentInfoArray = $boxes['NODATA'];
-	    } else {
 		$commentBox->commentInfoArray = $info;
-	    }
 	}
 	return $commentBox;
     }
