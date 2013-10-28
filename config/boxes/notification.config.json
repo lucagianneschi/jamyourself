@@ -1,5 +1,5 @@
 {
     "limitForMessageList" : 5,
     "limitForEventList" : 5,
-    "limitForForRelationList" : 5
+    "limitForRelationList" : 5
 }
