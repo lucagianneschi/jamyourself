@@ -80,10 +80,8 @@ class PostBox {
 	$postBox = new PostBox();
 	$info = array();
 	$counter = 0;
-
 	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
 	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
-
 	$post = new CommentParse();
 	$post->whereOr($value);
 	$post->where('type', 'P');
@@ -96,6 +94,7 @@ class PostBox {
 	    return $posts;
 	} elseif (count($posts) == 0) {
 	    $postBox->postInfoArray = $boxes['NODATA'];
+	    $postBox->postCounter = $boxes['NODATA'];
 	} else {
 	    foreach ($posts as $post) {
 		$counter = ++$counter;
@@ -105,7 +104,6 @@ class PostBox {
 		$encodedUsername = $post->getFromUser()->getUsername();
 		$username = parse_decode_string($encodedUsername);
 		$fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-
 		$postId = $post->getObjectId();
 		$commentCounter = $post->getCommentCounter();
 		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
