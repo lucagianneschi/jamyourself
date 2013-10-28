@@ -75,8 +75,8 @@ class PlaylistBox {
      */
     public function init($objectId) {
 	global $boxes;
-	$playlistBox = new PlaylistBox();
 	$tracklist = array();
+	$playlistBox = new PlaylistBox();
 	$playlist = new PlaylistParse();
 	$playlist->wherePointer('fromUser', '_User', $objectId);
 	$playlist->where('active', true);
@@ -87,6 +87,7 @@ class PlaylistBox {
 	    return $playlists;
 	} elseif (count($playlists) == 0) {
 	    $playlistBox->tracklist = $boxes['NOTRACK'];
+	    $playlistBox->name = $boxes['NODATA'];
 	} else {
 	    foreach ($playlists as $playlist) {
 		require_once CLASSES_DIR . 'song.class.php';
@@ -102,6 +103,8 @@ class PlaylistBox {
 		$songs = $song->getSongs();
 		if (get_class($songs) == 'Error') {
 		    return $songs;
+		} elseif (count($songs) == 0) {
+		    $playlistBox->tracklist = $boxes['NOTRACK'];
 		} else {
 		    foreach ($songs as $song) {
 			$encodedTitle = $song->getTitle();
@@ -118,9 +121,9 @@ class PlaylistBox {
 		    }
 		}
 	    }
+	    $playlistBox->tracklist = $tracklist;
+	    $playlistBox->name = $name;
 	}
-	$playlistBox->tracklist = $tracklist;
-	$playlistBox->name = $name;
 	return $playlistBox;
     }
 
