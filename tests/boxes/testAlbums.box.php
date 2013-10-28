@@ -25,31 +25,27 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'album.box.php';
 $i_end = microtime();
-
-//SPOTTER
-$mari = '7fes1RyY77'; //JAMMER
-$FLAVYCAP = '7wi6AvviK4'; //SPOTTER
-$Kessingtong = 'iovioSH5mq'; //VENUE
-
-
+$karl01 = '7wi6AvviK4'; //karl01
+$LDF = '7fes1RyY77'; //LDF 
+$Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
 echo '<br />-------------------------TEST ALBUM PERSONALPAGE-------------------------------------------<br />';
 $album_start = microtime();
 $albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($mari);
+$albumBox = $albumBoxP->initForPersonalPage($karl01);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
 $album_stop = microtime();
 $album1_start = microtime();
 $albumBoxP1 = new AlbumBox();
-$albumBox1 = $albumBoxP1->initForPersonalPage($FLAVYCAP);
+$albumBox1 = $albumBoxP1->initForPersonalPage($LDF);
 print "<pre>";
 print_r($albumBox1);
 print "</pre>";
 $album1_stop = microtime();
 $album2_start = microtime();
 $albumBoxP2 = new AlbumBox();
-$albumBox2 = $albumBoxP2->initForPersonalPage($Kessingtong);
+$albumBox2 = $albumBoxP2->initForPersonalPage($Ultrasuono);
 print "<pre>";
 print_r($albumBox2);
 print "</pre>";
@@ -80,7 +76,6 @@ print "</pre>";
 $album5_stop = microtime();
 echo '<br />FINE TEST ALBUM BOX<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
