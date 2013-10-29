@@ -34,59 +34,51 @@ require_once DEBUG_DIR . 'debug.php';
 class UserUtilitiesController extends REST {
 
     /**
-     * \fn		init()
-     * \brief   start the session
-     */
-    public function init() {
-	session_start();
-    }
-
-    /**
      * \fn		linkSocialAccount()
      * \brief   link con l'account social
      * \todo    usare la sessione
      */
     public function linkSocialAccount() {
-	try {
-	    require_once PARSE_DIR . 'parse.php';
-	    global $controllers;
+        try {
+            require_once PARSE_DIR . 'parse.php';
+            global $controllers;
 
-	    $objectId = $this->request['objectId'];
-	    $userP = new UserParse();
-	    $user = $userP->getUser($objectId);
-	    if (get_class($user) == 'Error') {
-		$this->response(array($user), 503);
-	    } else {
-		$sessionToken = $user->getSessionToken();
-		$userLib = new parseUser();
-		$userLib->linkAccounts($objectId, $sessionToken);
+            $objectId = $this->request['objectId'];
+            $userP = new UserParse();
+            $user = $userP->getUser($objectId);
+            if (get_class($user) == 'Error') {
+                $this->response(array($user), 503);
+            } else {
+                $sessionToken = $user->getSessionToken();
+                $userLib = new parseUser();
+                $userLib->linkAccounts($objectId, $sessionToken);
 
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($objectId);
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType('SOCIALACCOUNTLINKED');
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
+                $activity = new Activity();
+                $activity->setActive(true);
+                $activity->setAlbum(null);
+                $activity->setComment(null);
+                $activity->setCounter(0);
+                $activity->setEvent(null);
+                $activity->setFromUser($objectId);
+                $activity->setImage(null);
+                $activity->setPlaylist(null);
+                $activity->setQuestion(null);
+                $activity->setRecord(null);
+                $activity->setRead(true);
+                $activity->setSong(null);
+                $activity->setStatus('A');
+                $activity->setToUser(null);
+                $activity->setType('SOCIALACCOUNTLINKED');
+                $activity->setUserStatus(null);
+                $activity->setVideo(null);
 
-		$activityParse = new ActivityParse();
-		$activityParse->saveActivity($activity);
-		$this->response(array($controllers['OKSOCIALLINK']), 200);
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-	}
+                $activityParse = new ActivityParse();
+                $activityParse->saveActivity($activity);
+                $this->response(array($controllers['OKSOCIALLINK']), 200);
+            }
+        } catch (Exception $e) {
+            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+        }
     }
 
     /**
@@ -95,11 +87,11 @@ class UserUtilitiesController extends REST {
      * \todo    usare la sessione
      */
     public function passwordReset() {
-	try {
-	    global $controllers;
-	    $email = $this->request['email'];
-	    $userP = new UserParse();
-	    $user = $userP->passwordReset($email);
+        try {
+            global $controllers;
+            $email = $this->request['email'];
+            $userP = new UserParse();
+            $user = $userP->passwordReset($email);
 //	    $userP->where('email', $email);
 //	    $userP->where('active', true);
 //	    $users = $userP->getUsers();
@@ -111,34 +103,32 @@ class UserUtilitiesController extends REST {
 //		$parseUser = new parseUser();
 //		$parseUser->email = $email;
 //		$parseUser->requestPasswordReset($email);  
-		
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($user->getObjectId());
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType('PASSWORDRESETREQUEST');
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
-		$activityParse = new ActivityParse();
-		$activityParse->saveActivity($activity);
-		$this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
-		
-	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-	}
+
+            $activity = new Activity();
+            $activity->setActive(true);
+            $activity->setAlbum(null);
+            $activity->setComment(null);
+            $activity->setCounter(0);
+            $activity->setEvent(null);
+            $activity->setFromUser($user->getObjectId());
+            $activity->setImage(null);
+            $activity->setPlaylist(null);
+            $activity->setQuestion(null);
+            $activity->setRecord(null);
+            $activity->setRead(true);
+            $activity->setSong(null);
+            $activity->setStatus('A');
+            $activity->setToUser(null);
+            $activity->setType('PASSWORDRESETREQUEST');
+            $activity->setUserStatus(null);
+            $activity->setVideo(null);
+            $activityParse = new ActivityParse();
+            $activityParse->saveActivity($activity);
+            $this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+        }
     }
-    
 
     /**
      * \fn		unLinkSocialAccount()
@@ -146,45 +136,45 @@ class UserUtilitiesController extends REST {
      * \todo    usare la sessione
      */
     public function unLinkSocialAccount() {
-	try {
-	    require_once PARSE_DIR . 'parse.php';
-	    global $controllers;
+        try {
+            require_once PARSE_DIR . 'parse.php';
+            global $controllers;
 
-	    $objectId = $this->request['objectId'];
-	    $userP = new UserParse();
-	    $user = $userP->getUser($objectId);
-	    if (get_class($user) == 'Error') {
-		$this->response(array($user), 503);
-	    } else {
-		$sessionToken = $user->getSessionToken();
-		$userLib = new parseUser();
-		$userLib->unlinkAccounts($objectId, $sessionToken, null);
+            $objectId = $this->request['objectId'];
+            $userP = new UserParse();
+            $user = $userP->getUser($objectId);
+            if (get_class($user) == 'Error') {
+                $this->response(array($user), 503);
+            } else {
+                $sessionToken = $user->getSessionToken();
+                $userLib = new parseUser();
+                $userLib->unlinkAccounts($objectId, $sessionToken, null);
 
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($objectId);
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType('SOCIALACCOUNTUNLINKED');
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
-		$activityParse = new ActivityParse();
-		$activityParse->saveActivity($activity);
-		$this->response(array($controllers['OKSOCIALUNLINK']), 200);
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-	}
+                $activity = new Activity();
+                $activity->setActive(true);
+                $activity->setAlbum(null);
+                $activity->setComment(null);
+                $activity->setCounter(0);
+                $activity->setEvent(null);
+                $activity->setFromUser($objectId);
+                $activity->setImage(null);
+                $activity->setPlaylist(null);
+                $activity->setQuestion(null);
+                $activity->setRecord(null);
+                $activity->setRead(true);
+                $activity->setSong(null);
+                $activity->setStatus('A');
+                $activity->setToUser(null);
+                $activity->setType('SOCIALACCOUNTUNLINKED');
+                $activity->setUserStatus(null);
+                $activity->setVideo(null);
+                $activityParse = new ActivityParse();
+                $activityParse->saveActivity($activity);
+                $this->response(array($controllers['OKSOCIALUNLINK']), 200);
+            }
+        } catch (Exception $e) {
+            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+        }
     }
 
     /**
@@ -193,53 +183,53 @@ class UserUtilitiesController extends REST {
      * \todo    usare la sessione
      */
     public function updateSetting() {
-	try {
-	    //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-	    if ($this->get_request_method() != 'POST') {
-		$this->response('', 406);
-	    }
-	    $userId = $this->request['objectId'];
-	    $settings = $this->request['setting'];
+        try {
+            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
+            if ($this->get_request_method() != 'POST') {
+                $this->response('', 406);
+            }
+            $userId = $this->request['objectId'];
+            $settings = $this->request['setting'];
 
-	    $userP = new UserParse();
-	    $user = $userP->getuser($userId);
-	    if (get_class($user) == 'Error') {
-		$this->response(array('Error: ' . $user->getMessage()), 503);
-	    }
-	    $res = $userP->updateField($userId, 'settings', array($settings));
-	    if (get_class($res) == 'Error') {
-		$this->response(array('Error: ' . $res->getMessage()), 503);
-	    }
+            $userP = new UserParse();
+            $user = $userP->getuser($userId);
+            if (get_class($user) == 'Error') {
+                $this->response(array('Error: ' . $user->getMessage()), 503);
+            }
+            $res = $userP->updateField($userId, 'settings', array($settings));
+            if (get_class($res) == 'Error') {
+                $this->response(array('Error: ' . $res->getMessage()), 503);
+            }
 
-	    $activity = new Activity();
-	    $activity->setActive(true);
+            $activity = new Activity();
+            $activity->setActive(true);
 
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromUser($userId);
-	    $activity->setImage(null);
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRead(true);
-	    $activity->setRecord(null);
-	    $activity->setSong(null);
-	    $activity->setStatus('A');
-	    $activity->setToUser(null);
-	    $activity->setType("USERSETTINGSUPDATED");
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
+            $activity->setAlbum(null);
+            $activity->setComment(null);
+            $activity->setCounter(0);
+            $activity->setEvent(null);
+            $activity->setFromUser($userId);
+            $activity->setImage(null);
+            $activity->setPlaylist(null);
+            $activity->setQuestion(null);
+            $activity->setRead(true);
+            $activity->setRecord(null);
+            $activity->setSong(null);
+            $activity->setStatus('A');
+            $activity->setToUser(null);
+            $activity->setType("USERSETTINGSUPDATED");
+            $activity->setUserStatus(null);
+            $activity->setVideo(null);
 
-	    $activityParse = new ActivityParse();
-	    $resActivity = $activityParse->saveActivity($activity);
-	    // if (get_class($resActivity) == 'Error') {
-	    // $this->rollback($playlistId, $songId, 'remove');
-	    // }
-	    $this->response(array($resActivity), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-	}
+            $activityParse = new ActivityParse();
+            $resActivity = $activityParse->saveActivity($activity);
+            // if (get_class($resActivity) == 'Error') {
+            // $this->rollback($playlistId, $songId, 'remove');
+            // }
+            $this->response(array($resActivity), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+        }
     }
 
 }
