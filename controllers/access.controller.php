@@ -32,21 +32,13 @@ require_once DEBUG_DIR . 'debug.php';
 class AccessController extends REST {
 
     /**
-     * \fn		init()
-     * \brief   start the session
-     */
-    public function init() {
-        session_start();
-    }
-
-    /**
      * \fn		login()
      * \brief   user login
      * \todo    usare la sessione
      */
     public function login() {
         try {
-            global $controllers;
+			global $controllers;
             require_once CLASSES_DIR . 'userParse.class.php';
             //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
             if ($this->get_request_method() != 'POST') {
@@ -57,8 +49,8 @@ class AccessController extends REST {
             $password = $this->request['password'];
             $userParse = new UserParse();
             $resLogin = $userParse->loginUser($usernameOrEmail, $password);
-            if (get_class($resLogin) == 'Error') {
-                $this->response(array('u&p' => $usernameOrEmail.'-'.$password, 'status' => "Bad Request", "msg" => $resLogin->getErrorMessage()), 400);
+			if (get_class($resLogin) == 'Error') {
+                $this->response(array('status' => $resLogin->getErrorMessage()), 406);
             } else {
                 $activity = new Activity();
                 $activity->setActive(true);
@@ -78,12 +70,13 @@ class AccessController extends REST {
                 $activity->setType('LOGGEDIN');
                 $activity->setUserStatus(null);
                 $activity->setVideo(null);
-
+				
                 $activityParse = new ActivityParse();
                 $activityParse->saveActivity($activity);
-                $this->response(array($controllers['OKLOGIN']), 200);
 				
 				$_SESSION['currentUser'] = $resLogin;
+				
+                $this->response(array($controllers['OKLOGIN']), 200);
             }
         } catch (Exception $e) {
             $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
