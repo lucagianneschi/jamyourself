@@ -19,136 +19,23 @@ $i_start = microtime(); //timer include
 
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
-
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once BOXES_DIR . 'playlist.box.php';
 require_once PARSE_DIR . 'parse.php';
 $i_end = microtime();
-
-//SPOTTER
-$mari = '1oT7yYrpfZ'; //MARI
-$FLAVYCAP = 'oN7Pcp2lxf'; //FLAVYCAP 
-$Kessingtong = '2OgmANcYaT'; //Kessingtong
-//JAMMER
-$ROSESINBLOOM = 'uMxy47jSjg'; //ROSESINBLOOM
-$Stanis = 'HdqSpIhiXo'; //Stanis
-$LDF = '7fes1RyY77'; //LDF
-//Venue
-$ZonaPlayed = '2K5Lv7qxzw'; //ZonaPlayed  
-$Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
-$jump = 'wrpgRuSgRA'; //jump rock club
-
-
-echo '<br />------------------------- TEST PLAYLIST BOX-------------------------------------------<br />';
-echo '<br />TEST PLAYLIST BOX SPOTTER<br />';
-echo '<br />TEST PLAYLIST BOX OBJ MARI<br />';
+echo '<br />------------------------- TEST PLAYLIST BOX SPATAFORA-------------------------------------------<br />';
 $t1_start = microtime();
 $info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init($mari);
+$info1 = $info1BoxP->init('GuUAj83MGH');
 $t1_stop = microtime();
 print "<pre>";
 print_r($info1);
 print "</pre>";
-echo '<br />TEST PLAYLIST BOX OBJ MARI<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST PLAYLIST BOX OBJ FLAVYCAP<br />';
-$t2_start = microtime();
-$info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init($FLAVYCAP);
-$t2_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST PLAYLIST BOX OBJ FLAVYCAP<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST PLAYLIST BOX OBJ MARI<br />';
-echo '<br />TEST PLAYLIST BOX Kessingtong<br />';
-$t3_start = microtime();
-$info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init($Kessingtong);
-$t3_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST PLAYLIST BOX Kessingtong<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST PLAYLIST BOX JAMMER<br />';
-echo '<br />TEST PLAYLIST BOX ROSESINBLOOM<br />';
-$t4_start = microtime();
-$info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init($ROSESINBLOOM);
-$t4_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST PLAYLIST BOX ROSESINBLOOM<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST INFO Stanis<br />';
-$t5_start = microtime();
-$info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init($Stanis);
-$t5_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST INFO Stanis<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST PLAYLIST BOX OBJ LDF<br />';
-$t6_start = microtime();
-$info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init($LDF);
-$t6_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST PLAYLIST BOX OBJ LDF<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST PLAYLIST BOX VENUE<br />';
-echo '<br />TEST PLAYLIST BOX ZonaPlayed<br />';
-$t7_start = microtime();
-$info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init($ZonaPlayed);
-$t7_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST PLAYLIST BOX ZonaPlayed<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST PLAYLIST BOX Ultrasuono<br />';
-$t8_start = microtime();
-$info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init($Ultrasuono);
-$t8_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST PLAYLIST BOX Ultrasuono<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST PLAYLIST BOX Jump<br />';
-$t9_start = microtime();
-$info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init($jump);
-$t9_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST PLAYLIST BOX Jump<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />------------------------- FINE TEST PLAYLIST BOX-------------------------------------------<br />';
-
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo totale ' . executionTime($t1_start, $t1_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t2_start, $t2_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t3_start, $t3_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t4_start, $t4_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t5_start, $t5_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t6_start, $t6_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t7_start, $t7_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t8_start, $t8_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t9_start, $t9_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>

@@ -1,0 +1,13 @@
+{
+    "limitEventForMediaPage" : 1,
+    "limitAttendeeForMediaPage" : 10,
+    "limitFeaturingForMediaPage" : 10,
+    "limitInvitedForMediaPage" : 10,
+    "limitEventForPersonalPage" : 3,
+    "limitAttendeeForPersonalPage" : 10,
+    "limitFeaturingForPersonalPage" : 10,
+    "limitInvitedForPersonalPage" : 10,
+    "limitFromUserForMediaPage" : 1,
+    "limitEventForUploadReviewPage" : 1,
+    "limitFeaturingForUploadReviewPage" : 10
+}
