@@ -156,11 +156,95 @@ function fromParsePointer($pointer) {
 	return $pointer->objectId;
     } elseif ($pointer->__type == 'Object') {
 	switch ($pointer->className) {
+	    case 'Activity':
+		require_once CLASSES_DIR . 'activity.class.php';
+		require_once CLASSES_DIR . 'activityParse.class.php';
+		$parseObj = new ActivityParse;
+		$object = $parseObj->parseToActivity($pointer);
+		break;
+	    case 'Album':
+		require_once CLASSES_DIR . 'album.class.php';
+		require_once CLASSES_DIR . 'albumParse.class.php';
+		$parseObj = new AlbumParse();
+		$object = $parseObj->parseToAlbum($pointer);
+		break;
+	    case 'Comment':
+		require_once CLASSES_DIR . 'comment.class.php';
+		require_once CLASSES_DIR . 'commentParse.class.php';
+		$parseObj = new CommentParse();
+		$object = $parseObj->parseToComment($pointer);
+		break;
+	    case 'Error':
+		require_once CLASSES_DIR . 'error.class.php';
+		require_once CLASSES_DIR . 'errorParse.class.php';
+		$parseObj = new ErrorParse();
+		$object = $parseObj->parseToError($pointer);
+		break;
+	    case 'Event':
+		require_once CLASSES_DIR . 'event.class.php';
+		require_once CLASSES_DIR . 'eventParse.class.php';
+		$parseObj = new EventParse();
+		$object = $parseObj->parseToEvent($pointer);
+		break;
+	    case 'Faq':
+		require_once CLASSES_DIR . 'faq.class.php';
+		require_once CLASSES_DIR . 'faqParse.class.php';
+		$parseObj = new FaqParse();
+		$object = $parseObj->parseToFaq($pointer);
+		break;
+	    case 'Image':
+		require_once CLASSES_DIR . 'image.class.php';
+		require_once CLASSES_DIR . 'imageParse.class.php';
+		$parseObj = new ImageParse();
+		$object = $parseObj->parseToImage($pointer);
+		break;
+	    case 'Location':
+		require_once CLASSES_DIR . 'location.class.php';
+		require_once CLASSES_DIR . 'locationParse.class.php';
+		$parseObj = new LocationParse();
+		$object = $parseObj->parseToLocation($pointer);
+		break;
+	    case 'Playlist':
+		require_once CLASSES_DIR . 'playlist.class.php';
+		require_once CLASSES_DIR . 'playlistParse.class.php';
+		$parseObj = new PlaylistParse();
+		$object = $parseObj->parseToPlaylist($pointer);
+		break;
+	    case 'Question':
+		require_once CLASSES_DIR . 'question.class.php';
+		require_once CLASSES_DIR . 'questionParse.class.php';
+		$parseObj = new QuestionParse();
+		$object = $parseObj->parseToQuestion($pointer);
+		break;
+	    case 'Record':
+		require_once CLASSES_DIR . 'record.class.php';
+		require_once CLASSES_DIR . 'recordParse.class.php';
+		$parseObj = new RecordParse();
+		$object = $parseObj->parseToRecord($pointer);
+		break;
+	    case 'Song':
+		require_once CLASSES_DIR . 'song.class.php';
+		require_once CLASSES_DIR . 'songParse.class.php';
+		$parseObj = new SongParse();
+		$object = $parseObj->parseToSong($pointer);
+		break;
+	    case 'Status':
+		require_once CLASSES_DIR . 'status.class.php';
+		require_once CLASSES_DIR . 'statusParse.class.php';
+		$parseObj = new StatusParse();
+		$object = $parseObj->parseToStatus($pointer);
+		break;
 	    case '_User':
 		require_once CLASSES_DIR . 'user.class.php';
 		require_once CLASSES_DIR . 'userParse.class.php';
-		$userParse = new UserParse();
-		$object = $userParse->parseToUser($pointer);
+		$parseObj = new UserParse();
+		$object = $parseObj->parseToUser($pointer);
+		break;
+	    case 'Video':
+		require_once CLASSES_DIR . 'video.class.php';
+		require_once CLASSES_DIR . 'videoParse.class.php';
+		$parseObj = new VideoParse();
+		$object = $parseObj->parseToVideo($pointer);
 		break;
 	}
 	return $object;

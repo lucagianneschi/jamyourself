@@ -27,24 +27,12 @@ require_once BOXES_DIR . 'album.box.php';
 $i_end = microtime();
 
 //SPOTTER
-$mari = '1oT7yYrpfZ'; //MARI
-$FLAVYCAP = 'oN7Pcp2lxf'; //FLAVYCAP 
-$Kessingtong = '2OgmANcYaT'; //Kessingtong
-//JAMMER
-$ROSESINBLOOM = 'uMxy47jSjg'; //ROSESINBLOOM
-$Stanis = 'HdqSpIhiXo'; //Stanis
-$LDF = '7fes1RyY77'; //LDF
-//Venue
-$ZonaPlayed = '2K5Lv7qxzw'; //ZonaPlayed  
-$Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
-$jump = 'wrpgRuSgRA'; //jump rock club
+$mari = '7fes1RyY77'; //JAMMER
+$FLAVYCAP = '7wi6AvviK4'; //SPOTTER
+$Kessingtong = 'iovioSH5mq'; //VENUE
 
 
-$album_start = microtime();
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />-------------------------TEST ALBUM BOX-------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX SPOTTER<br />';
-echo '<br />TEST ALBUM BOX MARI<br />';
+echo '<br />-------------------------TEST ALBUM PERSONALPAGE-------------------------------------------<br />';
 $album_start = microtime();
 $albumBoxP = new AlbumBox();
 $albumBox = $albumBoxP->initForPersonalPage($mari);
@@ -52,100 +40,45 @@ print "<pre>";
 print_r($albumBox);
 print "</pre>";
 $album_stop = microtime();
-echo '<br />TEST ALBUM BOX MARI<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX FLAVYCAP<br />';
 $album1_start = microtime();
-$albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($FLAVYCAP);
+$albumBoxP1 = new AlbumBox();
+$albumBox1 = $albumBoxP1->initForPersonalPage($FLAVYCAP);
 print "<pre>";
-print_r($albumBox);
+print_r($albumBox1);
 print "</pre>";
 $album1_stop = microtime();
-echo '<br />TEST ALBUM BOX FLAVYCAP<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX Kessingtong<br />';
 $album2_start = microtime();
-$albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($Kessingtong);
+$albumBoxP2 = new AlbumBox();
+$albumBox2 = $albumBoxP2->initForPersonalPage($Kessingtong);
 print "<pre>";
-print_r($albumBox);
+print_r($albumBox2);
 print "</pre>";
 $album2_stop = microtime();
-echo '<br />TEST ALBUM BOX Kessingtong<br />';
-echo '<br />FINE TEST ALBUM BOX SPOTTER<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX JAMMER<br />';
-echo '<br />TEST ALBUM BOX ROSESINBLOOM<br />';
 $album3_start = microtime();
-$albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($ROSESINBLOOM);
+echo '<br />----------------------INITFORDETAIL----------------------------------------------<br />';
+echo '<br />----------------------ALBUM_LDF_206_FOTO----------------------------------------------<br />';
+$albumBoxP3 = new AlbumBox();
+$albumBox3 = $albumBoxP3->initForDetail('6nl9mn8a4I');//
 print "<pre>";
-print_r($albumBox);
+print_r($albumBox3);
 print "</pre>";
+echo '<br />----------------------ALBUM_132_FOTO----------------------------------------------<br />';
 $album3_stop = microtime();
-echo '<br />TEST ALBUM BOX ROSESINBLOOM<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX STANIS<br />';
 $album4_start = microtime();
-$albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($Stanis);
+$albumBoxP4 = new AlbumBox();
+$albumBox4 = $albumBoxP4->initForDetail('uhRY8ULFNR');
 print "<pre>";
-print_r($albumBox);
+print_r($albumBox4);
 print "</pre>";
 $album4_stop = microtime();
-echo '<br />TEST ALBUM BOX STANIS<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX LDF<br />';
 $album5_start = microtime();
-$albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($LDF);
+$albumBoxP5 = new AlbumBox();
+$albumBox5 = $albumBoxP5->initForDetail('VMeoQds3TU');
 print "<pre>";
-print_r($albumBox);
+print_r($albumBox5);
 print "</pre>";
 $album5_stop = microtime();
-echo '<br />TEST ALBUM BOX LDF<br />';
-echo '<br /FINE TEST ALBUM BOX JAMMER<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br /TEST ALBUM BOX VENUE<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX ZonaPlayed<br />';
-$album6_start = microtime();
-$albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($ZonaPlayed);
-print "<pre>";
-print_r($albumBox);
-print "</pre>";
-$album6_stop = microtime();
-echo '<br />TEST ALBUM BOX ZonaPlayed<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX Ultrasuono<br />';
-$album7_start = microtime();
-$albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($Ultrasuono);
-print "<pre>";
-print_r($albumBox);
-print "</pre>";
-$album7_stop = microtime();
-echo '<br />TEST ALBUM BOX Ultrasuono<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX Jump<br />';
-$album8_start = microtime();
-$albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($jump);
-print "<pre>";
-print_r($albumBox);
-print "</pre>";
-echo '<br />TEST ALBUM BOX Jump<br />';
-$album8_stop = microtime();
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ALBUM BOX DEATILVIEW<br />';
-$albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForDetail("6nl9mn8a4I");
-print "<pre>";
-print_r($albumBox);
-print "</pre>";
-echo '<br />FINE TEST ALBUM BOX DEATILVIEW<br />';
+echo '<br />FINE TEST ALBUM BOX<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 
 $t_end = microtime();
@@ -157,9 +90,6 @@ echo 'Tempo recupero ultimi 4 album ' . executionTime($album2_start, $album2_sto
 echo 'Tempo recupero ultimi 4 album ' . executionTime($album3_start, $album3_stop) . '<br />';
 echo 'Tempo recupero ultimi 4 album ' . executionTime($album4_start, $album4_stop) . '<br />';
 echo 'Tempo recupero ultimi 4 album ' . executionTime($album5_start, $album5_stop) . '<br />';
-echo 'Tempo recupero ultimi 4 album ' . executionTime($album6_start, $album6_stop) . '<br />';
-echo 'Tempo recupero ultimi 4 album ' . executionTime($album7_start, $album7_stop) . '<br />';
-echo 'Tempo recupero ultimi 4 album ' . executionTime($album8_start, $album8_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>

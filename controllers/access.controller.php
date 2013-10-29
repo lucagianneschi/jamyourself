@@ -58,7 +58,7 @@ class AccessController extends REST {
             $userParse = new UserParse();
             $resLogin = $userParse->loginUser($usernameOrEmail, $password);
             if (get_class($resLogin) == 'Error') {
-                $this->response(array($controllers['KOLOGIN']), 503);
+                $this->response(array('u&p' => $usernameOrEmail.'-'.$password, 'status' => "Bad Request", "msg" => $resLogin->getErrorMessage()), 400);
             } else {
                 $activity = new Activity();
                 $activity->setActive(true);
@@ -82,6 +82,8 @@ class AccessController extends REST {
                 $activityParse = new ActivityParse();
                 $activityParse->saveActivity($activity);
                 $this->response(array($controllers['OKLOGIN']), 200);
+				
+				$_SESSION['currentUser'] = $resLogin;
             }
         } catch (Exception $e) {
             $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);

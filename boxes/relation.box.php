@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo        
+ * \todo		uso whereIncude        
  *
  */
 if (!defined('ROOT_DIR'))
@@ -31,7 +31,6 @@ class RelationsBox {
     public $relationArray;
 
     public function initForPersonalPage($objectId, $type) {
-	
 	global $boxes;
 	$relationsBox = new RelationsBox();
 	$info = array();
@@ -40,48 +39,46 @@ class RelationsBox {
 	$venuesArray = array();
 	$jammersArray = array();
 	$followersArray = array();
-
 	switch ($type) {
 	    case 'SPOTTER':
 		$activityFollowing = new ActivityParse();
-		$activityFollowing->setLimit(1000);
+		$activityFollowing->setLimit(50);
 		$activityFollowing->wherePointer('fromUser', '_User', $objectId);
 		$activityFollowing->whereEqualTo('type', 'FOLLOWING');
 		$activityFollowing->where('active', true);
 		$activityFollowing->whereInclude('toUser');
 		$activityFollowing->orderByDescending('createdAt');
-		$following = $activityFollowing->getActivities();
-		if (get_class($following) == 'Error') {
-		    return $following;
+		$followings = $activityFollowing->getActivities();
+		if (get_class($followings) == 'Error') {
+		    return $followings;
 		} else {
-		    foreach ($following->toUser as $toUser) {
-			$objectId = $toUser->getObjectId();
-			$thumbnail = $toUser->getProfileThumbnail();
-			$type = $toUser->getType();
-			$encodedUsername = $toUser->getUserName();
+		    foreach ($followings as $following) {
+			$objectId = $following->getToUser()->getObjectId();
+			$thumbnail = $following->getToUser()->getProfileThumbnail();
+			$type = $following->getToUser()->getType();
+			$encodedUsername = $following->getToUser()->getUserName();
 			$username = parse_decode_string($encodedUsername);
 			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			array_push($followingArray, $userInfo);
 		    }
 		}
-
 		$activityFriendship = new ActivityParse();
-		$activityFriendship->setLimit(1000);
+		$activityFriendship->setLimit(50);
 		$activityFriendship->wherePointer('fromUser', '_User', $objectId);
 		$activityFriendship->whereEqualTo('type', 'FRIENDSHIPREQUEST');
 		$activityFriendship->whereEqualTo('status', 'A');
 		$activityFriendship->where('active', true);
 		$activityFriendship->whereInclude('toUser');
 		$activityFriendship->orderByDescending('createdAt');
-		$friendship = $activityFriendship->getActivities();
-		if (get_class($friendship) == 'Error') {
-		    return $friendship;
+		$friendships = $activityFriendship->getActivities();
+		if (get_class($friendships) == 'Error') {
+		    return $friendships;
 		} else {
-		    foreach ($friendship->toUser as $toUser) {
-			$objectId = $toUser->getObjectId();
-			$thumbnail = $toUser->getProfileThumbnail();
-			$type = $toUser->getType();
-			$encodedUsername = $toUser->getUserName();
+		    foreach ($friendships as $friendship) {
+			$objectId = $friendship->getToUser()->getObjectId();
+			$thumbnail = $friendship->getToUser()->getProfileThumbnail();
+			$type = $friendship->getToUser()->getType();
+			$encodedUsername = $friendship->getToUser()->getUserName();
 			$username = parse_decode_string($encodedUsername);
 			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			array_push($friendshipArray, $userInfo);
@@ -93,15 +90,16 @@ class RelationsBox {
 		if (empty($friendshipArray)) {
 		    $friendshipArray = $boxes['NOFRIENDS'];
 		}
-
 		$info = array('followers' => $boxes['ND'], 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => $boxes['ND'], 'jammersCollaborators' => $boxes['ND']);
 		break;
 	    default :
+		
+		//usare una whereOr
 		$collaboratorVenue = new UserParse();
 		$collaboratorVenue->whereRelatedTo('collaboration', '_User', $objectId);
 		$collaboratorVenue->whereEqualTo('type', 'VENUE');
 		$collaboratorVenue->where('active', true);
-		$collaboratorVenue->setLimit(1000);
+		$collaboratorVenue->setLimit(50);
 		$collaboratorVenue->orderByDescending('createdAt');
 		$venues = $collaboratorVenue->getUsers();
 		if (get_class($venues) == 'Error') {
@@ -120,7 +118,7 @@ class RelationsBox {
 		$collaboratorJammer = new UserParse();
 		$collaboratorJammer->whereRelatedTo('collaboration', '_User', $objectId);
 		$collaboratorJammer->whereEqualTo('type', 'JAMMER');
-		$collaboratorJammer->setLimit(1000);
+		$collaboratorJammer->setLimit(50);
 		$collaboratorJammer->orderByDescending('createdAt');
 		$jammers = $collaboratorJammer->getUsers();
 		if (get_class($jammers) == 'Error') {
@@ -136,24 +134,25 @@ class RelationsBox {
 			array_push($jammersArray, $userInfo);
 		    }
 		}
+		//usare una whereOr
+		
+		
 		$following = new ActivityParse();
 		$following->wherePointer('toUser', '_User', $objectId);
 		$following->whereEqualTo('type', 'FOLLOWING');
 		$following->where('active', true);
-		$following->setLimit(1000);
+		$following->whereInclude('fromUser');
+		$following->setLimit(50);
 		$following->orderByDescending('createdAt');
 		$followers = $following->getActivities();
 		if (get_class($followers) == 'Error') {
 		    return $followers;
 		} else {
-		    foreach ($followers as $toUser) {
-			$followerId = $toUser->getFromUser();
-			$userP = new UserParse();
-			$user = $userP->getUser($followerId);
-			$objectId = $user->getObjectId();
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$encodedUsername = $user->getUserName();
+		    foreach ($followers as $follower) {
+			$objectId = $follower->getFromUser()->getObjectId();
+			$thumbnail = $follower->getFromUser()->getProfileThumbnail();
+			$type = $follower->getFromUser()->getType();
+			$encodedUsername = $follower->getFromUser()->getUserName();
 			$username = parse_decode_string($encodedUsername);
 			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
 			array_push($followersArray, $userInfo);

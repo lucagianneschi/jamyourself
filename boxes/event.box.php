@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		sistemare il campo featuring	
+ * \todo		sistemare il campo featuring, uso whereInclude	
  *
  */
 
@@ -184,7 +184,7 @@ class EventBox {
 	    $parseUser = new UserParse();
 	    $parseUser->whereRelatedTo('attendee', 'Event', $objectId);
 	    $parseUser->where('active', true);
-	    $parseUser->setLimit(1000);
+	    $parseUser->setLimit(10);
 	    $att = $parseUser->getUsers();
 	    if (get_class($att) == 'Error') {
 		return $att;
@@ -209,7 +209,7 @@ class EventBox {
 	    $parseUser1 = new UserParse();
 	    $parseUser1->whereRelatedTo('featuring', 'Event', $objectId);
 	    $parseUser1->where('active', true);
-	    $parseUser1->setLimit(1000);
+	    $parseUser1->setLimit(10);
 	    $feats = $parseUser1->getUsers();
 	    if (get_class($feats) == 'Error') {
 		return $feats;
@@ -229,7 +229,7 @@ class EventBox {
 	    $parseUser2 = new UserParse();
 	    $parseUser2->whereRelatedTo('invited', 'Event', $objectId);
 	    $parseUser2->where('active', true);
-	    $parseUser2->setLimit(1000);
+	    $parseUser2->setLimit(10);
 	    $inv = $parseUser2->getUsers();
 	    if (get_class($inv) == 'Error') {
 		return $inv;
@@ -251,13 +251,13 @@ class EventBox {
 	    $loveCounter = $event->getLoveCounter();
 	    $reviewCounter = $event->getReviewCounter();
 	    $shareCounter = $event->getShareCounter();
-		$tags = array();
-		if (count($event->getTags()) > 0) {
-		    foreach ($event->getTags() as $tag) {
-				$tag = parse_decode_string($tag);
-				array_push($tags, $tag);
-		    }
-		} 
+	    $tags = array();
+	    if (count($event->getTags()) > 0) {
+		foreach ($event->getTags() as $tag) {
+		    $tag = parse_decode_string($tag);
+		    array_push($tags, $tag);
+		}
+	    }
 	    $encodedTitle = $event->getTitle();
 	    $title = parse_decode_string($encodedTitle);
 	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
@@ -297,7 +297,6 @@ class EventBox {
      * \return	eventBox
      */
     public function initForPersonalPage($objectId) {
-
 	global $boxes;
 	$eventBox = new EventBox();
 	$info = array();
@@ -305,7 +304,7 @@ class EventBox {
 	$event = new EventParse();
 	$event->wherePointer('fromUser', '_User', $objectId);
 	$event->where('active', true);
-	$event->setLimit(1000);
+	$event->setLimit(10);
 	$event->orderByDescending('eventDate');
 	$events = $event->getEvents();
 	if (get_class($events) == 'Error') {
@@ -329,7 +328,7 @@ class EventBox {
 		$parseUser = new UserParse();
 		$parseUser->whereRelatedTo('featuring', 'Event', $objectId);
 		$parseUser->where('active', true);
-		$parseUser->setLimit(1000);
+		$parseUser->setLimit(10);
 		$feats = $parseUser->getUsers();
 		if (get_class($feats) == 'Error') {
 		    return $feats;
@@ -353,10 +352,10 @@ class EventBox {
 		$tags = array();
 		if (count($event->getTags()) > 0) {
 		    foreach ($event->getTags() as $tag) {
-				$tag = parse_decode_string($tag);
-				array_push($tags, $tag);
+			$tag = parse_decode_string($tag);
+			array_push($tags, $tag);
 		    }
-		} 
+		}
 		$thumbnail = $event->getThumbnail();
 		$encodedTitle = $event->getTitle();
 		$title = parse_decode_string($encodedTitle);
@@ -377,20 +376,24 @@ class EventBox {
      * \fn	initForUploadReviewPage($objectId)
      * \brief	Init EventBox instance for Upload Review Page
      * \param	$objectId for the event
+     * \todo    fare la getEvents con objectId e fare whereInclude del fromUser
      * \return	eventBox
      */
     public function initForUploadReviewPage($objectId) {
-	
+
 	global $boxes;
 	$eventBox = new EventBox();
 	$eventBox->eventCounter = $boxes['NDB'];
 
 	$recordP = new EventParse();
-	$event = $recordP->getEvent($objectId);
-	if (get_class($event) == 'Error') {
-	    return $event;
-	} else {
-
+	$recordP->where('objectId', $objectId);
+	$recordP->setLimit(1);
+	$recordP->whereInclude('fromUser');
+	$events = $recordP->getEvents();
+	if (get_class($events) == 'Error') {
+	    return $events;
+	}
+	foreach ($events as $event) {
 	    $encodedAddress = $event->getAddress();
 	    $address = parse_decode_string($encodedAddress);
 	    $encodedCity = $event->getCity();
@@ -400,48 +403,42 @@ class EventBox {
 	    $parseUser = new UserParse();
 	    $parseUser->whereRelatedTo('featuring', 'Event', $objectId);
 	    $parseUser->where('active', true);
-	    $parseUser->setLimit(1000);
+	    $parseUser->setLimit(10);
 	    $feats = $parseUser->getUsers();
 	    if (get_class($feats) == 'Error') {
 		return $feats;
-	    } else {
-		foreach ($feats as $user) {
-		    $objectId = $user->getObjectId();
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $encodedUsername = $user->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		    array_push($featuring, $userInfo);
-		}
 	    }
-	    $encodedLocationName = $event->getLocationName();
-	    $locationName = parse_decode_string($encodedLocationName);
-		$tags = array();
-		if (count($event->getTags()) > 0) {
-		    foreach ($event->getTags() as $tag) {
-				$tag = parse_decode_string($tag);
-				array_push($tags, $tag);
-		    }
-		} 
-	    $thumbnail = $event->getThumbnail();
-	    $encodedTitle = $event->getTitle();
-	    $title = parse_decode_string($encodedTitle);
+	    foreach ($feats as $user) {
+		$objectId = $user->getObjectId();
+		$thumbnail = $user->getProfileThumbnail();
+		$type = $user->getType();
+		$encodedUsername = $user->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		array_push($featuring, $userInfo);
+	    }
 	    if (empty($featuring)) {
 		$featuring = $boxes['NOFEATEVE'];
 	    }
+	    $encodedLocationName = $event->getLocationName();
+	    $locationName = parse_decode_string($encodedLocationName);
+	    $tags = array();
+	    if (count($event->getTags()) > 0) {
+		foreach ($event->getTags() as $tag) {
+		    $tag = parse_decode_string($tag);
+		    array_push($tags, $tag);
+		}
+	    }
+	    $thumbnail = $event->getThumbnail();
+	    $encodedTitle = $event->getTitle();
+	    $title = parse_decode_string($encodedTitle);
 	    $eventInfo = new EventInfoForUploadReviewPage($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title);
 	    $eventBox->recordInfoArray = $eventInfo;
 
-	    $fromUserP = new UserParse();
-	    $fromUser = $fromUserP->getUser($event->getFromUser());
-	    if (get_class($fromUser) == 'Error') {
-		return $fromUser;
-	    }
-	    $objectIdUser = $fromUser->getObjectId();
-	    $thumbnailUser = $fromUser->getProfileThumbnail();
-	    $type = $fromUser->getType();
-	    $encodedUsername = $fromUser->getUsername();
+	    $objectIdUser = $event->getFromUser()->getObjectId();
+	    $thumbnailUser = $event->getFromUser()->getProfileThumbnail();
+	    $type = $event->getFromUser()->getType();
+	    $encodedUsername = $event->getFromUser()->getUsername();
 	    $username = parse_decode_string($encodedUsername);
 	    $userInfo = new UserInfo($objectIdUser, $thumbnailUser, $type, $username);
 	    $eventBox->fromUserInfo = $userInfo;

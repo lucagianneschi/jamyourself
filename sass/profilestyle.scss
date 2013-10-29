@@ -187,6 +187,16 @@ section.active > .title a{
  background-position: Center;
 }
 
+.otherReview{
+ cursor:pointer;
+ text-align:right;
+ padding: 10px;
+ height:40px;
+ background: url(../images/icon/small/other.png);
+ background-repeat: no-repeat;
+ background-position: Center;	
+}
+
 .album-single-propriety{
   border-top: 1px solid $grey-dark !important;
   padding-top:5px;
@@ -506,7 +516,7 @@ section.active > .title a{
 
 #social_list_achievement .arrow-holder {
       height: 250px;
-    }
+}
 #social_list_achievement{
   margin-left:30px !important;
   margin-right:30px !important;
@@ -552,8 +562,7 @@ section.active > .title a{
 }
 
 
-.status-button{
- 
+.status-button{ 
   text-align:right;
   height:35px;
   margin-bottom: 40px;
@@ -679,11 +688,17 @@ section.active > .title a{
 
 .post-button{
   color: #fff;
-  background: $orange !important;
+  background-color: $orange !important;
   border:#fff 0px solid !important; 
   height: 34px !important; 
   width: 90px !important;
 }
+
+.post-button-send {
+   background-repeat: no-repeat;
+   background-image: url(../images/icon/btn-loader.gif);
+   background-position: center center;
+  }
 
 .comment-button{
   color: #fff;
@@ -693,6 +708,12 @@ section.active > .title a{
   width: 90px !important;
 }
 
+#social-Post #post-error {
+	margin-bottom:15px;
+	display:none;
+	cursor:pointer;
+	
+}
 
 
 

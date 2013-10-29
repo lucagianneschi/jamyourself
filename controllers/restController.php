@@ -17,7 +17,6 @@ class REST {
     public $data = "";
 
     public function __construct() {
-//        $this->stringConfig = json_decode(file_get_contents(CONFIG_DIR . "controllers/string.config.json"), true);
         $this->inputs();
     }
 

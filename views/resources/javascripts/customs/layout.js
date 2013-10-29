@@ -128,6 +128,12 @@ function resizeScroll() {
 	$("#scroll-social").mCustomScrollbar("update");
 }
 
+function scrollto(id) {
+	$('html,body').animate({
+		scrollTop: $('#'+id).offset().top - 50 
+	}, 'slow');
+};
+
 
 
 

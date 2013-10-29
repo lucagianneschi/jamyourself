@@ -6,12 +6,12 @@
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		box caricamento review event 
+ * \brief		box caricamento review event
  * \details		Recupera le informazioni sulla review dell'event, le inserisce in un array da passare alla view
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		
+ * \todo		uso whereIncude
  *
  */
 
@@ -23,13 +23,11 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
- * \brief	ReviewInfo class 
- * \details	contains info for review to be displayed 
+ * \brief	ReviewInfo class
+ * \details	contains info for review to be displayed
  */
 class ReviewInfo {
 
@@ -52,7 +50,7 @@ class ReviewInfo {
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($rating) ? $this->rating = $boxes['NODATA'] : $this->rating = $rating;
+	is_null($rating) ? $this->rating = 0 : $this->rating = $rating;
 	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
 	is_null($thumbnailCover) ? $this->thumbnailCover = $boxes['NODATA'] : $this->thumbnailCover = $thumbnailCover;
@@ -61,8 +59,8 @@ class ReviewInfo {
 }
 
 /**
- * \brief	ReviewBox class 
- * \details	box class to pass info to the view 
+ * \brief	ReviewBox class
+ * \details	box class to pass info to the view
  */
 class ReviewBox {
 
@@ -74,68 +72,54 @@ class ReviewBox {
      * \brief	Init ReviewBox instance for Personal Page, detailed view
      * \param	$objectId of the review to display information
      * \return	reviewBox
-	 * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
+     * \todo	usare whereInclude per il fromUser per evitare di fare una ulteriore get
      */
     public function initForDetail($objectId, $className) {//objetId record/event
-	
 	global $boxes;
 	$reviewBox = new ReviewBox();
 	$reviewBox->reviewCounter = $boxes['NDB'];
 	$info = array();
 
 	$review = new CommentParse();
-	switch ($className) {
-	    case 'Event':
-		require_once CLASSES_DIR . 'event.class.php';
-		require_once CLASSES_DIR . 'eventParse.class.php';
-		$review->where('type', 'RE');
-		$field = "event";
-		break;
-	    case 'Record':
-		require_once CLASSES_DIR . 'record.class.php';
-		require_once CLASSES_DIR . 'recordParse.class.php';
-		$review->where('type', 'RR');
-		$field = "record";
-		break;
+	if ($className == 'Event') {
+	    require_once CLASSES_DIR . 'event.class.php';
+	    require_once CLASSES_DIR . 'eventParse.class.php';
+	    $review->where('type', 'RE');
+	    $field = "event";
+	} else {
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'recordParse.class.php';
+	    $review->where('type', 'RR');
+	    $field = "record";
 	}
 	$review->wherePointer($field, $className, $objectId);
 	$review->where('active', true);
-	$review->setLimit(1000);
+	$review->whereInclude('fromUser');
+	$review->setLimit(50);
 	$review->orderByDescending('createdAt');
 	$reviews = $review->getComments();
 	if (get_class($reviews) == 'Error') {
 	    return $reviews;
 	} else {
 	    foreach ($reviews as $review) {
-
-		$userP = new UserParse();
-		$user = $userP->getUser($review->getFromUser());
-		if (get_class($user) == 'Error') {
-		    return $user;
-		} else {
-		    $objectIdUser = $user->getObjectId();
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $encodedUsername = $user->getUserName();
-		    $username = parse_decode_string($encodedUsername);
-		    $fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
-		}
-
+		$userId = $review->getFromUser()->getObjectId();
+		$thumbnail = $review->getFromUser()->getProfileThumbnail();
+		$type = $review->getFromUser()->getType();
+		$encodedUsername = $review->getFromUser()->getUserName();
+		$username = parse_decode_string($encodedUsername);
+		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		$objectId = $review->getObjectId();
 		$rating = $review->getVote();
-
 		$commentCounter = $review->getCommentCounter();
 		$loveCounter = $review->getLoveCounter();
 		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $review->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-
 		$encodedText = $review->getText();
 		$text = parse_decode_string($encodedText);
 		$thumbnailCover = $boxes['NDB'];
 		$encodedTitle = $review->getTitle();
 		$title = parse_decode_string($encodedTitle);
-
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
@@ -153,33 +137,30 @@ class ReviewBox {
      * \brief	Init ReviewBox instance for Media Page
      * \param	$objectId of the review to display information, Event or Record class
      * \return	reviewBox
-	 * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
+     * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
      */
     public function initForMediaPage($objectId, $className) {
-	
 	global $boxes;
 	$reviewBox = new ReviewBox();
 	$counter = 0;
 	$info = array();
 
 	$review = new CommentParse();
-	switch ($className) {
-	    case 'Event':
-		require_once CLASSES_DIR . 'event.class.php';
-		require_once CLASSES_DIR . 'eventParse.class.php';
-		$review->where('type', 'RE');
-		$field = 'event';
-		break;
-	    case 'Record':
-		require_once CLASSES_DIR . 'record.class.php';
-		require_once CLASSES_DIR . 'recordParse.class.php';
-		$review->where('type', 'RR');
-		$field = 'record';
-		break;
+	if ($className == 'Event') {
+	    require_once CLASSES_DIR . 'event.class.php';
+	    require_once CLASSES_DIR . 'eventParse.class.php';
+	    $review->where('type', 'RE');
+	    $field = "event";
+	} else {
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'recordParse.class.php';
+	    $review->where('type', 'RR');
+	    $field = "record";
 	}
 	$review->wherePointer($field, $className, $objectId);
 	$review->where('active', true);
-	$review->setLimit(1000);
+	$review->whereInclude('fromUser');
+	$review->setLimit(50);
 	$review->orderByDescending('createdAt');
 	$reviews = $review->getComments();
 	if (get_class($reviews) == 'Error') {
@@ -187,20 +168,12 @@ class ReviewBox {
 	} else {
 	    foreach ($reviews as $review) {
 		$counter = ++$counter;
-
-		$userP = new UserParse();
-		$user = $userP->getUser($review->getFromUser());
-		if (get_class($user) == 'Error') {
-		    return $user;
-		} else {
-		    $objectId = $user->getObjectId();
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $encodedUsername = $user->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-		    $fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		}
-
+		$userId = $review->getFromUser()->getObjectId();
+		$thumbnail = $review->getFromUser()->getProfileThumbnail();
+		$type = $review->getFromUser()->getType();
+		$encodedUsername = $review->getFromUser()->getUserName();
+		$username = parse_decode_string($encodedUsername);
+		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		$commentCounter = $review->getCommentCounter();
 		$loveCounter = $review->getLoveCounter();
 		$reviewCounter = $boxes['NDB'];
@@ -208,14 +181,11 @@ class ReviewBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$objectId = $review->getObjectId();
 		$rating = $review->getVote();
-
 		$encodedText = $review->getText();
 		$text = parse_decode_string($encodedText);
 		$thumbnailCover = $boxes['NDB'];
-
 		$encodedTitle = $review->getTitle();
 		$title = parse_decode_string($encodedTitle);
-
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
@@ -231,123 +201,77 @@ class ReviewBox {
 
     /**
      * \fn	initForPersonalPage($objectId, $type, $className)
-     * \brief	Init ReviewBox instance for Media Page
+     * \brief	Init ReviewBox instance for Personal Page
      * \param	$objectId of the user who owns the page, $type of user, $className Record or Event class
      * \return	reviewBox
      */
     function initForPersonalPage($objectId, $type, $className) {
-	
 	global $boxes;
+	$reviewBox = new ReviewBox();
 	$info = array();
 	$counter = 0;
-	switch ($type) {
-	    case 'SPOTTER':
-		$field = 'fromUser';
-		break;
-	    case 'JAMMER':
-		$field = 'toUser';
-		break;
+	$reviewP = new CommentParse();
+	if ($className == 'Event') {
+	    require_once CLASSES_DIR . 'event.class.php';
+	    require_once CLASSES_DIR . 'eventParse.class.php';
+	    $reviewP->where('type', 'RE');
+	} else {
+	    require_once CLASSES_DIR . 'record.class.php';
+	    require_once CLASSES_DIR . 'recordParse.class.php';
+	    $reviewP->where('type', 'RR');
 	}
-
-	$reviewBox = new ReviewBox();
-	$review = new CommentParse();
-	switch ($className) {
-	    case 'Event':
-		require_once CLASSES_DIR . 'event.class.php';
-		require_once CLASSES_DIR . 'eventParse.class.php';
-		$review->where('type', 'RE');
-		break;
-	    case 'Record':
-		require_once CLASSES_DIR . 'record.class.php';
-		require_once CLASSES_DIR . 'recordParse.class.php';
-		$review->where('type', 'RR');
-		break;
+	if ($type == 'SPOTTER') {
+	    $field = 'fromUser';
+	} else {
+	    $field = 'toUser';
 	}
-	$review->wherePointer($field, '_User', $objectId);
-	$review->where('active', true);
-	$review->setLimit(1000);
-	$review->orderByDescending('createdAt');
-	$reviews = $review->getComments();
-	if (count($reviews) != 0) {
-	    if (get_class($reviews) == 'Error') {
-		return $reviews;
-	    } else {
-		foreach ($reviews as $review) {
-		    $counter = ++$counter;
-		    switch ($className) {
-			case 'Event':
-			    $id = $review->getEvent();
-			    $eventP = new EventParse();
-			    $event = $eventP->getEvent($id);
-			    if (get_class($event) == 'Error') {
-				return $event;
-			    }
-			    switch ($type) {
-				case 'SPOTTER':
-				    $userId = $event->getFromUser();
-				    break;
-				case 'JAMMER':
-				    $userId = $review->getFromUser();
-				    break;
-			    }
-			    $reviewCounter = $event->getReviewCounter();
-			    $thumbnailCover = $event->getThumbnail();
-			    $encodedTitle = $event->getTitle();
-			    $title = parse_decode_string($encodedTitle);
-			    break;
-			case 'Record':
-			    $id = $review->getRecord();
-			    $recordP = new RecordParse();
-			    $record = $recordP->getRecord($id);
-			    if (get_class($record) == 'Error') {
-				return $record;
-			    }
-			    switch ($type) {
-				case 'SPOTTER':
-				    $userId = $record->getFromUser();
-				    break;
-				case 'JAMMER':
-				    $userId = $review->getFromUser();
-				    break;
-			    }
-			    $reviewCounter = $record->getReviewCounter();
-			    $thumbnailCover = $record->getThumbnailCover();
-			    $encodedTitle = $record->getTitle();
-			    $title = parse_decode_string($encodedTitle);
-			    break;
-		    }
-		    $commentCounter = $review->getCommentCounter();
-		    $loveCounter = $review->getLoveCounter();
-		    $objectId = $review->getObjectId();
-		    $rating = $review->getVote();
-		    $shareCounter = $review->getShareCounter();
-		    $encodedText = $review->getText();
-		    $text = parse_decode_string($encodedText);
-
-		    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-
-		    $userP = new UserParse();
-		    $user = $userP->getUser($userId);
-		    if (get_class($user) == 'Error') {
-			return $user;
-		    } else {
-			$objectId = $user->getObjectId();
-			$thumbnail = $user->getProfileThumbnail();
-			$type = $user->getType();
-			$encodedUsername = $user->getUsername();
-			$username = parse_decode_string($encodedUsername);
-			$fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		    }
-		    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
-		    array_push($info, $reviewInfo);
-		}
-		if (empty($info)) {
-		    $reviewBox->reviewArray = $boxes['NODATA'];
+	$reviewP->wherePointer($field, '_User', $objectId);
+	$reviewP->where('active', true);
+	$reviewP->whereInclude('event,fromUser,record,toUser');
+	$reviewP->setLimit(50);
+	$reviewP->orderByDescending('createdAt');
+	$reviews = $reviewP->getComments();
+	if (get_class($reviews) == 'Error') {
+	    return $reviews;
+	} else {
+	    foreach ($reviews as $review) {
+		$counter = ++$counter;
+		$commentCounter = $review->getCommentCounter();
+		$loveCounter = $review->getLoveCounter();
+		$reviewCounter = $boxes['NDB'];
+		$shareCounter = $review->getShareCounter();
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+		$objectId = $review->getObjectId();
+		$rating = $review->getVote();
+		$encodedText = $review->getText();
+		$text = parse_decode_string($encodedText);
+		$encodedTitle = $review->getTitle();
+		$title = parse_decode_string($encodedTitle);
+		if ($type == 'VENUE' || $type == 'JAMMER') {
+		    $user = $review->getFromUser();
 		} else {
-		    $reviewBox->reviewArray = $info;
+		    $user = $review->getToUser();
 		}
-		$reviewBox->reviewCounter = $counter;
+		$userId = $user->getObjectId();
+		$thumbnail = $user->getProfileThumbnail();
+		$type = $user->getType();
+		$encodedUsername = $user->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+		if ($className === 'Event') {
+		    $thumbnailCover = $review->getEvent()->getThumbnail();
+		} else {
+		    $thumbnailCover = $review->getRecord()->getThumbnailCover();
+		}
+		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
+		array_push($info, $reviewInfo);
 	    }
+	    if (empty($info)) {
+		$reviewBox->reviewArray = $boxes['NODATA'];
+	    } else {
+		$reviewBox->reviewArray = $info;
+	    }
+	    $reviewBox->reviewCounter = $counter;
 	}
 	return $reviewBox;
     }

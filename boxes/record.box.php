@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		sistemare il campo featuring
+ * \todo		sistemare il campo featuring,suo whereInclude
  *
  */
 if (!defined('ROOT_DIR'))
@@ -44,7 +44,7 @@ class RecordInfoForMediaPage {
      * \brief	construct for the RecordInfoForMediaPage class
      * \param	$buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName,  $title, $year
      */
-    function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $title, $year) {
+    function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $title, $tracklist, $year) {
 	global $boxes;
 	global $default_img;
 	is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = $buylink;
@@ -57,6 +57,7 @@ class RecordInfoForMediaPage {
 	is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = $label;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($tracklist) ? $this->tracklist = $boxes['NOTRACK'] : $this->tracklist = $tracklist;
 	is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
 
@@ -208,30 +209,30 @@ class RecordBox {
      * \param	$objectId of the record to display in MEdia Page
      */
     public function initForMediaPage($objectId) {
+	global $boxes;
 	require_once CLASSES_DIR . 'song.class.php';
 	require_once CLASSES_DIR . 'songParse.class.php';
-	require_once CLASSES_DIR . 'user.class.php';
-	require_once CLASSES_DIR . 'userParse.class.php';
-
-	global $boxes;
+	$recordBox->recordCounter = $boxes['NDB'];
 
 	$recordBox = new RecordBox();
 	$recordP = new RecordParse();
-	$record = $recordP->getRecord($objectId);
-	if (get_class($record) == 'Error') {
-	    return $record;
-	} elseif ($record->getActive() == true) {
+	$recordP->where('objectId', $objectId);
+	$recordP->where('active', true);
+	$recordP->setLimit(1);
+	$records = $recordP->getRecords();
+	if (get_class($records) == 'Error') {
+	    return $records;
+	}
+	foreach ($records as $record) {
 	    $buylink = $record->getBuylink();
 	    $commentCounter = $record->getCommentCounter();
 	    $loveCounter = $record->getLoveCounter();
 	    $reviewCounter = $record->getReviewCounter();
 	    $shareCounter = $record->getShareCounter();
 	    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-
 	    $cover = $record->getCover();
 	    $encodedDescription = $record->getDescription();
 	    $description = parse_decode_string($encodedDescription);
-
 	    $featuring = array();
 	    $parseUser = new UserParse();
 	    $parseUser->whereRelatedTo('featuring', 'Record', $objectId);
@@ -240,16 +241,15 @@ class RecordBox {
 	    $feats = $parseUser->getUsers();
 	    if (get_class($feats) == 'Error') {
 		return $feats;
-	    } else {
-		foreach ($feats as $user) {
-		    $objectId = $user->getObjectId();
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $encodedUsername = $user->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		    array_push($featuring, $userInfo);
-		}
+	    }
+	    foreach ($feats as $user) {
+		$objectId = $user->getObjectId();
+		$thumbnail = $user->getProfileThumbnail();
+		$type = $user->getType();
+		$encodedUsername = $user->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		array_push($featuring, $userInfo);
 	    }
 	    $genre = $record->getGenre();
 	    $encodedLabel = $record->getLabel();
@@ -259,7 +259,6 @@ class RecordBox {
 	    $encodedTitle = $record->getTitle();
 	    $title = parse_decode_string($encodedTitle);
 	    $year = $record->getYear();
-
 	    $tracklist = array();
 	    $parseSong = new SongParse();
 	    $parseSong->wherePointer('record', 'Record', $objectId);
@@ -268,43 +267,33 @@ class RecordBox {
 	    $songs = $parseSong->getSongs();
 	    if (get_class($songs) == 'Error') {
 		return $songs;
-	    } else {
-		foreach ($songs as $song) {
-		    $duration = $song->getDuration();
-		    $objectId = $song->getObjectId();
-		    $encodedTitle = $song->getTitle();
-		    $title = parse_decode_string($encodedTitle);
-		    $commentCounter = $song->getCommentCounter();
-		    $loveCounter = $song->getLoveCounter();
-		    $shareCounter = $song->getShareCounter();
-		    $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-		    $songInfo = new SongInfo($counters, $duration, $objectId, $title);
-		    array_push($tracklist, $songInfo);
-		}
+	    }
+	    foreach ($songs as $song) {
+		$duration = $song->getDuration();
+		$objectId = $song->getObjectId();
+		$encodedTitle = $song->getTitle();
+		$title = parse_decode_string($encodedTitle);
+		$commentCounter = $song->getCommentCounter();
+		$loveCounter = $song->getLoveCounter();
+		$shareCounter = $song->getShareCounter();
+		$counters = new Counters($commentCounter, $loveCounter, $shareCounter);
+		$songInfo = new SongInfo($counters, $duration, $objectId, $title);
+		array_push($tracklist, $songInfo);
 	    }
 	    $recordInfo = new RecordInfoForMediaPage($buylink, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $tracklist, $title, $year);
-
-	    $fromUserId = $record->getFromUser();
-	    $userP = new UserParse();
-	    $fromUser = $userP->getUser($fromUserId);
-	    if (get_class($fromUser) == 'Error') {
-		return $fromUser;
-	    } else {
-		$objectIdUser = $fromUser->getObjectId();
-		$thumbnail = $fromUser->getProfileThumbnail();
-		$type = $fromUser->getType();
-		$encodedUsername = $fromUser->getUsername();
-		$username = parse_decode_string($encodedUsername);
-		$userInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
-	    }
+	    $objectIdUser = $record->getFromUser()->getObjectId();
+	    $thumbnail = $record->getFromUser()->getProfileThumbnail();
+	    $type = $record->getFromUser()->getType();
+	    $encodedUsername = $record->getFromUser()->getUsername();
+	    $username = parse_decode_string($encodedUsername);
+	    $userInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
 	    $recordBox->fromUserInfo = $userInfo;
-	    $recordBox->recordCounter = $boxes['NDB'];
-	    $recordBox->recordInfoArray = $recordInfo;
-	    if (empty($tracklist)) {
-		$recordBox->tracklist = $boxes['NOTRACK'];
-	    } else {
-		$recordBox->tracklist = $tracklist;
-	    }
+	}
+	$recordBox->recordInfoArray = $recordInfo;
+	if (empty($tracklist)) {
+	    $recordBox->tracklist = $boxes['NOTRACK'];
+	} else {
+	    $recordBox->tracklist = $tracklist;
 	}
 	return $recordBox;
     }
@@ -315,16 +304,14 @@ class RecordBox {
      * \param	$objectId of the user who owns the page
      */
     public function initForPersonalPage($objectId) {
-
 	global $boxes;
 	$recordBox = new RecordBox();
-
 	$info = array();
 	$counter = 0;
 	$record = new RecordParse();
 	$record->wherePointer('fromUser', '_User', $objectId);
 	$record->where('active', true);
-	$record->setLimit(1000);
+	$record->setLimit(10);
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
 	if (get_class($records) == 'Error') {
@@ -332,7 +319,6 @@ class RecordBox {
 	} else {
 	    foreach ($records as $record) {
 		$counter = ++$counter;
-
 		$commentCounter = $record->getCommentCounter();
 		$genre = $record->getGenre();
 		$loveCounter = $record->getLoveCounter();
@@ -365,7 +351,6 @@ class RecordBox {
      * \param	$objectId of the user who owns the record
      */
     public function initForUploadRecordPage($objectId) {
-
 	global $boxes;
 	$recordBox = new RecordBox();
 	$recordBox->tracklist = $boxes['NDB'];
@@ -375,7 +360,7 @@ class RecordBox {
 	$record = new RecordParse();
 	$record->wherePointer('fromUser', '_User', $objectId);
 	$record->where('active', true);
-	$record->setLimit(1000);
+	$record->setLimit(10);
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
 	if (get_class($records) == 'Error') {
@@ -383,7 +368,6 @@ class RecordBox {
 	} else {
 	    foreach ($records as $record) {
 		$counter = ++$counter;
-
 		$songCounter = $record->getSongCounter();
 		$thumbnailCover = $record->getThumbnailCover();
 		$title = $record->getTitle();
@@ -405,6 +389,7 @@ class RecordBox {
      * \fn	initForUploadReviewPage($objectId)
      * \brief	init for recordBox for upload review page
      * \param	$objectId of the user who owns the review
+     * \todo    utilizzare whereInclude
      */
     public function initForUploadReviewPage($objectId) {
 
@@ -422,7 +407,7 @@ class RecordBox {
 	    $parseUser = new UserParse();
 	    $parseUser->whereRelatedTo('featuring', 'Record', $objectId);
 	    $parseUser->where('active', true);
-	    $parseUser->setLimit(1000);
+	    $parseUser->setLimit(10);
 	    $feats = $parseUser->getUsers();
 	    if (get_class($feats) == 'Error') {
 		return $feats;
@@ -457,5 +442,4 @@ class RecordBox {
     }
 
 }
-
 ?>

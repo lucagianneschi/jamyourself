@@ -1,0 +1,10 @@
+{
+    "limitRecordForDetail" : 10,
+    "limitRecordForMediaPage" : 1,
+    "limitFeaturingForMediaPage" : 10,
+    "limitSongsForMediaPage" : 10,
+    "limitRecordForPersonalPage" : 3,
+    "limitRecordForUploadRecordPage" : 3,
+    "limitRecordForUploadReviewPage" : 1,
+    "limitFeaturingForUploadReviewPage" : 10
+}

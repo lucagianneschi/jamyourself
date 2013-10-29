@@ -22,7 +22,7 @@ $captchaPublicKey = $_SESSION['captchaPublicKey'];
         <title>Jamyourself</title>
         <!-------------------------- METADATI --------------------------->
         <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
-
+	<!--	<script type="text/javascript" src="resources/javascripts/customs/signup.js"></script> -->
     </head>
 
     <body>
@@ -39,6 +39,7 @@ $captchaPublicKey = $_SESSION['captchaPublicKey'];
 
         <!-------------------------- SCRIPT --------------------------->
         <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
+        <script type="text/javascript" src="resources/javascripts/customs/signup.js"></script>
     </body>
 
 </html>
