@@ -66,7 +66,8 @@ class ReviewBox {
 
     public $config;
     public $reviewArray;
-    public $reviewCounter;
+
+    //public $reviewCounter;
 
     /**
      * \fn	__construct()
@@ -87,7 +88,7 @@ class ReviewBox {
         global $boxes;
         $info = array();
         $reviewBox = new ReviewBox();
-        $reviewBox->reviewCounter = $boxes['NDB'];
+        //$reviewBox->reviewCounter = $boxes['NDB'];
         $review = new CommentParse();
         $review->where('objectId', $objectId);
         $review->where('active', true);
@@ -150,10 +151,10 @@ class ReviewBox {
             return $reviews;
         } elseif (count($reviews) == 0) {
             $reviewBox->reviewArray = $boxes['NODATA'];
-            $reviewBox->reviewCounter = $boxes['NODATA'];
+            //$reviewBox->reviewCounter = $boxes['NODATA'];
         } else {
             foreach ($reviews as $review) {
-                $counter = ++$counter;
+                //$counter = ++$counter;
                 $userId = $review->getFromUser()->getObjectId();
                 $thumbnail = $review->getFromUser()->getProfileThumbnail();
                 $type = $review->getFromUser()->getType();
@@ -176,7 +177,7 @@ class ReviewBox {
                 array_push($info, $reviewInfo);
             }
             $reviewBox->reviewArray = $info;
-            $reviewBox->reviewCounter = $counter;
+            //$reviewBox->reviewCounter = $counter;
         }
         return $reviewBox;
     }
@@ -223,10 +224,10 @@ class ReviewBox {
             return $reviews;
         } elseif (count($reviews) == 0) {
             $reviewBox->reviewArray = $boxes['NODATA'];
-            $reviewBox->reviewCounter = $boxes['NODATA'];
+            //$reviewBox->reviewCounter = $boxes['NODATA'];
         } else {
             foreach ($reviews as $review) {
-                $counter = ++$counter;
+                //$counter = ++$counter;
                 $commentCounter = $review->getCommentCounter();
                 $loveCounter = $review->getLoveCounter();
                 $reviewCounter = $boxes['NDB'];
@@ -260,8 +261,7 @@ class ReviewBox {
             }
         }
         $reviewBox->reviewArray = $info;
-        $reviewBox->reviewCounter = $counter;
-
+        //$reviewBox->reviewCounter = $counter;
         return $reviewBox;
     }
 

@@ -58,7 +58,7 @@ class PostBox {
 
     public $config;
     public $postInfoArray;
-    public $postCounter;
+    //public $postCounter;
 
     /**
      * \fn	__construct()
@@ -79,7 +79,7 @@ class PostBox {
 	global $boxes;
 	$postBox = new PostBox();
 	$info = array();
-	$counter = 0;
+	//$counter = 0;
 	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
 	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
 	$post = new CommentParse();
@@ -92,12 +92,12 @@ class PostBox {
 	$posts = $post->getComments();
 	if (get_class($posts) == 'Error') {
 	    return $posts;
-	} elseif (count($posts) == 0) {
+	} elseif (is_null($posts)) {
 	    $postBox->postInfoArray = $boxes['NODATA'];
-	    $postBox->postCounter = $boxes['NODATA'];
+	    //$postBox->postCounter = $boxes['NODATA'];
 	} else {
 	    foreach ($posts as $post) {
-		$counter = ++$counter;
+		//$counter = ++$counter;
 		$objectId = $post->getFromUser()->getObjectId();
 		$thumbnail = $post->getFromUser()->getProfileThumbnail();
 		$type = $post->getFromUser()->getType();
@@ -117,7 +117,7 @@ class PostBox {
 		array_push($info, $postInfo);
 	    }
 	    $postBox->postInfoArray = $info;
-	    $postBox->postCounter = $counter;
+	    //$postBox->postCounter = $counter;
 	}
 	return $postBox;
     }

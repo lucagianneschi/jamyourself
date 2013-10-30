@@ -1,6 +1,3 @@
 {
-    "minCommentSize" : 1,
-    "maxCommentSize" : 50,
-    "inputCommentRowNumber": 2,
-    "inputCommentColumnNumber": 50
+    "playlistLimit" : 1
 }

@@ -21,8 +21,6 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CLASSES_DIR . 'activity.class.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'playlist.class.php';
 require_once CLASSES_DIR . 'playlistParse.class.php';
 require_once DEBUG_DIR . 'debug.php';
@@ -33,33 +31,48 @@ require_once DEBUG_DIR . 'debug.php';
  */
 class PlaylistController extends REST {
 
+    public $config;
+
+    /**
+     * \fn		construct()
+     * \brief   load config file for the controller
+     */
+    function __construct() {
+        parent::__construct();
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/playlist.config.json"), false);
+    }
+
     /**
      * \fn		addSong()
      * \brief   add song to playlist
      * \todo    usare la sessione
      */
     public function addSong() {
-
-        #TODO
-        //in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
-        //questa sezione prima del try-catch dovr� sparire
-        require_once CLASSES_DIR . 'user.class.php';
-        $currentUser = new User('SPOTTER');
-        $currentUser->setObjectId('GuUAj83MGH');
-
+        global $controllers;
         try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
             $playlistId = $this->request['playlistId'];
             $songId = $this->request['songId'];
             $fromUserId = $this->request['fromUserId'];
-
             $playlistP = new PlaylistParse();
-            $playlist = $playlistP->getPlaylist($playlistId);
-            if (get_class($playlist) == 'Error') {
+            $playlistP->where('objectId', $playlistId);
+            $playlistP->where('active', true);
+            $playlistP->setLimit($this->config->playlistLimit);
+            $playlists = $playlistP->getPlaylists();
+            if (get_class($playlists) == 'Error') {
                 $this->response(array('Error: ' . $playlist->getMessage()), 503);
+            } else {
+                foreach ($playlists as $playlist) {
+                    if
+                    
+                    
+                    
+                    
+                }
             } else {
                 //devo controllare che la song sia presente, se è presente non l'aggiungo
                 $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
@@ -68,6 +81,8 @@ class PlaylistController extends REST {
                 }
                 //qui va aggiunto il check sul numero di canzoni, se sono più di 20 va cancellata la prima in ordine cronologico di aggiunta (come vengono inserire nell'arrau le song??)
 
+                require_once CLASSES_DIR . 'activity.class.php';
+                require_once CLASSES_DIR . 'activityParse.class.php';
                 $activity = new Activity();
                 $activity->setActive(true);
                 $activity->setAlbum(null);
