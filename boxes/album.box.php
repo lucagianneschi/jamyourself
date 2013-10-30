@@ -92,7 +92,7 @@ class ImageInfo {
 class AlbumBox {
 
     public $albumInfoArray;
-    public $albumCounter;
+    //public $albumCounter;
     public $config;
     public $imageArray;
 
@@ -115,7 +115,7 @@ class AlbumBox {
 	require_once CLASSES_DIR . 'imageParse.class.php';
 	global $boxes;
 	$albumBox = new AlbumBox();
-	$albumBox->albumCounter = $boxes['NDB'];
+	//$albumBox->albumCounter = $boxes['NDB'];
 	$albumBox->albumInfoArray = $boxes['NDB'];
 	$info = array();
 	$image = new ImageParse();
@@ -169,7 +169,7 @@ class AlbumBox {
 	$albumBox = new AlbumBox();
 	$albumBox->imageArray = $boxes['NDB'];
 	$info = array();
-	$counter = 0;
+	//$counter = 0;
 	$album = new AlbumParse();
 	$album->wherePointer('fromUser', '_User', $objectId);
 	$album->where('active', true);
@@ -182,7 +182,7 @@ class AlbumBox {
 	    $albumBox->albumInfoArray = $boxes['NODATA'];
 	} else {
 	    foreach ($albums as $album) {
-		$counter = ++$counter;
+		//$counter = ++$counter;
 		$commentCounter = $album->getCommentCounter();
 		$imageCounter = $album->getImageCounter();
 		$loveCounter = $album->getLoveCounter();
@@ -197,7 +197,7 @@ class AlbumBox {
 		array_push($info, $albumInfo);
 	    }
 	    $albumBox->albumInfoArray = $info;
-	    $albumBox->albumCounter = $counter;
+	   // $albumBox->albumCounter = $counter;
 	}
 	return $albumBox;
     }

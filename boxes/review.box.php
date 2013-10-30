@@ -66,7 +66,7 @@ class ReviewBox {
 
     public $config;
     public $reviewArray;
-    public $reviewCounter;
+    //public $reviewCounter;
 
     /**
      * \fn	__construct()
@@ -87,7 +87,7 @@ class ReviewBox {
         global $boxes;
         $info = array();
         $reviewBox = new ReviewBox();
-        $reviewBox->reviewCounter = $boxes['NDB'];
+        //$reviewBox->reviewCounter = $boxes['NDB'];
         $review = new CommentParse();
         $review->where('objectId', $objectId);
         $review->where('active', true);
@@ -97,7 +97,7 @@ class ReviewBox {
         $reviews = $review->getComments();
         if (get_class($reviews) == 'Error') {
             return $reviews;
-        } elseif (count($reviews) == 0) {
+        } elseif (is_null($reviews)) {
             $reviewBox->reviewArray = $boxes['NODATA'];
         } else {
             foreach ($reviews as $review) {
@@ -136,7 +136,7 @@ class ReviewBox {
      */
     public function initForMediaPage($objectId) {
         global $boxes;
-        $counter = 0;
+        //$counter = 0;
         $info = array();
         $reviewBox = new ReviewBox();
         $review = new CommentParse();
@@ -148,9 +148,9 @@ class ReviewBox {
         $reviews = $review->getComments();
         if (get_class($reviews) == 'Error') {
             return $reviews;
-        } elseif (count($reviews) == 0) {
+        } elseif (is_null($reviews)) {
             $reviewBox->reviewArray = $boxes['NODATA'];
-            $reviewBox->reviewCounter = $boxes['NODATA'];
+            //$reviewBox->reviewCounter = $boxes['NODATA'];
         } else {
             foreach ($reviews as $review) {
                 $counter = ++$counter;
@@ -176,7 +176,7 @@ class ReviewBox {
                 array_push($info, $reviewInfo);
             }
             $reviewBox->reviewArray = $info;
-            $reviewBox->reviewCounter = $counter;
+            //$reviewBox->reviewCounter = $counter;
         }
         return $reviewBox;
     }
@@ -190,7 +190,7 @@ class ReviewBox {
     function initForPersonalPage($objectId, $type, $className) {
         global $boxes;
         $info = array();
-        $counter = 0;
+        //$counter = 0;
         $reviewBox = new ReviewBox();
         $reviewP = new CommentParse();
         $reviewP->where('active', true);
@@ -221,12 +221,12 @@ class ReviewBox {
         $reviews = $reviewP->getComments();
         if (get_class($reviews) == 'Error') {
             return $reviews;
-        } elseif (count($reviews) == 0) {
+        } elseif (is_null($reviews)) {
             $reviewBox->reviewArray = $boxes['NODATA'];
-            $reviewBox->reviewCounter = $boxes['NODATA'];
+            //$reviewBox->reviewCounter = $boxes['NODATA'];
         } else {
             foreach ($reviews as $review) {
-                $counter = ++$counter;
+                //$counter = ++$counter;
                 $commentCounter = $review->getCommentCounter();
                 $loveCounter = $review->getLoveCounter();
                 $reviewCounter = $boxes['NDB'];
