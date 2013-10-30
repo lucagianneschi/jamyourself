@@ -157,7 +157,7 @@ class RecordBox {
 
     public $config;
     public $fromUserInfo;
-    //public $recordCounter;
+    public $recordCounter;
     public $recordInfoArray;
     public $tracklist;
 
@@ -178,7 +178,7 @@ class RecordBox {
 	global $boxes;
 	$recordBox = new RecordBox();
 	$recordBox->fromUserInfo = $boxes['NDB'];
-	//$recordBox->recordCounter = $boxes['NDB'];
+	$recordBox->recordCounter = $boxes['NDB'];
 	$recordBox->recordInfoArray = $boxes['NDB'];
 	$tracklist = array();
 	$song = new SongParse();
@@ -186,10 +186,11 @@ class RecordBox {
 	$song->where('active', true);
 	$song->setLimit($this->config->limitRecordForDetail);
 	$songs = $song->getSongs();
-	if (get_class($songs) == 'Error') {
+	if ($songs instanceof Error) {
 	    return $songs;
 	} elseif (is_null($songs)) {
 	    $recordBox->tracklist = $boxes['NOTRACK'];
+	    return $recordBox;
 	} else {
 	    foreach ($songs as $song) {
 		$duration = $song->getDuration();
@@ -217,19 +218,20 @@ class RecordBox {
     public function initForMediaPage($objectId) {
 	global $boxes;
 	$recordBox = new RecordBox();
-	//$recordBox->recordCounter = $boxes['NDB'];
+	$recordBox->recordCounter = $boxes['NDB'];
 	$recordP = new RecordParse();
 	$recordP->where('objectId', $objectId);
 	$recordP->where('active', true);
 	$recordP->whereInclude('fromUser');
 	$recordP->setLimit($this->config->limitRecordForMediaPage);
 	$records = $recordP->getRecords();
-	if (get_class($records) == 'Error') {
+	if ($records instanceof Error) {
 	    return $records;
 	} elseif (is_null($records)) {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
 	    $recordBox->tracklist = $boxes['NOTRACK'];
 	    $recordBox->fromUserInfo = $boxes['NODATA'];
+	    return $recordBox;
 	} else {
 	    foreach ($records as $record) {
 		$buylink = $record->getBuylink();
@@ -249,7 +251,7 @@ class RecordBox {
 		$parseUser->where('active', true);
 		$parseUser->setLimit($this->config->limitFeaturingForMediaPage);
 		$feats = $parseUser->getUsers();
-		if (get_class($feats) == 'Error') {
+		if ($feats instanceof Error) {
 		    return $feats;
 		} elseif (is_null($feats)) {
 		    $featuring = $boxes['NOFEATRECORD'];
@@ -280,7 +282,7 @@ class RecordBox {
 		$parseSong->where('active', true);
 		$parseSong->setLimit($this->config->limitSongsForMediaPage);
 		$songs = $parseSong->getSongs();
-		if (get_class($songs) == 'Error') {
+		if ($songs instanceof Error) {
 		    return $songs;
 		} elseif (is_null($songs)) {
 		    $recordBox->tracklist = $boxes['NOTRACK'];
@@ -320,7 +322,7 @@ class RecordBox {
     public function initForPersonalPage($objectId) {
 	global $boxes;
 	$info = array();
-	//$counter = 0;
+	$counter = 0;
 	$recordBox = new RecordBox();
 	$recordBox->fromUserInfo = $boxes['NDB'];
 	$recordBox->tracklist = $boxes['NDB'];
@@ -330,14 +332,15 @@ class RecordBox {
 	$record->setLimit($this->config->limitRecordForPersonalPage);
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
-	if (get_class($records) == 'Error') {
+	if ($records instanceof Error) {
 	    return $records;
 	} elseif (is_null($records)) {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
 	    $recordBox->recordCounter = $boxes['NODATA'];
+	    return $recordBox;
 	} else {
 	    foreach ($records as $record) {
-		//$counter = ++$counter;
+		$counter = ++$counter;
 		$commentCounter = $record->getCommentCounter();
 		$genre = $record->getGenre();
 		$loveCounter = $record->getLoveCounter();
@@ -352,7 +355,7 @@ class RecordBox {
 		$recordInfo = new RecordInfoForPersonalPage($counters, $genre, $objectId, $songCounter, $thumbnailCover, $title, $year);
 		array_push($info, $recordInfo);
 	    }
-	    //$recordBox->recordCounter = $counter;
+	    $recordBox->recordCounter = $counter;
 	    $recordBox->recordInfoArray = $info;
 	}
 	return $recordBox;
@@ -366,7 +369,7 @@ class RecordBox {
     public function initForUploadRecordPage($objectId) {
 	global $boxes;
 	$info = array();
-	//$counter = 0;
+	$counter = 0;
 	$recordBox = new RecordBox();
 	$recordBox->tracklist = $boxes['NDB'];
 	$recordBox->fromUserInfo = $boxes['NDB'];
@@ -376,21 +379,22 @@ class RecordBox {
 	$record->setLimit($this->config->limitRecordForUploadRecordPage);
 	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
-	if (get_class($records) == 'Error') {
+	if ($records instanceof Error) {
 	    return $records;
 	} elseif (is_null($records)) {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
 	    $recordBox->recordCounter = $boxes['NODATA'];
+	    return $recordBox;
 	} else {
 	    foreach ($records as $record) {
-		//$counter = ++$counter;
+		$counter = ++$counter;
 		$songCounter = $record->getSongCounter();
 		$thumbnailCover = $record->getThumbnailCover();
 		$title = $record->getTitle();
 		$recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
 		array_push($info, $recordInfo);
 	    }
-	    //$recordBox->recordCounter = $counter;
+	    $recordBox->recordCounter = $counter;
 	    $recordBox->recordInfoArray = $info;
 	}
 	return $recordBox;
@@ -405,18 +409,19 @@ class RecordBox {
     public function initForUploadReviewPage($objectId) {
 	global $boxes;
 	$recordBox = new RecordBox();
-	//$recordBox->recordCounter = $boxes['NDB'];
+	$recordBox->recordCounter = $boxes['NDB'];
 	$recordBox->tracklist = $boxes['NDB'];
 	$recordP = new RecordParse();
 	$recordP->where('objectId', $objectId);
 	$recordP->setLimit($this->config->limitRecordForUploadReviewPage);
 	$recordP->whereInclude('fromUser');
 	$records = $recordP->getRecords();
-	if (get_class($records) == 'Error') {
+	if ($records instanceof Error) {
 	    return $records;
 	} elseif (count($records) == 0) {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
 	    $recordBox->fromUserInfo = $boxes['NODATA'];
+	    return $recordBox;
 	} else {
 	    foreach ($records as $record) {
 		$featuring = array();
@@ -425,7 +430,7 @@ class RecordBox {
 		$parseUser->where('active', true);
 		$parseUser->setLimit($this->config->limitFeaturingForUploadReviewPage);
 		$feats = $parseUser->getUsers();
-		if (get_class($feats) == 'Error') {
+		if ($feats instanceof Error) {
 		    return $feats;
 		} elseif (is_null($feats)) {
 		    $featuring = $boxes['NOFEATRECORD'];
