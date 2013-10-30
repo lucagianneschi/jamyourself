@@ -56,7 +56,6 @@
 <script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/mediaCallBox.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
-<script type="text/javascript" src="<?php echo ROOT_DIR; ?>tests/controllers/post/post.js"></script>
 
 <?php
 switch (basename($_SERVER['PHP_SELF'])) {
@@ -76,6 +75,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
     case "profile.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
+		<script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
         <?php
         break;
     case "uploadRecord.php":

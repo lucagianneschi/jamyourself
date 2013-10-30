@@ -12,10 +12,6 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
-
-require_once CONTROLLERS_DIR . 'post.controller.php';
-$controller = new PostController();
-$controller->init();
  
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
@@ -34,15 +30,14 @@ $postCounter = $data['postCounter'];
 
 				<div class="row  ">
 					<div  class="large-12 columns ">
-						<form action="" class="box-write" onsubmit="sendPost(); return false;">
+						<form action="" class="box-write" onsubmit="sendPost('GuUAj83MGH', $('#post').val()); return false;">
 							<div class="">
 								<div class="row  ">
 									<div class="small-9 columns ">
 										<input id="post" type="text" class="post inline" placeholder="<?php echo $views['post']['WRITE'];?>" />
 									</div>
 									<div class="small-3 columns ">
-										
-										<input type="button" id="button-post" class="post-button inline" value="Post" onclick="sendPost()" />
+										<input type="button" id="button-post" class="post-button inline" value="Post" onclick="sendPost('GuUAj83MGH', $('#post').val())" />
 									</div>
 								</div>
 							</div>
