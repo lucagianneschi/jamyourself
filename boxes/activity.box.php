@@ -168,7 +168,7 @@ class ActivityBox {
         $albumUpdated->where('active', true);
         $albumUpdated->orderByDescending('updatedAt');
         $albums = $albumUpdated->getAlbums();
-        if (get_class($albums) == 'Error') {
+        if ($albums instanceof Error) {
             return $albums;
         } elseif (is_null($albums)) {
             $activityBox->albumInfo = $boxes['NODATA'];
@@ -187,7 +187,7 @@ class ActivityBox {
                 $imageP->setLimit($this->config->limitImagesForPersonalPage);
                 $imageP->orderByDescending('updatedAt');
                 $images = $imageP->getImages();
-                if (get_class($images) == 'Error') {
+                if ($images instanceof Error) {
                     return $images;
                 } elseif (is_null($images)) {
                     $imageArray = $boxes['NOIMGS'];
@@ -211,7 +211,7 @@ class ActivityBox {
             $lastSongP->whereInclude('record,record.fromUser,song');
             $lastSongP->orderByDescending('createdAt');
             $activities = $lastSongP->getActivities();
-            if (get_class($activities) == 'Error') {
+            if ($activities instanceof Error) {
                 return $activities;
             } elseif (is_null($activities)) {
                 $activityBox->recordInfo = $boxes['NOLSNGLST'];
@@ -242,7 +242,7 @@ class ActivityBox {
             $lastEventP->whereInclude('event');
             $lastEventP->orderByDescending('createdAt');
             $acts = $lastEventP->getActivities();
-            if (get_class($acts) == 'Error') {
+            if ($acts instanceof Error) {
                 return $acts;
             } elseif (is_null($acts)) {
                 $activityBox->eventInfo = $boxes['NOLSTEVNT'];
