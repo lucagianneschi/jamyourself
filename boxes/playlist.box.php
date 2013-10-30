@@ -72,6 +72,7 @@ class PlaylistBox {
      * \brief	Init Playslist Box instance
      * \param	$objectId
      * \return	playlistBox
+     * \todo    implementare la differenziazione della lunghezza della query in base alla proprety premium dell'utente, usa una variabile in più $premium che deve essere un BOOL
      */
     public function init($objectId) {
 	global $boxes;
