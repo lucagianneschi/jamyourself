@@ -87,7 +87,6 @@ class EventInfoForPersonalPage {
     public $counters;
     public $eventDate;
     public $featuring;
-    public $fromUserInfo;
     public $locationName;
     public $objectId;
     public $tags;
@@ -97,9 +96,9 @@ class EventInfoForPersonalPage {
     /**
      * \fn	__construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title)
      * \brief	construct for the EventInfoForPersonalPage class
-     * \param	$address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $tags, $thumbnail, $title
+     * \param	$address, $city, $counters, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title
      */
-    function __construct($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $objectId, $tags, $thumbnail, $title) {
+    function __construct($address, $city, $counters, $eventDate, $featuring, $locationName, $objectId, $tags, $thumbnail, $title) {
 	global $boxes;
 	global $default_img;
 	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
@@ -107,7 +106,6 @@ class EventInfoForPersonalPage {
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
 	is_null($featuring) ? $this->featuring = $boxes['NOFEATEVE'] : $this->featuring = $featuring;
-	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
@@ -358,7 +356,6 @@ class EventBox {
 			array_push($featuring, $userInfo);
 		    }
 		}
-		$fromUserInfo = null;
 		$encodedLocationName = $event->getLocationName();
 		$locationName = parse_decode_string($encodedLocationName);
 		$objectId = $event->getObjectId();
@@ -372,7 +369,7 @@ class EventBox {
 		$thumbnail = $event->getThumbnail();
 		$encodedTitle = $event->getTitle();
 		$title = parse_decode_string($encodedTitle);
-		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $fromUserInfo, $featuring, $locationName, $objectId, $tags, $thumbnail, $title);
+		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $featuring, $locationName, $objectId, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
 	    }
 	    $eventBox->eventCounter = $counter;
