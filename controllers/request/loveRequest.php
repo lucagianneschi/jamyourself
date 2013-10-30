@@ -16,8 +16,9 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'love.controller.php';
+require_once CLASSES_DIR . 'userParse.class.php';
+session_start();
 
-// Initiate Library
 $controller = new LoveController();
 $controller->processApi();
 ?>

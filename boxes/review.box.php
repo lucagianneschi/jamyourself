@@ -64,8 +64,17 @@ class ReviewInfo {
  */
 class ReviewBox {
 
+    public $config;
     public $reviewArray;
     public $reviewCounter;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/review.config.json"), false);
+    }
 
     /**
      * \fn	initForDetail($objectId)
@@ -74,32 +83,22 @@ class ReviewBox {
      * \return	reviewBox
      * \todo	usare whereInclude per il fromUser per evitare di fare una ulteriore get
      */
-    public function initForDetail($objectId, $className) {//objetId record/event
+    public function initForDetail($objectId) {//objetId record/event
 	global $boxes;
+	$info = array();
 	$reviewBox = new ReviewBox();
 	$reviewBox->reviewCounter = $boxes['NDB'];
-	$info = array();
-
 	$review = new CommentParse();
-	if ($className == 'Event') {
-	    require_once CLASSES_DIR . 'event.class.php';
-	    require_once CLASSES_DIR . 'eventParse.class.php';
-	    $review->where('type', 'RE');
-	    $field = "event";
-	} else {
-	    require_once CLASSES_DIR . 'record.class.php';
-	    require_once CLASSES_DIR . 'recordParse.class.php';
-	    $review->where('type', 'RR');
-	    $field = "record";
-	}
-	$review->wherePointer($field, $className, $objectId);
+	$review->where('objectId',$objectId);
 	$review->where('active', true);
 	$review->whereInclude('fromUser');
-	$review->setLimit(50);
+	$review->setLimit($this->config->limitForDetail);
 	$review->orderByDescending('createdAt');
 	$reviews = $review->getComments();
 	if (get_class($reviews) == 'Error') {
 	    return $reviews;
+	} elseif (count($reviews) == 0) {
+	    $reviewBox->reviewArray = $boxes['NODATA'];
 	} else {
 	    foreach ($reviews as $review) {
 		$userId = $review->getFromUser()->getObjectId();
@@ -123,11 +122,7 @@ class ReviewBox {
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
-	    if (empty($info)) {
-		$reviewBox->reviewArray = $boxes['NODATA'];
-	    } else {
-		$reviewBox->reviewArray = $info;
-	    }
+	    $reviewBox->reviewArray = $info;
 	}
 	return $reviewBox;
     }
@@ -139,32 +134,23 @@ class ReviewBox {
      * \return	reviewBox
      * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
      */
-    public function initForMediaPage($objectId, $className) {
+    public function initForMediaPage($objectId) {
 	global $boxes;
-	$reviewBox = new ReviewBox();
 	$counter = 0;
 	$info = array();
-
+	$reviewBox = new ReviewBox();
 	$review = new CommentParse();
-	if ($className == 'Event') {
-	    require_once CLASSES_DIR . 'event.class.php';
-	    require_once CLASSES_DIR . 'eventParse.class.php';
-	    $review->where('type', 'RE');
-	    $field = "event";
-	} else {
-	    require_once CLASSES_DIR . 'record.class.php';
-	    require_once CLASSES_DIR . 'recordParse.class.php';
-	    $review->where('type', 'RR');
-	    $field = "record";
-	}
-	$review->wherePointer($field, $className, $objectId);
+	$review->where('objectId',$objectId);
 	$review->where('active', true);
 	$review->whereInclude('fromUser');
-	$review->setLimit(50);
+	$review->setLimit($this->config->limitForMediaPage);
 	$review->orderByDescending('createdAt');
 	$reviews = $review->getComments();
 	if (get_class($reviews) == 'Error') {
-	    return $review;
+	    return $reviews;
+	} elseif (count($reviews) == 0) {
+	    $reviewBox->reviewArray = $boxes['NODATA'];
+	    $reviewBox->reviewCounter = $boxes['NODATA'];
 	} else {
 	    foreach ($reviews as $review) {
 		$counter = ++$counter;
@@ -189,11 +175,7 @@ class ReviewBox {
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
-	    if (empty($info)) {
-		$reviewBox->reviewArray = $boxes['NODATA'];
-	    } else {
-		$reviewBox->reviewArray = $info;
-	    }
+	    $reviewBox->reviewArray = $info;
 	    $reviewBox->reviewCounter = $counter;
 	}
 	return $reviewBox;
@@ -207,70 +189,73 @@ class ReviewBox {
      */
     function initForPersonalPage($objectId, $type, $className) {
 	global $boxes;
-	$reviewBox = new ReviewBox();
 	$info = array();
 	$counter = 0;
-	$reviewP = new CommentParse();
-	if ($className == 'Event') {
-	    require_once CLASSES_DIR . 'event.class.php';
-	    require_once CLASSES_DIR . 'eventParse.class.php';
-	    $reviewP->where('type', 'RE');
-	} else {
-	    require_once CLASSES_DIR . 'record.class.php';
-	    require_once CLASSES_DIR . 'recordParse.class.php';
-	    $reviewP->where('type', 'RR');
-	}
 	if ($type == 'SPOTTER') {
 	    $field = 'fromUser';
 	} else {
 	    $field = 'toUser';
 	}
+	$reviewBox = new ReviewBox();
+	$reviewP = new CommentParse();
+	if ($className == 'Event') {
+	    $reviewP->where('type', 'RE');
+	} else {
+	    $reviewP->where('type', 'RR');
+	}
 	$reviewP->wherePointer($field, '_User', $objectId);
 	$reviewP->where('active', true);
-	$reviewP->whereInclude('event,fromUser,record,toUser');
-	$reviewP->setLimit(50);
+	if($type == 'SPOTTER' && $className == 'Event'){
+		$reviewP->whereInclude('event,event.fromUser');
+	} elseif($type == 'SPOTTER' && $className == 'Record'){
+		$reviewP->whereInclude('record,record.fromUser');
+	} elseif($type != 'SPOTTER' && $className == 'Event'){
+			$reviewP->whereInclude('event,fromUser');
+	} else {
+		$reviewP->whereInclude('record,fromUser');
+	}
+	$reviewP->setLimit($this->config->limitForPersonalPage);
 	$reviewP->orderByDescending('createdAt');
 	$reviews = $reviewP->getComments();
 	if (get_class($reviews) == 'Error') {
 	    return $reviews;
+	} elseif (count($reviews) == 0) {
+	    $reviewBox->reviewArray = $boxes['NODATA'];
+	    $reviewBox->reviewCounter = $boxes['NODATA'];
 	} else {
 	    foreach ($reviews as $review) {
-		$counter = ++$counter;
-		$commentCounter = $review->getCommentCounter();
-		$loveCounter = $review->getLoveCounter();
-		$reviewCounter = $boxes['NDB'];
-		$shareCounter = $review->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$objectId = $review->getObjectId();
-		$rating = $review->getVote();
-		$encodedText = $review->getText();
-		$text = parse_decode_string($encodedText);
-		$encodedTitle = $review->getTitle();
-		$title = parse_decode_string($encodedTitle);
-		if ($type == 'VENUE' || $type == 'JAMMER') {
-		    $user = $review->getFromUser();
-		} else {
-		    $user = $review->getToUser();
-		}
-		$userId = $user->getObjectId();
-		$thumbnail = $user->getProfileThumbnail();
-		$type = $user->getType();
-		$encodedUsername = $user->getUsername();
-		$username = parse_decode_string($encodedUsername);
-		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
-		if ($className === 'Event') {
-		    $thumbnailCover = $review->getEvent()->getThumbnail();
-		} else {
-		    $thumbnailCover = $review->getRecord()->getThumbnailCover();
-		}
-		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
-		array_push($info, $reviewInfo);
+			$counter = ++$counter;
+			$commentCounter = $review->getCommentCounter();
+			$loveCounter = $review->getLoveCounter();
+			$reviewCounter = $boxes['NDB'];
+			$shareCounter = $review->getShareCounter();
+			$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+			$reviewId = $review->getObjectId();
+			$rating = $review->getVote();
+			$encodedText = $review->getText();
+			$text = parse_decode_string($encodedText);
+			$encodedTitle = $review->getTitle();
+			$title = parse_decode_string($encodedTitle);
+			
+			if($type == 'SPOTTER'){
+				$fromUserInfo = $boxes['ND'];
+			} else {
+				$userId = $review->getFromUser()->getObjectId();
+				$thumbnail = $review->getFromUser()->getProfileThumbnail();
+				$userType = $review->getFromUser()->getType();
+				$encodedUsername = $review->getFromUser()->getUsername();
+				$username = parse_decode_string($encodedUsername);
+				$fromUserInfo = new UserInfo($userId, $thumbnail, $userType, $username);
+			}
+			// if ($className == 'Event') {
+				// $thumbnailCover = $review->getEvent()->getThumbnail();
+			// } else {
+				// $thumbnailCover = $review->getRecord()->getThumbnailCover();
+			// }
+			$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $reviewId , $rating, $text, $thumbnailCover, $title);
+			array_push($info, $reviewInfo);
 	    }
-	    if (empty($info)) {
-		$reviewBox->reviewArray = $boxes['NODATA'];
-	    } else {
-		$reviewBox->reviewArray = $info;
-	    }
+	    $reviewBox->reviewArray = $info;
 	    $reviewBox->reviewCounter = $counter;
 	}
 	return $reviewBox;

@@ -55,8 +55,17 @@ class SongInfo {
  */
 class PlaylistBox {
 
+    public $config;
     public $name;
     public $tracklist;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
+    }
 
     /**
      * \fn	init($objectId)
@@ -66,32 +75,37 @@ class PlaylistBox {
      */
     public function init($objectId) {
 	global $boxes;
-	$playlistBox = new PlaylistBox();
 	$tracklist = array();
+	$playlistBox = new PlaylistBox();
 	$playlist = new PlaylistParse();
 	$playlist->wherePointer('fromUser', '_User', $objectId);
 	$playlist->where('active', true);
 	$playlist->orderByDescending('createdAt');
-	$playlist->setLimit(1);
+	$playlist->setLimit($this->config->limitForPlaylist);
 	$playlists = $playlist->getPlaylists();
 	if (get_class($playlists) == 'Error') {
 	    return $playlists;
+	} elseif (count($playlists) == 0) {
+	    $playlistBox->tracklist = $boxes['NOTRACK'];
+	    $playlistBox->name = $boxes['NODATA'];
 	} else {
 	    foreach ($playlists as $playlist) {
+		require_once CLASSES_DIR . 'song.class.php';
+		require_once CLASSES_DIR . 'songParse.class.php';
 		$encodedName = $playlist->getName();
 		$name = parse_decode_string($encodedName);
 		$song = new SongParse();
 		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
 		$song->where('active', true);
 		$song->orderByDescending('createdAt');
-		$song->setLimit(50);
+		$song->setLimit($this->config->limitForTracklist);
 		$song->whereInclude('fromUser,record');
 		$songs = $song->getSongs();
 		if (get_class($songs) == 'Error') {
 		    return $songs;
+		} elseif (count($songs) == 0) {
+		    $playlistBox->tracklist = $boxes['NOTRACK'];
 		} else {
-		    require_once CLASSES_DIR . 'song.class.php';
-		    require_once CLASSES_DIR . 'songParse.class.php';
 		    foreach ($songs as $song) {
 			$encodedTitle = $song->getTitle();
 			$title = parse_decode_string($encodedTitle);
@@ -107,14 +121,10 @@ class PlaylistBox {
 		    }
 		}
 	    }
-	    if (empty($tracklist)) {
-		$playlistBox->tracklist = $boxes['NOTRACK'];
-	    } else {
-		$playlistBox->tracklist = $tracklist;
-	    }
+	    $playlistBox->tracklist = $tracklist;
 	    $playlistBox->name = $name;
-	    return $playlistBox;
 	}
+	return $playlistBox;
     }
 
 }

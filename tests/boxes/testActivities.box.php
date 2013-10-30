@@ -25,103 +25,53 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'activity.box.php';
 
-//SPOTTER
-$mari = '1oT7yYrpfZ'; //MARI
-$FLAVYCAP = 'oN7Pcp2lxf'; //FLAVYCAP 
-$Kessingtong = '2OgmANcYaT'; //Kessingtong
-//JAMMER
-$ROSESINBLOOM = 'uMxy47jSjg'; //ROSESINBLOOM
-$Stanis = 'HdqSpIhiXo'; //Stanis
-$LDF = '7fes1RyY77'; //LDF
-//Venue
-$ZonaPlayed = '2K5Lv7qxzw'; //ZonaPlayed  
-$Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
-$jump = 'wrpgRuSgRA'; //jump rock club
-
 $i_end = microtime();
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />-------------------------TEST ACTIVITY BOX-------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX SPOTTER<br />';
-echo '<br />TEST ACTIVITY BOX MARI<br />';
-$activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($mari,"SPOTTER");
-print "<pre>";
-print_r($activityBox);
-print "</pre>";
-echo '<br />TEST ACTIVITY BOX MARI<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX FLAVYCAP<br />';
-$activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($FLAVYCAP,"SPOTTER");
-print "<pre>";
-print_r($activityBox);
-print "</pre>";
-echo '<br />TEST ACTIVITY BOX FLAVYCAP<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX Kessingtong<br />';
-$activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($Kessingtong,"SPOTTER");
-print "<pre>";
-print_r($activityBox);
-print "</pre>";
-echo '<br />TEST ACTIVITY BOX Kessingtong<br />';
-echo '<br />FINE TEST ACTIVITY BOX SPOTTER<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX JAMMER<br />';
-echo '<br />TEST ACTIVITY BOX ROSESINBLOOM<br />';
-$activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($ROSESINBLOOM,"JAMMER");
-print "<pre>";
-print_r($activityBox);
-print "</pre>";
-echo '<br />TEST ACTIVITY BOX ROSESINBLOOM<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX STANIS<br />';
-$activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($Stanis,"JAMMER");
-print "<pre>";
-print_r($activityBox);
-print "</pre>";
-echo '<br />TEST ACTIVITY BOX STANIS<br />';
+//SPOTTER
+$Karl01 = '7wi6AvviK4'; //Karl01
+
+//JAMMER
+$LDF = '7fes1RyY77'; //LDF
+//Venue  
+$Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
+
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ACTIVITY BOX LDF<br />';
+$jammer_start = microtime();
 $activityBoxP = new ActivityBox();
 $activityBox = $activityBoxP->initForPersonalPage($LDF,"JAMMER");
 print "<pre>";
 print_r($activityBox);
 print "</pre>";
+$jammer_stop = microtime();
 echo '<br />TEST ACTIVITY BOX LDF<br />';
-echo '<br /FINE TEST ACTIVITY BOX JAMMER<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br /TEST ACTIVITY BOX VENUE<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX ZonaPlayed<br />';
-$activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($ZonaPlayed,"VENUE");
-print "<pre>";
-print_r($activityBox);
-print "</pre>";
-'<br />TEST ACTIVITY BOX ZonaPlayed<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ACTIVITY BOX Ultrasuono<br />';
-$activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($Ultrasuono,"VENUE");
+$venue_start = microtime();
+$activityBoxP1 = new ActivityBox();
+$activityBox1 = $activityBoxP1->initForPersonalPage($Ultrasuono,"VENUE");
 print "<pre>";
-print_r($activityBox);
+print_r($activityBox1);
 print "</pre>";
+$venue_stop = microtime();
 echo '<br />TEST ACTIVITY BOX Ultrasuono<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX Jump<br />';
-$activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($jump,"VENUE");
+echo '<br />TEST ACTIVITY BOX Karl01<br />';
+$spotter_start = microtime();
+$activityBoxP2 = new ActivityBox();
+$activityBox2 = $activityBoxP2->initForPersonalPage($Karl01,"SPOTTER");
 print "<pre>";
-print_r($activityBox);
+print_r($activityBox2);
 print "</pre>";
-echo '<br />TEST ACTIVITY BOX Jump<br />';
+$spotter_stop = microtime();
+echo '<br />TEST ACTIVITY BOX Karl01<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
+//echo 'Tempo JAMMER ' . executionTime($jammer_start, $jammer_stop) . '<br />';
+//echo 'Tempo VENUE ' . executionTime($venue_start, $venue_stop) . '<br />';
+echo 'Tempo SPOTTER ' . executionTime($spotter_start, $spotter_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
+
+

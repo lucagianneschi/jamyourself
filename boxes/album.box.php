@@ -93,7 +93,16 @@ class AlbumBox {
 
     public $albumInfoArray;
     public $albumCounter;
+    public $config;
     public $imageArray;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/album.config.json"), false);
+    }
 
     /**
      * \fn	initForDetail($objectId)
@@ -109,24 +118,23 @@ class AlbumBox {
 	$albumBox->albumCounter = $boxes['NDB'];
 	$albumBox->albumInfoArray = $boxes['NDB'];
 	$info = array();
-
 	$image = new ImageParse();
 	$image->wherePointer('album', 'Album', $objectId);
 	$image->where('active', true);
-	$image->setLimit(50);
+	$image->setLimit($this->config->limitForDetail);
 	$image->orderByDescending('createdAt');
 	$images = $image->getImages();
 	if (get_class($images) == 'Error') {
 	    return $images;
+	} elseif (count($images) == 0) {
+	    $albumBox->imageArray = $boxes['NODATA'];
 	} else {
 	    foreach ($images as $image) {
-
 		$commentCounter = $image->getCommentCounter();
 		$loveCounter = $image->getLoveCounter();
 		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $image->getShareCounter();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-
 		$encodedDescription = $image->getDescription();
 		$description = parse_decode_string($encodedDescription);
 		$filePath = $image->getFilePath();
@@ -140,15 +148,10 @@ class AlbumBox {
 		    }
 		}
 		$thumbnail = $image->getThumbnail();
-
 		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail);
 		array_push($info, $imageInfo);
 	    }
-	    if (empty($info)) {
-		$albumBox->imageArray = $boxes['NODATA'];
-	    } else {
-		$albumBox->imageArray = $info;
-	    }
+	    $albumBox->imageArray = $info;
 	}
 	return $albumBox;
     }
@@ -165,21 +168,21 @@ class AlbumBox {
 	global $boxes;
 	$albumBox = new AlbumBox();
 	$albumBox->imageArray = $boxes['NDB'];
-
 	$info = array();
 	$counter = 0;
 	$album = new AlbumParse();
 	$album->wherePointer('fromUser', '_User', $objectId);
 	$album->where('active', true);
-	$album->setLimit(1000);
+	$album->setLimit($this->config->limitForPersonalPage);
 	$album->orderByDescending('createdAt');
 	$albums = $album->getAlbums();
 	if (get_class($albums) == 'Error') {
 	    return $albums;
+	} elseif (count($albums) == 0) {
+	    $albumBox->albumInfoArray = $boxes['NODATA'];
 	} else {
 	    foreach ($albums as $album) {
 		$counter = ++$counter;
-
 		$commentCounter = $album->getCommentCounter();
 		$imageCounter = $album->getImageCounter();
 		$loveCounter = $album->getLoveCounter();
@@ -189,16 +192,11 @@ class AlbumBox {
 		$thumbnailCover = $album->getThumbnailCover();
 		$encodedTitle = $album->getTitle();
 		$title = parse_decode_string($encodedTitle);
-
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$albumInfo = new AlbumInfo($counters, $imageCounter, $objectId, $thumbnailCover, $title);
 		array_push($info, $albumInfo);
 	    }
-	    if (empty($info)) {
-		$albumBox->albumInfoArray = $boxes['NODATA'];
-	    } else {
-		$albumBox->albumInfoArray = $info;
-	    }
+	    $albumBox->albumInfoArray = $info;
 	    $albumBox->albumCounter = $counter;
 	}
 	return $albumBox;

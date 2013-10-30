@@ -73,7 +73,7 @@ echo '<br />-------------------------FINE POST EVENT----------------------------
 echo '<br />-------------------------BOX RELATION-------------------------------------------<br />';
 $relation_start = microtime();
 $relationBoxP = new RelationsBox();
-$relationBox = $relationBoxP->initForPersonalPage($objectId, 'JAMMER');
+$relationBox = $relationBoxP->initForPersonalPage($objectId, 'VENUE');
 print "<pre>";
 print_r($relationBox);
 print "</pre>";

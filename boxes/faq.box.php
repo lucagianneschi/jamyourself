@@ -67,33 +67,35 @@ class FaqBox {
      * \return	faqBox
      */
     public function initForFaqPage($limit, $lang, $field, $direction) {
+	global $boxes;
 	$activityBox = new FaqBox();
 	$array = array();
-
 	$faqP = new FaqParse();
 	$faqP->setLimit($limit);
 	$faqP->where('lang', $lang);
 	if ($direction == 'true') {
-		$faqP->orderByAscending($field);
+	    $faqP->orderByAscending($field);
 	} else {
 	    $faqP->orderByDescending($field);
 	}
 	$faqs = $faqP->getFaqs();
 	if (get_class($faqs) == 'Error') {
 	    return $faqs;
+	} elseif (count($faqs) == 0) {
+	    $activityBox->faqArray = $boxes['NODATA'];
 	} else {
 	    foreach ($faqs as $faq) {
-			$answer = parse_decode_string($faq->getAnswer());
-		    $question = parse_decode_string($faq->getQuestion());
-			$area = parse_decode_string($faq->getArea());
-			$position = $faq->getPosition();
-			$tags = array();
-			if (count($faq->getTags()) > 0) {
-				foreach ($faq->getTags() as $tag) {
-					$tag = parse_decode_string($tag);
-					array_push($tags, $tag);
-				}
-			} 
+		$answer = parse_decode_string($faq->getAnswer());
+		$question = parse_decode_string($faq->getQuestion());
+		$area = parse_decode_string($faq->getArea());
+		$position = $faq->getPosition();
+		$tags = array();
+		if (count($faq->getTags()) > 0) {
+		    foreach ($faq->getTags() as $tag) {
+			$tag = parse_decode_string($tag);
+			array_push($tags, $tag);
+		    }
+		}
 		$faqInfo = new FaqInfo($answer, $area, $position, $question, $tags);
 		array_push($array, $faqInfo);
 	    }

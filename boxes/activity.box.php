@@ -24,10 +24,6 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'album.class.php';
 require_once CLASSES_DIR . 'albumParse.class.php';
-require_once CLASSES_DIR . 'image.class.php';
-require_once CLASSES_DIR . 'imageParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
@@ -145,9 +141,18 @@ class RecordInfoForPersonalPage {
 class ActivityBox {
 
     public $albumInfo;
+	public $config;
     public $eventInfo;
     public $recordInfo;
 
+	/**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/activity.config.json"), false);
+    }
+	
     /**
      * \fn	initForPersonalPage($objectId, $type)
      * \brief	Init ActivityBox instance for Personal Page
@@ -157,145 +162,113 @@ class ActivityBox {
     public function initForPersonalPage($objectId, $type) {
 	global $boxes;
 	$activityBox = new ActivityBox();
-
 	$albumUpdated = new AlbumParse();
-	$albumUpdated->setLimit(1);
+	$albumUpdated->setLimit($this->config->limitAlbumForPersonalPage);
 	$albumUpdated->wherePointer('fromUser', '_User', $objectId);
 	$albumUpdated->where('active', true);
 	$albumUpdated->orderByDescending('updatedAt');
 	$albums = $albumUpdated->getAlbums();
 	if (get_class($albums) == 'Error') {
 	    return $albums;
-	} else {
-	    foreach ($albums as $album) {
-		$imageCounter = $album->getImageCounter();
-		$objectId = $album->getObjectId();
-		$encodedTitle = $album->getTitle();
-		$title = parse_decode_string($encodedTitle);
-
-		$imageArray = array();
-		$imageP = new ImageParse();
-		$imageP->wherePointer('album', 'Album', $album->getObjectId());
-		$imageP->where('active', true);
-		$imageP->setLimit(4);
-		$imageP->orderByDescending('updatedAt');
-		$images = $imageP->getImages();
-		if (get_class($images) == 'Error') {
-		    return $images;
-		} else {
-		    foreach ($images as $image) {
-			$thumbnail = $image->getThumbnail();
-			$imageInfo = new ImageInfoForPersonalPage($thumbnail);
-			array_push($imageArray, $imageInfo);
-		    }
-		}
-		if (empty($imageArray)) {
-		    $imageArray = $boxes['NOIMGS'];
-		}
-		$albumInfo = new AlbumInfoForPersonalPage($imageArray, $imageCounter, $objectId, $title);
-	    }
-	    $activityBox->albumInfo = $albumInfo;
+	} elseif(count($albums) == 0){
+			$activityBox->albumInfo = $boxes['NODATA'];
+	}	else {
+			foreach ($albums as $album) {
+				require_once CLASSES_DIR . 'image.class.php';
+				require_once CLASSES_DIR . 'imageParse.class.php';
+				$imageCounter = $album->getImageCounter();
+				$albumId = $album->getObjectId();
+				$encodedTitle = $album->getTitle();
+				$title = parse_decode_string($encodedTitle);
+				$imageArray = array();
+				$imageP = new ImageParse();
+				$imageP->wherePointer('album', 'Album', $albumId);
+				$imageP->where('active', true);
+				$imageP->setLimit($this->config->limitImagesForPersonalPage);
+				$imageP->orderByDescending('updatedAt');
+				$images = $imageP->getImages();
+				if (get_class($images) == 'Error') {
+					return $images;
+				} elseif(count($images) == 0){
+					$imageArray = $boxes['NOIMGS'];
+				}	else {
+					foreach ($images as $image) {
+						$thumbnail = $image->getThumbnail();
+						$imageInfo = new ImageInfoForPersonalPage($thumbnail);
+						array_push($imageArray, $imageInfo);
+					}
+				}
+				$albumInfo = new AlbumInfoForPersonalPage($imageArray, $imageCounter, $albumId, $title);
+			}
 	}
+	$activityBox->albumInfo = $albumInfo;
 	if ($type == 'SPOTTER') {
-	    require_once CLASSES_DIR . 'event.class.php';
-	    require_once CLASSES_DIR . 'eventParse.class.php';
-	    require_once CLASSES_DIR . 'record.class.php';
-	    require_once CLASSES_DIR . 'recordParse.class.php';
-
 	    $lastSongP = new ActivityParse();
-	    $lastSongP->setLimit(1);
 	    $lastSongP->wherePointer('fromUser', '_User', $objectId);
 	    $lastSongP->where('type', 'SONGLISTENED');
 	    $lastSongP->where('active', true);
+		$lastSongP->setLimit($this->config->limitSongListenedForPersonalPage);
+	    $lastSongP->whereInclude('record,record.fromUser,song');
 	    $lastSongP->orderByDescending('createdAt');
-	    $lastSong = $lastSongP->getActivities();
-	    if (get_class($lastSong) == 'Error') {
-		return $lastSong;
-	    } else {
-		foreach ($lastSong as $activity) {
-		    $songId = $activity->getSong();
-		    $songP = new SongParse();
-		    $song = $songP->getSong($songId);
-		    if (get_class($song) == 'Error') {
-			return $song;
-		    } elseif ($song->getActive() == true) {
-			$encodedTitle = $song->getTitle();
-			$songTitle = parse_decode_string($encodedTitle);
-
-			$recordId = $activity->getRecord();
-			$recordP = new RecordParse();
-			$record = $recordP->getRecord($recordId);
-			if (get_class($record) == 'Error') {
-			    return $record;
-			} elseif($record->getActive() == true) {
-			    $thumbnailCover = $record->getThumbnailCover();
-			    $objectId = $record->getObjectId();
-			    $encodedRecTitle = $record->getTitle();
-			    $title = parse_decode_string($encodedRecTitle);
-			    $fromUserId = $record->getFromUser();
-			    $fromUserP = new UserParse();
-			    $user = $fromUserP->getUser($fromUserId);
-			    if (get_class($user) == 'Error') {
-					return $user;
-			    } elseif($user->getActive() == true) {
-				$objectIdUser = $fromUserP->getObjectId();
-				$thumbnail = $user->getProfileThumbnail();
-				$type = $user->getType();
-				$encodedUsername = $user->getUsername();
+	    $activities = $lastSongP->getActivities();
+	    if (get_class($activities) == 'Error') {
+			return $activities;
+	    } elseif (count($activities) == 0) {
+		    $activityBox->recordInfo = $boxes['NOLSNGLST'];
+		} else {
+		    foreach ($activities as $activity) {
+				$encodedTitle = $activity->getSong()->getTitle();
+				$songTitle = parse_decode_string($encodedTitle);
+				$thumbnailCover = $activity->getRecord()->getThumbnailCover();
+				$recordId = $activity->getRecord()->getObjectId();
+				$encodedRecTitle = $activity->getRecord()->getTitle();
+				$title = parse_decode_string($encodedRecTitle);
+				$fromUser = $activity->getRecord()->getFromUser();
+				$objectIdUser = $fromUser->getObjectId();
+				$thumbnail = $fromUser->getProfileThumbnail();
+				$userType = $fromUser->getType();
+				$encodedUsername = $fromUser->getUsername();
 				$username = parse_decode_string($encodedUsername);
-				$fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $type, $username);
-			    }
-			    $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $objectId, $songTitle, $thumbnailCover, $title);
-			}
-		    } else {
-			$recordInfo = $boxes['NOLSNGLST'];
+				$fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $userType, $username);	
 		    }
 		}
-	    }
-	    $activityBox->recordInfo = $recordInfo;
-
+		$recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $recordId, $songTitle, $thumbnailCover, $title);
+		$activityBox->recordInfo = $recordInfo;
 	    $lastEventP = new ActivityParse();
-	    $lastEventP->setLimit(1);
+	    $lastEventP->setLimit($this->config->limitEventConfirmedForPersonalPage);
 	    $lastEventP->wherePointer('fromUser', '_User', $objectId);
 	    $lastEventP->where('type', 'EVENTCONFIRMED');
 	    $lastEventP->where('active', true);
+	    $lastEventP->whereInclude('event');
 	    $lastEventP->orderByDescending('createdAt');
-	    $lastEvent = $lastEventP->getActivities();
-	    if (get_class($lastEvent) == 'Error') {
-		return $lastEvent;
-	    } else {
-		foreach ($lastEvent as $activity) {
-		    $eventId = $activity->getEvent();
-		    $eventP = new EventParse();
-		    $event = $eventP->getEvent($eventId);
-		    if (get_class($event) == 'Error') {
-			return $event;
-		    } elseif ($event->getActive() == true) {
-			$encodedAddress = $event->getAddress();
-			$address = parse_decode_string($encodedAddress);
-			$encodedCity = $event->getCity();
-			$city = parse_decode_string($encodedCity);
-			$eventDate = $event->getEventDate();
-			$encodedLocationName = $event->getLocationName();
-			$locationName = parse_decode_string($encodedLocationName);
-			$thumbnail = $event->getThumbnail();
-			$encodedTitle = $event->getTitle();
-			$title = parse_decode_string($encodedTitle);
-			$objectId = $event->getObjectId();
-			$eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $objectId, $thumbnail, $title);
-		    } else {
-			$eventInfo = $boxes['NOLSTEVNT'];
+	    $acts = $lastEventP->getActivities();
+	    if (get_class($acts) == 'Error') {
+		return $acts;
+	    } elseif(count($acts) == 0){
+		    $activityBox->eventInfo = $boxes['NOLSTEVNT']; 
+		} else {
+		    foreach ($acts as $act) {
+				$encodedAddress = $act->getEvent()->getAddress();
+				$address = parse_decode_string($encodedAddress);
+				$encodedCity = $act->getEvent()->getCity();
+				$city = parse_decode_string($encodedCity);
+				$eventDate = $act->getEvent()->getEventDate();
+				$encodedLocationName = $act->getEvent()->getLocationName();
+				$locationName = parse_decode_string($encodedLocationName);
+				$thumbnail = $act->getEvent()->getThumbnail();
+				$encodedTitle = $act->getEvent()->getTitle();
+				$title = parse_decode_string($encodedTitle);
+				$eventId = $act->getEvent()->getObjectId();
 		    }
-		}
-	    }
-	    $activityBox->eventInfo = $eventInfo;
-	} else {
+			}
+		    $eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $eventId, $thumbnail, $title);
+		    $activityBox->eventInfo = $eventInfo;  			
+	} else{
 	    $activityBox->recordInfo = $boxes['IAL'];
 	    $activityBox->eventInfo = $boxes['IAL'];
-	}
-	return $activityBox;
     }
-
+	return $activityBox;
 }
 
+}
 ?>

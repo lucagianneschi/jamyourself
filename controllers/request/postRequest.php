@@ -17,7 +17,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'post.controller.php';
-
+require_once CLASSES_DIR . 'userParse.class.php';
 session_start();
 
 $controller = new PostController();

@@ -192,6 +192,26 @@ class UserParse {
     }
 
     /**
+     * \fn	void linkSocialAccount($objectId,$sessionToken)
+     * \brief	link social account 
+     * \param	$objectId	the string that represent the objectId of the User
+     * \param	$sessionToken		
+     * \return				the new value of the $field
+     * \return	error		in case of exception
+     */
+    public function linkSocialAccount($objectId,$sessionToken) {
+	try {
+	    $parseObject = new parseObject('_User');
+	    $res = $parseObject->get($objectId);
+	    $user = $this->parseToUser($res);
+	    $parseObject->linkAccounts($objectId,$sessionToken);
+	    return $user;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
+    }
+    
+    /**
      * \fn		User loginUser()
      * \brief	The function returns the User logged by the username or email $usernameEmail and password $password
      * \return	User 	the User logged in
