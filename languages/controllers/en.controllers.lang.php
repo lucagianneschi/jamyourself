@@ -102,7 +102,8 @@ $controllers = array(
     '504' => 'Gateway Timeout',
     '505' => 'HTTP Version Not Supported',
     'NOPOSTREQUEST' => 'Your Request is not a POST Request',
-    'USERNOSES' => 'No User in session'
+    'USERNOSES' => 'No User in session',
+    'SONGADDEDTOPLAYLIST' =>'Song added to playlist'
     );
 
 $mail_files = array(
