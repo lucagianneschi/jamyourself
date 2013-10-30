@@ -58,7 +58,7 @@ class PostBox {
 
     public $config;
     public $postInfoArray;
-    //public $postCounter;
+    public $postCounter;
 
     /**
      * \fn	__construct()
@@ -73,13 +73,13 @@ class PostBox {
      * \brief	Init PostBox instance for Personal Page
      * \param	$objectId for user that owns the page
      * \return	postBox
-     * \todo	usare whereInclude per il fromUser per avere una get in meno
+     * \todo	prevedere la possibilità di avere 5 post alla volta
      */
     public function initForPersonalPage($objectId) {
 	global $boxes;
 	$postBox = new PostBox();
 	$info = array();
-	//$counter = 0;
+	$counter = 0;
 	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
 	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
 	$post = new CommentParse();
@@ -90,11 +90,12 @@ class PostBox {
 	$post->setLimit($this->config->limitForPersonalPage);
 	$post->orderByDescending('createdAt');
 	$posts = $post->getComments();
-	if (get_class($posts) == 'Error') {
+	if ($posts instanceof Error) {
 	    return $posts;
 	} elseif (is_null($posts)) {
 	    $postBox->postInfoArray = $boxes['NODATA'];
-	    //$postBox->postCounter = $boxes['NODATA'];
+	    $postBox->postCounter = $boxes['NODATA'];
+	    return $postBox;
 	} else {
 	    foreach ($posts as $post) {
 		$counter = ++$counter;
@@ -117,7 +118,7 @@ class PostBox {
 		array_push($info, $postInfo);
 	    }
 	    $postBox->postInfoArray = $info;
-	    //$postBox->postCounter = $counter;
+	    $postBox->postCounter = $counter;
 	}
 	return $postBox;
     }
