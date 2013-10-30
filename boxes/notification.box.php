@@ -136,10 +136,11 @@ class NotificationBox {
 	$activity->where('active', true);
 	$activity->whereInclude('fromUser,comment');
 	$messages = $activity->getActivities();
-	if (get_class($messages) == 'Error') {
+	if ($messages instanceof Error) {
 	    return $messages;
 	} elseif (is_null($messages)) {
 	    $notificationBox->messageArray = $boxes['NODATA'];
+	    return $notificationBox;
 	} else {
 	    foreach ($messages as $message) {
 		$createdAt = $message->getCreatedAt();
@@ -179,10 +180,11 @@ class NotificationBox {
 	$activity->setLimit($notificationBox->config->limitForEventList);
 	$activity->whereInclude('fromUser');
 	$invitations = $activity->getActivities();
-	if (get_class($invitations) == 'Error') {
+	if ($invitations instanceof Error) {
 	    return $invitations;
 	} elseif (is_null($invitations)) {
 	    $notificationBox->notificationArray = $boxes['NODATA'];
+	    return $notificationBox;
 	} else {
 	    foreach ($invitations as $invitation) {
 		$createdAt = $invitation->getCreatedAt();
@@ -228,23 +230,23 @@ class NotificationBox {
 	$activity->setLimit($notificationBox->config->limitForRelationList);
 	$activity->whereInclude('fromUser');
 	$relations = $activity->getActivities();
-	if (get_class($relations) == 'Error') {
+	if ($relations instanceof Error) {
 	    return $relations;
 	} elseif (is_null($relations)) {
-		$notificationBox->notificationArray = $boxes['NODATA'];
-	    } else {
-		foreach ($relations as $relation) {
-		    $createdAt = $relation->getCreatedAt();
-		    $objectId = $relation->getFromUser()->getObjectId();
-		    $thumbnail = $relation->getFromUser()->getProfileThumbnail();
-		    $type = $relation->getFromUser()->getType();
-		    $encodedUsername = $relation->getFromUser()->getUsername();
-		    $username = parse_decode_string($encodedUsername);
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		    $notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
-		    array_push($relationArray, $notificationInfo);
-		}
+	    $notificationBox->notificationArray = $boxes['NODATA'];
+	} else {
+	    foreach ($relations as $relation) {
+		$createdAt = $relation->getCreatedAt();
+		$objectId = $relation->getFromUser()->getObjectId();
+		$thumbnail = $relation->getFromUser()->getProfileThumbnail();
+		$type = $relation->getFromUser()->getType();
+		$encodedUsername = $relation->getFromUser()->getUsername();
+		$username = parse_decode_string($encodedUsername);
+		$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
+		array_push($relationArray, $notificationInfo);
 	    }
+	}
 	$notificationBox->notificationArray = $relationArray;
 	return $notificationBox;
     }
