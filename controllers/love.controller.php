@@ -42,25 +42,26 @@ class LoveController extends REST {
         #TODO
         //in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
         //questa sezione prima del try-catch dovr� sparire
-        require_once CLASSES_DIR . 'user.class.php';
-        $currentUser = new User('SPOTTER');
-        $currentUser->setObjectId('GuUAj83MGH');
-
+//        require_once CLASSES_DIR . 'user.class.php';
+//        $currentUser = new User('SPOTTER');
+//        $currentUser->setObjectId('GuUAj83MGH');
         try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
-            $objectId = $_REQUEST['objectId'];
-            $classType = $_REQUEST['classType'];
-
+            $objectId = $this->request['objectId'];
+            $classType = $this->request['classType'];
+            $fromUser = $this->request['currentUser'];
+            //$toUser = $this->request['toUser'];
             $activity = new Activity();
             $activity->setActive(true);
             $activity->setCounter(0);
-            $activity->setFromUser($currentUser->getObjectId());
-            $activity->setRead(true);
+            $activity->setFromUser($fromUser->getObjectId());
+            $activity->setRead(false);
             $activity->setStatus("A");
-
+            $activity->setQuestion(null);
             switch ($classType) {
                 case 'Album':
                     require_once CLASSES_DIR . 'albumParse.class.php';
@@ -68,8 +69,6 @@ class LoveController extends REST {
                     $res = $albumParse->incrementAlbum($objectId, 'loveCounter', 1);
                     $activity->setAlbum($objectId);
                     $activity->setType("LOVEDALBUM");
-                    //$album = $albumParse->getAlbum($objectId);
-                    //$activity->setToUser($album->getFromUser());
                     break;
                 case 'Comment':
                     require_once CLASSES_DIR . 'commentParse.class.php';
@@ -77,8 +76,6 @@ class LoveController extends REST {
                     $res = $commentParse->incrementComment($objectId, 'loveCounter', 1);
                     $activity->setComment($objectId);
                     $activity->setType("LOVEDCOMMENT");
-                    //$comment = $commentParse->getComment($objectId);
-                    //$activity->setToUser($comment->getFromUser());
                     break;
                 case 'Event':
                     require_once CLASSES_DIR . 'eventParse.class.php';
@@ -86,8 +83,6 @@ class LoveController extends REST {
                     $res = $eventParse->incrementEvent($objectId, 'loveCounter', 1);
                     $activity->setEvent($objectId);
                     $activity->setType("LOVEDEVENT");
-                    //$event = $eventParse->getEvent($objectId);
-                    //$activity->setToUser($event->getFromUser());
                     break;
                 case 'Image':
                     require_once CLASSES_DIR . 'imageParse.class.php';
@@ -95,8 +90,6 @@ class LoveController extends REST {
                     $res = $imageParse->incrementImage($objectId, 'loveCounter', 1);
                     $activity->setImage($objectId);
                     $activity->setType("LOVEDIMAGE");
-                    //$image = $imageParse->getEvent($objectId);
-                    //$activity->setToUser($image->getFromUser());
                     break;
                 case 'Record':
                     require_once CLASSES_DIR . 'recordParse.class.php';
@@ -104,8 +97,6 @@ class LoveController extends REST {
                     $res = $recordParse->incrementRecord($objectId, 'loveCounter', 1);
                     $activity->setRecord($objectId);
                     $activity->setType("LOVEDRECORD");
-                    //$record = $recordParse->getRecord($objectId);
-                    //$activity->setToUser($record->getFromUser());
                     break;
                 case 'Song':
                     require_once CLASSES_DIR . 'songParse.class.php';
@@ -113,8 +104,6 @@ class LoveController extends REST {
                     $res = $songParse->incrementSong($objectId, 'loveCounter', 1);
                     $activity->setSong($objectId);
                     $activity->setType("LOVEDSONG");
-                    //$song = $songParse->getSong($objectId);
-                    //$activity->setToUser($song->getFromUser());
                     break;
                 case 'Status':
                     require_once CLASSES_DIR . 'statusParse.class.php';
@@ -122,8 +111,6 @@ class LoveController extends REST {
                     $res = $statusParse->incrementStatus($objectId, 'loveCounter', 1);
                     $activity->setUserStatus($objectId);
                     $activity->setType("LOVEDSTATUS");
-                    //$status = $statusParse->getStatus($objectId);
-                    //$activity->setToUser($status->getFromUser());
                     break;
                 case 'Video':
                     require_once CLASSES_DIR . 'videoParse.class.php';
@@ -131,25 +118,20 @@ class LoveController extends REST {
                     $res = $videoParse->incrementVideo($objectId, 'loveCounter', 1);
                     $activity->setType("LOVEDVIDEO");
                     $activity->setVideo($objectId);
-                    //$video = $videoParse->getVideo($objectId);
-                    //$activity->setToUser($video->getFromUser());
                     break;
             }
-
             if (get_class($res) == 'Error') {
                 $this->response(array($controllers['LOVEPLUSERR']), 503);
             } else {
-                //salvo activity
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
                 if (get_class($resActivity) == 'Error') {
                     $this->rollback($classType, $objectId, 'decrement');
                 }
             }
-            //risposta
-            $this->response(array($res), 200);
+            $this->response(array($activity->getType()), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
@@ -164,27 +146,28 @@ class LoveController extends REST {
         #TODO
         //in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
         //questa sezione prima del try-catch dovr� sparire
-        require_once CLASSES_DIR . 'user.class.php';
-        $currentUser = new User('SPOTTER');
-        $currentUser->setObjectId('GuUAj83MGH');
+//        require_once CLASSES_DIR . 'user.class.php';
+//        $currentUser = new User('SPOTTER');
+//        $currentUser->setObjectId('GuUAj83MGH');
 
         try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
-
-            $objectId = $_REQUEST['objectId'];
-            $classType = $_REQUEST['classType'];
-
+            $objectId = $this->request['objectId'];
+            $classType = $this->request['classType'];
+            $fromUser = $this->request['currentUser'];
+            //$toUser = $this->request['toUser'];
             $activity = new Activity();
             $activity->setAccepted(true);
             $activity->setActive(true);
             $activity->setCounter(0);
-            $activity->setFromUser($currentUser->getObjectId());
+            $activity->setFromUser($fromUser->getObjectId());
             $activity->setRead(true);
             $activity->setStatus("A");
-
+            $activity->setQuestion(null);
             switch ($classType) {
                 case 'Album':
                     require_once CLASSES_DIR . 'albumParse.class.php';
@@ -192,8 +175,6 @@ class LoveController extends REST {
                     $res = $albumParse->decrementAlbum($objectId, 'loveCounter', 1);
                     $activity->setAlbum($objectId);
                     $activity->setType("UNLOVEDALBUM");
-                    //$album = $albumParse->getAlbum($objectId);
-                    //$activity->setToUser($album->getFromUser());
                     break;
                 case 'Comment':
                     require_once CLASSES_DIR . 'commentParse.class.php';
@@ -201,8 +182,6 @@ class LoveController extends REST {
                     $res = $commentParse->decrementComment($objectId, 'loveCounter', 1);
                     $activity->setComment($objectId);
                     $activity->setType("UNLOVEDCOMMENT");
-                    //$comment = $commentParse->getComment($objectId);
-                    //$activity->setToUser($comment->getFromUser());
                     break;
                 case 'Event':
                     require_once CLASSES_DIR . 'eventParse.class.php';
@@ -210,8 +189,6 @@ class LoveController extends REST {
                     $res = $eventParse->decrementEvent($objectId, 'loveCounter', 1);
                     $activity->setEvent($objectId);
                     $activity->setType("UNLOVEDEVENT");
-                    //$event = $eventParse->getEvent($objectId);
-                    //$activity->setToUser($event->getFromUser());
                     break;
                 case 'Image':
                     require_once CLASSES_DIR . 'imageParse.class.php';
@@ -219,8 +196,6 @@ class LoveController extends REST {
                     $res = $imageParse->decrementImage($objectId, 'loveCounter', 1);
                     $activity->setImage($objectId);
                     $activity->setType("UNLOVEDIMAGE");
-                    //$image = $imageParse->getEvent($objectId);
-                    //$activity->setToUser($image->getFromUser());
                     break;
                 case 'Record':
                     require_once CLASSES_DIR . 'recordParse.class.php';
@@ -228,8 +203,6 @@ class LoveController extends REST {
                     $res = $recordParse->decrementRecord($objectId, 'loveCounter', 1);
                     $activity->setRecord($objectId);
                     $activity->setType("UNLOVEDRECORD");
-                    //$record = $recordParse->getRecord($objectId);
-                    //$activity->setToUser($record->getFromUser());
                     break;
                 case 'Song':
                     require_once CLASSES_DIR . 'songParse.class.php';
@@ -237,8 +210,6 @@ class LoveController extends REST {
                     $res = $songParse->decrementSong($objectId, 'loveCounter', 1);
                     $activity->setSong($objectId);
                     $activity->setType("UNLOVEDSONG");
-                    //$song = $songParse->getSong($objectId);
-                    //$activity->setToUser($song->getFromUser());
                     break;
                 case 'Status':
                     require_once CLASSES_DIR . 'statusParse.class.php';
@@ -246,8 +217,6 @@ class LoveController extends REST {
                     $res = $statusParse->decrementStatus($objectId, 'loveCounter', 1);
                     $activity->setUserStatus($objectId);
                     $activity->setType("UNLOVEDSTATUS");
-                    //$status = $statusParse->getStatus($objectId);
-                    //$activity->setToUser($status->getFromUser());
                     break;
                 case 'Video':
                     require_once CLASSES_DIR . 'videoParse.class.php';
@@ -255,25 +224,20 @@ class LoveController extends REST {
                     $res = $videoParse->decrementVideo($objectId, 'loveCounter', 1);
                     $activity->setType("UNLOVEDVIDEO");
                     $activity->setVideo($objectId);
-                    //$video = $videoParse->getVideo($objectId);
-                    //$activity->setToUser($video->getFromUser());
                     break;
             }
-
             if (get_class($res) == 'Error') {
                 $this->response(array($controllers['LOVEMINUSERR']), 503);
             } else {
-                //salvo activity
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
                 if (get_class($resActivity) == 'Error') {
                     $this->rollback($classType, $objectId, 'increment');
                 }
             }
-            //risposta
-            $this->response(array($res), 200);
+            $this->response(array($activity->getType()), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 

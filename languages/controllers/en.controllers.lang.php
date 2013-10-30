@@ -103,7 +103,18 @@ $controllers = array(
     '505' => 'HTTP Version Not Supported',
     'NOPOSTREQUEST' => 'Your Request is not a POST Request',
     'USERNOSES' => 'No User in session',
-    'SONGADDEDTOPLAYLIST' =>'Song added to playlist'
+    'SONGADDEDTOPLAYLIST' =>'Song added to playlist',
+    'SONGREMOVEDFROMPLAYLIST' =>'Song removed from playlist',
+    'NOVIDEOFORDELETE' =>'Video not found for delete',
+    'NOSTATUSFORDELETE' =>'Status not found for delete',
+    'NOSONGFORDELETE' =>'Song not found for delete',
+    'NORECORDFORDELETE' =>'Record not found for delete',
+    'NOPLAYLISTFORDELETE' =>'Playlist not found for delete',
+    'NOPLAYLISTFORDELETE' =>'Image not found for delete',
+    'NOEVENTFORDELETE' =>'Event not found for delete',
+    'NOCOMMENTFORDELETE' =>'Comment or Review not found for delete',
+    'NOALBUMFORDELETE' =>'Album not found for delete',
+    'NOACTIVITYFORDELETE' =>'Activity not found for delete'
     );
 
 $mail_files = array(
