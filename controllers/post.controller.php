@@ -57,9 +57,9 @@ class PostController extends REST {
 		try {
             //controllo la richiesta
             if ($this->get_request_method() != "POST") {
-                $this->response(array('status' => 'La richiesta non è di tipo POST'), 405);
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($_SESSION['currentUser'])) {
-                $this->response(array('status' => 'Non esiste nessun utente in SESSION'), 403);
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
 			
             //controllo i parametri

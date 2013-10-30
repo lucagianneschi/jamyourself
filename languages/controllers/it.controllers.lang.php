@@ -100,7 +100,9 @@ $controllers = array(
     '502' => 'Gateway Non Valido',
     '503' => 'Servizio Non Disponibile',
     '504' => 'Gateway Timeout',
-    '505' => 'Versione HTTP Non Supportata'
+    '505' => 'Versione HTTP Non Supportata',
+    'NOPOSTREQUEST' => 'La tua richiesta non è di tipo POST',
+    'USERNOSES' => 'Non esiste nessun utente in SESSION'
 );
 
 $mail_files = array(
