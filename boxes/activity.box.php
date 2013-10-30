@@ -170,7 +170,7 @@ class ActivityBox {
         $albums = $albumUpdated->getAlbums();
         if (get_class($albums) == 'Error') {
             return $albums;
-        } elseif (count($albums) == 0) {
+        } elseif (is_null($albums)) {
             $activityBox->albumInfo = $boxes['NODATA'];
         } else {
             foreach ($albums as $album) {
@@ -189,7 +189,7 @@ class ActivityBox {
                 $images = $imageP->getImages();
                 if (get_class($images) == 'Error') {
                     return $images;
-                } elseif (count($images) == 0) {
+                } elseif (is_null($images)) {
                     $imageArray = $boxes['NOIMGS'];
                 } else {
                     foreach ($images as $image) {
@@ -213,7 +213,7 @@ class ActivityBox {
             $activities = $lastSongP->getActivities();
             if (get_class($activities) == 'Error') {
                 return $activities;
-            } elseif (count($activities) == 0) {
+            } elseif (is_null($activities)) {
                 $activityBox->recordInfo = $boxes['NOLSNGLST'];
             } else {
                 foreach ($activities as $activity) {
@@ -244,7 +244,7 @@ class ActivityBox {
             $acts = $lastEventP->getActivities();
             if (get_class($acts) == 'Error') {
                 return $acts;
-            } elseif (count($acts) == 0) {
+            } elseif (is_null($acts)) {
                 $activityBox->eventInfo = $boxes['NOLSTEVNT'];
             } else {
                 foreach ($acts as $act) {
