@@ -100,7 +100,10 @@ $controllers = array(
     '502' => 'Bad Gateway',
     '503' => 'Service Unavailable',
     '504' => 'Gateway Timeout',
-    '505' => 'HTTP Version Not Supported');
+    '505' => 'HTTP Version Not Supported',
+    'NOPOSTREQUEST' => 'Your Request is not a POST Request',
+    'USERNOSES' => 'No User in session'
+    );
 
 $mail_files = array(
     'USERDELETED' => 'en.userDeletion.html',

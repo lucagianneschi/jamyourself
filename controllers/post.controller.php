@@ -26,6 +26,7 @@ require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CONTROLLERS_DIR . 'utilsController.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once CLASSES_DIR . 'userParse.class.php';
 require_once DEBUG_DIR . 'debug.php';
 
 /**
@@ -51,40 +52,33 @@ class PostController extends REST {
      * \todo    usare la sessione
      */
     public function post() {
-
-        global $controllers;
-
-        #TODO
-        //in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
-        //questa sezione prima del try-catch dovr� sparire
-        require_once CLASSES_DIR . 'user.class.php';
-        $fromUser = new User('SPOTTER');
-        $fromUser->setObjectId('GuUAj83MGH');
-
-        try {
+		global $controllers;
+		
+		try {
             //controllo la richiesta
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
             if ($this->get_request_method() != "POST") {
-                $this->response('', 406);
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
-
+			
             //controllo i parametri
-            if (!isset($this->request['text'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOPOST']), 400);
+            if (!isset($this->request['post'])) {
+                $this->response(array('status' => $controllers['NOPOST']), 400);
             } elseif (!isset($this->request['toUser'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
+                $this->response(array('status' => $controllers['NOTOUSER']), 403);
             }
 
             //recupero gli utenti fromUser e toUser
-            //$fromUser = $_SESSION['currentUser'];
+            $fromUser = $_SESSION['currentUser'];
             $toUserObjectId = $this->request['toUser'];
-
-            //recupero e controllo il post
-            $text = $_REQUEST['text'];
-            if (strlen($text) < $this->config->minPostSize) {
-                $this->response(array($controllers['SHORTPOST'] . strlen($text)), 400);
-            } elseif (strlen($text) > $this->config->maxPostSize) {
-                $this->response(array($controllers['LONGPOST'] . strlen($text)), 400);
+			
+			//recupero e controllo il post
+            $post = $_REQUEST['post'];
+            if (strlen($post) < $this->config->minPostSize) {
+				$this->response(array('status' => $controllers['SHORTPOST'] . strlen($post)), 406);
+            } elseif (strlen($post) > $this->config->maxPostSize) {
+                $this->response(array('status' => $controllers['LONGPOST'] . strlen($post)), 406);
             }
 
             //imposto i valori per il salvataggio del post
@@ -97,11 +91,7 @@ class PostController extends REST {
             $cmt->setComments(null);
             $cmt->setCounter(0);
             $cmt->setEvent(null);
-
-            #TODO
-            //$cmt->setFromUser($currentUser->getObjectId());
             $cmt->setFromUser($fromUser->getObjectId());
-
             $cmt->setImage(null);
             $cmt->setLocation(null);
             $cmt->setLoveCounter(0);
@@ -112,7 +102,7 @@ class PostController extends REST {
             $cmt->setStatus(null);
             $cmt->setTags(null);
             $cmt->setTitle(null);
-            $encodedText = parse_encode_string($text);
+            $encodedText = parse_encode_string($post);
             $cmt->setText($encodedText);
             $cmt->setToUser($toUserObjectId);
             $cmt->setType('P');
@@ -126,12 +116,8 @@ class PostController extends REST {
             $activity->setComment(null);
             $activity->setCounter(0);
             $activity->setEvent(null);
-
-            #TODO
-            //$activity->setFromUser($currentUser);
-            $activity->setFromUser($fromUser->getObjectId());
-
-            $activity->setImage(null);
+			$activity->setFromUser($fromUser->getObjectId());
+			$activity->setImage(null);
             $activity->setPlaylist(null);
             $activity->setQuestion(null);
             $activity->setRead(false);
@@ -147,7 +133,7 @@ class PostController extends REST {
             $commentParse = new CommentParse();
             $resCmt = $commentParse->saveComment($cmt);
             if (get_class($resCmt) == 'Error') {
-                $this->response(array($resCmt), 503);
+                $this->response(array('status' => $resCmt->getMessageError()), 503);
             } else {
                 //salvo activity
                 $activityParse = new ActivityParse();
@@ -156,22 +142,21 @@ class PostController extends REST {
                     $this->rollback($resCmt->getObjectId());
                 }
             }
-            $this->response(array($controllers['POSTSAVED']), 200);
+            $this->response(array('status' => $controllers['POSTSAVED']), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
     private function rollback($objectId) {
-
         global $controllers;
 
         $commentParse = new CommentParse();
         $res = $commentParse->deleteComment($objectId);
         if (get_class($res) == 'Error') {
-            $this->response(array($controllers['ROLLKO']), 503);
+            $this->response(array('status' => $controllers['ROLLKO']), 503);
         } else {
-            $this->response(array($controllers['ROLLOK']), 503);
+            $this->response(array('status' => $controllers['ROLLOK']), 503);
         }
     }
 
