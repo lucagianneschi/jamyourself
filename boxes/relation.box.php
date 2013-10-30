@@ -57,7 +57,7 @@ class RelationsBox {
 	    $followings = $activityFollowing->getActivities();
 	    if (get_class($followings) == 'Error') {
 		return $followings;
-	    } elseif (count($followings) == 0) {
+	    } elseif (is_null($followings)) {
 		$followingArray = $boxes['NOFOLLOWING'];
 	    } else {
 		foreach ($followings as $following) {
@@ -81,7 +81,7 @@ class RelationsBox {
 	    $friendships = $activityFriendship->getActivities();
 	    if (get_class($friendships) == 'Error') {
 		return $friendships;
-	    } elseif (count($friendships) == 0) {
+	    } elseif (is_null($friendships)) {
 		$friendshipArray = $boxes['NOFRIENDS'];
 	    } else {
 		foreach ($friendships as $friendship) {
@@ -106,7 +106,7 @@ class RelationsBox {
 	    $collaborators = $collaboratorVenue->getUsers();
 	    if (get_class($collaborators) == 'Error') {
 		return $collaborators;
-	    } elseif (count($collaborators) == 0) {
+	    } elseif (is_null($collaborators)) {
 		$venuesArray = $boxes['NOVENUE'];
 		$jammersArray = $boxes['NOJAMMER'];
 	    } else {
@@ -134,7 +134,7 @@ class RelationsBox {
 	    $followers = $following->getActivities();
 	    if (get_class($followers) == 'Error') {
 		return $followers;
-	    } elseif (count($followers) == 0) {
+	    } elseif (is_null($followers)) {
 		$followersArray = $boxes['NOFOLLOWERS'];
 	    } else {
 		foreach ($followers as $follower) {
