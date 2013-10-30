@@ -81,7 +81,7 @@ class FaqBox {
 	$faqs = $faqP->getFaqs();
 	if (get_class($faqs) == 'Error') {
 	    return $faqs;
-	} elseif (count($faqs) == 0) {
+	} elseif (is_null($faqs)) {
 	    $activityBox->faqArray = $boxes['NODATA'];
 	} else {
 	    foreach ($faqs as $faq) {
