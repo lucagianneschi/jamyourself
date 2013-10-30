@@ -75,8 +75,8 @@ class CommentBox {
      */
     public function init($className, $objectId) {
 	global $boxes;
-	$commentBox = new CommentBox();
 	$info = array();
+	$commentBox = new CommentBox();
 	$commentP = new CommentParse();
 	switch ($className) {
 	    case 'Album':
@@ -114,10 +114,11 @@ class CommentBox {
 	$commentP->whereInclude('fromUser');
 	$commentP->orderByAscending('createdAt');
 	$comments = $commentP->getComments();
-	if (get_class($comments) == 'Error') {
+	if ($comments instanceof Error) {
 	    return $comments;
 	} elseif (is_null($comments)) {
 	    $commentBox->commentInfoArray = $boxes['NODATA'];
+	    return $commentBox;
 	} else {
 	    foreach ($comments as $comment) {
 		$createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
