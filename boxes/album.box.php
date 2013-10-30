@@ -126,7 +126,7 @@ class AlbumBox {
 	$images = $image->getImages();
 	if (get_class($images) == 'Error') {
 	    return $images;
-	} elseif (count($images) == 0) {
+	} elseif (is_null($images)) {
 	    $albumBox->imageArray = $boxes['NODATA'];
 	} else {
 	    foreach ($images as $image) {
@@ -178,7 +178,7 @@ class AlbumBox {
 	$albums = $album->getAlbums();
 	if (get_class($albums) == 'Error') {
 	    return $albums;
-	} elseif (count($albums) == 0) {
+	} elseif (is_null($albums)) {
 	    $albumBox->albumInfoArray = $boxes['NODATA'];
 	} else {
 	    foreach ($albums as $album) {
