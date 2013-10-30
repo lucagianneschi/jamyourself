@@ -8,11 +8,12 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 
 //esempio: objectId dell'utente collegato 
-$correntUser = "GuUAj83MGH";
+$objectIdCurrentUser = "GuUAj83MGH";
+$typeCurrentUser = $_GET['typeCurrentUser'];
 
 //esempio: objectId dell'utente a cui si vuole vedere il profilo 
-$profileUser = $_GET['objectIdProfile'];
-$correntUserType = $_GET['typeCurrent'];
+$objectIdUser = $_GET['objectIdUser'];
+
 
 ?>
 <!DOCTYPE html>
@@ -48,14 +49,15 @@ $correntUserType = $_GET['typeCurrent'];
         
         <script type="text/javascript">
         	//carica i box partendo da userInfo        	
-    		callBox.objectIdUser = '<?php echo $profileUser; ?>';
-    		callBox.objectIdCurrentUser = '<?php echo $correntUser; ?>';
-			callBox.typeCurrentUser = '<?php echo $correntUserType; ?>';			
+    		callBox.objectIdUser = '<?php echo $objectIdUser; ?>';
+    		callBox.objectIdCurrentUser = '<?php echo $objectIdCurrentUser; ?>';
+			callBox.typeCurrentUser = '<?php echo $typeCurrentUser; ?>';			
 			
 			callBox.load('userinfo');
 			
-			callBox.load('header');
-			
+			//CARICAMENTO HEADER
+			headerCallBox.objectIdCurrentUser = 'GuUAj83MGH';
+			headerCallBox.load('header');
 			
 			
         </script>
