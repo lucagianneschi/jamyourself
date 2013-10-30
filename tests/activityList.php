@@ -251,7 +251,12 @@ $activities = array(
         'type' => 'INVITED',
         'action' => 'Utente viene invitato ad event',
         'file' => array('notification.box.php')
-    ) 
+    ),
+    array(
+        'type' => 'CREATEDRECORD',
+        'action' => 'Creata istanza classe Record',
+        'file' => array('uploadRecord.controller.php')
+    ),    
 );
 echo "<h2> Elenco Activities</h2>";
 echo "<pre>";
