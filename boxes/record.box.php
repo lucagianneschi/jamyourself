@@ -157,7 +157,7 @@ class RecordBox {
 
     public $config;
     public $fromUserInfo;
-    //public $recordCounter;
+    public $recordCounter;
     public $recordInfoArray;
     public $tracklist;
 
@@ -178,7 +178,7 @@ class RecordBox {
 	global $boxes;
 	$recordBox = new RecordBox();
 	$recordBox->fromUserInfo = $boxes['NDB'];
-	//$recordBox->recordCounter = $boxes['NDB'];
+	$recordBox->recordCounter = $boxes['NDB'];
 	$recordBox->recordInfoArray = $boxes['NDB'];
 	$tracklist = array();
 	$song = new SongParse();
@@ -188,7 +188,7 @@ class RecordBox {
 	$songs = $song->getSongs();
 	if (get_class($songs) == 'Error') {
 	    return $songs;
-	} elseif (is_null($songs)) {
+	} elseif (count($songs) == 0) {
 	    $recordBox->tracklist = $boxes['NOTRACK'];
 	} else {
 	    foreach ($songs as $song) {
@@ -217,7 +217,7 @@ class RecordBox {
     public function initForMediaPage($objectId) {
 	global $boxes;
 	$recordBox = new RecordBox();
-	//$recordBox->recordCounter = $boxes['NDB'];
+	$recordBox->recordCounter = $boxes['NDB'];
 	$recordP = new RecordParse();
 	$recordP->where('objectId', $objectId);
 	$recordP->where('active', true);
@@ -226,7 +226,7 @@ class RecordBox {
 	$records = $recordP->getRecords();
 	if (get_class($records) == 'Error') {
 	    return $records;
-	} elseif (is_null($records)) {
+	} elseif (count($records) == 0) {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
 	    $recordBox->tracklist = $boxes['NOTRACK'];
 	    $recordBox->fromUserInfo = $boxes['NODATA'];
@@ -251,7 +251,7 @@ class RecordBox {
 		$feats = $parseUser->getUsers();
 		if (get_class($feats) == 'Error') {
 		    return $feats;
-		} elseif (is_null($feats)) {
+		} elseif (count($feats) == 0) {
 		    $featuring = $boxes['NOFEATRECORD'];
 		} else {
 		    foreach ($feats as $user) {
@@ -282,7 +282,7 @@ class RecordBox {
 		$songs = $parseSong->getSongs();
 		if (get_class($songs) == 'Error') {
 		    return $songs;
-		} elseif (is_null($songs)) {
+		} elseif (count($songs) == 0) {
 		    $recordBox->tracklist = $boxes['NOTRACK'];
 		} else {
 		    foreach ($songs as $song) {
@@ -320,7 +320,7 @@ class RecordBox {
     public function initForPersonalPage($objectId) {
 	global $boxes;
 	$info = array();
-	//$counter = 0;
+	$counter = 0;
 	$recordBox = new RecordBox();
 	$recordBox->fromUserInfo = $boxes['NDB'];
 	$recordBox->tracklist = $boxes['NDB'];
@@ -332,12 +332,12 @@ class RecordBox {
 	$records = $record->getRecords();
 	if (get_class($records) == 'Error') {
 	    return $records;
-	} elseif (is_null($records)) {
+	} elseif (count($records) == 0) {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
-	    //$recordBox->recordCounter = $boxes['NODATA'];
+	    $recordBox->recordCounter = $boxes['NODATA'];
 	} else {
 	    foreach ($records as $record) {
-		//$counter = ++$counter;
+		$counter = ++$counter;
 		$commentCounter = $record->getCommentCounter();
 		$genre = $record->getGenre();
 		$loveCounter = $record->getLoveCounter();
@@ -352,7 +352,7 @@ class RecordBox {
 		$recordInfo = new RecordInfoForPersonalPage($counters, $genre, $objectId, $songCounter, $thumbnailCover, $title, $year);
 		array_push($info, $recordInfo);
 	    }
-	    //$recordBox->recordCounter = $counter;
+	    $recordBox->recordCounter = $counter;
 	    $recordBox->recordInfoArray = $info;
 	}
 	return $recordBox;
@@ -366,7 +366,7 @@ class RecordBox {
     public function initForUploadRecordPage($objectId) {
 	global $boxes;
 	$info = array();
-	//$counter = 0;
+	$counter = 0;
 	$recordBox = new RecordBox();
 	$recordBox->tracklist = $boxes['NDB'];
 	$recordBox->fromUserInfo = $boxes['NDB'];
@@ -378,9 +378,9 @@ class RecordBox {
 	$records = $record->getRecords();
 	if (get_class($records) == 'Error') {
 	    return $records;
-	} elseif (is_null($records)) {
+	} elseif (count($records) == 0) {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
-	    //$recordBox->recordCounter = $boxes['NODATA'];
+	    $recordBox->recordCounter = $boxes['NODATA'];
 	} else {
 	    foreach ($records as $record) {
 		$counter = ++$counter;
@@ -390,7 +390,7 @@ class RecordBox {
 		$recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
 		array_push($info, $recordInfo);
 	    }
-	    //$recordBox->recordCounter = $counter;
+	    $recordBox->recordCounter = $counter;
 	    $recordBox->recordInfoArray = $info;
 	}
 	return $recordBox;
@@ -414,7 +414,7 @@ class RecordBox {
 	$records = $recordP->getRecords();
 	if (get_class($records) == 'Error') {
 	    return $records;
-	} elseif (is_null($records)) {
+	} elseif (count($records) == 0) {
 	    $recordBox->recordInfoArray = $boxes['NODATA'];
 	    $recordBox->fromUserInfo = $boxes['NODATA'];
 	} else {
@@ -427,7 +427,7 @@ class RecordBox {
 		$feats = $parseUser->getUsers();
 		if (get_class($feats) == 'Error') {
 		    return $feats;
-		} elseif (is_null($feats)) {
+		} elseif (count($feats) == 0) {
 		    $featuring = $boxes['NOFEATRECORD'];
 		} else {
 		    foreach ($feats as $user) {
