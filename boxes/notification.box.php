@@ -138,7 +138,7 @@ class NotificationBox {
 	$messages = $activity->getActivities();
 	if (get_class($messages) == 'Error') {
 	    return $messages;
-	} elseif (count($messages) == 0) {
+	} elseif (is_null($messages)) {
 	    $notificationBox->messageArray = $boxes['NODATA'];
 	} else {
 	    foreach ($messages as $message) {
@@ -181,7 +181,7 @@ class NotificationBox {
 	$invitations = $activity->getActivities();
 	if (get_class($invitations) == 'Error') {
 	    return $invitations;
-	} elseif (count($invitations) == 0) {
+	} elseif (is_null($invitations)) {
 	    $notificationBox->notificationArray = $boxes['NODATA'];
 	} else {
 	    foreach ($invitations as $invitation) {
@@ -230,7 +230,7 @@ class NotificationBox {
 	$relations = $activity->getActivities();
 	if (get_class($relations) == 'Error') {
 	    return $relations;
-	} elseif (count($relations) == 0) {
+	} elseif (is_null($relations)) {
 		$notificationBox->notificationArray = $boxes['NODATA'];
 	    } else {
 		foreach ($relations as $relation) {

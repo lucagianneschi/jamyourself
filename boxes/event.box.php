@@ -307,7 +307,7 @@ class EventBox {
     public function initForPersonalPage($objectId) {
         global $boxes;
         $info = array();
-        $counter = 0;
+        //$counter = 0;
         $eventBox = new EventBox();
         $eventBox->fromUserInfo = $boxes['NDB'];
         $event = new EventParse();

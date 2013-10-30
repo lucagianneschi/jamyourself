@@ -86,7 +86,7 @@ class PlaylistBox {
 	$playlists = $playlist->getPlaylists();
 	if (get_class($playlists) == 'Error') {
 	    return $playlists;
-	} elseif (count($playlists) == 0) {
+	} elseif (is_null($playlists)) {
 	    $playlistBox->tracklist = $boxes['NOTRACK'];
 	    $playlistBox->name = $boxes['NODATA'];
 	} else {
@@ -104,7 +104,7 @@ class PlaylistBox {
 		$songs = $song->getSongs();
 		if (get_class($songs) == 'Error') {
 		    return $songs;
-		} elseif (count($songs) == 0) {
+		} elseif (is_null($songs)) {
 		    $playlistBox->tracklist = $boxes['NOTRACK'];
 		} else {
 		    foreach ($songs as $song) {
