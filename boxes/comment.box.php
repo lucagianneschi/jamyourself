@@ -116,7 +116,7 @@ class CommentBox {
 	$comments = $commentP->getComments();
 	if (get_class($comments) == 'Error') {
 	    return $comments;
-	} elseif (count($comments) == 0) {
+	} elseif (is_null($comments)) {
 	    $commentBox->commentInfoArray = $boxes['NODATA'];
 	} else {
 	    foreach ($comments as $comment) {
