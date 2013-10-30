@@ -30,7 +30,6 @@ $(document).ready(function() {
         $("#uploadRecord01").fadeOut(100, function() {
             $("#uploadRecord02").fadeIn(100);
         });
-        uploader = "record";
     });
 
     //gestione button new in uploadRecord02
@@ -81,9 +80,8 @@ $(document).ready(function() {
             console.log("E' evvenuto un errore. Il stato della chiamata: " + stato);
         }
     });
-    
-    initImgUploader();
 
+    initImgUploader();
 });
 
 //////////////////////////////////////////////////////////////////////////////
@@ -94,6 +92,7 @@ $(document).ready(function() {
 
 function initImgUploader() {
 
+    console.log("initImgUploader - start => upload div: " + $("#uploader_img_button"));
 //    window.console.log("initUploader - params : userType => " + userType);
 //inizializzazione dei parametri
     var selectButtonId = "uploader_img_button";
@@ -252,7 +251,6 @@ function initMp3Uploader() {
 }
 
 
-
 function getTagsMusicTrack() {
     var tags = new Array();
     $.each($("#tag-musicTrack :checkbox"), function() {
@@ -321,4 +319,13 @@ function sendRequest(_action, _data, callback, _async) {
             callback(data, status);
         }
     });
+}
+
+function uploaderRefresh() {
+    console.log(uploader);
+
+    if (uploader != null) {
+        console.log("refreshing uploader");
+        uploader.refresh();
+    }
 }
