@@ -63,7 +63,7 @@ class UserInfoBox {
 	global $default_img;
 	$userParse = new UserParse();
 	$user = $userParse->getUser($objectId);
-	if (is_a($user, 'Error')) {
+	if ($user instanceof Error) {
 	    return $user;
 	} else {
 	    $infoBox = new UserInfoBox();
