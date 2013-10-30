@@ -55,7 +55,7 @@ class RelationsBox {
 	    $activityFollowing->setLimit($this->config->following);
 	    $activityFollowing->orderByDescending('createdAt');
 	    $followings = $activityFollowing->getActivities();
-	    if (get_class($followings) == 'Error') {
+	    if ($followings instanceof Error) {
 		return $followings;
 	    } elseif (is_null($followings)) {
 		$followingArray = $boxes['NOFOLLOWING'];
@@ -79,7 +79,7 @@ class RelationsBox {
 	    $activityFriendship->whereInclude('toUser');
 	    $activityFriendship->orderByDescending('createdAt');
 	    $friendships = $activityFriendship->getActivities();
-	    if (get_class($friendships) == 'Error') {
+	    if ($friendships instanceof Error) {
 		return $friendships;
 	    } elseif (is_null($friendships)) {
 		$friendshipArray = $boxes['NOFRIENDS'];
@@ -104,7 +104,7 @@ class RelationsBox {
 	    $collaboratorVenue->setLimit($this->config->collaborations);
 	    $collaboratorVenue->orderByDescending('createdAt');
 	    $collaborators = $collaboratorVenue->getUsers();
-	    if (get_class($collaborators) == 'Error') {
+	    if ($collaborators instanceof Error) {
 		return $collaborators;
 	    } elseif (is_null($collaborators)) {
 		$venuesArray = $boxes['NOVENUE'];
@@ -132,7 +132,7 @@ class RelationsBox {
 	    $following->setLimit($this->config->followingProfessional);
 	    $following->orderByDescending('createdAt');
 	    $followers = $following->getActivities();
-	    if (get_class($followers) == 'Error') {
+	    if ($followers instanceof Error) {
 		return $followers;
 	    } elseif (is_null($followers)) {
 		$followersArray = $boxes['NOFOLLOWERS'];
