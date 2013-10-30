@@ -1,5 +1,4 @@
 function access(usernameOrEmail, password, opType, userId) {
-
 	var json_access = {};
 	if (opType === 'login') {
 		json_access.request = "login";
@@ -17,19 +16,16 @@ function access(usernameOrEmail, password, opType, userId) {
 	$.ajax({
 		type: "POST",
 		url: "../../../controllers/request/accessRequest.php",
-		data: json_access,
-		async: false,
-		"beforeSend": function(xhr) {
-			xhr.setRequestHeader("X-AjaxRequest", "1");
-		},
-		success: function(data, status) {
-			alert("[onLoad] [SUCCESS] Status: " + data);
-			//console.log("[onLoad] [SUCCESS] Status: " + status + " " + data);
-			location.href="http://www.socialmusicdiscovering.com/views/login.php";
-		},
-		error: function(data, status) {
-			alert("[onLoad] [ERROR] Status: " + data);
-			//console.log("[onLoad] [ERROR] Status: " + status + " " + data);
-		}
+		data: json_access
+	})
+	.done(function(message, status, xhr) {
+		//status = success
+		code = xhr.status;
+		console.log("Code: " + code + " | Message: " + message);
+	})
+	.fail(function(xhr) {
+		message = $.parseJSON(xhr.responseText).status;
+		code = xhr.status;
+		console.log("Code: " + code + " | Message: " + message);
 	});
 }

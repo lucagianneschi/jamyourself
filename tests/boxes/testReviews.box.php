@@ -27,58 +27,45 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'review.box.php';
 $i_end = microtime();
 
-$objectId  = '7fes1RyY77'; //JAMMER
+$objectId = '7fes1RyY77'; //JAMMER
 $objectId1 = '7wi6AvviK4'; //SPOTTER
 $objectId2 = 'iovioSH5mq'; //VENUE
-	
 //echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
-//$review1_start = microtime();
-//$reviewBoxP1 = new ReviewBox();
-//$reviewBox1 = $reviewBoxP1->initForPersonalPage($objectId,'JAMMER','Event');
-//print "<pre>";
-//print_r($reviewBox1);
-//print "</pre>";
-//$review1_stop = microtime();
-
-//    echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
-//    $review2_start = microtime();
-//    $reviewBoxP2 = new ReviewBox();
-//    $reviewBox2 = $reviewBoxP2->initForPersonalPage($objectId1,'SPOTTER','Event');
-//    print "<pre>";
-//    print_r($reviewBox2);
-//    print "</pre>";
-//    $review2_stop = microtime();
-
+$review1_start = microtime();
+$reviewBoxP1 = new ReviewBox();
+$reviewBox1 = $reviewBoxP1->initForPersonalPage($objectId, 'JAMMER', 'Event');
+print "<pre>";
+print_r($reviewBox1);
+print "</pre>";
+$review1_stop = microtime();
+echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
+$review2_start = microtime();
+$reviewBoxP2 = new ReviewBox();
+$reviewBox2 = $reviewBoxP2->initForPersonalPage($objectId1, 'SPOTTER', 'Event');
+print "<pre>";
+print_r($reviewBox2);
+print "</pre>";
+$review2_stop = microtime();
 echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
 $reviewBoxP5 = new ReviewBox();
-$reviewBox5 = $reviewBoxP5->initForPersonalPage($objectId2,'VENUE','Event');
+$reviewBox5 = $reviewBoxP5->initForPersonalPage($objectId2, 'VENUE', 'Event');
 print "<pre>";
 print_r($reviewBox5);
 print "</pre>";
-echo '<br />-------------------------------PERSONALPAGE-------------------------------------------<br />';
-$reviewBoxP5 = new ReviewBox();
-$reviewBox5 = $reviewBoxP5->initForPersonalPage($objectId,'JAMMER','Event');
+echo '<br />-------------------------------MEDIAPAGE-------------------------------------------<br />';
+$idReview = 'Khlv07KRGH';
+$review3_start = microtime();
+$reviewBoxP3 = new ReviewBox();
+$reviewBox3 = $reviewBoxP3->initForMediaPage($idReview);
 print "<pre>";
-print_r($reviewBox5);
+print_r($reviewBox3);
 print "</pre>";
-
-
-//echo '<br />-------------------------------MEDIAPAGE-------------------------------------------<br />';
-//$idReview = 'Khlv07KRGH';
-//$review3_start = microtime();
-//$reviewBoxP3 = new ReviewBox();
-//$reviewBox3 = $reviewBoxP3->initForMediaPage($idReview,'Event');
-//print "<pre>";
-//print_r($reviewBox3);
-//print "</pre>";
-//
-//echo '<br />-------------------------------DETAIL-------------------------------------------<br />';
-//$review3_stop = microtime();
-//$reviewBox4 = $reviewBoxP3->initForDetail($idReview,'Event');
-//print "<pre>";
-//print_r($reviewBox4);
-//print "</pre>";
-
+echo '<br />-------------------------------DETAIL-------------------------------------------<br />';
+$review3_stop = microtime();
+$reviewBox4 = $reviewBoxP3->initForDetail($idReview);
+print "<pre>";
+print_r($reviewBox4);
+print "</pre>";
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
