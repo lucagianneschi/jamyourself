@@ -99,6 +99,8 @@ class uploadRecordController extends REST {
 
     private function getFeaturing($list) {
 //        @todo
+        $pUser = new UserParse();
+        
         return array();
     }
 

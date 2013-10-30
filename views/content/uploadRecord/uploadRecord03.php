@@ -13,8 +13,8 @@
 			<div  class="small-3 columns">
 				<img class="thumbnail" src="resources/images/uploadRecord/note.jpg" id="tumbnail" name="tumbnail"/>
 			</div>
-			<div  class="small-9 columns" id="uploader">							        						
-				<a  class="text orange" id ="uploader_button">Upload an mp3 file *</a>										
+			<div  class="small-9 columns">							        						
+				<a  class="text orange" id ="uploader_mp3_button">Upload an mp3 file *</a>										
 			</div>	
 		</div>
 		<input type="text" name="trackFeaturing" id="trackFeaturing" pattern=""/>

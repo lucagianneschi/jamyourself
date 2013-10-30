@@ -8,12 +8,15 @@
 		<input type="text" name="albumTitle" id="albumTitle" pattern="" required/>
 		<label for="albumTitle">Album title <span class="orange">*</span><small class="error"> Please enter a valid Title</small></label>
 		
+                <a  id ="uploader_img_button">Chiagliari che ci piacce</a>
+
+                
 		<div class="row upload-box" data-reveal-id="upload">
 			<div  class="small-3 columns">
 				<img class="thumbnail" src="" id="tumbnail" name="tumbnail"/>
 			</div>
 			<div  class="small-9 columns">							        						
-				<a  class="text orange">Upload Image</a>
+				<a  class="text orange" id ="uploader_img_button">Upload Image</a>
 				
 				<div id="upload" class="reveal-modal upload-reveal">
 					
@@ -23,9 +26,9 @@
 						</div>	
 					</div>
 					<div class="row">							
-						<div  class="large-12 columns formBlack-title" >
-							<a class="buttonOrange _add sottotitle" id="uploadRecord-new">Select a file from your computer</a>			
-						</div>
+						<div  class="large-12 columns formBlack-title">                                                                                                           	
+                                                    <a class="buttonOrange _add sottotitle" id="stefano">Select a file from your computer</a>			
+                                                </div>
 					</div>
 					<div class="row">							
 						<div  class="small-10 small-centered columns align-center">							
