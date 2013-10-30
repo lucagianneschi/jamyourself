@@ -221,6 +221,7 @@ class RecordBox {
 	$recordP = new RecordParse();
 	$recordP->where('objectId', $objectId);
 	$recordP->where('active', true);
+	$recordP->whereInclude('fromUser');
 	$recordP->setLimit($this->config->limitRecordForMediaPage);
 	$records = $recordP->getRecords();
 	if (get_class($records) == 'Error') {
@@ -246,7 +247,7 @@ class RecordBox {
 		$parseUser = new UserParse();
 		$parseUser->whereRelatedTo('featuring', 'Record', $objectId);
 		$parseUser->where('active', true);
-		$parseUser->setLimit($this->confing->limitFeaturingForMediaPage);
+		$parseUser->setLimit($this->config->limitFeaturingForMediaPage);
 		$feats = $parseUser->getUsers();
 		if (get_class($feats) == 'Error') {
 		    return $feats;
@@ -277,7 +278,7 @@ class RecordBox {
 		$parseSong = new SongParse();
 		$parseSong->wherePointer('record', 'Record', $objectId);
 		$parseSong->where('active', true);
-		$parseSong->setLimit(50);
+		$parseSong->setLimit($this->config->limitSongsForMediaPage);
 		$songs = $parseSong->getSongs();
 		if (get_class($songs) == 'Error') {
 		    return $songs;
