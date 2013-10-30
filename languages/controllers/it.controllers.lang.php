@@ -104,7 +104,18 @@ $controllers = array(
     'NOPOSTREQUEST' => 'La tua richiesta non è di tipo POST',
     'USERNOSES' => 'Non esiste nessun utente in SESSION',
     'SONGALREADYINPLAYLIST' => 'Song già presente nella playlist',
-    'SONGADDEDTOPLAYLIST' =>'Canzone aggiunta alla playlist'
+    'SONGADDEDTOPLAYLIST' =>'Canzone aggiunta alla playlist',
+    'SONGREMOVEDFROMPLAYLIST' =>'Song removed from playlist',
+    'NOVIDEOFORDELETE' =>'Video not found for delete',
+    'NOSTATUSFORDELETE' =>'Status not found for delete',
+    'NOSONGFORDELETE' =>'Song not found for delete',
+    'NORECORDFORDELETE' =>'Record not found for delete',
+    'NOPLAYLISTFORDELETE' =>'Playlist not found for delete',
+    'NOPLAYLISTFORDELETE' =>'Image not found for delete',
+    'NOEVENTFORDELETE' =>'Event not found for delete',
+    'NOCOMMENTFORDELETE' =>'Comment or Review not found for delete',
+    'NOALBUMFORDELETE' =>'Album not found for delete',
+    'NOACTIVITYFORDELETE' =>'Activity not found for delete'
 );
 
 $mail_files = array(
