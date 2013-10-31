@@ -61,12 +61,12 @@ class RelationsBox {
 		$followingArray = $boxes['NOFOLLOWING'];
 	    } else {
 		foreach ($followings as $following) {
-		    $objectId = $following->getToUser()->getObjectId();
+		    $followingId = $following->getToUser()->getObjectId();
 		    $thumbnail = $following->getToUser()->getProfileThumbnail();
 		    $type = $following->getToUser()->getType();
 		    $encodedUsername = $following->getToUser()->getUserName();
 		    $username = parse_decode_string($encodedUsername);
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		    $userInfo = new UserInfo($followingId, $thumbnail, $type, $username);
 		    array_push($followingArray, $userInfo);
 		}
 	    }
@@ -85,12 +85,12 @@ class RelationsBox {
 		$friendshipArray = $boxes['NOFRIENDS'];
 	    } else {
 		foreach ($friendships as $friendship) {
-		    $objectId = $friendship->getToUser()->getObjectId();
+		    $friendshipId = $friendship->getToUser()->getObjectId();
 		    $thumbnail = $friendship->getToUser()->getProfileThumbnail();
 		    $type = $friendship->getToUser()->getType();
 		    $encodedUsername = $friendship->getToUser()->getUserName();
 		    $username = parse_decode_string($encodedUsername);
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		    $userInfo = new UserInfo($friendshipId, $thumbnail, $type, $username);
 		    array_push($friendshipArray, $userInfo);
 		}
 	    }
@@ -111,12 +111,12 @@ class RelationsBox {
 		$jammersArray = $boxes['NOJAMMER'];
 	    } else {
 		foreach ($collaborators as $collaborator) {
-		    $objectId = $collaborator->getObjectId();
+		    $collaboratorId = $collaborator->getObjectId();
 		    $thumbnail = $collaborator->getProfileThumbnail();
 		    $type = $collaborator->getType();
 		    $encodedUsername = $collaborator->getUserName();
 		    $username = parse_decode_string($encodedUsername);
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		    $userInfo = new UserInfo($collaboratorId, $thumbnail, $type, $username);
 		    if ($type == 'VENUE') {
 			array_push($venuesArray, $userInfo);
 		    } else {
@@ -138,12 +138,12 @@ class RelationsBox {
 		$followersArray = $boxes['NOFOLLOWERS'];
 	    } else {
 		foreach ($followers as $follower) {
-		    $objectId = $follower->getFromUser()->getObjectId();
+		    $followerId = $follower->getFromUser()->getObjectId();
 		    $thumbnail = $follower->getFromUser()->getProfileThumbnail();
 		    $type = $follower->getFromUser()->getType();
 		    $encodedUsername = $follower->getFromUser()->getUserName();
 		    $username = parse_decode_string($encodedUsername);
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		    $userInfo = new UserInfo($followerId, $thumbnail, $type, $username);
 		    array_push($followersArray, $userInfo);
 		}
 	    }

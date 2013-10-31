@@ -111,12 +111,12 @@ class PlaylistBox {
 		    foreach ($songs as $song) {
 			$encodedTitle = $song->getTitle();
 			$title = parse_decode_string($encodedTitle);
-			$objectId = $song->getFromUser()->getObjectId();
+			$songId = $song->getFromUser()->getObjectId();
 			$thumbnail = $song->getFromUser()->getProfileThumbnail();
 			$type = $song->getFromUser()->getType();
 			$encodedUsername = $song->getFromUser()->getUsername();
 			$username = parse_decode_string($encodedUsername);
-			$author = new UserInfo($objectId, $thumbnail, $type, $username);
+			$author = new UserInfo($songId, $thumbnail, $type, $username);
 			$thumbnailRec = $song->getRecord()->getThumbnailCover();
 			$newSong = new SongInfo($author, $thumbnailRec, $title);
 			array_push($tracklist, $newSong);
