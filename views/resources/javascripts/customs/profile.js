@@ -43,7 +43,7 @@ $(document).ready(function() {
 function setCounter(_this, objectId, classbox){	
 	typeOpt = $(_this).text();
 	switch(typeOpt) {
-		/* si può eliminare perchè implementato dentro love.js, ma mantenuto per adesso per backup
+		/* si puï¿½ eliminare perchï¿½ implementato dentro love.js, ma mantenuto per adesso per backup
 		case 'Love':
 			parent = $(_this).parent().parent();
 			objectLove = $(parent).find("a._unlove");
@@ -215,11 +215,11 @@ function royalSlideNext(box){
 	}
 	if(box == 'EventReview'){   		
    		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
-   			$(box+' .box-comment').addClass('no-display');
+   			$('#social-'+box+' .box-comment').addClass('no-display');
    	}   		
    	if(box == 'RecordReview'){   		
    		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
-   			$(box+' .box-comment').addClass('no-display');
+   			$('#social-'+box+' .box-comment').addClass('no-display');
    	}
 	rsi.next();
    	if(box == 'EventReview'){
@@ -255,11 +255,11 @@ function royalSlidePrev(box){
 	}
 	if(box == 'EventReview'){   		
    		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
-   			$(box+' .box-comment').addClass('no-display');
+   			$('#social-'+box+' .box-comment').addClass('no-display');
    	}   		
    	if(box == 'RecordReview'){   		
    		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
-   			$(box+' .box-comment').addClass('no-display');
+   			$('#social-'+box+' .box-comment').addClass('no-display');
    	}
 	rsi.prev();
    	if(box == 'EventReview'){
@@ -277,9 +277,11 @@ var toggleTextRecordReview = function(_this,box){
 	$('#'+box+' .textReview').toggle(function() {
 		if(typeOpt == 'Read'){
 			$(_this).text('Close');
+			if(rsi_recordReview)
 			rsi_recordReview.updateSliderSize(true);
 		}
 		else{
+			if(rsi_recordReview)
 			rsi_recordReview.updateSliderSize(false);
 			$(_this).text('Read');	
 		} 
@@ -292,10 +294,12 @@ var toggleTextEventReview = function(_this,box){
 	$('#'+box+' .textReview').slideToggle(300, function() {
 		if(typeOpt == 'Read'){
 			$(_this).text('Close');
-			rsi_eventReview.updateSliderSize(true);
+			if(rsi_eventReview)
+				rsi_eventReview.updateSliderSize(true);
 		}
 		else{
-			rsi_eventReview.updateSliderSize(false);
+			if(rsi_eventReview)
+				rsi_eventReview.updateSliderSize(false);
 			$(_this).text('Read');	
 		} 
 	});	
