@@ -122,7 +122,9 @@ $controllers = array(
     'USERNOTFOUND' => 'User not found for linking with your social account',
     'NOSETTINGUPDATE' => 'Unable to update your setting',
     'NOPLAYLIST' => 'Playlist not found for setting your tracklist',
-    'SONGADDEDTOPLAYLIST' => 'Song correctly added to playlist'
+    'SONGADDEDTOPLAYLIST' => 'Song correctly added to playlist',
+    'CLASSTYPEKO' => 'ClassType non accettato',
+    'NOUSERID' => 'User ID non definito'
     );
 
 $mail_files = array(
