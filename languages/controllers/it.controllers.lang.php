@@ -115,7 +115,10 @@ $controllers = array(
     'NOEVENTFORDELETE' =>'Event not found for delete',
     'NOCOMMENTFORDELETE' =>'Comment or Review not found for delete',
     'NOALBUMFORDELETE' =>'Album not found for delete',
-    'NOACTIVITYFORDELETE' =>'Activity not found for delete'
+    'NOACTIVITYFORDELETE' =>'Activity not found for delete',
+    'DELETEOK' =>'Delete action completed',
+    'LOVE' => 'You love a',
+    'UNLOVE' => 'You don&apost love anymore a'
 );
 
 $mail_files = array(
