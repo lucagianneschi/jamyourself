@@ -30,11 +30,12 @@ $karl01 = '7wi6AvviK4'; //karl01
 $LDF = '7fes1RyY77'; //LDF 
 $Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
 
-
+$limit = 5;
+$skip = 2;
 echo '<br />------------------------- TEST POST BOX LDF-------------------------------------------<br />';
 $post1_start = microtime(); 
 $postP = new PostBox();
-$post = $postP->initForPersonalPage($LDF);
+$post = $postP->initForPersonalPage($LDF, $limit, $skip);
 print "<pre>";
 print_r($post);
 print "</pre>";
@@ -43,7 +44,7 @@ echo '<br />-------------------------FINE TEST POST BOX LDF---------------------
 echo '<br />------------------------- TEST POST BOX Ultrasuono-------------------------------------------<br />';
 $post2_start = microtime();
 $postP2 = new PostBox();
-$post2 = $postP2->initForPersonalPage($Ultrasuono);
+$post2 = $postP2->initForPersonalPage($Ultrasuono, $limit, $skip);
 print "<pre>";
 print_r($post2);
 print "</pre>";
@@ -52,18 +53,28 @@ echo '<br />-------------------------FINE TEST POST BOX Ultrasuono--------------
 echo '<br />------------------------- TEST POST BOX Karl01-------------------------------------------<br />';
 $post3_start = microtime();
 $postP3 = new PostBox();
-$post3 = $postP3->initForPersonalPage($karl01);
+$post3 = $postP3->initForPersonalPage($Karl01, $limit, $skip);
 print "<pre>";
 print_r($post3);
 print "</pre>";
 $post3_stop = microtime();
 echo '<br />-------------------------FINE TEST POST BOX Karl01-------------------------------------------<br />';
+echo '<br />------------------------- TEST POST BOX ERRORE-------------------------------------------<br />';
+$post4_start = microtime();
+$postP4 = new PostBox();
+$post4 = $postP4->initForPersonalPage('$Karl01', $limit, $skip);
+print "<pre>";
+print_r($post4);
+print "</pre>";
+$post4_stop = microtime();
+echo '<br />-------------------------FINE TEST POST BOX ERRORE-------------------------------------------<br />';
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
-echo 'Tempo recupero ultimi 3 post ' . executionTime($post1_start, $post1_stop) . '<br />';
-echo 'Tempo recupero ultimi 3 post ' . executionTime($post2_start, $post2_stop) . '<br />';
-echo 'Tempo recupero ultimi 3 post ' . executionTime($post3_start, $post3_stop) . '<br />';
+echo 'Tempo recupero ultimi 3 LDF JAMMER' . executionTime($post1_start, $post1_stop) . '<br />';
+echo 'Tempo recupero ultimi 3 Ultrasuono VENUE ' . executionTime($post2_start, $post2_stop) . '<br />';
+echo 'Tempo recupero ultimi 3 Karl01 SPOTTER ' . executionTime($post3_start, $post3_stop) . '<br />';
+echo 'Tempo recupero ERRORE ' . executionTime($post4_start, $post4_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
