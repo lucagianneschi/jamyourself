@@ -469,6 +469,10 @@ class SignupController extends REST {
                 mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "default");
                 mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicturethumb");
                 mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicture");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcover");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcoverthumb");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcover");
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcoverthumb");
                 mkdir(USERS_DIR . $userId . "/" . "songs");
                 mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . "default");
             }
