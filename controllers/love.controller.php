@@ -34,10 +34,9 @@ class LoveController extends REST {
     /**
      * \fn		incrementLove()
      * \brief   increments loveCounter property of an istance of a class
-     * \todo    usare la sessione
+     * \todo    usare la sessione, prendere il toUser per la incrementLove, poichè il propietario del media deve avere notifica
      */
     public function incrementLove() {
-
         global $controllers;
         #TODO
         //in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
@@ -54,7 +53,7 @@ class LoveController extends REST {
             $objectId = $this->request['objectId'];
             $classType = $this->request['classType'];
             $fromUser = $this->request['currentUser'];
-            //$toUser = $this->request['toUser'];
+            //$toUser = $this->request['toUser'];  DEVO FARMI PASSARE QUESTO PER POTER AVERE LA NOTIFICA
             $activity = new Activity();
             $activity->setActive(true);
             $activity->setCounter(0);
@@ -120,16 +119,16 @@ class LoveController extends REST {
                     $activity->setVideo($objectId);
                     break;
             }
-            if (get_class($res) == 'Error') {
+            if ($res instanceof Error) {
                 $this->response(array($controllers['LOVEPLUSERR']), 503);
             } else {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
-                if (get_class($resActivity) == 'Error') {
+                if ($resActivity instanceof Error) {
                     $this->rollback($classType, $objectId, 'decrement');
                 }
             }
-            $this->response(array($activity->getType()), 200);
+            $this->response(array('LOVE'.$classType), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
@@ -141,7 +140,6 @@ class LoveController extends REST {
      * \todo    usare la sessione
      */
     public function decrementLove() {
-
         global $controllers;
         #TODO
         //in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
@@ -149,7 +147,6 @@ class LoveController extends REST {
 //        require_once CLASSES_DIR . 'user.class.php';
 //        $currentUser = new User('SPOTTER');
 //        $currentUser->setObjectId('GuUAj83MGH');
-
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
@@ -159,7 +156,6 @@ class LoveController extends REST {
             $objectId = $this->request['objectId'];
             $classType = $this->request['classType'];
             $fromUser = $this->request['currentUser'];
-            //$toUser = $this->request['toUser'];
             $activity = new Activity();
             $activity->setAccepted(true);
             $activity->setActive(true);
@@ -226,23 +222,22 @@ class LoveController extends REST {
                     $activity->setVideo($objectId);
                     break;
             }
-            if (get_class($res) == 'Error') {
+            if ($res instanceof Error) {
                 $this->response(array($controllers['LOVEMINUSERR']), 503);
             } else {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
-                if (get_class($resActivity) == 'Error') {
+                if ($resActivity instanceof Error) {
                     $this->rollback($classType, $objectId, 'increment');
                 }
             }
-            $this->response(array($activity->getType()), 200);
+            $this->response(array('UNLOVE'.$classType), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
     private function rollback($classType, $objectId, $operation) {
-
         global $controllers;
         switch ($classType) {
             case 'Album':
@@ -318,8 +313,7 @@ class LoveController extends REST {
                 }
                 break;
         }
-
-        if (get_class($res) == 'Error') {
+        if ($res instanceof Error) {
             $this->response(array($controllers['ROLLKO']), 503);
         } else {
             $this->response(array($controllers['ROLLOK']), 503);
