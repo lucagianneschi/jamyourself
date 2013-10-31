@@ -98,7 +98,7 @@ $postCounter = $data['postCounter'];
 								<div class="row">
 									<div class="box-propriety">
 										<div class="small-5 columns ">
-											<a class="note grey " onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')"><?php echo $views['LOVE'];?></a>
+											<a class="note grey " onclick="love(this, 'Comment', '<?php echo $data['post' . $i]['objectId']; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $views['LOVE'];?></a>
 											<a class="note grey" onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')"><?php echo $views['COMM'];?></a>
 										</div>
 										<div class="small-5 columns propriety ">

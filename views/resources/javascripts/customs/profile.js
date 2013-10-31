@@ -43,6 +43,7 @@ $(document).ready(function() {
 function setCounter(_this, objectId, classbox){	
 	typeOpt = $(_this).text();
 	switch(typeOpt) {
+		/* si può eliminare perchè implementato dentro love.js, ma mantenuto per adesso per backup
 		case 'Love':
 			parent = $(_this).parent().parent();
 			objectLove = $(parent).find("a._unlove");
@@ -61,6 +62,7 @@ function setCounter(_this, objectId, classbox){
 			$(objectLove).toggleClass('_unlove _love');
 			$(_this).text('Love');
 			break;
+		*/
 		case 'Comment':
 		 	var idBox = '';
 			if(classbox == 'RecordReview' || classbox == 'EventReview'){
