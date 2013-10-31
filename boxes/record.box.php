@@ -292,27 +292,6 @@ class RecordBox {
                 require_once CLASSES_DIR . 'user.class.php';
                 require_once CLASSES_DIR . 'userParse.class.php';
                 $featuring = $recordBox->getFeaturedUsers($record->getObjectId(), false, 'Media');
-//                $featuring = array();
-//                $parseUser = new UserParse();
-//                $parseUser->whereRelatedTo('featuring', 'Record', $objectId);
-//                $parseUser->where('active', true);
-//                $parseUser->setLimit($this->config->limitFeaturingForMediaPage);
-//                $feats = $parseUser->getUsers();
-//                if ($feats instanceof Error) {
-//                    return $feats;
-//                } elseif (is_null($feats)) {
-//                    $featuring = $boxes['NOFEATRECORD'];
-//                } else {
-//                    foreach ($feats as $user) {
-//                        $objectId = $user->getObjectId();
-//                        $thumbnail = $user->getProfileThumbnail();
-//                        $type = $user->getType();
-//                        $encodedUsername = $user->getUsername();
-//                        $username = parse_decode_string($encodedUsername);
-//                        $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-//                        array_push($featuring, $userInfo);
-//                    }
-//                }
                 $genre = $record->getGenre();
                 $encodedLabel = $record->getLabel();
                 $label = parse_decode_string($encodedLabel);
@@ -471,27 +450,7 @@ class RecordBox {
             return $recordBox;
         } else {
             foreach ($records as $record) {
-                  $featuring = $recordBox->getFeaturedUsers($record->getObjectId(), false, 'UploadReview');
-//                $featuring = array();
-//                $parseUser = new UserParse();
-//                $parseUser->whereRelatedTo('featuring', 'Record', $objectId);
-//                $parseUser->where('active', true);
-//                $parseUser->setLimit($this->config->limitFeaturingForUploadReviewPage);
-//                $feats = $parseUser->getUsers();
-//                if ($feats instanceof Error) {
-//                    return $feats;
-//                } elseif (is_null($feats)) {
-//                    $featuring = $boxes['NOFEATRECORD'];
-//                } else {
-//                    foreach ($feats as $user) {
-//                        $idUser = $user->getObjectId();
-//                        $thumbnail = $user->getProfileThumbnail();
-//                        $type = $user->getType();
-//                        $username = $user->getUsername();
-//                        $userInfo = new UserInfo($idUser, $thumbnail, $type, $username);
-//                        array_push($featuring, $userInfo);
-//                    }
-//                }
+                $featuring = $recordBox->getFeaturedUsers($record->getObjectId(), false, 'UploadReview');
                 $genre = $record->getGenre();
                 $recordInfo = new RecordInfoForUploadReviewPage($featuring, $genre);
                 $recordBox->recordInfoArray = $recordInfo;
