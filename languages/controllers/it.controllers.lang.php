@@ -121,7 +121,9 @@ $controllers = array(
     'UNLOVE' => 'You don&apost love anymore a',
     'MESSAGEREAD' => 'Message correctly read',
     'USERNOTFOUND' => 'User not found for linking with your social account',    
-    'NOSETTINGUPDATE' => 'Unable to update your setting'
+    'NOSETTINGUPDATE' => 'Unable to update your setting',    
+    'NOPLAYLIST' => 'Playlist not found for setting your tracklist',
+    'SONGADDEDTOPLAYLIST' => 'Song correctly added to playlist'
 );
 
 $mail_files = array(
