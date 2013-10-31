@@ -199,7 +199,7 @@ class RecordBox {
         if ($users instanceof Error) {
             return $users;
         } elseif (is_null($users)) {
-            $users = $boxes['NOFEATREC'];
+            $users = $boxes['NOFEATRECORD'];
             return $users;
         } else {
             foreach ($users as $user) {
