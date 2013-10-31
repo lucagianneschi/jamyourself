@@ -119,7 +119,9 @@ $controllers = array(
     'DELETEOK' =>'Delete action completed',
     'LOVE' => 'You love a',
     'UNLOVE' => 'You don&apost love anymore a',
-    'MESSAGEREAD' => 'Message correctly read'
+    'MESSAGEREAD' => 'Message correctly read',
+    'USERNOTFOUND' => 'User not found for linking with your social account',    
+    'NOSETTINGUPDATE' => 'Unable to update your setting'
 );
 
 $mail_files = array(
