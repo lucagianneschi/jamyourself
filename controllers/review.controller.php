@@ -49,7 +49,7 @@ class ReviewController extends REST {
     /**
      * \fn		review()
      * \brief   save a review an the related activity
-     * \todo    usare la sessione
+     * \todo    usare la sessione, fare controllo sul fatto che l'utente non faccia una recensione di una cosa che gli appartiene
      */
     public function sendReview() {
         global $controllers;
@@ -63,10 +63,10 @@ class ReviewController extends REST {
         $fromUser->setObjectId('GuUAj83MGH');
 
         try {
-            //controllo la richiesta
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
             if ($this->get_request_method() != "POST") {
-                $this->response('', 406);
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
 
             //controllo i parametri
@@ -130,9 +130,8 @@ class ReviewController extends REST {
             $mail->IsHTML(true);
             $mail->AddAddress('daniele.caldelli@gmail.com');
             //$mail->AddAddress($user->email);
-
             switch ($classType) {
-                case 'Event'://posso fare la recensione di un mio evento??
+                case 'Event'://posso fare la recensione di un mio evento?? NO! AGGIUNGERE CONTROLLO
                     $review->setEvent($objectId);
                     $review->setType('RE');
                     require_once CLASSES_DIR . 'eventParse.class.php';
@@ -145,7 +144,7 @@ class ReviewController extends REST {
                     $mail->Subject = $controllers['SBJE'];
                     $mail->MsgHTML(file_get_contents(STDHTML_DIR . $mail_files['EVENTREVIEWEMAIL']));
                     break;
-                case 'Record'://posso fare la recensione di un mio record??
+                case 'Record'://posso fare la recensione di un mio record?? NO! AGGIUNGERE CONTROLLO
                     $review->setRecord($objectId);
                     $review->setType('RR');
                     require_once CLASSES_DIR . 'recordParse.class.php';
@@ -159,17 +158,14 @@ class ReviewController extends REST {
                     $mail->MsgHTML(file_get_contents(STDHTML_DIR . $mail_files['RECORDREVIEWEMAIL']));
                     break;
             }
-
-            //salvo review
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
-            if (get_class($resRev) == 'Error') {
+            if ($resRev instanceof Error) {
                 $this->response(array($resRev), 503);
             } else {
-                //salvo activity
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
-                if (get_class($resActivity) == 'Error') {
+                if ($resActivity instanceof Error) {
                     $this->rollback($resRev->getObjectId());
                 }
             }
@@ -177,7 +173,7 @@ class ReviewController extends REST {
             $mail->SmtpClose();
             $this->response(array($controllers['REWSAVED']), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
