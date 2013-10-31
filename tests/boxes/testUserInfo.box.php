@@ -27,128 +27,56 @@ require_once PARSE_DIR . 'parse.php';
 $i_end = microtime();
 
 //SPOTTER
-$mari = '1oT7yYrpfZ'; //MARI
-$FLAVYCAP = 'oN7Pcp2lxf'; //FLAVYCAP 
-$Kessingtong = '2OgmANcYaT'; //Kessingtong
+$karl01 = '7wi6AvviK4'; //karl01
 //JAMMER
-$ROSESINBLOOM = 'uMxy47jSjg'; //ROSESINBLOOM
-$Stanis = 'HdqSpIhiXo'; //Stanis
 $LDF = '7fes1RyY77'; //LDF
 //Venue
-$ZonaPlayed = '2K5Lv7qxzw'; //ZonaPlayed  
 $Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
-$jump = 'wrpgRuSgRA'; //jump rock club
-
 
 echo '<br />------------------------- TEST INFO BOX-------------------------------------------<br />';
-echo '<br />TEST INFO BOX SPOTTER<br />';
-echo '<br />TEST INFO BOX OBJ MARI<br />';
+echo '<br />TEST INFO BOX  LDF<br />';
 $t1_start = microtime();
-$info1BoxP = new UserInfoBox();
-$info1 = $info1BoxP->initForPersonalPage($mari);
+$infoBoxP1 = new UserInfoBox();
+$info1 = $infoBoxP1->initForPersonalPage($LDF);
 $t1_stop = microtime();
 print "<pre>";
 print_r($info1);
 print "</pre>";
-echo '<br />TEST INFO BOX OBJ MARI<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST INFO BOX OBJ FLAVYCAP<br />';
+echo '<br />TEST INFO BOX karl01<br />';
 $t2_start = microtime();
-$info1BoxP = new UserInfoBox();
-$info1 = $info1BoxP->initForPersonalPage($FLAVYCAP);
+$infoBoxP2 = new UserInfoBox();
+$info2 = $infoBoxP2->initForPersonalPage($karl01);
 $t2_stop = microtime();
 print "<pre>";
-print_r($info1);
+print_r($info2);
 print "</pre>";
-echo '<br />TEST INFO BOX OBJ FLAVYCAP<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST INFO BOX OBJ MARI<br />';
-echo '<br />TEST INFO BOX Kessingtong<br />';
+echo '<br />TEST INFO BOX Ultrasuono<br />';
 $t3_start = microtime();
-$info1BoxP = new UserInfoBox();
-$info1 = $info1BoxP->initForPersonalPage($Kessingtong);
+$infoBoxP3 = new UserInfoBox();
+$info3 = $infoBoxP3->initForPersonalPage($Ultrasuono);
 $t3_stop = microtime();
 print "<pre>";
-print_r($info1);
+print_r($info3);
 print "</pre>";
-echo '<br />TEST INFO BOX Kessingtong<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST INFO BOX JAMMER<br />';
-echo '<br />TEST INFO BOX ROSESINBLOOM<br />';
+echo '<br />TEST ERRORE<br />';
 $t4_start = microtime();
-$info1BoxP = new UserInfoBox();
-$info1 = $info1BoxP->initForPersonalPage($ROSESINBLOOM);
+$infoBoxP4 = new UserInfoBox();
+$info4 = $infoBoxP4->initForPersonalPage('pippopuzza');
 $t4_stop = microtime();
 print "<pre>";
-print_r($info1);
+print_r($info4);
 print "</pre>";
-echo '<br />TEST INFO BOX ROSESINBLOOM<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST INFO Stanis<br />';
-$t5_start = microtime();
-$info1BoxP = new UserInfoBox();
-$info1 = $info1BoxP->initForPersonalPage($Stanis);
-$t5_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST INFO Stanis<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST INFO BOX OBJ LDF<br />';
-$t6_start = microtime();
-$info1BoxP = new UserInfoBox();
-$info1 = $info1BoxP->initForPersonalPage($LDF);
-$t6_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST INFO BOX OBJ LDF<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST INFO BOX VENUE<br />';
-echo '<br />TEST INFO BOX ZonaPlayed<br />';
-$t7_start = microtime();
-$info1BoxP = new UserInfoBox();
-$info1 = $info1BoxP->initForPersonalPage($ZonaPlayed);
-$t7_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST INFO BOX ZonaPlayed<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST INFO BOX Ultrasuono<br />';
-$t8_start = microtime();
-$info1BoxP = new UserInfoBox();
-$info1 = $info1BoxP->initForPersonalPage($Ultrasuono);
-$t8_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST INFO BOX Ultrasuono<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST INFO BOX Jump<br />';
-$t9_start = microtime();
-$info1BoxP = new UserInfoBox();
-$info1 = $info1BoxP->initForPersonalPage($jump);
-$t9_stop = microtime();
-print "<pre>";
-print_r($info1);
-print "</pre>";
-echo '<br />TEST INFO BOX Jump<br />';
+echo '<br />TEST INFO BOX ERRORE<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />------------------------- FINE TEST INFO BOX-------------------------------------------<br />';
 
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
-echo 'Tempo totale ' . executionTime($t1_start, $t1_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t2_start, $t2_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t3_start, $t3_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t4_start, $t4_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t5_start, $t5_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t6_start, $t6_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t7_start, $t7_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t8_start, $t8_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t9_start, $t9_stop) . '<br />';
+echo 'Tempo LDF JAMMER ' . executionTime($t1_start, $t1_stop) . '<br />';
+echo 'Tempo KARL01 SPOTTER ' . executionTime($t2_start, $t2_stop) . '<br />';
+echo 'Tempo ULTRASUONO VENUE ' . executionTime($t3_start, $t3_stop) . '<br />';
+echo 'Tempo ERRORE ' . executionTime($t4_start, $t4_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>

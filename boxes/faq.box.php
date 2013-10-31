@@ -79,10 +79,11 @@ class FaqBox {
 	    $faqP->orderByDescending($field);
 	}
 	$faqs = $faqP->getFaqs();
-	if (get_class($faqs) == 'Error') {
+	if ($faqs instanceof Error) {
 	    return $faqs;
 	} elseif (is_null($faqs)) {
 	    $activityBox->faqArray = $boxes['NODATA'];
+	    return $activityBox;
 	} else {
 	    foreach ($faqs as $faq) {
 		$answer = parse_decode_string($faq->getAnswer());

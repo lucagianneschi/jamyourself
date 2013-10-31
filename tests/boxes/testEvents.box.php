@@ -26,10 +26,8 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'event.box.php';
 $i_end = microtime();
 
-$id1 = '7fes1RyY77';//LDF
+$id1 = '7fes1RyY77'; //LDF
 $idEvent = 'Imx9idjTGj';
-
-
 echo '<br />-------------------------TEST EVENT LDF-------------------------------------------<br />';
 $event1_start = microtime();
 $eventBoxP1 = new EventBox();
@@ -51,18 +49,45 @@ $event3_start = microtime();
 echo '<br />TEST  INFO EVENT UPLOADREVIEW PAGE<br />';
 $eventBoxP3 = new EventBox;
 $eventBox3 = $eventBoxP3->initForUploadReviewPage($idEvent);
+$event3_stop = microtime();
 print "<pre>";
 print_r($eventBox3);
 print "</pre>";
 echo '<br />FINE TEST  INFO EVENT UPLOADREVIEW PAGE<br />';
-$event3_stop = microtime();
+echo '<br />ERRORE PERSONAL PAGE<br />';
+$error1_start = microtime();
+$errorBoxP = new EventBox();
+$errorBox = $errorBoxP->initForPersonalPage('pipopopopopopopo');
+print "<pre>";
+print_r($errorBox);
+print "</pre>";
+$error1_stop = microtime();
+echo '<br />ERRORE MEDIA PAGE<br />';
+$error2_start = microtime();
+$errorBoxP2 = new EventBox();
+$errorBox2 = $errorBoxP2->initForMediaPage('ciaciaciaoicoai');
+print "<pre>";
+print_r($errorBox2);
+print "</pre>";
+$error2_stop = microtime();
+echo '<br />ERRORE UPLOAD PAGE<br />';
+$error3_start = microtime();
+$errorBoxP3 = new EventBox();
+$errorBox3 = $errorBoxP3->initForUploadReviewPage('erroroerer');
+print "<pre>";
+print_r($errorBox3);
+print "</pre>";
+$error3_stop = microtime();
 echo '<br />-------------------------FINE TEST EVENT BOX-------------------------------------------<br />';
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo event personal page:  ' . executionTime($event1_start, $event1_stop) . '<br />';
 echo 'Tempo event media page:  ' . executionTime($event2_start, $event2_stop) . '<br />';
-echo 'Tempo event uploadRrview:  ' . executionTime($event3_start, $event3_stop) . '<br />';
+echo 'Tempo event uploadReview:  ' . executionTime($event3_start, $event3_stop) . '<br />';
+echo 'Tempo event ERRORE PERSONALPAGE:  ' . executionTime($error1_start, $error1_stop) . '<br />';
+echo 'Tempo event ERRORE MEDIAPAGE:  ' . executionTime($error2_start, $error2_stop) . '<br />';
+echo 'Tempo event ERRORE UPLOADPAGE:  ' . executionTime($error3_start, $error3_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>

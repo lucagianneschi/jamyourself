@@ -47,9 +47,6 @@ print_r($commentBox);
 print "</pre>";
 $comment1_stop = microtime();
 echo '<br />-------------------------FINE TEST COMMENT BOX RECORD-------------------------------------------<br />';
-
-
-
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';

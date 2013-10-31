@@ -84,11 +84,12 @@ class PlaylistBox {
 	$playlist->orderByDescending('createdAt');
 	$playlist->setLimit($this->config->limitForPlaylist);
 	$playlists = $playlist->getPlaylists();
-	if (get_class($playlists) == 'Error') {
+	if ($playlist instanceof Error) {
 	    return $playlists;
 	} elseif (is_null($playlists)) {
 	    $playlistBox->tracklist = $boxes['NOTRACK'];
 	    $playlistBox->name = $boxes['NODATA'];
+	    return $playlistBox;
 	} else {
 	    foreach ($playlists as $playlist) {
 		require_once CLASSES_DIR . 'song.class.php';
@@ -102,7 +103,7 @@ class PlaylistBox {
 		$song->setLimit($this->config->limitForTracklist);
 		$song->whereInclude('fromUser,record');
 		$songs = $song->getSongs();
-		if (get_class($songs) == 'Error') {
+		if ($songs instanceof Error) {
 		    return $songs;
 		} elseif (is_null($songs)) {
 		    $playlistBox->tracklist = $boxes['NOTRACK'];
