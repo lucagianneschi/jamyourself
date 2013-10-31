@@ -55,6 +55,8 @@ class LoveController extends REST {
                 $this->response(array('status' => 'Nessun objectId definito'), 400);
             } elseif (!in_array($this->request['classType'], $classTypeAdmitted)) {
 				$this->response(array('status' => 'Il classType non è ammesso'), 400);
+			} elseif (!isset($this->request['objectIdUser'])) {
+				$this->response(array('status' => 'Nessun objectIdUser definito'), 400);
 			}
 			
 			//recupero l'utente fromUser
@@ -132,7 +134,7 @@ class LoveController extends REST {
                     break;
             }
             if ($res instanceof Error) {
-                $this->response(array($controllers['LOVEPLUSERR']), 503);
+                $this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
             } else {
                 $activityParse = new ActivityParse();
 				$resActivity = $activityParse->saveActivity($activity);
@@ -142,7 +144,7 @@ class LoveController extends REST {
             }
 			$this->response(array($res), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 500);
         }
     }
 
@@ -170,6 +172,8 @@ class LoveController extends REST {
                 $this->response(array('status' => 'Nessun objectId definito'), 400);
             } elseif (!in_array($this->request['classType'], $classTypeAdmitted)) {
 				$this->response(array('status' => 'Il classType non è ammesso'), 400);
+			} elseif (!isset($this->request['objectIdUser'])) {
+				$this->response(array('status' => 'Nessun objectIdUser definito'), 400);
 			}
 			
 			//recupero l'utente fromUser
@@ -251,7 +255,7 @@ class LoveController extends REST {
                     break;
             }
             if ($res instanceof Error) {
-                $this->response(array($controllers['LOVEMINUSERR']), 503);
+                $this->response(array('status' => $controllers['LOVEMINUSERR']), 503);
             } else {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
@@ -261,7 +265,7 @@ class LoveController extends REST {
             }
             $this->response(array($res), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 500);
         }
     }
 
@@ -342,9 +346,9 @@ class LoveController extends REST {
                 break;
         }
         if ($res instanceof Error) {
-            $this->response(array($controllers['ROLLKO']), 503);
+            $this->response(array('status' => $controllers['ROLLKO']), 503);
         } else {
-            $this->response(array($controllers['ROLLOK']), 503);
+            $this->response(array('status' => $controllers['ROLLOK']), 503);
         }
     }
 
