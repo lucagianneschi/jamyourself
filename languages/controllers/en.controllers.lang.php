@@ -117,7 +117,8 @@ $controllers = array(
     'NOACTIVITYFORDELETE' =>'Activity not found for delete',
     'DELETEOK' =>'Delete action completed',
     'LOVE' => 'You love a',
-    'UNLOVE' => 'You don&apost love anymore a'
+    'UNLOVE' => 'You don&apost love anymore a',
+    'MESSAGEREAD' => 'Message correctly read'
     );
 
 $mail_files = array(
