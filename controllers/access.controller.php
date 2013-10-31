@@ -49,7 +49,7 @@ class AccessController extends REST {
             $password = $this->request['password'];
             $userParse = new UserParse();
             $resLogin = $userParse->loginUser($usernameOrEmail, $password);
-			if (get_class($resLogin) == 'Error') {
+			if ($resLogin instanceof Error) {
                 $this->response(array('status' => $resLogin->getErrorMessage()), 406);
             } else {
                 $activity = new Activity();
