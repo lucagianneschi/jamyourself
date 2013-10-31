@@ -281,6 +281,7 @@ class RecordBox {
         } else {
             foreach ($records as $record) {
                 $buylink = $record->getBuylink();
+                $city = $record->getFromUser()->getCity();
                 $commentCounter = $record->getCommentCounter();
                 $loveCounter = $record->getLoveCounter();
                 $reviewCounter = $record->getReviewCounter();
@@ -289,8 +290,6 @@ class RecordBox {
                 $cover = $record->getCover();
                 $encodedDescription = $record->getDescription();
                 $description = parse_decode_string($encodedDescription);
-                require_once CLASSES_DIR . 'user.class.php';
-                require_once CLASSES_DIR . 'userParse.class.php';
                 $featuring = $recordBox->getFeaturedUsers($record->getObjectId(), false, 'Media');
                 $genre = $record->getGenre();
                 $encodedLabel = $record->getLabel();
@@ -316,17 +315,18 @@ class RecordBox {
                     foreach ($songs as $song) {
                         $duration = $song->getDuration();
                         $songId = $song->getObjectId();
-                        $encodedTitle = $song->getTitle();
-                        $title = parse_decode_string($encodedTitle);
-                        $commentCounter = $song->getCommentCounter();
-                        $loveCounter = $song->getLoveCounter();
-                        $shareCounter = $song->getShareCounter();
-                        $counters = new Counters($commentCounter, $loveCounter, $shareCounter);
-                        $songInfo = new SongInfo($counters, $duration, $songId, $title);
+                        $songEncodedTitle = $song->getTitle();
+                        $songTitle = parse_decode_string($songEncodedTitle);
+                        $songCommentCounter = $song->getCommentCounter();
+                        $songLoveCounter = $song->getLoveCounter();
+                        $songShareCounter = $song->getShareCounter();
+                        $songReviewCounter = $boxes['NDB'];
+                        $songCounters = new Counters($songCommentCounter, $songLoveCounter, $songReviewCounter, $songShareCounter);
+                        $songInfo = new SongInfo($songCounters, $duration, $songId, $songTitle);
                         array_push($tracklist, $songInfo);
                     }
                 }
-                $recordInfo = new RecordInfoForMediaPage($buylink, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $tracklist, $title, $year);
+                $recordInfo = new RecordInfoForMediaPage($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $title, $tracklist, $year);
                 $userId = $record->getFromUser()->getObjectId();
                 $thumbnail = $record->getFromUser()->getProfileThumbnail();
                 $type = $record->getFromUser()->getType();
