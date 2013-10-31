@@ -252,7 +252,7 @@ switch ($box) {
 		require_once BOXES_DIR . 'post.box.php';
 		$recordPostP = new PostBox();
 		try  {
-		$recordPost = $recordPostP -> initForPersonalPage($objectId);
+		$recordPost = $recordPostP -> initForPersonalPage($objectId,5,0);
 			if (!($eventBox instanceof Error)) {
 				$result['postCounter'] = $recordPost -> postCounter;
 				foreach ($recordPost->postInfoArray as $key => $value) {
@@ -359,7 +359,7 @@ switch ($box) {
 					$result['relation']['friendship'. $key]['objectId'] = $value  -> objectId;
 					$result['relation']['friendship'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : $default_img['DEFTHUMB'];
 					$result['relation']['friendship'. $key]['type'] = $value  -> type;
-					$result['relation']['friendship'. $key]['username'] = $value  -> username;
+					$result['relation']['friendship'. $key]['username'] = $value -> username;
 					
 					if($key < 2){
 						$result['activity']['relation']['friendship'.$key] = $result['relation']['friendship'. $key];
@@ -459,23 +459,24 @@ switch ($box) {
 	case 'header' :
 		require_once BOXES_DIR . 'playlist.box.php';
 		$playListBoxP = new PlaylistBox();
-		try{		$playListBox = $playListBoxP->init($objectIdCurrentUser);
-		if (!($playListBox instanceof Error)) {
-			$result['playlist']['name'] = $playListBox->name != $boxes['NODATA'] ? $playListBox->name : '';
-			$result['playlist']['tracklist'] = array();
-			foreach ($playListBox->tracklist as $key => $value) {
-				$track['author']['objectId'] = 	$value -> author->objectId != $boxes['NODATA'] ? $value -> author->objectId : '';
-				$track['author']['thumbnail'] = 	$value -> author->thumbnail != $boxes['NODATA'] ? $value -> author->thumbnail : $default_img['DEFTHUMB'];
-				$track['author']['type'] = 	$value -> author->type != $boxes['NODATA'] ? $value -> author->type : '';
-				$track['author']['username'] = 	$value -> author->username != $boxes['NODATA'] ? $value -> author->username : '';
-				$track['thumbnail'] = 	$value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : $default_img['DEFRECORDTHUMB'];
-				$track['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
-				array_push($result['playlist']['tracklist'], $track);
+		try{
+			$playListBox = $playListBoxP->init($objectIdCurrentUser);
+			if (!($playListBox instanceof Error)) {
+				$result['playlist']['name'] = $playListBox->name != $boxes['NODATA'] ? $playListBox->name : '';
+				$result['playlist']['tracklist'] = array();
+				foreach ($playListBox->tracklist as $key => $value) {
+					$track['author']['objectId'] = 	$value -> author->objectId != $boxes['NODATA'] ? $value -> author->objectId : '';
+					$track['author']['thumbnail'] = 	$value -> author->thumbnail != $boxes['NODATA'] ? $value -> author->thumbnail : $default_img['DEFTHUMB'];
+					$track['author']['type'] = 	$value -> author->type != $boxes['NODATA'] ? $value -> author->type : '';
+					$track['author']['username'] = 	$value -> author->username != $boxes['NODATA'] ? $value -> author->username : '';
+					$track['thumbnail'] = 	$value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : $default_img['DEFRECORDTHUMB'];
+					$track['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
+					array_push($result['playlist']['tracklist'], $track);
+				}
+			}else {
+				$result['error']['code'] = 101;
+				$result['error']['message'] = 'object not found for get';
 			}
-		}else {
-			$result['error']['code'] = 101;
-			$result['error']['message'] = 'object not found for get';
-		}
 		}catch (Exception $e) {
 		   $result['error']['code'] = 101;
 				$result['error']['message'] = 'Error Header';
