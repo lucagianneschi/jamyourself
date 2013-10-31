@@ -14,16 +14,20 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
  
 $data = $_POST['data'];
+
+
+$objectIdUser  = $_POST['objectIdUser'];
 $typeUser = $_POST['typeUser'];
 
 $postCounter = $data['postCounter'];
+
 
 ?>
 
 <!------------------------------------- Post ------------------------------------>
 <div class="row" id="social-Post">
 	<div  class="large-12 columns">
-		<h3><?php echo $views['post']['TITLE'];?></h3>
+		<h3><?php echo $views['post']['TITLE']?></h3>
 
 		<div class="row ">
 			<div  class="large-12 columns ">
