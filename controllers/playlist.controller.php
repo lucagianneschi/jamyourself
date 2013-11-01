@@ -48,9 +48,10 @@ class PlaylistController extends REST {
         $currentUser->setObjectId('GuUAj83MGH');
 
         try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
             $playlistId = $this->request['playlistId'];
             $songId = $this->request['songId'];
@@ -58,12 +59,12 @@ class PlaylistController extends REST {
 
             $playlistP = new PlaylistParse();
             $playlist = $playlistP->getPlaylist($playlistId);
-            if (get_class($playlist) == 'Error') {
-                $this->response(array('Error: ' . $playlist->getMessage()), 503);
+            if ($playlist instanceof Error) {
+                $this->response(array('NOPLAYLIST'), 503);
             } else {
                 //devo controllare che la song sia presente, se è presente non l'aggiungo
                 $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
-                if (get_class($res) == 'Error') {
+                if ($res instanceof Error) {
                     $this->response(array('Error: ' . $res->getMessage()), 503);
                 }
                 //qui va aggiunto il check sul numero di canzoni, se sono più di 20 va cancellata la prima in ordine cronologico di aggiunta (come vengono inserire nell'arrau le song??)
@@ -89,12 +90,12 @@ class PlaylistController extends REST {
             }
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
-            if (get_class($resActivity) == 'Error') {
+            if ($resActivity instanceof Error) {
                 $this->rollback($playlistId, $songId, 'add');
             }
             $this->response(array($resActivity), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
@@ -123,7 +124,7 @@ class PlaylistController extends REST {
 
             $playlistP = new PlaylistParse();
             $playlist = $playlistP->getPlaylist($playlistId);
-            if (get_class($playlist) == 'Error') {
+            if ($playlist instanceof Error) {
                 $this->response(array('Error: ' . $playlist->getMessage()), 503);
             } else {
                 //devo controllare che la song sia presente, se è presente non la tolgo
@@ -151,12 +152,12 @@ class PlaylistController extends REST {
             }
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
-            if (get_class($resActivity) == 'Error') {
+            if ($resActivity instanceof Error) {
                 $this->rollback($playlistId, $songId, 'remove');
             }
-            $this->response(array($resActivity), 200);
+            $this->response(array('SONGADDEDTOPLAYLIST'), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
@@ -167,7 +168,6 @@ class PlaylistController extends REST {
      * \todo    usare la sessione
      */
     private function rollback($playlistId, $songId, $operation) {
-
         global $controllers;
         $playlistP = new PlaylistParse();
         if ($operation == 'add') {
@@ -175,7 +175,7 @@ class PlaylistController extends REST {
         } else {
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
         }
-        if (get_class($res) == 'Error') {
+        if ($res instanceof Error) {
             $this->response(array($controllers['ROLLKO']), 503);
         } else {
             $this->response(array($controllers['ROLLOK']), 503);

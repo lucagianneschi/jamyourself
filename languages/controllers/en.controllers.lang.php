@@ -114,7 +114,17 @@ $controllers = array(
     'NOEVENTFORDELETE' =>'Event not found for delete',
     'NOCOMMENTFORDELETE' =>'Comment or Review not found for delete',
     'NOALBUMFORDELETE' =>'Album not found for delete',
-    'NOACTIVITYFORDELETE' =>'Activity not found for delete'
+    'NOACTIVITYFORDELETE' =>'Activity not found for delete',
+    'DELETEOK' =>'Delete action completed',
+    'LOVE' => 'You love a',
+    'UNLOVE' => 'You don&apost love anymore a',
+    'MESSAGEREAD' => 'Message correctly read',
+    'USERNOTFOUND' => 'User not found for linking with your social account',
+    'NOSETTINGUPDATE' => 'Unable to update your setting',
+    'NOPLAYLIST' => 'Playlist not found for setting your tracklist',
+    'SONGADDEDTOPLAYLIST' => 'Song correctly added to playlist',
+    'CLASSTYPEKO' => 'ClassType non accettato',
+    'NOUSERID' => 'User ID non definito'
     );
 
 $mail_files = array(

@@ -144,12 +144,12 @@ class NotificationBox {
 	} else {
 	    foreach ($messages as $message) {
 		$createdAt = $message->getCreatedAt();
-		$objectId = $message->getFromUser()->getObjectId();
+		$messageId = $message->getFromUser()->getObjectId();
 		$thumbnail = $message->getFromUser()->getProfileThumbnail();
 		$type = $message->getFromUser()->getType();
 		$encodedUsername = $message->getFromUser()->getUsername();
 		$username = parse_decode_string($encodedUsername);
-		$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		$userInfo = new UserInfo($messageId, $thumbnail, $type, $username);
 		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 		array_push($messageArray, $notificationInfo);
 	    }
@@ -188,12 +188,12 @@ class NotificationBox {
 	} else {
 	    foreach ($invitations as $invitation) {
 		$createdAt = $invitation->getCreatedAt();
-		$objectId = $invitation->getFromUser()->getObjectId();
+		$invitationId = $invitation->getFromUser()->getObjectId();
 		$thumbnail = $invitation->getFromUser()->getProfileThumbnail();
 		$type = $invitation->getFromUser()->getType();
 		$encodedUsername = $invitation->getFromUser()->getUsername();
 		$username = parse_decode_string($encodedUsername);
-		$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		$userInfo = new UserInfo($invitationId, $thumbnail, $type, $username);
 		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 		array_push($invitationArray, $notificationInfo);
 	    }
@@ -237,12 +237,12 @@ class NotificationBox {
 	} else {
 	    foreach ($relations as $relation) {
 		$createdAt = $relation->getCreatedAt();
-		$objectId = $relation->getFromUser()->getObjectId();
+		$relationId = $relation->getFromUser()->getObjectId();
 		$thumbnail = $relation->getFromUser()->getProfileThumbnail();
 		$type = $relation->getFromUser()->getType();
 		$encodedUsername = $relation->getFromUser()->getUsername();
 		$username = parse_decode_string($encodedUsername);
-		$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		$userInfo = new UserInfo($relationId, $thumbnail, $type, $username);
 		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 		array_push($relationArray, $notificationInfo);
 	    }

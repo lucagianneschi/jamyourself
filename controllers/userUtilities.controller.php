@@ -42,17 +42,20 @@ class UserUtilitiesController extends REST {
         try {
             require_once PARSE_DIR . 'parse.php';
             global $controllers;
-
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
+            }
             $objectId = $this->request['objectId'];
             $userP = new UserParse();
             $user = $userP->getUser($objectId);
-            if (get_class($user) == 'Error') {
-                $this->response(array($user), 503);
+            if ($user instanceof Error) {
+                $this->response(array('USERNOTFOUND'), 503);
             } else {
                 $sessionToken = $user->getSessionToken();
                 $userLib = new parseUser();
                 $userLib->linkAccounts($objectId, $sessionToken);
-
                 $activity = new Activity();
                 $activity->setActive(true);
                 $activity->setAlbum(null);
@@ -71,13 +74,12 @@ class UserUtilitiesController extends REST {
                 $activity->setType('SOCIALACCOUNTLINKED');
                 $activity->setUserStatus(null);
                 $activity->setVideo(null);
-
                 $activityParse = new ActivityParse();
                 $activityParse->saveActivity($activity);
                 $this->response(array($controllers['OKSOCIALLINK']), 200);
             }
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
@@ -92,18 +94,9 @@ class UserUtilitiesController extends REST {
             $email = $this->request['email'];
             $userP = new UserParse();
             $user = $userP->passwordReset($email);
-//	    $userP->where('email', $email);
-//	    $userP->where('active', true);
-//	    $users = $userP->getUsers();
-//	    if (get_class($users) == 'Error') {
-//		$this->response(array('status' => "Service Unavailable", "msg" => $users->getMessage()), 503);
-//	    } else {
-//		foreach ($users as $user) {
-//		require_once PARSE_DIR . 'parse.php';
-//		$parseUser = new parseUser();
-//		$parseUser->email = $email;
-//		$parseUser->requestPasswordReset($email);  
-
+            if ($user instanceof Error) {
+                $this->response(array('status' => $e->getMessage()), 503);
+            }
             $activity = new Activity();
             $activity->setActive(true);
             $activity->setAlbum(null);
@@ -126,7 +119,7 @@ class UserUtilitiesController extends REST {
             $activityParse->saveActivity($activity);
             $this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
@@ -139,11 +132,15 @@ class UserUtilitiesController extends REST {
         try {
             require_once PARSE_DIR . 'parse.php';
             global $controllers;
-
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
+            }
             $objectId = $this->request['objectId'];
             $userP = new UserParse();
             $user = $userP->getUser($objectId);
-            if (get_class($user) == 'Error') {
+            if ($user instanceof Error) {
                 $this->response(array($user), 503);
             } else {
                 $sessionToken = $user->getSessionToken();
@@ -173,7 +170,7 @@ class UserUtilitiesController extends REST {
                 $this->response(array($controllers['OKSOCIALUNLINK']), 200);
             }
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
@@ -184,26 +181,26 @@ class UserUtilitiesController extends REST {
      */
     public function updateSetting() {
         try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
             $userId = $this->request['objectId'];
             $settings = $this->request['setting'];
 
             $userP = new UserParse();
             $user = $userP->getuser($userId);
-            if (get_class($user) == 'Error') {
+            if ($user instanceof Error) {
                 $this->response(array('Error: ' . $user->getMessage()), 503);
             }
             $res = $userP->updateField($userId, 'settings', array($settings));
-            if (get_class($res) == 'Error') {
-                $this->response(array('Error: ' . $res->getMessage()), 503);
+            if ($res instanceof Error) {
+                $this->response(array('NOSETTINGUPDATE'), 503);
             }
 
             $activity = new Activity();
             $activity->setActive(true);
-
             $activity->setAlbum(null);
             $activity->setComment(null);
             $activity->setCounter(0);
@@ -220,7 +217,6 @@ class UserUtilitiesController extends REST {
             $activity->setType("USERSETTINGSUPDATED");
             $activity->setUserStatus(null);
             $activity->setVideo(null);
-
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
             // if (get_class($resActivity) == 'Error') {
@@ -228,7 +224,7 @@ class UserUtilitiesController extends REST {
             // }
             $this->response(array($resActivity), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 

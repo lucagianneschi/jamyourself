@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		uso whereIncude        
+ * \todo		        
  *
  */
 
@@ -56,26 +56,17 @@ class PostInfo {
 
 class PostBox {
 
-    public $config;
     public $postInfoArray;
     public $postCounter;
 
     /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/post.config.json"), false);
-    }
-
-    /**
      * \fn	initForPersonalPage($objectId)
      * \brief	Init PostBox instance for Personal Page
-     * \param	$objectId for user that owns the page
+     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip 
      * \return	postBox
-     * \todo	prevedere la possibilità di avere 5 post alla volta
+     * \todo	
      */
-    public function initForPersonalPage($objectId) {
+    public function initForPersonalPage($objectId, $limit, $skip) {
 	global $boxes;
 	$postBox = new PostBox();
 	$info = array();
@@ -87,7 +78,8 @@ class PostBox {
 	$post->where('type', 'P');
 	$post->where('active', true);
 	$post->whereInclude('fromUser,toUser');
-	$post->setLimit($this->config->limitForPersonalPage);
+	$post->setLimit($limit);
+        $post->setSkip($skip);
 	$post->orderByDescending('createdAt');
 	$posts = $post->getComments();
 	if ($posts instanceof Error) {
@@ -99,12 +91,12 @@ class PostBox {
 	} else {
 	    foreach ($posts as $post) {
 		$counter = ++$counter;
-		$objectId = $post->getFromUser()->getObjectId();
+		$userId = $post->getFromUser()->getObjectId();
 		$thumbnail = $post->getFromUser()->getProfileThumbnail();
 		$type = $post->getFromUser()->getType();
 		$encodedUsername = $post->getFromUser()->getUsername();
 		$username = parse_decode_string($encodedUsername);
-		$fromUserInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		$postId = $post->getObjectId();
 		$commentCounter = $post->getCommentCounter();
 		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');

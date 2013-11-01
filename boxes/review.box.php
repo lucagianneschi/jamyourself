@@ -66,7 +66,7 @@ class ReviewBox {
 
     public $config;
     public $reviewArray;
-    //public $reviewCounter;
+    public $reviewCounter;
 
     /**
      * \fn	__construct()
@@ -83,11 +83,11 @@ class ReviewBox {
      * \return	reviewBox
      * \todo	usare whereInclude per il fromUser per evitare di fare una ulteriore get
      */
-    public function initForDetail($objectId) {//objetId record/event
+    public function initForDetail($objectId) {
         global $boxes;
         $info = array();
         $reviewBox = new ReviewBox();
-        //$reviewBox->reviewCounter = $boxes['NDB'];
+        $reviewBox->reviewCounter = $boxes['NDB'];
         $review = new CommentParse();
         $review->where('objectId', $objectId);
         $review->where('active', true);
@@ -95,10 +95,11 @@ class ReviewBox {
         $review->setLimit($this->config->limitForDetail);
         $review->orderByDescending('createdAt');
         $reviews = $review->getComments();
-        if (get_class($reviews) == 'Error') {
+        if ($reviews instanceof Error) {
             return $reviews;
         } elseif (is_null($reviews)) {
             $reviewBox->reviewArray = $boxes['NODATA'];
+            return $reviewBox;
         } else {
             foreach ($reviews as $review) {
                 $userId = $review->getFromUser()->getObjectId();
@@ -107,7 +108,7 @@ class ReviewBox {
                 $encodedUsername = $review->getFromUser()->getUserName();
                 $username = parse_decode_string($encodedUsername);
                 $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
-                $objectId = $review->getObjectId();
+                $reviewId = $review->getObjectId();
                 $rating = $review->getVote();
                 $commentCounter = $review->getCommentCounter();
                 $loveCounter = $review->getLoveCounter();
@@ -119,7 +120,7 @@ class ReviewBox {
                 $thumbnailCover = $boxes['NDB'];
                 $encodedTitle = $review->getTitle();
                 $title = parse_decode_string($encodedTitle);
-                $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
+                $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $reviewId, $rating, $text, $thumbnailCover, $title);
                 array_push($info, $reviewInfo);
             }
             $reviewBox->reviewArray = $info;
@@ -134,23 +135,25 @@ class ReviewBox {
      * \return	reviewBox
      * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
      */
-    public function initForMediaPage($objectId) {
+    public function initForMediaPage($objectId, $limit, $skip) {
         global $boxes;
-        //$counter = 0;
+        $counter = 0;
         $info = array();
         $reviewBox = new ReviewBox();
         $review = new CommentParse();
         $review->where('objectId', $objectId);
         $review->where('active', true);
         $review->whereInclude('fromUser');
-        $review->setLimit($this->config->limitForMediaPage);
+        $review->setLimit($limit);
+        $review->setSkip($skip);
         $review->orderByDescending('createdAt');
         $reviews = $review->getComments();
-        if (get_class($reviews) == 'Error') {
+        if ($reviews instanceof Error) {
             return $reviews;
         } elseif (is_null($reviews)) {
             $reviewBox->reviewArray = $boxes['NODATA'];
-            //$reviewBox->reviewCounter = $boxes['NODATA'];
+            $reviewBox->reviewCounter = $boxes['NODATA'];
+            return $reviewBox;
         } else {
             foreach ($reviews as $review) {
                 $counter = ++$counter;
@@ -165,18 +168,18 @@ class ReviewBox {
                 $reviewCounter = $boxes['NDB'];
                 $shareCounter = $review->getShareCounter();
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $objectId = $review->getObjectId();
+                $reviewId = $review->getObjectId();
                 $rating = $review->getVote();
                 $encodedText = $review->getText();
                 $text = parse_decode_string($encodedText);
                 $thumbnailCover = $boxes['NDB'];
                 $encodedTitle = $review->getTitle();
                 $title = parse_decode_string($encodedTitle);
-                $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $objectId, $rating, $text, $thumbnailCover, $title);
+                $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $reviewId, $rating, $text, $thumbnailCover, $title);
                 array_push($info, $reviewInfo);
             }
             $reviewBox->reviewArray = $info;
-            //$reviewBox->reviewCounter = $counter;
+            $reviewBox->reviewCounter = $counter;
         }
         return $reviewBox;
     }
@@ -190,7 +193,7 @@ class ReviewBox {
     function initForPersonalPage($objectId, $type, $className) {
         global $boxes;
         $info = array();
-        //$counter = 0;
+        $counter = 0;
         $reviewBox = new ReviewBox();
         $reviewP = new CommentParse();
         $reviewP->where('active', true);
@@ -219,14 +222,15 @@ class ReviewBox {
         $reviewP->setLimit($this->config->limitForPersonalPage);
         $reviewP->orderByDescending('createdAt');
         $reviews = $reviewP->getComments();
-        if (get_class($reviews) == 'Error') {
+        if ($reviews instanceof Error) {
             return $reviews;
         } elseif (is_null($reviews)) {
             $reviewBox->reviewArray = $boxes['NODATA'];
-            //$reviewBox->reviewCounter = $boxes['NODATA'];
+            $reviewBox->reviewCounter = $boxes['NODATA'];
+            return $reviewBox;
         } else {
             foreach ($reviews as $review) {
-                //$counter = ++$counter;
+                $counter = ++$counter;
                 $commentCounter = $review->getCommentCounter();
                 $loveCounter = $review->getLoveCounter();
                 $reviewCounter = $boxes['NDB'];
@@ -254,14 +258,12 @@ class ReviewBox {
                 if (!is_null($review->getRecord()) && !is_null($review->getRecord()->getThumbnailCover())) {
                     $thumbnailCover = $review->getRecord()->getThumbnailCover();
                 }
-
                 $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $reviewId, $rating, $text, $thumbnailCover, $title);
                 array_push($info, $reviewInfo);
             }
         }
         $reviewBox->reviewArray = $info;
         $reviewBox->reviewCounter = $counter;
-
         return $reviewBox;
     }
 

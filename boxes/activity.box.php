@@ -224,12 +224,12 @@ class ActivityBox {
                     $encodedRecTitle = $activity->getRecord()->getTitle();
                     $title = parse_decode_string($encodedRecTitle);
                     $fromUser = $activity->getRecord()->getFromUser();
-                    $objectIdUser = $fromUser->getObjectId();
+                    $userId = $fromUser->getObjectId();
                     $thumbnail = $fromUser->getProfileThumbnail();
                     $userType = $fromUser->getType();
                     $encodedUsername = $fromUser->getUsername();
                     $username = parse_decode_string($encodedUsername);
-                    $fromUserInfo = new UserInfo($objectIdUser, $thumbnail, $userType, $username);
+                    $fromUserInfo = new UserInfo($userId, $thumbnail, $userType, $username);
                 }
             }
             $recordInfo = new RecordInfoForPersonalPage($fromUserInfo, $recordId, $songTitle, $thumbnailCover, $title);

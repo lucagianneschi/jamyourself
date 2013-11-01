@@ -34,34 +34,47 @@ class LoveController extends REST {
     /**
      * \fn		incrementLove()
      * \brief   increments loveCounter property of an istance of a class
-     * \todo    usare la sessione
+     * \todo    usare la sessione, prendere il toUser per la incrementLove, poichè il propietario del media deve avere notifica
      */
     public function incrementLove() {
-
         global $controllers;
-        #TODO
-        //in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
-        //questa sezione prima del try-catch dovr� sparire
-//        require_once CLASSES_DIR . 'user.class.php';
-//        $currentUser = new User('SPOTTER');
-//        $currentUser->setObjectId('GuUAj83MGH');
+
         try {
+            //controllo la richiesta
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
-            $objectId = $this->request['objectId'];
+
+            //controllo i parametri
+            $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Status', 'Video');
+            if (!isset($this->request['classType'])) {
+                $this->response(array('status' => 'NOCLASSTYPE'), 400);
+            } elseif (!isset($this->request['objectId'])) {
+                $this->response(array('status' => 'NOOBJECTID'), 400);
+            } elseif (!in_array($this->request['classType'], $classTypeAdmitted)) {
+                $this->response(array('status' => 'CLASSTYPEKO'), 400);
+            } elseif (!isset($this->request['objectIdUser'])) {
+                $this->response(array('status' => 'Nessun objectIdUser definito'), 400);
+            }
+
+            //recupero l'utente fromUser
+            $fromUser = $_SESSION['currentUser'];
+
+            //recupero i parametri
             $classType = $this->request['classType'];
-            $fromUser = $this->request['currentUser'];
-            //$toUser = $this->request['toUser'];
+            $objectId = $this->request['objectId'];
+            $toUserObjectId = $this->request['objectIdUser'];
+
             $activity = new Activity();
             $activity->setActive(true);
             $activity->setCounter(0);
             $activity->setFromUser($fromUser->getObjectId());
+            $activity->setQuestion(null);
             $activity->setRead(false);
             $activity->setStatus("A");
-            $activity->setQuestion(null);
+            $activity->setToUser($toUserObjectId);
             switch ($classType) {
                 case 'Album':
                     require_once CLASSES_DIR . 'albumParse.class.php';
@@ -120,18 +133,18 @@ class LoveController extends REST {
                     $activity->setVideo($objectId);
                     break;
             }
-            if (get_class($res) == 'Error') {
-                $this->response(array($controllers['LOVEPLUSERR']), 503);
+            if ($res instanceof Error) {
+                $this->response(array('status' => $controllers['LOVEPLUSERR']), 503);
             } else {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
-                if (get_class($resActivity) == 'Error') {
+                if ($resActivity instanceof Error) {
                     $this->rollback($classType, $objectId, 'decrement');
                 }
             }
-            $this->response(array($activity->getType()), 200);
+            $this->response(array($res), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 500);
         }
     }
 
@@ -141,33 +154,48 @@ class LoveController extends REST {
      * \todo    usare la sessione
      */
     public function decrementLove() {
-
         global $controllers;
-        #TODO
-        //in questa fase di debug, il fromUser lo passo staticamente e non lo recupero dalla session
-        //questa sezione prima del try-catch dovr� sparire
-//        require_once CLASSES_DIR . 'user.class.php';
-//        $currentUser = new User('SPOTTER');
-//        $currentUser->setObjectId('GuUAj83MGH');
 
         try {
+            //controllo la richiesta
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
-            $objectId = $this->request['objectId'];
+
+            //controllo i parametri
+            $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Status', 'Video');
+            if (!isset($this->request['classType'])) {
+                $this->response(array('status' => 'Nessun classType definito'), 400);
+            } elseif (!isset($this->request['objectId'])) {
+                $this->response(array('status' => 'Nessun objectId definito'), 400);
+            } elseif (!in_array($this->request['classType'], $classTypeAdmitted)) {
+                $this->response(array('status' => 'Il classType non è ammesso'), 400);
+            } elseif (!isset($this->request['objectIdUser'])) {
+                $this->response(array('status' => 'Nessun objectIdUser definito'), 400);
+            }
+
+            //recupero l'utente fromUser
+            $fromUser = $_SESSION['currentUser'];
+
+            //recupero i parametri
             $classType = $this->request['classType'];
-            $fromUser = $this->request['currentUser'];
+            $objectId = $this->request['objectId'];
+            $toUserObjectId = $this->request['objectIdUser'];
+
+            #TODO
+            //devo farmi passare questo per poter avere la notifica
             //$toUser = $this->request['toUser'];
+
             $activity = new Activity();
-            $activity->setAccepted(true);
             $activity->setActive(true);
             $activity->setCounter(0);
             $activity->setFromUser($fromUser->getObjectId());
+            $activity->setQuestion(null);
             $activity->setRead(true);
             $activity->setStatus("A");
-            $activity->setQuestion(null);
+            $activity->setToUser($toUserObjectId);
             switch ($classType) {
                 case 'Album':
                     require_once CLASSES_DIR . 'albumParse.class.php';
@@ -226,23 +254,22 @@ class LoveController extends REST {
                     $activity->setVideo($objectId);
                     break;
             }
-            if (get_class($res) == 'Error') {
-                $this->response(array($controllers['LOVEMINUSERR']), 503);
+            if ($res instanceof Error) {
+                $this->response(array('status' => $controllers['LOVEMINUSERR']), 503);
             } else {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
-                if (get_class($resActivity) == 'Error') {
+                if ($resActivity instanceof Error) {
                     $this->rollback($classType, $objectId, 'increment');
                 }
             }
-            $this->response(array($activity->getType()), 200);
+            $this->response(array($res), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 500);
         }
     }
 
     private function rollback($classType, $objectId, $operation) {
-
         global $controllers;
         switch ($classType) {
             case 'Album':
@@ -318,11 +345,10 @@ class LoveController extends REST {
                 }
                 break;
         }
-
-        if (get_class($res) == 'Error') {
-            $this->response(array($controllers['ROLLKO']), 503);
+        if ($res instanceof Error) {
+            $this->response(array('status' => $controllers['ROLLKO']), 503);
         } else {
-            $this->response(array($controllers['ROLLOK']), 503);
+            $this->response(array('status' => $controllers['ROLLOK']), 503);
         }
     }
 

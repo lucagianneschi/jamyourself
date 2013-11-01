@@ -140,7 +140,7 @@ class AlbumBox {
 		$description = parse_decode_string($encodedDescription);
 		$filePath = $image->getFilePath();
 		$location = $image->getLocation();
-		$objectId = $image->getObjectId();
+		$imageId = $image->getObjectId();
 		$tags = array();
 		if (count($image->getTags()) > 0) {
 		    foreach ($image->getTags() as $tag) {
@@ -149,7 +149,7 @@ class AlbumBox {
 		    }
 		}
 		$thumbnail = $image->getThumbnail();
-		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail);
+		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $imageId, $tags, $thumbnail);
 		array_push($info, $imageInfo);
 	    }
 	    $albumBox->imageArray = $info;
@@ -191,12 +191,12 @@ class AlbumBox {
 		$loveCounter = $album->getLoveCounter();
 		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $album->getShareCounter();
-		$objectId = $album->getObjectId();
+		$albumId = $album->getObjectId();
 		$thumbnailCover = $album->getThumbnailCover();
 		$encodedTitle = $album->getTitle();
 		$title = parse_decode_string($encodedTitle);
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$albumInfo = new AlbumInfo($counters, $imageCounter, $objectId, $thumbnailCover, $title);
+		$albumInfo = new AlbumInfo($counters, $imageCounter, $albumId, $thumbnailCover, $title);
 		array_push($info, $albumInfo);
 	    }
 	    $albumBox->albumInfoArray = $info;

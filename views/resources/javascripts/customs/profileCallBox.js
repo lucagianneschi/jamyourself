@@ -43,6 +43,7 @@ var callBox = {
 				classBox :  this.classBox,
 				objectId: this.objectId
 			},
+			async: true,
 			type : 'POST',
 			dataType : 'json',
 			beforeSend: function(){
@@ -154,7 +155,7 @@ var callBox = {
 
 						case 'post':
 							//aggiunge box post
-							addBoxPost(data, __this.typeUser);
+							addBoxPost(data, __this.typeUser,__this.objectIdUser);
 							break;
 						
 						case 'activity':							
@@ -181,11 +182,14 @@ var callBox = {
 				} else {
 					if(typebox == 'userinfo')
 						$('.body-content').load('content/general/error.php');
+					else{
+						console.log('Error: '+typebox);
+					}
 				}
 
 			},
 			error : function(richiesta, stato, errori) {
-				console.log(richiesta+' '+stato+' '+errori);
+				console.log(typebox+' '+richiesta+' '+stato+' '+errori);
 				console.log(richiesta);
 			}
 		});
@@ -270,7 +274,7 @@ function addBoxEvent(data, typeUser) {
  * box RecordReview chiama box-RecordReview.php
  */
 function addBoxRecordReview(data, typeUser) {
-	$('#box-RecordReview').load('content/profile/box-social/box-RecordReview.php', {
+	$('#box-RecordReview').load('content/profile/box-social/box-recordReview.php', {
 		'data' : data,
 		'typeUser' : typeUser
 	}, function() { success: 
@@ -353,10 +357,11 @@ function addBoxAlbum(data, typeUser) {
 /*
  * box post chiama box-post.php
  */
-function addBoxPost(data, typeUser) {
+function addBoxPost(data, typeUser,objectIdUser) {
 	$('#box-post').load('content/profile/box-social/box-post.php', {
 		'data' : data,
-		'typeUser' : typeUser
+		'typeUser' : typeUser,
+		'objectIdUser' : objectIdUser
 	}, function() { success: hcento();
 	});
 }
@@ -389,18 +394,6 @@ function addBoxComment(data, typeUser,classbox,objectId) {
 	
 }
 
-function addBoxHeader(data, typeUser){
-	$('#header-profile').load('content/header/box-profile.php', {
-		'data' : data,
-		'typeUser' : typeUser
-	}, function() { success: hcento();
-	});
-	$('#header-social').load('content/header/box-social.php', {
-		'data' : data,
-		'typeUser' : typeUser
-	}, function() { success: hcento();
-	});
-}
 
 
 
