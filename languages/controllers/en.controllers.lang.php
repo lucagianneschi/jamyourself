@@ -84,9 +84,13 @@ $controllers = array(
     //SOCIALLOGIN
     'OKSOCIALLINK' => 'Your Social account has been correctly linked to your Jamyourself account',
     'USERNOTFOUND' => 'User not found for linking with your social account',
+    'NOLINK' => 'Unable to link your account',
     'OKSOCIALUNLINK' => 'Your Social account has been correctly unlinked from your Jamyourself account',
+    'NOUNLINK' => 'Unable to unlink your account',
     //PASSWORDRESET
     'OKPASSWORDRESETREQUEST' => 'Your password reset request has been sent',
+    'USERNOTFOUNDFORPASSRESET' => 'User not found for passwordreset',
+    'NOEMAILFORRESETPASS' => 'No email set for password reset',
     //SEARCH
     'NOSEARCHTEXT' => 'You must set a text to be searched',
     'SHORTSEARCHTEXT' => 'The text you want to search it too short',
@@ -95,7 +99,8 @@ $controllers = array(
     'SONGREMOVEDFROMPLAYLIST' => 'Song removed from playlist',
     'NOPLAYLIST' => 'Playlist not found for setting your tracklist',
     //SETTINGS
-    'NOSETTINGUPDATE' => 'Unable to update your setting'
+    'NOSETTINGUPDATE' => 'Unable to update your setting',
+    'NOSETTING' => 'No setting specified in the request'
 );
 
 $mail_files = array(

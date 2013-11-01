@@ -86,6 +86,7 @@ $controllers = array(
     'USERNOTFOUND' => 'Utente non trovato per effettuare il link con account social',
     'NOLINK' => 'Impossibile effettuare il link con il tuo account social',
     'OKSOCIALUNLINK' => 'Il tuo account social è stato scollegato dal tuo account Jamyourself',
+    'NOUNLINK' => 'Impossibile scollegare il tuo account dal tuo account social',
     //PASSWORDRESET
     'OKPASSWORDRESETREQUEST' => 'La tua richiesta di reset password è stata inoltrata correttamente',
     'USERNOTFOUNDFORPASSRESET' => 'User non trovato per reset della password',
@@ -98,7 +99,8 @@ $controllers = array(
     'SONGREMOVEDFROMPLAYLIST' => 'Song removed from playlist',
     'NOPLAYLIST' => 'Playlist non trovata',
     //SETTINGS
-    'NOSETTINGUPDATE' => 'Impossibile effettuare aggiornamento dei setting'
+    'NOSETTINGUPDATE' => 'Impossibile effettuare aggiornamento dei setting',
+    'NOSETTING' => 'Setting non specificato nella richiesta'
 );
 
 $mail_files = array(
