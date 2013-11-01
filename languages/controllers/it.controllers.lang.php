@@ -56,6 +56,9 @@ $controllers = array(
     'SHORTMESSAGE' => 'Dimensione messaggio troppo corta | lungh:',
     'MESSAGESAVED' => 'Messaggio inviato',
     'MESSAGEREAD' => 'Message correctly read',
+    'NOACTFORREADMESS' => 'Nessuna activity trovata per lettura messaggio',
+    'NOREAD' => 'Impossibile leggere correttamente questo messaggio',
+    'NOSAVEMESS' => 'Impossibile salvere ed inviare il messaggio',
     //LOVE
     'LOVEPLUSERR' => 'Errore incrementando Love',
     'LOVEMINUSERR' => 'Error decrementando Love',
