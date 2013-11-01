@@ -464,15 +464,15 @@ class SignupController extends REST {
     private function createFileSystemStructure($userId) {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
-                mkdir(USERS_DIR . $userId);
-                mkdir(USERS_DIR . $userId . "/" . "images");
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "default");
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicturethumb");
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicture");
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcover");
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcoverthumb");
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcover");
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcoverthumb");
+                mkdir(USERS_DIR . $userId,0,true);
+                mkdir(USERS_DIR . $userId . "/" . "images",0,true);
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "default",0,true);
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicturethumb",0,true);
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicture",0,true);
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcover",0,true);
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcoverthumb",0,true);
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcover",0,true);
+                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcoverthumb",0,true);
                 mkdir(USERS_DIR . $userId . "/" . "songs");
                 mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . "default");
             }

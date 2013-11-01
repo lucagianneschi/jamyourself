@@ -92,7 +92,7 @@ class uploadRecordController extends REST {
         $pActivity = new ActivityParse();
         $pActivity->saveActivity($activity);
 
-        $this->createFileSystemStructure($userId, $newRecord->getObjectId());
+        $this->createFolderForRecord($userId, $newRecord->getObjectId());
 
         $this->response(array("OK"), 200);
     }
@@ -108,7 +108,7 @@ class uploadRecordController extends REST {
         return implode(",",$list);
     }
 
-    private function createFileSystemStructure($userId, $albumId) {
+    private function createFolderForRecord($userId, $albumId) {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
                 mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . $albumId,0,true);
@@ -117,7 +117,6 @@ class uploadRecordController extends REST {
             return false;
         }
     }
-
 }
 
 ?>
