@@ -84,9 +84,12 @@ $controllers = array(
     //SOCIALLOGIN
     'OKSOCIALLINK' => 'Il tuo account social è stato collegato al tuo account Jamyourself',
     'USERNOTFOUND' => 'Utente non trovato per effettuare il link con account social',
+    'NOLINK' => 'Impossibile effettuare il link con il tuo account social',
     'OKSOCIALUNLINK' => 'Il tuo account social è stato scollegato dal tuo account Jamyourself',
     //PASSWORDRESET
     'OKPASSWORDRESETREQUEST' => 'La tua richiesta di reset password è stata inoltrata correttamente',
+    'USERNOTFOUNDFORPASSRESET' => 'User non trovato per reset della password',
+    'NOEMAILFORRESETPASS' => 'Email non settata per reset della password',
     //SEARCH
     'NOSEARCHTEXT' => 'Devi inserire un testo da ricercare',
     'SHORTSEARCHTEXT' => 'Il testo da ricercare è troppo breve',
