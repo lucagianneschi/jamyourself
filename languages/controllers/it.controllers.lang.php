@@ -59,6 +59,10 @@ $controllers = array(
     'NOACTFORREADMESS' => 'Nessuna activity trovata per lettura messaggio',
     'NOREAD' => 'Impossibile leggere correttamente questo messaggio',
     'NOSAVEMESS' => 'Impossibile salvere ed inviare il messaggio',
+    'NOPLAYLISTID' => 'Playlist ID non impostato',
+    'NOSONGTID' => 'Song ID non impostato',
+    'NOADDSONGTOPLAY' => 'Impossibile aggiungere canzone alla playlist',
+    'NOREMOVESONGTOPLAY' => 'Impossibile rimuovere canzone alla playlist',
     //LOVE
     'LOVEPLUSERR' => 'Errore incrementando Love',
     'LOVEMINUSERR' => 'Error decrementando Love',

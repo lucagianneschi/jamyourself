@@ -101,6 +101,10 @@ $controllers = array(
     'SONGADDEDTOPLAYLIST' => 'Song correctly added to playlist',
     'SONGREMOVEDFROMPLAYLIST' => 'Song removed from playlist',
     'NOPLAYLIST' => 'Playlist not found for setting your tracklist',
+    'NOPLAYLISTID' => 'Playlist ID unset',
+    'NOSONGTID' => 'Song ID unset',
+    'NOADDSONGTOPLAY' => 'Unable to add song to playlist',
+    'NOREMOVESONGTOPLAY' => 'Unable to remove song from playlist',
     //SETTINGS
     'NOSETTINGUPDATE' => 'Unable to update your setting',
     'NOSETTING' => 'No setting specified in the request'
