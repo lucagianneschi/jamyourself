@@ -10,56 +10,106 @@
  *  \brief     Italian strings for controllers
  *  \warning
  *  \bug
- *  \todo
- *
- *  
- *  
+ *  \todo	traduzioni 
  */
 
 $controllers = array(
-    'POSTSAVED' => 'Il tuo post è stato salvato',
-    'SHORTPOST' => 'Dimensione post troppo corta | lungh:',
-    'LONGPOST' => 'Dimensione post troppo lunga | lungh:',
+    //GENERAL
     'NOTOUSER' => 'toUser non specificato',
     'NOFROMUSER' => 'fromUser  non specificato',
     'NOCLASSTYPE' => 'classType non specificato',
     'NOOBJECTID' => 'objectId non specificato',
+    'ROLLKO' => 'ROLLBACK KO',
+    'ROLLOK' => 'ROLLBACK OK',
+    'NOUSERID' => 'User ID non definito',
+    'CLASSTYPEKO' => 'ClassType non accettato',
+    'NOPOSTREQUEST' => 'La tua richiesta non è di tipo POST',
+    'USERNOSES' => 'Non esiste nessun utente in SESSION',
+    //POST
+    'POSTSAVED' => 'Il tuo post è stato salvato',
+    'SHORTPOST' => 'Dimensione post troppo corta | lungh:',
+    'LONGPOST' => 'Dimensione post troppo lunga | lungh:',
     'NOPOST' => 'Post non specificato',
+    //COMMENT
     'NOCOMMENT' => 'Commento non specificato',
     'SHORTCOMMENT' => 'Dimensione commento troppo corta | lungh:',
     'LONGCOMMENT' => 'Dimensione commment troppo lunga | lungh:',
     'COMMENTSAVED' => 'Il tuo commento è stato salvato',
-    'ROLLKO' => 'ROLLBACK KO',
-    'ROLLOK' => 'ROLLBACK OK',
+    'COMMENTERR' => 'Unable to save comment',
+    //DELETE
+    'NOVIDEOFORDELETE' => 'Video non trovato per cancellazione',
+    'NOSTATUSFORDELETE' => 'Status non trovato per cancellazione',
+    'NOSONGFORDELETE' => 'Canzone non trovata per cancellazione',
+    'NORECORDFORDELETE' => 'Record non trovato per cancellazione',
+    'NOPLAYLISTFORDELETE' => 'Playlist non trovata per cancellazione',
+    'NOPLAYLISTFORDELETE' => 'Immagine non trovato per cancellazione',
+    'NOEVENTFORDELETE' => 'Evento non trovato per cancellazione',
+    'NOCOMMENTFORDELETE' => 'Comment or Review not found for delete',
+    'NOALBUMFORDELETE' => 'Album non trovato per cancellazione',
+    'NOACTIVITYFORDELETE' => 'Activity non trovata per cancellazione',
+    'DELETEOK' => 'Operazione di cancellazione effettuata con successo',
     'CND' => 'Impossibile eliminare questo elemento: non sei il proprietario',
     'SBJ' => 'Il tuo account è stato cancellato',
     'DELERR' => 'Errore in fase di cancellazione',
-    'LOVEPLUSERR' => 'Errore incrementando Love',
-    'LOVEMINUSERR' => 'Error decrementando Love',
+    //MESSAGE
     'NOMESSAGE' => 'Messaggio non specificato',
     'SHORTMESSAGE' => 'Dimensione messaggio troppo corta | lungh:',
     'MESSAGESAVED' => 'Messaggio inviato',
-    'RELDENIED' => 'Invio relazione negato',
-    'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',
-    'SBJ' => 'Richiesta di relazione',
-    'SBJOK' => 'Richiesta di relazione accettata',
-    'RELSAVED' => 'La tua richiesta è stata correttamente inviata',
-    'NORELDEL' => 'Nessuna relazione da cancellare',
+    'MESSAGEREAD' => 'Message correctly read',
+    //LOVE
+    'LOVEPLUSERR' => 'Errore incrementando Love',
+    'LOVEMINUSERR' => 'Error decrementando Love',
+    'LOVE' => 'You love a',
+    'UNLOVE' => 'You don&apost love anymore a',
+    //REVIEW
     'SBJE' => 'Il tuo evento ha ricevuto una recensione',
     'SBJR' => 'Il tuo record ha ricevuto una recensione',
     'NOREW' => 'Nessuna recensione specificata',
     'SHORTREW' => 'Dimensione recensione troppo corta | lungh:',
     'LONGREW' => 'Dimensione recensione troppo lunga | lungh:',
     'REWSAVED' => 'Recensione salvata con successo',
+    //RELATION
+    'RELDENIED' => 'Invio relazione negato',
+    'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',
+    'SBJ' => 'Richiesta di relazione',
+    'SBJOK' => 'Richiesta di relazione accettata',
+    'RELSAVED' => 'La tua richiesta è stata correttamente inviata',
+    'NORELDEL' => 'Nessuna relazione da cancellare',
+    //LOGIN
     'NOLOGIN' => 'Credenziali di accesso non valide',
     'OKLOGIN' => 'Login eseguito',
+    //LOGOUT
     'NOLOGOUT' => 'Impossibile effettuare logout',
     'OKLOGOUT' => 'Logout Eseguito',
+    //SOCIALLOGIN
     'OKSOCIALLINK' => 'Il tuo account social è stato collegato al tuo account Jamyourself',
+    'USERNOTFOUND' => 'Utente non trovato per effettuare il link con account social',
     'OKSOCIALUNLINK' => 'Il tuo account social è stato scollegato dal tuo account Jamyourself',
+    //PASSWORDRESET
     'OKPASSWORDRESETREQUEST' => 'La tua richiesta di reset password è stata inoltrata correttamente',
+    //SEARCH
     'NOSEARCHTEXT' => 'Devi inserire un testo da ricercare',
     'SHORTSEARCHTEXT' => 'Il testo da ricercare è troppo breve',
+    //PLAYLIST
+    'SONGADDEDTOPLAYLIST' => 'Canzone aggiunta alla playlist',
+    'SONGREMOVEDFROMPLAYLIST' => 'Song removed from playlist',
+    'NOPLAYLIST' => 'Playlist non trovata',
+    //SETTINGS
+    'NOSETTINGUPDATE' => 'Impossibile effettuare aggiornamento dei setting'
+);
+
+$mail_files = array(
+    'USERDELETED' => 'it.userDeletion.html',
+    'FRINDSHIPREQUESTEMAIL' => 'it.friendshipRequest.html',
+    'COLLABORATIONREQUESTEMAIL' => 'it.collaborationRequest.html',
+    'FRIENDSHIPACCEPTEDEMAIL' => 'it.friendshipRequestAccepted.html',
+    'COLLABORATIONACCEPTEDEMAIL' => 'it.collaborationRequestAccepted.html',
+    'FOLLOWINGEMAIL' => 'it.following.html',
+    'EVENTREVIEWEMAIL' => 'it.eventReviewReceived.html',
+    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html'
+);
+
+$rest_strings = array(
     '100' => 'Continua',
     '101' => 'Cambio Di Protocolli',
     '200' => 'OK',
@@ -100,42 +150,6 @@ $controllers = array(
     '502' => 'Gateway Non Valido',
     '503' => 'Servizio Non Disponibile',
     '504' => 'Gateway Timeout',
-    '505' => 'Versione HTTP Non Supportata',
-    'NOPOSTREQUEST' => 'La tua richiesta non è di tipo POST',
-    'USERNOSES' => 'Non esiste nessun utente in SESSION',
-    'SONGALREADYINPLAYLIST' => 'Song già presente nella playlist',
-    'SONGADDEDTOPLAYLIST' => 'Canzone aggiunta alla playlist',
-    'SONGREMOVEDFROMPLAYLIST' => 'Song removed from playlist',
-    'NOVIDEOFORDELETE' => 'Video not found for delete',
-    'NOSTATUSFORDELETE' => 'Status not found for delete',
-    'NOSONGFORDELETE' => 'Song not found for delete',
-    'NORECORDFORDELETE' => 'Record not found for delete',
-    'NOPLAYLISTFORDELETE' => 'Playlist not found for delete',
-    'NOPLAYLISTFORDELETE' => 'Image not found for delete',
-    'NOEVENTFORDELETE' => 'Event not found for delete',
-    'NOCOMMENTFORDELETE' => 'Comment or Review not found for delete',
-    'NOALBUMFORDELETE' => 'Album not found for delete',
-    'NOACTIVITYFORDELETE' => 'Activity not found for delete',
-    'DELETEOK' => 'Delete action completed',
-    'LOVE' => 'You love a',
-    'UNLOVE' => 'You don&apost love anymore a',
-    'MESSAGEREAD' => 'Message correctly read',
-    'USERNOTFOUND' => 'User not found for linking with your social account',
-    'NOSETTINGUPDATE' => 'Unable to update your setting',
-    'NOPLAYLIST' => 'Playlist not found for setting your tracklist',
-    'SONGADDEDTOPLAYLIST' => 'Song correctly added to playlist',
-    'CLASSTYPEKO' => 'ClassType non accettato',
-    'NOUSERID' => 'User ID non definito'
-);
-
-$mail_files = array(
-    'USERDELETED' => 'it.userDeletion.html',
-    'FRINDSHIPREQUESTEMAIL' => 'it.friendshipRequest.html',
-    'COLLABORATIONREQUESTEMAIL' => 'it.collaborationRequest.html',
-    'FRIENDSHIPACCEPTEDEMAIL' => 'it.friendshipRequestAccepted.html',
-    'COLLABORATIONACCEPTEDEMAIL' => 'it.collaborationRequestAccepted.html',
-    'FOLLOWINGEMAIL' => 'it.following.html',
-    'EVENTREVIEWEMAIL' => 'it.eventReviewReceived.html',
-    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html'
+    '505' => 'Versione HTTP Non Supportata'
 );
 ?>
