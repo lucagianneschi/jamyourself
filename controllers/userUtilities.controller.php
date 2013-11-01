@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -150,7 +151,10 @@ class UserUtilitiesController extends REST {
 	    //spostare questa funzione dentro la userParse
 	    require_once PARSE_DIR . 'parse.php';
 	    $userLib = new parseUser();
-	    $userLib->unlinkAccounts($objectId, $sessionToken, null);
+	    $unlink = $userLib->unlinkAccounts($objectId, $sessionToken, null);
+	    if ($unlink instanceof ParseLibraryException) {
+		$this->response(array('NOUNLINK'), 503);
+	    }
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);
@@ -178,30 +182,28 @@ class UserUtilitiesController extends REST {
     }
 
     /**
-     * \fn		public function updateSetting()
+     * \fn	public function updateSetting()
      * \brief   effettua l'update dell'array dei settings
      * \todo    usare la sessione
      */
     public function updateSetting() {
 	try {
+	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    } elseif (!isset($_SESSION['setting'])) {
+		$this->response(array('status' => $controllers['NOSETTING']), 403);
 	    }
 	    $userId = $this->request['objectId'];
 	    $settings = $this->request['setting'];
 
 	    $userP = new UserParse();
-	    $user = $userP->getuser($userId);
-	    if ($user instanceof Error) {
-		$this->response(array('Error: ' . $user->getMessage()), 503);
-	    }
 	    $res = $userP->updateField($userId, 'settings', array($settings));
 	    if ($res instanceof Error) {
 		$this->response(array('NOSETTINGUPDATE'), 503);
 	    }
-
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);
@@ -222,9 +224,9 @@ class UserUtilitiesController extends REST {
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
-	    // if (get_class($resActivity) == 'Error') {
-	    // $this->rollback($playlistId, $songId, 'remove');
-	    // }
+	    if ($resActivity instanceof Error) {
+		//FARE UNA ROLLBACK??
+	    }
 	    $this->response(array($resActivity), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
@@ -232,7 +234,4 @@ class UserUtilitiesController extends REST {
     }
 
 }
-
-
-
 ?>
