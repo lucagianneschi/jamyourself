@@ -93,7 +93,7 @@ class RelationController extends REST {
 	    $mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
 	    $resMail = $mail->Send();
 	    if ($resMail instanceof phpmailerException) {
-		$this->response(array('status' => $controllers['NOMAIL']), 403); //FINIRE
+		$this->response(array('status' => $controllers['NOMAIL']), 403); 
 	    }
 	    $mail->SmtpClose();
 	    unset($mail);
@@ -139,7 +139,7 @@ class RelationController extends REST {
 	    } elseif ($res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
 	    }
-	    $this->response(array('RELDECLINED'), 200); //FINIRE
+	    $this->response(array('RELDECLINED'), 200); 
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
@@ -149,6 +149,7 @@ class RelationController extends REST {
      * \fn	removeRelationship ()
      * \brief   remove an existing relationship
      * \todo    rimuovere un following,mancano da gestire i contatori di followers, jammer e venue
+     * \todo    terminare funzione
      */
     public function removeRelationship() {
 	global $controllers;
@@ -254,14 +255,12 @@ class RelationController extends REST {
 		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 400);
 	    }
 	    $currentUser = $this->request['currentUser'];
-
 	    $toUser = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
 	    $fromUserType = $currentUser->getType();
 	    if ($currentUser->getObjectId() == $toUser) {
 		$this->response(array('status' => $controllers['SELF']), 403);
 	    }
-	    require_once SERVICES_DIR . 'mail.service.php';
 	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
@@ -281,7 +280,6 @@ class RelationController extends REST {
 	    $activity->setToUser($toUser);
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
-
 	    switch ($fromUserType) {
 		case 'SPOTTER':
 		    if ($toUserType == 'SPOTTER') {
@@ -292,7 +290,7 @@ class RelationController extends REST {
 			$HTMLFile = $mail_files['FOLLOWINGEMAIL'];
 		    }
 		    break;
-		default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
+		default : 
 		    if ($toUserType == 'SPOTTER') {
 			$this->response(array($controllers['RELDENIED']), 200);
 		    } else {
@@ -304,8 +302,9 @@ class RelationController extends REST {
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
 	    if ($resActivity instanceof Error) {
-		$this->response(array($resActivity), 403);//FINIRE
+		$this->response(array('NOACSAVE'), 403);
 	    } else {
+		require_once SERVICES_DIR . 'mail.service.php';
 		$mail = new MailService(true);
 		$mail->IsHTML(true);
 		$mail->AddAddress($toUser->getEmail());
@@ -313,7 +312,7 @@ class RelationController extends REST {
 		$mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
 		$resMail = $mail->Send();
 		if ($resMail instanceof phpmailerException) {
-		    $this->response(array('status' => $controllers['NOMAIL']), 403); //FINIRE
+		    $this->response(array('status' => $controllers['NOMAIL']), 403);
 		}
 		$mail->SmtpClose();
 		unset($mail);
