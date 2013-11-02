@@ -11,8 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		implementare i parametri di sessione (es currentUser)
- *
+ * \todo		
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
