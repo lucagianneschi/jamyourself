@@ -25,6 +25,9 @@ $controllers = array(
     'CLASSTYPEKO' => 'ClassType non accettato',
     'NOPOSTREQUEST' => 'La tua richiesta non è di tipo POST',
     'USERNOSES' => 'Non esiste nessun utente in SESSION',
+    'USERNOTFOUND' => 'User non trovato',
+    'NOSESSIONTOKEN' => 'SessionToken non definito',
+    'NOMAIL' => 'Impossibile inviare mail',
     //POST
     'POSTSAVED' => 'Il tuo post è stato salvato',
     'SHORTPOST' => 'Dimensione post troppo corta | lungh:',
@@ -66,8 +69,8 @@ $controllers = array(
     //LOVE
     'LOVEPLUSERR' => 'Errore incrementando Love',
     'LOVEMINUSERR' => 'Error decrementando Love',
-    'LOVE' => 'You love a',
-    'UNLOVE' => 'You don&apost love anymore a',
+    'LOVE' => 'Hai fatto love su',
+    'UNLOVE' => 'Hai rimosso lova',
     //REVIEW
     'SBJE' => 'Il tuo evento ha ricevuto una recensione',
     'SBJR' => 'Il tuo record ha ricevuto una recensione',
@@ -85,6 +88,11 @@ $controllers = array(
     'SBJOK' => 'Richiesta di relazione accettata',
     'RELSAVED' => 'La tua richiesta è stata correttamente inviata',
     'NORELDEL' => 'Nessuna relazione da cancellare',
+    'NOACTUPDATE' => 'Impossibile aggiornare activity di relazione',
+    'NORELACC' => 'Impossibile accettare relazione',
+    'RELDECLINED' => 'Richiesta di relazione declinata',
+    'NOACSAVE' => 'Impossibile salvare activity',
+    'RELDELETED' => 'Relazione rimossa',
     //LOGIN
     'NOLOGIN' => 'Credenziali di accesso non valide',
     'OKLOGIN' => 'Login eseguito',

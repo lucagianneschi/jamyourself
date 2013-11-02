@@ -25,6 +25,9 @@ $controllers = array(
     'CLASSTYPEKO' => 'ClassType non accettato',
     'NOPOSTREQUEST' => 'Your Request is not a POST Request',
     'USERNOSES' => 'No User in session',
+    'USERNOTFOUND' => 'User not found',
+    'NOSESSIONTOKEN' => 'SessionToken undefined',
+    'NOMAIL' => 'Unable to send mail',
     //POST
     'POSTSAVED' => 'Your post has been saved',
     'SHORTPOST' => 'Your post is too short | lenght:',
@@ -81,6 +84,11 @@ $controllers = array(
     'SBJOK' => 'Relation Request Accepted',
     'RELSAVED' => 'Your request has been sent correctly',
     'NORELDEL' => 'No relation to remove',
+    'NOACTUPDATE' => 'Unable to update relation activity',
+    'NORELACC' => 'Unable to accept relation',
+    'RELDECLINED' => 'Relation Request Declined',
+    'NOACSAVE' => 'Unable to save activity',
+    'RELDELETED' => 'Relation removed',
     //LOGIN
     'NOLOGIN' => 'Invalid login credentials',
     'OKLOGIN' => 'You are logged in',
