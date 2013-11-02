@@ -75,6 +75,9 @@ $controllers = array(
     'SHORTREW' => 'Dimensione recensione troppo corta | lungh:',
     'LONGREW' => 'Dimensione recensione troppo lunga | lungh:',
     'REWSAVED' => 'Recensione salvata con successo',
+    'NOMAILFORREVIEW'=> 'Indirizzo mail non settato per notifica review',
+    'NOSELFREVIEW' => 'Non puoi recensire i tuoi contenuti',
+    'NOSAVEDREVIEW'=> 'Impossibile salvare la review',
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',

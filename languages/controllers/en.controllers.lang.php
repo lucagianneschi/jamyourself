@@ -71,6 +71,9 @@ $controllers = array(
     'SHORTREW' => 'Your review is too short | lenght:',
     'LONGREW' => 'Your review is too long | lenght:',
     'REWSAVED' => 'Your review has been saved',
+    'NOMAILFORREVIEW'=> 'NO email address set to send mail',
+    'NOSELFREVIEW' => 'You cannot review your contents',
+    'NOSAVEDREVIEW'=> 'Unable to save review',
     //RELATION
     'RELDENIED' => 'You are not allowed to send a relationship request to this user!',
     'SELF' => 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!',
