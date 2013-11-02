@@ -93,7 +93,7 @@ class RelationController extends REST {
 	    $mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
 	    $resMail = $mail->Send();
 	    if ($resMail instanceof phpmailerException) {
-		$this->response(array('status' => $controllers['NOMAIL']), 403); 
+		$this->response(array('status' => $controllers['NOMAIL']), 403);
 	    }
 	    $mail->SmtpClose();
 	    unset($mail);
@@ -128,10 +128,12 @@ class RelationController extends REST {
 	    } elseif (!isset($this->request['activityId'])) {
 		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOACTIVITYID']), 400);
 	    }
-	    $activityId = $this->request['objectId'];
+	    $currentUser = $this->request['currentUser'];
+	    $toUser = $this->request['toUser'];
+	    $activityId = $this->request['activityId'];
 	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityP = new ParseActivity();
+	    $activityP = new ActivityParse();
 	    $res = $activityP->updateField($activityId, 'status', 'R');
 	    $res1 = $activityP->updateField($activityId, 'read', true);
 	    if ($res instanceof Error) {
@@ -139,7 +141,32 @@ class RelationController extends REST {
 	    } elseif ($res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
 	    }
-	    $this->response(array('RELDECLINED'), 200); 
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRecord(null);
+	    $activity->setRead(true);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser($toUser);
+	    $activity->setType('RELDELINED');
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
+	    $activityP1 = new ActivityParse();
+	    $res2 = $activityP1->saveActivity($activity);
+	    if ($res2 instanceof Error) {
+		$this->response(array('status' => $controllers['NOACSAVE']), 403);
+	    }
+	    $this->response(array('RELDECLINED'), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
@@ -158,15 +185,12 @@ class RelationController extends REST {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['activityId'])) {
-		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOACTIVITYID']), 400);
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    } elseif (!isset($this->request['toUserType'])) {
 		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 400);
 	    }
 	    $currentUser = $this->request['currentUser'];
-	    $activityId = $this->request['activityId'];
 	    $toUser = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
 	    $fromUserType = $currentUser->getType();
@@ -193,7 +217,7 @@ class RelationController extends REST {
 		$field1 = 'collaboration';
 	    }
 	    //////////////////////////////////////////
-
+	    //RIMUOVI UTENTE DA CORRISPONDENTE RELATION
 
 	    $resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
 	    if ($resB instanceof Error) {
@@ -249,7 +273,7 @@ class RelationController extends REST {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    }  elseif (!isset($this->request['toUser'])) {
+	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    } elseif (!isset($this->request['toUserType'])) {
 		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 400);
@@ -290,7 +314,7 @@ class RelationController extends REST {
 			$HTMLFile = $mail_files['FOLLOWINGEMAIL'];
 		    }
 		    break;
-		default : 
+		default :
 		    if ($toUserType == 'SPOTTER') {
 			$this->response(array($controllers['RELDENIED']), 200);
 		    } else {
