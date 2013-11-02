@@ -201,34 +201,31 @@ class RelationController extends REST {
 	    $toUserB = $toUserP->getUser($toUser);
 	    $sessionTokenA = $currentUser->getSessionToken();
 	    $sessionTokenB = $toUserB->getSessionToken();
+	    $toUserP1 = new UserParse();
+	    $userA = $toUserP1->getUser($currentUser->getObjectId());
 	    if ($toUserB instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
 	    } elseif (!isset($sessionTokenB)) {
 		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 403);
+	    }if ($userA instanceof Error) {
+		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
 	    }
+	    $field = '';//SPECIFICARE PER OGNI IF
 	    if ($fromUserType == 'SPOTTER' && $toUserType == 'SPOTTER') {
-		$field = 'friendship';
-		$field1 = 'friendship';
+		$resA = $toUserP1->updateField($toUserB->getObjectId(), $sessionTokenA, $field, $currentUser->getObjectId(), true, 'add', '_User');
+		$resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
 	    } elseif ($fromUserType == 'SPOTTER' && $toUserType != 'SPOTTER') {
-		$field = 'following';
-		$field1 = 'followers';
+		$resA = $toUserP1->updateField($toUserB->getObjectId(), $sessionTokenA, $field, $currentUser->getObjectId(), true, 'add', '_User');
+		$resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
 	    } elseif ($fromUserType != 'SPOTTER') {
-		$field = 'collaboration';
-		$field1 = 'collaboration';
+		$resA = $toUserP1->updateField($toUserB->getObjectId(), $sessionTokenA, $field, $currentUser->getObjectId(), true, 'add', '_User');
+		$resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
 	    }
-	    //////////////////////////////////////////
-	    //RIMUOVI UTENTE DA CORRISPONDENTE RELATION
-
-	    $resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
-	    if ($resB instanceof Error) {
+	    if ($resA instanceof Error) {
+		$this->response(array('status' => $controllers['NOTOUSER']), 403); //FINIRE
+	    } elseif ($resB instanceof Error) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403); //FINIRE
 	    }
-	    $fromUserP = new UserParse();
-	    $add1 = $fromUserP->updateField($currentUser->getObjectId(), $sessionTokenA, 'friendship', $toUserB->getObjectId(), true, 'add', '_User');
-	    if ($add1 instanceof Error) {
-		$this->response(array('status' => $controllers['NOTOUSER']), 403); //FINIRE
-	    }
-
 	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
@@ -252,7 +249,7 @@ class RelationController extends REST {
 	    $activityP = new ActivityParse();
 	    $res = $activityP->saveActivity($activity);
 	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['NOACSAVE']), 403); //FINIRE
+		$this->response(array('status' => $controllers['NOACSAVE']), 403);
 	    }
 	    $this->response(array($controllers['RELDELETED']), 200);
 	} catch (Exception $e) {
