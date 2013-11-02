@@ -75,9 +75,9 @@ $controllers = array(
     'SHORTREW' => 'Dimensione recensione troppo corta | lungh:',
     'LONGREW' => 'Dimensione recensione troppo lunga | lungh:',
     'REWSAVED' => 'Recensione salvata con successo',
-    'NOMAILFORREVIEW'=> 'Indirizzo mail non settato per notifica review',
+    'NOMAILFORREVIEW' => 'Indirizzo mail non settato per notifica review',
     'NOSELFREVIEW' => 'Non puoi recensire i tuoi contenuti',
-    'NOSAVEDREVIEW'=> 'Impossibile salvare la review',
+    'NOSAVEDREVIEW' => 'Impossibile salvare la review',
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',
@@ -93,6 +93,8 @@ $controllers = array(
     'OKLOGOUT' => 'Logout Eseguito',
     //SOCIALLOGIN
     'OKSOCIALLINK' => 'Il tuo account social è stato collegato al tuo account Jamyourself',
+    'SOCIALLOGINERR' => 'Impossibile effettuare il login con questo account social',
+    'OKLOGINSOCIAL' => 'Login con social account effettuato',
     'USERNOTFOUND' => 'Utente non trovato per effettuare il link con account social',
     'NOLINK' => 'Impossibile effettuare il link con il tuo account social',
     'OKSOCIALUNLINK' => 'Il tuo account social è stato scollegato dal tuo account Jamyourself',

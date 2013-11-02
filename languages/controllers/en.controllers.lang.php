@@ -89,6 +89,8 @@ $controllers = array(
     'OKLOGOUT' => 'You are logged out',
     //SOCIALLOGIN
     'OKSOCIALLINK' => 'Your Social account has been correctly linked to your Jamyourself account',
+    'SOCIALLOGINERR' => 'Unable to login in with this social account',
+    'OKLOGINSOCIAL' => 'Login with social account ok',
     'USERNOTFOUND' => 'User not found for linking with your social account',
     'NOLINK' => 'Unable to link your account',
     'OKSOCIALUNLINK' => 'Your Social account has been correctly unlinked from your Jamyourself account',
