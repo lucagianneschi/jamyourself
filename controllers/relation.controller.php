@@ -4,7 +4,7 @@
  * \author		Daniele Caldelli
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright	        Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di invio/ricezione delle relazioni
  * \details		incrementa/decrementa il loveCounter di una classe e istanza corrispondente activity
@@ -21,252 +21,307 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CLASSES_DIR . 'activity.class.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
-require_once DEBUG_DIR . 'debug.php';
 
 /**
- * \brief	RelationController class 
+ * \brief	RelationController class
  * \details	controller per invio e ricezione relazioni
  */
 class RelationController extends REST {
 
     /**
-     * \fn		acceptRelationRequest()
+     * \fn	acceptRelationRequest()
      * \brief   accept relationship request
-     * \todo    usare la sessione
+     * \todo    mancano da gestire i contatori di followers, jammer e venue
      */
     public function acceptRelationRequest() {
-        require_once SERVICES_DIR . 'mail.service.php';
-
-        global $controllers;
-        global $mail_files;
-        #TODO
-        //simulo che l'utente in sessione sia GuUAj83MGH
-
-        $currentUser = new User('SPOTTER');
-        $currentUser->setObjectId('GuUAj83MGH');
-
-        try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
-            }
-            $activityId = $this->request['objectId'];
-            $fromUserObjectId = $this->request['objectId'];
-            $toUserObjectId = $this->request['objectId'];
-            $fromUserType = $this->request['fromUserType']; //passo diretto o ci risalgo a posteriori?	
-            $toUserType = $this->request['toUserType'];
-            $sessionToken = $this->request['$sessionToken']; //NB posso aggiornare solo l'utente che accetta la richiesta
-
-            $activityP = new ParseActivity();
-            $activityP->updateField($activityId, 'status', 'A'); //passa da pending a accettata
-            $activityP->updateField($activityId, 'read', true); //passa da non letta  a letta
-
-            $fromUserP = new UserParse();
-            $fromUser = $fromUserP->getUser($fromUserObjectId);
-            $toUserP = new UserParse();
-            $toUser = $toUserP->getUser($toUserObjectId);
-
-            switch ($fromUserType) {
-                case 'SPOTTER':
-                    if ($toUserType == 'SPOTTER') {
-                        //friendship
-                        $HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
-                    }
-                    break;
-                default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
-                    if ($toUserType == 'SPOTTER') {
-                        $this->response(array($controllers['RELDENIED']), 200);
-                    } else {
-                        $HTMLFile = $mail_files['COLLABORATIONACCEPTEDEMAIL'];
-                    }
-                    break;
-            }
-            try {
-                $mail = new MailService(true);
-                $mail->IsHTML(true);
-
-                $mail->AddAddress('luca.gianneschi@gmail.com');
-                //$mail->AddAddress($toUser->getEmail());
-                $mail->Subject = $controllers['SBJOK'];
-                $mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
-                $mail->Send();
-            } catch (phpmailerException $e) {//OK??
-                throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-            } catch (Exception $e) {
-                throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-            }
-            $mail->SmtpClose();
-            unset($mail);
-            $this->response(array($controllers['RELDENIED']), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-        }
+	global $controllers;
+	global $mail_files;
+	try {
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    } elseif (!isset($this->request['activityId'])) {
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOACTIVITYID']), 400);
+	    } elseif (!isset($this->request['toUser'])) {
+		$this->response(array('status' => $controllers['NOTOUSER']), 403);
+	    } elseif (!isset($this->request['toUserType'])) {
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 400);
+	    }
+	    $currentUser = $this->request['currentUser'];
+	    $activityId = $this->request['activityId'];
+	    $toUser = $this->request['toUser'];
+	    $toUserType = $this->request['toUserType'];
+	    $fromUserType = $currentUser->getType();
+	    require_once CLASSES_DIR . 'user.class.php';
+	    require_once CLASSES_DIR . 'userParse.class.php';
+	    require_once SERVICES_DIR . 'mail.service.php';
+	    $toUserP = new UserParse();
+	    $toUserB = $toUserP->getUser($toUser);
+	    $sessionTokenA = $currentUser->getSessionToken();
+	    $sessionTokenB = $toUserB->getSessionToken();
+	    if ($toUserB instanceof Error) {
+		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
+	    } elseif (!isset($sessionTokenB)) {
+		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 403);
+	    }
+	    switch ($fromUserType) {
+		case 'SPOTTER':
+		    $HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
+		    break;
+		default :
+		    if ($toUserType == 'SPOTTER') {
+			$this->response(array($controllers['RELDENIED']), 403);
+		    } else {
+			$HTMLFile = $mail_files['COLLABORATIONACCEPTEDEMAIL'];
+		    }
+		    break;
+	    }
+	    $resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, 'friendship', $currentUser->getObjectId(), true, 'add', '_User');
+	    if ($resB instanceof Error) {
+		$this->response(array('status' => $controllers['NORELACC']), 403);
+	    }
+	    $fromUserP = new UserParse();
+	    $add1 = $fromUserP->updateField($currentUser->getObjectId(), $sessionTokenA, 'friendship', $toUserB->getObjectId(), true, 'add', '_User');
+	    if ($add1 instanceof Error) {
+		$this->response(array('status' => $controllers['NORELACC']), 403);
+	    }
+	    $mail = new MailService(true);
+	    $mail->IsHTML(true);
+	    $mail->AddAddress($toUser->getEmail());
+	    $mail->Subject = $controllers['SBJOK'];
+	    $mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
+	    $resMail = $mail->Send();
+	    if ($resMail instanceof phpmailerException) {
+		$this->response(array('status' => $controllers['NOMAIL']), 403); //FINIRE
+	    }
+	    $mail->SmtpClose();
+	    unset($mail);
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activityP = new ActivityParse();
+	    $res = $activityP->updateField($activityId, 'status', 'A');
+	    $res1 = $activityP->updateField($activityId, 'read', true);
+	    if ($res instanceof Error) {
+		$this->response(array('status' => $controllers['NOACTUPDATE']), 403); //FINIRE
+	    } elseif ($res1 instanceof Error) {
+		$this->response(array('status' => $controllers['NOACTUPDATE']), 403); //FINIRE
+	    }
+	    $this->response(array($controllers['RELDENIED']), 200);
+	} catch (Exception $e) {
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	}
     }
 
     /**
-     * \fn		declineRelationRequest()
+     * \fn	declineRelationRequest()
      * \brief   decline relationship request
-     * \todo    usare la sessione
+     * \todo    
      */
     public function declineRelationRequest() {
-        #TODO
-        //simulo che l'utente in sessione sia GuUAj83MGH
-        require_once CLASSES_DIR . 'user.class.php';
-        $currentUser = new User('SPOTTER');
-        $currentUser->setObjectId('GuUAj83MGH');
-
-        try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
-            }
-            $activityId = $this->request['objectId'];
-            $activityP = new ParseActivity();
-            $activityP->updateField($activityId, 'status', 'R'); //passa da pending a refused
-            $activityP->updateField($activityId, 'read', true); //passa da non letta  a letta
-            $this->response(array($res), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-        }
+	global $controllers;
+	try {
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    } elseif (!isset($this->request['activityId'])) {
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOACTIVITYID']), 400);
+	    }
+	    $activityId = $this->request['objectId'];
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activityP = new ParseActivity();
+	    $res = $activityP->updateField($activityId, 'status', 'R');
+	    $res1 = $activityP->updateField($activityId, 'read', true);
+	    if ($res instanceof Error) {
+		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
+	    } elseif ($res1 instanceof Error) {
+		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
+	    }
+	    $this->response(array('RELDECLINED'), 200); //FINIRE
+	} catch (Exception $e) {
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	}
     }
 
     /**
-     * \fn		removeRelationship ()
-     * \brief   remove an existing relationship 
-     * \todo    usare la sessione
+     * \fn	removeRelationship ()
+     * \brief   remove an existing relationship
+     * \todo    rimuovere un following,mancano da gestire i contatori di followers, jammer e venue
      */
     public function removeRelationship() {
-        global $controllers;
+	global $controllers;
+	try {
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    } elseif (!isset($this->request['activityId'])) {
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOACTIVITYID']), 400);
+	    } elseif (!isset($this->request['toUser'])) {
+		$this->response(array('status' => $controllers['NOTOUSER']), 403);
+	    } elseif (!isset($this->request['toUserType'])) {
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 400);
+	    }
+	    $currentUser = $this->request['currentUser'];
+	    $activityId = $this->request['activityId'];
+	    $toUser = $this->request['toUser'];
+	    $toUserType = $this->request['toUserType'];
+	    $fromUserType = $currentUser->getType();
+	    require_once CLASSES_DIR . 'user.class.php';
+	    require_once CLASSES_DIR . 'userParse.class.php';
+	    require_once SERVICES_DIR . 'mail.service.php';
+	    $toUserP = new UserParse();
+	    $toUserB = $toUserP->getUser($toUser);
+	    $sessionTokenA = $currentUser->getSessionToken();
+	    $sessionTokenB = $toUserB->getSessionToken();
+	    if ($toUserB instanceof Error) {
+		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
+	    } elseif (!isset($sessionTokenB)) {
+		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 403);
+	    }
+	    if ($fromUserType == 'SPOTTER' && $toUserType == 'SPOTTER') {
+		$field = 'friendship';
+		$field1 = 'friendship';
+	    } elseif ($fromUserType == 'SPOTTER' && $toUserType != 'SPOTTER') {
+		$field = 'following';
+		$field1 = 'followers';
+	    } elseif ($fromUserType != 'SPOTTER') {
+		$field = 'collaboration';
+		$field1 = 'collaboration';
+	    }
+	    //////////////////////////////////////////
 
-        #TODO
-        //simulo che l'utente in sessione sia GuUAj83MGH
-        require_once CLASSES_DIR . 'user.class.php';
-        $currentUser = new User('SPOTTER');
-        $currentUser->setObjectId('GuUAj83MGH');
 
-        try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
-            }
-            $activityId = $this->request['objectId'];
-            $fromUserObjectId = $this->request['objectId'];
-            $toUserObjectId = $this->request['objectId'];
-            $fromUserType = $this->request['fromUserType'];
-            $toUserType = $this->request['toUserType'];
-            $sessionToken = $this->request['$sessionToken'];
+	    $resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
+	    if ($resB instanceof Error) {
+		$this->response(array('status' => $controllers['NOTOUSER']), 403); //FINIRE
+	    }
+	    $fromUserP = new UserParse();
+	    $add1 = $fromUserP->updateField($currentUser->getObjectId(), $sessionTokenA, 'friendship', $toUserB->getObjectId(), true, 'add', '_User');
+	    if ($add1 instanceof Error) {
+		$this->response(array('status' => $controllers['NOTOUSER']), 403); //FINIRE
+	    }
 
-            switch ($fromUserType) {
-                case 'SPOTTER':
-                    if ($toUserType == 'SPOTTER') {
-                        //rimuovi friendship
-                    } else {
-                        //rimuovi following
-                    }
-                    break;
-                default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
-                    if ($toUserType == 'VENUE' || $toUserType == 'JAMMER') {
-                        //rimuovi collaboration
-                    } else {
-                        $this->response(array($controllers['NORELDEL']), 200);
-                    }
-                    break;
-            }
-            $this->response(array($res), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-        }
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRecord(null);
+	    $activity->setRead(true);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser($toUserB);
+	    $activity->setType('RELREMOVED');
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
+	    $activityP = new ActivityParse();
+	    $res = $activityP->saveActivity($activity);
+	    if ($res instanceof Error) {
+		$this->response(array('status' => $controllers['NOACSAVE']), 403); //FINIRE
+	    }
+	    $this->response(array($controllers['RELDELETED']), 200);
+	} catch (Exception $e) {
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	}
     }
 
     /**
      * \fn		sendRelationRequest()
      * \brief   send request for relationships
-     * \todo    usare la sessione
+     * \todo    terminare funzione
      */
     public function sendRelationRequest() {
-        require_once SERVICES_DIR . 'mail.service.php';
-        global $controllers;
-        global $mail_files;
+	global $controllers;
+	global $mail_files;
+	try {
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    }  elseif (!isset($this->request['toUser'])) {
+		$this->response(array('status' => $controllers['NOTOUSER']), 403);
+	    } elseif (!isset($this->request['toUserType'])) {
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 400);
+	    }
+	    $currentUser = $this->request['currentUser'];
 
-        #TODO
-        //simulo che l'utente in sessione sia GuUAj83MGH
+	    $toUser = $this->request['toUser'];
+	    $toUserType = $this->request['toUserType'];
+	    $fromUserType = $currentUser->getType();
+	    if ($currentUser->getObjectId() == $toUser) {
+		$this->response(array('status' => $controllers['SELF']), 403);
+	    }
+	    require_once SERVICES_DIR . 'mail.service.php';
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRecord(null);
+	    $activity->setRead(true);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser($toUser);
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
 
-        $currentUser = new User('SPOTTER');
-        $currentUser->setObjectId('GuUAj83MGH');
-
-        try {
-            //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-            if ($this->get_request_method() != 'POST') {
-                $this->response('', 406);
-            }
-            $fromUserObjectId = $this->request['objectId'];
-            $toUserObjectId = $this->request['objectId'];
-            $fromUserType = $this->request['fromUserType'];
-            $toUserType = $this->request['toUserType'];
-
-            //se l'utente cerca di avere relazione con se stesso esco con risposta a schermo
-            if ($fromUserObjectId == $toUserObjectId) {
-                $this->response(array(SELF), 200);
-            }
-
-            $activity = new Activity();
-            $activity->setActive(true);
-            $activity->setCounter(0);
-            $activity->setFromUser($fromUserObjectId);
-            //$activity->setFromUser($currentUser->getObjectId());
-            $activity->setRead(false);
-            $activity->setStatus("P");
-
-            switch ($fromUserType) {
-                case 'SPOTTER':
-                    if ($toUserType == 'SPOTTER') {
-                        $activity->setType("FRIENDSHIPREQUEST");
-                        $HTMLFile = $mail_files['FRIENDSHIPREQUESTEMAIL'];
-                    } else {
-                        $activity->setType("FOLLOWING");
-                        $HTMLFile = $mail_files['FOLLOWINGEMAIL'];
-                    }
-                    break;
-                default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
-                    if ($toUserType == 'SPOTTER') {
-                        $this->response(array($controllers['RELDENIED']), 200);
-                    } else {
-                        $activity->setType("COLLABORATIONREQUEST");
-                        $HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
-                    }
-                    break;
-            }
-
-            $activityParse = new ActivityParse();
-            $resActivity = $activityParse->saveActivity($activity);
-            if (get_class($resActivity) == 'Error') {
-                $this->response(array($resActivity), 503);
-            } else {
-                try {
-                    $mail = new MailService(true);
-                    $mail->IsHTML(true);
-
-                    $mail->AddAddress('luca.gianneschi@gmail.com');
-                    //$mail->AddAddress($toUser->getEmail());
-                    $mail->Subject = $controllers['SBJ'];
-                    $mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
-                    $mail->Send();
-                } catch (phpmailerException $e) {//OK??
-                    throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-                } catch (Exception $e) {
-                    throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-                }
-                $mail->SmtpClose();
-                unset($mail);
-                $this->response(array($controllers['RELSAVED']), 200);
-            }
-        } catch (Exception $e) {
-            $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
-        }
+	    switch ($fromUserType) {
+		case 'SPOTTER':
+		    if ($toUserType == 'SPOTTER') {
+			$activity->setType("FRIENDSHIPREQUEST");
+			$HTMLFile = $mail_files['FRIENDSHIPREQUESTEMAIL'];
+		    } else {
+			$activity->setType("FOLLOWING");
+			$HTMLFile = $mail_files['FOLLOWINGEMAIL'];
+		    }
+		    break;
+		default : //le relazioni saranno uguali come richiesta per VENUE e JAMMER
+		    if ($toUserType == 'SPOTTER') {
+			$this->response(array($controllers['RELDENIED']), 200);
+		    } else {
+			$activity->setType("COLLABORATIONREQUEST");
+			$HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
+		    }
+		    break;
+	    }
+	    $activityParse = new ActivityParse();
+	    $resActivity = $activityParse->saveActivity($activity);
+	    if ($resActivity instanceof Error) {
+		$this->response(array($resActivity), 403);//FINIRE
+	    } else {
+		$mail = new MailService(true);
+		$mail->IsHTML(true);
+		$mail->AddAddress($toUser->getEmail());
+		$mail->Subject = $controllers['SBJ'];
+		$mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
+		$resMail = $mail->Send();
+		if ($resMail instanceof phpmailerException) {
+		    $this->response(array('status' => $controllers['NOMAIL']), 403); //FINIRE
+		}
+		$mail->SmtpClose();
+		unset($mail);
+		$this->response(array($controllers['RELSAVED']), 200);
+	    }
+	} catch (Exception $e) {
+	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	}
     }
 
 }
