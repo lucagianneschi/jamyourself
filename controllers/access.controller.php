@@ -21,9 +21,6 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CLASSES_DIR . 'activity.class.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
-require_once DEBUG_DIR . 'debug.php';
 
 /**
  * \brief	ReviewController class 
@@ -39,12 +36,10 @@ class AccessController extends REST {
     public function login() {
 	try {
 	    global $controllers;
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-	    if ($this->get_request_method() != 'POST') {
-		$this->response('', 406);
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    }
-
+	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $usernameOrEmail = $this->request['usernameOrEmail'];
 	    $password = $this->request['password'];
 	    $userParse = new UserParse();
@@ -52,6 +47,8 @@ class AccessController extends REST {
 	    if ($resLogin instanceof Error) {
 		$this->response(array('status' => $resLogin->getErrorMessage()), 406);
 	    } else {
+		require_once CLASSES_DIR . 'activity.class.php';
+		require_once CLASSES_DIR . 'activityParse.class.php';
 		$activity = new Activity();
 		$activity->setActive(true);
 		$activity->setAlbum(null);
@@ -70,12 +67,9 @@ class AccessController extends REST {
 		$activity->setType('LOGGEDIN');
 		$activity->setUserStatus(null);
 		$activity->setVideo(null);
-
 		$activityParse = new ActivityParse();
 		$activityParse->saveActivity($activity);
-
 		$_SESSION['currentUser'] = $resLogin;
-
 		$this->response(array($controllers['OKLOGIN']), 200);
 	    }
 	} catch (Exception $e) {
@@ -91,16 +85,17 @@ class AccessController extends REST {
     public function logout() {
 	try {
 	    global $controllers;
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    //if ($this->get_request_method() != 'POST' || !isset($_SESSION['currentUser'])) {
-	    if ($this->get_request_method() != 'POST') {
-		$this->response('', 406);
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
-
+	    require_once CLASSES_DIR . 'userParse.class.php';
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $userId = $this->request['userId'];
 	    $userParse = new UserParse();
 	    $userParse->logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
-
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);
@@ -119,7 +114,6 @@ class AccessController extends REST {
 	    $activity->setType('LOGGEDOUT');
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
-
 	    $activityParse = new ActivityParse();
 	    $activityParse->saveActivity($activity);
 	    $this->response(array($controllers['OKLOGOUT']), 200);
@@ -137,9 +131,13 @@ class AccessController extends REST {
 	try {
 	    global $controllers;
 	    require_once PARSE_DIR . 'parse.php';
-
 	    $userLib = new parseUser();
-	    $userLib->socialLogin();
+	    $res = $userLib->socialLogin();
+	    if ($res instanceof ParseLibraryException) {
+		$this->response(array('SOCIALLOGINERR'), 503);
+	    }
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);
@@ -158,10 +156,9 @@ class AccessController extends REST {
 	    $activity->setType('SOCIALLOGGEDIN');
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
-
 	    $activityParse = new ActivityParse();
 	    $activityParse->saveActivity($activity);
-	    $this->response(array($controllers['OKLOGIN']), 200);
+	    $this->response(array($controllers['OKLOGINSOCIAL']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
 	}
