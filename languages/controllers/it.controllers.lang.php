@@ -93,6 +93,8 @@ $controllers = array(
     'RELDECLINED' => 'Richiesta di relazione declinata',
     'NOACSAVE' => 'Impossibile salvare activity',
     'RELDELETED' => 'Relazione rimossa',
+    'ERROREMOVINGREL' => 'Errore in fase di rimozione relazione',
+    'RELACCEPTED'=> 'Relazione accettata',
     //LOGIN
     'NOLOGIN' => 'Credenziali di accesso non valide',
     'OKLOGIN' => 'Login eseguito',

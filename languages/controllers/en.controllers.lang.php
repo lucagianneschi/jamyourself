@@ -89,6 +89,8 @@ $controllers = array(
     'RELDECLINED' => 'Relation Request Declined',
     'NOACSAVE' => 'Unable to save activity',
     'RELDELETED' => 'Relation removed',
+    'ERROREMOVINGREL' => 'Error removing relationship',
+    'RELACCEPTED'=> 'Relation accepted',
     //LOGIN
     'NOLOGIN' => 'Invalid login credentials',
     'OKLOGIN' => 'You are logged in',
