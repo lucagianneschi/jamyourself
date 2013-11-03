@@ -194,23 +194,36 @@ class UserParse {
     /**
      * \fn	void linkSocialAccount($objectId,$sessionToken)
      * \brief	link social account 
-     * \param	$objectId	the string that represent the objectId of the User
-     * \param	$sessionToken		
-     * \return				the new value of the $field
+     * \param	$objectId	the string that represent the objectId of the User		
+     * \return	$user		
      * \return	error		in case of exception
+     * \todo	test function
      */
-    public function linkSocialAccount($objectId,$sessionToken) {
+    public function linkSocialAccount($objectId) {
 	try {
-	    $parseObject = new parseObject('_User');
-	    $res = $parseObject->get($objectId);
-	    $user = $this->parseToUser($res);
-	    $parseObject->linkAccounts($objectId,$sessionToken);
-	    return $user;
+	    $parseQuery = new parseQuery('_User');
+	    $parseQuery->where('objectId', $objectId);
+	    $parseQuery->where('active', true);
+	    $res = $parseQuery->find();
+	    if (count($res->results) > 0) {
+		$user = $this->parseToUser($res->results[0]);
+		$sessionToken = $user->getSessionToken();
+		$parseUser = new parseUser();
+		$parseUser->objectId = $objectId;
+		$parseUser->sessionToken = $sessionToken;
+		$link = $parseUser->linkAccounts($objectId, $sessionToken);
+		if ($link instanceof ParseLibraryException) {
+		    return throwError(new Exception('Unable to link standard and social account'), __CLASS__, __FUNCTION__, func_get_args());
+		}
+		return $user;
+	    } else {
+		return throwError(new Exception('User not found for linking'), __CLASS__, __FUNCTION__, func_get_args());
+	    }
 	} catch (Exception $e) {
 	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 	}
     }
-    
+
     /**
      * \fn		User loginUser()
      * \brief	The function returns the User logged by the username or email $usernameEmail and password $password
