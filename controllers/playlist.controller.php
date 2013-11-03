@@ -29,7 +29,7 @@ require_once CONTROLLERS_DIR . 'restController.php';
 class PlaylistController extends REST {
 
     /**
-     * \fn		addSong()
+     * \fn      addSong()
      * \brief   add song to playlist
      * \todo    usare la sessione
      */
@@ -48,40 +48,38 @@ class PlaylistController extends REST {
 	    $playlistId = $this->request['playlistId'];
 	    $songId = $this->request['songId'];
 	    $currentUser = $this->request['currentUser'];
-	    require_once CLASSES_DIR . 'playlist.class.php';
 	    require_once CLASSES_DIR . 'playlistParse.class.php';
 	    $playlistP = new PlaylistParse();
 	    $playlist = $playlistP->getPlaylist($playlistId);
 	    if ($playlist instanceof Error) {
 		$this->response(array('NOPLAYLIST'), 503);
-	    } else {
-		//devo controllare che la song sia presente, se è presente non l'aggiungo oppure avrei errore dalla update?
-		$res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
-		if ($res instanceof Error) {
-		    $this->response(array('NOADDSONGTOPLAY'), 503);
-		}
-		require_once CLASSES_DIR . 'activity.class.php';
-		require_once CLASSES_DIR . 'activityParse.class.php';
-		//qui va aggiunto il check sul numero di canzoni, se sono più di 20 va cancellata la prima in ordine cronologico di aggiunta (come vengono inserire nell'arrau le song??)
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($currentUser->getObjectId());
-		$activity->setImage(null);
-		$activity->setPlaylist($playlistId);
-		$activity->setQuestion(null);
-		$activity->setRead(true);
-		$activity->setRecord(null);
-		$activity->setSong($songId);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType("SONGADDEDTOPLAYLIST");
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
 	    }
+	    //devo controllare che la song sia presente, se è presente non l'aggiungo oppure avrei errore dalla update?
+	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
+	    if ($res instanceof Error) {
+		$this->response(array('NOADDSONGTOPLAY'), 503);
+	    }
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    //qui va aggiunto il check sul numero di canzoni, se sono più di 20 va cancellata la prima in ordine cronologico di aggiunta (come vengono inserire nell'arrau le song??)
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setImage(null);
+	    $activity->setPlaylist($playlistId);
+	    $activity->setQuestion(null);
+	    $activity->setRead(true);
+	    $activity->setRecord(null);
+	    $activity->setSong($songId);
+	    $activity->setStatus('A');
+	    $activity->setToUser(null);
+	    $activity->setType("SONGADDEDTOPLAYLIST");
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
 	    if ($resActivity instanceof Error) {
@@ -113,40 +111,38 @@ class PlaylistController extends REST {
 	    $playlistId = $this->request['playlistId'];
 	    $songId = $this->request['songId'];
 	    $currentUser = $this->request['currentUser'];
-	    require_once CLASSES_DIR . 'playlist.class.php';
 	    require_once CLASSES_DIR . 'playlistParse.class.php';
 	    $playlistP = new PlaylistParse();
 	    $playlist = $playlistP->getPlaylist($playlistId);
 	    if ($playlist instanceof Error) {
 		$this->response(array('NOPLAYLIST'), 503);
-	    } else {
-		//devo controllare che la song sia presente, se è presente non la tolgo
-		$res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
-		if ($res instanceof Error) {
-		    $this->response(array('NOREMOVESONGTOPLAY'), 503);
-		}
-		require_once CLASSES_DIR . 'activity.class.php';
-		require_once CLASSES_DIR . 'activityParse.class.php';
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAccepted(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($currentUser->getObjectId());
-		$activity->setImage(null);
-		$activity->setPlaylist($playlistId);
-		$activity->setQuestion(null);
-		$activity->setRead(true);
-		$activity->setRecord(null);
-		$activity->setSong($songId);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType("SONGREMOVEDFROMPLAYLIST");
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
 	    }
+	    //devo controllare che la song sia presente, se è presente non la tolgo
+	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
+	    if ($res instanceof Error) {
+		$this->response(array('NOREMOVESONGTOPLAY'), 503);
+	    }
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAccepted(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setImage(null);
+	    $activity->setPlaylist($playlistId);
+	    $activity->setQuestion(null);
+	    $activity->setRead(true);
+	    $activity->setRecord(null);
+	    $activity->setSong($songId);
+	    $activity->setStatus('A');
+	    $activity->setToUser(null);
+	    $activity->setType("SONGREMOVEDFROMPLAYLIST");
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
 	    if ($resActivity instanceof Error) {
