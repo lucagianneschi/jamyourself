@@ -492,11 +492,11 @@ class UserParse {
 		$parseUser->sessionToken = $sessionToken;
 		$link = $parseUser->unlinkAccount($objectId, $sessionToken, null);
 		if ($link instanceof ParseLibraryException) {
-		    return throwError(new Exception('Unable to link standard and social account'), __CLASS__, __FUNCTION__, func_get_args());
+		    return throwError(new Exception('Unable to unlink standard and social account'), __CLASS__, __FUNCTION__, func_get_args());
 		}
 		return $user;
 	    } else {
-		return throwError(new Exception('User not found for linking'), __CLASS__, __FUNCTION__, func_get_args());
+		return throwError(new Exception('User not found for unlinking'), __CLASS__, __FUNCTION__, func_get_args());
 	    }
 	} catch (Exception $e) {
 	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
