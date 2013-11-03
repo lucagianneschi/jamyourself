@@ -39,7 +39,7 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn		readMessage()
+     * \fn	readMessage()
      * \brief   update activity for the current read message
      * \todo    usare la sessione
      */
@@ -53,7 +53,7 @@ class MessageController extends REST {
 	    } elseif ($this->request['objectId']) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    }
-	    //require_once CLASSES_DIR . 'activity.class.php'; si può non importate
+
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $objectId = $this->request['objectId'];
 	    $activityP = new ActivityParse();
@@ -66,7 +66,6 @@ class MessageController extends REST {
 		    if ($res instanceof Error) {
 			$this->response(array($controllers['NOREAD']), 503);
 		    }
-		} else {
 		    $this->response(array($controllers['MESSAGEREAD']), 200);
 		}
 	    }
@@ -76,7 +75,7 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn		sendMessage()
+     * \fn	sendMessage()
      * \brief   save a message an the related activity
      * \todo    usare la sessione
      */
@@ -93,12 +92,17 @@ class MessageController extends REST {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
+	    } elseif (!isset($this->request['title'])) {
+		$this->response(array('status' => $controllers['NOMESSAGETITLE']), 400);
 	    }
-	    $fromUser = $_SESSION['currentUser'];
+	    $currentUser = $_SESSION['currentUser'];
 	    $toUserId = $this->request['toUser'];
 	    $text = $this->request['text'];
+	    $title = $this->request['title'];
 	    if (strlen($text) < $this->config->minMessageSize) {
 		$this->response(array($controllers['SHORTMESSAGE'] . strlen($text)), 400);
+	    } elseif (strlen($title) < $this->config->minTitleSize) {
+		$this->response(array($controllers['SHORTTITLEMESSAGE'] . strlen($text)), 400);
 	    }
 	    require_once CONTROLLERS_DIR . 'utilsController.php';
 	    require_once CLASSES_DIR . 'comment.class.php';
@@ -114,7 +118,7 @@ class MessageController extends REST {
 	    $message->setComments(null);
 	    $message->setCounter(0);
 	    $message->setEvent(null);
-	    $message->setFromUser($fromUser->getObjectId());
+	    $message->setFromUser($currentUser->getObjectId());
 	    $message->setImage(null);
 	    $message->setLocation(null);
 	    $message->setLoveCounter(0);
@@ -136,7 +140,7 @@ class MessageController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($fromUser->getObjectId());
+	    $activity->setFromUser($currentUser->getObjectId());
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);

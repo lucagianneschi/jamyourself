@@ -66,6 +66,8 @@ $controllers = array(
     'NOSONGTID' => 'Song ID non impostato',
     'NOADDSONGTOPLAY' => 'Impossibile aggiungere canzone alla playlist',
     'NOREMOVESONGTOPLAY' => 'Impossibile rimuovere canzone alla playlist',
+    'SHORTTITLEMESSAGE' => 'Titolo del messaggio troppo corto',
+    'NOMESSAGETITLE' => 'Titolo del messaggio non impostato',
     //LOVE
     'LOVEPLUSERR' => 'Errore incrementando Love',
     'LOVEMINUSERR' => 'Error decrementando Love',

@@ -62,6 +62,8 @@ $controllers = array(
     'NOACTFORREADMESS' => 'No activity found for read message',
     'NOREAD' => 'Unable to read correctly this message',
     'NOSAVEMESS' => 'Unable to save and send this message',
+    'SHORTTITLEMESSAGE' => 'Message title too short',
+    'NOMESSAGETITLE' => 'Message title unset',
     //LOVE
     'LOVEPLUSERR' => 'Error incrementing Love',
     'LOVEMINUSERR' => 'Error decrementing Love',

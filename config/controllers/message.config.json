@@ -2,5 +2,6 @@
     "minMessageSize" : 1,
     "maxMessageSize" : 3500,
     "inputMessageRowNumber": 2,
-    "inputMessageColumnNumber": 50
+    "inputMessageColumnNumber": 50,
+    "minTitleSize": 1
 }
