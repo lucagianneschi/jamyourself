@@ -21,11 +21,6 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CLASSES_DIR . 'activity.class.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
-require_once DEBUG_DIR . 'debug.php';
 
 /**
  * \brief	UserUtilitiesController class 
@@ -34,9 +29,9 @@ require_once DEBUG_DIR . 'debug.php';
 class UserUtilitiesController extends REST {
 
     /**
-     * \fn		linkSocialAccount()
+     * \fn	linkSocialAccount()
      * \brief   link con l'account social
-     * \todo    usare la sessione
+     * \todo    testare funzione
      */
     public function linkSocialAccount() {
 	try {
@@ -48,40 +43,38 @@ class UserUtilitiesController extends REST {
 	    }
 	    $currentUser = $this->request['currentUser'];
 	    $objectId = $currentUser->getObjectId();
-	    $sessionToken = $currentUser->getSessionToken();
+	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userP = new UserParse();
-	    $user = $userP->getUser($objectId);
-	    if ($user instanceof Error) {//questo controllo posso ometterlo, se l'utente è in sessione esiste
-		$this->response(array('status' => $controllers['USERNOTFOUND']), 503);
-	    } else {
-		require_once PARSE_DIR . 'parse.php';
-		$userLib = new parseUser();
-		$link = $userLib->linkAccounts($objectId, $sessionToken);
-		if ($link instanceof ParseLibraryException) {
-		    $this->response(array('NOLINK'), 503);
-		}
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($objectId);
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType('SOCIALACCOUNTLINKED');
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
-		$activityParse = new ActivityParse();
-		$activityParse->saveActivity($activity);
-		$this->response(array($controllers['OKSOCIALLINK']), 200);
+	    $link = $userP->linkSocialAccount($objectId);
+	    if ($link instanceof Error) {
+		$this->response(array('NOLINK'), 503);
 	    }
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($objectId);
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRecord(null);
+	    $activity->setRead(true);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser(null);
+	    $activity->setType('SOCIALACCOUNTLINKED');
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
+	    $activityParse = new ActivityParse();
+	    $res = $activityParse->saveActivity($activity);
+	    if ($res instanceof Error) {
+		$this->response(array('status' => $controllers['NOACSAVE']), 403);
+	    }
+	    $this->response(array($controllers['OKSOCIALLINK']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}
@@ -101,11 +94,14 @@ class UserUtilitiesController extends REST {
 		$this->response(array('status' => $controllers['NOEMAILFORRESETPASS']), 403);
 	    }
 	    $email = $this->request['email'];
+	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userP = new UserParse();
 	    $user = $userP->passwordReset($email);
 	    if ($user instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUNDFORPASSRESET']), 503);
 	    }
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);
@@ -125,7 +121,10 @@ class UserUtilitiesController extends REST {
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
-	    $activityParse->saveActivity($activity);
+	    $res = $activityParse->saveActivity($activity);
+	    if ($res instanceof Error) {
+		$this->response(array('status' => $controllers['NOACSAVE']), 403);
+	    }
 	    $this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
@@ -133,9 +132,9 @@ class UserUtilitiesController extends REST {
     }
 
     /**
-     * \fn		unLinkSocialAccount()
+     * \fn	unLinkSocialAccount()
      * \brief   elimina il link con l'account social
-     * \todo    usare la sessione
+     * \todo    test della funzione
      */
     public function unLinkSocialAccount() {
 	try {
@@ -147,14 +146,14 @@ class UserUtilitiesController extends REST {
 	    }
 	    $currentUser = $this->request['currentUser'];
 	    $objectId = $currentUser->getObjectId();
-	    $sessionToken = $currentUser->getSessionToken();
-	    //spostare questa funzione dentro la userParse
-	    require_once PARSE_DIR . 'parse.php';
-	    $userLib = new parseUser();
-	    $unlink = $userLib->unlinkAccounts($objectId, $sessionToken, null);
-	    if ($unlink instanceof ParseLibraryException) {
+	    require_once CLASSES_DIR . 'userParse.class.php';
+	    $userP = new UserParse();
+	    $unlink = $userP->unLinkSocialAccount($objectId);
+	    if ($unlink instanceof Error) {
 		$this->response(array('NOUNLINK'), 503);
 	    }
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);
@@ -174,7 +173,10 @@ class UserUtilitiesController extends REST {
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
-	    $activityParse->saveActivity($activity);
+	    $res = $activityParse->saveActivity($activity);
+	    if ($res instanceof Error) {
+		$this->response(array('status' => $controllers['NOACSAVE']), 403);
+	    }
 	    $this->response(array($controllers['OKSOCIALUNLINK']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
@@ -184,7 +186,7 @@ class UserUtilitiesController extends REST {
     /**
      * \fn	public function updateSetting()
      * \brief   effettua l'update dell'array dei settings
-     * \todo    usare la sessione
+     * \todo    
      */
     public function updateSetting() {
 	try {
@@ -196,11 +198,11 @@ class UserUtilitiesController extends REST {
 	    } elseif (!isset($_SESSION['setting'])) {
 		$this->response(array('status' => $controllers['NOSETTING']), 403);
 	    }
-	    $userId = $this->request['objectId'];
+	    $currentUser = $this->request['currentUser'];
 	    $settings = $this->request['setting'];
-
+	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userP = new UserParse();
-	    $res = $userP->updateField($userId, 'settings', array($settings));
+	    $res = $userP->updateField($currentUser->getObjectId(), 'settings', array($settings));
 	    if ($res instanceof Error) {
 		$this->response(array('NOSETTINGUPDATE'), 503);
 	    }
@@ -210,7 +212,7 @@ class UserUtilitiesController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($userId);
+	    $activity->setFromUser($currentUser->getObjectId());
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
@@ -223,15 +225,16 @@ class UserUtilitiesController extends REST {
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
-	    $resActivity = $activityParse->saveActivity($activity);
-	    if ($resActivity instanceof Error) {
-		//FARE UNA ROLLBACK??
+	    $resAct = $activityParse->saveActivity($activity);
+	    if ($resAct instanceof Error) {
+		$this->response(array('status' => $controllers['NOACSAVE']), 403); //ROLLBACK??
 	    }
-	    $this->response(array($resActivity), 200);
+	    $this->response(array('SETTINGUPDATED'), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
 }
+
 ?>
