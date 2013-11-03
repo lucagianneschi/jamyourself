@@ -99,7 +99,6 @@ class RelationController extends REST {
 	    }
 	    $mail->SmtpClose();
 	    unset($mail);
-	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
 	    $res = $activityP->updateField($activityId, 'status', 'A');
@@ -107,6 +106,7 @@ class RelationController extends REST {
 	    if ($res instanceof Error || $res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
 	    }
+	    require_once CLASSES_DIR . 'activity.class.php';
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);
@@ -154,7 +154,6 @@ class RelationController extends REST {
 	    $currentUser = $this->request['currentUser'];
 	    $toUser = $this->request['toUser'];
 	    $activityId = $this->request['activityId'];
-	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
 	    $res = $activityP->updateField($activityId, 'status', 'R');
@@ -162,6 +161,7 @@ class RelationController extends REST {
 	    if ($res instanceof Error || $res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
 	    }
+	    require_once CLASSES_DIR . 'activity.class.php';
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);

@@ -4,7 +4,7 @@
  * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright	        Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di inserimento di una review 
  * \details		inserisce una review ad un evento o ad un record
