@@ -12,7 +12,11 @@
 
         <div class="row upload-box">
             <div  class="small-3 columns" id="tumbnail-pane">
-                <img class="thumbnail" src="" id="tumbnail" name="tumbnail"/>
+                    <div class="signup-image">
+                        <div id="uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane">
+                            <img id="uploadImage_tumbnail" name="uploadImage_tumbnail"/>
+                        </div>
+                    </div>
             </div>
             <div  class="small-9 columns">							        						
                 <a  class="text orange" data-reveal-id="upload">Upload Image</a>
@@ -34,10 +38,10 @@
                         <div  class="small-10 small-centered columns align-center">
                                     <div id="uploadImage_preview_box">
                                         <img src="" id="spotter_uploadImage_preview"/>
-                                        <input type="hidden" id="spotter_x" name="spotter_x" value="0"/>
-                                        <input type="hidden" id="spotter_y" name="spotter_y" value="0"/>
-                                        <input type="hidden" id="spotter_w" name="spotter_w" value="100"/>
-                                        <input type="hidden" id="spotter_h" name="spotter_h" value="100"/>
+                                        <input type="hidden" id="spotter_x" name="crop_x" value="0"/>
+                                        <input type="hidden" id="spotter_y" name="crop_y" value="0"/>
+                                        <input type="hidden" id="spotter_w" name="crop_w" value="100"/>
+                                        <input type="hidden" id="spotter_h" name="crop_h" value="100"/>
                                     </div>
                         </div>
 

@@ -47,7 +47,7 @@ $(document).ready(function() {
         });
         //inizializzazione per l'upload della copertina dell'album
         initImgUploader();
-        
+
     });
 
     //gestione button new in uploadRecord02
@@ -183,8 +183,8 @@ function initImgUploader() {
 function onUploadedImage(img) {
 
     preview = $('#uploadImage_preview');
-    tumbnail = $('#tumbnail');
-    tumbnail_pane = $('#tumbnail-pane');
+    tumbnail = $('#uploadImage_tumbnail');
+    tumbnail_pane = $('#uploadImage_tumbnail-pane');
 
     id_tumbnail = tumbnail.attr('id');
     id_preview = preview.attr('id');
@@ -267,7 +267,7 @@ function updatePreview(c) {
 }
 
 $('#uploadImage_save').click(function() {
-    tumbnail = $('#tumbnail');
+    tumbnail = $('#uploadImage_tumbnail');
 
     tumbnail.attr('src', preview.attr('src'));
 
