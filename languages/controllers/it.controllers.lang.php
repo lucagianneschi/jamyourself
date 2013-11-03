@@ -81,6 +81,7 @@ $controllers = array(
     'NOMAILFORREVIEW' => 'Indirizzo mail non settato per notifica review',
     'NOSELFREVIEW' => 'Non puoi recensire i tuoi contenuti',
     'NOSAVEDREVIEW' => 'Impossibile salvare la review',
+    'NOTITLE' => 'Titolo non impostato',
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',
