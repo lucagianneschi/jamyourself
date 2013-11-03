@@ -100,23 +100,63 @@ class uploadRecordController extends REST {
     private function getFeaturing($list) {
 //        @todo
         $pUser = new UserParse();
-        
+
         return array();
     }
 
     private function getTags($list) {
-        return implode(",",$list);
+        return implode(",", $list);
     }
 
     private function createFolderForRecord($userId, $albumId) {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
-                mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . $albumId,0,true);
+                mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . $albumId, 0, true);
             }
         } catch (Exception $e) {
             return false;
         }
     }
+
+    private function getImages($decoded) {
+//in caso di anomalie ---> default
+        if (!isset($decoded->crop) || is_null($decoded->crop) ||
+                !isset($decoded->image) || is_null($decoded->image)) {
+            return array("ImagePicture" => null, "ImageThumbnail" => null);
+        }
+
+        $PROFILE_IMG_SIZE = 300;
+        $THUMBNAIL_IMG_SIZE = 150;
+
+//recupero i dati per effettuare l'editing
+        $cropInfo = json_decode(json_encode($decoded->crop), false);
+
+        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
+                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
+                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
+                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
+            return array("ImagePicture" => null, "ImageThumbnail" => null);
+        }
+        $cacheDir = MEDIA_DIR . "cache/";
+        $cacheImg = $cacheDir . $decoded->image;
+
+//Preparo l'oggetto per l'editign della foto
+        $cis = new CropImageService();
+
+//gestione dell'immagine di profilo
+        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, $PROFILE_IMG_SIZE);
+        $coverUrl = $cacheDir . $coverId;
+
+//gestione del thumbnail
+        $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
+        $thumbUrl = $cacheDir . $thumbId;
+
+//CANCELLAZIONE DELLA VECCHIA IMMAGINE
+        unlink($cacheImg);
+//RETURN        
+        return array('ImagePicture' => $coverId, 'ImageThumbnail' => $thumbId);
+    }
+
 }
 
 ?>
