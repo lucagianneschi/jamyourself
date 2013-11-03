@@ -56,6 +56,11 @@ class uploadRecordController extends REST {
         $record->setCounter(0);
 //        $record->setCover("una cover");
 //$record->setCoverFile();
+        
+        $imgInfo = $this->getImages($newAlbum);
+        $record->setCover($imgInfo['RecordPicture']);
+        $record->setThumbnailCover($imgInfo['RecordThumbnail']);
+        
         $record->setDescription(parse_encode_string($newAlbum->albumTitle));
         $record->setDuration(0);
         $record->setFeaturing($this->getFeaturing($newAlbum->albumFeaturing));
@@ -93,6 +98,12 @@ class uploadRecordController extends REST {
         $pActivity->saveActivity($activity);
 
         $this->createFolderForRecord($userId, $newRecord->getObjectId());
+        
+        //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE   
+            if (!is_null($record->getThumbnailCover()) && strlen($user->getThumbnailCover()) > 0 && strlen($user->getCover()) && !is_null($user->getCover())) {
+                rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicturethumb" . "/" . $user->getProfileThumbnail());
+                rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicture" . "/" . $user->getProfilePicture());
+            }
 
         $this->response(array("OK"), 200);
     }
@@ -100,23 +111,63 @@ class uploadRecordController extends REST {
     private function getFeaturing($list) {
 //        @todo
         $pUser = new UserParse();
-        
+
         return array();
     }
 
     private function getTags($list) {
-        return implode(",",$list);
+        return implode(",", $list);
     }
 
     private function createFolderForRecord($userId, $albumId) {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
-                mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . $albumId,0,true);
+                mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . $albumId, 0, true);
             }
         } catch (Exception $e) {
             return false;
         }
     }
+
+    private function getImages($decoded) {
+//in caso di anomalie ---> default
+        if (!isset($decoded->crop) || is_null($decoded->crop) ||
+                !isset($decoded->image) || is_null($decoded->image)) {
+            return array("RecordPicture" => null, "RecordThumbnail" => null);
+        }
+
+        $PROFILE_IMG_SIZE = 300;
+        $THUMBNAIL_IMG_SIZE = 150;
+
+//recupero i dati per effettuare l'editing
+        $cropInfo = json_decode(json_encode($decoded->crop), false);
+
+        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
+                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
+                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
+                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
+            return array("RecordPicture" => null, "RecordThumbnail" => null);
+        }
+        $cacheDir = MEDIA_DIR . "cache/";
+        $cacheImg = $cacheDir . $decoded->image;
+
+//Preparo l'oggetto per l'editign della foto
+        $cis = new CropImageService();
+
+//gestione dell'immagine di profilo
+        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, $PROFILE_IMG_SIZE);
+        $coverUrl = $cacheDir . $coverId;
+
+//gestione del thumbnail
+        $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
+        $thumbUrl = $cacheDir . $thumbId;
+
+//CANCELLAZIONE DELLA VECCHIA IMMAGINE
+        unlink($cacheImg);
+//RETURN        
+        return array('RecordPicture' => $coverId, 'RecordThumbnail' => $thumbId);
+    }
+
 }
 
 ?>
