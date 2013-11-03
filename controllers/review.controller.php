@@ -21,10 +21,6 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
-
-require_once SERVICES_DIR . 'mail.service.php';
-require_once DEBUG_DIR . 'debug.php';
-
 /**
  * \brief	ReviewController class 
  * \details	controller di inserimento di una review 
@@ -45,7 +41,7 @@ class ReviewController extends REST {
     /**
      * \fn		review()
      * \brief   save a review an the related activity
-     * \todo    usare la sessione, fare controllo sul fatto che l'utente non faccia una recensione di una cosa che gli appartiene
+     * \todo    
      */
     public function sendReview() {
 	global $controllers;
@@ -67,11 +63,14 @@ class ReviewController extends REST {
 		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOCLASSTYPE']), 400);
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
+	    } elseif (!isset($this->request['title'])) {
+		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTITLE']), 400);
 	    }
 	    $currentUser = $this->request['currentUser'];
-	    $text = $this->request['text'];
-	    $objectId = $this->request['objectId'];
 	    $classType = $this->request['classType'];
+	    $objectId = $this->request['objectId'];
+	    $text = $this->request['text'];
+	    $title = $this->request['title'];
 	    $toUser = $this->request['toUser'];
 	    if ($currentUser->getObjectId() === $toUser) {
 		$this->response(array('NOSELFREVIEW'), 200);
@@ -80,27 +79,14 @@ class ReviewController extends REST {
 	    } elseif (strlen($text) > $this->config->maxReviewSize) {
 		$this->response(array($controllers['LONGREW'] . strlen($text)), 200);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    require_once CLASSES_DIR . 'comment.class.php';
-	    require_once CLASSES_DIR . 'commentParse.class.php';
-	    require_once CLASSES_DIR . 'user.class.php';
 	    require_once CLASSES_DIR . 'userParse.class.php';
+	    $userP = new UserParse();
+	    $user = $userP->getUser($toUser);
+	    if ($user instanceof Error) {
+		$this->response(array('NOMAILFORREVIEW'), 503);
+	    }
+	    require_once CLASSES_DIR . 'comment.class.php';
 	    require_once CONTROLLERS_DIR . 'utilsController.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAlbum(null);
-	    $activity->setCounter(0);
-	    $activity->setFromUser($currentUser->getObjectId());
-	    $activity->setImage(null);
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRead(false);
-	    $activity->setSong(null);
-	    $activity->setStatus('A');
-	    $activity->setToUser($toUser);
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
 	    $review = new Comment();
 	    $review->setActive(true);
 	    $review->setAlbum(null);
@@ -118,52 +104,69 @@ class ReviewController extends REST {
 	    $review->setSong(null);
 	    $review->setStatus(null);
 	    $review->setTags(null);
-	    $review->setTitle(null);
-	    $encodedText = parse_encode_string($text);
-	    $review->setText($encodedText);
+	    $review->setTitle(parse_encode_string($title));
+	    $review->setText(parse_encode_string($text));
 	    $review->setToUser($toUser);
 	    $review->setVideo(null);
 	    $review->setVote(null);
-	    $mail = mailService();
-	    $mail->IsHTML(true);
-	    $userP = new UserParse();
-	    $user = $userP->getUser($toUser);
-	    if ($user instanceof Error) {
-		$this->response(array('NOMAILFORREVIEW'), 503);
-	    }
-	    $mail->AddAddress($currentUser->getEmail());
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAlbum(null);
+	    $activity->setCounter(0);
+	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRead(false);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser($toUser);
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
 	    switch ($classType) {
 		case 'Event':
 		    $review->setEvent($objectId);
 		    $review->setType('RE');
-		    require_once CLASSES_DIR . 'eventParse.class.php';
 		    $activity->setEvent($objectId);
 		    $activity->setType("NEWEVENTREVIEW");
-		    $mail->Subject = $controllers['SBJE'];
-		    $mail->MsgHTML(file_get_contents(STDHTML_DIR . $mail_files['EVENTREVIEWEMAIL']));
+		    $subject = $controllers['SBJE'];
+		    $html = file_get_contents(STDHTML_DIR . $mail_files['EVENTREVIEWEMAIL']);
+
 		    break;
 		case 'Record':
 		    $review->setRecord($objectId);
 		    $review->setType('RR');
 		    $activity->setRecord($objectId);
 		    $activity->setType("NEWRECORDREVIEW");
-		    $mail->Subject = $controllers['SBJR'];
-		    $mail->MsgHTML(file_get_contents(STDHTML_DIR . $mail_files['RECORDREVIEWEMAIL']));
+		    $subject = $controllers['SBJR'];
+		    $html = file_get_contents(STDHTML_DIR . $mail_files['RECORDREVIEWEMAIL']);
 		    break;
 	    }
+	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $commentParse = new CommentParse();
 	    $resRev = $commentParse->saveComment($review);
 	    if ($resRev instanceof Error) {
 		$this->response(array('NOSAVEDREVIEW'), 503);
-	    } else {
-		$activityParse = new ActivityParse();
-		$resActivity = $activityParse->saveActivity($activity);
-		if ($resActivity instanceof Error) {
-		    $this->rollback($resRev->getObjectId());
-		}
 	    }
-	    $mail->Send();
+	    require_once SERVICES_DIR . 'mail.service.php';
+	    $mail = new MailService(true);
+	    $mail->IsHTML(true);
+	    $mail->AddAddress($user->getEmail());
+	    $mail->Subject = $subject;
+	    $mail->MsgHTML($html);
+	    $resMail = $mail->Send();
+	    if ($resMail instanceof phpmailerException) {
+		$this->response(array('status' => $controllers['NOMAIL']), 403);
+	    }
 	    $mail->SmtpClose();
+	    unset($mail);
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activityParse = new ActivityParse();
+	    $resActivity = $activityParse->saveActivity($activity);
+	    if ($resActivity instanceof Error) {
+		$this->rollback($resRev->getObjectId());
+	    }
 	    $this->response(array($controllers['REWSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
