@@ -10,7 +10,6 @@ class GeocoderService {
 	   
 		$resp_json = self::curl_file_get_contents($url);
 		$resp = json_decode($resp_json, true);
-
 		if ($resp['status']=='OK') {
 			return $resp['results'][0]['geometry']['location'];
 		} else {

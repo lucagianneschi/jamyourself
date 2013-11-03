@@ -45,7 +45,7 @@ class UploadController extends REST {
 //nome file univoco            
             $fileName = md5(time() . rand()) . "." . $ext;
 
-            $filePath = $targetDir . "/" . $fileName;
+            $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
 
 // Chunking might be enabled
             $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
@@ -136,7 +136,7 @@ class UploadController extends REST {
 //nome file univoco            
             $fileName = md5(time() . rand()) . "." . $ext;
 
-            $filePath = $targetDir . "/" . $fileName;
+            $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
 
 // Chunking might be enabled
             $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
@@ -209,7 +209,7 @@ class UploadController extends REST {
             }
 
             while (($file = readdir($dir)) !== false) {
-                $tmpfilePath = $targetDir . "/" . $file;
+                $tmpfilePath = $targetDir . DIRECTORY_SEPARATOR . $file;
 
                 // If temp file is current file proceed to the next
                 if ($tmpfilePath == "{$filePath}.part") {
