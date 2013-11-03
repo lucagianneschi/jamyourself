@@ -15,7 +15,7 @@ function access(usernameOrEmail, password, opType, userId) {
 
 	$.ajax({
 		type: "POST",
-		url: "../../../controllers/request/accessRequest.php",
+		url: "../controllers/request/accessRequest.php",
 		data: json_access
 	})
 	.done(function(message, status, xhr) {

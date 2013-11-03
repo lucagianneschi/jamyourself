@@ -3,6 +3,7 @@
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
+require_once SERVICES_DIR . 'cropImage.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CONTROLLERS_DIR . 'utilsController.php';
@@ -54,26 +55,26 @@ class uploadRecordController extends REST {
         $record->setBuyLink($newAlbum->urlBuy);
         $record->setCommentCounter(0);
         $record->setCounter(0);
-//        $record->setCover("una cover");
-//$record->setCoverFile();
-        
+        //$record->setCoverFile();
         $imgInfo = $this->getImages($newAlbum);
         $record->setCover($imgInfo['RecordPicture']);
         $record->setThumbnailCover($imgInfo['RecordThumbnail']);
-        
+
         $record->setDescription(parse_encode_string($newAlbum->albumTitle));
         $record->setDuration(0);
         $record->setFeaturing($this->getFeaturing($newAlbum->albumFeaturing));
         $record->setFromUser($userId);
         $record->setGenre($this->getTags($newAlbum->tags));
         $record->setLabel(parse_encode_string($newAlbum->label));
-        $location = GeocoderService::getLocation($newAlbum->city);
-        $parseGeoPoint = new parseGeoPoint($location);
-        $record->setLocation($parseGeoPoint);
+
+        if ( ($location = GeocoderService::getLocation($newAlbum->city))) {
+            $parseGeoPoint = new parseGeoPoint($location);
+            $record->setLocation($parseGeoPoint);
+        }
+
         $record->setLoveCounter(0);
         $record->setReviewCounter(0);
         $record->setShareCounter(0);
-//        $record->setThumbnailCover('Un thumbnail cover');
         $record->setTitle($newAlbum->albumTitle);
         $record->setYear($newAlbum->year);
 
@@ -98,19 +99,34 @@ class uploadRecordController extends REST {
         $pActivity->saveActivity($activity);
 
         $this->createFolderForRecord($userId, $newRecord->getObjectId());
-        
-        //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE   
-            if (!is_null($record->getThumbnailCover()) && strlen($user->getThumbnailCover()) > 0 && strlen($user->getCover()) && !is_null($user->getCover())) {
-                rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicturethumb" . "/" . $user->getProfileThumbnail());
-                rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicture" . "/" . $user->getProfilePicture());
-            }
+
+        $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcover";
+        $dirCoverDest = USERS_DIR . $userId . "/images/recordcoverthumb";
+
+
+//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
+        if (!is_null($record->getThumbnailCover()) && strlen($record->getThumbnailCover()) > 0 && strlen($record->getCover()) && !is_null($record->getCover())) {
+            rename(MEDIA_DIR . "cache/" . $record->getThumbnailCover(), $dirThumbnailDest . DIRECTORY_SEPARATOR . $record->getThumbnailCover());
+            rename(MEDIA_DIR . "cache/" . $record->getCover(), $dirCoverDest . DIRECTORY_SEPARATOR . $record->getCover());
+        }
 
         $this->response(array("OK"), 200);
     }
 
     private function getFeaturing($list) {
 //        @todo
-        $pUser = new UserParse();
+//        if ($list != null && is_array($list) && count($list) > 0) {
+//            $return = array();
+//            foreach($list as $username)
+//            $pUser = new UserParse();
+//            $pUser->where("username", $username);
+//            $feat = $pUser->getUsers();
+//            if($feat!=null){
+//                $return[] = $feat->getObjectId(); 
+//            }
+//        }
+//        else
+        return null;
 
         return array();
     }
@@ -122,7 +138,17 @@ class uploadRecordController extends REST {
     private function createFolderForRecord($userId, $albumId) {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
-                mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . $albumId, 0, true);
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $albumId, 0, true);
+
+                if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images")) {
+                    $bool = mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images");
+                }
+                if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover")) {
+                    $bool = mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover");
+                }
+                if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb")) {
+                    $bool = mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb");
+                }
             }
         } catch (Exception $e) {
             return false;

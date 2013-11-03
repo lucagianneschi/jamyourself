@@ -304,7 +304,7 @@ $('#uploadImage_save').click(function() {
         w: $('#' + input_w).val(),
     };
 
-    json_album.crop = json_crop;
+    json_album_create.crop = json_crop;
 
     $('#upload').foundation('reveal', 'close');
 });
@@ -322,8 +322,15 @@ function getTagsAlbumCreate() {
     return tags;
 }
 
-function callbackAlbumCreate() {
-    alert("Album Created");
+function callbackAlbumCreate(data, status) {
+    console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+    if (status == "success") {
+        console.log("Album Creato con successo");
+        alert("Album creato con successo");
+    } else {
+        alert("Errore");
+        console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+    }
 }
 
 function albumCreate() {
@@ -336,6 +343,7 @@ function albumCreate() {
     json_album_create.city = $("#city").val();
     json_album_create.tags = getTagsAlbumCreate();
 
+    console.log("Record => " + JSON.stringify(json_album_create));
     sendRequest("albumCreate", json_album_create, callbackAlbumCreate, false);
 }
 //////////////////////////////////////////////////////////////////////////////
