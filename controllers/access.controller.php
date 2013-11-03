@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		implementare i parametri di sessione (es currentUser)
+ * \todo		terminare la funzione logout e socialLogin
  *
  */
 if (!defined('ROOT_DIR'))
@@ -73,7 +73,7 @@ class AccessController extends REST {
 		$this->response(array($controllers['OKLOGIN']), 200);
 	    }
 	} catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
@@ -115,27 +115,33 @@ class AccessController extends REST {
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
 	    $res = $activityParse->saveActivity($activity);
-	    if($res instanceof Error){
+	    if ($res instanceof Error) {
 		//rifaccio login??
 	    }
 	    $this->response(array($controllers['OKLOGOUT']), 200);
 	} catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
     /**
-     * \fn		sociaLogin()
+     * \fn	sociaLogin()
      * \brief   login con account Social
-     * \todo    tutto
+     * \todo    implementare la sociaLogin nella UserParse
      */
     public function sociaLogin() {
 	try {
 	    global $controllers;
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    }
+
 	    require_once PARSE_DIR . 'parse.php';
 	    $userLib = new parseUser();
-	    $res = $userLib->socialLogin();
-	    if ($res instanceof ParseLibraryException) {
+	    $logingSocial = $userLib->socialLogin();
+	    if ($logingSocial instanceof ParseLibraryException) {
 		$this->response(array('SOCIALLOGINERR'), 503);
 	    }
 	    require_once CLASSES_DIR . 'activity.class.php';
@@ -159,10 +165,13 @@ class AccessController extends REST {
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
-	    $activityParse->saveActivity($activity);
+	    $res = $activityParse->saveActivity($activity);
+	    if ($res instanceof Error) {
+		$this->response(array($controllers['NOACSAVE']), 503);
+	    }
 	    $this->response(array($controllers['OKLOGINSOCIAL']), 200);
 	} catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
