@@ -123,8 +123,9 @@ $controllers = array(
     'NOREMOVESONGTOPLAY' => 'Unable to remove song from playlist',
     //SETTINGS
     'NOSETTINGUPDATE' => 'Unable to update your setting',
-    'NOSETTING' => 'No setting specified in the request'
-);
+    'NOSETTING' => 'No setting specified in the request',
+    'SETTINGUPDATED' => 'Setting Updated'
+    );
 
 $mail_files = array(
     'USERDELETED' => 'en.userDeletion.html',

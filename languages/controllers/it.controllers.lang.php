@@ -123,7 +123,8 @@ $controllers = array(
     'NOPLAYLIST' => 'Playlist non trovata',
     //SETTINGS
     'NOSETTINGUPDATE' => 'Impossibile effettuare aggiornamento dei setting',
-    'NOSETTING' => 'Setting non specificato nella richiesta'
+    'NOSETTING' => 'Setting non specificato nella richiesta',
+    'SETTINGUPDATED' => 'Setting Aggiornato'
 );
 
 $mail_files = array(
