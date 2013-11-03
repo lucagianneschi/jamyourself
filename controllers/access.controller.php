@@ -73,7 +73,7 @@ class AccessController extends REST {
 		$this->response(array($controllers['OKLOGIN']), 200);
 	    }
 	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
@@ -90,19 +90,18 @@ class AccessController extends REST {
 	    } elseif (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
-	    require_once CLASSES_DIR . 'userParse.class.php';
+	    $currentUser = $this->request['currentUser'];
+	    $currentUserId = $currentUser->getObjectId();
+	    $_SESSION['currentUser'] = null;
 	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $userId = $this->request['userId'];
-	    $userParse = new UserParse();
-	    $userParse->logout($userId); //questa funzione deve essere messa nella classe user che per ora non c'è
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($userId);
+	    $activity->setFromUser($currentUserId);
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
@@ -115,10 +114,13 @@ class AccessController extends REST {
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
-	    $activityParse->saveActivity($activity);
+	    $res = $activityParse->saveActivity($activity);
+	    if($res instanceof Error){
+		//rifaccio login??
+	    }
 	    $this->response(array($controllers['OKLOGOUT']), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
@@ -160,7 +162,7 @@ class AccessController extends REST {
 	    $activityParse->saveActivity($activity);
 	    $this->response(array($controllers['OKLOGINSOCIAL']), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+            $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
