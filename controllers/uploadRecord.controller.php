@@ -55,9 +55,7 @@ class uploadRecordController extends REST {
         $record->setBuyLink($newAlbum->urlBuy);
         $record->setCommentCounter(0);
         $record->setCounter(0);
-//        $record->setCover("una cover");
-//$record->setCoverFile();
-
+        //$record->setCoverFile();
         $imgInfo = $this->getImages($newAlbum);
         $record->setCover($imgInfo['RecordPicture']);
         $record->setThumbnailCover($imgInfo['RecordThumbnail']);
@@ -69,7 +67,7 @@ class uploadRecordController extends REST {
         $record->setGenre($this->getTags($newAlbum->tags));
         $record->setLabel(parse_encode_string($newAlbum->label));
 
-        if ($location = GeocoderService::getLocation($newAlbum->city)) {
+        if ( ($location = GeocoderService::getLocation($newAlbum->city))) {
             $parseGeoPoint = new parseGeoPoint($location);
             $record->setLocation($parseGeoPoint);
         }
@@ -77,7 +75,6 @@ class uploadRecordController extends REST {
         $record->setLoveCounter(0);
         $record->setReviewCounter(0);
         $record->setShareCounter(0);
-//        $record->setThumbnailCover('Un thumbnail cover');
         $record->setTitle($newAlbum->albumTitle);
         $record->setYear($newAlbum->year);
 
