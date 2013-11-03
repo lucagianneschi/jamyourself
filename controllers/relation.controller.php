@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		implementare i parametri di sessione (es currentUser), terminare funzioni, verificare che siano state istanziate tutte le activity
+ * \todo		 terminare funzioni, verificare che siano state istanziate tutte le activity
  *
  */
 if (!defined('ROOT_DIR'))
@@ -55,7 +55,6 @@ class RelationController extends REST {
 	    $fromUserType = $currentUser->getType();
 	    require_once CLASSES_DIR . 'user.class.php';
 	    require_once CLASSES_DIR . 'userParse.class.php';
-	    require_once SERVICES_DIR . 'mail.service.php';
 	    $toUserP = new UserParse();
 	    $toUserB = $toUserP->getUser($toUser);
 	    $sessionTokenA = $currentUser->getSessionToken();
@@ -67,12 +66,14 @@ class RelationController extends REST {
 	    }
 	    switch ($fromUserType) {
 		case 'SPOTTER':
+		    $type = 'FRIENDSHIPACCEPTED';
 		    $HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
 		    break;
 		default :
 		    if ($toUserType == 'SPOTTER') {
 			$this->response(array($controllers['RELDENIED']), 403);
 		    } else {
+			$type = 'COLLABORATIONACCEPTED';
 			$HTMLFile = $mail_files['COLLABORATIONACCEPTEDEMAIL'];
 		    }
 		    break;
@@ -86,6 +87,7 @@ class RelationController extends REST {
 	    if ($add1 instanceof Error) {
 		$this->response(array('status' => $controllers['NORELACC']), 403);
 	    }
+	    require_once SERVICES_DIR . 'mail.service.php';
 	    $mail = new MailService(true);
 	    $mail->IsHTML(true);
 	    $mail->AddAddress($toUser->getEmail());
@@ -102,14 +104,35 @@ class RelationController extends REST {
 	    $activityP = new ActivityParse();
 	    $res = $activityP->updateField($activityId, 'status', 'A');
 	    $res1 = $activityP->updateField($activityId, 'read', true);
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTUPDATE']), 403); //FINIRE
-	    } elseif ($res1 instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTUPDATE']), 403); //FINIRE
+	    if ($res instanceof Error || $res1 instanceof Error) {
+		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
 	    }
-	    $this->response(array($controllers['RELDENIED']), 200);
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setAlbum(null);
+	    $activity->setComment(null);
+	    $activity->setCounter(0);
+	    $activity->setEvent(null);
+	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setImage(null);
+	    $activity->setPlaylist(null);
+	    $activity->setQuestion(null);
+	    $activity->setRecord(null);
+	    $activity->setRead(true);
+	    $activity->setSong(null);
+	    $activity->setStatus('A');
+	    $activity->setToUser($toUser);
+	    $activity->setType($type);
+	    $activity->setUserStatus(null);
+	    $activity->setVideo(null);
+	    $activityP1 = new ActivityParse();
+	    $act = $activityP1->saveActivity($activity);
+	    if ($act instanceof Error) {
+		$this->response(array('status' => $controllers['NOACSAVE']), 403);
+	    }
+	    $this->response(array($controllers['RELACCEPTED']), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
@@ -136,13 +159,9 @@ class RelationController extends REST {
 	    $activityP = new ActivityParse();
 	    $res = $activityP->updateField($activityId, 'status', 'R');
 	    $res1 = $activityP->updateField($activityId, 'read', true);
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
-	    } elseif ($res1 instanceof Error) {
+	    if ($res instanceof Error || $res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setAlbum(null);
@@ -168,15 +187,14 @@ class RelationController extends REST {
 	    }
 	    $this->response(array('RELDECLINED'), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
     /**
      * \fn	removeRelationship ()
      * \brief   remove an existing relationship
-     * \todo    rimuovere un following,mancano da gestire i contatori di followers, jammer e venue
-     * \todo    terminare funzione
+     * \todo    mancano da gestire i contatori di followers, jammer e venue    
      */
     public function removeRelationship() {
 	global $controllers;
@@ -191,40 +209,47 @@ class RelationController extends REST {
 		$this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 400);
 	    }
 	    $currentUser = $this->request['currentUser'];
-	    $toUser = $this->request['toUser'];
+	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
 	    $fromUserType = $currentUser->getType();
 	    require_once CLASSES_DIR . 'user.class.php';
 	    require_once CLASSES_DIR . 'userParse.class.php';
-	    require_once SERVICES_DIR . 'mail.service.php';
-	    $toUserP = new UserParse();
-	    $toUserB = $toUserP->getUser($toUser);
+	    $toUserB = new UserParse();
+	    $toUser = $toUserB->getUser($toUserId);
 	    $sessionTokenA = $currentUser->getSessionToken();
 	    $sessionTokenB = $toUserB->getSessionToken();
-	    $toUserP1 = new UserParse();
-	    $userA = $toUserP1->getUser($currentUser->getObjectId());
-	    if ($toUserB instanceof Error) {
+	    $fromUserA = new UserParse();
+	    $userA = $fromUserA->getUser($currentUser->getObjectId());
+	    if ($toUser instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
 	    } elseif (!isset($sessionTokenB)) {
 		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 403);
-	    }if ($userA instanceof Error) {
+	    } elseif ($userA instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
+	    } elseif (!isset($sessionTokenA)) {
+		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 403);
 	    }
-	    $field = '';//SPECIFICARE PER OGNI IF
 	    if ($fromUserType == 'SPOTTER' && $toUserType == 'SPOTTER') {
-		$resA = $toUserP1->updateField($toUserB->getObjectId(), $sessionTokenA, $field, $currentUser->getObjectId(), true, 'add', '_User');
-		$resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
+		$field = 'friendship';
+		$type = 'FRIENDSHIPREMOVED';
+		$resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'remove', '_User');
+		$resB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'remove', '_User');
 	    } elseif ($fromUserType == 'SPOTTER' && $toUserType != 'SPOTTER') {
-		$resA = $toUserP1->updateField($toUserB->getObjectId(), $sessionTokenA, $field, $currentUser->getObjectId(), true, 'add', '_User');
-		$resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
+		$field = 'followers';
+		$field1 = 'following';
+		$type = 'FOLLOWINGREMOVED';
+		$resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'remove', '_User');
+		$resB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, $field1, $currentUser->getObjectId(), true, 'remove', '_User');
 	    } elseif ($fromUserType != 'SPOTTER') {
-		$resA = $toUserP1->updateField($toUserB->getObjectId(), $sessionTokenA, $field, $currentUser->getObjectId(), true, 'add', '_User');
-		$resB = $toUserP->updateField($toUserB->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
+		$field = 'collaboration';
+		$type = 'COLLABORATIONREMOVED';
+		$resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'remove', '_User');
+		$resB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'remove', '_User');
 	    }
 	    if ($resA instanceof Error) {
-		$this->response(array('status' => $controllers['NOTOUSER']), 403); //FINIRE
+		$this->response(array('status' => $controllers['ERROREMOVINGREL']), 403);
 	    } elseif ($resB instanceof Error) {
-		$this->response(array('status' => $controllers['NOTOUSER']), 403); //FINIRE
+		$this->response(array('status' => $controllers['ERROREMOVINGREL']), 403);
 	    }
 	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
@@ -242,8 +267,8 @@ class RelationController extends REST {
 	    $activity->setRead(true);
 	    $activity->setSong(null);
 	    $activity->setStatus('A');
-	    $activity->setToUser($toUserB);
-	    $activity->setType('RELREMOVED');
+	    $activity->setToUser($toUser);
+	    $activity->setType($type);
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 	    $activityP = new ActivityParse();
@@ -253,14 +278,14 @@ class RelationController extends REST {
 	    }
 	    $this->response(array($controllers['RELDELETED']), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
     /**
-     * \fn		sendRelationRequest()
+     * \fn	sendRelationRequest()
      * \brief   send request for relationships
-     * \todo    terminare funzione
+     * \todo    
      */
     public function sendRelationRequest() {
 	global $controllers;
@@ -278,10 +303,10 @@ class RelationController extends REST {
 	    $currentUser = $this->request['currentUser'];
 	    $toUser = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
-	    $fromUserType = $currentUser->getType();
 	    if ($currentUser->getObjectId() == $toUser) {
 		$this->response(array('status' => $controllers['SELF']), 403);
 	    }
+	    $fromUserType = $currentUser->getType();
 	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
@@ -295,9 +320,9 @@ class RelationController extends REST {
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
 	    $activity->setRecord(null);
-	    $activity->setRead(true);
+	    $activity->setRead(false);
 	    $activity->setSong(null);
-	    $activity->setStatus('A');
+	    $activity->setStatus('P');
 	    $activity->setToUser($toUser);
 	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
@@ -340,7 +365,7 @@ class RelationController extends REST {
 		$this->response(array($controllers['RELSAVED']), 200);
 	    }
 	} catch (Exception $e) {
-	    $this->response(array('status' => "Service Unavailable", "msg" => $e->getMessage()), 503);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
