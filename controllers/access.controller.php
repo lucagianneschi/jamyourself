@@ -137,7 +137,6 @@ class AccessController extends REST {
 	    } elseif (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
-
 	    require_once PARSE_DIR . 'parse.php';
 	    $userLib = new parseUser();
 	    $logingSocial = $userLib->socialLogin();
