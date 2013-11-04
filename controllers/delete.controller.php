@@ -37,20 +37,16 @@ class DeleteController extends REST {
      * \todo    sistemare invio mail in caso di cancellazione utente
      */
     public function deleteObj() {
-
         global $controllers;
-
-        #TODO
-        //simulo che l'utente in sessione sia GuUAj83MGH
-//        require_once CLASSES_DIR . 'user.class.php';
-//        $currentUser = new User('SPOTTER');
-//        $currentUser->setObjectId('GuUAj83MGH');
-
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($this->request['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
+            } elseif (!isset($this->request['classType'])) {
+                $this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
+            }elseif (!isset($this->request['objectId'])) {
+                $this->response(array('status' => $controllers['NOOBJECTID']), 403);
             }
             $objectId = $this->request['objectId'];
             $classType = $this->request['classType'];
@@ -131,7 +127,7 @@ class DeleteController extends REST {
                     if ($currentUser->getObjectId() == $image->getFromUser()) {
                         $res = $imageParse->deleteImage($objectId);
                         $activity->setImage($objectId);
-                        $activity->setType("DELETEDIMAGE");				
+                        $activity->setType("DELETEDIMAGE");
                     } else {
                         $this->response(array($controllers['CND']), 401);
                     }
@@ -161,7 +157,7 @@ class DeleteController extends REST {
                     if ($currentUser->getObjectId() == $record->getFromUser()) {
                         $res = $recordParse->deleteRecord($objectId);
                         $activity->setRecord($objectId);
-                        $activity->setType("DELETEDRECORD");					
+                        $activity->setType("DELETEDRECORD");
                     } else {
                         $this->response(array($controllers['CND']), 401);
                     }
@@ -191,7 +187,7 @@ class DeleteController extends REST {
                     if ($currentUser->getObjectId() == $status->getFromUser()) {
                         $res = $statusParse->deleteStatus($objectId);
                         $activity->setUserStatus($objectId);
-                        $activity->setType("DELETEDSTATUS");					
+                        $activity->setType("DELETEDSTATUS");
                     } else {
                         $this->response(array($controllers['CND']), 401);
                     }
@@ -206,33 +202,17 @@ class DeleteController extends REST {
                         $res = $userParse->deleteUser($objectId);
                         $activity->setType("DELETEDUSER");
                         $activity->setToUser($objectId);
-                        try {
-                            $mail = mailService();
-                            #TODO
-                            //$mail->AddAddress($user->getEmail());
-                            $mail->AddAddress('daniele.caldelli@gmail.com');
-
-                            $mail->Subject = $controllers['SBJ'];
-                            $mail->Body = file_get_contents(STDHTML_DIR . $mail_files['USERDELETED']);
-                            #TODO
-                            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-                            if (!$mail->send()) {
-                                #TODO
-                                //l'invio della mail � andato male
-                            }
-
-                            #TODO
-                            //l'invio della mail � andato a buon fine
-
-                            $mail->SmtpClose();
-                        } catch (phpmailerException $e) {
-                            echo 'Eccezione ' . $e->getMessage();
-                            //throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-                        } catch (Exception $e) {
-                            echo 'Eccezione ' . $e->getMessage();
-                            //throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+                        $mail = mailService();
+                        $mail->AddAddress($currentUser->getEmail());
+                        $mail->Subject = $controllers['SBJ'];
+                        $mail->Body = file_get_contents(STDHTML_DIR . $mail_files['USERDELETED']);
+                        $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+                        $resMail = $mail->Send();
+                        if ($resMail instanceof phpmailerException) {
+                            $this->response(array('status' => $controllers['NOMAIL']), 403);
                         }
+                        $mail->SmtpClose();
+                        unset($mail);
                     } else {
                         $this->response(array($controllers['CND']), 401);
                     }
