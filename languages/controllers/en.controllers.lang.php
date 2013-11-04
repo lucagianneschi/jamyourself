@@ -115,6 +115,7 @@ $controllers = array(
     //SEARCH
     'NOSEARCHTEXT' => 'You must set a text to be searched',
     'SHORTSEARCHTEXT' => 'The text you want to search it too short',
+    'SEARCHOK' => 'Search ok',
     //PLAYLIST
     'SONGADDEDTOPLAYLIST' => 'Song correctly added to playlist',
     'SONGREMOVEDFROMPLAYLIST' => 'Song removed from playlist',

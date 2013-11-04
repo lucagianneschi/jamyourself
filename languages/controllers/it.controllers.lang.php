@@ -119,6 +119,7 @@ $controllers = array(
     //SEARCH
     'NOSEARCHTEXT' => 'Devi inserire un testo da ricercare',
     'SHORTSEARCHTEXT' => 'Il testo da ricercare è troppo breve',
+    'SEARCHOK' => 'Ricerca ok',
     //PLAYLIST
     'SONGADDEDTOPLAYLIST' => 'Canzone aggiunta alla playlist',
     'SONGREMOVEDFROMPLAYLIST' => 'Song removed from playlist',
