@@ -18,7 +18,7 @@
 						<div class="icon-header _menu" onClick="headerShow()"></div>
 						<!------------------------------------- thumbnail album ----------------------------->			
 						<div class="icon-header  hide-for-small">
-							<img src="../media/images/albumcoverthumb/albumThumbnail.jpg">
+							<img src="../media/<?php echo $default_img['DEFRECORDTHUMB']; ?>"  onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'">
 						</div>				
 					
 						<!------------------------------------- PLAYER ----------------------------->

@@ -34,8 +34,8 @@ $tracklist = $data['playlist']['tracklist'];
 				?>				
 				<div class="row">
 					<div  class="large-2 columns hide-for-small">
-						<div class="icon-header">
-							<img src="../media/<?php echo $thumbnail ?>" onerror="this.src='../media/images/default/defaultAlbumcoverthumb.jpg'">
+						<div class="icon-header">							
+							<img src="../media/<?php echo $thumbnail ?>" onerror="this.src='../media/<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
 						</div>
 					</div>
 					<div  class="large-10 columns ">
@@ -53,7 +53,7 @@ $tracklist = $data['playlist']['tracklist'];
 				<div class="row">
 					<div  class="large-2 columns hide-for-small">
 						<div class="icon-header">
-							<img src="../media/images/albumcoverthumb/albumThumbnail.jpg">
+							<img src="../media/<?php echo $default_img['DEFALBUMTHUMB'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
 						</div>
 					</div>
 					<div  class="large-10 columns">
@@ -66,7 +66,7 @@ $tracklist = $data['playlist']['tracklist'];
 				<div class="row">
 					<div  class="large-2 columns hide-for-small">
 						<div class="icon-header">
-							<img src="../media/images/albumcoverthumb/albumThumbnail2.jpg">
+							<img src="../media/<?php echo $default_img['DEFALBUMTHUMB'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
 						</div>
 					</div>
 					<div  class="large-10 columns">

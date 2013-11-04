@@ -1,3 +1,4 @@
+
 <!---------------------------------------- HEADER HIDE SOCIAL ----------------------------------->
 <div class="row">
 	<div  class="large-12 columns" style="margin-bottom: 29px">
@@ -18,7 +19,7 @@
 <div class="row">
 	<div  class="large-1 columns hide-for-small">
 		<div class="icon-header">
-			<img src="../media/images/profilepicturethumb/photo1.jpg">
+			<img src="../media/<?php echo $default_img['DEFAVATARTHUMB']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 		</div>
 	</div>
 	<div  class="large-11 columns">
@@ -31,7 +32,7 @@
 <div class="row">
 	<div  class="large-1 columns hide-for-small">
 		<div class="icon-header">
-			<img src="../media/images/profilepicturethumb/photo2.jpg">
+			<img src="../media/<?php echo $default_img['DEFAVATARTHUMB']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 		</div>
 	</div>
 	<div  class="large-11 columns">
@@ -44,7 +45,7 @@
 <div class="row">
 	<div  class="large-1 columns hide-for-small">
 		<div class="icon-header">
-			<img src="../media/images/profilepicturethumb/photo2.jpg">
+			<img src="../media/<?php echo $default_img['DEFAVATARTHUMB']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 		</div>
 	</div>
 	<div  class="large-11 columns">
@@ -57,7 +58,7 @@
 <div class="row">
 	<div  class="large-1 columns hide-for-small">
 		<div class="icon-header">
-			<img src="../media/images/profilepicturethumb/photo2.jpg">
+			<img src="../media/<?php echo $default_img['DEFAVATARTHUMB']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 		</div>
 	</div>
 	<div  class="large-11 columns">
@@ -70,7 +71,7 @@
 <div class="row">
 	<div  class="large-1 columns hide-for-small">
 		<div class="icon-header">
-			<img src="../media/images/profilepicturethumb/photo2.jpg">
+			<img src="../media/<?php echo $default_img['DEFAVATARTHUMB']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 		</div>
 	</div>
 	<div  class="large-11 columns">
