@@ -194,7 +194,7 @@ switch ($box) {
 		require_once BOXES_DIR . 'comment.box.php';
 		$commentBoxP = new CommentBox();		
 		try  {
-			$commentBox = $commentBoxP -> init($classBox, $objectIdComment);			
+			$commentBox = $commentBoxP -> init($classBox, $objectIdComment, 10, 0);						
 			if (!($commentBox instanceof Error)) {
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
 				foreach ($commentBox->commentInfoArray as $key => $value) {					

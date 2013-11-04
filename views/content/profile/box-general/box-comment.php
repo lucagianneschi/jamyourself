@@ -17,12 +17,12 @@ $objectId = $_POST['objectId'];
 ?>
 
 <div class="row">
-	<div  class="small-12 columns ">
+	<div  class="small-12 columns">
 		
 			<?php
 			if(isset($data['comment']['commentCounter'])) {
 				$commentCounter = $data['comment']['commentCounter'];
-				if($commentCounter > 0 && isset($data['comment0']['objectId'])) {
+				if($commentCounter > 0) {
 					for($i=0 ; $i<$commentCounter; $i++){
 						$comment_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['comment' . $i]['createdAt']);
 						$comment_createdAd = $comment_DateTime->format('l j F Y - H:i');
