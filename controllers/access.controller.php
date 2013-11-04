@@ -34,47 +34,46 @@ class AccessController extends REST {
      * \todo    usare la sessione
      */
     public function login() {
-	try {
-	    global $controllers;
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    }
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $usernameOrEmail = $this->request['usernameOrEmail'];
-	    $password = $this->request['password'];
-	    $userParse = new UserParse();
-	    $resLogin = $userParse->loginUser($usernameOrEmail, $password);
-	    if ($resLogin instanceof Error) {
-		$this->response(array('status' => $resLogin->getErrorMessage()), 406);
-	    } else {
-		require_once CLASSES_DIR . 'activity.class.php';
-		require_once CLASSES_DIR . 'activityParse.class.php';
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($resLogin->getObjectId());
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser(null);
-		$activity->setType('LOGGEDIN');
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
-		$activityParse = new ActivityParse();
-		$activityParse->saveActivity($activity);
-		$_SESSION['currentUser'] = $resLogin;
-		$this->response(array($controllers['OKLOGIN']), 200);
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+        try {
+            global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            }
+            require_once CLASSES_DIR . 'userParse.class.php';
+            $usernameOrEmail = $this->request['usernameOrEmail'];
+            $password = $this->request['password'];
+            $userParse = new UserParse();
+            $resLogin = $userParse->loginUser($usernameOrEmail, $password);
+            if ($resLogin instanceof Error) {
+                $this->response(array('status' => $resLogin->getErrorMessage()), 406);
+            }
+            require_once CLASSES_DIR . 'activity.class.php';
+            require_once CLASSES_DIR . 'activityParse.class.php';
+            $activity = new Activity();
+            $activity->setActive(true);
+            $activity->setAlbum(null);
+            $activity->setComment(null);
+            $activity->setCounter(0);
+            $activity->setEvent(null);
+            $activity->setFromUser($resLogin->getObjectId());
+            $activity->setImage(null);
+            $activity->setPlaylist(null);
+            $activity->setQuestion(null);
+            $activity->setRecord(null);
+            $activity->setRead(true);
+            $activity->setSong(null);
+            $activity->setStatus('A');
+            $activity->setToUser(null);
+            $activity->setType('LOGGEDIN');
+            $activity->setUserStatus(null);
+            $activity->setVideo(null);
+            $activityParse = new ActivityParse();
+            $activityParse->saveActivity($activity);
+            $_SESSION['currentUser'] = $resLogin;
+            $this->response(array($controllers['OKLOGIN']), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
     }
 
     /**
@@ -83,45 +82,45 @@ class AccessController extends REST {
      * \todo    usare la sessione
      */
     public function logout() {
-	try {
-	    global $controllers;
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    }
-	    $currentUser = $this->request['currentUser'];
-	    $currentUserId = $currentUser->getObjectId();
-	    $_SESSION['currentUser'] = null;
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUserId);
-	    $activity->setImage(null);
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRecord(null);
-	    $activity->setRead(true);
-	    $activity->setSong(null);
-	    $activity->setStatus('A');
-	    $activity->setToUser(null);
-	    $activity->setType('LOGGEDOUT');
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
-	    $activityParse = new ActivityParse();
-	    $res = $activityParse->saveActivity($activity);
-	    if ($res instanceof Error) {
-		//rifaccio login??
-	    }
-	    $this->response(array($controllers['OKLOGOUT']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+        try {
+            global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
+            }
+            $currentUser = $this->request['currentUser'];
+            $currentUserId = $currentUser->getObjectId();
+            $this->request['currentUser'] = null;
+            require_once CLASSES_DIR . 'activity.class.php';
+            require_once CLASSES_DIR . 'activityParse.class.php';
+            $activity = new Activity();
+            $activity->setActive(true);
+            $activity->setAlbum(null);
+            $activity->setComment(null);
+            $activity->setCounter(0);
+            $activity->setEvent(null);
+            $activity->setFromUser($currentUserId);
+            $activity->setImage(null);
+            $activity->setPlaylist(null);
+            $activity->setQuestion(null);
+            $activity->setRecord(null);
+            $activity->setRead(true);
+            $activity->setSong(null);
+            $activity->setStatus('A');
+            $activity->setToUser(null);
+            $activity->setType('LOGGEDOUT');
+            $activity->setUserStatus(null);
+            $activity->setVideo(null);
+            $activityParse = new ActivityParse();
+            $res = $activityParse->saveActivity($activity);
+            if ($res instanceof Error) {
+                //rifaccio login??
+            }
+            $this->response(array($controllers['OKLOGOUT']), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
     }
 
     /**
@@ -130,48 +129,48 @@ class AccessController extends REST {
      * \todo    implementare la sociaLogin nella UserParse
      */
     public function sociaLogin() {
-	try {
-	    global $controllers;
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    }
-	    require_once PARSE_DIR . 'parse.php';
-	    $userLib = new parseUser();
-	    $logingSocial = $userLib->socialLogin();
-	    if ($logingSocial instanceof ParseLibraryException) {
-		$this->response(array('SOCIALLOGINERR'), 503);
-	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromUser(null); //come faccio a ricavarlo da questa funzione??
-	    $activity->setImage(null);
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRecord(null);
-	    $activity->setRead(true);
-	    $activity->setSong(null);
-	    $activity->setStatus('A');
-	    $activity->setToUser(null);
-	    $activity->setType('SOCIALLOGGEDIN');
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
-	    $activityParse = new ActivityParse();
-	    $res = $activityParse->saveActivity($activity);
-	    if ($res instanceof Error) {
-		$this->response(array($controllers['NOACSAVE']), 503);
-	    }
-	    $this->response(array($controllers['OKLOGINSOCIAL']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+        try {
+            global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($this->request['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
+            }
+            require_once PARSE_DIR . 'parse.php';
+            $userLib = new parseUser();
+            $logingSocial = $userLib->socialLogin();
+            if ($logingSocial instanceof ParseLibraryException) {
+                $this->response(array('SOCIALLOGINERR'), 503);
+            }
+            require_once CLASSES_DIR . 'activity.class.php';
+            require_once CLASSES_DIR . 'activityParse.class.php';
+            $activity = new Activity();
+            $activity->setActive(true);
+            $activity->setAlbum(null);
+            $activity->setComment(null);
+            $activity->setCounter(0);
+            $activity->setEvent(null);
+            $activity->setFromUser(null); //come faccio a ricavarlo da questa funzione??
+            $activity->setImage(null);
+            $activity->setPlaylist(null);
+            $activity->setQuestion(null);
+            $activity->setRecord(null);
+            $activity->setRead(true);
+            $activity->setSong(null);
+            $activity->setStatus('A');
+            $activity->setToUser(null);
+            $activity->setType('SOCIALLOGGEDIN');
+            $activity->setUserStatus(null);
+            $activity->setVideo(null);
+            $activityParse = new ActivityParse();
+            $res = $activityParse->saveActivity($activity);
+            if ($res instanceof Error) {
+                $this->response(array($controllers['NOACSAVE']), 503);
+            }
+            $this->response(array($controllers['OKLOGINSOCIAL']), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
     }
 
 }
