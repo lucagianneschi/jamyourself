@@ -294,7 +294,7 @@ class EventBox {
                 $encodedTitle = $event->getTitle();
                 $title = parse_decode_string($encodedTitle);
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $reviewCounter, $tags, $title);
+                $eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $tags, $title);
                 $userId = $event->getFromUser()->getObjectId();
                 $thumbnail = $event->getFromUser()->getProfileThumbnail();
                 $type = $event->getFromUser()->getType();

@@ -126,6 +126,30 @@ $views = array(
 		'COLL' => 'Collaborate',
 		'FOLL' => 'Follow'
 	
+	),
+	
+	'media' => array(
+		'Information' => array(
+			'TITLE'    => 'Information',
+			'CONTENT1_EVENT' => 'Hosted by',
+			'CONTENT1_RECORD' => 'Performed by',
+			'CONTENT2' => 'Featuring',
+			'CONTENT3' => 'Map',
+			'CONTENT4' => 'Attending',
+			'CONTENT5' => 'Invited',			
+		),
+		'Comment' => array(
+			'TITLE' => 'Comment',
+		),
+		'Record' => array(
+			'TITLE' => 'Tracklist',
+		),
+		'RecordReview' => array(
+			'TITLE' => 'Reviews',
+		),
+		'EventReview' => array(
+			'TITLE' => 'Reviews',
+		),
 	)
 	
 );

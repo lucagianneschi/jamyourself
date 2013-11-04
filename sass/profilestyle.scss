@@ -187,6 +187,21 @@ section.active > .title a{
  background-position: Center;
 }
 
+
+.otherSet{
+ cursor:pointer;
+ text-align:right;
+ padding: 10px;
+ height:40px;
+  background-color: $grey-light !important;
+ background: url(../images/icon/small/other-grey.png);
+ background-repeat: no-repeat;
+ background-position: Center;
+ margin: 1px !important;
+ margin-bottom: 40px !important;
+
+}
+
 .otherReview{
  cursor:pointer;
  text-align:right;
@@ -510,6 +525,13 @@ section.active > .title a{
 .textReview{
   margin-top:10px;
 }
+
+
+.cropText {
+ height: 46 !important;
+}
+
+
 .textEventReview{
   margin-top:10px;
 }
