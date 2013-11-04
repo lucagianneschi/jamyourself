@@ -77,12 +77,13 @@ function setCounter(_this, objectId, classbox){
 			}
 			if(classbox == 'Image' || classbox == 'Post'){
 				idBox = '#'+objectId;
+				if(classbox == 'Post') classbox = 'Comment';	
 			}
 			
 			if($(idBox+' .box-comment').hasClass('no-display')){
 				$(idBox+' .box-comment').removeClass('no-display');
 				$(idBox+' .box').addClass('box-commentSpace');
-				
+				console.log(objectId+' '+classbox);
 				callBox.objectId = 	objectId;					
 				callBox.classBox = classbox;
 				
