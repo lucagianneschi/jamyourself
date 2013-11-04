@@ -135,13 +135,16 @@ class ReviewBox {
      * \return	reviewBox
      * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
      */
-    public function initForMediaPage($objectId, $limit, $skip) {
+    public function initForMediaPage($objectId, $className, $limit, $skip) {
         global $boxes;
         $counter = 0;
         $info = array();
         $reviewBox = new ReviewBox();
         $review = new CommentParse();
-        $review->where('objectId', $objectId);
+		if($className == 'Event')
+			$review->wherePointer('event', $className, $objectId);
+		elseif($className == 'Record')
+			$review->wherePointer('record', $className, $objectId);	
         $review->where('active', true);
         $review->whereInclude('fromUser');
         $review->setLimit($limit);
