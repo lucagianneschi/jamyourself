@@ -28,6 +28,7 @@ $controllers = array(
     'USERNOTFOUND' => 'User not found',
     'NOSESSIONTOKEN' => 'SessionToken undefined',
     'NOMAIL' => 'Unable to send mail',
+    'NODATA' => 'No data available',
     //POST
     'POSTSAVED' => 'Your post has been saved',
     'SHORTPOST' => 'Your post is too short | lenght:',

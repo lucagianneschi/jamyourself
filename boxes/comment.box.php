@@ -90,6 +90,9 @@ class CommentBox {
             case 'Song':
                 $field = 'song';
                 break;
+            case 'Status':
+                $field = 'status';
+                break;
             case 'Video':
                 $field = 'video';
                 break;
