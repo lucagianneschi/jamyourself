@@ -31,7 +31,7 @@ class RelationController extends REST {
     /**
      * \fn	acceptRelationRequest()
      * \brief   accept relationship request
-     * \todo    mancano da gestire i contatori di followers, jammer e venue, terminare funzione, check su relazione già esistente
+     * \todo    test
      */
     public function acceptRelationRequest() {
         global $controllers;
@@ -175,7 +175,7 @@ class RelationController extends REST {
     /**
      * \fn	declineRelationRequest()
      * \brief   decline relationship request
-     * \todo    
+     * \todo    test
      */
     public function declineRelationRequest() {
         global $controllers;
@@ -231,9 +231,44 @@ class RelationController extends REST {
     }
 
     /**
+     * \fn	relationChecker($currentUserId, $currentUserType,$toUserType, $toUserId)
+     * \brief   check if 2 users are in a relationship (any kind)
+     * \param   $currentUserId,$currentUserType,$toUserType, $toUserId
+     * \return  true if a relation exist, false otherwise
+     * \todo    test
+     */
+    public function relationChecker($currentUserId, $currentUserType, $toUserType, $toUserId) {
+        global $controllers;
+        $inRelation = false;
+        switch ($fromUserType) {
+            case 'SPOTTER':
+                if ($toUserType == 'SPOTTER') {
+                    $fromField = 'friendship';
+                } else {
+                    $fromField = 'following';
+                }
+                break;
+            default :
+                if ($toUserType == 'SPOTTER') {
+                    $this->response(array($controllers['RELDENIED']), 200);
+                } else {
+                    $fromField = 'collaboration';
+                }
+                break;
+        }
+        $array = fromParseRelation('_User', $fromField, $currentUserId, '_User');
+        if ($array instanceof Error) {
+            $this->response(array('status' => $controllers['RELATIONCHECKERROR']), 403);
+        } elseif (in_array($toUserId, $array)) {
+            $inRelation = true;
+        }
+        return $inRelation;
+    }
+
+    /**
      * \fn	removeRelationship ()
      * \brief   remove an existing relationship
-     * \todo    mancano da gestire i contatori di followers, jammer e venue    
+     * \todo    test    
      */
     public function removeRelationship() {
         global $controllers;
@@ -335,7 +370,7 @@ class RelationController extends REST {
     /**
      * \fn	sendRelationRequest()
      * \brief   send request for relationships
-     * \todo    
+     * \todo    test
      */
     public function sendRelationRequest() {
         global $controllers;
@@ -419,41 +454,6 @@ class RelationController extends REST {
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
-    }
-
-    /**
-     * \fn	relationChecker($currentUserId, $currentUserType,$toUserType, $toUserId)
-     * \brief   check if 2 users are in a relationship (any kind)
-     * \param   $currentUserId,$currentUserType,$toUserType, $toUserId
-     * \return  true if a relation exist, false otherwise
-     * \todo    test
-     */
-    public function relationChecker($currentUserId, $currentUserType, $toUserType, $toUserId) {
-        global $controllers;
-        $inRelation = false;
-        switch ($fromUserType) {
-            case 'SPOTTER':
-                if ($toUserType == 'SPOTTER') {
-                    $fromField = 'friendship';
-                } else {
-                    $fromField = 'following';
-                }
-                break;
-            default :
-                if ($toUserType == 'SPOTTER') {
-                    $this->response(array($controllers['RELDENIED']), 200);
-                } else {
-                    $fromField = 'collaboration';
-                }
-                break;
-        }
-        $array = fromParseRelation('_User', $fromField, $currentUserId, '_User');
-        if ($array instanceof Error) {
-            $this->response(array('status' => $controllers['RELATIONCHECKERROR']), 403);
-        } elseif (in_array($toUserId, $array)) {
-            $inRelation = true;
-        }
-        return $inRelation;
     }
 
 }
