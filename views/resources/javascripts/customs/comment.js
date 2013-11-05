@@ -15,7 +15,9 @@ function sendComment(toUser, comment, objectId, classType) {
         }
     })
 	.done(function(message, status, xhr) {
-		//mostra comment
+		callBox.objectId = objectId;
+		callBox.classBox = classType;
+		callBox.load('comment');
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
 	})

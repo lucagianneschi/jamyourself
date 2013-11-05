@@ -74,14 +74,14 @@ $objectId = $_POST['objectId'];
 			?>
 			<div class="row  ">
 				<div  class="large-12 columns ">
-					<form action="" class="box-write" onsubmit="sendComment(objectIdToUser, comment, objectIdClass, classType); return false;">
+					<form action="" class="box-write" onsubmit="sendComment('<?php echo $objectIdUser; ?>', $('#comment').val(), '<?php echo $objectId; ?>', 'Comment'); return false;">
 						<div class="">
 							<div class="row  ">
 								<div  class="small-9 columns ">
 									<input id="comment" type="text" class="post inline" placeholder="<?php echo $views['comment']['WRITE'];?>" />
 								</div>
 								<div  class="small-3 columns ">
-									<input type="button" class="comment-button inline" value="Comment" onclick="sendComment('iovioSH5mq', $('#comment').val(), '53ZW8ukLKB', 'Comment')" />
+									<input type="button" class="comment-button inline" value="Comment" onclick="sendComment('<?php echo $objectIdUser; ?>', $('#comment').val(), '<?php echo $objectId; ?>', 'Comment')" />
 								</div>
 							</div>
 						</div>
