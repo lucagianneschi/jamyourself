@@ -70,7 +70,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php if(isset($dataActivityRecord['objectId']) && $dataActivityRecord['objectId'] != ''){ ?>	
 							<div class="row " id="activity_<?php $dataActivityRecord['objectId']?>">								
 								<div  class="small-3 columns ">
-									<img class="album-thumb" src="../media/<?php echo $dataActivityRecord['thumbnailCover']?>" onerror="this.src='../media/<?php echo $default_img['DEFALBUMTHUMB']; ?>'">
+									<img class="album-thumb" src="../media/<?php echo $dataActivityRecord['thumbnailCover']?>" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB']; ?>'">
 								</div>
 								<div  class="small-9 columns box-info">
 									<div class="sottotitle grey-dark"><?php echo $dataActivityRecord['title']?></div>
