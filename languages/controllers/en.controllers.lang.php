@@ -101,6 +101,8 @@ $controllers = array(
     'NOCOLLABORATIONCOUNTERUPDATE' => 'Unable to update collaboration counter',
     'NOSPECIFICCOLLABORATIONCOUNTERUPDATE' => 'Unable to update specific (venue or jammer) collaboration counter',
     'ALREADYINREALTION' => 'Users are already in a relationship',
+    'NORELFOUNDFORREMOVING' => 'User are not in relation, cannot remove this',
+    'RELATIONCHECKERROR' => 'Error checking if a relation exists',
     //LOGIN
     'NOLOGIN' => 'Invalid login credentials',
     'OKLOGIN' => 'You are logged in',

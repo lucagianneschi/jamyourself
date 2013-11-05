@@ -105,6 +105,8 @@ $controllers = array(
     'NOCOLLABORATIONCOUNTERUPDATE' => 'Impossibile aggiornare counter di collaborazione',
     'NOSPECIFICCOLLABORATIONCOUNTERUPDATE' => 'Impossibile aggiornare counter di collaborazione (venue or jammer) counter',
     'ALREADYINREALTION' => 'Utenti già in relazione',
+    'NORELFOUNDFORREMOVING' => 'Utenti non in relazione, impossibile rimuovere',  
+    'RELATIONCHECKERROR' => 'Errore in fase di test di esistenza di una relazione',
     //LOGIN
     'NOLOGIN' => 'Credenziali di accesso non valide',
     'OKLOGIN' => 'Login eseguito',
