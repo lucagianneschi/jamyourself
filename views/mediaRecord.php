@@ -7,8 +7,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 
-//$mediaClass = $_GET['mediaClass'];
-
+$objectIdMedia = $_GET['objectIdMedia'];
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
@@ -41,8 +40,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
        		
 				
         	callBoxMedia.classMedia = 'record';
-        	callBoxMedia.objectIdMedia = 'b8r9q9b5se';
-        	callBoxMedia.limit = 10;
+        	callBoxMedia.objectIdMedia = '<?php echo $objectIdMedia ?>';
+        	callBoxMedia.limit = 5;
         	callBoxMedia.skip = 0;
         	callBoxMedia.load('classinfo');	
 			

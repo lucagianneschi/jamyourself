@@ -119,8 +119,9 @@ switch ($typebox) {
 		require_once BOXES_DIR . 'comment.box.php';
 		$commentBoxP = new CommentBox();		
 		try  {
-			$commentBox = $commentBoxP -> init('Comment', $objectIdMedia, $limit, $skip);					
+			$commentBoxP -> init('Comment', $objectIdMedia, $limit, $skip);					
 			if (!($commentBox instanceof Error)) {
+				$result['comment']['commentInfoArray'] = array();
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
 				foreach ($commentBox->commentInfoArray as $key => $value) {					
 					$result['comment']['commentInfoArray'][$key]['user_objectId'] = $value -> fromUserInfo -> objectId;
@@ -128,7 +129,8 @@ switch ($typebox) {
 					$result['comment']['commentInfoArray'][$key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
 					$result['comment']['commentInfoArray'][$key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
 					$result['comment']['commentInfoArray'][$key]['createdAt'] = $value -> createdAt;
-					$result['comment']['commentInfoArray'][$key]['text'] = $value -> text;					
+					$result['comment']['commentInfoArray'][$key]['text'] = $value -> text;
+					$result['comment']['commentInfoArray'][$key]['counters'] = $value -> counters;						
 				}
 				
 			} else {
@@ -163,6 +165,7 @@ switch ($typebox) {
 			if (!($review instanceof Error)) {
 				
 				$result['review']['config'] = $review->config;
+				$result['review']['reviewArray'] = array();
 				foreach ($review->reviewArray as $key => $value) {
 					$result['review']['reviewArray'][$key]['counters'] = $value->counters;
 					$result['review']['reviewArray'][$key]['fromUserInfo'] = $value->fromUserInfo;
