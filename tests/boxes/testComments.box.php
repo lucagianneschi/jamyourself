@@ -27,7 +27,7 @@ require_once BOXES_DIR . 'comment.box.php';
 $i_end = microtime();
 
 $album = '6nl9mn8a4I';
-$comment = '';
+$comment = '53ZW8ukLKB';
 $event = '';
 $image = '';
 $record = 'vR80iF0aI7';
