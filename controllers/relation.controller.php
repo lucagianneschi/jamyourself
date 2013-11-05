@@ -25,6 +25,7 @@ require_once CONTROLLERS_DIR . 'restController.php';
 /**
  * \brief	RelationController class
  * \details	controller per invio e ricezione relazioni
+ * \todo        introdurre le rollback per le varie funzioni
  */
 class RelationController extends REST {
 
