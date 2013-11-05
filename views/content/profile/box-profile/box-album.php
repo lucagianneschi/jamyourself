@@ -17,6 +17,8 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';   
 
 $data = $_POST['data'];
+
+$objectIdUser  = $_POST['objectIdUser'];
 $typeUser = $_POST['typeUser'];
 
 $albumCounter = $data['albumCounter'];	
@@ -134,7 +136,7 @@ $albumCounter = $data['albumCounter'];
 				<div class="row album-single-propriety">
 					 <div class="box-propriety">
 						<div class="small-6 columns ">
-							<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['LOVE'];?></a>
+							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['LOVE'];?></a>
 							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['COMM'];?></a>
 							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['SHARE'];?></a>
 						</div>

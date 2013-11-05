@@ -107,9 +107,9 @@ var callBox = {
 						case 'review':
 							//aggiungo box review Record se non utente venue
 							if (__this.typeUser != 'VENUE')
-								addBoxRecordReview(data, __this.typeUser);
+								addBoxRecordReview(data, __this.typeUser, __this.objectIdUser);
 							//aggiungo box review Event
-							addBoxEventReview(data, __this.typeUser);							
+							addBoxEventReview(data, __this.typeUser, __this.objectIdUser);							
 							break;
 						
 						case 'record':
@@ -150,12 +150,12 @@ var callBox = {
 
 						case 'album':
 							//aggiunge box album
-							addBoxAlbum(data, __this.typeUser);							
+							addBoxAlbum(data, __this.typeUser, __this.objectIdUser);							
 							break;
 
 						case 'post':
 							//aggiunge box post
-							addBoxPost(data, __this.typeUser,__this.objectIdUser);
+							addBoxPost(data, __this.typeUser, __this.objectIdUser);
 							break;
 						
 						case 'activity':							
@@ -273,10 +273,11 @@ function addBoxEvent(data, typeUser) {
 /*
  * box RecordReview chiama box-RecordReview.php
  */
-function addBoxRecordReview(data, typeUser) {
+function addBoxRecordReview(data, typeUser, objectIdUser) {
 	$('#box-RecordReview').load('content/profile/box-social/box-recordReview.php', {
 		'data' : data,
-		'typeUser' : typeUser
+		'typeUser' : typeUser,
+		'objectIdUser' : objectIdUser
 	}, function() { success: 
 		rsi_RecordReview = slideReview('recordReviewSlide');
 		hcento();
@@ -286,10 +287,11 @@ function addBoxRecordReview(data, typeUser) {
 /*
  * box eventReview chiama box-eventReview.php
  */
-function addBoxEventReview(data, typeUser) {
+function addBoxEventReview(data, typeUser, objectIdUser) {
 	$('#box-EventReview').load('content/profile/box-social/box-eventReview.php', {
 		'data' : data,
-		'typeUser' : typeUser
+		'typeUser' : typeUser,
+		'objectIdUser' : objectIdUser
 	}, function() { success:
 		rsi_eventReview = slideReview('eventReviewSlide'); 
 		hcento();
@@ -343,10 +345,11 @@ function addBoxRelationSocial(data, typeUser) {
 /*
  * box album chiama box-album.php
  */
-function addBoxAlbum(data, typeUser) {
+function addBoxAlbum(data, typeUser, objectIdUser) {
 	$('#box-album').load('content/profile/box-profile/box-album.php', {
 		'data' : data,
-		'typeUser' : typeUser
+		'typeUser' : typeUser,
+		'objectIdUser' : objectIdUser
 	}, function() { success: 
 		rsi_album = slideReview('albumSlide');
 		lightBoxPhoto('photo-colorbox-group');
@@ -357,7 +360,7 @@ function addBoxAlbum(data, typeUser) {
 /*
  * box post chiama box-post.php
  */
-function addBoxPost(data, typeUser,objectIdUser) {
+function addBoxPost(data, typeUser, objectIdUser) {
 	$('#box-post').load('content/profile/box-social/box-post.php', {
 		'data' : data,
 		'typeUser' : typeUser,
