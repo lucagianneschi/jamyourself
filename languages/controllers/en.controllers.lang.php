@@ -95,6 +95,12 @@ $controllers = array(
     'RELDELETED' => 'Relation removed',
     'ERROREMOVINGREL' => 'Error removing relationship',
     'RELACCEPTED'=> 'Relation accepted',
+    'NOFRIENDSHIPUPDATE' => 'Unable to update friendhip relation',
+    'NOFRIENDSHIPCOUNTERUPDATE' => 'Unable to update friendhip counter',
+    'NOCOLLABORATIONUPDATE' => 'Unable to update collaboration relation',
+    'NOCOLLABORATIONCOUNTERUPDATE' => 'Unable to update collaboration counter',
+    'NOSPECIFICCOLLABORATIONCOUNTERUPDATE' => 'Unable to update specific (venue or jammer) collaboration counter',
+    'ALREADYINREALTION' => 'Users are already in a relationship',
     //LOGIN
     'NOLOGIN' => 'Invalid login credentials',
     'OKLOGIN' => 'You are logged in',
@@ -125,6 +131,8 @@ $controllers = array(
     'NOSONGTID' => 'Song ID unset',
     'NOADDSONGTOPLAY' => 'Unable to add song to playlist',
     'NOREMOVESONGTOPLAY' => 'Unable to remove song from playlist',
+    'SONGALREADYINTRACKLIST' => 'This song already exists in your playlist',
+    'SONGNOTINTRACKLIST' => 'Song not found for removing from playlist',
     //SETTINGS
     'NOSETTINGUPDATE' => 'Unable to update your setting',
     'NOSETTING' => 'No setting specified in the request',
