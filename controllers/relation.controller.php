@@ -31,7 +31,7 @@ class RelationController extends REST {
     /**
      * \fn	acceptRelationRequest()
      * \brief   accept relationship request
-     * \todo    mancano da gestire i contatori di followers, jammer e venue
+     * \todo    mancano da gestire i contatori di followers, jammer e venue, terminare funzione, check su relazione già esistente
      */
     public function acceptRelationRequest() {
         global $controllers;
@@ -52,7 +52,9 @@ class RelationController extends REST {
             $activityId = $this->request['activityId'];
             $toUserId = $this->request['toUser'];
             $toUserType = $this->request['toUserType'];
-            $fromUserType = $currentUser->getType();
+            if ($this->relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUser)) { //non dovrebbe arrivare nemmeno la richiesta, è un controllo in più
+                $this->response(array('status' => $controllers['ALREADYINREALTION']), 403);
+            }
             require_once CLASSES_DIR . 'user.class.php';
             require_once CLASSES_DIR . 'userParse.class.php';
             $toUserP = new UserParse();
@@ -246,6 +248,9 @@ class RelationController extends REST {
             $toUserId = $this->request['toUser'];
             $toUserType = $this->request['toUserType'];
             $fromUserType = $currentUser->getType();
+            if (!($this->relationChecker($currentUser->getObjectId(), $fromUserType, $toUserId))) {
+                $this->response(array('status' => $controllers['NORELFOUNDFORREMOVING']), 403);
+            }
             require_once CLASSES_DIR . 'user.class.php';
             require_once CLASSES_DIR . 'userParse.class.php';
             $toUserB = new UserParse();
@@ -351,7 +356,7 @@ class RelationController extends REST {
                 $this->response(array('status' => $controllers['SELF']), 403);
             }
             $fromUserType = $currentUser->getType();
-            if ($this->relationChecker($currentUser->getObjectId(), $fromUserType, $toUser)) {
+            if ($this->relationChecker($currentUser->getObjectId(), $fromUserType, $toUserType, $toUser)) {
                 $this->response(array('status' => $controllers['ALREADYINREALTION']), 403);
             }
             require_once CLASSES_DIR . 'activity.class.php';
@@ -416,7 +421,15 @@ class RelationController extends REST {
         }
     }
 
-    public function relationChecker($id1, $fromUserType, $id2) {
+    /**
+     * \fn	relationChecker($currentUserId, $currentUserType,$toUserType, $toUserId)
+     * \brief   check if 2 users are in a relationship (any kind)
+     * \param   $currentUserId,$currentUserType,$toUserType, $toUserId
+     * \return  true if a relation exist, false otherwise
+     * \todo    test
+     */
+    public function relationChecker($currentUserId, $currentUserType, $toUserType, $toUserId) {
+        global $controllers;
         $inRelation = false;
         switch ($fromUserType) {
             case 'SPOTTER':
@@ -434,8 +447,10 @@ class RelationController extends REST {
                 }
                 break;
         }
-        $array = fromParseRelation('_User', $fromField, $id1, '_User');
-        if (is_null($array)) {
+        $array = fromParseRelation('_User', $fromField, $currentUserId, '_User');
+        if ($array instanceof Error) {
+                    $this->response(array('status' => $controllers['RELATIONCHECKERROR']), 403);
+        } elseif (in_array($toUserId, $array)) {
             $inRelation = true;
         }
         return $inRelation;
