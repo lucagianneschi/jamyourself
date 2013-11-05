@@ -54,7 +54,10 @@ class PlaylistController extends REST {
 	    if ($playlist instanceof Error) {
 		$this->response(array('NOPLAYLIST'), 503);
 	    }
-	    //devo controllare che la song sia presente, se è presente non l'aggiungo oppure avrei errore dalla update?
+            $array = fromParseRelation('Playlist', 'songs', $songId, 'Song');
+            if(!is_null($array)){
+                $this->response(array('SONGALREADYINTRACKLIST'), 503); 
+            }
 	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
 	    if ($res instanceof Error) {
 		$this->response(array('NOADDSONGTOPLAY'), 503);
@@ -117,7 +120,10 @@ class PlaylistController extends REST {
 	    if ($playlist instanceof Error) {
 		$this->response(array('NOPLAYLIST'), 503);
 	    }
-	    //devo controllare che la song sia presente, se è presente non la tolgo
+            $array = fromParseRelation('Playlist', 'songs', $songId, 'Song');
+            if(is_null($array)){
+                $this->response(array('SONGNOTINTRACKLIST'), 503); 
+            }
 	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
 	    if ($res instanceof Error) {
 		$this->response(array('NOREMOVESONGTOPLAY'), 503);
