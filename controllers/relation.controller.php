@@ -122,10 +122,11 @@ class RelationController extends REST {
                 require_once CLASSES_DIR . 'activityParse.class.php';
                 $activityP = new ActivityParse();
                 $res = $activityP->updateField($activityId, 'status', 'A');
-                $res1 = $activityP->updateField($activityId, 'read', true);
                 if ($res instanceof Error) {
                     $this->response(array('status' => $controllers['NOACTUPDATE']), 403);
-                } elseif ($res1 instanceof Error) {
+                }
+                $res1 = $activityP->updateField($activityId, 'read', true);
+                if ($res1 instanceof Error) {
                     $this->response(array('status' => $controllers['NOACTUPDATE']), 403);
                 }
                 require_once SERVICES_DIR . 'mail.service.php';
@@ -192,8 +193,11 @@ class RelationController extends REST {
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activityP = new ActivityParse();
             $res = $activityP->updateField($activityId, 'status', 'R');
+            if ($res instanceof Error) {
+                $this->response(array('status' => $controllers['NOACTUPDATE']), 403);
+            }
             $res1 = $activityP->updateField($activityId, 'read', true);
-            if ($res instanceof Error || $res1 instanceof Error) {
+            if ($res1 instanceof Error) {
                 $this->response(array('status' => $controllers['NOACTUPDATE']), 403);
             }
             require_once CLASSES_DIR . 'activity.class.php';
@@ -352,8 +356,7 @@ class RelationController extends REST {
             if ($currentUser->getObjectId() == $toUser) {
                 $this->response(array('status' => $controllers['SELF']), 403);
             }
-            $fromUserType = $currentUser->getType();
-            if ($this->relationChecker($currentUser->getObjectId(), $fromUserType, $toUserType, $toUser)) {
+            if ($this->relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserType, $toUser)) {
                 $this->response(array('status' => $controllers['ALREADYINREALTION']), 403);
             }
             require_once CLASSES_DIR . 'activity.class.php';
@@ -375,7 +378,7 @@ class RelationController extends REST {
             $activity->setToUser($toUser);
             $activity->setUserStatus(null);
             $activity->setVideo(null);
-            switch ($fromUserType) {
+            switch ($currentUser->getType()) {
                 case 'SPOTTER':
                     if ($toUserType == 'SPOTTER') {
                         $activity->setType("FRIENDSHIPREQUEST");
