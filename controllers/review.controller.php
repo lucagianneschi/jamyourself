@@ -69,8 +69,8 @@ class ReviewController extends REST {
             $currentUser = $this->request['currentUser'];
             $classType = $this->request['classType'];
             $objectId = $this->request['objectId'];
-            $text = $this->request['text'];
-            $title = $this->request['title'];
+            $text = $this->request['text']; //dovrò prendere questo da un form
+            $title = $this->request['title'];//dovrò prendere questo da un form
             $toUser = $this->request['toUser'];
             if ($currentUser->getObjectId() === $toUser) {
                 $this->response(array('NOSELFREVIEW'), 200);
