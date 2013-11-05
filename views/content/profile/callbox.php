@@ -196,14 +196,15 @@ switch ($box) {
 		try  {
 			$commentBox = $commentBoxP -> init($classBox, $objectIdComment, 10, 0);						
 			if (!($commentBox instanceof Error)) {
+				$result['comment']['commentInfoArray'] = Array();
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
 				foreach ($commentBox->commentInfoArray as $key => $value) {					
-					$result['comment'. $key]['user_objectId'] = $value -> fromUserInfo -> objectId;
-					$result['comment'. $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
-					$result['comment'. $key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
-					$result['comment'. $key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
-					$result['comment'. $key]['createdAt'] = $value -> createdAt;
-					$result['comment'. $key]['text'] = $value -> text;					
+					$result['comment']['commentInfoArray'][$key]['user_objectId'] = $value -> fromUserInfo -> objectId;
+					$result['comment']['commentInfoArray'][$key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
+					$result['comment']['commentInfoArray'][$key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
+					$result['comment']['commentInfoArray'][$key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
+					$result['comment']['commentInfoArray'][$key]['createdAt'] = $value -> createdAt;
+					$result['comment']['commentInfoArray'][$key]['text'] = $value -> text;					
 				}
 				
 			} else {

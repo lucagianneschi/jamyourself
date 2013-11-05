@@ -20,11 +20,9 @@ $objectId = $_POST['objectId'];
 	<div  class="small-12 columns">
 		
 			<?php
-			if(isset($data['comment']['commentCounter'])) {
-				$commentCounter = $data['comment']['commentCounter'];
-				if($commentCounter > 0) {
-					for($i=0 ; $i<$commentCounter; $i++){
-						$comment_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['comment' . $i]['createdAt']);
+			if(count($data['comment']['commentInfoArray']) > 0) {				
+					foreach ($data['comment']['commentInfoArray'] as $key => $value) {	
+						$comment_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $value['createdAt']);
 						$comment_createdAd = $comment_DateTime->format('l j F Y - H:i');
 						?>		
 						<div class="box-singole-comment">
@@ -32,12 +30,12 @@ $objectId = $_POST['objectId'];
 								<div class="row">
 									<div  class="small-1 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['comment'.$i]['user_thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+											<img src="../media/<?php echo $value['user_thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
 										</div>
 									</div>
 									<div  class="small-5 columns">
 										<div class="text grey" style="margin-bottom: 0p">
-											<strong><?php echo $data['comment'.$i]['user_username'] ?></strong>
+											<strong><?php echo $value['user_username'] ?></strong>
 										</div>
 										
 									</div>
@@ -54,7 +52,7 @@ $objectId = $_POST['objectId'];
 									<div class="row ">
 										<div  class="small-12 columns ">
 											<div class="text grey">
-												<?php echo $data['comment'.$i]['text'] ; ?>
+												<?php echo $value['text'] ; ?>
 											</div>
 										</div>
 									</div>
@@ -64,7 +62,7 @@ $objectId = $_POST['objectId'];
 						</div>
 						<?php
 					}
-				}
+				
 			} else {
 				?>
 				<div class="box-singole-comment">

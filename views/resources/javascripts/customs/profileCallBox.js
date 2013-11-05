@@ -377,7 +377,7 @@ function addBoxComment(data, typeUser,classbox,objectId,objectIdUser) {
 	if(classbox == 'Album' || classbox == 'Record'){
 		idBox = '#profile-'+classbox;
 	}
-	if(classbox == 'Image' || classbox == 'Post'){
+	if(classbox == 'Image' || classbox == 'Post' || classbox == 'Comment'){
 		idBox = '#'+objectId;
 	}
 	$(idBox+' .box-comment').load('content/profile/box-general/box-comment.php', {
