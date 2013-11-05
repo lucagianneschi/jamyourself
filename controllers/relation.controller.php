@@ -52,28 +52,27 @@ class RelationController extends REST {
             $activityId = $this->request['activityId'];
             $toUserId = $this->request['toUser'];
             $toUserType = $this->request['toUserType'];
-            if ($this->relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUser)) { //non dovrebbe arrivare nemmeno la richiesta, è un controllo in più
+            if ($this->relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserType, $toUserId)) {
                 $this->response(array('status' => $controllers['ALREADYINREALTION']), 403);
             }
-            require_once CLASSES_DIR . 'user.class.php';
-            require_once CLASSES_DIR . 'userParse.class.php';
             $toUserP = new UserParse();
             $toUser = $toUserP->getUser($toUserId);
             $sessionTokenA = $currentUser->getSessionToken();
-            $sessionTokenB = $toUserB->getSessionToken();
-            if ($toUserB instanceof Error) {
+            if ($toUser instanceof Error) {
                 $this->response(array('status' => $controllers['USERNOTFOUND']), 403);
-            } elseif (!isset($sessionTokenB)) {
+            }
+            $sessionTokenB = $toUserP->getSessionToken();
+            if (!isset($sessionTokenB)) {
                 $this->response(array('status' => $controllers['NOSESSIONTOKEN']), 403);
             }
+            $fromUserA = new UserParse();
             if ($currentUser->getType() == 'SPOTTER' && $toUserType == 'SPOTTER') {
                 $type = 'FRIENDSHIPACCEPTED';
                 $HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
                 $field = 'friendship';
-                $type = 'FRIENDSHIPCONFIRMED';
                 $resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'add', '_User');
                 $counterA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'friendshipCounter', ($currentUser->getFriedshipCounter() + 1));
-                $resB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
+                $resB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
                 $counterB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'friendshipCounter', ($toUser->getFriedshipCounter() + 1));
                 if ($resA instanceof Error) {
                     $this->response(array('status' => $controllers['NOFRIENDSHIPUPDATE']), 403);
@@ -92,7 +91,7 @@ class RelationController extends REST {
                 $counterCollaborationA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'collaborationCounter', ($currentUser->getFriedshipCounter() + 1));
                 $counterCollaborationB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'collaborationCounter', ($toUser->getFriedshipCounter() + 1));
                 $resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'add', '_User');
-                $resB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
+                $resB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
                 if ($resA instanceof Error) {
                     $this->response(array('status' => $controllers['NOCOLLABORATIONUPDATE']), 403);
                 } elseif ($resB instanceof Error) {
@@ -251,8 +250,6 @@ class RelationController extends REST {
             if (!($this->relationChecker($currentUser->getObjectId(), $fromUserType, $toUserId))) {
                 $this->response(array('status' => $controllers['NORELFOUNDFORREMOVING']), 403);
             }
-            require_once CLASSES_DIR . 'user.class.php';
-            require_once CLASSES_DIR . 'userParse.class.php';
             $toUserB = new UserParse();
             $toUser = $toUserB->getUser($toUserId);
             $sessionTokenA = $currentUser->getSessionToken();
@@ -449,7 +446,7 @@ class RelationController extends REST {
         }
         $array = fromParseRelation('_User', $fromField, $currentUserId, '_User');
         if ($array instanceof Error) {
-                    $this->response(array('status' => $controllers['RELATIONCHECKERROR']), 403);
+            $this->response(array('status' => $controllers['RELATIONCHECKERROR']), 403);
         } elseif (in_array($toUserId, $array)) {
             $inRelation = true;
         }
