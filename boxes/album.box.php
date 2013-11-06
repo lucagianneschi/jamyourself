@@ -33,6 +33,7 @@ class AlbumInfo {
     public $imageCounter;
     public $objectId;
     public $thumbnailCover;
+    public $showLove;
     public $title;
 
     /**
@@ -40,12 +41,13 @@ class AlbumInfo {
      * \brief	construct for the AlbumInfo class
      * \param	$counters, $imageCounter, $objectId, $thumbnailCover, $title
      */
-    function __construct($counters, $imageCounter, $objectId, $thumbnailCover, $title) {
+    function __construct($counters, $imageCounter, $objectId, $showLove, $thumbnailCover, $title) {
 	global $boxes;
 	global $default_img;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
 	is_null($thumbnailCover) ? $this->thumbnailCover = $default_img['DEFALBUMTHUMB'] : $this->thumbnailCover = $thumbnailCover;
 	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
@@ -63,6 +65,7 @@ class ImageInfo {
     public $filePath;
     public $location;
     public $objectId;
+    public $showLove;
     public $tags;
     public $thumbnail;
 
@@ -71,13 +74,14 @@ class ImageInfo {
      * \brief	construct for the ImageInfo class
      * \param	$counters, $description, $filePath, $objectId, $tags, $thumbnail
      */
-    function __construct($counters, $description, $filePath, $location, $objectId, $tags, $thumbnail) {
+    function __construct($counters, $description, $filePath, $location, $objectId, $showLove, $tags, $thumbnail) {
 	global $boxes;
 	global $default_img;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
 	is_null($filePath) ? $this->filePath = $boxes['NODATA'] : $this->filePath = $filePath;
 	is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
+	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFIMAGETHUMB'] : $this->thumbnail = $thumbnail;
@@ -110,7 +114,7 @@ class AlbumBox {
      * \param	$objectId of the album to display information
      * \return	albumBox
      */
-    public function initForDetail($objectId) {
+    public function initForDetail($objectId, $currentUserId) {
 	require_once CLASSES_DIR . 'image.class.php';
 	require_once CLASSES_DIR . 'imageParse.class.php';
 	global $boxes;
@@ -149,7 +153,13 @@ class AlbumBox {
 		    }
 		}
 		$thumbnail = $image->getThumbnail();
-		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $imageId, $tags, $thumbnail);
+		$lovers = $image->getLovers();
+		if (is_null($lovers) || !in_array($lovers, $currentUserId)) {
+		    $showLove = false;
+		} else {
+		    $showLove = true;
+		}
+		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $imageId, $showLove, $tags, $thumbnail);
 		array_push($info, $imageInfo);
 	    }
 	    $albumBox->imageArray = $info;
@@ -163,7 +173,7 @@ class AlbumBox {
      * \param	$objectId for user that owns the page
      * \return	albumBox
      */
-    public function initForPersonalPage($objectId) {
+    public function initForPersonalPage($objectId, $currentUserId) {
 	require_once CLASSES_DIR . 'album.class.php';
 	require_once CLASSES_DIR . 'albumParse.class.php';
 	global $boxes;
@@ -177,7 +187,7 @@ class AlbumBox {
 	$album->setLimit($this->config->limitForPersonalPage);
 	$album->orderByDescending('createdAt');
 	$albums = $album->getAlbums();
-	if ($albums instanceof Error) {  
+	if ($albums instanceof Error) {
 	    return $albums;
 	} elseif (is_null($albums)) {
 	    $albumBox->albumInfoArray = $boxes['NODATA'];
@@ -193,10 +203,15 @@ class AlbumBox {
 		$shareCounter = $album->getShareCounter();
 		$albumId = $album->getObjectId();
 		$thumbnailCover = $album->getThumbnailCover();
-		$encodedTitle = $album->getTitle();
-		$title = parse_decode_string($encodedTitle);
+		$title = parse_decode_string($album->getTitle());
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$albumInfo = new AlbumInfo($counters, $imageCounter, $albumId, $thumbnailCover, $title);
+		$lovers = $album->getLovers();
+		if (is_null($lovers) || !in_array($lovers, $currentUserId)) {
+		    $showLove = false;
+		} else {
+		    $showLove = true;
+		}
+		$albumInfo = new AlbumInfo($counters, $imageCounter, $albumId, $showLove, $thumbnailCover, $title);
 		array_push($info, $albumInfo);
 	    }
 	    $albumBox->albumInfoArray = $info;
