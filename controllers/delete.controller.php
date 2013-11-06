@@ -66,7 +66,6 @@ class DeleteController extends REST {
                     }
                     if ($currentUser->getObjectId() == $act->getFromUser()) {
                         $res = $activityParse->deleteActivity($objectId);
-                        $activity->setAlbum($objectId);
                         $activity->setType("DELETEDACTIVITY");
                     } else {
                         $this->response(array($controllers['CND']), 401);
