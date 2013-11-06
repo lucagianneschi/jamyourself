@@ -109,9 +109,9 @@ class AlbumBox {
     }
 
     /**
-     * \fn	initForDetail($objectId)
+     * \fn	initForDetail($objectId,  $currentUserId)
      * \brief	Init AlbumBox instance for Personal Page, detailed view
-     * \param	$objectId of the album to display information
+     * \param	$objectId of the album to display information,  $currentUserId
      * \return	albumBox
      */
     public function initForDetail($objectId, $currentUserId) {
@@ -168,9 +168,9 @@ class AlbumBox {
     }
 
     /**
-     * \fn	initForPersonalPage($objectId, $type)
+     * \fn	initForPersonalPage($objectId, $type,  $currentUserId)
      * \brief	Init AlbumBox instance for Personal Page
-     * \param	$objectId for user that owns the page
+     * \param	$objectId for user that owns the page, $type,  $currentUserId
      * \return	albumBox
      */
     public function initForPersonalPage($objectId, $currentUserId) {
