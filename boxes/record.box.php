@@ -222,8 +222,8 @@ class RecordBox {
     }
 
     /**
-     * \fn	initForDetail($objectId)
-     * \brief	init for detailed view in personal page for the record box object
+     * \fn	initForDetail($objectId,$currentUserId)
+     * \brief	init for detailed view in personal page for the record box object,$currentUserId
      * \param	$objectId of the record to display info
      */
     public function initForDetail($objectId, $currentUserId) {
@@ -269,9 +269,9 @@ class RecordBox {
     }
 
     /**
-     * \fn	initForMediaPage($objectId)
+     * \fn	initForMediaPage($objectId,$currentUserId)
      * \brief	init for Media Page
-     * \param	$objectId of the record to display in MEdia Page
+     * \param	$objectId of the record to display in MEdia Page,$currentUserId
      */
     public function initForMediaPage($objectId, $currentUserId) {
 	global $boxes;
@@ -360,9 +360,9 @@ class RecordBox {
     }
 
     /**
-     * \fn	initForPersonalPage($objectId)
+     * \fn	initForPersonalPage($objectId,$currentUserId)
      * \brief	init for recordBox for personal Page
-     * \param	$objectId of the user who owns the page
+     * \param	$objectId of the user who owns the page,$currentUserId
      */
     public function initForPersonalPage($objectId, $currentUserId) {
 	global $boxes;
