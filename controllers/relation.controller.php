@@ -40,7 +40,7 @@ class RelationController extends REST {
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['currentUser'])) {
+            } elseif (!isset($this->request['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             } elseif (!isset($this->request['activityId'])) {
                 $this->response(array('status' => "Bad Request", "msg" => $controllers['NOACTIVITYID']), 403);
@@ -54,7 +54,7 @@ class RelationController extends REST {
             $toUserId = $this->request['toUser'];
             $toUserType = $this->request['toUserType'];
             if ($this->relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserType, $toUserId)) {
-                $this->response(array('status' => $controllers['ALREADYINREALTION']), 403);
+                $this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
             }
             $toUserP = new UserParse();
             $toUser = $toUserP->getUser($toUserId);
@@ -183,7 +183,7 @@ class RelationController extends REST {
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['currentUser'])) {
+            } elseif (!isset($this->request['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             } elseif (!isset($this->request['activityId'])) {
                 $this->response(array('status' => "Bad Request", "msg" => $controllers['NOACTIVITYID']), 403);
@@ -241,7 +241,7 @@ class RelationController extends REST {
     public function relationChecker($currentUserId, $currentUserType, $toUserType, $toUserId) {
         global $controllers;
         $inRelation = false;
-        switch ($fromUserType) {
+        switch ($currentUserId->getType()) {
             case 'SPOTTER':
                 if ($toUserType == 'SPOTTER') {
                     $fromField = 'friendship';
@@ -251,7 +251,7 @@ class RelationController extends REST {
                 break;
             default :
                 if ($toUserType == 'SPOTTER') {
-                    $this->response(array($controllers['RELDENIED']), 503);
+                    $this->response(array($controllers['RELDENIED']), 401);
                 } else {
                     $fromField = 'collaboration';
                 }
@@ -276,7 +276,7 @@ class RelationController extends REST {
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['currentUser'])) {
+            } elseif (!isset($this->request['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             } elseif (!isset($this->request['toUser'])) {
                 $this->response(array('status' => $controllers['NOTOUSER']), 403);
@@ -379,7 +379,7 @@ class RelationController extends REST {
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['currentUser'])) {
+            } elseif (!isset($this->request['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             } elseif (!isset($this->request['toUser'])) {
                 $this->response(array('status' => $controllers['NOTOUSER']), 403);
@@ -426,7 +426,7 @@ class RelationController extends REST {
                     break;
                 default :
                     if ($toUserType == 'SPOTTER') {
-                        $this->response(array($controllers['RELDENIED']), 503);
+                        $this->response(array($controllers['RELDENIED']), 401);
                     } else {
                         $activity->setType("COLLABORATIONREQUEST");
                         $HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
