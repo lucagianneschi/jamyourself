@@ -34,6 +34,12 @@ class NotificationForDetailedList {
     public $createdAt;
     public $fromUserInfo;
 
+    /**
+     * \fn	__construct($createdAt, $fromUserInfo)
+     * \brief	construct for NotificationForDetailedList
+     * \param	$createdAt, $fromUserInfo, $text
+     * \return	infoBox
+     */
     function __construct($createdAt, $fromUserInfo) {
 	global $boxes;
 	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
@@ -147,8 +153,7 @@ class NotificationBox {
 		$messageId = $message->getFromUser()->getObjectId();
 		$thumbnail = $message->getFromUser()->getProfileThumbnail();
 		$type = $message->getFromUser()->getType();
-		$encodedUsername = $message->getFromUser()->getUsername();
-		$username = parse_decode_string($encodedUsername);
+		$username = parse_decode_string($message->getFromUser()->getUsername());
 		$userInfo = new UserInfo($messageId, $thumbnail, $type, $username);
 		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 		array_push($messageArray, $notificationInfo);
@@ -191,8 +196,7 @@ class NotificationBox {
 		$invitationId = $invitation->getFromUser()->getObjectId();
 		$thumbnail = $invitation->getFromUser()->getProfileThumbnail();
 		$type = $invitation->getFromUser()->getType();
-		$encodedUsername = $invitation->getFromUser()->getUsername();
-		$username = parse_decode_string($encodedUsername);
+		$username = parse_decode_string($invitation->getFromUser()->getUsername());
 		$userInfo = new UserInfo($invitationId, $thumbnail, $type, $username);
 		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 		array_push($invitationArray, $notificationInfo);
@@ -240,8 +244,7 @@ class NotificationBox {
 		$relationId = $relation->getFromUser()->getObjectId();
 		$thumbnail = $relation->getFromUser()->getProfileThumbnail();
 		$type = $relation->getFromUser()->getType();
-		$encodedUsername = $relation->getFromUser()->getUsername();
-		$username = parse_decode_string($encodedUsername);
+		$username = parse_decode_string($relation->getFromUser()->getUsername());
 		$userInfo = new UserInfo($relationId, $thumbnail, $type, $username);
 		$notificationInfo = new NotificationForDetailedList($createdAt, $userInfo);
 		array_push($relationArray, $notificationInfo);
