@@ -72,11 +72,11 @@ class UserUtilitiesController extends REST {
 	    $activityParse = new ActivityParse();
 	    $res = $activityParse->saveActivity($activity);
 	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['NOACSAVE']), 403);
+		$this->response(array('status' => $controllers['NOACSAVE']), 503);
 	    }
 	    $this->response(array($controllers['OKSOCIALLINK']), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 500);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
@@ -123,11 +123,11 @@ class UserUtilitiesController extends REST {
 	    $activityParse = new ActivityParse();
 	    $res = $activityParse->saveActivity($activity);
 	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['NOACSAVE']), 403);
+		$this->response(array('status' => $controllers['NOACSAVE']), 503);
 	    }
 	    $this->response(array($controllers['OKPASSWORDRESETREQUEST']), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 500);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
@@ -175,11 +175,11 @@ class UserUtilitiesController extends REST {
 	    $activityParse = new ActivityParse();
 	    $res = $activityParse->saveActivity($activity);
 	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['NOACSAVE']), 403);
+		$this->response(array('status' => $controllers['NOACSAVE']), 503);
 	    }
 	    $this->response(array($controllers['OKSOCIALUNLINK']), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 500);
+	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
 
@@ -227,7 +227,7 @@ class UserUtilitiesController extends REST {
 	    $activityParse = new ActivityParse();
 	    $resAct = $activityParse->saveActivity($activity);
 	    if ($resAct instanceof Error) {
-		$this->response(array('status' => $controllers['NOACSAVE']), 403); //ROLLBACK??
+		$this->response(array('status' => $controllers['NOACSAVE']), 503); //ROLLBACK??
 	    }
 	    $this->response(array('SETTINGUPDATED'), 200);
 	} catch (Exception $e) {

@@ -56,15 +56,15 @@ class ReviewController extends REST {
             } elseif ($this->request['classType']) {
                 $this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
             } elseif (!isset($this->request['text'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOREW']), 400);
+                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOREW']), 403);
             } elseif (!isset($this->request['objectId'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOOBJECTID']), 400);
+                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOOBJECTID']), 403);
             } elseif (!isset($this->request['classType'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOCLASSTYPE']), 400);
+                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOCLASSTYPE']), 403);
             } elseif (!isset($this->request['toUser'])) {
                 $this->response(array('status' => $controllers['NOTOUSER']), 403);
             } elseif (!isset($this->request['title'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOTITLE']), 400);
+                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOTITLE']), 403);
             }
             $currentUser = $this->request['currentUser'];
             $classType = $this->request['classType'];
@@ -75,9 +75,9 @@ class ReviewController extends REST {
             if ($currentUser->getObjectId() === $toUser) {
                 $this->response(array('NOSELFREVIEW'), 200);
             } elseif (strlen($text) < $this->config->minReviewSize) {
-                $this->response(array($controllers['SHORTREW'] . strlen($text)), 200);
+                $this->response(array($controllers['SHORTREW'] . strlen($text)), 406);
             } elseif (strlen($text) > $this->config->maxReviewSize) {
-                $this->response(array($controllers['LONGREW'] . strlen($text)), 200);
+                $this->response(array($controllers['LONGREW'] . strlen($text)), 406);
             }
             require_once CLASSES_DIR . 'userParse.class.php';
             $userP = new UserParse();
