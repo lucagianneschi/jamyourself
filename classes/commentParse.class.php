@@ -24,7 +24,7 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utilsClass.php';
 require_once CLASSES_DIR . 'comment.class.php';
-require_once DEBUG_DIR . 'debug.php';
+require_once SERVICES_DIR . 'debug.service.php';
 
 class CommentParse {
 
