@@ -160,9 +160,9 @@ class ActivityBox {
     }
 
     /**
-     * \fn	initForPersonalPage($objectId, $type)
+     * \fn	initForPersonalPage($objectId, $type, $currentUserId)
      * \brief	Init ActivityBox instance for Personal Page
-     * \param	$objectId for user that owns the page, $type of user that owns the page
+     * \param	$objectId for user that owns the page, $type of user that owns the page, $currentUserId
      * \return	activityBox
      */
     public function initForPersonalPage($objectId, $type, $currentUserId) {
