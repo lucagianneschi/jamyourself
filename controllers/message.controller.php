@@ -4,14 +4,14 @@
  * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller per l'azione di mesaggio
  * \details		invia il messaggio e corrispondente activity;legge il messaggio
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		
+ * \todo		testare
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
@@ -39,11 +39,11 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn	readMessage()
+     * \fn	read()
      * \brief   update activity for the current read message
-     * \todo    usare la sessione
+     * \todo    testare
      */
-    public function readMessage() {
+    public function read() {
         global $controllers;
         try {
             if ($this->get_request_method() != "POST") {
@@ -73,34 +73,32 @@ class MessageController extends REST {
     }
 
     /**
-     * \fn	sendMessage()
+     * \fn	message()
      * \brief   save a message an the related activity
-     * \todo    usare la sessione
+     * \todo    testare
      */
-    public function sendMessage() {
+    public function message() {
         global $controllers;
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
-            } elseif (!isset($this->request['text'])) {
-                $this->response(array('status' => $controllers['NOMESSAGE']), 400);
+            } elseif (!isset($this->request['message'])) {
+                $this->response(array('status' => $controllers['NOMESSAGE']), 403);
             } elseif (!isset($this->request['toUser'])) {
                 $this->response(array('status' => $controllers['NOTOUSER']), 403);
-            } elseif (!isset($this->request['toUser'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSER']), 400);
             } elseif (!isset($this->request['title'])) {
                 $this->response(array('status' => $controllers['NOMESSAGETITLE']), 400);
             }
-            $currentUser = $_SESSION['currentUser'];
+            $currentUser = $this->request['currentUser'];
             $toUserId = $this->request['toUser'];
-            $text = $this->request['text'];
+            $text = $this->request['message'];
             $title = $this->request['title'];
             if (strlen($text) < $this->config->minMessageSize) {
-                $this->response(array($controllers['SHORTMESSAGE'] . strlen($text)), 400);
+                $this->response(array($controllers['SHORTMESSAGE'] . strlen($text)), 406);
             } elseif (strlen($title) < $this->config->minTitleSize) {
-                $this->response(array($controllers['SHORTTITLEMESSAGE'] . strlen($text)), 400);
+                $this->response(array($controllers['SHORTTITLEMESSAGE'] . strlen($text)), 406);
             }
             require_once CONTROLLERS_DIR . 'utilsController.php';
             require_once CLASSES_DIR . 'comment.class.php';
