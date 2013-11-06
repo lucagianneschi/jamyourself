@@ -94,8 +94,7 @@ class PlaylistBox {
 	    foreach ($playlists as $playlist) {
 		require_once CLASSES_DIR . 'song.class.php';
 		require_once CLASSES_DIR . 'songParse.class.php';
-		$encodedName = $playlist->getName();
-		$name = parse_decode_string($encodedName);
+		$name = parse_decode_string($playlist->getName());
                 $playlistBox->name = $name;
 		$song = new SongParse();
 		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
@@ -111,13 +110,11 @@ class PlaylistBox {
                     return $playlistBox;
 		} else {
 		    foreach ($songs as $song) {
-			$encodedTitle = $song->getTitle();
-			$title = parse_decode_string($encodedTitle);
+			$title = parse_decode_string($song->getTitle());
 			$songId = $song->getFromUser()->getObjectId();
 			$thumbnail = $song->getFromUser()->getProfileThumbnail();
 			$type = $song->getFromUser()->getType();
-			$encodedUsername = $song->getFromUser()->getUsername();
-			$username = parse_decode_string($encodedUsername);
+			$username = parse_decode_string($song->getFromUser()->getUsername());
 			$author = new UserInfo($songId, $thumbnail, $type, $username);
 			$thumbnailRec = $song->getRecord()->getThumbnailCover();
 			$newSong = new SongInfo($author, $thumbnailRec, $title);
