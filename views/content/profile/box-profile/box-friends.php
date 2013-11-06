@@ -52,14 +52,14 @@ $friendshipCounter = $data['relation']['friendship']['friendshipCounter'];
 						<?php if(isset($data['relation']['friendship'. $i+1]['objectId'])){?>
 						<div  class="small-6 columns ">
 							<div class="box-membre">
-	    						<div class="row " id="collaborator_<?php echo $data['relation']['friendship'. $i+1]['objectId']?>">
+	    						<div class="row " id="collaborator_<?php echo $data['relation']['friendship'. ($i+1)]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['friendship'. $i+1]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+											<img src="../media/<?php echo $data['relation']['friendship'. ($i+1)]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['friendship'. $i+1]['username']?></strong></div>
+										<div class="text grey-dark breakOffTest"><strong><?php echo $data['relation']['friendship'. ($i+1)]['username']?></strong></div>
 									</div>		
 								</div>
 	    					</div>

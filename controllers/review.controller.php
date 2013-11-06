@@ -20,6 +20,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once SERVICES_DIR . 'debug.service.php';
 
 /**
  * \brief	ReviewController class 
@@ -56,28 +57,28 @@ class ReviewController extends REST {
             } elseif ($this->request['classType']) {
                 $this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
             } elseif (!isset($this->request['text'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOREW']), 400);
+                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOREW']), 403);
             } elseif (!isset($this->request['objectId'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOOBJECTID']), 400);
+                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOOBJECTID']), 403);
             } elseif (!isset($this->request['classType'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOCLASSTYPE']), 400);
+                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOCLASSTYPE']), 403);
             } elseif (!isset($this->request['toUser'])) {
                 $this->response(array('status' => $controllers['NOTOUSER']), 403);
             } elseif (!isset($this->request['title'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOTITLE']), 400);
+                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOTITLE']), 403);
             }
             $currentUser = $this->request['currentUser'];
             $classType = $this->request['classType'];
             $objectId = $this->request['objectId'];
-            $text = $this->request['text'];
-            $title = $this->request['title'];
+            $text = $this->request['text']; //dovrò prendere questo da un form
+            $title = $this->request['title'];//dovrò prendere questo da un form
             $toUser = $this->request['toUser'];
             if ($currentUser->getObjectId() === $toUser) {
                 $this->response(array('NOSELFREVIEW'), 200);
             } elseif (strlen($text) < $this->config->minReviewSize) {
-                $this->response(array($controllers['SHORTREW'] . strlen($text)), 200);
+                $this->response(array($controllers['SHORTREW'] . strlen($text)), 406);
             } elseif (strlen($text) > $this->config->maxReviewSize) {
-                $this->response(array($controllers['LONGREW'] . strlen($text)), 200);
+                $this->response(array($controllers['LONGREW'] . strlen($text)), 406);
             }
             require_once CLASSES_DIR . 'userParse.class.php';
             $userP = new UserParse();

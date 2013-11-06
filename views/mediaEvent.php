@@ -7,7 +7,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 
-$mediaClass = $_GET['mediaClass'];
+$objectIdMedia = $_GET['objectIdMedia'];
 
 ?>
 <!DOCTYPE html>
@@ -44,8 +44,8 @@ $mediaClass = $_GET['mediaClass'];
         <script type="text/javascript">
         	
         	callBoxMedia.classMedia = 'event';
-        	callBoxMedia.objectIdMedia = '2juULsRfqD';
-        	callBoxMedia.limit = 10;
+        	callBoxMedia.objectIdMedia = '<?php echo $objectIdMedia ?>';
+        	callBoxMedia.limit = 5;
         	callBoxMedia.skip = 0;
         	callBoxMedia.load('classinfo');	
 			

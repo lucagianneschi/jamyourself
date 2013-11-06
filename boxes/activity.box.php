@@ -202,7 +202,11 @@ class ActivityBox {
             }
         }
         $activityBox->albumInfo = $albumInfo;
-        if ($type == 'SPOTTER') {
+        if ($type != 'SPOTTER') {
+            $activityBox->recordInfo = $boxes['IAL'];
+            $activityBox->eventInfo = $boxes['IAL'];
+            return $activityBox;
+        } else {
             $lastSongP = new ActivityParse();
             $lastSongP->wherePointer('fromUser', '_User', $objectId);
             $lastSongP->where('type', 'SONGLISTENED');
@@ -263,9 +267,6 @@ class ActivityBox {
             }
             $eventInfo = new EventInfoForPersonalPage($address, $city, $eventDate, $locationName, $eventId, $thumbnail, $title);
             $activityBox->eventInfo = $eventInfo;
-        } else {
-            $activityBox->recordInfo = $boxes['IAL'];
-            $activityBox->eventInfo = $boxes['IAL'];
         }
         return $activityBox;
     }

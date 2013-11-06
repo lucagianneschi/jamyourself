@@ -15,22 +15,7 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
  
  $data = $_POST['data'];
- $typeUser = $_POST['typeUser'];
-
-//numero di review 
-$review_count = 4; 
-// dati utente che ha generato la review 
-$review_user_objectId = '011';
-$review_user_thumbnail  = $default_img['DEFAVATARTHUMB'];
-$review_user_username = 'Nome Cognome';
-$review_user_type = 'Jammer';
-
-
-//dati review
-$review_data = 'Venerdì 16 maggio - ore 10.15';
-$review_title = 'Reviw Title';
-$review_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu est dui. Etiam eu elit at lacus eleifend consectetur. Curabitur dolor diam, fringilla quis dignissim eget, tempus et lectus. Quisque sollicitudin laoreet tincidunt. In pretium massa quis diam dignissim dapibus. Donec sed mi mauris, a mollis nibh. Mauris et arcu eu quam mollis convallis ultricies id lacus. Donec dignissim sollicitudin nunc ultrices consectetur. Quisque eu mauris nisl, sed accumsan dolor. Duis mauris odio, semper eget convallis vel, tristique sit amet elit. Vestibulum id est velit. Nulla gravida, eros eu feugiat mollis, ante dui mollis augue, eu ullamcorper elit leo luctus augue. Donec quis tellus a ante rhoncus interdum non sed justo. Pellentesque suscipit pretium fringilla.';
-
+ 
 
 ?>
 
@@ -43,11 +28,24 @@ $review_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasell
 		</div>	
 		
 		<?php 
-		
+		$review_count = count($data['review']['reviewArray']);
 		$review_3count = $review_count > 3 ? 3 : $review_count;
-		$review_other = $review_3count > $review_count ? 0 : ($review_count - $review_3count);  
-		for($i = 0; $i < $review_3count; $i++){ ?>
-		
+		$review_other = $review_3count > $review_count ? 0 : ($review_count - $review_3count); 
+		if($data['review']['reviewArray'] > 0){ 
+		foreach ($data['review']['reviewArray'] as $key => $value) {		
+			// dati utente che ha generato la review 
+			$review_user_objectId = $value['fromUserInfo']['objectId'];
+			$review_user_thumbnail  = $value['fromUserInfo']['thumbnail'];
+			$review_user_username = $value['fromUserInfo']['username'];
+			$review_user_type = $value['fromUserInfo']['type'];			
+			$review_objectId = $value['objectId'];
+			$review_DateTime = DateTime::createFromFormat('d-m-Y H:i:s',  $value['createdAt']);
+			$review_data = $review_DateTime->format('l j F Y - H:i');
+			$review_title = $value['title'];
+			$review_text = $value['text'];
+			$review_rating = $value['rating'];
+			$review_counters = $value['counters'];
+			?>
 		<div class="row">
 			<div  class="large-12 columns ">
 				<div class="box">				
@@ -82,11 +80,11 @@ $review_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasell
 								<div class="row ">						
 									<div  class="small-12 columns ">
 										<div class="note grey">Rating
-										<a class="icon-propriety _star-orange"></a>
-										<a class="icon-propriety _star-orange"></a>	
-										<a class="icon-propriety _star-orange"></a>		
-										<a class="icon-propriety _star-grey"></a>
-										<a class="icon-propriety _star-grey"></a>
+										<?php for($i = 1; $i <= 5 ; $i++){
+												if($review_rating >= $i)
+													echo '<a class="icon-propriety _star-orange"></a>';
+												else '<a class="icon-propriety _star-grey"></a>';
+										}?>										
 										</div>								
 									</div>
 								</div>													
@@ -97,7 +95,7 @@ $review_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasell
 								<div class="text grey cropText inline" style="line-height: 18px !important;">
 									<?php echo $review_text ?>									
 								</div>
-								<a href="#" class="orange viewText"><strong onclick="toggleText(this,'recordReview_<?php echo $i ?>','<?php echo $review_text ?>')">View All</strong></a>
+								<a href="#" class="orange  no-display viewText"><strong onclick="toggleText(this,'recordReview_<?php echo $i ?>','<?php echo $review_text ?>')">View All</strong></a>
 								<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this,'recordReview_<?php echo $i ?>','<?php echo $review_text ?>')">Close</strong></a>
 							</div>
 						</div>					
@@ -115,9 +113,9 @@ $review_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasell
 									<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['SHARE'];?></a>
 								</div>
 								<div class="small-6 columns propriety ">					
-									<a class="icon-propriety _unlove grey" >15</a>
-									<a class="icon-propriety _comment" >20</a>
-									<a class="icon-propriety _share" >2</a>
+									<a class="icon-propriety _unlove grey" ><?php echo $review_counters['loveCounter'] ?></a>
+									<a class="icon-propriety _comment" ><?php echo $review_counters['commentCounter'] ?></a>
+									<a class="icon-propriety _share" ><?php echo $review_counters['shareCounter'] ?></a>
 								</div>	
 							</div>		
 						</div>
@@ -129,7 +127,7 @@ $review_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasell
 			
 			
 		</div>
-		<?php }
+		<?php }}
 		if($review_other > 0){
 		?>
 		<div class="row otherSet">

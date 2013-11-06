@@ -17,11 +17,16 @@ function cropText(){
 			
 			textCrop = textCrop + '... ';
 		
-			$( this ).text(textCrop);			
+			$( this ).text(textCrop);
+			
+			$( this ).next().removedClass('no-display');		
 			
 			$( this ).next().appendTo(this);
 		  
 		});
+	}
+	else{
+		$('.viewText').addClass('no-display');
 	}
 	
 	

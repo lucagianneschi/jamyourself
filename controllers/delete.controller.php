@@ -23,7 +23,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
-require_once DEBUG_DIR . 'debug.php';
+require_once SERVICES_DIR . 'debug.service.php';
 
 /**
  * \brief	DeleteController class 
@@ -66,7 +66,6 @@ class DeleteController extends REST {
                     }
                     if ($currentUser->getObjectId() == $act->getFromUser()) {
                         $res = $activityParse->deleteActivity($objectId);
-                        $activity->setAlbum($objectId);
                         $activity->setType("DELETEDACTIVITY");
                     } else {
                         $this->response(array($controllers['CND']), 401);

@@ -14,21 +14,6 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
  
 $data = $_POST['data'];
-$typeUser = $_POST['typeUser'];
-
-$commentCounter = $data['commentCounter'];
-
-$commentCounter = 10;
-
-$user_thumbnail = $default_img['DEFAVATARTHUMB'];
-$user_username =  'Nome Cognome';
-$user_type = 'Spotter';
-
-$comment_objectId = '01';
-$comment_createdAd = 'Venerdì 16 maggio - ore 10.15';
-$comment_text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu est dui. Etiam eu elit at lacus eleifend consectetur. Curabitur dolor diam, fringilla quis dignissim eget, tempus et lectus.';
-
-$comment_love = '4';
 
 ?>
 
@@ -59,9 +44,24 @@ $comment_love = '4';
 				</div>
 				
 				<?php  
+				$commentCounter = count($result['comment']['commentInfoArray']);
 				$comment_3count = $commentCounter > 5 ? 5 : $commentCounter;
-				$comment_other = $comment_3count > $commentCounter ? 0 : ($commentCounter - $comment_3count);  
-				for($i = 0; $i < $comment_3count; $i++){ ?>						
+				$comment_other = $comment_3count > $commentCounter ? 0 : ($commentCounter - $comment_3count);
+				if(count($result['comment']['commentInfoArray']) > 0){
+					foreach ($result['comment']['commentInfoArray'] as $key => $value) {
+						$user_thumbnail = $value['user_thumbnail'];
+						$user_username =  $value['user_username'];
+						$user_type = $value['user_type'];
+						
+						$comment_objectId = $key;
+						
+						$comment_DateTime = DateTime::createFromFormat('d-m-Y H:i:s',  $value['createdAt']);
+						$comment_createdAd = $review_DateTime->format('l j F Y - H:i');
+						
+						$comment_text =  $value['text'];
+						
+					
+					?>						
 				
 				<div id='<?php echo  $comment_objectId; ?>'>
 					
@@ -106,7 +106,7 @@ $comment_love = '4';
 									<a class="note grey " onclick="setCounter(this,'<?php echo $comment_objectId; ?>','comment')"><?php echo $views['LOVE'];?></a>
 								</div>
 								<div class="small-5 columns propriety ">
-									<a class="icon-propriety _unlove grey"><?php echo $comment_love ?></a>
+									<a class="icon-propriety _unlove grey"><?php echo $value['counters']['loveCounter']?></a>
 								
 								</div>
 							</div>
@@ -116,7 +116,7 @@ $comment_love = '4';
 					</div> <!--------------- BOX -------------------->	
 					
 				</div>
-				<?php }
+				<?php }}
 				if($comment_other > 0){
 				?>
 				<div class="row otherSet">

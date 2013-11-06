@@ -45,4 +45,5 @@ define('DEFRECORDTHUMB', MEDIA_DIR . 'images/default/defaultRecordThumb.jpg');
 define('DEFSONGTHUMB', MEDIA_DIR . 'images/default/defaultSongThumb.jpg');
 //IMAGE 
 define('DEFIMAGE', MEDIA_DIR . 'images/default/defaultImage.jpg'); 
+define('DEFIMAGETHUMB', MEDIA_DIR . 'images/default/defaultImageThumb.jpg');
 ?>

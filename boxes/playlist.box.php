@@ -96,6 +96,7 @@ class PlaylistBox {
 		require_once CLASSES_DIR . 'songParse.class.php';
 		$encodedName = $playlist->getName();
 		$name = parse_decode_string($encodedName);
+                $playlistBox->name = $name;
 		$song = new SongParse();
 		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
 		$song->where('active', true);
@@ -107,6 +108,7 @@ class PlaylistBox {
 		    return $songs;
 		} elseif (is_null($songs)) {
 		    $playlistBox->tracklist = $boxes['NOTRACK'];
+                    return $playlistBox;
 		} else {
 		    foreach ($songs as $song) {
 			$encodedTitle = $song->getTitle();
@@ -124,7 +126,6 @@ class PlaylistBox {
 		}
 	    }
 	    $playlistBox->tracklist = $tracklist;
-	    $playlistBox->name = $name;
 	}
 	return $playlistBox;
     }
