@@ -207,7 +207,7 @@ class EventParse {
 			$event->setLocation(fromParseGeoPoint($res->location));
 			$event->setLocationName($res->locationName);
 			$event->setLoveCounter($res->loveCounter);
-			#$event->setLovers(fromParseRelation('Event', 'lovers', $res->objectId, '_User'));
+			$event->setLovers($res->lovers);
 			#$event->setRefused(fromParseRelation('Event', 'refused', $res->objectId, '_User'));
 			$event->setReviewCounter($res->reviewCounter);
 			$event->setShareCounter($res->shareCounter);
@@ -253,7 +253,7 @@ class EventParse {
 			is_null($event->getLocation()) ? $parseEvent->location = null : $parseEvent->location = toParseGeoPoint($event->getLocation());
 			is_null($event->getLocationName()) ? $parseEvent->locationName = null : $parseEvent->locationName = $event->getLocationName();
 			is_null($event->getLoveCounter()) ? $parseEvent->loveCounter = -1 : $parseEvent->loveCounter = $event->getLoveCounter();
-			is_null($event->getLovers()) ? $parseEvent->lovers = null : $parseEvent->lovers = toParseAddRelation('_User', $event->getLovers());
+			is_null($event->getLovers()) ? $parseEvent->lovers = null : $parseEvent->lovers = $event->getLovers();
 			is_null($event->getReviewCounter()) ? $parseObject->reviewCounter = -1 : $parseObject->reviewCounter = $event->getReviewCounter();
 			is_null($event->getShareCounter()) ? $parseEvent->shareCounter = -1 : $parseEvent->shareCounter = $event->getShareCounter();
 			is_null($event->getRefused()) ? $parseEvent->refused = null : $parseEvent->refused = toParseAddRelation('_User', $event->getRefused());

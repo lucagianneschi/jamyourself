@@ -210,7 +210,7 @@ class AlbumParse {
 	    #$album->setImages(fromParseRelation('Album', 'images', $res->objectId, 'Image'));
 	    $album->setLocation(fromParseGeoPoint($res->location));
 	    $album->setLoveCounter($res->loveCounter);
-	    #$album->setLovers(fromParseRelation('Album', 'lovers', $res->objectId, '_User'));
+	    $album->setLovers($res->lovers);
 	    $album->setShareCounter($res->shareCounter);
 	    $album->setTags($res->tags);
 	    $album->setThumbnailCover($res->thumbnailCover);
@@ -253,7 +253,7 @@ class AlbumParse {
 	    is_null($album->getImages()) ? $parseAlbum->images = null : $parseAlbum->images = toParseAddRelation('Image', $album->getImages());
 	    is_null($album->getLocation()) ? $parseAlbum->location = null : $parseAlbum->location = toParseGeoPoint($album->getLocation());
 	    is_null($album->getLoveCounter()) ? $parseAlbum->loveCounter = -1 : $parseAlbum->loveCounter = $album->getLoveCounter();
-	    is_null($album->getLovers()) ? $parseAlbum->lovers = null : $parseAlbum->lovers = toParseAddRelation('_User', $album->getLovers());
+	    is_null($album->getLovers()) ? $parseAlbum->lovers = null : $parseAlbum->lovers = $album->getLovers();
 	    is_null($album->getShareCounter()) ? $parseAlbum->shareCounter = -1 : $parseAlbum->shareCounter = $album->getShareCounter();
 	    is_null($album->getTags()) ? $parseAlbum->tags = null : $parseAlbum->tags = $album->getTags();
 	    is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = $default_img['DEFALBUMTHUMB'] : $parseAlbum->thumbnailCover = $album->getThumbnailCover();

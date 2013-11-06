@@ -198,7 +198,7 @@ class ImageParse {
 			$image->setFromUser(fromParsePointer($res->fromUser));
 			$image->setLocation(fromParseGeoPoint($res->location));
 			$image->setLoveCounter($res->loveCounter);
-			#$image->setLovers(fromParseRelation('Image', 'lovers', $res->objectId, '_User'));
+			$image->setLovers($res->lovers);
 			$image->setShareCounter($res->shareCounter);
 			$image->setTags($res->tags);
 			$image->setThumbnail($res->thumbnail);
@@ -237,7 +237,7 @@ class ImageParse {
 			$parseImage->fromUser = toParsePointer('_User', $image->getFromUser());
 			is_null($image->getLocation()) ? $parseImage->location = null : $parseImage->location = toParseGeoPoint($image->getLocation());
 			is_null($image->getLoveCounter()) ? $parseImage->loveCounter = null : $parseImage->loveCounter = $image->getLoveCounter();
-			is_null($image->getLovers()) ? $parseImage->lovers = null : $parseImage->lovers = toParseAddRelation('_User', $image->getLovers());
+			is_null($image->getLovers()) ? $parseImage->lovers = null : $parseImage->lovers = $image->getLovers();
 			is_null($image->getShareCounter()) ? $parseImage->shareCounter = null : $parseImage->shareCounter = $image->getShareCounter();
 			is_null($image->getTags()) ? $parseImage->tags = null : $parseImage->tags = $image->getTags();
 			is_null($image->getThumbnail()) ? $parseImage->thumbnail = $default_img['DEFIMAGETHUMB'] : $parseImage->thumbnail = $image->getThumbnail();

@@ -196,7 +196,7 @@ class VideoParse {
 			#$video->setFeaturing(fromParseRelation('Video', 'featuring', $res->objectId, '_User'));
 			$video->setFromUser(fromParsePointer($res->fromUser));
 			$video->setLoveCounter($res->loveCounter);
-			#$video->setLovers(fromParseRelation('Video', 'lovers', $res->objectId, '_User'));
+			$video->setLovers($res->lovers);
 			$video->setTags($res->tags);
 			$video->setTitle($res->title);
 			$video->setThumbnail($res->thumbnail);
@@ -233,7 +233,7 @@ class VideoParse {
 			is_null($video->getFeaturing()) ? $parseVideo->featuring = null : $parseVideo->featuring = toParseAddRelation('_User', $video->getFeaturing());
 			$parseVideo->fromUser = toParsePointer('_User', $video->getFromUser());
 			is_null($video->getLoveCounter()) ? $parseVideo->loveCounter = -1 : $parseVideo->loveCounter = $video->getLoveCounter();
-			is_null($video->getLovers()) ? $parseVideo->lovers = null : $parseVideo->lovers = toParseAddRelation('_User', $video->getLovers());
+			is_null($video->getLovers()) ? $parseVideo->lovers = null : $parseVideo->lovers = $video->getLovers();
 			is_null($video->getTags()) ? $parseVideo->tags = null : $parseVideo->tags = $video->getTags();
 			is_null($video->getThumbnail()) ? $parseVideo->thumbnail = $default_img['DEFVIDEOTHUMB'] : $parseVideo->thumbnail = $video->getThumbnail();
 			is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = $video->getTitle();

@@ -204,7 +204,7 @@ class CommentParse {
 			$cmt->setImage(fromParsePointer($res->image));
 			$cmt->setLocation(fromParseGeoPoint($res->location));
 			$cmt->setLoveCounter($res->loveCounter);
-			# $cmt->setLovers(fromParseRelation('Comment', 'lovers', $res->objectId, '_User'));
+			$cmt->setLovers($res->lovers);
 			$cmt->setRecord(fromParsePointer($res->record));
 			$cmt->setShareCounter($res->shareCounter);
 			$cmt->setSong(fromParsePointer($res->song));
@@ -238,7 +238,6 @@ class CommentParse {
 			return throwError(new Exception('saveComment parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			$parseObject = new parseObject('Comment');
-
 			is_null($cmt->getActive()) ? $parseObject->active = true : $parseObject->active = $cmt->getActive();
 			is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = toParsePointer('Album', $cmt->getAlbum());
 			is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = toParsePointer('Comment', $cmt->getComment());
@@ -251,7 +250,7 @@ class CommentParse {
 			is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $cmt->getImage());
 			is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($cmt->getLocation());
 			is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $cmt->getLoveCounter();
-			is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = toParseAddRelation('_User', $cmt->getLovers());
+			is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = $cmt->getLovers();
 			is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
 			is_null($cmt->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $cmt->getShareCounter();
 			is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
@@ -264,7 +263,6 @@ class CommentParse {
 			is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = toParsePointer('Video', $cmt->getVideo());
 			is_null($cmt->getVote()) ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
 			is_null($cmt->getACL()) ? $parseObject->ACL = toParseDefaultACL() : $parseObject->ACL = toParseACL($cmt->getACL());
-
 			if ($cmt->getObjectId() == '') {
 				$res = $parseObject->save();
 				$cmt->setObjectId($res->objectId);

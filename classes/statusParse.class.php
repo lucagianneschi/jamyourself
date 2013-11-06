@@ -192,7 +192,7 @@ class StatusParse {
 			$status->setImage(fromParsePointer($res->image));
 			$status->setLocation(new parseGeoPoint($res->location->latitude, $res->location->longitude));
 			$status->setLoveCounter($res->loveCounter);
-			#$status->setLovers(fromParseRelation('Status', 'lovers', $res->objectId, '_User'));
+			$status->setLovers($res->lovers);
 			$status->setShareCounter($res->shareCounter);
 			$status->setSong(fromParsePointer($res->song));
 			$status->setText($res->text);
@@ -228,7 +228,7 @@ class StatusParse {
 			is_null($status->getImage()) ? $parseStatus->image = null : $parseStatus->image = toParsePointer('Image', $status->getImage());
 			is_null($status->getLocation()) ? $parseStatus->location = null : $parseStatus->location = toParseGeopoint($status->getLocation());
 			is_null($status->getLoveCounter()) ? $parseStatus->loveCounter = null : $parseStatus->loveCounter = $status->getLoveCounter();
-			is_null($status->getLovers()) ? $parseStatus->lovers = null : $parseStatus->lovers = toParseAddRelation('_User', $status->getLovers());
+			is_null($status->getLovers()) ? $parseStatus->lovers = null : $parseStatus->lovers = $status->getLovers();
 			is_null($status->getShareCounter()) ? $parseStatus->shareCounter = -1 : $parseStatus->shareCounter = $status->getShareCounter();
 			is_null($status->getSong()) ? $parseStatus->song = null : $parseStatus->song = toParsePointer('Song', $status->getSong());
 			is_null($status->getTaggedUsers()) ? $parseStatus->taggedUsers = null : $parseStatus->taggedUsers = toParseAddRelation('_User', $status->getTaggedUsers());
