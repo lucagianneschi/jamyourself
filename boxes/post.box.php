@@ -36,19 +36,21 @@ class PostInfo {
     public $createdAt;
     public $fromUserInfo;
     public $objectId;
+    public $showLove;
     public $text;
 
     /**
-     * \fn	__construct($counters, $createdAt, $fromUserInfo, $text)
+     * \fn	__construct($counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text)
      * \brief	construct for the PostInfo class
-     * \param	$counters, $createdAt, $fromUserInfo, $text
+     * \param	$counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text
      */
-    function __construct($counters, $createdAt, $fromUserInfo, $objectId, $text) {
+    function __construct($counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text) {
 	global $boxes;
 	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
 	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
 	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
     }
 
@@ -60,13 +62,13 @@ class PostBox {
     public $postCounter;
 
     /**
-     * \fn	initForPersonalPage($objectId)
+     * \fn	initForPersonalPage($objectId, $limit, $skip, $currentUserId)
      * \brief	Init PostBox instance for Personal Page
-     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip 
+     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId 
      * \return	postBox
      * \todo	
      */
-    public function initForPersonalPage($objectId, $limit, $skip) {
+    public function initForPersonalPage($objectId, $limit, $skip, $currentUserId) {
 	global $boxes;
 	$postBox = new PostBox();
 	$info = array();
@@ -79,7 +81,7 @@ class PostBox {
 	$post->where('active', true);
 	$post->whereInclude('fromUser,toUser');
 	$post->setLimit($limit);
-        $post->setSkip($skip);
+	$post->setSkip($skip);
 	$post->orderByDescending('createdAt');
 	$posts = $post->getComments();
 	if ($posts instanceof Error) {
@@ -94,8 +96,7 @@ class PostBox {
 		$userId = $post->getFromUser()->getObjectId();
 		$thumbnail = $post->getFromUser()->getProfileThumbnail();
 		$type = $post->getFromUser()->getType();
-		$encodedUsername = $post->getFromUser()->getUsername();
-		$username = parse_decode_string($encodedUsername);
+		$username = parse_decode_string($post->getFromUser()->getUsername());
 		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		$postId = $post->getObjectId();
 		$commentCounter = $post->getCommentCounter();
@@ -103,10 +104,15 @@ class PostBox {
 		$loveCounter = $post->getLoveCounter();
 		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $post->getShareCounter();
-		$encodedtext = $post->getText();
-		$text = parse_decode_string($encodedtext);
+		$text = parse_decode_string($post->getText());
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $text);
+		$lovers = $post->getLovers();
+		if (is_null($lovers) || !in_array($lovers, $currentUserId)) {
+		    $showLove = false;
+		} else {
+		    $showLove = true;
+		}
+		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $showLove, $text);
 		array_push($info, $postInfo);
 	    }
 	    $postBox->postInfoArray = $info;
