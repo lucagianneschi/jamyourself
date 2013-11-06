@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		uso whereIncude		
+ * \todo			
  *
  */
 
@@ -32,20 +32,23 @@ require_once BOXES_DIR . 'utilsBox.php';
 class CommentInfo {
 
     public $fromUserInfo;
+    public $counters;
     public $createdAt;
+    public $showLove;
     public $text;
 
     /**
-     * \fn	__construct($fromUserInfo, $createdAt, $text)
+     * \fn	__construct($counters, $fromUserInfo, $createdAt, $showLove, $text)
      * \brief	construct for the CommentInfo class
-     * \param	$fromUserInfo, $createdAt, $text
+     * \param	$counters, $fromUserInfo, $createdAt, $showLove, $text
      */
-    function __construct($counters, $fromUserInfo, $createdAt, $text) {
-        global $boxes;
-        is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-        is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
-        is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
+    function __construct($counters, $fromUserInfo, $createdAt, $showLove, $text) {
+	global $boxes;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
+	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
     }
 
 }
@@ -60,78 +63,82 @@ class CommentBox {
     public $commentInfoArray;
 
     /**
-     * \fn	init($className, $objectId, $limit, $skip)
+     * \fn	init($className, $objectId, $limit, $skip, $currentUserId)
      * \brief	Init CommentBox instance all over the website
      * \param	$className for the instance of the class that has been commented, $objectId for object that has been commented,
-     * \param   $limit number of objects to retreive, $skip number of objects to skip 
+     * \param   $limit number of objects to retreive, $skip number of objects to skip ,$currentUserId
      * \return	commentBox
      */
-    public function init($className, $objectId, $limit, $skip) {
-        global $boxes;
-        $info = array();
-        $commentBox = new CommentBox();
-        $commentP = new CommentParse();
-        switch ($className) {
-            case 'Album':
-                $field = 'album';
-                break;
-            case 'Comment':
-                $field = 'comment';
-                break;
-            case 'Event':
-                $field = 'event';
-                break;
-            case 'Image':
-                $field = 'image';
-                break;
-            case 'Record':
-                $field = 'record';
-                break;
-            case 'Song':
-                $field = 'song';
-                break;
-            case 'Status':
-                $field = 'status';
-                break;
-            case 'Video':
-                $field = 'video';
-                break;
-        }
-        $commentP->wherePointer($field, $className, $objectId);
-        $commentP->where('type', 'C');
-        $commentP->where('active', true);
-        $commentP->setLimit($limit);
-        $commentP->setSkip($skip);
-        $commentP->whereInclude('fromUser');
-        $commentP->orderByAscending('createdAt');
-        $comments = $commentP->getComments();
-        if ($comments instanceof Error) {
-            return $comments;
-        } elseif (is_null($comments)) {
-            $commentBox->commentInfoArray = $boxes['NODATA'];
-            return $commentBox;
-        } else {
-            foreach ($comments as $comment) {
-                $createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
-                $commentCounter = $boxes['NDB'];
+    public function init($className, $objectId, $limit, $skip, $currentUserId) {
+	global $boxes;
+	$info = array();
+	$commentBox = new CommentBox();
+	$commentP = new CommentParse();
+	switch ($className) {
+	    case 'Album':
+		$field = 'album';
+		break;
+	    case 'Comment':
+		$field = 'comment';
+		break;
+	    case 'Event':
+		$field = 'event';
+		break;
+	    case 'Image':
+		$field = 'image';
+		break;
+	    case 'Record':
+		$field = 'record';
+		break;
+	    case 'Song':
+		$field = 'song';
+		break;
+	    case 'Status':
+		$field = 'status';
+		break;
+	    case 'Video':
+		$field = 'video';
+		break;
+	}
+	$commentP->wherePointer($field, $className, $objectId);
+	$commentP->where('type', 'C');
+	$commentP->where('active', true);
+	$commentP->setLimit($limit);
+	$commentP->setSkip($skip);
+	$commentP->whereInclude('fromUser');
+	$commentP->orderByAscending('createdAt');
+	$comments = $commentP->getComments();
+	if ($comments instanceof Error) {
+	    return $comments;
+	} elseif (is_null($comments)) {
+	    $commentBox->commentInfoArray = $boxes['NODATA'];
+	    return $commentBox;
+	} else {
+	    foreach ($comments as $comment) {
+		$createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
+		$commentCounter = $boxes['NDB'];
 		$loveCounter = $comment->getLoveCounter();
 		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $boxes['NDB'];
-                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $encodedText = $comment->getText();
-                $text = parse_decode_string($encodedText);
-                $userId = $comment->getFromUser()->getObjectId();
-                $thumbnail = $comment->getFromUser()->getProfileThumbnail();
-                $type = $comment->getFromUser()->getType();
-                $encodedUsername = $comment->getFromUser()->getUsername();
-                $username = parse_decode_string($encodedUsername);
-                $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
-                $commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $text);
-                array_push($info, $commentInfo);
-            }
-            $commentBox->commentInfoArray = $info;
-        }
-        return $commentBox;
+		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+		$text = parse_decode_string($comment->getText());
+		$userId = $comment->getFromUser()->getObjectId();
+		$thumbnail = $comment->getFromUser()->getProfileThumbnail();
+		$type = $comment->getFromUser()->getType();
+		$username = parse_decode_string($comment->getFromUser()->getUsername());
+		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+		$lovers = $comment->getLovers();
+		if (is_null($lovers) || !in_array($lovers, $currentUserId)) {
+		    $showLove = false;
+		} else {
+		    $showLove = true;
+		}
+		$commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $showLove, $text);
+		array_push($info, $commentInfo);
+	    }
+	    $commentBox->commentInfoArray = $info;
+	}
+	return $commentBox;
     }
 
 }
