@@ -25,3 +25,5 @@ config.rb
 # aptana
 .project
 /users/
+/loader.php
+/tests/optimization/
