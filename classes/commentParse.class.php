@@ -24,6 +24,7 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utilsClass.php';
 require_once CLASSES_DIR . 'comment.class.php';
+require_once DEBUG_DIR . 'debug.php';
 
 class CommentParse {
 
@@ -134,10 +135,15 @@ class CommentParse {
 	 * \return	int			the new value of the $field
 	 * \return	error		in case of exception
 	 */
-	public function incrementComment($objectId, $field, $value) {
+	public function incrementComment($objectId, $field, $value, $withRelation = false, $classNameRelation = '', $fieldRelation = '', $valueRelation = array()) {
 		try {
 			$parseObject = new parseObject('Comment');
 			$parseObject->increment($field, array($value));
+			if ($withRelation) {
+				if (is_null($classNameRelation) || is_null($fieldRelation) || is_null($valueRelation))
+					return throwError(new Exception('incrementComment parameters classNameRelation, fieldRelation and valueRelation must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
+				$parseObject->$fieldRelation = toParseAddRelation($classNameRelation, $valueRelation);
+			}
 			$res = $parseObject->update($objectId);
 			return $res->$field;
 		} catch (Exception $e) {

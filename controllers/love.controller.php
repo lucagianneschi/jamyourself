@@ -40,7 +40,8 @@ class LoveController extends REST {
         global $controllers;
 
         try {
-            //controllo la richiesta
+		
+			//controllo la richiesta
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($_SESSION['currentUser'])) {
@@ -66,7 +67,11 @@ class LoveController extends REST {
             $classType = $this->request['classType'];
             $objectId = $this->request['objectId'];
             $toUserObjectId = $this->request['objectIdUser'];
-
+			
+			//controllo se non ho già lovvato
+			$lla = $this->lastLoveActivity($_SESSION['currentUser']->getObjectId(), $this->request['objectId'], $this->request['classType']);
+			//if (in_array()) {
+			
             $activity = new Activity();
             $activity->setActive(true);
             $activity->setCounter(0);
@@ -86,7 +91,7 @@ class LoveController extends REST {
                 case 'Comment':
                     require_once CLASSES_DIR . 'commentParse.class.php';
                     $commentParse = new CommentParse();
-                    $res = $commentParse->incrementComment($objectId, 'loveCounter', 1);
+                    $res = $commentParse->incrementComment($objectId, 'loveCounter', 1, true, '_User', 'lovers', array($fromUser->getObjectId()));
                     $activity->setComment($objectId);
                     $activity->setType("LOVEDCOMMENT");
                     break;
@@ -351,6 +356,24 @@ class LoveController extends REST {
             $this->response(array('status' => $controllers['ROLLOK']), 503);
         }
     }
+	
+	private function lastLoveActivity($objectIdUser, $objectId, $classType) {
+		debug(DEBUG_DIR, 'debug.txt', '[lastLoveActivity]=>sono partito');
+		debug(DEBUG_DIR, 'debug.txt', '[lastLoveActivity]=>i parametri sono: ' . $objectIdUser . ' ' . $objectId . ' ' . $classType);
+		$res = 'NULL';
+		$actParse = new ActivityParse();
+		$actParse->wherePointer('fromUser', '_User', $objectIdUser);
+		$actParse->wherePointer(strtolower($classType), $classType, $objectId);
+		$actParse->orderByDescending('createdAt');
+		$actParse->setLimit(1);
+		$activities = $actParse->getActivities();
+		foreach($activities as $activity) {
+			$res = $activity->getType();
+		}
+		debug(DEBUG_DIR, 'debug.txt', '[lastLoveActivity]=>ho finito');
+		debug(DEBUG_DIR, 'debug.txt', '[lastLoveActivity]=>restituisco: ' . json_encode((array)$res));
+		return $res;
+	}
 
 }
 
