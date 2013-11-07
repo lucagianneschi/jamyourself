@@ -120,6 +120,7 @@ class CommentBox {
 		$loveCounter = $comment->getLoveCounter();
 		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $boxes['NDB'];
+                $showLove = true;
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$text = parse_decode_string($comment->getText());
 		$userId = $comment->getFromUser()->getObjectId();
@@ -128,11 +129,9 @@ class CommentBox {
 		$username = parse_decode_string($comment->getFromUser()->getUsername());
 		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		$lovers = $comment->getLovers();
-		if (is_null($lovers) || !in_array($lovers, $currentUserId)) {
+		if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
 		    $showLove = false;
-		} else {
-		    $showLove = true;
-		}
+		} 
 		$commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $showLove, $text);
 		array_push($info, $commentInfo);
 	    }
