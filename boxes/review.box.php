@@ -79,14 +79,15 @@ class ReviewBox {
     }
 
     /**
-     * \fn	initForDetail($objectId, $currentUserId)
+     * \fn	initForDetail($objectId)
      * \brief	Init ReviewBox instance for Personal Page, detailed view
-     * \param	$objectId of the review to display information, $currentUserId
+     * \param	$objectId of the review to display information
      * \return	reviewBox
      * \todo	
      */
-    public function initForDetail($objectId, $currentUserId) {
+    public function initForDetail($objectId) {
         global $boxes;
+        $currentUserId = sessionChecher();
         $info = array();
         $reviewBox = new ReviewBox();
         $reviewBox->reviewCounter = $boxes['NDB'];
@@ -121,7 +122,7 @@ class ReviewBox {
                 $thumbnailCover = $boxes['NDB'];
                 $title = parse_decode_string($review->getTitle());
                 $lovers = $review->getLovers();
-                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
                 }
                 $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $reviewId, $rating, $text, $thumbnailCover, $title);
@@ -133,15 +134,16 @@ class ReviewBox {
     }
 
     /**
-     * \fn	initForMediaPage($objectId, $className, $limit, $skip, $currentUserId)
+     * \fn	initForMediaPage($objectId, $className, $limit, $skip)
      * \brief	Init ReviewBox instance for Media Page
      * \param	$objectId of the review to display information, Event or Record class
      * \param   $className, $limit, $skip,$currentUserId
      * \return	reviewBox
      * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
      */
-    public function initForMediaPage($objectId, $className, $limit, $skip, $currentUserId) {
+    public function initForMediaPage($objectId, $className, $limit, $skip) {
         global $boxes;
+        $currentUserId = sessionChecher();
         $counter = 0;
         $info = array();
         $reviewBox = new ReviewBox();
@@ -175,7 +177,7 @@ class ReviewBox {
                 $commentCounter = $review->getCommentCounter();
                 $loveCounter = $review->getLoveCounter();
                 $lovers = $review->getLovers();
-                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
                 }
                 $reviewCounter = $boxes['NDB'];
@@ -196,14 +198,15 @@ class ReviewBox {
     }
 
     /**
-     * \fn	initForPersonalPage($objectId, $type, $className,$currentUserId)
+     * \fn	initForPersonalPage($objectId, $type, $className)
      * \brief	Init ReviewBox instance for Personal Page
      * \param	$objectId of the user who owns the page, $type of user, $className Record or Event class
-     * \param   $type, $className,$currentUserId
+     * \param   $type, $className
      * \return	reviewBox
      */
-    function initForPersonalPage($objectId, $type, $className, $currentUserId) {
+    function initForPersonalPage($objectId, $type, $className) {
         global $boxes;
+        $currentUserId = sessionChecher();
         $info = array();
         $counter = 0;
         $reviewBox = new ReviewBox();
@@ -247,9 +250,9 @@ class ReviewBox {
                 $commentCounter = $review->getCommentCounter();
                 $loveCounter = $review->getLoveCounter();
                 $lovers = $review->getLovers();
-                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
-                } 
+                }
                 $reviewCounter = $boxes['NDB'];
                 $shareCounter = $review->getShareCounter();
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);

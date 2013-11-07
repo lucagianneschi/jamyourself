@@ -223,11 +223,12 @@ class RecordBox {
 
     /**
      * \fn	initForDetail($objectId,$currentUserId)
-     * \brief	init for detailed view in personal page for the record box object,$currentUserId
+     * \brief	init for detailed view in personal page for the record box object
      * \param	$objectId of the record to display info
      */
-    public function initForDetail($objectId, $currentUserId) {
+    public function initForDetail($objectId ) {
         global $boxes;
+        $currentUserId = sessionChecher();
         $recordBox = new RecordBox();
         $recordBox->fromUserInfo = $boxes['NDB'];
         $recordBox->recordCounter = $boxes['NDB'];
@@ -256,7 +257,7 @@ class RecordBox {
                 $shareCounter = $song->getShareCounter();
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
                 $lovers = $song->getLovers();
-                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
                 }
                 $songInfo = new SongInfo($counters, $duration, $songId, $showLove, $title);
@@ -268,12 +269,13 @@ class RecordBox {
     }
 
     /**
-     * \fn	initForMediaPage($objectId,$currentUserId)
+     * \fn	initForMediaPage($objectId)
      * \brief	init for Media Page
-     * \param	$objectId of the record to display in MEdia Page,$currentUserId
+     * \param	$objectId of the record to display in MEdia Page
      */
-    public function initForMediaPage($objectId, $currentUserId) {
+    public function initForMediaPage($objectId) {
         global $boxes;
+        $currentUserId = sessionChecher();
         $recordBox = new RecordBox();
         $recordBox->recordCounter = $boxes['NDB'];
         $recordP = new RecordParse();
@@ -305,7 +307,7 @@ class RecordBox {
                 $genre = $record->getGenre();
                 $label = parse_decode_string($record->getLabel());
                 $recordLovers = $record->getLovers();
-                if (is_null($recordLovers) || !in_array($currentUserId, $recordLovers)) {
+                if (in_array($currentUserId, $recordLovers)) {
                     $showLoveRecord = false;
                 }
                 $locationName = parse_decode_string($record->getLocationName());
@@ -335,7 +337,7 @@ class RecordBox {
                         $songReviewCounter = $boxes['NDB'];
                         $songCounters = new Counters($songCommentCounter, $songLoveCounter, $songReviewCounter, $songShareCounter);
                         $lovers = $song->getLovers();
-                        if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                        if (in_array($currentUserId, $lovers)) {
                             $showLove = false;
                         }
                         $songInfo = new SongInfo($songCounters, $duration, $songId, $showLove, $songTitle);
@@ -357,12 +359,13 @@ class RecordBox {
     }
 
     /**
-     * \fn	initForPersonalPage($objectId,$currentUserId)
+     * \fn	initForPersonalPage($objectId)
      * \brief	init for recordBox for personal Page
-     * \param	$objectId of the user who owns the page,$currentUserId
+     * \param	$objectId of the user who owns the page
      */
-    public function initForPersonalPage($objectId, $currentUserId) {
+    public function initForPersonalPage($objectId) {
         global $boxes;
+        $currentUserId = sessionChecher();
         $info = array();
         $counter = 0;
         $recordBox = new RecordBox();
@@ -396,7 +399,7 @@ class RecordBox {
                 $year = $record->getYear();
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
                 $lovers = $record->getLovers();
-                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
                 }
                 $recordInfo = new RecordInfoForPersonalPage($counters, $genre, $recordId, $showLove, $songCounter, $thumbnailCover, $title, $year);
