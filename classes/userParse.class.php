@@ -54,16 +54,21 @@ class UserParse {
      * \return	int			the new value of the $field
      * \return	error		in case of exception
      */
-    public function decrementUser($objectId, $field, $value) {
-	try {
-	    $parseObject = new parseObject('_User');
-	    //we use the increment function with a negative value because decrement function still not work
-	    $parseObject->increment($field, array(0 - $value));
-	    $res = $parseObject->update($objectId);
-	    return $res->$field;
-	} catch (Exception $e) {
-	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-	}
+    public function decrementUser($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
+        try {
+            $parseObject = new parseObject('_User');
+            //we use the increment function with a negative value because decrement function still not work
+            $parseObject->increment($field, array(0 - $value));
+			if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('decrementUser parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->removeArray($fieldArray, $valueArray);
+            }
+            $res = $parseObject->update($objectId);
+            return $res->$field;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     /**
@@ -180,15 +185,20 @@ class UserParse {
      * \return	int			the new value of the $field
      * \return	error		in case of exception
      */
-    public function incrementUser($objectId, $field, $value) {
-	try {
-	    $parseObject = new parseObject('_User');
-	    $parseObject->increment($field, array($value));
-	    $res = $parseObject->update($objectId);
-	    return $res->$field;
-	} catch (Exception $e) {
-	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-	}
+    public function incrementUser($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
+        try {
+            $parseObject = new parseObject('_User');
+            $parseObject->increment($field, array($value));
+            if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('incrementUser parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->addUniqueArray($fieldArray, $valueArray);
+            }
+            $res = $parseObject->update($objectId);
+            return $res->$field;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     /**
