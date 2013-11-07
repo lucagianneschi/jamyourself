@@ -42,14 +42,14 @@ class AlbumInfo {
      * \param	$counters, $imageCounter, $objectId, $thumbnailCover, $title
      */
     function __construct($counters, $imageCounter, $objectId, $showLove, $thumbnailCover, $title) {
-	global $boxes;
-	global $default_img;
-	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-	is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
-	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($thumbnailCover) ? $this->thumbnailCover = $default_img['DEFALBUMTHUMB'] : $this->thumbnailCover = $thumbnailCover;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+        global $boxes;
+        global $default_img;
+        is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+        is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
+        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+        is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
+        is_null($thumbnailCover) ? $this->thumbnailCover = $default_img['DEFALBUMTHUMB'] : $this->thumbnailCover = $thumbnailCover;
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -75,16 +75,16 @@ class ImageInfo {
      * \param	$counters, $description, $filePath, $objectId, $tags, $thumbnail
      */
     function __construct($counters, $description, $filePath, $location, $objectId, $showLove, $tags, $thumbnail) {
-	global $boxes;
-	global $default_img;
-	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
-	is_null($filePath) ? $this->filePath = $boxes['NODATA'] : $this->filePath = $filePath;
-	is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
-	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
-	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFIMAGETHUMB'] : $this->thumbnail = $thumbnail;
+        global $boxes;
+        global $default_img;
+        is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+        is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
+        is_null($filePath) ? $this->filePath = $boxes['NODATA'] : $this->filePath = $filePath;
+        is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
+        is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
+        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
+        is_null($thumbnail) ? $this->thumbnail = $default_img['DEFIMAGETHUMB'] : $this->thumbnail = $thumbnail;
     }
 
 }
@@ -105,7 +105,7 @@ class AlbumBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/album.config.json"), false);
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/album.config.json"), false);
     }
 
     /**
@@ -115,56 +115,55 @@ class AlbumBox {
      * \return	albumBox
      */
     public function initForDetail($objectId, $currentUserId) {
-	require_once CLASSES_DIR . 'image.class.php';
-	require_once CLASSES_DIR . 'imageParse.class.php';
-	global $boxes;
-	$albumBox = new AlbumBox();
-	$albumBox->albumCounter = $boxes['NDB'];
-	$albumBox->albumInfoArray = $boxes['NDB'];
-	$info = array();
-	$image = new ImageParse();
-	$image->wherePointer('album', 'Album', $objectId);
-	$image->where('active', true);
-	$image->setLimit($this->config->limitForDetail);
-	$image->orderByDescending('createdAt');
-	$images = $image->getImages();
-	if ($images instanceof Error) {
-	    return $images;
-	} elseif (is_null($images)) {
-	    $albumBox->imageArray = $boxes['NODATA'];
-	    return $albumBox;
-	} else {
-	    foreach ($images as $image) {
-		$commentCounter = $image->getCommentCounter();
-		$loveCounter = $image->getLoveCounter();
-		$reviewCounter = $boxes['NDB'];
-		$shareCounter = $image->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$encodedDescription = $image->getDescription();
-		$description = parse_decode_string($encodedDescription);
-		$filePath = $image->getFilePath();
-		$location = $image->getLocation();
-		$imageId = $image->getObjectId();
-		$tags = array();
-		if (count($image->getTags()) > 0) {
-		    foreach ($image->getTags() as $tag) {
-			$tag = parse_decode_string($tag);
-			array_push($tags, $tag);
-		    }
-		}
-		$thumbnail = $image->getThumbnail();
-		$lovers = $image->getLovers();
-		if (is_null($lovers) || !in_array($lovers, $currentUserId)) {
-		    $showLove = false;
-		} else {
-		    $showLove = true;
-		}
-		$imageInfo = new ImageInfo($counters, $description, $filePath, $location, $imageId, $showLove, $tags, $thumbnail);
-		array_push($info, $imageInfo);
-	    }
-	    $albumBox->imageArray = $info;
-	}
-	return $albumBox;
+        require_once CLASSES_DIR . 'image.class.php';
+        require_once CLASSES_DIR . 'imageParse.class.php';
+        global $boxes;
+        $albumBox = new AlbumBox();
+        $albumBox->albumCounter = $boxes['NDB'];
+        $albumBox->albumInfoArray = $boxes['NDB'];
+        $info = array();
+        $image = new ImageParse();
+        $image->wherePointer('album', 'Album', $objectId);
+        $image->where('active', true);
+        $image->setLimit($this->config->limitForDetail);
+        $image->orderByDescending('createdAt');
+        $images = $image->getImages();
+        if ($images instanceof Error) {
+            return $images;
+        } elseif (is_null($images)) {
+            $albumBox->imageArray = $boxes['NODATA'];
+            return $albumBox;
+        } else {
+            foreach ($images as $image) {
+                $showLove = true;
+                $commentCounter = $image->getCommentCounter();
+                $loveCounter = $image->getLoveCounter();
+                $reviewCounter = $boxes['NDB'];
+                $shareCounter = $image->getShareCounter();
+                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                $encodedDescription = $image->getDescription();
+                $description = parse_decode_string($encodedDescription);
+                $filePath = $image->getFilePath();
+                $location = $image->getLocation();
+                $imageId = $image->getObjectId();
+                $tags = array();
+                if (count($image->getTags()) > 0) {
+                    foreach ($image->getTags() as $tag) {
+                        $tag = parse_decode_string($tag);
+                        array_push($tags, $tag);
+                    }
+                }
+                $thumbnail = $image->getThumbnail();
+                $lovers = $image->getLovers();
+                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                    $showLove = false;
+                }
+                $imageInfo = new ImageInfo($counters, $description, $filePath, $location, $imageId, $showLove, $tags, $thumbnail);
+                array_push($info, $imageInfo);
+            }
+            $albumBox->imageArray = $info;
+        }
+        return $albumBox;
     }
 
     /**
@@ -174,50 +173,49 @@ class AlbumBox {
      * \return	albumBox
      */
     public function initForPersonalPage($objectId, $currentUserId) {
-	require_once CLASSES_DIR . 'album.class.php';
-	require_once CLASSES_DIR . 'albumParse.class.php';
-	global $boxes;
-	$albumBox = new AlbumBox();
-	$albumBox->imageArray = $boxes['NDB'];
-	$info = array();
-	$counter = 0;
-	$album = new AlbumParse();
-	$album->wherePointer('fromUser', '_User', $objectId);
-	$album->where('active', true);
-	$album->setLimit($this->config->limitForPersonalPage);
-	$album->orderByDescending('createdAt');
-	$albums = $album->getAlbums();
-	if ($albums instanceof Error) {
-	    return $albums;
-	} elseif (is_null($albums)) {
-	    $albumBox->albumInfoArray = $boxes['NODATA'];
-	    $albumBox->albumCounter = $boxes['NODATA'];
-	    return $albumBox;
-	} else {
-	    foreach ($albums as $album) {
-		$counter = ++$counter;
-		$commentCounter = $album->getCommentCounter();
-		$imageCounter = $album->getImageCounter();
-		$loveCounter = $album->getLoveCounter();
-		$reviewCounter = $boxes['NDB'];
-		$shareCounter = $album->getShareCounter();
-		$albumId = $album->getObjectId();
-		$thumbnailCover = $album->getThumbnailCover();
-		$title = parse_decode_string($album->getTitle());
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$lovers = $album->getLovers();
-		if (is_null($lovers) || !in_array($lovers, $currentUserId)) {
-		    $showLove = false;
-		} else {
-		    $showLove = true;
-		}
-		$albumInfo = new AlbumInfo($counters, $imageCounter, $albumId, $showLove, $thumbnailCover, $title);
-		array_push($info, $albumInfo);
-	    }
-	    $albumBox->albumInfoArray = $info;
-	    $albumBox->albumCounter = $counter;
-	}
-	return $albumBox;
+        require_once CLASSES_DIR . 'album.class.php';
+        require_once CLASSES_DIR . 'albumParse.class.php';
+        global $boxes;
+        $albumBox = new AlbumBox();
+        $albumBox->imageArray = $boxes['NDB'];
+        $info = array();
+        $counter = 0;
+        $album = new AlbumParse();
+        $album->wherePointer('fromUser', '_User', $objectId);
+        $album->where('active', true);
+        $album->setLimit($this->config->limitForPersonalPage);
+        $album->orderByDescending('createdAt');
+        $albums = $album->getAlbums();
+        if ($albums instanceof Error) {
+            return $albums;
+        } elseif (is_null($albums)) {
+            $albumBox->albumInfoArray = $boxes['NODATA'];
+            $albumBox->albumCounter = $boxes['NODATA'];
+            return $albumBox;
+        } else {
+            foreach ($albums as $album) {
+                $counter = ++$counter;
+                $showLove = true;
+                $commentCounter = $album->getCommentCounter();
+                $imageCounter = $album->getImageCounter();
+                $loveCounter = $album->getLoveCounter();
+                $reviewCounter = $boxes['NDB'];
+                $shareCounter = $album->getShareCounter();
+                $albumId = $album->getObjectId();
+                $thumbnailCover = $album->getThumbnailCover();
+                $title = parse_decode_string($album->getTitle());
+                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                $lovers = $album->getLovers();
+                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                    $showLove = false;
+                }
+                $albumInfo = new AlbumInfo($counters, $imageCounter, $albumId, $showLove, $thumbnailCover, $title);
+                array_push($info, $albumInfo);
+            }
+            $albumBox->albumInfoArray = $info;
+            $albumBox->albumCounter = $counter;
+        }
+        return $albumBox;
     }
 
 }

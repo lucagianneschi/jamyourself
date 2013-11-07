@@ -28,24 +28,25 @@ $i_end = microtime();
 $karl01 = '7wi6AvviK4'; //karl01
 $LDF = '7fes1RyY77'; //LDF 
 $Ultrasuono = 'iovioSH5mq'; //Ultrasuono 
+$currentUserId = '7fes1RyY77';
 echo '<br />-------------------------TEST ALBUM PERSONALPAGE-------------------------------------------<br />';
 $album_start = microtime();
 $albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($karl01);
+$albumBox = $albumBoxP->initForPersonalPage($objectId, $currentUserId);
 print "<pre>";
 print_r($albumBox);
 print "</pre>";
 $album_stop = microtime();
 $album1_start = microtime();
 $albumBoxP1 = new AlbumBox();
-$albumBox1 = $albumBoxP1->initForPersonalPage($LDF);
+$albumBox1 = $albumBoxP1->initForPersonalPage($objectId, $currentUserId);
 print "<pre>";
 print_r($albumBox1);
 print "</pre>";
 $album1_stop = microtime();
 $album2_start = microtime();
 $albumBoxP2 = new AlbumBox();
-$albumBox2 = $albumBoxP2->initForPersonalPage($Ultrasuono);
+$albumBox2 = $albumBoxP2->initForPersonalPage($objectId, $currentUserId);
 print "<pre>";
 print_r($albumBox2);
 print "</pre>";
@@ -53,16 +54,19 @@ $album2_stop = microtime();
 $album3_start = microtime();
 echo '<br />----------------------INITFORDETAIL----------------------------------------------<br />';
 echo '<br />----------------------ALBUM_LDF_206_FOTO----------------------------------------------<br />';
+$album = '6nl9mn8a4I';
+
 $albumBoxP3 = new AlbumBox();
-$albumBox3 = $albumBoxP3->initForDetail('6nl9mn8a4I'); //
+$albumBox3 = $albumBoxP3->initForDetail($album, $currentUserId); //
 print "<pre>";
 print_r($albumBox3);
 print "</pre>";
 echo '<br />----------------------ALBUM_132_FOTO----------------------------------------------<br />';
+$album1 = 'uhRY8ULFNR';
 $album3_stop = microtime();
 $album4_start = microtime();
 $albumBoxP4 = new AlbumBox();
-$albumBox4 = $albumBoxP4->initForDetail('uhRY8ULFNR');
+$albumBox4 = $albumBoxP4->initForDetail($album1, $currentUserId);
 print "<pre>";
 print_r($albumBox4);
 print "</pre>";
@@ -70,7 +74,7 @@ $album4_stop = microtime();
 echo '<br />ERRORE SULLA INITFORDETAIL<br />';
 $album5_start = microtime();
 $albumBoxP5 = new AlbumBox();
-$albumBox5 = $albumBoxP5->initForDetail('pippopuzzatanto');
+$albumBox5 = $albumBoxP5->initForDetail('ciao', 'ciao');
 print "<pre>";
 print_r($albumBox5);
 print "</pre>";
@@ -78,7 +82,7 @@ $album5_stop = microtime();
 echo '<br />ERRORE SULLA INITFORPERSONALPAGE<br />';
 $album6_start = microtime();
 $albumBoxP6 = new AlbumBox();
-$albumBox6 = $albumBoxP6->initForPersonalPage('ciaociaobambina');
+$albumBox6 = $albumBoxP6->initForPersonalPage('ciaociaobambina','ciao');
 print "<pre>";
 print_r($albumBox6);
 print "</pre>";
