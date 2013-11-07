@@ -42,24 +42,29 @@ class AlbumParse {
     }
 
     /**
-     * \fn		void decrementAlbum(string $objectId, string $field, int $value)
+     * \fn      void decrementAlbum(string $objectId, string $field, int $value)
      * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
-     * \param	$objectId	the string that represent the objectId of the Album
+     * \param	$objectId	the string that represent the objectId of the Comment
      * \param	$field		the string that represent the field to decrement
      * \param 	$value		the number that represent the quantity to decrease the $field
      * \return	int			the new value of the $field
      * \return	error		in case of exception
      */
-    public function decrementAlbum($objectId, $field, $value) {
-	try {
-	    $parseObject = new parseObject('Album');
-	    //we use the increment function with a negative value because decrement function still not work
-	    $parseObject->increment($field, array(0 - $value));
-	    $res = $parseObject->update($objectId);
-	    return $res->$field;
-	} catch (Exception $e) {
-	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-	}
+    public function decrementAlbum($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
+        try {
+            $parseObject = new parseObject('Album');
+            //we use the increment function with a negative value because decrement function still not work
+            $parseObject->increment($field, array(0 - $value));
+			if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('decrementAlbum parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->removeArray($fieldArray, $valueArray);
+            }
+            $res = $parseObject->update($objectId);
+            return $res->$field;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     /**
@@ -138,22 +143,27 @@ class AlbumParse {
 
     /**
      * \fn		void incrementAlbum(string $objectId, string $field, int $value)
-     * \brief	increment the value of the $field of the objectId $objectId of $value unit
-     * \param	$objectId	the string that represent the objectId of the Album
+     * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
+     * \param	$objectId	the string that represent the objectId of the Comment
      * \param	$field		the string that represent the field to increment
      * \param 	$value		the number that represent the quantity to increase the $field
      * \return	int			the new value of the $field
      * \return	error		in case of exception
      */
-    public function incrementAlbum($objectId, $field, $value) {
-	try {
-	    $parseObject = new parseObject('Album');
-	    $parseObject->increment($field, array($value));
-	    $res = $parseObject->update($objectId);
-	    return $res->$field;
-	} catch (Exception $e) {
-	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-	}
+    public function incrementAlbum($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
+        try {
+            $parseObject = new parseObject('Album');
+            $parseObject->increment($field, array($value));
+            if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('incrementAlbum parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->addUniqueArray($fieldArray, $valueArray);
+            }
+            $res = $parseObject->update($objectId);
+            return $res->$field;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
     }
 
     /**

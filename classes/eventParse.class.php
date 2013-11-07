@@ -44,17 +44,22 @@ class EventParse {
     /**
      * \fn		void decrementEvent(string $objectId, string $field, int $value)
      * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
-     * \param	$objectId	the string that represent the objectId of the Event
+     * \param	$objectId	the string that represent the objectId of the Comment
      * \param	$field		the string that represent the field to decrement
      * \param 	$value		the number that represent the quantity to decrease the $field
      * \return	int			the new value of the $field
      * \return	error		in case of exception
      */
-    public function decrementEvent($objectId, $field, $value) {
+    public function decrementEvent($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
         try {
             $parseObject = new parseObject('Event');
             //we use the increment function with a negative value because decrement function still not work
             $parseObject->increment($field, array(0 - $value));
+			if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('decrementEvent parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->removeArray($fieldArray, $valueArray);
+            }
             $res = $parseObject->update($objectId);
             return $res->$field;
         } catch (Exception $e) {
@@ -132,16 +137,21 @@ class EventParse {
     /**
      * \fn		void incrementEvent(string $objectId, string $field, int $value)
      * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
-     * \param	$objectId	the string that represent the objectId of the Event
+     * \param	$objectId	the string that represent the objectId of the Comment
      * \param	$field		the string that represent the field to increment
      * \param 	$value		the number that represent the quantity to increase the $field
      * \return	int			the new value of the $field
      * \return	error		in case of exception
      */
-    public function incrementEvent($objectId, $field, $value) {
+    public function incrementEvent($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
         try {
             $parseObject = new parseObject('Event');
             $parseObject->increment($field, array($value));
+            if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('incrementEvent parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->addUniqueArray($fieldArray, $valueArray);
+            }
             $res = $parseObject->update($objectId);
             return $res->$field;
         } catch (Exception $e) {
