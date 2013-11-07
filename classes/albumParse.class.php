@@ -238,6 +238,7 @@ class AlbumParse {
 	    return throwError(new Exception('saveAlbum parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 	try {
 	    $parseAlbum = new parseObject('Album');
+            $nullArray = array();
 	    is_null($album->getActive()) ? $parseAlbum->active = true : $parseAlbum->active = $album->getActive();
 	    is_null($album->getCommentCounter()) ? $parseAlbum->commentCounter = -1 : $parseAlbum->commentCounter = $album->getCommentCounter();
 	    is_null($album->getCommentators()) ? $parseAlbum->commentators = null : $parseAlbum->commentators = toParseAddRelation('_User', $album->getCommentators());
@@ -253,9 +254,9 @@ class AlbumParse {
 	    is_null($album->getImages()) ? $parseAlbum->images = null : $parseAlbum->images = toParseAddRelation('Image', $album->getImages());
 	    is_null($album->getLocation()) ? $parseAlbum->location = null : $parseAlbum->location = toParseGeoPoint($album->getLocation());
 	    is_null($album->getLoveCounter()) ? $parseAlbum->loveCounter = -1 : $parseAlbum->loveCounter = $album->getLoveCounter();
-	    is_null($album->getLovers()) ? $parseAlbum->lovers = null : $parseAlbum->lovers = $album->getLovers();
+	    is_null($album->getLovers()) ? $parseAlbum->lovers = $nullArray : $parseAlbum->lovers = $album->getLovers();
 	    is_null($album->getShareCounter()) ? $parseAlbum->shareCounter = -1 : $parseAlbum->shareCounter = $album->getShareCounter();
-	    is_null($album->getTags()) ? $parseAlbum->tags = null : $parseAlbum->tags = $album->getTags();
+	    is_null($album->getTags()) ? $parseAlbum->tags = $nullArray : $parseAlbum->tags = $album->getTags();
 	    is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = $default_img['DEFALBUMTHUMB'] : $parseAlbum->thumbnailCover = $album->getThumbnailCover();
 	    is_null($album->getTitle()) ? $parseAlbum->title = null : $parseAlbum->title = $album->getTitle();
 	    is_null($album->getACL()) ? $parseAlbum->ACL = toParseDefaultACL() : $parseAlbum->ACL = toParseACL($album->getACL());
