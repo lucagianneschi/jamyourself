@@ -243,14 +243,15 @@ class EventBox {
     }
 
     /**
-     * \fn	initForMediaPage($objectId, $currentUserId)
+     * \fn	initForMediaPage($objectId)
      * \brief	Init EventBox instance for Media Page
-     * \param	$objectId for event, $currentUserId
+     * \param	$objectId for event
      * \return	eventBox
      * todo utilizzate whereInclude
      */
-    public function initForMediaPage($objectId, $currentUserId) {
+    public function initForMediaPage($objectId ) {
         global $boxes;
+        $currentUserId = sessionChecher();
         $eventBox = new EventBox();
         $eventP = new EventParse();
         $eventBox->eventCounter = $boxes['NDB'];
@@ -294,7 +295,7 @@ class EventBox {
                 }
                 $title = parse_decode_string($event->getTitle());
                 $lovers = $event->getLovers();
-                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
                 }
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
@@ -312,13 +313,14 @@ class EventBox {
     }
 
     /**
-     * \fn	initForPersonalPage($objectId, $currentUserId)
+     * \fn	initForPersonalPage($objectId)
      * \brief	Init EventBox instance for Personal Page
-     * \param	$objectId for user that owns the page, $currentUserId
+     * \param	$objectId for user that owns the page
      * \return	eventBox
      */
-    public function initForPersonalPage($objectId, $currentUserId) {
+    public function initForPersonalPage($objectId) {
         global $boxes;
+        $currentUserId = sessionChecher();
         $info = array();
         $counter = 0;
         $eventBox = new EventBox();

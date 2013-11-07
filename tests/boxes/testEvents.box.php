@@ -28,11 +28,10 @@ $i_end = microtime();
 
 $objectId = '7fes1RyY77'; //LDF
 $idEvent = 'Imx9idjTGj';
-$currentUserId = '7fes1RyY77';
 echo '<br />-------------------------TEST EVENT LDF-------------------------------------------<br />';
 $event1_start = microtime();
 $eventBoxP1 = new EventBox();
-$eventBox1 = $eventBoxP1->initForPersonalPage($objectId, $currentUserId);
+$eventBox1 = $eventBoxP1->initForPersonalPage($objectId);
 print "<pre>";
 print_r($eventBox1);
 print "</pre>";
@@ -40,7 +39,7 @@ $event1_stop = microtime();
 $event2_start = microtime();
 echo '<br />TEST  INFO EVENT MEDIA PAGE<br />';
 $eventBoxP2 = new EventBox;
-$eventBox2 = $eventBoxP2->initForMediaPage($idEvent, $currentUserId);
+$eventBox2 = $eventBoxP2->initForMediaPage($idEvent);
 print "<pre>";
 print_r($eventBox2);
 print "</pre>";
