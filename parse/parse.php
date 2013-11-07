@@ -102,7 +102,7 @@ class parseRestClient{
 		}
 
 		curl_setopt($c, CURLOPT_URL, $url);
-
+		
 		$response = curl_exec($c);
 		$responseCode = curl_getinfo($c, CURLINFO_HTTP_CODE);
 
@@ -185,9 +185,27 @@ class parseRestClient{
 					break;
 				case 'relatedTo':
                     $return = array(
-                        "object" => $params[0], // pointer
-                        "key" => $params[1] // key
+                        "object" => $params[0],
+                        "key" => $params[1]
                     );
+                    break;
+				case 'add':
+                    $return = array(
+						"__op" => "Add",
+						"objects" => $params
+					);
+                    break;
+                case 'addUnique':
+                    $return = array(
+						"__op" => "AddUnique",
+						"objects" => $params
+					);
+                    break;
+                case 'remove':
+                    $return = array(
+						"__op" => "Remove",
+						"objects" => $params
+					);
                     break;
                 default:
 					$return = false;

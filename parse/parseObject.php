@@ -82,6 +82,18 @@ class parseObject extends parseRestClient{
 	public function addInclude($name){
 		$this->_includes[] = $name;
 	}
+	
+	public function addArray($field, $value) {
+		$this->data[$field] = $this->dataType('add', $value);
+	}
+	
+	public function addUniqueArray($field, $value) {
+		$this->data[$field] = $this->dataType('addUnique', $value);
+	}
+	
+	public function removeArray($field, $value) {
+		$this->data[$field] = $this->dataType('remove', $value);
+	}
 }
 
 ?>
