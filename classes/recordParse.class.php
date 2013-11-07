@@ -38,26 +38,31 @@ class RecordParse {
 		$this->parseQuery = new ParseQuery('Record');
 	}
 
-	/**
-	 * \fn		void decrementRecord(string $objectId, string $field, int $value)
-	 * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
-	 * \param	$objectId	the string that represent the objectId of the Record
-	 * \param	$field		the string that represent the field to decrement
-	 * \param 	$value		the number that represent the quantity to decrease the $field
-	 * \return	int			the new value of the $field
-	 * \return	error		in case of exception
-	 */
-	public function decrementRecord($objectId, $field, $value) {
-		try {
-			$parseObject = new parseObject('Record');
-			//we use the increment function with a negative value because decrement function still not work
-			$parseObject->increment($field, array(0 - $value));
-			$res = $parseObject->update($objectId);
-			return $res->$field;
-		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-		}
-	}
+    /**
+     * \fn		void decrementRecord(string $objectId, string $field, int $value)
+     * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
+     * \param	$objectId	the string that represent the objectId of the Record
+     * \param	$field		the string that represent the field to decrement
+     * \param 	$value		the number that represent the quantity to decrease the $field
+     * \return	int			the new value of the $field
+     * \return	error		in case of exception
+     */
+    public function decrementRecord($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
+        try {
+            $parseObject = new parseObject('Record');
+            //we use the increment function with a negative value because decrement function still not work
+            $parseObject->increment($field, array(0 - $value));
+			if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('decrementRecord parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->removeArray($fieldArray, $valueArray);
+            }
+            $res = $parseObject->update($objectId);
+            return $res->$field;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
+    }
 	
 	/**
 	 * \fn		void deleteRecord(string $objectId)
@@ -133,25 +138,30 @@ class RecordParse {
 		}
 	}
 	
-	/**
-	 * \fn		void incrementRecord(string $objectId, string $field, int $value)
-	 * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
-	 * \param	$objectId	the string that represent the objectId of the Record
-	 * \param	$field		the string that represent the field to increment
-	 * \param 	$value		the number that represent the quantity to increase the $field
-	 * \return	int			the new value of the $field
-	 * \return	error		in case of exception
-	 */
-	public function incrementRecord($objectId, $field, $value) {
-		try {
-			$parseObject = new parseObject('Record');
-			$parseObject->increment($field, array($value));
-			$res = $parseObject->update($objectId);
-			return $res->$field;
-		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-		}
-	}
+    /**
+     * \fn		void incrementRecord(string $objectId, string $field, int $value)
+     * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
+     * \param	$objectId	the string that represent the objectId of the Record
+     * \param	$field		the string that represent the field to increment
+     * \param 	$value		the number that represent the quantity to increase the $field
+     * \return	int			the new value of the $field
+     * \return	error		in case of exception
+     */
+    public function incrementRecord($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
+        try {
+            $parseObject = new parseObject('Record');
+            $parseObject->increment($field, array($value));
+            if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('incrementRecord parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->addUniqueArray($fieldArray, $valueArray);
+            }
+            $res = $parseObject->update($objectId);
+            return $res->$field;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
+    }
 	
 	/**
 	 * \fn		void orderBy($field)

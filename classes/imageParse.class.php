@@ -38,26 +38,31 @@ class ImageParse {
 		$this->parseQuery = new parseQuery('Image');
 	}
 
-	/**
-	 * \fn		void decrementImage(string $objectId, string $field, int $value)
-	 * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
-	 * \param	$objectId	the string that represent the objectId of the Image
-	 * \param	$field		the string that represent the field to decrement
-	 * \param 	$value		the number that represent the quantity to decrease the $field
-	 * \return	int			the new value of the $field
-	 * \return	error		in case of exception
-	 */
-	public function decrementImage($objectId, $field, $value) {
-		try {
-			$parseObject = new parseObject('Image');
-			//we use the increment function with a negative value because decrement function still not work
-			$parseObject->increment($field, array(0 - $value));
-			$res = $parseObject->update($objectId);
-			return $res->$field;
-		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-		}
-	}
+    /**
+     * \fn		void decrementImage(string $objectId, string $field, int $value)
+     * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
+     * \param	$objectId	the string that represent the objectId of the Image
+     * \param	$field		the string that represent the field to decrement
+     * \param 	$value		the number that represent the quantity to decrease the $field
+     * \return	int			the new value of the $field
+     * \return	error		in case of exception
+     */
+    public function decrementImage($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
+        try {
+            $parseObject = new parseObject('Image');
+            //we use the increment function with a negative value because decrement function still not work
+            $parseObject->increment($field, array(0 - $value));
+			if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('decrementImage parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->removeArray($fieldArray, $valueArray);
+            }
+            $res = $parseObject->update($objectId);
+            return $res->$field;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
+    }
 	
 	/**
 	 * \fn		void deleteImage(string $objectId)
@@ -125,25 +130,30 @@ class ImageParse {
 		}
 	}
 	
-	/**
-	 * \fn		void incrementImage(string $objectId, string $field, int $value)
-	 * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
-	 * \param	$objectId	the string that represent the objectId of the Image
-	 * \param	$field		the string that represent the field to increment
-	 * \param 	$value		the number that represent the quantity to increase the $field
-	 * \return	int			the new value of the $field
-	 * \return	error		in case of exception
-	 */
-	public function incrementImage($objectId, $field, $value) {
-		try {
-			$parseObject = new parseObject('Image');
-			$parseObject->increment($field, array($value));
-			$res = $parseObject->update($objectId);
-			return $res->$field;
-		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-		}
-	}
+    /**
+     * \fn		void incrementImage(string $objectId, string $field, int $value)
+     * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
+     * \param	$objectId	the string that represent the objectId of the Image
+     * \param	$field		the string that represent the field to increment
+     * \param 	$value		the number that represent the quantity to increase the $field
+     * \return	int			the new value of the $field
+     * \return	error		in case of exception
+     */
+    public function incrementImage($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
+        try {
+            $parseObject = new parseObject('Image');
+            $parseObject->increment($field, array($value));
+            if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('incrementImage parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->addUniqueArray($fieldArray, $valueArray);
+            }
+            $res = $parseObject->update($objectId);
+            return $res->$field;
+        } catch (Exception $e) {
+            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+        }
+    }
 
 	/**
 	 * \fn		void orderBy($field)
