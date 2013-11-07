@@ -109,15 +109,16 @@ class AlbumBox {
     }
 
     /**
-     * \fn	initForDetail($objectId,  $currentUserId)
+     * \fn	initForDetail($objectId)
      * \brief	Init AlbumBox instance for Personal Page, detailed view
-     * \param	$objectId of the album to display information,  $currentUserId
+     * \param	$objectId of the album to display information
      * \return	albumBox
      */
-    public function initForDetail($objectId, $currentUserId) {
+    public function initForDetail($objectId) {
         require_once CLASSES_DIR . 'image.class.php';
         require_once CLASSES_DIR . 'imageParse.class.php';
         global $boxes;
+        $currentUserId = sessionChecher();
         $albumBox = new AlbumBox();
         $albumBox->albumCounter = $boxes['NDB'];
         $albumBox->albumInfoArray = $boxes['NDB'];
@@ -155,7 +156,7 @@ class AlbumBox {
                 }
                 $thumbnail = $image->getThumbnail();
                 $lovers = $image->getLovers();
-                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
                 }
                 $imageInfo = new ImageInfo($counters, $description, $filePath, $location, $imageId, $showLove, $tags, $thumbnail);
@@ -167,15 +168,16 @@ class AlbumBox {
     }
 
     /**
-     * \fn	initForPersonalPage($objectId, $type,  $currentUserId)
+     * \fn	initForPersonalPage($objectId, $type)
      * \brief	Init AlbumBox instance for Personal Page
-     * \param	$objectId for user that owns the page, $type,  $currentUserId
+     * \param	$objectId for user that owns the page, $type
      * \return	albumBox
      */
-    public function initForPersonalPage($objectId, $currentUserId) {
+    public function initForPersonalPage($objectId) {
         require_once CLASSES_DIR . 'album.class.php';
         require_once CLASSES_DIR . 'albumParse.class.php';
         global $boxes;
+                $currentUserId = sessionChecher();
         $albumBox = new AlbumBox();
         $albumBox->imageArray = $boxes['NDB'];
         $info = array();
@@ -206,7 +208,7 @@ class AlbumBox {
                 $title = parse_decode_string($album->getTitle());
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
                 $lovers = $album->getLovers();
-                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
                 }
                 $albumInfo = new AlbumInfo($counters, $imageCounter, $albumId, $showLove, $thumbnailCover, $title);

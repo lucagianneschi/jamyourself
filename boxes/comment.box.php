@@ -63,14 +63,15 @@ class CommentBox {
     public $commentInfoArray;
 
     /**
-     * \fn	init($className, $objectId, $limit, $skip, $currentUserId)
+     * \fn	init($className, $objectId, $limit, $skip)
      * \brief	Init CommentBox instance all over the website
      * \param	$className for the instance of the class that has been commented, $objectId for object that has been commented,
-     * \param   $limit number of objects to retreive, $skip number of objects to skip ,$currentUserId
+     * \param   $limit number of objects to retreive, $skip number of objects to skip 
      * \return	commentBox
      */
-    public function init($className, $objectId, $limit, $skip, $currentUserId) {
+    public function init($className, $objectId, $limit, $skip) {
 	global $boxes;
+        $currentUserId = sessionChecher();
 	$info = array();
 	$commentBox = new CommentBox();
 	$commentP = new CommentParse();
@@ -129,7 +130,7 @@ class CommentBox {
 		$username = parse_decode_string($comment->getFromUser()->getUsername());
 		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		$lovers = $comment->getLovers();
-		if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+		if (in_array($currentUserId, $lovers)) {
 		    $showLove = false;
 		} 
 		$commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $showLove, $text);
