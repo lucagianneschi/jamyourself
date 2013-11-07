@@ -160,13 +160,14 @@ class ActivityBox {
     }
 
     /**
-     * \fn	initForPersonalPage($objectId, $type, $currentUserId)
+     * \fn	initForPersonalPage($objectId, $type)
      * \brief	Init ActivityBox instance for Personal Page
      * \param	$objectId for user that owns the page, $type of user that owns the page, $currentUserId
      * \return	activityBox
      */
-    public function initForPersonalPage($objectId, $type, $currentUserId) {
+    public function initForPersonalPage($objectId, $type) {
         global $boxes;
+        $currentUserId = sessionChecher();
         $activityBox = new ActivityBox();
         $albumUpdated = new AlbumParse();
         $albumUpdated->setLimit($this->config->limitAlbumForPersonalPage);
@@ -186,7 +187,7 @@ class ActivityBox {
                 $imageCounter = $album->getImageCounter();
                 $albumId = $album->getObjectId();
                 $loversAlbum = $album->getLovers();
-                if (is_null($loversAlbum) || !in_array($currentUserId, $loversAlbum)) {
+                if (in_array($currentUserId, $loversAlbum)) {
                     $showLoveAlbum = false;
                 }
                 $albumTitle = parse_decode_string($album->getTitle());
@@ -243,7 +244,7 @@ class ActivityBox {
                     $username = parse_decode_string($fromUser->getUsername());
                     $fromUserInfo = new UserInfo($userId, $thumbnail, $userType, $username);
                     $loversRecord = $activity->getRecord()->getLovers();
-                    if (is_null($loversRecord) || !in_array($currentUserId, $loversRecord)) {
+                    if (in_array($currentUserId, $loversRecord)) {
                         $showLoveRecord = false;
                     }
                 }
@@ -273,7 +274,7 @@ class ActivityBox {
                     $eventTitle = parse_decode_string($act->getEvent()->getTitle());
                     $eventId = $act->getEvent()->getObjectId();
                     $loversEvent = $act->getEvent()->getLovers();
-                    if (is_null($loversEvent) || !in_array($currentUserId, $loversEvent)) {
+                    if (in_array($currentUserId, $loversEvent)) {
                         $showLoveEvent = false;
                     }
                 }
