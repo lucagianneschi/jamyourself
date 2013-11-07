@@ -33,13 +33,13 @@ $LDF = '7fes1RyY77'; //LDF
 //Venue  
 $Ultrasuono = 'iovioSH5mq'; //Ultrasuono
 
-$currentUserId = '7fes1RyY77';
+
 
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />TEST ACTIVITY BOX LDF<br />';
 $jammer_start = microtime();
 $activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($LDF, 'JAMMER', $currentUserId);
+$activityBox = $activityBoxP->initForPersonalPage($LDF, 'JAMMER');
 print "<pre>";
 print_r($activityBox);
 print "</pre>";
@@ -49,7 +49,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />TEST ACTIVITY BOX LDF<br />';
 $jammer1_start = microtime();
 $activityBoxP23 = new ActivityBox();
-$activityBox23 = $activityBoxP23->initForPersonalPage($LDF, 'JAMMER', $Karl01);
+$activityBox23 = $activityBoxP23->initForPersonalPage($LDF, 'JAMMER');
 print "<pre>";
 print_r($activityBox23);
 print "</pre>";
@@ -59,7 +59,7 @@ echo '<br />TEST ACTIVITY BOX LDF<br />';
 echo '<br />TEST ACTIVITY BOX Ultrasuono<br />';
 $venue_start = microtime();
 $activityBoxP1 = new ActivityBox();
-$activityBox1 = $activityBoxP1->initForPersonalPage($Ultrasuono, 'VENUE', $currentUserId);
+$activityBox1 = $activityBoxP1->initForPersonalPage($Ultrasuono, 'VENUE');
 print "<pre>";
 print_r($activityBox1);
 print "</pre>";
@@ -69,7 +69,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />TEST ACTIVITY BOX Karl01<br />';
 $spotter_start = microtime();
 $activityBoxP2 = new ActivityBox();
-$activityBox2 = $activityBoxP2->initForPersonalPage($Karl01, 'SPOTTER', $currentUserId);
+$activityBox2 = $activityBoxP2->initForPersonalPage($Karl01, 'SPOTTER');
 print "<pre>";
 print_r($activityBox2);
 print "</pre>";
@@ -79,7 +79,7 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />TEST ACTIVITY BOX Karl01<br />';
 $error_start = microtime();
 $activityBoxE = new ActivityBox();
-$activityBoxEr = $activityBoxE->initForPersonalPage('pippo', 'SPOTTER', $currentUserId);
+$activityBoxEr = $activityBoxE->initForPersonalPage('pippo', 'SPOTTER');
 print "<pre>";
 print_r($activityBoxEr);
 print "</pre>";
