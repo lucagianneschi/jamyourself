@@ -228,7 +228,7 @@ class RecordBox {
      */
     public function initForDetail($objectId ) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $recordBox = new RecordBox();
         $recordBox->fromUserInfo = $boxes['NDB'];
         $recordBox->recordCounter = $boxes['NDB'];
@@ -275,7 +275,7 @@ class RecordBox {
      */
     public function initForMediaPage($objectId) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $recordBox = new RecordBox();
         $recordBox->recordCounter = $boxes['NDB'];
         $recordP = new RecordParse();
@@ -365,7 +365,7 @@ class RecordBox {
      */
     public function initForPersonalPage($objectId) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $info = array();
         $counter = 0;
         $recordBox = new RecordBox();

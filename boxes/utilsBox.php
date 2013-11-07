@@ -82,11 +82,11 @@ function parse_decode_string($string) {
 }
 
 /**
- * \fn		sessionChecher()
+ * \fn		sessionChecker()
  * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
  * \return	string $currentUserId;
  */
-function sessionChecher() {
+function sessionChecker() {
     require_once SERVICES_DIR . 'lang.service.php';
     require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
     require_once CLASSES_DIR . 'userParse.class.php';

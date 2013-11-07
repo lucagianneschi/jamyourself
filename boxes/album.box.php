@@ -118,7 +118,7 @@ class AlbumBox {
         require_once CLASSES_DIR . 'image.class.php';
         require_once CLASSES_DIR . 'imageParse.class.php';
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $albumBox = new AlbumBox();
         $albumBox->albumCounter = $boxes['NDB'];
         $albumBox->albumInfoArray = $boxes['NDB'];
@@ -177,7 +177,7 @@ class AlbumBox {
         require_once CLASSES_DIR . 'album.class.php';
         require_once CLASSES_DIR . 'albumParse.class.php';
         global $boxes;
-                $currentUserId = sessionChecher();
+                $currentUserId = sessionChecker();
         $albumBox = new AlbumBox();
         $albumBox->imageArray = $boxes['NDB'];
         $info = array();

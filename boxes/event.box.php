@@ -251,7 +251,7 @@ class EventBox {
      */
     public function initForMediaPage($objectId ) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $eventBox = new EventBox();
         $eventP = new EventParse();
         $eventBox->eventCounter = $boxes['NDB'];
@@ -320,7 +320,7 @@ class EventBox {
      */
     public function initForPersonalPage($objectId) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $info = array();
         $counter = 0;
         $eventBox = new EventBox();

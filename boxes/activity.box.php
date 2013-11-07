@@ -167,7 +167,7 @@ class ActivityBox {
      */
     public function initForPersonalPage($objectId, $type) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $activityBox = new ActivityBox();
         $albumUpdated = new AlbumParse();
         $albumUpdated->setLimit($this->config->limitAlbumForPersonalPage);

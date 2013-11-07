@@ -71,7 +71,7 @@ class CommentBox {
      */
     public function init($className, $objectId, $limit, $skip) {
 	global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
 	$info = array();
 	$commentBox = new CommentBox();
 	$commentP = new CommentParse();

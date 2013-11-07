@@ -70,7 +70,7 @@ class PostBox {
      */
     public function initForPersonalPage($objectId, $limit, $skip) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         var_dump($currentUserId);
         $postBox = new PostBox();
         $info = array();

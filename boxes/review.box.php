@@ -87,7 +87,7 @@ class ReviewBox {
      */
     public function initForDetail($objectId) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $info = array();
         $reviewBox = new ReviewBox();
         $reviewBox->reviewCounter = $boxes['NDB'];
@@ -143,7 +143,7 @@ class ReviewBox {
      */
     public function initForMediaPage($objectId, $className, $limit, $skip) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $counter = 0;
         $info = array();
         $reviewBox = new ReviewBox();
@@ -206,7 +206,7 @@ class ReviewBox {
      */
     function initForPersonalPage($objectId, $type, $className) {
         global $boxes;
-        $currentUserId = sessionChecher();
+        $currentUserId = sessionChecker();
         $info = array();
         $counter = 0;
         $reviewBox = new ReviewBox();
