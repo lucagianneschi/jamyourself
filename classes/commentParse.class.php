@@ -241,6 +241,7 @@ class CommentParse {
             return throwError(new Exception('saveComment parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $parseObject = new parseObject('Comment');
+			$nullArray = array();
             is_null($cmt->getActive()) ? $parseObject->active = true : $parseObject->active = $cmt->getActive();
             is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = toParsePointer('Album', $cmt->getAlbum());
             is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = toParsePointer('Comment', $cmt->getComment());
@@ -253,7 +254,7 @@ class CommentParse {
             is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $cmt->getImage());
             is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($cmt->getLocation());
             is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $cmt->getLoveCounter();
-            is_null($cmt->getLovers()) ? $parseObject->lovers = array() : $parseObject->lovers = $cmt->getLovers();
+            is_null($cmt->getLovers()) ? $parseObject->lovers = $nullArray : $parseObject->lovers = $cmt->getLovers();
             is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
             is_null($cmt->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $cmt->getShareCounter();
             is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
