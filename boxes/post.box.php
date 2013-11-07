@@ -45,13 +45,13 @@ class PostInfo {
      * \param	$counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text
      */
     function __construct($counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text) {
-	global $boxes;
-	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
-	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
-	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
+        global $boxes;
+        is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+        is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
+        is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+        is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
+        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
     }
 
 }
@@ -68,57 +68,58 @@ class PostBox {
      * \return	postBox
      * \todo	
      */
-    public function initForPersonalPage($objectId, $limit, $skip, $currentUserId) {
-	global $boxes;
-	$postBox = new PostBox();
-	$info = array();
-	$counter = 0;
-	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
-	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
-	$post = new CommentParse();
-	$post->whereOr($value);
-	$post->where('type', 'P');
-	$post->where('active', true);
-	$post->whereInclude('fromUser,toUser');
-	$post->setLimit($limit);
-	$post->setSkip($skip);
-	$post->orderByDescending('createdAt');
-	$posts = $post->getComments();
-	if ($posts instanceof Error) {
-	    return $posts;
-	} elseif (is_null($posts)) {
-	    $postBox->postInfoArray = $boxes['NODATA'];
-	    $postBox->postCounter = $boxes['NODATA'];
-	    return $postBox;
-	} else {
-	    foreach ($posts as $post) {
-		$counter = ++$counter;
-		$userId = $post->getFromUser()->getObjectId();
-		$thumbnail = $post->getFromUser()->getProfileThumbnail();
-		$type = $post->getFromUser()->getType();
-		$username = parse_decode_string($post->getFromUser()->getUsername());
-		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
-		$postId = $post->getObjectId();
-		$commentCounter = $post->getCommentCounter();
-		$createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
-		$loveCounter = $post->getLoveCounter();
-		$reviewCounter = $boxes['NDB'];
-		$shareCounter = $post->getShareCounter();
-		$text = parse_decode_string($post->getText());
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$lovers = $post->getLovers();
-		if (is_null($lovers) || !in_array($lovers, $currentUserId)) {
-		    $showLove = false;
-		} else {
-		    $showLove = true;
-		}
-		$postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $showLove, $text);
-		array_push($info, $postInfo);
-	    }
-	    $postBox->postInfoArray = $info;
-	    $postBox->postCounter = $counter;
-	}
-	return $postBox;
+    public function initForPersonalPage($objectId, $limit, $skip) {
+        global $boxes;
+        $currentUserId = sessionChecher();
+        var_dump($currentUserId);
+        $postBox = new PostBox();
+        $info = array();
+        $counter = 0;
+        $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
+            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
+        $post = new CommentParse();
+        $post->whereOr($value);
+        $post->where('type', 'P');
+        $post->where('active', true);
+        $post->whereInclude('fromUser,toUser');
+        $post->setLimit($limit);
+        $post->setSkip($skip);
+        $post->orderByDescending('createdAt');
+        $posts = $post->getComments();
+        if ($posts instanceof Error) {
+            return $posts;
+        } elseif (is_null($posts)) {
+            $postBox->postInfoArray = $boxes['NODATA'];
+            $postBox->postCounter = $boxes['NODATA'];
+            return $postBox;
+        } else {
+            foreach ($posts as $post) {
+                $counter = ++$counter;
+                $showLove = true;
+                $userId = $post->getFromUser()->getObjectId();
+                $thumbnail = $post->getFromUser()->getProfileThumbnail();
+                $type = $post->getFromUser()->getType();
+                $username = parse_decode_string($post->getFromUser()->getUsername());
+                $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+                $postId = $post->getObjectId();
+                $commentCounter = $post->getCommentCounter();
+                $createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
+                $loveCounter = $post->getLoveCounter();
+                $reviewCounter = $boxes['NDB'];
+                $shareCounter = $post->getShareCounter();
+                $text = parse_decode_string($post->getText());
+                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                $lovers = $post->getLovers();
+                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                    $showLove = false;
+                }
+                $postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $showLove, $text);
+                array_push($info, $postInfo);
+            }
+            $postBox->postInfoArray = $info;
+            $postBox->postCounter = $counter;
+        }
+        return $postBox;
     }
 
 }
