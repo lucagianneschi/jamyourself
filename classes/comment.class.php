@@ -625,15 +625,6 @@ class Comment {
 			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 			$string .= '[lovers] => NULL<br />';
 		}
-		if (count($this->getOpinions()) != 0) {
-			foreach ($this->getOpinions() as $opinions) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[opinions] => ' . $opinions . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[opinions] => NULL<br />';
-		}
 		if ($this->getRecord() != null) {
 			$string .= '[record] => ' . $this->getRecord() . '<br />';
 		} else {
