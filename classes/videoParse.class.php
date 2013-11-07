@@ -222,6 +222,7 @@ class VideoParse {
 		if (is_null($video->getFromUser()))
 			return throwError(new Exception('saveVideo parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
+                    $nullArray = array();
 			$parseVideo = new parseObject('Video');
 			is_null($video->getActive()) ? $parseVideo->active = true : $parseVideo->active = $video->getActive();
 			is_null($video->getAuthor()) ? $parseVideo->author = null : $parseVideo->author = $video->getAuthor();
@@ -233,8 +234,8 @@ class VideoParse {
 			is_null($video->getFeaturing()) ? $parseVideo->featuring = null : $parseVideo->featuring = toParseAddRelation('_User', $video->getFeaturing());
 			$parseVideo->fromUser = toParsePointer('_User', $video->getFromUser());
 			is_null($video->getLoveCounter()) ? $parseVideo->loveCounter = -1 : $parseVideo->loveCounter = $video->getLoveCounter();
-			is_null($video->getLovers()) ? $parseVideo->lovers = null : $parseVideo->lovers = $video->getLovers();
-			is_null($video->getTags()) ? $parseVideo->tags = null : $parseVideo->tags = $video->getTags();
+			is_null($video->getLovers()) ? $parseVideo->lovers = $nullArray : $parseVideo->lovers = $video->getLovers();
+			is_null($video->getTags()) ? $parseVideo->tags = $nullArray : $parseVideo->tags = $video->getTags();
 			is_null($video->getThumbnail()) ? $parseVideo->thumbnail = $default_img['DEFVIDEOTHUMB'] : $parseVideo->thumbnail = $video->getThumbnail();
 			is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = $video->getTitle();
 			is_null($video->getURL()) ? $parseVideo->URL = null : $parseVideo->URL = $video->getURL();

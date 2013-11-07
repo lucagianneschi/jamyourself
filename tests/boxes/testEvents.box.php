@@ -26,12 +26,12 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'event.box.php';
 $i_end = microtime();
 
-$id1 = '7fes1RyY77'; //LDF
+$objectId = '7fes1RyY77'; //LDF
 $idEvent = 'Imx9idjTGj';
 echo '<br />-------------------------TEST EVENT LDF-------------------------------------------<br />';
 $event1_start = microtime();
 $eventBoxP1 = new EventBox();
-$eventBox1 = $eventBoxP1->initForPersonalPage($id1);
+$eventBox1 = $eventBoxP1->initForPersonalPage($objectId);
 print "<pre>";
 print_r($eventBox1);
 print "</pre>";

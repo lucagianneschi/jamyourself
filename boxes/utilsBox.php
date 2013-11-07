@@ -32,10 +32,10 @@ class Counters {
      * \param	$commentCounter, $loveCounter,$reviewCounter, $shareCounter
      */
     function __construct($commentCounter, $loveCounter, $reviewCounter, $shareCounter) {
-	is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
-	is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
-	is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
-	is_null($shareCounter) ? $this->shareCounter = 0 : $this->shareCounter = $shareCounter;
+        is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
+        is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
+        is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
+        is_null($shareCounter) ? $this->shareCounter = 0 : $this->shareCounter = $shareCounter;
     }
 
 }
@@ -57,14 +57,14 @@ class UserInfo {
      * \param	$objectId, $thumbnail, $type, $username
      */
     function __construct($objectId, $thumbnail, $type, $username) {
-	require_once SERVICES_DIR . 'lang.service.php';
-	require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-	global $boxes;
-	global $default_img;
-	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFAVATARTHUMB'] : $this->thumbnail = $thumbnail;
-	is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
-	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
+        require_once SERVICES_DIR . 'lang.service.php';
+        require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+        global $boxes;
+        global $default_img;
+        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+        is_null($thumbnail) ? $this->thumbnail = $default_img['DEFAVATARTHUMB'] : $this->thumbnail = $thumbnail;
+        is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
+        is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
     }
 
 }
@@ -79,6 +79,26 @@ function parse_decode_string($string) {
     $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
     $decodedString = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
     return $decodedString;
+}
+
+/**
+ * \fn		sessionChecker()
+ * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
+ * \return	string $currentUserId;
+ */
+function sessionChecker() {
+    require_once SERVICES_DIR . 'lang.service.php';
+    require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+    require_once CLASSES_DIR . 'userParse.class.php';
+    global $boxes;
+    $currentUserId = $boxes['NOID'];
+    session_start();
+    if (isset($_SESSION['currentUser'])) {
+        $currentUser = $_SESSION['currentUser'];
+        $currentUserId = $currentUser->getObjectId();
+        echo 'OK SESSION';
+    }
+    return $currentUserId;
 }
 
 ?>

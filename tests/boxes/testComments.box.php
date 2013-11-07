@@ -33,6 +33,7 @@ $image = '';
 $record = 'vR80iF0aI7';
 $song = '';
 $video = '';
+$currentUserId = '7fes1RyY77';
 echo '<br />-------------------------TEST COMMENT BOX ALBUM-------------------------------------------<br />';
 $album_start = microtime();
 $commentBoxP = new CommentBox();

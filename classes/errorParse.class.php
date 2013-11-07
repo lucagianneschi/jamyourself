@@ -151,12 +151,13 @@ class ErrorParse {
 		if (!is_null($error->getObjectId()))
 			return new Exception('saveError update is not allow here');
 		try {
+                    $nullArray = array();
 			$parseObject = new parseObject('Error');
 			is_null($error->getErrorClass()) ? $parseObject->errorClass = null : $parseObject->errorClass = $error->getErrorClass();
 			is_null($error->getErrorCode()) ? $parseObject->errorCode = null : $parseObject->errorCode = $error->getErrorCode();
 			is_null($error->getErrorMessage()) ? $parseObject->errorMessage = null : $parseObject->errorMessage = $error->getErrorMessage();
 			is_null($error->getErrorFunction()) ? $parseObject->errorFunction = null : $parseObject->errorFunction = $error->getErrorFunction();
-			is_null($error->getErrorFunctionParameter()) ? $parseObject->errorFunctionParameter = null : $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
+			is_null($error->getErrorFunctionParameter()) ? $parseObject->errorFunctionParameter = $nullArray : $parseObject->errorFunctionParameter = $error->getErrorFunctionParameter();
 			is_null($error->getACL()) ? $parseObject->ACL = toParseDefaultACL() : $parseObject->ACL = toParseACL($error->getACL());
 			$res = $parseObject->save();
 			$error->setObjectId($res->objectId);

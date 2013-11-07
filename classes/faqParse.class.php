@@ -185,13 +185,14 @@ class FaqParse {
 		if (!is_null($faq->getObjectId()))
 			return throwError(new Exception('saveFaq update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
+                    $nullArray = array();
 			$parseFaq= new parseObject('FAQ');
 			is_null($faq->getAnswer()) ? $parseFaq->answer = null : $parseFaq->answer = $faq->getAnswer();
 			is_null($faq->getArea()) ? $parseFaq->area = null : $parseFaq->area = $faq->getArea();
 			is_null($faq->getLang()) ? $parseFaq->lang = 'en' : $parseFaq->lang = $faq->getLang();
 			is_null($faq->getPosition()) ? $parseFaq->position = null : $parseFaq->position = $faq->getPosition();
 			is_null($faq->getQuestion()) ? $parseFaq->question = null : $parseFaq->question = $faq->getQuestion();
-			is_null($faq->getTags()) ? $parseFaq->tags = null : $parseFaq->tags = $faq->getTags();
+			is_null($faq->getTags()) ? $parseFaq->tags = $nullArray : $parseFaq->tags = $faq->getTags();
 			is_null($faq->getACL()) ? $parseFaq->ACL = toParseDefaultACL() : $parseFaq->ACL = toParseACL($faq->getACL());
 			$res = $parseFaq->save();
 			$faq->setObjectId($res->objectId);
