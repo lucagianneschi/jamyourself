@@ -223,6 +223,7 @@ class ImageParse {
 		if (is_null($image->getFromUser()))
 			return throwError(new Exception('saveImage parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
+                    $nullArray = array();
 			$parseImage = new parseObject('Image');
 			is_null($image->getActive()) ? $parseImage->active = true : $parseImage->active = $image->getActive();
 			is_null($image->getAlbum()) ? $parseImage->album = null : $parseImage->album = toParsePointer('Album', $image->getAlbum());
@@ -237,9 +238,9 @@ class ImageParse {
 			$parseImage->fromUser = toParsePointer('_User', $image->getFromUser());
 			is_null($image->getLocation()) ? $parseImage->location = null : $parseImage->location = toParseGeoPoint($image->getLocation());
 			is_null($image->getLoveCounter()) ? $parseImage->loveCounter = null : $parseImage->loveCounter = $image->getLoveCounter();
-			is_null($image->getLovers()) ? $parseImage->lovers = null : $parseImage->lovers = $image->getLovers();
+			is_null($image->getLovers()) ? $parseImage->lovers = $nullArray : $parseImage->lovers = $image->getLovers();
 			is_null($image->getShareCounter()) ? $parseImage->shareCounter = null : $parseImage->shareCounter = $image->getShareCounter();
-			is_null($image->getTags()) ? $parseImage->tags = null : $parseImage->tags = $image->getTags();
+			is_null($image->getTags()) ? $parseImage->tags = $nullArray : $parseImage->tags = $image->getTags();
 			is_null($image->getThumbnail()) ? $parseImage->thumbnail = $default_img['DEFIMAGETHUMB'] : $parseImage->thumbnail = $image->getThumbnail();
 			is_null($image->getACL()) ? $parseImage->ACL = toParseDefaultACL() : $parseImage->ACL = toParseACL($image->getACL());
 			if ($image->getObjectId() == '') {

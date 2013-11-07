@@ -401,8 +401,8 @@ class UserParse {
     public function saveUser($user) {
 	global $default_img;
 	try {
+            $nullArray = array();
 	    $parseUser = new parseUser();
-
 	    is_null($user->getUsername()) ? $parseUser->username = null : $parseUser->username = $user->getUsername();
 	    is_null($user->getPassword()) ? $parseUser->password = null : $parseUser->password = $user->getPassword();
 	    is_null($user->getActive()) ? $parseUser->active = null : $parseUser->active = $user->getActive();
@@ -431,14 +431,14 @@ class UserParse {
 	    is_null($user->getGeoCoding()) ? $parseUser->geoCoding = null : $parseUser->geoCoding = toParseGeoPoint($user->getGeoCoding());
 	    is_null($user->getImages()) ? $parseUser->images = null : $parseUser->images = toParseAddRelation('Image', $user->getImages());
 	    is_null($user->getJammerCounter()) ? $parseUser->jammerCounter = -1 : $parseUser->jammerCounter = $user->getJammerCounter();
-	    is_null($user->getJammerType()) ? $parseUser->jammerType = null : $parseUser->jammerType = $user->getJammerType();
+	    is_null($user->getJammerType()) ? $parseUser->jammerType = $nullArray : $parseUser->jammerType = $user->getJammerType();
 	    is_null($user->getLastname()) ? $parseUser->lastname = null : $parseUser->lastname = $user->getLastname();
 	    is_null($user->getLevel()) ? $parseUser->level = -1 : $parseUser->level = $user->getLevel();
 	    is_null($user->getLevelValue()) ? $parseUser->levelValue = -1 : $parseUser->levelValue = $user->getLevelValue();
 	    is_null($user->getLocalType()) ? $parseUser->localType = null : $parseUser->localType = $user->getLocalType();
 	    is_null($user->getLoveSongs()) ? $parseUser->loveSongs = null : $parseUser->loveSongs = toParseAddRelation('Song', $user->getLoveSongs());
 	    is_null($user->getMembers()) ? $parseUser->members = null : $parseUser->members = $user->getMembers();
-	    is_null($user->getMusic()) ? $parseUser->music = null : $parseUser->music = $user->getMusic();
+	    is_null($user->getMusic()) ? $parseUser->music = $nullArray : $parseUser->music = $user->getMusic();
 	    is_null($user->getPlaylists()) ? $parseUser->playlists = null : $parseUser->playlists = toParseAddRelation('Playlist', $user->getPlaylists());
 	    is_null($user->getPremium()) ? $parseUser->premium = null : $parseUser->premium = $user->getPremium();
 	    is_null($user->getPremiumExpirationDate()) ? $parseUser->premiumExpirationDate = null : $parseUser->premiumExpirationDate = toParseDate($user->getPremiumExpirationDate());
@@ -446,7 +446,7 @@ class UserParse {
 	    is_null($user->getProfilePictureFile()) ? $parseUser->profilePictureFile = null : $parseUser->profilePictureFile = $user->getProfilePictureFile();
 	    is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = $default_img['DEFAVATARTHUMB'] : $parseUser->profileThumbnail = $user->getProfileThumbnail();
 	    is_null($user->getRecords()) ? $parseUser->records = null : $parseUser->records = toParseAddRelation('Record', $user->getRecords());
-	    is_null($user->getSettings()) ? $parseUser->settings = null : $parseUser->settings = $user->getSettings();
+	    is_null($user->getSettings()) ? $parseUser->settings = $nullArray : $parseUser->settings = $user->getSettings();
 	    is_null($user->getSex()) ? $parseUser->sex = null : $parseUser->sex = $user->getSex();
 	    is_null($user->getSongs()) ? $parseUser->songs = null : $parseUser->songs = toParseAddRelation('Song', $user->getSongs());
 	    is_null($user->getStatuses()) ? $parseUser->statuses = null : $parseUser->statuses = toParseAddRelation('Status', $user->getStatuses());

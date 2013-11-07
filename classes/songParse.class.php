@@ -218,6 +218,7 @@ class SongParse {
 		if (is_null($song->getFromUser()))
 			return throwError(new Exception('saveSong parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
+                    $nullArray();
 			$parseSong = new parseObject('Song');
 			is_null($song->getActive()) ? $parseSong->active = true : $parseSong->active = $song->getActive();
 			is_null($song->getCommentCounter()) ? $parseSong->commentCounter = -1 : $parseSong->commentCounter = $song->getCommentCounter();
@@ -231,7 +232,7 @@ class SongParse {
 			is_null($song->getGenre()) ? $parseSong->genre = null : $parseSong->genre = $song->getGenre();
 			is_null($song->getLocation()) ? $parseSong->location = null : $parseSong->location = toParseGeoPoint($song->getLocation());
 			is_null($song->getLoveCounter()) ? $parseSong->loveCounter = -1 : $parseSong->loveCounter = $song->getLoveCounter();
-			is_null($song->getLovers()) ? $parseSong->lovers = null : $parseSong->lovers = $song->getLovers();
+			is_null($song->getLovers()) ? $parseSong->lovers = $nullArray : $parseSong->lovers = $song->getLovers();
 			is_null($song->getRecord()) ? $parseSong->record = null : $parseSong->record = toParsePointer('Record', $song->getRecord());
 			is_null($song->getShareCounter()) ? $parseSong->shareCounter = -1 : $parseSong->shareCounter = $song->getShareCounter();
 			is_null($song->getTitle()) ? $parseSong->title = null : $parseSong->title = $song->getTitle();

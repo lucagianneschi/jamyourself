@@ -217,6 +217,7 @@ class StatusParse {
 		if (is_null($status->getFromUser()))
 			return throwError(new Exception('saveStatus parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
+                    $nullArray = array();
 			$parseStatus = new parseObject('Status');
 			is_null($status->getActive()) ? $parseStatus->active = true : $parseStatus->active = $status->getActive();
 			is_null($status->getCommentCounter()) ? $parseStatus->commentCounter = -1 : $parseStatus->commentCounter = $status->getCommentCounter();
@@ -228,7 +229,7 @@ class StatusParse {
 			is_null($status->getImage()) ? $parseStatus->image = null : $parseStatus->image = toParsePointer('Image', $status->getImage());
 			is_null($status->getLocation()) ? $parseStatus->location = null : $parseStatus->location = toParseGeopoint($status->getLocation());
 			is_null($status->getLoveCounter()) ? $parseStatus->loveCounter = null : $parseStatus->loveCounter = $status->getLoveCounter();
-			is_null($status->getLovers()) ? $parseStatus->lovers = null : $parseStatus->lovers = $status->getLovers();
+			is_null($status->getLovers()) ? $parseStatus->lovers = $nullArray : $parseStatus->lovers = $status->getLovers();
 			is_null($status->getShareCounter()) ? $parseStatus->shareCounter = -1 : $parseStatus->shareCounter = $status->getShareCounter();
 			is_null($status->getSong()) ? $parseStatus->song = null : $parseStatus->song = toParsePointer('Song', $status->getSong());
 			is_null($status->getTaggedUsers()) ? $parseStatus->taggedUsers = null : $parseStatus->taggedUsers = toParseAddRelation('_User', $status->getTaggedUsers());

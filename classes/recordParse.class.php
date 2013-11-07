@@ -239,6 +239,7 @@ class RecordParse {
 		if (is_null($record->getFromUser()))
 			return throwError(new Exception('saveRecord parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
+                    $nullArray = array();
 			$parseObject = new parseObject('Record');
 			is_null($record->getActive()) ? $parseObject->active = true : $parseObject->active = $record->getActive();
 			is_null($record->getBuyLink()) ? $parseObject->buyLink = null : $parseObject->buyLink = $record->getBuyLink();
@@ -257,7 +258,7 @@ class RecordParse {
 			is_null($record->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($record->getLocation());
 			is_null($record->getLocationName()) ? $parseObject->locationName = null : $parseObject->locationName = $record->getLocationName();
 			is_null($record->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $record->getLoveCounter();
-			is_null($record->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = $record->getLovers();
+			is_null($record->getLovers()) ? $parseObject->lovers = $nullArray : $parseObject->lovers = $record->getLovers();
 			is_null($record->getReviewCounter()) ? $parseObject->reviewCounter = -1 : $parseObject->reviewCounter = $record->getReviewCounter();
 			is_null($record->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $record->getShareCounter();
 			is_null($record->getSongCounter()) ? $parseObject->songCounter = -1 : $parseObject->songCounter = $record->getSongCounter();
