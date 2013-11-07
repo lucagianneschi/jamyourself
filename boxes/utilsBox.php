@@ -98,7 +98,6 @@ function sessionChecher() {
         $currentUserId = $currentUser->getObjectId();
         echo 'OK SESSION';
     }
-    echo 'KO SESSION';
     return $currentUserId;
 }
 
