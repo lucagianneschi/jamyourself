@@ -47,11 +47,16 @@ class CommentParse {
      * \return	int			the new value of the $field
      * \return	error		in case of exception
      */
-    public function decrementComment($objectId, $field, $value) {
+    public function decrementComment($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
         try {
             $parseObject = new parseObject('Comment');
             //we use the increment function with a negative value because decrement function still not work
             $parseObject->increment($field, array(0 - $value));
+			if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('decrementComment parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->removeArray($fieldArray, $valueArray);
+            }
             $res = $parseObject->update($objectId);
             return $res->$field;
         } catch (Exception $e) {
@@ -135,14 +140,14 @@ class CommentParse {
      * \return	int			the new value of the $field
      * \return	error		in case of exception
      */
-    public function incrementComment($objectId, $field, $value, $withRelation = false, $classNameRelation = '', $fieldRelation = '', $valueRelation = array()) {
+    public function incrementComment($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
         try {
             $parseObject = new parseObject('Comment');
             $parseObject->increment($field, array($value));
-            if ($withRelation) {
-                if (is_null($classNameRelation) || is_null($fieldRelation) || is_null($valueRelation))
-                    return throwError(new Exception('incrementComment parameters classNameRelation, fieldRelation and valueRelation must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
-                $parseObject->$fieldRelation = toParseAddRelation($classNameRelation, $valueRelation);
+            if ($withArray) {
+                if (is_null($fieldArray) || empty($valueArray))
+                    return throwError(new Exception('incrementComment parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+                $parseObject->addUniqueArray($fieldArray, $valueArray);
             }
             $res = $parseObject->update($objectId);
             return $res->$field;
@@ -248,7 +253,7 @@ class CommentParse {
             is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $cmt->getImage());
             is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($cmt->getLocation());
             is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $cmt->getLoveCounter();
-            is_null($cmt->getLovers()) ? $parseObject->lovers = null : $parseObject->lovers = $cmt->getLovers();
+            is_null($cmt->getLovers()) ? $parseObject->lovers = array() : $parseObject->lovers = $cmt->getLovers();
             is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
             is_null($cmt->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $cmt->getShareCounter();
             is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());

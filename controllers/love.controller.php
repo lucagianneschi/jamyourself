@@ -91,7 +91,7 @@ class LoveController extends REST {
                 case 'Comment':
                     require_once CLASSES_DIR . 'commentParse.class.php';
                     $commentParse = new CommentParse();
-                    $res = $commentParse->incrementComment($objectId, 'loveCounter', 1, true, '_User', 'lovers', array($fromUser->getObjectId()));
+                    $res = $commentParse->incrementComment($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
                     $activity->setComment($objectId);
                     $activity->setType("LOVEDCOMMENT");
                     break;
@@ -212,8 +212,8 @@ class LoveController extends REST {
                 case 'Comment':
                     require_once CLASSES_DIR . 'commentParse.class.php';
                     $commentParse = new CommentParse();
-                    $res = $commentParse->decrementComment($objectId, 'loveCounter', 1);
-                    $activity->setComment($objectId);
+                    $res = $commentParse->decrementComment($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+					$activity->setComment($objectId);
                     $activity->setType("UNLOVEDCOMMENT");
                     break;
                 case 'Event':
