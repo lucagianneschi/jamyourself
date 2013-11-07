@@ -190,7 +190,6 @@ class CommentParse {
 			return throwError(new Exception('parseToComment parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
 			$cmt = new Comment();
-
 			$cmt->setObjectId($res->objectId);
 			$cmt->setActive($res->active);
 			$cmt->setAlbum(fromParsePointer($res->album));
