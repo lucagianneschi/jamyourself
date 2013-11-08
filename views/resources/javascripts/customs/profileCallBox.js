@@ -373,7 +373,7 @@ function addBoxPost(data, typeUser, objectIdUser) {
 /*
  * box post chiama box-post.php
  */
-function addBoxComment(data, typeUser,classbox,objectId,objectIdUser) {
+function addBoxComment(data, typeUser, classbox, objectId, objectIdUser) {
 	var idBox = '';
 	if(classbox == 'RecordReview' || classbox == 'EventReview'){
 		idBox = '#social-'+classbox;		
@@ -388,7 +388,8 @@ function addBoxComment(data, typeUser,classbox,objectId,objectIdUser) {
 		'data' : data,
 		'typeUser' : typeUser,
 		'objectId': objectId,
-		'objectIdUser': objectIdUser
+		'objectIdUser': objectIdUser,
+		'classbox': classbox
 	},function(){
 		success:{ 
 			if(classbox == 'Image'){
