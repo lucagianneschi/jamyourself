@@ -96,7 +96,6 @@ function sessionChecker() {
     if (isset($_SESSION['currentUser'])) {
         $currentUser = $_SESSION['currentUser'];
         $currentUserId = $currentUser->getObjectId();
-        echo 'OK SESSION';
     }
     return $currentUserId;
 }
