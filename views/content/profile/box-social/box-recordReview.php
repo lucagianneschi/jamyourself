@@ -155,5 +155,15 @@ $typeUser = $_POST['typeUser'];
 	</div>
 		<!---------------------------------------- comment ------------------------------------------------->
 		<div class="box-comment no-display"></div>
+		<!---------------------------------------- SHARE ---------------------------------------------------->
+		<!-- AddThis Button BEGIN -->
+		<div class="addthis_toolbox addthis_default_style"
+		addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
+		addThis:title="Titolo della pagina di un album">
+		   <a class="addthis_button_facebook"></a>
+		   <a class="addthis_button_twitter"></a>
+		   <a class="addthis_button_google_plusone_share"></a>
+		</div>
+		<!-- AddThis Button END -->
 	</div>
 </div>	
