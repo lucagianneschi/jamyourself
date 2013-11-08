@@ -15,13 +15,7 @@ $classBox = $_POST['classbox'];
  
 //objectId dell'oggetto relativo al comment
 $objectId = $_POST['objectId'];
-
-
-
-echo 'DEBUG=>' . $classBox . ' ' . $objectId;
-
 ?>
-
 <div class="row">
 	<div  class="small-12 columns">
 		
