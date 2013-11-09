@@ -17,7 +17,7 @@
 
 function debug($path, $file, $msg) {
     $fp = fopen($path . $file, 'a+');
-    fwrite($fp, $msg . "\n");
+    fwrite($fp, '[' . date('Y-m-d H:i:s') . '] ' . $msg . "\n");
     fclose($fp);
 }
 

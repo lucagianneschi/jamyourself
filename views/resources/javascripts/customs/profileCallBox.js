@@ -11,7 +11,7 @@
  * @objectIdUser: dell'utente del profilo
  * @typeUser: definita all'interno della load nella prima chiamata in userinfo, specifica il type dell'utente
  * @typeCurrentUser: type dell'utente corrente
- * @classBox: definisce la classe per la quale viene chiamato il box (ad esempio se typebox == comment allora classBox
+ * @classObject: definisce la classe per la quale viene chiamato il box (ad esempio se typebox == comment allora classObject
  * 	deve essere o Image, Record o Event)
  *
  * @author: Maria Laura Fresu
@@ -25,7 +25,8 @@ var callBox = {
 	typeCurrentUser : '',
 	objectIdCurrentUser: '',
 	objectId: '',
-	classBox : '',
+	classObject : '',
+	classBox: '',
 	countBoxActivity: 0,
 	numBoxActivity: 1,
 	dataActivity: {'record':'','event':'','relation':''},
@@ -40,7 +41,7 @@ var callBox = {
 				objectIdUser : this.objectIdUser,
 				typeUser : this.typeUser,
 				objectIdCurrentUser : this.objectIdCurrentUser,
-				classBox :  this.classBox,
+				classObject :  this.classObject,
 				objectId: this.objectId
 			},
 			async: true,
@@ -372,7 +373,7 @@ function addBoxPost(data, typeUser, objectIdUser) {
 /*
  * box post chiama box-post.php
  */
-function addBoxComment(data, typeUser,classbox,objectId,objectIdUser) {
+function addBoxComment(data, typeUser, classbox, objectId, objectIdUser) {
 	var idBox = '';
 	if(classbox == 'RecordReview' || classbox == 'EventReview'){
 		idBox = '#social-'+classbox;		
@@ -387,7 +388,8 @@ function addBoxComment(data, typeUser,classbox,objectId,objectIdUser) {
 		'data' : data,
 		'typeUser' : typeUser,
 		'objectId': objectId,
-		'objectIdUser': objectIdUser
+		'objectIdUser': objectIdUser,
+		'classbox': classbox
 	},function(){
 		success:{ 
 			if(classbox == 'Image'){

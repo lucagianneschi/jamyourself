@@ -29,7 +29,7 @@ $box 				 = $_POST['typebox'];
 $objectId 			 = $_POST['objectIdUser'];
 $type 				 = $_POST['typeUser'];
 $objectIdCurrentUser = $_POST['objectIdCurrentUser'];
-$classBox			 = $_POST['classBox'];
+$classObject			 = $_POST['classObject'];
 $objectIdComment 	 = $_POST['objectId'];
 
 $result = array();
@@ -194,7 +194,7 @@ switch ($box) {
 		require_once BOXES_DIR . 'comment.box.php';
 		$commentBoxP = new CommentBox();		
 		try  {
-			$commentBox = $commentBoxP -> init($classBox, $objectIdComment, 10, 0);						
+			$commentBox = $commentBoxP -> init($classObject, $objectIdComment, 10, 0);						
 			if (!($commentBox instanceof Error)) {
 				$result['comment']['commentInfoArray'] = Array();
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);

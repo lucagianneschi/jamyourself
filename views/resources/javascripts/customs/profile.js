@@ -67,17 +67,20 @@ function setCounter(_this, objectId, classbox){
 		 	var idBox = '';
 			if(classbox == 'RecordReview' || classbox == 'EventReview'){
 				idBox = '#social-'+classbox;
-				classbox = 'Comment';			
+				classObject = 'Comment';			
 			}
 			if(classbox == 'Record'){
 				idBox = '#profile-'+classbox;
+				classObject = 'Record';
 			}
 			if(classbox == 'Album'){
 				idBox = '#profile-singleAlbum';
+				classObject = 'Album'
 			}
 			if(classbox == 'Image' || classbox == 'Post'){
 				idBox = '#'+objectId;
-				if(classbox == 'Post') classbox = 'Comment';	
+				if(classbox == 'Post') classObject = 'Comment';
+				else classObject = 'Image';	
 			}
 			
 			if($(idBox+' .box-comment').hasClass('no-display')){
@@ -85,8 +88,8 @@ function setCounter(_this, objectId, classbox){
 				$(idBox+' .box').addClass('box-commentSpace');
 				console.log(objectId+' '+classbox);
 				callBox.objectId = 	objectId;					
+				callBox.classObject = classObject;
 				callBox.classBox = classbox;
-				
 				callBox.load('comment');
 				
 			}

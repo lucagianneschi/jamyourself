@@ -207,7 +207,7 @@ class ReviewBox {
     function initForPersonalPage($objectId, $type, $className) {
         global $boxes;
         $currentUserId = sessionChecker();
-        $info = array();
+		$info = array();
         $counter = 0;
         $reviewBox = new ReviewBox();
         $reviewP = new CommentParse();

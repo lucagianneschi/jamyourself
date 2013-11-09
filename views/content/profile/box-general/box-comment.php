@@ -11,11 +11,11 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
 $objectIdUser = $_POST['objectIdUser'];
+$classBox = $_POST['classbox'];
  
 //objectId dell'oggetto relativo al comment
 $objectId = $_POST['objectId'];
 ?>
-
 <div class="row">
 	<div  class="small-12 columns">
 		
@@ -41,7 +41,7 @@ $objectId = $_POST['objectId'];
 									</div>
 									<div  class="small-6 columns align-right">
 										<div class="note grey-light">
-											<?php echo $comment_createdAd  ?>
+											<?php echo $comment_createdAd ?>
 										</div>
 									</div>
 								</div>
@@ -74,14 +74,14 @@ $objectId = $_POST['objectId'];
 			?>
 			<div class="row  ">
 				<div  class="large-12 columns ">
-					<form action="" class="box-write" onsubmit="sendComment('<?php echo $objectIdUser; ?>', $('#comment').val(), '<?php echo $objectId; ?>', 'Comment'); return false;">
+					<form action="" class="box-write" onsubmit="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Comment', '<?php echo $classBox; ?>'); return false;">
 						<div class="">
 							<div class="row  ">
 								<div  class="small-9 columns ">
-									<input id="comment" type="text" class="post inline" placeholder="<?php echo $views['comment']['WRITE'];?>" />
+									<input id="comment<?php echo $classBox . '_' . $objectId; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['WRITE'];?>" />
 								</div>
 								<div  class="small-3 columns ">
-									<input type="button" class="comment-button inline" value="Comment" onclick="sendComment('<?php echo $objectIdUser; ?>', $('#comment').val(), '<?php echo $objectId; ?>', 'Comment')" />
+									<input type="button" class="comment-button inline" value="Comment" onclick="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Comment', '<?php echo $classBox; ?>')" />
 								</div>
 							</div>
 						</div>

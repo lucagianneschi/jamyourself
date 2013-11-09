@@ -1,4 +1,4 @@
-function sendComment(toUser, comment, objectId, classType) {
+function sendComment(toUser, comment, objectId, classType, classBox) {
 	var json_comment = {};
 	json_comment.toUser = toUser;
 	json_comment.comment = comment;
@@ -16,7 +16,7 @@ function sendComment(toUser, comment, objectId, classType) {
     })
 	.done(function(message, status, xhr) {
 		callBox.objectId = objectId;
-		callBox.classBox = classType;
+		callBox.classBox = classBox;
 		callBox.load('comment');
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
