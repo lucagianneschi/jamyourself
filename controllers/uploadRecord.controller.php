@@ -8,6 +8,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CONTROLLERS_DIR . 'utilsController.php';
 require_once CLASSES_DIR . 'recordParse.class.php';
+require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 
@@ -15,6 +16,9 @@ class uploadRecordController extends REST {
 
     public function init() {
         session_start();
+
+        //caching dell'array dei featuring
+        $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
     }
 
     public function albumCreate() {
@@ -67,7 +71,7 @@ class uploadRecordController extends REST {
         $record->setGenre($this->getTags($newAlbum->tags));
         $record->setLabel(parse_encode_string($newAlbum->label));
 
-        if ( ($location = GeocoderService::getLocation($newAlbum->city))) {
+        if (($location = GeocoderService::getLocation($newAlbum->city))) {
             $parseGeoPoint = new parseGeoPoint($location);
             $record->setLocation($parseGeoPoint);
         }
@@ -192,6 +196,49 @@ class uploadRecordController extends REST {
         unlink($cacheImg);
 //RETURN        
         return array('RecordPicture' => $coverId, 'RecordThumbnail' => $thumbId);
+    }
+
+    public function getFeaturingJSON() {
+        
+        $currentUserFeaturingArray = null;
+        if (isset($_SESSION['currentUserFeaturingArray'])) {
+            //caching dell'array
+            $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
+        } else {
+            $currentUserFeaturingArray = $this->getFeaturingArray();
+            $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
+        }
+
+        echo json_encode($currentUserFeaturingArray);
+    }
+
+    private function getFeaturingArray() {
+        error_reporting(0);
+        if (isset($_SESSION['currentUser'])) {
+            $currentUser = $_SESSION['currentUser'];
+            $currnetUserId = $currentUser->getObjectId();
+            $parseUser = new UserParse();
+            $parseUser->whereRelatedTo('collaboration', '_User', $currnetUserId);
+            $parseUser->where('type', 'JAMMER');
+            $parseUser->where('active', true);
+            $parseUser->setLimit(1000);
+            $users = $parseUser->getUsers();
+
+            if (($users instanceof Error) || is_null($users)) {
+                return array();
+            } else {
+                $userArray = array();
+                foreach ($users as $user) {
+                    $username = $user->getUsername();
+                    $userId = $user->getObjectId();
+                    array_push($userArray, array("key" => $userId, "value" => $username));
+                }
+
+                return $userArray;
+            }
+        }
+        else
+            return array();
     }
 
 }

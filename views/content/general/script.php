@@ -57,6 +57,9 @@
 <script type="text/javascript" src="resources/javascripts/customs/headerCallBox.js"></script>
 
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
+<!--------------- FCBKAutocmplete ---------------->
+<script src="resources/javascripts/plugins/FCBKcomplete/jquery.fcbkcomplete.min.js"></script>
+<link rel="stylesheet" href="resources/javascripts/plugins/FCBKcomplete/style.css" type="text/css" media="screen" charset="utf-8" />
 
 <!--------------- share ------------------->
 <script type="text/javascript" src="resources/javascripts/customs/share.js"></script>
@@ -81,21 +84,21 @@ switch (basename($_SERVER['PHP_SELF'])) {
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script>
-		<script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
-		<script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
-		<?php
-        break;
-	case "mediaEvent.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-		<script type="text/javascript" src="resources/javascripts/customs/mediaCallBox.js"></script>
         <?php
         break;
-	case "mediaRecord.php":
+    case "mediaEvent.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-		<script type="text/javascript" src="resources/javascripts/customs/mediaCallBox.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/mediaCallBox.js"></script>
+        <?php
+        break;
+    case "mediaRecord.php":
+        ?>
+        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/mediaCallBox.js"></script>
         <?php
         break;
     case "uploadRecord.php":

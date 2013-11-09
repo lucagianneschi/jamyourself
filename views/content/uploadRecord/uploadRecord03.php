@@ -17,7 +17,7 @@
 				<a  class="text orange" id ="uploader_mp3_button">Upload an mp3 file *</a>										
 			</div>	
 		</div>
-		<input type="text" name="trackFeaturing" id="trackFeaturing" pattern=""/>
+		<select name="trackFeaturing" id="trackFeaturing" pattern=""></select>
 		<label for="trackFeaturing">Featuring<small class="error"> Please enter a valid Featuring</small></label>
 	</div>
 	<div  class="small-6 columns">

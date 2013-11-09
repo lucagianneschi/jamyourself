@@ -63,7 +63,7 @@
         <input type="text" name="urlBuy" id="urlBuy" pattern="" placeholder="http://"/>
         <label for="urlBuy">Buy album at<small class="error"> Please enter a valid Url</small></label>
 
-        <input type="text" name="albumFeaturing" id="albumFeaturing" pattern=""/>
+        <select name="albumFeaturing" id="albumFeaturing" pattern=""></select>
         <label for="albumFeaturing">Featuring<small class="error"> Please enter a valid Featuring</small></label>
 
         <input type="text" name="year" id="year" pattern=""/>

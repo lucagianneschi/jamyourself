@@ -99,6 +99,37 @@ $(document).ready(function() {
         }
     });
 
+
+    $("#albumFeaturing").fcbkcomplete({
+        json_url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
+        addontab: true,
+        addoncomma: false,
+        input_min_size: 0,
+        height: 10,
+        width:"100%",
+        cache: true,
+        maxshownitems: 10,
+        newel: false
+    });
+    $("#trackFeaturing").fcbkcomplete({
+        json_url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
+        addontab: true,
+        width:"100%",
+        addoncomma: false,
+        input_min_size: 0,
+        height: 10,
+        cache: true,
+        maxshownitems: 10,
+        newel: false
+    });
+    
+//    Per stampare in console l'array del featuring:
+//    
+//        $.getJSON("../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON", function(data) {
+//            console.log("featuring: list : ");
+//            console.log(JSON.stringify(data));
+//    });
+
 });
 
 //////////////////////////////////////////////////////////////////////////////
@@ -332,13 +363,20 @@ function callbackAlbumCreate(data, status) {
         console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
     }
 }
+function getFeaturingAlbumCreate() {
+    var featuring = new array();
+    $.each($("#albumFeaturing option:selected"), function(key, item) {
+        featuring.push($(item).val());
+    });
 
+    return featuring;
+}
 function albumCreate() {
     json_album_create.albumTitle = $("#albumTitle").val();
     json_album_create.description = $("#description").val();
     json_album_create.label = $("#label").val();
     json_album_create.urlBuy = $("#urlBuy").val();
-    json_album_create.albumFeaturing = $("#albumFeaturing").val();
+    json_album_create.albumFeaturing = getFeaturingAlbumCreate();
     json_album_create.year = $("#year").val();
     json_album_create.city = $("#city").val();
     json_album_create.tags = getTagsAlbumCreate();
@@ -426,7 +464,14 @@ function getTagsMusicTrack() {
 
     return tags;
 }
+function getFeaturingSongCreate() {
+    var featuring = new array();
+    $.each($("#trackFeaturing option:selected"), function(key, item) {
+        featuring.push($(item).val());
+    });
 
+    return featuring;
+}
 
 function addSong(id, duration, tags) {
     var json_elem = {"src": id, "tags": tags};
@@ -434,7 +479,7 @@ function addSong(id, duration, tags) {
     console.log("songTitle => " + songTitle + " - featuring => " + featuring + " - tags => " + tags + " - id => " + id);
     var songTitle, featuring = null;
     songTitle = $("#trackTitle").val();
-    featuring = $("#trackFeaturing").val();
+    featuring = getFeaturingSongCreate();
 
     var html = "";
     html += "<tr>";
