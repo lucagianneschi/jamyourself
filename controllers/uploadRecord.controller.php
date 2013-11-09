@@ -66,7 +66,7 @@ class uploadRecordController extends REST {
 
         $record->setDescription(parse_encode_string($newAlbum->albumTitle));
         $record->setDuration(0);
-        $record->setFeaturing($this->getFeaturing($newAlbum->albumFeaturing));
+        $record->setFeaturing($newAlbum->albumFeaturing);
         $record->setFromUser($userId);
         $record->setGenre($this->getTags($newAlbum->tags));
         $record->setLabel(parse_encode_string($newAlbum->label));
