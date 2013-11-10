@@ -108,7 +108,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
         break;
     case "uploadReview.php":
         ?>
-
+        <script type="text/javascript" src="resources/javascripts/customs/uploadReview.js"></script>
         <?php
         break;
 }
