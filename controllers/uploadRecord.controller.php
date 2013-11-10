@@ -114,6 +114,8 @@ class uploadRecordController extends REST {
             rename(MEDIA_DIR . "cache/" . $record->getCover(), $dirCoverDest . DIRECTORY_SEPARATOR . $record->getCover());
         }
 
+        unset($_SESSION['currentUserFeaturingArray']);
+        
         $this->response(array("OK"), 200);
     }
 

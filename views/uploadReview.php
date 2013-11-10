@@ -1,10 +1,18 @@
 <?php
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
-
+ini_set( "display_errors", 0);
 require_once ROOT_DIR . 'config.php';
+require_once CONTROLLERS_DIR . 'uploadReview.controller.php';
 
-
+$uploadRecordController = new uploadRecordController();
+$uploadRecordController->init();
+$title = $uploadRecordController->recordInfo["title"];
+$thumbnail = $uploadRecordController->recordInfo["thumbnail"];
+$rating = $uploadRecordController->recordInfo["rating"];
+$tagGenere = $uploadRecordController->recordInfo["tagGenere"];
+$featuringInfoArray = $uploadRecordController->recordInfo["featuringInfoArray"];
+$author = $uploadRecordController->recordInfo["author"];
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->

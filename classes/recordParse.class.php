@@ -213,7 +213,7 @@ class RecordParse {
 			$record->setCoverFile(fromParseFile($res->coverFile));
 			$record->setDescription($res->description);
 			$record->setDuration($res->duration);
-			#$record->setFeaturing(fromParseRelation('Record', 'featuring', $res->objectId, '_User'));
+			$record->setFeaturing(fromParseRelation('Record', 'featuring', $res->objectId, '_User'));
 			$record->setFromUser(fromParsePointer($res->fromUser));
 			$record->setGenre($res->genre);
 			$record->setLabel($res->label);
