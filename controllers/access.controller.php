@@ -89,9 +89,9 @@ class AccessController extends REST {
             } elseif (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
-            $currentUser = $this->request['currentUser'];
+            $currentUser = $_SESSION['currentUser'];
             $currentUserId = $currentUser->getObjectId();
-            $this->request['currentUser'] = null;
+			unset($_SESSION['currentUser']);
             require_once CLASSES_DIR . 'activity.class.php';
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activity = new Activity();

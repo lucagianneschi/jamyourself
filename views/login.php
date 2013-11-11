@@ -22,6 +22,7 @@ print_r($_SESSION);
 	<input type="text" id="user" placeholder="username" />
 	<input type="password" id="pass" placeholder="password" />
 	<input type="submit" value="Login" />
+	<input type="button" value="Logout" onclick="access(null, null, 'logout', null)"/>
 </form>
 Ldf<br />
 MHURRg5X
