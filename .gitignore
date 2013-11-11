@@ -27,3 +27,4 @@ config.rb
 /users/
 /loader.php
 /tests/optimization/
+/optimization/
