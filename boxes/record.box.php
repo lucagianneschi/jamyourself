@@ -482,7 +482,7 @@ class RecordBox {
             $userId = $record->getFromUser()->getObjectId();
             $thumbnail = $record->getFromUser()->getProfileThumbnail();
             $type = $record->getFromUser()->getType();
-            $username = $record->getFromUser()->getUsername();
+            $username = parse_decode_string($record->getFromUser()->getUsername());
             $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
             $recordBox->fromUserInfo = $userInfo;
         }
