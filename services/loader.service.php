@@ -45,9 +45,6 @@ function dynamicLoading($className) {
     if (!is_readable($utils) || !is_readable($languageFile) || !is_readable($classFile)) {
 	return false;
     }
-    var_dump($utils);
-    var_dump($languageFile);
-    var_dump($classFile);
     require_once $utils;
     require_once $languageFile;
     require_once $classFile;
