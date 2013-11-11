@@ -10,16 +10,16 @@
  * \details		effettua la require_once solo al momento necessario
  * \par			Commenti:
  * \warning
- * \bug
+ * \bug			non carica i file di lingua
  * \todo		testare tutte le classi, gestione dei servizi
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 ini_set('display_errors', '1');
 spl_autoload_register(null, false);
-spl_autoload_extensions('.php, .class.php, .box.php, .controller.php');
+spl_autoload_extensions('.php, .class.php, .box.php, .controller.php, .classes.lang.php, .boxes.lang.php, .controllers.lang.php');
 
-function dinamicLoading($className) {
+function dynamicLoading($className) {
     require_once ROOT_DIR . 'config.php';
     require_once PARSE_DIR . 'parse.php';
     require_once SERVICES_DIR . 'debug.service.php';
@@ -49,5 +49,5 @@ function dinamicLoading($className) {
     }
     require_once $file;
 }
-spl_autoload_register('dinamicLoading');
+spl_autoload_register('dynamicLoading');
 ?>
