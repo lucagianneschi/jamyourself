@@ -13,6 +13,7 @@
  * \bug			non carica i file di lingua
  * \todo		testare tutte le classi, gestione dei servizi
  */
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 ini_set('display_errors', '1');
@@ -25,27 +26,32 @@ function dynamicLoading($className) {
     require_once SERVICES_DIR . 'debug.service.php';
     require_once SERVICES_DIR . 'lang.service.php';
     if (strpos($className, 'Parse') !== false) {
-	require_once CLASSES_DIR . 'utilsClass.php';
-	require_once LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
-	$file = CLASSES_DIR . lcfirst($className) . '.class.php';
+	$utils = CLASSES_DIR . 'utilsClass.php';
+	$languageFile = LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
+	$classFile = CLASSES_DIR . lcfirst($className) . '.class.php';
     } elseif (strpos($className, 'Box') !== false) {
-	require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-	require_once BOXES_DIR . 'utilsBox.php';
-	$filename = strtolower(str_replace('Box', '', $className));
-	$file = BOXES_DIR . lcfirst($filename) . '.box.php';
+	$utils = BOXES_DIR . 'utilsBox.php';
+	$languageFile = LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+	$classFile = BOXES_DIR . lcfirst(strtolower(str_replace('Box', '', $className))) . '.box.php';
     } elseif (strpos($className, 'Controller') !== false) {
-	require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
-	require_once CONTROLLERS_DIR . 'restController.php';
-	$file = CONTROLLERS_DIR . lcfirst($className) . '.box.php';
+	$utils = CONTROLLERS_DIR . 'utilsController.php';
+	$languageFile = LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
+	$classFile = CONTROLLERS_DIR . lcfirst($className) . '.controller.php';
     } else {
-	$file = CLASSES_DIR . strtolower($className) . '.class.php';
+	$utils = CLASSES_DIR . 'utilsClass.php';
+	$languageFile = LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
+	$classFile = CLASSES_DIR . strtolower($className) . '.class.php';
     }
-    //mancano da gestire i servizi
-    echo $file;
-    if (!is_readable($file)) {
-	die();
+    if (!is_readable($utils) || !is_readable($languageFile) || !is_readable($classFile)) {
+	return false;
     }
-    require_once $file;
+    var_dump($utils);
+    var_dump($languageFile);
+    var_dump($classFile);
+    require_once $utils;
+    require_once $languageFile;
+    require_once $classFile;
+    return true;
 }
 
 spl_autoload_register('dynamicLoading');
