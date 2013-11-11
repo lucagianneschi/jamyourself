@@ -94,8 +94,7 @@ class PlaylistBox {
 	    foreach ($playlists as $playlist) {
 		require_once CLASSES_DIR . 'song.class.php';
 		require_once CLASSES_DIR . 'songParse.class.php';
-		$name = parse_decode_string($playlist->getName());
-                $playlistBox->name = $name;
+                $playlistBox->name = parse_decode_string($playlist->getName());
 		$song = new SongParse();
 		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
 		$song->where('active', true);

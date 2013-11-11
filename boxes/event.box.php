@@ -402,14 +402,11 @@ class EventBox {
             require_once CLASSES_DIR . 'user.class.php';
             require_once CLASSES_DIR . 'userParse.class.php';
             foreach ($events as $event) {
-                $encodedAddress = $event->getAddress();
-                $address = parse_decode_string($encodedAddress);
-                $encodedCity = $event->getCity();
-                $city = parse_decode_string($encodedCity);
+                $address = parse_decode_string($event->getAddress());
+                $city = parse_decode_string($event->getCity());
                 $eventDate = $event->getEventDate();
                 $featuring = $eventBox->getRelatedUsers($event->getObjectId(), 'featuring', false, 'UploadReview');
-                $encodedLocationName = $event->getLocationName();
-                $locationName = parse_decode_string($encodedLocationName);
+                $locationName = parse_decode_string($event->getLocationName());
                 $tags = array();
                 if (count($event->getTags()) > 0) {
                     foreach ($event->getTags() as $tag) {
@@ -418,15 +415,13 @@ class EventBox {
                     }
                 }
                 $thumbnail = $event->getThumbnail();
-                $encodedTitle = $event->getTitle();
-                $title = parse_decode_string($encodedTitle);
+                $title = parse_decode_string($event->getTitle());
                 $eventInfo = new EventInfoForUploadReviewPage($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title);
                 $eventBox->eventInfoArray = $eventInfo;
                 $userId = $event->getFromUser()->getObjectId();
                 $thumbnailUser = $event->getFromUser()->getProfileThumbnail();
                 $type = $event->getFromUser()->getType();
-                $encodedUsername = $event->getFromUser()->getUsername();
-                $username = parse_decode_string($encodedUsername);
+                $username = parse_decode_string($event->getFromUser()->getUsername());
                 $userInfo = new UserInfo($userId, $thumbnailUser, $type, $username);
                 $eventBox->fromUserInfo = $userInfo;
             }

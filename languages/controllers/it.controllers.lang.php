@@ -85,6 +85,8 @@ $controllers = array(
     'NOSELFREVIEW' => 'Non puoi recensire i tuoi contenuti',
     'NOSAVEDREVIEW' => 'Impossibile salvare la review',
     'NOTITLE' => 'Titolo non impostato',
+    'SHORTREWTITLE' => 'Titolo review troppo corto',
+    'LONGREWTITLE' => 'Titolo review troppo lungo',
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',
@@ -105,7 +107,7 @@ $controllers = array(
     'NOCOLLABORATIONCOUNTERUPDATE' => 'Impossibile aggiornare counter di collaborazione',
     'NOSPECIFICCOLLABORATIONCOUNTERUPDATE' => 'Impossibile aggiornare counter di collaborazione (venue or jammer) counter',
     'ALREADYINREALTION' => 'Utenti già in relazione',
-    'NORELFOUNDFORREMOVING' => 'Utenti non in relazione, impossibile rimuovere',  
+    'NORELFOUNDFORREMOVING' => 'Utenti non in relazione, impossibile rimuovere',
     'RELATIONCHECKERROR' => 'Errore in fase di test di esistenza di una relazione',
     //LOGIN
     'NOLOGIN' => 'Credenziali di accesso non valide',
