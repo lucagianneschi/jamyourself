@@ -6,7 +6,7 @@
  * \date		2013
  * \copyright	Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		file di request per il controller di utilities riferite alla classe utente
+ * \brief		file di request per il controller di social riferite alla classe utente
  * \par			Commenti:
  * \warning
  * \bug
@@ -17,10 +17,10 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'debug.service.php';
-require_once CONTROLLERS_DIR . 'userUtilities.controller.php';
+require_once CONTROLLERS_DIR . 'social.controller.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 session_start();
 
-$controller = new UserUtilitiesController();
+$controller = new SocialController();
 $controller->processApi();
 ?>

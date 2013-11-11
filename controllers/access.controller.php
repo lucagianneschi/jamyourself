@@ -123,11 +123,12 @@ class AccessController extends REST {
         }
     }
 
-    /**
+	/**
      * \fn	sociaLogin()
      * \brief   login con account Social
      * \todo    implementare la sociaLogin nella UserParse
      */
+	/*
     public function sociaLogin() {
         try {
             global $controllers;
@@ -172,6 +173,7 @@ class AccessController extends REST {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
+	*/
 
 }
 

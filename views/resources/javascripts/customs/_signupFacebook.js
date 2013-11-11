@@ -1,7 +1,8 @@
+/*
 window.fbAsyncInit = function() {
 	// init the FB JS SDK
 	FB.init({
-		appId      : '126760770694975',	// App ID from the app dashboard
+		appId      : '538367732924885',	// App ID from the app dashboard
 		status     : true,				// Check Facebook Login status
 		xfbml      : true				// Look for social plugins on the page
 	});
@@ -55,3 +56,4 @@ function signupFacebook() {
 		}
 	}, {scope: 'email, user_birthday, user_about_me, user_location'});
 }
+*/

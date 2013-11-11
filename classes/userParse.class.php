@@ -21,6 +21,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 require_once PARSE_DIR . 'parse.php';
@@ -209,29 +210,52 @@ class UserParse {
      * \return	error		in case of exception
      * \todo	test function
      */
-    public function linkSocialAccount($objectId) {
-	try {
-	    $parseQuery = new parseQuery('_User');
-	    $parseQuery->where('objectId', $objectId);
-	    $parseQuery->where('active', true);
-	    $res = $parseQuery->find();
-	    if (count($res->results) > 0) {
-		$user = $this->parseToUser($res->results[0]);
-		$sessionToken = $user->getSessionToken();
-		$parseUser = new parseUser();
-		$parseUser->objectId = $objectId;
-		$parseUser->sessionToken = $sessionToken;
-		$link = $parseUser->linkAccounts($objectId, $sessionToken);
-		if ($link instanceof ParseLibraryException) {
-		    return throwError(new Exception('Unable to link standard and social account'), __CLASS__, __FUNCTION__, func_get_args());
+	/*
+    public function linkSocialAccount($user) {
+		try {
+			$parseQuery = new parseQuery('_User');
+			$parseQuery->where('objectId', $objectId);
+			$parseQuery->where('active', true);
+			$res = $parseQuery->find();
+			if (count($res->results) > 0) {
+				$user = $this->parseToUser($res->results[0]);
+				$sessionToken = $user->getSessionToken();
+				$parseUser = new parseUser();
+				$parseUser->objectId = $objectId;
+				$parseUser->sessionToken = $sessionToken;
+				$link = $parseUser->linkAccounts($objectId, $sessionToken);
+				if ($link instanceof ParseLibraryException) {
+					return throwError(new Exception('Unable to link standard and social account'), __CLASS__, __FUNCTION__, func_get_args());
+				}
+				return $user;
+			} else {
+				return throwError(new Exception('User not found for linking'), __CLASS__, __FUNCTION__, func_get_args());
+			}
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
 		}
-		return $user;
-	    } else {
-		return throwError(new Exception('User not found for linking'), __CLASS__, __FUNCTION__, func_get_args());
-	    }
-	} catch (Exception $e) {
-	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-	}
+    }
+	*/
+	
+	/**
+     * \fn	void linkUser($user)
+     * \brief	link the user account with a Social Network
+     * \param	$user	the object that represent the User		
+     * \return	$user
+     * \return	error	in case of exception
+     */
+    public function linkUser($user, $authData) {
+		try {
+			$parseUser = new parseUser();
+			$parseUser->addAuthData($authData);
+			$res = $parseUser->linkAccounts($user->getObjectId(), $user->getSessionToken());
+			#TODO
+			//debug(DEBUG_DIR, 'debug.txt', json_encode($res));
+			//$res contiene un array così fatto: {"updatedAt":"2013-11-11T16:56:47.632Z"}
+			return $res;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
     }
 
     /**
@@ -529,6 +553,18 @@ class UserParse {
      */
     public function setSkip($skip) {
 	$this->parseQuery->setSkip($skip);
+    }
+	
+	public function socialLoginUser($authData) {
+		try {
+			$parseUser = new parseUser();
+			$parseUser->addAuthData($authData);
+			$res = $parseUser->socialLogin();
+			debug(DEBUG_DIR, 'debug.txt', json_encode($res));
+			return $res;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
     }
 
     /**

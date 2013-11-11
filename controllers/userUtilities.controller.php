@@ -16,12 +16,16 @@
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
+	
+        
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'debug.service.php';
+debug(DEBUG_DIR, 'debug.txt', 'inizio linkUser');
+
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once SERVICES_DIR . 'debug.service.php';
 
 /**
  * \brief	UserUtilitiesController class 
@@ -29,11 +33,14 @@ require_once SERVICES_DIR . 'debug.service.php';
  */
 class UserUtilitiesController extends REST {
 
+    
+	
     /**
      * \fn	linkSocialAccount()
      * \brief   link con l'account social
      * \todo    testare funzione
      */
+	/*
     public function linkSocialAccount() {
 	try {
 	    global $controllers;
@@ -80,12 +87,14 @@ class UserUtilitiesController extends REST {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
+	*/
 
     /**
      * \fn		passwordReset()
      * \brief   esegue una richiesta di reset della password
      * \todo    usare la sessione
      */
+	/*
     public function passwordReset() {
 	try {
 	    global $controllers;
@@ -131,12 +140,14 @@ class UserUtilitiesController extends REST {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
+	*/
 
     /**
      * \fn	unLinkSocialAccount()
      * \brief   elimina il link con l'account social
      * \todo    test della funzione
      */
+	/*
     public function unLinkSocialAccount() {
 	try {
 	    global $controllers;
@@ -183,12 +194,14 @@ class UserUtilitiesController extends REST {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
+	*/
 
     /**
      * \fn	public function updateSetting()
      * \brief   effettua l'update dell'array dei settings
      * \todo    
      */
+	/*
     public function updateSetting() {
 	try {
 	    global $controllers;
@@ -235,6 +248,7 @@ class UserUtilitiesController extends REST {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
     }
+	*/
 
 }
 

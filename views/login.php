@@ -18,6 +18,7 @@ print_r($_SESSION);
 ?>
 <script type="text/javascript" src="<?php echo ROOT_DIR; ?>views/resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="<?php echo ROOT_DIR; ?>views/resources/javascripts/customs/access.js"></script>
+<script type="text/javascript" src="<?php echo ROOT_DIR; ?>views/resources/javascripts/customs/social.js"></script>
 <form action="javascript:access($('#user').val(), $('#pass').val(), 'login', null)">
 	<input type="text" id="user" placeholder="username" />
 	<input type="password" id="pass" placeholder="password" />
@@ -25,4 +26,7 @@ print_r($_SESSION);
 	<input type="button" value="Logout" onclick="access(null, null, 'logout', null)"/>
 </form>
 Ldf<br />
-MHURRg5X
+MHURRg5X<br />
+<br />
+<input type="button" value="Link FB" onclick="userUtilities(null, 'linkUser', null, null, null, 'facebook')"/>
+<input type="button" value="Login FB" onclick="userUtilities(null, 'loginUser', null, null, null, 'facebook')"/>
