@@ -81,6 +81,8 @@ $controllers = array(
     'NOSELFREVIEW' => 'You cannot review your contents',
     'NOSAVEDREVIEW'=> 'Unable to save review',
     'NOTITLE' => 'No title set',
+    'SHORTREWTITLE' => 'Review title too short',
+    'LONGREWTITLE' => 'Review title too long',
     //RELATION
     'RELDENIED' => 'You are not allowed to send a relationship request to this user!',
     'SELF' => 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!',
