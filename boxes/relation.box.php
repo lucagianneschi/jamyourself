@@ -64,8 +64,7 @@ class RelationsBox {
 		    $followingId = $following->getToUser()->getObjectId();
 		    $thumbnail = $following->getToUser()->getProfileThumbnail();
 		    $type = $following->getToUser()->getType();
-		    $encodedUsername = $following->getToUser()->getUserName();
-		    $username = parse_decode_string($encodedUsername);
+		    $username = parse_decode_string($following->getToUser()->getUserName());
 		    $userInfo = new UserInfo($followingId, $thumbnail, $type, $username);
 		    array_push($followingArray, $userInfo);
 		}
@@ -88,8 +87,7 @@ class RelationsBox {
 		    $friendshipId = $friendship->getToUser()->getObjectId();
 		    $thumbnail = $friendship->getToUser()->getProfileThumbnail();
 		    $type = $friendship->getToUser()->getType();
-		    $encodedUsername = $friendship->getToUser()->getUserName();
-		    $username = parse_decode_string($encodedUsername);
+		    $username = parse_decode_string($friendship->getToUser()->getUserName());
 		    $userInfo = new UserInfo($friendshipId, $thumbnail, $type, $username);
 		    array_push($friendshipArray, $userInfo);
 		}
@@ -114,8 +112,7 @@ class RelationsBox {
 		    $collaboratorId = $collaborator->getObjectId();
 		    $thumbnail = $collaborator->getProfileThumbnail();
 		    $type = $collaborator->getType();
-		    $encodedUsername = $collaborator->getUserName();
-		    $username = parse_decode_string($encodedUsername);
+		    $username = parse_decode_string($collaborator->getUserName());
 		    $userInfo = new UserInfo($collaboratorId, $thumbnail, $type, $username);
 		    if ($type == 'VENUE') {
 			array_push($venuesArray, $userInfo);
@@ -141,8 +138,7 @@ class RelationsBox {
 		    $followerId = $follower->getFromUser()->getObjectId();
 		    $thumbnail = $follower->getFromUser()->getProfileThumbnail();
 		    $type = $follower->getFromUser()->getType();
-		    $encodedUsername = $follower->getFromUser()->getUserName();
-		    $username = parse_decode_string($encodedUsername);
+		    $username = parse_decode_string($follower->getFromUser()->getUserName());
 		    $userInfo = new UserInfo($followerId, $thumbnail, $type, $username);
 		    array_push($followersArray, $userInfo);
 		}
