@@ -1,4 +1,6 @@
 {
-    "limitForDetail" : 1,
-    "limitForPersonalPage" : 3
+    "limitForDetail": 1,
+    "limitForPersonalPage": 3,
+    "limitEventForUploadReviewPage": 1,
+    "limitRecordForUploadReviewPage": 1
 }
