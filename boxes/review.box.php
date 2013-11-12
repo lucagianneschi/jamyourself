@@ -23,6 +23,7 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
+require_once SERVICES_DIR . 'debug.service.php';
 
 /**
  * \brief	MediaInfoForUploadReviewPage
@@ -59,11 +60,11 @@ class MediaInfoForUploadReviewPage {
             is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
             is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
             $this->genre = $boxes['NDB'];
-            is_null($featuring) ? $this->featuring = $boxes['NOFEATEVE'] : $this->featuring = $featuring;
+            $this->featuring = $boxes['NDB'];
             is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
             is_null($objectId) ? $this->objectId = $boxes['NOBOJECTID'] : $this->objectId = $objectId;
             is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
-            is_null($thumbnail) ? $this->thumbnail = DEFEVENTHUMB : $this->thumbnail = $thumbnail;
+            is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
             is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
         } else {
             $this->address = $boxes['NDB'];
@@ -392,18 +393,20 @@ class ReviewBox {
      * \todo    
      * \return	reviewBox
      */
-    public function initForUploadReviewPage($objectId, $className) {
+    public function initForUploadReviewPage($objectId, $className, $limit) {
         global $boxes;
-        $currentUserId = sessionChecker(); //
         $reviewBox = new ReviewBox();
         $reviewBox->reviewArray = $boxes['NDB'];
         $reviewBox->reviewCounter = $boxes['NDB'];
         if ($className == 'Event') {
-            $eventP = new EventParse();
-            $eventP->where('objectId', $objectId);
-            $eventP->setLimit($this->config->limitEventForUploadReviewPage);
-            $eventP->whereInclude('fromUser');
-            $events = $eventP->getEvents();
+            require_once CLASSES_DIR . 'event.class.php';
+            require_once CLASSES_DIR . 'eventParse.class.php';
+            $event = new EventParse();
+            $event->wherePointer('fromUser', '_User', $objectId);
+            $event->where('active', true);
+            $event->whereInclude('fromUser');
+            $event->setLimit($limit);
+            $events = $event->getEvents();
             if ($events instanceof Error) {
                 return $events;
             } elseif (is_null($events)) {
@@ -411,12 +414,15 @@ class ReviewBox {
                 return $reviewBox;
             } else {
                 foreach ($events as $event) {
-                    $className = 'Event';
                     $address = parse_decode_string($event->getAddress());
                     $city = parse_decode_string($event->getCity());
+                    $className = 'Event';
                     $eventDate = $event->getEventDate();
-                    $featuring = $this->getFeaturedUsers($event->getObjectId(), false, $className);
+                    $featuring = $boxes['NDB'];
+                    $fromUser = $event->getFromUser();
+                    $genre = $boxes['NDB'];
                     $locationName = parse_decode_string($event->getLocationName());
+                    $objectId = $event->getObjectId();
                     $tags = array();
                     if (count($event->getTags()) > 0) {
                         foreach ($event->getTags() as $tag) {
@@ -426,37 +432,45 @@ class ReviewBox {
                     }
                     $thumbnail = $event->getThumbnail();
                     $title = parse_decode_string($event->getTitle());
-                    $fromUser = $event->getFromUser();
                 }
             }
         } else {
-            $recordP = new RecordParse();
-            $recordP->where('objectId', $objectId);
-            $recordP->setLimit($this->config->limitRecordForUploadReviewPage);
-            $recordP->whereInclude('fromUser');
-            $records = $recordP->getRecords();
+            require_once CLASSES_DIR . 'record.class.php';
+            require_once CLASSES_DIR . 'recordParse.class.php';
+            $record = new RecordParse();
+            $record->wherePointer('fromUser', '_User', $objectId);
+            $record->where('active', true);
+            $record->setLimit($limit);
+            $record->whereInclude('fromUser');
+            $records = $record->getRecords();
             if ($records instanceof Error) {
                 return $records;
             } elseif (is_null($records)) {
                 $reviewBox->mediaInfo = $boxes['NODATA'];
-                return $reviewBox;
             } else {
                 foreach ($records as $record) {
+                    $address = $boxes['NDB'];
+                    $city = $boxes['NDB'];
                     $className = 'Record';
-                    $featuring = $this->getFeaturedUsers($record->getObjectId(), false, $className);
-                    $genre = $record->getGenre();
-                    $title = parse_decode_string($record->getTitle());
+                    $eventDate = $boxes['NDB'];
+                    $featuring = $reviewBox->getFeaturedUsers($objectId, false, 'Record');
                     $fromUser = $record->getFromUser();
+                    $genre = $record->getGenre();
+                    $locationName = $boxes['NDB'];
+                    $objectId = $record->getObjectId();
+                    $tags = $boxes['NDB'];
                     $thumbnail = $record->getThumbnailCover();
+                    $title = parse_decode_string($record->getTitle());
                 }
             }
         }
         $userId = $fromUser->getObjectId();
-        $thumbnailUser = $fromUser->getProfileThumbnail();
-        $userType = $fromUser->getType();
+        $thumbnail = $fromUser->getProfileThumbnail();
+        $type = $fromUser->getType();
         $username = parse_decode_string($fromUser->getUsername());
-        $fromUserInfo = new UserInfo($userId, $thumbnailUser, $userType, $username);
-        $this->mediaInfo = new MediaInfoForUploadReviewPage($address, $city, $className, $eventDate, $featuring, $fromUserInfo, $genre, $featuring, $locationName, $objectId, $tags, $thumbnail, $title);
+        $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+        $mediaInfo = new MediaInfoForUploadReviewPage($address, $city, $className, $eventDate, $featuring, $fromUserInfo, $genre, $featuring, $locationName, $objectId, $tags, $thumbnail, $title);
+        $reviewBox->mediaInfo = $mediaInfo;
         return $reviewBox;
     }
 
