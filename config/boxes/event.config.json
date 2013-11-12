@@ -4,6 +4,5 @@
     "limitFeaturingForMediaPage" : 10,
     "limitInvitedForMediaPage" : 10,
     "limitEventForPersonalPage" : 3,
-    "limitFeaturingForPersonalPage" : 10,
-    "limitFeaturingForUploadReviewPage" : 10
+    "limitFeaturingForPersonalPage" : 10
 }
