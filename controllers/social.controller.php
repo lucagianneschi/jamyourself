@@ -43,7 +43,7 @@ class SocialController extends REST {
             }
 			
 			//controllo i parametri
-			$socialNetworkAdmitted = array('facebook', 'twitter');
+			$socialNetworkAdmitted = array('facebook');
             if (!isset($this->request['socialNetworkType'])) {
                 $this->response(array('status' => 'Il tipo di Social Network non è stato specificato'), 403);
             } elseif (!in_array($this->request['socialNetworkType'], $socialNetworkAdmitted)) {
@@ -71,7 +71,7 @@ class SocialController extends REST {
 			$userParse = new UserParse();
 			$res = $userParse->linkUser($currentUser, $authData);
 			if ($res instanceof Error) {
-                $this->response(array('SOCIALLOGINERR'), 503);
+                $this->response(array('status' => $res->getErrorMessage()), 503);
             }
 			
 			require_once CLASSES_DIR . 'activity.class.php';
@@ -118,7 +118,7 @@ class SocialController extends REST {
             }
 			
 			//controllo i parametri
-			$socialNetworkAdmitted = array('facebook', 'twitter');
+			$socialNetworkAdmitted = array('facebook');
             if (!isset($this->request['socialNetworkType'])) {
                 $this->response(array('status' => 'Il tipo di Social Network non è stato specificato'), 403);
             } elseif (!in_array($this->request['socialNetworkType'], $socialNetworkAdmitted)) {
@@ -146,7 +146,72 @@ class SocialController extends REST {
 			$userParse = new UserParse();
 			$res = $userParse->socialLoginUser($authData);
 			if ($res instanceof Error) {
-                $this->response(array('SOCIALLOGINERR'), 503);
+                $this->response(array('status' => $res->getErrorMessage()), 503);
+            }
+			
+			require_once CLASSES_DIR . 'activity.class.php';
+            require_once CLASSES_DIR . 'activityParse.class.php';
+            $activity = new Activity();
+            $activity->setActive(true);
+            $activity->setAlbum(null);
+            $activity->setComment(null);
+            $activity->setCounter(0);
+            $activity->setEvent(null);
+            $activity->setFromUser($currentUser->getObjectId());
+            $activity->setImage(null);
+            $activity->setPlaylist(null);
+            $activity->setQuestion(null);
+            $activity->setRecord(null);
+            $activity->setRead(true);
+            $activity->setSong(null);
+            $activity->setStatus('A');
+            $activity->setToUser(null);
+            $activity->setType('SOCIALLOGGEDIN');
+            $activity->setUserStatus(null);
+            $activity->setVideo(null);
+            $activityParse = new ActivityParse();
+            $res = $activityParse->saveActivity($activity);
+            if ($res instanceof Error) {
+                $this->response(array($controllers['NOACSAVE']), 503);
+            }
+            $this->response(array($controllers['OKLOGINSOCIAL']), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getErrorMessage()), 503);
+        }
+    }
+	
+	/**
+     * \fn		unlinkUser()
+     * \brief   unlink the user account from a Social Network
+     * \todo
+     */
+    public function unlinkUser() {
+        try {
+			global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
+            }
+			
+			//controllo i parametri
+			$socialNetworkAdmitted = array('facebook', 'twitter');
+            if (!isset($this->request['socialNetworkType'])) {
+                $this->response(array('status' => 'Il tipo di Social Network non è stato specificato'), 403);
+            } elseif (!in_array($this->request['socialNetworkType'], $socialNetworkAdmitted)) {
+                $this->response(array('status' => 'Il tipo di Social Network non è ammissibile'), 403);
+            }
+			
+			require_once CLASSES_DIR . 'userParse.class.php';
+			
+			$currentUser = $_SESSION['currentUser'];
+			$socialNetworkType = $this->request['socialNetworkType'];
+			$authData = array('type' => $socialNetworkType,
+							  'authData' => null);
+			$userParse = new UserParse();
+			$res = $userParse->unlinkUser($currentUser, $authData);
+			if ($res instanceof Error) {
+                $this->response(array('status' => $res->getErrorMessage()), 503);
             }
 			
 			require_once CLASSES_DIR . 'activity.class.php';
