@@ -138,43 +138,43 @@ class ReviewBox {
         $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/review.config.json"), false);
     }
 
-    /**
-     * \fn	getRelatedUsers($objectId, $field, $all, $page)
-     * \brief	Convenience method to get all kind of related User to the record or event
-     * \param	$objectId for event, $all BOOL: Yes to retrieve all related users or using the limit from config file, $page the page which calls the method
-     * \return	userArray array of userInfo object
-     */
-    public function getFeaturedUsers($objectId, $all, $className) {
-        global $boxes;
-        $userArray = array();
-        require_once CLASSES_DIR . 'user.class.php';
-        require_once CLASSES_DIR . 'userParse.class.php';
-        $parseUser = new UserParse();
-        $parseUser->whereRelatedTo('featuring', $className, $objectId);
-        $parseUser->where('active', true);
-        if ($all == true) {
-            $parseUser->setLimit(1000);
-        } else {
-            $parseUser->setLimit($this->config->limitFeaturingForUploadReviewPage);
-        }
-        $users = $parseUser->getUsers();
-        if ($users instanceof Error) {
-            return $users;
-        } elseif (is_null($users)) {
-            $users = $boxes['NOFEATRECORD'];
-            return $users;
-        } else {
-            foreach ($users as $user) {
-                $userId = $user->getObjectId();
-                $thumbnail = $user->getProfileThumbnail();
-                $type = $user->getType();
-                $username = parse_decode_string($user->getUsername());
-                $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
-                array_push($userArray, $userInfo);
-            }
-        }
-        return $userArray;
-    }
+//    /**
+//     * \fn	getRelatedUsers($objectId, $field, $all, $page)
+//     * \brief	Convenience method to get all kind of related User to the record or event
+//     * \param	$objectId for event, $all BOOL: Yes to retrieve all related users or using the limit from config file, $page the page which calls the method
+//     * \return	userArray array of userInfo object
+//     */
+//    public function getFeaturedUsers($objectId, $all, $className) {
+//        global $boxes;
+//        $userArray = array();
+//        require_once CLASSES_DIR . 'user.class.php';
+//        require_once CLASSES_DIR . 'userParse.class.php';
+//        $parseUser = new UserParse();
+//        $parseUser->whereRelatedTo('featuring', $className, $objectId);
+//        $parseUser->where('active', true);
+//        if ($all == true) {
+//            $parseUser->setLimit(1000);
+//        } else {
+//            $parseUser->setLimit($this->config->limitFeaturingForUploadReviewPage);
+//        }
+//        $users = $parseUser->getUsers();
+//        if ($users instanceof Error) {
+//            return $users;
+//        } elseif (is_null($users)) {
+//            $users = $boxes['NOFEATRECORD'];
+//            return $users;
+//        } else {
+//            foreach ($users as $user) {
+//                $userId = $user->getObjectId();
+//                $thumbnail = $user->getProfileThumbnail();
+//                $type = $user->getType();
+//                $username = parse_decode_string($user->getUsername());
+//                $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
+//                array_push($userArray, $userInfo);
+//            }
+//        }
+//        return $userArray;
+//    }
 
     /**
      * \fn	initForDetail($objectId)
@@ -453,7 +453,8 @@ class ReviewBox {
                     $city = $boxes['NDB'];
                     $className = 'Record';
                     $eventDate = $boxes['NDB'];
-                    $featuring = $reviewBox->getFeaturedUsers($objectId, false, 'Record');
+		    $featuring = getRelatedUsers($objectId, 'featuring', 'Record', false, $this->config->limitFeaturingForUploadReviewPage);
+                    //$featuring = $reviewBox->getFeaturedUsers($objectId, false, 'Record');
                     $fromUser = $record->getFromUser();
                     $genre = $record->getGenre();
                     $locationName = $boxes['NDB'];
