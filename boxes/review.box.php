@@ -31,18 +31,18 @@ require_once SERVICES_DIR . 'debug.service.php';
  */
 class MediaInfoForUploadReviewPage {
 
-    public $address; //event
-    public $city; //event
-    public $className; //record o  event
-    public $eventDate; // event
-    public $featuring; //record o  event
-    public $fromUserInfo; //record o  event
-    public $genre; //record
-    public $locationName; //event
-    public $objectId; //record o  event
-    public $tags; //record o  event
-    public $thumbnail; //record o  event
-    public $title; //record o  event
+    public $address; 
+    public $city; 
+    public $className; 
+    public $eventDate; 
+    public $featuring; 
+    public $fromUserInfo; 
+    public $genre; 
+    public $locationName; 
+    public $objectId; 
+    public $tags; 
+    public $thumbnail; 
+    public $title; 
 
     /**
      * \fn	__construct($address, $city, $className, $eventDate, $featuring, $fromUserInfo, $genre, $featuring, $locationName, $objectId, $tags, $thumbnail, $title)
@@ -402,7 +402,7 @@ class ReviewBox {
             require_once CLASSES_DIR . 'event.class.php';
             require_once CLASSES_DIR . 'eventParse.class.php';
             $event = new EventParse();
-            $event->wherePointer('fromUser', '_User', $objectId);
+            $event->where('objectId', $objectId);
             $event->where('active', true);
             $event->whereInclude('fromUser');
             $event->setLimit($limit);
@@ -438,7 +438,7 @@ class ReviewBox {
             require_once CLASSES_DIR . 'record.class.php';
             require_once CLASSES_DIR . 'recordParse.class.php';
             $record = new RecordParse();
-            $record->wherePointer('fromUser', '_User', $objectId);
+            $record->where('objectId', $objectId);
             $record->where('active', true);
             $record->setLimit($limit);
             $record->whereInclude('fromUser');
@@ -465,10 +465,10 @@ class ReviewBox {
             }
         }
         $userId = $fromUser->getObjectId();
-        $thumbnail = $fromUser->getProfileThumbnail();
+        $userThumbnail = $fromUser->getProfileThumbnail();
         $type = $fromUser->getType();
         $username = parse_decode_string($fromUser->getUsername());
-        $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+        $fromUserInfo = new UserInfo($userId, $userThumbnail, $type, $username);
         $mediaInfo = new MediaInfoForUploadReviewPage($address, $city, $className, $eventDate, $featuring, $fromUserInfo, $genre, $featuring, $locationName, $objectId, $tags, $thumbnail, $title);
         $reviewBox->mediaInfo = $mediaInfo;
         return $reviewBox;

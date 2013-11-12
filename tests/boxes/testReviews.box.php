@@ -76,11 +76,13 @@ $objectId2 = 'iovioSH5mq'; //VENUE
 //$review4_stop = microtime();
 echo '<br />-------------------------------UPLOADREVIEWPAGE-------------------------------------------<br />';
 //$review5_start = microtime();
+$eventId = 'Imx9idjTGj';
+$recordId = 'b8r9q9b5se';
 $limit = 1;
 $reviewBoxP6 = new ReviewBox();
-$reviewBox6 = $reviewBoxP6->initForUploadReviewPage($objectId, 'Event');
+$reviewBox6 = $reviewBoxP6->initForUploadReviewPage($eventId, 'Event',$limit);
 $reviewBoxP7 = new ReviewBox();
-$reviewBox7 = $reviewBoxP7->initForUploadReviewPage($objectId, 'Record');
+$reviewBox7 = $reviewBoxP7->initForUploadReviewPage($recordId, 'Record',$limit);
 echo '<br />-------------------------------EVENT-------------------------------------------<br />';
 print "<pre>";
 print_r($reviewBox6);
