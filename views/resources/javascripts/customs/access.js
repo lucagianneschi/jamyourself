@@ -6,10 +6,6 @@ function access(usernameOrEmail, password, opType, userId) {
 		json_access.password = password;
 	} else if (opType === 'logout') {
 		json_access.request = "logout";
-	} else {
-		json_access.request = "socialLogin";
-		json_access.usernameOrEmail = usernameOrEmail;
-		json_access.password = password;
 	}
 
 	$.ajax({

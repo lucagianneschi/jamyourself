@@ -1,12 +1,10 @@
 window.fbAsyncInit = function() {
 	// init the FB JS SDK
 	FB.init({
-		appId      : '538367732924885',	// App ID from the app dashboard
-		status     : true,				// Check Facebook Login status
-		xfbml      : true				// Look for social plugins on the page
+		appId      : '538367732924885',
+		status     : true,
+		xfbml      : true
 	});
-
-	// Additional initialization code such as adding Event Listeners goes here
 	
 };
 
@@ -30,20 +28,19 @@ function userUtilities(objectId, opType, email, setting, sessionToken, socialNet
 				json_userUtilities.userID = response.authResponse.userID;
 				json_userUtilities.accessToken = response.authResponse.accessToken;
 				json_userUtilities.expiresIn = response.authResponse.expiresIn;
-				console.log('Welcome!  Fetching your information.... ');
-				console.log('===========>, ' + JSON.stringify(response));
-				doAjax(json_userUtilities)
+				//DEBUG
+				console.log('DEBUG=>' + JSON.stringify(response));
+				doAjax(json_userUtilities);
 			} else {
-				console.log('User cancelled login or did not fully authorize.');
+				//DEBUG
+				console.log('DEBUG=>User cancelled login or did not fully authorize.');
 				return;
 			}
 		});
-	} else if (opType === 'unlink') {
-		//TODO
-		json_userUtilities.email = email;
-		json_userUtilities.objectId = objectId;
-		json_userUtilities.setting = setting;
-		json_userUtilities.request = "unLinkSocialAccount";
+	} else if (opType === 'unlinkUser') {
+		json_userUtilities.request = "unlinkUser";
+		json_userUtilities.socialNetworkType = socialNetworkType;
+		doAjax(json_userUtilities);
 	} else if (opType === 'loginUser') {
 		json_userUtilities.request = "loginUser";
 		json_userUtilities.socialNetworkType = socialNetworkType;
@@ -52,11 +49,12 @@ function userUtilities(objectId, opType, email, setting, sessionToken, socialNet
 				json_userUtilities.userID = response.authResponse.userID;
 				json_userUtilities.accessToken = response.authResponse.accessToken;
 				json_userUtilities.expiresIn = response.authResponse.expiresIn;
-				console.log('Welcome!  Fetching your information.... ');
-				console.log('===========>, ' + JSON.stringify(response));
+				//DEBUG
+				console.log('DEBUG=>' + JSON.stringify(response));
 				doAjax(json_userUtilities)
 			} else {
-				console.log('User cancelled login or did not fully authorize.');
+				//DEBUG
+				console.log('DEBUG=>User cancelled login or did not fully authorize.');
 				return;
 			}
 		});

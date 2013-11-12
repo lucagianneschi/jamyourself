@@ -203,55 +203,18 @@ class UserParse {
     }
 
     /**
-     * \fn	void linkSocialAccount($objectId)
-     * \brief	link social account 
-     * \param	$objectId	the string that represent the objectId of the User		
-     * \return	$user		
-     * \return	error		in case of exception
-     * \todo	test function
-     */
-	/*
-    public function linkSocialAccount($user) {
-		try {
-			$parseQuery = new parseQuery('_User');
-			$parseQuery->where('objectId', $objectId);
-			$parseQuery->where('active', true);
-			$res = $parseQuery->find();
-			if (count($res->results) > 0) {
-				$user = $this->parseToUser($res->results[0]);
-				$sessionToken = $user->getSessionToken();
-				$parseUser = new parseUser();
-				$parseUser->objectId = $objectId;
-				$parseUser->sessionToken = $sessionToken;
-				$link = $parseUser->linkAccounts($objectId, $sessionToken);
-				if ($link instanceof ParseLibraryException) {
-					return throwError(new Exception('Unable to link standard and social account'), __CLASS__, __FUNCTION__, func_get_args());
-				}
-				return $user;
-			} else {
-				return throwError(new Exception('User not found for linking'), __CLASS__, __FUNCTION__, func_get_args());
-			}
-		} catch (Exception $e) {
-			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-		}
-    }
-	*/
-	
-	/**
-     * \fn	void linkUser($user)
+     * \fn	void linkUser($user, $authData)
      * \brief	link the user account with a Social Network
-     * \param	$user	the object that represent the User		
-     * \return	$user
-     * \return	error	in case of exception
+     * \param	$user		the object that represent the User	
+	 * \param	$authData	the array that represent the Parse authData properity
+     * \return	array		the updatedAt time. Ex: {"updatedAt":"2013-11-11T16:56:47.632Z"}
+     * \return	error		in case of exception
      */
     public function linkUser($user, $authData) {
 		try {
 			$parseUser = new parseUser();
 			$parseUser->addAuthData($authData);
 			$res = $parseUser->linkAccounts($user->getObjectId(), $user->getSessionToken());
-			#TODO
-			//debug(DEBUG_DIR, 'debug.txt', json_encode($res));
-			//$res contiene un array così fatto: {"updatedAt":"2013-11-11T16:56:47.632Z"}
 			return $res;
 		} catch (Exception $e) {
 			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -435,7 +398,7 @@ class UserParse {
     public function saveUser($user) {
 	global $default_img;
 	try {
-            $nullArray = array();
+        $nullArray = array();
 	    $parseUser = new parseUser();
 	    is_null($user->getUsername()) ? $parseUser->username = null : $parseUser->username = $user->getUsername();
 	    is_null($user->getPassword()) ? $parseUser->password = null : $parseUser->password = $user->getPassword();
@@ -504,39 +467,6 @@ class UserParse {
 	}
     }
 
-        /**
-     * \fn	void unLinkSocialAccount($objectId)
-     * \brief	link social account 
-     * \param	$objectId	the string that represent the objectId of the User		
-     * \return	$user		
-     * \return	error		in case of exception
-     * \todo	test function
-     */
-    public function unLinkSocialAccount($objectId) {
-	try {
-	    $parseQuery = new parseQuery('_User');
-	    $parseQuery->where('objectId', $objectId);
-	    $parseQuery->where('active', true);
-	    $res = $parseQuery->find();
-	    if (count($res->results) > 0) {
-		$user = $this->parseToUser($res->results[0]);
-		$sessionToken = $user->getSessionToken();
-		$parseUser = new parseUser();
-		$parseUser->objectId = $objectId;
-		$parseUser->sessionToken = $sessionToken;
-		$link = $parseUser->unlinkAccount($objectId, $sessionToken, null);
-		if ($link instanceof ParseLibraryException) {
-		    return throwError(new Exception('Unable to unlink standard and social account'), __CLASS__, __FUNCTION__, func_get_args());
-		}
-		return $user;
-	    } else {
-		return throwError(new Exception('User not found for unlinking'), __CLASS__, __FUNCTION__, func_get_args());
-	    }
-	} catch (Exception $e) {
-	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-	}
-    }
-    
     /**
      * \fn		void setLimit($limit)
      * \brief	Sets the maximum number of User to return
@@ -567,6 +497,26 @@ class UserParse {
 		}
     }
 
+    /**
+     * \fn	void unlinkUser($user, $authData)
+     * \brief	unlink the user account from a Social Network
+     * \param	$user		the object that represent the User
+	 * \param	$authData	the array that represent the Parse authData
+     * \return	array		the updatedAt time. Ex: {"updatedAt":"2013-11-11T16:56:47.632Z"}
+     * \return	error		in case of exception
+     */
+    public function unlinkUser($user, $authData) {
+		try {
+			$parseUser = new parseUser();
+			$parseUser->addAuthData($authData);
+			//we use the linkAccounts function for mantain a standard code type
+			$res = $parseUser->linkAccounts($user->getObjectId(), $user->getSessionToken());
+			return $res;
+		} catch (Exception $e) {
+			return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+		}
+    }
+    
     /**
      * \fn		void updateField($objectId, $sessionToken, $field, $value, $isRelation = false, $typeRelation, $className)
      * \brief	Update a field of the object
