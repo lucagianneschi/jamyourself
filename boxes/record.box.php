@@ -117,24 +117,6 @@ class RecordInfoForUploadRecordPage {
 
 }
 
-class RecordInfoForUploadReviewPage {
-
-    public $featuring;
-    public $genre;
-
-    /**
-     * \fn	__construct($featuring, $genre)
-     * \brief	construct for the RecordInfoForUploadReviewPage class
-     * \param	$featuring, $genre
-     */
-    function __construct($featuring, $genre) {
-        global $boxes;
-        is_null($featuring) ? $this->featuring = $boxes['NOFEATRECORD'] : $this->featuring = $featuring;
-        is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
-    }
-
-}
-
 class SongInfo {
 
     public $counters;
@@ -212,8 +194,7 @@ class RecordBox {
                 $userId = $user->getObjectId();
                 $thumbnail = $user->getProfileThumbnail();
                 $type = $user->getType();
-                $encodedUsername = $user->getUsername();
-                $username = parse_decode_string($encodedUsername);
+                $username = parse_decode_string($user->getUsername());
                 $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
                 array_push($userArray, $userInfo);
             }
@@ -226,7 +207,7 @@ class RecordBox {
      * \brief	init for detailed view in personal page for the record box object
      * \param	$objectId of the record to display info
      */
-    public function initForDetail($objectId ) {
+    public function initForDetail($objectId) {
         global $boxes;
         $currentUserId = sessionChecker();
         $recordBox = new RecordBox();
@@ -249,8 +230,7 @@ class RecordBox {
                 $showLove = true;
                 $duration = $song->getDuration();
                 $songId = $song->getObjectId();
-                $encodedTitle = $song->getTitle();
-                $title = parse_decode_string($encodedTitle);
+                $title = parse_decode_string($song->getTitle());
                 $commentCounter = $song->getCommentCounter();
                 $loveCounter = $song->getLoveCounter();
                 $reviewCounter = $boxes['NDB'];
@@ -348,8 +328,7 @@ class RecordBox {
                 $userId = $record->getFromUser()->getObjectId();
                 $thumbnail = $record->getFromUser()->getProfileThumbnail();
                 $type = $record->getFromUser()->getType();
-                $encodedUsername = $record->getFromUser()->getUsername();
-                $username = parse_decode_string($encodedUsername);
+                $username = parse_decode_string($record->getFromUser()->getUsername());
                 $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
             }
             $recordBox->fromUserInfo = $userInfo;
@@ -440,51 +419,12 @@ class RecordBox {
                 $counter = ++$counter;
                 $songCounter = $record->getSongCounter();
                 $thumbnailCover = $record->getThumbnailCover();
-                $title = $record->getTitle();
+                $title = parse_decode_string($record->getTitle());
                 $recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
                 array_push($info, $recordInfo);
             }
             $recordBox->recordCounter = $counter;
             $recordBox->recordInfoArray = $info;
-        }
-        return $recordBox;
-    }
-
-    /**
-     * \fn	initForUploadReviewPage($objectId)
-     * \brief	init for recordBox for upload review page
-     * \param	$objectId of the user who owns the review
-     * \todo    utilizzare whereInclude
-     */
-    public function initForUploadReviewPage($objectId) {
-        global $boxes;
-        $recordBox = new RecordBox();
-        $recordBox->recordCounter = $boxes['NDB'];
-        $recordBox->tracklist = $boxes['NDB'];
-        $recordP = new RecordParse();
-        $recordP->where('objectId', $objectId);
-        $recordP->setLimit($this->config->limitRecordForUploadReviewPage);
-        $recordP->whereInclude('fromUser');
-        $records = $recordP->getRecords();
-        if ($records instanceof Error) {
-            return $records;
-        } elseif (is_null($records)) {
-            $recordBox->recordInfoArray = $boxes['NODATA'];
-            $recordBox->fromUserInfo = $boxes['NODATA'];
-            return $recordBox;
-        } else {
-            foreach ($records as $record) {
-                $featuring = $recordBox->getFeaturedUsers($record->getObjectId(), false, 'UploadReview');
-                $genre = $record->getGenre();
-                $recordInfo = new RecordInfoForUploadReviewPage($featuring, $genre);
-                $recordBox->recordInfoArray = $recordInfo;
-            }
-            $userId = $record->getFromUser()->getObjectId();
-            $thumbnail = $record->getFromUser()->getProfileThumbnail();
-            $type = $record->getFromUser()->getType();
-            $username = parse_decode_string($record->getFromUser()->getUsername());
-            $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
-            $recordBox->fromUserInfo = $userInfo;
         }
         return $recordBox;
     }

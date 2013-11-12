@@ -120,41 +120,6 @@ class EventInfoForPersonalPage {
 }
 
 /**
- * \brief	EventInfoForUploadReviewPage class 
- * \details	contains info for event to be displayed in the upload review
- */
-class EventInfoForUploadReviewPage {
-
-    public $address;
-    public $city;
-    public $eventDate;
-    public $featuring;
-    public $locationName;
-    public $tags;
-    public $thumbnail;
-    public $title;
-
-    /**
-     * \fn	__construct($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title)
-     * \brief	construct for the EventInfoForUploadReviewPage class
-     * \param	$address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title
-     */
-    function __construct($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title) {
-        global $boxes;
-        global $default_img;
-        is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
-        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
-        is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
-        is_null($featuring) ? $this->featuring = $boxes['NOFEATEVE'] : $this->featuring = $featuring;
-        is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
-        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
-        is_null($thumbnail) ? $this->thumbnail = $default_img['DEFEVENTHUMB'] : $this->thumbnail = $thumbnail;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
-    }
-
-}
-
-/**
  * \brief	EventBox class 
  * \details	box class to pass info to the view 
  */
@@ -249,7 +214,7 @@ class EventBox {
      * \return	eventBox
      * todo utilizzate whereInclude
      */
-    public function initForMediaPage($objectId ) {
+    public function initForMediaPage($objectId) {
         global $boxes;
         $currentUserId = sessionChecker();
         $eventBox = new EventBox();
@@ -372,59 +337,6 @@ class EventBox {
             }
             $eventBox->eventCounter = $counter;
             $eventBox->eventInfoArray = $info;
-        }
-        return $eventBox;
-    }
-
-    /**
-     * \fn	initForUploadReviewPage($objectId)
-     * \brief	Init EventBox instance for Upload Review Page
-     * \param	$objectId for the event
-     * \todo    fare la getEvents con objectId e fare whereInclude del fromUser
-     * \return	eventBox
-     */
-    public function initForUploadReviewPage($objectId) {
-        global $boxes;
-        $eventBox = new EventBox();
-        $eventBox->eventCounter = $boxes['NDB'];
-        $eventP = new EventParse();
-        $eventP->where('objectId', $objectId);
-        $eventP->setLimit($this->config->limitEventForUploadReviewPage);
-        $eventP->whereInclude('fromUser');
-        $events = $eventP->getEvents();
-        if ($events instanceof Error) {
-            return $events;
-        } elseif (is_null($events)) {
-            $eventBox->eventInfoArray = $boxes['NODATA'];
-            $eventBox->fromUserInfo = $boxes['NODATA'];
-            return $eventBox;
-        } else {
-            require_once CLASSES_DIR . 'user.class.php';
-            require_once CLASSES_DIR . 'userParse.class.php';
-            foreach ($events as $event) {
-                $address = parse_decode_string($event->getAddress());
-                $city = parse_decode_string($event->getCity());
-                $eventDate = $event->getEventDate();
-                $featuring = $eventBox->getRelatedUsers($event->getObjectId(), 'featuring', false, 'UploadReview');
-                $locationName = parse_decode_string($event->getLocationName());
-                $tags = array();
-                if (count($event->getTags()) > 0) {
-                    foreach ($event->getTags() as $tag) {
-                        $tag = parse_decode_string($tag);
-                        array_push($tags, $tag);
-                    }
-                }
-                $thumbnail = $event->getThumbnail();
-                $title = parse_decode_string($event->getTitle());
-                $eventInfo = new EventInfoForUploadReviewPage($address, $city, $eventDate, $featuring, $locationName, $tags, $thumbnail, $title);
-                $eventBox->eventInfoArray = $eventInfo;
-                $userId = $event->getFromUser()->getObjectId();
-                $thumbnailUser = $event->getFromUser()->getProfileThumbnail();
-                $type = $event->getFromUser()->getType();
-                $username = parse_decode_string($event->getFromUser()->getUsername());
-                $userInfo = new UserInfo($userId, $thumbnailUser, $type, $username);
-                $eventBox->fromUserInfo = $userInfo;
-            }
         }
         return $eventBox;
     }
