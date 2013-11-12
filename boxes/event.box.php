@@ -172,9 +172,6 @@ class EventBox {
                 case 'Personal':
                     $parseUser->setLimit($this->config->limitFeaturingForPersonalPage);
                     break;
-                case 'UploadReview':
-                    $parseUser->setLimit($this->config->limitFeaturingForUploadReviewPage);
-                    break;
             }
         }
         $users = $parseUser->getUsers();
