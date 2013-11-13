@@ -207,7 +207,7 @@ function getPinner(box){
 }
 
 /*
- * Variabili
+ * Variabili 
  */
 
 var rsi_event, rsi_album ,rsi_eventReview, rsi_recordReview ,rsi_record ;
@@ -251,6 +251,8 @@ function addBoxRecord(data, typeUser) {
 		'typeUser' : typeUser
 	}, function() { success: {
 			rsi_record = slideReview('recordSlide');
+			addthis.init();
+			addthis.toolbox(".addthis_toolbox");
 			hcento();
 		}
 	});
@@ -280,7 +282,9 @@ function addBoxRecordReview(data, typeUser, objectIdUser) {
 		'typeUser' : typeUser,
 		'objectIdUser' : objectIdUser
 	}, function() { success: 
-		rsi_RecordReview = slideReview('recordReviewSlide');
+		rsi_recordReview = slideReview('recordReviewSlide');
+		addthis.init();
+		addthis.toolbox(".addthis_toolbox");
 		hcento();
 	});
 }
@@ -295,6 +299,10 @@ function addBoxEventReview(data, typeUser, objectIdUser) {
 		'objectIdUser' : objectIdUser
 	}, function() { success:
 		rsi_eventReview = slideReview('eventReviewSlide'); 
+		console.log(addthis_config);
+		console.log(addthis);
+		addthis.init();
+		addthis.toolbox(".addthis_toolbox");
 		hcento();
 	});
 }
@@ -354,6 +362,8 @@ function addBoxAlbum(data, typeUser, objectIdUser) {
 	}, function() { success: 
 		rsi_album = slideReview('albumSlide');
 		lightBoxPhoto('photo-colorbox-group');
+		addthis.init();
+		addthis.toolbox(".addthis_toolbox");
 		hcento();
 	});
 }
