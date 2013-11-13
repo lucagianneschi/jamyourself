@@ -81,12 +81,17 @@ $objectId = $_POST['objectId'];
 									<input id="comment<?php echo $classBox . '_' . $objectId; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['WRITE'];?>" />
 								</div>
 								<div  class="small-3 columns ">
-									<input type="button" class="comment-button inline" value="Comment" onclick="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Comment', '<?php echo $classBox; ?>')" />
+									<input type="button" class="comment-button inline comment-btn" value="Comment" onclick="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Comment', '<?php echo $classBox; ?>')" />
 								</div>
 							</div>
 						</div>
 
 					</form>
+				</div>
+			</div>
+			<div class="row">
+				<div  class="large-12 columns ">
+					<div class="comment-error" onClick="postError()"><img src="./resources/images/error/error-post.png" /></div>
 				</div>
 			</div>
 		</div>

@@ -744,10 +744,14 @@ section.active > .title a{
    background-image: url(../images/icon/btn-loader.gif);
    background-position: center center;
   }
-
-.comment-button{
+.comment-btn-loader{
+	background-repeat: no-repeat !important;
+   background-image: url(../images/icon/btn-loader.gif) !important;
+   background-position: center center !important;  
+}
+.comment-btn{
   color: #fff;
-  background: $grey !important;
+  background-color: $grey !important;
   border:#fff 0px solid !important; 
   height: 34px !important; 
   width: 90px !important;
@@ -760,6 +764,11 @@ section.active > .title a{
 	
 }
 
+.comment-error {
+	display:none;
+	cursor:pointer;
+	padding-bottom: 5px;	
+}
 
 
 //--------------------- COMMENT ----------------------------
