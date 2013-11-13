@@ -396,7 +396,6 @@ class UserParse {
      * \return	Exception	the Exception raised by the function
      */
     public function saveUser($user) {
-        global $default_img;
         try {
             $nullArray = array();
             $parseUser = new parseUser();
@@ -405,7 +404,7 @@ class UserParse {
             is_null($user->getActive()) ? $parseUser->active = null : $parseUser->active = $user->getActive();
             is_null($user->getAddress()) ? $parseUser->address = null : $parseUser->address = $user->getAddress();
             is_null($user->getAlbums()) ? $parseUser->albums = null : $parseUser->albums = toParseAddRelation('Album', $user->getAlbums());
-            is_null($user->getBackground()) ? $parseUser->background = $default_img['DEFBGD'] : $parseUser->background = $user->getBackground();
+            is_null($user->getBackground()) ? $parseUser->background = DEFBGD : $parseUser->background = $user->getBackground();
             is_null($user->getBirthDay()) ? $parseUser->birthDay = null : $parseUser->birthDay = $user->getBirthDay();
             is_null($user->getCity()) ? $parseUser->city = null : $parseUser->city = $user->getCity();
             is_null($user->getCollaboration()) ? $parseUser->collaboration = null : $parseUser->collaboration = toParseAddRelation('_User', $user->getCollaboration());
@@ -455,15 +454,17 @@ class UserParse {
             is_null($user->getYoutubeChannel()) ? $parseUser->youtubeChannel = null : $parseUser->youtubeChannel = $user->getYoutubeChannel();
             is_null($user->getACL()) ? $parseUser->ACL = null : $parseUser->ACL = $user->getACL()->acl;
             if ($parseUser->type == 'SPOTTER') {
-                is_null($user->getProfilePicture()) ? $parseUser->profilePicture = DEFAVATARSPOTTER : $parseUser->profilePicture = $user->getProfilePicture();
-                is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = DEFTHUMBSPOTTER : $parseUser->profileThumbnail = $user->getProfileThumbnail();
+                $defAvatar = DEFAVATARSPOTTER;
+                $defAvatarThumb = DEFTHUMBSPOTTER;
             } elseif ($parseUser->type == 'JAMMER') {
-                is_null($user->getProfilePicture()) ? $parseUser->profilePicture = DEFAVATARJAMMER : $parseUser->profilePicture = $user->getProfilePicture();
-                is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = DEFTHUMBJAMMER : $parseUser->profileThumbnail = $user->getProfileThumbnail();
+                $defAvatar = DEFAVATARJAMMER;
+                $defAvatarThumb = DEFTHUMBJAMMER;
             } else {
-                is_null($user->getProfilePicture()) ? $parseUser->profilePicture = DEFAVATARVENUE : $parseUser->profilePicture = $user->getProfilePicture();
-                is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = DEFTHUMBVENUE : $parseUser->profileThumbnail = $user->getProfileThumbnail();
+                $defAvatar = DEFAVATARVENUE;
+                $defAvatarThumb = DEFTHUMBVENUE;
             }
+            is_null($user->getProfilePicture()) ? $parseUser->profilePicture = $defAvatar : $parseUser->profilePicture = $user->getProfilePicture();
+            is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = $defAvatarThumb : $parseUser->profileThumbnail = $user->getProfileThumbnail();
             if ($user->getObjectId() == '') {
                 $res = $parseUser->signup($user->getUsername(), $user->getPassword());
                 $user->setObjectId($res->objectId);
