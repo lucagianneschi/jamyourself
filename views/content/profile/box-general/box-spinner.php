@@ -32,7 +32,7 @@ else{
 ?>	
 <div class="row">
 	<div  class="large-12 columns">		
-		<div class="box box-spinner" style="background-color: #fff">
+		<div class="box box-spinner" style="background-color: #fff; margin-bottom: 5px !important;">
 			<div class="spinner"></div>
 		</div>			
 	</div>
