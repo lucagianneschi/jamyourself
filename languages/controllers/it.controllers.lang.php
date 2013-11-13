@@ -29,6 +29,7 @@ $controllers = array(
     'NOSESSIONTOKEN' => 'SessionToken non definito',
     'NOMAIL' => 'Impossibile inviare mail',
     'NODATA' => 'Nessun dato disponibile',
+    'NOEXPIRED' => 'Expired non impostato',
     //POST
     'POSTSAVED' => 'Il tuo post è stato salvato',
     'SHORTPOST' => 'Dimensione post troppo corta | lungh:',
@@ -121,6 +122,8 @@ $controllers = array(
     'OKLOGINSOCIAL' => 'Login con social account effettuato',
     'USERNOTFOUND' => 'Utente non trovato per effettuare il link con account social',
     'NOLINK' => 'Impossibile effettuare il link con il tuo account social',
+    'NOSOCIALNETUNSPECIFIED' => 'Social Network non specificato',
+    'INVALIDSOCIALNET' => 'Social Network non valido',
     'OKSOCIALUNLINK' => 'Il tuo account social è stato scollegato dal tuo account Jamyourself',
     'NOUNLINK' => 'Impossibile scollegare il tuo account dal tuo account social',
     //PASSWORDRESET

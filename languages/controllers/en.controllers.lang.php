@@ -29,6 +29,7 @@ $controllers = array(
     'NOSESSIONTOKEN' => 'SessionToken undefined',
     'NOMAIL' => 'Unable to send mail',
     'NODATA' => 'No data available',
+    'NOEXPIRED' => 'Expired unset',
     //POST
     'POSTSAVED' => 'Your post has been saved',
     'SHORTPOST' => 'Your post is too short | lenght:',
@@ -77,9 +78,9 @@ $controllers = array(
     'SHORTREW' => 'Your review is too short | lenght:',
     'LONGREW' => 'Your review is too long | lenght:',
     'REWSAVED' => 'Your review has been saved',
-    'NOMAILFORREVIEW'=> 'NO email address set to send mail',
+    'NOMAILFORREVIEW' => 'NO email address set to send mail',
     'NOSELFREVIEW' => 'You cannot review your contents',
-    'NOSAVEDREVIEW'=> 'Unable to save review',
+    'NOSAVEDREVIEW' => 'Unable to save review',
     'NOTITLE' => 'No title set',
     'SHORTREWTITLE' => 'Review title too short',
     'LONGREWTITLE' => 'Review title too long',
@@ -96,7 +97,7 @@ $controllers = array(
     'NOACSAVE' => 'Unable to save activity',
     'RELDELETED' => 'Relation removed',
     'ERROREMOVINGREL' => 'Error removing relationship',
-    'RELACCEPTED'=> 'Relation accepted',
+    'RELACCEPTED' => 'Relation accepted',
     'NOFRIENDSHIPUPDATE' => 'Unable to update friendhip relation',
     'NOFRIENDSHIPCOUNTERUPDATE' => 'Unable to update friendhip counter',
     'NOCOLLABORATIONUPDATE' => 'Unable to update collaboration relation',
@@ -119,6 +120,9 @@ $controllers = array(
     'NOLINK' => 'Unable to link your account',
     'OKSOCIALUNLINK' => 'Your Social account has been correctly unlinked from your Jamyourself account',
     'NOUNLINK' => 'Unable to unlink your account',
+    'NOLINK' => 'Unable to link your account',
+    'NOSOCIALNETUNSPECIFIED' => 'Social Network is not set',
+    'INVALIDSOCIALNET' => 'Invalid Social Network',
     //PASSWORDRESET
     'OKPASSWORDRESETREQUEST' => 'Your password reset request has been sent',
     'USERNOTFOUNDFORPASSRESET' => 'User not found for passwordreset',
@@ -141,7 +145,7 @@ $controllers = array(
     'NOSETTINGUPDATE' => 'Unable to update your setting',
     'NOSETTING' => 'No setting specified in the request',
     'SETTINGUPDATED' => 'Setting Updated'
-    );
+);
 
 $mail_files = array(
     'USERDELETED' => 'en.userDeletion.html',
