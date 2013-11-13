@@ -32,6 +32,12 @@ define('SONGS_DIR', ROOT_DIR . 'media/songs/');
 define('DEFAVATAR', MEDIA_DIR . 'images/default/defaultAvatar.jpg');
 define('DEFTHUMB', MEDIA_DIR . 'images/default/defaultAvatarThumb.jpg');
 define('DEFBGD', MEDIA_DIR . 'images/default/defaultBackground.jpg');
+define('DEFAVATARJAMMER', MEDIA_DIR . 'images/default/defaultAvatarJammer.jpg');
+define('DEFTHUMBJAMMER', MEDIA_DIR . 'images/default/defaultAvatarThumbJammer.jpg');
+define('DEFAVATARVENUE', MEDIA_DIR . 'images/default/defaultAvatarVenue.jpg');
+define('DEFTHUMBVENUE', MEDIA_DIR . 'images/default/defaultAvatarThumbVenue.jpg');
+define('DEFAVATARSPOTTER', MEDIA_DIR . 'images/default/defaultAvatarSpotter.jpg');
+define('DEFTHUMBSPOTTER', MEDIA_DIR . 'images/default/defaultAvatarThumbSpotter.jpg');
 //ALBUM
 define('DEFALBUMCOVER', MEDIA_DIR . 'images/default/defaultAlbumCover.jpg');
 define('DEFALBUMTHUMB', MEDIA_DIR . 'images/default/defaultAlbumThumb.jpg');
