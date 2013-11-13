@@ -96,8 +96,8 @@ class SocialController extends REST {
             $activity->setUserStatus(null);
             $activity->setVideo(null);
             $activityParse = new ActivityParse();
-            $res = $activityParse->saveActivity($activity);
-            if ($res instanceof Error) {
+            $resAct = $activityParse->saveActivity($activity);
+            if ($resAct instanceof Error) {
                 $this->response(array($controllers['NOACSAVE']), 503);
             }
             $this->response(array($controllers['OKSOCIALLINK']), 200);
@@ -171,8 +171,8 @@ class SocialController extends REST {
             $activity->setUserStatus(null);
             $activity->setVideo(null);
             $activityParse = new ActivityParse();
-            $res = $activityParse->saveActivity($activity);
-            if ($res instanceof Error) {
+            $resAct = $activityParse->saveActivity($activity);
+            if ($resAct instanceof Error) {
                 $this->response(array($controllers['NOACSAVE']), 503);
             }
             $this->response(array($controllers['OKLOGINSOCIAL']), 200);
@@ -234,8 +234,8 @@ class SocialController extends REST {
             $activity->setUserStatus(null);
             $activity->setVideo(null);
             $activityParse = new ActivityParse();
-            $res = $activityParse->saveActivity($activity);
-            if ($res instanceof Error) {
+            $resAct = $activityParse->saveActivity($activity);
+            if ($resAct instanceof Error) {
                 $this->response(array($controllers['NOACSAVE']), 503);
             }
             $this->response(array($controllers['OKSOCIALUNLINK']), 200);
