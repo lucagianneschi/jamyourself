@@ -8,13 +8,14 @@
  * box per tutti gli utenti
  */
 
- if (!defined('ROOT_DIR'))
+if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../../../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';   
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once VIEWS_DIR . 'utilities/share.php'; 
 
 $data = $_POST['data'];
 
@@ -163,12 +164,15 @@ $albumCounter = $data['albumCounter'];
 			<!---------------------------------------- COMMENT ------------------------------------------------->
 			<div class="box-comment no-display"></div>
 			<!---------------------------------------- SHARE ------------------------------------------------->
+			<?php
+			$paramsAlbum = getShareParameters('Album');
+			?>
 			<!-- AddThis Button BEGIN -->
 			<div class="addthis_toolbox">
 				<div class="hover_menu">
-				        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
-							addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
-							addThis:title="Titolo della pagina di un album">
+				        <div class="addthis_toolbox addthis_default_style"
+							addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Album"
+							addThis:title="<?php echo $paramsAlbum['title']; ?>">
 				        <a class="addthis_button_twitter"></a>
 				        <a class="addthis_button_facebook"></a>
 				        <a class="addthis_button_google_plusone_share"></a>
@@ -236,12 +240,15 @@ $albumCounter = $data['albumCounter'];
 					 					<!---------------------------------------- COMMENT ------------------------------------------------->
 										<div class="box-comment no-display" ></div>
 										<!---------------------------------------- SHARE ---------------------------------------------------->
+											<?php
+											$paramsImage = getShareParameters('Image');
+											?>
 											<!-- AddThis Button BEGIN -->
 											<div class="addthis_toolbox">
 												<div class="hover_menu">
-												        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
-															addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
-															addThis:title="Titolo della pagina di un album">
+												        <div class="addthis_toolbox addthis_default_style"
+															addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image"
+															addThis:title="<?php echo $paramsImage['title']; ?>">
 												        <a class="addthis_button_twitter"></a>
 												        <a class="addthis_button_facebook"></a>
 												        <a class="addthis_button_google_plusone_share"></a>
