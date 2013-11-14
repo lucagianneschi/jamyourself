@@ -127,14 +127,23 @@ function slideAchievement(){
 
 //funzione per gestire la visualizzazione dell'album
 function recordSelectSingle(recordId) {
- 	$( "#record-list" ).fadeOut( 100, function() {
+ 	$( "#record-list" ).fadeOut( 100, function() {    		
     		$('.'+recordId).fadeIn( 100 );
+    		addthis.init();
+			addthis.toolbox(".addthis_toolbox"); 
 	});
 }
 //nasconde foto singolo album e visualizza lista album
 function recordSelectNext(recordId){		
 	$('.'+recordId ).fadeOut( 100, function() {
     	$('#record-list').fadeIn( 100 );
+    	//ricalcolare
+    	$('#profile-Record .box-comment').addClass('no-display');
+		$('#profile-Record .box').removeClass('box-commentSpace');
+		//$("#cboxLoadedContent").getNiceScroll().hide();
+		$("#cboxLoadedContent").mCustomScrollbar("update");
+    	
+    	rsi_record.updateSliderSize(true);
 	});	
 }
 

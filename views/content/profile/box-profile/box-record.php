@@ -139,7 +139,7 @@ $recordCounter = $data['recordCounter'];
 			$recordSingle_comment = $data['record'.$i]['counters']['commentCounter'];
 			$recordSingle_share = $data['record'.$i]['counters']['shareCounter'];
 			$recordSingle_review = $data['record'.$i]['counters']['reviewCounter'];
-			if($data['record'.$i]['counters']['showLove'] == 'true'){
+			if($data['record'.$i]['showLove'] == 'true'){
 				$recordSingle_css_love = '_unlove grey';
 				$recordSingle_text_love = $views['LOVE'];
 			}
@@ -178,6 +178,14 @@ $recordCounter = $data['recordCounter'];
 			</div>
 			<?php if(count($recordSingle_detail) > 0 && $recordSingle_detail != $boxes['NOTRACK']){
 					foreach ($recordSingle_detail as $key => $value) {
+						if($value['showLove'] == 'true'){
+							$track_css_love = '_unlove grey';
+							$track_text_love = $views['LOVE'];
+						}
+						else{
+							$track_css_love = '_love orange';
+							$track_text_love = $views['UNLOVE'];
+						}
 						
 					
 			?>
@@ -200,11 +208,11 @@ $recordCounter = $data['recordCounter'];
 					<div class="row track-propriety" >
 						<div class="box-propriety album-single-propriety">
 							<div class="small-5 columns ">
-								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')"><?php echo $text_love;?></a>
-								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')"><?php echo $views['SHARE'];?></a>	
+								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')"><?php echo $track_text_love;?></a>
+								<a class="note white" onclick="share(this, '<?php echo $value['objectId'] ?>','Song')"><?php echo $views['SHARE'];?></a>	
 							</div>
 							<div class="small-5 columns propriety ">					
-								<a class="icon-propriety <?php echo $css_love ?>" ><?php echo $value['counters']['loveCounter'] ?></a>
+								<a class="icon-propriety <?php echo $track_css_love ?>" ><?php echo $value['counters']['loveCounter'] ?></a>
 								<a class="icon-propriety _share" ><?php echo $value['counters']['shareCounter'] ?></a>			
 							</div>
 						</div>		
@@ -228,6 +236,20 @@ $recordCounter = $data['recordCounter'];
 					</div>	
 				</div>		
 			</div>
+			<!---------------------------------------- SHARE ------------------------------------------------->
+			<!-- AddThis Button BEGIN -->
+			<div class="addthis_toolbox">
+				<div class="hover_menu">
+				        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
+							addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
+							addThis:title="Titolo della pagina di un album">
+				        <a class="addthis_button_twitter"></a>
+				        <a class="addthis_button_facebook"></a>
+				        <a class="addthis_button_google_plusone_share"></a>
+				       </div>	        
+				</div>
+			</div>
+			<!-- AddThis Button END -->
 		</div>	
 	</div>
 			
@@ -235,16 +257,7 @@ $recordCounter = $data['recordCounter'];
 	
 	<!---------------------------------------- comment ------------------------------------------------->
 	<div class="box-comment no-display"></div>
-	<!---------------------------------------- SHARE ---------------------------------------------------->
-	<!-- AddThis Button BEGIN -->
-	<div class="addthis_toolbox addthis_default_style"
-	addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
-	addThis:title="Titolo della pagina di un album">
-	   <a class="addthis_button_facebook"></a>
-	   <a class="addthis_button_twitter"></a>
-	   <a class="addthis_button_google_plusone_share"></a>
-	</div>
-	<!-- AddThis Button END -->
+	
 	</div>
 </div>
 	
