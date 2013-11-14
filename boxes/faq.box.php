@@ -73,7 +73,7 @@ class FaqBox {
 	$faqP = new FaqParse();
 	$faqP->setLimit($limit);
 	$faqP->where('lang', $lang);
-	if ($direction == 'true') {
+	if ($direction == true) {
 	    $faqP->orderByAscending($field);
 	} else {
 	    $faqP->orderByDescending($field);
