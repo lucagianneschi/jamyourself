@@ -264,6 +264,8 @@ switch ($box) {
 					$result['post' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : '';
 					$result['post' . $key]['text'] = $value -> createdAt != $boxes['NODATA'] ? $value -> text : '';
 					$result['post' . $key]['objectId'] = $value -> objectId != $boxes['NODATA'] ? $value -> objectId : '';
+					$result['post' . $key]['showLove'] = $value -> showLove != '' ? $value -> showLove : false;
+					
 				}
 	
 			} else {
