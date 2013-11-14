@@ -43,12 +43,11 @@ class AlbumInfo {
      */
     function __construct($counters, $imageCounter, $objectId, $showLove, $thumbnailCover, $title) {
         global $boxes;
-        global $default_img;
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
         is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($thumbnailCover) ? $this->thumbnailCover = $default_img['DEFALBUMTHUMB'] : $this->thumbnailCover = $thumbnailCover;
+        is_null($thumbnailCover) ? $this->thumbnailCover = DEFALBUMTHUMB : $this->thumbnailCover = $thumbnailCover;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
@@ -76,7 +75,6 @@ class ImageInfo {
      */
     function __construct($counters, $description, $filePath, $location, $objectId, $showLove, $tags, $thumbnail) {
         global $boxes;
-        global $default_img;
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
         is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
         is_null($filePath) ? $this->filePath = $boxes['NODATA'] : $this->filePath = $filePath;
@@ -84,7 +82,7 @@ class ImageInfo {
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
-        is_null($thumbnail) ? $this->thumbnail = $default_img['DEFIMAGETHUMB'] : $this->thumbnail = $thumbnail;
+        is_null($thumbnail) ? $this->thumbnail = DEFIMAGETHUMB : $this->thumbnail = $thumbnail;
     }
 
 }
@@ -177,7 +175,7 @@ class AlbumBox {
         require_once CLASSES_DIR . 'album.class.php';
         require_once CLASSES_DIR . 'albumParse.class.php';
         global $boxes;
-                $currentUserId = sessionChecker();
+        $currentUserId = sessionChecker();
         $albumBox = new AlbumBox();
         $albumBox->imageArray = $boxes['NDB'];
         $info = array();
