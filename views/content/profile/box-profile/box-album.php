@@ -170,7 +170,7 @@ $albumCounter = $data['albumCounter'];
 			<!-- AddThis Button BEGIN -->
 			<div class="addthis_toolbox">
 				<div class="hover_menu">
-				        <div class="addthis_toolbox addthis_default_style"
+				        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
 							addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Album"
 							addThis:title="<?php echo $paramsAlbum['title']; ?>">
 				        <a class="addthis_button_twitter"></a>
@@ -246,7 +246,7 @@ $albumCounter = $data['albumCounter'];
 											<!-- AddThis Button BEGIN -->
 											<div class="addthis_toolbox">
 												<div class="hover_menu">
-												        <div class="addthis_toolbox addthis_default_style"
+												        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
 															addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image"
 															addThis:title="<?php echo $paramsImage['title']; ?>">
 												        <a class="addthis_button_twitter"></a>
