@@ -77,11 +77,11 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 					$event_review = $data['event'.$index]['counters']['reviewCounter'];
 					$event_share = $data['event'.$index]['counters']['shareCounter'];
 					
-					if($data['event' . $index]['showLove'] == 'false'){
+					if($data['event' . $index]['showLove'] == 'true'){
 						$css_love = '_unlove grey';
 						$text_love = $views['LOVE'];
 					}
-					elseif($data['event' . $index]['showLove'] == 'true'){
+					elseif($data['event' . $index]['showLove'] == 'false'){
 						$css_love = '_love orange';
 						$text_love = $views['UNLOVE'];
 					}

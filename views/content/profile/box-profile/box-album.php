@@ -57,15 +57,14 @@ $albumCounter = $data['albumCounter'];
 						<div  class="rsContent">
 						<?php 
 								for($i=$j; $i<($j+4); $i=$i+2){
-									$data['album' . $i]['showLove'];
-									
+													
 									
 						?>
 					
 							
 					<div class="row" style="margin-left: 0px; margin-right: 0px;">
 						<?php if(isset($data['album' . ($i)]['objectId'])){
-							 	$css_love = $data['album' . $i]['showLove'] == 'true' ?  '_love orange' : '_unlove grey';
+							 	$css_love = $data['album' . $i]['showLove'] == 'false' ?  '_love orange' : '_unlove grey';
 							?>				
 						<div class="small-6 columns box-coveralbum <?php echo $data['album' . ($i)]['objectId'] ?>"  onclick="albumSelectSingle('<?php echo $data['album' . $i]['objectId']; ?>',<?php echo $data['album' . $i]['imageCounter']; ?>)">
 							<img class="albumcover" src="../media/<?php echo $data['album' . $i]['thumbnailCover'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFALBUMTHUMB'];?>'">  
@@ -119,11 +118,11 @@ $albumCounter = $data['albumCounter'];
 	<?php 
 		
 		for($i=0; $i<$albumCounter; $i++){ 
-			if($data['album' . $i]['showLove'] == 'false'){
+			if($data['album' . $i]['showLove'] == 'true'){
 					$css_love = '_unlove grey';
 					$text_love = $views['LOVE'];
 				}
-				elseif($data['album' . $i]['showLove'] == 'true'){
+				elseif($data['album' . $i]['showLove'] == 'false'){
 					$css_love = '_love orange';
 					$text_love = $views['UNLOVE'];
 				}
@@ -182,11 +181,11 @@ $albumCounter = $data['albumCounter'];
 		<div class="row no-display box" id="profile-Image">
 			<div class="large-12 columns">
 				 <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ 
-				 			if($data['album' . $i]['image' . $j]['showLove'] == 'false'){
+				 			if($data['album' . $i]['image' . $j]['showLove'] == 'true'){
 								$css_love = '_unlove grey';
 								$text_love = $views['LOVE'];
 							}
-							elseif($data['album' . $i]['image' . $j]['showLove'] == 'true'){
+							elseif($data['album' . $i]['image' . $j]['showLove'] == 'false'){
 								$css_love = '_love orange';
 								$text_love = $views['UNLOVE'];
 							}

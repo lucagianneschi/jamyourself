@@ -59,11 +59,11 @@ $postCounter = $data['postCounter'];
 							$post_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['post' . $i]['createdAt']);
 							$post_createdAd = $post_DateTime->format('l j F Y - H:i');
 							$love = $data['post' . $i]['showLove'] == false ? '_unlove grey' : '_love orange';
-							if($data['post' . $i]['showLove'] == 'false'){
+							if($data['post' . $i]['showLove'] == 'true'){
 								$css_love = '_unlove grey';
 								$text_love = $views['LOVE'];
 							}
-							elseif($data['post' . $i]['showLove'] == 'true'){
+							elseif($data['post' . $i]['showLove'] == 'false'){
 								$css_love = '_love orange';
 								$text_love = $views['UNLOVE'];
 							}
