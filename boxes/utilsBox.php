@@ -57,35 +57,24 @@ class UserInfo {
      * \param	$objectId, $thumbnail, $type, $username
      */
     function __construct($objectId, $thumbnail, $type, $username) {
-<<<<<<< HEAD
 	require_once SERVICES_DIR . 'lang.service.php';
 	require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 	global $boxes;
-	global $default_img;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($thumbnail) ? $this->thumbnail = $default_img['DEFAVATARTHUMB'] : $this->thumbnail = $thumbnail;
+	switch ($type) {
+	    case 'SPOTTER':
+		$imageDefault = DEFTHUMBSPOTTER;
+		break;
+	    case 'JAMMER':
+		$imageDefault = DEFTHUMBJAMMER;
+		break;
+	    case 'VENUE':
+		$imageDefault = DEFTHUMBVENUE;
+		break;
+	}
+	is_null($thumbnail) ? $this->thumbnail = $imageDefault : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
 	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
-=======
-        require_once SERVICES_DIR . 'lang.service.php';
-        require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-        global $boxes;
-        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-        switch ($type) {
-            case 'SPOTTER':
-                $imageDefault = DEFTHUMBSPOTTER;
-                break;
-            case 'JAMMER':
-                $imageDefault = DEFTHUMBJAMMER;
-                break;
-            case 'VENUE':
-                $imageDefault = DEFTHUMBVENUE;
-                break;
-        }
-        is_null($thumbnail) ? $this->thumbnail = $imageDefault : $this->thumbnail = $thumbnail;
-        is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
-        is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
->>>>>>> 86f5c7f651a10a1e914f01996c7ae9997ef2c382
     }
 
 }

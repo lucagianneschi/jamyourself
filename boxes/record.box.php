@@ -46,23 +46,6 @@ class RecordInfoForMediaPage {
      * \param	$buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $showLove, $title, $tracklist, $year
      */
     function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $showLove, $title, $tracklist, $year) {
-<<<<<<< HEAD
-	global $boxes;
-	global $default_img;
-	is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = $buylink;
-	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
-	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-	is_null($cover) ? $this->cover = $default_img['DEFRECORDCOVER'] : $this->cover = $cover;
-	is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
-	is_null($featuring) ? $this->featuring = $boxes['NOFEATRECORD'] : $this->featuring = $featuring;
-	is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
-	is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = $label;
-	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
-	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
-	is_null($tracklist) ? $this->tracklist = $boxes['NOTRACK'] : $this->tracklist = $tracklist;
-	is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
-=======
         global $boxes;
         is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = $buylink;
         is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
@@ -77,7 +60,6 @@ class RecordInfoForMediaPage {
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
         is_null($tracklist) ? $this->tracklist = $boxes['NOTRACK'] : $this->tracklist = $tracklist;
         is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
->>>>>>> 86f5c7f651a10a1e914f01996c7ae9997ef2c382
     }
 
 }
@@ -99,18 +81,6 @@ class RecordInfoForPersonalPage {
      * \param	$counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover, $title, $year
      */
     function __construct($counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover, $title, $year) {
-<<<<<<< HEAD
-	global $boxes;
-	global $default_img;
-	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-	is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
-	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
-	is_null($thumbnailCover) ? $this->thumbnailCover = $default_img['DEFRECORDTHUMB'] : $this->thumbnailCover = $thumbnailCover;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
-	is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
-=======
         global $boxes;
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
         is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
@@ -120,7 +90,6 @@ class RecordInfoForPersonalPage {
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
         is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
->>>>>>> 86f5c7f651a10a1e914f01996c7ae9997ef2c382
     }
 
 }
@@ -137,18 +106,10 @@ class RecordInfoForUploadRecordPage {
      * \param	$songCounter, $thumbnailCover, $title
      */
     function __construct($songCounter, $thumbnailCover, $title) {
-<<<<<<< HEAD
-	global $boxes;
-	global $default_img;
-	is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
-	is_null($thumbnailCover) ? $this->thumbnailCover = $default_img['DEFRECORDTHUMB'] : $this->thumbnailCover = $thumbnailCover;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
-=======
         global $boxes;
         is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
->>>>>>> 86f5c7f651a10a1e914f01996c7ae9997ef2c382
     }
 
 }
