@@ -401,7 +401,7 @@ class UserParse {
             $parseUser = new parseUser();
             is_null($user->getUsername()) ? $parseUser->username = null : $parseUser->username = $user->getUsername();
             is_null($user->getPassword()) ? $parseUser->password = null : $parseUser->password = $user->getPassword();
-            is_null($user->getActive()) ? $parseUser->active = null : $parseUser->active = $user->getActive();
+            is_null($user->getActive()) ? $parseUser->active = true : $parseUser->active = $user->getActive();
             is_null($user->getAddress()) ? $parseUser->address = null : $parseUser->address = $user->getAddress();
             is_null($user->getAlbums()) ? $parseUser->albums = null : $parseUser->albums = toParseAddRelation('Album', $user->getAlbums());
             is_null($user->getBackground()) ? $parseUser->background = DEFBGD : $parseUser->background = $user->getBackground();
@@ -431,9 +431,9 @@ class UserParse {
             is_null($user->getLastname()) ? $parseUser->lastname = null : $parseUser->lastname = $user->getLastname();
             is_null($user->getLevel()) ? $parseUser->level = -1 : $parseUser->level = $user->getLevel();
             is_null($user->getLevelValue()) ? $parseUser->levelValue = -1 : $parseUser->levelValue = $user->getLevelValue();
-            is_null($user->getLocalType()) ? $parseUser->localType = null : $parseUser->localType = $user->getLocalType();
+            is_null($user->getLocalType()) ? $parseUser->localType = $nullArray : $parseUser->localType = $user->getLocalType();
             is_null($user->getLoveSongs()) ? $parseUser->loveSongs = null : $parseUser->loveSongs = toParseAddRelation('Song', $user->getLoveSongs());
-            is_null($user->getMembers()) ? $parseUser->members = null : $parseUser->members = $user->getMembers();
+            is_null($user->getMembers()) ? $parseUser->members = $nullArray : $parseUser->members = $user->getMembers();
             is_null($user->getMusic()) ? $parseUser->music = $nullArray : $parseUser->music = $user->getMusic();
             is_null($user->getPlaylists()) ? $parseUser->playlists = null : $parseUser->playlists = toParseAddRelation('Playlist', $user->getPlaylists());
             is_null($user->getPremium()) ? $parseUser->premium = null : $parseUser->premium = $user->getPremium();
