@@ -1,1 +1,0 @@
-In questa cartella si salvano le immagini di default del sito, quelle che vengono inserite al momento in cui ho un'immagine mancante
