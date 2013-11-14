@@ -52,4 +52,6 @@ define('DEFSONGTHUMB', MEDIA_DIR . 'images/default/defaultSongThumb.jpg');
 //IMAGE 
 define('DEFIMAGE', MEDIA_DIR . 'images/default/defaultImage.jpg'); 
 define('DEFIMAGETHUMB', MEDIA_DIR . 'images/default/defaultImageThumb.jpg');
+//VIDEO
+define('DEFVIDEOTHUMB', MEDIA_DIR . 'images/default/defaultVideoThumb.jpg');
 ?>
