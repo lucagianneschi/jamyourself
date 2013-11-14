@@ -80,7 +80,7 @@ class PostBox {
         $post->whereOr($value);
         $post->where('type', 'P');
         $post->where('active', true);
-        $post->whereInclude('fromUser,toUser');
+        $post->whereInclude('fromUser');
         $post->setLimit($limit);
         $post->setSkip($skip);
         $post->orderByDescending('createdAt');
