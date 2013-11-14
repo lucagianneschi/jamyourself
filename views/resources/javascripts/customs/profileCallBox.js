@@ -19,19 +19,19 @@
 
 var callBox = {
 	url : "content/profile/callbox.php",
-	typebox : '',
+/*	typebox : '',
 	objectIdUser : '',
 	typeUser : '',
 	typeCurrentUser : '',
 	objectIdCurrentUser: '',
 	objectId: '',
 	classObject : '',
-	classBox: '',
+	classBox: '', */
 	countBoxActivity: 0,
 	numBoxActivity: 1,
 	dataActivity: {'record':'','event':'','relation':''},
 	load : function(typebox) {
-		__this = this;
+		callboxCnt = this;
 		this.typebox = typebox;
 		
 		$.ajax({
@@ -51,35 +51,35 @@ var callBox = {
 				
 				switch(typebox){
 					case 'record':
-						getPinner('record',__this.classBox, __this.objectId);
+						getPinner('record',callboxCnt.classBox, callboxCnt.objectId);
 					break;
 					case 'event':
-						getPinner('event',__this.classBox, __this.objectId);
+						getPinner('event',callboxCnt.classBox, callboxCnt.objectId);
 					break;
 					case 'album':
-						getPinner('album',__this.classBox, __this.objectId);
+						getPinner('album',callboxCnt.classBox, callboxCnt.objectId);
 					break;
 					case 'relation':
-						if (__this.typeUser == 'SPOTTER'){							
-							getPinner('friends',__this.classBox, __this.objectId);
-							getPinner('following',__this.classBox, __this.objectId);
+						if (callboxCnt.typeUser == 'SPOTTER'){							
+							getPinner('friends',callboxCnt.classBox, callboxCnt.objectId);
+							getPinner('following',callboxCnt.classBox, callboxCnt.objectId);
 						}
 						else{
-							getPinner('collaboration',__this.classBox, __this.objectId);
-							getPinner('followers',__this.classBox, __this.objectId);
+							getPinner('collaboration',callboxCnt.classBox, callboxCnt.objectId);
+							getPinner('followers',callboxCnt.classBox, callboxCnt.objectId);
 						}
-						getPinner('activity',__this.classBox, __this.objectId);
+						getPinner('activity',callboxCnt.classBox, callboxCnt.objectId);
 					break;
 					case 'post':
-						getPinner('post',__this.classBox, __this.objectId);
+						getPinner('post',callboxCnt.classBox, callboxCnt.objectId);
 					break;
 					case 'comment':
-						getPinner('comment',__this.classBox, __this.objectId);
+						getPinner('comment',callboxCnt.classBox, callboxCnt.objectId);
 					break;
 					case 'review':					
-						if (__this.typeUser != 'VENUE')
-							getPinner('RecordReview',__this.classBox, __this.objectId);
-						getPinner('EventReview',__this.classBox, __this.objectId);						
+						if (callboxCnt.typeUser != 'VENUE')
+							getPinner('RecordReview',callboxCnt.classBox, callboxCnt.objectId);
+						getPinner('EventReview',callboxCnt.classBox, callboxCnt.objectId);						
 					break;
 				}					
 			},
@@ -89,18 +89,18 @@ var callBox = {
 					switch(typebox) {						
 						case 'userinfo':
 							//Prelevo il type dell'utente
-							__this.typeUser = data.type;
+							callboxCnt.typeUser = data.type;
 							//aggiungo i box: box-userinfo, box-information e box-status
-							addBoxUserInfo(data,__this.typeCurrentUser);
+							addBoxUserInfo(data,callboxCnt.typeCurrentUser);
 							
 							//chiamata ricorsiva al box review
 							callBox.load('review');
-							if (__this.typeUser == 'JAMMER'){
-								__this.numBoxActivity++;
+							if (callboxCnt.typeUser == 'JAMMER'){
+								callboxCnt.numBoxActivity++;
 								callBox.load('record');
 							} 
-							if (__this.typeUser != 'SPOTTER'){
-								__this.numBoxActivity++;
+							if (callboxCnt.typeUser != 'SPOTTER'){
+								callboxCnt.numBoxActivity++;
 								callBox.load('event');
 							} 
 							callBox.load('relation');
@@ -110,78 +110,77 @@ var callBox = {
 						
 						case 'review':
 							//aggiungo box review Record se non utente venue
-							if (__this.typeUser != 'VENUE')
-								addBoxRecordReview(data, __this.typeUser, __this.objectIdUser);
+							if (callboxCnt.typeUser != 'VENUE')
+								addBoxRecordReview(data, callboxCnt.typeUser, callboxCnt.objectIdUser);
 							//aggiungo box review Event
-							addBoxEventReview(data, __this.typeUser, __this.objectIdUser);							
+							addBoxEventReview(data, callboxCnt.typeUser, callboxCnt.objectIdUser);							
 							break;
 						
 						case 'record':
-							addBoxRecord(data, __this.typeUser);
+							addBoxRecord(data, callboxCnt.typeUser);
 						
-							__this.dataActivity['record'] = data.activity.record;
+							callboxCnt.dataActivity['record'] = data.activity.record;
 							
-							__this.countBoxActivity = __this.countBoxActivity + 1;							
-							if(__this.countBoxActivity == __this.numBoxActivity){								
+							callboxCnt.countBoxActivity = callboxCnt.countBoxActivity + 1;							
+							if(callboxCnt.countBoxActivity == callboxCnt.numBoxActivity){								
 								callBox.load('activity');
 							}
 							break;
 						case 'event':
-							addBoxEvent(data, __this.typeUser);
+							addBoxEvent(data, callboxCnt.typeUser);
 							
-							__this.dataActivity['event'] = data.activity.event;
+							callboxCnt.dataActivity['event'] = data.activity.event;
 							
-							__this.countBoxActivity = __this.countBoxActivity + 1;							
-							if(__this.countBoxActivity == __this.numBoxActivity){
+							callboxCnt.countBoxActivity = callboxCnt.countBoxActivity + 1;							
+							if(callboxCnt.countBoxActivity == callboxCnt.numBoxActivity){
 								callBox.load('activity');
 							}
 							break;
 
 						case 'relation':												
 							//se spotter aggiungi relation profile
-							if (__this.typeUser == 'SPOTTER') addBoxRelationProfile(data, __this.typeUser);
+							if (callboxCnt.typeUser == 'SPOTTER') addBoxRelationProfile(data, callboxCnt.typeUser);
 							//se jammer o venue aggiunge social profile
-							else addBoxRelationSocial(data, __this.typeUser);
+							else addBoxRelationSocial(data, callboxCnt.typeUser);
 							
 							
-							__this.dataActivity['relation'] = data.activity.relation;
+							callboxCnt.dataActivity['relation'] = data.activity.relation;
 							
-							__this.countBoxActivity = __this.countBoxActivity + 1;
-							if(__this.countBoxActivity == __this.numBoxActivity){
+							callboxCnt.countBoxActivity = callboxCnt.countBoxActivity + 1;
+							if(callboxCnt.countBoxActivity == callboxCnt.numBoxActivity){
 								callBox.load('activity');
 							}
 							break;
 
 						case 'album':
 							//aggiunge box album
-							addBoxAlbum(data, __this.typeUser, __this.objectIdUser);							
+							addBoxAlbum(data, callboxCnt.typeUser, callboxCnt.objectIdUser);							
 							break;
 
 						case 'post':
 							//aggiunge box post
-							addBoxPost(data, __this.typeUser, __this.objectIdUser);
+							addBoxPost(data, callboxCnt.typeUser, callboxCnt.objectIdUser);
 							break;
 						
 						case 'activity':							
 							//aggiunge box activity
-							console.log(__this.dataActivity);
-							addBoxActivity(data,__this.dataActivity, __this.typeUser);
+							addBoxActivity(data,callboxCnt.dataActivity, callboxCnt.typeUser);
 							//chiamate ricorsive di record o event o album
 							break;
 						
 						case 'header':
 							//aggiunge box post
-							addBoxHeader(data, __this.typeUser);
+							addBoxHeader(data, callboxCnt.typeUser);
 							break;
 							
 						case 'comment':
-							addBoxComment(data, __this.typeUser, __this.classBox, __this.objectId, __this.objectIdUser);							
+							addBoxComment(data, callboxCnt.typeUser, callboxCnt.classBox, callboxCnt.objectId, callboxCnt.objectIdUser);							
 							break;	
 						default:
 
 					}
 					
-					console.log('Box: ' + typebox + ', TypeUser: ' + __this.typeUser + ', objectId: ' + __this.objectIdUser);
+					console.log('Box: ' + typebox + ', TypeUser: ' + callboxCnt.typeUser + ', objectId: ' + callboxCnt.objectIdUser);
 					return data;
 				} else {
 					if(typebox == 'userinfo')
@@ -325,8 +324,6 @@ function addBoxEventReview(data, typeUser, objectIdUser) {
 		'objectIdUser' : objectIdUser
 	}, function() { success:
 		rsi_eventReview = slideReview('eventReviewSlide'); 
-		console.log(addthis_config);
-		console.log(addthis);
 		addthis.init();
 		addthis.toolbox(".addthis_toolbox");
 		hcento();

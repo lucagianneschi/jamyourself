@@ -69,8 +69,10 @@ $controllers = array(
     //LOVE
     'LOVEPLUSERR' => 'Error incrementing Love',
     'LOVEMINUSERR' => 'Error decrementing Love',
-    'LOVE' => 'You love a',
-    'UNLOVE' => 'You don&apost love anymore a',
+    'LOVE' => 'Love OK',
+    'UNLOVE' => 'Unlove OK',
+    'ALREADYLOVED' => 'You have already loved this object',
+    'NOLOVE' => 'There is no love action for this object',
     //REVIEW
     'SBJE' => 'Your Event has been reviewed',
     'SBJR' => 'Your Record has been reviewed',
