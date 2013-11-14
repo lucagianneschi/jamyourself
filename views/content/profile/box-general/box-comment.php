@@ -12,6 +12,30 @@ $data = $_POST['data'];
 $typeUser = $_POST['typeUser'];
 $objectIdUser = $_POST['objectIdUser'];
 $classBox = $_POST['classbox'];
+
+switch ($classBox) {
+	case 'Album':
+		$classType = 'Album';
+		break;
+	case 'Comment':
+		$classType = 'Comment';
+		break;
+	case 'EventReview':
+		$classType = 'Comment';
+		break;
+	case 'Image':
+		$classType = 'Image';
+		break;
+	case 'Post':
+		$classType = 'Comment';
+		break;
+	case 'Record':
+		$classType = 'Record';
+		break;
+	case 'RecordReview':
+		$classType = 'Comment';
+		break;
+}
  
 //objectId dell'oggetto relativo al comment
 $objectId = $_POST['objectId'];
@@ -74,14 +98,14 @@ $objectId = $_POST['objectId'];
 			?>
 			<div class="row  ">
 				<div  class="large-12 columns ">
-					<form action="" class="box-write" onsubmit="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Comment', '<?php echo $classBox; ?>'); return false;">
+					<form action="" class="box-write" onsubmit="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $classType; ?>', '<?php echo $classBox; ?>'); return false;">
 						<div class="">
 							<div class="row  ">
 								<div  class="small-9 columns ">
 									<input id="comment<?php echo $classBox . '_' . $objectId; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['WRITE'];?>" />
 								</div>
 								<div  class="small-3 columns ">
-									<input type="button" class="comment-button inline comment-btn" value="Comment" onclick="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Comment', '<?php echo $classBox; ?>')" />
+									<input type="button" class="comment-button inline comment-btn" value="Comment" onclick="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $classType; ?>', '<?php echo $classBox; ?>')" />
 								</div>
 							</div>
 						</div>
