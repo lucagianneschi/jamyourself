@@ -60,14 +60,13 @@ class UserInfoBox {
      */
     public function initForPersonalPage($objectId) {
         global $boxes;
-        global $default_img;
         $userParse = new UserParse();
         $user = $userParse->getUser($objectId);
         if ($user instanceof Error) {
             return $user;
         } else {
             $infoBox = new UserInfoBox();
-            is_null($user->getBackGround()) ? $infoBox->backGround = $default_img['DEFBGD'] : $infoBox->backGround = $user->getBackGround();
+            is_null($user->getBackGround()) ? $infoBox->backGround = DEFBGD : $infoBox->backGround = $user->getBackGround();
             is_null($user->getCity()) ? $infoBox->city = $boxes['NODATA'] : $infoBox->city = parse_decode_string($user->getCity());
             is_null($user->getCountry()) ? $infoBox->country = $boxes['NODATA'] : $infoBox->country = parse_decode_string($user->getCountry());
             is_null($user->getDescription()) ? $infoBox->description = $boxes['NODATA'] : $infoBox->description = parse_decode_string($user->getDescription());
