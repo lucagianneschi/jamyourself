@@ -24,7 +24,7 @@ $postCounter = $data['postCounter'];
 ?>
 
 <!------------------------------------- Post ------------------------------------>
-<div class="row" id="social-Post">
+<div class="row" id="social-Post" style='margin-bottom: 40px;'>
 	<div  class="large-12 columns">
 		<h3><?php echo $views['post']['TITLE']?></h3>
 
