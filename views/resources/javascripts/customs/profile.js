@@ -353,7 +353,6 @@ function lightBoxPhoto(classBox){
 }
 
 function nextLightBox(){
-	console.log('ciao');
 	$('#cboxLoadedContent .box-comment').addClass('no-display');
 	$('#cboxLoadedContent .box').removeClass('box-commentSpace');				
 	$("#cboxLoadedContent").mCustomScrollbar("update");
