@@ -293,7 +293,6 @@ class UserParse {
             return throwError(new Exception('parseToUser parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $user = new User($res->type);
-
             $user->setObjectId($res->objectId);
             $user->setUsername($res->username);
             $user->setPassword($res->password);
@@ -354,7 +353,6 @@ class UserParse {
             $user->setCreatedAt(fromParseDate($res->createdAt));
             $user->setUpdatedAt(fromParseDate($res->updatedAt));
             $user->setACL(fromParseACL($res->ACL));
-
             return $user;
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
