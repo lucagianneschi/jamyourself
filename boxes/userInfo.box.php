@@ -86,32 +86,32 @@ class UserInfoBox {
                 case 'SPOTTER':
                     $infoBox->collaborationCounter = $boxes['ND'];
                     $infoBox->followersCounter = $boxes['ND'];
-                    is_null($user->getFollowingCounter()) ? $infoBox->followingCounter = 0 : $infoBox->followingCounter = $user->getFollowingCounter();
-                    is_null($user->getFriendshipCounter()) ? $infoBox->frindshipCounter = 0 : $infoBox->frindshipCounter = $user->getFriendshipCounter();
+                    (is_null($user->getFollowingCounter()) || $user->getFollowingCounter() == -1) ? $infoBox->followingCounter = 0 : $infoBox->followingCounter = $user->getFollowingCounter();
+                    (is_null($user->getFriendshipCounter()) || $user->getFriendshipCounter() == -1) ? $infoBox->frindshipCounter = 0 : $infoBox->frindshipCounter = $user->getFriendshipCounter();
                     $infoBox->geoCoding = $boxes['ND'];
                     $infoBox->localType = $boxes['ND'];
                     $infoBox->members = $boxes['ND'];
-                    is_null($user->getMusic()) ? $infoBox->music = $boxes['NODATA'] : $infoBox->music = $user->getMusic();
+                    (is_null($user->getMusic()) || count($user->getMusic()) == 0) ? $infoBox->music = $boxes['NODATA'] : $infoBox->music = $user->getMusic();
                     is_null($user->getProfilePicture()) ? $infoBox->profilePicture = DEFAVATARSPOTTER : $infoBox->profilePicture = $user->getProfilePicture();
                     break;
                 case 'JAMMER':
-                    is_null($user->getCollaborationCounter()) ? $infoBox->collaborationCounter = 0 : $infoBox->collaborationCounter = $user->getCollaborationCounter();
-                    is_null($user->getFollowersCounter()) ? $infoBox->followersCounter = 0 : $infoBox->followersCounter = $user->getFollowersCounter();
+                    (is_null($user->getCollaborationCounter()) || $user->getCollaborationCounter() == -1) ? $infoBox->collaborationCounter = 0 : $infoBox->collaborationCounter = $user->getCollaborationCounter();
+                    (is_null($user->getFollowersCounter()) || $user->getFollowersCounter() == -1) ? $infoBox->followersCounter = 0 : $infoBox->followersCounter = $user->getFollowersCounter();
                     $infoBox->followingCounter = $boxes['ND'];
                     $infoBox->frindshipCounter = $boxes['ND'];
                     $infoBox->geoCoding = $boxes['ND'];
                     $infoBox->localType = $boxes['ND'];
-                    is_null($user->getMembers()) ? $infoBox->members = $boxes['NODATA'] : $infoBox->members = $user->getMembers();
-                    is_null($user->getMusic()) ? $infoBox->music = $boxes['NODATA'] : $infoBox->music = $user->getMusic();
+                    (is_null($user->getMembers()) || count(getMembers()) == 0) ? $infoBox->members = $boxes['NOMEMBER'] : $infoBox->members = $user->getMembers();
+                    (is_null($user->getMusic()) || count($user->getMusic()) == 0) ? $infoBox->music = $boxes['NODATA'] : $infoBox->music = $user->getMusic();
                     is_null($user->getProfilePicture()) ? $infoBox->profilePicture = DEFAVATARJAMMER : $infoBox->profilePicture = $user->getProfilePicture();
                     break;
                 case 'VENUE':
-                    is_null($user->getCollaborationCounter()) ? $infoBox->collaborationCounter = 0 : $infoBox->collaborationCounter = $user->getCollaborationCounter();
-                    is_null($user->getFollowersCounter()) ? $infoBox->followersCounter = 0 : $infoBox->followersCounter = $user->getFollowersCounter();
+                    (is_null($user->getCollaborationCounter()) || $user->getCollaborationCounter() == -1) ? $infoBox->collaborationCounter = 0 : $infoBox->collaborationCounter = $user->getCollaborationCounter();
+                    (is_null($user->getFollowersCounter()) || $user->getFollowersCounter() == -1) ? $infoBox->followersCounter = 0 : $infoBox->followersCounter = $user->getFollowersCounter();
                     is_null($user->getGeoCoding()) ? $infoBox->geoCoding = $boxes['NODATA'] : $infoBox->geoCoding = $user->getGeoCoding();
                     $infoBox->followingCounter = $boxes['ND'];
                     $infoBox->frindshipCounter = $boxes['ND'];
-                    is_null($user->getLocalType()) ? $infoBox->localType = $boxes['NODATA'] : $infoBox->localType = $user->getLocalType();
+                    (is_null($user->getLocalType()) || count($user->getLocalType()) == 0) ? $infoBox->localType = $boxes['NOLOCALTYPE'] : $infoBox->localType = $user->getLocalType();
                     $infoBox->members = $boxes['ND'];
                     $infoBox->music = $boxes['ND'];
                     is_null($user->getProfilePicture()) ? $infoBox->profilePicture = DEFAVATARVENUE : $infoBox->profilePicture = $user->getProfilePicture();
