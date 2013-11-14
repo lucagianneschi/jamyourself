@@ -16,7 +16,7 @@ $(document).ready(function() {
 		updateOnContentResize: true,
 		autoHideScrollbar:false,
 		mouseWheel: true,
-		scrollInertia:150,
+		scrollInertia:100,
 		advanced:{
 			autoScrollOnFocus: false
 		}
@@ -25,7 +25,7 @@ $(document).ready(function() {
 		updateOnContentResize: true,
 		autoHideScrollbar:false,
 		mouseWheel: true,
-		scrollInertia:150,
+		scrollInertia:100,
 		advanced:{
 			autoScrollOnFocus: false
 		}

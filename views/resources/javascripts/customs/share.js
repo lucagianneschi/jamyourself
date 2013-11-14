@@ -25,7 +25,36 @@ function hideMenu(box) {
 }
 function share(_this,id,box){
 	var idbox = '';
-		
+	var hover = '';
+	switch(box){
+		case 'profile-Image':
+			idbox = id;
+			hover = '#'+idbox+ ' .hover_menu';
+			$( hover ).css({'top':-40}); 
+			$( hover ).css({'left':-220});
+		break;
+		case 'profile-Record':
+			idbox = box;		
+			hover = '#'+idbox+ ' .hover_menu.hover_record';
+		break;
+		case 'Song':
+			idbox = id;
+			hover = '#'+idbox+ ' .hover_menu';
+			$( hover ).css({'top':20}); 
+			$( hover ).css({'left':80});	
+		break;
+		default:
+			idbox = box;
+			hover = '#'+idbox+ ' .hover_menu';		
+			var positionTop = $('#'+idbox+ ' .box').height();
+			positionTop = positionTop + 40;
+			var position = $(_this).position();
+			positionLeft = position.left + 60; 
+		 	$( hover ).css({'left':positionLeft}); 	
+		 	$( hover ).css({'top':positionTop});
+		break;
+	}
+	/*	
 	if(box != 'profile-Image'){
 		idbox = box;		
 		var positionTop = $('#'+idbox+ ' .box').height();
@@ -37,16 +66,13 @@ function share(_this,id,box){
 	
  	}
  	else{
- 		idbox = id;
- 		var position = $(_this).position();
-		$( '#'+idbox+ ' .hover_menu' ).css({'top':-40}); 
-		$( '#'+idbox+ ' .hover_menu' ).css({'left':-220}); 		
+ 		 		
  	} 	
- 	
-	$( '#'+idbox+ ' .hover_menu' ).fadeIn('fast');
- 	$( '#'+idbox+ ' .hover_menu' ).mouseleave(function() {
+ 	*/
+	$( hover ).fadeIn('fast');
+ 	$( hover ).mouseleave(function() {
 		$(this).data('in', false);
-    	setTimeout(hideMenu('#'+idbox+ ' .hover_menu'), delay);
+    	setTimeout(hideMenu(hover), delay);
     });
     	
 }
