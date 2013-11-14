@@ -69,8 +69,10 @@ $controllers = array(
     //LOVE
     'LOVEPLUSERR' => 'Errore incrementando Love',
     'LOVEMINUSERR' => 'Error decrementando Love',
-    'LOVE' => 'Hai fatto love su',
-    'UNLOVE' => 'Hai rimosso lova',
+    'LOVE' => 'Love OK',
+    'UNLOVE' => 'UnLove OK',
+    'ALREADYLOVED' => 'Azione di love già effettuata',
+    'NOLOVE' => 'Azione di love non ancora effettuata',
     //REVIEW
     'SBJE' => 'Il tuo evento ha ricevuto una recensione',
     'SBJR' => 'Il tuo record ha ricevuto una recensione',
