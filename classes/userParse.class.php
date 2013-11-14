@@ -459,9 +459,11 @@ class UserParse {
             } elseif ($parseUser->type == 'JAMMER') {
                 $defAvatar = DEFAVATARJAMMER;
                 $defAvatarThumb = DEFTHUMBJAMMER;
-            } else {
+            } elseif ($parseUser->type == 'VENUE') {
                 $defAvatar = DEFAVATARVENUE;
                 $defAvatarThumb = DEFTHUMBVENUE;
+            } else {
+                return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
             }
             is_null($user->getProfilePicture()) ? $parseUser->profilePicture = $defAvatar : $parseUser->profilePicture = $user->getProfilePicture();
             is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = $defAvatarThumb : $parseUser->profileThumbnail = $user->getProfileThumbnail();
