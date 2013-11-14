@@ -154,6 +154,7 @@ switch ($box) {
 				$result['album' . $key]['objectId'] = $value -> objectId;
 				$result['album' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : $default_img['DEFALBUMTHUMB'];
 				$result['album' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
+				$result['album' . $key]['showLove'] = $value -> showLove != '' ? $value -> showLove : false;
 				$albumDetail = $albumBoxP -> initForDetail($value -> objectId);
 				foreach ($albumDetail->imageArray as $keyImage => $valueImage) {
 					$result['album' . $key]['image' . $keyImage]['counters'] = $valueImage -> counters;
@@ -163,6 +164,7 @@ switch ($box) {
 					$result['album' . $key]['image' . $keyImage]['tags'] = $valueImage -> tags != $boxes['NODATA'] ? $valueImage -> tags : '';
 					$result['album' . $key]['image' . $keyImage]['thumbnail'] = $valueImage -> thumbnail != $boxes['NODATA'] ? $valueImage -> thumbnail : $default_img['DEFIMAGE'];
 					$location = $valueImage -> location != $boxes['NODATA'] ? $valueImage -> location : '';
+					$result['album' . $key]['image' . $keyImage]['showLove'] = $valueImage -> showLove != '' ? $valueImage -> showLove : false;
 					$address = "";	
 								
 					if($location instanceof parseGeoPoint){
@@ -264,6 +266,8 @@ switch ($box) {
 					$result['post' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : '';
 					$result['post' . $key]['text'] = $value -> createdAt != $boxes['NODATA'] ? $value -> text : '';
 					$result['post' . $key]['objectId'] = $value -> objectId != $boxes['NODATA'] ? $value -> objectId : '';
+					$result['post' . $key]['showLove'] = $value -> showLove != '' ? $value -> showLove : false;
+					
 				}
 	
 			} else {

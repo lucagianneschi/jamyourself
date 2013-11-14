@@ -24,7 +24,7 @@ $postCounter = $data['postCounter'];
 ?>
 
 <!------------------------------------- Post ------------------------------------>
-<div class="row" id="social-Post">
+<div class="row" id="social-Post" style='margin-bottom: 40px;'>
 	<div  class="large-12 columns">
 		<h3><?php echo $views['post']['TITLE']?></h3>
 
@@ -58,9 +58,18 @@ $postCounter = $data['postCounter'];
 						for($i = 0; $i < $postCounter; $i++){
 							$post_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $data['post' . $i]['createdAt']);
 							$post_createdAd = $post_DateTime->format('l j F Y - H:i');
+							$love = $data['post' . $i]['showLove'] == false ? '_unlove grey' : '_love orange';
+							if($data['post' . $i]['showLove'] == 'false'){
+								$css_love = '_unlove grey';
+								$text_love = $views['LOVE'];
+							}
+							elseif($data['post' . $i]['showLove'] == 'true'){
+								$css_love = '_love orange';
+								$text_love = $views['UNLOVE'];
+							}
 							?>
 							<div id='<?php echo  $data['post' . $i]['objectId'];?>'>
-								<div class="box">
+								<div class="box <?php echo $data['post' . $i]['showLove'] ?>">
 								
 								<div class="row  line">
 									<div  class="small-1 columns ">
@@ -98,11 +107,11 @@ $postCounter = $data['postCounter'];
 								<div class="row">
 									<div class="box-propriety">
 										<div class="small-5 columns ">
-											<a class="note grey " onclick="love(this, 'Comment', '<?php echo $data['post' . $i]['objectId']; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $views['LOVE'];?></a>
+											<a class="note grey " onclick="love(this, 'Comment', '<?php echo $data['post' . $i]['objectId']; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
 											<a class="note grey" onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')"><?php echo $views['COMM'];?></a>
 										</div>
 										<div class="small-5 columns propriety ">
-											<a class="icon-propriety _unlove grey"><?php echo$data['post' . $i]['counters']['loveCounter']; ?></a>
+											<a class="icon-propriety <?php echo $css_love ?>"><?php echo$data['post' . $i]['counters']['loveCounter']; ?></a>
 											<a class="icon-propriety _comment"><?php echo $data['post' . $i]['counters']['commentCounter']; ?></a>
 										
 										</div>
