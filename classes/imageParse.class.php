@@ -229,7 +229,6 @@ class ImageParse {
 	 * \return	Error	the Error raised by the function
 	 */
 	function saveImage($image) {
-	    global $default_img;
 		if (is_null($image->getFromUser()))
 			return throwError(new Exception('saveImage parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
@@ -244,14 +243,14 @@ class ImageParse {
 			is_null($image->getDescription()) ? $parseImage->description = null : $parseImage->description = $image->getDescription();
 			is_null($image->getFeaturing()) ? $parseImage->featuring = null : $parseImage->featuring = toParseAddRelation('_User', $image->getFeaturing());
 			is_null($image->getFile()) ? $parseImage->file = null : $parseImage->file = toParseFile($image->getFile());
-			is_null($image->getFilePath()) ? $parseImage->filePath = $default_img['DEFIMAGE'] : $parseImage->filePath = $image->getFilePath();
+			is_null($image->getFilePath()) ? $parseImage->filePath = DEFIMAGE : $parseImage->filePath = $image->getFilePath();
 			$parseImage->fromUser = toParsePointer('_User', $image->getFromUser());
 			is_null($image->getLocation()) ? $parseImage->location = null : $parseImage->location = toParseGeoPoint($image->getLocation());
 			is_null($image->getLoveCounter()) ? $parseImage->loveCounter = null : $parseImage->loveCounter = $image->getLoveCounter();
 			is_null($image->getLovers()) ? $parseImage->lovers = $nullArray : $parseImage->lovers = $image->getLovers();
 			is_null($image->getShareCounter()) ? $parseImage->shareCounter = null : $parseImage->shareCounter = $image->getShareCounter();
 			is_null($image->getTags()) ? $parseImage->tags = $nullArray : $parseImage->tags = $image->getTags();
-			is_null($image->getThumbnail()) ? $parseImage->thumbnail = $default_img['DEFIMAGETHUMB'] : $parseImage->thumbnail = $image->getThumbnail();
+			is_null($image->getThumbnail()) ? $parseImage->thumbnail = DEFIMAGETHUMB : $parseImage->thumbnail = $image->getThumbnail();
 			is_null($image->getACL()) ? $parseImage->ACL = toParseDefaultACL() : $parseImage->ACL = toParseACL($image->getACL());
 			if ($image->getObjectId() == '') {
 				$res = $parseImage->save();
@@ -294,7 +293,7 @@ class ImageParse {
 	 * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
 	 */
 	public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-		if (is_null($objectId) || is_null($field) || is_null($value))
+		if (is_null($objectId) || is_null($field))
 			return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		if ($isRelation) {
 			if (is_null($typeRelation) || is_null($className))

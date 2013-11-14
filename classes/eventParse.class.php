@@ -241,7 +241,6 @@ class EventParse {
      * \return	Error	the Error raised by the function
      */
     public function saveEvent($event) {
-        global $default_img;
         if (is_null($event->getFromUser()))
             return throwError(new Exception('saveEvent parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
@@ -259,7 +258,7 @@ class EventParse {
             is_null($event->getEventDate()) ? $parseEvent->eventDate = null : $parseEvent->eventDate = toParseDate($event->getEventDate());
             is_null($event->getFeaturing()) ? $parseEvent->featuring = null : $parseEvent->featuring = toParseAddRelation('_User', $event->getFeaturing());
             $parseEvent->fromUser = toParsePointer('_User', $event->getFromUser());
-            is_null($event->getImage()) ? $parseEvent->image = $default_img['DEFEVENTIMAGE'] : $parseEvent->image = $event->getImage();
+            is_null($event->getImage()) ? $parseEvent->image = DEFEVENTIMAGE : $parseEvent->image = $event->getImage();
             is_null($event->getInvited()) ? $parseEvent->invited = null : $parseEvent->invited = toParseAddRelation('_User', $event->getInvited());
             is_null($event->getLocation()) ? $parseEvent->location = null : $parseEvent->location = toParseGeoPoint($event->getLocation());
             is_null($event->getLocationName()) ? $parseEvent->locationName = null : $parseEvent->locationName = $event->getLocationName();
@@ -269,7 +268,7 @@ class EventParse {
             is_null($event->getShareCounter()) ? $parseEvent->shareCounter = -1 : $parseEvent->shareCounter = $event->getShareCounter();
             is_null($event->getRefused()) ? $parseEvent->refused = null : $parseEvent->refused = toParseAddRelation('_User', $event->getRefused());
             is_null($event->getTags()) ? $parseEvent->tags = $nullArray : $parseEvent->tags = $event->getTags();
-            is_null($event->getThumbnail()) ? $parseEvent->thumbnail = $default_img['DEFEVENTTHUMB'] : $parseEvent->thumbnail = $event->getThumbnail();
+            is_null($event->getThumbnail()) ? $parseEvent->thumbnail = DEFEVENTTHUMB : $parseEvent->thumbnail = $event->getThumbnail();
             is_null($event->getTitle()) ? $parseEvent->title = null : $parseEvent->title = $event->getTitle();
             is_null($event->getACL()) ? $parseEvent->ACL = toParseDefaultACL() : $parseEvent->ACL = toParseACL($event->getACL());
             if ($event->getObjectId() == '') {
@@ -317,7 +316,7 @@ class EventParse {
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
     public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-        if (is_null($objectId) || is_null($field) || is_null($value))
+        if (is_null($objectId) || is_null($field))
             return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         if ($isRelation) {
             if (is_null($typeRelation) || is_null($className))

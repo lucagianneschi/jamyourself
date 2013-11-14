@@ -243,7 +243,6 @@ class AlbumParse {
      * \return	Exception	the Exception raised by the function
      */
     function saveAlbum($album) {
-	global $default_img;
 	if (is_null($album->getFromUser()))
 	    return throwError(new Exception('saveAlbum parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 	try {
@@ -254,7 +253,7 @@ class AlbumParse {
 	    is_null($album->getCommentators()) ? $parseAlbum->commentators = null : $parseAlbum->commentators = toParseAddRelation('_User', $album->getCommentators());
 	    is_null($album->getComments()) ? $parseAlbum->comments = null : $parseAlbum->comments = toParseAddRelation('Comment', $album->getComments());
 	    is_null($album->getCounter()) ? $parseAlbum->counter = -1 : $parseAlbum->counter = $album->getCounter();
-	    is_null($album->getCover()) ? $parseAlbum->cover = $default_img['DEFALBUMCOVER'] : $parseAlbum->cover = $album->getCover();
+	    is_null($album->getCover()) ? $parseAlbum->cover = DEFALBUMCOVER : $parseAlbum->cover = $album->getCover();
 	    # TODO
 	    # is_null($album->getCoverFile()) ? $parseAlbum->coverFile = null : $parseAlbum->coverFile = toParseFile($album->getCoverFile());
 	    is_null($album->getDescription()) ? $parseAlbum->description = null : $parseAlbum->description = $album->getDescription();
@@ -267,7 +266,7 @@ class AlbumParse {
 	    is_null($album->getLovers()) ? $parseAlbum->lovers = $nullArray : $parseAlbum->lovers = $album->getLovers();
 	    is_null($album->getShareCounter()) ? $parseAlbum->shareCounter = -1 : $parseAlbum->shareCounter = $album->getShareCounter();
 	    is_null($album->getTags()) ? $parseAlbum->tags = $nullArray : $parseAlbum->tags = $album->getTags();
-	    is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = $default_img['DEFALBUMTHUMB'] : $parseAlbum->thumbnailCover = $album->getThumbnailCover();
+	    is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = DEFALBUMTHUMB : $parseAlbum->thumbnailCover = $album->getThumbnailCover();
 	    is_null($album->getTitle()) ? $parseAlbum->title = null : $parseAlbum->title = $album->getTitle();
 	    is_null($album->getACL()) ? $parseAlbum->ACL = toParseDefaultACL() : $parseAlbum->ACL = toParseACL($album->getACL());
 	    if ($album->getObjectId() == '') {
@@ -311,7 +310,7 @@ class AlbumParse {
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
     public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-	if (is_null($objectId) || is_null($field) || is_null($value))
+	if (is_null($objectId) || is_null($field))
 	    return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 	if ($isRelation) {
 	    if (is_null($typeRelation) || is_null($className))
