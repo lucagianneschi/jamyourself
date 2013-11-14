@@ -239,6 +239,7 @@ switch ($box) {
 					$result['event' . $key]['thumbnail'] = $value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : $default_img['DEFEVENTTHUMB'];
 					$result['event' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 					$result['event' . $key]['objectId'] = $value -> objectId != $boxes['NODATA'] ? $value -> objectId : '';
+					$result['event' . $key]['showLove'] = $value -> showLove != '' ? $value -> showLove : false;
 				}
 			$result['activity']['event'] = $result['event' . 0];
 			} else {

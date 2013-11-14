@@ -76,6 +76,16 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 					$event_comment = $data['event'.$index]['counters']['commentCounter'];
 					$event_review = $data['event'.$index]['counters']['reviewCounter'];
 					$event_share = $data['event'.$index]['counters']['shareCounter'];
+					
+					if($data['event' . $index]['showLove'] == 'false'){
+						$css_love = '_unlove grey';
+						$text_love = $views['LOVE'];
+					}
+					elseif($data['event' . $index]['showLove'] == 'true'){
+						$css_love = '_love orange';
+						$text_love = $views['UNLOVE'];
+					}
+					
 			?>
 			<!----------------------------------- SINGLE Event ------------------------------------>
 			<div class="box-element" id='<?php echo  $event_objectId ?>'>
@@ -127,13 +137,13 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 					<div class="box-propriety ">					
 						<div class="small-7 columns no-display">
 							<a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['CALENDAR']?></a>	
-							<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['LOVE']?></a>
+							<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $text_love?></a>
 							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['COMM']?></a>
 							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['SHARE']?></a>
 							<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['REVIEW']?></a>	
 						</div>
 						<div class="small-5 columns propriety ">					
-							<a class="icon-propriety _unlove grey"><?php echo $event_love ?></a>
+							<a class="icon-propriety <?php echo $css_love ?>"><?php echo $event_love ?></a>
 							<a class="icon-propriety _comment"><?php echo $event_comment ?></a>
 							<a class="icon-propriety _share"><?php echo $event_share ?></a>
 							<a class="icon-propriety _review"><?php echo $event_review ?></a>		
