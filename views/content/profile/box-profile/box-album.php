@@ -138,7 +138,7 @@ $albumCounter = $data['albumCounter'];
 						<div class="small-6 columns ">
 							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['LOVE'];?></a>
 							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['COMM'];?></a>
-							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['SHARE'];?></a>
+							<a class="note grey" onclick="share(this,'<?php echo $data['album' . $i]['objectId']; ?>','profile-singleAlbum')"><?php echo $views['SHARE'];?></a>
 						</div>
 						<div class="small-6 columns propriety ">					
 							<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
@@ -150,16 +150,19 @@ $albumCounter = $data['albumCounter'];
 			</div>
 			<!---------------------------------------- COMMENT ------------------------------------------------->
 			<div class="box-comment no-display"></div>
-			<!---------------------------------------- SHARE ---------------------------------------------------->
 			<!-- AddThis Button BEGIN -->
-			<div class="addthis_toolbox addthis_default_style"
-			addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
-			addThis:title="Titolo della pagina di un album">
-			   <a class="addthis_button_facebook"></a>
-			   <a class="addthis_button_twitter"></a>
-			   <a class="addthis_button_google_plusone_share"></a>
+			<div class="addthis_toolbox">
+				<div class="hover_menu">
+				        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
+							addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
+							addThis:title="Titolo della pagina di un album">
+				        <a class="addthis_button_twitter"></a>
+				        <a class="addthis_button_facebook"></a>
+				        <a class="addthis_button_google_plusone_share"></a>
+				       </div>	        
+				</div>
 			</div>
-			<!-- AddThis Button END -->
+	<!-- AddThis Button END -->
 		</div>
 		<!---------------------------------------- LIGHTBOX ------------------------------------------------->
 		<div class="row no-display box" id="profile-Image">
@@ -176,7 +179,7 @@ $albumCounter = $data['albumCounter'];
 					 				<div  class="small-6 columns">
 					 					<a class="note grey " onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')"><?php echo $views['LOVE'];?></a>
 										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')"><?php echo $views['COMM'];?></a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')"><?php echo $views['SHARE'];?></a>
+										<a class="note grey" onclick="share(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','profile-Image')"><?php echo $views['SHARE'];?></a>
 					 				</div>
 					 				<div  class="small-6 columns propriety">
 					 					<a class="icon-propriety _unlove grey"><?php echo $data['album' . $i]['image' . $j]['counters']['loveCounter']; ?></a>
@@ -208,18 +211,21 @@ $albumCounter = $data['albumCounter'];
 					 				</div>
 					 				<div  class="small-7 columns">
 					 					<!---------------------------------------- COMMENT ------------------------------------------------->
-										<div class="box-comment no-display" >
-											<!---------------------------------------- SHARE ---------------------------------------------------->
+										<div class="box-comment no-display" ></div>
+										<!---------------------------------------- SHARE ---------------------------------------------------->
 											<!-- AddThis Button BEGIN -->
-											<div class="addthis_toolbox addthis_default_style"
-											addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
-											addThis:title="Titolo della pagina di un album">
-											   <a class="addthis_button_facebook"></a>
-											   <a class="addthis_button_twitter"></a>
-											   <a class="addthis_button_google_plusone_share"></a>
+											<div class="addthis_toolbox">
+												<div class="hover_menu">
+												        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
+															addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
+															addThis:title="Titolo della pagina di un album">
+												        <a class="addthis_button_twitter"></a>
+												        <a class="addthis_button_facebook"></a>
+												        <a class="addthis_button_google_plusone_share"></a>
+												       </div>	        
+												</div>
 											</div>
-											<!-- AddThis Button END -->								
-										</div>
+											<!-- AddThis Button END -->	
 					 				</div>
 					 			</div>			
 					 		</div>

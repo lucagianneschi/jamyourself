@@ -9,7 +9,7 @@
         <label for="albumTitle">Album title <span class="orange">*</span><small class="error"> Please enter a valid Title</small></label>
 
 
-
+		<!--------------------------- UPLOAD IMAGE -------------------------------->
         <div class="row upload-box">
             <div  class="small-3 columns" id="tumbnail-pane">
                     <div class="signup-image">
@@ -56,28 +56,29 @@
                 </div>							
             </div>	
         </div>
-
+		<!--------------------------- FINE UPLOAD IMAGE -------------------------------->
+		
         <input type="text" name="label" id="label" pattern=""/>
-        <label for="label">Label<small class="error"> Please enter a valid Label</small></label>
+        <label for="label">Label</label>
 
         <input type="text" name="urlBuy" id="urlBuy" pattern="" placeholder="http://"/>
-        <label for="urlBuy">Buy album at<small class="error"> Please enter a valid Url</small></label>
+        <label for="urlBuy">Buy album at</label>
 
         <select name="albumFeaturing" id="albumFeaturing" pattern=""></select>
-        <label for="albumFeaturing">Featuring<small class="error"> Please enter a valid Featuring</small></label>
+        <label for="albumFeaturing">Featuring</label>
 
         <input type="text" name="year" id="year" pattern=""/>
-        <label for="year">Year<small class="error"> Please enter a valid Year</small></label>
+        <label for="year">Year</label>
 
         <input type="text" name="city" id="city" pattern=""/>
-        <label for="city">City<small class="error"> Please enter a valid City</small></label>
+        <label for="city">City</label>
 
     </div>
 
     <div  class="small-6 columns">
 
-        <label for="description">Description <span class="orange">*</span><small class="error"> Please enter a valid Description</small></label>			
-        <textarea name="description" id="description" pattern="description" maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea>	
+        <label for="description">Description <span class="orange">*</span><small class="error"> Please enter a valid Description</small>		
+        <textarea name="description" id="description" pattern="description" maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea></label>		
 
         <label style="padding-bottom: 0px !important;">Select genre <span class="orange">*</span><small class="error"> Please enter a Genre</small></label>		
         <div id="tag-music"></div>

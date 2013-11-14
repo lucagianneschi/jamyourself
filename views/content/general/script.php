@@ -62,8 +62,9 @@
 <link rel="stylesheet" href="resources/javascripts/plugins/FCBKcomplete/style.css" type="text/css" media="screen" charset="utf-8" />
 
 <!--------------- share ------------------->
+<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-522dd258579a55ca"></script>
 <script type="text/javascript" src="resources/javascripts/customs/share.js"></script>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-522dd258579a55ca"></script>
+
 
 <?php
 switch (basename($_SERVER['PHP_SELF'])) {

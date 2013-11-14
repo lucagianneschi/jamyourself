@@ -51,32 +51,35 @@ var callBox = {
 				
 				switch(typebox){
 					case 'record':
-						getPinner('record');
+						getPinner('record',__this.classBox, __this.objectId);
 					break;
 					case 'event':
-						getPinner('event');
+						getPinner('event',__this.classBox, __this.objectId);
 					break;
 					case 'album':
-						getPinner('album');
+						getPinner('album',__this.classBox, __this.objectId);
 					break;
 					case 'relation':
 						if (__this.typeUser == 'SPOTTER'){							
-							getPinner('friends');
-							getPinner('following');
+							getPinner('friends',__this.classBox, __this.objectId);
+							getPinner('following',__this.classBox, __this.objectId);
 						}
 						else{
-							getPinner('collaboration');
-							getPinner('followers');
+							getPinner('collaboration',__this.classBox, __this.objectId);
+							getPinner('followers',__this.classBox, __this.objectId);
 						}
-						getPinner('activity');
+						getPinner('activity',__this.classBox, __this.objectId);
 					break;
 					case 'post':
-						getPinner('post');
+						getPinner('post',__this.classBox, __this.objectId);
+					break;
+					case 'comment':
+						getPinner('comment',__this.classBox, __this.objectId);
 					break;
 					case 'review':					
 						if (__this.typeUser != 'VENUE')
-							getPinner('RecordReview');
-						getPinner('EventReview');						
+							getPinner('RecordReview',__this.classBox, __this.objectId);
+						getPinner('EventReview',__this.classBox, __this.objectId);						
 					break;
 				}					
 			},
@@ -198,16 +201,39 @@ var callBox = {
 	}
 }
 
-function getPinner(box){	
+function getPinner(box,classbox,objectId){
+	if(box == 'comment'){
+		var idBox = '';
+		if(classbox == 'RecordReview' || classbox == 'EventReview'){
+			idBox = '#social-'+classbox;		
+		}
+		if(classbox == 'Album' || classbox == 'Record'){
+			idBox = '#profile-'+classbox;
+		}
+		if(classbox == 'Image' || classbox == 'Post' || classbox == 'Comment'){
+			idBox = '#'+objectId;
+		}
+		$(idBox+' .box-comment').load('content/profile/box-general/box-spinner.php', {
+		'box' : box
+		}, function(){
+			success:{
+				spinner();
+				hcento();
+			} 
+		});	
+	}	
 	$('#box-'+box).load('content/profile/box-general/box-spinner.php', {
 		'box' : box
 	}, function(){
-		success: spinner();
+		success:{
+			spinner();
+			hcento();
+		} 
 	});			
 }
 
 /*
- * Variabili
+ * Variabili 
  */
 
 var rsi_event, rsi_album ,rsi_eventReview, rsi_recordReview ,rsi_record ;
@@ -251,6 +277,8 @@ function addBoxRecord(data, typeUser) {
 		'typeUser' : typeUser
 	}, function() { success: {
 			rsi_record = slideReview('recordSlide');
+			addthis.init();
+			addthis.toolbox(".addthis_toolbox");
 			hcento();
 		}
 	});
@@ -280,7 +308,9 @@ function addBoxRecordReview(data, typeUser, objectIdUser) {
 		'typeUser' : typeUser,
 		'objectIdUser' : objectIdUser
 	}, function() { success: 
-		rsi_RecordReview = slideReview('recordReviewSlide');
+		rsi_recordReview = slideReview('recordReviewSlide');
+		addthis.init();
+		addthis.toolbox(".addthis_toolbox");
 		hcento();
 	});
 }
@@ -295,6 +325,10 @@ function addBoxEventReview(data, typeUser, objectIdUser) {
 		'objectIdUser' : objectIdUser
 	}, function() { success:
 		rsi_eventReview = slideReview('eventReviewSlide'); 
+		console.log(addthis_config);
+		console.log(addthis);
+		addthis.init();
+		addthis.toolbox(".addthis_toolbox");
 		hcento();
 	});
 }
@@ -354,6 +388,8 @@ function addBoxAlbum(data, typeUser, objectIdUser) {
 	}, function() { success: 
 		rsi_album = slideReview('albumSlide');
 		lightBoxPhoto('photo-colorbox-group');
+		addthis.init();
+		addthis.toolbox(".addthis_toolbox");
 		hcento();
 	});
 }

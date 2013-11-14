@@ -124,7 +124,7 @@ $typeUser = $_POST['typeUser'];
 									<div class="small-6 columns ">
 										<a class="note grey" onclick="love(this, 'Comment', '<?php echo $recordReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $views['LOVE'];?></a>
 										<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['COMM'];?></a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['SHARE'];?></a>
+										<a class="note grey" onclick="share(this,'<?php echo $recordReview_objectId; ?>','social-RecordReview')"><?php echo $views['SHARE'];?></a>
 									</div>
 									<div class="small-6 columns propriety ">					
 										<a class="icon-propriety _unlove grey" ><?php echo $recordReview_love ?></a>
@@ -156,14 +156,19 @@ $typeUser = $_POST['typeUser'];
 		<!---------------------------------------- comment ------------------------------------------------->
 		<div class="box-comment no-display"></div>
 		<!---------------------------------------- SHARE ---------------------------------------------------->
-		<!-- AddThis Button BEGIN -->
-		<div class="addthis_toolbox addthis_default_style"
-		addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
-		addThis:title="Titolo della pagina di un album">
-		   <a class="addthis_button_facebook"></a>
-		   <a class="addthis_button_twitter"></a>
-		   <a class="addthis_button_google_plusone_share"></a>
-		</div>
+		<!-- AddThis Button BEGIN -->		
+		<div class="addthis_toolbox">   
+		    <div class="hover_menu">
+		        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
+			addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
+			addThis:title="Titolo della pagina di un album">
+		        <a class="addthis_button_twitter"></a>
+		        <a class="addthis_button_facebook"></a>
+		        <a class="addthis_button_google_plusone_share"></a>
+		       </div>
+		        
+		    </div>
+	    </div>
 		<!-- AddThis Button END -->
 	</div>
 </div>	

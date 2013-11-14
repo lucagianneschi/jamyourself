@@ -53,6 +53,29 @@
 	background: none !important;
 }
 
+
+//----------------share -------------------------
+						
+.addthis_toolbox .hover_menu  {
+    display: none;
+    position: absolute;
+    background-color: #FFFFFF;
+    width: auto;
+    padding: 5px;
+    border: 1px solid $grey-light;
+    @include border-radius(5px);
+}
+
+.addthis_toolbox .hover_menu a {    
+    position: relative;
+    display: block;
+}
+
+.addthis_toolbox .hover_menu a:hover {    
+    background: #f5f5f5;
+   @include border-radius(5px);
+}
+
 //-------------- PROFILE ---------------------------
 //tronca la parola
 .breakOff{
@@ -721,10 +744,14 @@ section.active > .title a{
    background-image: url(../images/icon/btn-loader.gif);
    background-position: center center;
   }
-
-.comment-button{
+.comment-btn-loader{
+	background-repeat: no-repeat !important;
+   background-image: url(../images/icon/btn-loader.gif) !important;
+   background-position: center center !important;  
+}
+.comment-btn{
   color: #fff;
-  background: $grey !important;
+  background-color: $grey !important;
   border:#fff 0px solid !important; 
   height: 34px !important; 
   width: 90px !important;
@@ -737,6 +764,11 @@ section.active > .title a{
 	
 }
 
+.comment-error {
+	display:none;
+	cursor:pointer;
+	padding-bottom: 5px;	
+}
 
 
 //--------------------- COMMENT ----------------------------
