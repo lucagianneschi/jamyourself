@@ -127,14 +127,23 @@ function slideAchievement(){
 
 //funzione per gestire la visualizzazione dell'album
 function recordSelectSingle(recordId) {
- 	$( "#record-list" ).fadeOut( 100, function() {
+ 	$( "#record-list" ).fadeOut( 100, function() {    		
     		$('.'+recordId).fadeIn( 100 );
+    		addthis.init();
+			addthis.toolbox(".addthis_toolbox"); 
 	});
 }
 //nasconde foto singolo album e visualizza lista album
 function recordSelectNext(recordId){		
 	$('.'+recordId ).fadeOut( 100, function() {
     	$('#record-list').fadeIn( 100 );
+    	//ricalcolare
+    	$('#profile-Record .box-comment').addClass('no-display');
+		$('#profile-Record .box').removeClass('box-commentSpace');
+		//$("#cboxLoadedContent").getNiceScroll().hide();
+		$("#cboxLoadedContent").mCustomScrollbar("update");
+    	
+    	rsi_record.updateSliderSize(true);
 	});	
 }
 
@@ -207,9 +216,7 @@ function royalSlideNext(box){
 		rsi = rsi_album;
 		break;
 		case 'EventReview':
-		rsi = rsi_eventReview;
-		console.log(rsi.currSlideId);
-		
+		rsi = rsi_eventReview;		
 		break;
 		case 'RecordReview':
 		rsi = rsi_recordReview;
@@ -278,15 +285,15 @@ function royalSlidePrev(box){
 // gestione button READ recordReview
 var toggleTextRecordReview = function(_this,box){
 	typeOpt = $(_this).text();	
-	$('#'+box+' .textReview').toggle(function() {
+	$('#'+box+' .textReview').slideToggle(300,function() {
 		if(typeOpt == 'Read'){
 			$(_this).text('Close');
 			if(rsi_recordReview)
-			rsi_recordReview.updateSliderSize(true);
+				rsi_recordReview.updateSliderSize(true);
 		}
 		else{
 			if(rsi_recordReview)
-			rsi_recordReview.updateSliderSize(false);
+				rsi_recordReview.updateSliderSize(false);
 			$(_this).text('Read');	
 		} 
 	});	

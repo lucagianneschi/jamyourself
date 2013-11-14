@@ -80,7 +80,7 @@ class PostBox {
         $post->whereOr($value);
         $post->where('type', 'P');
         $post->where('active', true);
-        $post->whereInclude('fromUser,toUser');
+        $post->whereInclude('fromUser');
         $post->setLimit($limit);
         $post->setSkip($skip);
         $post->orderByDescending('createdAt');
@@ -109,7 +109,7 @@ class PostBox {
                 $text = parse_decode_string($post->getText());
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
                 $lovers = $post->getLovers();
-                if (is_null($lovers) || !in_array($currentUserId, $lovers)) {
+                if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
                 }
                 $postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $showLove, $text);

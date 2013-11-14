@@ -57,7 +57,7 @@ class LoveController extends REST {
             } elseif (!in_array($this->request['classType'], $classTypeAdmitted)) {
                 $this->response(array('status' => 'CLASSTYPEKO'), 400);
             } elseif (!isset($this->request['objectIdUser'])) {
-                $this->response(array('status' => 'Nessun objectIdUser definito'), 400);
+                $this->response(array('status' => 'NOUSERID'), 400);
             }
 
             //recupero l'utente fromUser
@@ -70,7 +70,7 @@ class LoveController extends REST {
 			
 			//controllo se non ho già lovvato
 			if ($this->isLoved($fromUser->getObjectId(), $objectId, $classType)) {
-				$this->response(array('status' => 'Il love sembra già essere stato fatto'), 400);
+				$this->response(array('status' => 'ALREADYLOVED'), 400);
 			}
 
             $activity = new Activity();
@@ -148,7 +148,7 @@ class LoveController extends REST {
                     $this->rollback($classType, $objectId, 'decrement');
                 }
             }
-            $this->response(array($res), 200);
+                $this->response(array('status' => $controllers['LOVE']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -173,13 +173,13 @@ class LoveController extends REST {
             //controllo i parametri
             $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Status', 'Video');
             if (!isset($this->request['classType'])) {
-                $this->response(array('status' => 'Nessun classType definito'), 400);
+                $this->response(array('status' => 'NOCLASSTYPE'), 400);
             } elseif (!isset($this->request['objectId'])) {
-                $this->response(array('status' => 'Nessun objectId definito'), 400);
+                $this->response(array('status' => 'NOOBJECTID'), 400);
             } elseif (!in_array($this->request['classType'], $classTypeAdmitted)) {
-                $this->response(array('status' => 'Il classType non è ammesso'), 400);
+                $this->response(array('status' => 'CLASSTYPEKO'), 400);
             } elseif (!isset($this->request['objectIdUser'])) {
-                $this->response(array('status' => 'Nessun objectIdUser definito'), 400);
+                $this->response(array('status' => 'NOUSERID'), 400);
             }
 
             //recupero l'utente fromUser
@@ -196,7 +196,7 @@ class LoveController extends REST {
 
             //controllo se non ho già lovvato
 			if (!$this->isLoved($fromUser->getObjectId(), $objectId, $classType)) {
-				$this->response(array('status' => 'Il love sembra non essere mai stato fatto'), 400);
+				$this->response(array('status' => 'NOLOVE'), 400);
 			}
 
             $activity = new Activity();
@@ -274,7 +274,7 @@ class LoveController extends REST {
                     $this->rollback($classType, $objectId, 'increment');
                 }
             }
-            $this->response(array($res), 200);
+            $this->response(array('status' => $controllers['UNLOVE']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -416,7 +416,6 @@ class LoveController extends REST {
         }
 		return $loved;
 	}
-
 
 }
 

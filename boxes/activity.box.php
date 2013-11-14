@@ -76,14 +76,13 @@ class EventInfoForPersonalPage {
      */
     function __construct($address, $city, $eventDate, $locationName, $objectId, $showLove, $thumbnail, $title) {
         global $boxes;
-        global $default_img;
         is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
         is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
         is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
         is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($thumbnail) ? $this->thumbnail = $default_img['DEFEVENTTHUMB'] : $this->thumbnail = $thumbnail;
+        is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
@@ -103,8 +102,7 @@ class ImageInfoForPersonalPage {
      * \param	$thumbnail
      */
     function __construct($thumbnail) {
-        global $default_img;
-        is_null($thumbnail) ? $this->thumbnail = $default_img['DEFIMAGETHUMB'] : $this->thumbnail = $thumbnail;
+        is_null($thumbnail) ? $this->thumbnail = DEFIMAGETHUMB : $this->thumbnail = $thumbnail;
     }
 
 }
@@ -129,12 +127,11 @@ class RecordInfoForPersonalPage {
      */
     function __construct($fromUserInfo, $objectId, $showLove, $songTitle, $thumbnailCover, $title) {
         global $boxes;
-        global $default_img;
         is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
         is_null($songTitle) ? $this->songTitle = $boxes['NODATA'] : $this->songTitle = $songTitle;
-        is_null($thumbnailCover) ? $this->thumbnailCover = $default_img['DEFRECORDTHUMB'] : $this->thumbnailCover = $thumbnailCover;
+        is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 

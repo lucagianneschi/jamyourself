@@ -52,7 +52,7 @@ class CommentParse {
             $parseObject = new parseObject('Comment');
             //we use the increment function with a negative value because decrement function still not work
             $parseObject->increment($field, array(0 - $value));
-			if ($withArray) {
+            if ($withArray) {
                 if (is_null($fieldArray) || empty($valueArray))
                     return throwError(new Exception('decrementComment parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
                 $parseObject->removeArray($fieldArray, $valueArray);
@@ -241,7 +241,7 @@ class CommentParse {
             return throwError(new Exception('saveComment parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $parseObject = new parseObject('Comment');
-			$nullArray = array();
+            $nullArray = array();
             is_null($cmt->getActive()) ? $parseObject->active = true : $parseObject->active = $cmt->getActive();
             is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = toParsePointer('Album', $cmt->getAlbum());
             is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = toParsePointer('Comment', $cmt->getComment());
@@ -259,7 +259,7 @@ class CommentParse {
             is_null($cmt->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $cmt->getShareCounter();
             is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
             is_null($cmt->getStatus()) ? $parseObject->status = null : $parseObject->status = toParsePointer('Status', $cmt->getStatus());
-            is_null($cmt->getTags()) ? $parseObject->tags = null : $parseObject->tags = $cmt->getTags();
+            is_null($cmt->getTags()) ? $parseObject->tags = $nullArray : $parseObject->tags = $cmt->getTags();
             is_null($cmt->getText()) ? $parseObject->text = null : $parseObject->text = $cmt->getText();
             is_null($cmt->getTitle()) ? $parseObject->title = null : $parseObject->title = $cmt->getTitle();
             is_null($cmt->getToUser()) ? $parseObject->toUser = null : $parseObject->toUser = toParsePointer('_User', $cmt->getToUser());
@@ -308,7 +308,7 @@ class CommentParse {
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
     public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-        if (is_null($objectId) || is_null($field) || is_null($value))
+        if (is_null($objectId) || is_null($field))
             return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         if ($isRelation) {
             if (is_null($typeRelation) || is_null($className))

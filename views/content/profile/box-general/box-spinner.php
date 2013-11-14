@@ -10,6 +10,8 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';   
 
+
+if($box != 'comment'){
 ?>
 
 <div class="row">
@@ -24,3 +26,21 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		</div>
 	</div>
 </div>
+<?php
+}
+else{
+?>	
+<div class="row">
+	<div  class="large-12 columns">		
+		<div class="box box-spinner" style="background-color: #fff; margin-bottom: 5px !important;">
+			<div class="spinner"></div>
+		</div>			
+	</div>
+</div>
+
+
+
+<?php	
+} 
+
+?>

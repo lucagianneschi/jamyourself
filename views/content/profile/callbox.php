@@ -154,6 +154,7 @@ switch ($box) {
 				$result['album' . $key]['objectId'] = $value -> objectId;
 				$result['album' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : $default_img['DEFALBUMTHUMB'];
 				$result['album' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
+				$result['album' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
 				$albumDetail = $albumBoxP -> initForDetail($value -> objectId);
 				foreach ($albumDetail->imageArray as $keyImage => $valueImage) {
 					$result['album' . $key]['image' . $keyImage]['counters'] = $valueImage -> counters;
@@ -163,6 +164,7 @@ switch ($box) {
 					$result['album' . $key]['image' . $keyImage]['tags'] = $valueImage -> tags != $boxes['NODATA'] ? $valueImage -> tags : '';
 					$result['album' . $key]['image' . $keyImage]['thumbnail'] = $valueImage -> thumbnail != $boxes['NODATA'] ? $valueImage -> thumbnail : $default_img['DEFIMAGE'];
 					$location = $valueImage -> location != $boxes['NODATA'] ? $valueImage -> location : '';
+					$result['album' . $key]['image' . $keyImage]['showLove'] = $valueImage -> showLove == true ? $valueImage -> showLove : false;
 					$address = "";	
 								
 					if($location instanceof parseGeoPoint){
@@ -204,7 +206,8 @@ switch ($box) {
 					$result['comment']['commentInfoArray'][$key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
 					$result['comment']['commentInfoArray'][$key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
 					$result['comment']['commentInfoArray'][$key]['createdAt'] = $value -> createdAt;
-					$result['comment']['commentInfoArray'][$key]['text'] = $value -> text;					
+					$result['comment']['commentInfoArray'][$key]['text'] = $value -> text;
+					$result['comment']['commentInfoArray'][$key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;					
 				}
 				
 			} else {
@@ -237,6 +240,7 @@ switch ($box) {
 					$result['event' . $key]['thumbnail'] = $value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : $default_img['DEFEVENTTHUMB'];
 					$result['event' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 					$result['event' . $key]['objectId'] = $value -> objectId != $boxes['NODATA'] ? $value -> objectId : '';
+					$result['event' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
 				}
 			$result['activity']['event'] = $result['event' . 0];
 			} else {
@@ -264,6 +268,8 @@ switch ($box) {
 					$result['post' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : '';
 					$result['post' . $key]['text'] = $value -> createdAt != $boxes['NODATA'] ? $value -> text : '';
 					$result['post' . $key]['objectId'] = $value -> objectId != $boxes['NODATA'] ? $value -> objectId : '';
+					$result['post' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
+					
 				}
 	
 			} else {
@@ -292,6 +298,7 @@ switch ($box) {
 					$result['record' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : $default_img['DEFRECORDTHUMB'];
 					$result['record' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 					$result['record' . $key]['year'] = $value -> year != $boxes['NODATA'] ? $value -> year : '';
+					$result['record' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
 					$recordDetail = $recordBoxP -> initForDetail($result['record' . $key]['objectId']);
 					if($recordDetail != $boxes['NOTRACK'])
 						$result['record' . $key]['recordDetail'] = $recordDetail;				
@@ -426,6 +433,7 @@ switch ($box) {
 					$result['recordReview' . $key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
 					$result['recordReview' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
 					$result['recordReview' . $key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
+					$result['recordReview' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
 				}
 			} else {
 				$result['error']['code'] = 101;
@@ -446,6 +454,7 @@ switch ($box) {
 				$result['eventReview' . $key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
 				$result['eventReview' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
 				$result['eventReview' . $key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
+				$result['eventReview' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
 			}
 		} else {
 			$result['error']['code'] = 101;

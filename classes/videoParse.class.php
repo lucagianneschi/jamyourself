@@ -228,7 +228,6 @@ class VideoParse {
 	 * \return	Error	the Error raised by the function
 	 */
 	public function saveVideo($video) {
-	    global $default_img;
 		if (is_null($video->getFromUser()))
 			return throwError(new Exception('saveVideo parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
@@ -246,7 +245,7 @@ class VideoParse {
 			is_null($video->getLoveCounter()) ? $parseVideo->loveCounter = -1 : $parseVideo->loveCounter = $video->getLoveCounter();
 			is_null($video->getLovers()) ? $parseVideo->lovers = $nullArray : $parseVideo->lovers = $video->getLovers();
 			is_null($video->getTags()) ? $parseVideo->tags = $nullArray : $parseVideo->tags = $video->getTags();
-			is_null($video->getThumbnail()) ? $parseVideo->thumbnail = $default_img['DEFVIDEOTHUMB'] : $parseVideo->thumbnail = $video->getThumbnail();
+			is_null($video->getThumbnail()) ? $parseVideo->thumbnail = DEFVIDEOTHUMB : $parseVideo->thumbnail = $video->getThumbnail();
 			is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = $video->getTitle();
 			is_null($video->getURL()) ? $parseVideo->URL = null : $parseVideo->URL = $video->getURL();
 			is_null($video->getACL()) ? $parseVideo->ACL = toParseDefaultACL() : $parseVideo->ACL = toParseACL($video->getACL());
@@ -291,7 +290,7 @@ class VideoParse {
 	 * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
 	 */
 	public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-		if (is_null($objectId) || is_null($field) || is_null($value))
+		if (is_null($objectId) || is_null($field))
 			return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		if ($isRelation) {
 			if (is_null($typeRelation) || is_null($className))

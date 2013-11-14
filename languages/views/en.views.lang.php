@@ -20,6 +20,7 @@ $views = array(
 	'NEXT' 	=> 'Next',
 	'BACK' 	=> 'Back to List',
 	'LOVE' 	=> 'Love',
+	'UNLOVE' => 'Unlove',
 	'COMM' 	=> 'Comment',
 	'SHARE' => 'Share',
 	'REVIEW'=> 'Review',

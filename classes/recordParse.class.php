@@ -245,7 +245,6 @@ class RecordParse {
 	 * \return	Error		the Error raised by the function
 	 */
 	function saveRecord($record) {
-	    global $default_img;
 		if (is_null($record->getFromUser()))
 			return throwError(new Exception('saveRecord parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		try {
@@ -257,7 +256,7 @@ class RecordParse {
 			is_null($record->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseAddRelation('_User', $record->getCommentators());
 			is_null($record->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseAddRelation('Comment', $record->getComments());
 			is_null($record->getCounter()) ? $parseObject->counter = -1 : $parseObject->counter = $record->getCounter();
-			is_null($record->getCover()) ? $parseObject->cover = $default_img['DEFRECORDCOVER'] : $parseObject->cover = $record->getCover();
+			is_null($record->getCover()) ? $parseObject->cover = DEFRECORDCOVER : $parseObject->cover = $record->getCover();
 			is_null($record->getCoverFile()) ? $parseObject->coverFile = null : $parseObject->coverFile = toParseFile($record->getCoverFile());
 			is_null($record->getDescription()) ? $parseObject->description = null : $parseObject->description = $record->getDescription();
 			is_null($record->getDuration()) ? $parseObject->duration = 0 : $parseObject->duration = $record->getDuration();
@@ -272,7 +271,7 @@ class RecordParse {
 			is_null($record->getReviewCounter()) ? $parseObject->reviewCounter = -1 : $parseObject->reviewCounter = $record->getReviewCounter();
 			is_null($record->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $record->getShareCounter();
 			is_null($record->getSongCounter()) ? $parseObject->songCounter = -1 : $parseObject->songCounter = $record->getSongCounter();
-			is_null($record->getThumbnailCover()) ? $parseObject->thumbnailCover = $default_img['DEFRECORDTHUMB'] : $parseObject->thumbnailCover = $record->getThumbnailCover();
+			is_null($record->getThumbnailCover()) ? $parseObject->thumbnailCover = DEFRECORDTHUMB : $parseObject->thumbnailCover = $record->getThumbnailCover();
 			is_null($record->getTitle()) ? $parseObject->title = null : $parseObject->title = $record->getTitle();
 			is_null($record->getTracklist()) ? $parseObject->tracklist = null : $parseObject->tracklist = toParseAddRelation('Song', $record->getTracklist());
 			is_null($record->getYear()) ? $parseObject->year = null : $parseObject->year = $record->getYear();
@@ -318,7 +317,7 @@ class RecordParse {
 	 * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
 	 */
 	public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-		if (is_null($objectId) || is_null($field) || is_null($value))
+		if (is_null($objectId) || is_null($field))
 			return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		if ($isRelation) {
 			if (is_null($typeRelation) || is_null($className))

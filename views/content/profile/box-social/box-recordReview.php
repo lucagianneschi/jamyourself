@@ -56,6 +56,14 @@ $typeUser = $_POST['typeUser'];
 						$recordReview_love = $data['recordReview'.$i]['counters']['loveCounter'];
 						$recordReview_comment = $data['recordReview'.$i]['counters']['commentCounter'];
 						$recordReview_share = $data['recordReview'.$i]['counters']['shareCounter'];
+						if($data['recordReview' . $i]['showLove'] == 'true'){
+							$css_love = '_unlove grey';
+							$text_love = $views['LOVE'];
+						}
+						elseif($data['recordReview' . $i]['showLove'] == 'false'){
+							$css_love = '_love orange';
+							$text_love = $views['UNLOVE'];
+						}
 						?>
 						<div  class="rsContent">	
 						<div id='recordReview_<?php echo $recordReview_objectId ?>'>
@@ -122,12 +130,12 @@ $typeUser = $_POST['typeUser'];
 							<div class="row recordReview-propriety">
 								<div class="box-propriety">
 									<div class="small-6 columns ">
-										<a class="note grey" onclick="love(this, 'Comment', '<?php echo $recordReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $views['LOVE'];?></a>
+										<a class="note grey" onclick="love(this, 'Comment', '<?php echo $recordReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
 										<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['COMM'];?></a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['SHARE'];?></a>
+										<a class="note grey" onclick="share(this,'<?php echo $recordReview_objectId; ?>','social-RecordReview')"><?php echo $views['SHARE'];?></a>
 									</div>
 									<div class="small-6 columns propriety ">					
-										<a class="icon-propriety _unlove grey" ><?php echo $recordReview_love ?></a>
+										<a class="icon-propriety <?php echo $css_love;?>" ><?php echo $recordReview_love ?></a>
 										<a class="icon-propriety _comment" ><?php echo $recordReview_comment ?></a>
 										<a class="icon-propriety _share" ><?php echo $recordReview_share ?></a>
 									</div>	
@@ -156,14 +164,19 @@ $typeUser = $_POST['typeUser'];
 		<!---------------------------------------- comment ------------------------------------------------->
 		<div class="box-comment no-display"></div>
 		<!---------------------------------------- SHARE ---------------------------------------------------->
-		<!-- AddThis Button BEGIN -->
-		<div class="addthis_toolbox addthis_default_style"
-		addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
-		addThis:title="Titolo della pagina di un album">
-		   <a class="addthis_button_facebook"></a>
-		   <a class="addthis_button_twitter"></a>
-		   <a class="addthis_button_google_plusone_share"></a>
-		</div>
+		<!-- AddThis Button BEGIN -->		
+		<div class="addthis_toolbox">   
+		    <div class="hover_menu">
+		        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
+			addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
+			addThis:title="Titolo della pagina di un album">
+		        <a class="addthis_button_twitter"></a>
+		        <a class="addthis_button_facebook"></a>
+		        <a class="addthis_button_google_plusone_share"></a>
+		       </div>
+		        
+		    </div>
+	    </div>
 		<!-- AddThis Button END -->
 	</div>
 </div>	

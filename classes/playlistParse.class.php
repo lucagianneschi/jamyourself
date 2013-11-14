@@ -216,7 +216,7 @@ class PlaylistParse {
 	 * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
 	 */
 	public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-		if (is_null($objectId) || is_null($field) || is_null($value))
+		if (is_null($objectId) || is_null($field))
 			return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 		if ($isRelation) {
 			if (is_null($typeRelation) || is_null($className))

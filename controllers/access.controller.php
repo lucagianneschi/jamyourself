@@ -22,6 +22,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'debug.service.php';
+
 /**
  * \brief	ReviewController class 
  * \details	controller di inserimento di una review 
@@ -91,7 +92,7 @@ class AccessController extends REST {
             }
             $currentUser = $_SESSION['currentUser'];
             $currentUserId = $currentUser->getObjectId();
-			unset($_SESSION['currentUser']);
+            unset($_SESSION['currentUser']);
             require_once CLASSES_DIR . 'activity.class.php';
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activity = new Activity();
@@ -122,58 +123,6 @@ class AccessController extends REST {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
-
-	/**
-     * \fn	sociaLogin()
-     * \brief   login con account Social
-     * \todo    implementare la sociaLogin nella UserParse
-     */
-	/*
-    public function sociaLogin() {
-        try {
-            global $controllers;
-            if ($this->get_request_method() != "POST") {
-                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($this->request['currentUser'])) {
-                $this->response(array('status' => $controllers['USERNOSES']), 403);
-            }
-            require_once PARSE_DIR . 'parse.php';
-            $userLib = new parseUser();
-            $logingSocial = $userLib->socialLogin();
-            if ($logingSocial instanceof ParseLibraryException) {
-                $this->response(array('SOCIALLOGINERR'), 503);
-            }
-            require_once CLASSES_DIR . 'activity.class.php';
-            require_once CLASSES_DIR . 'activityParse.class.php';
-            $activity = new Activity();
-            $activity->setActive(true);
-            $activity->setAlbum(null);
-            $activity->setComment(null);
-            $activity->setCounter(0);
-            $activity->setEvent(null);
-            $activity->setFromUser(null); //come faccio a ricavarlo da questa funzione??
-            $activity->setImage(null);
-            $activity->setPlaylist(null);
-            $activity->setQuestion(null);
-            $activity->setRecord(null);
-            $activity->setRead(true);
-            $activity->setSong(null);
-            $activity->setStatus('A');
-            $activity->setToUser(null);
-            $activity->setType('SOCIALLOGGEDIN');
-            $activity->setUserStatus(null);
-            $activity->setVideo(null);
-            $activityParse = new ActivityParse();
-            $res = $activityParse->saveActivity($activity);
-            if ($res instanceof Error) {
-                $this->response(array($controllers['NOACSAVE']), 503);
-            }
-            $this->response(array($controllers['OKLOGINSOCIAL']), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
-        }
-    }
-	*/
 
 }
 
