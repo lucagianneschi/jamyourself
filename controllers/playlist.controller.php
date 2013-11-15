@@ -55,7 +55,7 @@ class PlaylistController extends REST {
             } elseif (!isset($this->request['playlistId'])) {
                 $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
             } elseif (!isset($this->request['songId'])) {
-                $this->response(array('status' => $controllers['NOSONGTID']), 403);
+                $this->response(array('status' => $controllers['NOSONGID']), 403);
             }
             $playlistId = $this->request['playlistId'];
             $songId = $this->request['songId'];
@@ -128,7 +128,7 @@ class PlaylistController extends REST {
             } elseif (!isset($this->request['playlistId'])) {
                 $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
             } elseif (!isset($this->request['songId'])) {
-                $this->response(array('status' => $controllers['NOSONGTID']), 403);
+                $this->response(array('status' => $controllers['NOSONGID']), 403);
             }
             $playlistId = $this->request['playlistId'];
             $songId = $this->request['songId'];
