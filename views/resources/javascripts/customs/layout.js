@@ -49,6 +49,9 @@ $(document).ready(function() {
 function showOneProfile(width){
 	if(width < 889){
 		$('#header-box-switch').removeClass('no-display');
+		$('#header-box-switch').addClass('small-5');
+		$('#header-box-switch').removeClass('small-9');
+		$('#header-box-switch').css({'margin-left': 0})
 		$('#header-box-logo').addClass('no-display');
 		$('#header-box-thum').addClass('no-display');
 		$('#header-box-player').addClass('no-display');
@@ -56,6 +59,15 @@ function showOneProfile(width){
 		$('#header-box-menu').addClass('large-1');		
 		$('#header-btn-search').attr("placeholder", "Cerca..");
 		$('#header-btn-search').attr('style', 'width:150px !important');
+		$('#header-box-search').removeClass('large-5');
+		$('#header-box-search').addClass('large-6');
+		$('#header-box-search').removeClass('no-display');
+		if(width < 377){
+			$('#header-box-search').addClass('no-display');
+			$('#header-box-switch').removeClass('small-5');
+			$('#header-box-switch').addClass('small-9');
+			$('#header-box-switch').css({'margin-left': 20})
+		}
 		showSwich();
 				
 	}
@@ -64,6 +76,8 @@ function showOneProfile(width){
 		if(width < 980){
 			$('#header-btn-search').attr("placeholder", "Cerca..");
 			$('#header-btn-search').attr('style', 'width:150px !important');
+			$('#header-box-search').removeClass('large-5');
+			$('#header-box-search').addClass('large-6');
 		}
 		else{
 			$('#header-btn-search').attr("placeholder", "Cerca persone, musica o eventi");
@@ -75,6 +89,9 @@ function showOneProfile(width){
 		$('#header-box-player').removeClass('no-display');
 		$('#header-box-menu').addClass('large-5');
 		$('#header-box-menu').removeClass('large-1');
+		$('#header-box-search').removeClass('large-6');
+		$('#header-box-search').addClass('large-5');
+		$('#header-box-search').removeClass('no-display');
 		hideSwich();		
 		
 	}
