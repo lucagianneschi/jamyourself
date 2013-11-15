@@ -44,11 +44,11 @@ class RelationController extends REST {
             } elseif (!isset($this->request['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             } elseif (!isset($this->request['activityId'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOACTIVITYID']), 403);
+                $this->response(array('status' => $controllers['NOACTIVITYID']), 403);
             } elseif (!isset($this->request['toUser'])) {
                 $this->response(array('status' => $controllers['NOTOUSER']), 403);
             } elseif (!isset($this->request['toUserType'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 403);
+                $this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
             }
             $currentUser = $this->request['currentUser'];
             $activityId = $this->request['activityId'];
@@ -187,7 +187,7 @@ class RelationController extends REST {
             } elseif (!isset($this->request['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             } elseif (!isset($this->request['activityId'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOACTIVITYID']), 403);
+                $this->response(array('status' => $controllers['NOACTIVITYID']), 403);
             }
             $currentUser = $this->request['currentUser'];
             $toUser = $this->request['toUser'];
@@ -232,40 +232,7 @@ class RelationController extends REST {
         }
     }
 
-    /**
-     * \fn	relationChecker($currentUserId, $currentUserType,$toUserType, $toUserId)
-     * \brief   check if 2 users are in a relationship (any kind)
-     * \param   $currentUserId,$currentUserType,$toUserType, $toUserId
-     * \return  true if a relation exist, false otherwise
-     * \todo    test
-     */
-    public function relationChecker($currentUserId, $currentUserType, $toUserType, $toUserId) {
-        global $controllers;
-        $inRelation = false;
-        switch ($currentUserId->getType()) {
-            case 'SPOTTER':
-                if ($toUserType == 'SPOTTER') {
-                    $fromField = 'friendship';
-                } else {
-                    $fromField = 'following';
-                }
-                break;
-            default :
-                if ($toUserType == 'SPOTTER') {
-                    $this->response(array($controllers['RELDENIED']), 401);
-                } else {
-                    $fromField = 'collaboration';
-                }
-                break;
-        }
-        $array = fromParseRelation('_User', $fromField, $currentUserId, '_User');
-        if ($array instanceof Error) {
-            $this->response(array('status' => $controllers['RELATIONCHECKERROR']), 503);
-        } elseif (in_array($toUserId, $array)) {
-            $inRelation = true;
-        }
-        return $inRelation;
-    }
+
 
     /**
      * \fn	removeRelationship ()
@@ -282,7 +249,7 @@ class RelationController extends REST {
             } elseif (!isset($this->request['toUser'])) {
                 $this->response(array('status' => $controllers['NOTOUSER']), 403);
             } elseif (!isset($this->request['toUserType'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 403);
+                $this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
             }
             $currentUser = $this->request['currentUser'];
             $toUserId = $this->request['toUser'];
@@ -385,7 +352,7 @@ class RelationController extends REST {
             } elseif (!isset($this->request['toUser'])) {
                 $this->response(array('status' => $controllers['NOTOUSER']), 403);
             } elseif (!isset($this->request['toUserType'])) {
-                $this->response(array('status' => "Bad Request", "msg" => $controllers['NOTOUSERTYPE']), 403);
+                $this->response(array('status' =>  $controllers['NOTOUSERTYPE']), 403);
             }
             $currentUser = $this->request['currentUser'];
             $toUser = $this->request['toUser'];

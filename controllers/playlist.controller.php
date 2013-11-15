@@ -29,10 +29,21 @@ require_once SERVICES_DIR . 'debug.service.php';
  */
 class PlaylistController extends REST {
 
+    public $config;
+
+    /**
+     * \fn		construct()
+     * \brief   load config file for the controller
+     */
+    function __construct() {
+        parent::__construct();
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/playlist.config.json"), false);
+    }
+
     /**
      * \fn      addSong()
      * \brief   add song to playlist
-     * \todo    usare la sessione
+     * \todo    vedere se va fatto controllo su + o meno 20 valori nella relation
      */
     public function addSong() {
         try {
@@ -44,7 +55,7 @@ class PlaylistController extends REST {
             } elseif (!isset($this->request['playlistId'])) {
                 $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
             } elseif (!isset($this->request['songId'])) {
-                $this->response(array('status' => $controllers['NOSONGTID']), 403);
+                $this->response(array('status' => $controllers['NOSONGID']), 403);
             }
             $playlistId = $this->request['playlistId'];
             $songId = $this->request['songId'];
@@ -55,16 +66,20 @@ class PlaylistController extends REST {
             if ($playlist instanceof Error) {
                 $this->response(array('NOPLAYLIST'), 503);
             }
-            if ($this->songInTracklist($songId)) {
-                $this->response(array('ERRORCHECKINGSONGINTRACKLIST'), 503);
+            if (in_array($songId, $playlist->getSongsArray())) {
+                $this->response(array('SONGALREADYINTRACKLIST'), 503);
             }
+            //qui va fatto check che non ci siano + di 20 elementi nella relation ? posso omettere perchè tanto mostro solo gli ultimi 20 nel box??? DA CAPIRE
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
             if ($res instanceof Error) {
-                $this->response(array('SONGALREADYINTRACKLIST'), 503);
+                $this->response(array('NOADDSONGTOPLAYREL'), 503);
+            }
+            $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $currentUser->getPremium(), $this->config->songsLimit);
+            if ($res1 instanceof Error) {
+                $this->response(array('NOADDSONGTOPLAYARRAY'), 503);
             }
             require_once CLASSES_DIR . 'activity.class.php';
             require_once CLASSES_DIR . 'activityParse.class.php';
-            //qui va aggiunto il check sul numero di canzoni, se sono più di 20 va cancellata la prima in ordine cronologico di aggiunta (come vengono inserire nell'arrau le song??)
             $activity = new Activity();
             $activity->setActive(true);
             $activity->setAlbum(null);
@@ -86,7 +101,7 @@ class PlaylistController extends REST {
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
             if ($resActivity instanceof Error) {
-                $this->rollback($playlistId, $songId, 'add');
+                $this->rollback($playlistId, $songId, 'add', $currentUser->getPremium(), $this->config->songsLimit);
             }
             $this->response(array('SONGADDEDTOPLAYLIST'), 200);
         } catch (Exception $e) {
@@ -109,7 +124,7 @@ class PlaylistController extends REST {
             } elseif (!isset($this->request['playlistId'])) {
                 $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
             } elseif (!isset($this->request['songId'])) {
-                $this->response(array('status' => $controllers['NOSONGTID']), 403);
+                $this->response(array('status' => $controllers['NOSONGID']), 403);
             }
             $playlistId = $this->request['playlistId'];
             $songId = $this->request['songId'];
@@ -120,12 +135,16 @@ class PlaylistController extends REST {
             if ($playlist instanceof Error) {
                 $this->response(array('NOPLAYLIST'), 503);
             }
-            if (!$this->songInTracklist($songId)) {
-                $this->response(array('SONGNOTINTRACKLIST'), 503);
+            if (!in_array($songId, $playlist->getSongsArray())) {
+                $this->response(array('ERRORCHECKINGSONGINTRACKLIST'), 503);
             }
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
             if ($res instanceof Error) {
-                $this->response(array('NOREMOVESONGTOPLAY'), 503);
+                $this->response(array('NOREMOVESONGTOPLAYREL'), 503);
+            }
+            $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
+            if ($res1 instanceof Error) {
+                $this->response(array('NOREMOVESONGTOPLAYARRAY'), 503);
             }
             require_once CLASSES_DIR . 'activity.class.php';
             require_once CLASSES_DIR . 'activityParse.class.php';
@@ -151,7 +170,7 @@ class PlaylistController extends REST {
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
             if ($resActivity instanceof Error) {
-                $this->rollback($playlistId, $songId, 'remove');
+                $this->rollback($playlistId, $songId, 'remove', $currentUser->getPremium(), $this->config->songsLimit);
             }
             $this->response(array('SONGADDEDTOPLAYLIST'), 200);
         } catch (Exception $e) {
@@ -160,46 +179,38 @@ class PlaylistController extends REST {
     }
 
     /**
-     * \fn		rollback($objectId, $operation)
+     * \fn	rollback($playlistId, $songId, $operation, $premium, $limit)
      * \brief   rollback for addSong() e removeSong()
-     * \param   $playslitId-> playlist objectId, $songId -> song objectId , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())
-     * \todo    usare la sessione
+     * \param   $playslitId-> playlist objectId, $songId -> song objectId , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())$premium, $limit for the currentUser
+     * \todo    
      */
-    private function rollback($playlistId, $songId, $operation) {
+    private function rollback($playlistId, $songId, $operation, $premium, $limit) {
         global $controllers;
         $playlistP = new PlaylistParse();
+        $playlist = $playlistP->getPlaylist($playlistId);
+        if ($playlist instanceof Error) {
+            $this->response(array($controllers['ROLLKO']), 503);
+        }
         if ($operation == 'add') {
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
+            if ($res instanceof Error) {
+                $this->response(array($controllers['ROLLKO']), 503);
+            }
+            $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
+            if ($res1 instanceof Error) {
+                $this->response(array($controllers['ROLLKO']), 503);
+            }
         } else {
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
-        }
-        if ($res instanceof Error) {
-            $this->response(array($controllers['ROLLKO']), 503);
-        } else {
-            $this->response(array($controllers['ROLLOK']), 503);
-        }
-    }
-
-    /**
-     * \fn	songInTracklist($songId)
-     * \brief   check if a song is in the playslit
-     * \param   $songId
-     * \return  true if the song is already in the playlist, false otherwise
-     * \todo    usare la sessione
-     */
-    public function songInTracklist($songId) {
-        try {
-            $bool = false;
-            $array = fromParseRelation('Playlist', 'songs', $songId, 'Song');
-            if ($array instanceof Error) {
-                $this->response(array('ERRORCHECKINGSONGINTRACKLIST'), 503);
-            } elseif (in_array($songId, $array)) {
-                $bool = true;
+            if ($res instanceof Error) {
+                $this->response(array($controllers['ROLLKO']), 503);
             }
-            return $bool;
-        } catch (Exception $ex) {
-            $this->response(array('ERRORCHECKINGSONGINTRACKLIST'), 503);
+            $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $premium, $limit);
+            if ($res1 instanceof Error) {
+                $this->response(array($controllers['ROLLKO']), 503);
+            }
         }
+        $this->response(array($controllers['ROLLOK']), 503);
     }
 
 }

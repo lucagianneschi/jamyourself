@@ -148,7 +148,7 @@ class LoveController extends REST {
                     $this->rollback($classType, $objectId, 'decrement');
                 }
             }
-                $this->response(array('status' => $controllers['LOVE']), 200);
+                $this->response(array($res), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -274,7 +274,7 @@ class LoveController extends REST {
                     $this->rollback($classType, $objectId, 'increment');
                 }
             }
-            $this->response(array('status' => $controllers['UNLOVE']), 200);
+            $this->response(array($res), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }

@@ -107,7 +107,7 @@ class CommentBox {
 	$commentP->setLimit($limit);
 	$commentP->setSkip($skip);
 	$commentP->whereInclude('fromUser');
-	$commentP->orderByAscending('createdAt');
+	$commentP->orderByDescending('createdAt');
 	$comments = $commentP->getComments();
 	if ($comments instanceof Error) {
 	    return $comments;

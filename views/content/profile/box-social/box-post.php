@@ -127,10 +127,12 @@ $postCounter = $data['postCounter'];
 						}
 					} else {
 						?>
-						<div class="row">
-						<div  class="large-12 columns ">
-							<p class="grey"><?php echo $views['post']['NODATA'];?></p>
-						</div>
+						<div class="box">
+							<div class="row">
+								<div  class="large-12 columns ">
+									<p class="grey"><?php echo $views['post']['NODATA'];?></p>
+								</div>
+							</div>
 						</div>
 						<?php
 					}

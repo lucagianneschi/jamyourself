@@ -20,6 +20,7 @@ $views = array(
 	'NEXT' 	=> 'Next',
 	'BACK' 	=> 'Back to List',
 	'LOVE' 	=> 'Love',
+	'UNLOVE' => 'Unlove',
 	'COMM' 	=> 'Comment',
 	'SHARE' => 'Share',
 	'REVIEW'=> 'Review',
@@ -110,7 +111,8 @@ $views = array(
 		'LIST'  		 => 'Album List',
 		'RECORDED'  	 => 'Recorded',
 		'PLAY'  		 => 'Play Now',
-		'ADDPLAYLIST'    => 'add to playlist'
+		'ADDPLAYLIST'    => 'add to playlist',
+		'NODATA' 		 => 'There are no tracks'
 	),
 	
 	'RecordReview' => array(
@@ -126,8 +128,33 @@ $views = array(
 		'COLL' => 'Collaborate',
 		'FOLL' => 'Follow'
 	
+	),
+	
+	'media' => array(
+		'Information' => array(
+			'TITLE'    => 'Information',
+			'CONTENT1_EVENT' => 'Hosted by',
+			'CONTENT1_RECORD' => 'Performed by',
+			'CONTENT2' => 'Featuring',
+			'CONTENT3' => 'Map',
+			'CONTENT4' => 'Attending',
+			'CONTENT5' => 'Invited',			
+		),
+		'Comment' => array(
+			'TITLE' => 'Comment',
+		),
+		'Record' => array(
+			'TITLE' => 'Tracklist',
+		),
+		'RecordReview' => array(
+			'TITLE' => 'Reviews',
+		),
+		'EventReview' => array(
+			'TITLE' => 'Reviews',
+		),
 	)
 	
 );
+ 
 
 ?>

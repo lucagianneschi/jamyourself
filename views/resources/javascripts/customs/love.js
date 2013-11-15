@@ -23,8 +23,6 @@ function love(_this, classType, objectId, objectIdUser) {
 			parent = $(_this).parent().parent();
 			objectLove = $(parent).find("a._unlove");
 			$(objectLove).toggleClass('orange grey');
-			//var number_love = parseInt($(objectLove).text(), 10);
-			//$(objectLove).text(number_love + 1);
 			$(objectLove).text(number_love);
 			$(objectLove).toggleClass('_love _unlove');
 			$(_this).text('Unlove');
@@ -32,8 +30,6 @@ function love(_this, classType, objectId, objectIdUser) {
 			parent = $(_this).parent().parent();
 			objectLove = $(parent).find("a._love");
 			$(objectLove).toggleClass('grey orange');
-			//var number_love = parseInt($(objectLove).text(), 10);
-			//$(objectLove).text(number_love - 1);
 			$(objectLove).text(number_love);
 			$(objectLove).toggleClass('_unlove _love');
 			$(_this).text('Love');
