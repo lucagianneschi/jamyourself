@@ -364,7 +364,7 @@ function callbackAlbumCreate(data, status) {
     }
 }
 function getFeaturingAlbumCreate() {
-    var featuring = new array();
+    var featuring = new Array();
     $.each($("#albumFeaturing option:selected"), function(key, item) {
         featuring.push($(item).val());
     });
@@ -465,7 +465,7 @@ function getTagsMusicTrack() {
     return tags;
 }
 function getFeaturingSongCreate() {
-    var featuring = new array();
+    var featuring = new Array();
     $.each($("#trackFeaturing option:selected"), function(key, item) {
         featuring.push($(item).val());
     });
