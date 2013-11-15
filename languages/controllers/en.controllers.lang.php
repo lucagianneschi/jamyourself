@@ -138,8 +138,10 @@ $controllers = array(
     'NOPLAYLIST' => 'Playlist not found for setting your tracklist',
     'NOPLAYLISTID' => 'Playlist ID unset',
     'NOSONGTID' => 'Song ID unset',
-    'NOADDSONGTOPLAY' => 'Unable to add song to playlist',
-    'NOREMOVESONGTOPLAY' => 'Unable to remove song from playlist',
+    'NOADDSONGTOPLAYREL' => 'Unable to add song to playlist (Relation)',
+    'NOADDSONGTOPLAYARRAY' => 'Unable to add song to playlist (Array)',
+    'NOREMOVESONGTOPLAYREL' => 'Unable to remove song from playlist(Relation)',
+    'NOREMOVESONGTOPLAYARRAY' => 'Unable to remove song from playlist(Array)',
     'SONGALREADYINTRACKLIST' => 'This song already exists in your playlist',
     'SONGNOTINTRACKLIST' => 'Song not found for removing from playlist',
     //SETTINGS
