@@ -142,7 +142,6 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit) {
 		    break;
 		case 'featuring':
 		    $users = $boxes['NOFEATEVE'];
-
 		    break;
 		case 'invited':
 		    $users = $boxes['NOINVITED'];
