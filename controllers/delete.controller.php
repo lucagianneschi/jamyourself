@@ -62,13 +62,13 @@ class DeleteController extends REST {
                     $activityParse = new ActivityParse();
                     $act = $activityParse->getActivity($objectId);
                     if ($act instanceof Error) {
-                        $this->response(array($controllers['NOACTIVITFORDELETE']), 503);
+                        $this->response(array('status' =>$controllers['NOACTIVITFORDELETE']), 503);
                     }
                     if ($currentUser->getObjectId() == $act->getFromUser()) {
                         $res = $activityParse->deleteActivity($objectId);
                         $activity->setType("DELETEDACTIVITY");
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'Album':
@@ -76,14 +76,14 @@ class DeleteController extends REST {
                     $albumParse = new AlbumParse();
                     $album = $albumParse->getAlbum($objectId);
                     if ($album instanceof Error) {
-                        $this->response(array($controllers['NOALBUMFORDELETE']), 503);
+                        $this->response(array('status' =>$controllers['NOALBUMFORDELETE']), 503);
                     }
                     if ($currentUser->getObjectId() == $album->getFromUser()) {
                         $res = $albumParse->deleteAlbum($objectId);
                         $activity->setAlbum($objectId);
                         $activity->setType("DELETEDALBUM");
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'Comment':
@@ -91,14 +91,14 @@ class DeleteController extends REST {
                     $commentParse = new CommentParse();
                     $comment = $commentParse->getComment($objectId);
                     if ($comment instanceof Error) {
-                        $this->response(array($controllers['NOCOMMENTFORDELETE']), 503);
+                        $this->response(array('status' =>$controllers['NOCOMMENTFORDELETE']), 503);
                     }
                     if ($currentUser->getObjectId() == $comment->getFromUser()) {
                         $res = $commentParse->deleteComment($objectId);
                         $activity->setComment($objectId);
                         $activity->setType("DELETEDCOMMENT");
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'Event':
@@ -106,14 +106,14 @@ class DeleteController extends REST {
                     $eventParse = new EventParse();
                     $event = $eventParse->getEvent($objectId);
                     if ($event instanceof Error) {
-                        $this->response(array($controllers['NOEVENTFORDELETE']), 503);
+                        $this->response(array('status' =>$controllers['NOEVENTFORDELETE']), 503);
                     }
                     if ($currentUser->getObjectId() == $event->getFromUser()) {
                         $res = $eventParse->deleteEvent($objectId);
                         $activity->setEvent($objectId);
                         $activity->setType("DELETEDEVENT");
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'Image':
@@ -121,14 +121,14 @@ class DeleteController extends REST {
                     $imageParse = new ImageParse();
                     $image = $imageParse->getImage($objectId);
                     if ($image instanceof Error) {
-                        $this->response(array($controllers['NOIMAGEFORDELETE']), 503);
+                        $this->response(array('status' =>$controllers['NOIMAGEFORDELETE']), 503);
                     }
                     if ($currentUser->getObjectId() == $image->getFromUser()) {
                         $res = $imageParse->deleteImage($objectId);
                         $activity->setImage($objectId);
                         $activity->setType("DELETEDIMAGE");
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'Playlist':
@@ -143,7 +143,7 @@ class DeleteController extends REST {
                         $activity->setPlaylist($objectId);
                         $activity->setType("DELETEDPLAYLIST");
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'Record':
@@ -151,14 +151,14 @@ class DeleteController extends REST {
                     $recordParse = new RecordParse();
                     $record = $recordParse->getRecord($objectId);
                     if ($record instanceof Error) {
-                        $this->response(array($controllers['NORECORDFORDELETE']), 503);
+                        $this->response(array('status' =>$controllers['NORECORDFORDELETE']), 503);
                     }
                     if ($currentUser->getObjectId() == $record->getFromUser()) {
                         $res = $recordParse->deleteRecord($objectId);
                         $activity->setRecord($objectId);
                         $activity->setType("DELETEDRECORD");
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'Song':
@@ -166,14 +166,14 @@ class DeleteController extends REST {
                     $songParse = new SongParse();
                     $song = $songParse->getSong($objectId);
                     if ($song instanceof Error) {
-                        $this->response(array($controllers['NOSONGFORDELETE']), 503);
+                        $this->response(array('status' =>$controllers['NOSONGFORDELETE']), 503);
                     }
                     if ($currentUser->getObjectId() == $song->getFromUser()) {
                         $res = $songParse->deleteSong($objectId);
                         $activity->setSong($objectId);
                         $activity->setType("DELETEDSONG");
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'Status':
@@ -181,14 +181,14 @@ class DeleteController extends REST {
                     $statusParse = new StatusParse();
                     $status = $statusParse->getStatus($objectId);
                     if ($status instanceof Error) {
-                        $this->response(array($controllers['NOSTATUSFORDELETE']), 503);
+                        $this->response(array('status' =>$controllers['NOSTATUSFORDELETE']), 503);
                     }
                     if ($currentUser->getObjectId() == $status->getFromUser()) {
                         $res = $statusParse->deleteStatus($objectId);
                         $activity->setUserStatus($objectId);
                         $activity->setType("DELETEDSTATUS");
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'User':
@@ -213,7 +213,7 @@ class DeleteController extends REST {
                         $mail->SmtpClose();
                         unset($mail);
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
                 case 'Video':
@@ -221,19 +221,19 @@ class DeleteController extends REST {
                     $videoParse = new VideoParse();
                     $video = $videoParse->getVideo($objectId);
                     if ($video instanceof Error) {
-                        $this->response(array($controllers['NOVIDEOFORDELETE']), 503);
+                        $this->response(array('status' =>$controllers['NOVIDEOFORDELETE']), 503);
                     }
                     if ($currentUser->getObjectId() == $video->getFromUser()) {
                         $res = $videoParse->deleteVideo($objectId);
                         $activity->setType("DELETEDVIDEO");
                         $activity->setVideo($objectId);
                     } else {
-                        $this->response(array($controllers['CND']), 401);
+                        $this->response(array('status' =>$controllers['CND']), 401);
                     }
                     break;
             }
             if ($res instanceof Error) {
-                $this->response(array($controllers['DELERR']), 503);
+                $this->response(array('status' =>$controllers['DELERR']), 503);
             } else {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
@@ -302,9 +302,9 @@ class DeleteController extends REST {
                 break;
         }
         if ($res instanceof Error) {
-            $this->response(array($controllers['ROLLKO']), 503);
+            $this->response(array('status' =>$controllers['ROLLKO']), 503);
         } else {
-            $this->response(array($controllers['ROLLOK']), 503);
+            $this->response(array('status' =>$controllers['ROLLOK']), 503);
         }
     }
 

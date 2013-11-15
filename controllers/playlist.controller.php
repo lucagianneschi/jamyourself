@@ -64,19 +64,19 @@ class PlaylistController extends REST {
 	    $playlistP = new PlaylistParse();
 	    $playlist = $playlistP->getPlaylist($playlistId);
 	    if ($playlist instanceof Error) {
-		$this->response(array('status' =>$controllers['NOPLAYLIST']), 503);
+		$this->response(array('status' => $controllers['NOPLAYLIST']), 503);
 	    }
 	    if (in_array($songId, $playlist->getSongsArray())) {
-		$this->response(array('status' =>$controllers['SONGALREADYINTRACKLIST']), 503);
+		$this->response(array('status' => $controllers['SONGALREADYINTRACKLIST']), 503);
 	    }
 	    //qui va fatto check che non ci siano + di 20 elementi nella relation ? posso omettere perchè tanto mostro solo gli ultimi 20 nel box??? DA CAPIRE
 	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
 	    if ($res instanceof Error) {
-		$this->response(array('status' =>$controllers['NOADDSONGTOPLAYREL']), 503);
+		$this->response(array('status' => $controllers['NOADDSONGTOPLAYREL']), 503);
 	    }
 	    $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $currentUser->getPremium(), $this->config->songsLimit);
 	    if ($res1 instanceof Error) {
-		$this->response(array('status' =>$controllers['NOADDSONGTOPLAYARRAY']), 503);
+		$this->response(array('status' => $controllers['NOADDSONGTOPLAYARRAY']), 503);
 	    }
 	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
@@ -189,28 +189,28 @@ class PlaylistController extends REST {
 	$playlistP = new PlaylistParse();
 	$playlist = $playlistP->getPlaylist($playlistId);
 	if ($playlist instanceof Error) {
-	    $this->response(array('status' =>$controllers['ROLLKO']), 503);
+	    $this->response(array('status' => $controllers['ROLLKO']), 503);
 	}
 	if ($operation == 'add') {
 	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
 	    if ($res instanceof Error) {
-		$this->response(array('status' =>$controllers['ROLLKO']), 503);
+		$this->response(array('status' => $controllers['ROLLKO']), 503);
 	    }
 	    $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
 	    if ($res1 instanceof Error) {
-		$this->response(array('status' =>$controllers['ROLLKO']), 503);
+		$this->response(array('status' => $controllers['ROLLKO']), 503);
 	    }
 	} else {
 	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
 	    if ($res instanceof Error) {
-		$this->response(array('status' =>$controllers['ROLLKO']), 503);
+		$this->response(array('status' => $controllers['ROLLKO']), 503);
 	    }
 	    $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $premium, $limit);
 	    if ($res1 instanceof Error) {
-		$this->response(array('status' =>$controllers['ROLLKO']), 503);
+		$this->response(array('status' => $controllers['ROLLKO']), 503);
 	    }
 	}
-	$this->response(array('status' =>$controllers['ROLLOK']), 503);
+	$this->response(array('status' => $controllers['ROLLOK']), 503);
     }
 
 }

@@ -124,7 +124,7 @@ class SocialController extends REST {
 			}
 			
 			if ($res instanceof Error) {
-                $this->response(array('status' => 'Non è stato possibile aggiornare lo shareCounter'), 503);
+                $this->response(array('status' => $controllers['NOUPDATESHARE']), 503);
             } else {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
@@ -132,7 +132,7 @@ class SocialController extends REST {
                     $this->rollback($classType, $objectId, 'decrement');
                 }
             }
-			$this->response(array('Increment share avvenuto con successo'), 200);
+			$this->response(array($controllers['OKSHARECOUNTER']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getErrorMessage()), 503);
         }

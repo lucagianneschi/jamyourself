@@ -124,6 +124,8 @@ $controllers = array(
     'NOLINK' => 'Impossibile collegare il tuo account dal tuo account social',
     'NOSOCIALNETUNSPECIFIED' => 'Social Network non specificato',
     'INVALIDSOCIALNET' => 'Social Network non valido',
+    'NOUPDATESHARE' => 'Impossibile aggiornare shareCounter',
+    'OKSHARECOUNTER' => 'ShareCounter Aggiornato',
     //PASSWORDRESET
     'OKPASSWORDRESETREQUEST' => 'La tua richiesta di reset password è stata inoltrata correttamente',
     'USERNOTFOUNDFORPASSRESET' => 'User non trovato per reset della password',

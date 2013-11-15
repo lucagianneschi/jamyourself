@@ -59,13 +59,13 @@ class MessageController extends REST {
             $activityP = new ActivityParse();
             $activity = $activityP->getActivity($objectId);
             if ($activity instanceof Error) {
-                $this->response(array($controllers['NOACTFORREADMESS']), 503);
+                $this->response(array('status' =>$controllers['NOACTFORREADMESS']), 503);
             }
             if ($activity->getRead() == false) {
                 $res = $activityP->updateField($objectId, 'read', true);
             }
             if ($res instanceof Error) {
-                $this->response(array($controllers['NOREAD']), 503);
+                $this->response(array('status' =>$controllers['NOREAD']), 503);
             }
             $this->response(array($controllers['MESSAGEREAD']), 200);
         } catch (Exception $e) {
@@ -97,9 +97,9 @@ class MessageController extends REST {
             $text = $this->request['message'];
             $title = $this->request['title'];
             if (strlen($text) < $this->config->minMessageSize) {
-                $this->response(array($controllers['SHORTMESSAGE'] . strlen($text)), 406);
+                $this->response(array('status' =>$controllers['SHORTMESSAGE'] . strlen($text)), 406);
             } elseif (strlen($title) < $this->config->minTitleSize) {
-                $this->response(array($controllers['SHORTTITLEMESSAGE'] . strlen($text)), 406);
+                $this->response(array('status' =>$controllers['SHORTTITLEMESSAGE'] . strlen($text)), 406);
             }
             require_once CONTROLLERS_DIR . 'utilsController.php';
             require_once CLASSES_DIR . 'comment.class.php';
@@ -131,7 +131,7 @@ class MessageController extends REST {
             $commentParse = new CommentParse();
             $resCmt = $commentParse->saveComment($message);
             if ($resCmt instanceof Error) {
-                $this->response(array('NOSAVEMESS'), 503);
+                $this->response(array('status' =>'NOSAVEMESS'), 503);
             }
             require_once CLASSES_DIR . 'activity.class.php';
             require_once CLASSES_DIR . 'activityParse.class.php';
@@ -169,9 +169,9 @@ class MessageController extends REST {
         $commentParse = new CommentParse();
         $res = $commentParse->deleteComment($objectId);
         if ($res instanceof Error) {
-            $this->response(array($controllers['ROLLKO']), 503);
+            $this->response(array('status' =>$controllers['ROLLKO']), 503);
         } else {
-            $this->response(array($controllers['ROLLOK']), 503);
+            $this->response(array('status' =>$controllers['ROLLOK']), 503);
         }
     }
 

@@ -105,7 +105,7 @@ class UserUtilitiesController extends REST {
 			$userP = new UserParse();
 			$res = $userP->updateField($currentUser->getObjectId(), 'settings', array($settings));
 			if ($res instanceof Error) {
-				$this->response(array('NOSETTINGUPDATE'), 503);
+				$this->response(array('status' =>$controllers['NOSETTINGUPDATE']), 503);
 			}
 			$activity = new Activity();
 			$activity->setActive(true);

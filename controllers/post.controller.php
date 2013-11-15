@@ -128,7 +128,7 @@ class PostController extends REST {
 		    $this->rollback($resCmt->getObjectId());
 		}
 	    }
-	    $this->response(array('status' => $controllers['POSTSAVED']), 200);
+	    $this->response(array($controllers['POSTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}

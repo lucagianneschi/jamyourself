@@ -91,12 +91,10 @@ class CommentController extends REST {
 			$cmt->setShareCounter(0);
 			$cmt->setTags(null);
 			$cmt->setTitle(null);
-			$encodedText = parse_encode_string($comment);
-			$cmt->setText($encodedText);
+			$cmt->setText(parse_encode_string($comment));
 			$cmt->setToUser($toUserObjectId);
 			$cmt->setType('C');
 			$cmt->setVote(null);
-			
 			$activity = new Activity();
 			$activity->setActive(true);
 			$activity->setCounter(0);
@@ -106,7 +104,6 @@ class CommentController extends REST {
 			$activity->setRead(false);
 			$activity->setStatus('A');
 			$activity->setToUser($toUserObjectId);
-			
 			switch ($classType) {
 				case 'Album':
 					$cmt->setAlbum($objectId);
@@ -157,7 +154,7 @@ class CommentController extends REST {
 					$this->rollback($resCmt->getObjectId());
 				}
 			}
-			$this->response(array('status' => $controllers['COMMENTSAVED']), 200);
+			$this->response(array($controllers['COMMENTSAVED']), 200);
 		} catch (Exception $e) {
 			$this->response(array('status' => $e->getMessage()), 503);
 		}
