@@ -38,7 +38,7 @@ class PlaylistParse {
     }
 
     /**
-     * \fn      void removeSongIdFromSongsArray(string $objectId, string $field, int $value)
+     * \fn      void removeObjectIdFromArray(string $objectId, string $field, int $value)
      * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
      * \param	$objectId	the string that represent the objectId of the Comment
      * \param	$field		the string that represent the field to decrement
@@ -51,9 +51,9 @@ class PlaylistParse {
             $parseObject = new parseObject('Playlist');
             $okFields = array('songsArray');
             if (is_null($field) || is_null($value) || is_null($objectId)) {
-                return throwError(new Exception('removeSongIdFromSongsArray parameters $objectId, $field, $value must to be set for update'), __CLASS__, __FUNCTION__, func_get_args());
+                return throwError(new Exception('removeObjectIdFromArray parameters $objectId, $field, $value must to be set for update'), __CLASS__, __FUNCTION__, func_get_args());
             } elseif (!in_array($field, $okFields)) {
-                return throwError(new Exception('removeSongIdFromSongsArray $field non authorized'), __CLASS__, __FUNCTION__, func_get_args());
+                return throwError(new Exception('removeObjectIdFromArray $field non authorized'), __CLASS__, __FUNCTION__, func_get_args());
             } else {
                 $playlist = $parseObject->get($objectId);
                 if (!in_array($value, $playlist->$field)) {
@@ -135,7 +135,7 @@ class PlaylistParse {
     }
 
     /**
-     * \fn	void addSongIdFromSongsArray($objectId, $field, $value, $premium, $limit)
+     * \fn	void addOjectIdToArray$objectId, $field, $value, $premium, $limit)
      * \brief	iNcrement the value of the $field of the objectId $objectId of $value unit
      * \param	$objectId	the string that represent the objectId of the Playlist
      * \param	$field		the string that represent the field to increment, 'songsArray' at this moment is the only valid field
@@ -149,9 +149,9 @@ class PlaylistParse {
             $parseObject = new parseObject('Playlist');
             $okFields = array('songsArray');
             if (is_null($field) || is_null($value) || is_null($objectId)) {
-                return throwError(new Exception('addSongIdFromSongsArray $objectId, $field, $value must to be set for songs update'), __CLASS__, __FUNCTION__, func_get_args());
+                return throwError(new Exception('addOjectIdToArray $objectId, $field, $value must to be set for songs update'), __CLASS__, __FUNCTION__, func_get_args());
             } elseif (!in_array($field, $okFields)) {
-                return throwError(new Exception('addSongIdFromSongsArray $field non authorized'), __CLASS__, __FUNCTION__, func_get_args());
+                return throwError(new Exception('addOjectIdToArray $field non authorized'), __CLASS__, __FUNCTION__, func_get_args());
             } elseif (is_null($premium) || is_null($limit)) {
                 $premium = false;
                 $limit = 20;
