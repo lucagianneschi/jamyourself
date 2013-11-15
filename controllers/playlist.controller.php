@@ -43,7 +43,7 @@ class PlaylistController extends REST {
     /**
      * \fn      addSong()
      * \brief   add song to playlist
-     * \todo    usare la sessione
+     * \todo    vedere se va fatto controllo su + o meno 20 valori nella relation
      */
     public function addSong() {
         try {
@@ -69,16 +69,12 @@ class PlaylistController extends REST {
             if (in_array($songId, $playlist->getSongsArray())) {
                 $this->response(array('SONGALREADYINTRACKLIST'), 503);
             }
+            //qui va fatto check che non ci siano + di 20 elementi nella relation ? posso omettere perchè tanto mostro solo gli ultimi 20 nel box??? DA CAPIRE
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
             if ($res instanceof Error) {
                 $this->response(array('NOADDSONGTOPLAYREL'), 503);
             }
-            $songs = $playlist->getSongsArray();
-            if ($currentUser->getPremium() == false && count($songs) >= $this->config->songLimit) {
-                array_pop($songs);
-            }
-            array_push($songs, $songId);
-            $res1 = $playlistP->updateField($playlistId, 'songsArray', array_unique($songs));
+            $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $currentUser->getPremium(), $this->config->songsLimit);
             if ($res1 instanceof Error) {
                 $this->response(array('NOADDSONGTOPLAYARRAY'), 503);
             }
@@ -105,7 +101,7 @@ class PlaylistController extends REST {
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
             if ($resActivity instanceof Error) {
-                $this->rollback($playlistId, $songId, 'add');
+                $this->rollback($playlistId, $songId, 'add', $currentUser->getPremium(), $this->config->songsLimit);
             }
             $this->response(array('SONGADDEDTOPLAYLIST'), 200);
         } catch (Exception $e) {
@@ -146,10 +142,7 @@ class PlaylistController extends REST {
             if ($res instanceof Error) {
                 $this->response(array('NOREMOVESONGTOPLAYREL'), 503);
             }
-            $songsToUpdate = $playlist->getSongsArray();
-            unset($songsToUpdate[array_search($songId, $songsToUpdate)]);
-            $songs = array_values($songsToUpdate);
-            $res1 = $playlistP->updateField($playlistId, 'songsArray', array_unique($songs));
+            $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
             if ($res1 instanceof Error) {
                 $this->response(array('NOREMOVESONGTOPLAYARRAY'), 503);
             }
@@ -177,7 +170,7 @@ class PlaylistController extends REST {
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
             if ($resActivity instanceof Error) {
-                $this->rollback($playlistId, $songId, 'remove');
+                $this->rollback($playlistId, $songId, 'remove', $currentUser->getPremium(), $this->config->songsLimit);
             }
             $this->response(array('SONGADDEDTOPLAYLIST'), 200);
         } catch (Exception $e) {
@@ -186,27 +179,24 @@ class PlaylistController extends REST {
     }
 
     /**
-     * \fn		rollback($objectId, $operation)
+     * \fn	rollback($playlistId, $songId, $operation, $premium, $limit)
      * \brief   rollback for addSong() e removeSong()
-     * \param   $playslitId-> playlist objectId, $songId -> song objectId , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())
-     * \todo    usare la sessione
+     * \param   $playslitId-> playlist objectId, $songId -> song objectId , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())$premium, $limit for the currentUser
+     * \todo    
      */
-    private function rollback($playlistId, $songId, $operation) {
+    private function rollback($playlistId, $songId, $operation, $premium, $limit) {
         global $controllers;
         $playlistP = new PlaylistParse();
         $playlist = $playlistP->getPlaylist($playlistId);
         if ($playlist instanceof Error) {
             $this->response(array($controllers['ROLLKO']), 503);
         }
-        $songsToUpdate = $playlist->getSongsArray();
         if ($operation == 'add') {
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
             if ($res instanceof Error) {
                 $this->response(array($controllers['ROLLKO']), 503);
             }
-            unset($songsToUpdate[array_search($songId, $songsToUpdate)]);
-            $songs = array_values($songsToUpdate);
-            $res1 = $playlistP->updateField($playlistId, 'songsArray', array_unique($songs));
+            $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
             if ($res1 instanceof Error) {
                 $this->response(array($controllers['ROLLKO']), 503);
             }
@@ -215,8 +205,7 @@ class PlaylistController extends REST {
             if ($res instanceof Error) {
                 $this->response(array($controllers['ROLLKO']), 503);
             }
-            array_push($songsToUpdate, $songId);
-            $res1 = $playlistP->updateField($playlistId, 'songsArray', array_unique($songsToUpdate));
+            $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $premium, $limit);
             if ($res1 instanceof Error) {
                 $this->response(array($controllers['ROLLKO']), 503);
             }
