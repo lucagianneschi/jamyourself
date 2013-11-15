@@ -169,10 +169,12 @@ function albumSelectNext(recordId){
 function getScrollBar(boxId){
 	var scrollbar = $(boxId).mCustomScrollbar({
  		updateOnContentResize: true,
- 		updateOnBrowserResize: true,
 		autoHideScrollbar:false,
 		mouseWheel: true,
-		scrollInertia:150
+		scrollInertia:100,
+		advanced:{
+			autoScrollOnFocus: false
+		}
 	});
 	return scrollbar;
 }
