@@ -30,6 +30,115 @@ require_once CONTROLLERS_DIR . 'restController.php';
 class SocialController extends REST {
 
     /**
+     * \fn		addShare()
+     * \brief   increment the shareCounter of an object
+     * \todo
+     */
+    public function addShare() {
+        try {
+            global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
+            }
+
+            if (!isset($this->request['classType'])) {
+                $this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
+            } elseif (!isset($this->request['objectId'])) {
+                $this->response(array('status' => $controllers['NOOBJECTID']), 403);
+            } elseif (!isset($this->request['toUser'])) {
+                $this->response(array('status' => $controllers['NOTOUSER']), 403);
+            }
+
+            require_once CLASSES_DIR . 'userParse.class.php';
+			$fromUser = $_SESSION['currentUser'];
+            
+			$classType = $this->request['classType'];
+			$objectId = $this->request['objectId'];
+            $toUserObjectId = $this->request['toUser'];
+			
+			require_once CLASSES_DIR . 'activity.class.php';
+			require_once CLASSES_DIR . 'activityParse.class.php';
+			$fromUser->getObjectId() == $toUserObjectId ? $read = true : $read = false;
+			$activity = new Activity();
+			$activity->setActive(true);
+			$activity->setCounter(0);
+			$activity->setFromUser($fromUser->getObjectId());
+			$activity->setPlaylist(null);
+			$activity->setQuestion(null);
+			$activity->setRead($read);
+			$activity->setStatus('A');
+			$activity->setToUser($toUserObjectId);
+			
+			switch ($classType) {
+				case 'Album':
+					require_once CLASSES_DIR . 'albumParse.class.php';
+					$albumParse = new AlbumParse();
+					$res = $albumParse->incrementAlbum($objectId, 'shareCounter', 1);
+					$activity->setAlbum($objectId);
+					$activity->setType('SHAREDALBUM');
+					break;
+				case 'AlbumReview':
+					require_once CLASSES_DIR . 'commentParse.class.php';
+					$commentParse = new CommentParse();
+					$res = $commentParse->incrementComment($objectId, 'shareCounter', 1);
+					$activity->setComment($objectId);
+					$activity->setType('SHAREDALBUMREVIEW');
+					break;
+				case 'Event':
+					require_once CLASSES_DIR . 'eventParse.class.php';
+					$eventParse = new EventParse();
+					$res = $eventParse->incrementEvent($objectId, 'shareCounter', 1);
+					$activity->setEvent($objectId);
+					$activity->setType('SHAREDEVENT');
+					break;
+				case 'EventReview':
+					require_once CLASSES_DIR . 'commentParse.class.php';
+					$commentParse = new CommentParse();
+					$res = $commentParse->incrementComment($objectId, 'shareCounter', 1);
+					$activity->setComment($objectId);
+					$activity->setType('SHAREDEVENTREVIEW');
+					break;
+				case 'Image':
+					require_once CLASSES_DIR . 'imageParse.class.php';
+					$imageParse = new ImageParse();
+					$res = $imageParse->incrementImage($objectId, 'shareCounter', 1);
+					$activity->setImage($objectId);
+					$activity->setType('SHAREDIMAGE');
+					break;
+				case 'Record':
+					require_once CLASSES_DIR . 'recordParse.class.php';
+					$recordParse = new RecordParse();
+					$res = $recordParse->incrementRecord($objectId, 'shareCounter', 1);
+					$activity->setRecord($objectId);
+					$activity->setType('SHAREDRECORD');
+					break;
+				case 'Song':
+					require_once CLASSES_DIR . 'songParse.class.php';
+					$songParse = new SongParse();
+					$res = $songParse->incrementSong($objectId, 'shareCounter', 1);
+					$activity->setSong($objectId);
+					$activity->setType('SHAREDSONG');
+					break;
+			}
+			
+			if ($res instanceof Error) {
+                $this->response(array('status' => 'Non è stato possibile aggiornare lo shareCounter'), 503);
+            } else {
+                $activityParse = new ActivityParse();
+                $resActivity = $activityParse->saveActivity($activity);
+                if ($resActivity instanceof Error) {
+                    $this->rollback($classType, $objectId, 'decrement');
+                }
+            }
+			$this->response(array('Increment share avvenuto con successo'), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getErrorMessage()), 503);
+        }
+    }
+	
+	/**
      * \fn		linkUser()
      * \brief   link the user account with a Social Network
      * \todo
@@ -178,6 +287,52 @@ class SocialController extends REST {
             $this->response(array($controllers['OKLOGINSOCIAL']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getErrorMessage()), 503);
+        }
+    }
+	
+	private function rollback($classType, $objectId) {
+        global $controllers;
+		switch ($classType) {
+			case 'Album':
+				require_once CLASSES_DIR . 'albumParse.class.php';
+                $albumParse = new AlbumParse();
+                $res = $albumParse->decrementAlbum($objectId, 'shareCounter', 1);
+            break;
+			case 'AlbumReview':
+				require_once CLASSES_DIR . 'commentParse.class.php';
+                $commentParse = new CommentParse();
+                $res = $commentParse->decrementComment($objectId, 'shareCounter', 1);
+			break;
+			case 'Event':
+				require_once CLASSES_DIR . 'eventParse.class.php';
+                $eventParse = new EventParse();
+                $res = $eventParse->decrementEvent($objectId, 'shareCounter', 1);
+			break;
+			case 'EventReview':
+				require_once CLASSES_DIR . 'commentParse.class.php';
+                $commentParse = new CommentParse();
+                $res = $commentParse->decrementComment($objectId, 'shareCounter', 1);
+			break;
+			case 'Image':
+				require_once CLASSES_DIR . 'imageParse.class.php';
+                $imageParse = new ImageParse();
+                $res = $imageParse->decrementImage($objectId, 'shareCounter', 1);
+			break;
+			case 'Record':
+				require_once CLASSES_DIR . 'recordParse.class.php';
+                $recordParse = new RecordParse();
+                $res = $recordParse->decrementRecord($objectId, 'shareCounter', 1);
+			break;
+			case 'Song':
+				require_once CLASSES_DIR . 'songParse.class.php';
+                $songParse = new SongParse();
+                $res = $songParse->decrementSong($objectId, 'shareCounter', 1);
+			break;
+		}
+        if ($res instanceof Error) {
+            $this->response(array('status' => $controllers['ROLLKO']), 503);
+        } else {
+            $this->response(array('status' => $controllers['ROLLOK']), 503);
         }
     }
 

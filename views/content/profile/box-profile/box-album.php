@@ -165,14 +165,15 @@ $albumCounter = $data['albumCounter'];
 			<div class="box-comment no-display"></div>
 			<!---------------------------------------- SHARE ------------------------------------------------->
 			<?php
-			$paramsAlbum = getShareParameters('Album', '', $data['album' . $i]['image' . $j]['thumbnail']);
+			$paramsAlbum = getShareParameters('Album', $data['album' . $i]['objectId'], $data['album' . $i]['image' . $j]['thumbnail']);
 			?>
 			<!-- AddThis Button BEGIN -->
 			<div class="addthis_toolbox">
 				<div class="hover_menu">
 				        <div class="addthis_toolbox addthis_default_style"
 							addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Album&objectId=&imgPath=<?php echo $data['album' . $i]['image' . $j]['thumbnail']; ?>"
-							addThis:title="<?php echo $paramsAlbum['title']; ?>">
+							addThis:title="<?php echo $paramsAlbum['title']; ?>"
+							onclick="addShare('<?php echo $objectIdUser; ?>', 'Album', '<?php echo $data['album' . $i]['objectId']; ?>')">
 				        <a class="addthis_button_twitter"></a>
 				        <a class="addthis_button_facebook"></a>
 				        <a class="addthis_button_google_plusone_share"></a>
@@ -248,7 +249,8 @@ $albumCounter = $data['albumCounter'];
 												<div class="hover_menu">
 												        <div class="addthis_toolbox addthis_default_style"
 															addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&objectId=&imgPath=<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>"
-															addThis:title="<?php echo $paramsImage['title']; ?>">
+															addThis:title="<?php echo $paramsImage['title']; ?>"
+															onclick="addShare('<?php echo $objectIdUser; ?>', 'Image', '<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>')">
 												        <a class="addthis_button_twitter"></a>
 												        <a class="addthis_button_facebook"></a>
 												        <a class="addthis_button_google_plusone_share"></a>

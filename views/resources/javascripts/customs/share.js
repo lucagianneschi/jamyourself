@@ -12,6 +12,29 @@ var addthis_share = {
 	}
 }
 
+function addShare(toUser, classType, objectId) {
+	var json_share = {};
+	json_share.toUser = toUser;
+	json_share.classType = classType;
+	json_share.objectId = objectId;
+	json_share.request = 'addShare';
+	
+	$.ajax({
+        type: "POST",
+        url: "../../../controllers/request/socialRequest.php",
+        data: json_share
+    })
+	.done(function(message, status, xhr) {
+		code = xhr.status;
+		console.log("Code: " + code + " | Message: " + message);
+	})
+	.fail(function(xhr) {
+		message = $.parseJSON(xhr.responseText).status;
+		code = xhr.status;
+		console.log("Code: " + code + " | Message: " + message);
+	});
+}
+
 /*
  * chiamata bottone share
  */
