@@ -138,8 +138,10 @@ $controllers = array(
     'NOPLAYLIST' => 'Playlist non trovata',
     'NOPLAYLISTID' => 'Playlist ID non impostato',
     'NOSONGTID' => 'Song ID non impostato',
-    'NOADDSONGTOPLAY' => 'Impossibile aggiungere canzone alla playlist',
-    'NOREMOVESONGTOPLAY' => 'Impossibile rimuovere canzone dalla playlist',
+    'NOADDSONGTOPLAYREL' => 'Impossibile aggiungere canzone dalla playlist (Relation)',
+    'NOADDSONGTOPLAYARRAY' => 'Impossibile aggiungere canzone dalla playlist (Array)',  
+    'NOREMOVESONGTOPLAYREL' => 'Impossibile rimuovere canzone dalla playlist(Relation)',
+    'NOREMOVESONGTOPLAYARRAY' => 'Impossibile rimuovere canzone dalla playlist(Array)',
     'SONGALREADYINTRACKLIST' => 'Canzone già presente nella playlist playlist',
     'SONGNOTINTRACKLIST' => 'Impossibile trovare canzone da rimuovere dalla playlist',
     //SETTINGS
