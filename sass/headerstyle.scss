@@ -38,9 +38,7 @@
 
 
 /*----- PLAYER -----*/
-#player{
- 
-}
+
 .title-player{
   font-size:14px;
   color: $white;
@@ -131,7 +129,7 @@
 .search {
   color: $grey !important; 
   font-size:14px !important;
-  width:235px !important;
+  width:235px;
   padding:6px 15px 6px 30px !important;
   border:$grey-superdark 1px solid !important;
   @include border-radius(5px);   

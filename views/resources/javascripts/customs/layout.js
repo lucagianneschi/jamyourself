@@ -1,14 +1,15 @@
 
 $(document).ready(function() {
 	
-	
+	var widthWindow = window.innerWidth;
+	showOneProfile(widthWindow);	
 	hcento();
-	
+	/*
 	if($('.switch').is(':visible')){
 		switch_stat = 1;
-		jamswitch();
+		showSwich();
 	}
-	
+	*/
 	//$("#profile").niceScroll({cursorcolor:"#222",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
 	//$("#social").niceScroll({cursorcolor:"#CCC",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
 	
@@ -40,21 +41,48 @@ $(document).ready(function() {
 		$("body").addClass("bg-double");
 	}
 	
-
-	
-	
-	
 });
-/* RESIZE */
-$(window).resize(function(){	
-	hcento();
-	if($('.switch').is(':visible')){
-		jamswitch();
+
+/*
+ * visualizza solo una parte del profile 
+ */
+function showOneProfile(width){
+	if(width < 889){
+		$('#header-box-switch').removeClass('no-display');
+		$('#header-box-logo').addClass('no-display');
+		$('#header-box-thum').addClass('no-display');
+		$('#header-box-player').addClass('no-display');
+		$('#header-box-menu').removeClass('large-5');
+		$('#header-box-menu').addClass('large-1');		
+		$('#header-btn-search').attr("placeholder", "Cerca..");
+		$('#header-btn-search').attr('style', 'width:150px !important');
+		showSwich();
+				
 	}
+	
 	else{
-		$('#social').show();
-		$('#profile').show();
+		if(width < 980){
+			$('#header-btn-search').attr("placeholder", "Cerca..");
+			$('#header-btn-search').attr('style', 'width:150px !important');
+		}
+		else{
+			$('#header-btn-search').attr("placeholder", "Cerca persone, musica o eventi");
+			$('#header-btn-search').attr('style', 'width:235px !important');
+		}
+		$('#header-box-switch').addClass('no-display');
+		$('#header-box-logo').removeClass('no-display');
+		$('#header-box-thum').removeClass('no-display');
+		$('#header-box-player').removeClass('no-display');
+		$('#header-box-menu').addClass('large-5');
+		$('#header-box-menu').removeClass('large-1');
+		hideSwich();		
+		
 	}
+}
+
+/* RESIZE */
+$(window).resize(function(){
+	showOneProfile(window.innerWidth);
 });
 
 // hcento() imposta le altezze rispetto alla viewport	
@@ -97,21 +125,46 @@ function footerShow() {
 
 //gestisce lo switch per la versione mobile (profile -> social, social->profile)
 var switch_stat = 1;
-function jamswitch() {
-			
+function showSwich(){
+	console.log('---------------------'+(switch_stat));
 	if ( switch_stat == 1 ) {
-		$('#profile').hide();
-		$('#social').show();
-		$('#social').css('backgroundColor', '#F3F3F3');
-		switch_stat = 0;
-	} else {
-		$('#profile').show();
-		$('#social').hide();
-		$('#profile').css('backgroundColor', '#303030');
-		switch_stat = 1;
+		$('#scroll-profile').show();
+		$('#scroll-social').hide();
+		$('#scroll-profile').addClass('bg-grey-dark');
+		$('#scroll-profile').attr('style', 'width:100% !important;float: center !important');
+		//$('#scroll-profile').attr('style', 'float: center !important');
+		$('#profile').css({'float':'center'});
+		hcento();
+	}
+	else{
+		$('#scroll-social').show();
+		$('#scroll-profile').hide();
+		$('#scroll-social').addClass('bg-white');
+		$('#scroll-social').attr('style', 'width:100% !important;float: center !important');
+	//	$('#scroll-social').attr('style', 'float: center !important');
+		$('#social').css({'float':'center'});
+		hcento();
 	}
 }
 
+function hideSwich(){
+	$('#scroll-profile').show();
+	$('#scroll-social').show();
+	$('#scroll-profile').attr('style', 'width: 50%;float: left');
+	$('#scroll-social').attr('style', 'width: 50%;float: right;');
+	$('#profile').css({'float':'right'});
+	$('#social').css({'float':'left'});
+	hcento();
+	switch_stat = 1;
+}
+
+
+function getSwich(){
+	if(switch_stat == 1) switch_stat = 0;
+	else switch_stat = 1;
+	showSwich();
+	
+}
 
 
 

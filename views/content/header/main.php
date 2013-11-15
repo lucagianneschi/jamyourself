@@ -12,17 +12,17 @@
 	<div  class="row">
 		<div  class="large-12 columns">		
 			<div class="row">				
-				<div class="large-5 small-1 columns">
+				<div id="header-box-menu" class="large-5 small-1 columns">
 					<div class="header">
 						<!------------------------------------- MENU ----------------------------->
 						<div class="icon-header _menu" onClick="headerShow()"></div>
 						<!------------------------------------- thumbnail album ----------------------------->			
-						<div class="icon-header  hide-for-small">
+						<div class="icon-header" id='header-box-thum'>
 							<img src="../media/<?php echo $default_img['DEFRECORDTHUMB']; ?>"  onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'">
 						</div>				
 					
 						<!------------------------------------- PLAYER ----------------------------->
-						<div id="player " class=" hide-for-small">
+						<div id="header-box-player">
 							<!---------- TITLE --------->
 							<div class="title-player">In The Belly Of A Shark</div>
 							<!---------- TIME MUSIC  --------->
@@ -49,15 +49,15 @@
 					</div>			
 				</div>
 				<!------------------------------------- LOGO --------------------------------------------->
-				<div class="small-2 columns hide-for-small logo">				
+				<div class="small-2 columns logo" id="header-box-logo">				
 					<div id="logo">
 						 <img src="resources/images/logo.png">						
 					</div>					
 				</div>
 				<!------------------------------------- SWITCH -------------------------------------------->
-				<div class="small-3 columns show-for-small ">
+				<div class="small-3 columns no-display " id='header-box-switch'>
 					<div class="header">
-						<div class="switch round" onclick="jamswitch()">
+						<div class="switch round" onclick="getSwich()">
 						  <input id="z" name="switch-z" type="radio" checked>
 						  <label for="z">Profilo</label>
 						
@@ -68,12 +68,12 @@
 						</div>
 					</div>
 				</div>	
-				<div class="large-5 small-8 columns">
+				<div class="large-5 small-8 columns" id="header-box-search">
 					<div class="header inline">
 						<!---------------------------- SEARCH ------------------------------------>						
 						<form class="inline" action="">
-							<span><input type="search" class="search show-for-large" placeholder="Cerca persone, musica o eventi"></span>
-							<span><input type="search" class="search-small show-for-small" placeholder="Cerca "></span>
+							<span><input id='header-btn-search' name='header-btn-search' type="search" class="search" placeholder="Cerca persone, musica o eventi"></span>
+						<!--	<span><input type="search" class="search-small show-for-small" placeholder="Cerca "></span> -->
 	  					</form>	
 	  					<a class="ico-label _notify inline"></a>
 	  					<a class="ico-label _friend inline"></a>
