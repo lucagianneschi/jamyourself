@@ -61,7 +61,6 @@ class PlaylistParse {
                 }
                 $parseObject->removeArray($field, array($value));
                 $res = $parseObject->update($objectId);
-                return $res->$field;
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
