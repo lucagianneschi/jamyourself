@@ -6,7 +6,8 @@ require_once ROOT_DIR . 'config.php';
 require_once VIEWS_DIR . 'utilities/share.php';
 
 $classType = $_GET['classType'];
-$params = getShareParameters($classType);
+$imgPath = $_GET['imgPath'];
+$params = getShareParameters($classType, $imgPath);
 
 ?>
 <!DOCTYPE html>
@@ -14,7 +15,7 @@ $params = getShareParameters($classType);
 <head>
 <meta property="og:title" content="<?php echo $params['title']; ?>" />
 <meta property="og:description" content="<?php echo $params['description']; ?>" />
-<meta property="og:image" content="http://www.socialmusicdiscovering.com/views/resources/images/logo.png" />
+<meta property="og:image" content="<?php echo $params['img']; ?>" />
 </head>
 <body>
 <script type="text/javascript">window.location="<?php echo $params['url']; ?>"</script>
