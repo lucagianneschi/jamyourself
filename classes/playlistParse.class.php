@@ -60,7 +60,7 @@ class PlaylistParse {
                     return throwError(new Exception('Song not in playlist, unable to remove'), __CLASS__, __FUNCTION__, func_get_args());
                 }
                 $parseObject->removeArray($field, array($value));
-                $res = $parseObject->update($objectId);
+                $parseObject->update($objectId);
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
