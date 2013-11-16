@@ -221,7 +221,7 @@ $recordCounter = $data['recordCounter'];
 					<!-- AddThis Button BEGIN -->
 					<div class="addthis_toolbox">
 						<div class="hover_menu">
-						        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
+						        <div class="addthis_toolbox addthis_default_style"
 									addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
 									addThis:title="Titolo della pagina di un album">
 						        <a class="addthis_button_twitter"></a>
@@ -254,7 +254,7 @@ $recordCounter = $data['recordCounter'];
 			<!-- AddThis Button BEGIN -->
 			<div class="addthis_toolbox">
 				<div class="hover_menu hover_record">
-				        <div class="addthis_toolbox addthis_default_style addthis_32x32_style"
+				        <div class="addthis_toolbox addthis_default_style"
 							addThis:url="http://socialmusicdiscovering.com/tests/controllers/share/testShare2.controller.php?classe=Album"
 							addThis:title="Titolo della pagina di un album">
 				        <a class="addthis_button_twitter"></a>
