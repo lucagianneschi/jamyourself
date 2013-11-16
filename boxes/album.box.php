@@ -110,6 +110,7 @@ class AlbumBox {
      * \fn	initForDetail($objectId)
      * \brief	Init AlbumBox instance for Personal Page, detailed view
      * \param	$objectId of the album to display information
+     * \todo    usare forma compatta di scrittura per showLove
      * \return	albumBox
      */
     public function initForDetail($objectId) {
@@ -169,6 +170,7 @@ class AlbumBox {
      * \fn	initForPersonalPage($objectId, $type)
      * \brief	Init AlbumBox instance for Personal Page
      * \param	$objectId for user that owns the page, $type
+     * \todo    usare forma compatta di scrittura per showLove
      * \return	albumBox
      */
     public function initForPersonalPage($objectId) {

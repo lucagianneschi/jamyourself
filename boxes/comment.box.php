@@ -66,7 +66,8 @@ class CommentBox {
      * \fn	init($className, $objectId, $limit, $skip)
      * \brief	Init CommentBox instance all over the website
      * \param	$className for the instance of the class that has been commented, $objectId for object that has been commented,
-     * \param   $limit number of objects to retreive, $skip number of objects to skip 
+     * \param   $limit number of objects to retreive, $skip number of objects to skip
+     * \todo    usare forma compatta di scrittura per showLove 
      * \return	commentBox
      */
     public function init($className, $objectId, $limit, $skip) {

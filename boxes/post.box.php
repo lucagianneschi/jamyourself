@@ -66,7 +66,7 @@ class PostBox {
      * \brief	Init PostBox instance for Personal Page
      * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId 
      * \return	postBox
-     * \todo	
+     * \todo	usare forma compatta di scrittura per showLove
      */
     public function initForPersonalPage($objectId, $limit, $skip) {
         global $boxes;

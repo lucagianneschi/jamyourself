@@ -160,6 +160,7 @@ class ActivityBox {
      * \fn	initForPersonalPage($objectId, $type)
      * \brief	Init ActivityBox instance for Personal Page
      * \param	$objectId for user that owns the page, $type of user that owns the page, $currentUserId
+     * \todo    usare forma compatta di scrittura per showLove
      * \return	activityBox
      */
     public function initForPersonalPage($objectId, $type) {
