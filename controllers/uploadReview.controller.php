@@ -23,6 +23,9 @@ class uploadRecordController extends REST {
         if (isset($_GET["recordId"]) && strlen($_GET["recordId"]) > 0) {
             $this->recordId = $_GET["recordId"];
             $this->record = $this->getRecord($this->recordId);
+            if($this->record instanceof Error || is_null($this->record)){
+                die("Nessun record trovato con questo ID : ".$this->recordId);
+            }
             $this->recordInfo = array();
             $this->recordInfo["title"] = $this->record->getTitle();
             $this->recordInfo["thumbnail"] = $this->getRecordThumbnailURL($this->record->getFromUser(),$this->recordId);
@@ -34,7 +37,7 @@ class uploadRecordController extends REST {
             //PER IL TEST
             
             ?>
-            <a href="<?php echo VIEWS_DIR."uploadReview.php?recordId=MSUtmBy6T4" ?>">Test link</a>
+            <a href="<?php echo VIEWS_DIR."uploadReview.php?recordId=sK0Azt3WiP" ?>">Test link</a>
             <br>
             <br>
             <?php

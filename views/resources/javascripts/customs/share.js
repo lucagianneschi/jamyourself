@@ -58,22 +58,29 @@ function share(_this,id,box){
 		break;
 		case 'profile-Record':
 			idbox = box;		
-			hover = '#'+idbox+ ' .hover_menu.hover_record';
+			hover = '#'+idbox+ ' .hover_menu.hover_record';			
+			$( hover ).css({'left':80});
 		break;
 		case 'Song':
 			idbox = id;
 			hover = '#'+idbox+ ' .hover_menu';
-			$( hover ).css({'top':20}); 
+			$( hover ).css({'top':40}); 
 			$( hover ).css({'left':80});	
+		break;
+		case 'profile-singleAlbum':
+			idbox = box;
+			hover = '#'+idbox+ ' .hover_menu';		
+			var positionTop = $('#'+idbox+ ' .box').height();
+			positionTop = positionTop + 55;
+		 	$( hover ).css({'left':100}); 	
+		 	$( hover ).css({'top':positionTop});	
 		break;
 		default:
 			idbox = box;
 			hover = '#'+idbox+ ' .hover_menu';		
 			var positionTop = $('#'+idbox+ ' .box').height();
-			positionTop = positionTop + 40;
-			var position = $(_this).position();
-			positionLeft = position.left + 60; 
-		 	$( hover ).css({'left':positionLeft}); 	
+			positionTop = positionTop + 69;
+		 	$( hover ).css({'left':100}); 	
 		 	$( hover ).css({'top':positionTop});
 		break;
 	}

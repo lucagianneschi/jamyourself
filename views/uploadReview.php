@@ -1,7 +1,7 @@
 <?php
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
-ini_set( "display_errors", 0);
+//ini_set( "display_errors", 0);
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'uploadReview.controller.php';
 
