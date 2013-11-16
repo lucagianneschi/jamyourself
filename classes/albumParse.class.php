@@ -212,7 +212,7 @@ class AlbumParse {
 	    #$album->setComments(fromParseRelation('Album', 'comments', $res->objectId, 'Comment'));
 	    $album->setCounter($res->counter);
 	    $album->setCover($res->cover);
-	    $album->setCoverFile(fromParseFile($res->coverFile),"image/jpeg");
+	    $album->setCoverFile(fromParseFile($res->coverFile,"image/jpeg"));
 	    $album->setDescription($res->description);
 	    #$album->setFeaturing(fromParseRelation('Album', 'featuring', $res->objectId, '_User'));
 	    $album->setFromUser(fromParsePointer($res->fromUser));

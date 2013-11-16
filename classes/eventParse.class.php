@@ -212,7 +212,7 @@ class EventParse {
             #$event->setFeaturing(fromParseRelation('Event', 'featuring', $res->objectId, '_User'));
             $event->setFromUser(fromParsePointer($res->fromUser));
             $event->setImage($res->image);
-            $event->setImageFile(fromParseFile($res->image),"image/jpeg");
+            $event->setImageFile(fromParseFile($res->image,"image/jpeg"));
             #$event->setInvited(fromParseRelation('Event', 'invited', $res->objectId, '_User'));
             $event->setLocation(fromParseGeoPoint($res->location));
             $event->setLocationName($res->locationName);

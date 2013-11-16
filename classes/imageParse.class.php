@@ -203,7 +203,7 @@ class ImageParse {
 			$image->setCounter($res->counter);
 			$image->setDescription($res->description);
 			#$image->setFeaturing(fromParseRelation('Image', 'featuring', $res->objectId, '_User'));
-			$image->setFile(fromParseFile($res->file),"image/jpeg");
+			$image->setFile(fromParseFile($res->file,"image/jpeg"));
 			$image->setFilePath($res->filePath);
 			$image->setFromUser(fromParsePointer($res->fromUser));
 			$image->setLocation(fromParseGeoPoint($res->location));
