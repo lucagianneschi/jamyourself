@@ -24,6 +24,7 @@ ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'event.box.php';
+require_once BOXES_DIR . 'utilsBox.php';
 $i_end = microtime();
 
 $objectId = '7fes1RyY77'; //LDF
@@ -42,11 +43,6 @@ $eventBoxP2 = new EventBox;
 $eventBox2 = $eventBoxP2->initForMediaPage($idEvent);
 print "<pre>";
 print_r($eventBox2);
-print "</pre>";
-echo '<br />TEST  VIEWALL MEDIA PAGE<br />';
-$eventBox3 = $eventBoxP2->getRelatedUsers($idEvent, 'featuring', true, 'Media');
-print "<pre>";
-print_r($eventBox3);
 print "</pre>";
 echo '<br />FINE TEST  INFO EVENT MEDIA PAGE<br />';
 $event2_stop = microtime();
