@@ -76,7 +76,7 @@ class MessageController extends REST {
     /**
      * \fn	message()
      * \brief   save a message an the related activity
-     * \todo    testare
+     * \todo    testare, possibilità di invio a utenti multipli, controllo della relazione
      */
     public function message() {
         global $controllers;
