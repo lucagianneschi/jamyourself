@@ -5,14 +5,15 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'uploadReview.controller.php';
 
-$uploadRecordController = new uploadRecordController();
-$uploadRecordController->init();
-$title = $uploadRecordController->recordInfo["title"];
-$thumbnail = $uploadRecordController->recordInfo["thumbnail"];
-$rating = $uploadRecordController->recordInfo["rating"];
-$tagGenere = $uploadRecordController->recordInfo["tagGenere"];
-$featuringInfoArray = $uploadRecordController->recordInfo["featuringInfoArray"];
-$author = $uploadRecordController->recordInfo["author"];
+$uploadReviewController = new uploadReviewController();
+$uploadReviewController->init();
+$title = $uploadReviewController->recordInfo["title"];
+$thumbnail = $uploadReviewController->recordInfo["thumbnail"];
+$rating = $uploadReviewController->recordInfo["rating"];
+$tagGenere = $uploadReviewController->recordInfo["tagGenere"];
+$featuringInfoArray = $uploadReviewController->recordInfo["featuringInfoArray"];
+$author = $uploadReviewController->recordInfo["author"];
+$authorThumbnail = $uploadReviewController->recordInfo["authorThumbnail"];
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->

@@ -1,5 +1,4 @@
 <?php
-
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
@@ -11,7 +10,7 @@ require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 
-class uploadRecordController extends REST {
+class uploadReviewController extends REST {
 
     public $recordId;
     public $record;
@@ -23,38 +22,34 @@ class uploadRecordController extends REST {
         if (isset($_GET["recordId"]) && strlen($_GET["recordId"]) > 0) {
             $this->recordId = $_GET["recordId"];
             $this->record = $this->getRecord($this->recordId);
-            if($this->record instanceof Error || is_null($this->record)){
-                die("Nessun record trovato con questo ID : ".$this->recordId);
+            if ($this->record instanceof Error || is_null($this->record)) {
+                die("Nessun record trovato con questo ID : " . $this->recordId);
             }
             $this->recordInfo = array();
             $this->recordInfo["title"] = $this->record->getTitle();
-            $this->recordInfo["thumbnail"] = $this->getRecordThumbnailURL($this->record->getFromUser(),$this->recordId);
+            $this->recordInfo["thumbnail"] = $this->getRecordThumbnailURL($this->record->getFromUser(), $this->record->getThumbnailCover());
             $this->recordInfo["rating"] = $this->getRecordRating();
             $this->recordInfo["tagGenere"] = $this->getRecordTagGenre();
             $this->recordInfo["featuringInfoArray"] = $this->getRecordFeaturingInfoArray();
             $this->recordInfo["author"] = $this->getRecordAuthor();
+            $this->recordInfo["authorThumbnail"] = $this->getUserThumbnailURL($this->record->getFromUser());
         } else {
             //PER IL TEST
-            
             ?>
-            <a href="<?php echo VIEWS_DIR."uploadReview.php?recordId=sK0Azt3WiP" ?>">Test link</a>
+            <a href="<?php echo VIEWS_DIR . "uploadReview.php?recordId=OoW5rEt94b" ?>">Test link</a>
             <br>
             <br>
             <?php
-
             die("Devi specificare un album Id ");
         }
     }
 
-    public function publish(){
+    public function publish() {
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
-        
-        
-        
     }
-    
+
 ////////////////////////////////////////////////////////////////////////////////
 //
 //          Funzioni private per il recupero delle Info per la View
@@ -90,26 +85,29 @@ class uploadRecordController extends REST {
         return $info;
     }
 
-    private function getUserThumbnailURL($userId, $thumbId) {
-        $path = "";
-        if (!is_null($thumbId) && strlen($thumbId) > 0 && !is_null($userId) && strlen($userId) > 0) {
-            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $thumbId;
-            if (!file_exists($path)) {
-                $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
-            }
-        } else {
-            //immagine di default con path realtivo rispetto alla View
-            //"http://socialmusicdiscovering.com/media/images/default/defaultAvatarThumb.jpg";              
-            $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
-        }
+    private function getUserThumbnailURL($userId) {
+        $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
 
+        if (!is_null($userId) && strlen($userId) > 0) {
+
+            $pAuthor = new UserParse();
+            $author = $pAuthor->getUser($userId);
+
+            if (!$author instanceof Error && !is_null($author)) {
+                $thumbId = $author->getProfileThumbnail();
+                $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $thumbId;
+                if (!file_exists($path)) {
+                    $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
+                }
+            }
+        }
         return $path;
     }
 
-    private function getRecordThumbnailURL($userId, $recordId) {
+    private function getRecordThumbnailURL($userId, $recordCoverThumb) {
         $path = "";
-        if (!is_null($recordId) && strlen($recordId) > 0 && !is_null($userId) && strlen($userId) > 0) {
-            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordId;
+        if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
+            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
             if (!file_exists($path)) {
                 $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultEventThumb.jpg";
             }

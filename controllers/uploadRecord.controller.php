@@ -43,14 +43,13 @@ class uploadRecordController extends REST {
             $this->response($error, 400);
         }
 
-//            "label": $("#label").val(),
-//            "urlBuy": $("#urlBuy").val(),
-//            "albumFeaturing": $("#albumFeaturing").val(),
-//            "year": $("#year").val(),
-//            "city": $("#city").val(),           
-
         $user = $_SESSION['currentUser'];
         $userId = $user->getObjectId();
+
+        if ($user->getType() != "JAMMER"){
+            $error = array('status' => "Bad Request", "msg" => "Invalid user type");
+            $this->response($error, 400);
+        }
 
         $pRecord = new RecordParse();
         $record = new Record();
@@ -72,7 +71,7 @@ class uploadRecordController extends REST {
         $record->setLabel(parse_encode_string($newAlbum->label));
 
         if (($location = GeocoderService::getLocation($newAlbum->city))) {
-            $parseGeoPoint = new parseGeoPoint($location['lat'],$location['lng']);
+            $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
             $record->setLocation($parseGeoPoint);
         }
 
@@ -115,7 +114,7 @@ class uploadRecordController extends REST {
         }
 
         unset($_SESSION['currentUserFeaturingArray']);
-        
+
         $this->response(array("res" => "OK", "recordId" => $newRecord->getObjectId()), 200);
     }
 
@@ -201,7 +200,7 @@ class uploadRecordController extends REST {
     }
 
     public function getFeaturingJSON() {
-        
+
         $currentUserFeaturingArray = null;
         if (isset($_SESSION['currentUserFeaturingArray'])) {
             //caching dell'array
