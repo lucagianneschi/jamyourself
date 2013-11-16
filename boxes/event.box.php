@@ -141,7 +141,7 @@ class EventBox {
      * \brief	Init EventBox instance for Media Page
      * \param	$objectId for event
      * \return	eventBox
-     * todo utilizzate whereInclude
+     * todo	usare forma compatta di scrittura per showLove
      */
     public function initForMediaPage($objectId) {
 	global $boxes;
@@ -167,16 +167,13 @@ class EventBox {
 		$showLove = true;
 		$address = parse_decode_string($event->getAddress());
 		$attendee = getRelatedUsers($event->getObjectId(), 'attendee', 'Event', false, $this->config->limitAttendeeForMediaPage);
-		//$attendee = $eventBox->getRelatedUsers($event->getObjectId(), 'attendee', false, 'Media');
 		$city = parse_decode_string($event->getCity());
 		$commentCounter = $event->getCommentCounter();
 		$description = parse_decode_string($event->getDescription());
 		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
 		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForMediaPage);
-		//$featuring = $eventBox->getRelatedUsers($event->getObjectId(), 'featuring', false, 'Media');
 		$image = $event->getImage();
 		$invited = getRelatedUsers($event->getObjectId(), 'invited', 'Event', false, $this->config->limitInvitedForMediaPage);
-		//$invited = $eventBox->getRelatedUsers($event->getObjectId(), 'invited', false, 'Media');
 		$geopoint = $event->getLocation();
 		$location = array('latitude' => $geopoint->location['latitude'], 'longitude' => $geopoint->location['longitude']);
 		$locationName = parse_decode_string($event->getLocationName());
@@ -213,6 +210,7 @@ class EventBox {
      * \fn	initForPersonalPage($objectId)
      * \brief	Init EventBox instance for Personal Page
      * \param	$objectId for user that owns the page
+     * \todo    usare forma compatta di scrittura per showLove
      * \return	eventBox
      */
     public function initForPersonalPage($objectId) {
@@ -249,7 +247,6 @@ class EventBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
 		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForPersonalPage);
-		//$featuring = $eventBox->getRelatedUsers($event->getObjectId(), 'featuring', false, 'Personal');
 		$locationName = parse_decode_string($event->getLocationName());
 		$eventId = $event->getObjectId();
 		$tags = array();

@@ -154,57 +154,11 @@ class RecordBox {
 	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/record.config.json"), false);
     }
 
-
-//    /**
-//     * \fn	initForDetail($objectId,$currentUserId)
-//     * \brief	init for detailed view in personal page for the record box object
-//     * \param	$objectId of the record to display info
-//     */
-//    public function initForDetail($objectId) {
-//	global $boxes;
-//	$currentUserId = sessionChecker();
-//	$recordBox = new RecordBox();
-//	$recordBox->fromUserInfo = $boxes['NDB'];
-//	$recordBox->recordCounter = $boxes['NDB'];
-//	$recordBox->recordInfoArray = $boxes['NDB'];
-//	$tracklist = array();
-//	$song = new SongParse();
-//	$song->wherePointer('record', 'Record', $objectId);
-//	$song->where('active', true);
-//	$song->setLimit($this->config->limitRecordForDetail);
-//	$songs = $song->getSongs();
-//	if ($songs instanceof Error) {
-//	    return $songs;
-//	} elseif (is_null($songs)) {
-//	    $recordBox->tracklist = $boxes['NOTRACK'];
-//	    return $recordBox;
-//	} else {
-//	    foreach ($songs as $song) {
-//		$showLove = true;
-//		$duration = $song->getDuration();
-//		$songId = $song->getObjectId();
-//		$title = parse_decode_string($song->getTitle());
-//		$commentCounter = $song->getCommentCounter();
-//		$loveCounter = $song->getLoveCounter();
-//		$reviewCounter = $boxes['NDB'];
-//		$shareCounter = $song->getShareCounter();
-//		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-//		$lovers = $song->getLovers();
-//		if (in_array($currentUserId, $lovers)) {
-//		    $showLove = false;
-//		}
-//		$songInfo = new SongInfo($counters, $duration, $songId, $showLove, $title);
-//		array_push($tracklist, $songInfo);
-//	    }
-//	    $recordBox->tracklist = $tracklist;
-//	}
-//	return $recordBox;
-//    }
-
     /**
      * \fn	initForMediaPage($objectId)
      * \brief	init for Media Page
-     * \param	$objectId of the record to display in MEdia Page
+     * \param	$objectId of the record to display in Media Page
+     * \todo    usare forma compatta di scrittura per showLove
      */
     public function initForMediaPage($objectId) {
 	global $boxes;
@@ -237,7 +191,6 @@ class RecordBox {
 		$cover = $record->getCover();
 		$description = parse_decode_string($record->getDescription());
 		$featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage);
-		//$featuring = $recordBox->getFeaturedUsers($record->getObjectId(), false);
 		$genre = $record->getGenre();
 		$label = parse_decode_string($record->getLabel());
 		$recordLovers = $record->getLovers();
@@ -296,6 +249,7 @@ class RecordBox {
      * \fn	initForPersonalPage($objectId)
      * \brief	init for recordBox for personal Page
      * \param	$objectId of the user who owns the page
+     * \todo	usare forma compatta di scrittura per showLove
      */
     public function initForPersonalPage($objectId) {
 	global $boxes;

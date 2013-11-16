@@ -138,50 +138,12 @@ class ReviewBox {
         $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/review.config.json"), false);
     }
 
-//    /**
-//     * \fn	getRelatedUsers($objectId, $field, $all, $page)
-//     * \brief	Convenience method to get all kind of related User to the record or event
-//     * \param	$objectId for event, $all BOOL: Yes to retrieve all related users or using the limit from config file, $page the page which calls the method
-//     * \return	userArray array of userInfo object
-//     */
-//    public function getFeaturedUsers($objectId, $all, $className) {
-//        global $boxes;
-//        $userArray = array();
-//        require_once CLASSES_DIR . 'user.class.php';
-//        require_once CLASSES_DIR . 'userParse.class.php';
-//        $parseUser = new UserParse();
-//        $parseUser->whereRelatedTo('featuring', $className, $objectId);
-//        $parseUser->where('active', true);
-//        if ($all == true) {
-//            $parseUser->setLimit(1000);
-//        } else {
-//            $parseUser->setLimit($this->config->limitFeaturingForUploadReviewPage);
-//        }
-//        $users = $parseUser->getUsers();
-//        if ($users instanceof Error) {
-//            return $users;
-//        } elseif (is_null($users)) {
-//            $users = $boxes['NOFEATRECORD'];
-//            return $users;
-//        } else {
-//            foreach ($users as $user) {
-//                $userId = $user->getObjectId();
-//                $thumbnail = $user->getProfileThumbnail();
-//                $type = $user->getType();
-//                $username = parse_decode_string($user->getUsername());
-//                $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
-//                array_push($userArray, $userInfo);
-//            }
-//        }
-//        return $userArray;
-//    }
-
     /**
      * \fn	initForDetail($objectId)
      * \brief	Init ReviewBox instance for Personal Page, detailed view
      * \param	$objectId of the review to display information
      * \return	reviewBox
-     * \todo	
+     * \todo	usare forma compatta di scrittura per showLove
      */
     public function initForDetail($objectId) {
         global $boxes;
@@ -238,7 +200,7 @@ class ReviewBox {
      * \param	$objectId of the review to display information, Event or Record class
      * \param   $className, $limit, $skip,$currentUserId
      * \return	reviewBox
-     * \todo	usare whereInclude per il fromUSer per evitare di fare una ulteriore get
+     * \todo	usare forma compatta di scrittura per showLove
      */
     public function initForMediaPage($objectId, $className, $limit, $skip) {
         global $boxes;
@@ -280,6 +242,8 @@ class ReviewBox {
                 if (in_array($currentUserId, $lovers)) {
                     $showLove = false;
                 }
+		//utilizzare questa scrittura compatta in giro per i box
+		//in_array($currentUserId, $lovers) ? $showLove = false : $showLove = true;
                 $reviewCounter = $boxes['NDB'];
                 $shareCounter = $review->getShareCounter();
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
@@ -302,6 +266,7 @@ class ReviewBox {
      * \brief	Init ReviewBox instance for Personal Page
      * \param	$objectId of the user who owns the page, $type of user, $className Record or Event class
      * \param   $type, $className
+     * \todo	usare forma compatta di scrittura per showLove
      * \return	reviewBox
      */
     function initForPersonalPage($objectId, $type, $className) {
@@ -454,7 +419,6 @@ class ReviewBox {
                     $className = 'Record';
                     $eventDate = $boxes['NDB'];
 		    $featuring = getRelatedUsers($objectId, 'featuring', 'Record', false, $this->config->limitFeaturingForUploadReviewPage);
-                    //$featuring = $reviewBox->getFeaturedUsers($objectId, false, 'Record');
                     $fromUser = $record->getFromUser();
                     $genre = $record->getGenre();
                     $locationName = $boxes['NDB'];
