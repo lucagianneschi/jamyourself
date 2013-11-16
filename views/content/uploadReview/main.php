@@ -19,7 +19,7 @@
 
                                             <div class="row">
                                                 <div class="small-3 columns ">
-                                                    <div class="coverThumb"><img src="http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg" onerror="this.src='http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg'"></div>						
+                                                    <div class="coverThumb"><img src="<?php echo $thumbnail?>" onerror="this.src='http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg'"></div>						
                                                 </div>
                                                 <div class="small-9 columns ">
                                                     <div class="row ">							
@@ -110,7 +110,8 @@
                                                             <div class="row">
                                                                 <div class="small-2 columns ">
                                                                     <div class="icon-header">
-                                                                        <img src="http://socialmusicdiscovering.com/media/images/default/defaultAvatarThumb.jpg" onerror="this.src='http://socialmusicdiscovering.com/media/images/default/defaultAvatarThumb.jpg'">
+                                                                        <!--<img src="http://socialmusicdiscovering.com/media/images/default/defaultAvatarThumb.jpg" onerror="this.src='http://socialmusicdiscovering.com/media/images/default/defaultAvatarThumb.jpg'">-->
+                                                                        <img src="<?php echo $authorThumbnail?>" onerror="this.src='http://socialmusicdiscovering.com/media/images/default/defaultAvatarThumb.jpg'">
                                                                     </div>
                                                                 </div>
                                                                 <div class="small-10 columns ">
