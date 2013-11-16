@@ -72,7 +72,7 @@ class uploadRecordController extends REST {
         $record->setLabel(parse_encode_string($newAlbum->label));
 
         if (($location = GeocoderService::getLocation($newAlbum->city))) {
-            $parseGeoPoint = new parseGeoPoint($location);
+            $parseGeoPoint = new parseGeoPoint($location['lat'],$location['lng']);
             $record->setLocation($parseGeoPoint);
         }
 
@@ -116,7 +116,7 @@ class uploadRecordController extends REST {
 
         unset($_SESSION['currentUserFeaturingArray']);
         
-        $this->response(array("OK"), 200);
+        $this->response(array("res" => "OK", "recordId" => $newRecord->getObjectId()), 200);
     }
 
     private function getFeaturing($list) {
