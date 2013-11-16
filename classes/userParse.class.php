@@ -295,9 +295,9 @@ class UserParse {
             $user = new User($res->type);
             $user->setObjectId($res->objectId);
             $user->setUsername($res->username);
-            $user->setPassword($res->password);
-            $user->setAuthData($res->authData);
-            $user->setEmailVerified($res->emailVerified);
+//            $user->setPassword($res->password);
+//            $user->setAuthData($res->authData);
+//            $user->setEmailVerified($res->emailVerified);
             $user->setActive($res->active);
             $user->setAddress($res->address);
             # $user->setAlbums(fromParseRelation('_User', 'albums', $res->objectId, 'Album'));
@@ -336,7 +336,7 @@ class UserParse {
             $user->setPremium($res->premium);
             $res->premium ? $user->setPremiumExpirationDate(fromParseDate($res->premiumExpirationDate)) : $user->setPremiumExpirationDate(null);
             $user->setProfilePicture($res->profilePicture);
-            $user->setProfilePictureFile($res->profilePictureFile);
+//            $user->setProfilePictureFile($res->profilePictureFile);
             $user->setProfileThumbnail($res->profileThumbnail);
             # $user->setRecords(fromParseRelation('_User', 'records', $res->objectId, 'Record'));
             $user->setSessionToken($res->sessionToken);
@@ -425,7 +425,7 @@ class UserParse {
             is_null($user->getGeoCoding()) ? $parseUser->geoCoding = null : $parseUser->geoCoding = toParseGeoPoint($user->getGeoCoding());
             is_null($user->getImages()) ? $parseUser->images = null : $parseUser->images = toParseAddRelation('Image', $user->getImages());
             is_null($user->getJammerCounter()) ? $parseUser->jammerCounter = -1 : $parseUser->jammerCounter = $user->getJammerCounter();
-            is_null($user->getJammerType()) ? $parseUser->jammerType = $nullArray : $parseUser->jammerType = $user->getJammerType();
+            is_null($user->getJammerType()) ? $parseUser->jammerType = null : $parseUser->jammerType = $user->getJammerType();
             is_null($user->getLastname()) ? $parseUser->lastname = null : $parseUser->lastname = $user->getLastname();
             is_null($user->getLevel()) ? $parseUser->level = -1 : $parseUser->level = $user->getLevel();
             is_null($user->getLevelValue()) ? $parseUser->levelValue = -1 : $parseUser->levelValue = $user->getLevelValue();
@@ -451,13 +451,13 @@ class UserParse {
             is_null($user->getWebsite()) ? $parseUser->website = null : $parseUser->website = $user->getWebsite();
             is_null($user->getYoutubeChannel()) ? $parseUser->youtubeChannel = null : $parseUser->youtubeChannel = $user->getYoutubeChannel();
             is_null($user->getACL()) ? $parseUser->ACL = null : $parseUser->ACL = $user->getACL()->acl;
-            if ($parseUser->type == 'SPOTTER') {
+            if ($parseUser->data['type'] == 'SPOTTER') {
                 $defAvatar = DEFAVATARSPOTTER;
                 $defAvatarThumb = DEFTHUMBSPOTTER;
-            } elseif ($parseUser->type == 'JAMMER') {
+            } elseif ($parseUser->data['type'] == 'JAMMER') {
                 $defAvatar = DEFAVATARJAMMER;
                 $defAvatarThumb = DEFTHUMBJAMMER;
-            } elseif ($parseUser->type == 'VENUE') {
+            } elseif ($parseUser->data['type'] == 'VENUE') {
                 $defAvatar = DEFAVATARVENUE;
                 $defAvatarThumb = DEFTHUMBVENUE;
             } else {
