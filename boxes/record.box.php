@@ -158,7 +158,7 @@ class RecordBox {
      * \fn	initForMediaPage($objectId)
      * \brief	init for Media Page
      * \param	$objectId of the record to display in Media Page
-     * \todo    usare forma compatta di scrittura per showLove
+     * \todo    
      */
     public function initForMediaPage($objectId) {
 	global $boxes;
@@ -180,7 +180,6 @@ class RecordBox {
 	    return $recordBox;
 	} else {
 	    foreach ($records as $record) {
-		$showLoveRecord = true;
 		$buylink = $record->getBuylink();
 		$city = parse_decode_string($record->getFromUser()->getCity());
 		$commentCounter = $record->getCommentCounter();
@@ -193,10 +192,7 @@ class RecordBox {
 		$featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage);
 		$genre = $record->getGenre();
 		$label = parse_decode_string($record->getLabel());
-		$recordLovers = $record->getLovers();
-		if (in_array($currentUserId, $recordLovers)) {
-		    $showLoveRecord = false;
-		}
+		$showLoveRecord = in_array($currentUserId, $record->getLovers()) ?  false :  true;
 		$locationName = parse_decode_string($record->getLocationName());
 		$title = parse_decode_string($record->getTitle());
 		$year = $record->getYear();
@@ -214,7 +210,6 @@ class RecordBox {
 		    $recordBox->tracklist = $boxes['NOTRACK'];
 		} else {
 		    foreach ($songs as $song) {
-			$showLove = true;
 			$duration = $song->getDuration();
 			$songId = $song->getObjectId();
 			$songTitle = parse_decode_string($song->getTitle());
@@ -223,10 +218,7 @@ class RecordBox {
 			$songShareCounter = $song->getShareCounter();
 			$songReviewCounter = $boxes['NDB'];
 			$songCounters = new Counters($songCommentCounter, $songLoveCounter, $songReviewCounter, $songShareCounter);
-			$lovers = $song->getLovers();
-			if (in_array($currentUserId, $lovers)) {
-			    $showLove = false;
-			}
+			$showLove = in_array($currentUserId, $song->getLovers()) ?  false :  true;
 			$songInfo = new SongInfo($songCounters, $duration, $songId, $showLove, $songTitle);
 			array_push($tracklist, $songInfo);
 		    }
@@ -249,7 +241,7 @@ class RecordBox {
      * \fn	initForPersonalPage($objectId)
      * \brief	init for recordBox for personal Page
      * \param	$objectId of the user who owns the page
-     * \todo	usare forma compatta di scrittura per showLove
+     * \todo	
      */
     public function initForPersonalPage($objectId) {
 	global $boxes;
@@ -273,7 +265,6 @@ class RecordBox {
 	    return $recordBox;
 	} else {
 	    foreach ($records as $record) {
-		$showLove = true;
 		$counter = ++$counter;
 		$commentCounter = $record->getCommentCounter();
 		$genre = $record->getGenre();
@@ -286,10 +277,7 @@ class RecordBox {
 		$title = parse_decode_string($record->getTitle());
 		$year = $record->getYear();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$lovers = $record->getLovers();
-		if (in_array($currentUserId, $lovers)) {
-		    $showLove = false;
-		}
+		$showLove = in_array($currentUserId, $record->getLovers()) ?  false :  true;
 		$recordInfo = new RecordInfoForPersonalPage($counters, $genre, $recordId, $showLove, $songCounter, $thumbnailCover, $title, $year);
 		array_push($info, $recordInfo);
 	    }

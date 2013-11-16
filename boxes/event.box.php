@@ -141,7 +141,6 @@ class EventBox {
      * \brief	Init EventBox instance for Media Page
      * \param	$objectId for event
      * \return	eventBox
-     * todo	usare forma compatta di scrittura per showLove
      */
     public function initForMediaPage($objectId) {
 	global $boxes;
@@ -164,7 +163,6 @@ class EventBox {
 	    require_once CLASSES_DIR . 'user.class.php';
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    foreach ($events as $event) {
-		$showLove = true;
 		$address = parse_decode_string($event->getAddress());
 		$attendee = getRelatedUsers($event->getObjectId(), 'attendee', 'Event', false, $this->config->limitAttendeeForMediaPage);
 		$city = parse_decode_string($event->getCity());
@@ -188,10 +186,7 @@ class EventBox {
 		    }
 		}
 		$title = parse_decode_string($event->getTitle());
-		$lovers = $event->getLovers();
-		if (in_array($currentUserId, $lovers)) {
-		    $showLove = false;
-		}
+		$showLove = in_array($currentUserId, $event->getLovers()) ?  false :  true;
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $showLove, $tags, $title);
 		$userId = $event->getFromUser()->getObjectId();
@@ -210,7 +205,7 @@ class EventBox {
      * \fn	initForPersonalPage($objectId)
      * \brief	Init EventBox instance for Personal Page
      * \param	$objectId for user that owns the page
-     * \todo    usare forma compatta di scrittura per showLove
+     * \todo    
      * \return	eventBox
      */
     public function initForPersonalPage($objectId) {
@@ -237,7 +232,6 @@ class EventBox {
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    foreach ($events as $event) {
 		$counter = ++$counter;
-		$showLove = true;
 		$address = parse_decode_string($event->getAddress());
 		$city = parse_decode_string($event->getCity());
 		$commentCounter = $event->getCommentCounter();
@@ -258,10 +252,7 @@ class EventBox {
 		}
 		$thumbnail = $event->getThumbnail();
 		$title = parse_decode_string($event->getTitle());
-		$lovers = $event->getLovers();
-		if (in_array($currentUserId, $lovers)) {
-		    $showLove = false;
-		}
+		$showLove = in_array($currentUserId, $event->getLovers()) ?  false :  true;
 		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $featuring, $locationName, $eventId, $showLove, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
 	    }

@@ -110,7 +110,7 @@ class AlbumBox {
      * \fn	initForDetail($objectId)
      * \brief	Init AlbumBox instance for Personal Page, detailed view
      * \param	$objectId of the album to display information
-     * \todo    usare forma compatta di scrittura per showLove
+     * \todo    
      * \return	albumBox
      */
     public function initForDetail($objectId) {
@@ -135,7 +135,6 @@ class AlbumBox {
             return $albumBox;
         } else {
             foreach ($images as $image) {
-                $showLove = true;
                 $commentCounter = $image->getCommentCounter();
                 $loveCounter = $image->getLoveCounter();
                 $reviewCounter = $boxes['NDB'];
@@ -154,10 +153,7 @@ class AlbumBox {
                     }
                 }
                 $thumbnail = $image->getThumbnail();
-                $lovers = $image->getLovers();
-                if (in_array($currentUserId, $lovers)) {
-                    $showLove = false;
-                }
+		$showLove = in_array($currentUserId, $image->getLovers()) ?  false :  true;
                 $imageInfo = new ImageInfo($counters, $description, $filePath, $location, $imageId, $showLove, $tags, $thumbnail);
                 array_push($info, $imageInfo);
             }
@@ -197,7 +193,6 @@ class AlbumBox {
         } else {
             foreach ($albums as $album) {
                 $counter = ++$counter;
-                $showLove = true;
                 $commentCounter = $album->getCommentCounter();
                 $imageCounter = $album->getImageCounter();
                 $loveCounter = $album->getLoveCounter();
@@ -207,10 +202,7 @@ class AlbumBox {
                 $thumbnailCover = $album->getThumbnailCover();
                 $title = parse_decode_string($album->getTitle());
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $lovers = $album->getLovers();
-                if (in_array($currentUserId, $lovers)) {
-                    $showLove = false;
-                }
+		$showLove = in_array($currentUserId, $album->getLovers()) ?  false :  true;
                 $albumInfo = new AlbumInfo($counters, $imageCounter, $albumId, $showLove, $thumbnailCover, $title);
                 array_push($info, $albumInfo);
             }
