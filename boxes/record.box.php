@@ -324,6 +324,7 @@ class RecordBox {
 	    }
 	    $recordBox->fromUserInfo = $userInfo;
 	    $recordBox->recordInfoArray = $recordInfo;
+	    $recordBox->tracklist = $tracklist;
 	}
 	return $recordBox;
     }
