@@ -100,7 +100,7 @@ class UserInfoBox {
                     $infoBox->frindshipCounter = $boxes['ND'];
                     $infoBox->geoCoding = $boxes['ND'];
                     $infoBox->localType = $boxes['ND'];
-                    (is_null($user->getMembers()) || count(getMembers()) == 0) ? $infoBox->members = $boxes['NOMEMBER'] : $infoBox->members = $user->getMembers();
+                    (is_null($user->getMembers()) || count($user->getMembers()) == 0) ? $infoBox->members = $boxes['NOMEMBER'] : $infoBox->members = $user->getMembers();
                     (is_null($user->getMusic()) || count($user->getMusic()) == 0) ? $infoBox->music = $boxes['NODATA'] : $infoBox->music = $user->getMusic();
                     is_null($user->getProfilePicture()) ? $infoBox->profilePicture = DEFAVATARJAMMER : $infoBox->profilePicture = $user->getProfilePicture();
                     break;
