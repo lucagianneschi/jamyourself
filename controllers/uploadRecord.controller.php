@@ -23,6 +23,8 @@ class uploadRecordController extends REST {
 
     public function albumCreate() {
 
+        global $controllers;
+        
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
@@ -83,7 +85,7 @@ class uploadRecordController extends REST {
 
         $newRecord = $pRecord->saveRecord($record);
 
-        if (is_a($newRecord, "Error")) {
+        if ($newRecord instanceof Error) {
 //result è un errore e contiene il motivo dell'errore
             $error = array('status' => "Service Unavailable", "msg" => $newRecord->getErrorMessage());
             $this->response($error, 503);
