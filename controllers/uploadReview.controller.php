@@ -21,7 +21,7 @@ class uploadReviewController extends REST {
         session_start();
 
         if (!isset($_SESSION['currentUser'])) {
-            die();
+            die("Non sei collegato.");
         }
 
         if (isset($_GET["recordId"]) && strlen($_GET["recordId"]) > 0) {
