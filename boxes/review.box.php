@@ -146,7 +146,6 @@ class ReviewBox {
      * \todo	
      */
     public function initForMediaPage($objectId, $className, $limit, $skip) {
-<<<<<<< HEAD
 	global $boxes;
 	$currentUserId = sessionChecker();
 	$counter = 0;
@@ -156,8 +155,10 @@ class ReviewBox {
 	$review = new CommentParse();
 	if ($className == 'Event') {
 	    $review->wherePointer('event', $className, $objectId);
+	    $review->where('type', 'RE');
 	} else {
 	    $review->wherePointer('record', $className, $objectId);
+	    $review->where('type', 'RR');
 	}
 	$review->where('active', true);
 	$review->whereInclude('fromUser');
@@ -197,63 +198,6 @@ class ReviewBox {
 	    $reviewBox->reviewCounter = $counter;
 	}
 	return $reviewBox;
-=======
-        global $boxes;
-        $currentUserId = sessionChecker();
-        $counter = 0;
-        $info = array();
-        $reviewBox = new ReviewBox();
-        $reviewBox->mediaInfo = $boxes['NDB'];
-        $review = new CommentParse();
-        if ($className == 'Event') {
-            $review->wherePointer('event', $className, $objectId);
-        } else {
-            $review->wherePointer('record', $className, $objectId);
-        }
-        $review->where('active', true);
-		$review->where('type', 'RE');
-        $review->whereInclude('fromUser');
-        $review->setLimit($limit);
-        $review->setSkip($skip);
-        $review->orderByDescending('createdAt');
-        $reviews = $review->getComments();
-        if ($reviews instanceof Error) {
-            return $reviews;
-        } elseif (is_null($reviews)) {
-            $reviewBox->reviewArray = $boxes['NODATA'];
-            $reviewBox->reviewCounter = $boxes['NODATA'];
-            return $reviewBox;
-        } else {
-            foreach ($reviews as $review) {
-                $showLove = true;
-                $counter = ++$counter;
-                $userId = $review->getFromUser()->getObjectId();
-                $thumbnail = $review->getFromUser()->getProfileThumbnail();
-                $type = $review->getFromUser()->getType();
-                $username = parse_decode_string($review->getFromUser()->getUserName());
-                $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
-                $commentCounter = $review->getCommentCounter();
-                $loveCounter = $review->getLoveCounter();
-                $lovers = $review->getLovers();
-                if (in_array($currentUserId, $lovers)) {
-                    $showLove = false;
-                }
-                $reviewCounter = $boxes['NDB'];
-                $shareCounter = $review->getShareCounter();
-                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $reviewId = $review->getObjectId();
-                $rating = $review->getVote();
-                $text = parse_decode_string($review->getText());
-                $thumbnailCover = $boxes['NDB'];
-                $title = parse_decode_string($review->getTitle());
-                $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $reviewId, $rating, $showLove, $text, $thumbnailCover, $title);
-                array_push($info, $reviewInfo);
-            }
-            $reviewBox->reviewArray = $info;
-            $reviewBox->reviewCounter = $counter;
-        }
-        return $reviewBox;
->>>>>>> 667ab4c25a2f931da42a8b0fff81b49455ff5788
     }
 
     /**
@@ -408,7 +352,7 @@ class ReviewBox {
 		    $city = $boxes['NDB'];
 		    $className = 'Record';
 		    $eventDate = $boxes['NDB'];
-		    $featuring = getRelatedUsers($objectId, 'featuring', 'Record', false, $this->config->limitFeaturingForUploadReviewPage,0);
+		    $featuring = getRelatedUsers($objectId, 'featuring', 'Record', false, $this->config->limitFeaturingForUploadReviewPage, 0);
 		    $fromUser = $record->getFromUser();
 		    $genre = $record->getGenre();
 		    $locationName = $boxes['NDB'];
