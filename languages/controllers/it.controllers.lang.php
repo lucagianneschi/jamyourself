@@ -161,7 +161,8 @@ $mail_files = array(
     'COLLABORATIONACCEPTEDEMAIL' => 'it.collaborationRequestAccepted.html',
     'FOLLOWINGEMAIL' => 'it.following.html',
     'EVENTREVIEWEMAIL' => 'it.eventReviewReceived.html',
-    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html'
+    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html',
+    'EVENTINVITATION' => 'it.eventInvitation.html'
 );
 
 $rest_strings = array(

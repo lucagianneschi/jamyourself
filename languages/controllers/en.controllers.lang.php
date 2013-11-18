@@ -161,7 +161,8 @@ $mail_files = array(
     'FRIENDSHIPACCEPTEDEMAIL' => 'en.friendshipRequestAccepted.html',
     'COLLABORATIONACCEPTEDEMAIL' => 'en.collaborationRequestAccepted.html',
     'EVENTREVIEWEMAIL' => 'en.eventReviewReceived.html',
-    'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html'
+    'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html',
+    'EVENTINVITATION' => 'en.eventInvitation.html'
 );
 
 $rest_strings = array(
