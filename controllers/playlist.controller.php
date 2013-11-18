@@ -190,7 +190,7 @@ class PlaylistController extends REST {
 	$playlist = $playlistP->getPlaylist($playlistId);
 	if ($playlist instanceof Error) {
 	    $this->response(array('status' => $controllers['ROLLKO']), 503);
-	}elseif ($operation == 'add') {
+	} elseif ($operation == 'add') {
 	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
 	    $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
 	} else {
