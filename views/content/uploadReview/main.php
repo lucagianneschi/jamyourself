@@ -172,10 +172,13 @@
                                             <h5>Your Rating</h5>
                                         </div>
                                         <div class="large-9 columns big-star">
-                                            <a class="icon-propriety _star-orange-big"></a><a class="icon-propriety _star-orange-big"></a><a class="icon-propriety _star-orange-big"></a><a class="icon-propriety _star-grey-big"></a><a class="icon-propriety _star-grey-big"></a>
+                                            <a class="icon-propriety _star-orange-big" id="star_rating_1"></a>
+                                            <a class="icon-propriety _star-orange-big" id="star_rating_2"></a>
+                                            <a class="icon-propriety _star-orange-big" id="star_rating_3"></a>
+                                            <a class="icon-propriety _star-grey-big" id="star_rating_4"></a>
+                                            <a class="icon-propriety _star-grey-big" id="star_rating_5"></a>
                                         </div>
                                     </div>
-
                                 </div>
 
                             </div>
@@ -183,7 +186,9 @@
                             <br><br>
                             <div class="row">
                                 <div class="large-12">
-                                    <input type="button" class="buttonNext" value="Publish">
+                                    <input type="button" class="buttonNext" id="button_publish" value="Publish">
+                                    <input type="hidden" id="record_id" value="<?php echo $uploadReviewController->recordId; ?>">
+
                                 </div>
                             </div>
 

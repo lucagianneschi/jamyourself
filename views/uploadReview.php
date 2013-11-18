@@ -14,6 +14,7 @@ $tagGenere = $uploadReviewController->recordInfo["tagGenere"];
 $featuringInfoArray = $uploadReviewController->recordInfo["featuringInfoArray"];
 $author = $uploadReviewController->recordInfo["author"];
 $authorThumbnail = $uploadReviewController->recordInfo["authorThumbnail"];
+
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
