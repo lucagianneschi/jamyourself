@@ -164,14 +164,14 @@ class EventBox {
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    foreach ($events as $event) {
 		$address = parse_decode_string($event->getAddress());
-		$attendee = getRelatedUsers($event->getObjectId(), 'attendee', 'Event', false, $this->config->limitAttendeeForMediaPage);
+		$attendee = getRelatedUsers($event->getObjectId(), 'attendee', 'Event', false, $this->config->limitAttendeeForMediaPage,0);
 		$city = parse_decode_string($event->getCity());
 		$commentCounter = $event->getCommentCounter();
 		$description = parse_decode_string($event->getDescription());
 		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
-		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForMediaPage);
+		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForMediaPage, 0);
 		$image = $event->getImage();
-		$invited = getRelatedUsers($event->getObjectId(), 'invited', 'Event', false, $this->config->limitInvitedForMediaPage);
+		$invited = getRelatedUsers($event->getObjectId(), 'invited', 'Event', false, $this->config->limitInvitedForMediaPage, 0);
 		$geopoint = $event->getLocation();
 		$location = array('latitude' => $geopoint->location['latitude'], 'longitude' => $geopoint->location['longitude']);
 		$locationName = parse_decode_string($event->getLocationName());

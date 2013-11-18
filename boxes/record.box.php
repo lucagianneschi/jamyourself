@@ -189,7 +189,7 @@ class RecordBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$cover = $record->getCover();
 		$description = parse_decode_string($record->getDescription());
-		$featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage);
+		$featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage,0);
 		$genre = $record->getGenre();
 		$label = parse_decode_string($record->getLabel());
 		$showLoveRecord = in_array($currentUserId, $record->getLovers()) ?  false :  true;

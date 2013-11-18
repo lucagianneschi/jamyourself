@@ -350,7 +350,7 @@ class ReviewBox {
 		    $city = $boxes['NDB'];
 		    $className = 'Record';
 		    $eventDate = $boxes['NDB'];
-		    $featuring = getRelatedUsers($objectId, 'featuring', 'Record', false, $this->config->limitFeaturingForUploadReviewPage);
+		    $featuring = getRelatedUsers($objectId, 'featuring', 'Record', false, $this->config->limitFeaturingForUploadReviewPage,0);
 		    $fromUser = $record->getFromUser();
 		    $genre = $record->getGenre();
 		    $locationName = $boxes['NDB'];
