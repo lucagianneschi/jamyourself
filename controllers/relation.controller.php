@@ -21,7 +21,6 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once SERVICES_DIR . 'relationChecker.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 
 /**
@@ -55,6 +54,7 @@ class RelationController extends REST {
 	    $activityId = $this->request['activityId'];
 	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
+	    require_once SERVICES_DIR . 'relationChecker.service.php';
 	    if ($this->relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserType, $toUserId)) {
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
@@ -211,6 +211,7 @@ class RelationController extends REST {
 	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
 	    $fromUserType = $currentUser->getType();
+	    require_once SERVICES_DIR . 'relationChecker.service.php';
 	    if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
 		$this->response(array('status' => $controllers['NORELFOUNDFORREMOVING']), 503);
 	    }
@@ -292,6 +293,7 @@ class RelationController extends REST {
 	    if ($currentUser->getObjectId() == $toUserId) {
 		$this->response(array('status' => $controllers['SELF']), 503);
 	    }
+	    require_once SERVICES_DIR . 'relationChecker.service.php';
 	    if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
