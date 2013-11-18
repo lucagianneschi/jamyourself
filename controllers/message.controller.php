@@ -95,11 +95,11 @@ class MessageController extends REST {
             $currentUser = $this->request['currentUser'];
             $toUserId = $this->request['toUser'];
             $toUserType = $this->request['toUserType'];
-            $text = $this->request['message'];
-            $title = $this->request['title'];
             if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
                 $this->response(array('status' => $controllers['NOSPAM']), 401);
             }
+            $text = $this->request['message'];
+            $title = $this->request['title'];
             if (strlen($text) < $this->config->minMessageSize) {
                 $this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
             } elseif (strlen($title) < $this->config->minTitleSize) {
