@@ -190,25 +190,15 @@ class PlaylistController extends REST {
 	$playlist = $playlistP->getPlaylist($playlistId);
 	if ($playlist instanceof Error) {
 	    $this->response(array('status' => $controllers['ROLLKO']), 503);
-	}
-	if ($operation == 'add') {
+	}elseif ($operation == 'add') {
 	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['ROLLKO']), 503);
-	    }
 	    $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
-	    if ($res1 instanceof Error) {
-		$this->response(array('status' => $controllers['ROLLKO']), 503);
-	    }
 	} else {
 	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['ROLLKO']), 503);
-	    }
 	    $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $premium, $limit);
-	    if ($res1 instanceof Error) {
-		$this->response(array('status' => $controllers['ROLLKO']), 503);
-	    }
+	}
+	if ($res1 instanceof Error || $res instanceof Error) {
+	    $this->response(array('status' => $controllers['ROLLKO']), 503);
 	}
 	$this->response(array('status' => $controllers['ROLLOK']), 503);
     }
