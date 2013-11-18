@@ -4,8 +4,7 @@
  * data: {data,typeuser}
  *
  */
-
- if (!defined('ROOT_DIR'))
+if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../../../');
 
 require_once ROOT_DIR . 'config.php';
