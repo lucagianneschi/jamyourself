@@ -254,6 +254,7 @@ class ReviewBox {
             $review->wherePointer('record', $className, $objectId);
         }
         $review->where('active', true);
+		$review->where('type', 'RE');
         $review->whereInclude('fromUser');
         $review->setLimit($limit);
         $review->setSkip($skip);
