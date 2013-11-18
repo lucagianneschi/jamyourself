@@ -19,24 +19,25 @@
 
 var callBoxMedia = {
 	url : "content/media/callbox.php",
-	classMedia: '',
+/*	classMedia: '',
 	objectIdMedia: '',
 	limit: '',
 	skip: '',
 	typeListUserEvent: '',
+	fromUserInfo:'',*/
 	load : function(typebox) {
 		
-		__this = this;
+		var callboxMediaCnt = this;
 				
 		$.ajax({
-			url : __this.url,
+			url : callboxMediaCnt.url,
 			data : {
 				typebox: typebox,
-				classMedia : __this.classMedia,
-				objectIdMedia : __this.objectIdMedia,
-				limit : __this.limit,
-				skip: __this.skip,
-				typeListUserEvent: __this.typeListUserEvent,
+				classMedia : callboxMediaCnt.classMedia,
+				objectIdMedia : callboxMediaCnt.objectIdMedia,
+				limit : callboxMediaCnt.limit,
+				skip: callboxMediaCnt.skip,
+				typeListUserEvent: callboxMediaCnt.typeListUserEvent,
 			},
 			type : 'POST',
 			dataType : 'json',
@@ -50,7 +51,7 @@ var callBoxMedia = {
 						getPinnerMedia('Record');
 					break;					
 					case 'review':					
-						if (__this.classMedia == 'record')	getPinnerMedia('RecordReview');
+						if (callboxMediaCnt.classMedia == 'record')	getPinnerMedia('RecordReview');
 						else getPinnerMedia('EventReview');						
 					break;
 				}					
@@ -58,13 +59,13 @@ var callBoxMedia = {
 			success : function(data, stato) {
 				//NOT ERROR
 				if (data != null && data['error']['code'] == 0) {
-										
+									
 					switch(typebox) {						
 						case 'classinfo':
+							callboxMediaCnt.fromUserInfo = data['classinfo']['fromUserInfo'];	
+							addBoxClassInfo(data,callboxMediaCnt.classMedia);
 							
-							addBoxClassInfo(data,__this.classMedia);
-							
-							if(__this.classMedia == 'record')
+							if(callboxMediaCnt.classMedia == 'record')
 								addBoxRecordMedia(data);		
 							
 							//chiamata box comment								
@@ -74,22 +75,22 @@ var callBoxMedia = {
 							
 						break;
 						
-						case 'comment':
-							addBoxCommentMedia(data);							
+						case 'comment':							
+							addBoxCommentMedia(data,callboxMediaCnt.objectIdMedia,callboxMediaCnt.fromUserInfo);							
 						
 						break;	
 							
 						case 'review':
-							if(__this.classMedia == 'event')
+							if(callboxMediaCnt.classMedia == 'event')
 								addBoxEventReviewMedia(data);
-							if(__this.classMedia == 'record')
+							if(callboxMediaCnt.classMedia == 'record')
 								addBoxRecordReviewMedia(data);							
 						break;
 						
 						default:
 
 					}					
-					console.log('Box: ' + typebox + ', class: ' + __this.classMedia + ', objectId: ' + __this.objectIdMedia);
+					console.log('Box: ' + typebox + ', class: ' + callboxMediaCnt.classMedia + ', objectId: ' + callboxMediaCnt.objectIdMedia);
 					return data;
 				} else {
 					if(typebox == 'classinfo')
@@ -142,9 +143,11 @@ function addBoxRecordMedia(data){
 	});
 }
 
-function addBoxCommentMedia(data){
+function addBoxCommentMedia(data,objectIdMedia,fromUserInfo){
 	$('#box-commentMedia').load('content/media/box-social/box-comment.php', {
-		'data' : data
+		'data' : data,
+		'objectIdMedia': objectIdMedia,		
+		'fromUserInfo': fromUserInfo,
 		}, function() { 
 		success: hcento();
 	});

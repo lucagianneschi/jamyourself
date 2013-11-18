@@ -14,13 +14,15 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
  
 $data = $_POST['data'];
-print_r($data);
-$objectIdMedia = $data['objectIdMedia'];
+
+//print_r($data);
+$objectIdMedia = $_POST['objectIdMedia'];
+$fromUserInfo = $_POST['fromUserInfo'];
 
 ?>
 
 <!------------------------------------- comment ------------------------------------>
-<div class="row" id="social-Comment">
+<div class="row" id="social-Comment <?php echo $objectIdMedia ?>">
 	<div  class="large-12 columns">
 		<h3>Comment</h3>
 
