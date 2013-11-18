@@ -219,7 +219,7 @@ class RelationController extends REST {
             $activity->setSong(null);
             $activity->setStatus('A');
             $activity->setToUser($toUser);
-            $activity->setType('RELDELINED');
+            $activity->setType('RELDECLINED');
             $activity->setUserStatus(null);
             $activity->setVideo(null);
             $activityP1 = new ActivityParse();
@@ -356,7 +356,7 @@ class RelationController extends REST {
             $currentUser = $this->request['currentUser'];
             $toUserId = $this->request['toUser'];
             $toUserType = $this->request['toUserType'];
-            if ($currentUser->getObjectId() == $toUser) {
+            if ($currentUser->getObjectId() == $toUserId) {
                 $this->response(array('status' => $controllers['SELF']), 503);
             }
             if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
@@ -378,27 +378,24 @@ class RelationController extends REST {
             $activity->setRead(false);
             $activity->setSong(null);
             $activity->setStatus('P');
-            $activity->setToUser($toUser);
+            $activity->setToUser($toUserId);
             $activity->setUserStatus(null);
             $activity->setVideo(null);
-            switch ($currentUser->getType()) {
-                case 'SPOTTER':
-                    if ($toUserType == 'SPOTTER') {
-                        $activity->setType("FRIENDSHIPREQUEST");
-                        $HTMLFile = $mail_files['FRIENDSHIPREQUESTEMAIL'];
-                    } else {
-                        $activity->setType("FOLLOWING");
-                        $HTMLFile = $mail_files['FOLLOWINGEMAIL'];
-                    }
-                    break;
-                default :
-                    if ($toUserType == 'SPOTTER') {
-                        $this->response(array('status' => $controllers['RELDENIED']), 401);
-                    } else {
-                        $activity->setType("COLLABORATIONREQUEST");
-                        $HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
-                    }
-                    break;
+            if ($currentUser->getType() == 'SPOTTER') {
+                if ($toUserType == 'SPOTTER') {
+                    $activity->setType("FRIENDSHIPREQUEST");
+                    $HTMLFile = $mail_files['FRIENDSHIPREQUESTEMAIL'];
+                } else {
+                    $activity->setType("FOLLOWING");
+                    $HTMLFile = $mail_files['FOLLOWINGEMAIL'];
+                }
+            } else {
+                if ($toUserType == 'SPOTTER') {
+                    $this->response(array('status' => $controllers['RELDENIED']), 401);
+                } else {
+                    $activity->setType("COLLABORATIONREQUEST");
+                    $HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
+                }
             }
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);

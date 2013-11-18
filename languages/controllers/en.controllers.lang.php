@@ -66,6 +66,7 @@ $controllers = array(
     'NOSAVEMESS' => 'Unable to save and send this message',
     'SHORTTITLEMESSAGE' => 'Message title too short',
     'NOMESSAGETITLE' => 'Message title unset',
+    'NOSPAM' => 'You are not authorized to send this message this reciepient',
     //LOVE
     'LOVEPLUSERR' => 'Error incrementing Love',
     'LOVEMINUSERR' => 'Error decrementing Love',

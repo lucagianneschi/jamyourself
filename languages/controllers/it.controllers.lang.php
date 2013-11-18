@@ -66,6 +66,7 @@ $controllers = array(
     'NOSAVEMESS' => 'Impossibile salvere ed inviare il messaggio',
     'SHORTTITLEMESSAGE' => 'Titolo del messaggio troppo corto',
     'NOMESSAGETITLE' => 'Titolo del messaggio non impostato',
+    'NOSPAM' => 'Non sei autorizzato ad inviare questo messaggio a questo utente',
     //LOVE
     'LOVEPLUSERR' => 'Errore incrementando Love',
     'LOVEMINUSERR' => 'Error decrementando Love',
