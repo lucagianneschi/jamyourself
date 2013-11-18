@@ -15,7 +15,6 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
  
 $data = $_POST['data'];
 
-//print_r($data);
 $objectIdMedia = $_POST['objectIdMedia'];
 $fromUserInfo = $_POST['fromUserInfo'];
 
@@ -38,7 +37,7 @@ $fromUserInfo = $_POST['fromUserInfo'];
 										<input id="commentEvent_<?php echo $objectIdMedia; ?>" type="text" class="comment inline" placeholder="<?php echo $views['comment']['WRITE'];?>" />
 									</div>
 									<div  class="small-3 columns ">
-										<input type="button" class="post-button inline" value="Comment" onclick="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $classType; ?>', '<?php echo $classBox; ?>')"/>
+										<input type="button" class="post-button inline" value="Comment" onclick="sendComment('<?php echo $fromUserInfo['objectId']; ?>', $('#commentEvent_<?php echo $objectIdMedia; ?>').val(), '<?php echo $objectIdMedia; ?>', 'Event')"/>
 									</div>
 								</div>
 							</div>
