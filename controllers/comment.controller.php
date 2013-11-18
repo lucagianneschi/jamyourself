@@ -60,7 +60,6 @@ class CommentController extends REST {
 			} 
 			
 			$fromUser = $_SESSION['currentUser'];
-			$fromUserObjectId = $fromUser->getObjectId();
 			$toUserObjectId = $this->request['toUser'];
 			$comment = $this->request['comment'];
 			$classType = $this->request['classType'];
