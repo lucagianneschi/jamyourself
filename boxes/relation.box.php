@@ -94,14 +94,7 @@ class RelationsBox {
 	    }
 	    $info = array('followers' => $boxes['ND'], 'following' => $followingArray, 'friendship' => $friendshipArray, 'venuesCollaborators' => $boxes['ND'], 'jammersCollaborators' => $boxes['ND']);
 	} else {
-	    require_once CLASSES_DIR . 'user.class.php';
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $collaboratorVenue = new UserParse();
-	    $collaboratorVenue->whereRelatedTo('collaboration', '_User', $objectId);
-	    $collaboratorVenue->where('active', true);
-	    $collaboratorVenue->setLimit($this->config->collaborations);
-	    $collaboratorVenue->orderByDescending('createdAt');
-	    $collaborators = $collaboratorVenue->getUsers();
+	    $collaborators = getRelatedUsers($objectId, 'collaboration', '_User', false, $this->config->collaborations, 0);
 	    if ($collaborators instanceof Error) {
 		return $collaborators;
 	    } elseif (is_null($collaborators)) {
