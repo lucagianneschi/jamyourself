@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		
+ * \todo		spostare la decode sulla _construct dei singoli elementi
  *
  */
 
@@ -148,8 +148,7 @@ class AlbumBox {
                 $tags = array();
                 if (count($image->getTags()) > 0) {
                     foreach ($image->getTags() as $tag) {
-                        $tag = parse_decode_string($tag);
-                        array_push($tags, $tag);
+                        array_push($tags, parse_decode_string($tag));
                     }
                 }
                 $thumbnail = $image->getThumbnail();

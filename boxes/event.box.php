@@ -181,8 +181,7 @@ class EventBox {
 		$tags = array();
 		if (count($event->getTags()) > 0) {
 		    foreach ($event->getTags() as $tag) {
-			$tag = parse_decode_string($tag);
-			array_push($tags, $tag);
+			array_push($tags, parse_decode_string($tag));
 		    }
 		}
 		$title = parse_decode_string($event->getTitle());
@@ -246,8 +245,7 @@ class EventBox {
 		$tags = array();
 		if (count($event->getTags()) > 0) {
 		    foreach ($event->getTags() as $tag) {
-			$tag = parse_decode_string($tag);
-			array_push($tags, $tag);
+			array_push($tags, parse_decode_string($tag));
 		    }
 		}
 		$thumbnail = $event->getThumbnail();
