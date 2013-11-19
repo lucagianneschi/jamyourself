@@ -110,12 +110,12 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 								<div class="small-6 columns ">
 									<a class="note grey " onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['LOVE'];?></a>
 									<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['COMM'];?></a>
-									<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['SHARE'];?></a>
+									<!-- a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['SHARE'];?></a -->
 								</div>
 								<div class="small-6 columns propriety ">					
 									<a class="icon-propriety _unlove grey" ><?php echo $review_counters['loveCounter'] ?></a>
 									<a class="icon-propriety _comment" ><?php echo $review_counters['commentCounter'] ?></a>
-									<a class="icon-propriety _share" ><?php echo $review_counters['shareCounter'] ?></a>
+									<!-- a class="icon-propriety _share" ><?php echo $review_counters['shareCounter'] ?></a -->
 								</div>	
 							</div>		
 						</div>
