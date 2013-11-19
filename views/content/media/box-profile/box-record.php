@@ -15,7 +15,10 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
- 
+require_once CLASSES_DIR . 'userParse.class.php';
+session_start();
+
+$currentUser = $_SESSION['currentUser'];
 $data = $_POST['data'];
 
 $tracklist = $data['classinfo']['tracklist'] == $boxes['NOTRACK'] ? array() : $data['classinfo']['tracklist'];
@@ -65,7 +68,7 @@ $tracklist = $data['classinfo']['tracklist'] == $boxes['NOTRACK'] ? array() : $d
 					<div class="row track-propriety" >
 						<div class="box-propriety album-single-propriety">
 							<div class="small-5 columns ">
-								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')"><?php echo $views['LOVE'];?></a>
+								<a class="note white" onclick="love(this, 'Song', '<?php echo $value['objectId'] ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE'];?></a>
 								<a class="note white" onclick="setCounter(this, '<?php echo $value['objectId'] ?>','Song')"><?php echo $views['SHARE'];?></a>	
 							</div>
 							<div class="small-5 columns propriety ">					
