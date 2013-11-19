@@ -29,7 +29,7 @@ require_once SERVICES_DIR . 'debug.service.php';
  */
 class AccessController extends REST {
 
-    private function createActivit($type, $fromUser) {
+    private function createActivity($type, $fromUser) {
         require_once CLASSES_DIR . 'activity.class.php';
         $activity = new Activity();
         $activity->setActive(true);
@@ -71,7 +71,7 @@ class AccessController extends REST {
             if ($resLogin instanceof Error) {
                 $this->response(array('status' => $resLogin->getErrorMessage()), 406);
             }
-            $activity = $this->createActivit('LOGGEDIN', $resLogin->getObjectId());
+            $activity = $this->createActivity('LOGGEDIN', $resLogin->getObjectId());
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activityParse = new ActivityParse();
             $activityParse->saveActivity($activity);
@@ -98,7 +98,7 @@ class AccessController extends REST {
             $currentUser = $_SESSION['currentUser'];
             $currentUserId = $currentUser->getObjectId();
             unset($_SESSION['currentUser']);
-            $activity = $this->createActivit('LOGGEDOUT', $currentUserId);
+            $activity = $this->createActivity('LOGGEDOUT', $currentUserId);
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activityParse = new ActivityParse();
             $res = $activityParse->saveActivity($activity);
