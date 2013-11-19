@@ -32,7 +32,12 @@ require_once CONTROLLERS_DIR . 'restController.php';
  * \details	controller di utilities riferite alla classe utente
  */
 class UserUtilitiesController extends REST {
-
+    
+    /**
+     * \fn      createActivity($type, $fromUser)
+     * \brief   private function to create ad hoc activity
+     * \param   $type, $fromUser
+     */
     private function createActivity($type, $fromUser) {
         require_once CLASSES_DIR . 'activity.class.php';
         $activity = new Activity();
