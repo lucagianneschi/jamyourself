@@ -1,10 +1,10 @@
 
 <!--   *** JQUERY *** -->
-<script>
+<!-- <script>
     document.write('<script src=' +
             ('__proto__' in {} ? 'resources/javascripts/plugins/vendor/zepto' : 'resources/javascripts/plugins/vendor/jquery') +
             '.js><\/script>')
-</script>
+</script> -->
 <script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
 <script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>	
 <script src="resources/javascripts/plugins/jquery/jquery-ui-1.10.3.custom.min.js"></script>
@@ -13,14 +13,14 @@
 
 <script src="resources/javascripts/plugins/foundation/foundation.js"></script>
 <script src="resources/javascripts/plugins/foundation/foundation.section.js"></script>
-<script src="resources/javascripts/plugins/foundation/foundation.clearing.js"></script>
-<script src="resources/javascripts/plugins/foundation/foundation.reveal.js"></script>
 <script src="resources/javascripts/plugins/foundation/foundation.abide.js"></script>
 
-<script src="resources/javascripts/plugins/touchCarousel/jquery.touchcarousel-1.1.min.js"></script> 
+<script src="resources/javascripts/plugins/touchCarousel/jquery.touchcarousel-1.1.min.js"></script>
+<script src='resources/javascripts/plugins/rating/jquery.rating.js' type="text/javascript"></script> 
 <!--
+<script src="resources/javascripts/plugins/foundation/foundation.clearing.js"></script>
+<script src="resources/javascripts/plugins/foundation/foundation.reveal.js"></script>
 <script src="javascripts/foundation/foundation.alerts.js"></script>
-
 <script src="javascripts/foundation/foundation.cookie.js"></script>
 <script src="javascripts/foundation/foundation.dropdown.js"></script>
 <script src="javascripts/foundation/foundation.forms.js"></script>
