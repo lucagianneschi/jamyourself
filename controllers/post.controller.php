@@ -93,8 +93,7 @@ class PostController extends REST {
 	    $cmt->setStatus(null);
 	    $cmt->setTags(null);
 	    $cmt->setTitle(null);
-	    $encodedText = parse_encode_string($post);
-	    $cmt->setText($encodedText);
+	    $cmt->setText(parse_encode_string($post));
 	    $cmt->setToUser($toUserObjectId);
 	    $cmt->setType('P');
 	    $cmt->setVideo(null);
@@ -125,6 +124,9 @@ class PostController extends REST {
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error) {
+//		    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+//		    $rollBackController = new RollBackController();
+//		    $rollBackController->rollbackPostController($resCmt->getObjectId());
 		    $this->rollback($resCmt->getObjectId());
 		}
 	    }
