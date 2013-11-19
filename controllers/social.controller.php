@@ -129,6 +129,9 @@ class SocialController extends REST {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
                 if ($resActivity instanceof Error) {
+//		    require_once CONTROLLERS_DIR .'rollBack.controller.php';
+//		    $rollBackController = new RollBackController();
+//		    $rollBackController->rollbackSocialController($classType, $objectId);
                     $this->rollback($classType, $objectId, 'decrement');
                 }
             }
@@ -290,7 +293,7 @@ class SocialController extends REST {
         }
     }
 	
-	private function rollback($classType, $objectId) {
+    private function rollback($classType, $objectId) {
         global $controllers;
 		switch ($classType) {
 			case 'Album':
