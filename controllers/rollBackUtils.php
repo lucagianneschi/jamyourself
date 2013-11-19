@@ -72,6 +72,7 @@ function rollbackCommentController($objectId, $classType) {
  * \param   $objectId dell'oggetto su cui fare rollback della delete, $classType
  */
 function rollbackDeleteController($classType, $objectId) {
+    global $controllers;
     switch ($classType) {
 	case 'Activity':
 	    require_once CLASSES_DIR . 'activityParse.class.php';
@@ -124,7 +125,8 @@ function rollbackDeleteController($classType, $objectId) {
 	    $res = $videoParse->updateField($objectId, 'active', true);
 	    break;
     }
-    $this->controllerResponse($res);
+    $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+    return $message;
 }
 
 /**
@@ -142,11 +144,8 @@ function rollbackEventManagementController($objectId, $operation) {
 	$res = $activityParse->updateField($objectId, 'status', 'P');
 	$res1 = $activityParse->updateField($objectId, 'read', false);
     }
-    if ((isset($res1) && $res instanceof Error) || $res instanceof Error) {
-	$this->response(array('status' => $controllers['ROLLKO']), 503);
-    } else {
-	$this->response(array('status' => $controllers['ROLLOK']), 503);
-    }
+    $message = ((isset($res1) && $res instanceof Error) || $res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+    return $message;
 }
 
 /**
@@ -230,11 +229,8 @@ function rollbackLoveController($classType, $objectId, $operation, $fromUser) {
 	    }
 	    break;
     }
-    if ($res instanceof Error) {
-	$this->response(array('status' => $controllers['ROLLKO']), 503);
-    } else {
-	$this->response(array('status' => $controllers['ROLLOK']), 503);
-    }
+    $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+    return $message;
 }
 
 /**
@@ -243,6 +239,7 @@ function rollbackLoveController($classType, $objectId, $operation, $fromUser) {
  * \param   $objectId dell'oggetto su cui fare rollback della message, function (sendMessage or readMessage)
  */
 function rollbackMessageController($objectId, $function) {
+    global $controllers;
     if ($function == 'sendMessage') {
 	require_once CLASSES_DIR . 'commentParse.class.php';
 	$commentParse = new CommentParse();
@@ -252,7 +249,8 @@ function rollbackMessageController($objectId, $function) {
 	$activityParse = new ActivityParse();
 	$res = $activityParse->updateField($objectId, 'read', true);
     }
-    $this->controllerResponse($res);
+    $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+    return $message;
 }
 
 /**
@@ -275,10 +273,8 @@ function rollbackPlaylistController($playlistId, $songId, $operation, $premium, 
 	$res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
 	$res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $premium, $limit);
     }
-    if ($res1 instanceof Error || $res instanceof Error) {
-	$this->response(array('status' => $controllers['ROLLKO']), 503);
-    }
-    $this->response(array('status' => $controllers['ROLLOK']), 503);
+    $message = ($res1 instanceof Error || $res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+    return $message;
 }
 
 /**
@@ -287,9 +283,12 @@ function rollbackPlaylistController($playlistId, $songId, $operation, $premium, 
  * \param   $objectId dell'oggetto su cui fare delete
  */
 function rollbackPostController($objectId) {
+    global $controllers;
     require_once CLASSES_DIR . 'commentParse.class.php';
     $postParse = new CommentParse();
-    $this->controllerResponse($postParse->deleteComment($objectId));
+    $res = $postParse->deleteComment($objectId);
+    $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+    return $message;
 }
 
 /**
@@ -298,6 +297,7 @@ function rollbackPostController($objectId) {
  * \param   $classType, $objectId 
  */
 function rollbackSocialController($classType, $objectId) {
+    global $controllers;
     switch ($classType) {
 	case 'Album':
 	    require_once CLASSES_DIR . 'albumParse.class.php';
@@ -335,7 +335,8 @@ function rollbackSocialController($classType, $objectId) {
 	    $res = $songParse->decrementSong($objectId, 'shareCounter', 1);
 	    break;
     }
-    $this->controllerResponse($res);
+    $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+    return $message;
 }
 
 ?>
