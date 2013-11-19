@@ -14,6 +14,8 @@
  * \todo		
  *
  */
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
@@ -59,12 +61,14 @@ class EventManagementController extends REST {
             if ($res instanceof Error || $res1 instanceof Error) {
                 $this->response(array('status' => $controllers['NOACTUPDATE']), 503);
             }
-            $responseType = ($response == 'R') ? 'INVITATIONDECLINED' : 'INVITATIONACCEPTED'; 
+            $responseType = ($response == 'R') ? 'INVITATIONDECLINED' : 'INVITATIONACCEPTED';
             $activity = $this->createActivity($responseType, $toUser, $currentUser->getObjectId(), 'A', null, true);
             $activityP1 = new ActivityParse();
             $res2 = $activityP1->saveActivity($activity);
             if ($res2 instanceof Error) {
-                $this->response(array('status' => $controllers['NOACSAVE']), 403); //prevedere rollback?
+                require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+                $rollBackController = new RollBackController();
+                $rollBackController->rollbackEventManagementController($activity->getObjectId(), 'managementRequest');
             }
             $this->response(array($responseType), 200);
         } catch (Exception $e) {
@@ -119,11 +123,13 @@ class EventManagementController extends REST {
                 $mail = new MailService(true);
                 $mail->IsHTML(true);
                 $mail->AddAddress($user->getEmail());
-                $mail->Subject = $controllers['SBJ'];
+                $mail->Subject = $controllers['SBJ']; //da modificare
                 $mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
                 $resMail = $mail->Send();
                 if ($resMail instanceof phpmailerException) {
-                    $this->response(array('status' => $controllers['NOMAIL']), 403);
+                    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+                    $rollBAckController = new RollBackController();
+                    $rollBAckController->rollbackEventManagementController($activity->getObjectId(), 'sendInvitation');
                 }
                 $mail->SmtpClose();
                 unset($mail);
@@ -133,6 +139,7 @@ class EventManagementController extends REST {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
+
     /**
      * \fn      createActivity($type, $toUserId, $currentUserId, $status, $eventId, $readr)
      * \brief   private function to create ad hoc activity
