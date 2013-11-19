@@ -65,7 +65,6 @@ class CommentController extends REST {
 	    $classType = $this->request['classType'];
 	    $objectId = $this->request['objectId'];
 
-
 	    if (strlen($comment) < $this->config->minCommentSize) {
 		$this->response(array('status' => $controllers['SHORTCOMMENT'] . strlen($comment)), 406);
 	    } elseif (strlen($comment) > $this->config->maxCommentSize) {
@@ -165,10 +164,13 @@ class CommentController extends REST {
 	    $resCmt = $commentParse->saveComment($cmt);
 	    if ($resCmt instanceof Error) {
 		$this->response(array('status' => $resCmt->getErrorMessage()), 503);
-	    }  else {
+	    } else {
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error || $res instanceof Error) {
+//		    require_once CONTROLLERS_DIR .'rollBack.controller.php';
+//		    $rollBackController = new RollBackController();
+//		    $rollBackController->rollbackCommentController($resCmt->getObjectId(), $classType);
 		    $this->rollback($resCmt->getObjectId());
 		}
 	    }
