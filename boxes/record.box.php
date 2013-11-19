@@ -154,94 +154,11 @@ class RecordBox {
 	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/record.config.json"), false);
     }
 
-//    /**
-//     * \fn	getRelatedUsers($objectId, $field, $all, $page)
-//     * \brief	Convenience method to get all kind of related User to the record for each page
-//     * \param	$objectId for event, $all BOOL: Yes to retrieve all related users or using the limit from config file, $page the page which calls the method
-//     * \return	userArray array of userInfo object
-//     */
-//    public function getFeaturedUsers($objectId, $all) {
-//	global $boxes;
-//	$userArray = array();
-//	require_once CLASSES_DIR . 'user.class.php';
-//	require_once CLASSES_DIR . 'userParse.class.php';
-//	$parseUser = new UserParse();
-//	$parseUser->whereRelatedTo('featuring', 'Record', $objectId);
-//	$parseUser->where('active', true);
-//	if ($all == true) {
-//	    $parseUser->setLimit(1000);
-//	} else {
-//	    $parseUser->setLimit($this->config->limitFeaturingForMediaPage);
-//	}
-//	$users = $parseUser->getUsers();
-//	if ($users instanceof Error) {
-//	    return $users;
-//	} elseif (is_null($users)) {
-//	    $users = $boxes['NOFEATRECORD'];
-//	    return $users;
-//	} else {
-//	    foreach ($users as $user) {
-//		$userId = $user->getObjectId();
-//		$thumbnail = $user->getProfileThumbnail();
-//		$type = $user->getType();
-//		$username = parse_decode_string($user->getUsername());
-//		$userInfo = new UserInfo($userId, $thumbnail, $type, $username);
-//		array_push($userArray, $userInfo);
-//	    }
-//	}
-//	return $userArray;
-//    }
-
-    /**
-     * \fn	initForDetail($objectId,$currentUserId)
-     * \brief	init for detailed view in personal page for the record box object
-     * \param	$objectId of the record to display info
-     */
-    public function initForDetail($objectId) {
-	global $boxes;
-	$currentUserId = sessionChecker();
-	$recordBox = new RecordBox();
-	$recordBox->fromUserInfo = $boxes['NDB'];
-	$recordBox->recordCounter = $boxes['NDB'];
-	$recordBox->recordInfoArray = $boxes['NDB'];
-	$tracklist = array();
-	$song = new SongParse();
-	$song->wherePointer('record', 'Record', $objectId);
-	$song->where('active', true);
-	$song->setLimit($this->config->limitRecordForDetail);
-	$songs = $song->getSongs();
-	if ($songs instanceof Error) {
-	    return $songs;
-	} elseif (is_null($songs)) {
-	    $recordBox->tracklist = $boxes['NOTRACK'];
-	    return $recordBox;
-	} else {
-	    foreach ($songs as $song) {
-		$showLove = true;
-		$duration = $song->getDuration();
-		$songId = $song->getObjectId();
-		$title = parse_decode_string($song->getTitle());
-		$commentCounter = $song->getCommentCounter();
-		$loveCounter = $song->getLoveCounter();
-		$reviewCounter = $boxes['NDB'];
-		$shareCounter = $song->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$lovers = $song->getLovers();
-		if (in_array($currentUserId, $lovers)) {
-		    $showLove = false;
-		}
-		$songInfo = new SongInfo($counters, $duration, $songId, $showLove, $title);
-		array_push($tracklist, $songInfo);
-	    }
-	    $recordBox->tracklist = $tracklist;
-	}
-	return $recordBox;
-    }
-
     /**
      * \fn	initForMediaPage($objectId)
      * \brief	init for Media Page
-     * \param	$objectId of the record to display in MEdia Page
+     * \param	$objectId of the record to display in Media Page
+     * \todo    
      */
     public function initForMediaPage($objectId) {
 	global $boxes;
@@ -263,7 +180,6 @@ class RecordBox {
 	    return $recordBox;
 	} else {
 	    foreach ($records as $record) {
-		$showLoveRecord = true;
 		$buylink = $record->getBuylink();
 		$city = parse_decode_string($record->getFromUser()->getCity());
 		$commentCounter = $record->getCommentCounter();
@@ -273,14 +189,10 @@ class RecordBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$cover = $record->getCover();
 		$description = parse_decode_string($record->getDescription());
-		$featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage);
-		//$featuring = $recordBox->getFeaturedUsers($record->getObjectId(), false);
+		$featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage,0);
 		$genre = $record->getGenre();
 		$label = parse_decode_string($record->getLabel());
-		$recordLovers = $record->getLovers();
-		if (in_array($currentUserId, $recordLovers)) {
-		    $showLoveRecord = false;
-		}
+		$showLoveRecord = in_array($currentUserId, $record->getLovers()) ?  false :  true;
 		$locationName = parse_decode_string($record->getLocationName());
 		$title = parse_decode_string($record->getTitle());
 		$year = $record->getYear();
@@ -298,7 +210,6 @@ class RecordBox {
 		    $recordBox->tracklist = $boxes['NOTRACK'];
 		} else {
 		    foreach ($songs as $song) {
-			$showLove = true;
 			$duration = $song->getDuration();
 			$songId = $song->getObjectId();
 			$songTitle = parse_decode_string($song->getTitle());
@@ -307,10 +218,7 @@ class RecordBox {
 			$songShareCounter = $song->getShareCounter();
 			$songReviewCounter = $boxes['NDB'];
 			$songCounters = new Counters($songCommentCounter, $songLoveCounter, $songReviewCounter, $songShareCounter);
-			$lovers = $song->getLovers();
-			if (in_array($currentUserId, $lovers)) {
-			    $showLove = false;
-			}
+			$showLove = in_array($currentUserId, $song->getLovers()) ?  false :  true;
 			$songInfo = new SongInfo($songCounters, $duration, $songId, $showLove, $songTitle);
 			array_push($tracklist, $songInfo);
 		    }
@@ -333,6 +241,7 @@ class RecordBox {
      * \fn	initForPersonalPage($objectId)
      * \brief	init for recordBox for personal Page
      * \param	$objectId of the user who owns the page
+     * \todo	
      */
     public function initForPersonalPage($objectId) {
 	global $boxes;
@@ -356,7 +265,6 @@ class RecordBox {
 	    return $recordBox;
 	} else {
 	    foreach ($records as $record) {
-		$showLove = true;
 		$counter = ++$counter;
 		$commentCounter = $record->getCommentCounter();
 		$genre = $record->getGenre();
@@ -369,10 +277,7 @@ class RecordBox {
 		$title = parse_decode_string($record->getTitle());
 		$year = $record->getYear();
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$lovers = $record->getLovers();
-		if (in_array($currentUserId, $lovers)) {
-		    $showLove = false;
-		}
+		$showLove = in_array($currentUserId, $record->getLovers()) ?  false :  true;
 		$recordInfo = new RecordInfoForPersonalPage($counters, $genre, $recordId, $showLove, $songCounter, $thumbnailCover, $title, $year);
 		array_push($info, $recordInfo);
 	    }

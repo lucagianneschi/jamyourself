@@ -28,6 +28,7 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 $typebox			= $_POST['typebox'];
 $classMedia 		= $_POST['classMedia'];
 $objectIdMedia  	= $_POST['objectIdMedia'];
+$objectId		  	= $_POST['objectId'];
 $limit 				= $_POST['limit'];
 $skip 				= $_POST['skip'];
 $typeListUserEvent	= $_POST['typeListUserEvent'];
@@ -117,9 +118,9 @@ switch ($typebox) {
 	
 	case 'comment' :
 		require_once BOXES_DIR . 'comment.box.php';
-		$commentBoxP = new CommentBox();		
+		$commentBoxP = new CommentBox();
 		try  {
-			$commentBoxP -> init('Comment', $objectIdMedia, $limit, $skip);					
+			$commentBox = $commentBoxP -> init('Comment', $objectIdMedia, $limit, $skip);					
 			if (!($commentBox instanceof Error)) {
 				$result['comment']['commentInfoArray'] = array();
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
@@ -143,14 +144,44 @@ switch ($typebox) {
 		}
 		
 		break;
+	case 'commentReview' :
+		require_once BOXES_DIR . 'comment.box.php';
+		$commentBoxP = new CommentBox();
+		try  {
+			$commentBox = $commentBoxP -> init('Comment', $objectId, $limit, $skip);					
+			if (!($commentBox instanceof Error)) {
+				$result['comment']['commentInfoArray'] = array();
+				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
+				foreach ($commentBox->commentInfoArray as $key => $value) {					
+					$result['comment']['commentInfoArray'][$key]['user_objectId'] = $value -> fromUserInfo -> objectId;
+					$result['comment']['commentInfoArray'][$key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
+					$result['comment']['commentInfoArray'][$key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
+					$result['comment']['commentInfoArray'][$key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
+					$result['comment']['commentInfoArray'][$key]['createdAt'] = $value -> createdAt;
+					$result['comment']['commentInfoArray'][$key]['text'] = $value -> text;
+					$result['comment']['commentInfoArray'][$key]['counters'] = $value -> counters;						
+				}
+				
+			} else {
+				$result['error']['code'] = 101;
+				$result['error']['message'] = 'Error comment for $objectIdMedia: object not found for get';				
+			}
+		}catch (Exception $e) {
+		   $result['comment'] = '';
+		   $result['error']['message'] = 'Error Comment';
+		}
+		
+		break;
+	
+	
 		
 	case 'relation' :
 		require_once BOXES_DIR . 'event.box.php';
 		
 		$eventBoxC = new EventBox();
 				
-		$result['relation'] = $eventBoxC->getRelatedUsers($objectIdMedia, $typeListUserEvent, true, 'Media');				
-		
+	//	$result['relation'] = $eventBoxC->getRelatedUsers($objectIdMedia, $typeListUserEvent, true, 'Media');				
+		$result['relation'] = getRelatedUsersgetRelatedUsers($objectIdMedia, $typeListUserEvent, 'Event', false, $limit, $skip);
 	break;
 	case 'review' :
 		require_once BOXES_DIR . 'review.box.php';

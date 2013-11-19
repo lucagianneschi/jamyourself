@@ -3,19 +3,6 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-/*
-require_once CLASSES_DIR . 'userParse.class.php';
-session_start();
-if (!$_SESSION['currentUser'] instanceOf User) {
-	header('Location: error.php');
-	exit;
-}
-*/
-
-$objectIdMedia = $_GET['objectIdMedia'];
 
 ?>
 <!DOCTYPE html>
@@ -27,10 +14,6 @@ $objectIdMedia = $_GET['objectIdMedia'];
         <title>Jamyourself</title>
         <!-------------------------- METADATI --------------------------->
         <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
-        
-        <style>
-        	
-        </style>
 
     </head>
 
@@ -40,27 +23,14 @@ $objectIdMedia = $_GET['objectIdMedia'];
         <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
 
         <!-------------------------- BODY --------------------------->
-      
-        <?php require_once(VIEWS_DIR . 'content/media/main.php'); ?>
-        
+        <div class="body-content">
+            <?php require_once(VIEWS_DIR . 'content/uploadEvent/main.php'); ?>
+        </div>
         <!-------------------------- FOOTER --------------------------->
         <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
 
         <!-------------------------- SCRIPT --------------------------->
         <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
-        
-        <script type="text/javascript">
-        	
-        	callBoxMedia.classMedia = 'event';
-        	callBoxMedia.objectIdMedia = '<?php echo $objectIdMedia ?>';
-        	callBoxMedia.limit = 5;
-        	callBoxMedia.skip = 0;
-        	callBoxMedia.load('classinfo');	
-			
-			
-			
-        </script>
-        
     </body>
 
 </html>

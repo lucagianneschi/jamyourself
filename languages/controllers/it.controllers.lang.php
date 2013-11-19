@@ -66,6 +66,8 @@ $controllers = array(
     'NOSAVEMESS' => 'Impossibile salvere ed inviare il messaggio',
     'SHORTTITLEMESSAGE' => 'Titolo del messaggio troppo corto',
     'NOMESSAGETITLE' => 'Titolo del messaggio non impostato',
+    'NOSPAM' => 'Non sei autorizzato ad inviare questo messaggio a questo utente',
+    'ALREADYREAD' => 'Messaggio già letto',
     //LOVE
     'LOVEPLUSERR' => 'Errore incrementando Love',
     'LOVEMINUSERR' => 'Error decrementando Love',
@@ -149,7 +151,14 @@ $controllers = array(
     //SETTINGS
     'NOSETTINGUPDATE' => 'Impossibile effettuare aggiornamento dei setting',
     'NOSETTING' => 'Setting non specificato nella richiesta',
-    'SETTINGUPDATED' => 'Setting Aggiornato'
+    'SETTINGUPDATED' => 'Setting Aggiornato',
+     //EVENTMANAGEMENT
+    'NORESPONSE' => 'Risposta ad invitato nulla',
+    'INVALIDRESPONSE' => 'Risposta ad invitato non valida',
+    'INVITATIONDECLINED'=> 'Invito declinato',
+    'INVITATIONACCEPTED'=> 'Invito accettato',
+    'NOEVENTID'=> 'Event ID non settato',
+    'INVITATIONSENT'=> 'Invito inviato'
 );
 
 $mail_files = array(
@@ -160,7 +169,8 @@ $mail_files = array(
     'COLLABORATIONACCEPTEDEMAIL' => 'it.collaborationRequestAccepted.html',
     'FOLLOWINGEMAIL' => 'it.following.html',
     'EVENTREVIEWEMAIL' => 'it.eventReviewReceived.html',
-    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html'
+    'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html',
+    'EVENTINVITATION' => 'it.eventInvitation.html'
 );
 
 $rest_strings = array(

@@ -136,78 +136,11 @@ class EventBox {
 	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/event.config.json"), false);
     }
 
-//    /**
-//     * \fn	getRelatedUsers($objectId, $field, $all, $page)
-//     * \brief	Convenience method to get all kind of related User to the event for each page
-//     * \param	$objectId for event, $field to be related to, $all BOOL: Yes to retrieve all related users or using the limit from config file, $page the page which calls the method
-//     * \return	userArray array of userInfo object
-//     */
-//    public function getRelatedUsers($objectId, $field, $all, $page) {
-//	global $boxes;
-//	$userArray = array();
-//	require_once CLASSES_DIR . 'user.class.php';
-//	require_once CLASSES_DIR . 'userParse.class.php';
-//	$parseUser = new UserParse();
-//	$parseUser->whereRelatedTo($field, 'Event', $objectId);
-//	$parseUser->where('active', true);
-//	if ($all == true) {
-//	    $parseUser->setLimit(1000);
-//	} else {
-//	    switch ($page) {
-//		case 'Media':
-//		    switch ($field) {
-//			case 'attendee':
-//			    $parseUser->setLimit($this->config->limitAttendeeForMediaPage);
-//			    break;
-//			case 'featuring':
-//			    $parseUser->setLimit($this->config->limitFeaturingForMediaPage);
-//			    break;
-//			case 'invited':
-//			    $parseUser->setLimit($this->config->limitInvitedForMediaPage);
-//			    break;
-//		    }
-//		    break;
-//		case 'Personal':
-//		    $parseUser->setLimit($this->config->limitFeaturingForPersonalPage);
-//		    break;
-//	    }
-//	}
-//	$users = $parseUser->getUsers();
-//	if ($users instanceof Error) {
-//	    return $users;
-//	} elseif (is_null($users)) {
-//	    switch ($field) {
-//		case 'attendee':
-//		    $users = $boxes['NOATTENDEE'];
-//		    break;
-//		case 'featuring':
-//		    $users = $boxes['NOFEATEVE'];
-//		    break;
-//		case 'invited':
-//		    $users = $boxes['NOINVITED'];
-//		    break;
-//	    }
-//	    return $users;
-//	} else {
-//	    foreach ($users as $user) {
-//		$userId = $user->getObjectId();
-//		$thumbnail = $user->getProfileThumbnail();
-//		$type = $user->getType();
-//		$encodedUsername = $user->getUsername();
-//		$username = parse_decode_string($encodedUsername);
-//		$userInfo = new UserInfo($userId, $thumbnail, $type, $username);
-//		array_push($userArray, $userInfo);
-//	    }
-//	}
-//	return $userArray;
-//    }
-
     /**
      * \fn	initForMediaPage($objectId)
      * \brief	Init EventBox instance for Media Page
      * \param	$objectId for event
      * \return	eventBox
-     * todo utilizzate whereInclude
      */
     public function initForMediaPage($objectId) {
 	global $boxes;
@@ -230,19 +163,15 @@ class EventBox {
 	    require_once CLASSES_DIR . 'user.class.php';
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    foreach ($events as $event) {
-		$showLove = true;
 		$address = parse_decode_string($event->getAddress());
-		$attendee = getRelatedUsers($event->getObjectId(), 'attendee', 'Event', false, $this->config->limitAttendeeForMediaPage);
-		//$attendee = $eventBox->getRelatedUsers($event->getObjectId(), 'attendee', false, 'Media');
+		$attendee = getRelatedUsers($event->getObjectId(), 'attendee', 'Event', false, $this->config->limitAttendeeForMediaPage,0);
 		$city = parse_decode_string($event->getCity());
 		$commentCounter = $event->getCommentCounter();
 		$description = parse_decode_string($event->getDescription());
 		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
-		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForMediaPage);
-		//$featuring = $eventBox->getRelatedUsers($event->getObjectId(), 'featuring', false, 'Media');
+		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForMediaPage, 0);
 		$image = $event->getImage();
-		$invited = getRelatedUsers($event->getObjectId(), 'invited', 'Event', false, $this->config->limitInvitedForMediaPage);
-		//$invited = $eventBox->getRelatedUsers($event->getObjectId(), 'invited', false, 'Media');
+		$invited = getRelatedUsers($event->getObjectId(), 'invited', 'Event', false, $this->config->limitInvitedForMediaPage, 0);
 		$geopoint = $event->getLocation();
 		$location = array('latitude' => $geopoint->location['latitude'], 'longitude' => $geopoint->location['longitude']);
 		$locationName = parse_decode_string($event->getLocationName());
@@ -252,15 +181,11 @@ class EventBox {
 		$tags = array();
 		if (count($event->getTags()) > 0) {
 		    foreach ($event->getTags() as $tag) {
-			$tag = parse_decode_string($tag);
-			array_push($tags, $tag);
+			array_push($tags, parse_decode_string($tag));
 		    }
 		}
 		$title = parse_decode_string($event->getTitle());
-		$lovers = $event->getLovers();
-		if (in_array($currentUserId, $lovers)) {
-		    $showLove = false;
-		}
+		$showLove = in_array($currentUserId, $event->getLovers()) ?  false :  true;
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $showLove, $tags, $title);
 		$userId = $event->getFromUser()->getObjectId();
@@ -279,6 +204,7 @@ class EventBox {
      * \fn	initForPersonalPage($objectId)
      * \brief	Init EventBox instance for Personal Page
      * \param	$objectId for user that owns the page
+     * \todo    
      * \return	eventBox
      */
     public function initForPersonalPage($objectId) {
@@ -305,7 +231,6 @@ class EventBox {
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    foreach ($events as $event) {
 		$counter = ++$counter;
-		$showLove = true;
 		$address = parse_decode_string($event->getAddress());
 		$city = parse_decode_string($event->getCity());
 		$commentCounter = $event->getCommentCounter();
@@ -315,22 +240,17 @@ class EventBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
 		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForPersonalPage);
-		//$featuring = $eventBox->getRelatedUsers($event->getObjectId(), 'featuring', false, 'Personal');
 		$locationName = parse_decode_string($event->getLocationName());
 		$eventId = $event->getObjectId();
 		$tags = array();
 		if (count($event->getTags()) > 0) {
 		    foreach ($event->getTags() as $tag) {
-			$tag = parse_decode_string($tag);
-			array_push($tags, $tag);
+			array_push($tags, parse_decode_string($tag));
 		    }
 		}
 		$thumbnail = $event->getThumbnail();
 		$title = parse_decode_string($event->getTitle());
-		$lovers = $event->getLovers();
-		if (in_array($currentUserId, $lovers)) {
-		    $showLove = false;
-		}
+		$showLove = in_array($currentUserId, $event->getLovers()) ?  false :  true;
 		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $featuring, $locationName, $eventId, $showLove, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
 	    }

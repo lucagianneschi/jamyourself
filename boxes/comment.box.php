@@ -66,7 +66,8 @@ class CommentBox {
      * \fn	init($className, $objectId, $limit, $skip)
      * \brief	Init CommentBox instance all over the website
      * \param	$className for the instance of the class that has been commented, $objectId for object that has been commented,
-     * \param   $limit number of objects to retreive, $skip number of objects to skip 
+     * \param   $limit number of objects to retreive, $skip number of objects to skip
+     * \todo    usare forma compatta di scrittura per showLove 
      * \return	commentBox
      */
     public function init($className, $objectId, $limit, $skip) {
@@ -121,18 +122,14 @@ class CommentBox {
 		$loveCounter = $comment->getLoveCounter();
 		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $boxes['NDB'];
-                $showLove = true;
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$text = parse_decode_string($comment->getText());
 		$userId = $comment->getFromUser()->getObjectId();
 		$thumbnail = $comment->getFromUser()->getProfileThumbnail();
 		$type = $comment->getFromUser()->getType();
 		$username = parse_decode_string($comment->getFromUser()->getUsername());
-		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
-		$lovers = $comment->getLovers();
-		if (in_array($currentUserId, $lovers)) {
-		    $showLove = false;
-		} 
+		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username); 
+		$showLove = in_array($currentUserId, $comment->getLovers()) ?  false :  true;
 		$commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $showLove, $text);
 		array_push($info, $commentInfo);
 	    }

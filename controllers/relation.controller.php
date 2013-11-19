@@ -54,6 +54,7 @@ class RelationController extends REST {
 	    $activityId = $this->request['activityId'];
 	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
+	    require_once SERVICES_DIR . 'relationChecker.service.php';
 	    if ($this->relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserType, $toUserId)) {
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
@@ -76,13 +77,9 @@ class RelationController extends REST {
 		$counterA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'friendshipCounter', ($currentUser->getFriedshipCounter() + 1));
 		$resB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
 		$counterB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'friendshipCounter', ($toUser->getFriedshipCounter() + 1));
-		if ($resA instanceof Error) {
+		if ($resA instanceof Error || $resB instanceof Error) {
 		    $this->response(array('status' => $controllers['NOFRIENDSHIPUPDATE']), 503);
-		} elseif ($resB instanceof Error) {
-		    $this->response(array('status' => $controllers['NOFRIENDSHIPUPDATE']), 503);
-		} elseif ($counterA instanceof Error) {
-		    $this->response(array('status' => $controllers['NOFRIENDSHIPCOUNTERUPDATE']), 503);
-		} elseif ($counterB instanceof Error) {
+		} elseif ($counterA instanceof Error || $counterB instanceof Error) {
 		    $this->response(array('status' => $controllers['NOFRIENDSHIPCOUNTERUPDATE']), 503);
 		}
 	    } else {
@@ -116,9 +113,7 @@ class RelationController extends REST {
 		    $specificCollaborationA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'venueCounter', ($currentUser->getVenueCounter() + 1));
 		    $specificCollaborationB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'jammerCounter', ($toUser->getJammerCounter() + 1));
 		}
-		if ($specificCollaborationA instanceof Error) {
-		    $this->response(array('status' => $controllers['NOSPECIFICCOLLABORATIONCOUNTERUPDATE']), 503);
-		} elseif ($specificCollaborationB instanceof Error) {
+		if ($specificCollaborationA instanceof Error || $specificCollaborationB instanceof Error) {
 		    $this->response(array('status' => $controllers['NOSPECIFICCOLLABORATIONCOUNTERUPDATE']), 503);
 		}
 		require_once CLASSES_DIR . 'activityParse.class.php';
@@ -143,25 +138,8 @@ class RelationController extends REST {
 		}
 		$mail->SmtpClose();
 		unset($mail);
-		require_once CLASSES_DIR . 'activity.class.php';
-		$activity = new Activity();
-		$activity->setActive(true);
-		$activity->setAlbum(null);
-		$activity->setComment(null);
-		$activity->setCounter(0);
-		$activity->setEvent(null);
-		$activity->setFromUser($currentUser->getObjectId());
-		$activity->setImage(null);
-		$activity->setPlaylist(null);
-		$activity->setQuestion(null);
-		$activity->setRecord(null);
-		$activity->setRead(true);
-		$activity->setSong(null);
-		$activity->setStatus('A');
-		$activity->setToUser($toUser);
-		$activity->setType($type);
-		$activity->setUserStatus(null);
-		$activity->setVideo(null);
+		$activity = $this->createActivity($type, $toUser, $currentUser->getObjectId(), 'A');
+		require_once CLASSES_DIR . 'activityParse.class.php';
 		$activityP1 = new ActivityParse();
 		$act = $activityP1->saveActivity($activity);
 		if ($act instanceof Error) {
@@ -195,32 +173,12 @@ class RelationController extends REST {
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
 	    $res = $activityP->updateField($activityId, 'status', 'R');
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
-	    }
 	    $res1 = $activityP->updateField($activityId, 'read', true);
-	    if ($res1 instanceof Error) {
+	    if ($res instanceof Error || $res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getObjectId());
-	    $activity->setImage(null);
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRecord(null);
-	    $activity->setRead(true);
-	    $activity->setSong(null);
-	    $activity->setStatus('A');
-	    $activity->setToUser($toUser);
-	    $activity->setType('RELDELINED');
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
+	    $activity = $this->createActivity('RELDECLINED', $toUser, $currentUser->getObjectId(), 'A');
+	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP1 = new ActivityParse();
 	    $res2 = $activityP1->saveActivity($activity);
 	    if ($res2 instanceof Error) {
@@ -253,7 +211,8 @@ class RelationController extends REST {
 	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
 	    $fromUserType = $currentUser->getType();
-	    if (!($this->relationChecker($currentUser->getObjectId(), $fromUserType, $toUserId))) {
+	    require_once SERVICES_DIR . 'relationChecker.service.php';
+	    if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
 		$this->response(array('status' => $controllers['NORELFOUNDFORREMOVING']), 503);
 	    }
 	    $toUserB = new UserParse();
@@ -294,35 +253,11 @@ class RelationController extends REST {
 		$resB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'remove', '_User');
 		$counterB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, 'collaborationCounter', ($toUser->getCollaborationCounter() - 1));
 	    }//prevedere delle rollback
-	    if ($resA instanceof Error) {
-		$this->response(array('status' => $controllers['ERROREMOVINGREL']), 503);
-	    } elseif ($resB instanceof Error) {
-		$this->response(array('status' => $controllers['ERROREMOVINGREL']), 503);
-	    } elseif ($counterA instanceof Error) {
-		$this->response(array('status' => $controllers['ERROREMOVINGREL']), 503);
-	    } elseif ($counterB instanceof Error) {
+	    if ($resA instanceof Error || $resB instanceof Error || $counterA instanceof Error || $counterB instanceof Error) {
 		$this->response(array('status' => $controllers['ERROREMOVINGREL']), 503);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
+	    $activity = $this->createActivity($type, $toUser, $currentUser->getObjectId(), 'A');
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getObjectId());
-	    $activity->setImage(null);
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRecord(null);
-	    $activity->setRead(true);
-	    $activity->setSong(null);
-	    $activity->setStatus('A');
-	    $activity->setToUser($toUser);
-	    $activity->setType($type);
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
 	    $activityP = new ActivityParse();
 	    $res = $activityP->saveActivity($activity);
 	    if ($res instanceof Error) {
@@ -353,52 +288,33 @@ class RelationController extends REST {
 		$this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
 	    }
 	    $currentUser = $this->request['currentUser'];
-	    $toUser = $this->request['toUser'];
+	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
-	    if ($currentUser->getObjectId() == $toUser) {
+	    if ($currentUser->getObjectId() == $toUserId) {
 		$this->response(array('status' => $controllers['SELF']), 503);
 	    }
-	    if ($this->relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserType, $toUser)) {
+	    require_once SERVICES_DIR . 'relationChecker.service.php';
+	    if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getObjectId());
-	    $activity->setImage(null);
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRecord(null);
-	    $activity->setRead(false);
-	    $activity->setSong(null);
-	    $activity->setStatus('P');
-	    $activity->setToUser($toUser);
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
-	    switch ($currentUser->getType()) {
-		case 'SPOTTER':
-		    if ($toUserType == 'SPOTTER') {
-			$activity->setType("FRIENDSHIPREQUEST");
-			$HTMLFile = $mail_files['FRIENDSHIPREQUESTEMAIL'];
-		    } else {
-			$activity->setType("FOLLOWING");
-			$HTMLFile = $mail_files['FOLLOWINGEMAIL'];
-		    }
-		    break;
-		default :
-		    if ($toUserType == 'SPOTTER') {
-			$this->response(array('status' => $controllers['RELDENIED']), 401);
-		    } else {
-			$activity->setType("COLLABORATIONREQUEST");
-			$HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
-		    }
-		    break;
+	    if ($currentUser->getType() == 'SPOTTER') {
+		if ($toUserType == 'SPOTTER') {
+		    $type = "FRIENDSHIPREQUEST";
+		    $HTMLFile = $mail_files['FRIENDSHIPREQUESTEMAIL'];
+		} else {
+		    $type = "FOLLOWING";
+		    $HTMLFile = $mail_files['FOLLOWINGEMAIL'];
+		}
+	    } else {
+		if ($toUserType == 'SPOTTER') {
+		    $this->response(array('status' => $controllers['RELDENIED']), 401);
+		} else {
+		    $type = "COLLABORATIONREQUEST";
+		    $HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
+		}
 	    }
+	    $activity = $this->createActivity($type, $toUserId, $currentUser->getObjectId(), 'P');
+	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
 	    if ($resActivity instanceof Error) {
@@ -407,7 +323,7 @@ class RelationController extends REST {
 		require_once SERVICES_DIR . 'mail.service.php';
 		$mail = new MailService(true);
 		$mail->IsHTML(true);
-		$mail->AddAddress($toUser->getEmail());
+		$mail->AddAddress($toUserId->getEmail()); //devi prima richiamare lo user
 		$mail->Subject = $controllers['SBJ'];
 		$mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
 		$resMail = $mail->Send();
@@ -421,6 +337,29 @@ class RelationController extends REST {
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
+    }
+
+    private function createActivity($type, $toUserId, $currentUserId, $status) {
+	require_once CLASSES_DIR . 'activity.class.php';
+	$activity = new Activity();
+	$activity->setActive(true);
+	$activity->setAlbum(null);
+	$activity->setComment(null);
+	$activity->setCounter(0);
+	$activity->setEvent(null);
+	$activity->setFromUser($currentUserId);
+	$activity->setImage(null);
+	$activity->setPlaylist(null);
+	$activity->setQuestion(null);
+	$activity->setRecord(null);
+	$activity->setRead(false);
+	$activity->setSong(null);
+	$activity->setStatus($status);
+	$activity->setToUser($toUserId);
+	$activity->setType($type);
+	$activity->setUserStatus(null);
+	$activity->setVideo(null);
+	return $activity;
     }
 
 }

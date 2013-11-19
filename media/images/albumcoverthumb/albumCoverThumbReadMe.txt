@@ -1,1 +1,0 @@
-In questa cartella si salvano i thumb delle immagini caricate dagli User, generati automaticamente da codice; la property XX delle istanze della classe Photo puntano ad immagini contenute in questa cartella.

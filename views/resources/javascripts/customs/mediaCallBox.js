@@ -19,24 +19,26 @@
 
 var callBoxMedia = {
 	url : "content/media/callbox.php",
-	classMedia: '',
+/*	classMedia: '',
 	objectIdMedia: '',
 	limit: '',
 	skip: '',
 	typeListUserEvent: '',
+	fromUserInfo:'',*/
 	load : function(typebox) {
 		
-		__this = this;
+		var callboxMediaCnt = this;
 				
 		$.ajax({
-			url : __this.url,
+			url : callboxMediaCnt.url,
 			data : {
 				typebox: typebox,
-				classMedia : __this.classMedia,
-				objectIdMedia : __this.objectIdMedia,
-				limit : __this.limit,
-				skip: __this.skip,
-				typeListUserEvent: __this.typeListUserEvent,
+				classMedia : callboxMediaCnt.classMedia,
+				objectIdMedia : callboxMediaCnt.objectIdMedia,
+				objectId : callboxMediaCnt.objectId,
+				limit : callboxMediaCnt.limit,
+				skip: callboxMediaCnt.skip,
+				typeListUserEvent: callboxMediaCnt.typeListUserEvent,
 			},
 			type : 'POST',
 			dataType : 'json',
@@ -44,27 +46,31 @@ var callBoxMedia = {
 								
 				switch(typebox){
 					case 'comment':
-						getPinnerMedia('Comment');
+						getPinnerMedia('Comment',callboxMediaCnt.objectId,callboxMediaCnt.classBox);
 					break;
 					case 'record':
-						getPinnerMedia('Record');
+						getPinnerMedia('Record',callboxMediaCnt.objectId,callboxMediaCnt.classBox);
 					break;					
 					case 'review':					
-						if (__this.classMedia == 'record')	getPinnerMedia('RecordReview');
-						else getPinnerMedia('EventReview');						
+						if (callboxMediaCnt.classMedia == 'record')	getPinnerMedia('RecordReview');
+						else getPinnerMedia('EventReview',callboxMediaCnt.objectId,callboxMediaCnt.classBox);						
 					break;
+					case 'commentReview':					
+						getPinnerMedia('commentReview',callboxMediaCnt.objectId,callboxMediaCnt.classBox);						
+					break;
+					
 				}					
 			},
 			success : function(data, stato) {
 				//NOT ERROR
 				if (data != null && data['error']['code'] == 0) {
-										
+									
 					switch(typebox) {						
 						case 'classinfo':
+							callboxMediaCnt.fromUserInfo = data['classinfo']['fromUserInfo'];	
+							addBoxClassInfo(data,callboxMediaCnt.classMedia);
 							
-							addBoxClassInfo(data,__this.classMedia);
-							
-							if(__this.classMedia == 'record')
+							if(callboxMediaCnt.classMedia == 'record')
 								addBoxRecordMedia(data);		
 							
 							//chiamata box comment								
@@ -74,22 +80,25 @@ var callBoxMedia = {
 							
 						break;
 						
-						case 'comment':
-							addBoxCommentMedia(data);							
+						case 'comment':							
+							addBoxCommentMedia(data,callboxMediaCnt.objectIdMedia,callboxMediaCnt.fromUserInfo);							
 						
 						break;	
 							
 						case 'review':
-							if(__this.classMedia == 'event')
+							if(callboxMediaCnt.classMedia == 'event')
 								addBoxEventReviewMedia(data);
-							if(__this.classMedia == 'record')
+							if(callboxMediaCnt.classMedia == 'record')
 								addBoxRecordReviewMedia(data);							
 						break;
-						
+						case 'commentReview':					
+							addBoxCommentReviewMedia(data,callboxMediaCnt.objectId,callboxMediaCnt.classBox);				
+						break;
 						default:
+						break;
 
 					}					
-					console.log('Box: ' + typebox + ', class: ' + __this.classMedia + ', objectId: ' + __this.objectIdMedia);
+					console.log('Box: ' + typebox + ', class: ' + callboxMediaCnt.classMedia + ', objectId: ' + callboxMediaCnt.objectIdMedia);
 					return data;
 				} else {
 					if(typebox == 'classinfo')
@@ -106,12 +115,30 @@ var callBoxMedia = {
 	}
 }
 
-function getPinnerMedia(box){	
-	$('#box-'+box).load('content/media/box-general/box-spinner.php', {
+function getPinnerMedia(box,objectId,classbox){
+	if(box == 'commentReview'){
+		var idBox = '';
+		if(classbox == 'RecordReview' || classbox == 'EventReview'){
+			idBox = '#social-'+classbox+'-'+objectId;		
+		}
+		
+		$(idBox+' .box-comment').load('content/profile/box-general/box-spinner.php', {
+		'box' : box,		
+		}, function(){
+			success:{
+				spinner();
+				hcento();
+			} 
+		});	
+	}
+	else{
+		$('#box-'+box).load('content/media/box-general/box-spinner.php', {
 		'box' : box
 		}, function(){
 		success: spinner();
-	});			
+	});
+	}	
+				
 }
 
 function addBoxClassInfo(data, classMedia){
@@ -142,13 +169,29 @@ function addBoxRecordMedia(data){
 	});
 }
 
-function addBoxCommentMedia(data){
+function addBoxCommentMedia(data,objectIdMedia,fromUserInfo){
 	$('#box-commentMedia').load('content/media/box-social/box-comment.php', {
-		'data' : data
+		'data' : data,
+		'objectIdMedia': objectIdMedia,		
+		'fromUserInfo': fromUserInfo,
 		}, function() { 
 		success: hcento();
 	});
 }
+function addBoxCommentReviewMedia(data,objectId,classBox){
+	var idBox = '';
+	if(classBox == 'RecordReview' || classBox == 'EventReview'){
+		idBox = '#social-'+classBox+'-'+objectId;		
+	}
+	$(idBox+' .box-comment').load('content/media/box-general/box-comment.php', {
+		'data' : data,
+		'objectId': objectId,		
+		'classBox': classBox,
+		}, function() { 
+		success: hcento();
+	});
+}
+
 
 function addBoxEventReviewMedia(data){
 	$('#box-EventReview').load('content/media/box-social/box-eventReview.php', {

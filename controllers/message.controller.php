@@ -20,6 +20,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once SERVICES_DIR . 'relationChecker.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 
 /**
@@ -59,13 +60,17 @@ class MessageController extends REST {
             $activityP = new ActivityParse();
             $activity = $activityP->getActivity($objectId);
             if ($activity instanceof Error) {
-                $this->response(array('status' =>$controllers['NOACTFORREADMESS']), 503);
+                $this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
             }
-            if ($activity->getRead() == false) {
+            if ($activity->getRead() != false) {
+                $this->response(array('status' => $controllers['ALREADYREAD']), 503);
+            } else {
                 $res = $activityP->updateField($objectId, 'read', true);
             }
             if ($res instanceof Error) {
-                $this->response(array('status' =>$controllers['NOREAD']), 503);
+                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+                $message = rollbackMessageController($objectId, 'readMessage');
+		$this->response(array('status' => $message), 503);
             }
             $this->response(array($controllers['MESSAGEREAD']), 200);
         } catch (Exception $e) {
@@ -76,7 +81,7 @@ class MessageController extends REST {
     /**
      * \fn	message()
      * \brief   save a message an the related activity
-     * \todo    testare
+     * \todo    testare, possibilità di invio a utenti multipli, controllo della relazione
      */
     public function message() {
         global $controllers;
@@ -94,12 +99,16 @@ class MessageController extends REST {
             }
             $currentUser = $this->request['currentUser'];
             $toUserId = $this->request['toUser'];
+            $toUserType = $this->request['toUserType'];
+            if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
+                $this->response(array('status' => $controllers['NOSPAM']), 401);
+            }
             $text = $this->request['message'];
             $title = $this->request['title'];
             if (strlen($text) < $this->config->minMessageSize) {
-                $this->response(array('status' =>$controllers['SHORTMESSAGE'] . strlen($text)), 406);
+                $this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
             } elseif (strlen($title) < $this->config->minTitleSize) {
-                $this->response(array('status' =>$controllers['SHORTTITLEMESSAGE'] . strlen($text)), 406);
+                $this->response(array('status' => $controllers['SHORTTITLEMESSAGE'] . strlen($text)), 406);
             }
             require_once CONTROLLERS_DIR . 'utilsController.php';
             require_once CLASSES_DIR . 'comment.class.php';
@@ -131,7 +140,7 @@ class MessageController extends REST {
             $commentParse = new CommentParse();
             $resCmt = $commentParse->saveComment($message);
             if ($resCmt instanceof Error) {
-                $this->response(array('status' =>'NOSAVEMESS'), 503);
+                $this->response(array('status' => 'NOSAVEMESS'), 503);
             }
             require_once CLASSES_DIR . 'activity.class.php';
             require_once CLASSES_DIR . 'activityParse.class.php';
@@ -156,22 +165,13 @@ class MessageController extends REST {
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
             if ($resActivity instanceof Error) {
-                $this->rollback($resCmt->getObjectId());
+                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+                $message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
+		$this->response(array('status' => $message), 503);
             }
             $this->response(array($controllers['MESSAGESAVED']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
-        }
-    }
-
-    private function rollback($objectId) {
-        global $controllers;
-        $commentParse = new CommentParse();
-        $res = $commentParse->deleteComment($objectId);
-        if ($res instanceof Error) {
-            $this->response(array('status' =>$controllers['ROLLKO']), 503);
-        } else {
-            $this->response(array('status' =>$controllers['ROLLOK']), 503);
         }
     }
 

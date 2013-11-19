@@ -30,9 +30,37 @@ require_once SERVICES_DIR . 'debug.service.php';
 class AccessController extends REST {
 
     /**
-     * \fn		login()
+     * \fn      createActivity($type, $fromUser)
+     * \brief   private function to create ad hoc activity
+     * \param   $type, $fromUser
+     */
+    private function createActivity($type, $fromUser) {
+        require_once CLASSES_DIR . 'activity.class.php';
+        $activity = new Activity();
+        $activity->setActive(true);
+        $activity->setAlbum(null);
+        $activity->setComment(null);
+        $activity->setCounter(0);
+        $activity->setEvent(null);
+        $activity->setFromUser($fromUser);
+        $activity->setImage(null);
+        $activity->setPlaylist(null);
+        $activity->setQuestion(null);
+        $activity->setRecord(null);
+        $activity->setRead(true);
+        $activity->setSong(null);
+        $activity->setStatus('A');
+        $activity->setToUser(null);
+        $activity->setType($type);
+        $activity->setUserStatus(null);
+        $activity->setVideo(null);
+        return $activity;
+    }
+
+    /**
+     * \fn      login()
      * \brief   user login
-     * \todo    usare la sessione
+     * \todo    
      */
     public function login() {
         try {
@@ -48,26 +76,8 @@ class AccessController extends REST {
             if ($resLogin instanceof Error) {
                 $this->response(array('status' => $resLogin->getErrorMessage()), 406);
             }
-            require_once CLASSES_DIR . 'activity.class.php';
+            $activity = $this->createActivity('LOGGEDIN', $resLogin->getObjectId());
             require_once CLASSES_DIR . 'activityParse.class.php';
-            $activity = new Activity();
-            $activity->setActive(true);
-            $activity->setAlbum(null);
-            $activity->setComment(null);
-            $activity->setCounter(0);
-            $activity->setEvent(null);
-            $activity->setFromUser($resLogin->getObjectId());
-            $activity->setImage(null);
-            $activity->setPlaylist(null);
-            $activity->setQuestion(null);
-            $activity->setRecord(null);
-            $activity->setRead(true);
-            $activity->setSong(null);
-            $activity->setStatus('A');
-            $activity->setToUser(null);
-            $activity->setType('LOGGEDIN');
-            $activity->setUserStatus(null);
-            $activity->setVideo(null);
             $activityParse = new ActivityParse();
             $activityParse->saveActivity($activity);
             $_SESSION['currentUser'] = $resLogin;
@@ -78,9 +88,9 @@ class AccessController extends REST {
     }
 
     /**
-     * \fn		logout()
+     * \fn      logout()
      * \brief   user logout
-     * \todo    usare la sessione
+     * \todo    
      */
     public function logout() {
         try {
@@ -93,26 +103,8 @@ class AccessController extends REST {
             $currentUser = $_SESSION['currentUser'];
             $currentUserId = $currentUser->getObjectId();
             unset($_SESSION['currentUser']);
-            require_once CLASSES_DIR . 'activity.class.php';
+            $activity = $this->createActivity('LOGGEDOUT', $currentUserId);
             require_once CLASSES_DIR . 'activityParse.class.php';
-            $activity = new Activity();
-            $activity->setActive(true);
-            $activity->setAlbum(null);
-            $activity->setComment(null);
-            $activity->setCounter(0);
-            $activity->setEvent(null);
-            $activity->setFromUser($currentUserId);
-            $activity->setImage(null);
-            $activity->setPlaylist(null);
-            $activity->setQuestion(null);
-            $activity->setRecord(null);
-            $activity->setRead(true);
-            $activity->setSong(null);
-            $activity->setStatus('A');
-            $activity->setToUser(null);
-            $activity->setType('LOGGEDOUT');
-            $activity->setUserStatus(null);
-            $activity->setVideo(null);
             $activityParse = new ActivityParse();
             $res = $activityParse->saveActivity($activity);
             if ($res instanceof Error) {

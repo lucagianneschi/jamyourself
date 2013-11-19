@@ -273,6 +273,7 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
 	    //query sulla classe con cui devo fare la relazione
 	    $parseQuery = new parseQuery($toClassName);
 	    $parseQuery->whereRelatedTo($fromField, $fromClassName, $fromObjectId);
+	    $parseQuery->setLimit(1000);
 	    $res = $parseQuery->find();
 	    if (is_array($res->results) && count($res->results) > 0) {
 		$objectIds = array();

@@ -39,17 +39,17 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 			$review_user_username = $value['fromUserInfo']['username'];
 			$review_user_type = $value['fromUserInfo']['type'];			
 			$review_objectId = $value['objectId'];
-			$review_DateTime = DateTime::createFromFormat('d-m-Y H:i:s',  $value['createdAt']);
-			$review_data = $review_DateTime->format('l j F Y - H:i');
+			//$review_DateTime = DateTime::createFromFormat('d-m-Y H:i:s',  $value['createdAt']);
+			//$review_data = $review_DateTime->format('l j F Y - H:i');
 			$review_title = $value['title'];
 			$review_text = $value['text'];
 			$review_rating = $value['rating'];
 			$review_counters = $value['counters'];
 			?>
-		<div class="row">
+		<div class="row" id='social-RecordReview-<?php echo $review_objectId  ?>'>
 			<div  class="large-12 columns ">
 				<div class="box">				
-					<div id='recordReview_<?php echo $i ?>'>					
+					<div id='recordReview_<?php echo $review_objectId ?>'>					
 						<div class="row <?php echo $review_user_objectId ?>">											
 							<div  class="small-1 columns ">
 								<div class="userThumb">
@@ -108,21 +108,23 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 						<div class="row recordReview-propriety">
 							<div class="box-propriety">
 								<div class="small-6 columns ">
-									<a class="note grey " onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['LOVE'];?></a>
-									<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['COMM'];?></a>
-									<a class="note grey" onclick="setCounter(this,'<?php echo $recordReview_objectId; ?>','RecordReview')"><?php echo $views['SHARE'];?></a>
+									<a class="note grey " onclick="setCounter(this,'<?php echo $review_objectId; ?>','RecordReview')"><?php echo $views['LOVE'];?></a>
+									<a class="note grey" onclick="setCounterMedia(this,'<?php echo $review_objectId; ?>','<?php echo $review_user_objectId; ?>','RecordReview')"><?php echo $views['COMM'];?></a>
+									<!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','RecordReview')"><?php echo $views['SHARE'];?></a -->
 								</div>
 								<div class="small-6 columns propriety ">					
 									<a class="icon-propriety _unlove grey" ><?php echo $review_counters['loveCounter'] ?></a>
 									<a class="icon-propriety _comment" ><?php echo $review_counters['commentCounter'] ?></a>
-									<a class="icon-propriety _share" ><?php echo $review_counters['shareCounter'] ?></a>
+									<!-- a class="icon-propriety _share" ><?php echo $review_counters['shareCounter'] ?></a -->
 								</div>	
 							</div>		
 						</div>
 						
 						
 					</div>					
-				</div>						
+				</div>
+				<!---------------------------------------- comment ------------------------------------------------->
+				<div class="box-comment no-display"></div>						
 			</div> 
 			
 			
@@ -138,8 +140,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		<?php }
 		if($review_count == 0){
 		?>
-		<!---------------------------------------- comment ------------------------------------------------->
-		<div class="box-comment no-display"></div>
+		
 		<div class="row">
 			<div  class="large-12 columns ">
 				<div class="box">						

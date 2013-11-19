@@ -82,7 +82,7 @@ function setCounter(_this, objectId, classbox){
 				if(classbox == 'Post') classObject = 'Comment';
 				else classObject = 'Image';	
 			}
-			
+			console.log(idBox);
 			if($(idBox+' .box-comment').hasClass('no-display')){
 				$(idBox+' .box-comment').removeClass('no-display');
 				$(idBox+' .box').addClass('box-commentSpace');

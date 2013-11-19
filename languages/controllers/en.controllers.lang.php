@@ -66,6 +66,8 @@ $controllers = array(
     'NOSAVEMESS' => 'Unable to save and send this message',
     'SHORTTITLEMESSAGE' => 'Message title too short',
     'NOMESSAGETITLE' => 'Message title unset',
+    'NOSPAM' => 'You are not authorized to send this message this reciepient',
+    'ALREADYREAD' => 'Message already marked as read',
     //LOVE
     'LOVEPLUSERR' => 'Error incrementing Love',
     'LOVEMINUSERR' => 'Error decrementing Love',
@@ -149,7 +151,14 @@ $controllers = array(
     //SETTINGS
     'NOSETTINGUPDATE' => 'Unable to update your setting',
     'NOSETTING' => 'No setting specified in the request',
-    'SETTINGUPDATED' => 'Setting Updated'
+    'SETTINGUPDATED' => 'Setting Updated',
+    //EVENTMANAGEMENT
+    'NORESPONSE' => 'Response to invitation is unset',
+    'INVALIDRESPONSE' => 'Response to invitation is invalid',
+    'INVITATIONDECLINED'=> 'Invitation declined',
+    'INVITATIONACCEPTED'=> 'Invitation accepted',
+    'NOEVENTID'=> 'Event ID unset',
+    'INVITATIONSENT'=> 'Invitation sent'
 );
 
 $mail_files = array(
@@ -160,7 +169,8 @@ $mail_files = array(
     'FRIENDSHIPACCEPTEDEMAIL' => 'en.friendshipRequestAccepted.html',
     'COLLABORATIONACCEPTEDEMAIL' => 'en.collaborationRequestAccepted.html',
     'EVENTREVIEWEMAIL' => 'en.eventReviewReceived.html',
-    'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html'
+    'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html',
+    'EVENTINVITATION' => 'en.eventInvitation.html'
 );
 
 $rest_strings = array(

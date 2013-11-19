@@ -111,12 +111,13 @@ function sessionChecker() {
 }
 
 /**
- * \fn	getRelatedUsers($objectId, $field, $className, $all, $limit)
+ * \fn	getRelatedUsers($objectId, $field, $className, $all, $limit, $skip)
  * \brief	Convenience method to get all kind of related User to a class for each page
  * \param	$objectId for the istance of the class the user is supposed to be related to, $field to be related to, $all BOOL: Yes to retrieve all related users or using the limit from config file, $page the page which calls the method
  * \return	userArray array of userInfo object
+ * \todo        prevere la possibilità di avere più di 1000 utenti in lista
  */
-function getRelatedUsers($objectId, $field, $className, $all, $limit) {
+function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
     global $boxes;
     $userArray = array();
     require_once CLASSES_DIR . 'user.class.php';
@@ -129,6 +130,7 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit) {
     } else {
 	$parseUser->setLimit($limit);
     }
+    $parseUser->setSkip($skip);
     $users = $parseUser->getUsers();
     if ($users instanceof Error) {
 	return $users;

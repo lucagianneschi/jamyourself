@@ -94,7 +94,6 @@ class PostBox {
         } else {
             foreach ($posts as $post) {
                 $counter = ++$counter;
-                $showLove = true;
                 $userId = $post->getFromUser()->getObjectId();
                 $thumbnail = $post->getFromUser()->getProfileThumbnail();
                 $type = $post->getFromUser()->getType();
@@ -108,10 +107,7 @@ class PostBox {
                 $shareCounter = $post->getShareCounter();
                 $text = parse_decode_string($post->getText());
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $lovers = $post->getLovers();
-                if (in_array($currentUserId, $lovers)) {
-                    $showLove = false;
-                }
+		$showLove = in_array($currentUserId, $post->getLovers()) ?  false :  true;
                 $postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $showLove, $text);
                 array_push($info, $postInfo);
             }

@@ -93,8 +93,7 @@ class PostController extends REST {
 	    $cmt->setStatus(null);
 	    $cmt->setTags(null);
 	    $cmt->setTitle(null);
-	    $encodedText = parse_encode_string($post);
-	    $cmt->setText($encodedText);
+	    $cmt->setText(parse_encode_string($post));
 	    $cmt->setToUser($toUserObjectId);
 	    $cmt->setType('P');
 	    $cmt->setVideo(null);
@@ -125,23 +124,14 @@ class PostController extends REST {
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error) {
-		    $this->rollback($resCmt->getObjectId());
+		    require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		    $message = rollbackPostController($resCmt->getObjectId());
+		    $this->response(array('status' => $message), 503);
 		}
 	    }
 	    $this->response(array($controllers['POSTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
-	}
-    }
-
-    private function rollback($objectId) {
-	global $controllers;
-	$commentParse = new CommentParse();
-	$res = $commentParse->deleteComment($objectId);
-	if ($res instanceof Error) {
-	    $this->response(array('status' => $controllers['ROLLKO']), 503);
-	} else {
-	    $this->response(array('status' => $controllers['ROLLOK']), 503);
 	}
     }
 

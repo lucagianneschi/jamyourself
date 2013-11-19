@@ -78,30 +78,14 @@ class PlaylistController extends REST {
 	    if ($res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOADDSONGTOPLAYARRAY']), 503);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
+	    $activity = $this->createActivity("SONGADDEDTOPLAYLIST", $currentUser->getObjectId(), $playlistId, $songId);
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getObjectId());
-	    $activity->setImage(null);
-	    $activity->setPlaylist($playlistId);
-	    $activity->setQuestion(null);
-	    $activity->setRead(true);
-	    $activity->setRecord(null);
-	    $activity->setSong($songId);
-	    $activity->setStatus('A');
-	    $activity->setToUser(null);
-	    $activity->setType("SONGADDEDTOPLAYLIST");
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
 	    if ($resActivity instanceof Error) {
-		$this->rollback($playlistId, $songId, 'add', $currentUser->getPremium(), $this->config->songsLimit);
+		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		$message = rollbackPlaylistController($playlistId, $songId, 'add', $currentUser->getPremium(), $this->config->songsLimit);
+		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
 	} catch (Exception $e) {
@@ -146,31 +130,14 @@ class PlaylistController extends REST {
 	    if ($res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOREMOVESONGTOPLAYARRAY']), 503);
 	    }
-	    require_once CLASSES_DIR . 'activity.class.php';
+	    $activity = $this->createActivity("SONGREMOVEDFROMPLAYLIST", $currentUser->getObjectId(), $playlistId, $songId);
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAccepted(true);
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getObjectId());
-	    $activity->setImage(null);
-	    $activity->setPlaylist($playlistId);
-	    $activity->setQuestion(null);
-	    $activity->setRead(true);
-	    $activity->setRecord(null);
-	    $activity->setSong($songId);
-	    $activity->setStatus('A');
-	    $activity->setToUser(null);
-	    $activity->setType("SONGREMOVEDFROMPLAYLIST");
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
 	    if ($resActivity instanceof Error) {
-		$this->rollback($playlistId, $songId, 'remove', $currentUser->getPremium(), $this->config->songsLimit);
+		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		$message = rollbackPlaylistController($playlistId, $songId, 'remove', $currentUser->getPremium(), $this->config->songsLimit);
+		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
 	} catch (Exception $e) {
@@ -179,38 +146,32 @@ class PlaylistController extends REST {
     }
 
     /**
-     * \fn	rollback($playlistId, $songId, $operation, $premium, $limit)
-     * \brief   rollback for addSong() e removeSong()
-     * \param   $playslitId-> playlist objectId, $songId -> song objectId , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())$premium, $limit for the currentUser
-     * \todo    
+     * \fn	createActivity($type, $fromUser, $playlistId, $songId)
+     * \brief   create activity for playslitControlelr
+     * \param   $type, $fromUser, $playlistId, $songId
+     * \return  $activity     
      */
-    private function rollback($playlistId, $songId, $operation, $premium, $limit) {
-	global $controllers;
-	$playlistP = new PlaylistParse();
-	$playlist = $playlistP->getPlaylist($playlistId);
-	if ($playlist instanceof Error) {
-	    $this->response(array('status' => $controllers['ROLLKO']), 503);
-	}
-	if ($operation == 'add') {
-	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['ROLLKO']), 503);
-	    }
-	    $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
-	    if ($res1 instanceof Error) {
-		$this->response(array('status' => $controllers['ROLLKO']), 503);
-	    }
-	} else {
-	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['ROLLKO']), 503);
-	    }
-	    $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $premium, $limit);
-	    if ($res1 instanceof Error) {
-		$this->response(array('status' => $controllers['ROLLKO']), 503);
-	    }
-	}
-	$this->response(array('status' => $controllers['ROLLOK']), 503);
+    private function createActivity($type, $fromUser, $playlistId, $songId) {
+	require_once CLASSES_DIR . 'activity.class.php';
+	$activity = new Activity();
+	$activity->setActive(true);
+	$activity->setAlbum(null);
+	$activity->setComment(null);
+	$activity->setCounter(0);
+	$activity->setEvent(null);
+	$activity->setFromUser($fromUser);
+	$activity->setImage(null);
+	$activity->setPlaylist($playlistId);
+	$activity->setQuestion(null);
+	$activity->setRead(true);
+	$activity->setRecord(null);
+	$activity->setSong($songId);
+	$activity->setStatus('A');
+	$activity->setToUser(null);
+	$activity->setType($type);
+	$activity->setUserStatus(null);
+	$activity->setVideo(null);
+	return $activity;
     }
 
 }
