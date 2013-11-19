@@ -30,19 +30,6 @@ require_once SERVICES_DIR . 'debug.service.php';
 class RollBackController extends REST {
 
     /**
-     * \fn	controllerResponse($res)
-     * \brief   gestione della risposta
-     */
-    private function controllerResponse($res) {
-	global $controllers;
-	if ($res instanceof Error) {
-	    $this->response(array('status' => $controllers['ROLLKO']), 503);
-	} else {
-	    $this->response(array('status' => $controllers['ROLLOK']), 503);
-	}
-    }
-
-    /**
      * \fn	rollbackCommentInstanceController($objectId)
      * \brief   rollback for CommentController e PostController
      * \param   $objectId dell'oggetto su cui fare delete
@@ -364,6 +351,19 @@ class RollBackController extends REST {
 		break;
 	}
 	$this->controllerResponse($res);
+    }
+
+    /**
+     * \fn	controllerResponse($res)
+     * \brief   gestione della risposta
+     */
+    private function controllerResponse($res) {
+	global $controllers;
+	if ($res instanceof Error) {
+	    $this->response(array('status' => $controllers['ROLLKO']), 503);
+	} else {
+	    $this->response(array('status' => $controllers['ROLLOK']), 503);
+	}
     }
 
 }
