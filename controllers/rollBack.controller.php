@@ -14,6 +14,8 @@
  * \todo		aggiornare al momento in cui vengono messe nuove rollback per i controller
  *
  */
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
