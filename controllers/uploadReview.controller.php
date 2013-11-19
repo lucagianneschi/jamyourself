@@ -1,6 +1,7 @@
 <?php
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
+require_once SERVICES_DIR . 'mail.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
@@ -50,6 +51,8 @@ class uploadReviewController extends REST {
     }
 
     public function publish() {
+        global $controllers;
+
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser']) ||
                 (!isset($this->request['record']) || is_null($this->request['record']) || !(strlen($this->request['record']) > 0)) ||
                 (!isset($this->request['rating']) || is_null($this->request['rating']) || !(strlen($this->request['rating']) > 0 )) ||
@@ -92,7 +95,7 @@ class uploadReviewController extends REST {
         $review->setVideo(null);
         $review->setVote(null);
 
-//        $this->sendMailNotification();
+        $this->sendMailNotification();
         
         $review->setRecord($this->record->getObjectId());
         $review->setType('RR');
@@ -105,8 +108,8 @@ class uploadReviewController extends REST {
         if(!$this->saveActivityForNewRecordReview()){
             $this->rollback($resRev->getObjectId());            
         }
-//        $this->response(array($controllers['REWSAVED']), 200);
-        $this->response(array("res" => "OK"), 200);
+        $this->response(array($controllers['REWSAVED']), 200);
+//        $this->response(array("res" => "OK"), 200);
     }
 
     private function getUserEmail($objectId) {
@@ -140,7 +143,7 @@ class uploadReviewController extends REST {
     }
 
     private function rollback($objectId) {
-//        global $controllers;
+        global $controllers;
         $commentParse = new CommentParse();
         $res = $commentParse->deleteComment($objectId);
         if ($res instanceof Error) {
@@ -151,12 +154,13 @@ class uploadReviewController extends REST {
     }
 
     private function sendMailNotification() {
+        global $controllers;
+        global $mail_files;
         $subject = $controllers['SBJR'];
         $html = file_get_contents(STDHTML_DIR . $mail_files['RECORDREVIEWEMAIL']);
-        require_once SERVICES_DIR . 'mail.service.php';
-        $mail = new MailService(true);
+        $mail = mailService();
         $mail->IsHTML(true);
-        $mail->AddAddress($this->getUserEmail($this->record->getToUser()));
+        $mail->AddAddress($this->getUserEmail($this->record->getFromUser()));
         $mail->Subject = $subject;
         $mail->MsgHTML($html);
         $resMail = $mail->Send();
