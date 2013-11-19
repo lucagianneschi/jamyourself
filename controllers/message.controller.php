@@ -62,9 +62,11 @@ class MessageController extends REST {
 	    if ($activity instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
 	    }
-	    if ($activity->getRead() == false) {
-		$res = $activityP->updateField($objectId, 'read', true);
-	    }
+	    if ($activity->getRead() != false) {
+		$this->response(array('status' => $controllers['ALREADYREAD']), 503);
+	    } else{
+                $res = $activityP->updateField($objectId, 'read', true);
+            }
 	    if ($res instanceof Error) {
 		$this->rollback($objectId, 'readMessage');
 	    }

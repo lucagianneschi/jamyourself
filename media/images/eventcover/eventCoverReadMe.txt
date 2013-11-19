@@ -1,1 +1,0 @@
-In questa cartella si salvano le cover degli Event; la property XXX delle istanze della classe Event puntano ad immagini contenute in questa cartella.
