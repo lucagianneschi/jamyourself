@@ -150,7 +150,14 @@ $controllers = array(
     //SETTINGS
     'NOSETTINGUPDATE' => 'Impossibile effettuare aggiornamento dei setting',
     'NOSETTING' => 'Setting non specificato nella richiesta',
-    'SETTINGUPDATED' => 'Setting Aggiornato'
+    'SETTINGUPDATED' => 'Setting Aggiornato',
+     //EVENTMANAGEMENT
+    'NORESPONSE' => 'Risposta ad invitato nulla',
+    'INVALIDRESPONSE' => 'Risposta ad invitato non valida',
+    'INVITATIONDECLINED'=> 'Invito declinato',
+    'INVITATIONACCEPTED'=> 'Invito accettato',
+    'NOEVENTID'=> 'Event ID non settato',
+    'INVITATIONSENT'=> 'Invito inviato'
 );
 
 $mail_files = array(
