@@ -274,6 +274,9 @@ class LoveController extends REST {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
                 if ($resActivity instanceof Error) {
+//		    require_once CONTROLLERS_DIR .'rollBack.controller.php';
+//		    $rollBackController = new RollBackController();
+//		    $rollBackController->rollbackLoveController($classType, $objectId, 'increment', $fromUser);
                     $this->rollback($classType, $objectId, 'increment', $fromUser);
                 }
             }
