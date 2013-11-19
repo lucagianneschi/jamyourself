@@ -95,17 +95,6 @@ class RollBackController extends REST {
     }
 
     /**
-     * \fn	rollbackCommentInstanceController($objectId)
-     * \brief   rollback for CommentController e PostController
-     * \param   $objectId dell'oggetto su cui fare delete
-     */
-    function rollbackPostController($objectId) {
-	require_once CLASSES_DIR . 'commentParse.class.php';
-	$postParse = new CommentParse();
-	$this->controllerResponse($postParse->deleteComment($objectId));
-    }
-
-    /**
      * \fn	rollbackDeleteController($classType, $objectId)
      * \brief   rollback for DeleteController
      * \param   $objectId dell'oggetto su cui fare rollback della delete, $classType
@@ -318,6 +307,17 @@ class RollBackController extends REST {
 	    $this->response(array('status' => $controllers['ROLLKO']), 503);
 	}
 	$this->response(array('status' => $controllers['ROLLOK']), 503);
+    }
+
+    /**
+     * \fn	rollbackPostController($objectId)
+     * \brief   rollback for PostController
+     * \param   $objectId dell'oggetto su cui fare delete
+     */
+    function rollbackPostController($objectId) {
+	require_once CLASSES_DIR . 'commentParse.class.php';
+	$postParse = new CommentParse();
+	$this->controllerResponse($postParse->deleteComment($objectId));
     }
 
     /**
