@@ -82,12 +82,23 @@
   	background-repeat:no-repeat;
 }
 
+.formBlack .buttonBlack{
+	background-color: $grey-dark !important;
+}
+
 .formBlack .upload-box{
 	height: 108px;
 	border: $grey 1px solid;
 	margin: 0px !important;
 	cursor: pointer;
 	margin-bottom: 20px !important;
+	.thumbnail-box{
+		text-align:center !important;
+		  background-color: $grey-dark !important;
+		  height:105px !important;
+		  margin:1px !important;
+		  width:105px !important;
+	}
 	.thumbnail{
 		background-color: $grey-dark !important;
 		height: 106px;
@@ -125,3 +136,51 @@
     background-color: $orange !important;
 }
 
+.ui-datepicker {
+	width: 216px;
+	height: auto;
+	margin: 5px auto 0;
+	font: 9pt Arial, sans-serif;
+	
+}
+
+.ui-datepicker-header {
+	background-color: $grey-dark;
+	color: $grey !important;
+	
+	a{
+		color: $grey !important;
+	}
+	
+	line-height: 30px;
+	
+}
+
+.ui-datepicker-title {
+	text-align: center;
+	font-weight: bold;
+}
+
+.ui-datepicker-prev, .ui-datepicker-next {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+	cursor: pointer;	
+	background-repeat: no-repeat;	
+	overflow: hidden;
+}
+
+.ui-datepicker-prev {
+	float: left;
+	background-position: center -30px;
+}
+.ui-datepicker-next {
+	float: right;
+	background-position: center 0px;
+}
+
+
+.ui-datepicker-calendar{
+	width: 216px !important;
+}
