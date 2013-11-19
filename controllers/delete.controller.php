@@ -238,6 +238,9 @@ class DeleteController extends REST {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
                 if ($resActivity instanceof Error) {
+//		    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+//		    $rollBackController = new RollBackController();
+//		    $rollBackController->rollbackDeleteController($classType, $objectId);
                     $this->rollback($classType, $objectId);
                 }
             }
