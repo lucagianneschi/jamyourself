@@ -1,4 +1,4 @@
-function sendComment(toUser, comment, objectId, classType) {
+function sendComment(toUser, comment, objectId, classType, classBox) {
 	var json_comment = {};
 	json_comment.toUser = toUser;
 	json_comment.comment = comment;
@@ -15,12 +15,17 @@ function sendComment(toUser, comment, objectId, classType) {
         }
     })
 	.done(function(message, status, xhr) {
-		callBoxMedia.load('comment');
+		//callBoxMedia.load('comment');
+		callBoxMedia.objectId = objectId;
+		callBoxMedia.fromUserObjectId = toUser;
+		callBoxMedia.classBox = classBox;
+		callBoxMedia.load('commentReview');
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
 	})
 	.fail(function(xhr) {
 		//TODO
+		message = $.parseJSON(xhr.responseText).status;
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
 	});

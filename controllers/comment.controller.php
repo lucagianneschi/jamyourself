@@ -174,7 +174,7 @@ class CommentController extends REST {
 	    }
 	    $this->response(array($controllers['COMMENTSAVED']), 200);
 	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
+	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
     }
 
