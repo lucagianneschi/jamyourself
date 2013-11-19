@@ -168,9 +168,9 @@ class CommentController extends REST {
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error || $res instanceof Error) {
-		    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-		    $rollBackController = new RollBackController();
-		    $rollBackController->rollbackCommentController($resCmt->getObjectId(), $classType);
+		    require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		    $message= rollbackCommentController($objectId, $classType);
+		    $this->response(array($message), 503);
 		}
 	    }
 	    $this->response(array($controllers['COMMENTSAVED']), 200);
