@@ -75,7 +75,7 @@ function toggleText(_this, box, text){
  * Funzione per gestire i counters (love, comment, share e review)
  * 
  */
-function setCounterMedia(_this, objectId, classbox){	
+function setCounterMedia(_this, objectId, fromUserObjectId, classbox){	
 	typeOpt = $(_this).text();
 	
 	switch(typeOpt) {		
@@ -91,6 +91,7 @@ function setCounterMedia(_this, objectId, classbox){
 				$(idBox+' .box').addClass('box-commentSpace');
 				console.log('Comment '+classbox+' '+objectId);
 				callBoxMedia.objectId = objectId;
+				callBoxMedia.fromUserObjectId = fromUserObjectId;
 				callBoxMedia.classBox = classbox;
 				callBoxMedia.load('commentReview');
 				

@@ -114,7 +114,7 @@ $data = $_POST['data'];
 									<div class="box-propriety">
 										<div class="small-6 columns ">
 											<a class="note grey" onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE'];?></a>
-											<a class="note grey" onclick="setCounterMedia(this,'<?php echo $review_objectId; ?>','EventReview')"><?php echo $views['COMM'];?></a>
+											<a class="note grey" onclick="setCounterMedia(this,'<?php echo $review_objectId; ?>','<?php echo $review_user_objectId; ?>','EventReview')"><?php echo $views['COMM'];?></a>
 											<!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','EventReview')"><?php echo $views['SHARE'];?></a -->
 										</div>
 										<div class="small-6 columns propriety ">					

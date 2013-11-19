@@ -39,12 +39,14 @@ switch ($classBox) {
  
 //objectId dell'oggetto relativo al comment
 $objectId = $_POST['objectId'];
+$fromUserObjectId = $_POST['fromUserObjectId'];
 ?>
 <div class="row">
 	<div  class="small-12 columns">
-		
+			
 			<?php
-			if(count($data['comment']['commentInfoArray']) > 0) {				
+			print_r($data['comment']['commentInfoArray']);
+			if(count($data['comment']['commentInfoArray']) > 0) {
 					foreach ($data['comment']['commentInfoArray'] as $key => $value) {	
 						$comment_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $value['createdAt']);
 						$comment_createdAd = $comment_DateTime->format('l j F Y - H:i');
@@ -98,14 +100,14 @@ $objectId = $_POST['objectId'];
 			?>
 			<div class="row  ">
 				<div  class="large-12 columns ">
-					<form action="" class="box-write" onsubmit="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $classType; ?>', '<?php echo $classBox; ?>'); return false;">
+					<form action="" class="box-write" onsubmit="sendComment('<?php echo $fromUserObjectId; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $classType; ?>', '<?php echo $classBox; ?>'); return false;">
 						<div class="">
 							<div class="row  ">
 								<div  class="small-9 columns ">
 									<input id="comment<?php echo $classBox . '_' . $objectId; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['WRITE'];?>" />
 								</div>
 								<div  class="small-3 columns ">
-									<input type="button" class="comment-button inline comment-btn" value="Comment" onclick="sendComment('<?php echo $objectIdUser; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $classType; ?>', '<?php echo $classBox; ?>')" />
+									<input type="button" class="comment-button inline comment-btn" value="Comment" onclick="sendComment('<?php echo $fromUserObjectId; ?>', $('#comment<?php echo $classBox . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $classType; ?>', '<?php echo $classBox; ?>')" />
 								</div>
 							</div>
 						</div>
