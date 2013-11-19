@@ -238,10 +238,9 @@ class DeleteController extends REST {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
                 if ($resActivity instanceof Error) {
-//		    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-//		    $rollBackController = new RollBackController();
-//		    $rollBackController->rollbackDeleteController($classType, $objectId);
-                    $this->rollback($classType, $objectId);
+		    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+		    $rollBackController = new RollBackController();
+		    $rollBackController->rollbackDeleteController($classType, $objectId);
                 }
             }
             $this->response(array($controllers['DELETEOK']), 200);
@@ -250,66 +249,6 @@ class DeleteController extends REST {
         }
     }
 
-    private function rollback($classType, $objectId) {
-        global $controllers;
-        switch ($classType) {
-            case 'Activity':
-                require_once CLASSES_DIR . 'activityParse.class.php';
-                $activityParse = new ActivityParse();
-                $res = $activityParse->updateField($objectId, 'active', true);
-                break;
-            case 'Album':
-                require_once CLASSES_DIR . 'albumParse.class.php';
-                $albumParse = new AlbumParse();
-                $res = $albumParse->updateField($objectId, 'active', true);
-                break;
-            case 'Comment':
-                require_once CLASSES_DIR . 'commentParse.class.php';
-                $commentParse = new CommentParse();
-                $res = $commentParse->updateField($objectId, 'active', true);
-                break;
-            case 'Event':
-                require_once CLASSES_DIR . 'eventParse.class.php';
-                $eventParse = new EventParse();
-                $res = $eventParse->updateField($objectId, 'active', true);
-                break;
-            case 'Image':
-                require_once CLASSES_DIR . 'imageParse.class.php';
-                $imageParse = new ImageParse();
-                $res = $imageParse->updateField($objectId, 'active', true);
-                break;
-            case 'Playlist':
-                require_once CLASSES_DIR . 'playlistParse.class.php';
-                $playlistParse = new PlaylistParse();
-                $res = $playlistParse->updateField($objectId, 'active', true);
-                break;
-            case 'Record':
-                require_once CLASSES_DIR . 'recordParse.class.php';
-                $recordParse = new RecordParse();
-                $res = $recordParse->updateField($objectId, 'active', true);
-                break;
-            case 'Song':
-                require_once CLASSES_DIR . 'songParse.class.php';
-                $songParse = new SongParse();
-                $res = $songParse->updateField($objectId, 'active', true);
-                break;
-            case 'Status':
-                require_once CLASSES_DIR . 'statusParse.class.php';
-                $statusParse = new StatusParse();
-                $res = $statusParse->updateField($objectId, 'active', true);
-                break;
-            case 'Video':
-                require_once CLASSES_DIR . 'videoParse.class.php';
-                $videoParse = new VideoParse();
-                $res = $videoParse->updateField($objectId, 'active', true);
-                break;
-        }
-        if ($res instanceof Error) {
-            $this->response(array('status' =>$controllers['ROLLKO']), 503);
-        } else {
-            $this->response(array('status' =>$controllers['ROLLOK']), 503);
-        }
-    }
 
 }
 

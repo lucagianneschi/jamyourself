@@ -168,26 +168,14 @@ class CommentController extends REST {
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error || $res instanceof Error) {
-//		    require_once CONTROLLERS_DIR .'rollBack.controller.php';
-//		    $rollBackController = new RollBackController();
-//		    $rollBackController->rollbackCommentController($resCmt->getObjectId(), $classType);
-		    $this->rollback($resCmt->getObjectId());
+		    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+		    $rollBackController = new RollBackController();
+		    $rollBackController->rollbackCommentController($resCmt->getObjectId(), $classType);
 		}
 	    }
 	    $this->response(array($controllers['COMMENTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
-	}
-    }
-
-    private function rollback($objectId) {
-	global $controllers;
-	$commentParse = new CommentParse();
-	$res = $commentParse->deleteComment($objectId);
-	if ($res instanceof Error) {
-	    $this->response(array('status' => $controllers['ROLLKO']), 503);
-	} else {
-	    $this->response(array('status' => $controllers['ROLLOK']), 503);
 	}
     }
 

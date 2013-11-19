@@ -145,10 +145,9 @@ class LoveController extends REST {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
                 if ($resActivity instanceof Error) {
-//		    require_once CONTROLLERS_DIR .'rollBack.controller.php';
-//		    $rollBackController = new RollBackController();
-//		    $rollBackController->rollbackLoveController($classType, $objectId, 'decrement', $fromUser);
-                    $this->rollback($classType, $objectId, 'decrement', $fromUser);
+		    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+		    $rollBackController = new RollBackController();
+		    $rollBackController->rollbackLoveController($classType, $objectId, 'decrement', $fromUser);
                 }
             }
                 $this->response(array($res), 200);
@@ -274,98 +273,14 @@ class LoveController extends REST {
                 $activityParse = new ActivityParse();
                 $resActivity = $activityParse->saveActivity($activity);
                 if ($resActivity instanceof Error) {
-//		    require_once CONTROLLERS_DIR .'rollBack.controller.php';
-//		    $rollBackController = new RollBackController();
-//		    $rollBackController->rollbackLoveController($classType, $objectId, 'increment', $fromUser);
-                    $this->rollback($classType, $objectId, 'increment', $fromUser);
+		    require_once CONTROLLERS_DIR .'rollBack.controller.php';
+		    $rollBackController = new RollBackController();
+		    $rollBackController->rollbackLoveController($classType, $objectId, 'increment', $fromUser);
                 }
             }
             $this->response(array($res), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
-        }
-    }
-
-    private function rollback($classType, $objectId, $operation, $fromUser) {
-        global $controllers;
-        switch ($classType) {
-            case 'Album':
-                require_once CLASSES_DIR . 'albumParse.class.php';
-                $albumParse = new AlbumParse();
-                if ($operation == 'increment') {
-                    $res = $albumParse->incrementAlbum($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                } elseif ($operation == 'decrement') {
-                    $res = $albumParse->decrementAlbum($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                }
-                break;
-            case 'Comment':
-                require_once CLASSES_DIR . 'commentParse.class.php';
-                $commentParse = new CommentParse();
-                if ($operation == 'increment') {
-                    $res = $commentParse->incrementComment($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                } elseif ($operation == 'decrement') {
-                    $res = $commentParse->decrementComment($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                }
-                break;
-            case 'Event':
-                require_once CLASSES_DIR . 'eventParse.class.php';
-                $eventParse = new EventParse();
-                if ($operation == 'increment') {
-                    $res = $eventParse->incrementEvent($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                } elseif ($operation == 'decrement') {
-                    $res = $eventParse->decrementEvent($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                }
-                break;
-            case 'Image':
-                require_once CLASSES_DIR . 'imageParse.class.php';
-                $imageParse = new ImageParse();
-                if ($operation == 'increment') {
-                    $res = $imageParse->incrementImage($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                } elseif ($operation == 'decrement') {
-                    $res = $imageParse->decrementImage($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                }
-                break;
-            case 'Record':
-                require_once CLASSES_DIR . 'recordParse.class.php';
-                $recordParse = new RecordParse();
-                if ($operation == 'increment') {
-                    $res = $recordParse->incrementRecord($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                } elseif ($operation == 'decrement') {
-                    $res = $recordParse->decrementRecord($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                }
-                break;
-            case 'Song':
-                require_once CLASSES_DIR . 'songParse.class.php';
-                $songParse = new SongParse();
-                if ($operation == 'increment') {
-                    $res = $songParse->incrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                } elseif ($operation == 'decrement') {
-                    $res = $songParse->decrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                }
-                break;
-            case 'Status':
-                require_once CLASSES_DIR . 'statusParse.class.php';
-                $statusParse = new StatusParse();
-                if ($operation == 'increment') {
-                    $res = $statusParse->incrementStatus($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                } elseif ($operation == 'decrement') {
-                    $res = $statusParse->decrementStatus($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                }
-                break;
-            case 'Video':
-                require_once CLASSES_DIR . 'videoParse.class.php';
-                $videoParse = new VideoParse();
-                if ($operation == 'increment') {
-                    $res = $videoParse->incrementVideo($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                } elseif ($operation == 'decrement') {
-                    $res = $videoParse->decrementVideo($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                }
-                break;
-        }
-        if ($res instanceof Error) {
-            $this->response(array('status' => $controllers['ROLLKO']), 503);
-        } else {
-            $this->response(array('status' => $controllers['ROLLOK']), 503);
         }
     }
 	
