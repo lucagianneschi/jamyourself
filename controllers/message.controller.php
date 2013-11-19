@@ -68,9 +68,9 @@ class MessageController extends REST {
                 $res = $activityP->updateField($objectId, 'read', true);
             }
             if ($res instanceof Error) {
-                require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-                $rollBackController = new RollBackController();
-                $rollBackController->rollbackMessageController($objectId, 'readMessage');
+                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+                $message = rollbackMessageController($objectId, 'readMessage');
+		$this->response(array('status' => $message), 503);
             }
             $this->response(array($controllers['MESSAGEREAD']), 200);
         } catch (Exception $e) {
@@ -165,9 +165,9 @@ class MessageController extends REST {
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
             if ($resActivity instanceof Error) {
-                require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-                $rollBackController = new RollBackController();
-                $rollBackController->rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
+                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+                $message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
+		$this->response(array('status' => $message), 503);
             }
             $this->response(array($controllers['MESSAGESAVED']), 200);
         } catch (Exception $e) {

@@ -66,9 +66,9 @@ class EventManagementController extends REST {
             $activityP1 = new ActivityParse();
             $res2 = $activityP1->saveActivity($activity);
             if ($res2 instanceof Error) {
-                require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-                $rollBackController = new RollBackController();
-                $rollBackController->rollbackEventManagementController($activity->getObjectId(), 'managementRequest');
+                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		$message = rollbackEventManagementController($activity->getObjectId(), 'managementRequest');
+		$this->response(array('status' => $message), 503);
             }
             $this->response(array($responseType), 200);
         } catch (Exception $e) {
