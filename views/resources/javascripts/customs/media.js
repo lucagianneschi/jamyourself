@@ -70,3 +70,43 @@ function toggleText(_this, box, text){
 		
 	}
 }
+
+/*
+ * Funzione per gestire i counters (love, comment, share e review)
+ * 
+ */
+function setCounterMedia(_this, objectId, classbox){	
+	typeOpt = $(_this).text();
+	
+	switch(typeOpt) {		
+		case 'Comment':
+		 	var idBox = '';
+			if(classbox == 'RecordReview' || classbox == 'EventReview'){
+				idBox = '#social-'+classbox+'-'+objectId;
+				classObject = 'Comment';	
+			}
+			
+			if($(idBox+' .box-comment').hasClass('no-display')){
+				$(idBox+' .box-comment').removeClass('no-display');
+				$(idBox+' .box').addClass('box-commentSpace');
+				console.log('Comment '+classbox+' '+objectId);
+				callBoxMedia.objectId = objectId;
+				callBoxMedia.classBox = classbox;
+				callBoxMedia.load('commentReview');
+				
+			}
+			else{
+				$(idBox+' .box-comment').addClass('no-display');
+				$(idBox+' .box').removeClass('box-commentSpace');
+				//$("#cboxLoadedContent").getNiceScroll().hide();
+				$("#cboxLoadedContent").mCustomScrollbar("update");
+				hcento();
+			}
+						
+			break;
+		default:
+			console.log(typeOpt);
+		break;
+	}
+	
+}

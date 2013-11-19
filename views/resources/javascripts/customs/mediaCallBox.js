@@ -35,6 +35,7 @@ var callBoxMedia = {
 				typebox: typebox,
 				classMedia : callboxMediaCnt.classMedia,
 				objectIdMedia : callboxMediaCnt.objectIdMedia,
+				objectId : callboxMediaCnt.objectId,
 				limit : callboxMediaCnt.limit,
 				skip: callboxMediaCnt.skip,
 				typeListUserEvent: callboxMediaCnt.typeListUserEvent,
@@ -45,15 +46,19 @@ var callBoxMedia = {
 								
 				switch(typebox){
 					case 'comment':
-						getPinnerMedia('Comment');
+						getPinnerMedia('Comment',callboxMediaCnt.objectId,callboxMediaCnt.classBox);
 					break;
 					case 'record':
-						getPinnerMedia('Record');
+						getPinnerMedia('Record',callboxMediaCnt.objectId,callboxMediaCnt.classBox);
 					break;					
 					case 'review':					
 						if (callboxMediaCnt.classMedia == 'record')	getPinnerMedia('RecordReview');
-						else getPinnerMedia('EventReview');						
+						else getPinnerMedia('EventReview',callboxMediaCnt.objectId,callboxMediaCnt.classBox);						
 					break;
+					case 'commentReview':					
+						getPinnerMedia('commentReview',callboxMediaCnt.objectId,callboxMediaCnt.classBox);						
+					break;
+					
 				}					
 			},
 			success : function(data, stato) {
@@ -86,8 +91,11 @@ var callBoxMedia = {
 							if(callboxMediaCnt.classMedia == 'record')
 								addBoxRecordReviewMedia(data);							
 						break;
-						
+						case 'commentReview':					
+							addBoxCommentReviewMedia(data,callboxMediaCnt.objectId,callboxMediaCnt.classBox);				
+						break;
 						default:
+						break;
 
 					}					
 					console.log('Box: ' + typebox + ', class: ' + callboxMediaCnt.classMedia + ', objectId: ' + callboxMediaCnt.objectIdMedia);
@@ -107,7 +115,22 @@ var callBoxMedia = {
 	}
 }
 
-function getPinnerMedia(box){	
+function getPinnerMedia(box,objectId,classbox){
+	if(box == 'commentReview'){
+		var idBox = '';
+		if(classbox == 'RecordReview' || classbox == 'EventReview'){
+			idBox = '#social-'+classbox+'-'+objectId;		
+		}
+		
+		$(idBox+' .box-comment').load('content/profile/box-general/box-spinner.php', {
+		'box' : box,		
+		}, function(){
+			success:{
+				spinner();
+				hcento();
+			} 
+		});	
+	}	
 	$('#box-'+box).load('content/media/box-general/box-spinner.php', {
 		'box' : box
 		}, function(){
@@ -152,6 +175,20 @@ function addBoxCommentMedia(data,objectIdMedia,fromUserInfo){
 		success: hcento();
 	});
 }
+function addBoxCommentReviewMedia(data,objectId,classBox){
+	var idBox = '';
+	if(classBox == 'RecordReview' || classBox == 'EventReview'){
+		idBox = '#social-'+classBox;		
+	}
+	$(idBox+' .box-comment').load('content/media/box-general/box-comment.php', {
+		'data' : data,
+		'objectId': objectId,		
+		'classBox': classBox,
+		}, function() { 
+		success: hcento();
+	});
+}
+
 
 function addBoxEventReviewMedia(data){
 	$('#box-EventReview').load('content/media/box-social/box-eventReview.php', {

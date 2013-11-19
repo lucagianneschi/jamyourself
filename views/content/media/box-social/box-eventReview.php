@@ -47,10 +47,10 @@ $data = $_POST['data'];
 				$review_rating = $value['rating'];
 				$review_counters = $value['counters'];
 				?>
-				<div class="row">
+				<div class="row" id='social-EventReview-<?php echo $review_objectId  ?>'>
 					<div  class="large-12 columns ">
 						<div class="box">				
-							<div id='eventReview_<?php echo $i ?>'>					
+							<div id='eventReview_<?php echo $review_objectId  ?>'>					
 								<div class="row <?php echo $review_user_objectId ?>">											
 									<div  class="small-1 columns ">
 										<div class="userThumb">
@@ -114,8 +114,8 @@ $data = $_POST['data'];
 									<div class="box-propriety">
 										<div class="small-6 columns ">
 											<a class="note grey" onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE'];?></a>
-											<a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')"><?php echo $views['COMM'];?></a>
-											<!-- a class="note grey" onclick="setCounter(this,'<?php echo $eventReview_objectId; ?>','EventReview')"><?php echo $views['SHARE'];?></a -->
+											<a class="note grey" onclick="setCounterMedia(this,'<?php echo $review_objectId; ?>','EventReview')"><?php echo $views['COMM'];?></a>
+											<!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','EventReview')"><?php echo $views['SHARE'];?></a -->
 										</div>
 										<div class="small-6 columns propriety ">					
 											<a class="icon-propriety _unlove grey" ><?php echo $review_counters['loveCounter'] ?></a>
@@ -126,8 +126,11 @@ $data = $_POST['data'];
 								</div>
 								
 								
-							</div>					
-						</div>						
+							</div>
+											
+						</div>
+						<!---------------------------------------- comment ------------------------------------------------->
+						<div class="box-comment no-display"></div>							
 					</div> 
 					
 					
@@ -146,8 +149,7 @@ $data = $_POST['data'];
 		}
 		if ($review_count == 0) {
 			?>
-			<!---------------------------------------- comment ------------------------------------------------->
-			<div class="box-comment no-display"></div>
+			
 			<div class="row">
 				<div  class="large-12 columns ">
 					<div class="box">						
@@ -160,6 +162,7 @@ $data = $_POST['data'];
 			<?php
 		}
 		?>
+		
 	</div> <!--- 24 -->
 </div> <!--- <div class="row" id="social-EventReview"> -->
 	

@@ -93,6 +93,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
     case "mediaEvent.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/media.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/mediaCallBox.js"></script>
 		<script type="text/javascript" src="resources/javascripts/customs/mediaComment.js"></script>
 		<script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
@@ -101,6 +102,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
     case "mediaRecord.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
+         <script type="text/javascript" src="resources/javascripts/customs/media.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/mediaCallBox.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
         <?php
