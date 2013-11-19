@@ -53,9 +53,9 @@ class AccessController extends REST {
     }
 
     /**
-     * \fn		login()
+     * \fn      login()
      * \brief   user login
-     * \todo    usare la sessione
+     * \todo    
      */
     public function login() {
         try {
@@ -83,9 +83,9 @@ class AccessController extends REST {
     }
 
     /**
-     * \fn		logout()
+     * \fn      logout()
      * \brief   user logout
-     * \todo    usare la sessione
+     * \todo    
      */
     public function logout() {
         try {
