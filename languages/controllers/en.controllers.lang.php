@@ -67,6 +67,7 @@ $controllers = array(
     'SHORTTITLEMESSAGE' => 'Message title too short',
     'NOMESSAGETITLE' => 'Message title unset',
     'NOSPAM' => 'You are not authorized to send this message this reciepient',
+    'ALREADYREAD' => 'Message already marked as read',
     //LOVE
     'LOVEPLUSERR' => 'Error incrementing Love',
     'LOVEMINUSERR' => 'Error decrementing Love',
