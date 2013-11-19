@@ -1,1 +1,0 @@
-immagine del profilo utente, il nome della cartella è lo stesso nella proprierty della classe User
