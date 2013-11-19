@@ -28,6 +28,7 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 $typebox			= $_POST['typebox'];
 $classMedia 		= $_POST['classMedia'];
 $objectIdMedia  	= $_POST['objectIdMedia'];
+$objectId		  	= $_POST['objectId'];
 $limit 				= $_POST['limit'];
 $skip 				= $_POST['skip'];
 $typeListUserEvent	= $_POST['typeListUserEvent'];
@@ -119,7 +120,7 @@ switch ($typebox) {
 		require_once BOXES_DIR . 'comment.box.php';
 		$commentBoxP = new CommentBox();
 		try  {
-			$commentBoxP -> init('Comment', $objectIdMedia, $limit, $skip);					
+			$commentBox = $commentBoxP -> init('Comment', $objectIdMedia, $limit, $skip);					
 			if (!($commentBox instanceof Error)) {
 				$result['comment']['commentInfoArray'] = array();
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
@@ -147,7 +148,7 @@ switch ($typebox) {
 		require_once BOXES_DIR . 'comment.box.php';
 		$commentBoxP = new CommentBox();
 		try  {
-			$commentBoxP -> init('Comment', $objectId, $limit, $skip);					
+			$commentBox = $commentBoxP -> init('Comment', $objectId, $limit, $skip);					
 			if (!($commentBox instanceof Error)) {
 				$result['comment']['commentInfoArray'] = array();
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
@@ -179,8 +180,8 @@ switch ($typebox) {
 		
 		$eventBoxC = new EventBox();
 				
-		$result['relation'] = $eventBoxC->getRelatedUsers($objectIdMedia, $typeListUserEvent, true, 'Media');				
-		
+	//	$result['relation'] = $eventBoxC->getRelatedUsers($objectIdMedia, $typeListUserEvent, true, 'Media');				
+		$result['relation'] = getRelatedUsersgetRelatedUsers($objectIdMedia, $typeListUserEvent, 'Event', false, $limit, $skip);
 	break;
 	case 'review' :
 		require_once BOXES_DIR . 'review.box.php';

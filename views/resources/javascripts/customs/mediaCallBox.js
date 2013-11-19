@@ -36,7 +36,6 @@ var callBoxMedia = {
 				classMedia : callboxMediaCnt.classMedia,
 				objectIdMedia : callboxMediaCnt.objectIdMedia,
 				objectId : callboxMediaCnt.objectId,
-				fromUserObjectId : callboxMediaCnt.fromUserObjectId,
 				limit : callboxMediaCnt.limit,
 				skip: callboxMediaCnt.skip,
 				typeListUserEvent: callboxMediaCnt.typeListUserEvent,
@@ -93,7 +92,7 @@ var callBoxMedia = {
 								addBoxRecordReviewMedia(data);							
 						break;
 						case 'commentReview':					
-							addBoxCommentReviewMedia(data,callboxMediaCnt.objectId,callboxMediaCnt.fromUserObjectId,callboxMediaCnt.classBox);				
+							addBoxCommentReviewMedia(data,callboxMediaCnt.objectId,callboxMediaCnt.classBox);				
 						break;
 						default:
 						break;
@@ -131,12 +130,15 @@ function getPinnerMedia(box,objectId,classbox){
 				hcento();
 			} 
 		});	
-	}	
-	$('#box-'+box).load('content/media/box-general/box-spinner.php', {
+	}
+	else{
+		$('#box-'+box).load('content/media/box-general/box-spinner.php', {
 		'box' : box
 		}, function(){
 		success: spinner();
-	});			
+	});
+	}	
+				
 }
 
 function addBoxClassInfo(data, classMedia){
@@ -176,15 +178,14 @@ function addBoxCommentMedia(data,objectIdMedia,fromUserInfo){
 		success: hcento();
 	});
 }
-function addBoxCommentReviewMedia(data,objectId,fromUserObjectId,classBox){
+function addBoxCommentReviewMedia(data,objectId,classBox){
 	var idBox = '';
 	if(classBox == 'RecordReview' || classBox == 'EventReview'){
-		idBox = '#social-'+classBox;		
+		idBox = '#social-'+classBox+'-'+objectId;		
 	}
 	$(idBox+' .box-comment').load('content/media/box-general/box-comment.php', {
 		'data' : data,
 		'objectId': objectId,		
-		'fromUserObjectId': fromUserObjectId,
 		'classBox': classBox,
 		}, function() { 
 		success: hcento();
