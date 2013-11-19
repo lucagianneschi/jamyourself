@@ -29,6 +29,11 @@ require_once SERVICES_DIR . 'debug.service.php';
  */
 class AccessController extends REST {
 
+    /**
+     * \fn      createActivity($type, $fromUser)
+     * \brief   private function to create ad hoc activity
+     * \param   $type, $fromUser
+     */
     private function createActivity($type, $fromUser) {
         require_once CLASSES_DIR . 'activity.class.php';
         $activity = new Activity();

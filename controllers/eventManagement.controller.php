@@ -133,7 +133,11 @@ class EventManagementController extends REST {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
-
+    /**
+     * \fn      createActivity($type, $toUserId, $currentUserId, $status, $eventId, $readr)
+     * \brief   private function to create ad hoc activity
+     * \param   $type, $toUserId, $currentUserId, $status, $eventId, $read
+     */
     private function createActivity($type, $toUserId, $currentUserId, $status, $eventId, $read) {
         require_once CLASSES_DIR . 'activity.class.php';
         $activity = new Activity();
