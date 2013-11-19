@@ -35,7 +35,7 @@ class EventManagementController extends REST {
     public function invitationRequestResponse() {
         global $controllers;
         try {
-            $allowedResponse = array('R', 'A');
+            $allowedResponse = array('R', 'A', 'MAYBE');
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($this->request['currentUser'])) {
@@ -60,7 +60,7 @@ class EventManagementController extends REST {
                 $this->response(array('status' => $controllers['NOACTUPDATE']), 503);
             }
             $responseType = ($response == 'R') ? 'INVITATIONDECLINED' : 'INVITATIONACCEPTED'; 
-            $activity = $this->createActivity($responseType, $toUser, $currentUser->getObjectId(), 'A', null);
+            $activity = $this->createActivity($responseType, $toUser, $currentUser->getObjectId(), 'A', null, true);
             $activityP1 = new ActivityParse();
             $res2 = $activityP1->saveActivity($activity);
             if ($res2 instanceof Error) {
@@ -101,7 +101,7 @@ class EventManagementController extends REST {
             } elseif (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
                 $this->response(array('status' => $controllers['NOTINRELATION']), 503);
             }
-            $activity = $this->createActivity("INVITED", $toUserId, $currentUser->getObjectId(), 'P', $eventId);
+            $activity = $this->createActivity("INVITED", $toUserId, $currentUser->getObjectId(), 'P', $eventId, false);
             $HTMLFile = $mail_files['EVENTINVITATION'];
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activityParse = new ActivityParse();
@@ -134,7 +134,7 @@ class EventManagementController extends REST {
         }
     }
 
-    private function createActivity($type, $toUserId, $currentUserId, $status, $eventId) {
+    private function createActivity($type, $toUserId, $currentUserId, $status, $eventId, $read) {
         require_once CLASSES_DIR . 'activity.class.php';
         $activity = new Activity();
         $activity->setActive(true);
@@ -147,7 +147,7 @@ class EventManagementController extends REST {
         $activity->setPlaylist(null);
         $activity->setQuestion(null);
         $activity->setRecord(null);
-        $activity->setRead(false);
+        $activity->setRead($read);
         $activity->setSong(null);
         $activity->setStatus($status);
         $activity->setToUser($toUserId);
