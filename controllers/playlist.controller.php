@@ -83,7 +83,9 @@ class PlaylistController extends REST {
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
             if ($resActivity instanceof Error) {
-                $this->rollback($playlistId, $songId, 'add', $currentUser->getPremium(), $this->config->songsLimit);
+                require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+                $rollBackController = new RollBackController();
+                $rollBackController->rollbackPlaylistController($playlistId, $songId, 'add', $currentUser->getPremium(), $this->config->songsLimit);
             }
             $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
         } catch (Exception $e) {
@@ -133,7 +135,9 @@ class PlaylistController extends REST {
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);
             if ($resActivity instanceof Error) {
-                $this->rollback($playlistId, $songId, 'remove', $currentUser->getPremium(), $this->config->songsLimit);
+                require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+                $rollBackController = new RollBackController();
+                $rollBackController->rollbackPlaylistController($playlistId, $songId, 'remove', $currentUser->getPremium(), $this->config->songsLimit);
             }
             $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
         } catch (Exception $e) {
@@ -168,31 +172,6 @@ class PlaylistController extends REST {
         $activity->setUserStatus(null);
         $activity->setVideo(null);
         return $activity;
-    }
-
-    /**
-     * \fn	rollback($playlistId, $songId, $operation, $premium, $limit)
-     * \brief   rollback for addSong() e removeSong()
-     * \param   $playslitId-> playlist objectId, $songId -> song objectId , $operation -> add, if you are calling rollback from addSong() or remove if are calling rollback from removeSong())$premium, $limit for the currentUser
-     * \todo    
-     */
-    private function rollback($playlistId, $songId, $operation, $premium, $limit) {
-        global $controllers;
-        $playlistP = new PlaylistParse();
-        $playlist = $playlistP->getPlaylist($playlistId);
-        if ($playlist instanceof Error) {
-            $this->response(array('status' => $controllers['ROLLKO']), 503);
-        } elseif ($operation == 'add') {
-            $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
-            $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
-        } else {
-            $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
-            $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $premium, $limit);
-        }
-        if ($res1 instanceof Error || $res instanceof Error) {
-            $this->response(array('status' => $controllers['ROLLKO']), 503);
-        }
-        $this->response(array('status' => $controllers['ROLLOK']), 503);
     }
 
 }
