@@ -654,8 +654,7 @@ function getTag(typeTag, typeSelect, typeUser, scheda, max_check, number) {
             if(typeTag == 'instruments')  music = data.instruments;
             if(typeTag == 'localType')  music = data.localType;
             if(typeTag == 'music')  music = data.music;
-			console.log(music);
-            
+			
             for (var value in music) {
                 
                 if (typeSelect == "check") {
