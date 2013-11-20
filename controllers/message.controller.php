@@ -177,7 +177,7 @@ class MessageController extends REST {
 
     private function sendMailNotification($address,$subject,$html) {
         global $controllers;
-        require_once SERVICES_DIR . 'debug.service.php';
+        require_once SERVICES_DIR . 'mail.service.php';
         $mail = mailService();
         $mail->AddAddress($address);
         $mail->Subject = $subject;

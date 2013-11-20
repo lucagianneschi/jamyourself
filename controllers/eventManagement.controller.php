@@ -119,20 +119,7 @@ class EventManagementController extends REST {
                 if ($user instanceof Error) {
                     $this->response(array('status' => $controllers['NOUSERFORMAIL']), 503);
                 }
-                require_once SERVICES_DIR . 'mail.service.php';
-                $mail = new MailService(true);
-                $mail->IsHTML(true);
-                $mail->AddAddress($user->getEmail());
-                $mail->Subject = $controllers['SBJ']; //da modificare
-                $mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
-                $resMail = $mail->Send();
-                if ($resMail instanceof phpmailerException) {
-                    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-                    $rollBAckController = new RollBackController();
-                    $rollBAckController->rollbackEventManagementController($activity->getObjectId(), 'sendInvitation');
-                }
-                $mail->SmtpClose();
-                unset($mail);
+                $this->sendMailNotification($user->getEmail(), $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile));
                 $this->response(array($controllers['INVITATIONSENT']), 200);
             }
         } catch (Exception $e) {
@@ -168,6 +155,24 @@ class EventManagementController extends REST {
         return $activity;
     }
 
+        private function sendMailNotification($address,$subject,$html) {
+        global $controllers;
+        require_once SERVICES_DIR . 'mail.service.php';
+        $mail = mailService();
+        $mail->AddAddress($address);
+        $mail->Subject = $subject;
+        $mail->MsgHTML($html);
+        $resMail = $mail->Send();
+        if ($resMail instanceof phpmailerException) {
+            $this->response(array('status' => $controllers['NOMAIL']), 403);
+        }
+        $mail->SmtpClose();
+        unset($mail);
+        return true;
+    }
+    
+    
+    
 }
 
 ?>
