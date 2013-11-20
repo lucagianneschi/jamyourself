@@ -5,22 +5,22 @@
             ('__proto__' in {} ? 'resources/javascripts/plugins/vendor/zepto' : 'resources/javascripts/plugins/vendor/jquery') +
             '.js><\/script>')
 </script> -->
+
+<!---------------------------------- JQUERY  ------------------------------------------>
 <script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
 <script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>	
 <script src="resources/javascripts/plugins/jquery/jquery-ui-1.10.3.custom.min.js"></script>
 
-<!--   /// JQUERY /// -->
-
+<!---------------------------------- FOUNDATION  ------------------------------------------>
 <script src="resources/javascripts/plugins/foundation/foundation.js"></script>
 <script src="resources/javascripts/plugins/foundation/foundation.section.js"></script>
-<script src="resources/javascripts/plugins/foundation/foundation.abide.js"></script>
-
-<script src="resources/javascripts/plugins/touchCarousel/jquery.touchcarousel-1.1.min.js"></script>
-<script src='resources/javascripts/plugins/rating/jquery.rating.js' type="text/javascript"></script> 
-<!--
 <script src="resources/javascripts/plugins/foundation/foundation.clearing.js"></script>
 <script src="resources/javascripts/plugins/foundation/foundation.reveal.js"></script>
+<script src="resources/javascripts/plugins/foundation/foundation.abide.js"></script>
+
+<!--
 <script src="javascripts/foundation/foundation.alerts.js"></script>
+
 <script src="javascripts/foundation/foundation.cookie.js"></script>
 <script src="javascripts/foundation/foundation.dropdown.js"></script>
 <script src="javascripts/foundation/foundation.forms.js"></script>
@@ -36,35 +36,48 @@
 <script>
     $(document).foundation();
 </script>
-<!-------------- plugin JCrop ------------>
-<script type="text/javascript" src="resources/javascripts/plugins/jcrop/jquery.Jcrop.js"></script>  
 
-<!----------- plugin nicescroll ---------->
-<script type="text/javascript" src="resources/javascripts/plugins/nicescroll/jquery.nicescroll.js"></script>	
-<!--------------- royalslider ------------->
+<!------------------------------------ ALTRI PLUGINS ---------------------------------------------->
+<!------------ touchCarousel //scorrimento element --------------------------------------->
+<script src="resources/javascripts/plugins/touchCarousel/jquery.touchcarousel-1.1.min.js"></script>
+
+<!------------ JCrop // crop foto -------------------------------------------------------->
+<script type="text/javascript" src="resources/javascripts/plugins/jcrop/jquery.Jcrop.js"></script> 
+
+<!----------- plugin nicescroll -------- sostituito da mCustomScrollbar
+<script type="text/javascript" src="resources/javascripts/plugins/nicescroll/jquery.nicescroll.js"></script> -->	 
+
+<!----------- royalslider // scorrimento box ----------------------------------------------->
 <script src="resources/javascripts/plugins/royalslider/jquery.royalslider.min.js"></script>
-<!--------------- colorbox ---------------->
+
+<!----------- colorbox // lightbox foto ---------------------------------------------------->
 <script src="resources/javascripts/plugins/colorbox/jquery.colorbox.js"></script>
-<!--------------- scrollbar --------------->
+
+<!----------- mCustomScrollbar // scrollbar ------------------------------------------------>
 <script src="resources/javascripts/plugins/scrollbar/jquery.mCustomScrollbar.js"></script>
-<!--------------- spinner ----------------->
+
+<!----------- spinner ------------------------------------------------------------------>
 <script type="text/javascript" src="http://fgnass.github.io/spin.js/dist/spin.js"></script>
-<!--------------- plupload ---------------->
+
+<!----------- plupload // upload file -------------------------------------------------->
 <script src="resources/javascripts/plugins/plupload/plupload.full.min.js"></script>
-<!----------- JAMYOURSELF --------------->
-<script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
 
-<script type="text/javascript" src="resources/javascripts/customs/headerCallBox.js"></script>
-
-<script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
-<!--------------- FCBKAutocmplete ---------------->
+<!----------- FCBKAutocmplete ---------------------------------------------------------->
 <script src="resources/javascripts/plugins/FCBKcomplete/jquery.fcbkcomplete.min.js"></script>
 <link rel="stylesheet" href="resources/javascripts/plugins/FCBKcomplete/style.css" type="text/css" media="screen" charset="utf-8" />
 
-<!--------------- share ------------------->
+<!----------- addthis // finestra share ------------------------------------------------>
 <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-522dd258579a55ca"></script>
-<script type="text/javascript" src="resources/javascripts/customs/share.js"></script>
 
+<!----------- rating ------------------------------------------------------------------->
+<script type="text/javascript" src='resources/javascripts/plugins/rating/jquery.rating.js'></script> 
+
+<!------------------------------------- JAMYOURSELF ------------------------------------------>
+<script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/headerCallBox.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
+
+<script type="text/javascript" src="resources/javascripts/customs/share.js"></script>
 
 <?php
 switch (basename($_SERVER['PHP_SELF'])) {
