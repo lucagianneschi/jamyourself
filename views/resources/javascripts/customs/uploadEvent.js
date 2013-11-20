@@ -1,6 +1,7 @@
 
 
 $(document).ready(function() {
+		
    	//gestione calendario
    	$( "#date" ).datepicker({ 
    		altFormat: "dd/mm/yy"
@@ -10,6 +11,9 @@ $(document).ready(function() {
     $('#uploadEvent01-next').click(function() {
      
     });
+    
+    var time = getClockTime();
+    $("#hours").html(time);
 
     //carica i tag music
     $.ajax({
@@ -40,3 +44,19 @@ $(document).ready(function() {
     });
 
 });
+
+function getClockTime(){
+	var timeString = '';
+	timeString = timeString + '<option value=""></option>'
+    for(i=0; i< 24; i++){
+    	if(i < 10){ 
+    		timeString = timeString + '<option value="0'+i+':00">0'+i+':00</option>'
+    		timeString = timeString + '<option value="0'+i+':30">0'+i+':30</option>'
+    	}
+    	else{
+    		timeString = timeString + '<option value="'+i+':00">'+i+':00</option>'
+    		timeString = timeString + '<option value="'+i+':30">'+i+':30</option>'
+    	}
+    }
+    return timeString;
+}

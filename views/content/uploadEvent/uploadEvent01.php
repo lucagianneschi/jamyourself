@@ -64,7 +64,9 @@
 			 	
 			 </div>			
 			 <div  class="small-4 columns">
-			 	<input type="text" name="hours" id="hours" pattern=""/>
+        		<select name="hours" id="hours">
+					
+				</select>
         		<label for="hours">Hours </label>
 			 </div>
 		</div>

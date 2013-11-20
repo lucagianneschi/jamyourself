@@ -1,0 +1,30 @@
+/*
+ * Style per form di tipo black
+ */
+
+@import "compass/css3";
+@import "settings";
+
+#uploadEvent01 #hours{
+  position: relative;
+  height: 30px;
+  display: block;
+  line-height: 14px;
+  padding: 5px 25px 4px 5px;
+  margin: 0;
+  -moz-appearance: window;
+  -moz-padding-end: 19px;
+  background: transparent;
+  background-color: transparent;
+  background-color:$grey-superdark; 
+  	color: $white;  
+  	border: 0px;
+  	border-bottom: 1px solid $grey-dark;
+  	margin-left:0px;
+	&:focus{
+	    background-color:$grey-dark;
+	    border-bottom: 1px solid $grey;
+    } 
+  -webkit-appearance: none;
+  appearance: none;
+}

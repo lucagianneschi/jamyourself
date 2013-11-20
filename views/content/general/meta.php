@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="resources/stylesheets/formWhiteStyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/profilestyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/uploadRecordStyle.css" />
+<link rel="stylesheet" href="resources/stylesheets/uploadEventStyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/headerstyle.css" />
 
 
