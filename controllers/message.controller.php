@@ -70,7 +70,7 @@ class MessageController extends REST {
             if ($res instanceof Error) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackMessageController($objectId, 'readMessage');
-		$this->response(array('status' => $message), 503);
+                $this->response(array('status' => $message), 503);
             }
             $this->response(array($controllers['MESSAGEREAD']), 200);
         } catch (Exception $e) {
@@ -167,12 +167,27 @@ class MessageController extends REST {
             if ($resActivity instanceof Error) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
-		$this->response(array('status' => $message), 503);
+                $this->response(array('status' => $message), 503);
             }
             $this->response(array($controllers['MESSAGESAVED']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
+    }
+
+    private function sendMailNotification($address,$subject,$html) {
+        global $controllers;
+        require_once SERVICES_DIR . 'debug.service.php';
+        $mail = mailService();
+        $mail->AddAddress($address);
+        $mail->Subject = $subject;
+        $mail->MsgHTML($html);
+        $resMail = $mail->Send();
+        if ($resMail instanceof phpmailerException) {
+            $this->response(array('status' => $controllers['NOMAIL']), 403);
+        }
+        $mail->SmtpClose();
+        unset($mail);
     }
 
 }
