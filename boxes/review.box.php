@@ -162,8 +162,8 @@ class ReviewBox {
 	}
 	$review->where('active', true);
 	$review->whereInclude('fromUser');
-	$review->setLimit($limit);
-	$review->setSkip($skip);
+        $review->setLimit(is_null($limit) ? $this->config->limitForMediaPage : $limit);
+        $review->setSkip(is_null($skip) ? 0 : $skip);
 	$review->orderByDescending('createdAt');
 	$reviews = $review->getComments();
 	if ($reviews instanceof Error) {
@@ -304,7 +304,7 @@ class ReviewBox {
 	    $event->where('objectId', $objectId);
 	    $event->where('active', true);
 	    $event->whereInclude('fromUser');
-	    $event->setLimit($limit);
+            $event->setLimit(is_null($limit) ? $this->config->limitForUploadReviewPage : $limit);
 	    $events = $event->getEvents();
 	    if ($events instanceof Error) {
 		return $events;
@@ -338,7 +338,7 @@ class ReviewBox {
 	    $record = new RecordParse();
 	    $record->where('objectId', $objectId);
 	    $record->where('active', true);
-	    $record->setLimit($limit);
+            $record->setLimit(is_null($limit) ? $this->config->limitForUploadReviewPage : $limit);
 	    $record->whereInclude('fromUser');
 	    $records = $record->getRecords();
 	    if ($records instanceof Error) {

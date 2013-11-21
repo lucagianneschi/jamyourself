@@ -43,12 +43,12 @@ class CommentInfo {
      * \param	$counters, $fromUserInfo, $createdAt, $showLove, $text
      */
     function __construct($counters, $fromUserInfo, $createdAt, $showLove, $text) {
-	global $boxes;
-	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
-	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
-	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
+        global $boxes;
+        is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+        is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+        is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
+        is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
+        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
     }
 
 }
@@ -61,6 +61,15 @@ class CommentInfo {
 class CommentBox {
 
     public $commentInfoArray;
+    public $config;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/comment.config.json"), false);
+    }
 
     /**
      * \fn	init($className, $objectId, $limit, $skip)
@@ -71,71 +80,71 @@ class CommentBox {
      * \return	commentBox
      */
     public function init($className, $objectId, $limit, $skip) {
-	global $boxes;
+        global $boxes;
         $currentUserId = sessionChecker();
-	$info = array();
-	$commentBox = new CommentBox();
-	$commentP = new CommentParse();
-	switch ($className) {
-	    case 'Album':
-		$field = 'album';
-		break;
-	    case 'Comment':
-		$field = 'comment';
-		break;
-	    case 'Event':
-		$field = 'event';
-		break;
-	    case 'Image':
-		$field = 'image';
-		break;
-	    case 'Record':
-		$field = 'record';
-		break;
-	    case 'Song':
-		$field = 'song';
-		break;
-	    case 'Status':
-		$field = 'status';
-		break;
-	    case 'Video':
-		$field = 'video';
-		break;
-	}
-	$commentP->wherePointer($field, $className, $objectId);
-	$commentP->where('type', 'C');
-	$commentP->where('active', true);
-	$commentP->setLimit($limit);
-	$commentP->setSkip($skip);
-	$commentP->whereInclude('fromUser');
-	$commentP->orderByDescending('createdAt');
-	$comments = $commentP->getComments();
-	if ($comments instanceof Error) {
-	    return $comments;
-	} elseif (is_null($comments)) {
-	    $commentBox->commentInfoArray = $boxes['NODATA'];
-	    return $commentBox;
-	} else {
-	    foreach ($comments as $comment) {
-		$createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
-		$commentCounter = $boxes['NDB'];
-		$loveCounter = $comment->getLoveCounter();
-		$reviewCounter = $boxes['NDB'];
-		$shareCounter = $boxes['NDB'];
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$text = $comment->getText();
-		$userId = $comment->getFromUser()->getObjectId();
-		$thumbnail = $comment->getFromUser()->getProfileThumbnail();
-		$type = $comment->getFromUser()->getType();
-		$username = $comment->getFromUser()->getUsername();
-		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username); 
-		$showLove = in_array($currentUserId, $comment->getLovers()) ?  false :  true;
-		$commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $showLove, $text);
-		array_push($info, $commentInfo);
-	    }
-	    $commentBox->commentInfoArray = $info;
-	}
-	return $commentBox;
+        $info = array();
+        $commentBox = new CommentBox();
+        $commentP = new CommentParse();
+        switch ($className) {
+            case 'Album':
+                $field = 'album';
+                break;
+            case 'Comment':
+                $field = 'comment';
+                break;
+            case 'Event':
+                $field = 'event';
+                break;
+            case 'Image':
+                $field = 'image';
+                break;
+            case 'Record':
+                $field = 'record';
+                break;
+            case 'Song':
+                $field = 'song';
+                break;
+            case 'Status':
+                $field = 'status';
+                break;
+            case 'Video':
+                $field = 'video';
+                break;
+        }
+        $commentP->wherePointer($field, $className, $objectId);
+        $commentP->where('type', 'C');
+        $commentP->where('active', true);
+        $commentP->setLimit(is_null($limit) ? $this->config->defaultLimit : $limit);
+        $commentP->setSkip(is_null($skip) ? 0 : $skip);
+        $commentP->whereInclude('fromUser');
+        $commentP->orderByDescending('createdAt');
+        $comments = $commentP->getComments();
+        if ($comments instanceof Error) {
+            return $comments;
+        } elseif (is_null($comments)) {
+            $commentBox->commentInfoArray = $boxes['NODATA'];
+            return $commentBox;
+        } else {
+            foreach ($comments as $comment) {
+                $createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
+                $commentCounter = $boxes['NDB'];
+                $loveCounter = $comment->getLoveCounter();
+                $reviewCounter = $boxes['NDB'];
+                $shareCounter = $boxes['NDB'];
+                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                $text = $comment->getText();
+                $userId = $comment->getFromUser()->getObjectId();
+                $thumbnail = $comment->getFromUser()->getProfileThumbnail();
+                $type = $comment->getFromUser()->getType();
+                $username = $comment->getFromUser()->getUsername();
+                $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+                $showLove = in_array($currentUserId, $comment->getLovers()) ? false : true;
+                $commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $showLove, $text);
+                array_push($info, $commentInfo);
+            }
+            $commentBox->commentInfoArray = $info;
+        }
+        return $commentBox;
     }
 
 }

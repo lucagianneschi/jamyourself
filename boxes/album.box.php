@@ -113,7 +113,7 @@ class AlbumBox {
      * \todo    
      * \return	albumBox
      */
-    public function initForDetail($objectId) {
+    public function initForDetail($objectId, $limit, $skip) {
         require_once CLASSES_DIR . 'image.class.php';
         require_once CLASSES_DIR . 'imageParse.class.php';
         global $boxes;
@@ -125,7 +125,8 @@ class AlbumBox {
         $image = new ImageParse();
         $image->wherePointer('album', 'Album', $objectId);
         $image->where('active', true);
-        $image->setLimit($this->config->limitForDetail);
+        $image->setLimit(is_null($limit) ? $this->config->limitForDetail : $limit);
+        $image->setSkip(is_null($skip) ? 0 : $skip);
         $image->orderByDescending('createdAt');
         $images = $image->getImages();
         if ($images instanceof Error) {

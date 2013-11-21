@@ -168,7 +168,7 @@ class RecordBox {
         $song = new SongParse();
         $song->wherePointer('record', 'Record', $objectId);
         $song->where('active', true);
-        $song->setLimit($limit);
+        $song->setLimit(is_null($limit) ? $this->config->limitSongsForMediaPage : $limit);
         $songs = $song->getSongs();
         if ($songs instanceof Error) {
             return $songs;

@@ -58,8 +58,17 @@ class PostInfo {
 
 class PostBox {
 
+    public $config;
     public $postInfoArray;
     public $postCounter;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/post.config.json"), false);
+    }
 
     /**
      * \fn	initForPersonalPage($objectId, $limit, $skip, $currentUserId)
@@ -81,8 +90,8 @@ class PostBox {
         $post->where('type', 'P');
         $post->where('active', true);
         $post->whereInclude('fromUser');
-        $post->setLimit($limit);
-        $post->setSkip($skip);
+        $post->setLimit(is_null($limit) ?  $this->config->limitForPersonalPage : $limit);
+        $post->setSkip(is_null($skip) ? 0 : $skip);
         $post->orderByDescending('createdAt');
         $posts = $post->getComments();
         if ($posts instanceof Error) {
@@ -107,7 +116,7 @@ class PostBox {
                 $shareCounter = $post->getShareCounter();
                 $text = $post->getText();
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$showLove = in_array($currentUserId, $post->getLovers()) ?  false :  true;
+                $showLove = in_array($currentUserId, $post->getLovers()) ? false : true;
                 $postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $showLove, $text);
                 array_push($info, $postInfo);
             }

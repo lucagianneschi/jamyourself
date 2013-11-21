@@ -42,12 +42,12 @@ class FaqInfo {
      * \param	$answer, $area, $position, $question, $tags
      */
     function __construct($answer, $area, $position, $question, $tags) {
-	global $boxes;
-	is_null($answer) ? $this->answer = $boxes['NODATA'] : $this->answer = parse_decode_string($answer);
-	is_null($area) ? $this->area = $boxes['NODATA'] : $this->area = $area;
-	is_null($position) ? $this->position = 1000 : $this->position = $position;
-	is_null($question) ? $this->question = $boxes['NODATA'] : $this->question = parse_decode_string($question);
-	is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
+        global $boxes;
+        is_null($answer) ? $this->answer = $boxes['NODATA'] : $this->answer = parse_decode_string($answer);
+        is_null($area) ? $this->area = $boxes['NODATA'] : $this->area = $area;
+        is_null($position) ? $this->position = 1000 : $this->position = $position;
+        is_null($question) ? $this->question = $boxes['NODATA'] : $this->question = parse_decode_string($question);
+        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
     }
 
 }
@@ -58,7 +58,16 @@ class FaqInfo {
  */
 class FaqBox {
 
+    public $config;
     public $faqArray;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/comment.config.json"), false);
+    }
 
     /**
      * \fn	initForFaqPage($limit,$lang,$field,$direction)
@@ -67,41 +76,41 @@ class FaqBox {
      * \return	faqBox
      */
     public function initForFaqPage($limit, $lang, $field, $direction) {
-	global $boxes;
-	$activityBox = new FaqBox();
-	$array = array();
-	$faqP = new FaqParse();
-	$faqP->setLimit($limit);
-	$faqP->where('lang', $lang);
-	if ($direction == true) {
-	    $faqP->orderByAscending($field);
-	} else {
-	    $faqP->orderByDescending($field);
-	}
-	$faqs = $faqP->getFaqs();
-	if ($faqs instanceof Error) {
-	    return $faqs;
-	} elseif (is_null($faqs)) {
-	    $activityBox->faqArray = $boxes['NODATA'];
-	    return $activityBox;
-	} else {
-	    foreach ($faqs as $faq) {
-		$answer = $faq->getAnswer();
-		$question = $faq->getQuestion();
-		$area = $faq->getArea();
-		$position = $faq->getPosition();
-		$tags = array();
-		if (count($faq->getTags()) > 0) {
-		    foreach ($faq->getTags() as $tag) {
-			array_push($tags, parse_decode_string($tag));
-		    }
-		}
-		$faqInfo = new FaqInfo($answer, $area, $position, $question, $tags);
-		array_push($array, $faqInfo);
-	    }
-	    $activityBox->faqArray = $array;
-	}
-	return $activityBox;
+        global $boxes;
+        $activityBox = new FaqBox();
+        $array = array();
+        $faqP = new FaqParse();
+        $faqP->setLimit(is_null($limit) ? $this->config->defaultLimit : $limit);
+        $faqP->where('lang', $lang);
+        if ($direction == true) {
+            $faqP->orderByAscending($field);
+        } else {
+            $faqP->orderByDescending($field);
+        }
+        $faqs = $faqP->getFaqs();
+        if ($faqs instanceof Error) {
+            return $faqs;
+        } elseif (is_null($faqs)) {
+            $activityBox->faqArray = $boxes['NODATA'];
+            return $activityBox;
+        } else {
+            foreach ($faqs as $faq) {
+                $answer = $faq->getAnswer();
+                $question = $faq->getQuestion();
+                $area = $faq->getArea();
+                $position = $faq->getPosition();
+                $tags = array();
+                if (count($faq->getTags()) > 0) {
+                    foreach ($faq->getTags() as $tag) {
+                        array_push($tags, parse_decode_string($tag));
+                    }
+                }
+                $faqInfo = new FaqInfo($answer, $area, $position, $question, $tags);
+                array_push($array, $faqInfo);
+            }
+            $activityBox->faqArray = $array;
+        }
+        return $activityBox;
     }
 
 }
