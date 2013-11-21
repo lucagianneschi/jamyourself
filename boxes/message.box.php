@@ -25,7 +25,7 @@ class MessageInfo {
     /**
      * \fn	__construct($createdAt, $objectId, $send, $text, $title)
      * \brief	construct for the MessageInfo class
-     * \param	$address, $city, $eventDate, $locationName, $objectId,$showLove, $thumbnail, $title
+     * \param	$createdAt, $objectId, $send, $text, $title
      */
     function __construct($createdAt, $objectId, $send, $text, $title) {
         global $boxes;
