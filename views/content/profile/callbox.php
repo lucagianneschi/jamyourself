@@ -29,8 +29,9 @@ $box 				 = $_POST['typebox'];
 $objectId 			 = $_POST['objectIdUser'];
 $type 				 = $_POST['typeUser'];
 $objectIdCurrentUser = $_POST['objectIdCurrentUser'];
-$classObject			 = $_POST['classObject'];
+$classObject	     = $_POST['classObject'];
 $objectIdComment 	 = $_POST['objectId'];
+$print				 = $_POST['print'];
 
 $result = array();
 
@@ -101,7 +102,7 @@ switch ($box) {
 		   $result['error']['code'] = 101;
 		   $result['error']['message'] = 'Error infoUser';
 		}
-		$result = json_encode($result);
+		
 		break;
 
 	case 'activity' :
@@ -138,7 +139,7 @@ switch ($box) {
 		   $result['error']['code'] = 101;
 				$result['error']['message'] = 'Error Activity';
 		}
-		$result = json_encode($result);
+		
 		break;
 
 	case 'album' :
@@ -190,7 +191,7 @@ switch ($box) {
 		   $result['error']['code'] = 101;
 				$result['error']['message'] = 'Error Album';
 		}
-		$result = json_encode($result);
+		
 		break;
 	case 'comment' :
 		require_once BOXES_DIR . 'comment.box.php';
@@ -218,7 +219,7 @@ switch ($box) {
 		   $result['comment'] = '';
 		   $result['error']['message'] = 'Error Comment';
 		}
-		$result = json_encode($result);
+		
 		break;
 		
 	case 'event' :
@@ -251,7 +252,7 @@ switch ($box) {
 		   $result['error']['code'] = 101;
 				$result['error']['message'] = 'Error Event';
 		}
-		$result = json_encode($result);
+		
 		break;
 	case 'post' :
 		require_once BOXES_DIR . 'post.box.php';
@@ -280,7 +281,7 @@ switch ($box) {
 		   $result['error']['code'] = 101;
 				$result['error']['message'] = 'Error Post';
 		}
-		$result = json_encode($result);
+		
 		break;
 	case 'record' :
 		require_once BOXES_DIR . 'record.box.php';
@@ -299,9 +300,13 @@ switch ($box) {
 					$result['record' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 					$result['record' . $key]['year'] = $value -> year != $boxes['NODATA'] ? $value -> year : '';
 					$result['record' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
+					$result['record' . $key]['recordDetail'] = $value -> tracklist != $boxes['NOTRACK'] ? $value -> tracklist : Array();
+					/*
 					$recordDetail = $recordBoxP -> initForDetail($result['record' . $key]['objectId']);
 					if($recordDetail != $boxes['NOTRACK'])
-						$result['record' . $key]['recordDetail'] = $recordDetail;				
+						$result['record' . $key]['recordDetail'] = $recordDetail;
+					 * 
+					 */				
 				}
 				$result['activity']['record'] = $result['record' . 0];
 			} else {
@@ -312,7 +317,7 @@ switch ($box) {
 		   $result['error']['code'] = 101;
 				$result['error']['message'] = 'Error Record';
 		}
-		$result = json_encode($result);
+		
 		break;
 	case 'relation' :
 		require_once BOXES_DIR . 'relation.box.php';
@@ -411,7 +416,7 @@ switch ($box) {
 		   $result['error']['code'] = 101;
 				$result['error']['message'] = 'Error Relation';
 		}
-		$result = json_encode($result);
+		
 		break;
 	case 'review' :
 		require_once BOXES_DIR . 'review.box.php';
@@ -464,7 +469,7 @@ switch ($box) {
 		   $result['error']['code'] = 101;
 				$result['error']['message'] = 'Error Review';
 		}
-		$result = json_encode($result);
+		
 		break;
 	case 'header' :
 		require_once BOXES_DIR . 'playlist.box.php';
@@ -491,14 +496,19 @@ switch ($box) {
 		   $result['error']['code'] = 101;
 				$result['error']['message'] = 'Error Header';
 		}
-		$result = json_encode($result);
+		
 		break;
 	default :
-		$result = json_encode($result);
+		
 		break;
 }
 
-echo $result;
+if($print == 'true'){
+	print "<pre>";
+	print_r($result);
+	print "</pre>";
+}
+else echo json_encode($result);
 
 
 ?>

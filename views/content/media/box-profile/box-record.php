@@ -62,7 +62,7 @@ $tracklist = $data['classinfo']['tracklist'] == $boxes['NOTRACK'] ? array() : $d
 																		
 						</div>
 						<div class="small-3 columns track-nopropriety align-right" style="padding-right: 15px;">
-							<a class="icon-propriety "><?php $record_duration ?></a>	
+							<a class="icon-propriety "><?php echo $record_duration ?></a>	
 						</div>		
 					</div>
 					<div class="row track-propriety" >

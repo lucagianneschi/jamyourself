@@ -133,10 +133,10 @@ function getPinnerMedia(box,objectId,classbox){
 	}
 	else{
 		$('#box-'+box).load('content/media/box-general/box-spinner.php', {
-		'box' : box
-		}, function(){
-		success: spinner();
-	});
+			'box' : box
+			}, function(){
+			success: spinner();
+		});
 	}	
 				
 }

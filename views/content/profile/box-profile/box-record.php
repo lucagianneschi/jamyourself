@@ -134,7 +134,7 @@ $recordCounter = $data['recordCounter'];
 			$recordSingle_title = $data['record'.$i]['title'];
 			$recordSingle_data = $data['record'.$i]['year'];
 			$recordSinle_songCounter= $data['record'.$i]['songCounter'];
-			$recordSingle_detail = $data['record'.$i]['recordDetail']['tracklist'];
+			$recordSingle_detail = $data['record'.$i]['recordDetail'];
 			$recordSingle_love = $data['record'.$i]['counters']['loveCounter'];
 			$recordSingle_comment = $data['record'.$i]['counters']['commentCounter'];
 			$recordSingle_share = $data['record'.$i]['counters']['shareCounter'];
@@ -176,7 +176,9 @@ $recordCounter = $data['recordCounter'];
 					
 				</div>
 			</div>
-			<?php if(count($recordSingle_detail) > 0 && $recordSingle_detail != $boxes['NOTRACK']){
+			<?php 
+			
+			if(count($recordSingle_detail) > 0 && $recordSingle_detail != $boxes['NOTRACK']){
 					foreach ($recordSingle_detail as $key => $value) {
 						if($value['showLove'] == 'true'){
 							$track_css_love = '_unlove grey';
