@@ -64,7 +64,7 @@ class RelationsBox {
                     $followingId = $following->getToUser()->getObjectId();
                     $thumbnail = $following->getToUser()->getProfileThumbnail();
                     $type = $following->getToUser()->getType();
-                    $username = parse_decode_string($following->getToUser()->getUserName());
+                    $username = $following->getToUser()->getUserName();
                     $userInfo = new UserInfo($followingId, $thumbnail, $type, $username);
                     array_push($followingArray, $userInfo);
                 }
@@ -87,7 +87,7 @@ class RelationsBox {
                     $friendshipId = $friendship->getToUser()->getObjectId();
                     $thumbnail = $friendship->getToUser()->getProfileThumbnail();
                     $type = $friendship->getToUser()->getType();
-                    $username = parse_decode_string($friendship->getToUser()->getUserName());
+                    $username = $friendship->getToUser()->getUserName();
                     $userInfo = new UserInfo($friendshipId, $thumbnail, $type, $username);
                     array_push($friendshipArray, $userInfo);
                 }
@@ -122,7 +122,7 @@ class RelationsBox {
                     $followerId = $follower->getFromUser()->getObjectId();
                     $thumbnail = $follower->getFromUser()->getProfileThumbnail();
                     $type = $follower->getFromUser()->getType();
-                    $username = parse_decode_string($follower->getFromUser()->getUserName());
+                    $username = $follower->getFromUser()->getUserName();
                     $userInfo = new UserInfo($followerId, $thumbnail, $type, $username);
                     array_push($followersArray, $userInfo);
                 }
