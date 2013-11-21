@@ -56,12 +56,12 @@ class EventInfoForMediaPage {
      */
     function __construct($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $showLove, $tags, $title) {
         global $boxes;
-        is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
+        is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = parse_decode_string($address);
         is_null($attendee) ? $this->attendee = $boxes['NOATTENDEE'] : $this->attendee = $attendee;
         ($this->attendee === $boxes['NOATTENDEE']) ? $this->attendeeCounter = 0 : $this->attendeeCounter = count($attendee);
-        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
+        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = parse_decode_string($city);
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-        is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
+        is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = parse_decode_string($description);
         is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
         is_null($featuring) ? $this->featuring = $boxes['NOFEATEVE'] : $this->featuring = $featuring;
         ($this->featuring === $boxes['NOFEATEVE']) ? $this->featuringCounter = 0 : $this->featuringCounter = count($featuring);
@@ -69,10 +69,10 @@ class EventInfoForMediaPage {
         is_null($invited) ? $this->invited = $boxes['NOINVITED'] : $this->invited = $invited;
         ($this->invited === $boxes['NOINVITED']) ? $this->invitedCounter = 0 : $this->invitedCounter = count($invited);
         is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
-        is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
+        is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = parse_decode_string($locationName);
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
         is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
     }
 
 }
@@ -102,17 +102,17 @@ class EventInfoForPersonalPage {
      */
     function __construct($address, $city, $counters, $eventDate, $featuring, $locationName, $objectId, $showLove, $tags, $thumbnail, $title) {
         global $boxes;
-        is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
-        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
+        is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = parse_decode_string($address);
+        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = parse_decode_string($city);
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
         is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
         is_null($featuring) ? $this->featuring = $boxes['NOFEATEVE'] : $this->featuring = $featuring;
-        is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
+        is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = parse_decode_string($locationName);
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
         is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
         is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
     }
 
 }
@@ -163,18 +163,18 @@ class EventBox {
 	    require_once CLASSES_DIR . 'user.class.php';
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    foreach ($events as $event) {
-		$address = parse_decode_string($event->getAddress());
+		$address = $event->getAddress();
 		$attendee = getRelatedUsers($event->getObjectId(), 'attendee', 'Event', false, $this->config->limitAttendeeForMediaPage,0);
-		$city = parse_decode_string($event->getCity());
+		$city = $event->getCity();
 		$commentCounter = $event->getCommentCounter();
-		$description = parse_decode_string($event->getDescription());
+		$description = $event->getDescription();
 		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
 		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForMediaPage, 0);
 		$image = $event->getImage();
 		$invited = getRelatedUsers($event->getObjectId(), 'invited', 'Event', false, $this->config->limitInvitedForMediaPage, 0);
 		$geopoint = $event->getLocation();
 		$location = array('latitude' => $geopoint->location['latitude'], 'longitude' => $geopoint->location['longitude']);
-		$locationName = parse_decode_string($event->getLocationName());
+		$locationName = $event->getLocationName();
 		$loveCounter = $event->getLoveCounter();
 		$reviewCounter = $event->getReviewCounter();
 		$shareCounter = $event->getShareCounter();
@@ -184,14 +184,14 @@ class EventBox {
 			array_push($tags, parse_decode_string($tag));
 		    }
 		}
-		$title = parse_decode_string($event->getTitle());
+		$title = $event->getTitle();
 		$showLove = in_array($currentUserId, $event->getLovers()) ?  false :  true;
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$eventInfo = new EventInfoForMediaPage($address, $attendee, $city, $counters, $description, $eventDate, $featuring, $image, $invited, $location, $locationName, $showLove, $tags, $title);
 		$userId = $event->getFromUser()->getObjectId();
 		$thumbnail = $event->getFromUser()->getProfileThumbnail();
 		$type = $event->getFromUser()->getType();
-		$username = parse_decode_string($event->getFromUser()->getUsername());
+		$username = $event->getFromUser()->getUsername();
 		$userInfo = new UserInfo($userId, $thumbnail, $type, $username);
 	    }
 	    $eventBox->eventInfoArray = $eventInfo;
@@ -231,8 +231,8 @@ class EventBox {
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    foreach ($events as $event) {
 		$counter = ++$counter;
-		$address = parse_decode_string($event->getAddress());
-		$city = parse_decode_string($event->getCity());
+		$address = $event->getAddress();
+		$city = $event->getCity();
 		$commentCounter = $event->getCommentCounter();
 		$loveCounter = $event->getLoveCounter();
 		$reviewCounter = $event->getReviewCounter();
@@ -240,7 +240,7 @@ class EventBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$eventDate = $event->getEventDate()->format('d-m-Y H:i:s');
 		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForPersonalPage);
-		$locationName = parse_decode_string($event->getLocationName());
+		$locationName = $event->getLocationName();
 		$eventId = $event->getObjectId();
 		$tags = array();
 		if (count($event->getTags()) > 0) {
@@ -249,7 +249,7 @@ class EventBox {
 		    }
 		}
 		$thumbnail = $event->getThumbnail();
-		$title = parse_decode_string($event->getTitle());
+		$title = $event->getTitle();
 		$showLove = in_array($currentUserId, $event->getLovers()) ?  false :  true;
 		$eventInfo = new EventInfoForPersonalPage($address, $city, $counters, $eventDate, $featuring, $locationName, $eventId, $showLove, $tags, $thumbnail, $title);
 		array_push($info, $eventInfo);
