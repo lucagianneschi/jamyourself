@@ -18,18 +18,20 @@ class MessageInfo {
 
     public $createdAt;
     public $objectId;
+    public $send;
     public $text;
     public $title;
 
     /**
-     * \fn	__construct($address, $city, $eventDate, $locationName, $objectId,$showLove, $thumbnail, $title)
-     * \brief	construct for the ImageInfoForPersonalPage class
+     * \fn	__construct($createdAt, $objectId, $send, $text, $title)
+     * \brief	construct for the MessageInfo class
      * \param	$address, $city, $eventDate, $locationName, $objectId,$showLove, $thumbnail, $title
      */
-    function __construct($createdAt, $objectId, $text, $title) {
+    function __construct($createdAt, $objectId, $send, $text, $title) {
         global $boxes;
         is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+        is_null($send) ? $this->send = 'S' : $this->send = $send;
         is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
     }
@@ -63,6 +65,10 @@ class MessageBox {
      */
     public function initForUserList($objectId, $limit, $skip) {
         global $boxes;
+        $currentUserId = sessionChecker();
+        if($currentUserId == $boxes['']){
+            
+        }
         $messageBox = new MessageBox();
         $userInfoArray = array();
         $messageBox->messageArray = $boxes['NDB'];
@@ -74,7 +80,7 @@ class MessageBox {
         $messageP->where('active', true);
         $messageP->whereInclude('fromUser,toUser');
         $limite = (is_null($limit)) ? $this->config->limitUsersForMessagePage : $limit;
-        $skipper = (is_null($skip)) ? 0 : $limit;
+        $skipper = (is_null($skip)) ? 0 : $skip;
         $messageP->setLimit($limite);
         $messageP->setSkip($skipper);
         $messageP->orderByDescending('createdAt');
@@ -124,7 +130,7 @@ class MessageBox {
         $messageP->where('type', 'M');
         $messageP->where('active', true);
         $limite = (is_null($limit)) ? $this->config->limitMessagesForMessagePage : $limit;
-        $skipper = (is_null($skip)) ? 0 : $limit;
+        $skipper = (is_null($skip)) ? 0 : $skip;
         $messageP->setLimit($limite);
         $messageP->setSkip($skipper);
         $messageP->orderByDescending('createdAt');
@@ -137,11 +143,13 @@ class MessageBox {
         } else {
             $messagesArray = array();
             foreach ($messages as $message) {
+                $userId = ($message->getFromUser()->getObjectId() == $objectId) ? $message->getToUser()->getObjectId() : $message->getFromUser()->getObjectId();
+                $send = ($userId == $objectId) ? 'S' : 'R';
                 $createdAt = $message->getCreatedAt();
                 $objectId = $message->getObjectId();
                 $text = $message->getText();
                 $title = $message->getTitle();
-                $messageInfo = new MessageInfo($createdAt, $objectId, $text, $title);
+                $messageInfo = new MessageInfo($createdAt, $objectId, $send, $text, $title);
                 array_push($messagesArray, $messageInfo);
             }
             $messageBox->messageArray = $messagesArray;
@@ -150,4 +158,5 @@ class MessageBox {
     }
 
 }
+
 ?>
