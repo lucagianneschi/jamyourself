@@ -72,16 +72,18 @@ class RecordInfoForPersonalPage {
     public $showLove;
     public $songCounter;
     public $thumbnailCover;
+    public $tracklist;
     public $title;
     public $year;
 
     /**
-     * \fn	__construct($counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover, $title, $year)
+     * \fn	__construct($counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover,$tracklist, $title, $year)
      * \brief	construct for the RecordInfoForPersonalPage class
-     * \param	$counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover, $title, $year
+     * \param	$counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover,$tracklist, $title, $year
      */
-    function __construct($counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover, $title, $year) {
+    function __construct($counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover, $tracklist, $title, $year) {
         global $boxes;
+        $nullArray = array();
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
         is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
@@ -89,6 +91,7 @@ class RecordInfoForPersonalPage {
         is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+        is_null($tracklist) ? $this->tracklist = $nullArray : $this->tracklist = $tracklist;
         is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
 
@@ -128,12 +131,12 @@ class SongInfo {
      * \param	$counters, $duration,$objectId, $title
      */
     function __construct($counters, $duration, $objectId, $showLove, $title) {
-	global $boxes;
-	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-	is_null($duration) ? $this->duration = '0:00' : $this->duration = $duration;
-	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+        global $boxes;
+        is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+        is_null($duration) ? $this->duration = '0:00' : $this->duration = $duration;
+        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+        is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -144,14 +147,52 @@ class RecordBox {
     public $fromUserInfo;
     public $recordCounter;
     public $recordInfoArray;
-    public $tracklist;
 
     /**
      * \fn	__construct()
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/record.config.json"), false);
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/record.config.json"), false);
+    }
+
+    /**
+     * \fn	tracklistGenerator($objectId)
+     * \brief	retrives info for generating a tracklist
+     * \param	$objectId of the 
+     * \return  $tracklist, array of Songinfo objects    
+     */
+    private function tracklistGenerator($objectId, $currentUserId, $limit) {
+        require_once CLASSES_DIR . 'song.class.php';
+        require_once CLASSES_DIR . 'songParse.class.php';
+        global $boxes;
+        $tracklist = array();
+        $song = new SongParse();
+        $song->wherePointer('record', 'Record', $objectId);
+        $song->where('active', true);
+        $song->setLimit($limit);
+        $songs = $song->getSongs();
+        if ($songs instanceof Error) {
+            return $songs;
+        } elseif (is_null($songs)) {
+            $tracklist = $boxes['NOTRACK'];
+            return $tracklist;
+        } else {
+            foreach ($songs as $song) {
+                $duration = $song->getDuration();
+                $songId = $song->getObjectId();
+                $title = parse_decode_string($song->getTitle());
+                $commentCounter = $song->getCommentCounter();
+                $loveCounter = $song->getLoveCounter();
+                $reviewCounter = $boxes['NDB'];
+                $shareCounter = $song->getShareCounter();
+                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                $showLove = in_array($currentUserId, $song->getLovers()) ? false : true;
+                $songInfo = new SongInfo($counters, $duration, $songId, $showLove, $title);
+                array_push($tracklist, $songInfo);
+            }
+        }
+        return $tracklist;
     }
 
     /**
@@ -161,80 +202,53 @@ class RecordBox {
      * \todo    
      */
     public function initForMediaPage($objectId) {
-	global $boxes;
-	$currentUserId = sessionChecker();
-	$recordBox = new RecordBox();
-	$recordBox->recordCounter = $boxes['NDB'];
-	$recordP = new RecordParse();
-	$recordP->where('objectId', $objectId);
-	$recordP->where('active', true);
-	$recordP->whereInclude('fromUser');
-	$recordP->setLimit($this->config->limitRecordForMediaPage);
-	$records = $recordP->getRecords();
-	if ($records instanceof Error) {
-	    return $records;
-	} elseif (is_null($records)) {
-	    $recordBox->recordInfoArray = $boxes['NODATA'];
-	    $recordBox->tracklist = $boxes['NOTRACK'];
-	    $recordBox->fromUserInfo = $boxes['NODATA'];
-	    return $recordBox;
-	} else {
-	    foreach ($records as $record) {
-		$buylink = $record->getBuylink();
-		$city = parse_decode_string($record->getFromUser()->getCity());
-		$commentCounter = $record->getCommentCounter();
-		$loveCounter = $record->getLoveCounter();
-		$reviewCounter = $record->getReviewCounter();
-		$shareCounter = $record->getShareCounter();
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$cover = $record->getCover();
-		$description = parse_decode_string($record->getDescription());
-		$featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage,0);
-		$genre = $record->getGenre();
-		$label = parse_decode_string($record->getLabel());
-		$showLoveRecord = in_array($currentUserId, $record->getLovers()) ?  false :  true;
-		$locationName = parse_decode_string($record->getLocationName());
-		$title = parse_decode_string($record->getTitle());
-		$year = $record->getYear();
-		require_once CLASSES_DIR . 'song.class.php';
-		require_once CLASSES_DIR . 'songParse.class.php';
-		$tracklist = array();
-		$parseSong = new SongParse();
-		$parseSong->wherePointer('record', 'Record', $objectId);
-		$parseSong->where('active', true);
-		$parseSong->setLimit($this->config->limitSongsForMediaPage);
-		$songs = $parseSong->getSongs();
-		if ($songs instanceof Error) {
-		    return $songs;
-		} elseif (is_null($songs)) {
-		    $recordBox->tracklist = $boxes['NOTRACK'];
-		} else {
-		    foreach ($songs as $song) {
-			$duration = $song->getDuration();
-			$songId = $song->getObjectId();
-			$songTitle = parse_decode_string($song->getTitle());
-			$songCommentCounter = $song->getCommentCounter();
-			$songLoveCounter = $song->getLoveCounter();
-			$songShareCounter = $song->getShareCounter();
-			$songReviewCounter = $boxes['NDB'];
-			$songCounters = new Counters($songCommentCounter, $songLoveCounter, $songReviewCounter, $songShareCounter);
-			$showLove = in_array($currentUserId, $song->getLovers()) ?  false :  true;
-			$songInfo = new SongInfo($songCounters, $duration, $songId, $showLove, $songTitle);
-			array_push($tracklist, $songInfo);
-		    }
-		}
-		$recordInfo = new RecordInfoForMediaPage($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $showLoveRecord, $title, $tracklist, $year);
-		$userId = $record->getFromUser()->getObjectId();
-		$thumbnail = $record->getFromUser()->getProfileThumbnail();
-		$type = $record->getFromUser()->getType();
-		$username = parse_decode_string($record->getFromUser()->getUsername());
-		$userInfo = new UserInfo($userId, $thumbnail, $type, $username);
-	    }
-	    $recordBox->fromUserInfo = $userInfo;
-	    $recordBox->recordInfoArray = $recordInfo;
-	    $recordBox->tracklist = $tracklist;
-	}
-	return $recordBox;
+        global $boxes;
+        $currentUserId = sessionChecker();
+        $recordBox = new RecordBox();
+        $recordBox->recordCounter = $boxes['NDB'];
+        $recordP = new RecordParse();
+        $recordP->where('objectId', $objectId);
+        $recordP->where('active', true);
+        $recordP->whereInclude('fromUser');
+        $recordP->setLimit($this->config->limitRecordForMediaPage);
+        $records = $recordP->getRecords();
+        if ($records instanceof Error) {
+            return $records;
+        } elseif (is_null($records)) {
+            $recordBox->recordInfoArray = $boxes['NODATA'];
+            $recordBox->tracklist = $boxes['NOTRACK'];
+            $recordBox->fromUserInfo = $boxes['NODATA'];
+            return $recordBox;
+        } else {
+            foreach ($records as $record) {
+                $buylink = $record->getBuylink();
+                $city = parse_decode_string($record->getFromUser()->getCity());
+                $commentCounter = $record->getCommentCounter();
+                $loveCounter = $record->getLoveCounter();
+                $reviewCounter = $record->getReviewCounter();
+                $shareCounter = $record->getShareCounter();
+                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                $cover = $record->getCover();
+                $description = parse_decode_string($record->getDescription());
+                $featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage, 0);
+                $genre = $record->getGenre();
+                $label = parse_decode_string($record->getLabel());
+                $showLoveRecord = in_array($currentUserId, $record->getLovers()) ? false : true;
+                $locationName = parse_decode_string($record->getLocationName());
+                $title = parse_decode_string($record->getTitle());
+                $year = $record->getYear();
+                $tracklist = $this->tracklistGenerator($objectId, $currentUserId, $this->config->limitSongsForMediaPage);
+                $recordInfo = new RecordInfoForMediaPage($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $showLoveRecord, $title, $tracklist, $year);
+                $userId = $record->getFromUser()->getObjectId();
+                $thumbnail = $record->getFromUser()->getProfileThumbnail();
+                $type = $record->getFromUser()->getType();
+                $username = parse_decode_string($record->getFromUser()->getUsername());
+                $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
+            }
+            $recordBox->fromUserInfo = $userInfo;
+            $recordBox->recordInfoArray = $recordInfo;
+        }
+        return $recordBox;
     }
 
     /**
@@ -244,47 +258,47 @@ class RecordBox {
      * \todo	
      */
     public function initForPersonalPage($objectId) {
-	global $boxes;
-	$currentUserId = sessionChecker();
-	$info = array();
-	$counter = 0;
-	$recordBox = new RecordBox();
-	$recordBox->fromUserInfo = $boxes['NDB'];
-	$recordBox->tracklist = $boxes['NDB'];
-	$record = new RecordParse();
-	$record->wherePointer('fromUser', '_User', $objectId);
-	$record->where('active', true);
-	$record->setLimit($this->config->limitRecordForPersonalPage);
-	$record->orderByDescending('createdAt');
-	$records = $record->getRecords();
-	if ($records instanceof Error) {
-	    return $records;
-	} elseif (is_null($records)) {
-	    $recordBox->recordInfoArray = $boxes['NODATA'];
-	    $recordBox->recordCounter = $boxes['NODATA'];
-	    return $recordBox;
-	} else {
-	    foreach ($records as $record) {
-		$counter = ++$counter;
-		$commentCounter = $record->getCommentCounter();
-		$genre = $record->getGenre();
-		$loveCounter = $record->getLoveCounter();
-		$recordId = $record->getObjectId();
-		$reviewCounter = $record->getReviewCounter();
-		$shareCounter = $record->getShareCounter();
-		$songCounter = $record->getSongCounter();
-		$thumbnailCover = $record->getThumbnailCover();
-		$title = parse_decode_string($record->getTitle());
-		$year = $record->getYear();
-		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$showLove = in_array($currentUserId, $record->getLovers()) ?  false :  true;
-		$recordInfo = new RecordInfoForPersonalPage($counters, $genre, $recordId, $showLove, $songCounter, $thumbnailCover, $title, $year);
-		array_push($info, $recordInfo);
-	    }
-	    $recordBox->recordCounter = $counter;
-	    $recordBox->recordInfoArray = $info;
-	}
-	return $recordBox;
+        global $boxes;
+        $currentUserId = sessionChecker();
+        $info = array();
+        $counter = 0;
+        $recordBox = new RecordBox();
+        $recordBox->fromUserInfo = $boxes['NDB'];
+        $record = new RecordParse();
+        $record->wherePointer('fromUser', '_User', $objectId);
+        $record->where('active', true);
+        $record->setLimit($this->config->limitRecordForPersonalPage);
+        $record->orderByDescending('createdAt');
+        $records = $record->getRecords();
+        if ($records instanceof Error) {
+            return $records;
+        } elseif (is_null($records)) {
+            $recordBox->recordInfoArray = $boxes['NODATA'];
+            $recordBox->recordCounter = $boxes['NODATA'];
+            return $recordBox;
+        } else {
+            foreach ($records as $record) {
+                $counter = ++$counter;
+                $commentCounter = $record->getCommentCounter();
+                $genre = $record->getGenre();
+                $loveCounter = $record->getLoveCounter();
+                $recordId = $record->getObjectId();
+                $reviewCounter = $record->getReviewCounter();
+                $shareCounter = $record->getShareCounter();
+                $songCounter = $record->getSongCounter();
+                $thumbnailCover = $record->getThumbnailCover();
+                $title = parse_decode_string($record->getTitle());
+                $year = $record->getYear();
+                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                $showLove = in_array($currentUserId, $record->getLovers()) ? false : true;
+                $tracklist = $this->tracklistGenerator($record->getObjectId(), $currentUserId, $this->config->limitSongsForPersonalPage);
+                $recordInfo = new RecordInfoForPersonalPage($counters, $genre, $recordId, $showLove, $songCounter, $thumbnailCover, $tracklist, $title, $year);
+                array_push($info, $recordInfo);
+            }
+            $recordBox->recordCounter = $counter;
+            $recordBox->recordInfoArray = $info;
+        }
+        return $recordBox;
     }
 
     /**
@@ -293,37 +307,36 @@ class RecordBox {
      * \param	$objectId of the user who owns the record
      */
     public function initForUploadRecordPage($objectId) {
-	global $boxes;
-	$info = array();
-	$counter = 0;
-	$recordBox = new RecordBox();
-	$recordBox->tracklist = $boxes['NDB'];
-	$recordBox->fromUserInfo = $boxes['NDB'];
-	$record = new RecordParse();
-	$record->wherePointer('fromUser', '_User', $objectId);
-	$record->where('active', true);
-	$record->setLimit($this->config->limitRecordForUploadRecordPage);
-	$record->orderByDescending('createdAt');
-	$records = $record->getRecords();
-	if ($records instanceof Error) {
-	    return $records;
-	} elseif (is_null($records)) {
-	    $recordBox->recordInfoArray = $boxes['NODATA'];
-	    $recordBox->recordCounter = $boxes['NODATA'];
-	    return $recordBox;
-	} else {
-	    foreach ($records as $record) {
-		$counter = ++$counter;
-		$songCounter = $record->getSongCounter();
-		$thumbnailCover = $record->getThumbnailCover();
-		$title = parse_decode_string($record->getTitle());
-		$recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
-		array_push($info, $recordInfo);
-	    }
-	    $recordBox->recordCounter = $counter;
-	    $recordBox->recordInfoArray = $info;
-	}
-	return $recordBox;
+        global $boxes;
+        $info = array();
+        $counter = 0;
+        $recordBox = new RecordBox();
+        $recordBox->fromUserInfo = $boxes['NDB'];
+        $record = new RecordParse();
+        $record->wherePointer('fromUser', '_User', $objectId);
+        $record->where('active', true);
+        $record->setLimit($this->config->limitRecordForUploadRecordPage);
+        $record->orderByDescending('createdAt');
+        $records = $record->getRecords();
+        if ($records instanceof Error) {
+            return $records;
+        } elseif (is_null($records)) {
+            $recordBox->recordInfoArray = $boxes['NODATA'];
+            $recordBox->recordCounter = $boxes['NODATA'];
+            return $recordBox;
+        } else {
+            foreach ($records as $record) {
+                $counter = ++$counter;
+                $songCounter = $record->getSongCounter();
+                $thumbnailCover = $record->getThumbnailCover();
+                $title = parse_decode_string($record->getTitle());
+                $recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
+                array_push($info, $recordInfo);
+            }
+            $recordBox->recordCounter = $counter;
+            $recordBox->recordInfoArray = $info;
+        }
+        return $recordBox;
     }
 
 }
