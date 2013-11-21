@@ -72,7 +72,6 @@ class RecordInfoForPersonalPage {
     public $showLove;
     public $songCounter;
     public $thumbnailCover;
-    public $tracklist;
     public $title;
     public $year;
 
@@ -91,7 +90,6 @@ class RecordInfoForPersonalPage {
         is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
-        is_null($tracklist) ? $this->tracklist = $nullArray : $this->tracklist = $tracklist;
         is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
 
@@ -162,7 +160,7 @@ class RecordBox {
      * \param	$objectId of the 
      * \return  $tracklist, array of Songinfo objects    
      */
-    private function tracklistGenerator($objectId, $currentUserId, $limit) {
+    function tracklistGenerator($objectId, $currentUserId, $limit) {
         require_once CLASSES_DIR . 'song.class.php';
         require_once CLASSES_DIR . 'songParse.class.php';
         global $boxes;
@@ -291,8 +289,7 @@ class RecordBox {
                 $year = $record->getYear();
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
                 $showLove = in_array($currentUserId, $record->getLovers()) ? false : true;
-                $tracklist = $this->tracklistGenerator($record->getObjectId(), $currentUserId, $this->config->limitSongsForPersonalPage);
-                $recordInfo = new RecordInfoForPersonalPage($counters, $genre, $recordId, $showLove, $songCounter, $thumbnailCover, $tracklist, $title, $year);
+                $recordInfo = new RecordInfoForPersonalPage($counters, $genre, $recordId, $showLove, $songCounter, $thumbnailCover, $title, $year);
                 array_push($info, $recordInfo);
             }
             $recordBox->recordCounter = $counter;
