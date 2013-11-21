@@ -244,7 +244,8 @@ class ActivityBox {
 	    $lastEventP = new ActivityParse();
 	    $lastEventP->setLimit($this->config->limitEventConfirmedForPersonalPage);
 	    $lastEventP->wherePointer('fromUser', '_User', $objectId);
-	    $lastEventP->where('type', 'EVENTCONFIRMED');
+	    $lastEventP->where('type', 'INVITED');
+	    $lastEventP->where('status', 'A');
 	    $lastEventP->where('active', true);
 	    $lastEventP->whereInclude('event');
 	    $lastEventP->orderByDescending('createdAt');
