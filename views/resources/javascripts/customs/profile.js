@@ -126,11 +126,14 @@ function slideAchievement(){
 	
 
 //funzione per gestire la visualizzazione dell'album
-function recordSelectSingle(recordId) {
+function recordSelectSingle(recordId,objectIdCurrentUser) {
  	$( "#record-list" ).fadeOut( 100, function() {    		
     		$('.'+recordId).fadeIn( 100 );
     		addthis.init();
-			addthis.toolbox(".addthis_toolbox"); 
+			addthis.toolbox(".addthis_toolbox");
+			callBox.objectId = recordId;
+			callBox.limit = 50;			
+			callBox.load('recordDetail'); 
 	});
 }
 //nasconde foto singolo album e visualizza lista album
@@ -155,6 +158,10 @@ function albumSelectSingle(albumcover,num) {
 	if(num>0) {		
 		 $( "#albumSlide" ).fadeOut( 100, function() {
     		$('#'+albumcover ).fadeIn( 100 );
+    		callBox.objectId = albumcover;
+    		callBox.limit = 10;
+    		callBox.skip = 0;
+    		callBox.load('albumDetail');
 		});
 	}
 	
@@ -318,6 +325,8 @@ var toggleTextEventReview = function(_this,box){
 	});	
 	
 }
+
+
 //lightbox photo
 function lightBoxPhoto(classBox){
 	
@@ -346,6 +355,7 @@ function lightBoxPhoto(classBox){
 			 	document.getElementById('cboxPrevious').setAttribute("onclick", "prevLightBox()");	 
 			 	$("#cboxNext").unbind( "click" );	
 			 	$("#cboxPrevious").unbind( "click" );
+			 	
 			},
 			onClosed: function(){
 				$("#cboxLoadedContent").mCustomScrollbar("destroy");				

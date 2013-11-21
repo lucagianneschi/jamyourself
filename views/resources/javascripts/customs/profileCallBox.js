@@ -42,7 +42,9 @@ var callBox = {
 				typeUser : this.typeUser,
 				objectIdCurrentUser : this.objectIdCurrentUser,
 				classObject :  this.classObject,
-				objectId: this.objectId
+				objectId: this.objectId,
+				limit: this.limit,
+				skip: this.skip,
 			},
 			async: true,
 			type : 'POST',
@@ -126,6 +128,10 @@ var callBox = {
 								callBox.load('activity');
 							}
 							break;
+						case 'recordDetail':
+							addBoxRecordDetail(data,callboxCnt.objectId);						
+							
+							break;
 						case 'event':
 							addBoxEvent(data, callboxCnt.typeUser);
 							
@@ -156,7 +162,9 @@ var callBox = {
 							//aggiunge box album
 							addBoxAlbum(data, callboxCnt.typeUser, callboxCnt.objectIdUser);							
 							break;
-
+						case 'albumDetail':
+							addBoxAlbumDetail(data, callboxCnt.typeUser, callboxCnt.objectIdUser);
+						break;
 						case 'post':
 							//aggiunge box post
 							addBoxPost(data, callboxCnt.typeUser, callboxCnt.objectIdUser);
@@ -285,6 +293,23 @@ function addBoxRecord(data, typeUser) {
 }
 
 /*
+ * box record chiama box-record.php
+ */
+function addBoxRecordDetail(data,objectId) {
+	$('.'+objectId+' #box-recordDetail').load('content/profile/box-profile/box-recordDetail.php', {
+		'data' : data
+	}, function() { success: {
+			rsi_record = slideReview('recordSlide');
+			addthis.init();
+			addthis.toolbox(".addthis_toolbox");
+			rsi_record.updateSliderSize(true);
+			hcento();
+		}
+	});
+
+}
+
+/*
  * box event chiama box-event.php
  */
 function addBoxEvent(data, typeUser) {
@@ -384,13 +409,44 @@ function addBoxAlbum(data, typeUser, objectIdUser) {
 		'objectIdUser' : objectIdUser
 	}, function() { success: 
 		rsi_album = slideReview('albumSlide');
+	//	lightBoxPhoto('photo-colorbox-group');
+	//	addthis.init();
+	//	addthis.toolbox(".addthis_toolbox");
+		hcento();
+	});
+}
+
+/*
+ * box album chiama box-albumDetail.php
+ */
+function addBoxAlbumDetail(data, typeUser, objectIdUser) {
+	
+	$('#box-albumDetailTH').load('content/profile/box-profile/box-albumDetail.php', {
+		'data' : data,
+		'detail': 0,
+		'typeUser' : typeUser,
+		'objectIdUser' : objectIdUser
+	}, function() { success: 
+		rsi_album = slideReview('albumSlide');
+		lightBoxPhoto('photo-colorbox-group');		
+		addthis.init();
+		addthis.toolbox(".addthis_toolbox");
+		hcento();
+	});
+	
+	$('#box-albumDetailLB').load('content/profile/box-profile/box-albumDetail.php', {
+		'data' : data,
+		'detail': 1,
+		'typeUser' : typeUser,
+		'objectIdUser' : objectIdUser
+	}, function() { success: 
+		rsi_album = slideReview('albumSlide');
 		lightBoxPhoto('photo-colorbox-group');
 		addthis.init();
 		addthis.toolbox(".addthis_toolbox");
 		hcento();
 	});
 }
-
 /*
  * box post chiama box-post.php
  */

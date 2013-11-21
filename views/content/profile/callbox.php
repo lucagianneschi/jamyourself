@@ -30,7 +30,9 @@ $objectId 			 = $_POST['objectIdUser'];
 $type 				 = $_POST['typeUser'];
 $objectIdCurrentUser = $_POST['objectIdCurrentUser'];
 $classObject	     = $_POST['classObject'];
-$objectIdComment 	 = $_POST['objectId'];
+$objectIdDetail 	 = $_POST['objectId'];
+$limit				 = $_POST['limit'];
+$skip				 = $_POST['skip'];
 $print				 = $_POST['print'];
 
 $result = array();
@@ -156,31 +158,7 @@ switch ($box) {
 				$result['album' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : $default_img['DEFALBUMTHUMB'];
 				$result['album' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 				$result['album' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
-				$albumDetail = $albumBoxP -> initForDetail($value -> objectId);
-				foreach ($albumDetail->imageArray as $keyImage => $valueImage) {
-					$result['album' . $key]['image' . $keyImage]['counters'] = $valueImage -> counters;
-					$result['album' . $key]['image' . $keyImage]['description'] = $valueImage -> description != $boxes['NODATA'] ? $valueImage -> description : '';
-					$result['album' . $key]['image' . $keyImage]['filePath'] = $valueImage -> filePath != $boxes['NODATA'] ? $valueImage -> filePath : $default_img['DEFIMAGE'];
-					$result['album' . $key]['image' . $keyImage]['objectId'] = $valueImage -> objectId != $boxes['NODATA'] ? $valueImage -> objectId : '';
-					$result['album' . $key]['image' . $keyImage]['tags'] = $valueImage -> tags != $boxes['NODATA'] ? $valueImage -> tags : '';
-					$result['album' . $key]['image' . $keyImage]['thumbnail'] = $valueImage -> thumbnail != $boxes['NODATA'] ? $valueImage -> thumbnail : $default_img['DEFIMAGE'];
-					$location = $valueImage -> location != $boxes['NODATA'] ? $valueImage -> location : '';
-					$result['album' . $key]['image' . $keyImage]['showLove'] = $valueImage -> showLove == true ? $valueImage -> showLove : false;
-					$address = "";	
-								
-					if($location instanceof parseGeoPoint){
-												
-						$lat = $location->lat;
-						$lng = $location->long;						
-						$geocode = new GeocoderService();
-						
-						$addressCode = $geocode->getAddress($lat, $lng);
-						if(count($addressCode)>0){
-							$address = $addressCode['locality'] . " - " . $addressCode['country'];
-						}						 
-					}
-					$result['album' . $key]['image' . $keyImage]['location'] = $address;
-				}
+				
 
 			}
 		} else {
@@ -193,11 +171,45 @@ switch ($box) {
 		}
 		
 		break;
+	case 'albumDetail' :
+		require_once BOXES_DIR . 'album.box.php';
+		$albumBoxP = new AlbumBox();
+		try{
+			$albumDetail = $albumBoxP -> initForDetail($objectIdDetail,$limit,$skip);
+			foreach ($albumDetail->imageArray as $keyImage => $valueImage) {
+				$result['image'][$keyImage]['counters'] = $valueImage -> counters;
+				$result['image'][$keyImage]['description'] = $valueImage -> description != $boxes['NODATA'] ? $valueImage -> description : '';
+				$result['image'][$keyImage]['filePath'] = $valueImage -> filePath != $boxes['NODATA'] ? $valueImage -> filePath : $default_img['DEFIMAGE'];
+				$result['image'][$keyImage]['objectId'] = $valueImage -> objectId != $boxes['NODATA'] ? $valueImage -> objectId : '';
+				$result['image'][$keyImage]['tags'] = $valueImage -> tags != $boxes['NODATA'] ? $valueImage -> tags : '';
+				$result['image'][$keyImage]['thumbnail'] = $valueImage -> thumbnail != $boxes['NODATA'] ? $valueImage -> thumbnail : $default_img['DEFIMAGE'];
+				$location = $valueImage -> location != $boxes['NODATA'] ? $valueImage -> location : '';
+				$result['image'][$keyImage]['showLove'] = $valueImage -> showLove == true ? $valueImage -> showLove : false;
+				$address = "";	
+							
+				if($location instanceof parseGeoPoint){
+											
+					$lat = $location->lat;
+					$lng = $location->long;						
+					$geocode = new GeocoderService();
+					
+					$addressCode = $geocode->getAddress($lat, $lng);
+					if(count($addressCode)>0){
+						$address = $addressCode['locality'] . " - " . $addressCode['country'];
+					}						 
+				}
+				$result['image'][$keyImage]['location'] = $address;
+			}
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Album Detail';
+		}
+	break;
 	case 'comment' :
 		require_once BOXES_DIR . 'comment.box.php';
 		$commentBoxP = new CommentBox();		
 		try  {
-			$commentBox = $commentBoxP -> init($classObject, $objectIdComment, 10, 0);						
+			$commentBox = $commentBoxP -> init($classObject, $objectIdDetail, 10, 0);						
 			if (!($commentBox instanceof Error)) {
 				$result['comment']['commentInfoArray'] = Array();
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
@@ -300,13 +312,9 @@ switch ($box) {
 					$result['record' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 					$result['record' . $key]['year'] = $value -> year != $boxes['NODATA'] ? $value -> year : '';
 					$result['record' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
-					$result['record' . $key]['recordDetail'] = $value -> tracklist != $boxes['NOTRACK'] ? $value -> tracklist : Array();
-					/*
-					$recordDetail = $recordBoxP -> initForDetail($result['record' . $key]['objectId']);
-					if($recordDetail != $boxes['NOTRACK'])
-						$result['record' . $key]['recordDetail'] = $recordDetail;
-					 * 
-					 */				
+					//$result['record' . $key]['recordDetail'] = $value -> tracklist != $boxes['NOTRACK'] ? $value -> tracklist : Array();
+					
+					 			
 				}
 				$result['activity']['record'] = $result['record' . 0];
 			} else {
@@ -319,6 +327,18 @@ switch ($box) {
 		}
 		
 		break;
+	case 'recordDetail':
+		require_once BOXES_DIR . 'record.box.php';
+		$recordBoxP = new RecordBox();
+		try  {
+			$recordDetail = $recordBoxP->tracklistGenerator($objectIdDetail, $objectIdCurrentUser, $limit);			
+			if($recordDetail != $boxes['NOTRACK'])
+				$result['recordDetail'] = $recordDetail;
+		}catch (Exception $e) {
+		   $result['error']['code'] = 101;
+				$result['error']['message'] = 'Error Record Detail';
+		}
+	break;	
 	case 'relation' :
 		require_once BOXES_DIR . 'relation.box.php';
 		$relationsP = new RelationsBox();
