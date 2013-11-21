@@ -49,7 +49,7 @@ class AlbumInfoForPersonalPage {
 	is_null($imageCounter) ? $this->imageCounter = 0 : $this->imageCounter = $imageCounter;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
     }
 
 }
@@ -76,14 +76,14 @@ class EventInfoForPersonalPage {
      */
     function __construct($address, $city, $eventDate, $locationName, $objectId, $showLove, $thumbnail, $title) {
 	global $boxes;
-	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
-	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
+	is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = parse_decode_string($address);
+	is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = parse_decode_string($city);
 	is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
-	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
+	is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = parse_decode_string($locationName);
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
 	is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
     }
 
 }
@@ -130,9 +130,9 @@ class RecordInfoForPersonalPage {
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($songTitle) ? $this->songTitle = $boxes['NODATA'] : $this->songTitle = $songTitle;
+	is_null($songTitle) ? $this->songTitle = $boxes['NODATA'] : $this->songTitle = parse_decode_string($songTitle);
 	is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
     }
 
 }
@@ -184,7 +184,7 @@ class ActivityBox {
 		$imageCounter = $album->getImageCounter();
 		$albumId = $album->getObjectId();
 		$showLoveAlbum = in_array($currentUserId, $album->getLovers()) ? false : true;
-		$albumTitle = parse_decode_string($album->getTitle());
+		$albumTitle = $album->getTitle();
 		$imageArray = array();
 		$imageP = new ImageParse();
 		$imageP->wherePointer('album', 'Album', $albumId);
@@ -227,15 +227,15 @@ class ActivityBox {
 	    } else {
 		foreach ($activities as $activity) {
 		    $showLoveRecord = in_array($currentUserId, $activity->getRecord()->getLovers()) ? false : true;
-		    $songTitle = parse_decode_string($activity->getSong()->getTitle());
+		    $songTitle = $activity->getSong()->getTitle();
 		    $thumbnailCover = $activity->getRecord()->getThumbnailCover();
 		    $recordId = $activity->getRecord()->getObjectId();
-		    $recordTitle = parse_decode_string($activity->getRecord()->getTitle());
+		    $recordTitle = $activity->getRecord()->getTitle();
 		    $fromUser = $activity->getRecord()->getFromUser();
 		    $userId = $fromUser->getObjectId();
 		    $thumbnail = $fromUser->getProfileThumbnail();
 		    $userType = $fromUser->getType();
-		    $username = parse_decode_string($fromUser->getUsername());
+		    $username = $fromUser->getUsername();
 		    $fromUserInfo = new UserInfo($userId, $thumbnail, $userType, $username);
 		}
 	    }
@@ -256,12 +256,12 @@ class ActivityBox {
 	    } else {
 		foreach ($acts as $act) {
 		    $showLoveEvent = in_array($currentUserId, $act->getEvent()->getLovers()) ? false : true;
-		    $address = parse_decode_string($act->getEvent()->getAddress());
+		    $address = $act->getEvent()->getAddress();
 		    $city = parse_decode_string($act->getEvent()->getCity());
 		    $eventDate = $act->getEvent()->getEventDate();
-		    $locationName = parse_decode_string($act->getEvent()->getLocationName());
+		    $locationName = $act->getEvent()->getLocationName();
 		    $thumbnail = $act->getEvent()->getThumbnail();
-		    $eventTitle = parse_decode_string($act->getEvent()->getTitle());
+		    $eventTitle = $act->getEvent()->getTitle();
 		    $eventId = $act->getEvent()->getObjectId();
 		}
 	    }
