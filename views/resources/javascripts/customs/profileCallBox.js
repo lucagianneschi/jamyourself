@@ -55,11 +55,17 @@ var callBox = {
 					case 'record':
 						getPinner('record',callboxCnt.classBox, callboxCnt.objectId);
 					break;
+					case 'recordDetail':
+						getPinner('recordDetail',callboxCnt.classBox, callboxCnt.objectId);
+					break;
 					case 'event':
 						getPinner('event',callboxCnt.classBox, callboxCnt.objectId);
 					break;
 					case 'album':
 						getPinner('album',callboxCnt.classBox, callboxCnt.objectId);
+					break;
+					case 'albumDetail':
+						getPinner('albumDetailTH',callboxCnt.classBox, callboxCnt.objectId);
 					break;
 					case 'relation':
 						if (callboxCnt.typeUser == 'SPOTTER'){							
@@ -163,7 +169,7 @@ var callBox = {
 							addBoxAlbum(data, callboxCnt.typeUser, callboxCnt.objectIdUser);							
 							break;
 						case 'albumDetail':
-							addBoxAlbumDetail(data, callboxCnt.typeUser, callboxCnt.objectIdUser);
+							addBoxAlbumDetail(data, callboxCnt.typeUser, callboxCnt.objectIdUser,callboxCnt.objectId);
 						break;
 						case 'post':
 							//aggiunge box post
@@ -209,27 +215,31 @@ var callBox = {
 }
 
 function getPinner(box,classbox,objectId){
-	if(box == 'comment'){
-		var idBox = '';
-		if(classbox == 'RecordReview' || classbox == 'EventReview'){
-			idBox = '#social-'+classbox;		
-		}
-		if(classbox == 'Album' || classbox == 'Record'){
-			idBox = '#profile-'+classbox;
-		}
-		if(classbox == 'Image' || classbox == 'Post' || classbox == 'Comment'){
-			idBox = '#'+objectId;
-		}
-		$(idBox+' .box-comment').load('content/profile/box-general/box-spinner.php', {
-		'box' : box
-		}, function(){
-			success:{
-				spinner();
-				hcento();
-			} 
-		});	
-	}	
-	$('#box-'+box).load('content/profile/box-general/box-spinner.php', {
+	var idBox = '';
+	switch(box) {						
+		case 'comment':			
+			if(classbox == 'RecordReview' || classbox == 'EventReview'){
+				idBox = '#social-'+classbox+' .box-comment';		
+			}
+			if(classbox == 'Album' || classbox == 'Record'){
+				idBox = '#profile-'+classbox+' .box-comment';
+			}
+			if(classbox == 'Image' || classbox == 'Post' || classbox == 'Comment'){
+				idBox = '#'+objectId+' .box-comment';
+			}
+		break;
+		case 'albumDetailTH':
+			idBox = '#'+objectId+' #box-'+box;
+		break;
+		case 'recordDetail':
+			idBox = '.'+objectId+' #box-'+box;
+		break;
+		default:
+			idBox = '#box-'+box;
+		break;
+	}
+		
+	$(idBox).load('content/profile/box-general/box-spinner.php', {
 		'box' : box
 	}, function(){
 		success:{
@@ -419,9 +429,9 @@ function addBoxAlbum(data, typeUser, objectIdUser) {
 /*
  * box album chiama box-albumDetail.php
  */
-function addBoxAlbumDetail(data, typeUser, objectIdUser) {
+function addBoxAlbumDetail(data, typeUser, objectIdUser,objectId) {
 	
-	$('#box-albumDetailTH').load('content/profile/box-profile/box-albumDetail.php', {
+	$('#'+objectId+' #box-albumDetailTH').load('content/profile/box-profile/box-albumDetail.php', {
 		'data' : data,
 		'detail': 0,
 		'typeUser' : typeUser,

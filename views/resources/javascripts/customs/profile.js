@@ -176,7 +176,7 @@ function albumSelectNext(recordId){
 function getScrollBar(boxId){
 	var scrollbar = $(boxId).mCustomScrollbar({
  		updateOnContentResize: true,
-		autoHideScrollbar:false,
+		autoHideScrollbar:true,
 		mouseWheel: true,
 		scrollInertia:100,
 		advanced:{
