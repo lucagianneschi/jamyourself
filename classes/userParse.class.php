@@ -539,7 +539,7 @@ class UserParse {
      * \param	$objectId		the objectId of the User to update
      * \param	$sessionToken	the sessionToken of the User to update
      * \param	$field			the field of the User to update
-     * \param	$value			the value to update te field
+     * \param	$value			the value to update te field (in case of relational type, this value must be an array)
      * \param	$isRelation		[optional] default = false - define if the field is a relational type
      * \param	$typeRelation	[optional] default = '' - define if the relational update must add or remove the value from the field
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
