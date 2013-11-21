@@ -80,7 +80,7 @@ class RecordInfoForPersonalPage {
      * \brief	construct for the RecordInfoForPersonalPage class
      * \param	$counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover,$tracklist, $title, $year
      */
-    function __construct($counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover, $tracklist, $title, $year) {
+    function __construct($counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover, $title, $year) {
         global $boxes;
         $nullArray = array();
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
