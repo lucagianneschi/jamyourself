@@ -53,18 +53,18 @@ class MediaInfoForUploadReviewPage {
     function __construct($address, $city, $className, $eventDate, $featuring, $fromUserInfo, $genre, $featuring, $locationName, $objectId, $tags, $thumbnail, $title) {
 	global $boxes;
 	if ($className == 'Event') {
-	    is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
-	    is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
+	    is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = parse_decode_string($address);
+	    is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = parse_decode_string($city);
 	    $this->className = $className;
 	    is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
 	    is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	    $this->genre = $boxes['NDB'];
 	    $this->featuring = $boxes['NDB'];
-	    is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
+	    is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = parse_decode_string($locationName);
 	    is_null($objectId) ? $this->objectId = $boxes['NOBOJECTID'] : $this->objectId = $objectId;
 	    is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	    is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
-	    is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	    is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
 	} else {
 	    $this->address = $boxes['NDB'];
 	    $this->city = $boxes['NDB'];
@@ -77,7 +77,7 @@ class MediaInfoForUploadReviewPage {
 	    is_null($objectId) ? $this->objectId = $boxes['NOBOJECTID'] : $this->objectId = $objectId;
 	    is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	    is_null($thumbnail) ? $this->thumbnail = DEFRECORDTHUMB : $this->thumbnail = $thumbnail;
-	    is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	    is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
 	}
     }
 
@@ -111,8 +111,8 @@ class ReviewInfo {
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($rating) ? $this->rating = 0 : $this->rating = $rating;
 	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
 	is_null($thumbnailCover) ? $this->thumbnailCover = $boxes['NODATA'] : $this->thumbnailCover = $thumbnailCover;
     }
 
@@ -178,7 +178,7 @@ class ReviewBox {
 		$userId = $review->getFromUser()->getObjectId();
 		$thumbnail = $review->getFromUser()->getProfileThumbnail();
 		$type = $review->getFromUser()->getType();
-		$username = parse_decode_string($review->getFromUser()->getUserName());
+		$username = $review->getFromUser()->getUserName();
 		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
 		$commentCounter = $review->getCommentCounter();
 		$loveCounter = $review->getLoveCounter();
@@ -188,9 +188,9 @@ class ReviewBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$reviewId = $review->getObjectId();
 		$rating = $review->getVote();
-		$text = parse_decode_string($review->getText());
+		$text = $review->getText();
 		$thumbnailCover = $boxes['NDB'];
-		$title = parse_decode_string($review->getTitle());
+		$title = $review->getTitle();
 		$reviewInfo = new ReviewInfo($counters, $fromUserInfo, $reviewId, $rating, $showLove, $text, $thumbnailCover, $title);
 		array_push($info, $reviewInfo);
 	    }
@@ -267,8 +267,7 @@ class ReviewBox {
 		    $userId = $review->getFromUser()->getObjectId();
 		    $thumbnail = $review->getFromUser()->getProfileThumbnail();
 		    $userType = $review->getFromUser()->getType();
-		    $encodedUsername = $review->getFromUser()->getUsername();
-		    $username = parse_decode_string($encodedUsername);
+		    $username = $review->getFromUser()->getUsername();
 		    $fromUserInfo = new UserInfo($userId, $thumbnail, $userType, $username);
 		}
 		if (!is_null($review->getEvent()) && !is_null($review->getEvent()->getThumbnail())) {
@@ -314,14 +313,14 @@ class ReviewBox {
 		return $reviewBox;
 	    } else {
 		foreach ($events as $event) {
-		    $address = parse_decode_string($event->getAddress());
-		    $city = parse_decode_string($event->getCity());
+		    $address = $event->getAddress();
+		    $city = $event->getCity();
 		    $className = 'Event';
 		    $eventDate = $event->getEventDate();
 		    $featuring = $boxes['NDB'];
 		    $fromUser = $event->getFromUser();
 		    $genre = $boxes['NDB'];
-		    $locationName = parse_decode_string($event->getLocationName());
+		    $locationName = $event->getLocationName();
 		    $objectId = $event->getObjectId();
 		    $tags = array();
 		    if (count($event->getTags()) > 0) {
@@ -330,7 +329,7 @@ class ReviewBox {
 			}
 		    }
 		    $thumbnail = $event->getThumbnail();
-		    $title = parse_decode_string($event->getTitle());
+		    $title = $event->getTitle();
 		}
 	    }
 	} else {
@@ -359,14 +358,14 @@ class ReviewBox {
 		    $objectId = $record->getObjectId();
 		    $tags = $boxes['NDB'];
 		    $thumbnail = $record->getThumbnailCover();
-		    $title = parse_decode_string($record->getTitle());
+		    $title = $record->getTitle();
 		}
 	    }
 	}
 	$userId = $fromUser->getObjectId();
 	$userThumbnail = $fromUser->getProfileThumbnail();
 	$type = $fromUser->getType();
-	$username = parse_decode_string($fromUser->getUsername());
+	$username = $fromUser->getUsername();
 	$fromUserInfo = new UserInfo($userId, $userThumbnail, $type, $username);
 	$mediaInfo = new MediaInfoForUploadReviewPage($address, $city, $className, $eventDate, $featuring, $fromUserInfo, $genre, $featuring, $locationName, $objectId, $tags, $thumbnail, $title);
 	$reviewBox->mediaInfo = $mediaInfo;
