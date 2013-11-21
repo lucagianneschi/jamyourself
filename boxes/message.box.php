@@ -66,10 +66,10 @@ class MessageBox {
     public function initForUserList($objectId, $limit, $skip) {
         global $boxes;
         $messageBox = new MessageBox();
+        $messageBox->messageArray = $boxes['NDB'];
         $currentUserId = sessionChecker();
         if ($currentUserId == $boxes['NOID']) {
             $messageBox->userInfoArray = $boxes['ONLYIFLOGGEDIN'];
-            $messageBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
             return $messageBox;
         }
         $userInfoArray = array();
@@ -118,15 +118,14 @@ class MessageBox {
      */
     public function initForMessageList($objectId, $otherId, $limit, $skip) {
         global $boxes;
-        $messageBox->userInfoArray = $boxes['NDB'];
         $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
             array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
         $value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
             array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
         $messageBox = new MessageBox();
+        $messageBox->userInfoArray = $boxes['NDB'];
         $currentUserId = sessionChecker();
         if ($currentUserId == $boxes['NOID']) {
-            $messageBox->userInfoArray = $boxes['NDB'];
             $messageBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
             return $messageBox;
         }
