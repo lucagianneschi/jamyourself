@@ -23,77 +23,60 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
-require_once BOXES_DIR . 'activity.box.php';
+require_once BOXES_DIR . 'message.box.php';
 
 $i_end = microtime();
 //SPOTTER
-$Karl01 = '7wi6AvviK4'; //Karl01
+$fromUser = '7wi6AvviK4'; //Karl01
 //JAMMER
-$LDF = '7fes1RyY77'; //LDF
-//Venue  
-$Ultrasuono = 'iovioSH5mq'; //Ultrasuono
-
-
-
+$toUser = '7fes1RyY77'; //LDF
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX LDF<br />';
+echo '<br />TEST MESSAGE BOX<br />';
 $jammer_start = microtime();
-$activityBoxP = new ActivityBox();
-$activityBox = $activityBoxP->initForPersonalPage($LDF, 'JAMMER');
+$activityBoxP = new MessageBox();
+$listUserBox = $activityBoxP->initForUserList($fromUser, 5, 0);
 print "<pre>";
-print_r($activityBox);
+print_r($listUserBox);
+print "</pre>";
+$listMessage = $activityBoxP->initForMessageList($fromUser, $toUser, 10, 0);
+print "<pre>";
+print_r($listMessage);
 print "</pre>";
 $jammer_stop = microtime();
-echo '<br />TEST ACTIVITY BOX LDF<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX LDF<br />';
+echo '<br />-------------------------------------------------------------------------------------------<br />';
+echo '<br />TEST MESSAGE BOX<br />';
 $jammer1_start = microtime();
-$activityBoxP23 = new ActivityBox();
-$activityBox23 = $activityBoxP23->initForPersonalPage($LDF, 'JAMMER');
+$activityBoxP1 = new MessageBox();
+$listUserBox1 = $activityBoxP1->initForUserList($toUser, 5, 0);
 print "<pre>";
-print_r($activityBox23);
+print_r($listUserBox1);
+print "</pre>";
+$listMessage1 = $activityBoxP1->initForMessageList($toUser, $fromUser, 10, 0);
+print "<pre>";
+print_r($listMessage1);
 print "</pre>";
 $jammer1_stop = microtime();
-echo '<br />TEST ACTIVITY BOX LDF<br />';
-
-echo '<br />TEST ACTIVITY BOX Ultrasuono<br />';
-$venue_start = microtime();
-$activityBoxP1 = new ActivityBox();
-$activityBox1 = $activityBoxP1->initForPersonalPage($Ultrasuono, 'VENUE');
-print "<pre>";
-print_r($activityBox1);
-print "</pre>";
-$venue_stop = microtime();
-echo '<br />TEST ACTIVITY BOX Ultrasuono<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX Karl01<br />';
-$spotter_start = microtime();
-$activityBoxP2 = new ActivityBox();
-$activityBox2 = $activityBoxP2->initForPersonalPage($Karl01, 'SPOTTER');
+echo '<br />TEST MESSAGE BOX<br />';
+$jammer2_start = microtime();
+$activityBoxP2 = new MessageBox();
+$listUserBox2 = $activityBoxP1->initForUserList('pippopppoo', 5, 0);
 print "<pre>";
-print_r($activityBox2);
+print_r($listUserBox2);
 print "</pre>";
-$spotter_stop = microtime();
-echo '<br />TEST ACTIVITY BOX Karl01<br />';
-echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST ACTIVITY BOX Karl01<br />';
-$error_start = microtime();
-$activityBoxE = new ActivityBox();
-$activityBoxEr = $activityBoxE->initForPersonalPage('pippo', 'SPOTTER');
+$listMessage2 = $activityBoxP2->initForMessageList('poppopppo', 'cacacacacaca', 10, 0);
 print "<pre>";
-print_r($activityBoxEr);
+print_r($listMessage2);
 print "</pre>";
-$error_stop = microtime();
-echo '<br />TEST ACTIVITY BOX Karl01<br />';
+$jammer2_stop = microtime();
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo JAMMER ' . executionTime($jammer_start, $jammer_stop) . '<br />';
 echo 'Tempo JAMMER ' . executionTime($jammer1_start, $jammer1_stop) . '<br />';
-echo 'Tempo VENUE ' . executionTime($venue_start, $venue_stop) . '<br />';
-echo 'Tempo SPOTTER ' . executionTime($spotter_start, $spotter_stop) . '<br />';
-echo 'Tempo ERRORE ' . executionTime($error_start, $error_stop) . '<br />';
+echo 'Tempo ERRORE' . executionTime($jammer2_start, $jammer2_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
