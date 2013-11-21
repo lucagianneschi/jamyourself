@@ -44,7 +44,7 @@ class SongInfo {
 	global $boxes;
 	is_null($author) ? $this->author = $boxes['NODATA'] : $this->author = $author;
 	is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
     }
 
 }
@@ -109,11 +109,11 @@ class PlaylistBox {
                     return $playlistBox;
 		} else {
 		    foreach ($songs as $song) {
-			$title = parse_decode_string($song->getTitle());
+			$title = $song->getTitle();
 			$songId = $song->getFromUser()->getObjectId();
 			$thumbnail = $song->getFromUser()->getProfileThumbnail();
 			$type = $song->getFromUser()->getType();
-			$username = parse_decode_string($song->getFromUser()->getUsername());
+			$username = $song->getFromUser()->getUsername();
 			$author = new UserInfo($songId, $thumbnail, $type, $username);
 			$thumbnailRec = $song->getRecord()->getThumbnailCover();
 			$newSong = new SongInfo($author, $thumbnailRec, $title);
