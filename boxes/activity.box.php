@@ -257,7 +257,7 @@ class ActivityBox {
 		foreach ($acts as $act) {
 		    $showLoveEvent = in_array($currentUserId, $act->getEvent()->getLovers()) ? false : true;
 		    $address = $act->getEvent()->getAddress();
-		    $city = parse_decode_string($act->getEvent()->getCity());
+		    $city = $act->getEvent()->getCity();
 		    $eventDate = $act->getEvent()->getEventDate();
 		    $locationName = $act->getEvent()->getLocationName();
 		    $thumbnail = $act->getEvent()->getThumbnail();
