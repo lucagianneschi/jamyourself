@@ -51,7 +51,7 @@ class PostInfo {
         is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
+        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
     }
 
 }
@@ -97,7 +97,7 @@ class PostBox {
                 $userId = $post->getFromUser()->getObjectId();
                 $thumbnail = $post->getFromUser()->getProfileThumbnail();
                 $type = $post->getFromUser()->getType();
-                $username = parse_decode_string($post->getFromUser()->getUsername());
+                $username = $post->getFromUser()->getUsername();
                 $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
                 $postId = $post->getObjectId();
                 $commentCounter = $post->getCommentCounter();
@@ -105,7 +105,7 @@ class PostBox {
                 $loveCounter = $post->getLoveCounter();
                 $reviewCounter = $boxes['NDB'];
                 $shareCounter = $post->getShareCounter();
-                $text = parse_decode_string($post->getText());
+                $text = $post->getText();
                 $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$showLove = in_array($currentUserId, $post->getLovers()) ?  false :  true;
                 $postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $showLove, $text);
