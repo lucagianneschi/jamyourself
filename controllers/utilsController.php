@@ -17,7 +17,6 @@
  *
  */
 
-
 /**
  * \fn		string parse_encode_string($string)
  * \brief	The function returns a string that can be saved to Parse
@@ -29,8 +28,5 @@ function parse_encode_string($string) {
     $string = str_replace(array("\r\n", "\r", "\n"), "<br />", $string);
     return $string;
 }
-
-
-
 
 ?>
