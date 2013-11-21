@@ -125,8 +125,8 @@ class AlbumBox {
         $image = new ImageParse();
         $image->wherePointer('album', 'Album', $objectId);
         $image->where('active', true);
-        $image->setLimit(is_null($limit) ? $this->config->limitForDetail : $limit);
-        $image->setSkip(is_null($skip) ? 0 : $skip);
+        $image->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitForDetail : $limit);
+        $image->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
         $image->orderByDescending('createdAt');
         $images = $image->getImages();
         if ($images instanceof Error) {

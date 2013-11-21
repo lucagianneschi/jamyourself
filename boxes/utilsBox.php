@@ -15,6 +15,9 @@
  *
  */
 
+define('MAX', 1000);
+define('MIN', 1);
+
 /**
  * \brief	Counters class 
  * \details	counters shared beetwen many boxes 

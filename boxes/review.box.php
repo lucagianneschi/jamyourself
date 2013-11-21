@@ -162,8 +162,8 @@ class ReviewBox {
 	}
 	$review->where('active', true);
 	$review->whereInclude('fromUser');
-        $review->setLimit(is_null($limit) ? $this->config->limitForMediaPage : $limit);
-        $review->setSkip(is_null($skip) ? 0 : $skip);
+	$review->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitForMediaPage : $limit);
+        $review->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
 	$review->orderByDescending('createdAt');
 	$reviews = $review->getComments();
 	if ($reviews instanceof Error) {
@@ -304,7 +304,8 @@ class ReviewBox {
 	    $event->where('objectId', $objectId);
 	    $event->where('active', true);
 	    $event->whereInclude('fromUser');
-            $event->setLimit(is_null($limit) ? $this->config->limitForUploadReviewPage : $limit);
+	    $event->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitForUploadReviewPage : $limit);
+	    $event->orderByDescending('createdAt');
 	    $events = $event->getEvents();
 	    if ($events instanceof Error) {
 		return $events;
@@ -338,7 +339,8 @@ class ReviewBox {
 	    $record = new RecordParse();
 	    $record->where('objectId', $objectId);
 	    $record->where('active', true);
-            $record->setLimit(is_null($limit) ? $this->config->limitForUploadReviewPage : $limit);
+	    $record->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitForUploadReviewPage : $limit);
+	    $record->orderByDescending('createdAt');
 	    $record->whereInclude('fromUser');
 	    $records = $record->getRecords();
 	    if ($records instanceof Error) {

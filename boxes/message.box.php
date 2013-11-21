@@ -81,8 +81,8 @@ class MessageBox {
         $messageP->where('type', 'M');
         $messageP->where('active', true);
         $messageP->whereInclude('fromUser,toUser');
-        $messageP->setLimit((is_null($limit)) ? $this->config->limitUsersForMessagePage : $limit);
-        $messageP->setSkip((is_null($skip)) ? 0 : $skip);
+	$messageP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitUsersForMessagePage : $limit);
+        $messageP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
         $messageP->orderByDescending('createdAt');
         $messages = $messageP->getComments();
         if ($messages instanceof Error) {
@@ -135,10 +135,8 @@ class MessageBox {
         $messageP->where('type', 'M');
         $messageP->where('active', true);
         $messageP->whereInclude('fromUser,toUser');
-        $limite = (is_null($limit)) ? $this->config->limitMessagesForMessagePage : $limit;
-        $skipper = (is_null($skip)) ? 0 : $skip;
-        $messageP->setLimit($limite);
-        $messageP->setSkip($skipper);
+	$messageP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitMessagesForMessagePage : $limit);
+        $messageP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
         $messageP->orderByDescending('createdAt');
         $messages = $messageP->getComments();
         if ($messages instanceof Error) {

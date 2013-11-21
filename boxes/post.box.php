@@ -90,8 +90,8 @@ class PostBox {
         $post->where('type', 'P');
         $post->where('active', true);
         $post->whereInclude('fromUser');
-        $post->setLimit(is_null($limit) ?  $this->config->limitForPersonalPage : $limit);
-        $post->setSkip(is_null($skip) ? 0 : $skip);
+	$post->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitForPersonalPage : $limit);
+        $post->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
         $post->orderByDescending('createdAt');
         $posts = $post->getComments();
         if ($posts instanceof Error) {

@@ -80,7 +80,7 @@ class FaqBox {
         $activityBox = new FaqBox();
         $array = array();
         $faqP = new FaqParse();
-        $faqP->setLimit(is_null($limit) ? $this->config->defaultLimit : $limit);
+        $faqP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->defaultLimit : $limit);
         $faqP->where('lang', $lang);
         if ($direction == true) {
             $faqP->orderByAscending($field);
