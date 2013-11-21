@@ -138,17 +138,15 @@ $albumCounter = $data['albumCounter'];
 				<div class="row" style="padding-bottom: 10px;">
 					<div  class="large-12 columns"><div class="line"></div></div>
 				</div>
-				<ul class="small-block-grid-3 small-block-grid-2 ">			
-				  <?php 
-				  $totalPhotoView = $data['album' . $i]['imageCounter'] > 15 ? 15 : $data['album' . $i]['imageCounter'];
-				  for($j=0; $j<$totalPhotoView; $j++){ ?>
-				  <li><a class="photo-colorbox-group" href="#<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>"><img class="photo" src="../media/<?php $data['album' . $i]['image' . $j]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"></a></li>
-					<?php } ?>
-				</ul>		
+				
+				<!----------------------------------------- ALBUM DETAIL--------------------------->			
+				<div id='box-albumDetailTH'></div>
+				<!----------------------------------------- FINE ALBUM DETAIL --------------------------->	
+					
 				
 				<div class="row album-single-propriety">
 					 <div class="box-propriety">
-						<div class="small-6 columns ">
+						<div class="small-6 columns">
 							<a class="note grey" onclick="love(this, 'Album', '<?php echo $data['album' . $i]['objectId']; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
 							<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['COMM'];?></a>
 							<a class="note grey" onclick="share(this,'<?php echo $data['album' . $i]['objectId']; ?>','profile-singleAlbum')"><?php echo $views['SHARE'];?></a>
@@ -183,92 +181,7 @@ $albumCounter = $data['albumCounter'];
 			<!-- AddThis Button END -->
 		</div>
 		<!---------------------------------------- LIGHTBOX ------------------------------------------------->
-		<div class="row no-display box" id="profile-Image">
-			<div class="large-12 columns">
-				 <?php for($j=0; $j<$data['album' . $i]['imageCounter']; $j++){ 
-				 			if($data['album' . $i]['image' . $j]['showLove'] == 'true'){
-								$css_love = '_unlove grey';
-								$text_love = $views['LOVE'];
-							}
-							elseif($data['album' . $i]['image' . $j]['showLove'] == 'false'){
-								$css_love = '_love orange';
-								$text_love = $views['UNLOVE'];
-							}
-				 	
-				 	?>				 	
-					<div id="<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>" class="lightbox-photo <?php echo $data['album' . $i]['image' . $j]['filePath']; ?>">
-						<div class="row " style="max-width: none;">
-							<div class="large-12 columns lightbox-photo-box"   >
-								<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"/></div>
-					 			<div class="row">
-					 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
-					 			</div>
-					 			<div class="row" style="margin-bottom: 10px">
-					 				<div  class="small-6 columns">
-					 					<a class="note grey " onclick="love(this, 'Image', '<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','Image')"><?php echo $views['COMM'];?></a>
-										<a class="note grey" onclick="share(this,'<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>','profile-Image')"><?php echo $views['SHARE'];?></a>
-					 				</div>
-					 				<div  class="small-6 columns propriety">
-					 					<a class="icon-propriety <?php echo $css_love ?>"><?php echo $data['album' . $i]['image' . $j]['counters']['loveCounter']; ?></a>
-										<a class="icon-propriety _comment"><?php echo $data['album' . $i]['image' . $j]['counters']['commentCounter']; ?></a>
-										<a class="icon-propriety _share"><?php echo $data['album' . $i]['image' . $j]['counters']['shareCounter']; ?></a>	
-					 				</div>
-					 			</div>
-					 			<div class="row">
-					 				<div  class="small-5 columns">
-					 					<div class="sottotitle white"><?php echo $data['album' . $i]['title']; ?></div>
-					 					<?php if($data['album' . $i]['image' . $j]['description'] != ""){?>
-					 					<div class="text grey"><?php echo $data['album' . $i]['image' . $j]['description']; ?></div>
-					 					
-					 					<?php }if($data['album' . $i]['image' . $j]['location'] != ""){?>
-					 						
-					 					<div class="text grey"><?php echo $data['album' . $i]['image' . $j]['location'];?></div>
-					 					
-					 					<?php
-										} 
-					 						$tag = "";
-					 						if(is_array ($data['album' . $i]['image' . $j]['tags'])){					 							
-					 							foreach ($data['album' . $i]['image' . $j]['tags'] as $key => $value) {
-													 $tag = $tag + ' ' + $value;
-												 }
-					 						?>
-											<div class="text grey"><?php echo $tag; ?></div>
-										<?php	} 
-					 						?>
-					 				</div>
-					 				<div  class="small-7 columns">
-					 					<!---------------------------------------- COMMENT ------------------------------------------------->
-										<div class="box-comment no-display" ></div>
-										<!---------------------------------------- SHARE ---------------------------------------------------->
-											<?php
-											$paramsImage = getShareParameters('Image', '', $data['album' . $i]['image' . $j]['filePath']);
-											?>
-											<!-- AddThis Button BEGIN -->
-											<div class="addthis_toolbox">
-												<div class="hover_menu">
-												        <div class="addthis_toolbox addthis_default_style"
-															addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&objectId=&imgPath=<?php echo $data['album' . $i]['image' . $j]['filePath']; ?>"
-															addThis:title="<?php echo $paramsImage['title']; ?>"
-															onclick="addShare('<?php echo $objectIdUser; ?>', 'Image', '<?php echo $data['album' . $i]['image' . $j]['objectId']; ?>')">
-												        <a class="addthis_button_twitter"></a>
-												        <a class="addthis_button_facebook"></a>
-												        <a class="addthis_button_google_plusone_share"></a>
-												       </div>	        
-												</div>
-											</div>
-											<!-- AddThis Button END -->	
-					 				</div>
-					 			</div>			
-					 		</div>
-					 	</div>
-					 	
-					</div>
-					
-				<?php } ?>
-				
-			</div>	
-		</div>
+		<div id='box-albumDetailLB'></div>
 		
 		<?php  } ?>	
 	</div>
