@@ -4,5 +4,5 @@
     "limitSongsForMediaPage" : 50,
     "limitRecordForPersonalPage" : 3,
     "limitRecordForUploadRecordPage" : 3,
-    "limitRecordForDetail": 50
+    "limitSongsForPersonalPage": 50
 }
