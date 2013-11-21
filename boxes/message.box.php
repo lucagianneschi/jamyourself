@@ -25,7 +25,7 @@ class MessageInfo {
     /**
      * \fn	__construct($createdAt, $objectId, $send, $text, $title)
      * \brief	construct for the MessageInfo class
-     * \param	$address, $city, $eventDate, $locationName, $objectId,$showLove, $thumbnail, $title
+     * \param	$createdAt, $objectId, $send, $text, $title
      */
     function __construct($createdAt, $objectId, $send, $text, $title) {
         global $boxes;
@@ -65,11 +65,13 @@ class MessageBox {
      */
     public function initForUserList($objectId, $limit, $skip) {
         global $boxes;
-        $currentUserId = sessionChecker();
-        if($currentUserId == $boxes['']){
-            
-        }
         $messageBox = new MessageBox();
+        $messageBox->messageArray = $boxes['NDB'];
+        $currentUserId = sessionChecker();
+        if ($currentUserId == $boxes['NOID']) {
+            $messageBox->userInfoArray = $boxes['ONLYIFLOGGEDIN'];
+            return $messageBox;
+        }
         $userInfoArray = array();
         $messageBox->messageArray = $boxes['NDB'];
         $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
@@ -79,10 +81,8 @@ class MessageBox {
         $messageP->where('type', 'M');
         $messageP->where('active', true);
         $messageP->whereInclude('fromUser,toUser');
-        $limite = (is_null($limit)) ? $this->config->limitUsersForMessagePage : $limit;
-        $skipper = (is_null($skip)) ? 0 : $skip;
-        $messageP->setLimit($limite);
-        $messageP->setSkip($skipper);
+        $messageP->setLimit((is_null($limit)) ? $this->config->limitUsersForMessagePage : $limit);
+        $messageP->setSkip((is_null($skip)) ? 0 : $skip);
         $messageP->orderByDescending('createdAt');
         $messages = $messageP->getComments();
         if ($messages instanceof Error) {
@@ -96,15 +96,15 @@ class MessageBox {
                 $user = ($message->getFromUser()->getObjectId() == $objectId) ? $message->getToUser() : $message->getFromUser();
                 $objectId = $user->getObjectId();
                 if (!in_array($objectId, $userIdArray)) {
-                    array_push($objectId, $userIdArray);
+                    array_push($userIdArray, $objectId);
                     $thumbnail = $user->getProfileThumbnail();
                     $type = $user->getType();
-                    $username = parse_decode_string($user->getUsername());
+                    $username = $user->getUsername();
                     $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-                    array_push($userInfo, $userInfoArray);
+                    array_push($userInfoArray, $userInfo);
                 }
             }
-            $messageBox->userInfoArray = $userIdArray;
+            $messageBox->userInfoArray = $userInfoArray;
         }
         return $messageBox;
     }
@@ -124,11 +124,17 @@ class MessageBox {
             array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
         $messageBox = new MessageBox();
         $messageBox->userInfoArray = $boxes['NDB'];
+        $currentUserId = sessionChecker();
+        if ($currentUserId == $boxes['NOID']) {
+            $messageBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
+            return $messageBox;
+        }
         $messageP = new CommentParse();
         $messageP->whereOr($value);
         $messageP->whereOr($value1);
         $messageP->where('type', 'M');
         $messageP->where('active', true);
+        $messageP->whereInclude('fromUser,toUser');
         $limite = (is_null($limit)) ? $this->config->limitMessagesForMessagePage : $limit;
         $skipper = (is_null($skip)) ? 0 : $skip;
         $messageP->setLimit($limite);
@@ -143,8 +149,7 @@ class MessageBox {
         } else {
             $messagesArray = array();
             foreach ($messages as $message) {
-                $userId = ($message->getFromUser()->getObjectId() == $objectId) ? $message->getToUser()->getObjectId() : $message->getFromUser()->getObjectId();
-                $send = ($userId == $objectId) ? 'S' : 'R';
+                $send = ($message->getFromUser()->getObjectId() == $objectId) ? 'S' : 'R';
                 $createdAt = $message->getCreatedAt();
                 $objectId = $message->getObjectId();
                 $text = $message->getText();
