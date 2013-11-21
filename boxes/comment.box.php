@@ -48,7 +48,7 @@ class CommentInfo {
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
 	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
     }
 
 }
@@ -123,11 +123,11 @@ class CommentBox {
 		$reviewCounter = $boxes['NDB'];
 		$shareCounter = $boxes['NDB'];
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-		$text = parse_decode_string($comment->getText());
+		$text = $comment->getText();
 		$userId = $comment->getFromUser()->getObjectId();
 		$thumbnail = $comment->getFromUser()->getProfileThumbnail();
 		$type = $comment->getFromUser()->getType();
-		$username = parse_decode_string($comment->getFromUser()->getUsername());
+		$username = $comment->getFromUser()->getUsername();
 		$fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username); 
 		$showLove = in_array($currentUserId, $comment->getLovers()) ?  false :  true;
 		$commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $showLove, $text);
