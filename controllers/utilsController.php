@@ -18,6 +18,23 @@
  */
 
 /**
+ * \fn		parse_encode_array($array)
+ * \brief	The function returns an array that can be saved to Parse
+ * \param	$array 	represent the array to be saved
+ * \return	array		the array encoded for Parse
+ */
+function parse_encode_array($array) {
+    $encodedArray = array();
+    if (!empty($array) || !is_null($array)) {
+	foreach ($array as $string) {
+	    $encodedString = parse_encode_array($string);
+	    array_push($encodedArray, $encodedString);
+	}
+    }
+    return $encodedArray;
+}
+
+/**
  * \fn		string parse_encode_string($string)
  * \brief	The function returns a string that can be saved to Parse
  * \param	$string 	represent the string to be saved
