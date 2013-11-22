@@ -20,8 +20,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
-require_once CLASSES_DIR . 'activity.class.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'comment.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CONTROLLERS_DIR . 'utilsController.php';
@@ -98,29 +96,31 @@ class PostController extends REST {
 	    $cmt->setType('P');
 	    $cmt->setVideo(null);
 	    $cmt->setVote(null);
-	    $activity = new Activity();
-	    $activity->setActive(true);
-	    $activity->setAlbum(null);
-	    $activity->setComment(null);
-	    $activity->setCounter(0);
-	    $activity->setEvent(null);
-	    $activity->setFromUser($fromUser->getObjectId());
-	    $activity->setImage(null);
-	    $activity->setPlaylist(null);
-	    $activity->setQuestion(null);
-	    $activity->setRead(false);
-	    $activity->setRecord(null);
-	    $activity->setSong(null);
-	    $activity->setStatus('A');
-	    $activity->setToUser($toUserObjectId);
-	    $activity->setType('POSTED');
-	    $activity->setUserStatus(null);
-	    $activity->setVideo(null);
 	    $commentParse = new CommentParse();
 	    $resCmt = $commentParse->saveComment($cmt);
 	    if ($resCmt instanceof Error) {
 		$this->response(array('status' => $resCmt->getMessageError()), 503);
 	    } else {
+		require_once CLASSES_DIR . 'activity.class.php';
+		require_once CLASSES_DIR . 'activityParse.class.php';
+		$activity = new Activity();
+		$activity->setActive(true);
+		$activity->setAlbum(null);
+		$activity->setComment($resCmt->getObjectId());
+		$activity->setCounter(0);
+		$activity->setEvent(null);
+		$activity->setFromUser($fromUser->getObjectId());
+		$activity->setImage(null);
+		$activity->setPlaylist(null);
+		$activity->setQuestion(null);
+		$activity->setRead(false);
+		$activity->setRecord(null);
+		$activity->setSong(null);
+		$activity->setStatus('A');
+		$activity->setToUser($toUserObjectId);
+		$activity->setType('POSTED');
+		$activity->setUserStatus(null);
+		$activity->setVideo(null);
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error) {
