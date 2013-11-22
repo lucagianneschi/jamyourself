@@ -320,23 +320,28 @@ class RelationController extends REST {
 	    if ($resActivity instanceof Error) {
 		$this->response(array('status' => $controllers['NOACSAVE']), 503);
 	    } else {
-		require_once SERVICES_DIR . 'mail.service.php';
-		$mail = new MailService(true);
-		$mail->IsHTML(true);
-		$mail->AddAddress($toUserId->getEmail()); //devi prima richiamare lo user
-		$mail->Subject = $controllers['SBJ'];
-		$mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
-		$resMail = $mail->Send();
-		if ($resMail instanceof phpmailerException) {
-		    $this->response(array('status' => $controllers['NOMAIL']), 403);
-		}
-		$mail->SmtpClose();
-		unset($mail);
+		$this->sendMailNotification($toUserId->getEmail(), $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile));//devi prima richiamare lo user
 		$this->response(array($controllers['RELSAVED']), 200);
 	    }
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
+    }
+
+    private function sendMailNotification($address, $subject, $html) {
+	global $controllers;
+	require_once SERVICES_DIR . 'mail.service.php';
+	$mail = mailService();
+	$mail->AddAddress($address);
+	$mail->Subject = $subject;
+	$mail->MsgHTML($html);
+	$resMail = $mail->Send();
+	if ($resMail instanceof phpmailerException) {
+	    $this->response(array('status' => $controllers['NOMAIL']), 403);
+	}
+	$mail->SmtpClose();
+	unset($mail);
+	return true;
     }
 
     private function createActivity($type, $toUserId, $currentUserId, $status) {
