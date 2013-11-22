@@ -144,7 +144,7 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
  */
 function parse_decode_array($array) {
     $decodedArray = array();
-    if (!empty($array) || !is_null($array)) {
+    if (!empty($array) && !is_null($array) && count($array) > 0) {
 	foreach ($array as $string) {
 	    $decodedString = parse_decode_string($string);
 	    array_push($decodedArray, $decodedString);
