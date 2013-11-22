@@ -68,7 +68,7 @@ class MessageBox {
         $messageBox = new MessageBox();
         $messageBox->messageArray = $boxes['NDB'];
         $currentUserId = sessionChecker();
-        if ($currentUserId == $boxes['NOID']) {
+        if ($currentUserId == $boxes['NOID']|| $currentUserId != $objectId) {
             $messageBox->userInfoArray = $boxes['ONLYIFLOGGEDIN'];
             return $messageBox;
         }
@@ -125,7 +125,7 @@ class MessageBox {
         $messageBox = new MessageBox();
         $messageBox->userInfoArray = $boxes['NDB'];
         $currentUserId = sessionChecker();
-        if ($currentUserId == $boxes['NOID']) {
+        if ($currentUserId == $boxes['NOID']|| $currentUserId != $objectId) {
             $messageBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
             return $messageBox;
         }

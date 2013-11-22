@@ -82,7 +82,7 @@ class NotificationBox {
         $notificationBox = new NotificationBox();
         $notificationBox->notificationArray = $boxes['NDB'];
         $notificationBox->messageArray = $boxes['NDB'];
-        if ($currentUserId == $boxes['NOID']) {
+        if ($currentUserId == $boxes['NOID']|| $currentUserId != $objectId) {
             $notificationBox->invitationCounter = $boxes['ONLYIFLOGGEDIN'];
             $notificationBox->messageCounter = $boxes['ONLYIFLOGGEDIN'];
             $notificationBox->relationCounter = $boxes['ONLYIFLOGGEDIN'];
@@ -141,7 +141,7 @@ class NotificationBox {
         $notificationBox->messageCounter = $boxes['NDB'];
         $notificationBox->relationCounter = $boxes['NDB'];
         $notificationBox->notificationArray = $boxes['NDB'];
-        if ($currentUserId == $boxes['NOID']) {
+        if ($currentUserId == $boxes['NOID']|| $currentUserId != $objectId) {
             $notificationBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
             return $notificationBox;
         }
@@ -189,7 +189,7 @@ class NotificationBox {
         $notificationBox->messageCounter = $boxes['NDB'];
         $notificationBox->messageArray = $boxes['NDB'];
         $notificationBox->relationCounter = $boxes['NDB'];
-         if ($currentUserId == $boxes['NOID']) {
+         if ($currentUserId == $boxes['NOID']|| $currentUserId != $objectId) {
             $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
             return $notificationBox;
         }       
@@ -238,7 +238,7 @@ class NotificationBox {
         $notificationBox->messageCounter = $boxes['NDB'];
         $notificationBox->messageArray = $boxes['NDB'];
         $notificationBox->relationCounter = $boxes['NDB'];
-         if ($currentUserId == $boxes['NOID']) {
+         if ($currentUserId == $boxes['NOID']|| $currentUserId != $objectId) {
             $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
             return $notificationBox;
         }
