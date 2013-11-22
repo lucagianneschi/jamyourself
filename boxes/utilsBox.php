@@ -15,6 +15,9 @@
  *
  */
 
+##################
+#  QUERY LIMITS  #
+##################
 define('MAX', 1000);
 define('MIN', 1);
 define('DEFAULTQUERY', 100);
