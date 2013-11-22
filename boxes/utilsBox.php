@@ -84,37 +84,6 @@ class UserInfo {
 }
 
 /**
- * \fn		string parse_decode_string($string)
- * \brief	The function returns a string read from Parse that can be interpreted by the user
- * \param	$string 	represent the string from Parse to decode
- * \return	string		the decoded string
- */
-function parse_decode_string($string) {
-    $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-    $decodedString = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
-    return $decodedString;
-}
-
-/**
- * \fn		sessionChecker()
- * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
- * \return	string $currentUserId;
- */
-function sessionChecker() {
-    require_once SERVICES_DIR . 'lang.service.php';
-    require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-    require_once CLASSES_DIR . 'userParse.class.php';
-    global $boxes;
-    $currentUserId = $boxes['NOID'];
-    session_start();
-    if (isset($_SESSION['currentUser'])) {
-	$currentUser = $_SESSION['currentUser'];
-	$currentUserId = $currentUser->getObjectId();
-    }
-    return $currentUserId;
-}
-
-/**
  * \fn	getRelatedUsers($objectId, $field, $className, $all, $limit, $skip)
  * \brief	Convenience method to get all kind of related User to a class for each page
  * \param	$objectId for the istance of the class the user is supposed to be related to, $field to be related to, $all BOOL: Yes to retrieve all related users or using the limit from config file, $page the page which calls the method
@@ -162,6 +131,37 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
 	}
     }
     return $userArray;
+}
+
+/**
+ * \fn		string parse_decode_string($string)
+ * \brief	The function returns a string read from Parse that can be interpreted by the user
+ * \param	$string 	represent the string from Parse to decode
+ * \return	string		the decoded string
+ */
+function parse_decode_string($string) {
+    $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+    $decodedString = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
+    return $decodedString;
+}
+
+/**
+ * \fn		sessionChecker()
+ * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
+ * \return	string $currentUserId;
+ */
+function sessionChecker() {
+    require_once SERVICES_DIR . 'lang.service.php';
+    require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+    require_once CLASSES_DIR . 'userParse.class.php';
+    global $boxes;
+    $currentUserId = $boxes['NOID'];
+    session_start();
+    if (isset($_SESSION['currentUser'])) {
+	$currentUser = $_SESSION['currentUser'];
+	$currentUserId = $currentUser->getObjectId();
+    }
+    return $currentUserId;
 }
 
 ?>
