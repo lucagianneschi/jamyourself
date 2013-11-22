@@ -47,7 +47,7 @@ class FaqInfo {
         is_null($area) ? $this->area = $boxes['NODATA'] : $this->area = $area;
         is_null($position) ? $this->position = 1000 : $this->position = $position;
         is_null($question) ? $this->question = $boxes['NODATA'] : $this->question = parse_decode_string($question);
-        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
+        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = parse_decode_array($tags);
     }
 
 }
@@ -99,7 +99,7 @@ class FaqBox {
                 $question = $faq->getQuestion();
                 $area = $faq->getArea();
                 $position = $faq->getPosition();
-                $tags = parse_decode_array($faq->getTags());
+                $tags = $faq->getTags();
                 $faqInfo = new FaqInfo($answer, $area, $position, $question, $tags);
                 array_push($array, $faqInfo);
             }

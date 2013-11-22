@@ -82,7 +82,6 @@ class RecordInfoForPersonalPage {
      */
     function __construct($counters, $genre, $objectId, $showLove, $songCounter, $thumbnailCover, $title, $year) {
         global $boxes;
-        $nullArray = array();
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
         is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
