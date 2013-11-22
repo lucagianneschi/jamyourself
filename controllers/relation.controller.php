@@ -61,13 +61,13 @@ class RelationController extends REST {
 	    $toUserP = new UserParse();
 	    $toUser = $toUserP->getUser($toUserId);
 	    $sessionTokenA = $currentUser->getSessionToken();
+	    $sessionTokenB = $toUserP->getSessionToken();
 	    if ($toUser instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 503);
-	    }
-	    $sessionTokenB = $toUserP->getSessionToken();
-	    if (!isset($sessionTokenB)) {
+	    } elseif (!isset($sessionTokenB)) {
 		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 503);
 	    }
+	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $fromUserA = new UserParse();
 	    if ($currentUser->getType() == 'SPOTTER' && $toUserType == 'SPOTTER') {
 		$type = 'FRIENDSHIPACCEPTED';
@@ -91,13 +91,9 @@ class RelationController extends REST {
 		$counterCollaborationB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'collaborationCounter', ($toUser->getFriedshipCounter() + 1));
 		$resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'add', '_User');
 		$resB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
-		if ($resA instanceof Error) {
+		if ($resA instanceof Error || $resB instanceof Error) {
 		    $this->response(array('status' => $controllers['NOCOLLABORATIONUPDATE']), 503);
-		} elseif ($resB instanceof Error) {
-		    $this->response(array('status' => $controllers['NOCOLLABORATIONUPDATE']), 503);
-		} elseif ($counterCollaborationA instanceof Error) {
-		    $this->response(array('status' => $controllers['NOCOLLABORATIONCOUNTERUPDATE']), 503);
-		} elseif ($counterCollaborationB instanceof Error) {
+		} elseif ($counterCollaborationA instanceof Error || $counterCollaborationB instanceof Error) {
 		    $this->response(array('status' => $controllers['NOCOLLABORATIONCOUNTERUPDATE']), 503);
 		}
 		if ($currentUser->getType() == 'VENUE' && $toUserType == 'VENUE') {
@@ -119,25 +115,11 @@ class RelationController extends REST {
 		require_once CLASSES_DIR . 'activityParse.class.php';
 		$activityP = new ActivityParse();
 		$res = $activityP->updateField($activityId, 'status', 'A');
-		if ($res instanceof Error) {
-		    $this->response(array('status' => $controllers['NOACTUPDATE']), 503);
-		}
 		$res1 = $activityP->updateField($activityId, 'read', true);
-		if ($res1 instanceof Error) {
+		if ($res instanceof Error || $res1 instanceof Error) {
 		    $this->response(array('status' => $controllers['NOACTUPDATE']), 503);
 		}
-		require_once SERVICES_DIR . 'mail.service.php';
-		$mail = new MailService(true);
-		$mail->IsHTML(true);
-		$mail->AddAddress($toUser->getEmail());
-		$mail->Subject = $controllers['SBJOK'];
-		$mail->MsgHTML(file_get_contents(STDHTML_DIR . $HTMLFile));
-		$resMail = $mail->Send();
-		if ($resMail instanceof phpmailerException) {
-		    $this->response(array('status' => $controllers['NOMAIL']), 403);
-		}
-		$mail->SmtpClose();
-		unset($mail);
+		$this->sendMailNotification($toUser->getEmail(), $controllers['SBJOK'], file_get_contents(STDHTML_DIR . $HTMLFile));
 		$activity = $this->createActivity($type, $toUser, $currentUser->getObjectId(), 'A');
 		require_once CLASSES_DIR . 'activityParse.class.php';
 		$activityP1 = new ActivityParse();
@@ -215,19 +197,16 @@ class RelationController extends REST {
 	    if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
 		$this->response(array('status' => $controllers['NORELFOUNDFORREMOVING']), 503);
 	    }
+	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $toUserB = new UserParse();
 	    $toUser = $toUserB->getUser($toUserId);
 	    $sessionTokenA = $currentUser->getSessionToken();
 	    $sessionTokenB = $toUserB->getSessionToken();
 	    $fromUserA = new UserParse();
 	    $userA = $fromUserA->getUser($currentUser->getObjectId());
-	    if ($toUser instanceof Error) {
+	    if ($toUser instanceof Error || $userA instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 503);
-	    } elseif (!isset($sessionTokenB)) {
-		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 503);
-	    } elseif ($userA instanceof Error) {
-		$this->response(array('status' => $controllers['USERNOTFOUND']), 503);
-	    } elseif (!isset($sessionTokenA)) {
+	    } elseif (!isset($sessionTokenB) || !isset($sessionTokenA)) {
 		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 503);
 	    }
 	    if ($fromUserType == 'SPOTTER' && $toUserType == 'SPOTTER') {
@@ -320,7 +299,13 @@ class RelationController extends REST {
 	    if ($resActivity instanceof Error) {
 		$this->response(array('status' => $controllers['NOACSAVE']), 503);
 	    } else {
-		$this->sendMailNotification($toUserId->getEmail(), $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile));//devi prima richiamare lo user
+		require_once CLASSES_DIR . 'userParse.class.php';
+		$userP = new UserParse();
+		$user = $userP->getUser($toUserId);
+		if ($user instanceof Error) {
+		    $this->response(array('status' => $controllers['NOTOUSER']), 503);
+		}
+		$this->sendMailNotification($toUserId->getEmail(), $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
 		$this->response(array($controllers['RELSAVED']), 200);
 	    }
 	} catch (Exception $e) {
