@@ -137,6 +137,23 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
 }
 
 /**
+ * \fn		parse_decode_array($array)
+ * \brief	The function returns a array read from Parse that can be interpreted by the user
+ * \param	$array 	represent the array from Parse to decode
+ * \return	array		the decoded array
+ */
+function parse_decode_array($array) {
+    $decodedArray = array();
+    if (!empty($array) || !is_null($array)) {
+	foreach ($array as $string) {
+	    $decodedString = parse_decode_string($string);
+	    array_push($decodedArray, $decodedString);
+	}
+    }
+    return $decodedArray;
+}
+
+/**
  * \fn		string parse_decode_string($string)
  * \brief	The function returns a string read from Parse that can be interpreted by the user
  * \param	$string 	represent the string from Parse to decode
