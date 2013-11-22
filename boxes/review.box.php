@@ -323,12 +323,7 @@ class ReviewBox {
 		    $genre = $boxes['NDB'];
 		    $locationName = $event->getLocationName();
 		    $objectId = $event->getObjectId();
-		    $tags = array();
-		    if (count($event->getTags()) > 0) {
-			foreach ($event->getTags() as $tag) {
-			    array_push($tags, parse_decode_string($tag));
-			}
-		    }
+		    $tags = parse_decode_array($event->getTags());
 		    $thumbnail = $event->getThumbnail();
 		    $title = $event->getTitle();
 		}

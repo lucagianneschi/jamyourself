@@ -178,12 +178,7 @@ class EventBox {
 		$loveCounter = $event->getLoveCounter();
 		$reviewCounter = $event->getReviewCounter();
 		$shareCounter = $event->getShareCounter();
-		$tags = array();
-		if (count($event->getTags()) > 0) {
-		    foreach ($event->getTags() as $tag) {
-			array_push($tags, parse_decode_string($tag));
-		    }
-		}
+		$tags = parse_decode_array($event->getTags());
 		$title = $event->getTitle();
 		$showLove = in_array($currentUserId, $event->getLovers()) ?  false :  true;
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
@@ -242,12 +237,7 @@ class EventBox {
 		$featuring = getRelatedUsers($event->getObjectId(), 'featuring', 'Event', false, $this->config->limitFeaturingForPersonalPage);
 		$locationName = $event->getLocationName();
 		$eventId = $event->getObjectId();
-		$tags = array();
-		if (count($event->getTags()) > 0) {
-		    foreach ($event->getTags() as $tag) {
-			array_push($tags, parse_decode_string($tag));
-		    }
-		}
+		$tags = parse_decode_array($event->getTags());
 		$thumbnail = $event->getThumbnail();
 		$title = $event->getTitle();
 		$showLove = in_array($currentUserId, $event->getLovers()) ?  false :  true;

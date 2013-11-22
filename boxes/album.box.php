@@ -145,12 +145,7 @@ class AlbumBox {
                 $filePath = $image->getFilePath();
                 $location = $image->getLocation();
                 $imageId = $image->getObjectId();
-                $tags = array();
-                if (count($image->getTags()) > 0) {
-                    foreach ($image->getTags() as $tag) {
-                        array_push($tags, parse_decode_string($tag));
-                    }
-                }
+		$tags = parse_decode_array($image->getTags());
                 $thumbnail = $image->getThumbnail();
 		$showLove = in_array($currentUserId, $image->getLovers()) ?  false :  true;
                 $imageInfo = new ImageInfo($counters, $description, $filePath, $location, $imageId, $showLove, $tags, $thumbnail);
