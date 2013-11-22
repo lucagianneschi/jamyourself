@@ -26,6 +26,11 @@ require_once CLASSES_DIR . 'error.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
 
 /**
+ * \brief	number of song in playlist for non premium account
+ */
+define(PLAYLISTLIMIT, 20);
+
+/**
  * \fn		number executionTime($start, $end)
  * \brief	The function returns the difference between $end and $start parameter in microseconds
  * \param	$start		represent the microsecond time of the begin of the operation
