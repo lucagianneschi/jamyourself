@@ -441,7 +441,9 @@ function addBoxAlbumDetail(data, typeUser, objectIdUser,objectId) {
 		lightBoxPhoto('photo-colorbox-group');		
 		addthis.init();
 		addthis.toolbox(".addthis_toolbox");
+		
 		hcento();
+		$("#cboxLoadedContent").mCustomScrollbar("update");	
 	});
 	
 	$('#box-albumDetailLB').load('content/profile/box-profile/box-albumDetail.php', {
@@ -455,6 +457,7 @@ function addBoxAlbumDetail(data, typeUser, objectIdUser,objectId) {
 		addthis.init();
 		addthis.toolbox(".addthis_toolbox");
 		hcento();
+		$("#cboxLoadedContent").mCustomScrollbar("update");	
 	});
 }
 /*
