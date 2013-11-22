@@ -153,23 +153,30 @@ function recordSelectNext(recordId){
 
 
 //visualizza foto di singolo album e nasconde lista album
-function albumSelectSingle(albumcover,num) {
+function albumSelectSingle(objectId,num) {
 	//effettua transizione se ci sono foto all'interno dell'album
 	if(num>0) {		
 		 $( "#albumSlide" ).fadeOut( 100, function() {
-    		$('#'+albumcover ).fadeIn( 100 );
-    		callBox.objectId = albumcover;
-    		callBox.limit = 10;
-    		callBox.skip = 0;
-    		callBox.load('albumDetail');
+    		$('#'+objectId ).fadeIn( 100 );
+    		if(!$('#'+objectId+' .photo-colorbox-group').length){
+	    		callBox.objectId = objectId;
+	    		callBox.limit = 30;
+	    		callBox.skip = 0;
+	    		callBox.load('albumDetail');
+	    	}
 		});
 	}
 	
 }
 //nasconde foto singolo album e visualizza lista album
-function albumSelectNext(recordId){		
-	$('#'+recordId ).fadeOut( 100, function() {
+function albumSelectNext(objectId){		
+	$('#'+objectId ).fadeOut( 100, function() {
+		$('#profile-singleAlbum .box-comment').addClass('no-display');
+		$('#profile-singleAlbum  .box').removeClass('box-commentSpace');		
     	$('#albumSlide').fadeIn( 100 );
+    	hcento();
+		$("#cboxLoadedContent").mCustomScrollbar("update");
+		callBox.load('album');		
 	});	
 }
 

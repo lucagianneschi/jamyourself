@@ -13,22 +13,22 @@ $(document).ready(function() {
 	//$("#profile").niceScroll({cursorcolor:"#222",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
 	//$("#social").niceScroll({cursorcolor:"#CCC",cursorborder:"none",zindex:3,horizrailenabled: "false",cursorwidth:8,cursoropacitymax:0.4});
 	
-	$("#scroll-profile").mCustomScrollbar({
-		updateOnContentResize: true,
+	$("#scroll-profile").mCustomScrollbar({		
 		autoHideScrollbar:false,
 		mouseWheel: true,
 		scrollInertia:100,
 		advanced:{
-			autoScrollOnFocus: false
+			autoScrollOnFocus: false,
+			updateOnContentResize: true,
 		}
 	});
-	$("#scroll-social").mCustomScrollbar({
-		updateOnContentResize: true,
+	$("#scroll-social").mCustomScrollbar({		
 		autoHideScrollbar:false,
 		mouseWheel: true,
 		scrollInertia:100,
 		advanced:{
-			autoScrollOnFocus: false
+			autoScrollOnFocus: false,
+			updateOnContentResize: true,
 		}
 	});
 		
