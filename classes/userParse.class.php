@@ -299,7 +299,7 @@ class UserParse {
 	    $user->setAddress(parse_decode_string($res->address));
 	    $user->setBackground($res->background);
 	    $user->setBirthDay($res->birthDay);
-	    $user->setBadge($badge);
+	    $user->setBadge($res->badge);
 	    $user->setCity(parse_decode_string($res->city));
 	    $user->setCollaborationCounter($res->collaborationCounter);
 	    $user->setCountry($res->country);
