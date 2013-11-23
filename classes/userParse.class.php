@@ -562,14 +562,14 @@ class UserParse {
 		$parseObject->$field = toParseAddRelation($className, $value);
 		$parseObject->update($objectId);
 	    } elseif ($typeRelation == 'remove') {
-		$parseObject = new parseObject();
+		$parseObject = new parseObject('_User');
 		$parseObject->$field = toParseRemoveRelation($className, $value);
 		$parseObject->update($objectId);
 	    } else {
 		return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
 	    }
 	} else {
-	    $parseObject = new parseObject();
+	    $parseObject = new parseObject('_User');
 	    $parseObject->$field = $value;
 	    $parseObject->update($objectId);
 	}
