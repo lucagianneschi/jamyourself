@@ -195,8 +195,6 @@ class StatusParse {
 			$status->setObjectId($res->objectId);
 			$status->setActive($res->active);
 			$status->setCommentCounter($res->commentCounter);
-			#$status->setCommentators(fromParseRelation('Status', 'commentators', $res->objectId, '_User'));
-			#$status->setComments(fromParseRelation('Status', 'comments', $res->objectId, 'Comment'));
 			$status->setCounter($res->counter);
 			$status->setEvent(fromParsePointer($res->event));
 			$status->setFromUser(fromParsePointer($res->fromUser));
@@ -206,8 +204,7 @@ class StatusParse {
 			$status->setLovers($res->lovers);
 			$status->setShareCounter($res->shareCounter);
 			$status->setSong(fromParsePointer($res->song));
-			$status->setText($res->text);
-			#$status->setTaggedUsers(fromParseRelation('Status', 'taggedUsers', $res->objectId, '_User'));
+			$status->setText(parse_decode_string($res->text));
 			$status->setCreatedAt(fromParseDate($res->createdAt));
 			$status->setUpdatedAt(fromParseDate($res->updatedAt));
 			$status->setACL(fromParseACL($res->ACL));
@@ -244,7 +241,7 @@ class StatusParse {
 			is_null($status->getShareCounter()) ? $parseStatus->shareCounter = -1 : $parseStatus->shareCounter = $status->getShareCounter();
 			is_null($status->getSong()) ? $parseStatus->song = null : $parseStatus->song = toParsePointer('Song', $status->getSong());
 			is_null($status->getTaggedUsers()) ? $parseStatus->taggedUsers = null : $parseStatus->taggedUsers = toParseAddRelation('_User', $status->getTaggedUsers());
-			is_null($status->getText()) ? $parseStatus->text = null : $parseStatus->text = $status->getText();
+			is_null($status->getText()) ? $parseStatus->text = null : $parseStatus->text = parse_encode_string($status->getText());
 			is_null($status->getACL()) ? $parseStatus->ACL = toParseDefaultACL() : $parseStatus->ACL = toParseACL($status->getACL());
 			if ($status->getObjectId() == '') {
 				is_null($status->getImageFile()) ? $parseStatus->imageFile = null : $parseStatus->imageFile = toParseNewFile($status->getImage(), 'img/jpg');
