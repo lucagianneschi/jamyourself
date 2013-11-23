@@ -11,14 +11,26 @@ require_once CLASSES_DIR . 'recordParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
+require_once BOXES_DIR . "record.box.php";
 
 class uploadRecordController extends REST {
 
+   public $viewInfoList;
+    
     public function init() {
         session_start();
-
+        
+        //utente non loggato
+        if(!isset($_SESSION['currentUser']) || is_null($_SESSION['currentUser'])){
+            die("Non sei loggato");
+        }
+        
+        $currentUser = $_SESSION['currentUser'];
         //caching dell'array dei featuring
         $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
+        $recordBox = new RecordBox();
+        $rb = $recordBox->initForUploadRecordPage($currentUser->getObjectId());
+        $this->viewInfoList = $rb->recordInfoArray;
     }
 
     public function albumCreate() {
@@ -118,24 +130,6 @@ class uploadRecordController extends REST {
         unset($_SESSION['currentUserFeaturingArray']);
 
         $this->response(array("res" => "OK", "recordId" => $newRecord->getObjectId()), 200);
-    }
-
-    private function getFeaturing($list) {
-//        @todo
-//        if ($list != null && is_array($list) && count($list) > 0) {
-//            $return = array();
-//            foreach($list as $username)
-//            $pUser = new UserParse();
-//            $pUser->where("username", $username);
-//            $feat = $pUser->getUsers();
-//            if($feat!=null){
-//                $return[] = $feat->getObjectId(); 
-//            }
-//        }
-//        else
-        return null;
-
-        return array();
     }
 
     private function getTags($list) {
@@ -244,6 +238,21 @@ class uploadRecordController extends REST {
             return array();
     }
 
+    public function getRecordThumbnailURL($userId, $recordCoverThumb) {
+        $path = "";
+        if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
+            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
+            if (!file_exists($path)) {
+                $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
+            }
+        } else {
+            //immagine di default con path realtivo rispetto alla View
+            //http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
+            $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
+        }
+
+        return $path;
+    }
 }
 
 ?>

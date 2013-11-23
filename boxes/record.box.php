@@ -105,8 +105,9 @@ class RecordInfoForUploadRecordPage {
      * \brief	construct for the RecordInfoForUploadRecordPage class
      * \param	$songCounter, $thumbnailCover, $title
      */
-    function __construct($songCounter, $thumbnailCover, $title) {
+    function __construct($recordId,$songCounter, $thumbnailCover, $title) {
         global $boxes;
+        is_null($recordId) ? $this->recordId = 0 : $this->recordId = $recordId;
         is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
@@ -327,7 +328,8 @@ class RecordBox {
                 $songCounter = $record->getSongCounter();
                 $thumbnailCover = $record->getThumbnailCover();
                 $title = $record->getTitle();
-                $recordInfo = new RecordInfoForUploadRecordPage($songCounter, $thumbnailCover, $title);
+                $recordId = $record->getObjectId();
+                $recordInfo = new RecordInfoForUploadRecordPage($recordId,$songCounter, $thumbnailCover, $title);
                 array_push($info, $recordInfo);
             }
             $recordBox->recordCounter = $counter;

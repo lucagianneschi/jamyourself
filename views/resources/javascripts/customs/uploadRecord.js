@@ -34,6 +34,8 @@ $(document).ready(function() {
         $("#uploadRecord01").fadeOut(100, function() {
             $("#uploadRecord03").fadeIn(100);
         });
+        
+        json_album.recordId = this.id;
         //inizializzazione dell'uploader
         if (uploader == null) {
             initMp3Uploader();
