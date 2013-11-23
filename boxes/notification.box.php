@@ -233,6 +233,7 @@ class NotificationBox {
 	$activity->where('status', 'P');
 	$activity->where('active', true);
 	$activity->setLimit($notificationBox->config->limitForMessageList);
+	$activity->orderByDescending('createdAt');
 	$activity->whereInclude('fromUser');
 	$events = $activity->getActivities();
 	if ($events instanceof Error) {
@@ -285,6 +286,7 @@ class NotificationBox {
 	$activity->where('status', 'P');
 	$activity->where('active', true);
 	$activity->setLimit($notificationBox->config->limitForEventList);
+	$activity->orderByDescending('createdAt');
 	$activity->whereInclude('fromUser');
 	$messages = $activity->getActivities();
 	if ($messages instanceof Error) {
@@ -341,6 +343,7 @@ class NotificationBox {
 	$activity->where('status', 'P');
 	$activity->where('active', true);
 	$activity->setLimit($notificationBox->config->limitForRelationList);
+	$activity->orderByDescending('createdAt');
 	$activity->whereInclude('fromUser');
 	$relations = $activity->getActivities();
 	if ($relations instanceof Error) {
