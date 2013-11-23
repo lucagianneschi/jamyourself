@@ -160,7 +160,8 @@ $controllers = array(
     'NOEVENTID'=> 'Event ID unset',
     'INVITATIONSENT'=> 'Invitation sent',
     'INVITATIONMAILSBJ' => 'You have been invited to an Event',
-    'NOTINRELATION' => 'User not in a relationship'
+    'NOTINRELATION' => 'User not in a relationship',
+    'NOEVENTFOUND' => 'Event not found for update'
 
 );
 
