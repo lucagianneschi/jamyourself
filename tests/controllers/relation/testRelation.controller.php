@@ -3,39 +3,35 @@
     <head>
 	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 	<script type="text/javascript">
-	    function love(classType, objectId, opType) {
-
+	function sendRelation(toUser) {
 		var json_relation = {};
-
-		json_relation.classType = classType;
-		json_relation.objectId = objectId;
+		json_relation.toUser = toUser;
+		json_relation.request = 'sendRelation';
 
 		$.ajax({
 		    type: "POST",
 		    url: "../../../controllers/request/relationRequest.php",
 		    data: json_relation,
-		    async: false,
-		    "beforeSend": function(xhr) {
-			xhr.setRequestHeader("X-AjaxRequest", "1");
-		    },
-		    success: function(data, status) {
-			alert("[onLoad] [SUCCESS] Status: " + data);
-			//console.log("[onLoad] [SUCCESS] Status: " + status + " " + data);
-		    },
-		    error: function(data, status) {
-			alert("[onLoad] [ERROR] Status: " + data);
-			//console.log("[onLoad] [ERROR] Status: " + status + " " + data);
-		    }
+		    beforeSend: function(xhr) {}
+		})
+		.done(function(message, status, xhr) {
+			//status = success
+			code = xhr.status;
+			console.log("Code: " + code + " | Message: " + message);
+		})
+		.fail(function(xhr) {
+			message = $.parseJSON(xhr.responseText).status;
+			code = xhr.status;
+			console.log("Code: " + code + " | Message: " + message);
 		});
-	    }
+	}
 	</script>
 	<title>Pagina di test del controller delle relazioni</title>
-	<meta name="description" content="La descrizione della pagina" />
-    </head>
+	</head>
     <body>
 	Cliccando i bottoni seguenti si inviano richieste di relazioni, si accettano richieste o si declinano richieste<br />
 	<br />
-	<button type="button" onclick="love('Album', 'cjqaTR1kQW', 'increment')">Increment Love Album cjqaTR1kQW</button>
+	<button type="button" onclick="sendRelation('GuUAj83MGH')">Relazione CurrentUser -> SPOTTER (GuUAj83MGH)</button>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<button type="button" onclick="love('Album', 'cjqaTR1kQW', 'decrement')">Decrement Love Album cjqaTR1kQW</button>
 	&nbsp;<hr>
