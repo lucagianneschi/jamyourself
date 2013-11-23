@@ -38,9 +38,9 @@ class NotificationForDetailedList {
     public $type;
 
     /**
-     * \fn	__construct($createdAt, $fromUserInfo, $text)
+     * \fn	__construct($createdAt, $fromUserInfo, $objectId, $text, $type)
      * \brief	construct for NotificationForDetailedList
-     * \param	$createdAt, $fromUserInfo, $text
+     * \param	$createdAt, $fromUserInfo, $objectId, $text, $type
      * \return	infoBox
      */
     function __construct($createdAt, $fromUserInfo, $objectId, $text, $type) {
@@ -173,6 +173,7 @@ class NotificationBox {
 		switch ($message->getType()) {
 		    case 'MESSAGESENT':
 			$text = $boxes['MESSAGEFORLIST'];
+			$relatedId = $message->getComment->getObjectId();
 			$elementType = 'M';
 			break;
 		    case 'INVITED':
@@ -182,14 +183,17 @@ class NotificationBox {
 			break;
 		    case 'FRIENDSHIPREQUEST':
 			$text = $boxes['FRIENDSHIPFORLIST'];
+			$relatedId = $message->getObjectId();
 			$elementType = 'R';
 			break;
 		    case 'COLLABORATIONREQUEST':
 			$text = $boxes['COLLABORATIONFORLIST'];
+			$relatedId = $message->getObjectId();
 			$elementType = 'R';
 			break;
 		    case 'FOLLOWING':
 			$text = $boxes['FOLLOWINGFORLIST'];
+			$relatedId = $message->getObjectId();
 			$elementType = 'R';
 			break;
 		}
@@ -260,7 +264,7 @@ class NotificationBox {
 	return $notificationBox;
     }
 
-      /**
+    /**
      * \fn	initForMessageList($objectId,$type)
      * \brief	Init NotificationBox instancef for relation list
      * \param	$objectId
@@ -304,14 +308,15 @@ class NotificationBox {
 		$fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
 		$relationType = 'M';
 		$text = $boxes['MESSAGEFORLIST'];
-		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, null, $text, $relationType);
+		$relatedId = $message->getComment()->getObjectId();
+		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
 		array_push($relationArray, $notificationInfo);
 	    }
 	}
 	$notificationBox->notificationArray = $relationArray;
 	return $notificationBox;
-    }  
-    
+    }
+
     /**
      * \fn	initForRelationList($objectId,$type)
      * \brief	Init NotificationBox instancef for relation list
@@ -365,7 +370,8 @@ class NotificationBox {
 		} else {
 		    $text = ($relation->getType() == 'COLLABORATIONREQUEST') ? $boxes['COLLABORATIONFORLIST'] : $boxes['FOLLOWINGFORLIST'];
 		}
-		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, null, $text, $relationType);
+		$relatedId = $relation->getObjectId();
+		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
 		array_push($relationArray, $notificationInfo);
 	    }
 	}
@@ -374,4 +380,5 @@ class NotificationBox {
     }
 
 }
+
 ?>
