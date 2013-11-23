@@ -130,6 +130,12 @@ $playlistParse ->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseAC
 echo 'Aggiornato un campo ACL<br />';
 
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLA PLAYLIST<br />';
+$playlistParse1 = new PlaylistParse();
+echo $playlistParse1->addOjectIdToArray('EWlkBSXQJt', 'songsArray', 'MSJfcWb9Qk', false, 20);
+echo 'TEST REMOVE<br />';
+echo $playlistParse1->removeObjectIdFromArray('EWlkBSXQJt', 'songsArray', 'MSJfcWb9Qk');
+
+
 
 echo '<br />-------------------------------------------------------------------------------<br />';
 
