@@ -88,8 +88,8 @@ class uploadReviewController extends REST {
         $review->setSong(null);
         $review->setStatus(null);
         $review->setTags(null);
-//        $review->setTitle(parse_encode_string($reviewRequest->title));
-        $review->setText(parse_encode_string($reviewRequest->review));
+//        $review->setTitle($reviewRequest->title);
+        $review->setText($reviewRequest->review);
         $review->setToUser($this->record->getFromUser());
         $review->setVideo(null);
         $review->setVote(null);
