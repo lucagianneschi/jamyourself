@@ -534,6 +534,21 @@ section.active > .title a{
   width:60px;
 }
 
+#social-status {
+	form {
+		margin-bottom: 0;
+		input {
+			margin-bottom: 5px;
+		}
+	}
+	p {
+		margin-bottom: 2px;
+	}
+	.note{
+		font-size: 14px !important;
+	}
+}
+
 #social #RecordReview .box{
   padding: 10px 10px 0px 10px !important;
 }
@@ -611,12 +626,16 @@ section.active > .title a{
   text-align:right;
   height:35px;
   margin-bottom: 40px;
+  .button {
+  	padding-left: 5px;
+  	padding-right: 10px;
+  }
 }
 
 .button{
  height:35px !important; 
  border:0px !important;
- padding-top: 10px !important;
+ padding-top: 7px !important;
 }
 
 .bg-orange{
@@ -640,7 +659,7 @@ section.active > .title a{
   color:$white;
   line-height:20px;
   margin-right:1px;
-  padding:0 0px 0 22px;
+  padding:0 0 0 25px;
   cursor:pointer;
   background-repeat:no-repeat;
 }

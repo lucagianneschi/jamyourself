@@ -195,11 +195,8 @@ class SongParse {
             $song->setObjectId($res->objectId);
             $song->setActive($res->active);
             $song->setCommentCounter($res->commentCounter);
-            #$song->setCommentators(fromParseRelation('Song', 'commentators', $res->objectId, '_User'));
-            #$song->setComments(fromParseRelation('Song', 'comments', $res->objectId, 'Comment'));
             $song->setCounter($res->counter);
             $song->setDuration($res->duration);
-            #$song->setFeaturing(fromParseRelation('Song', 'featuring', $res->objectId, '_User'));
             $song->setFilePath($res->filePath);
             $song->setFromUser(fromParsePointer($res->fromUser));
             $song->setGenre($res->genre);
@@ -208,7 +205,7 @@ class SongParse {
             $song->setLovers($res->lovers);
             $song->setRecord(fromParsePointer($res->record));
             $song->setShareCounter($res->shareCounter);
-            $song->setTitle($res->title);
+            $song->setTitle(parse_decode_string($res->title));
             $song->setCreatedAt(fromParseDate($res->createdAt));
             $song->setUpdatedAt(fromParseDate($res->updatedAt));
             $song->setACL(fromParseACL($res->ACL));
