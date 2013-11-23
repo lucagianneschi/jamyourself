@@ -159,12 +159,12 @@ class FaqParse {
 		try {
 			$faq = new Faq();
 			$faq->setObjectId($res->objectId);
-			$faq->setAnswer($res->answer);
+			$faq->setAnswer(parse_decode_string($res->answer));
 			$faq->setArea($res->area);
 			$faq->setLang($res->lang);
 			$faq->setPosition($res->position);
-			$faq->setQuestion($res->question);
-			$faq->setTags($res->tags);
+			$faq->setQuestion(parse_decode_string($res->question));
+			$faq->setTags(parse_encode_array($res->tags));
 			$faq->setCreatedAt(fromParseDate($res->createdAt));
 			$faq->setUpdatedAt(fromParseDate($res->updatedAt));
 			$faq->setACL(fromParseACL($res->ACL));
@@ -187,12 +187,12 @@ class FaqParse {
 		try {
                     $nullArray = array();
 			$parseFaq= new parseObject('FAQ');
-			is_null($faq->getAnswer()) ? $parseFaq->answer = null : $parseFaq->answer = $faq->getAnswer();
+			is_null($faq->getAnswer()) ? $parseFaq->answer = null : $parseFaq->answer = parse_encode_string($faq->getAnswer());
 			is_null($faq->getArea()) ? $parseFaq->area = null : $parseFaq->area = $faq->getArea();
 			is_null($faq->getLang()) ? $parseFaq->lang = 'en' : $parseFaq->lang = $faq->getLang();
 			is_null($faq->getPosition()) ? $parseFaq->position = null : $parseFaq->position = $faq->getPosition();
-			is_null($faq->getQuestion()) ? $parseFaq->question = null : $parseFaq->question = $faq->getQuestion();
-			is_null($faq->getTags()) ? $parseFaq->tags = $nullArray : $parseFaq->tags = $faq->getTags();
+			is_null($faq->getQuestion()) ? $parseFaq->question = null : $parseFaq->question = parse_encode_string($faq->getQuestion());
+			is_null($faq->getTags()) ? $parseFaq->tags = $nullArray : $parseFaq->tags = parse_encode_array($faq->getTags());
 			is_null($faq->getACL()) ? $parseFaq->ACL = toParseDefaultACL() : $parseFaq->ACL = toParseACL($faq->getACL());
 			$res = $parseFaq->save();
 			$faq->setObjectId($res->objectId);

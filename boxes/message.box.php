@@ -32,8 +32,8 @@ class MessageInfo {
         is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($send) ? $this->send = 'S' : $this->send = $send;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
+        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = ($text);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
     }
 
 }

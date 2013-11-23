@@ -89,7 +89,7 @@ class CommentController extends REST {
 	    $cmt->setShareCounter(0);
 	    $cmt->setTags(null);
 	    $cmt->setTitle(null);
-	    $cmt->setText(parse_encode_string($comment));
+	    $cmt->setText($comment);
 	    $cmt->setToUser($toUserObjectId);
 	    $cmt->setType('C');
 	    $cmt->setVote(null);

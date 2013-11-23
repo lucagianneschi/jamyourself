@@ -15,16 +15,16 @@ require_once BOXES_DIR . "record.box.php";
 
 class uploadRecordController extends REST {
 
-   public $viewInfoList;
-    
+    public $viewInfoList;
+
     public function init() {
         session_start();
-        
+
         //utente non loggato
-        if(!isset($_SESSION['currentUser']) || is_null($_SESSION['currentUser'])){
+        if (!isset($_SESSION['currentUser']) || is_null($_SESSION['currentUser'])) {
             die("Non sei loggato");
         }
-        
+
         $currentUser = $_SESSION['currentUser'];
         //caching dell'array dei featuring
         $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
@@ -36,7 +36,7 @@ class uploadRecordController extends REST {
     public function albumCreate() {
 
         global $controllers;
-        
+
         if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
             $this->response('', 406);
         }
@@ -60,7 +60,7 @@ class uploadRecordController extends REST {
         $user = $_SESSION['currentUser'];
         $userId = $user->getObjectId();
 
-        if ($user->getType() != "JAMMER"){
+        if ($user->getType() != "JAMMER") {
             $error = array('status' => "Bad Request", "msg" => "Invalid user type");
             $this->response($error, 400);
         }
@@ -77,12 +77,12 @@ class uploadRecordController extends REST {
         $record->setCover($imgInfo['RecordPicture']);
         $record->setThumbnailCover($imgInfo['RecordThumbnail']);
 
-        $record->setDescription(parse_encode_string($newAlbum->albumTitle));
+        $record->setDescription($newAlbum->albumTitle);
         $record->setDuration(0);
         $record->setFeaturing($newAlbum->albumFeaturing);
         $record->setFromUser($userId);
         $record->setGenre($this->getTags($newAlbum->tags));
-        $record->setLabel(parse_encode_string($newAlbum->label));
+        $record->setLabel($newAlbum->label);
 
         if (($location = GeocoderService::getLocation($newAlbum->city))) {
             $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
@@ -154,6 +154,21 @@ class uploadRecordController extends REST {
         } catch (Exception $e) {
             return false;
         }
+    }
+
+    public function publishRecords() {
+        global $controllers;
+        if ($this->get_request_method() != "POST") {
+            $this->response (array ('status' => $controllers['NOPOSTREQUEST']), 405);
+        }elseif(!isset($_SESSION['currentUser'])) {
+            $this->response(array('status' => $controllers['USERNOSES']), 403);            
+        } elseif (!isset($this->request['list'])) {
+            $this->response(array('status' => $controllers['NOOBJECTID']), 403);
+        } elseif (!isset($this->request['recordId'])) {
+            $this->response(array('status' => $controllers['NOMP3LIST']), 403);
+        }
+        
+        $this->response(array($controllers['RECORDSAVED']), 200);
     }
 
     private function getImages($decoded) {
@@ -253,6 +268,7 @@ class uploadRecordController extends REST {
 
         return $path;
     }
+
 }
 
 ?>

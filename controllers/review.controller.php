@@ -106,8 +106,8 @@ class ReviewController extends REST {
             $review->setSong(null);
             $review->setStatus(null);
             $review->setTags(null);
-            $review->setTitle(parse_encode_string($title));
-            $review->setText(parse_encode_string($text));
+            $review->setTitle($title);
+            $review->setText($text);
             $review->setToUser($toUser);
             $review->setVideo(null);
             $review->setVote(null);

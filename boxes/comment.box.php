@@ -48,7 +48,7 @@ class CommentInfo {
         is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
         is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
+        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = ($text);
     }
 
 }

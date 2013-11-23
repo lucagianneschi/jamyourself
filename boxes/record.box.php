@@ -47,17 +47,17 @@ class RecordInfoForMediaPage {
      */
     function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $showLove, $title, $tracklist, $year) {
         global $boxes;
-        is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = parse_decode_string($buylink);
-        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = parse_decode_string($city);
+        is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = ($buylink);
+        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = ($city);
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
         is_null($cover) ? $this->cover = DEFRECORDCOVER : $this->cover = $cover;
-        is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = parse_decode_string($description);
+        is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = ($description);
         is_null($featuring) ? $this->featuring = $boxes['NOFEATRECORD'] : $this->featuring = $featuring;
         is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
-        is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = parse_decode_string($label);
-        is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = parse_decode_string($locationName);
+        is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = ($label);
+        is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = ($locationName);
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
         is_null($tracklist) ? $this->tracklist = $boxes['NOTRACK'] : $this->tracklist = $tracklist;
         is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
@@ -88,7 +88,7 @@ class RecordInfoForPersonalPage {
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
         is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
         is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
 
@@ -110,7 +110,7 @@ class RecordInfoForUploadRecordPage {
         is_null($recordId) ? $this->recordId = 0 : $this->recordId = $recordId;
         is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
     }
 
 }
@@ -134,7 +134,7 @@ class SongInfo {
         is_null($duration) ? $this->duration = '0:00' : $this->duration = $duration;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
     }
 
 }

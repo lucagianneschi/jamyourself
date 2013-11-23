@@ -495,11 +495,12 @@ function addSong(id, duration, tags) {
 }
 
 function publish() {
-
-
-
+    sendRequest("publishRecords", json_album, publishCallback, false);
 }
 
+function publishCallback(data){
+    console.log(data);
+}
 //////////////////////////////////////////////////////////////////////////////
 //  
 //      Sezione comunicazione rest API

@@ -213,8 +213,7 @@ class PlaylistParse {
             $playlist->setObjectId($res->objectId);
             $playlist->setActive($res->active);
             $playlist->setFromUser(fromParsePointer($res->fromUser));
-            $playlist->setName($res->name);
-            #$playlist->setSongs(fromParseRelation('Playlist', 'songs', $res->objectId, 'Song'));
+            $playlist->setName(parse_decode_string($res->name));
             $playlist->setSongsArray($res->songsArray);
             $playlist->setUnlimited($res->unlimited);
             $playlist->setCreatedAt(fromParseDate($res->createdAt));
@@ -241,7 +240,7 @@ class PlaylistParse {
             $parsePlaylist = new parseObject('Playlist');
             is_null($playlist->getActive()) ? $parsePlaylist->active = true : $parsePlaylist->active = $playlist->getActive();
             $parsePlaylist->fromUser = toParsePointer('_User', $playlist->getFromUser());
-            is_null($playlist->getName()) ? $parsePlaylist->name = 'Playlist' : $parsePlaylist->name = $playlist->getName();
+            is_null($playlist->getName()) ? $parsePlaylist->name = 'Playlist' : $parsePlaylist->name = parse_encode_string($playlist->getName());
             is_null($playlist->getSongs()) ? $parsePlaylist->songs = null : $parsePlaylist->songs = toParseAddRelation('Song', $playlist->getSongs());
             is_null($playlist->getSongsArray()) ? $parsePlaylist->songsArray = $nullArray : $parsePlaylist->songs = $playlist->getSongsArray();
             is_null($playlist->getUnlimited()) ? $parsePlaylist->unlimited = false : $parsePlaylist->unlimited = $playlist->getUnlimited();

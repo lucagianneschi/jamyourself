@@ -53,14 +53,14 @@ class MediaInfoForUploadReviewPage {
     function __construct($address, $city, $className, $eventDate, $featuring, $fromUserInfo, $genre, $featuring, $locationName, $objectId, $tags, $thumbnail, $title) {
 	global $boxes;
 	if ($className == 'Event') {
-	    is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = parse_decode_string($address);
-	    is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = parse_decode_string($city);
+	    is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = ($address);
+	    is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = ($city);
 	    $this->className = $className;
 	    is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
 	    is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	    $this->genre = $boxes['NDB'];
 	    $this->featuring = $boxes['NDB'];
-	    is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = parse_decode_string($locationName);
+	    is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = ($locationName);
 	    is_null($objectId) ? $this->objectId = $boxes['NOBOJECTID'] : $this->objectId = $objectId;
 	    is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = parse_decode_array($tags);
 	    is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
