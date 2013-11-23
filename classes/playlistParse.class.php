@@ -154,7 +154,7 @@ class PlaylistParse {
                 return throwError(new Exception('addOjectIdToArray $field non authorized'), __CLASS__, __FUNCTION__, func_get_args());
             } elseif (is_null($premium) || is_null($limit)) {
                 $premium = false;
-                $limit = 20;
+                $limit = PLAYLISTLIMIT;
             }
             $resGet = $parseObject->get($objectId);
             $arraytoUpdate = $resGet->$field;
