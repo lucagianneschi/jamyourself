@@ -1,3 +1,6 @@
 {
-    "limitForDetail" : 5
+    "limitForDetail": 5,
+    "limitForRelationList": 5,
+    "limitForEventList":5,
+    "limitForMessageList":5
 }

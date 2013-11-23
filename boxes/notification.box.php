@@ -160,6 +160,7 @@ class NotificationBox {
 	$activity->where('read', false);
 	$activity->where('active', true);
 	$activity->where('status', 'P');
+	$activity->orderByDescending('createdAt');
 	$activity->whereInclude('fromUser,comment,event');
 	$messages = $activity->getActivities();
 	if ($messages instanceof Error) {
@@ -206,6 +207,171 @@ class NotificationBox {
 	return $notificationBox;
     }
 
-}
+    /**
+     * \fn	initForRelationList($objectId,$type)
+     * \brief	Init NotificationBox instancef for relation list
+     * \param	$objectId
+     * \param	$type
+     * \return	infoBox
+     */
+    public function initForEventList($objectId) {
+	global $boxes;
+	$currentUserId = sessionChecker();
+	$notificationBox = new NotificationBox();
+	$notificationBox->invitationCounter = $boxes['NDB'];
+	$notificationBox->messageCounter = $boxes['NDB'];
+	$notificationBox->relationCounter = $boxes['NDB'];
+	if ($currentUserId == $boxes['NOID'] || $currentUserId != $objectId) {
+	    $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
+	    return $notificationBox;
+	}
+	$relationArray = array();
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', '_User', $objectId);
+	$activity->where('type', 'INVITED');
+	$activity->where('read', false);
+	$activity->where('status', 'P');
+	$activity->where('active', true);
+	$activity->setLimit($notificationBox->config->limitForMessageList);
+	$activity->orderByDescending('createdAt');
+	$activity->whereInclude('fromUser,event');
+	$events = $activity->getActivities();
+	if ($events instanceof Error) {
+	    return $events;
+	} elseif (is_null($events)) {
+	    $notificationBox->notificationArray = $boxes['NODATA'];
+	    return $notificationBox;
+	} else {
+	    foreach ($events as $event) {
+		$createdAt = $event->getCreatedAt();
+		$relationId = $event->getFromUser()->getObjectId();
+		$thumbnail = $event->getFromUser()->getProfileThumbnail();
+		$userType = $event->getFromUser()->getType();
+		$username = $event->getFromUser()->getUsername();
+		$fromUserInfo = new UserInfo($relationId, $thumbnail, $userType, $username);
+		$relationType = 'E';
+		$text = $boxes['EVENTFORLIST'];
+		$relatedId = $event->getEvent()->getObjectId();
+		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
+		array_push($relationArray, $notificationInfo);
+	    }
+	}
+	$notificationBox->notificationArray = $relationArray;
+	return $notificationBox;
+    }
 
+      /**
+     * \fn	initForMessageList($objectId,$type)
+     * \brief	Init NotificationBox instancef for relation list
+     * \param	$objectId
+     * \param	$type
+     * \return	infoBox
+     */
+    public function initForMessageList($objectId) {
+	global $boxes;
+	$currentUserId = sessionChecker();
+	$notificationBox = new NotificationBox();
+	$notificationBox->invitationCounter = $boxes['NDB'];
+	$notificationBox->messageCounter = $boxes['NDB'];
+	$notificationBox->relationCounter = $boxes['NDB'];
+	if ($currentUserId == $boxes['NOID'] || $currentUserId != $objectId) {
+	    $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
+	    return $notificationBox;
+	}
+	$relationArray = array();
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', '_User', $objectId);
+	$activity->where('type', 'MESSAGESENT');
+	$activity->where('read', false);
+	$activity->where('status', 'P');
+	$activity->where('active', true);
+	$activity->setLimit($notificationBox->config->limitForEventList);
+	$activity->orderByDescending('createdAt');
+	$activity->whereInclude('fromUser');
+	$messages = $activity->getActivities();
+	if ($messages instanceof Error) {
+	    return $messages;
+	} elseif (is_null($messages)) {
+	    $notificationBox->notificationArray = $boxes['NODATA'];
+	    return $notificationBox;
+	} else {
+	    foreach ($messages as $message) {
+		$createdAt = $message->getCreatedAt();
+		$relationId = $message->getFromUser()->getObjectId();
+		$thumbnail = $message->getFromUser()->getProfileThumbnail();
+		$type = $message->getFromUser()->getType();
+		$username = $message->getFromUser()->getUsername();
+		$fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
+		$relationType = 'M';
+		$text = $boxes['MESSAGEFORLIST'];
+		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, null, $text, $relationType);
+		array_push($relationArray, $notificationInfo);
+	    }
+	}
+	$notificationBox->notificationArray = $relationArray;
+	return $notificationBox;
+    }  
+    
+    /**
+     * \fn	initForRelationList($objectId,$type)
+     * \brief	Init NotificationBox instancef for relation list
+     * \param	$objectId
+     * \param	$type
+     * \return	infoBox
+     */
+    public function initForRelationList($objectId, $type) {
+	global $boxes;
+	$currentUserId = sessionChecker();
+	$notificationBox = new NotificationBox();
+	$notificationBox->invitationCounter = $boxes['NDB'];
+	$notificationBox->messageCounter = $boxes['NDB'];
+	$notificationBox->relationCounter = $boxes['NDB'];
+	if ($currentUserId == $boxes['NOID'] || $currentUserId != $objectId) {
+	    $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
+	    return $notificationBox;
+	}
+	$relationArray = array();
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', '_User', $objectId);
+	if ($type == 'SPOTTER') {
+	    $activity->where('type', 'FRIENDSHIPREQUEST');
+	} else {
+	    $activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
+	    $activity->whereOr($activityTypes);
+	}
+	$activity->where('read', false);
+	$activity->where('status', 'P');
+	$activity->where('active', true);
+	$activity->setLimit($notificationBox->config->limitForRelationList);
+	$activity->orderByDescending('createdAt');
+	$activity->whereInclude('fromUser');
+	$relations = $activity->getActivities();
+	if ($relations instanceof Error) {
+	    return $relations;
+	} elseif (is_null($relations)) {
+	    $notificationBox->notificationArray = $boxes['NODATA'];
+	    return $notificationBox;
+	} else {
+	    foreach ($relations as $relation) {
+		$createdAt = $relation->getCreatedAt();
+		$relationId = $relation->getFromUser()->getObjectId();
+		$thumbnail = $relation->getFromUser()->getProfileThumbnail();
+		$type = $relation->getFromUser()->getType();
+		$username = $relation->getFromUser()->getUsername();
+		$fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
+		$relationType = 'R';
+		if ($type == 'SPOTTER') {
+		    $text = $boxes['FRIENDSHIPFORLIST'];
+		} else {
+		    $text = ($relation->getType() == 'COLLABORATIONREQUEST') ? $boxes['COLLABORATIONFORLIST'] : $boxes['FOLLOWINGFORLIST'];
+		}
+		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, null, $text, $relationType);
+		array_push($relationArray, $notificationInfo);
+	    }
+	}
+	$notificationBox->notificationArray = $relationArray;
+	return $notificationBox;
+    }
+
+}
 ?>
