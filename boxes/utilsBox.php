@@ -41,36 +41,6 @@ class Counters {
 }
 
 /**
- * \brief	PostInfo class 
- * \details	contains info for post to be displayed 
- */
-class PostInfo {
-
-    public $counters;
-    public $createdAt;
-    public $fromUserInfo;
-    public $objectId;
-    public $showLove;
-    public $text;
-
-    /**
-     * \fn	__construct($counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text)
-     * \brief	construct for the PostInfo class
-     * \param	$counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text
-     */
-    function __construct($counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text) {
-	global $boxes;
-	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
-	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
-	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
-    }
-
-}
-
-/**
  * \brief	UserInfo class 
  * \details	user info to be displayed in thumbnail view over all the website 
  */
@@ -159,34 +129,6 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
     return $userArray;
 }
 
-/**
- * \fn		parse_decode_array($array)
- * \brief	The function returns a array read from Parse that can be interpreted by the user
- * \param	$array 	represent the array from Parse to decode
- * \return	array		the decoded array
- */
-function parse_decode_array($array) {
-    $decodedArray = array();
-    if (!empty($array) && !is_null($array) && count($array) > 0) {
-	foreach ($array as $string) {
-	    $decodedString = parse_decode_string($string);
-	    array_push($decodedArray, $decodedString);
-	}
-    }
-    return $decodedArray;
-}
-
-/**
- * \fn		string parse_decode_string($string)
- * \brief	The function returns a string read from Parse that can be interpreted by the user
- * \param	$string 	represent the string from Parse to decode
- * \return	string		the decoded string
- */
-function parse_decode_string($string) {
-    $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-    $decodedString = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
-    return $decodedString;
-}
 
 /**
  * \fn		sessionChecker()
