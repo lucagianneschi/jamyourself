@@ -13,7 +13,6 @@ require_once SERVICES_DIR . 'validateNewUser.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once SERVICES_DIR . 'cropImage.service.php';
 require_once SERVICES_DIR . 'recaptcha.service.php';
-require_once CONTROLLERS_DIR . 'utilsController.php';
 ////////////////////////////////////////////////////////////////////////////////
 //
 // DEFINIZIONE DELLE FUNZIONI DEL CONTROLLER PER LA REGISTRAZIONE
