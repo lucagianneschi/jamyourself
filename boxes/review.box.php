@@ -64,7 +64,7 @@ class MediaInfoForUploadReviewPage {
 	    is_null($objectId) ? $this->objectId = $boxes['NOBOJECTID'] : $this->objectId = $objectId;
 	    is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	    is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
-	    is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
+	    is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
 	} else {
 	    $this->address = $boxes['NDB'];
 	    $this->city = $boxes['NDB'];
@@ -77,7 +77,7 @@ class MediaInfoForUploadReviewPage {
 	    is_null($objectId) ? $this->objectId = $boxes['NOBOJECTID'] : $this->objectId = $objectId;
 	    is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
 	    is_null($thumbnail) ? $this->thumbnail = DEFRECORDTHUMB : $this->thumbnail = $thumbnail;
-	    is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
+	    is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
 	}
     }
 
@@ -111,8 +111,8 @@ class ReviewInfo {
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($rating) ? $this->rating = 0 : $this->rating = $rating;
 	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
 	is_null($thumbnailCover) ? $this->thumbnailCover = $boxes['NODATA'] : $this->thumbnailCover = $thumbnailCover;
     }
 
@@ -259,8 +259,8 @@ class ReviewBox {
 		$counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
 		$reviewId = $review->getObjectId();
 		$rating = $review->getVote();
-		$text = parse_decode_string($review->getText());
-		$title = parse_decode_string($review->getTitle());
+		$text = $review->getText();
+		$title = $review->getTitle();
 		if ($type == 'SPOTTER') {
 		    $fromUserInfo = $boxes['ND'];
 		} else {

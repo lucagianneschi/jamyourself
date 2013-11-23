@@ -43,10 +43,10 @@ class FaqInfo {
      */
     function __construct($answer, $area, $position, $question, $tags) {
         global $boxes;
-        is_null($answer) ? $this->answer = $boxes['NODATA'] : $this->answer = parse_decode_string($answer);
+        is_null($answer) ? $this->answer = $boxes['NODATA'] : $this->answer = $answer;
         is_null($area) ? $this->area = $boxes['NODATA'] : $this->area = $area;
         is_null($position) ? $this->position = 1000 : $this->position = $position;
-        is_null($question) ? $this->question = $boxes['NODATA'] : $this->question = parse_decode_string($question);
+        is_null($question) ? $this->question = $boxes['NODATA'] : $this->question = $question;
         is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
     }
 
