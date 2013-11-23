@@ -72,6 +72,30 @@
 			console.log("Code: " + code + " | Message: " + message);
 		});
 	}
+	
+	function removeRelation(objectId, toUserId) {
+		var json_relation = {};
+		json_relation.objectId = objectId;
+		json_relation.toUserId = toUserId;
+		json_relation.request = 'removeRelation';
+
+		$.ajax({
+		    type: "POST",
+		    url: "../../../controllers/request/relationRequest.php",
+		    data: json_relation,
+		    beforeSend: function(xhr) {}
+		})
+		.done(function(message, status, xhr) {
+			//status = success
+			code = xhr.status;
+			console.log("Code: " + code + " | Message: " + message);
+		})
+		.fail(function(xhr) {
+			message = $.parseJSON(xhr.responseText).status;
+			code = xhr.status;
+			console.log("Code: " + code + " | Message: " + message);
+		});
+	}
 	</script>
 	<title>Pagina di test del controller delle relazioni</title>
 	</head>
@@ -86,6 +110,10 @@
 	<br />
 	<input type="text" id="objectIdDaDeclinare" placeholder="objectIdDaDeclinare"/>
 	<button type="button" onclick="declineRelation($('#objectIdDaDeclinare').val())">Declina la Relazione</button>
+	<br />
+	<input type="text" id="objectIdDaCancellare" placeholder="objectIdDaCancellare"/>
+	<input type="text" id="toUserobjectIdDaCancellare" placeholder="toUserobjectIdDaCancellare"/>
+	<button type="button" onclick="removeRelation($('#objectIdDaCancellare').val(), $('#toUserobjectIdDaCancellare').val())">Cancella la Relazione</button>
 	&nbsp;<hr>
 	<button type="button" onclick="love('Comment', 'rEJJMsGCTo', 'increment')">Increment Love Comment rEJJMsGCTo</button>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

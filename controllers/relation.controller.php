@@ -135,7 +135,6 @@ class RelationController extends REST {
 				$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 			}
 			
-			$currentUser = $_SESSION['currentUser'];
 			$objectId = $this->request['objectId'];
 			
 			require_once CLASSES_DIR . 'activityParse.class.php';
@@ -166,75 +165,82 @@ class RelationController extends REST {
      * \brief   remove an existing relationship
      * \todo    test    
      */
-    public function removeRelationship() {
-	global $controllers;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($this->request['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['toUser'])) {
-		$this->response(array('status' => $controllers['NOTOUSER']), 403);
-	    } elseif (!isset($this->request['toUserType'])) {
-		$this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
-	    }
-	    $currentUser = $this->request['currentUser'];
-	    $toUserId = $this->request['toUser'];
-	    $toUserType = $this->request['toUserType'];
-	    $fromUserType = $currentUser->getType();
-	    require_once SERVICES_DIR . 'relationChecker.service.php';
-	    if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
-		$this->response(array('status' => $controllers['NORELFOUNDFORREMOVING']), 503);
-	    }
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $toUserB = new UserParse();
-	    $toUser = $toUserB->getUser($toUserId);
-	    $sessionTokenA = $currentUser->getSessionToken();
-	    $sessionTokenB = $toUserB->getSessionToken();
-	    $fromUserA = new UserParse();
-	    $userA = $fromUserA->getUser($currentUser->getObjectId());
-	    if ($toUser instanceof Error || $userA instanceof Error) {
-		$this->response(array('status' => $controllers['USERNOTFOUND']), 503);
-	    } elseif (!isset($sessionTokenB) || !isset($sessionTokenA)) {
-		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 503);
-	    }
-	    if ($fromUserType == 'SPOTTER' && $toUserType == 'SPOTTER') {
-		$field = 'friendship';
-		$type = 'FRIENDSHIPREMOVED';
-		$resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'remove', '_User');
-		$counterA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'friendshipCounter', ($currentUser->getFriedshipCounter() - 1));
-		$resB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'remove', '_User');
-		$counterB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, 'friendshipCounter', ($toUser->getFriedshipCounter() - 1));
-	    } elseif ($fromUserType == 'SPOTTER' && $toUserType != 'SPOTTER') {
-		$field = 'followers';
-		$field1 = 'following';
-		$type = 'FOLLOWINGREMOVED';
-		$resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'remove', '_User');
-		$counterA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'followingCounter', ($currentUser->getFollowingCounter() - 1));
-		$resB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, $field1, $currentUser->getObjectId(), true, 'remove', '_User');
-		$counterB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, 'followersCounter', ($toUser->getFollowersCounter() - 1));
-	    } elseif ($fromUserType != 'SPOTTER') {
-		$field = 'collaboration';
-		$type = 'COLLABORATIONREMOVED';
-		$resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'remove', '_User');
-		$counterA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'collaborationCounter', ($currentUser->getCollaborationCounter() - 1));
-		$resB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'remove', '_User');
-		$counterB = $toUserB->updateField($toUser->getObjectId(), $sessionTokenB, 'collaborationCounter', ($toUser->getCollaborationCounter() - 1));
-	    }//prevedere delle rollback
-	    if ($resA instanceof Error || $resB instanceof Error || $counterA instanceof Error || $counterB instanceof Error) {
-		$this->response(array('status' => $controllers['ERROREMOVINGREL']), 503);
-	    }
-	    $activity = $this->createActivity($type, $toUser, $currentUser->getObjectId(), 'A');
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityP = new ActivityParse();
-	    $res = $activityP->saveActivity($activity);
-	    if ($res instanceof Error) {
-		$this->response(array('status' => $controllers['NOACSAVE']), 503);
-	    }
-	    $this->response(array($controllers['RELDELETED']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+    public function removeRelation() {
+		global $controllers;
+		global $mail_files;
+		try {
+			if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+			} elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
+			} elseif (!isset($this->request['objectId'])) {
+				$this->response(array('status' => $controllers['NOOBJECTID']), 403);
+			} elseif (!isset($this->request['toUserId'])) {
+				$this->response(array('status' => $controllers['NOTOUSER']), 403);
+			}
+			
+			$currentUser = $_SESSION['currentUser'];
+			$objectId = $this->request['objectId'];
+			$toUserId = $this->request['toUserId'];
+			
+			require_once CLASSES_DIR . 'userParse.class.php';
+			$userParse = new UserParse();
+			$toUser = $userParse->getUser($toUserId);
+			
+			require_once SERVICES_DIR . 'relationChecker.service.php';
+			if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUser->getObjectId(), $toUser->getType())) {
+				$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
+			}
+			
+			require_once CLASSES_DIR . 'activityParse.class.php';
+			$activityParse = new ActivityParse();
+			$resStatus = $activityParse->updateField($objectId, 'status', 'C');
+			if ($resStatus instanceof Error) {
+				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+			}
+			$resRead = $activityParse->updateField($objectId, 'read', true);
+			if ($resRead instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+			}
+			
+			require_once CLASSES_DIR . 'userParse.class.php';
+			$userParse = new UserParse();
+			if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
+				$resToUserF = $userParse->updateField($toUser->getObjectId(), 'friendship', array($currentUser->getObjectId()), true, 'remove', '_User');
+				$resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'friendshipCounter', 1);
+				$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'friendship', array($toUser->getObjectId()), true, 'remove', '_User');
+				$resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'friendshipCounter', 1);
+			} elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
+				$resToUserF = $userParse->updateField($toUser->getObjectId(), 'collaboration', array($currentUser->getObjectId()), true, 'remove', '_User');
+				$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'collaboration', array($toUser->getObjectId()), true, 'remove', '_User');
+				if ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'JAMMER') {
+					$resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'jammerCounter', 1);
+					$resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
+				} elseif ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'VENUE') {
+					$resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'venueCounter', 1);
+					$resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
+				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'JAMMER') {
+					$resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'jammerCounter', 1);
+					$resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'venueCounter', 1);
+				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'VENUE') {
+					$resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'venueCounter', 1);
+					$resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'venueCounter', 1);
+				}
+			}
+			if ($resToUserF instanceof Error ||
+				$resFromUserF instanceof Error ||
+				$resToUserFC instanceof Error ||
+				$resFromUserFC instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => 'Errore nell\'aggiornamento di un Utente'), 503);
+			}
+			$this->response(array($controllers['RELDELETED']), 200);
+		} catch (Exception $e) {
+			$this->response(array('status' => $e->getMessage()), 503);
+		}
     }
 
     /**
