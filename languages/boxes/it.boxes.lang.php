@@ -50,6 +50,11 @@ $boxes = array(
     'NOID' => 'noid',
     'ONLYIFLOGGEDIN' => 'DISPONIBILE SOLO PER UTENTI LOGGATI',
     'NOLOCALTYPE' => 'LOCALTYPE NON DEFINITO',
-    'NOMEMBER' => 'MEMBERS NON DEFINITO'
+    'NOMEMBER' => 'MEMBERS NON DEFINITO',
+    'MESSAGEFORLIST' => 'ti ha scritto un messaggio un messaggio',
+    'EVENTFORLIST' => 'ti ha inviato ad un evento',
+    'FRIENDSHIPFORLIST' => 'vuole essere tuo amico',
+    'COLLABORATIONFORLIST' => 'vuole collaborare con te',
+    'FOLLOWINGFORLIST' => 'ti sta seguendo'
 );
 ?>
