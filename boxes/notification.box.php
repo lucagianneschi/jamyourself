@@ -234,7 +234,7 @@ class NotificationBox {
 	$activity->where('active', true);
 	$activity->setLimit($notificationBox->config->limitForMessageList);
 	$activity->orderByDescending('createdAt');
-	$activity->whereInclude('fromUser');
+	$activity->whereInclude('fromUser,event');
 	$events = $activity->getActivities();
 	if ($events instanceof Error) {
 	    return $events;
@@ -251,7 +251,7 @@ class NotificationBox {
 		$fromUserInfo = new UserInfo($relationId, $thumbnail, $userType, $username);
 		$relationType = 'E';
 		$text = $boxes['EVENTFORLIST'];
-		$relatedId = $events->getEvent()->getObjectId();
+		$relatedId = $event->getEvent()->getObjectId();
 		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
 		array_push($relationArray, $notificationInfo);
 	    }
