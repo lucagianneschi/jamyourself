@@ -153,15 +153,18 @@ function recordSelectNext(recordId){
 
 
 //visualizza foto di singolo album e nasconde lista album
-function albumSelectSingle(objectId,num) {
+function albumSelectSingle(objectId,num) { 
+	var limit = 12;
+	var skip = 0;
 	//effettua transizione se ci sono foto all'interno dell'album
 	if(num>0) {		
 		 $( "#albumSlide" ).fadeOut( 100, function() {
     		$('#'+objectId ).fadeIn( 100 );
-    		if(!$('#'+objectId+' .photo-colorbox-group').length){
+    		if(!$('#'+objectId+' .photo-colorbox-group').length){		
 	    		callBox.objectId = objectId;
-	    		callBox.limit = 30;
-	    		callBox.skip = 0;
+	    		callBox.limit = limit;
+	    		callBox.skip = skip;
+	    		callBox.numerDetail = num;    		
 	    		callBox.load('albumDetail');
 	    	}
 		});
@@ -178,6 +181,16 @@ function albumSelectNext(objectId){
 		$("#cboxLoadedContent").mCustomScrollbar("update");
 		callBox.load('album');		
 	});	
+}
+
+//visuallizza il link other 
+function getOtherObject(dataPrec,num){
+	callBox.limit = 12;
+	callBox.skip = 12;
+	callBox.numerDetail = num;
+	callBox.dataPrec = dataPrec;   		
+	callBox.load('albumDetail');
+	
 }
 
 function getScrollBar(boxId){

@@ -114,8 +114,7 @@ $albumCounter = $data['albumCounter'];
 				</div>
 			</div>
 		</div>
-	<!----------------------------------------- ALBUM PHOTO SINGLE ------------------------------>
-	
+	<!----------------------------------------- ALBUM PHOTO SINGLE ------------------------------>	
 	<?php 
 		
 		for($i=0; $i<$albumCounter; $i++){ 

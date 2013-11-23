@@ -1,10 +1,17 @@
+
 <header>
 	<!------------------------------------- HIDE HEADER ----------------------------->
-	<div id="header-hide" class="no-display">		
+	<div id="header-hide" class="no-display">
+		<?php		
+			if (isset($_SESSION['currentUser'])) {		
+		?>		
 		<div  class="row hcento-hero">
 			<div id="header-profile" class="small-6 columns"></div>			
-			<div id="header-social" class="small-6 columns"></div>
-		</div>	
+			<div id="header-social" class="small-6 columns">
+				<?php require_once './content/header/box-social.php'; ?>
+			</div>
+		</div>
+		<?php } ?>	
 	</div>
 	
 	<!------------------------------------- HEADER ----------------------------->
