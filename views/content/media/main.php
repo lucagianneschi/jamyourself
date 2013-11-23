@@ -6,7 +6,7 @@ $currentUserType = $_GET['currentType'];
 ?>
 <div class="bg-double">	
 		<div id='scroll-profile' class='hcento' style="width: 50%;float: left;">						
-			<div id="profile" style="max-width:500px; float:right">
+			<div id="profile" style="width:100%; max-width:500px; float:right">
 				<div class="row">
 					<div class="large-12 columns">
 						<div id='box-userinfo'></div>	
@@ -17,7 +17,7 @@ $currentUserType = $_GET['currentType'];
 			</div>
 		</div>
 		<div id='scroll-social' class='hcento' style="width: 50%;float: right;">
-			<div id="social" style="max-width:500px; float:left">
+			<div id="social" style="width:100%; max-width:500px; float:left">
 				<div class="row">
 					<div class="large-12 columns">
 						<div id='box-status' ></div>
