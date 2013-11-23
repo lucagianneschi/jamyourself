@@ -25,15 +25,39 @@
 			console.log("Code: " + code + " | Message: " + message);
 		});
 	}
+	
+	function declineRelation(objectId) {
+		var json_relation = {};
+		json_relation.objectId = objectId;
+		json_relation.request = 'sendRelation';
+
+		$.ajax({
+		    type: "POST",
+		    url: "../../../controllers/request/relationRequest.php",
+		    data: json_relation,
+		    beforeSend: function(xhr) {}
+		})
+		.done(function(message, status, xhr) {
+			//status = success
+			code = xhr.status;
+			console.log("Code: " + code + " | Message: " + message);
+		})
+		.fail(function(xhr) {
+			message = $.parseJSON(xhr.responseText).status;
+			code = xhr.status;
+			console.log("Code: " + code + " | Message: " + message);
+		});
+	}
 	</script>
 	<title>Pagina di test del controller delle relazioni</title>
 	</head>
     <body>
 	Cliccando i bottoni seguenti si inviano richieste di relazioni, si accettano richieste o si declinano richieste<br />
 	<br />
-	<button type="button" onclick="sendRelation('GuUAj83MGH')">Relazione CurrentUser -> SPOTTER (GuUAj83MGH)</button>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	<button type="button" onclick="love('Album', 'cjqaTR1kQW', 'decrement')">Decrement Love Album cjqaTR1kQW</button>
+	<button type="button" onclick="sendRelation('GuUAj83MGH')">Relazione currentUser -> SPOTTER (GuUAj83MGH)</button>
+	<br />
+	<input type="text" id="objectIdDaDeclinare" />
+	<button type="button" onclick="declineRelation($.('#objectIdDaDeclinare').val())">Declina la Relazione</button>
 	&nbsp;<hr>
 	<button type="button" onclick="love('Comment', 'rEJJMsGCTo', 'increment')">Increment Love Comment rEJJMsGCTo</button>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

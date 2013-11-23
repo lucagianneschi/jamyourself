@@ -139,37 +139,41 @@ class RelationController extends REST {
      * \brief   decline relationship request
      * \todo    test
      */
-    public function declineRelationRequest() {
-	global $controllers;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($this->request['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['activityId'])) {
-		$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
-	    }
-	    $currentUser = $this->request['currentUser'];
-	    $toUser = $this->request['toUser'];
-	    $activityId = $this->request['activityId'];
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityP = new ActivityParse();
-	    $res = $activityP->updateField($activityId, 'status', 'R');
-	    $res1 = $activityP->updateField($activityId, 'read', true);
-	    if ($res instanceof Error || $res1 instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
-	    }
-	    $activity = $this->createActivity('RELDECLINED', $toUser, $currentUser->getObjectId(), 'A');
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityP1 = new ActivityParse();
-	    $res2 = $activityP1->saveActivity($activity);
-	    if ($res2 instanceof Error) {
-		$this->response(array('status' => $controllers['NOACSAVE']), 403);
-	    }
-	    $this->response(array('RELDECLINED'), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+    public function declineRelation() {
+		global $controllers;
+		try {
+			if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+			} elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
+			} elseif (!isset($this->request['objectId'])) {
+				$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
+			}
+			
+			$currentUser = $_SESSION['currentUser'];
+			$objectId = $this->request['objectId'];
+			
+			require_once CLASSES_DIR . 'activityParse.class.php';
+			$activityParse = new ActivityParse();
+			
+			$resStatus = $activityParse->updateField($objectId, 'status', 'R');
+			if ($resStatus instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+			}
+			
+			$resRead = $activityParse->updateField($activityId, 'read', true);
+			if ($resRead instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+			}
+			
+			$this->response(array('RELDECLINED'), 200);
+		} catch (Exception $e) {
+			$this->response(array('status' => $e->getMessage()), 503);
+		}
     }
 
     /**
