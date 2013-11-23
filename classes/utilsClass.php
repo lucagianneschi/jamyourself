@@ -294,6 +294,64 @@ function fromParseRelation($fromClassName, $fromField, $fromObjectId, $toClassNa
 }
 
 /**
+ * \fn		parse_decode_array($array)
+ * \brief	The function returns a array read from Parse that can be interpreted by the user
+ * \param	$array 	represent the array from Parse to decode
+ * \return	array		the decoded array
+ */
+function parse_decode_array($array) {
+    $decodedArray = array();
+    if (!empty($array) && !is_null($array) && count($array) > 0) {
+	foreach ($array as $string) {
+	    $decodedString = parse_decode_string($string);
+	    array_push($decodedArray, $decodedString);
+	}
+    }
+    return $decodedArray;
+}
+
+/**
+ * \fn		string parse_decode_string($string)
+ * \brief	The function returns a string read from Parse that can be interpreted by the user
+ * \param	$string 	represent the string from Parse to decode
+ * \return	string		the decoded string
+ */
+function parse_decode_string($string) {
+    $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+    $decodedString = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
+    return $decodedString;
+}
+
+/**
+ * \fn		parse_encode_array($array)
+ * \brief	The function returns an array that can be saved to Parse
+ * \param	$array 	represent the array to be saved
+ * \return	array		the array encoded for Parse
+ */
+function parse_encode_array($array) {
+    $encodedArray = array();
+    if (!empty($array) && !is_null($array) && count($array) > 0) {
+	foreach ($array as $string) {
+	    $encodedString = parse_encode_array($string);
+	    array_push($encodedArray, $encodedString);
+	}
+    }
+    return $encodedArray;
+}
+
+/**
+ * \fn		string parse_encode_string($string)
+ * \brief	The function returns a string that can be saved to Parse
+ * \param	$string 	represent the string to be saved
+ * \return	string		the string encoded for Parse
+ */
+function parse_encode_string($string) {
+    $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
+    $string = str_replace(array("\r\n", "\r", "\n"), "<br />", $string);
+    return $string;
+}
+
+/**
  * \fn		array toParseACL($parseACL)
  * \brief	The function returns an array like representation of parseACL object
  * \param	$parseACL 	represent the parseACL object
