@@ -273,8 +273,8 @@ class SignupController extends REST {
             $this->setCommonValues($user, $userJSON);
 
 //step 2
-            $user->setFirstname(parse_encode_string($userJSON->firstname));
-            $user->setLastname(parse_encode_string($userJSON->lastname));
+            $user->setFirstname($userJSON->firstname);
+            $user->setLastname($userJSON->lastname);
             $user->setCountry($userJSON->country);
             $user->setCity($userJSON->city);
             $user->setMusic($this->getMusicArray($userJSON->genre));
@@ -388,10 +388,10 @@ class SignupController extends REST {
     private function setCommonValues($user, $decoded) {
 
 //la parte dello step 1
-        $user->setUsername(parse_encode_string($decoded->username));
+        $user->setUsername($decoded->username);
         $user->setEmail($decoded->email);
-        $user->setPassword(parse_encode_string($decoded->password));
-        $user->setDescription(parse_encode_string($decoded->description));
+        $user->setPassword($decoded->password);
+        $user->setDescription($decoded->description);
 
         $imgInfo = $this->getImages($decoded);
         $user->setSettings(defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['ProfilePicture']));

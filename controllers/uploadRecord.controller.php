@@ -77,12 +77,12 @@ class uploadRecordController extends REST {
         $record->setCover($imgInfo['RecordPicture']);
         $record->setThumbnailCover($imgInfo['RecordThumbnail']);
 
-        $record->setDescription(parse_encode_string($newAlbum->albumTitle));
+        $record->setDescription($newAlbum->albumTitle);
         $record->setDuration(0);
         $record->setFeaturing($newAlbum->albumFeaturing);
         $record->setFromUser($userId);
         $record->setGenre($this->getTags($newAlbum->tags));
-        $record->setLabel(parse_encode_string($newAlbum->label));
+        $record->setLabel($newAlbum->label);
 
         if (($location = GeocoderService::getLocation($newAlbum->city))) {
             $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);

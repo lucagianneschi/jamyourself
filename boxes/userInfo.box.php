@@ -67,17 +67,17 @@ class UserInfoBox {
         } else {
             $infoBox = new UserInfoBox();
             is_null($user->getBackGround()) ? $infoBox->backGround = DEFBGD : $infoBox->backGround = $user->getBackGround();
-            is_null($user->getCity()) ? $infoBox->city = $boxes['NODATA'] : $infoBox->city = parse_decode_string($user->getCity());
-            is_null($user->getCountry()) ? $infoBox->country = $boxes['NODATA'] : $infoBox->country = parse_decode_string($user->getCountry());
-            is_null($user->getDescription()) ? $infoBox->description = $boxes['NODATA'] : $infoBox->description = parse_decode_string($user->getDescription());
-            is_null($user->getFbPage()) ? $infoBox->fbPage = $boxes['NODATA'] : $infoBox->fbPage = parse_decode_string($user->getFbPage());
-            is_null($user->getGooglePlusPage()) ? $infoBox->googlePlusPage = $boxes['NODATA'] : $infoBox->googlePlusPage = parse_decode_string($user->getGooglePlusPage());
+            is_null($user->getCity()) ? $infoBox->city = $boxes['NODATA'] : $infoBox->city = ($user->getCity());
+            is_null($user->getCountry()) ? $infoBox->country = $boxes['NODATA'] : $infoBox->country = ($user->getCountry());
+            is_null($user->getDescription()) ? $infoBox->description = $boxes['NODATA'] : $infoBox->description = ($user->getDescription());
+            is_null($user->getFbPage()) ? $infoBox->fbPage = $boxes['NODATA'] : $infoBox->fbPage = ($user->getFbPage());
+            is_null($user->getGooglePlusPage()) ? $infoBox->googlePlusPage = $boxes['NODATA'] : $infoBox->googlePlusPage = ($user->getGooglePlusPage());
             is_null($user->getLevel()) ? $infoBox->level = 0 : $infoBox->level = $user->getLevel();
             is_null($user->getLevelValue()) ? $infoBox->levelValue = 1 : $infoBox->levelValue = $user->getLevelValue();
-            is_null($user->getTwitterPage()) ? $infoBox->twitterPage = $boxes['NODATA'] : $infoBox->twitterPage = parse_decode_string($user->getTwitterPage());
-            is_null($user->getUsername()) ? $infoBox->userName = $boxes['NODATA'] : $infoBox->userName = parse_decode_string($user->getUsername());
-            is_null($user->getWebsite()) ? $infoBox->webSite = $boxes['NODATA'] : $infoBox->webSite = parse_decode_string($user->getWebsite());
-            is_null($user->getYoutubeChannel()) ? $infoBox->youtubeChannel = $boxes['NODATA'] : $infoBox->youtubeChannel = parse_decode_string($user->getYoutubeChannel());
+            is_null($user->getTwitterPage()) ? $infoBox->twitterPage = $boxes['NODATA'] : $infoBox->twitterPage = ($user->getTwitterPage());
+            is_null($user->getUsername()) ? $infoBox->userName = $boxes['NODATA'] : $infoBox->userName = ($user->getUsername());
+            is_null($user->getWebsite()) ? $infoBox->webSite = $boxes['NODATA'] : $infoBox->webSite = ($user->getWebsite());
+            is_null($user->getYoutubeChannel()) ? $infoBox->youtubeChannel = $boxes['NODATA'] : $infoBox->youtubeChannel = ($user->getYoutubeChannel());
             is_null($user->getJammerCounter()) ? $infoBox->jammerCounter = $boxes['NODATA'] : $infoBox->jammerCounter = $user->getJammerCounter();
             is_null($user->getVenueCounter()) ? $infoBox->venueCounter = $boxes['NODATA'] : $infoBox->venueCounter = $user->getVenueCounter();
             $infoBox->type = $user->getType();

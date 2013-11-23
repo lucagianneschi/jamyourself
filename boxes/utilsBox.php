@@ -65,7 +65,7 @@ class PostInfo {
 	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
 	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
 	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = ($text);
     }
 
 }
@@ -104,7 +104,7 @@ class UserInfo {
 	}
 	is_null($thumbnail) ? $this->thumbnail = $imageDefault : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
-	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = parse_decode_string($username);
+	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = ($username);
     }
 
 }
@@ -169,23 +169,11 @@ function parse_decode_array($array) {
     $decodedArray = array();
     if (!empty($array) && !is_null($array) && count($array) > 0) {
 	foreach ($array as $string) {
-	    $decodedString = parse_decode_string($string);
+	    $decodedString = ($string);
 	    array_push($decodedArray, $decodedString);
 	}
     }
     return $decodedArray;
-}
-
-/**
- * \fn		string parse_decode_string($string)
- * \brief	The function returns a string read from Parse that can be interpreted by the user
- * \param	$string 	represent the string from Parse to decode
- * \return	string		the decoded string
- */
-function parse_decode_string($string) {
-    $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
-    $decodedString = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
-    return $decodedString;
 }
 
 /**

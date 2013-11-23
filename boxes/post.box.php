@@ -51,7 +51,7 @@ class PostInfo {
         is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
+        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = ($text);
     }
 
 }
