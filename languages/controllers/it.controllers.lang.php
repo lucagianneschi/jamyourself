@@ -88,6 +88,9 @@ $controllers = array(
     'NOTITLE' => 'Titolo non impostato',
     'SHORTREWTITLE' => 'Titolo review troppo corto',
     'LONGREWTITLE' => 'Titolo review troppo lungo',
+    //RECORD
+    'NOMP3LIST' => 'Nessuna lista di mp3',
+    'RECORDSAVED' => 'Album salvato con successo',
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',
