@@ -544,6 +544,7 @@ class UserParse {
      * \param	$typeRelation	[optional] default = '' - define if the relational update must add or remove the value from the field
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
+	/*
     public function updateField($objectId, $sessionToken, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
 	if (is_null($objectId) || is_null($sessionToken) || is_null($field))
 	    return throwError(new Exception('updateField parameters objectId, sessionToken, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
@@ -566,6 +567,30 @@ class UserParse {
 	    $parseUser->$field = $value;
 	    $parseUser->update($objectId, $sessionToken);
 	}
+    }
+	*/
+	public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
+		if (is_null($objectId) || is_null($field))
+			return throwError(new Exception('updateField parameters objectId and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+		if ($isRelation) {
+			if (is_null($typeRelation) || is_null($className))
+			return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
+			if ($typeRelation == 'add') {
+			$parseObject = new parseObject('_User');
+			$parseObject->$field = toParseAddRelation($className, $value);
+			$parseObject->update($objectId);
+			} elseif ($typeRelation == 'remove') {
+			$parseObject = new parseObject();
+			$parseObject->$field = toParseRemoveRelation($className, $value);
+			$parseObject->update($objectId);
+			} else {
+			return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
+			}
+		} else {
+			$parseObject = new parseObject();
+			$parseObject->$field = $value;
+			$parseObject->update($objectId);
+		}
     }
 
     /**
