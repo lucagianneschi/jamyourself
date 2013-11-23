@@ -7,6 +7,7 @@ require_once CONTROLLERS_DIR . 'uploadRecord.controller.php';
 
 $uploadRecordController = new uploadRecordController();
 $uploadRecordController->init();
+
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->

@@ -20,11 +20,17 @@ $data = $_POST['data'];
 $detail = $_POST['detail']; 
 $objectIdUser  = $_POST['objectIdUser'];
 $typeUser = $_POST['typeUser'];
+$numerDetail = $_POST['numerDetail'];
+
+$dataPrec = isset($_POST['dataPrec']) ? $_POST['dataPrec'] : Array();
+
+$data = array_merge($dataPrec, $_POST['data']); 
+
 //----------------------------------- thumbnail ------------------------------------------
 
 if($detail == 0){
   ?>
-  <ul class="small-block-grid-3 small-block-grid-2 ">	
+  <ul class="small-block-grid-3 small-block-grid-2 " >	
   <?php		
   foreach ($data['image'] as $key => $value) {   
   ?>
@@ -32,9 +38,28 @@ if($detail == 0){
   <li><a class="photo-colorbox-group" href="#<?php echo $value['objectId']; ?>"><img class="photo" src="../media/<?php $value['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"></a></li>
 
 <?php 
-  } 
+  }
+  $counterImage = count($data['image']); 
  ?>
-</ul>	
+</ul>
+
+<div class="row">
+	<div class="small-12 columns">
+		<a class="text orange otherObject no-display" onclick="getOtherObject(<?php echo $data?>,<?php echo $numerDetail ?> )" style="padding-bottom: 15px;float: right;">Other <span></span> photo</a>	
+	</div>
+</div>
+
+<script>	
+	
+	function getOtherString(tot, limit){
+		if(limit < tot){
+			$('.otherObject').removeClass('no-display');		
+			$('.otherObject span').text(tot-limit);
+		}
+		
+	}
+	getOtherString(<?php echo $numerDetail ?>,<?php echo $counterImage ?>);
+</script>
 <?php
 }
 

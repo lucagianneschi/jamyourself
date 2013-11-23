@@ -16,8 +16,6 @@
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:user">API</a>
  */
 
-require_once 'settings.php';
-
 class User {
 
 	private $objectId;
