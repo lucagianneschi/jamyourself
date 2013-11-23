@@ -160,23 +160,6 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
 }
 
 /**
- * \fn		parse_decode_array($array)
- * \brief	The function returns a array read from Parse that can be interpreted by the user
- * \param	$array 	represent the array from Parse to decode
- * \return	array		the decoded array
- */
-function parse_decode_array($array) {
-    $decodedArray = array();
-    if (!empty($array) && !is_null($array) && count($array) > 0) {
-	foreach ($array as $string) {
-	    $decodedString = ($string);
-	    array_push($decodedArray, $decodedString);
-	}
-    }
-    return $decodedArray;
-}
-
-/**
  * \fn		sessionChecker()
  * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
  * \return	string $currentUserId;

@@ -71,7 +71,7 @@ class EventInfoForMediaPage {
         is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
         is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = ($locationName);
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = parse_decode_array($tags);
+        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
     }
 
@@ -110,7 +110,7 @@ class EventInfoForPersonalPage {
         is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = ($locationName);
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = parse_decode_array($tags);
+        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
         is_null($thumbnail) ? $this->thumbnail = DEFEVENTTHUMB : $this->thumbnail = $thumbnail;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
     }
