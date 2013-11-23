@@ -225,7 +225,6 @@ class uploadRecordController extends REST {
     }
 
     private function getFeaturingArray() {
-        error_reporting(0);
         if (isset($_SESSION['currentUser'])) {
             $currentUser = $_SESSION['currentUser'];
             $currnetUserId = $currentUser->getObjectId();
