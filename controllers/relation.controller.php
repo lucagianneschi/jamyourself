@@ -139,37 +139,41 @@ class RelationController extends REST {
      * \brief   decline relationship request
      * \todo    test
      */
-    public function declineRelationRequest() {
-	global $controllers;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($this->request['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['activityId'])) {
-		$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
-	    }
-	    $currentUser = $this->request['currentUser'];
-	    $toUser = $this->request['toUser'];
-	    $activityId = $this->request['activityId'];
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityP = new ActivityParse();
-	    $res = $activityP->updateField($activityId, 'status', 'R');
-	    $res1 = $activityP->updateField($activityId, 'read', true);
-	    if ($res instanceof Error || $res1 instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
-	    }
-	    $activity = $this->createActivity('RELDECLINED', $toUser, $currentUser->getObjectId(), 'A');
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityP1 = new ActivityParse();
-	    $res2 = $activityP1->saveActivity($activity);
-	    if ($res2 instanceof Error) {
-		$this->response(array('status' => $controllers['NOACSAVE']), 403);
-	    }
-	    $this->response(array('RELDECLINED'), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+    public function declineRelation() {
+		global $controllers;
+		try {
+			if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+			} elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
+			} elseif (!isset($this->request['objectId'])) {
+				$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
+			}
+			
+			$currentUser = $_SESSION['currentUser'];
+			$objectId = $this->request['objectId'];
+			
+			require_once CLASSES_DIR . 'activityParse.class.php';
+			$activityParse = new ActivityParse();
+			
+			$resStatus = $activityParse->updateField($objectId, 'status', 'R');
+			if ($resStatus instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+			}
+			
+			$resRead = $activityParse->updateField($activityId, 'read', true);
+			if ($resRead instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+			}
+			
+			$this->response(array('RELDECLINED'), 200);
+		} catch (Exception $e) {
+			$this->response(array('status' => $e->getMessage()), 503);
+		}
     }
 
     /**
@@ -253,103 +257,112 @@ class RelationController extends REST {
      * \brief   send request for relationships
      * \todo    test
      */
-    public function sendRelationRequest() {
-	global $controllers;
-	global $mail_files;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($this->request['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['toUser'])) {
-		$this->response(array('status' => $controllers['NOTOUSER']), 403);
-	    } elseif (!isset($this->request['toUserType'])) {
-		$this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
-	    }
-	    $currentUser = $this->request['currentUser'];
-	    $toUserId = $this->request['toUser'];
-	    $toUserType = $this->request['toUserType'];
-	    if ($currentUser->getObjectId() == $toUserId) {
-		$this->response(array('status' => $controllers['SELF']), 503);
-	    }
-	    require_once SERVICES_DIR . 'relationChecker.service.php';
-	    if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
-		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
-	    }
-	    if ($currentUser->getType() == 'SPOTTER') {
-		if ($toUserType == 'SPOTTER') {
-		    $type = "FRIENDSHIPREQUEST";
-		    $HTMLFile = $mail_files['FRIENDSHIPREQUESTEMAIL'];
-		} else {
-		    $type = "FOLLOWING";
-		    $HTMLFile = $mail_files['FOLLOWINGEMAIL'];
+    public function sendRelation() {
+		global $controllers;
+		global $mail_files;
+		try {
+			if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+			} elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
+			} elseif (!isset($this->request['toUser'])) {
+				$this->response(array('status' => $controllers['NOTOUSER']), 403);
+			}
+			
+			$currentUser = $_SESSION['currentUser'];
+			$toUserId = $this->request['toUser'];
+			if ($currentUser->getObjectId() == $toUserId) {
+				$this->response(array('status' => $controllers['SELF']), 503);
+			}
+			
+			require_once CLASSES_DIR . 'userParse.class.php';
+			$userParse = new UserParse();
+			$toUser = $userParse->getUser($toUserId);
+			
+			require_once SERVICES_DIR . 'relationChecker.service.php';
+			if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUser->getObjectId(), $toUser->getType())) {
+				$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
+			}
+			
+			if ($currentUser->getType() == 'SPOTTER') {
+				if ($toUser->getType() == 'SPOTTER') {
+					$type = 'FRIENDSHIPREQUEST';
+					$status = 'P';
+					$HTMLFile = $mail_files['FRIENDSHIPREQUESTEMAIL'];
+				} else {
+					$type = 'FOLLOWING';
+					$status = 'A';
+					$HTMLFile = $mail_files['FOLLOWINGEMAIL'];
+				}
+			} else {
+				if ($toUser->getType() == 'SPOTTER') {
+					$this->response(array('status' => $controllers['RELDENIED']), 401);
+				} else {
+					$type = 'COLLABORATIONREQUEST';
+					$status = 'P';
+					$HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
+				}
+			}
+			
+			$activity = $this->createActivity($type, $toUser->getObjectId(), $currentUser->getObjectId(), $status);
+			require_once CLASSES_DIR . 'activityParse.class.php';
+			$activityParse = new ActivityParse();
+			$resActivity = $activityParse->saveActivity($activity);
+			if ($resActivity instanceof Error) {
+				$this->response(array('status' => $controllers['NOACSAVE']), 503);
+			} 
+
+			if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
+				$resToUser = $userParse->updateField($toUser->getObjectId(), 'followers', array($currentUser->getObjectId()), true, 'add', '_User');
+			}
+			if ($resToUser instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => 'XXXXX'), 503);
+			}
+			
+			if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
+				$resFromUser = $userParse->updateField($currentUser->getObjectId(), 'following', array($toUser->getObjectId()), true, 'add', '_User');
+			}
+			if ($resFromUser instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => 'XXXXX'), 503);
+			}
+			
+			#TODO
+			$this->sendMailNotification('daniele.caldelli@gmail.com'/*$toUser->getEmail()*/, $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
+			$this->response(array($controllers['RELSAVED']), 200);
+		} catch (Exception $e) {
+			$this->response(array('status' => $e->getMessage()), 503);
 		}
-	    } else {
-		if ($toUserType == 'SPOTTER') {
-		    $this->response(array('status' => $controllers['RELDENIED']), 401);
-		} else {
-		    $type = "COLLABORATIONREQUEST";
-		    $HTMLFile = $mail_files['COLLABORATIONREQUESTEMAIL'];
-		}
-	    }
-	    $activity = $this->createActivity($type, $toUserId, $currentUser->getObjectId(), 'P');
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activityParse = new ActivityParse();
-	    $resActivity = $activityParse->saveActivity($activity);
-	    if ($resActivity instanceof Error) {
-		$this->response(array('status' => $controllers['NOACSAVE']), 503);
-	    } else {
-		require_once CLASSES_DIR . 'userParse.class.php';
-		$userP = new UserParse();
-		$user = $userP->getUser($toUserId);
-		if ($user instanceof Error) {
-		    $this->response(array('status' => $controllers['NOTOUSER']), 503);
-		}
-		$this->sendMailNotification($toUserId->getEmail(), $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
-		$this->response(array($controllers['RELSAVED']), 200);
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
     }
 
     private function sendMailNotification($address, $subject, $html) {
-	global $controllers;
-	require_once SERVICES_DIR . 'mail.service.php';
-	$mail = mailService();
-	$mail->AddAddress($address);
-	$mail->Subject = $subject;
-	$mail->MsgHTML($html);
-	$resMail = $mail->Send();
-	if ($resMail instanceof phpmailerException) {
-	    $this->response(array('status' => $controllers['NOMAIL']), 403);
-	}
-	$mail->SmtpClose();
-	unset($mail);
-	return true;
+		global $controllers;
+		require_once SERVICES_DIR . 'mail.service.php';
+		$mail = mailService();
+		$mail->AddAddress($address);
+		$mail->Subject = $subject;
+		$mail->MsgHTML($html);
+		$resMail = $mail->Send();
+		if ($resMail instanceof phpmailerException) {
+			$this->response(array('status' => $controllers['NOMAIL']), 403);
+		}
+		$mail->SmtpClose();
+		unset($mail);
+		return true;
     }
 
     private function createActivity($type, $toUserId, $currentUserId, $status) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum(null);
-	$activity->setComment(null);
-	$activity->setCounter(0);
-	$activity->setEvent(null);
-	$activity->setFromUser($currentUserId);
-	$activity->setImage(null);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRecord(null);
-	$activity->setRead(false);
-	$activity->setSong(null);
-	$activity->setStatus($status);
-	$activity->setToUser($toUserId);
-	$activity->setType($type);
-	$activity->setUserStatus(null);
-	$activity->setVideo(null);
-	return $activity;
+		require_once CLASSES_DIR . 'activity.class.php';
+		$activity = new Activity();
+		$activity->setType($type);
+		$activity->setToUser($toUserId);
+		$activity->setFromUser($currentUserId);
+		$activity->setStatus($status);
+		$activity->setRead(false);
+		return $activity;
     }
 
 }
