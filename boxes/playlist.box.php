@@ -44,7 +44,7 @@ class SongInfo {
 	global $boxes;
 	is_null($author) ? $this->author = $boxes['NODATA'] : $this->author = $author;
 	is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = parse_decode_string($title);
+	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
     }
 
 }
@@ -94,7 +94,7 @@ class PlaylistBox {
 	    foreach ($playlists as $playlist) {
 		require_once CLASSES_DIR . 'song.class.php';
 		require_once CLASSES_DIR . 'songParse.class.php';
-                $playlistBox->name = parse_decode_string($playlist->getName());
+                $playlistBox->name = ($playlist->getName());
 		$song = new SongParse();
 		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
 		$song->where('active', true);

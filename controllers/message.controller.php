@@ -131,8 +131,8 @@ class MessageController extends REST {
 	    $message->setShareCounter(0);
 	    $message->setStatus(null);
 	    $message->setTags(null);
-	    $message->setText(parse_encode_string($text));
-	    $message->setTitle(parse_encode_string($title));
+	    $message->setText($text);
+	    $message->setTitle($title);
 	    $message->setToUser($toUserId);
 	    $message->setType('M');
 	    $message->setVideo(null);
