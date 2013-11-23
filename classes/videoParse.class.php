@@ -197,18 +197,15 @@ class VideoParse {
 			$video = new Video();
 			$video->setObjectId($res->objectId);
 			$video->setActive($res->active);
-			$video->setAuthor($res->author);
-			#$video->setCommentators(fromParseRelation('Video', 'commentators', $res->objectId, '_User'));
-			#$video->setComments(fromParseRelation('Video', 'comments', $res->objectId, 'Comment'));
+			$video->setAuthor(parse_decode_string($res->author));
 			$video->setCounter($res->counter);
-			$video->setDescription($res->description);
+			$video->setDescription(parse_decode_string($res->description));
 			$video->setDuration($res->duration);
-			#$video->setFeaturing(fromParseRelation('Video', 'featuring', $res->objectId, '_User'));
 			$video->setFromUser(fromParsePointer($res->fromUser));
 			$video->setLoveCounter($res->loveCounter);
 			$video->setLovers($res->lovers);
-			$video->setTags($res->tags);
-			$video->setTitle($res->title);
+			$video->setTags(parse_decode_array($res->tags));
+			$video->setTitle(parse_decode_string($res->title));
 			$video->setThumbnail($res->thumbnail);
 			$video->setURL($res->URL);
 			$video->setCreatedAt(fromParseDate($res->createdAt));
@@ -234,19 +231,19 @@ class VideoParse {
                     $nullArray = array();
 			$parseVideo = new parseObject('Video');
 			is_null($video->getActive()) ? $parseVideo->active = true : $parseVideo->active = $video->getActive();
-			is_null($video->getAuthor()) ? $parseVideo->author = null : $parseVideo->author = $video->getAuthor();
+			is_null($video->getAuthor()) ? $parseVideo->author = null : $parseVideo->author = parse_encode_string($video->getAuthor());
 			is_null($video->getCommentators()) ? $parseVideo->commentators = null : $parseVideo->commentators = toParseAddRelation('_User', $video->getCommentators());
 			is_null($video->getComments()) ? $parseVideo->comments = null : $parseVideo->comments = toParseAddRelation('Comment', $video->getComments());
 			is_null($video->getCounter()) ? $parseVideo->counter = -1 : $parseVideo->counter = $video->getCounter();
-			is_null($video->getDescription()) ? $parseVideo->description = null : $parseVideo->description = $video->getDescription();
+			is_null($video->getDescription()) ? $parseVideo->description = null : $parseVideo->description = parse_encode_string($video->getDescription());
 			is_null($video->getDuration()) ? $parseVideo->duration = 0 : $parseVideo->duration = $video->getDuration();
 			is_null($video->getFeaturing()) ? $parseVideo->featuring = null : $parseVideo->featuring = toParseAddRelation('_User', $video->getFeaturing());
 			$parseVideo->fromUser = toParsePointer('_User', $video->getFromUser());
 			is_null($video->getLoveCounter()) ? $parseVideo->loveCounter = -1 : $parseVideo->loveCounter = $video->getLoveCounter();
 			is_null($video->getLovers()) ? $parseVideo->lovers = $nullArray : $parseVideo->lovers = $video->getLovers();
-			is_null($video->getTags()) ? $parseVideo->tags = $nullArray : $parseVideo->tags = $video->getTags();
+			is_null($video->getTags()) ? $parseVideo->tags = $nullArray : $parseVideo->tags = parse_encode_array($video->getTags());
 			is_null($video->getThumbnail()) ? $parseVideo->thumbnail = DEFVIDEOTHUMB : $parseVideo->thumbnail = $video->getThumbnail();
-			is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = $video->getTitle();
+			is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = parse_encode_string($video->getTitle());
 			is_null($video->getURL()) ? $parseVideo->URL = null : $parseVideo->URL = $video->getURL();
 			is_null($video->getACL()) ? $parseVideo->ACL = toParseDefaultACL() : $parseVideo->ACL = toParseACL($video->getACL());
 			if ($video->getObjectId() == '') {
@@ -308,7 +305,7 @@ class VideoParse {
 			}
 		} else {
 			$parseObject = new parseObject('Video');
-			$parseObject->$field = $value;
+			$parseObject->$field = $value;//qui fare encode??
 			$parseObject->update($objectId);
 		}
 	}

@@ -129,7 +129,7 @@ class LocationParse {
 		try {
 			$location = new Location();
 			$location->setObjectId($res->objectId);
-			$location->setCity($res->city);
+			$location->setCity(parse_decode_string($res->city));
 			$location->setCountry($res->country);
 			$location->setGeoPoint(fromParseGeoPoint($res->geoPoint));
 			$location->setLocId($res->locId);
