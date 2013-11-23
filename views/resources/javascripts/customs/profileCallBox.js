@@ -169,7 +169,7 @@ var callBox = {
 							addBoxAlbum(data, callboxCnt.typeUser, callboxCnt.objectIdUser);							
 							break;
 						case 'albumDetail':
-							addBoxAlbumDetail(data, callboxCnt.typeUser, callboxCnt.objectIdUser,callboxCnt.objectId);
+							addBoxAlbumDetail(data, callboxCnt.typeUser, callboxCnt.objectIdUser,callboxCnt.objectId,callboxCnt.numerDetail,callboxCnt.dataPrec);
 						break;
 						case 'post':
 							//aggiunge box post
@@ -419,6 +419,7 @@ function addBoxAlbum(data, typeUser, objectIdUser) {
 		'objectIdUser' : objectIdUser
 	}, function() { success: 
 		rsi_album = slideReview('albumSlide');
+		
 	//	lightBoxPhoto('photo-colorbox-group');
 	//	addthis.init();
 	//	addthis.toolbox(".addthis_toolbox");
@@ -429,13 +430,15 @@ function addBoxAlbum(data, typeUser, objectIdUser) {
 /*
  * box album chiama box-albumDetail.php
  */
-function addBoxAlbumDetail(data, typeUser, objectIdUser,objectId) {
+function addBoxAlbumDetail(data, typeUser, objectIdUser,objectId,numerDetail,dataPrec) {
 	
 	$('#'+objectId+' #box-albumDetailTH').load('content/profile/box-profile/box-albumDetail.php', {
 		'data' : data,
 		'detail': 0,
 		'typeUser' : typeUser,
-		'objectIdUser' : objectIdUser
+		'objectIdUser' : objectIdUser,
+		'numerDetail': numerDetail,
+		'dataPrec':dataPrec,
 	}, function() { success: 
 		rsi_album = slideReview('albumSlide');
 		lightBoxPhoto('photo-colorbox-group');		

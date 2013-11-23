@@ -61,10 +61,12 @@ function addBoxHeader(data){
 		'data' : data
 	}, function() { success: hcento();
 	});
+	/*
 	$('#header-social').load('content/header/box-social.php', {
 		'data' : data
 	}, function() { success: hcento();
 	});
+	*/
 }
 
 
