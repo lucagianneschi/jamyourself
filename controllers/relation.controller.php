@@ -35,103 +35,88 @@ class RelationController extends REST {
      * \brief   accept relationship request
      * \todo    test
      */
-    public function acceptRelationRequest() {
-	global $controllers;
-	global $mail_files;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($this->request['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['activityId'])) {
-		$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
-	    } elseif (!isset($this->request['toUser'])) {
-		$this->response(array('status' => $controllers['NOTOUSER']), 403);
-	    } elseif (!isset($this->request['toUserType'])) {
-		$this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
-	    }
-	    $currentUser = $this->request['currentUser'];
-	    $activityId = $this->request['activityId'];
-	    $toUserId = $this->request['toUser'];
-	    $toUserType = $this->request['toUserType'];
-	    require_once SERVICES_DIR . 'relationChecker.service.php';
-	    if ($this->relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserType, $toUserId)) {
-		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
-	    }
-	    $toUserP = new UserParse();
-	    $toUser = $toUserP->getUser($toUserId);
-	    $sessionTokenA = $currentUser->getSessionToken();
-	    $sessionTokenB = $toUserP->getSessionToken();
-	    if ($toUser instanceof Error) {
-		$this->response(array('status' => $controllers['USERNOTFOUND']), 503);
-	    } elseif (!isset($sessionTokenB)) {
-		$this->response(array('status' => $controllers['NOSESSIONTOKEN']), 503);
-	    }
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    $fromUserA = new UserParse();
-	    if ($currentUser->getType() == 'SPOTTER' && $toUserType == 'SPOTTER') {
-		$type = 'FRIENDSHIPACCEPTED';
-		$HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
-		$field = 'friendship';
-		$resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'add', '_User');
-		$counterA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'friendshipCounter', ($currentUser->getFriedshipCounter() + 1));
-		$resB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
-		$counterB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'friendshipCounter', ($toUser->getFriedshipCounter() + 1));
-		if ($resA instanceof Error || $resB instanceof Error) {
-		    $this->response(array('status' => $controllers['NOFRIENDSHIPUPDATE']), 503);
-		} elseif ($counterA instanceof Error || $counterB instanceof Error) {
-		    $this->response(array('status' => $controllers['NOFRIENDSHIPCOUNTERUPDATE']), 503);
+    public function acceptRelation() {
+		global $controllers;
+		global $mail_files;
+		try {
+			if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+			} elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
+			} elseif (!isset($this->request['objectId'])) {
+				$this->response(array('status' => $controllers['NOOBJECTID']), 403);
+			} elseif (!isset($this->request['toUserId'])) {
+				$this->response(array('status' => $controllers['NOTOUSER']), 403);
+			}
+			
+			$currentUser = $_SESSION['currentUser'];
+			$objectId = $this->request['objectId'];
+			$toUserId = $this->request['toUserId'];
+			
+			require_once CLASSES_DIR . 'userParse.class.php';
+			$userParse = new UserParse();
+			$toUser = $userParse->getUser($toUserId);
+			
+			require_once SERVICES_DIR . 'relationChecker.service.php';
+			if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUser->getObjectId(), $toUser->getType())) {
+				$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
+			}
+			
+			require_once CLASSES_DIR . 'activityParse.class.php';
+			$activityParse = new ActivityParse();
+			$resStatus = $activityParse->updateField($objectId, 'status', 'A');
+			if ($resStatus instanceof Error) {
+				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+			}
+			$resRead = $activityParse->updateField($objectId, 'read', true);
+			if ($resRead instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+			}
+			
+			require_once CLASSES_DIR . 'userParse.class.php';
+			$userParse = new UserParse();
+			if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
+				$resToUserF = $userParse->updateField($toUser->getObjectId(), 'friendship', array($currentUser->getObjectId()), true, 'add', '_User');
+				$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'friendshipCounter', 1);
+				$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'friendship', array($toUser->getObjectId()), true, 'add', '_User');
+				$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'friendshipCounter', 1);
+				$HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
+			} elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
+				$resToUserF = $userParse->updateField($toUser->getObjectId(), 'collaboration', array($currentUser->getObjectId()), true, 'add', '_User');
+				$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'collaboration', array($toUser->getObjectId()), true, 'add', '_User');
+				if ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'JAMMER') {
+					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'jammerCounter', 1);
+					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
+				} elseif ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'VENUE') {
+					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'venueCounter', 1);
+					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
+				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'JAMMER') {
+					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'jammerCounter', 1);
+					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'venueCounter', 1);
+				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'VENUE') {
+					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'venueCounter', 1);
+					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'venueCounter', 1);
+				}
+				$HTMLFile = $mail_files['COLLABORATIONACCEPTEDEMAIL'];
+			}
+			if ($resToUserF instanceof Error ||
+				$resFromUserF instanceof Error ||
+				$resToUserFC instanceof Error ||
+				$resFromUserFC instanceof Error) {
+				#TODO
+				//rollback
+				$this->response(array('status' => 'Errore nell\'aggiornamento di un Utente'), 503);
+			}
+			
+			#TODO
+			$this->sendMailNotification('daniele.caldelli@gmail.com'/*$toUser->getEmail()*/, $controllers['SBJOK'], file_get_contents(STDHTML_DIR . $HTMLFile));
+			
+			$this->response(array($controllers['RELACCEPTED']), 200);
+		} catch (Exception $e) {
+			$this->response(array('status' => $e->getMessage()), 503);
 		}
-	    } else {
-		$type = 'COLLABORATIONACCEPTED';
-		$field = 'collaboration';
-		$HTMLFile = $mail_files['COLLABORATIONACCEPTEDEMAIL'];
-		//aggiungo alla relazione collaboration per entrambi e aumento il contatore collaboration per entrambi
-		$counterCollaborationA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'collaborationCounter', ($currentUser->getFriedshipCounter() + 1));
-		$counterCollaborationB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'collaborationCounter', ($toUser->getFriedshipCounter() + 1));
-		$resA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, $field, $toUser->getObjectId(), true, 'add', '_User');
-		$resB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, $field, $currentUser->getObjectId(), true, 'add', '_User');
-		if ($resA instanceof Error || $resB instanceof Error) {
-		    $this->response(array('status' => $controllers['NOCOLLABORATIONUPDATE']), 503);
-		} elseif ($counterCollaborationA instanceof Error || $counterCollaborationB instanceof Error) {
-		    $this->response(array('status' => $controllers['NOCOLLABORATIONCOUNTERUPDATE']), 503);
-		}
-		if ($currentUser->getType() == 'VENUE' && $toUserType == 'VENUE') {
-		    $specificCollaborationA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'venueCounter', ($currentUser->getVenueCounter() + 1));
-		    $specificCollaborationB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'venueCounter', ($toUser->getVenueCounter() + 1));
-		} elseif ($currentUser->getType() == 'JAMMER' && $toUserType == 'JAMMER') {
-		    $specificCollaborationA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'jammerCounter', ($currentUser->getJammerCounter() + 1));
-		    $specificCollaborationB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'jammerCounter', ($toUser->getJammerCounter() + 1));
-		} elseif ($currentUser->getType() == 'VENUE' && $toUserType == 'JAMMER') {
-		    $specificCollaborationA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'jammerCounter', ($currentUser->getJammerCounter() + 1));
-		    $specificCollaborationB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'venueCounter', ($toUser->getVenueCounter() + 1));
-		} elseif ($currentUser->getType() == 'JAMMER' && $toUserType == 'VENUE') {
-		    $specificCollaborationA = $fromUserA->updateField($currentUser->getObjectId(), $sessionTokenA, 'venueCounter', ($currentUser->getVenueCounter() + 1));
-		    $specificCollaborationB = $toUserP->updateField($toUser->getObjectId(), $sessionTokenB, 'jammerCounter', ($toUser->getJammerCounter() + 1));
-		}
-		if ($specificCollaborationA instanceof Error || $specificCollaborationB instanceof Error) {
-		    $this->response(array('status' => $controllers['NOSPECIFICCOLLABORATIONCOUNTERUPDATE']), 503);
-		}
-		require_once CLASSES_DIR . 'activityParse.class.php';
-		$activityP = new ActivityParse();
-		$res = $activityP->updateField($activityId, 'status', 'A');
-		$res1 = $activityP->updateField($activityId, 'read', true);
-		if ($res instanceof Error || $res1 instanceof Error) {
-		    $this->response(array('status' => $controllers['NOACTUPDATE']), 503);
-		}
-		$this->sendMailNotification($toUser->getEmail(), $controllers['SBJOK'], file_get_contents(STDHTML_DIR . $HTMLFile));
-		$activity = $this->createActivity($type, $toUser, $currentUser->getObjectId(), 'A');
-		require_once CLASSES_DIR . 'activityParse.class.php';
-		$activityP1 = new ActivityParse();
-		$act = $activityP1->saveActivity($activity);
-		if ($act instanceof Error) {
-		    $this->response(array('status' => $controllers['NOACSAVE']), 503);
-		}
-		$this->response(array($controllers['RELACCEPTED']), 200);
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
     }
 
     /**
@@ -147,7 +132,7 @@ class RelationController extends REST {
 			} elseif (!isset($_SESSION['currentUser'])) {
 				$this->response(array('status' => $controllers['USERNOSES']), 403);
 			} elseif (!isset($this->request['objectId'])) {
-				$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
+				$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 			}
 			
 			$currentUser = $_SESSION['currentUser'];
@@ -163,7 +148,7 @@ class RelationController extends REST {
 				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
 			}
 			
-			$resRead = $activityParse->updateField($activityId, 'read', true);
+			$resRead = $activityParse->updateField($objectId, 'read', true);
 			if ($resRead instanceof Error) {
 				#TODO
 				//rollback

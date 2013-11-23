@@ -29,7 +29,31 @@
 	function declineRelation(objectId) {
 		var json_relation = {};
 		json_relation.objectId = objectId;
-		json_relation.request = 'sendRelation';
+		json_relation.request = 'declineRelation';
+
+		$.ajax({
+		    type: "POST",
+		    url: "../../../controllers/request/relationRequest.php",
+		    data: json_relation,
+		    beforeSend: function(xhr) {}
+		})
+		.done(function(message, status, xhr) {
+			//status = success
+			code = xhr.status;
+			console.log("Code: " + code + " | Message: " + message);
+		})
+		.fail(function(xhr) {
+			message = $.parseJSON(xhr.responseText).status;
+			code = xhr.status;
+			console.log("Code: " + code + " | Message: " + message);
+		});
+	}
+	
+	function acceptRelation(objectId, toUserId) {
+		var json_relation = {};
+		json_relation.objectId = objectId;
+		json_relation.toUserId = toUserId;
+		json_relation.request = 'acceptRelation';
 
 		$.ajax({
 		    type: "POST",
@@ -56,8 +80,12 @@
 	<br />
 	<button type="button" onclick="sendRelation('GuUAj83MGH')">Relazione currentUser -> SPOTTER (GuUAj83MGH)</button>
 	<br />
-	<input type="text" id="objectIdDaDeclinare" />
-	<button type="button" onclick="declineRelation($.('#objectIdDaDeclinare').val())">Declina la Relazione</button>
+	<input type="text" id="objectIdDaAccettare" placeholder="objectIdDaAccettare"/>
+	<input type="text" id="toUserobjectIdDaAccettare" placeholder="toUserobjectIdDaAccettare"/>
+	<button type="button" onclick="acceptRelation($('#objectIdDaAccettare').val(), $('#toUserobjectIdDaAccettare').val())">Accetta la Relazione</button>
+	<br />
+	<input type="text" id="objectIdDaDeclinare" placeholder="objectIdDaDeclinare"/>
+	<button type="button" onclick="declineRelation($('#objectIdDaDeclinare').val())">Declina la Relazione</button>
 	&nbsp;<hr>
 	<button type="button" onclick="love('Comment', 'rEJJMsGCTo', 'increment')">Increment Love Comment rEJJMsGCTo</button>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
