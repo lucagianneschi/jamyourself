@@ -1292,7 +1292,7 @@ class User {
 		$string .= '[lastname] => ' . $this->getLastname() . '<br />';
 		$string .= '[level] => ' . $this->getLevel() . '<br />';
 		$string .= '[levelValue] => ' . $this->getLevelValue() . '<br />';
-		$string .= '[localType] => ' . $this->getLocalType() . '<br />';
+		$string .= '[localType] => ' . implode ( "," , $this->getLocalType() ) . '<br />';
 		if (count($this->getLoveSongs()) != 0) {
 			foreach ($this->getLoveSongs() as $loveSong) {
 				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
