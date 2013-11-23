@@ -88,7 +88,6 @@ class ReviewController extends REST {
             }
             require_once CLASSES_DIR . 'comment.class.php';
             require_once CLASSES_DIR . 'commentParse.class.php';
-            require_once CONTROLLERS_DIR . 'utilsController.php';
             $review = new Comment();
             $review->setActive(true);
             $review->setAlbum(null);

@@ -5,7 +5,6 @@ require_once SERVICES_DIR . 'mail.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CONTROLLERS_DIR . 'utilsController.php';
 require_once CLASSES_DIR . 'recordParse.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';

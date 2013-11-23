@@ -110,7 +110,6 @@ class MessageController extends REST {
 	    } elseif (strlen($title) < $this->config->minTitleSize) {
 		$this->response(array('status' => $controllers['SHORTTITLEMESSAGE'] . strlen($text)), 406);
 	    }
-	    require_once CONTROLLERS_DIR . 'utilsController.php';
 	    require_once CLASSES_DIR . 'comment.class.php';
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $message = new Comment();
