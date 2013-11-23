@@ -1,9 +1,3 @@
-<?php
-
-$userType = $_GET['userType'];
-$currentUserType = $_GET['currentType'];
-
-?>
 <div class="bg-double">	
 		<div id='scroll-profile' class='hcento' style="width: 50%;float: left;">						
 			<div id="profile" style="max-width:500px; float:right">
