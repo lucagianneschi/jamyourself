@@ -10,7 +10,7 @@ define('CLASSES_DIR', ROOT_DIR . 'classes/');
 define('CONFIG_DIR', ROOT_DIR . 'config/');
 define('CONTROLLERS_DIR', ROOT_DIR . 'controllers/');
 define('DEBUG_DIR', ROOT_DIR . 'debug/');
-define('LANGUAGES_DIR', ROOT_DIR . 'languages/'); 
+define('LANGUAGES_DIR', ROOT_DIR . 'languages/');
 define('MEDIA_DIR', ROOT_DIR . 'media/');
 define('PARSE_DIR', ROOT_DIR . 'parse/');
 define('SERVICES_DIR', ROOT_DIR . 'services/');
@@ -24,7 +24,7 @@ define('USERS_DIR', ROOT_DIR . 'users/');
 ################
 define('IMAGES_DIR', ROOT_DIR . 'media/images/');
 define('SONGS_DIR', ROOT_DIR . 'media/songs/');
- 
+
 #################
 # DEFAULT IMAGE #
 #################
@@ -50,8 +50,16 @@ define('DEFRECORDTHUMB', MEDIA_DIR . 'images/default/defaultRecordThumb.jpg');
 //SONG
 define('DEFSONGTHUMB', MEDIA_DIR . 'images/default/defaultSongThumb.jpg');
 //IMAGE 
-define('DEFIMAGE', MEDIA_DIR . 'images/default/defaultImage.jpg'); 
+define('DEFIMAGE', MEDIA_DIR . 'images/default/defaultImage.jpg');
 define('DEFIMAGETHUMB', MEDIA_DIR . 'images/default/defaultImageThumb.jpg');
 //VIDEO
 define('DEFVIDEOTHUMB', MEDIA_DIR . 'images/default/defaultVideoThumb.jpg');
+
+##################
+#  QUERY LIMITS  #
+##################
+define('MAX', 1000);
+define('MIN', 1);
+define('DEFAULTQUERY', 100);
+define('PLAYLISTLIMIT', 20);
 ?>

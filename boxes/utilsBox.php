@@ -15,13 +15,6 @@
  *
  */
 
-##################
-#  QUERY LIMITS  #
-##################
-define('MAX', 1000);
-define('MIN', 1);
-define('DEFAULTQUERY', 100);
-
 /**
  * \brief	Counters class 
  * \details	counters shared beetwen many boxes 
@@ -43,6 +36,36 @@ class Counters {
 	is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
 	is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
 	is_null($shareCounter) ? $this->shareCounter = 0 : $this->shareCounter = $shareCounter;
+    }
+
+}
+
+/**
+ * \brief	PostInfo class 
+ * \details	contains info for post to be displayed 
+ */
+class PostInfo {
+
+    public $counters;
+    public $createdAt;
+    public $fromUserInfo;
+    public $objectId;
+    public $showLove;
+    public $text;
+
+    /**
+     * \fn	__construct($counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text)
+     * \brief	construct for the PostInfo class
+     * \param	$counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text
+     */
+    function __construct($counters, $createdAt, $fromUserInfo, $objectId, $showLove, $text) {
+	global $boxes;
+	is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
+	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
+	is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = parse_decode_string($text);
     }
 
 }
