@@ -200,8 +200,6 @@ class CommentParse {
             $cmt->setAlbum(fromParsePointer($res->album));
             $cmt->setComment(fromParsePointer($res->comment));
             $cmt->setCommentCounter($res->commentCounter);
-            # $cmt->setCommentators(fromParseRelation('Comment', 'commentators', $res->objectId, '_User'));
-            # $cmt->setComments(fromParseRelation('Comment', 'comments', $res->objectId, 'Comment'));
             $cmt->setCounter($res->counter);
             $cmt->setEvent(fromParsePointer($res->event));
             $cmt->setFromUser(fromParsePointer($res->fromUser));
@@ -213,9 +211,9 @@ class CommentParse {
             $cmt->setShareCounter($res->shareCounter);
             $cmt->setSong(fromParsePointer($res->song));
             $cmt->setStatus(fromParsePointer($res->status));
-            $cmt->setTags($res->tags);
-            $cmt->setText($res->text);
-            $cmt->setTitle($res->title);
+            $cmt->setTags(parse_decode_array($res->tags));
+            $cmt->setText(parse_decode_string($res->text));
+            $cmt->setTitle(parse_decode_string($res->title));
             $cmt->setToUser(fromParsePointer($res->toUser));
             $cmt->setType($res->type);
             $cmt->setVideo(fromParsePointer($res->video));
@@ -259,9 +257,9 @@ class CommentParse {
             is_null($cmt->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $cmt->getShareCounter();
             is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
             is_null($cmt->getStatus()) ? $parseObject->status = null : $parseObject->status = toParsePointer('Status', $cmt->getStatus());
-            is_null($cmt->getTags()) ? $parseObject->tags = $nullArray : $parseObject->tags = $cmt->getTags();
-            is_null($cmt->getText()) ? $parseObject->text = null : $parseObject->text = $cmt->getText();
-            is_null($cmt->getTitle()) ? $parseObject->title = null : $parseObject->title = $cmt->getTitle();
+            is_null($cmt->getTags()) ? $parseObject->tags = $nullArray : $parseObject->tags = parse_encode_array($cmt->getTags());
+            is_null($cmt->getText()) ? $parseObject->text = null : $parseObject->text = parse_encode_string($cmt->getText());
+            is_null($cmt->getTitle()) ? $parseObject->title = null : $parseObject->title = parse_encode_string($cmt->getTitle());
             is_null($cmt->getToUser()) ? $parseObject->toUser = null : $parseObject->toUser = toParsePointer('_User', $cmt->getToUser());
             is_null($cmt->getType()) ? $parseObject->type = null : $parseObject->type = $cmt->getType();
             is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = toParsePointer('Video', $cmt->getVideo());

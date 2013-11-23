@@ -198,11 +198,8 @@ class ImageParse {
 			$image->setActive($res->active);
 			$image->setAlbum(fromParsePointer($res->album));
 			$image->setCommentCounter($res->commentCounter);
-			#$image->setCommentators(fromParseRelation('Image', 'commentators', $res->objectId, '_User'));
-			#$image->setComments(fromParseRelation('Image', 'comments', $res->objectId, 'Comment'));
 			$image->setCounter($res->counter);
-			$image->setDescription($res->description);
-			#$image->setFeaturing(fromParseRelation('Image', 'featuring', $res->objectId, '_User'));
+			$image->setDescription(parse_decode_string($res->description));
 			$image->setFile(fromParseFile($res->file,"image/jpeg"));
 			$image->setFilePath($res->filePath);
 			$image->setFromUser(fromParsePointer($res->fromUser));
@@ -210,7 +207,7 @@ class ImageParse {
 			$image->setLoveCounter($res->loveCounter);
 			$image->setLovers($res->lovers);
 			$image->setShareCounter($res->shareCounter);
-			$image->setTags($res->tags);
+			$image->setTags(parse_decode_array($res->tags));
 			$image->setThumbnail($res->thumbnail);
 			$image->setCreatedAt(fromParseDate($res->createdAt));
 			$image->setUpdatedAt(fromParseDate($res->updatedAt));
@@ -240,7 +237,7 @@ class ImageParse {
 			is_null($image->getCommentators()) ? $parseImage->commentators = null : $parseImage->commentators = toParseAddRelation('_User', $image->getCommentators());
 			is_null($image->getComments()) ? $parseImage->comments = null : $parseImage->comments = toParseAddRelation('Comment', $image->getComments());
 			is_null($image->getCounter()) ? $parseImage->counter = null : $parseImage->counter = $image->getCounter();
-			is_null($image->getDescription()) ? $parseImage->description = null : $parseImage->description = $image->getDescription();
+			is_null($image->getDescription()) ? $parseImage->description = null : $parseImage->description = parse_encode_string($image->getDescription());
 			is_null($image->getFeaturing()) ? $parseImage->featuring = null : $parseImage->featuring = toParseAddRelation('_User', $image->getFeaturing());
 			is_null($image->getFile()) ? $parseImage->file = null : $parseImage->file = toParseFile($image->getFile());
 			is_null($image->getFilePath()) ? $parseImage->filePath = DEFIMAGE : $parseImage->filePath = $image->getFilePath();
@@ -249,7 +246,7 @@ class ImageParse {
 			is_null($image->getLoveCounter()) ? $parseImage->loveCounter = null : $parseImage->loveCounter = $image->getLoveCounter();
 			is_null($image->getLovers()) ? $parseImage->lovers = $nullArray : $parseImage->lovers = $image->getLovers();
 			is_null($image->getShareCounter()) ? $parseImage->shareCounter = null : $parseImage->shareCounter = $image->getShareCounter();
-			is_null($image->getTags()) ? $parseImage->tags = $nullArray : $parseImage->tags = $image->getTags();
+			is_null($image->getTags()) ? $parseImage->tags = $nullArray : $parseImage->tags = parse_encode_array($image->getTags());
 			is_null($image->getThumbnail()) ? $parseImage->thumbnail = DEFIMAGETHUMB : $parseImage->thumbnail = $image->getThumbnail();
 			is_null($image->getACL()) ? $parseImage->ACL = toParseDefaultACL() : $parseImage->ACL = toParseACL($image->getACL());
 			if ($image->getObjectId() == '') {

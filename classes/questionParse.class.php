@@ -128,12 +128,13 @@ class QuestionParse {
 		try {
 			$question = new Question();
 			$question->setObjectId($res->objectId);
-			$question->setAnswer($res->answer);
-			$question->setMailFrom($res->mailFrom);
-			$question->setMailTo($res->mailTo);
+			$question->setAnswer(parse_decode_string($res->answer));
+			$question->setMailFrom(parse_decode_string($res->mailFrom));
+			$question->setMailTo(parse_decode_string($res->mailTo));
+			$question->setName(parse_decode_string($res->mailTo));
 			$question->setReplied($res->replied);
-			$question->setSubject($res->subject);
-			$question->setText($res->text);
+			$question->setSubject(parse_decode_string($res->subject));
+			$question->setText(parse_decode_string($res->text));
 			$question->setCreatedAt(fromParseDate($res->createdAt));
 			$question->setUpdatedAt(fromParseDate($res->updatedAt));
 			$question->setACL(fromParseACL($res->ACL));
@@ -157,12 +158,12 @@ class QuestionParse {
 		try {
 			$parseQuestion = new parseObject('Question');
 			is_null($question->getAnswer()) ? $parseQuestion->answer = null : $parseQuestion->answer = $question->getAnswer();
-			is_null($question->getMailFrom()) ? $parseQuestion->mailFrom = null : $parseQuestion->mailFrom = $question->getMailFrom();
-			is_null($question->getMailTo()) ? $parseQuestion->mailTo = null : $parseQuestion->mailTo = $question->getMailTo();
+			is_null($question->getMailFrom()) ? $parseQuestion->mailFrom = null : $parseQuestion->mailFrom = parse_encode_string($question->getMailFrom());
+			is_null($question->getMailTo()) ? $parseQuestion->mailTo = null : $parseQuestion->mailTo = parse_encode_string($question->getMailTo());
 			is_null($question->getName()) ? $parseQuestion->name = null : $parseQuestion->name = $question->getName();
 			is_null($question->getReplied()) ? $parseQuestion->replied = null : $parseQuestion->replied = $question->getReplied();
-			is_null($question->getSubject()) ? $parseQuestion->subject = null : $parseQuestion->subject = $question->getSubject();
-			is_null($question->getText()) ? $parseQuestion->text = null : $parseQuestion->text = $question->getText();
+			is_null($question->getSubject()) ? $parseQuestion->subject = null : $parseQuestion->subject = parse_encode_string($question->getSubject());
+			is_null($question->getText()) ? $parseQuestion->text = null : $parseQuestion->text = parse_encode_string($question->getText());
 			is_null($question->getACL()) ? $parseQuestion->ACL = toParseDefaultACL() : $parseQuestion->ACL = toParseACL($question->getACL());
 			$res = $parseQuestion->save();
 			$question->setObjectId($res->objectId);
