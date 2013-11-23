@@ -27,6 +27,9 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
  $status_achievement3 = '_target3';
 ?>
 <!------------------------------------------- STATUS ----------------------------------->
+
+<script src='resources/javascripts/plugins/rating/jquery.rating.js' type="text/javascript" language="javascript"></script>
+
 <div id="social-status">
 	<div class="row">
 		<div class="small-8 columns">			
