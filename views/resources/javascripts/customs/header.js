@@ -12,6 +12,7 @@ function loadBoxSocial(notification, objectId, userType){
 		}
 	}).done(function(message, status, xhr){			
 			$('#header-social').html(message);
+			hcento();
 	}).fail(function(xhr){							
 			console.log($.parseJSON(xhr.responseText));					
 	});

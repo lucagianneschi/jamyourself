@@ -74,10 +74,10 @@ if (isset($userObjectId)) {
 				<h3 class="inline"><?php echo $views['header']['TITLE'] ?></h3>
 			</div>	
 			<div  class="large-8 columns" style="margin-top: 10px">
-				<a class="ico-label _flag inline" onclick="loadBoxSocial('notification','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $totNotification ?>"></a>
-				<a class="ico-label _message inline" onclick="loadBoxSocial('message','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $message ?>"></a>
-				<a class="ico-label _calendar inline" onclick="loadBoxSocial('event','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $invited ?>"></a>
-				<a class="ico-label _friend inline"  onclick="loadBoxSocial('relation','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $relation ?>"></a>
+				<a class="ico-label _flag inline" onclick="loadBoxSocial('notification','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $totNotification ?>"><span class="round alert label iconNotification"><?php echo $totNotification ?></span></a>
+				<a class="ico-label _message inline" onclick="loadBoxSocial('message','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $message ?>"><span class="round alert label iconNotification"><?php echo $message ?></span></a>
+				<a class="ico-label _calendar inline" onclick="loadBoxSocial('event','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $invited ?>"><span class="round alert label iconNotification"><?php echo $invited ?></span></a>
+				<a class="ico-label _friend inline"  onclick="loadBoxSocial('relation','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $relation ?>"><span class="round alert label iconNotification"><?php echo $relation ?></span></a>
 			</div>
 		</div>											
 	</div>					
