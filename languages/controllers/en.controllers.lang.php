@@ -161,8 +161,8 @@ $controllers = array(
     'INVITATIONSENT'=> 'Invitation sent',
     'INVITATIONMAILSBJ' => 'You have been invited to an Event',
     'NOTINRELATION' => 'User not in a relationship',
-    'NOEVENTFOUND' => 'Event not found for update'
-
+    'NOEVENTFOUND' => 'Event not found for update',
+    'NORATING' => 'Rating unset'
 );
 
 $mail_files = array(
