@@ -67,7 +67,7 @@ class SignupController extends REST {
 //            $this->response('', 406);
 //        }
 //senza captcha:
-            if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
+            if ($this->get_request_method() != "POST" || isset($_SESSION['currentUser'])) {
                 $this->response(array(), 406);
             }
 
