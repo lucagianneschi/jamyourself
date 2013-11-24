@@ -173,12 +173,12 @@ class NotificationBox {
 		switch ($message->getType()) {
 		    case 'MESSAGESENT':
 			$text = $boxes['MESSAGEFORLIST'];
-			$relatedId = is_null($message->getComment->getObjectId()) ? $boxes['404'] : $message->getComment->getObjectId();
+			$relatedId = is_null($message->getComment()) ? $boxes['404'] : $message->getComment->getObjectId();
 			$elementType = 'M';
 			break;
 		    case 'INVITED':
 			$text = $boxes['EVENTFORLIST'];
-			$relatedId = is_null($message->getEvent()->getObjectId()) ? $boxes['404'] : $message->getEvent()->getObjectId();
+			$relatedId = is_null($message->getEvent()) ? $boxes['404'] : $message->getEvent()->getObjectId();
 			$elementType = 'E';
 			break;
 		    case 'FRIENDSHIPREQUEST':
@@ -255,7 +255,7 @@ class NotificationBox {
 		$fromUserInfo = new UserInfo($relationId, $thumbnail, $userType, $username);
 		$relationType = 'E';
 		$text = $boxes['EVENTFORLIST'];
-		$relatedId = is_null($act->getEvent()->getObjectId()) ? $boxes['404'] : $act->getEvent()->getObjectId();
+		$relatedId = is_null($act->getEvent()) ? $boxes['404'] : $act->getEvent()->getObjectId();
 		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
 		array_push($relationArray, $notificationInfo);
 	    }
@@ -308,7 +308,7 @@ class NotificationBox {
 		$fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
 		$relationType = 'M';
 		$text = $boxes['MESSAGEFORLIST'];
-		$relatedId = is_null($act->getComment()->getObjectId()) ? $boxes['404'] : $act->getComment()->getObjectId();
+		$relatedId = is_null($act->getComment()) ? $boxes['404'] : $act->getComment()->getObjectId();
 		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
 		array_push($relationArray, $notificationInfo);
 	    }
