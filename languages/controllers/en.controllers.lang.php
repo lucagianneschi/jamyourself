@@ -166,8 +166,9 @@ $controllers = array(
     'NOAVAILABLEFORINVITATION' => 'User invalid for invitation',
     'NOACTIVITYID' => 'ObjectId unset for activity',
     'ACTNOTFOUND' => 'Activity not found for accept invitation',
-    'UNABLETOADDATTENDEE' => 'Unable to add attendee'
-);
+    'UNABLETOADDATTENDEE' => 'Unable to add attendee',
+    'PARTECIPATIONREMOVED' => 'Partecipation cancelled'
+); 
 
 $mail_files = array(
     'USERDELETED' => 'en.userDeletion.html',

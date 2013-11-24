@@ -170,7 +170,8 @@ $controllers = array(
     'NOAVAILABLEACCEPTINVITATION' =>'Utente non valido per accettare invitato',
     'NOACTIVITYID' => 'ObjectId non impostato per activity',
     'ACTNOTFOUND' => 'Activity non trovate',
-    'UNABLETOADDATTENDEE' => 'Impossibile aggiungere attendee'
+    'UNABLETOADDATTENDEE' => 'Impossibile aggiungere attendee',
+    'PARTECIPATIONREMOVED' => 'Partecipazione cancellata'
 
 );
 
