@@ -1,6 +1,0 @@
-{
-    "minReviewSize" : 1,
-    "maxReviewSize" : 5000,
-    "inputReviewRowNumber": 2,
-    "inputReviewColumnNumber": 50
-}
