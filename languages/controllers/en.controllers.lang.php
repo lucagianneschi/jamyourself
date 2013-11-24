@@ -88,6 +88,7 @@ $controllers = array(
     'NOTITLE' => 'No title set',
     'SHORTREWTITLE' => 'Review title too short',
     'LONGREWTITLE' => 'Review title too long',
+    'NORATING' => 'Rating unset',
     //RELATION
     'RELDENIED' => 'You are not allowed to send a relationship request to this user!',
     'SELF' => 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!',
@@ -162,8 +163,12 @@ $controllers = array(
     'INVITATIONMAILSBJ' => 'You have been invited to an Event',
     'NOTINRELATION' => 'User not in a relationship',
     'NOEVENTFOUND' => 'Event not found for update',
-    'NORATING' => 'Rating unset'
-);
+    'NOAVAILABLEFORINVITATION' => 'User invalid for invitation',
+    'NOACTIVITYID' => 'ObjectId unset for activity',
+    'ACTNOTFOUND' => 'Activity not found for accept invitation',
+    'UNABLETOADDATTENDEE' => 'Unable to add attendee',
+    'PARTECIPATIONREMOVED' => 'Partecipation cancelled'
+); 
 
 $mail_files = array(
     'USERDELETED' => 'en.userDeletion.html',

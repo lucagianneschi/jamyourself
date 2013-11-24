@@ -88,6 +88,7 @@ $controllers = array(
     'NOTITLE' => 'Titolo non impostato',
     'SHORTREWTITLE' => 'Titolo review troppo corto',
     'LONGREWTITLE' => 'Titolo review troppo lungo',
+    'NORATING' => 'Rating non impostato',
     //RECORD
     'NOMP3LIST' => 'Nessuna lista di mp3',
     'RECORDSAVED' => 'Album salvato con successo',
@@ -165,7 +166,13 @@ $controllers = array(
     'INVITATIONMAILSBJ' => 'Sei stato invitato ad un evento',
     'NOTINRELATION' => 'Utenti non in relazione',
     'NOEVENTFOUND' => 'Evento non trovato per update',
-    'NORATING' => 'Rating non impostato'
+    'NOAVAILABLEFORINVITATION' => 'Utente non valido per invio',
+    'NOAVAILABLEACCEPTINVITATION' =>'Utente non valido per accettare invitato',
+    'NOACTIVITYID' => 'ObjectId non impostato per activity',
+    'ACTNOTFOUND' => 'Activity non trovate',
+    'UNABLETOADDATTENDEE' => 'Impossibile aggiungere attendee',
+    'PARTECIPATIONREMOVED' => 'Partecipazione cancellata'
+
 );
 
 $mail_files = array(

@@ -86,7 +86,7 @@ class NotificationBox {
 	$currentUserId = sessionChecker();
 	$notificationBox = new NotificationBox();
 	$notificationBox->notificationArray = $boxes['NDB'];
-	if ($currentUserId == $boxes['NOID'] || $currentUserId != $objectId) {
+	if ($currentUserId == $boxes['NOID']) {
 	    $notificationBox->invitationCounter = $boxes['ONLYIFLOGGEDIN'];
 	    $notificationBox->messageCounter = $boxes['ONLYIFLOGGEDIN'];
 	    $notificationBox->relationCounter = $boxes['ONLYIFLOGGEDIN'];
@@ -147,7 +147,7 @@ class NotificationBox {
 	$notificationBox->invitationCounter = $boxes['NDB'];
 	$notificationBox->messageCounter = $boxes['NDB'];
 	$notificationBox->relationCounter = $boxes['NDB'];
-	if ($currentUserId == $boxes['NOID'] || $currentUserId != $objectId) {
+	if ($currentUserId == $boxes['NOID']) {
 	    $notificationBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
 	    return $notificationBox;
 	}
@@ -225,7 +225,7 @@ class NotificationBox {
 	$notificationBox->invitationCounter = $boxes['NDB'];
 	$notificationBox->messageCounter = $boxes['NDB'];
 	$notificationBox->relationCounter = $boxes['NDB'];
-	if ($currentUserId == $boxes['NOID'] || $currentUserId != $objectId) {
+	if ($currentUserId == $boxes['NOID']) {
 	    $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
 	    return $notificationBox;
 	}
@@ -278,7 +278,7 @@ class NotificationBox {
 	$notificationBox->invitationCounter = $boxes['NDB'];
 	$notificationBox->messageCounter = $boxes['NDB'];
 	$notificationBox->relationCounter = $boxes['NDB'];
-	if ($currentUserId == $boxes['NOID'] || $currentUserId != $objectId) {
+	if ($currentUserId == $boxes['NOID']) {
 	    $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
 	    return $notificationBox;
 	}
@@ -331,7 +331,7 @@ class NotificationBox {
 	$notificationBox->invitationCounter = $boxes['NDB'];
 	$notificationBox->messageCounter = $boxes['NDB'];
 	$notificationBox->relationCounter = $boxes['NDB'];
-	if ($currentUserId == $boxes['NOID'] || $currentUserId != $objectId) {
+	if ($currentUserId == $boxes['NOID']) {
 	    $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
 	    return $notificationBox;
 	}

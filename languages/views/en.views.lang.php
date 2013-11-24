@@ -152,6 +152,11 @@ $views = array(
 		'EventReview' => array(
 			'TITLE' => 'Reviews',
 		),
+	),
+	
+	'header' => array(
+		'TITLE'    => 'Notification',
+		'OTHER' => ''
 	)
 	
 );

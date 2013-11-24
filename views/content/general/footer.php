@@ -1,3 +1,9 @@
+<?php		
+if (isset($_SESSION['currentUser'])) {
+	$currentUser = $_SESSION['currentUser'];
+	$username = $currentUser->getUsername();
+}	
+?>
 	<footer id="footer" >
 		<div id="footer-header" onClick="footerShow()">
 			<div class="row">
@@ -17,7 +23,7 @@
 							<a class="ico-label _off"></a>	
 						</div>
 						<div class="large-11 columns hide-for-small">						
-							<div class="user">Mari</div>									
+							<div class="user"><?php echo $username?></div>									
 						</div>		
 					</div>						
 				</div>

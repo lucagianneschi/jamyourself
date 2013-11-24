@@ -6,10 +6,7 @@
             '.js><\/script>')
 </script> -->
 
-<!---------------------------------- JQUERY  ------------------------------------------>
-<script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
-<script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>	
-<script src="resources/javascripts/plugins/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+
 
 <!---------------------------------- FOUNDATION  ------------------------------------------>
 <script src="resources/javascripts/plugins/foundation/foundation.js"></script>
@@ -74,9 +71,10 @@
 
 <!------------------------------------- JAMYOURSELF ------------------------------------------>
 <script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
+
 <script type="text/javascript" src="resources/javascripts/customs/headerCallBox.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
-
+<script type="text/javascript" src="resources/javascripts/customs/header.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/share.js"></script>
 
 <?php

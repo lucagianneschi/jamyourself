@@ -52,8 +52,8 @@ $boxes = array(
     'NOLOCALTYPE' => 'LOCALTYPE UNDEFINED',
     'NOMEMBER' => 'MEMBERS UNDEFINED',
     'MESSAGEFORLIST' => 'sent you a message',
-    'FRIENDSHIPFORLIST' => 'invited you to an event',
-    'RELATIONFORLIST' => 'want to be your friend',
+    'EVENTFORLIST' => 'invited you to an event',
+    'FRIENDSHIPFORLIST' => 'want to be your friend',
     'COLLABORATIONFORLIST' => 'want to collaborate with you',
     'FOLLOWINGFORLIST'=> 'is now following you'
 );

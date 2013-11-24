@@ -3,12 +3,14 @@
 	<!------------------------------------- HIDE HEADER ----------------------------->
 	<div id="header-hide" class="no-display">
 		<?php		
-			if (isset($_SESSION['currentUser'])) {		
+			if (isset($_SESSION['currentUser'])) {
+				$userObjectId = $currentUser->getObjectId();
+				$userType = $currentUser->getType();
 		?>		
 		<div  class="row hcento-hero">
 			<div id="header-profile" class="small-6 columns"></div>			
-			<div id="header-social" class="small-6 columns">
-				<?php require_once './content/header/box-social.php'; ?>
+			<div id="header-social" class="small-6 columns">				
+				<?php require_once './content/header/box-social.php'; ?>				
 			</div>
 		</div>
 		<?php } ?>	
@@ -90,8 +92,7 @@
 				  				</div>
 				  				<div class="large-4 columns hide-for-small " id="header-btn-notify">
 				  					<div class="header inline" style="float: right;">
-				  					<a class="ico-label _notify inline"></a>
-				  					<a class="ico-label _friend inline"></a>
+				  					<a class="ico-label _flag inline" onclick="headerShow()" ><span class="round alert label iconNotification"><?php echo $totNotification ?></span></a>
 				  					<a class="ico-label _setting inline"></a>
 				  					</div>
 				  				</div>
