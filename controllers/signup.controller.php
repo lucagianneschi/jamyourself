@@ -395,6 +395,9 @@ class SignupController extends REST {
         $user->setGooglePlusPage($decoded->google);
         $user->setYoutubeChannel($decoded->youtube);
         $user->setWebsite($decoded->web);
+        
+//nuova property badge
+        $user->setBadge(array());
 
 //imposto i parametri di Jam       
         $parseACL = new parseACL();
