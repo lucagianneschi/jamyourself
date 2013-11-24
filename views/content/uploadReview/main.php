@@ -130,13 +130,13 @@
                                                     <div class="row">
                                                         <div class="small-12 columns">
                                                             <?php
-                                                            if (count($featuringInfoArray) > 0) {
+                                                            if (is_array($featuringInfoArray) && count($featuringInfoArray) > 0) {
                                                             foreach ($featuringInfoArray as $featuringInfo) {
-                                                                $featuringThumbnail = $featuringInfo["featuringThumbnail"];
-                                                                $featuringUsername = $featuringInfo["featuringUsername"];
-                                                                $featuringUserId = $featuringInfo["featuringUserId"];
+                                                                $featuringThumbnail = $featuringInfo->thumbnail;
+                                                                $featuringUsername = $featuringInfo->username;
+                                                                $featuringUserId = $featuringInfo->objectId;
                                                                 ?>
-                                                                <div class="box-membre" id="">
+                                                                <div class="box-membre" id="<?php echo $featuringUserId?>">
                                                                     <div class="row">
                                                                         <div class="small-2 columns ">
                                                                             <div class="icon-header">

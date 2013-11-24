@@ -90,7 +90,7 @@ class PostController extends REST {
 	    $cmt->setStatus(null);
 	    $cmt->setTags(null);
 	    $cmt->setTitle(null);
-	    $cmt->setText(parse_encode_string($post));
+	    $cmt->setText($post);
 	    $cmt->setToUser($toUserObjectId);
 	    $cmt->setType('P');
 	    $cmt->setVideo(null);

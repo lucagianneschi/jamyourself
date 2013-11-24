@@ -57,6 +57,10 @@ class RelationController extends REST {
 			$userParse = new UserParse();
 			$toUser = $userParse->getUser($toUserId);
 			
+			if ($currentUser->getObjectId() == $toUser->getObjectId()) {
+				$this->response(array('status' => $controllers['SELF']), 503);
+			}
+			
 			require_once SERVICES_DIR . 'relationChecker.service.php';
 			if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUser->getObjectId(), $toUser->getType())) {
 				$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
@@ -64,54 +68,100 @@ class RelationController extends REST {
 			
 			require_once CLASSES_DIR . 'activityParse.class.php';
 			$activityParse = new ActivityParse();
+			
+			//update status activity
 			$resStatus = $activityParse->updateField($objectId, 'status', 'A');
 			if ($resStatus instanceof Error) {
 				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
 			}
+			
+			//update read activity
 			$resRead = $activityParse->updateField($objectId, 'read', true);
 			if ($resRead instanceof Error) {
 				#TODO
-				//rollback
-				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+				require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+				$message = rollbackAcceptRelation('rollbackActivityStatus', $objectId, 'status', 'P', '', '', '', '');
+				$this->response(array('status' => $message), 503);
 			}
 			
 			require_once CLASSES_DIR . 'userParse.class.php';
 			$userParse = new UserParse();
+			
+			//update relation
 			if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
 				$resToUserF = $userParse->updateField($toUser->getObjectId(), 'friendship', array($currentUser->getObjectId()), true, 'add', '_User');
-				$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'friendshipCounter', 1);
 				$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'friendship', array($toUser->getObjectId()), true, 'add', '_User');
-				$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'friendshipCounter', 1);
 				$HTMLFile = $mail_files['FRIENDSHIPACCEPTEDEMAIL'];
 			} elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
 				$resToUserF = $userParse->updateField($toUser->getObjectId(), 'collaboration', array($currentUser->getObjectId()), true, 'add', '_User');
 				$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'collaboration', array($toUser->getObjectId()), true, 'add', '_User');
-				if ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'JAMMER') {
-					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'jammerCounter', 1);
-					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
-				} elseif ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'VENUE') {
-					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'venueCounter', 1);
-					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
-				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'JAMMER') {
-					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'jammerCounter', 1);
-					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'venueCounter', 1);
-				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'VENUE') {
-					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'venueCounter', 1);
-					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'venueCounter', 1);
-				}
 				$HTMLFile = $mail_files['COLLABORATIONACCEPTEDEMAIL'];
 			}
 			if ($resToUserF instanceof Error ||
-				$resFromUserF instanceof Error ||
-				$resToUserFC instanceof Error ||
-				$resFromUserFC instanceof Error) {
+				$resFromUserF instanceof Error) {
 				#TODO
-				//rollback
-				$this->response(array('status' => 'Errore nell\'aggiornamento di un Utente'), 503);
+				require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+				$message1 = rollbackAcceptRelation('rollbackActivityStatus', $objectId, 'status', 'P', '', '', '', '');
+				$message2 = rollbackAcceptRelation('rollbackActivityRead', $objectId, 'read', false, '', '', '', '');
+				$message3 = rollbackAcceptRelation('rollbackRelation', '', '', '', $currentUser->getObjectId(), $currentUser->getType(), $toUser->getObjectId(), $toUser->getType());
+				$message = ($message1 == $controllers['ROLLKO'] || $message2 == $controllers['ROLLKO'] || $message3 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+				$this->response(array('status' => $message), 503);
+			}
+			
+			//increment toUser
+			if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
+				$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'friendshipCounter', 1);
+			} elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
+				if ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'JAMMER') {
+					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'jammerCounter', 1);
+				} elseif ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'VENUE') {
+					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'venueCounter', 1);
+				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'JAMMER') {
+					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'jammerCounter', 1);
+				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'VENUE') {
+					$resToUserFC = $userParse->incrementUser($toUser->getObjectId(), 'venueCounter', 1);
+				}
+			}
+			if ($resToUserFC instanceof Error) {
+				#TODO
+				require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+				$message1 = rollbackAcceptRelation('rollbackActivityStatus', $objectId, 'status', 'P', '', '', '', '');
+				$message2 = rollbackAcceptRelation('rollbackActivityRead', $objectId, 'read', false, '', '', '', '');
+				$message3 = rollbackAcceptRelation('rollbackRelation', '', '', '', $currentUser->getObjectId(), $currentUser->getType(), $toUser->getObjectId(), $toUser->getType());
+				$message = ($message1 == $controllers['ROLLKO'] || $message2 == $controllers['ROLLKO'] || $message3 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+				$this->response(array('status' => $message), 503);
+			}
+			
+			//increment currentUser
+			if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
+				$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'friendshipCounter', 1);
+			} elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
+				if ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'JAMMER') {
+					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
+				} elseif ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'VENUE') {
+					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
+				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'JAMMER') {
+					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'venueCounter', 1);
+				} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'VENUE') {
+					$resFromUserFC = $userParse->incrementUser($currentUser->getObjectId(), 'venueCounter', 1);
+				}
+			}
+			if ($resFromUserFC instanceof Error) {
+				#TODO
+				require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+				$message1 = rollbackAcceptRelation('rollbackActivityStatus', $objectId, 'status', 'P', '', '', '', '');
+				$message2 = rollbackAcceptRelation('rollbackActivityRead', $objectId, 'read', false, '', '', '', '');
+				$message3 = rollbackAcceptRelation('rollbackRelation', '', '', '', $currentUser->getObjectId(), $currentUser->getType(), $toUser->getObjectId(), $toUser->getType());
+				$message4 = rollbackAcceptRelation('rollbackIncrementToUser', '', '', '', $currentUser->getObjectId(), $currentUser->getType(), $toUser->getObjectId(), $toUser->getType());
+				$message = ($message1 == $controllers['ROLLKO'] ||
+							$message2 == $controllers['ROLLKO'] ||
+							$message3 == $controllers['ROLLKO'] ||
+							$message4 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+				$this->response(array('status' => $message), 503);
 			}
 			
 			#TODO
-			$this->sendMailNotification('daniele.caldelli@gmail.com'/*$toUser->getEmail()*/, $controllers['SBJOK'], file_get_contents(STDHTML_DIR . $HTMLFile));
+			$this->sendMailNotification('ghilarducci.alessandro@gmail.com'/*$toUser->getEmail()*/, $controllers['SBJOK'], file_get_contents(STDHTML_DIR . $HTMLFile));
 			
 			$this->response(array($controllers['RELACCEPTED']), 200);
 		} catch (Exception $e) {
@@ -142,19 +192,18 @@ class RelationController extends REST {
 			
 			$resStatus = $activityParse->updateField($objectId, 'status', 'R');
 			if ($resStatus instanceof Error) {
-				#TODO
-				//rollback
 				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
 			}
 			
 			$resRead = $activityParse->updateField($objectId, 'read', true);
 			if ($resRead instanceof Error) {
 				#TODO
-				//rollback
-				$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+				require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+				$message = rollbackDeclineRelation($objectId, 'status', 'P');
+				$this->response(array('status' => $message), 503);
 			}
 			
-			$this->response(array('RELDECLINED'), 200);
+			$this->response(array('status' => $controllers['RELDECLINED']), 200);
 		} catch (Exception $e) {
 			$this->response(array('status' => $e->getMessage()), 503);
 		}
@@ -307,8 +356,6 @@ class RelationController extends REST {
 				$resToUser = $userParse->updateField($toUser->getObjectId(), 'followers', array($currentUser->getObjectId()), true, 'add', '_User');
 			}
 			if ($resToUser instanceof Error) {
-				#TODO
-				//rollback
 				$this->response(array('status' => 'XXXXX'), 503);
 			}
 			
@@ -317,12 +364,13 @@ class RelationController extends REST {
 			}
 			if ($resFromUser instanceof Error) {
 				#TODO
-				//rollback
-				$this->response(array('status' => 'XXXXX'), 503);
+				require_once CONTROLLERS_DIR . 'rollBack.controller.php';
+				$message = rollbackSendRelation($currentUser->getObjectId(), $toUser->getObjectId());
+				$this->response(array('status' => $message), 503);
 			}
 			
 			#TODO
-			$this->sendMailNotification('daniele.caldelli@gmail.com'/*$toUser->getEmail()*/, $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
+			$this->sendMailNotification('ghilarducci.alessandro@gmail.com'/*$toUser->getEmail()*/, $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
 			$this->response(array($controllers['RELSAVED']), 200);
 		} catch (Exception $e) {
 			$this->response(array('status' => $e->getMessage()), 503);

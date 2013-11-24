@@ -7,14 +7,31 @@ require_once CONTROLLERS_DIR . 'uploadReview.controller.php';
 
 $uploadReviewController = new uploadReviewController();
 $uploadReviewController->init();
-$title = $uploadReviewController->recordInfo["title"];
-$thumbnail = $uploadReviewController->recordInfo["thumbnail"];
-$rating = $uploadReviewController->recordInfo["rating"];
-$tagGenere = $uploadReviewController->recordInfo["tagGenere"];
-$featuringInfoArray = $uploadReviewController->recordInfo["featuringInfoArray"];
-$author = $uploadReviewController->recordInfo["author"];
-$authorThumbnail = $uploadReviewController->recordInfo["authorThumbnail"];
+$viewInfo = $uploadReviewController->reviwedInfo;
 
+
+global $boxes;
+$title = $viewInfo->title;
+$tagGenere = $viewInfo->genre;
+$rating="3";
+$authorThumbnail=$viewInfo->authorThumbnail;
+$thumbnail = $viewInfo->thumbnail;
+$featuringInfoArray = $viewInfo->featuring;
+
+$author = $viewInfo->fromUserInfo->username;
+
+//  media info:
+//    public $city;
+//    public $className;
+//    public $eventDate;
+//    public $featuring;
+//    public $fromUserInfo;
+//    public $genre;
+//    public $locationName;
+//    public $objectId;
+//    public $tags;
+//    public $thumbnail;
+//    public $title;  
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
