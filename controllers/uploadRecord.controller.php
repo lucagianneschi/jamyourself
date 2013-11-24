@@ -18,14 +18,14 @@ class uploadRecordController extends REST {
 
     public function init() {
         session_start();
-
-        //utente non loggato
+        error_reporting(E_ALL ^ E_NOTICE);
+//utente non loggato
         if (!isset($_SESSION['currentUser']) || is_null($_SESSION['currentUser'])) {
             die("Non sei loggato");
         }
 
         $currentUser = $_SESSION['currentUser'];
-        //caching dell'array dei featuring
+//caching dell'array dei featuring
         $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
         $recordBox = new RecordBox();
         $rb = $recordBox->initForUploadRecordPage($currentUser->getObjectId());
@@ -71,7 +71,7 @@ class uploadRecordController extends REST {
         $record->setBuyLink($newAlbum->urlBuy);
         $record->setCommentCounter(0);
         $record->setCounter(0);
-        //$record->setCoverFile();
+//$record->setCoverFile();
         $imgInfo = $this->getImages($newAlbum);
         $record->setCover($imgInfo['RecordPicture']);
         $record->setThumbnailCover($imgInfo['RecordThumbnail']);
@@ -102,7 +102,7 @@ class uploadRecordController extends REST {
             $this->response($error, 503);
         }
 
-        //se va a buon fine salvo una nuova activity       
+//se va a buon fine salvo una nuova activity       
         $activity = new Activity();
         $activity->setActive(true);
         $activity->setFromUser($userId);
@@ -158,16 +158,60 @@ class uploadRecordController extends REST {
     public function publishRecords() {
         global $controllers;
         if ($this->get_request_method() != "POST") {
-            $this->response (array ('status' => $controllers['NOPOSTREQUEST']), 405);
-        }elseif(!isset($_SESSION['currentUser'])) {
-            $this->response(array('status' => $controllers['USERNOSES']), 403);            
+            $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+        } elseif (!isset($_SESSION['currentUser'])) {
+            $this->response(array('status' => $controllers['USERNOSES']), 403);
         } elseif (!isset($this->request['list'])) {
             $this->response(array('status' => $controllers['NOOBJECTID']), 403);
         } elseif (!isset($this->request['recordId'])) {
             $this->response(array('status' => $controllers['NOMP3LIST']), 403);
+        } 
+
+        $currentUser = $_SESSION['currentUser'];
+        $recordId = $this->request['recordId'];
+        $songList = $this->request['list'];
+
+        if (count($songList) > 0) {
+            $pSong = new SongParse();
+            
+            foreach ($songList as $song) {
+                $src = $song['src'];
+                $tags = $song['tags'];
+                $featuring = ['featuring'];
+                $title = $song['songTitle'];
+                $duration = $song['duration'];
+         
+                $jamSong = new Song();
+                $jamSong->setDuration($duration);
+                $jamSong->setTitle($title);
+                $jamSong->setFeaturing($featuring);
+                $jamSong->setGenre($tags);
+                $jamSong->setFilePath($src);
+                             
+                if($pSong->saveSong($jamSong) instanceof Error){
+                    //errore
+                } 
+                
+                $this->saveMp3($currentUser->getObjectId(), $recordId, $src);
+                
+                //salvataggio actitivy
+            }
         }
-        
+
         $this->response(array($controllers['RECORDSAVED']), 200);
+    }
+
+    private function saveMp3($userId, $recordId, $songId) {
+        if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
+            $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId;
+            if (!is_dir($dir)) {
+                mkdir($dir, 0, true);
+            }
+
+            if (!is_null($userId) && !is_null($recordId) && !is_null($songId)) {
+                rename(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId, $dir . DIRECTORY_SEPARATOR . $songId);
+            }
+        }
     }
 
     private function getImages($decoded) {
@@ -213,7 +257,7 @@ class uploadRecordController extends REST {
 
         $currentUserFeaturingArray = null;
         if (isset($_SESSION['currentUserFeaturingArray'])) {
-            //caching dell'array
+//caching dell'array
             $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
         } else {
             $currentUserFeaturingArray = $this->getFeaturingArray();
@@ -259,8 +303,8 @@ class uploadRecordController extends REST {
                 $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
             }
         } else {
-            //immagine di default con path realtivo rispetto alla View
-            //http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
+//immagine di default con path realtivo rispetto alla View
+//http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
             $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
         }
 

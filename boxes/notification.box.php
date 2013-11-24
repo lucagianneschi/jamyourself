@@ -173,12 +173,12 @@ class NotificationBox {
 		switch ($message->getType()) {
 		    case 'MESSAGESENT':
 			$text = $boxes['MESSAGEFORLIST'];
-			$relatedId = $message->getComment->getObjectId();
+			$relatedId = is_null($message->getComment()) ? $boxes['404'] : $message->getComment()->getObjectId();
 			$elementType = 'M';
 			break;
 		    case 'INVITED':
 			$text = $boxes['EVENTFORLIST'];
-			$relatedId = $message->getEvent()->getObjectId();
+			$relatedId = is_null($message->getEvent()) ? $boxes['404'] : $message->getEvent()->getObjectId();
 			$elementType = 'E';
 			break;
 		    case 'FRIENDSHIPREQUEST':
@@ -239,23 +239,23 @@ class NotificationBox {
 	$activity->setLimit($notificationBox->config->limitForMessageList);
 	$activity->orderByDescending('createdAt');
 	$activity->whereInclude('fromUser,event');
-	$events = $activity->getActivities();
-	if ($events instanceof Error) {
-	    return $events;
-	} elseif (is_null($events)) {
+	$activities = $activity->getActivities();
+	if ($activities instanceof Error) {
+	    return $activities;
+	} elseif (is_null($activities)) {
 	    $notificationBox->notificationArray = $boxes['NODATA'];
 	    return $notificationBox;
 	} else {
-	    foreach ($events as $event) {
-		$createdAt = $event->getCreatedAt();
-		$relationId = $event->getFromUser()->getObjectId();
-		$thumbnail = $event->getFromUser()->getProfileThumbnail();
-		$userType = $event->getFromUser()->getType();
-		$username = $event->getFromUser()->getUsername();
+	    foreach ($activities as $act) {
+		$createdAt = $act->getCreatedAt();
+		$relationId = $act->getFromUser()->getObjectId();
+		$thumbnail = $act->getFromUser()->getProfileThumbnail();
+		$userType = $act->getFromUser()->getType();
+		$username = $act->getFromUser()->getUsername();
 		$fromUserInfo = new UserInfo($relationId, $thumbnail, $userType, $username);
 		$relationType = 'E';
 		$text = $boxes['EVENTFORLIST'];
-		$relatedId = $event->getEvent()->getObjectId();
+		$relatedId = is_null($act->getEvent()) ? $boxes['404'] : $act->getEvent()->getObjectId();
 		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
 		array_push($relationArray, $notificationInfo);
 	    }
@@ -292,23 +292,23 @@ class NotificationBox {
 	$activity->setLimit($notificationBox->config->limitForEventList);
 	$activity->orderByDescending('createdAt');
 	$activity->whereInclude('fromUser');
-	$messages = $activity->getActivities();
-	if ($messages instanceof Error) {
-	    return $messages;
-	} elseif (is_null($messages)) {
+	$activities = $activity->getActivities();
+	if ($activities instanceof Error) {
+	    return $activities;
+	} elseif (is_null($activities)) {
 	    $notificationBox->notificationArray = $boxes['NODATA'];
 	    return $notificationBox;
 	} else {
-	    foreach ($messages as $message) {
-		$createdAt = $message->getCreatedAt();
-		$relationId = $message->getFromUser()->getObjectId();
-		$thumbnail = $message->getFromUser()->getProfileThumbnail();
-		$type = $message->getFromUser()->getType();
-		$username = $message->getFromUser()->getUsername();
+	    foreach ($activities as $act) {
+		$createdAt = $act->getCreatedAt();
+		$relationId = $act->getFromUser()->getObjectId();
+		$thumbnail = $act->getFromUser()->getProfileThumbnail();
+		$type = $act->getFromUser()->getType();
+		$username = $act->getFromUser()->getUsername();
 		$fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
 		$relationType = 'M';
 		$text = $boxes['MESSAGEFORLIST'];
-		$relatedId = $message->getComment()->getObjectId();
+		$relatedId = is_null($act->getComment()) ? $boxes['404'] : $act->getComment()->getObjectId();
 		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
 		array_push($relationArray, $notificationInfo);
 	    }
@@ -350,27 +350,27 @@ class NotificationBox {
 	$activity->setLimit($notificationBox->config->limitForRelationList);
 	$activity->orderByDescending('createdAt');
 	$activity->whereInclude('fromUser');
-	$relations = $activity->getActivities();
-	if ($relations instanceof Error) {
-	    return $relations;
-	} elseif (is_null($relations)) {
+	$activities = $activity->getActivities();
+	if ($activities instanceof Error) {
+	    return $activities;
+	} elseif (is_null($activities)) {
 	    $notificationBox->notificationArray = $boxes['NODATA'];
 	    return $notificationBox;
 	} else {
-	    foreach ($relations as $relation) {
-		$createdAt = $relation->getCreatedAt();
-		$relationId = $relation->getFromUser()->getObjectId();
-		$thumbnail = $relation->getFromUser()->getProfileThumbnail();
-		$type = $relation->getFromUser()->getType();
-		$username = $relation->getFromUser()->getUsername();
+	    foreach ($activities as $act) {
+		$createdAt = $act->getCreatedAt();
+		$relationId = $act->getFromUser()->getObjectId();
+		$thumbnail = $act->getFromUser()->getProfileThumbnail();
+		$type = $act->getFromUser()->getType();
+		$username = $act->getFromUser()->getUsername();
 		$fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
 		$relationType = 'R';
 		if ($type == 'SPOTTER') {
 		    $text = $boxes['FRIENDSHIPFORLIST'];
 		} else {
-		    $text = ($relation->getType() == 'COLLABORATIONREQUEST') ? $boxes['COLLABORATIONFORLIST'] : $boxes['FOLLOWINGFORLIST'];
+		    $text = ($act->getType() == 'COLLABORATIONREQUEST') ? $boxes['COLLABORATIONFORLIST'] : $boxes['FOLLOWINGFORLIST'];
 		}
-		$relatedId = $relation->getObjectId();
+		$relatedId = $act->getObjectId();
 		$notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
 		array_push($relationArray, $notificationInfo);
 	    }

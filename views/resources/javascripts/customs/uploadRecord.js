@@ -476,13 +476,11 @@ function getFeaturingSongCreate() {
 }
 
 function addSong(id, duration, tags) {
-    var json_elem = {"src": id, "tags": tags};
+    var songTitle = $("#trackTitle").val();
+    var featuring = getFeaturingSongCreate();
+    var json_elem = {"src": id, "tags": tags, "featuring" : featuring, "title":songTitle, "duration":duration};
     json_album.list.push(json_elem);
-    console.log("songTitle => " + songTitle + " - featuring => " + featuring + " - tags => " + tags + " - id => " + id);
-    var songTitle, featuring = null;
-    songTitle = $("#trackTitle").val();
-    featuring = getFeaturingSongCreate();
-
+    console.log("added  song=> " + JSON.stringify(json_elem));
     var html = "";
     html += "<tr>";
     html += '<td class="title _note-button">' + songTitle + '</td>';

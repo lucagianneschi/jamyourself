@@ -10,12 +10,14 @@ require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
+require_once BOXES_DIR . 'review.box.php';
 
 class uploadReviewController extends REST {
 
-    public $recordId;
-    public $record;
-    public $recordInfo;
+    public $reviwedId;
+    public $reviwed;
+    public $reviwedInfo;
+    public $reviewdClassType;
 
     public function init() {
         session_start();
@@ -24,24 +26,47 @@ class uploadReviewController extends REST {
             die("Non sei collegato.");
         }
 
-        if (isset($_GET["recordId"]) && strlen($_GET["recordId"]) > 0) {
-            $this->recordId = $_GET["recordId"];
-            $this->record = $this->getRecord($this->recordId);
-            if ($this->record instanceof Error || is_null($this->record)) {
-                die("Nessun record trovato con questo ID : " . $this->recordId);
+        $currentUser = $_SESSION['currentUser'];
+
+        if (isset($_GET["recordId"]) && strlen($_GET["recordId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
+            $this->reviwedId = $_GET["recordId"];
+            $this->reviewdClassType = $_GET["type"];
+            $this->reviwedInfo;
+
+            $reviewBox = new ReviewBox();
+            $reviewBox = $reviewBox->initForUploadReviewPage($this->reviwedId, $this->reviewdClassType, 1);
+
+            if ($reviewBox instanceof Error || is_null($reviewBox)) {
+                die("Nessun record/evento trovato con questo ID : " . $this->reviwedId);
             }
-            $this->recordInfo = array();
-            $this->recordInfo["title"] = $this->record->getTitle();
-            $this->recordInfo["thumbnail"] = $this->getRecordThumbnailURL($this->record->getFromUser(), $this->record->getThumbnailCover());
-            $this->recordInfo["rating"] = $this->getRecordRating();
-            $this->recordInfo["tagGenere"] = $this->getRecordTagGenre();
-            $this->recordInfo["featuringInfoArray"] = $this->getRecordFeaturingInfoArray();
-            $this->recordInfo["author"] = $this->getRecordAuthor();
-            $this->recordInfo["authorThumbnail"] = $this->getUserThumbnailURL($this->record->getFromUser());
+
+            $this->reviwedInfo = $reviewBox->mediaInfo;
+            switch ($this->reviewdClassType) {
+                case "Record" :
+            $this->reviwedInfo->thumbnail = $this->getRecordThumbnailURL($currentUser->getObjectId(), $reviewBox->mediaInfo->thumbnail);
+                    break;
+                case "Event" :
+            $this->reviwedInfo->thumbnail = $this->getEventThumbnailURL($currentUser->getObjectId(), $reviewBox->mediaInfo->thumbnail);
+                    break;
+            }
+            $this->reviwedInfo->authorThumbnail = $this->getUserThumbnailURL($currentUser->getObjectId());
+
+//  media info:
+//    public $city;
+//    public $className;
+//    public $eventDate;
+//    public $featuring;
+//    public $fromUserInfo;
+//    public $genre;
+//    public $locationName;
+//    public $objectId;
+//    public $tags;
+//    public $thumbnail;
+//    public $title;            
         } else {
             //PER IL TEST
             ?>
-            <a href="<?php echo VIEWS_DIR . "uploadReview.php?recordId=OoW5rEt94b" ?>">Test link</a>
+            <a href="<?php echo VIEWS_DIR . "uploadReview.php?recordId=OoW5rEt94b&type=Record" ?>">Test link</a>
             <br>
             <br>
             <?php
@@ -52,63 +77,74 @@ class uploadReviewController extends REST {
     public function publish() {
         global $controllers;
 
-        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser']) ||
-                (!isset($this->request['record']) || is_null($this->request['record']) || !(strlen($this->request['record']) > 0)) ||
-                (!isset($this->request['rating']) || is_null($this->request['rating']) || !(strlen($this->request['rating']) > 0 )) ||
-                (!isset($this->request['review']) || is_null($this->request['review']) || !(strlen($this->request['review']) > 0 ))) {
-            $this->response('', 406);
-        }
+        try {
+            if ($this->get_request_method() != "POST") {
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($this->request['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 403);
+            } elseif ((!isset($this->request['record']) || is_null($this->request['record']) || !(strlen($this->request['record']) > 0))) {
+                $this->response(array('status' => $controllers['NOOBJECTID']), 403);
+            } elseif ((!isset($this->request['review']) || is_null($this->request['review']) || !(strlen($this->request['review']) > 0 ))) {
+                $this->response(array('status' => $controllers['NOREW']), 403);
+            } elseif ((!isset($this->request['rating']) || is_null($this->request['rating']) || !(strlen($this->request['rating']) > 0 ))) {
+                $this->response(array('status' => $controllers['NORATING']), 403);
+            }
 
-        $currentUser = $_SESSION['currentUser'];
-        $reviewRequest = json_decode(json_encode($this->request), false);
-        $this->recordId = $reviewRequest->record;
-        $this->record = $this->getRecord($this->recordId);
-        if ($this->record instanceof Error || is_null($this->record)) {
-            $this->response('', 406);
-        }
-        if ($this->record->getFromUser() == $currentUser->getObjectId()) {
-            //non puoi commentare i tuoi stessi album
-            $this->response('', 406);
-        }
 
-        $review = new Comment();
-        $review->setActive(true);
-        $review->setAlbum(null);
-        $review->setComment(null);
-        $review->setCommentCounter(0);
-        $review->setCommentators(null);
-        $review->setComments(null);
-        $review->setCounter(0);
-        $review->setFromUser($currentUser->getObjectId());
-        $review->setImage(null);
-        $review->setLocation(null);
-        $review->setLoveCounter(0);
-        $review->setLovers(null);
-        $review->setShareCounter(0);
-        $review->setSong(null);
-        $review->setStatus(null);
-        $review->setTags(null);
-//        $review->setTitle(parse_encode_string($reviewRequest->title));
-        $review->setText(parse_encode_string($reviewRequest->review));
-        $review->setToUser($this->record->getFromUser());
-        $review->setVideo(null);
-        $review->setVote(null);
 
-        $this->sendMailNotification();
-        
-        $review->setRecord($this->record->getObjectId());
-        $review->setType('RR');
-        $commentParse = new CommentParse();
-        $resRev = $commentParse->saveComment($review);
-        if ($resRev instanceof Error) {
-            $this->response(array('NOSAVEDREVIEW'), 503);
-        }
+            $currentUser = $_SESSION['currentUser'];
+            $reviewRequest = json_decode(json_encode($this->request), false);
+            $this->recordId = $reviewRequest->record;
+            $this->record = $this->getRecord($this->recordId);
+            if ($this->record instanceof Error || is_null($this->record)) {
+                $this->response('', 406);
+            }
+            if ($this->record->getFromUser() == $currentUser->getObjectId()) {
+                //non puoi commentare i tuoi stessi album
+                $this->response(array('NOSELFREVIEW'), 200);
+            }
 
-        if(!$this->saveActivityForNewRecordReview()){
-            $this->rollback($resRev->getObjectId());            
-        }
-        $this->response(array($controllers['REWSAVED']), 200);
+            $review = new Comment();
+            $review->setActive(true);
+            $review->setAlbum(null);
+            $review->setComment(null);
+            $review->setCommentCounter(0);
+            $review->setCommentators(null);
+            $review->setComments(null);
+            $review->setCounter(0);
+            $review->setFromUser($currentUser->getObjectId());
+            $review->setImage(null);
+            $review->setLocation(null);
+            $review->setLoveCounter(0);
+            $review->setLovers(null);
+            $review->setShareCounter(0);
+            $review->setSong(null);
+            $review->setStatus(null);
+            $review->setTags(null);
+//        $review->setTitle($reviewRequest->title);
+            $review->setText($reviewRequest->review);
+            $review->setToUser($this->record->getFromUser());
+            $review->setVideo(null);
+            $review->setVote(null);
+
+            $this->sendMailNotification();
+
+            $review->setRecord($this->record->getObjectId());
+            $review->setType('RR');
+            $commentParse = new CommentParse();
+            $resRev = $commentParse->saveComment($review);
+            if ($resRev instanceof Error) {
+                $this->response(array('NOSAVEDREVIEW'), 503);
+            }
+
+            if (!$this->saveActivityForNewRecordReview()) {
+                $this->rollback($resRev->getObjectId());
+            }
+            $this->response(array($controllers['REWSAVED']), 200);
 //        $this->response(array("res" => "OK"), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
     }
 
     private function getUserEmail($objectId) {
@@ -235,6 +271,22 @@ class uploadReviewController extends REST {
             //immagine di default con path realtivo rispetto alla View
             //http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
             $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
+        }
+
+        return $path;
+    }
+
+    private function getEventThumbnailURL($userId, $eventCoverThumb) {
+        $path = "";
+        if (!is_null($eventCoverThumb) && strlen($eventCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
+            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $eventCoverThumb;
+            if (!file_exists($path)) {
+                $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultEventThumb.jpg";
+            }
+        } else {
+            //immagine di default con path realtivo rispetto alla View
+            //http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
+            $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultEventThumb.jpg";
         }
 
         return $path;

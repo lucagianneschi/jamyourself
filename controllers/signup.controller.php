@@ -43,13 +43,6 @@ class SignupController extends REST {
 
 //inizializzo la sessione
         session_start();
-
-//        if (!isset($_SESSION['currentUser'])) { @Per il test
-//dovrei inizializzarlo vuoto... ma il costruttore non  me lo permette.. :(
-        $sessionUser = new User("SPOTTER");
-        $sessionUser->setType(null);
-        $_SESSION['currentUser'] = $sessionUser;
-
 //passo la chiave pubblica del captcha qua
         $_SESSION['captchaPublicKey'] = CAPTCHA_PUBLIC_KEY;
         $_SESSION['captchaValidation'] = false;
@@ -402,6 +395,9 @@ class SignupController extends REST {
         $user->setGooglePlusPage($decoded->google);
         $user->setYoutubeChannel($decoded->youtube);
         $user->setWebsite($decoded->web);
+        
+//nuova property badge
+        $user->setBadge(array());
 
 //imposto i parametri di Jam       
         $parseACL = new parseACL();

@@ -164,7 +164,8 @@ $controllers = array(
     'INVITATIONSENT'=> 'Invito inviato',
     'INVITATIONMAILSBJ' => 'Sei stato invitato ad un evento',
     'NOTINRELATION' => 'Utenti non in relazione',
-    'NOEVENTFOUND' => 'Evento non trovato per update'
+    'NOEVENTFOUND' => 'Evento non trovato per update',
+    'NORATING' => 'Rating non impostato'
 );
 
 $mail_files = array(

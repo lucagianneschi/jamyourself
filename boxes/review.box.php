@@ -75,7 +75,7 @@ class MediaInfoForUploadReviewPage {
 	    is_null($featuring) ? $this->featuring = $boxes['NOFEATREC'] : $this->featuring = $featuring;
 	    $this->locationName = $boxes['NDB'];
 	    is_null($objectId) ? $this->objectId = $boxes['NOBOJECTID'] : $this->objectId = $objectId;
-	    is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
+	    $this->tags = $boxes['NDB'];
 	    is_null($thumbnail) ? $this->thumbnail = DEFRECORDTHUMB : $this->thumbnail = $thumbnail;
 	    is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
 	}
