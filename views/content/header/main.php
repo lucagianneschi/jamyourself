@@ -9,28 +9,8 @@
 		?>		
 		<div  class="row hcento-hero">
 			<div id="header-profile" class="small-6 columns"></div>			
-			<div id="header-social" class="small-6 columns">
-				
-				
-				<script>							
-					$.ajax({
-						url : './content/header/box-social.php',
-						data : {
-							userObjectId: '<?php echo $userObjectId?>',
-							userType: '<?php echo $userType  ?>',
-							typeNotification: 'notification'
-						},
-						type : 'POST',
-						beforeSend: function(){
-							console.log('------------partito-------------');
-						}
-					}).done(function(message, status, xhr){							
-							$('#header-social').html(message);
-					}).fail(function(xhr){							
-							console.log($.parseJSON(xhr.responseText));					
-					});
-				</script> 
-				
+			<div id="header-social" class="small-6 columns">				
+				<?php require_once './content/header/box-social.php'; ?>				
 			</div>
 		</div>
 		<?php } ?>	
@@ -112,8 +92,7 @@
 				  				</div>
 				  				<div class="large-4 columns hide-for-small " id="header-btn-notify">
 				  					<div class="header inline" style="float: right;">
-				  					<a class="ico-label _notify inline"></a>
-				  					<a class="ico-label _friend inline"></a>
+				  					<a class="ico-label _flag inline" onclick="headerShow()" ><span class="round alert label iconNotification"><?php echo $totNotification ?></span></a>
 				  					<a class="ico-label _setting inline"></a>
 				  					</div>
 				  				</div>

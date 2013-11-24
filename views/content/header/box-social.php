@@ -7,41 +7,58 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php'; 
 
+
+require_once CLASSES_DIR . 'userParse.class.php';
+session_start();
+
 $userObjectId = $_POST['userObjectId'];
 $userType 	  = $_POST['userType'];
 $typeNotification = $_POST['typeNotification'];
 
+if(!isset($userObjectId)){
+	if (isset($_SESSION['currentUser'])) {
+		$userObjectId = $currentUser->getObjectId();
+		$userType = $currentUser->getType();
+		$typeNotification = 'notification';
+		
+	}
+}
+
 if (isset($userObjectId)) {
-	
+		
 	require_once BOXES_DIR . 'notification.box.php';
 	$notificationBox = new NotificationBox();
-	$counterNotification = $notificationBox->initForCounter($userObjectId, $userType);
-	$invited = $counterNotification->invitationCounter != $boxes['ONLYIFLOGGEDIN'] ? $counterNotification->invitationCounter : 0;
-	$message = $counterNotification->messageCounter != $boxes['ONLYIFLOGGEDIN'] ? $counterNotification->messageCounter : 0;
-	$relation = $counterNotification->relationCounter != $boxes['ONLYIFLOGGEDIN'] ? $counterNotification->relationCounter : 0;
+	
+	$invited = $_SESSION['invitationCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['invitationCounter'] : 0;
+	$message = $_SESSION['messageCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['messageCounter'] : 0;
+	$relation = $_SESSION['relationCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['relationCounter'] : 0;
+		
+	
 	$totNotification = $invited + $message + $relation;
 		
 	try{
 		
 		switch ($typeNotification) {
 			case 'notification':				
-				
 				$detailNotification = $notificationBox->initForDetailedList($userObjectId, $userType);
-				$detailNotification->notificationArray;				
 				break;
 			
 			case 'message':
-				$counterNotification = $notificationBox->initForMessageList($userObjectId);
-				
-				
+				$detailNotification = $notificationBox->initForMessageList($userObjectId);
+				$other = 'vedi tutti i messaggi';	
+				break;
+			case 'event':
+				$detailNotification = $notificationBox->initForEventList($userObjectId);
+				$other = 'vedi tutti gli eventi';
+				break;
+			case 'relation':
+				$detailNotification = $notificationBox->initForRelationList($userObjectId, $userType);
+				$other = 'vedi tutte le relazioni';
 				break;
 			default:
 				
 				break;
 		}
-		
-		
-		
 		
 		
 	}catch(Exception $e){
@@ -53,14 +70,14 @@ if (isset($userObjectId)) {
 <div class="row">
 	<div  class="large-12 columns" style="margin-bottom: 29px">
 		<div class="row">
-			<div  class="large-3 columns hide-for-small">	
-				<h3 class="inline">Notifiche</h3>
+			<div  class="large-4 columns hide-for-small">	
+				<h3 class="inline"><?php echo $views['header']['TITLE'] ?></h3>
 			</div>	
-			<div  class="large-9 columns" style="margin-top: 10px">
-				<a class="ico-label _flag inline" onclick="getNotificationTot()" title="<?php echo $totNotification ?>"></a>
-				<a class="ico-label _message inline" onclick="getNotificationMsg()" title="<?php echo $message ?>"></a>
-				<a class="ico-label _calendar inline" onclick="getNotificationEvent()" title="<?php echo $invited ?>"></a>
-				<a class="ico-label _friend inline"  onclick="getNotificationRelation()" title="<?php echo $relation ?>"></a>
+			<div  class="large-8 columns" style="margin-top: 10px">
+				<a class="ico-label _flag inline" onclick="loadBoxSocial('notification','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $totNotification ?>"><span class="round alert label iconNotification"><?php echo $totNotification ?></span></a>
+				<a class="ico-label _message inline" onclick="loadBoxSocial('message','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $message ?>"><span class="round alert label iconNotification"><?php echo $message ?></span></a>
+				<a class="ico-label _calendar inline" onclick="loadBoxSocial('event','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $invited ?>"><span class="round alert label iconNotification"><?php echo $invited ?></span></a>
+				<a class="ico-label _friend inline"  onclick="loadBoxSocial('relation','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $relation ?>"><span class="round alert label iconNotification"><?php echo $relation ?></span></a>
 			</div>
 		</div>											
 	</div>					
@@ -78,10 +95,12 @@ foreach ($detailNotification->notificationArray as $key => $value) {
 		$objectId = $value->objectId;
 		switch ($value->type) {
 			case 'M':
-				$css_icon = '_message-small';				
+				$css_icon = '_message-small';
+							
 				break;
 			case 'E':
 				$css_icon = '_calendar-small';
+				
 				break;
 			case 'R':
 				$css_icon = '_user-small';
@@ -114,11 +133,11 @@ foreach ($detailNotification->notificationArray as $key => $value) {
 </div>
 <?php } ?>
 <!------------------------------------ fine notification ------------------------------------------->
-<?php if($value->type == 'M'){ ?>
+
 <div class"row">
-	<div  class="large-12 large-offset-9 columns"><a href="#" class="note orange"><strong>vedi tutti i messaggi</strong> </a></div>
+	<div  class="large-12 large-offset-9 columns"><a href="#" class="note orange"><strong><?php echo $other?></strong> </a></div>
 </div>	
 
 <?php
-}}}
+}}
 ?>	
