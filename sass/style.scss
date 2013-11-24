@@ -226,6 +226,7 @@ a.icon-block{
 .icon-small{
   width:15px;
   height:15px;
+  margin-right: 5px !important;
 }
 
 
@@ -709,6 +710,7 @@ footer {
 
 //----------------------- icon small --------------------------------------
 ._message-small { background-image:url(../images/icon/small/message-small.png); }
+._calendar-small { background-image:url(../images/icon/small/calendar-small.png); }
 ._compass-small { background-image:url(../images/icon/small/compass-small.png); }
 ._love { background-image:url(../images/icon/small/love.png); }
 ._unlove { background-image:url(../images/icon/small/unlove.png); }
@@ -720,7 +722,7 @@ footer {
 ._star-grey { background-image:url(../images/icon/small/star-grey.png); }
 ._star-orange-big { background-image:url(../images/icon/small/star-orange-big.png); width:20px !important; height:20px !important; display:block !important; float:left !important; }
 ._star-grey-big { background-image:url(../images/icon/small/star-grey-big.png); width:20px !important; height:20px !important; display:block !important; float:left !important; }
-
+._user-small { background-image:url(../images/icon/small/user-small.png); }
 
 //---------------- icon achievement -----------------------------
 ._target1 { background-image:url(../images/icon/achievement/target1.png); }

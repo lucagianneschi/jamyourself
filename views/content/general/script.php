@@ -6,10 +6,7 @@
             '.js><\/script>')
 </script> -->
 
-<!---------------------------------- JQUERY  ------------------------------------------>
-<script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
-<script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>	
-<script src="resources/javascripts/plugins/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+
 
 <!---------------------------------- FOUNDATION  ------------------------------------------>
 <script src="resources/javascripts/plugins/foundation/foundation.js"></script>

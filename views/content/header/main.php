@@ -3,12 +3,34 @@
 	<!------------------------------------- HIDE HEADER ----------------------------->
 	<div id="header-hide" class="no-display">
 		<?php		
-			if (isset($_SESSION['currentUser'])) {		
+			if (isset($_SESSION['currentUser'])) {
+				$userObjectId = $currentUser->getObjectId();
+				$userType = $currentUser->getType();
 		?>		
 		<div  class="row hcento-hero">
 			<div id="header-profile" class="small-6 columns"></div>			
 			<div id="header-social" class="small-6 columns">
-				<?php require_once './content/header/box-social.php'; ?>
+				
+				
+				<script>							
+					$.ajax({
+						url : './content/header/box-social.php',
+						data : {
+							userObjectId: '<?php echo $userObjectId?>',
+							userType: '<?php echo $userType  ?>',
+							typeNotification: 'notification'
+						},
+						type : 'POST',
+						beforeSend: function(){
+							console.log('------------partito-------------');
+						}
+					}).done(function(message, status, xhr){							
+							$('#header-social').html(message);
+					}).fail(function(xhr){							
+							console.log($.parseJSON(xhr.responseText));					
+					});
+				</script> 
+				
 			</div>
 		</div>
 		<?php } ?>	

@@ -60,9 +60,7 @@ $objectIdUser = $_GET['objectIdUser'];
 			
 			//CARICAMENTO HEADER
 			headerCallBox.objectIdCurrentUser = 'GuUAj83MGH';
-			headerCallBox.load('header');
-			
-			
+			headerCallBox.load('header');			
         </script>
         
     </body>
