@@ -347,7 +347,7 @@ function rollbackPostController($objectId) {
     return $message;
 }
 
-function rollbackAcceptRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType) {
+function rollbackRemoveRelation($operation, $activityObjectId, $activityField, $activityValue, $currentUserObjectId, $currentUserType, $toUserObjectId, $toUserType) {
 	switch ($classType) {
         case 'rollbackActivityStatus':
 			require_once CLASSES_DIR . 'activityParse.class.php';
@@ -365,28 +365,28 @@ function rollbackAcceptRelation($operation, $activityObjectId, $activityField, $
 			require_once CLASSES_DIR . 'userParse.class.php';
 			$userParse = new UserParse();
 			if ($currentUserType == 'SPOTTER' && $toUserType == 'SPOTTER') {
-				$resToUserF = $userParse->updateField($toUserObjectId, 'friendship', array($currentUserObjectId), true, 'remove', '_User');
-				$resFromUserF = $userParse->updateField($currentUserObjectId, 'friendship', array($toUserObjectId), true, 'remove', '_User');
+				$resToUserF = $userParse->updateField($toUserObjectId, 'friendship', array($currentUserObjectId), true, 'add', '_User');
+				$resFromUserF = $userParse->updateField($currentUserObjectId, 'friendship', array($toUserObjectId), true, 'add', '_User');
 			} elseif ($currentUserType != 'SPOTTER' && $toUserType != 'SPOTTER') {
-				$resToUserF = $userParse->updateField($toUserObjectId, 'collaboration', array($currentUserObjectId), true, 'remove', '_User');
-				$resFromUserF = $userParse->updateField($currentUserObjectId, 'collaboration', array($toUserObjectId), true, 'remove', '_User');
+				$resToUserF = $userParse->updateField($toUserObjectId, 'collaboration', array($currentUserObjectId), true, 'add', '_User');
+				$resFromUserF = $userParse->updateField($currentUserObjectId, 'collaboration', array($toUserObjectId), true, 'add', '_User');
 			}
 			$message = ($resToUserF instanceof Error || $resFromUserF instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
     		break;
-		case 'rollbackIncrementToUser':
+		case 'rollbackDecrementToUser':
 			require_once CLASSES_DIR . 'userParse.class.php';
 			$userParse = new UserParse();
 			if ($currentUserType == 'SPOTTER' && $toUserType == 'SPOTTER') {
-				$resToUserFC = $userParse->decrementUser($toUserObjectId, 'friendshipCounter', 1);
+				$resToUserFC = $userParse->incrementUser($toUserObjectId, 'friendshipCounter', 1);
 			} elseif ($currentUserType != 'SPOTTER' && $toUserType != 'SPOTTER') {
 				if ($currentUserType == 'JAMMER' && $toUserType == 'JAMMER') {
-					$resToUserFC = $userParse->decrementUser($toUserObjectId, 'jammerCounter', 1);
+					$resToUserFC = $userParse->incrementUser($toUserObjectId, 'jammerCounter', 1);
 				} elseif ($currentUserType == 'JAMMER' && $toUserType == 'VENUE') {
-					$resToUserFC = $userParse->decrementUser($toUserObjectId, 'venueCounter', 1);
+					$resToUserFC = $userParse->incrementUser($toUserObjectId, 'venueCounter', 1);
 				} elseif ($currentUserType == 'VENUE' && $toUserType == 'JAMMER') {
-					$resToUserFC = $userParse->decrementUser($toUserObjectId, 'jammerCounter', 1);
+					$resToUserFC = $userParse->incrementUser($toUserObjectId, 'jammerCounter', 1);
 				} elseif ($currentUserType == 'VENUE' && $toUserType == 'VENUE') {
-					$resToUserFC = $userParse->decrementUser($toUserObjectId, 'venueCounter', 1);
+					$resToUserFC = $userParse->incrementUser($toUserObjectId, 'venueCounter', 1);
 				}
 			}
 			$message = ($resToUserFC instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
