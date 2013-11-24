@@ -155,7 +155,7 @@ $controllers = array(
     'NOSETTINGUPDATE' => 'Impossibile effettuare aggiornamento dei setting',
     'NOSETTING' => 'Setting non specificato nella richiesta',
     'SETTINGUPDATED' => 'Setting Aggiornato',
-     //EVENTMANAGEMENT
+    //EVENTMANAGEMENT
     'NORESPONSE' => 'Risposta ad invitato nulla',
     'INVALIDRESPONSE' => 'Risposta ad invitato non valida',
     'INVITATIONDECLINED'=> 'Invito declinato',
@@ -166,7 +166,7 @@ $controllers = array(
 
 $mail_files = array(
     'USERDELETED' => 'it.userDeletion.html',
-    'FRINDSHIPREQUESTEMAIL' => 'it.friendshipRequest.html',
+    'FRIENDSHIPREQUESTEMAIL' => 'it.friendshipRequest.html',
     'COLLABORATIONREQUESTEMAIL' => 'it.collaborationRequest.html',
     'FRIENDSHIPACCEPTEDEMAIL' => 'it.friendshipRequestAccepted.html',
     'COLLABORATIONACCEPTEDEMAIL' => 'it.collaborationRequestAccepted.html',
