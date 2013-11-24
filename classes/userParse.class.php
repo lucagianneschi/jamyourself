@@ -299,6 +299,7 @@ class UserParse {
 	    $user->setAddress(parse_decode_string($res->address));
 	    $user->setBackground($res->background);
 	    $user->setBirthDay($res->birthDay);
+	    $user->setBadge($res->badge);
 	    $user->setCity(parse_decode_string($res->city));
 	    $user->setCollaborationCounter($res->collaborationCounter);
 	    $user->setCountry($res->country);
@@ -385,6 +386,7 @@ class UserParse {
 	    is_null($user->getAddress()) ? $parseUser->address = null : $parseUser->address = parse_encode_string($user->getAddress());
 	    is_null($user->getAlbums()) ? $parseUser->albums = null : $parseUser->albums = toParseAddRelation('Album', $user->getAlbums());
 	    is_null($user->getBackground()) ? $parseUser->background = DEFBGD : $parseUser->background = $user->getBackground();
+	    is_null($user->getBadge()) ? $parseUser->badge = $nullArray : $parseUser->badge = $user->getBadge();
 	    is_null($user->getBirthDay()) ? $parseUser->birthDay = null : $parseUser->birthDay = $user->getBirthDay();
 	    is_null($user->getCity()) ? $parseUser->city = null : $parseUser->city = parse_encode_string($user->getCity());
 	    is_null($user->getCollaboration()) ? $parseUser->collaboration = null : $parseUser->collaboration = toParseAddRelation('_User', $user->getCollaboration());
@@ -524,27 +526,28 @@ class UserParse {
      * \param	$typeRelation	[optional] default = '' - define if the relational update must add or remove the value from the field
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
-    public function updateField($objectId, $sessionToken, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-	if (is_null($objectId) || is_null($sessionToken) || is_null($field))
-	    return throwError(new Exception('updateField parameters objectId, sessionToken, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+    
+    public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
+	if (is_null($objectId) || is_null($field))
+	    return throwError(new Exception('updateField parameters objectId and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
 	if ($isRelation) {
 	    if (is_null($typeRelation) || is_null($className))
 		return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
 	    if ($typeRelation == 'add') {
-		$parseUser = new parseUser();
-		$parseUser->$field = toParseAddRelation($className, $value);
-		$parseUser->update($objectId, $sessionToken);
+		$parseObject = new parseObject('_User');
+		$parseObject->$field = toParseAddRelation($className, $value);
+		$parseObject->update($objectId);
 	    } elseif ($typeRelation == 'remove') {
-		$parseUser = new parseUser();
-		$parseUser->$field = toParseRemoveRelation($className, $value);
-		$parseUser->update($objectId, $sessionToken);
+		$parseObject = new parseObject('_User');
+		$parseObject->$field = toParseRemoveRelation($className, $value);
+		$parseObject->update($objectId);
 	    } else {
 		return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
 	    }
 	} else {
-	    $parseUser = new parseUser();
-	    $parseUser->$field = $value;
-	    $parseUser->update($objectId, $sessionToken);
+	    $parseObject = new parseObject('_User');
+	    $parseObject->$field = $value;
+	    $parseObject->update($objectId);
 	}
     }
 

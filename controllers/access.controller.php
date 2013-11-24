@@ -102,7 +102,8 @@ class AccessController extends REST {
             }
             $currentUser = $_SESSION['currentUser'];
             $currentUserId = $currentUser->getObjectId();
-            unset($_SESSION['currentUser']);
+            session_unset();
+			session_destroy();
             $activity = $this->createActivity('LOGGEDOUT', $currentUserId);
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activityParse = new ActivityParse();

@@ -56,10 +56,9 @@ class EventManagementController extends REST {
      * \brief   decline invitation request
      * \todo    test, in caso di partecipazione aggiungere all'event lo user che partecipa
      */
-    public function invitationRequestResponse() {
+    public function invitationAccepted() {
 	global $controllers;
 	try {
-	    $allowedResponse = array('R', 'A');
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($this->request['currentUser'])) {
@@ -73,18 +72,18 @@ class EventManagementController extends REST {
 	    $toUser = $this->request['toUser'];
 	    $activityId = $this->request['activityId'];
 	    $response = $this->request['response'];
-	    if (!in_array($response, $allowedResponse)) {
-		$this->response(array('status' => $controllers['INVALIDRESPONSE']), 403);
-	    }
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
 	    $res = $activityP->updateField($activityId, 'status', $response);
 	    $res1 = $activityP->updateField($activityId, 'read', true);
+	    $eventP = $activityP->getEvent();
+	    $event = $eventP->updateField($event->getObjectId(), 'attendee', $currentUser->getObjectId(), true, 'add', '_User');
 	    if ($res instanceof Error || $res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+	    } elseif($event instanceof Error){
+		$this->response(array('status' => $controllers['NOEVENTFOUND']), 503);
 	    }
-	    $responseType = ($response == 'R') ? 'INVITATIONDECLINED' : 'INVITATIONACCEPTED';
-	    $activity = $this->createActivity($responseType, $toUser, $currentUser->getObjectId(), 'A', null, true);
+	    $activity = $this->createActivity('INVITATIONACCEPTED', $toUser, $currentUser->getObjectId(), 'A', $event->getObjectId(), true);
 	    $activityP1 = new ActivityParse();
 	    $res2 = $activityP1->saveActivity($activity);
 	    if ($res2 instanceof Error) {
@@ -92,7 +91,7 @@ class EventManagementController extends REST {
 		$message = rollbackEventManagementController($activity->getObjectId(), 'managementRequest');
 		$this->response(array('status' => $message), 503);
 	    }
-	    $this->response(array($responseType), 200);
+	    $this->response(array($controllers['INVITATIONACCEPTED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
@@ -141,7 +140,7 @@ class EventManagementController extends REST {
 		if ($user instanceof Error) {
 		    $this->response(array('status' => $controllers['NOUSERFORMAIL']), 503);
 		}
-		$this->sendMailNotification($user->getEmail(), $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile));
+		$this->sendMailNotification($user->getEmail(), $controllers['INVITATIONMAILSBJ'], file_get_contents(STDHTML_DIR . $HTMLFile));
 		$this->response(array($controllers['INVITATIONSENT']), 200);
 	    }
 	} catch (Exception $e) {

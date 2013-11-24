@@ -123,7 +123,7 @@ class LoveController extends REST {
 		    $res = $songParse->incrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
 			require_once CLASSES_DIR . 'userParse.class.php';
 			$userParse = new UserParse();
-			$userParse->updateField($fromUser->getObjectId(), $fromUser->getSessionToken(), 'loveSongs', array($objectId), true, 'add', 'Song');
+			$userParse->updateField($fromUser->getObjectId(), 'loveSongs', array($objectId), true, 'add', 'Song');
 			$activity->setSong($objectId);
 		    $activity->setType("LOVEDSONG");
 		    break;
@@ -253,7 +253,7 @@ class LoveController extends REST {
 		    $res = $songParse->decrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
 		    require_once CLASSES_DIR . 'userParse.class.php';
 			$userParse = new UserParse();
-			$userParse->updateField($fromUser->getObjectId(), $fromUser->getSessionToken(), 'loveSongs', array($objectId), true, 'remove', 'Song');
+			$userParse->updateField($fromUser->getObjectId(), 'loveSongs', array($objectId), true, 'remove', 'Song');
 			$activity->setSong($objectId);
 		    $activity->setType("UNLOVEDSONG");
 		    break;

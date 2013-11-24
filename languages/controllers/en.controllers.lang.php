@@ -158,7 +158,11 @@ $controllers = array(
     'INVITATIONDECLINED'=> 'Invitation declined',
     'INVITATIONACCEPTED'=> 'Invitation accepted',
     'NOEVENTID'=> 'Event ID unset',
-    'INVITATIONSENT'=> 'Invitation sent'
+    'INVITATIONSENT'=> 'Invitation sent',
+    'INVITATIONMAILSBJ' => 'You have been invited to an Event',
+    'NOTINRELATION' => 'User not in a relationship',
+    'NOEVENTFOUND' => 'Event not found for update'
+
 );
 
 $mail_files = array(

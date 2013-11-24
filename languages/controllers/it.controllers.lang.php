@@ -155,18 +155,21 @@ $controllers = array(
     'NOSETTINGUPDATE' => 'Impossibile effettuare aggiornamento dei setting',
     'NOSETTING' => 'Setting non specificato nella richiesta',
     'SETTINGUPDATED' => 'Setting Aggiornato',
-     //EVENTMANAGEMENT
+    //EVENTMANAGEMENT
     'NORESPONSE' => 'Risposta ad invitato nulla',
     'INVALIDRESPONSE' => 'Risposta ad invitato non valida',
     'INVITATIONDECLINED'=> 'Invito declinato',
     'INVITATIONACCEPTED'=> 'Invito accettato',
     'NOEVENTID'=> 'Event ID non settato',
-    'INVITATIONSENT'=> 'Invito inviato'
+    'INVITATIONSENT'=> 'Invito inviato',
+    'INVITATIONMAILSBJ' => 'Sei stato invitato ad un evento',
+    'NOTINRELATION' => 'Utenti non in relazione',
+    'NOEVENTFOUND' => 'Evento non trovato per update'
 );
 
 $mail_files = array(
     'USERDELETED' => 'it.userDeletion.html',
-    'FRINDSHIPREQUESTEMAIL' => 'it.friendshipRequest.html',
+    'FRIENDSHIPREQUESTEMAIL' => 'it.friendshipRequest.html',
     'COLLABORATIONREQUESTEMAIL' => 'it.collaborationRequest.html',
     'FRIENDSHIPACCEPTEDEMAIL' => 'it.friendshipRequestAccepted.html',
     'COLLABORATIONACCEPTEDEMAIL' => 'it.collaborationRequestAccepted.html',
