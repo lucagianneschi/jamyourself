@@ -173,7 +173,7 @@ class NotificationBox {
 		switch ($message->getType()) {
 		    case 'MESSAGESENT':
 			$text = $boxes['MESSAGEFORLIST'];
-			$relatedId = is_null($message->getComment()) ? $boxes['404'] : $message->getComment->getObjectId();
+			$relatedId = is_null($message->getComment()) ? $boxes['404'] : $message->getComment()->getObjectId();
 			$elementType = 'M';
 			break;
 		    case 'INVITED':
