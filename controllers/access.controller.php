@@ -73,7 +73,7 @@ class AccessController extends REST {
             $password = $this->request['password'];
             $userParse = new UserParse();
             $resLogin = $userParse->loginUser($usernameOrEmail, $password);
-            if ($resLogin instanceof Error) {
+			if ($resLogin instanceof Error) {
                 $this->response(array('status' => $resLogin->getErrorMessage()), 406);
             }
             $activity = $this->createActivity('LOGGEDIN', $resLogin->getObjectId());
@@ -81,7 +81,13 @@ class AccessController extends REST {
             $activityParse = new ActivityParse();
             $activityParse->saveActivity($activity);
             $_SESSION['currentUser'] = $resLogin;
-            $this->response(array($controllers['OKLOGIN']), 200);
+			require_once BOXES_DIR . 'notification.box.php';
+			$notificationBox = new NotificationBox();
+			$counterNotification = $notificationBox->initForCounter($resLogin->getObjectId(), $resLogin->getType());
+			$_SESSION['invitationCounter'] = $counterNotification->invitationCounter;
+			$_SESSION['messageCounter'] = $counterNotification->messageCounter;
+			$_SESSION['relationCounter'] = $counterNotification->relationCounter;
+			$this->response(array($controllers['OKLOGIN']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
