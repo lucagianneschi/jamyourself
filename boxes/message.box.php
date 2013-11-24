@@ -11,6 +11,28 @@ require_once CLASSES_DIR . 'commentParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
+ * \brief	ElementList
+ * \details	contains info for message to be displayed in Message Page
+ */
+class ElementList {
+
+    public $userInfo;
+    public $read;
+
+    /**
+     * \fn	__construct($read,$userInfo)
+     * \brief	construct for the ElementList
+     * \param	$read,$userInfo
+     */
+    function __construct($read,$userInfo) {
+	global $boxes;
+	is_null($read) ? $this->read = false : $this->read = $read;
+	is_null($userInfo) ? $this->userInfo = $boxes['NODATA'] : $this->userInfo = $userInfo;
+    }
+
+}
+
+/**
  * \brief	MessageInfo class 
  * \details	contains info for message to be displayed in Message Page
  */
@@ -20,20 +42,18 @@ class MessageInfo {
     public $objectId;
     public $send;
     public $text;
-    public $title;
 
     /**
-     * \fn	__construct($createdAt, $objectId, $send, $text, $title)
+     * \fn	__construct($createdAt, $objectId, $send, $text)
      * \brief	construct for the MessageInfo class
      * \param	$createdAt, $objectId, $send, $text, $title
      */
-    function __construct($createdAt, $objectId, $send, $text, $title) {
-        global $boxes;
-        is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
-        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-        is_null($send) ? $this->send = 'S' : $this->send = $send;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = ($text);
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
+    function __construct($createdAt, $objectId, $send, $text) {
+	global $boxes;
+	is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	is_null($send) ? $this->send = 'S' : $this->send = $send;
+	is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
     }
 
 }
@@ -53,7 +73,7 @@ class MessageBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/message.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/message.config.json"), false);
     }
 
     /**
@@ -64,49 +84,53 @@ class MessageBox {
      * \return	MessageBox, error in case of error
      */
     public function initForUserList($objectId, $limit, $skip) {
-        global $boxes;
-        $messageBox = new MessageBox();
-        $messageBox->messageArray = $boxes['NDB'];
-        $currentUserId = sessionChecker();
-        if ($currentUserId == $boxes['NOID']|| $currentUserId != $objectId) {
-            $messageBox->userInfoArray = $boxes['ONLYIFLOGGEDIN'];
-            return $messageBox;
-        }
-        $userInfoArray = array();
-        $messageBox->messageArray = $boxes['NDB'];
-        $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
-            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
-        $messageP = new CommentParse();
-        $messageP->whereOr($value);
-        $messageP->where('type', 'M');
-        $messageP->where('active', true);
-        $messageP->whereInclude('fromUser,toUser');
+	require_once CLASSES_DIR . 'activity.class.php';
+	require_once CLASSES_DIR . 'activityParse.class.php';
+	global $boxes;
+	$messageBox = new MessageBox();
+	$messageBox->messageArray = $boxes['NDB'];
+	$currentUserId = sessionChecker();
+	if ($currentUserId == $boxes['NOID']) {
+	    $messageBox->userInfoArray = $boxes['ONLYIFLOGGEDIN'];
+	    return $messageBox;
+	}
+	$userList = array();
+	$messageBox->messageArray = $boxes['NDB'];
+	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
+	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
+	$messageP = new ActivityParse();
+	$messageP->whereOr($value);
+	$messageP->where('type', 'MESSAGESENT');
+	$messageP->where('active', true);
+	$messageP->whereInclude('fromUser,toUser');
 	$messageP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitUsersForMessagePage : $limit);
-        $messageP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
-        $messageP->orderByDescending('createdAt');
-        $messages = $messageP->getComments();
-        if ($messages instanceof Error) {
-            return $messages;
-        } elseif (is_null($messages)) {
-            $messageBox->messageArray = $boxes['NODATA'];
-            return $messageBox;
-        } else {
-            $userIdArray = array();
-            foreach ($messages as $message) {
-                $user = ($message->getFromUser()->getObjectId() == $objectId) ? $message->getToUser() : $message->getFromUser();
-                $objectId = $user->getObjectId();
-                if (!in_array($objectId, $userIdArray)) {
-                    array_push($userIdArray, $objectId);
-                    $thumbnail = $user->getProfileThumbnail();
-                    $type = $user->getType();
-                    $username = $user->getUsername();
-                    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-                    array_push($userInfoArray, $userInfo);
-                }
-            }
-            $messageBox->userInfoArray = $userInfoArray;
-        }
-        return $messageBox;
+	$messageP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
+	$messageP->orderByDescending('createdAt');
+	$messages = $messageP->getActivities();
+	if ($messages instanceof Error) {
+	    return $messages;
+	} elseif (is_null($messages)) {
+	    $messageBox->userInfoArray = $boxes['NODATA'];
+	    return $messageBox;
+	} else {
+	    $userIdArray = array();
+	    foreach ($messages as $message) {
+		$user = ($message->getFromUser()->getObjectId() == $objectId) ? $message->getToUser() : $message->getFromUser();
+		$objectId = $user->getObjectId();
+		if (!in_array($objectId, $userIdArray)) {
+		    array_push($userIdArray, $objectId);
+		    $thumbnail = $user->getProfileThumbnail();
+		    $type = $user->getType();
+		    $username = $user->getUsername();
+		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+		    $read = $message->getRead();
+		    $elementList = new ElementList($read, $userInfo);
+		    array_push($userList, $elementList);
+		}
+	    }
+	    $messageBox->userInfoArray = $userList;
+	}
+	return $messageBox;
     }
 
     /**
@@ -117,49 +141,49 @@ class MessageBox {
      * \return	MessageBox, error in case of error
      */
     public function initForMessageList($objectId, $otherId, $limit, $skip) {
-        global $boxes;
-        $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
-            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
-        $value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
-            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
-        $messageBox = new MessageBox();
-        $messageBox->userInfoArray = $boxes['NDB'];
-        $currentUserId = sessionChecker();
-        if ($currentUserId == $boxes['NOID']|| $currentUserId != $objectId) {
-            $messageBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
-            return $messageBox;
-        }
-        $messageP = new CommentParse();
-        $messageP->whereOr($value);
-        $messageP->whereOr($value1);
-        $messageP->where('type', 'M');
-        $messageP->where('active', true);
-        $messageP->whereInclude('fromUser,toUser');
+	global $boxes;
+	require_once CLASSES_DIR . 'comment.class.php';
+	require_once CLASSES_DIR . 'commentParse.class.php';
+	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
+	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
+	$value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
+	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
+	$messageBox = new MessageBox();
+	$messageBox->userInfoArray = $boxes['NDB'];
+	$currentUserId = sessionChecker();
+	if ($currentUserId == $boxes['NOID']) {
+	    $messageBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
+	    return $messageBox;
+	}
+	$messageP = new CommentParse();
+	$messageP->whereOr($value);
+	$messageP->whereOr($value1);
+	$messageP->where('type', 'M');
+	$messageP->where('active', true);
+	$messageP->whereInclude('fromUser');
 	$messageP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitMessagesForMessagePage : $limit);
-        $messageP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
-        $messageP->orderByDescending('createdAt');
-        $messages = $messageP->getComments();
-        if ($messages instanceof Error) {
-            return $messages;
-        } elseif (is_null($messages)) {
-            $messageBox->messageArray = $boxes['NODATA'];
-            return $messageBox;
-        } else {
-            $messagesArray = array();
-            foreach ($messages as $message) {
-                $send = ($message->getFromUser()->getObjectId() == $objectId) ? 'S' : 'R';
-                $createdAt = $message->getCreatedAt();
-                $objectId = $message->getObjectId();
-                $text = $message->getText();
-                $title = $message->getTitle();
-                $messageInfo = new MessageInfo($createdAt, $objectId, $send, $text, $title);
-                array_push($messagesArray, $messageInfo);
-            }
-            $messageBox->messageArray = $messagesArray;
-        }
-        return $messageBox;
+	$messageP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
+	$messageP->orderByDescending('createdAt');
+	$messages = $messageP->getComments();
+	if ($messages instanceof Error) {
+	    return $messages;
+	} elseif (is_null($messages)) {
+	    $messageBox->messageArray = $boxes['NODATA'];
+	    return $messageBox;
+	} else {
+	    $messagesArray = array();
+	    foreach ($messages as $message) {
+		$send = ($message->getFromUser()->getObjectId() == $objectId) ? 'S' : 'R';
+		$createdAt = $message->getCreatedAt();
+		$objectId = $message->getObjectId();
+		$text = $message->getText();
+		$messageInfo = new MessageInfo($createdAt, $objectId, $send, $text);
+		array_push($messagesArray, $messageInfo);
+	    }
+	    $messageBox->messageArray = $messagesArray;
+	}
+	return $messageBox;
     }
 
 }
-
 ?>
