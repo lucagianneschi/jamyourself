@@ -92,8 +92,7 @@
 				  				</div>
 				  				<div class="large-4 columns hide-for-small " id="header-btn-notify">
 				  					<div class="header inline" style="float: right;">
-				  					<a class="ico-label _notify inline"></a>
-				  					<a class="ico-label _friend inline"></a>
+				  					<a class="ico-label _flag inline" onclick="headerShow()" ><span class="round alert label iconNotification"><?php echo $totNotification ?></span></a>
 				  					<a class="ico-label _setting inline"></a>
 				  					</div>
 				  				</div>
