@@ -50,11 +50,11 @@ class EventController extends REST {
 	    $activityParse = new ActivityParse();
 	    $resStatus = $activityParse->updateField($objectId, 'status', 'R');
 	    $resRead = $activityParse->updateField($objectId, 'read', true);
-	    if ($resStatus instanceof Error || $resRead instanceof Error ) {
+	    if ($resStatus instanceof Error || $resRead instanceof Error) {
 		//rollback
 		$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
 	    }
-	    $this->response(array('RELDECLINED'), 200);
+	    $this->response(array('INVITATIONDECLINED'), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
@@ -72,11 +72,36 @@ class EventController extends REST {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($this->request['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['eventId'])) {
-		$this->response(array('status' => $controllers['NOEVENTID']), 403);
+	    } elseif (!isset($this->request['objectId'])) {
+		$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
 	    }
 	    $currentUser = $this->request['currentUser'];
-	    $eventId = $this->request['eventId'];
+	    $objectId = $this->request['objectId'];
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activityParse = new ActivityParse();
+	    $activityParse->where('objectId', $objectId);
+	    $activityParse->whereInclude('event');
+	    $activityParse->setLimit(1);
+	    $res = $activityParse->getActivities();
+	    if ($res instanceof Error) {
+		$this->response(array('status' => $controllers['NOACTIVITYID']), 403);
+	    } elseif (is_null($res->getEvent())) {
+		$this->response(array('status' => $controllers['NOEVENTFOUND']), 403);
+	    }
+	    $activityParse1 = new ActivityParse();
+	    $resUpdate = $activityParse1->updateField($objectId, 'status', 'D');
+	    if ($resUpdate instanceof Error) {
+		$this->response(array('status' => $controllers['NOACTUPDATE']), 403);
+	    }
+	    require_once CLASSES_DIR . 'eventParse.class.php';
+	    $eventParse = new EventParse();
+	    $attendeeRemove = $eventParse->updateField($res->getEvent()->getObjectId(), 'attendee', array($currentUser->getObjectId()), true, 'remove', '_User');
+	    $refusedAdd = $eventParse->updateField($res->getEvent()->getObjectId(), 'refused', array($currentUser->getObjectId()), true, 'add', '_User');
+	    if ($attendeeRemove instanceof Error || $refusedAdd instanceof Error) {
+		//rollback
+		$this->response(array('status' => $controllers['NOEVENTFOUND']), 403);
+	    }
+	    $this->response(array('status' => $controllers['NOEVENTFOUND']), 403);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}
@@ -109,7 +134,7 @@ class EventController extends REST {
 	    $toUser = $userParse->getUser($toUserId);
 	    if ($toUser instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUND']), 403);
-	    } 
+	    }
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
 	    $res = $activityP->getActivity($objectId);
@@ -127,7 +152,7 @@ class EventController extends REST {
 	    if ($statusUpdate instanceof Error || $readUpdate instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
 	    }
-            require_once CLASSES_DIR . 'eventParse.class.php';
+	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventP = new EventParse();
 	    $event = $eventP->updateField($event->getObjectId(), 'attendee', $currentUser->getObjectId(), true, 'add', '_User');
 	    if ($event instanceof Error) {
@@ -192,6 +217,11 @@ class EventController extends REST {
 	}
     }
 
+    /**
+     * \fn	checkUserInEventRelation($userId, $eventId, $field)
+     * \brief   check if user is in a sort of relation with event
+     * \todo    test
+     */
     private function checkUserInEventRelation($userId, $eventId, $field) {
 	require_once CLASSES_DIR . 'eventParse.class.php';
 	$eventP = new EventParse();
@@ -229,6 +259,11 @@ class EventController extends REST {
 	return $activity;
     }
 
+    /**
+     * \fn      sendMailNotification($address, $subject, $html)
+     * \brief   private function to send mail
+     * \param   $address, $subject, $html
+     */
     private function sendMailNotification($address, $subject, $html) {
 	global $controllers;
 	require_once SERVICES_DIR . 'mail.service.php';
@@ -246,4 +281,5 @@ class EventController extends REST {
     }
 
 }
+
 ?>
