@@ -57,15 +57,15 @@ $objectId2 = 'iovioSH5mq'; //VENUE
 //print "<pre>";
 //print_r($reviewBox5);
 //print "</pre>";
-//echo '<br />-------------------------------MEDIAPAGE-------------------------------------------<br />';
-//$idReview = 'Khlv07KRGH';
-//$review3_start = microtime();
-//$reviewBoxP3 = new ReviewBox();
-//$reviewBox3 = $reviewBoxP3->initForMediaPage('FdNPf4yaxV', 'Event', 3, 1);
-//
-//print "<pre>";
-//print_r($reviewBox3);
-//print "</pre>";
+echo '<br />-------------------------------MEDIAPAGE-------------------------------------------<br />';
+$idReview = 'Khlv07KRGH';
+$review3_start = microtime();
+$reviewBoxP3 = new ReviewBox();
+$reviewBox3 = $reviewBoxP3->initForMediaPage('FdNPf4yaxV', 'Event', 3, 0);
+
+print "<pre>";
+print_r($reviewBox3);
+print "</pre>";
 //echo '<br />-------------------------------DETAIL-------------------------------------------<br />';
 //$review3_stop = microtime();
 //$review4_start = microtime();
