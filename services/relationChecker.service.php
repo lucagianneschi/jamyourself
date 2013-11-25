@@ -18,6 +18,7 @@ ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
+require_once SERVICES_DIR . 'debug.service.php';
 
    /**
      * \fn	relationChecker($currentUserId, $currentUserType, $toUserId, $toUserType)
@@ -32,14 +33,27 @@ function relationChecker($currentUserId, $currentUserType, $toUserId, $toUserTyp
         $type = ($toUserType == 'SPOTTER') ? 'FOLLOWING' : 'COLLABORATIONREQUEST';
     }
     $relationActivity = new ActivityParse();
-    $relationActivity->wherePointer('fromUser', '_User', $currentUserId);
-    $relationActivity->wherePointer('toUser', '_User', $toUserId);
-    $relationActivity->where('active', true);
+	$valueCurrentUser = array(
+				array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)),
+				array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId))
+			);
+	$valueToUser = array(
+				array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $toUserId)),
+				array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $toUserId))
+			);
+    $relationActivity->whereOr($valueCurrentUser);
+	$relationActivity->whereOr($valueToUser);
+	$relationActivity->where('active', true);
     $relationActivity->where('type', $type);
     $relationActivity->where('status', 'A');
-    $check = $relationActivity->getCount();
+	$check = $relationActivity->getCount();
     $relation = ($check != 0) ? true : false;
-    return $relation;
+    debug(DEBUG_DIR, 'debug.txt', 'currentUserType=>' . $currentUserType);
+	debug(DEBUG_DIR, 'debug.txt', 'toUserType=>' . $toUserType);
+	debug(DEBUG_DIR, 'debug.txt', 'type=>' . $type);
+	debug(DEBUG_DIR, 'debug.txt', 'check=>' . $check);
+	debug(DEBUG_DIR, 'debug.txt', 'relation=>' . $relation);
+	return $relation;
 }
 
 ?>

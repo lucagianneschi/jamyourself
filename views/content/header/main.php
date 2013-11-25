@@ -4,6 +4,7 @@
 	<div id="header-hide" class="no-display">
 		<?php		
 			if (isset($_SESSION['currentUser'])) {
+				$currentUser = $_SESSION['currentUser'];
 				$userObjectId = $currentUser->getObjectId();
 				$userType = $currentUser->getType();
 		?>		

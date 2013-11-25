@@ -48,7 +48,7 @@ class AlbumInfo {
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFALBUMTHUMB : $this->thumbnailCover = $thumbnailCover;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -76,7 +76,7 @@ class ImageInfo {
     function __construct($counters, $description, $filePath, $location, $objectId, $showLove, $tags, $thumbnail) {
         global $boxes;
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
-        is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = ($description);
+        is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
         is_null($filePath) ? $this->filePath = $boxes['NODATA'] : $this->filePath = $filePath;
         is_null($location) ? $this->location = $boxes['NODATA'] : $this->location = $location;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;

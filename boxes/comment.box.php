@@ -48,7 +48,7 @@ class CommentInfo {
         is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
         is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = ($text);
+        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
     }
 
 }
@@ -126,21 +126,23 @@ class CommentBox {
             return $commentBox;
         } else {
             foreach ($comments as $comment) {
-                $createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
-                $commentCounter = $boxes['NDB'];
-                $loveCounter = $comment->getLoveCounter();
-                $reviewCounter = $boxes['NDB'];
-                $shareCounter = $boxes['NDB'];
-                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $text = $comment->getText();
-                $userId = $comment->getFromUser()->getObjectId();
-                $thumbnail = $comment->getFromUser()->getProfileThumbnail();
-                $type = $comment->getFromUser()->getType();
-                $username = $comment->getFromUser()->getUsername();
-                $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
-                $showLove = in_array($currentUserId, $comment->getLovers()) ? false : true;
-                $commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $showLove, $text);
-                array_push($info, $commentInfo);
+                if (!is_null($comment->getFromUser())) {
+                    $createdAt = $comment->getCreatedAt()->format('d-m-Y H:i:s');
+                    $commentCounter = $boxes['NDB'];
+                    $loveCounter = $comment->getLoveCounter();
+                    $reviewCounter = $boxes['NDB'];
+                    $shareCounter = $boxes['NDB'];
+                    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                    $text = $comment->getText();
+                    $userId = $comment->getFromUser()->getObjectId();
+                    $thumbnail = $comment->getFromUser()->getProfileThumbnail();
+                    $type = $comment->getFromUser()->getType();
+                    $username = $comment->getFromUser()->getUsername();
+                    $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+                    $showLove = in_array($currentUserId, $comment->getLovers()) ? false : true;
+                    $commentInfo = new CommentInfo($counters, $fromUserInfo, $createdAt, $showLove, $text);
+                    array_push($info, $commentInfo);
+                }
             }
             $commentBox->commentInfoArray = $info;
         }

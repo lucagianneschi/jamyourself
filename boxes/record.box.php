@@ -47,15 +47,15 @@ class RecordInfoForMediaPage {
      */
     function __construct($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $showLove, $title, $tracklist, $year) {
         global $boxes;
-        is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = ($buylink);
-        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = ($city);
+        is_null($buylink) ? $this->buylink = $boxes['NODATA'] : $this->buylink = $buylink;
+        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
         is_null($cover) ? $this->cover = DEFRECORDCOVER : $this->cover = $cover;
-        is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = ($description);
+        is_null($description) ? $this->description = $boxes['NODATA'] : $this->description = $description;
         is_null($featuring) ? $this->featuring = $boxes['NOFEATRECORD'] : $this->featuring = $featuring;
         is_null($genre) ? $this->genre = $boxes['NODATA'] : $this->genre = $genre;
-        is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = ($label);
-        is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = ($locationName);
+        is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = $label;
+        is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
         is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
         is_null($tracklist) ? $this->tracklist = $boxes['NOTRACK'] : $this->tracklist = $tracklist;
@@ -88,7 +88,7 @@ class RecordInfoForPersonalPage {
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
         is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
         is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
 
@@ -105,12 +105,12 @@ class RecordInfoForUploadRecordPage {
      * \brief	construct for the RecordInfoForUploadRecordPage class
      * \param	$songCounter, $thumbnailCover, $title
      */
-    function __construct($recordId,$songCounter, $thumbnailCover, $title) {
+    function __construct($recordId, $songCounter, $thumbnailCover, $title) {
         global $boxes;
         is_null($recordId) ? $this->recordId = 0 : $this->recordId = $recordId;
         is_null($songCounter) ? $this->songCounter = 0 : $this->songCounter = $songCounter;
         is_null($thumbnailCover) ? $this->thumbnailCover = DEFRECORDTHUMB : $this->thumbnailCover = $thumbnailCover;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -134,7 +134,7 @@ class SongInfo {
         is_null($duration) ? $this->duration = '0:00' : $this->duration = $duration;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -168,8 +168,8 @@ class RecordBox {
         $song = new SongParse();
         $song->wherePointer('record', 'Record', $objectId);
         $song->where('active', true);
-	$song->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitSongsForMediaPage : $limit);
-	$song->orderByDescending('createdAt');
+        $song->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitSongsForMediaPage : $limit);
+        $song->orderByDescending('createdAt');
         $songs = $song->getSongs();
         if ($songs instanceof Error) {
             return $songs;
@@ -220,29 +220,31 @@ class RecordBox {
             return $recordBox;
         } else {
             foreach ($records as $record) {
-                $buylink = $record->getBuylink();
-                $city = $record->getFromUser()->getCity();
-                $commentCounter = $record->getCommentCounter();
-                $loveCounter = $record->getLoveCounter();
-                $reviewCounter = $record->getReviewCounter();
-                $shareCounter = $record->getShareCounter();
-                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $cover = $record->getCover();
-                $description = $record->getDescription();
-                $featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage, 0);
-                $genre = $record->getGenre();
-                $label = $record->getLabel();
-                $showLoveRecord = in_array($currentUserId, $record->getLovers()) ? false : true;
-                $locationName = $record->getLocationName();
-                $title = $record->getTitle();
-                $year = $record->getYear();
-                $tracklist = $this->tracklistGenerator($objectId, $currentUserId, $this->config->limitSongsForMediaPage);
-                $recordInfo = new RecordInfoForMediaPage($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $showLoveRecord, $title, $tracklist, $year);
-                $userId = $record->getFromUser()->getObjectId();
-                $thumbnail = $record->getFromUser()->getProfileThumbnail();
-                $type = $record->getFromUser()->getType();
-                $username = $record->getFromUser()->getUsername();
-                $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
+                if (!is_null($record->getFromUser())) {
+                    $buylink = $record->getBuylink();
+                    $city = $record->getFromUser()->getCity();
+                    $commentCounter = $record->getCommentCounter();
+                    $loveCounter = $record->getLoveCounter();
+                    $reviewCounter = $record->getReviewCounter();
+                    $shareCounter = $record->getShareCounter();
+                    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                    $cover = $record->getCover();
+                    $description = $record->getDescription();
+                    $featuring = getRelatedUsers($record->getObjectId(), 'featuring', 'Record', false, $this->config->limitFeaturingForMediaPage, 0);
+                    $genre = $record->getGenre();
+                    $label = $record->getLabel();
+                    $showLoveRecord = in_array($currentUserId, $record->getLovers()) ? false : true;
+                    $locationName = $record->getLocationName();
+                    $title = $record->getTitle();
+                    $year = $record->getYear();
+                    $tracklist = $this->tracklistGenerator($objectId, $currentUserId, $this->config->limitSongsForMediaPage);
+                    $recordInfo = new RecordInfoForMediaPage($buylink, $city, $counters, $cover, $description, $featuring, $genre, $label, $locationName, $showLoveRecord, $title, $tracklist, $year);
+                    $userId = $record->getFromUser()->getObjectId();
+                    $thumbnail = $record->getFromUser()->getProfileThumbnail();
+                    $type = $record->getFromUser()->getType();
+                    $username = $record->getFromUser()->getUsername();
+                    $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
+                }
             }
             $recordBox->fromUserInfo = $userInfo;
             $recordBox->recordInfoArray = $recordInfo;
@@ -329,7 +331,7 @@ class RecordBox {
                 $thumbnailCover = $record->getThumbnailCover();
                 $title = $record->getTitle();
                 $recordId = $record->getObjectId();
-                $recordInfo = new RecordInfoForUploadRecordPage($recordId,$songCounter, $thumbnailCover, $title);
+                $recordInfo = new RecordInfoForUploadRecordPage($recordId, $songCounter, $thumbnailCover, $title);
                 array_push($info, $recordInfo);
             }
             $recordBox->recordCounter = $counter;
