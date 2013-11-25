@@ -252,34 +252,36 @@ class ReviewBox {
             return $reviewBox;
         } else {
             foreach ($reviews as $review) {
-                $counter = ++$counter;
-                $commentCounter = $review->getCommentCounter();
-                $loveCounter = $review->getLoveCounter();
-                $showLove = in_array($currentUserId, $review->getLovers()) ? false : true;
-                $reviewCounter = $boxes['NDB'];
-                $shareCounter = $review->getShareCounter();
-                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $reviewId = $review->getObjectId();
-                $rating = $review->getVote();
-                $text = $review->getText();
-                $title = $review->getTitle();
-                if ($type == 'SPOTTER') {
-                    $fromUserInfo = $boxes['ND'];
-                } else {
-                    $userId = $review->getFromUser()->getObjectId();
-                    $thumbnail = $review->getFromUser()->getProfileThumbnail();
-                    $userType = $review->getFromUser()->getType();
-                    $username = $review->getFromUser()->getUsername();
-                    $fromUserInfo = new UserInfo($userId, $thumbnail, $userType, $username);
+                if (!is_null($review->getFromUser())) {
+                    $counter = ++$counter;
+                    $commentCounter = $review->getCommentCounter();
+                    $loveCounter = $review->getLoveCounter();
+                    $showLove = in_array($currentUserId, $review->getLovers()) ? false : true;
+                    $reviewCounter = $boxes['NDB'];
+                    $shareCounter = $review->getShareCounter();
+                    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                    $reviewId = $review->getObjectId();
+                    $rating = $review->getVote();
+                    $text = $review->getText();
+                    $title = $review->getTitle();
+                    if ($type == 'SPOTTER') {
+                        $fromUserInfo = $boxes['ND'];
+                    } else {
+                        $userId = $review->getFromUser()->getObjectId();
+                        $thumbnail = $review->getFromUser()->getProfileThumbnail();
+                        $userType = $review->getFromUser()->getType();
+                        $username = $review->getFromUser()->getUsername();
+                        $fromUserInfo = new UserInfo($userId, $thumbnail, $userType, $username);
+                    }
+                    if (!is_null($review->getEvent()) && !is_null($review->getEvent()->getThumbnail())) {
+                        $thumbnailCover = $review->getEvent()->getThumbnail();
+                    }
+                    if (!is_null($review->getRecord()) && !is_null($review->getRecord()->getThumbnailCover())) {
+                        $thumbnailCover = $review->getRecord()->getThumbnailCover();
+                    }
+                    $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $reviewId, $rating, $showLove, $text, $thumbnailCover, $title);
+                    array_push($info, $reviewInfo);
                 }
-                if (!is_null($review->getEvent()) && !is_null($review->getEvent()->getThumbnail())) {
-                    $thumbnailCover = $review->getEvent()->getThumbnail();
-                }
-                if (!is_null($review->getRecord()) && !is_null($review->getRecord()->getThumbnailCover())) {
-                    $thumbnailCover = $review->getRecord()->getThumbnailCover();
-                }
-                $reviewInfo = new ReviewInfo($counters, $fromUserInfo, $reviewId, $rating, $showLove, $text, $thumbnailCover, $title);
-                array_push($info, $reviewInfo);
             }
         }
         $reviewBox->reviewArray = $info;
