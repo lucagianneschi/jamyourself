@@ -370,11 +370,7 @@ class NotificationBox {
                     $username = $act->getFromUser()->getUsername();
                     $fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
                     $relationType = 'R';
-                    if ($type == 'SPOTTER') {
-                        $text = $boxes['FRIENDSHIPFORLIST'];
-                    } else {
-                        $text = ($act->getType() == 'COLLABORATIONREQUEST') ? $boxes['COLLABORATIONFORLIST'] : $boxes['FOLLOWINGFORLIST'];
-                    }
+                    $text = ($type == 'SPOTTER') ? $boxes['FRIENDSHIPFORLIST'] : ($act->getType() == 'COLLABORATIONREQUEST') ? $boxes['COLLABORATIONFORLIST'] : $boxes['FOLLOWINGFORLIST'];
                     $relatedId = $act->getObjectId();
                     $notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
                     array_push($relationArray, $notificationInfo);
