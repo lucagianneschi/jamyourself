@@ -24,7 +24,7 @@ class ElementList {
      * \brief	construct for the ElementList
      * \param	$read,$userInfo
      */
-    function __construct($read,$userInfo) {
+    function __construct($read, $userInfo) {
 	global $boxes;
 	is_null($read) ? $this->read = false : $this->read = $read;
 	is_null($userInfo) ? $this->userInfo = $boxes['NODATA'] : $this->userInfo = $userInfo;
@@ -98,24 +98,24 @@ class MessageBox {
 	$messageBox->messageArray = $boxes['NDB'];
 	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
 	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
-	$messageP = new ActivityParse();
-	$messageP->whereOr($value);
-	$messageP->where('type', 'MESSAGESENT');
-	$messageP->where('active', true);
-	$messageP->whereInclude('fromUser,toUser');
-	$messageP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitUsersForMessagePage : $limit);
-	$messageP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
-	$messageP->orderByDescending('createdAt');
-	$messages = $messageP->getActivities();
-	if ($messages instanceof Error) {
-	    return $messages;
-	} elseif (is_null($messages)) {
+	$activityP = new ActivityParse();
+	$activityP->whereOr($value);
+	$activityP->where('type', 'MESSAGESENT');
+	$activityP->where('active', true);
+	$activityP->whereInclude('fromUser,toUser');
+	$activityP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitUsersForMessagePage : $limit);
+	$activityP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
+	$activityP->orderByDescending('createdAt');
+	$activities = $activityP->getActivities();
+	if ($activities instanceof Error) {
+	    return $activities;
+	} elseif (is_null($activities)) {
 	    $messageBox->userInfoArray = $boxes['NODATA'];
 	    return $messageBox;
 	} else {
 	    $userIdArray = array();
-	    foreach ($messages as $message) {
-		$user = ($message->getFromUser()->getObjectId() == $objectId) ? $message->getToUser() : $message->getFromUser();
+	    foreach ($activities as $act) {
+		$user = ($act->getFromUser()->getObjectId() == $objectId) ? $act->getToUser() : $act->getFromUser();
 		$objectId = $user->getObjectId();
 		if (!in_array($objectId, $userIdArray)) {
 		    array_push($userIdArray, $objectId);
@@ -123,13 +123,13 @@ class MessageBox {
 		    $type = $user->getType();
 		    $username = $user->getUsername();
 		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		    $read = $message->getRead();
+		    $read = $act->getRead();
 		    $elementList = new ElementList($read, $userInfo);
 		    array_push($userList, $elementList);
 		}
 	    }
-	    $messageBox->userInfoArray = $userList;
 	}
+	$messageBox->userInfoArray = $userList;
 	return $messageBox;
     }
 
@@ -186,4 +186,5 @@ class MessageBox {
     }
 
 }
+
 ?>
