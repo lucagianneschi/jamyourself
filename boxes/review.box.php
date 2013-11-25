@@ -174,7 +174,7 @@ class ReviewBox {
             return $reviewBox;
         } else {
             foreach ($reviews as $review) {
-                if (!is_null($reviews->getFromUser())) {
+                if (!is_null($review->getFromUser())) {
                     $counter = ++$counter;
                     $userId = $review->getFromUser()->getObjectId();
                     $thumbnail = $review->getFromUser()->getProfileThumbnail();
