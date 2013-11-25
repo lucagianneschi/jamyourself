@@ -113,6 +113,7 @@ class MessageBox {
 	    $messageBox->userInfoArray = $boxes['NODATA'];
 	    return $messageBox;
 	} else {
+		/*
 	    $userIdArray = array();
 	    foreach ($activities as $act) {
 		$user = ($act->getFromUser()->getObjectId() == $objectId) ? $act->getToUser() : $act->getFromUser();
@@ -127,6 +128,24 @@ class MessageBox {
 		    $elementList = new ElementList($read, $userInfo);
 		    array_push($userList, $elementList);
 		}
+	    }
+		*/
+		foreach ($activities as $act) {
+			$user = ($act->getFromUser()->getObjectId() == $objectId) ? $act->getToUser() : $act->getFromUser();
+			$objectId = $user->getObjectId();
+			$thumbnail = $user->getProfileThumbnail();
+			$type = $user->getType();
+			$username = $user->getUsername();
+			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+			$read = $act->getRead();
+			$elementList = new ElementList($read, $userInfo);
+			if (array_key_exists($object, $userList)) {
+				if (!$read) {
+					$userList[$objectId] = $elementList
+				}
+			} else {
+				$userList[$objectId] = $elementList
+			}
 	    }
 	}
 	$messageBox->userInfoArray = $userList;
