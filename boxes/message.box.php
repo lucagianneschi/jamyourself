@@ -97,7 +97,7 @@ class MessageBox {
 	$userList = array();
 	$messageBox->messageArray = $boxes['NDB'];
 	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
-	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
+			 array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
 	$activityP = new ActivityParse();
 	$activityP->whereOr($value);
 	$activityP->where('type', 'MESSAGESENT');
@@ -113,38 +113,21 @@ class MessageBox {
 	    $messageBox->userInfoArray = $boxes['NODATA'];
 	    return $messageBox;
 	} else {
-		/*
-	    $userIdArray = array();
-	    foreach ($activities as $act) {
-		$user = ($act->getFromUser()->getObjectId() == $objectId) ? $act->getToUser() : $act->getFromUser();
-		$objectId = $user->getObjectId();
-		if (!in_array($objectId, $userIdArray)) {
-		    array_push($userIdArray, $objectId);
-		    $thumbnail = $user->getProfileThumbnail();
-		    $type = $user->getType();
-		    $username = $user->getUsername();
-		    $userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
-		    $read = $act->getRead();
-		    $elementList = new ElementList($read, $userInfo);
-		    array_push($userList, $elementList);
-		}
-	    }
-		*/
 		foreach ($activities as $act) {
 			$user = ($act->getFromUser()->getObjectId() == $objectId) ? $act->getToUser() : $act->getFromUser();
-			$objectId = $user->getObjectId();
+			$userId = $user->getObjectId();
 			$thumbnail = $user->getProfileThumbnail();
 			$type = $user->getType();
 			$username = $user->getUsername();
-			$userInfo = new UserInfo($objectId, $thumbnail, $type, $username);
+			$userInfo = new UserInfo($userId, $thumbnail, $type, $username);
 			$read = $act->getRead();
 			$elementList = new ElementList($read, $userInfo);
 			if (array_key_exists($object, $userList)) {
 				if (!$read) {
-					$userList[$objectId] = $elementList;
+					$userList[$userId] = $elementList;
 				}
 			} else {
-				$userList[$objectId] = $elementList;
+				$userList[$userId] = $elementList;
 			}
 	    }
 	}
