@@ -51,7 +51,7 @@ class PostInfo {
         is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
         is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = ($text);
+        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
     }
 
 }
@@ -90,7 +90,7 @@ class PostBox {
         $post->where('type', 'P');
         $post->where('active', true);
         $post->whereInclude('fromUser');
-	$post->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitForPersonalPage : $limit);
+        $post->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitForPersonalPage : $limit);
         $post->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
         $post->orderByDescending('createdAt');
         $posts = $post->getComments();
@@ -102,23 +102,25 @@ class PostBox {
             return $postBox;
         } else {
             foreach ($posts as $post) {
-                $counter = ++$counter;
-                $userId = $post->getFromUser()->getObjectId();
-                $thumbnail = $post->getFromUser()->getProfileThumbnail();
-                $type = $post->getFromUser()->getType();
-                $username = $post->getFromUser()->getUsername();
-                $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
-                $postId = $post->getObjectId();
-                $commentCounter = $post->getCommentCounter();
-                $createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
-                $loveCounter = $post->getLoveCounter();
-                $reviewCounter = $boxes['NDB'];
-                $shareCounter = $post->getShareCounter();
-                $text = $post->getText();
-                $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
-                $showLove = in_array($currentUserId, $post->getLovers()) ? false : true;
-                $postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $showLove, $text);
-                array_push($info, $postInfo);
+                if (!is_null($post->getFromUser())) {
+                    $counter = ++$counter;
+                    $userId = $post->getFromUser()->getObjectId();
+                    $thumbnail = $post->getFromUser()->getProfileThumbnail();
+                    $type = $post->getFromUser()->getType();
+                    $username = $post->getFromUser()->getUsername();
+                    $fromUserInfo = new UserInfo($userId, $thumbnail, $type, $username);
+                    $postId = $post->getObjectId();
+                    $commentCounter = $post->getCommentCounter();
+                    $createdAt = $post->getCreatedAt()->format('d-m-Y H:i:s');
+                    $loveCounter = $post->getLoveCounter();
+                    $reviewCounter = $boxes['NDB'];
+                    $shareCounter = $post->getShareCounter();
+                    $text = $post->getText();
+                    $counters = new Counters($commentCounter, $loveCounter, $reviewCounter, $shareCounter);
+                    $showLove = in_array($currentUserId, $post->getLovers()) ? false : true;
+                    $postInfo = new PostInfo($counters, $createdAt, $fromUserInfo, $postId, $showLove, $text);
+                    array_push($info, $postInfo);
+                }
             }
             $postBox->postInfoArray = $info;
             $postBox->postCounter = $counter;
