@@ -118,6 +118,11 @@ switch (basename($_SERVER['PHP_SELF'])) {
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
         <?php
         break;
+	case "message.php":
+        ?>
+        <script type="text/javascript" src="resources/javascripts/customs/chat.js"></script>
+        <?php
+        break;
     case "uploadRecord.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/uploadRecord.js"></script>

@@ -1,0 +1,186 @@
+@import "compass/css3";
+@import "settings";
+
+body {
+	background-color: #F3F3F3;
+}
+
+p {
+	font-size:14px;
+	line-height:18px;
+}
+
+
+.box-message {
+	
+	.box-upload-title {
+		height:45px;
+		display:block;
+	}
+	
+	#chat {
+		margin-bottom:15px;
+		margin-top:15px;
+	}
+	
+	.unread {
+		position:absolute;
+		top:10px; right:10px;
+		z-index:3;
+		width:10px; height:10px;
+		background:url(../images/icon/messages/unread.png) no-repeat center center;
+	}
+	
+	.delete {
+		position:absolute;
+		top:35px; right:10px;
+		width:10px; height:10px;
+		z-index:4;
+		cursor:pointer;
+		background:url(../images/icon/messages/delete.png) no-repeat center center;
+		display:none;
+	}
+	
+	.box-membre {
+		position:relative;
+		padding:0 !important;
+		@include transition-property(background);
+ 		@include transition-duration(300ms);
+		&:hover {
+			background-color:$orange !important;
+			* {
+			color:white !important;
+			}
+			.delete {
+				display:block;
+			}
+		}
+		
+		.box-msg {
+			padding:10px 8px;
+		}
+	}
+	
+	.active {
+		background-color:$orange !important;
+			* {
+			color:white !important;
+			}
+	}
+	
+	small {
+		font-size:11px;
+		color:$grey-light;
+		padding-bottom:5px;
+		margin-top:5px;
+		display:block;
+	}
+	
+	.date-mine {
+		text-align:right;
+		border-bottom:$orange 1px solid;
+	}
+	
+	.date-yours {
+		border-bottom:$grey-light 1px solid;
+	}
+	
+	.msg {
+		margin-bottom:25px;
+		padding-top:15px;
+	}
+	
+	.msg-yours {
+		border:$grey-light 1px solid;
+		background-color:lighten($grey-light, 12);
+	}
+	
+	.msg-mine {
+		border:$orange 1px solid;
+		background-color:lighten($orange, 10);
+		color:white;
+	}
+	
+	.buttonNext{
+		background-image:url(../images/button/signup-next.png) !important;
+		background-color:white;
+		border: 0px;
+		color:$white;
+		width:135px;
+		height:35px;
+		margin:20px !important;
+		background-repeat:no-repeat;
+		float:right;
+	}
+	
+	textarea, .error textarea, textarea:focus {
+		background-color: white;
+		color: #666;
+		border: 1px solid $grey-light;
+		min-height:100px;
+		}
+
+	.line { 
+		border-bottom: 1px solid $grey-light;
+		padding-bottom: 5px !important;
+	}
+	
+	.line-date {
+		text-align:center;
+		margin-top:25px;
+		margin-bottom:25px;
+		border-bottom: 1px solid $grey-light;
+		padding-bottom: 0px !important;
+	}
+	
+	h2 {
+		color:$grey;
+		font-weight: normal;
+		text-align: center;
+
+	}
+	
+	h3 {
+			color:$orange;
+			font-weight: normal;
+		}
+		
+	h5 {
+		color:$grey;
+		font-weight: normal;
+	}
+	
+	
+	
+	.box {
+		background-color: white;
+		border-top: $orange 1px solid;
+				
+		.sidebar {
+			padding-left:25px;
+			padding-top:9px;
+			.box-membre {
+				padding: 10px;
+				margin-bottom: 10px;
+				width: auto;
+				height: 55px;
+				background-color: #f3f3f3;
+				cursor: pointer;
+			}
+			
+			.note {
+				padding-top:4px;
+			}
+			
+			.text {
+				margin-bottom: 10px;
+			}
+			
+			.oggetto-review {
+				margin-bottom:80px;
+			}
+		}
+		
+	}
+	
+}

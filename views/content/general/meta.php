@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="resources/stylesheets/uploadRecordStyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/uploadEventStyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/headerstyle.css" />
-
+<link rel="stylesheet" href="resources/stylesheets/messageStyle.css" />
 
 
 <link rel="stylesheet" href="resources/stylesheets/plugins/touchCarousel/touchcarousel.css" />
