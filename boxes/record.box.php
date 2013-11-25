@@ -57,7 +57,7 @@ class RecordInfoForMediaPage {
         is_null($label) ? $this->label = $boxes['NODATA'] : $this->label = $label;
         is_null($locationName) ? $this->locationName = $boxes['NODATA'] : $this->locationName = $locationName;
         is_null($showLove) ? $this->showLove = true : $this->showLove = $showLove;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = ($title);
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
         is_null($tracklist) ? $this->tracklist = $boxes['NOTRACK'] : $this->tracklist = $tracklist;
         is_null($year) ? $this->year = $boxes['NODATA'] : $this->year = $year;
     }
