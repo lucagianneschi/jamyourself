@@ -141,10 +141,10 @@ class MessageBox {
 			$elementList = new ElementList($read, $userInfo);
 			if (array_key_exists($object, $userList)) {
 				if (!$read) {
-					$userList[$objectId] = $elementList
+					$userList[$objectId] = $elementList;
 				}
 			} else {
-				$userList[$objectId] = $elementList
+				$userList[$objectId] = $elementList;
 			}
 	    }
 	}
