@@ -154,7 +154,7 @@ class NotificationBox {
         $notificationBox->messageCounter = $boxes['NDB'];
         $notificationBox->relationCounter = $boxes['NDB'];
         if ($currentUserId == $boxes['NOID']) {
-            $notificationBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
+            $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
             return $notificationBox;
         } elseif ($currentUserId != $objectId) {
             $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
