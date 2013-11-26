@@ -41,10 +41,10 @@ class SongInfo {
      * \param	$author, $thumbnail,$title
      */
     function __construct($author, $thumbnail, $title) {
-	global $boxes;
-	is_null($author) ? $this->author = $boxes['NODATA'] : $this->author = $author;
-	is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
-	is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+        global $boxes;
+        is_null($author) ? $this->author = $boxes['NODATA'] : $this->author = $author;
+        is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
+        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
     }
 
 }
@@ -64,7 +64,7 @@ class PlaylistBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
     }
 
     /**
@@ -75,55 +75,65 @@ class PlaylistBox {
      * \todo    implementare la differenziazione della lunghezza della query in base alla proprety premium dell'utente, usa una variabile in più $premium che deve essere un BOOL
      */
     public function init($objectId) {
-	global $boxes;
-	$tracklist = array();
-	$playlistBox = new PlaylistBox();
-	$playlist = new PlaylistParse();
-	$playlist->wherePointer('fromUser', '_User', $objectId);
-	$playlist->where('active', true);
-	$playlist->orderByDescending('createdAt');
-	$playlist->setLimit($this->config->limitForPlaylist);
-	$playlists = $playlist->getPlaylists();
-	if ($playlist instanceof Error) {
-	    return $playlists;
-	} elseif (is_null($playlists)) {
-	    $playlistBox->tracklist = $boxes['NOTRACK'];
-	    $playlistBox->name = $boxes['NODATA'];
-	    return $playlistBox;
-	} else {
-	    foreach ($playlists as $playlist) {
-		require_once CLASSES_DIR . 'song.class.php';
-		require_once CLASSES_DIR . 'songParse.class.php';
+        global $boxes;
+        $tracklist = array();
+        $currentUserId = sessionChecker();
+        $playlistBox = new PlaylistBox();
+        if ($currentUserId == $boxes['NOID']) {
+            $playlistBox->tracklist = $boxes['ONLYIFLOGGEDIN'];
+            $playlistBox->name = $boxes['ONLYIFLOGGEDIN'];
+            return $playlistBox;
+        } elseif ($currentUserId != $objectId) {
+            $playlistBox->tracklist = $boxes['INVALIDPLAYLISTBOX'];
+            $playlistBox->name = $boxes['INVALIDPLAYLISTBOX'];
+            return $playlistBox;
+        }
+        $playlist = new PlaylistParse();
+        $playlist->wherePointer('fromUser', '_User', $objectId);
+        $playlist->where('active', true);
+        $playlist->orderByDescending('createdAt');
+        $playlist->setLimit($this->config->limitForPlaylist);
+        $playlists = $playlist->getPlaylists();
+        if ($playlist instanceof Error) {
+            return $playlists;
+        } elseif (is_null($playlists)) {
+            $playlistBox->tracklist = $boxes['NOTRACK'];
+            $playlistBox->name = $boxes['NODATA'];
+            return $playlistBox;
+        } else {
+            foreach ($playlists as $playlist) {
+                require_once CLASSES_DIR . 'song.class.php';
+                require_once CLASSES_DIR . 'songParse.class.php';
                 $playlistBox->name = ($playlist->getName());
-		$song = new SongParse();
-		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
-		$song->where('active', true);
-		$song->orderByDescending('createdAt');
-		$song->setLimit($this->config->limitForTracklist);
-		$song->whereInclude('fromUser,record');
-		$songs = $song->getSongs();
-		if ($songs instanceof Error) {
-		    return $songs;
-		} elseif (is_null($songs)) {
-		    $playlistBox->tracklist = $boxes['NOTRACK'];
+                $song = new SongParse();
+                $song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
+                $song->where('active', true);
+                $song->orderByDescending('createdAt');
+                $song->setLimit($this->config->limitForTracklist);
+                $song->whereInclude('fromUser,record');
+                $songs = $song->getSongs();
+                if ($songs instanceof Error) {
+                    return $songs;
+                } elseif (is_null($songs)) {
+                    $playlistBox->tracklist = $boxes['NOTRACK'];
                     return $playlistBox;
-		} else {
-		    foreach ($songs as $song) {
-			$title = $song->getTitle();
-			$songId = $song->getFromUser()->getObjectId();
-			$thumbnail = $song->getFromUser()->getProfileThumbnail();
-			$type = $song->getFromUser()->getType();
-			$username = $song->getFromUser()->getUsername();
-			$author = new UserInfo($songId, $thumbnail, $type, $username);
-			$thumbnailRec = $song->getRecord()->getThumbnailCover();
-			$newSong = new SongInfo($author, $thumbnailRec, $title);
-			array_push($tracklist, $newSong);
-		    }
-		}
-	    }
-	    $playlistBox->tracklist = $tracklist;
-	}
-	return $playlistBox;
+                } else {
+                    foreach ($songs as $song) {
+                        $title = $song->getTitle();
+                        $songId = $song->getFromUser()->getObjectId();
+                        $thumbnail = $song->getFromUser()->getProfileThumbnail();
+                        $type = $song->getFromUser()->getType();
+                        $username = $song->getFromUser()->getUsername();
+                        $author = new UserInfo($songId, $thumbnail, $type, $username);
+                        $thumbnailRec = $song->getRecord()->getThumbnailCover();
+                        $newSong = new SongInfo($author, $thumbnailRec, $title);
+                        array_push($tracklist, $newSong);
+                    }
+                }
+            }
+            $playlistBox->tracklist = $tracklist;
+        }
+        return $playlistBox;
     }
 
 }
