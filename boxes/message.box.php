@@ -118,20 +118,22 @@ class MessageBox {
             return $messageBox;
         } else {
             foreach ($activities as $act) {
-                $user = ($act->getFromUser()->getObjectId() == $objectId) ? $act->getToUser() : $act->getFromUser();
-                $userId = $user->getObjectId();
-                $thumbnail = $user->getProfileThumbnail();
-                $type = $user->getType();
-                $username = $user->getUsername();
-                $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
-                $read = $act->getRead();
-                $elementList = new ElementList($read, $userInfo);
-                if (array_key_exists($userId, $userList)) {
-                    if (!$read) {
+                if (!is_null($act->getFromUser()) && !is_null($act->getToUser())) {
+                    $user = ($act->getFromUser()->getObjectId() == $objectId) ? $act->getToUser() : $act->getFromUser();
+                    $userId = $user->getObjectId();
+                    $thumbnail = $user->getProfileThumbnail();
+                    $type = $user->getType();
+                    $username = $user->getUsername();
+                    $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
+                    $read = $act->getRead();
+                    $elementList = new ElementList($read, $userInfo);
+                    if (array_key_exists($userId, $userList)) {
+                        if (!$read) {
+                            $userList[$userId] = $elementList;
+                        }
+                    } else {
                         $userList[$userId] = $elementList;
                     }
-                } else {
-                    $userList[$userId] = $elementList;
                 }
             }
         }
