@@ -1,20 +1,21 @@
-
 <header>
 	<!------------------------------------- HIDE HEADER ----------------------------->
 	<div id="header-hide" class="no-display">
 		<?php		
-			if (isset($_SESSION['currentUser'])) {
-				$currentUser = $_SESSION['currentUser'];
-				$userObjectId = $currentUser->getObjectId();
-				$userType = $currentUser->getType();
-		?>		
-		<div  class="row hcento-hero">
-			<div id="header-profile" class="small-6 columns"></div>			
-			<div id="header-social" class="small-6 columns">				
-				<?php require_once './content/header/box-social.php'; ?>				
+		if (isset($_SESSION['currentUser'])) {
+			$currentUser = $_SESSION['currentUser'];
+			$userObjectId = $currentUser->getObjectId();
+			$userType = $currentUser->getType();
+			?>		
+			<div  class="row hcento-hero">
+				<div id="header-profile" class="small-6 columns"></div>			
+				<div id="header-social" class="small-6 columns">				
+					<?php require_once './content/header/box-social.php'; ?>				
+				</div>
 			</div>
-		</div>
-		<?php } ?>	
+			<?php
+		}
+		?>
 	</div>
 	
 	<!------------------------------------- HEADER ----------------------------->
@@ -87,7 +88,7 @@
 										<!---------------------------- SEARCH ------------------------------------>						
 										<form class="inline" action="">
 											<span><input id='header-btn-search' name='header-btn-search' type="search" class="search" placeholder="Cerca persone, musica o eventi"></span>
-										<!--	<span><input type="search" class="search-small show-for-small" placeholder="Cerca "></span> -->
+											<!-- <span><input type="search" class="search-small show-for-small" placeholder="Cerca "></span> -->
 					  					</form>
 				  					</div>	
 				  				</div>
