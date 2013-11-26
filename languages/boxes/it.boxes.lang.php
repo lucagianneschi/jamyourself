@@ -56,6 +56,8 @@ $boxes = array(
     'FRIENDSHIPFORLIST' => 'vuole essere tuo amico',
     'COLLABORATIONFORLIST' => 'vuole collaborare con te',
     'FOLLOWINGFORLIST' => 'ti sta seguendo',
-    'INVALIDMESSAGEBOX' => 'ID non valido per inizializzazione box messaggi'
+    'INVALIDMESSAGEBOX' => 'ID non valido per inizializzazione box messaggi',
+    'INVALIDNOTIFICATIONBOX' => 'ID non valido per inizializzazione box notifiche',
+    'INVALIDPLAYLISTBOX' => 'ID non valido per inizializzazione box playslit'
 );
 ?>
