@@ -95,6 +95,7 @@ class MessageBox {
             return $messageBox;
         } elseif ($currentUserId != $objectId) {
             $messageBox->userInfoArray = $boxes['INVALIDMESSAGEBOX'];
+            $messageBox->messageArray = $boxes['INVALIDMESSAGEBOX'];
             return $messageBox;
         }
         $userList = array();
@@ -161,6 +162,7 @@ class MessageBox {
             return $messageBox;
         } elseif ($currentUserId != $objectId) {
             $messageBox->messageArray = $boxes['INVALIDMESSAGEBOX'];
+            $messageBox->userInfoArray = $boxes['INVALIDMESSAGEBOX'];
             return $messageBox;
         }
         $messageP = new CommentParse();
