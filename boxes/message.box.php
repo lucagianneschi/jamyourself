@@ -127,10 +127,8 @@ class MessageBox {
                     $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
                     $read = $act->getRead();
                     $elementList = new ElementList($read, $userInfo);
-                    if (array_key_exists($userId, $userList)) {
-                        if (!$read) {
+                    if (array_key_exists($userId, $userList) && !$read) {
                             $userList[$userId] = $elementList;
-                        }
                     } else {
                         $userList[$userId] = $elementList;
                     }
