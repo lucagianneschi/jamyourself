@@ -55,6 +55,7 @@ $boxes = array(
     'EVENTFORLIST' => 'ti ha inviato ad un evento',
     'FRIENDSHIPFORLIST' => 'vuole essere tuo amico',
     'COLLABORATIONFORLIST' => 'vuole collaborare con te',
-    'FOLLOWINGFORLIST' => 'ti sta seguendo'
+    'FOLLOWINGFORLIST' => 'ti sta seguendo',
+    'INVALIDMESSAGEBOX' => 'ID non valido per inizializzazione box messaggi'
 );
 ?>
