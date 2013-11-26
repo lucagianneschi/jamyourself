@@ -91,6 +91,12 @@ class NotificationBox {
             $notificationBox->messageCounter = $boxes['ONLYIFLOGGEDIN'];
             $notificationBox->relationCounter = $boxes['ONLYIFLOGGEDIN'];
             return $notificationBox;
+        } elseif ($currentUserId != $objectId) {
+            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
+            return $notificationBox;
         }
         $activity0 = new ActivityParse();
         $activity0->wherePointer('toUser', '_User', $objectId);
@@ -149,6 +155,12 @@ class NotificationBox {
         $notificationBox->relationCounter = $boxes['NDB'];
         if ($currentUserId == $boxes['NOID']) {
             $notificationBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
+            return $notificationBox;
+        } elseif ($currentUserId != $objectId) {
+            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
             return $notificationBox;
         }
         $arrayTypes = ($type == 'SPOTTER') ? array(array('type' => 'MESSAGESENT'), array('type' => 'INVITED'), array('type' => 'FRIENDSHIPREQUEST')) : array(array('type' => 'MESSAGESENT'), array('type' => 'INVITED'), array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
@@ -228,6 +240,12 @@ class NotificationBox {
         if ($currentUserId == $boxes['NOID']) {
             $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
             return $notificationBox;
+        } elseif ($currentUserId != $objectId) {
+            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
+            return $notificationBox;
         }
         $relationArray = array();
         $activity = new ActivityParse();
@@ -283,6 +301,12 @@ class NotificationBox {
         if ($currentUserId == $boxes['NOID']) {
             $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
             return $notificationBox;
+        } elseif ($currentUserId != $objectId) {
+            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
+            return $notificationBox;
         }
         $relationArray = array();
         $activity = new ActivityParse();
@@ -337,6 +361,12 @@ class NotificationBox {
         $notificationBox->relationCounter = $boxes['NDB'];
         if ($currentUserId == $boxes['NOID']) {
             $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
+            return $notificationBox;
+        } elseif ($currentUserId != $objectId) {
+            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
+            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
             return $notificationBox;
         }
         $relationArray = array();
