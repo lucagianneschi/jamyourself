@@ -27,7 +27,7 @@ require_once BOXES_DIR . 'message.box.php';
 
 $i_end = microtime();
 //SPOTTER
-$fromUser = '7wi6AvviK4'; //Karl01
+$fromUser = 'GuUAj83MGH'; //spatafora
 //JAMMER
 $toUser = '7fes1RyY77'; //LDF
 echo '<br />-------------------------------------------------------------------------------------------<br />';
@@ -45,7 +45,7 @@ print "</pre>";
 $jammer_stop = microtime();
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST MESSAGE BOX<br />';
+echo '<br />TEST MESSAGE BOX LDF<br />';
 $jammer1_start = microtime();
 $activityBoxP1 = new MessageBox();
 $listUserBox1 = $activityBoxP1->initForUserList($toUser, 5, 0);
@@ -58,25 +58,25 @@ print_r($listMessage1);
 print "</pre>";
 $jammer1_stop = microtime();
 echo '<br />-------------------------------------------------------------------------------------------<br />';
-echo '<br />TEST MESSAGE BOX<br />';
-$jammer2_start = microtime();
-$activityBoxP2 = new MessageBox();
-$listUserBox2 = $activityBoxP1->initForUserList('pippopppoo', 5, 0);
-print "<pre>";
-print_r($listUserBox2);
-print "</pre>";
-$listMessage2 = $activityBoxP2->initForMessageList('poppopppo', 'cacacacacaca', 10, 0);
-print "<pre>";
-print_r($listMessage2);
-print "</pre>";
-$jammer2_stop = microtime();
+//echo '<br />TEST MESSAGE BOX<br />';
+//$jammer2_start = microtime();
+//$activityBoxP2 = new MessageBox();
+//$listUserBox2 = $activityBoxP1->initForUserList('pippopppoo', 5, 0);
+//print "<pre>";
+//print_r($listUserBox2);
+//print "</pre>";
+//$listMessage2 = $activityBoxP2->initForMessageList('poppopppo', 'cacacacacaca', 10, 0);
+//print "<pre>";
+//print_r($listMessage2);
+//print "</pre>";
+//$jammer2_stop = microtime();
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 $t_end = microtime();
 echo '<br />----------------------TIMERS---------------------------<br />';
 echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
 echo 'Tempo JAMMER ' . executionTime($jammer_start, $jammer_stop) . '<br />';
 echo 'Tempo JAMMER ' . executionTime($jammer1_start, $jammer1_stop) . '<br />';
-echo 'Tempo ERRORE' . executionTime($jammer2_start, $jammer2_stop) . '<br />';
+//echo 'Tempo ERRORE' . executionTime($jammer2_start, $jammer2_stop) . '<br />';
 echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
 echo '<br />----------------------TIMERS---------------------------<br />';
 ?>
