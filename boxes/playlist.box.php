@@ -40,9 +40,9 @@ class SongInfo {
      * \param	$author, $thumbnail,$title
      */
     function __construct($author, $thumbnail, $title) {
-        is_null($author) ? $this->author = null : $this->author = $author;
-        is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
-        is_null($title) ? $this->title = null : $this->title = $title;
+	is_null($author) ? $this->author = null : $this->author = $author;
+	is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
+	is_null($title) ? $this->title = null : $this->title = $title;
     }
 
 }
@@ -63,7 +63,7 @@ class PlaylistBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
     }
 
     /**
@@ -74,69 +74,72 @@ class PlaylistBox {
      * \todo    implementare la differenziazione della lunghezza della query in base alla proprety premium dell'utente, usa una variabile in più $premium che deve essere un BOOL
      */
     public function init() {
-        global $boxes;
-        $tracklist = array();
-        $currentUserObjectId = sessionChecker();
-        if ($currentUserObjectId == $boxes['NOID']) {
-            $this->error = $boxes['ONLYIFLOGGEDIN'];
-            $this->name = null;
-            $this->tracklist = array();
+	global $boxes;
+	$tracklist = array();
+	$currentUserObjectId = sessionChecker();
+	if ($currentUserObjectId == $boxes['NOID']) {
+	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
 	    return;
-        }
-        $playlist = new PlaylistParse();
-        $playlist->wherePointer('fromUser', '_User', $currentUserObjectId);
-        $playlist->where('active', true);
-        $playlist->orderByDescending('createdAt');
-        $playlist->setLimit($this->config->limitForPlaylist);
-        $playlists = $playlist->getPlaylists();
-        if ($playlists instanceof Error) {
-            $this->error = $playlists->getErrorMessage();
-            $this->name = null;
-            $this->tracklist = array();
-            return;
-        } elseif (is_null($playlists)) {
-            $this->error = null;
-            $this->name = null;
-            $this->tracklist = array();
-            return;
-        } else {
-            foreach ($playlists as $playlist) {
-                require_once CLASSES_DIR . 'song.class.php';
-                require_once CLASSES_DIR . 'songParse.class.php';
-                $this->name = ($playlist->getName());
-                $song = new SongParse();
-                $song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
-                $song->where('active', true);
-                $song->orderByDescending('createdAt');
-                $song->setLimit($this->config->limitForTracklist);
-                $song->whereInclude('fromUser,record');
-                $songs = $song->getSongs();
-                if ($songs instanceof Error) {
-                    $this->tracklist = array();
-                    $this->name = null;
-                    $this->error = $songs->getErrorMessage();
-                    return;
-                } elseif (is_null($songs)) {
-                    $this->error = null;
-                    $this->tracklist = array();
-                    return;
-                } else {
-                    foreach ($songs as $song) {
-                        $title = $song->getTitle();
-                        $songId = $song->getFromUser()->getObjectId();
-                        $thumbnail = $song->getFromUser()->getProfileThumbnail();
-                        $type = $song->getFromUser()->getType();
-                        $username = $song->getFromUser()->getUsername();
-                        $author = new UserInfo($songId, $thumbnail, $type, $username);
-                        $thumbnailRec = $song->getRecord()->getThumbnailCover();
-                        $newSong = new SongInfo($author, $thumbnailRec, $title);
-                        array_push($tracklist, $newSong);
-                    }
-                }
-            }
-            $this->error = null;
-            $this->tracklist = $tracklist;
-        }
+	}
+	$playlist = new PlaylistParse();
+	$playlist->wherePointer('fromUser', '_User', $currentUserObjectId);
+	$playlist->where('active', true);
+	$playlist->orderByDescending('createdAt');
+	$playlist->setLimit($this->config->limitForPlaylist);
+	$playlists = $playlist->getPlaylists();
+	if ($playlists instanceof Error) {
+	    $this->errorManagement($playlists->getErrorMessage());
+	    return;
+	} elseif (is_null($playlists)) {
+	    $this->errorManagement(null);
+	    return;
+	} else {
+	    foreach ($playlists as $playlist) {
+		require_once CLASSES_DIR . 'song.class.php';
+		require_once CLASSES_DIR . 'songParse.class.php';
+		$this->name = ($playlist->getName());
+		$song = new SongParse();
+		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
+		$song->where('active', true);
+		$song->orderByDescending('createdAt');
+		$song->setLimit($this->config->limitForTracklist);
+		$song->whereInclude('fromUser,record');
+		$songs = $song->getSongs();
+		if ($songs instanceof Error) {
+		    $this->errorManagement($songs->getErrorMessage());
+		    return;
+		} elseif (is_null($songs)) {
+		    $this->errorManagement(null);
+		    return;
+		} else {
+		    foreach ($songs as $song) {
+			$title = $song->getTitle();
+			$songId = $song->getFromUser()->getObjectId();
+			$thumbnail = $song->getFromUser()->getProfileThumbnail();
+			$type = $song->getFromUser()->getType();
+			$username = $song->getFromUser()->getUsername();
+			$author = new UserInfo($songId, $thumbnail, $type, $username);
+			$thumbnailRec = $song->getRecord()->getThumbnailCover();
+			$newSong = new SongInfo($author, $thumbnailRec, $title);
+			array_push($tracklist, $newSong);
+		    }
+		}
+	    }
+	    $this->error = null;
+	    $this->tracklist = $tracklist;
+	}
+    }
+
+    /**
+     * \fn	function errorManagement($errorMessage)
+     * \brief	set values in case of error or nothing to send to the view
+     * \param	$errorMessafe
+     * \todo    
+     */
+    private function errorManagement($errorMessage) {
+	$this->error = $errorMessage;
+	$this->name = null;
+	$this->tracklist = null;
     }
 
 }
