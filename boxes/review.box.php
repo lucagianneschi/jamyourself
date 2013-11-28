@@ -125,6 +125,7 @@ class ReviewInfo {
 class ReviewBox {
 
     public $config;
+	public $error;
     public $reviewArray;
     public $reviewCounter;
     public $mediaInfo;
@@ -147,11 +148,13 @@ class ReviewBox {
      */
     public function initForMediaPage($objectId, $className, $limit, $skip) {
         global $boxes;
-        $currentUserId = sessionChecker();
-        $counter = 0;
-        $info = array();
-        $reviewBox = new ReviewBox();
-        $reviewBox->mediaInfo = $boxes['NDB'];
+        $currentUserObjectId = sessionChecker();
+		$info = array();
+        $this->mediaInfo = $boxes['NDB'];
+        if ($currentUserObjectId == $boxes['NOID']) {
+            $this->reviewArray = $info;
+            $this->error = $boxes['ONLYIFLOGGEDIN'];
+        }
         $review = new CommentParse();
         if ($className == 'Event') {
             $review->wherePointer('event', $className, $objectId);
@@ -167,15 +170,14 @@ class ReviewBox {
         $review->orderByDescending('createdAt');
         $reviews = $review->getComments();
         if ($reviews instanceof Error) {
-            return $reviews;
+            $this->reviewArray = $info;
+            $this->error = $reviews->getErrorMessage();
         } elseif (is_null($reviews)) {
-            $reviewBox->reviewArray = $boxes['NODATA'];
-            $reviewBox->reviewCounter = $boxes['NODATA'];
-            return $reviewBox;
+            $this->reviewArray = $info;
+            $this->error = null;
         } else {
             foreach ($reviews as $review) {
                 if (!is_null($review->getFromUser())) {
-                    $counter = ++$counter;
                     $userId = $review->getFromUser()->getObjectId();
                     $thumbnail = $review->getFromUser()->getProfileThumbnail();
                     $type = $review->getFromUser()->getType();
@@ -197,9 +199,7 @@ class ReviewBox {
                 }
             }
         }
-        $reviewBox->reviewArray = $info;
-        $reviewBox->reviewCounter = $counter;
-        return $reviewBox;
+        $this->reviewArray = $info;
     }
 
     /**
