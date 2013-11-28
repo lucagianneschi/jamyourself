@@ -19,12 +19,8 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-require_once BOXES_DIR . 'utilsBox.php';
 require_once CLASSES_DIR . 'playlist.class.php';
 require_once CLASSES_DIR . 'playlistParse.class.php';
-
 require_once CLASSES_DIR . 'userParse.class.php';
 session_start();
 
@@ -85,6 +81,7 @@ class PlaylistBox {
             $this->error = $boxes['ONLYIFLOGGEDIN'];
             $this->name = null;
             $this->tracklist = array();
+	    return;
         }
         $playlist = new PlaylistParse();
         $playlist->wherePointer('fromUser', '_User', $currentUserObjectId);
