@@ -79,7 +79,7 @@ class EventController extends REST {
 	    $event = $eventP->updateField($event->getObjectId(), 'attendee', $currentUser->getObjectId(), true, 'add', '_User');
 	    if ($event instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackEventManagementController($objectId, 'managementRequest');
+		$message = rollbackEventManagementController($objectId, 'accept');
 		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array($controllers['INVITATIONACCEPTED']), 200);
@@ -110,8 +110,9 @@ class EventController extends REST {
 	    $resStatus = $activityParse->updateField($objectId, 'status', 'R');
 	    $resRead = $activityParse->updateField($objectId, 'read', true);
 	    if ($resStatus instanceof Error || $resRead instanceof Error) {
-		//rollback
-		$this->response(array('status' => $controllers['NOACTUPDATE']), 503);
+		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		$message = rollbackEventManagementController($objectId, 'decline');
+		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array('INVITATIONDECLINED'), 200);
 	} catch (Exception $e) {
@@ -157,8 +158,9 @@ class EventController extends REST {
 	    $attendeeRemove = $eventParse->updateField($res->getEvent()->getObjectId(), 'attendee', array($currentUser->getObjectId()), true, 'remove', '_User');
 	    $refusedAdd = $eventParse->updateField($res->getEvent()->getObjectId(), 'refused', array($currentUser->getObjectId()), true, 'add', '_User');
 	    if ($attendeeRemove instanceof Error || $refusedAdd instanceof Error) {
-		//rollback
-		$this->response(array('status' => $controllers['NOEVENTFOUND']), 403);
+		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		$message = rollbackEventManagementController($objectId, 'remove');
+		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array('status' => $controllers['NOEVENTFOUND']), 403);
 	} catch (Exception $e) {
@@ -224,8 +226,8 @@ class EventController extends REST {
     private function checkUserInEventRelation($userId, $eventId, $field) {
 	require_once CLASSES_DIR . 'eventParse.class.php';
 	$eventP = new EventParse();
-	$eventP->where('objectId', $eventId);
-	$eventP->whereRelatedTo($field, '_User', $userId);
+        $eventP->where('objectId', $userId);
+	$eventP->whereRelatedTo($field, '_User', $eventId);
 	$check = $eventP->getCount();
 	return ($check != 0) ? true : false;
     }
