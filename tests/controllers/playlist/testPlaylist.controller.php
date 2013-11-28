@@ -41,11 +41,11 @@
     <body>
 	Cliccando i bottoni si aggiungono o tolgono canzoni prescelte sulla playlist di SPATAFORA<br />
 	<br />
-	<button type="button" onclick="playlist('EWlkBSXQJt', 'nBF3KVDGxZ', 'add', 'GuUAj83MGH')">AGGIUNGI Song nBF3KVDGxZ alla playslist di SPATAFORA </button>
+	<button type="button" onclick="playlist('EWlkBSXQJt', 'nBF3KVDGxZ', 'add', '7fes1RyY77')">AGGIUNGI Song nBF3KVDGxZ alla playslist di SPATAFORA </button>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<button type="button" onclick="playlist('EWlkBSXQJt', 'nBF3KVDGxZ', 'remove', 'GuUAj83MGH')">RIMUOVI Song nBF3KVDGxZ alla playslist di SPATAFORA </button>
 	&nbsp;<hr>
-	<button type="button" onclick="playlist('EWlkBSXQJt', 'MSJfcWb9Qk', 'add', 'GuUAj83MGH')">AGGIUNGI Song MSJfcWb9Qk alla playslist di SPATAFORA </button>
+	<button type="button" onclick="playlist('EWlkBSXQJt', 'MSJfcWb9Qk', 'add', '7fes1RyY77')">AGGIUNGI Song MSJfcWb9Qk alla playslist di SPATAFORA </button>
 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 	<button type="button" onclick="playlist('EWlkBSXQJt', 'MSJfcWb9Qk', 'remove', 'GuUAj83MGH')">RIMUOVI Song MSJfcWb9Qk alla playslist di SPATAFORA </button>
 	&nbsp;<hr>

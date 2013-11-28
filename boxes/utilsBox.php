@@ -74,7 +74,7 @@ class UserInfo {
 	}
 	is_null($thumbnail) ? $this->thumbnail = $imageDefault : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
-	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = ($username);
+	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
     }
 
 }
@@ -87,7 +87,6 @@ class UserInfo {
  * \todo        prevere la possibilità di avere più di 1000 utenti in lista
  */
 function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
-    global $boxes;
     $userArray = array();
     require_once CLASSES_DIR . 'user.class.php';
     require_once CLASSES_DIR . 'userParse.class.php';
@@ -100,22 +99,7 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
     if ($users instanceof Error) {
 	return $users;
     } elseif (is_null($users)) {
-	if ($className == 'Record') {
-	    $users = $boxes['NOFEATRECORD'];
-	} else {
-	    switch ($field) {
-		case 'attendee':
-		    $users = $boxes['NOATTENDEE'];
-		    break;
-		case 'featuring':
-		    $users = $boxes['NOFEATEVE'];
-		    break;
-		case 'invited':
-		    $users = $boxes['NOINVITED'];
-		    break;
-	    }
-	}
-	return $users;
+	return $userArray;
     } else {
 	foreach ($users as $user) {
 	    $userId = $user->getObjectId();

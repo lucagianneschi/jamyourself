@@ -149,6 +149,8 @@ $controllers = array(
     'NOREMOVESONGTOPLAYARRAY' => 'Unable to remove song from playlist(Array)',
     'SONGALREADYINTRACKLIST' => 'This song already exists in your playlist',
     'SONGNOTINTRACKLIST' => 'Song not found for removing from playlist',
+    'TOMANYSONGS' => 'To many songs in your playlist',
+    'NOTHINGTOREMOVE' => 'No song to remove',
     //SETTINGS
     'NOSETTINGUPDATE' => 'Unable to update your setting',
     'NOSETTING' => 'No setting specified in the request',

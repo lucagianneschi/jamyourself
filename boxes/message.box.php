@@ -25,9 +25,8 @@ class ElementList {
      * \param	$read,$userInfo
      */
     function __construct($read, $userInfo) {
-        global $boxes;
         is_null($read) ? $this->read = false : $this->read = $read;
-        is_null($userInfo) ? $this->userInfo = $boxes['NODATA'] : $this->userInfo = $userInfo;
+        is_null($userInfo) ? $this->userInfo = null : $this->userInfo = $userInfo;
     }
 
 }
@@ -49,11 +48,10 @@ class MessageInfo {
      * \param	$createdAt, $objectId, $send, $text, $title
      */
     function __construct($createdAt, $objectId, $send, $text) {
-        global $boxes;
-        is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
-        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+        is_null($createdAt) ? $this->createdAt = null : $this->createdAt = $createdAt;
+        is_null($objectId) ? $this->objectId = null : $this->objectId = $objectId;
         is_null($send) ? $this->send = 'S' : $this->send = $send;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
+        is_null($text) ? $this->text = null : $this->text = $text;
     }
 
 }
@@ -65,6 +63,7 @@ class MessageInfo {
 class MessageBox {
 
     public $config;
+    public $error;
     public $messageArray;
     public $userInfoArray;
 
@@ -83,25 +82,18 @@ class MessageBox {
      * \todo    
      * \return	MessageBox, error in case of error
      */
-    public function initForUserList($objectId, $limit, $skip) {
+    public function initForUserList($limit, $skip) {
         require_once CLASSES_DIR . 'activity.class.php';
         require_once CLASSES_DIR . 'activityParse.class.php';
         global $boxes;
-        $messageBox = new MessageBox();
-        $messageBox->messageArray = $boxes['NDB'];
         $currentUserId = sessionChecker();
         if ($currentUserId == $boxes['NOID']) {
-            $messageBox->userInfoArray = $boxes['ONLYIFLOGGEDIN'];
-            return $messageBox;
-        } elseif ($currentUserId != $objectId) {
-            $messageBox->userInfoArray = $boxes['INVALIDMESSAGEBOX'];
-            $messageBox->messageArray = $boxes['INVALIDMESSAGEBOX'];
-            return $messageBox;
+            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            return;
         }
         $userList = array();
-        $messageBox->messageArray = $boxes['NDB'];
-        $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
-            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
+        $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)),
+            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)));
         $activityP = new ActivityParse();
         $activityP->whereOr($value);
         $activityP->where('type', 'MESSAGESENT');
@@ -112,14 +104,15 @@ class MessageBox {
         $activityP->orderByDescending('createdAt');
         $activities = $activityP->getActivities();
         if ($activities instanceof Error) {
-            return $activities;
+            $this->errorManagement($activities->getErrorMessage());
+            return;
         } elseif (is_null($activities)) {
-            $messageBox->userInfoArray = $boxes['NODATA'];
-            return $messageBox;
+            $this->errorManagement(null);
+            return;
         } else {
             foreach ($activities as $act) {
                 if (!is_null($act->getFromUser()) && !is_null($act->getToUser())) {
-                    $user = ($act->getFromUser()->getObjectId() == $objectId) ? $act->getToUser() : $act->getFromUser();
+                    $user = ($act->getFromUser()->getObjectId() == $currentUserId) ? $act->getToUser() : $act->getFromUser();
                     $userId = $user->getObjectId();
                     $thumbnail = $user->getProfileThumbnail();
                     $type = $user->getType();
@@ -128,15 +121,16 @@ class MessageBox {
                     $read = $act->getRead();
                     $elementList = new ElementList($read, $userInfo);
                     if (array_key_exists($userId, $userList) && !$read) {
-                            $userList[$userId] = $elementList;
+                        $userList[$userId] = $elementList;
                     } else {
                         $userList[$userId] = $elementList;
                     }
                 }
             }
         }
-        $messageBox->userInfoArray = $userList;
-        return $messageBox;
+        $this->error = null;
+        $this->messageArray = array();
+        $this->userInfoArray = $userList;
     }
 
     /**
@@ -146,25 +140,19 @@ class MessageBox {
      * \todo    
      * \return	MessageBox, error in case of error
      */
-    public function initForMessageList($objectId, $otherId, $limit, $skip) {
+    public function initForMessageList($otherId, $limit, $skip) {
         global $boxes;
         require_once CLASSES_DIR . 'comment.class.php';
         require_once CLASSES_DIR . 'commentParse.class.php';
-        $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
-            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
-        $value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
-            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
-        $messageBox = new MessageBox();
-        $messageBox->userInfoArray = $boxes['NDB'];
         $currentUserId = sessionChecker();
         if ($currentUserId == $boxes['NOID']) {
-            $messageBox->messageArray = $boxes['ONLYIFLOGGEDIN'];
-            return $messageBox;
-        } elseif ($currentUserId != $objectId) {
-            $messageBox->messageArray = $boxes['INVALIDMESSAGEBOX'];
-            $messageBox->userInfoArray = $boxes['INVALIDMESSAGEBOX'];
-            return $messageBox;
+            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            return;
         }
+        $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)),
+            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)));
+        $value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
+            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
         $messageP = new CommentParse();
         $messageP->whereOr($value);
         $messageP->whereOr($value1);
@@ -176,14 +164,15 @@ class MessageBox {
         $messageP->orderByDescending('createdAt');
         $messages = $messageP->getComments();
         if ($messages instanceof Error) {
-            return $messages;
+            $this->errorManagement($messages->getErrorMessage());
+            return;
         } elseif (is_null($messages)) {
-            $messageBox->messageArray = $boxes['NODATA'];
-            return $messageBox;
+            $this->errorManagement(null);
+            return;
         } else {
             $messagesArray = array();
             foreach ($messages as $message) {
-                $send = ($message->getFromUser()->getObjectId() == $objectId) ? 'S' : 'R';
+                $send = ($message->getFromUser()->getObjectId() == $currentUserId) ? 'S' : 'R';
                 $createdAt = $message->getCreatedAt();
                 $messageId = $message->getObjectId();
                 $text = $message->getText();
@@ -191,8 +180,21 @@ class MessageBox {
                 array_push($messagesArray, $messageInfo);
             }
         }
-        $messageBox->messageArray = $messagesArray;
-        return $messageBox;
+        $this->error = null;
+        $this->messageArray = $messagesArray;
+        $this->userInfoArray = array();
+    }
+
+    /**
+     * \fn	function errorManagement($errorMessage)
+     * \brief	set values in case of error or nothing to send to the view
+     * \param	$errorMessafe
+     * \todo    
+     */
+    private function errorManagement($errorMessage) {
+        $this->error = $errorMessage;
+        $this->messageArray = array();
+        $this->userInfoArray = array();
     }
 
 }

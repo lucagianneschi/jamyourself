@@ -152,6 +152,8 @@ $controllers = array(
     'NOREMOVESONGTOPLAYARRAY' => 'Impossibile rimuovere canzone dalla playlist(Array)',
     'SONGALREADYINTRACKLIST' => 'Canzone già presente nella playlist playlist',
     'SONGNOTINTRACKLIST' => 'Impossibile trovare canzone da rimuovere dalla playlist',
+    'TOMANYSONGS' => 'Troppe canzoni nella playlist',
+    'NOTHINGTOREMOVE' => 'Nessuna canzone da rimuovere',
     //SETTINGS
     'NOSETTINGUPDATE' => 'Impossibile effettuare aggiornamento dei setting',
     'NOSETTING' => 'Setting non specificato nella richiesta',

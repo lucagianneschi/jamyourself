@@ -22,7 +22,6 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once CLASSES_DIR . 'faq.class.php';
 require_once CLASSES_DIR . 'faqParse.class.php';
-require_once BOXES_DIR . 'utilsBox.php';
 
 /**
  * \brief	FaqInfo class 
@@ -42,12 +41,11 @@ class FaqInfo {
      * \param	$answer, $area, $position, $question, $tags
      */
     function __construct($answer, $area, $position, $question, $tags) {
-        global $boxes;
-        is_null($answer) ? $this->answer = $boxes['NODATA'] : $this->answer = $answer;
-        is_null($area) ? $this->area = $boxes['NODATA'] : $this->area = $area;
+        is_null($answer) ? $this->answer = null : $this->answer = $answer;
+        is_null($area) ? $this->area = null : $this->area = $area;
         is_null($position) ? $this->position = 1000 : $this->position = $position;
-        is_null($question) ? $this->question = $boxes['NODATA'] : $this->question = $question;
-        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
+        is_null($question) ? $this->question = null : $this->question = $question;
+        is_null($tags) ? $this->tags = array() : $this->tags = $tags;
     }
 
 }
@@ -59,6 +57,7 @@ class FaqInfo {
 class FaqBox {
 
     public $config;
+    public $error;
     public $faqArray;
 
     /**
@@ -75,24 +74,21 @@ class FaqBox {
      * \param	$limit, number of paq to display; $lang, language of the text to display; $field for ordering instances; $direction ascending (true) or descending (false)
      * \return	faqBox
      */
-    public function initForFaqPage($limit, $lang, $field, $direction) {
-        global $boxes;
-        $activityBox = new FaqBox();
+    public function init($limit, $lang, $field, $direction) {
         $array = array();
         $faqP = new FaqParse();
         $faqP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->defaultLimit : $limit);
         $faqP->where('lang', $lang);
-        if ($direction == true) {
-            $faqP->orderByAscending($field);
-        } else {
-            $faqP->orderByDescending($field);
-        }
+        ($direction == true) ? $faqP->orderByAscending($field) : $faqP->orderByDescending($field);
         $faqs = $faqP->getFaqs();
         if ($faqs instanceof Error) {
-            return $faqs;
+            $this->error = $faqs->getErrorMessage();
+            $this->faqArray = array();
+            return;
         } elseif (is_null($faqs)) {
-            $activityBox->faqArray = $boxes['NODATA'];
-            return $activityBox;
+            $this->error = null;
+            $this->faqArray = array();
+            return;
         } else {
             foreach ($faqs as $faq) {
                 $answer = $faq->getAnswer();
@@ -103,9 +99,9 @@ class FaqBox {
                 $faqInfo = new FaqInfo($answer, $area, $position, $question, $tags);
                 array_push($array, $faqInfo);
             }
-            $activityBox->faqArray = $array;
         }
-        return $activityBox;
+        $this->error = null;
+        $this->faqArray = $array;
     }
 
 }
