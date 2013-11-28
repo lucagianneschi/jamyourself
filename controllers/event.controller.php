@@ -226,8 +226,8 @@ class EventController extends REST {
     private function checkUserInEventRelation($userId, $eventId, $field) {
 	require_once CLASSES_DIR . 'eventParse.class.php';
 	$eventP = new EventParse();
-        $eventP->where('objectId', $userId);
-	$eventP->whereRelatedTo($field, '_User', $eventId);
+        $eventP->where('objectId', $eventId);
+	$eventP->whereRelatedTo($field, '_User', $userId);
 	$check = $eventP->getCount();
 	return ($check != 0) ? true : false;
     }
