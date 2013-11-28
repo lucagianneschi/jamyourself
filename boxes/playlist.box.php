@@ -59,7 +59,7 @@ class SongInfo {
 class PlaylistBox {
 
     public $config;
-	public $error;
+    public $error;
     public $name;
     public $tracklist;
 
@@ -82,12 +82,10 @@ class PlaylistBox {
         global $boxes;
         $tracklist = array();
         $currentUserObjectId = sessionChecker();
-        $playlistBox = new PlaylistBox();
         if ($currentUserObjectId == $boxes['NOID']) {
-            $playlistBox->tracklist = array();
-            $playlistBox->name = null;
-			$playlistBox->error = $boxes['ONLYIFLOGGEDIN'];
-            return $playlistBox;
+            $this->tracklist = array();
+            $this->name = null;
+            $this->error = $boxes['ONLYIFLOGGEDIN'];
         }
         $playlist = new PlaylistParse();
         $playlist->wherePointer('fromUser', '_User', $currentUserObjectId);
@@ -96,20 +94,20 @@ class PlaylistBox {
         $playlist->setLimit($this->config->limitForPlaylist);
         $playlists = $playlist->getPlaylists();
         if ($playlists instanceof Error) {
-			$playlistBox->tracklist = array();
-            $playlistBox->name = null;
-			$playlistBox->error = $playlists->getErrorMessage();
-            return $playlistBox;
+            $this->tracklist = array();
+            $this->name = null;
+            $this->error = $playlists->getErrorMessage();
+            return;
         } elseif (is_null($playlists)) {
-            $playlistBox->tracklist = array();
-            $playlistBox->name = null;
-			$playlistBox->error = null;
-            return $playlistBox;
+            $this->tracklist = array();
+            $this->name = null;
+            $this->error = null;
+            return;
         } else {
             foreach ($playlists as $playlist) {
                 require_once CLASSES_DIR . 'song.class.php';
                 require_once CLASSES_DIR . 'songParse.class.php';
-                $playlistBox->name = ($playlist->getName());
+                $this->name = ($playlist->getName());
                 $song = new SongParse();
                 $song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
                 $song->where('active', true);
@@ -118,10 +116,12 @@ class PlaylistBox {
                 $song->whereInclude('fromUser,record');
                 $songs = $song->getSongs();
                 if ($songs instanceof Error) {
-                    return $songs;
+                    $this->tracklist = array();
+                    $this->name = null;
+                    $this->error = $songs->getErrorMessage();
+                    return;
                 } elseif (is_null($songs)) {
-                    $playlistBox->tracklist = $boxes['NOTRACK'];
-                    return $playlistBox;
+                    $this->tracklist = array();
                 } else {
                     foreach ($songs as $song) {
                         $title = $song->getTitle();
@@ -136,10 +136,9 @@ class PlaylistBox {
                     }
                 }
             }
-            $playlistBox->tracklist = $tracklist;
-			$playlistBox->error = null;
+            $this->tracklist = $tracklist;
+            $this->error = null;
         }
-        return $playlistBox;
     }
 
 }
