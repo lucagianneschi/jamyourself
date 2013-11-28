@@ -44,10 +44,9 @@ class SongInfo {
      * \param	$author, $thumbnail,$title
      */
     function __construct($author, $thumbnail, $title) {
-        global $boxes;
-        is_null($author) ? $this->author = $boxes['NODATA'] : $this->author = $author;
+        is_null($author) ? $this->author = null : $this->author = $author;
         is_null($thumbnail) ? $this->thumbnail = DEFSONGTHUMB : $this->thumbnail = $thumbnail;
-        is_null($title) ? $this->title = $boxes['NODATA'] : $this->title = $title;
+        is_null($title) ? $this->title = null : $this->title = $title;
     }
 
 }
@@ -83,9 +82,9 @@ class PlaylistBox {
         $tracklist = array();
         $currentUserObjectId = sessionChecker();
         if ($currentUserObjectId == $boxes['NOID']) {
-            $this->tracklist = array();
-            $this->name = null;
             $this->error = $boxes['ONLYIFLOGGEDIN'];
+            $this->name = null;
+            $this->tracklist = array();
         }
         $playlist = new PlaylistParse();
         $playlist->wherePointer('fromUser', '_User', $currentUserObjectId);
@@ -94,14 +93,14 @@ class PlaylistBox {
         $playlist->setLimit($this->config->limitForPlaylist);
         $playlists = $playlist->getPlaylists();
         if ($playlists instanceof Error) {
-            $this->tracklist = array();
-            $this->name = null;
             $this->error = $playlists->getErrorMessage();
+            $this->name = null;
+            $this->tracklist = array();
             return;
         } elseif (is_null($playlists)) {
-            $this->tracklist = array();
-            $this->name = null;
             $this->error = null;
+            $this->name = null;
+            $this->tracklist = array();
             return;
         } else {
             foreach ($playlists as $playlist) {
@@ -121,7 +120,9 @@ class PlaylistBox {
                     $this->error = $songs->getErrorMessage();
                     return;
                 } elseif (is_null($songs)) {
+                    $this->error = null;
                     $this->tracklist = array();
+                    return;
                 } else {
                     foreach ($songs as $song) {
                         $title = $song->getTitle();
@@ -136,8 +137,8 @@ class PlaylistBox {
                     }
                 }
             }
-            $this->tracklist = $tracklist;
             $this->error = null;
+            $this->tracklist = $tracklist;
         }
     }
 
