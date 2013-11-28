@@ -123,6 +123,9 @@ class PlaylistController extends REST {
             } elseif (!in_array($songId, $playlist->getSongsArray())) {
                 $this->response(array('status' => $controllers['ERRORCHECKINGSONGINTRACKLIST']), 503);
             }
+            if (count($playlist->songsArray) = 0) {
+                $this->response(array('status' => $controllers['NOTHINGTOREMOVE']), 503);
+            }
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
             if ($res instanceof Error) {
                 $this->response(array('status' => $controllers['NOREMOVESONGTOPLAYREL']), 503);
