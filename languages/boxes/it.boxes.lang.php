@@ -57,6 +57,7 @@ $boxes = array(
     'COLLABORATIONFORLIST' => 'vuole collaborare con te',
     'FOLLOWINGFORLIST' => 'ti sta seguendo',
     'INVALIDMESSAGEBOX' => 'ID non valido per inizializzazione box messaggi',
-    'INVALIDNOTIFICATIONBOX' => 'ID non valido per inizializzazione box notifiche'
+    'INVALIDNOTIFICATIONBOX' => 'ID non valido per inizializzazione box notifiche',
+    '404' =>'Oggetto non trovato'
 );
 ?>
