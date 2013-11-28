@@ -25,9 +25,8 @@ class ElementList {
      * \param	$read,$userInfo
      */
     function __construct($read, $userInfo) {
-        global $boxes;
         is_null($read) ? $this->read = false : $this->read = $read;
-        is_null($userInfo) ? $this->userInfo = $boxes['NODATA'] : $this->userInfo = $userInfo;
+        is_null($userInfo) ? $this->userInfo = null : $this->userInfo = $userInfo;
     }
 
 }
@@ -186,6 +185,12 @@ class MessageBox {
         $this->userInfoArray = array();
     }
 
+    /**
+     * \fn	function errorManagement($errorMessage)
+     * \brief	set values in case of error or nothing to send to the view
+     * \param	$errorMessafe
+     * \todo    
+     */
     private function errorManagement($errorMessage) {
         $this->error = $errorMessage;
         $this->messageArray = array();
