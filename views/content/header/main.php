@@ -8,9 +8,13 @@
 			$userType = $currentUser->getType();
 			?>		
 			<div  class="row hcento-hero">
-				<div id="header-profile" class="small-6 columns"></div>			
+				<div id="header-profile" class="small-6 columns">
+					<!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->
+					<?php require_once './content/header/box-profile.php'; ?>
+				</div>			
 				<div id="header-social" class="small-6 columns">				
-					<?php require_once './content/header/box-social.php'; ?>				
+					<!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->
+					<?php require_once './content/header/box-social.php'; ?>
 				</div>
 			</div>
 			<?php

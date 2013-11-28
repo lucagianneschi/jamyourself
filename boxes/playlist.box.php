@@ -25,6 +25,9 @@ require_once BOXES_DIR . 'utilsBox.php';
 require_once CLASSES_DIR . 'playlist.class.php';
 require_once CLASSES_DIR . 'playlistParse.class.php';
 
+require_once CLASSES_DIR . 'userParse.class.php';
+session_start();
+
 /**
  * \brief	SongInfo class 
  * \details	info for the song to be displayed in the playlistBox 
@@ -56,6 +59,7 @@ class SongInfo {
 class PlaylistBox {
 
     public $config;
+	public $error;
     public $name;
     public $tracklist;
 
@@ -74,31 +78,32 @@ class PlaylistBox {
      * \return	playlistBox
      * \todo    implementare la differenziazione della lunghezza della query in base alla proprety premium dell'utente, usa una variabile in più $premium che deve essere un BOOL
      */
-    public function init($objectId) {
+    public function init() {
         global $boxes;
         $tracklist = array();
-        $currentUserId = sessionChecker();
+        $currentUserObjectId = sessionChecker();
         $playlistBox = new PlaylistBox();
-        if ($currentUserId == $boxes['NOID']) {
-            $playlistBox->tracklist = $boxes['ONLYIFLOGGEDIN'];
-            $playlistBox->name = $boxes['ONLYIFLOGGEDIN'];
-            return $playlistBox;
-        } elseif ($currentUserId != $objectId) {
-            $playlistBox->tracklist = $boxes['INVALIDPLAYLISTBOX'];
-            $playlistBox->name = $boxes['INVALIDPLAYLISTBOX'];
+        if ($currentUserObjectId == $boxes['NOID']) {
+            $playlistBox->tracklist = array();
+            $playlistBox->name = null;
+			$playlistBox->error = $boxes['ONLYIFLOGGEDIN'];
             return $playlistBox;
         }
         $playlist = new PlaylistParse();
-        $playlist->wherePointer('fromUser', '_User', $objectId);
+        $playlist->wherePointer('fromUser', '_User', $currentUserObjectId);
         $playlist->where('active', true);
         $playlist->orderByDescending('createdAt');
         $playlist->setLimit($this->config->limitForPlaylist);
         $playlists = $playlist->getPlaylists();
-        if ($playlist instanceof Error) {
-            return $playlists;
+        if ($playlists instanceof Error) {
+			$playlistBox->tracklist = array();
+            $playlistBox->name = null;
+			$playlistBox->error = $playlists->getErrorMessage();
+            return $playlistBox;
         } elseif (is_null($playlists)) {
-            $playlistBox->tracklist = $boxes['NOTRACK'];
-            $playlistBox->name = $boxes['NODATA'];
+            $playlistBox->tracklist = array();
+            $playlistBox->name = null;
+			$playlistBox->error = null;
             return $playlistBox;
         } else {
             foreach ($playlists as $playlist) {
@@ -132,6 +137,7 @@ class PlaylistBox {
                 }
             }
             $playlistBox->tracklist = $tracklist;
+			$playlistBox->error = null;
         }
         return $playlistBox;
     }
