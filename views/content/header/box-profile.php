@@ -8,8 +8,10 @@ require_once BOXES_DIR . 'playlist.box.php';
 $plBox = new PlaylistBox();
 $playlist = $plBox->init();
 
+#TODO
+//decidere come gestire i possibili errori
 if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
-	echo 'Nessun errore';
+	echo 'Playlist vuota';
 } elseif (count($playlist->tracklist) == 0 && !is_null($playlist->error)) {
 	echo $playlist->error;
 } elseif (count($playlist->tracklist) > 0) {
