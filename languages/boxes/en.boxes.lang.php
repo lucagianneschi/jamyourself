@@ -57,7 +57,6 @@ $boxes = array(
     'COLLABORATIONFORLIST' => 'want to collaborate with you',
     'FOLLOWINGFORLIST'=> 'is now following you',
     'INVALIDMESSAGEBOX' => 'Invalid ID for messabox init',
-    'INVALIDNOTIFICATIONBOX'=> 'Invalid ID for notification box init',
-    'INVALIDPLAYLISTBOX'=> 'Invalid ID for playlist box init'
+    'INVALIDNOTIFICATIONBOX'=> 'Invalid ID for notification box init'
 );
 ?>
