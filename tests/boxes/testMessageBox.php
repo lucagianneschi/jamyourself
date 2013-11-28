@@ -34,11 +34,11 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />TEST MESSAGE BOX<br />';
 $jammer_start = microtime();
 $activityBoxP = new MessageBox();
-$listUserBox = $activityBoxP->initForUserList($fromUser, 5, 0);
+$listUserBox = $activityBoxP->initForUserList(5, 0);
 print "<pre>";
 print_r($listUserBox);
 print "</pre>";
-$listMessage = $activityBoxP->initForMessageList($fromUser, $toUser, 10, 0);
+$listMessage = $activityBoxP->initForMessageList($toUser, 10, 0);
 print "<pre>";
 print_r($listMessage);
 print "</pre>";
@@ -48,11 +48,11 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />TEST MESSAGE BOX LDF<br />';
 $jammer1_start = microtime();
 $activityBoxP1 = new MessageBox();
-$listUserBox1 = $activityBoxP1->initForUserList($toUser, 5, 0);
+$listUserBox1 = $activityBoxP1->initForUserList(5, 0);
 print "<pre>";
 print_r($listUserBox1);
 print "</pre>";
-$listMessage1 = $activityBoxP1->initForMessageList($toUser, $fromUser, 10, 0);
+$listMessage1 = $activityBoxP1->initForMessageList($fromUser, 10, 0);
 print "<pre>";
 print_r($listMessage1);
 print "</pre>";
