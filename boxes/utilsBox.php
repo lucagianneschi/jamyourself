@@ -100,22 +100,7 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
     if ($users instanceof Error) {
 	return $users;
     } elseif (is_null($users)) {
-	if ($className == 'Record') {
-	    $users = $boxes['NOFEATRECORD'];
-	} else {
-	    switch ($field) {
-		case 'attendee':
-		    $users = $boxes['NOATTENDEE'];
-		    break;
-		case 'featuring':
-		    $users = $boxes['NOFEATEVE'];
-		    break;
-		case 'invited':
-		    $users = $boxes['NOINVITED'];
-		    break;
-	    }
-	}
-	return $users;
+	return $userArray;
     } else {
 	foreach ($users as $user) {
 	    $userId = $user->getObjectId();
