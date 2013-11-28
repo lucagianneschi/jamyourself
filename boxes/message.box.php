@@ -49,11 +49,10 @@ class MessageInfo {
      * \param	$createdAt, $objectId, $send, $text, $title
      */
     function __construct($createdAt, $objectId, $send, $text) {
-        global $boxes;
-        is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
-        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+        is_null($createdAt) ? $this->createdAt = null : $this->createdAt = $createdAt;
+        is_null($objectId) ? $this->objectId = null : $this->objectId = $objectId;
         is_null($send) ? $this->send = 'S' : $this->send = $send;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
+        is_null($text) ? $this->text = null : $this->text = $text;
     }
 
 }
@@ -90,9 +89,7 @@ class MessageBox {
         global $boxes;
         $currentUserId = sessionChecker();
         if ($currentUserId == $boxes['NOID']) {
-            $this->error = $boxes['ONLYIFLOGGEDIN'];
-            $this->messageArray = array();
-            $this->userInfoArray = array();
+            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
         $userList = array();
@@ -108,14 +105,10 @@ class MessageBox {
         $activityP->orderByDescending('createdAt');
         $activities = $activityP->getActivities();
         if ($activities instanceof Error) {
-            $this->error = $activities->getErrorMessage();
-            $this->messageArray = array();
-            $this->userInfoArray = array();
+            $this->errorManagement($activities->getErrorMessage());
             return;
         } elseif (is_null($activities)) {
-            $this->messageArray = array();
-            $this->error = null;
-            $this->userInfoArray = array();
+            $this->errorManagement(null);
             return;
         } else {
             foreach ($activities as $act) {
@@ -154,9 +147,7 @@ class MessageBox {
         require_once CLASSES_DIR . 'commentParse.class.php';
         $currentUserId = sessionChecker();
         if ($currentUserId == $boxes['NOID']) {
-            $this->error = $boxes['ONLYIFLOGGEDIN'];
-            $this->messageArray = array();
-            $this->userInfoArray = array();
+            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
         $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)),
@@ -174,14 +165,10 @@ class MessageBox {
         $messageP->orderByDescending('createdAt');
         $messages = $messageP->getComments();
         if ($messages instanceof Error) {
-            $this->error = $messages->getErrorMessage();
-            $this->messageArray = array();
-            $this->userInfoArray = array();
+            $this->errorManagement($messages->getErrorMessage());
             return;
         } elseif (is_null($messages)) {
-            $this->error = null;
-            $this->messageArray = array();
-            $this->userInfoArray = array();
+            $this->errorManagement(null);
             return;
         } else {
             $messagesArray = array();
@@ -196,6 +183,12 @@ class MessageBox {
         }
         $this->error = null;
         $this->messageArray = $messagesArray;
+        $this->userInfoArray = array();
+    }
+
+    private function errorManagement($errorMessage) {
+        $this->error = $errorMessage;
+        $this->messageArray = array();
         $this->userInfoArray = array();
     }
 

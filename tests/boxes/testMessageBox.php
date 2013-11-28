@@ -34,13 +34,13 @@ echo '<br />--------------------------------------------------------------------
 echo '<br />TEST MESSAGE BOX<br />';
 $jammer_start = microtime();
 $activityBoxP = new MessageBox();
-$listUserBox = $activityBoxP->initForUserList(5, 0);
+$activityBoxP->initForUserList(5, 0);
 print "<pre>";
-print_r($listUserBox);
+print_r($activityBoxP);
 print "</pre>";
-$listMessage = $activityBoxP->initForMessageList($toUser, 10, 0);
+$activityBoxP->initForMessageList($toUser, 10, 0);
 print "<pre>";
-print_r($listMessage);
+print_r($activityBoxP);
 print "</pre>";
 $jammer_stop = microtime();
 echo '<br />-------------------------------------------------------------------------------------------<br />';
