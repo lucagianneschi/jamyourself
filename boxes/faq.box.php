@@ -22,7 +22,6 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once CLASSES_DIR . 'faq.class.php';
 require_once CLASSES_DIR . 'faqParse.class.php';
-require_once BOXES_DIR . 'utilsBox.php';
 
 /**
  * \brief	FaqInfo class 
@@ -75,7 +74,7 @@ class FaqBox {
      * \param	$limit, number of paq to display; $lang, language of the text to display; $field for ordering instances; $direction ascending (true) or descending (false)
      * \return	faqBox
      */
-    public function initForFaqPage($limit, $lang, $field, $direction) {
+    public function init($limit, $lang, $field, $direction) {
         $array = array();
         $faqP = new FaqParse();
         $faqP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->defaultLimit : $limit);
