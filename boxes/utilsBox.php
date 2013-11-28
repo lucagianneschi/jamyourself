@@ -74,7 +74,7 @@ class UserInfo {
 	}
 	is_null($thumbnail) ? $this->thumbnail = $imageDefault : $this->thumbnail = $thumbnail;
 	is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
-	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = ($username);
+	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
     }
 
 }
