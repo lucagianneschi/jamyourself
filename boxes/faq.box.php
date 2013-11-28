@@ -59,6 +59,7 @@ class FaqInfo {
 class FaqBox {
 
     public $config;
+    public $error;
     public $faqArray;
 
     /**
@@ -76,8 +77,6 @@ class FaqBox {
      * \return	faqBox
      */
     public function initForFaqPage($limit, $lang, $field, $direction) {
-        global $boxes;
-        $activityBox = new FaqBox();
         $array = array();
         $faqP = new FaqParse();
         $faqP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->defaultLimit : $limit);
@@ -89,10 +88,13 @@ class FaqBox {
         }
         $faqs = $faqP->getFaqs();
         if ($faqs instanceof Error) {
-            return $faqs;
+            $this->error = $faqs->getErrorMessage();
+            $this->faqArray = array();
+            return;
         } elseif (is_null($faqs)) {
-            $activityBox->faqArray = $boxes['NODATA'];
-            return $activityBox;
+            $this->error = null;
+            $this->faqArray = array();
+            return;
         } else {
             foreach ($faqs as $faq) {
                 $answer = $faq->getAnswer();
@@ -103,9 +105,9 @@ class FaqBox {
                 $faqInfo = new FaqInfo($answer, $area, $position, $question, $tags);
                 array_push($array, $faqInfo);
             }
-            $activityBox->faqArray = $array;
         }
-        return $activityBox;
+        $this->error = null;
+        $this->faqArray = $array;
     }
 
 }
