@@ -42,12 +42,11 @@ class FaqInfo {
      * \param	$answer, $area, $position, $question, $tags
      */
     function __construct($answer, $area, $position, $question, $tags) {
-        global $boxes;
-        is_null($answer) ? $this->answer = $boxes['NODATA'] : $this->answer = $answer;
-        is_null($area) ? $this->area = $boxes['NODATA'] : $this->area = $area;
+        is_null($answer) ? $this->answer = null : $this->answer = $answer;
+        is_null($area) ? $this->area = null : $this->area = $area;
         is_null($position) ? $this->position = 1000 : $this->position = $position;
-        is_null($question) ? $this->question = $boxes['NODATA'] : $this->question = $question;
-        is_null($tags) ? $this->tags = $boxes['NOTAG'] : $this->tags = $tags;
+        is_null($question) ? $this->question = null : $this->question = $question;
+        is_null($tags) ? $this->tags = array() : $this->tags = $tags;
     }
 
 }
@@ -81,11 +80,7 @@ class FaqBox {
         $faqP = new FaqParse();
         $faqP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->defaultLimit : $limit);
         $faqP->where('lang', $lang);
-        if ($direction == true) {
-            $faqP->orderByAscending($field);
-        } else {
-            $faqP->orderByDescending($field);
-        }
+        ($direction == true) ? $faqP->orderByAscending($field) : $faqP->orderByDescending($field);
         $faqs = $faqP->getFaqs();
         if ($faqs instanceof Error) {
             $this->error = $faqs->getErrorMessage();
