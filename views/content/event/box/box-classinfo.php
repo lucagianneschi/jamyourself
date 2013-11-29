@@ -16,22 +16,14 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 
-$objectId = $_POST['eventObjectId'];
-
-require_once BOXES_DIR . 'event.box.php';	
-$eventBox = new EventBox();
-$event = $eventBox->initForMediaPage($objectId);
-debug(DEBUG_DIR, 'debug.txt', 'classinfo=>' . json_encode((array)$event));
-$title = $event->eventInfoArray->title;
+$title = $event->getTitle();
 $genre = '';
 $space = '';
-if ($event->eventInfoArray->tags != $boxes['NOTAG']) {
-	foreach ($event->eventInfoArray->tags as $key => $value) {
-		$genre = $genre.$space.$value;
-		$space = ', ';
-	}
+foreach ($event->getTags() as $key => $value) {
+	$genre = $genre.$space.$value;
+	$space = ', ';
 }
-$image = '../media/images/' . $event->eventInfoArray->image;
+$image = '../media/images/' . $event->getImage();
 
 ?>
 <div class="row" id="profile-userInfo">
@@ -50,6 +42,6 @@ $image = '../media/images/' . $event->eventInfoArray->image;
 			
 <div class="row">
 	<div class="large-12 columns">
-		<img class="background" src="../media/<?php echo $data['backGround'] ?>"  onerror="this.src='../media/<?php echo $default_img['DEFBGD']; ?>'" >						
+		<img class="background" src="../media/<?php echo $image; ?>"  onerror="this.src='../media/<?php echo $default_img['DEFBGD']; ?>'" >						
 	</div>
 </div> 
