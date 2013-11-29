@@ -57,6 +57,7 @@ $boxes = array(
     'COLLABORATIONFORLIST' => 'want to collaborate with you',
     'FOLLOWINGFORLIST'=> 'is now following you',
     'INVALIDMESSAGEBOX' => 'Invalid ID for messabox init',
-    'INVALIDNOTIFICATIONBOX'=> 'Invalid ID for notification box init'
+    'INVALIDNOTIFICATIONBOX'=> 'Invalid ID for notification box init',
+    '404' =>'Object not found'
 );
 ?>

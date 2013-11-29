@@ -103,7 +103,7 @@ class EventInfoForPersonalPage {
     function __construct($address, $city, $counters, $eventDate, $featuring, $locationName, $objectId, $showLove, $tags, $thumbnail, $title) {
         global $boxes;
         is_null($address) ? $this->address = $boxes['NODATA'] : $this->address = $address;
-        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = ($city);
+        is_null($city) ? $this->city = $boxes['NODATA'] : $this->city = $city;
         is_null($counters) ? $this->counters = $boxes['NODATA'] : $this->counters = $counters;
         is_null($eventDate) ? $this->eventDate = $boxes['NODATA'] : $this->eventDate = $eventDate;
         is_null($featuring) ? $this->featuring = $boxes['NOFEATEVE'] : $this->featuring = $featuring;

@@ -290,52 +290,6 @@ class SocialController extends REST {
 	}
     }
 
-    private function rollback($classType, $objectId) {
-	global $controllers;
-	switch ($classType) {
-	    case 'Album':
-		require_once CLASSES_DIR . 'albumParse.class.php';
-		$albumParse = new AlbumParse();
-		$res = $albumParse->decrementAlbum($objectId, 'shareCounter', 1);
-		break;
-	    case 'AlbumReview':
-		require_once CLASSES_DIR . 'commentParse.class.php';
-		$commentParse = new CommentParse();
-		$res = $commentParse->decrementComment($objectId, 'shareCounter', 1);
-		break;
-	    case 'Event':
-		require_once CLASSES_DIR . 'eventParse.class.php';
-		$eventParse = new EventParse();
-		$res = $eventParse->decrementEvent($objectId, 'shareCounter', 1);
-		break;
-	    case 'EventReview':
-		require_once CLASSES_DIR . 'commentParse.class.php';
-		$commentParse = new CommentParse();
-		$res = $commentParse->decrementComment($objectId, 'shareCounter', 1);
-		break;
-	    case 'Image':
-		require_once CLASSES_DIR . 'imageParse.class.php';
-		$imageParse = new ImageParse();
-		$res = $imageParse->decrementImage($objectId, 'shareCounter', 1);
-		break;
-	    case 'Record':
-		require_once CLASSES_DIR . 'recordParse.class.php';
-		$recordParse = new RecordParse();
-		$res = $recordParse->decrementRecord($objectId, 'shareCounter', 1);
-		break;
-	    case 'Song':
-		require_once CLASSES_DIR . 'songParse.class.php';
-		$songParse = new SongParse();
-		$res = $songParse->decrementSong($objectId, 'shareCounter', 1);
-		break;
-	}
-	if ($res instanceof Error) {
-	    $this->response(array('status' => $controllers['ROLLKO']), 503);
-	} else {
-	    $this->response(array('status' => $controllers['ROLLOK']), 503);
-	}
-    }
-
     /**
      * \fn		unlinkUser()
      * \brief   unlink the user account from a Social Network

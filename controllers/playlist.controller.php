@@ -59,7 +59,7 @@ class PlaylistController extends REST {
             }
             $playlistId = $this->request['playlistId'];
             $songId = $this->request['songId'];
-            $currentUser = $this->request['currentUser'];
+            $currentUser = $_SESSION['currentUser'];
             require_once CLASSES_DIR . 'playlistParse.class.php';
             $playlistP = new PlaylistParse();
             $playlist = $playlistP->getPlaylist($playlistId);
@@ -114,7 +114,7 @@ class PlaylistController extends REST {
             }
             $playlistId = $this->request['playlistId'];
             $songId = $this->request['songId'];
-            $currentUser = $this->request['currentUser'];
+            $currentUser = $_SESSION['currentUser'];
             require_once CLASSES_DIR . 'playlistParse.class.php';
             $playlistP = new PlaylistParse();
             $playlist = $playlistP->getPlaylist($playlistId);
@@ -123,7 +123,7 @@ class PlaylistController extends REST {
             } elseif (!in_array($songId, $playlist->getSongsArray())) {
                 $this->response(array('status' => $controllers['ERRORCHECKINGSONGINTRACKLIST']), 503);
             }
-            if (count($playlist->songsArray) = 0) {
+            if (count($playlist->songsArray) == 0) {
                 $this->response(array('status' => $controllers['NOTHINGTOREMOVE']), 503);
             }
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');

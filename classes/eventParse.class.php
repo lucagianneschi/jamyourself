@@ -23,8 +23,6 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utilsClass.php';
 require_once CLASSES_DIR . 'event.class.php';
