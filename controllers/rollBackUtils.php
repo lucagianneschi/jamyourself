@@ -210,13 +210,13 @@ function rollbackDeleteController($classType, $objectId) {
 function rollbackEventController($activityId, $operation, $userId = null, $eventId = null) {
     global $controllers;
     require_once CLASSES_DIR . 'activityParse.class.php';
+    require_once CLASSES_DIR . 'eventParse.class.php';
     $activityParse = new ActivityParse();
     switch ($operation) {
         case 'sendInvitation':
             break;
         case 'declineInvitation':
             $res1 = $activityParse->deleteActivity($activityId);
-            require_once CLASSES_DIR . 'eventParse.class.php';
             $eventP = new EventParse();
             $res2 = $eventP->updateField($eventId, 'attendee', $userId, true, 'remove', '_User');
             $res = $res1 || $res2;
@@ -230,7 +230,6 @@ function rollbackEventController($activityId, $operation, $userId = null, $event
             break;
         case 'removeAttendee':
             $res1 = $activityParse->updateField($activityId, 'status', 'A');
-            require_once CLASSES_DIR . 'eventParse.class.php';
             $eventP = new EventParse();
             $res2 = $eventP->updateField($eventId, 'attendee', array($userId), true, 'add', '_User');
             $res3 = $eventP->updateField($eventId, 'refused', array($userId), true, 'remove', '_User');
