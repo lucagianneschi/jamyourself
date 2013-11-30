@@ -30,7 +30,6 @@ if($typeUser != 'VENUE')
 if($typeUser == 'VENUE'){
 	$latitude = $data['lat'];
 	$longitude = $data['lng'];
-	
 }
 
 function noDisplay($dato){
