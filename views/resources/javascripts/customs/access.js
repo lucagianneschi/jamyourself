@@ -23,6 +23,8 @@ function access(usernameOrEmail, password, opType, userId) {
                     var url = $("#from").val();
                     console.log("reloading prev page: " + url);
                     $(location).attr('href',url);
+                }else{
+                    location.reload();
                 }
 	})
 	.fail(function(xhr) {
