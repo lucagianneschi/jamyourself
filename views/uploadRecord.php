@@ -6,10 +6,11 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once CONTROLLERS_DIR . 'uploadRecord.controller.php';
 session_start();
-$currentUser = $_SESSION['currentUser'];
-$currentUserId = $currentUser->getObjectId();
+
 $uploadRecordController = new uploadRecordController();
 $uploadRecordController->init();
+$currentUser = $_SESSION['currentUser'];
+$currentUserId = $currentUser->getObjectId();
 $recordList = $uploadRecordController->viewRecordList;
 if (count($recordList) > 0) {
     $recordIdList = array();
