@@ -52,20 +52,7 @@ class uploadReviewController extends REST {
             $this->reviewedInfo->thumbnail = $this->getEventThumbnailURL($currentUser->getObjectId(), $reviewBox->mediaInfo->thumbnail);
                     break;
             }
-            $this->reviewedInfo->authorThumbnail = $this->getUserThumbnailURL($currentUser->getObjectId());
-
-//  media info:
-//    public $city;
-//    public $className;
-//    public $eventDate;
-//    public $featuring;
-//    public $fromUserInfo;
-//    public $genre;
-//    public $locationName;
-//    public $objectId;
-//    public $tags;
-//    public $thumbnail;
-//    public $title;            
+            $this->reviewedInfo->authorThumbnail = $this->getUserThumbnailURL($currentUser->getObjectId());           
         } else {
             //PER IL TEST
             ?>
@@ -83,7 +70,7 @@ class uploadReviewController extends REST {
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($this->request['currentUser'])) {
+            } elseif (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             } elseif ((!isset($this->request['record']) || is_null($this->request['record']) || !(strlen($this->request['record']) > 0))) {
                 $this->response(array('status' => $controllers['NOOBJECTID']), 403);
