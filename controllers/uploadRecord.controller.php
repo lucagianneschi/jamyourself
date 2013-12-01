@@ -2,27 +2,18 @@
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".ROOT_DIR . 'config.php');
 require_once ROOT_DIR . 'config.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".SERVICES_DIR . 'lang.service.php');
 require_once SERVICES_DIR . 'lang.service.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".SERVICES_DIR . 'geocoder.service.php');
 require_once SERVICES_DIR . 'geocoder.service.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".SERVICES_DIR . 'cropImage.service.php');
 require_once SERVICES_DIR . 'cropImage.service.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".CLASSES_DIR . 'user.class.php');
 require_once CLASSES_DIR . 'user.class.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".CLASSES_DIR . 'userParse.class.php');
 require_once CLASSES_DIR . 'userParse.class.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php');
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".CONTROLLERS_DIR . 'restController.php');
 require_once CONTROLLERS_DIR . 'restController.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".CLASSES_DIR . 'recordParse.class.php');
 require_once CLASSES_DIR . 'recordParse.class.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ". CLASSES_DIR . 'activityParse.class.php');
 require_once CLASSES_DIR . 'activityParse.class.php';
-debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - loading ".BOXES_DIR . "record.box.php");
+require_once CLASSES_DIR . 'song.class.php';
+require_once CLASSES_DIR . 'songParse.class.php';
 require_once BOXES_DIR . "record.box.php";
 
 class uploadRecordController extends REST {
@@ -187,51 +178,52 @@ class uploadRecordController extends REST {
         }
     }
 
-//    public function publishRecords() {
-//        global $controllers;
-//        if ($this->get_request_method() != "POST") {
-//            $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-//        } elseif (!isset($_SESSION['currentUser'])) {
-//            $this->response(array('status' => $controllers['USERNOSES']), 403);
-//        } elseif (!isset($this->request['list'])) {
-//            $this->response(array('status' => $controllers['NOOBJECTID']), 403);
-//        } elseif (!isset($this->request['recordId'])) {
-//            $this->response(array('status' => $controllers['NOMP3LIST']), 403);
-//        } 
-//
-//        $currentUser = $_SESSION['currentUser'];
-//        $recordId = $this->request['recordId'];
-//        $songList = $this->request['list'];
-//
-//        if (count($songList) > 0) {
-//            $pSong = new SongParse();
-//            
-//            foreach ($songList as $song) {
-//                $src = $song['src'];
-//                $tags = $song['tags'];
-//                $featuring = ['featuring'];
-//                $title = $song['songTitle'];
-//                $duration = $song['duration'];
-//         
-//                $jamSong = new Song();
-//                $jamSong->setDuration($duration);
-//                $jamSong->setTitle($title);
-//                $jamSong->setFeaturing($featuring);
-//                $jamSong->setGenre($tags);
-//                $jamSong->setFilePath($src);
-//                             
-//                if($pSong->saveSong($jamSong) instanceof Error){
-//                    //errore
-//                } 
-//                
-//                $this->saveMp3($currentUser->getObjectId(), $recordId, $src);
-//                
-//                //salvataggio actitivy
-//            }
-//        }
-//
-//        $this->response(array($controllers['RECORDSAVED']), 200);
-//    }
+    public function publishRecords() {
+        global $controllers;
+        if ($this->get_request_method() != "POST") {
+            $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+        } elseif (!isset($_SESSION['currentUser'])) {
+            $this->response(array('status' => $controllers['USERNOSES']), 403);
+        } elseif (!isset($this->request['list'])) {
+            $this->response(array('status' => $controllers['NOOBJECTID']), 403);
+        } elseif (!isset($this->request['recordId'])) {
+            $this->response(array('status' => $controllers['NOMP3LIST']), 403);
+        } 
+
+        $currentUser = $_SESSION['currentUser'];
+        $recordId = $this->request['recordId'];
+        $songList = $this->request['list'];
+
+        if (count($songList) > 0) {
+            $pSong = new SongParse();
+            
+            foreach ($songList as $element) {          
+                
+                $src = $element['src'];
+                $tags = $element['tags'];
+                $featuring = $element['featuring'];
+                $title = $element['songTitle'];
+                $duration = $element['duration'];
+         
+                $song = new Song();
+                $song->setDuration($duration);
+                $song->setTitle($title);
+                $song->setFeaturing($featuring);
+                $song->setGenre($tags);
+                $song->setFilePath($src);
+                             
+                if($pSong->saveSong($jamSong) instanceof Error){
+                    //errore
+                } 
+                
+                $this->saveMp3($currentUser->getObjectId(), $recordId, $src);
+                
+//                salvataggio actitivy
+            }
+        }
+
+        $this->response(array($controllers['RECORDSAVED']), 200);
+    }
 
     private function saveMp3($userId, $recordId, $songId) {
         if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
