@@ -1,8 +1,5 @@
 <?php
-debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - start");
 $countRecord = count($recordList);	
-debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - countRecord => " . $countRecord);
-
 ?>
 
 <div class="row">
@@ -15,25 +12,16 @@ debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - 
 		<?php 
                 
                 if($countRecord > 0){ 
-                    debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside IF");
-
                     ?>
 		<div  id="uploadRecord-listRecordTouch" class="touchcarousel grey-blue">
 			<ul class="touchcarousel-container">		
 				<?php 
-                            debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - before FOREACH");
                                 foreach( $recordList as $record){ 
-debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH");
                                     $thumbnailSrc = $uploadRecordController->getRecordThumbnailURL($currentUser,$record->getThumbnailCover());  
-debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH - getTile");                                   
                                     $title = $record->getTitle();
-
                                     $songCounter = 0;
-debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH - getSongCounter");                                                                       
                                     ($record->getSongCounter() > 0)? $songCounter = $record->getSongCounter() : $songCounter = 0;
-debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH - getObjectId");                                                                                                           
                                     $recordId = $record->getObjectId();
-debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - recordId => " . $recordId." - thumbnailSrc => ".$thumbnailSrc." - title => ".$title." - songCounter => ".$songCounter);                                    
                                  ?>
 				<li class="touchcarousel-item">
 					
@@ -52,11 +40,7 @@ debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - 
 					
 				</li>
 				<?php 
-        debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH - GET NEXT!");                                                                       
-
-                                
                                 } 
-                    debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - after FOREACH");
                                 ?>		
 			</ul>
 		

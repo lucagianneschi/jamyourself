@@ -12,17 +12,14 @@
 						<div id="uploadRecord01" class="">
 							<?php 
                                                         
-                                                    debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/main.php - loading ".VIEWS_DIR.'content/uploadRecord/uploadRecord01.php');
                                                     require_once VIEWS_DIR.'content/uploadRecord/uploadRecord01.php'; ?>
 						</div>
 						<div id="uploadRecord02" class="no-display">
 							<?php 
-                                                    debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/main.php - loading ".VIEWS_DIR.'content/uploadRecord/uploadRecord02.php');                                                        
                                                     require_once VIEWS_DIR.'content/uploadRecord/uploadRecord02.php'; ?>
 						</div>
 						<div id="uploadRecord03" class="no-display">
 							<?php 
-                                                    debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/main.php - loading ".VIEWS_DIR.'content/uploadRecord/uploadRecord03.php');    
                                                     require_once VIEWS_DIR.'content/uploadRecord/uploadRecord03.php'; ?>
 						</div>			
 					</form>
