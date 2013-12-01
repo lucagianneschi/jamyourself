@@ -14,11 +14,9 @@ require_once BOXES_DIR . "record.box.php";
 
 class uploadRecordController extends REST {
 
-    public $viewInfoList;
+    public $viewRecordList;
 
     public function init() {
-        session_start();
-        error_reporting(E_ALL ^ E_NOTICE);
 //utente non loggato
         if (!isset($_SESSION['currentUser']) || is_null($_SESSION['currentUser'])) {
             die("Non sei loggato");
@@ -28,8 +26,8 @@ class uploadRecordController extends REST {
 //caching dell'array dei featuring
         $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
         $recordBox = new RecordBox();
-        $rb = $recordBox->initForUploadRecordPage($currentUser->getObjectId());
-        $this->viewInfoList = $rb->recordInfoArray;
+        $recordBox->initForUploadRecordPage($currentUser->getObjectId());
+        $this->viewRecordList = $recordBox->recordArray;
     }
 
     public function albumCreate() {
@@ -268,6 +266,7 @@ class uploadRecordController extends REST {
     }
 
     private function getFeaturingArray() {
+        error_reporting(E_ALL ^ E_NOTICE);
         if (isset($_SESSION['currentUser'])) {
             $currentUser = $_SESSION['currentUser'];
             $currnetUserId = $currentUser->getObjectId();
@@ -277,6 +276,7 @@ class uploadRecordController extends REST {
             $parseUser->where('active', true);
             $parseUser->setLimit(1000);
             $users = $parseUser->getUsers();
+            error_reporting(E_ALL);
 
             if (($users instanceof Error) || is_null($users)) {
                 return array();

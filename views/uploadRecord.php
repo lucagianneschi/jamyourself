@@ -4,9 +4,10 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'uploadRecord.controller.php';
-
+session_start();
 $uploadRecordController = new uploadRecordController();
 $uploadRecordController->init();
+$recordList = $uploadRecordController->viewRecordList;
 
 ?>
 <!DOCTYPE html>
