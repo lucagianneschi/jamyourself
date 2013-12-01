@@ -28,3 +28,4 @@ config.rb
 /loader.php
 /tests/optimization/
 /optimization/
+/debug/

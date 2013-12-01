@@ -1,14 +1,8 @@
 <?php
-	
- if (!defined('ROOT_DIR'))
-define('ROOT_DIR', '../../../../');
+debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - start");
+$countRecord = count($recordList);	
+debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - countRecord => " . $countRecord);
 
-require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-	
-$countRecord = count($recordList);
-	
 ?>
 
 <div class="row">
@@ -18,22 +12,29 @@ $countRecord = count($recordList);
 </div>						
 <div class="row formBlack-body" id="uploadRecord-listRecord">
 	<div  class="large-12 columns ">
-		<?php if($countRecord > 0){ 
-                            $currentUser = $_SESSION['currentUser'];
+		<?php 
+                
+                if($countRecord > 0){ 
+                    debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside IF");
 
                     ?>
 		<div  id="uploadRecord-listRecordTouch" class="touchcarousel grey-blue">
 			<ul class="touchcarousel-container">		
-				<?php foreach( $recordList as $record){ 
+				<?php 
+                            debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - before FOREACH");
+                                foreach( $recordList as $record){ 
+debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH");
                                     $thumbnailSrc = $uploadRecordController->getRecordThumbnailURL($currentUser,$record->getThumbnailCover());  
+debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH - getTile");                                   
                                     $title = $record->getTitle();
-                                    ($record->getSongCounter() > 0)? $songCounter = $record->getSongCounter() : $songCounter = 0;
-                                    $recordId = $record->getObjectId();
 
-//                [{"songCounter":-1,"thumbnailCover":"4005a0db2299b6ad75ea280e850b6332.jpg","title":"YassassinJammer album d'esordio","recordId":"OoW5rEt94b"},
-//                {"songCounter":-1,"thumbnailCover":"ba993cbdfb28487e7566dc3fa6cfba56.jpg","title":"YassassinJammer album d'esordio","recordId":"V6L7HMo8Uk"},
-//                                    
-//                                    ?>
+                                    $songCounter = 0;
+debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH - getSongCounter");                                                                       
+                                    ($record->getSongCounter() > 0)? $songCounter = $record->getSongCounter() : $songCounter = 0;
+debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH - getObjectId");                                                                                                           
+                                    $recordId = $record->getObjectId();
+debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - recordId => " . $recordId." - thumbnailSrc => ".$thumbnailSrc." - title => ".$title." - songCounter => ".$songCounter);                                    
+                                 ?>
 				<li class="touchcarousel-item">
 					
 					<div class="item-block uploadRecord-boxSingleRecord" id="<?php echo $recordId ?>">
@@ -50,7 +51,13 @@ $countRecord = count($recordList);
 					</div>
 					
 				</li>
-				<?php } ?>		
+				<?php 
+        debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - inside FOREACH - GET NEXT!");                                                                       
+
+                                
+                                } 
+                    debug(DEBUG_DIR, "uploadRecord.log", "content/uploadRecord/uploadRecord01.php - after FOREACH");
+                                ?>		
 			</ul>
 		
 		</div>
