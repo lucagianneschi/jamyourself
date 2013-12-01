@@ -45,7 +45,41 @@ require_once ROOT_DIR . 'config.php';
 							}
 						</script>
 						
-						<div id='box-event' ></div>	
+						<?php
+						if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
+							?>
+							<div id='box-event'></div>
+							<script type="text/javascript">
+								function loadBoxEvent() {
+									var json_data = {};
+									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+									$.ajax({
+										type: "POST",
+										url: "content/profile/box/box-event.php",
+										data: json_data,
+										beforeSend: function(xhr) {
+											//spinner.show();
+											console.log('Sono partito box-event');
+										}
+									}).done(function(message, status, xhr) {
+										//spinner.hide();
+										$("#box-event").html(message);
+										code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+										console.log("Code: " + code + " | Message: <omitted because too large>");
+									}).fail(function(xhr) {
+										//spinner.hide();
+										console.log("Error: " + $.parseJSON(xhr));
+										//message = $.parseJSON(xhr.responseText).status;
+										//code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+									});
+								}
+							</script>
+							<?php
+						}
+						?>
+						
 						<div id='box-friends'></div>	
 						<div id='box-following' ></div>	
 						<div id='box-album' ></div>

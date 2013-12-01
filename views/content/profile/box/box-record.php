@@ -227,4 +227,3 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 } else {
 	echo 'Errore';
 }
-	
