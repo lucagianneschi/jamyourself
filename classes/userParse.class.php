@@ -325,7 +325,7 @@ class UserParse {
 	    $res->premium ? $user->setPremiumExpirationDate(fromParseDate($res->premiumExpirationDate)) : $user->setPremiumExpirationDate(null);
 	    $user->setProfilePicture($res->profilePicture);
 	    $user->setProfileThumbnail($res->profileThumbnail);
-	    $user->setSessionToken($res->sessionToken);
+	    if(isset($res->sessionToken))$user->setSessionToken($res->sessionToken);
 	    $user->setSettings($res->settings);
 	    $user->setSex($res->sex);
 	    $user->setTwitterPage($res->twitterPage);
