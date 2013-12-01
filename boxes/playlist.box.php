@@ -21,6 +21,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'playlist.class.php';
 require_once CLASSES_DIR . 'playlistParse.class.php';
+require_once BOXES_DIR .  'utilsBox.php';
 
 /**
  * \brief	SongInfo class 
