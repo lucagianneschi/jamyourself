@@ -63,7 +63,7 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 						foreach ($events as $key => $value) {
 							$event_thumbnail = $value->getThumbnail();
 							$event_objectId = $value->getObjectId();					
-							$event_locationName = value->getLocationName();
+							$event_locationName = $value->getLocationName();
 							$event_title = $value->getTitle();
 							$event_featuring = "";
 							#TODO
