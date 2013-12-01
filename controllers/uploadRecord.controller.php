@@ -21,11 +21,9 @@ class uploadRecordController extends REST {
     public $viewRecordList;
 
     public function init() {
-    debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - uploadRecordController->init() START");
 //utente non loggato
         
         if (!isset($_SESSION['currentUser'])) {
-            debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - uploadRecordController->init() - user not logged");
             /* This will give an error. Note the output
              * above, which is before the header() call */
             header('Location: login.php?from=uploadRecord.php');
@@ -34,25 +32,13 @@ class uploadRecordController extends REST {
         }
 
         $currentUser = $_SESSION['currentUser'];
-        debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - uploadRecordController->init() - userId => ".$currentUser->getObjectId());
 //caching dell'array dei featuring
         $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
-        if(count($_SESSION['currentUserFeaturingArray'])>0){
-        debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - uploadRecordController->init() - currentUserFeaturingArray => ".  implode(",", $_SESSION['currentUserFeaturingArray']));            
-        }else{
-             debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - uploadRecordController->init() - currentUserFeaturingArray is empty");            
-        }
-    
-        debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - uploadRecordController->init() - calling new RecordBox()");            
 
         $recordBox = new RecordBox();
-        debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - uploadRecordController->init() - invoking initForUploadRecordPage(".$currentUser->getObjectId().")");            
         $recordBox->initForUploadRecordPage($currentUser->getObjectId());
-        debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - uploadRecordController->init() - recordBox->recordArray have ".count($recordBox->recordArray)." elements" );            
         $this->viewRecordList = $recordBox->recordArray;
-        
-        debug(DEBUG_DIR, "uploadRecord.log", "uploadRecord.controller.php - uploadRecordController->init() - END");            
-
+       
     }
 
     public function albumCreate() {
