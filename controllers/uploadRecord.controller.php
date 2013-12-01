@@ -19,8 +19,10 @@ class uploadRecordController extends REST {
     public function init() {
 //utente non loggato
         if (!isset($_SESSION['currentUser']) || is_null($_SESSION['currentUser'])) {
-            die("Non sei loggato");
-        }
+            /* This will give an error. Note the output
+             * above, which is before the header() call */
+            header('Location: login.php?from=uploadRecord.php');
+            exit;        }
 
         $currentUser = $_SESSION['currentUser'];
 //caching dell'array dei featuring
