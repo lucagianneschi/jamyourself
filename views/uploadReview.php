@@ -9,7 +9,7 @@ session_start();
 
 $uploadReviewController = new uploadReviewController();
 $uploadReviewController->init();
-$viewInfo = $uploadReviewController->reviwedInfo;
+$viewInfo = $uploadReviewController->reviewedInfo;
 
 
 global $boxes;
