@@ -187,7 +187,7 @@
                             <div class="row">
                                 <div class="large-12">
                                     <input type="button" class="buttonNext" id="button_publish" value="Publish">
-                                    <input type="hidden" id="record_id" value="<?php echo $uploadReviewController->recordId; ?>">
+                                    <input type="hidden" id="record_id" value="<?php echo $uploadReviewController->reviewedId; ?>">
 
                                 </div>
                             </div>
