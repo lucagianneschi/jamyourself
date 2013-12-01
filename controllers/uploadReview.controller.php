@@ -14,42 +14,45 @@ require_once BOXES_DIR . 'review.box.php';
 
 class uploadReviewController extends REST {
 
-    public $reviwedId;
-    public $reviwed;
-    public $reviwedInfo;
-    public $reviewdClassType;
+    public $reviewedId;
+    public $reviewed;
+    public $reviewedInfo;
+    public $reviewedClassType;
 
     public function init() {
-        session_start();
 
         if (!isset($_SESSION['currentUser'])) {
-            die("Non sei collegato.");
-        }
+
+            /* This will give an error. Note the output
+             * above, which is before the header() call */
+            header('Location: login.php&from=uploadReview.php');
+            exit;
+       }
 
         $currentUser = $_SESSION['currentUser'];
 
         if (isset($_GET["recordId"]) && strlen($_GET["recordId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
-            $this->reviwedId = $_GET["recordId"];
+            $this->reviewedId = $_GET["recordId"];
             $this->reviewdClassType = $_GET["type"];
-            $this->reviwedInfo;
+            $this->reviewedInfo;
 
             $reviewBox = new ReviewBox();
-            $reviewBox = $reviewBox->initForUploadReviewPage($this->reviwedId, $this->reviewdClassType, 1);
+            $reviewBox = $reviewBox->initForUploadReviewPage($this->reviewedId, $this->reviewdClassType, 1);
 
             if ($reviewBox instanceof Error || is_null($reviewBox)) {
-                die("Nessun record/evento trovato con questo ID : " . $this->reviwedId);
+                die("Nessun record/evento trovato con questo ID : " . $this->reviewedId);
             }
 
-            $this->reviwedInfo = $reviewBox->mediaInfo;
+            $this->reviewedInfo = $reviewBox->mediaInfo;
             switch ($this->reviewdClassType) {
                 case "Record" :
-            $this->reviwedInfo->thumbnail = $this->getRecordThumbnailURL($currentUser->getObjectId(), $reviewBox->mediaInfo->thumbnail);
+            $this->reviewedInfo->thumbnail = $this->getRecordThumbnailURL($currentUser->getObjectId(), $reviewBox->mediaInfo->thumbnail);
                     break;
                 case "Event" :
-            $this->reviwedInfo->thumbnail = $this->getEventThumbnailURL($currentUser->getObjectId(), $reviewBox->mediaInfo->thumbnail);
+            $this->reviewedInfo->thumbnail = $this->getEventThumbnailURL($currentUser->getObjectId(), $reviewBox->mediaInfo->thumbnail);
                     break;
             }
-            $this->reviwedInfo->authorThumbnail = $this->getUserThumbnailURL($currentUser->getObjectId());
+            $this->reviewedInfo->authorThumbnail = $this->getUserThumbnailURL($currentUser->getObjectId());
 
 //  media info:
 //    public $city;
