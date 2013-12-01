@@ -1,14 +1,5 @@
 <?php
-	
- if (!defined('ROOT_DIR'))
-define('ROOT_DIR', '../../../../');
-
-require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-	
-$countRecord = count($uploadRecordController->viewInfoList);
-	
+$countRecord = count($recordList);	
 ?>
 
 <div class="row">
@@ -18,23 +9,20 @@ $countRecord = count($uploadRecordController->viewInfoList);
 </div>						
 <div class="row formBlack-body" id="uploadRecord-listRecord">
 	<div  class="large-12 columns ">
-		<?php if($countRecord > 0){ 
-                            $currentUser = $_SESSION['currentUser'];
-
+		<?php 
+                
+                if($countRecord > 0){ 
                     ?>
 		<div  id="uploadRecord-listRecordTouch" class="touchcarousel grey-blue">
 			<ul class="touchcarousel-container">		
-				<?php for( $i = 0; $i < $countRecord; $i++ ){ 
-                                    $recordInfo = $uploadRecordController->viewInfoList[$i];
-                                    $thumbnailSrc = $uploadRecordController->getRecordThumbnailURL($currentUser,$recordInfo->thumbnailCover);  
-                                    $title = $recordInfo->title;
-                                    ($recordInfo->songCounter > 0)? $songCounter = $recordInfo->songCounter : $songCounter = 0;
-                                    $recordId = $recordInfo->recordId;
-
-//                [{"songCounter":-1,"thumbnailCover":"4005a0db2299b6ad75ea280e850b6332.jpg","title":"YassassinJammer album d'esordio","recordId":"OoW5rEt94b"},
-//                {"songCounter":-1,"thumbnailCover":"ba993cbdfb28487e7566dc3fa6cfba56.jpg","title":"YassassinJammer album d'esordio","recordId":"V6L7HMo8Uk"},
-//                                    
-//                                    ?>
+				<?php 
+                                foreach( $recordList as $record){ 
+                                    $thumbnailSrc = $uploadRecordController->getRecordThumbnailURL($currentUser,$record->getThumbnailCover());  
+                                    $title = $record->getTitle();
+                                    $songCounter = 0;
+                                    ($record->getSongCounter() > 0)? $songCounter = $record->getSongCounter() : $songCounter = 0;
+                                    $recordId = $record->getObjectId();
+                                 ?>
 				<li class="touchcarousel-item">
 					
 					<div class="item-block uploadRecord-boxSingleRecord" id="<?php echo $recordId ?>">
@@ -51,7 +39,9 @@ $countRecord = count($uploadRecordController->viewInfoList);
 					</div>
 					
 				</li>
-				<?php } ?>		
+				<?php 
+                                } 
+                                ?>		
 			</ul>
 		
 		</div>

@@ -16,6 +16,9 @@
  */
 
 function debug($path, $file, $msg) {
+    if(!file_exists(DEBUG_DIR)){
+        mkdir(DEBUG_DIR);
+    }
     $fp = fopen($path . $file, 'a+');
     fwrite($fp, '[' . date('Y-m-d H:i:s') . '] ' . $msg . "\n");
     fclose($fp);

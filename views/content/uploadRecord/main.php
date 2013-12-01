@@ -10,13 +10,17 @@
 				<div  class="large-12 columns formBlack-box">
 					<form action="" method="POST" name="form-uploadRecord" id="form-uploadRecord" data-abide>
 						<div id="uploadRecord01" class="">
-							<?php require_once VIEWS_DIR.'content/uploadRecord/uploadRecord01.php'; ?>
+							<?php 
+                                                        
+                                                    require_once VIEWS_DIR.'content/uploadRecord/uploadRecord01.php'; ?>
 						</div>
 						<div id="uploadRecord02" class="no-display">
-							<?php require_once VIEWS_DIR.'content/uploadRecord/uploadRecord02.php'; ?>
+							<?php 
+                                                    require_once VIEWS_DIR.'content/uploadRecord/uploadRecord02.php'; ?>
 						</div>
 						<div id="uploadRecord03" class="no-display">
-							<?php require_once VIEWS_DIR.'content/uploadRecord/uploadRecord03.php'; ?>
+							<?php 
+                                                    require_once VIEWS_DIR.'content/uploadRecord/uploadRecord03.php'; ?>
 						</div>			
 					</form>
 				</div>

@@ -1,35 +1,44 @@
 <?php
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once SERVICES_DIR . 'cropImage.service.php';
+require_once CLASSES_DIR . 'user.class.php';
+require_once CLASSES_DIR . 'userParse.class.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'recordParse.class.php';
-require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
+require_once CLASSES_DIR . 'song.class.php';
+require_once CLASSES_DIR . 'songParse.class.php';
 require_once BOXES_DIR . "record.box.php";
 
 class uploadRecordController extends REST {
 
-    public $viewInfoList;
+    public $viewRecordList;
 
     public function init() {
-        session_start();
-        error_reporting(E_ALL ^ E_NOTICE);
 //utente non loggato
-        if (!isset($_SESSION['currentUser']) || is_null($_SESSION['currentUser'])) {
-            die("Non sei loggato");
+        
+        if (!isset($_SESSION['currentUser'])) {
+            /* This will give an error. Note the output
+             * above, which is before the header() call */
+            header('Location: login.php?from=uploadRecord.php');
+            exit;        
+            
         }
 
         $currentUser = $_SESSION['currentUser'];
 //caching dell'array dei featuring
         $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
+
         $recordBox = new RecordBox();
-        $rb = $recordBox->initForUploadRecordPage($currentUser->getObjectId());
-        $this->viewInfoList = $rb->recordInfoArray;
+        $recordBox->initForUploadRecordPage($currentUser->getObjectId());
+        $this->viewRecordList = $recordBox->recordArray;
+       
     }
 
     public function albumCreate() {
@@ -174,19 +183,20 @@ class uploadRecordController extends REST {
         if (count($songList) > 0) {
             $pSong = new SongParse();
             
-            foreach ($songList as $song) {
-                $src = $song['src'];
-                $tags = $song['tags'];
-                $featuring = ['featuring'];
-                $title = $song['songTitle'];
-                $duration = $song['duration'];
+            foreach ($songList as $element) {          
+                
+                $src = $element['src'];
+                $tags = $element['tags'];
+                $featuring = $element['featuring'];
+                $title = $element['songTitle'];
+                $duration = $element['duration'];
          
-                $jamSong = new Song();
-                $jamSong->setDuration($duration);
-                $jamSong->setTitle($title);
-                $jamSong->setFeaturing($featuring);
-                $jamSong->setGenre($tags);
-                $jamSong->setFilePath($src);
+                $song = new Song();
+                $song->setDuration($duration);
+                $song->setTitle($title);
+                $song->setFeaturing($featuring);
+                $song->setGenre($tags);
+                $song->setFilePath($src);
                              
                 if($pSong->saveSong($jamSong) instanceof Error){
                     //errore
@@ -194,7 +204,7 @@ class uploadRecordController extends REST {
                 
                 $this->saveMp3($currentUser->getObjectId(), $recordId, $src);
                 
-                //salvataggio actitivy
+//                salvataggio actitivy
             }
         }
 
@@ -268,6 +278,7 @@ class uploadRecordController extends REST {
     }
 
     private function getFeaturingArray() {
+        error_reporting(E_ALL ^ E_NOTICE);
         if (isset($_SESSION['currentUser'])) {
             $currentUser = $_SESSION['currentUser'];
             $currnetUserId = $currentUser->getObjectId();
@@ -277,6 +288,7 @@ class uploadRecordController extends REST {
             $parseUser->where('active', true);
             $parseUser->setLimit(1000);
             $users = $parseUser->getUsers();
+            error_reporting(E_ALL);
 
             if (($users instanceof Error) || is_null($users)) {
                 return array();

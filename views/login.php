@@ -31,3 +31,13 @@ MHURRg5X<br />
 <input type="button" value="Link FB" onclick="userUtilities(null, 'linkUser', null, null, null, 'facebook')"/>
 <input type="button" value="Unlink FB" onclick="userUtilities(null, 'unlinkUser', null, null, null, 'facebook')"/>
 <input type="button" value="Login FB" onclick="userUtilities(null, 'loginUser', null, null, null, 'facebook')"/>
+
+<?php
+//se impostato dalla pagina da cui si viene permette di ricaricare la pagina dopo
+// il login
+if(isset($_GET['from']) && strlen($_GET['from'])>0){
+    echo '<br/><br/><a href="'.$_GET['from'].'">back</a>'; 
+    echo '<br/><input type="hidden" id="from" value="'.$_GET['from'].'"/>';
+}
+
+?>

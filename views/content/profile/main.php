@@ -1,17 +1,85 @@
 <?php
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../../../');
 
-$userType = $_GET['userType'];
-$currentUserType = $_GET['currentType'];
-
+require_once ROOT_DIR . 'config.php';
 ?>
 <div class="bg-double">	
 		<div id='scroll-profile' class='hcento' style="width: 50%;float: left;">						
 			<div id="profile" style="max-width:500px; float:right" class="row">
 					<div class="large-12 columns">
-						<div id='box-userinfo'></div>	
-						<div id='box-information' ></div>
+						<div id='box-userinfo'>
+							<?php require_once(VIEWS_DIR . "content/profile/box/box-userinfo.php"); ?>
+						</div>
+						
+						<div id='box-information' >
+							<?php require_once(VIEWS_DIR . "content/profile/box/box-information.php"); ?>
+						</div>
+						
 						<div id="box-record"></div>
-						<div id='box-event' ></div>	
+						<script type="text/javascript">
+							function loadBoxRecord() {
+								var json_data = {};
+								json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+								$.ajax({
+									type: "POST",
+									url: "content/profile/box/box-record.php",
+									data: json_data,
+									beforeSend: function(xhr) {
+										//spinner.show();
+										console.log('Sono partito box-record');
+									}
+								}).done(function(message, status, xhr) {
+									//spinner.hide();
+									$("#box-record").html(message);
+									code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+									console.log("Code: " + code + " | Message: <omitted because too large>");
+								}).fail(function(xhr) {
+									//spinner.hide();
+									console.log("Error: " + $.parseJSON(xhr));
+									//message = $.parseJSON(xhr.responseText).status;
+									//code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+								});
+							}
+						</script>
+						
+						<?php
+						if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
+							?>
+							<div id='box-event'></div>
+							<script type="text/javascript">
+								function loadBoxEvent() {
+									var json_data = {};
+									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+									$.ajax({
+										type: "POST",
+										url: "content/profile/box/box-event.php",
+										data: json_data,
+										beforeSend: function(xhr) {
+											//spinner.show();
+											console.log('Sono partito box-event');
+										}
+									}).done(function(message, status, xhr) {
+										//spinner.hide();
+										$("#box-event").html(message);
+										code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+										console.log("Code: " + code + " | Message: <omitted because too large>");
+									}).fail(function(xhr) {
+										//spinner.hide();
+										console.log("Error: " + $.parseJSON(xhr));
+										//message = $.parseJSON(xhr.responseText).status;
+										//code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+									});
+								}
+							</script>
+							<?php
+						}
+						?>
+						
 						<div id='box-friends'></div>	
 						<div id='box-following' ></div>	
 						<div id='box-album' ></div>

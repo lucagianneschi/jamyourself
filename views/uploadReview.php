@@ -5,9 +5,11 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'uploadReview.controller.php';
 
+session_start();
+
 $uploadReviewController = new uploadReviewController();
 $uploadReviewController->init();
-$viewInfo = $uploadReviewController->reviwedInfo;
+$viewInfo = $uploadReviewController->reviewedInfo;
 
 
 global $boxes;

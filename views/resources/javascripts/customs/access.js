@@ -17,6 +17,15 @@ function access(usernameOrEmail, password, opType, userId) {
 		//status = success
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
+                
+                //redirect per il login
+                if($("#from").val()!=undefined){
+                    var url = $("#from").val();
+                    console.log("reloading prev page: " + url);
+                    $(location).attr('href',url);
+                }else{
+                    location.reload();
+                }
 	})
 	.fail(function(xhr) {
 		message = $.parseJSON(xhr.responseText).status;
