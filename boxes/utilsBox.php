@@ -107,6 +107,24 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
 }
 
 /**
+ * \fn	tracklistGenerator($objectId)
+ * \brief	retrives info for generating a tracklist
+ * \param	$objectId of the 
+ * \return  $tracklist, array of Songinfo objects    
+ */
+function tracklistGenerator($objectId, $limit = DEFAULTQUERY) {
+    require_once CLASSES_DIR . 'song.class.php';
+    require_once CLASSES_DIR . 'songParse.class.php';
+    $song = new SongParse();
+    $song->wherePointer('record', 'Record', $objectId);
+    $song->where('active', true);
+    $song->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitSongsForMediaPage : $limit);
+    $song->orderByDescending('createdAt');
+    $songs = $song->getSongs();
+    return $songs;
+}
+
+/**
  * \fn		sessionChecker()
  * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
  * \return	string $currentUserId;

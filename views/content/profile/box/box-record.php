@@ -86,7 +86,8 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 							$text_love = $views['UNLOVE'];
 						}
 						?>
-						<div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>"><!------------------ CODICE ALBUM: $record_objectId - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
+						<div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>">
+						<!------------------ CODICE ALBUM: $record_objectId - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
 						<div class="row">
 							<div class="small-4 columns">
 								<img src="../media/<?php echo $record_thumbnailCover ?>"  onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'" style="padding-bottom: 5px;">
@@ -104,7 +105,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 								</div>
 								<div class="row">
 									<div class="large-12 colums">
-										<div class="play_now"><a class="ico-label _play_white white" onclick="recordSelectSingle('<?php echo $record_objectId ?>')"><?php echo $views['record']['PLAY'];?></a></div>
+										<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $record_objectId ?>')"><?php echo $views['record']['PLAY'];?></a></div>
 									</div>
 								</div>
 								
@@ -182,7 +183,34 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 					</div>
 					<!------------------------------- RECORD DETAIL ------------------------------------------>
 					<div id="box-recordDetail"></div>
-					<!---------------------------------------- FINE RECORD DETAIL ------------------------------------>
+					<script type="text/javascript">
+						function loadBoxRecordDetail(objectId) {
+							var json_data = {};
+							json_data.objectId = objectId;
+							$.ajax({
+								type: "POST",
+								url: "content/profile/box/box-recordDetail.php",
+								data: json_data,
+								beforeSend: function(xhr) {
+									//spinner.show();
+									console.log('Sono partito box-recordDetail');
+								}
+							}).done(function(message, status, xhr) {
+								//spinner.hide();
+								$("#box-recordDetail").html(message);
+								code = xhr.status;
+								//console.log("Code: " + code + " | Message: " + message);
+								console.log("Code: " + code + " | Message: <omitted because too large>");
+							}).fail(function(xhr) {
+								//spinner.hide();
+								console.log("Error: " + $.parseJSON(xhr));
+								//message = $.parseJSON(xhr.responseText).status;
+								//code = xhr.status;
+								//console.log("Code: " + code + " | Message: " + message);
+							});
+						}
+					</script>
+					<!------------------------------- FINE RECORD DETAIL ------------------------------------->
 					<div class="row album-single-propriety">
 						<div class="box-propriety">
 							<div class="small-6 columns ">

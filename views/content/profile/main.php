@@ -144,7 +144,7 @@ require_once ROOT_DIR . 'config.php';
 						}
 						?>
 						
-						<div id='box-album' ></div>
+						<div id='box-album'></div>
 				</div>
 			</div>
 		</div>
