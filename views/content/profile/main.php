@@ -80,8 +80,70 @@ require_once ROOT_DIR . 'config.php';
 						}
 						?>
 						
-						<div id='box-friends'></div>	
-						<div id='box-following' ></div>	
+						<?php
+						if ($user->getType() == 'SPOTTER') {
+							?>
+							<div id='box-friends'></div>
+							<script type="text/javascript">
+								function loadBoxFriends() {
+									var json_data = {};
+									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+									$.ajax({
+										type: "POST",
+										url: "content/profile/box/box-friends.php",
+										data: json_data,
+										beforeSend: function(xhr) {
+											//spinner.show();
+											console.log('Sono partito box-friends');
+										}
+									}).done(function(message, status, xhr) {
+										//spinner.hide();
+										$("#box-friends").html(message);
+										code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+										console.log("Code: " + code + " | Message: <omitted because too large>");
+									}).fail(function(xhr) {
+										//spinner.hide();
+										console.log("Error: " + $.parseJSON(xhr));
+										//message = $.parseJSON(xhr.responseText).status;
+										//code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+									});
+								}
+							</script>
+							
+							<div id='box-following' ></div>	
+							<script type="text/javascript">
+								function loadBoxFollowing() {
+									var json_data = {};
+									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+									$.ajax({
+										type: "POST",
+										url: "content/profile/box/box-following.php",
+										data: json_data,
+										beforeSend: function(xhr) {
+											//spinner.show();
+											console.log('Sono partito box-following');
+										}
+									}).done(function(message, status, xhr) {
+										//spinner.hide();
+										$("#box-following").html(message);
+										code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+										console.log("Code: " + code + " | Message: <omitted because too large>");
+									}).fail(function(xhr) {
+										//spinner.hide();
+										console.log("Error: " + $.parseJSON(xhr));
+										//message = $.parseJSON(xhr.responseText).status;
+										//code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+									});
+								}
+							</script>
+							<?php
+						}
+						?>
+						
 						<div id='box-album' ></div>
 				</div>
 			</div>

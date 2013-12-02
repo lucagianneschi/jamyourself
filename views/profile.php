@@ -41,6 +41,11 @@ if (is_null($userInfoBox->error)) {
 					?>
 					loadBoxEvent();
 					<?php
+				} elseif ($user->getType() == 'SPOTTER') {
+					?>
+					loadBoxFriends();
+					loadBoxFollowing();
+					<?php
 				}
 				?>
 			</script>

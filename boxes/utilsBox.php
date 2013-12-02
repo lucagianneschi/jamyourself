@@ -101,14 +101,7 @@ function getRelatedUsers($objectId, $field, $className, $all, $limit, $skip) {
     } elseif (is_null($users)) {
 	return $userArray;
     } else {
-	foreach ($users as $user) {
-	    $userId = $user->getObjectId();
-	    $thumbnail = $user->getProfileThumbnail();
-	    $type = $user->getType();
-	    $username = $user->getUsername();
-	    $userInfo = new UserInfo($userId, $thumbnail, $type, $username);
-	    array_push($userArray, $userInfo);
-	}
+	return $users;
     }
     return $userArray;
 }
