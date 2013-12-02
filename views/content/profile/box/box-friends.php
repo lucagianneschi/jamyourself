@@ -5,7 +5,7 @@
  *
  */
 
-  if (!defined('ROOT_DIR'))
+if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../../../');
 
 require_once ROOT_DIR . 'config.php';
@@ -48,7 +48,6 @@ $friendshipCounter = count($friends);
 								</div>
 							</div>
 							<?php
-							
 							if ($i % 2 == 0) {
 								?>
 								</div>
