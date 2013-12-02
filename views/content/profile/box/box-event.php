@@ -201,7 +201,7 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 				
 								<?php 
 								//$index++;
-							}
+							//}
 						}
 						?>
 						<!--------------------------- FINE ------------------------------------------------>	
@@ -224,8 +224,7 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 		</div>
 	</div>	
 	<?php
-//non so che roba sia questa ma da problemi nella visualizzazione delle pagine... a che IF si riferisce?
-//} else {
-//	echo 'Errore';
-//}
+} else {
+	echo 'Errore';
+}
 ?>
