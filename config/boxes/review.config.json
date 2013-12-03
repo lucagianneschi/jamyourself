@@ -1,8 +1,5 @@
 {
     "limitForPersonalPage": 3,
-    "limitEventForUploadReviewPage": 1,
-    "limitRecordForUploadReviewPage": 1,
-    "limitFeaturingForUploadReviewPage": 10,
     "limitForMediaPage": 1,
     "limitForUploadReviewPage":1
 }
