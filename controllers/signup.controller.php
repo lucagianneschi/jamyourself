@@ -185,7 +185,7 @@ class SignupController extends REST {
                 $_SESSION['captchaValidation'] = true;
                 $this->response(array("status" => $controllers["CORRECTCAPTCHA"]), 200);
             } else {
-                $this->response(array("status" => $controllers["WRONGRECAPTCHA"]), 200);
+                $this->response(array("status" => $controllers["WRONGRECAPTCHA"]), 403);
             }
         } catch (Exception $e) {
             $this->response(array('status' => $controllers["WRONGRECAPTCHA"]), 503);
