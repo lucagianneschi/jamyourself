@@ -21,8 +21,6 @@ class Video {
 	private $objectId;
 	private $active;
 	private $author;
-	private $commentators;
-	private $comments;
 	private $counter;
 	private $description;
 	private $duration;
@@ -63,24 +61,6 @@ class Video {
 	 */
 	public function getAuthor() {
 		return $this->author;
-	}
-
-	/**
-	 * \fn		array getCommentators()
-	 * \brief	Return an array of objectId of istances of _User class who commented on the video
-	 * \return	array
-	 */
-	public function getCommentators() {
-		return $this->commentators;
-	}
-
-	/**
-	 * \fn		array getComments()
-	 * \brief	Return an array of objectId of istances of the Comment class; comments on the video istance
-	 * \return	array
-	 */
-	public function getComments() {
-		return $this->comments;
 	}
 
 	/**
@@ -237,24 +217,6 @@ class Video {
 	}
 
 	/**
-	 * \fn		void setCommentators($commentators)
-	 * \brief	Sets the commentators value,array of pointer to ParseUser
-	 * \param	array
-	 */
-	public function setCommentators($commentators) {
-		$this->commentators = $commentators;
-	}
-
-	/**
-	 * \fn		void setComments($comments)
-	 * \brief	Sets the comments value,array of pointer to ParseComment
-	 * \param	array
-	 */
-	public function setComments($comments) {
-		$this->comments = $comments;
-	}
-
-	/**
 	 * \fn		void setCounter($counter)
 	 * \brief	Sets the counter value
 	 * \param	int
@@ -394,24 +356,6 @@ class Video {
 			$this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 		}
 		$string .= '[author] => ' . $this->getAuthor() . '<br />';
-		if (count($this->getCommentators()) != 0) {
-			foreach ($this->getCommentators() as $commentators) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[commentators] => ' . $commentators . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[commentators] => NULL<br />';
-		}
-		if (count($this->getComments()) != 0) {
-			foreach ($this->getComments() as $comments) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[comments] => ' . $comments . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[comments] => NULL<br />';
-		}
 		$string.= '[counter] => ' . $this->getCounter() . '<br />';
 		$string.= '[description] => ' . $this->getDescription() . '<br />';
 		$string.= '[duration] => ' . $this->getDuration() . '<br />';
