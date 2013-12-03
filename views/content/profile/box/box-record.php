@@ -90,7 +90,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 						<!------------------ CODICE ALBUM: $record_objectId - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
 						<div class="row">
 							<div class="small-4 columns">
-								<img src="../media/<?php echo $record_thumbnailCover ?>"  onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'" style="padding-bottom: 5px;">
+								<img src="../media/<?php echo $record_thumbnailCover ?>"  onerror="this.src='../media/<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
 							</div>
 							<div class="small-8 columns">						
 								<div class="row">
@@ -164,7 +164,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 				<div class="box-info-element">
 					<div class="row">
 						<div class="small-4 columns">
-							<img src="../media/<?php echo $recordSingle_thumbnailCover ?>" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'" style="padding-bottom: 5px;">
+							<img src="../media/<?php echo $recordSingle_thumbnailCover ?>" onerror="this.src='../media/<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
 						</div>
 						<div class="small-8 columns">						
 							<div class="row">

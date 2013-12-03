@@ -33,7 +33,7 @@
 						<div class="icon-header _menu" onClick="headerShow()"></div>
 						<!------------------------------------- thumbnail album ----------------------------->			
 						<div class="icon-header" id='header-box-thum'>
-							<img src="../media/<?php echo $default_img['DEFRECORDTHUMB']; ?>"  onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'">
+							<img src="../media/<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='../media/<?php echo DEFRECORDTHUMB;?>'">
 						</div>				
 					
 						<!------------------------------------- PLAYER ----------------------------->

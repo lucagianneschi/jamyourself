@@ -52,7 +52,7 @@ switch ($box) {
 			$dati = $userInfo -> initForPersonalPage($objectId);
 			
 			if (!($dati instanceof Error)) {
-				$result['backGround'] = $dati -> backGround != $boxes['NODATA'] ? $dati -> backGround : $default_img['DEFBGD'];
+				$result['backGround'] = $dati -> backGround != $boxes['NODATA'] ? $dati -> backGround : DEFBGD;
 				$result['city'] = $dati -> city != $boxes['NODATA'] ? $dati -> city : '';
 				$result['county'] = $dati -> county != $boxes['NODATA'] ? $dati -> county : '';
 				$result['description'] = $dati -> description != $boxes['NODATA'] ? $dati -> description : '';
@@ -118,19 +118,19 @@ switch ($box) {
 			$result['albumInfo']['objectId'] = $activityBox -> albumInfo -> objectId;
 			$result['albumInfo']['title'] = $activityBox -> albumInfo -> title != $boxes['NODATA'] ? $activityBox -> albumInfo -> title : '';
 			foreach ($activityBox -> albumInfo -> imageArray as $key => $value) {
-				$result['albumInfo']['album' . $key]['thumbnail'] = $value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : $default_img['DEFALBUMTHUMB'];
+				$result['albumInfo']['album' . $key]['thumbnail'] = $value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : DEFALBUMTHUMB;
 			}
 			$result['eventInfo']['address'] = $activityBox -> eventInfo -> address != $boxes['NODATA'] ? $activityBox -> eventInfo -> address : '';
 			$result['eventInfo']['city'] = $activityBox -> eventInfo -> city != $boxes['NODATA'] ? $activityBox -> eventInfo -> city : '';
 			$result['eventInfo']['eventDate'] = $activityBox -> eventInfo -> eventDate != $boxes['NODATA'] ? $activityBox -> eventInfo -> eventDate : '';
 			$result['eventInfo']['locationName'] = $activityBox -> eventInfo -> locationName != $boxes['NODATA'] ? $activityBox -> eventInfo -> locationName : '';
 			$result['eventInfo']['objectId'] = $activityBox -> eventInfo -> objectId != $boxes['NODATA'] ? $activityBox -> eventInfo -> objectId : '';
-			$result['eventInfo']['thumbnail'] = $activityBox -> eventInfo -> thumbnail != $boxes['NODATA'] ? $activityBox -> eventInfo -> thumbnail : $default_img['DEFEVENTTHUMB'];
+			$result['eventInfo']['thumbnail'] = $activityBox -> eventInfo -> thumbnail != $boxes['NODATA'] ? $activityBox -> eventInfo -> thumbnail : DEFEVENTTHUMB;
 			$result['eventInfo']['title'] = $activityBox -> eventInfo -> title != $boxes['NODATA'] ? $activityBox -> eventInfo -> title : '';
 
 			$result['recordInfo']['fromUserInfo'] = $activityBox -> recordInfo -> fromUserInfo != $boxes['NODATA'] ? $activityBox -> recordInfo -> fromUserInfo : '';
 			$result['recordInfo']['objectId'] = $activityBox -> recordInfo -> objectId != $boxes['NODATA'] ? $activityBox -> recordInfo -> objectId : '';
-			$result['recordInfo']['thumbnailCover'] = $activityBox -> recordInfo -> thumbnailCover != $boxes['NODATA'] ? $activityBox -> recordInfo -> thumbnailCover : $default_img['DEFRECORDTHUMB'];
+			$result['recordInfo']['thumbnailCover'] = $activityBox -> recordInfo -> thumbnailCover != $boxes['NODATA'] ? $activityBox -> recordInfo -> thumbnailCover : DEFRECORDTHUMB;
 			$result['recordInfo']['title'] = $activityBox -> recordInfo -> title != $boxes['NODATA'] ? $activityBox -> recordInfo -> title : '';
 			$result['recordInfo']['songTitle'] = $activityBox -> recordInfo -> songTitle != $boxes['NODATA'] ? $activityBox -> recordInfo -> songTitle : '';
 		} else {
@@ -155,7 +155,7 @@ switch ($box) {
 				$result['album' . $key]['counters'] = $value -> counters;
 				$result['album' . $key]['imageCounter'] = $value -> imageCounter;
 				$result['album' . $key]['objectId'] = $value -> objectId;
-				$result['album' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : $default_img['DEFALBUMTHUMB'];
+				$result['album' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : DEFALBUMTHUMB;
 				$result['album' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 				$result['album' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
 				
@@ -179,10 +179,10 @@ switch ($box) {
 			foreach ($albumDetail->imageArray as $keyImage => $valueImage) {
 				$result['image'][$keyImage]['counters'] = $valueImage -> counters;
 				$result['image'][$keyImage]['description'] = $valueImage -> description != $boxes['NODATA'] ? $valueImage -> description : '';
-				$result['image'][$keyImage]['filePath'] = $valueImage -> filePath != $boxes['NODATA'] ? $valueImage -> filePath : $default_img['DEFIMAGE'];
+				$result['image'][$keyImage]['filePath'] = $valueImage -> filePath != $boxes['NODATA'] ? $valueImage -> filePath : DEFIMAGE;
 				$result['image'][$keyImage]['objectId'] = $valueImage -> objectId != $boxes['NODATA'] ? $valueImage -> objectId : '';
 				$result['image'][$keyImage]['tags'] = $valueImage -> tags != $boxes['NODATA'] ? $valueImage -> tags : '';
-				$result['image'][$keyImage]['thumbnail'] = $valueImage -> thumbnail != $boxes['NODATA'] ? $valueImage -> thumbnail : $default_img['DEFIMAGE'];
+				$result['image'][$keyImage]['thumbnail'] = $valueImage -> thumbnail != $boxes['NODATA'] ? $valueImage -> thumbnail : DEFIMAGE;
 				$location = $valueImage -> location != $boxes['NODATA'] ? $valueImage -> location : '';
 				$result['image'][$keyImage]['showLove'] = $valueImage -> showLove == true ? $valueImage -> showLove : false;
 				$address = "";	
@@ -250,7 +250,7 @@ switch ($box) {
 					$result['event' . $key]['fromUserInfo'] = $value -> fromUserInfo != $boxes['NODATA'] ? $value -> fromUserInfo : '';
 					$result['event' . $key]['locationName'] = $value -> locationName != $boxes['NODATA'] ? $value -> locationName : '';
 					$result['event' . $key]['tags'] = $value -> tags != $boxes['NODATA'] ? $value -> tags : '';
-					$result['event' . $key]['thumbnail'] = $value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : $default_img['DEFEVENTTHUMB'];
+					$result['event' . $key]['thumbnail'] = $value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : DEFEVENTTHUMB;
 					$result['event' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 					$result['event' . $key]['objectId'] = $value -> objectId != $boxes['NODATA'] ? $value -> objectId : '';
 					$result['event' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
@@ -308,7 +308,7 @@ switch ($box) {
 					$result['record' . $key]['genre'] = $value -> genre != $boxes['NODATA'] ? $value -> genre : '';
 					$result['record' . $key]['objectId'] = $value -> objectId != $boxes['NODATA'] ? $value -> objectId : '';
 					$result['record' . $key]['songCounter'] = $value -> songCounter != $boxes['NODATA'] ? $value -> songCounter : '';
-					$result['record' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : $default_img['DEFRECORDTHUMB'];
+					$result['record' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : DEFRECORDTHUMB;
 					$result['record' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 					$result['record' . $key]['year'] = $value -> year != $boxes['NODATA'] ? $value -> year : '';
 					$result['record' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
@@ -504,7 +504,7 @@ switch ($box) {
 					$track['author']['thumbnail'] = 	$value -> author->thumbnail != $boxes['NODATA'] ? $value -> author->thumbnail : $default_img['DEFTHUMB'];
 					$track['author']['type'] = 	$value -> author->type != $boxes['NODATA'] ? $value -> author->type : '';
 					$track['author']['username'] = 	$value -> author->username != $boxes['NODATA'] ? $value -> author->username : '';
-					$track['thumbnail'] = 	$value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : $default_img['DEFRECORDTHUMB'];
+					$track['thumbnail'] = 	$value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : DEFRECORDTHUMB;
 					$track['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
 					array_push($result['playlist']['tracklist'], $track);
 				}
