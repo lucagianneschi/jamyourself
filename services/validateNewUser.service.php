@@ -174,15 +174,16 @@ class ValidateNewUserService {
     public function checkUsername($username) {
 
         //Max numero caratteri pari a 50
-        if (count($username) > 50)
-            return false;
+        if (strlen($username) > 50){
+            return false;            
+        }
 
         //Controllare che Username non sia già presente nel DB
         $up = new UserParse();
         $up->whereEqualTo("username", $username);
         $res = $up->getCount();
 
-        if (!is_a($res, "Error")) {
+        if (!($res instanceof Error)) {
             if ($res != 0)
                 return false;
         }
@@ -197,8 +198,10 @@ class ValidateNewUserService {
 
 
         //A) Max numero caratteri pari a 50
-        //F) Controllo che dimensione minima password 8 caratteri 
-        if (strlen($password) < 8 || strlen($password) > 50)
+        //F) Controllo che dimensione minima password 8 caratteri
+         $strlen = strlen($password);
+
+        if ($strlen < 8 || $strlen > 50)
             return false;
 
         // B) Controllo che nel campo non siano presenti spazi sia all’interno della password che alla fine
@@ -210,8 +213,8 @@ class ValidateNewUserService {
         $this->checkSpecialChars($password);
         //E) Controllo che password non sia composta da un solo ed unico carattere
         $boolCheckDiffChar = false;
-        for ($i = 0; $i < strlen($password); $i++) {
-            for ($j = $i + 1; $j < strlen($password); $j++) {
+        for ($i = 0; $i < $strlen; $i++) {
+            for ($j = $i + 1; $j < $strlen; $j++) {
                 if ($password[$i] != $password[$j]) {
                     $boolCheckDiffChar = true;
                     break;
@@ -444,7 +447,8 @@ class ValidateNewUserService {
 
     private function checkSpecialChars($string) {
         $charList = "!#$%&'()*+,-./:;<=>?[]^_`{|}~àèìòùáéíóúüñ¿¡";
-        for ($i = 0; $i < strlen($charList); $i++) {
+        $strlen = strlen($charList);
+        for ($i = 0; $i < $strlen; $i++) {
             $char = $charList[$i];
             if (stripos($string, $char) !== false)
                 return true;
