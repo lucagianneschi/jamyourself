@@ -264,7 +264,7 @@ class SignupController extends REST {
             if ($res < 1) {
                 $this->response(array("status" => $controllers["VALIDMAIL"]), 200);
             } else {
-                $this->response(array("status" => $controllers["MAILALREADYEXISTS"]), 200);
+                $this->response(array("status" => $controllers["MAILALREADYEXISTS"]), 403);
             }
         } catch (Exception $e) {
             $this->response(array('status' => $controllers["NODATA"]), 503);
