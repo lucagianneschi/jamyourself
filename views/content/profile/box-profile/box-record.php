@@ -84,7 +84,7 @@ $recordCounter = $data['recordCounter'];
 			
 				<div class="row">
 					<div class="small-4 columns">
-						<img src="../media/<?php echo $record_thumbnailCover ?>"  onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'" style="padding-bottom: 5px;">
+						<img src="../media/<?php echo $record_thumbnailCover ?>"  onerror="this.src='../media/<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
 					</div>
 					<div class="small-8 columns">						
 						<div class="row">
@@ -159,7 +159,7 @@ $recordCounter = $data['recordCounter'];
 		<div class="box-info-element">
 			<div class="row">
 				<div class="small-4 columns">
-					<img src="../media/<?php echo $recordSingle_thumbnailCover ?>" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB'];?>'" style="padding-bottom: 5px;">
+					<img src="../media/<?php echo $recordSingle_thumbnailCover ?>" onerror="this.src='../media/<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
 				</div>
 				<div class="small-8 columns">						
 					<div class="row">

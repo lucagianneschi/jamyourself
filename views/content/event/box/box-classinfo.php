@@ -13,7 +13,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 
 $title = $event->getTitle();
@@ -42,6 +41,6 @@ $image = '../media/images/' . $event->getImage();
 			
 <div class="row">
 	<div class="large-12 columns">
-		<img class="background" src="../media/<?php echo $image; ?>"  onerror="this.src='../media/<?php echo $default_img['DEFBGD']; ?>'" >						
+		<img class="background" src="../media/<?php echo $image; ?>"  onerror="this.src='../media/<?php echo DEFBGD; ?>'" >						
 	</div>
 </div> 

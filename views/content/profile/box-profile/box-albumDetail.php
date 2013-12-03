@@ -35,7 +35,7 @@ if($detail == 0){
   foreach ($data['image'] as $key => $value) {   
   ?>
   
-  <li><a class="photo-colorbox-group" href="#<?php echo $value['objectId']; ?>"><img class="photo" src="../media/<?php $value['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"></a></li>
+  <li><a class="photo-colorbox-group" href="#<?php echo $value['objectId']; ?>"><img class="photo" src="../media/<?php $value['thumbnail']?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"></a></li>
 
 <?php 
   }
@@ -83,7 +83,7 @@ else{
 			<div id="<?php echo $value['objectId']; ?>" class="lightbox-photo <?php echo $value['filePath']; ?>">
 				<div class="row " style="max-width: none;">
 					<div class="large-12 columns lightbox-photo-box"   >
-						<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $value['filePath']; ?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"/></div>
+						<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $value['filePath']; ?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"/></div>
 			 			<div class="row">
 			 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
 			 			</div>

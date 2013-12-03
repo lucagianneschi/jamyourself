@@ -37,11 +37,8 @@ require_once CLASSES_DIR . 'image.class.php';
 require_once CLASSES_DIR . 'imageParse.class.php';
 
 $status = new Status();
-
 $status->setActive(true);
 $status->setCommentCounter(10);
-$status->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$status->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $status->setCounter(10);
 $status->setEvent('FOhLk9wFoD');
 $status->setFromUser('GuUAj83MGH');
@@ -161,12 +158,6 @@ $parseACL = new parseACL();
 $parseACL->setPublicWriteAccess(false);
 $statusParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
 echo 'Aggiornato un campo ACL<br />';
-
-$statusParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
-echo 'Aggiornato (add) un campo Relation<br />';
-
-$statusParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
-echo 'Aggiornato (remove) un campo Relation<br />';
 
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL Comment<br />';
 

@@ -230,8 +230,6 @@ class VideoParse {
 			$parseVideo = new parseObject('Video');
 			is_null($video->getActive()) ? $parseVideo->active = true : $parseVideo->active = $video->getActive();
 			is_null($video->getAuthor()) ? $parseVideo->author = null : $parseVideo->author = parse_encode_string($video->getAuthor());
-			is_null($video->getCommentators()) ? $parseVideo->commentators = null : $parseVideo->commentators = toParseAddRelation('_User', $video->getCommentators());
-			is_null($video->getComments()) ? $parseVideo->comments = null : $parseVideo->comments = toParseAddRelation('Comment', $video->getComments());
 			is_null($video->getCounter()) ? $parseVideo->counter = -1 : $parseVideo->counter = $video->getCounter();
 			is_null($video->getDescription()) ? $parseVideo->description = null : $parseVideo->description = parse_encode_string($video->getDescription());
 			is_null($video->getDuration()) ? $parseVideo->duration = 0 : $parseVideo->duration = $video->getDuration();

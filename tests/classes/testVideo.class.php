@@ -25,11 +25,8 @@ require_once CLASSES_DIR . 'video.class.php';
 require_once CLASSES_DIR . 'videoParse.class.php';
 
 $video = new Video();
-
 $video->setActive(true);
 $video->setAuthor('Autore del video');
-$video->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$video->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $video->setCounter(100);
 $video->setDescription('Descrizione del video');
 $video->setDuration(120);
@@ -144,12 +141,6 @@ $parseACL = new parseACL();
 $parseACL->setPublicWriteAccess(false);
 $videoParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
 echo 'Aggiornato un campo ACL<br />';
-
-$videoParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
-echo 'Aggiornato (add) un campo Relation<br />';
-
-$videoParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
-echo 'Aggiornato (remove) un campo Relation<br />';
 
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL VIDEO<br />';
 

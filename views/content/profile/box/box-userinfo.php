@@ -40,7 +40,7 @@ $userinfo_note = $music == '' ? '' : '_note';
 			
 <div class="row">
 	<div class="large-12 columns">
-		<img class="background" src="../media/<?php echo $user->getBackground(); ?>"  onerror="this.src='../media/<?php echo $default_img['DEFBGD']; ?>'" >
+		<img class="background" src="../media/<?php echo $user->getBackground(); ?>"  onerror="this.src='../media/<?php echo DEFBGD; ?>'" >
 		<img class="picture" src="../media/<?php echo $user->getProfilePicture(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATAR']; ?>'" width="150" height="150">							
 	</div>
 </div> 
