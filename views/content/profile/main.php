@@ -151,9 +151,70 @@ require_once ROOT_DIR . 'config.php';
 		<div id='scroll-social' class='hcento' style="width: 50%;float: right;">
 			<div id="social" style="max-width:500px; float:left" class="row">
 					<div class="large-12 columns">
-						<div id='box-status' ></div>
-						<div id="box-RecordReview"></div>	
-						<div id="box-EventReview"></div>	
+						<div id='box-status'>
+							<?php require_once(VIEWS_DIR . "content/profile/box/box-status.php"); ?>
+						</div>
+						
+						<div id="box-recordReview"></div>	
+						<script type="text/javascript">
+							function loadBoxRecordReview() {
+								var json_data = {};
+								json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+								json_data.type = '<?php echo $user->getType(); ?>';
+								$.ajax({
+									type: "POST",
+									url: "content/profile/box/box-recordReview.php",
+									data: json_data,
+									beforeSend: function(xhr) {
+										//spinner.show();
+										console.log('Sono partito box-recordReview');
+									}
+								}).done(function(message, status, xhr) {
+									//spinner.hide();
+									$("#box-recordReview").html(message);
+									code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+									console.log("Code: " + code + " | Message: <omitted because too large>");
+								}).fail(function(xhr) {
+									//spinner.hide();
+									console.log("Error: " + $.parseJSON(xhr));
+									//message = $.parseJSON(xhr.responseText).status;
+									//code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+								});
+							}
+						</script>
+						
+						<div id="box-eventReview"></div>
+						<script type="text/javascript">
+							function loadBoxRecordReview() {
+								var json_data = {};
+								json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+								json_data.type = '<?php echo $user->getType(); ?>';
+								$.ajax({
+									type: "POST",
+									url: "content/profile/box/box-eventReview.php",
+									data: json_data,
+									beforeSend: function(xhr) {
+										//spinner.show();
+										console.log('Sono partito box-eventReview');
+									}
+								}).done(function(message, status, xhr) {
+									//spinner.hide();
+									$("#box-eventReview").html(message);
+									code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+									console.log("Code: " + code + " | Message: <omitted because too large>");
+								}).fail(function(xhr) {
+									//spinner.hide();
+									console.log("Error: " + $.parseJSON(xhr));
+									//message = $.parseJSON(xhr.responseText).status;
+									//code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+								});
+							}
+						</script>
+						
 						<div id="box-activity"></div>
 						<div id="box-collaboration"></div>
 						<div id="box-followers"></div>
