@@ -761,17 +761,10 @@ function checkEmailExists() {
             xhr.setRequestHeader("X-AjaxRequest", "1");
         },
         success: function(data, status) {
-            if (data == 1) {
-                //gestire in qualche modo la segnalazione all'utente
-                console.log("[checkEmailExists] email esistente");
-            }
-            else {
-                //email va bene
-                console.log("[checkEmailExists] email NON esistente");
-            }
+            //la mail non esiste => e' valida
         },
         error: function(data, status) {
-            console.log("[checkEmailExists] errore.data : " + data);
+            console.log("[checkEmailExists] errore.data : " + JSON.stringify(data));
             console.log("[checkEmailExists] errore.status : " + status);
         }
     });
@@ -794,16 +787,10 @@ function checkUsernameExists() {
             xhr.setRequestHeader("X-AjaxRequest", "1");
         },
         success: function(data, status) {
-            if (data == 1) {
-                //gestire in qualche modo la segnalazione all'utente
-                console.log("[checkUsernameExists] username esistente");
-            } else {
-                //username va bene
-                console.log("[checkUsernameExists] username NON esistente");
-            }
+            //lo username non esiste => e' valido
         },
         error: function(data, status) {
-            console.log("[checkUsernameExists] errore.data : " + data);
+            console.log("[checkUsernameExists] errore.data : " + JSON.stringify(data));
             console.log("[checkUsernameExists] errore.status : " + status);
         }
     });
@@ -848,21 +835,11 @@ function validateCaptcha() {
         data: json_captcha,
         async: false,
         success: function(data, status) {
-            //gestione success
-            console.log("[validateCaptcha] esito captcha : " + data);
-            if (data == "success") {
-                //ok...
-                console.log("[validateCaptcha] =  captcha valido");
-            }
-            else {
-                //errore
-                console.log("[validateCaptcha] =  captcha  NON valido");
-                Recaptcha.reload(); //ricarico il captcha
-            }
+            //captcha corretto
 
         },
         error: function(data, status) {
-            console.log("[validateCaptcha] errore.data : " + data);
+            console.log("[validateCaptcha] errore.data : " + JSON.stringify(data));
             console.log("[validateCaptcha] errore.status : " + status);
 
         }
@@ -1029,9 +1006,9 @@ function sendRequest(_action, _data, callback, _async) {
 
 function signupCallback(data, status) {
     console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
-    if (status == "success") {      
+    if(status == "200"){
         $('#'+json_signup_user.type.toLowerCase()+'-signup03').hide('slide', {direction: "left"}, "slow");
-        $('#signup-ok').show('slide', {direction: "right"}, "slow");
+        $('#signup-ok').show('slide', {direction: "right"}, "slow");        
     } else {
         alert("Utente non valido");
         console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
