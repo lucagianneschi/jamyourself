@@ -21,13 +21,10 @@ class Status {
 	private $objectId;
 	private $active;
 	private $commentCounter;
-	private $commentators;
-	private $comments;
 	private $counter;
 	private $event;
 	private $fromUser;
 	private $image;
-	private $imageFile;
 	private $location;
 	private $loveCounter;
 	private $lovers;
@@ -67,24 +64,6 @@ class Status {
 	}
 	
 	/**
-	 * \fn		array getCommentators()
-	 * \brief	Return an array of objectId of istances of _User class who commented on the status
-	 * \return	array
-	 */
-	public function getCommentators() {
-		return $this->commentators;
-	}
-
-	/**
-	 * \fn		array getComments()
-	 * \brief	Return an array of objectId of istances of the Comment class; comments on the status istance
-	 * \return	array
-	 */
-	public function getComments() {
-		return $this->comments;
-	}
-
-	/**
 	 * \fn		int getCounter()
 	 * \brief	Return the counter value
 	 * \return	int
@@ -118,15 +97,6 @@ class Status {
 	 */
 	public function getImage() {
 		return $this->image;
-	}
-
-	/**
-	 * \fn		string getImageFile()
-	 * \brief	Return the ImageFile objectId value
-	 * \return	string
-	 */
-	public function getImageFile() {
-		return $this->imageFile;
 	}
 
 	/**
@@ -245,25 +215,7 @@ class Status {
 	 */
 	public function setCommentCounter($commentCounter) {
 		$this->commentCounter = $commentCounter;
-	}
-	
-	/**
-	 * \fn		void setCommentators($commentators)
-	 * \brief	Sets the commentators value,array of pointer to ParseUser
-	 * \param	array
-	 */
-	public function setCommentators($commentators) {
-		$this->commentators = $commentators;
-	}
-
-	/**
-	 * \fn		void setComments($comments)
-	 * \brief	Sets the comments value,array of pointer to ParseComment
-	 * \param	array
-	 */
-	public function setComments($comments) {
-		$this->comments = $comments;
-	}
+	}	
 
 	/**
 	 * \fn		void setCounter($counter)
@@ -295,15 +247,6 @@ class Status {
 	 */
 	public function setImage($image) {
 		$this->image = $image;
-	}
-
-	/**
-	 * \fn		void setImageFile($imageFile)
-	 * \brief	Sets the imageFile value,pointer to ParseFile (objectId)
-	 * \param	string
-	 */
-	public function setImageFile($imageFile) {
-		$this->image = $imageFile;
 	}
 
 	/**
@@ -410,24 +353,6 @@ class Status {
 			$this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 		}
 		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
-		if (count($this->getCommentators()) != 0) {
-			foreach ($this->getCommentators() as $commentator) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[commentators] => ' . $commentator . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[commentators] => NULL<br />';
-		}
-		if (count($this->getComments()) != 0) {
-			foreach ($this->getComments() as $comment) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[comments] => ' . $comment . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[comments] => NULL<br />';
-		}
 		$string .= '[counter] => ' . $this->getCounter() . '<br />';
 		if ($this->getEvent() != null) {
 			$string .= '[event] => ' . $this->getEvent() . '<br />';
@@ -436,9 +361,6 @@ class Status {
 		}
 		$string.= '[fromUser] => ' . $this->getFromUser() . '<br />';
 		$string .= '[image] => ' . $this->getImage() . '<br />';
-		# TODO
-		# $imageFile = $this->getImageFile();
-		# $string.= '[imageFile] => ' . $imageFile->getObjectId() . '<br />';
 		if ( ($geopoint = $this->getLocation()) != null) {
 			$string .= '[location] => ' . $geopoint->location['latitude'] . ', ' . $geopoint->location['longitude'] . '<br />';
 		} else {

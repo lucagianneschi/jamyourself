@@ -195,8 +195,6 @@ class StatusParse {
 			$status->setObjectId($res->objectId);
 			$status->setActive($res->active);
 			$status->setCommentCounter($res->commentCounter);
-			#$status->setCommentators(fromParseRelation('Status', 'commentators', $res->objectId, '_User'));
-			#$status->setComments(fromParseRelation('Status', 'comments', $res->objectId, 'Comment'));
 			$status->setCounter($res->counter);
 			$status->setEvent(fromParsePointer($res->event));
 			$status->setFromUser(fromParsePointer($res->fromUser));
@@ -232,8 +230,6 @@ class StatusParse {
 			$parseStatus = new parseObject('Status');
 			is_null($status->getActive()) ? $parseStatus->active = true : $parseStatus->active = $status->getActive();
 			is_null($status->getCommentCounter()) ? $parseStatus->commentCounter = -1 : $parseStatus->commentCounter = $status->getCommentCounter();
-			is_null($status->getCommentators()) ? $parseStatus->commentators = null : $parseStatus->commentators = toParseAddRelation('_User', $status->getCommentators());
-			is_null($status->getComments()) ? $parseStatus->comments = null : $parseStatus->comments = toParseAddRelation('Comment', $status->getComments());
 			is_null($status->getCounter()) ? $parseStatus->counter = -1 : $parseStatus->counter = $status->getCounter();
 			is_null($status->getEvent()) ? $parseStatus->event = null : $parseStatus->event = toParsePointer('Event', $status->getEvent());
 			$parseStatus->fromUser = toParsePointer('_User', $status->getFromUser());
@@ -247,12 +243,10 @@ class StatusParse {
 			is_null($status->getText()) ? $parseStatus->text = null : $parseStatus->text = parse_encode_string($status->getText());
 			is_null($status->getACL()) ? $parseStatus->ACL = toParseDefaultACL() : $parseStatus->ACL = toParseACL($status->getACL());
 			if ($status->getObjectId() == '') {
-				is_null($status->getImageFile()) ? $parseStatus->imageFile = null : $parseStatus->imageFile = toParseNewFile($status->getImage(), 'img/jpg');
 				$res = $parseStatus->save();
 				$status->setObjectId($res->objectId);
 				return $status;
 			} else {
-				is_null($status->getImageFile()) ? $parseStatus->imageFile = null : $parseStatus->imageFile = toParseFile($status->getImage());
 				$parseStatus->update($status->getObjectId());
 			}
 		} catch (Exception $e) {
