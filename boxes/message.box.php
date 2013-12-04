@@ -140,10 +140,8 @@ class MessageBox {
      * \todo    
      * \return	MessageBox, error in case of error
      */
-    public function initForMessageList($otherId, $limit, $skip) {
+    public function initForMessageList($otherId, $limit = DEFAULTQUERY, $skip = 0) {
 	global $boxes;
-	require_once CLASSES_DIR . 'comment.class.php';
-	require_once CLASSES_DIR . 'commentParse.class.php';
 	$currentUserId = sessionChecker();
 	if ($currentUserId == $boxes['NOID']) {
 	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
@@ -153,21 +151,23 @@ class MessageBox {
 	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)));
 	$value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
 	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
+	require_once CLASSES_DIR . 'comment.class.php';
+	require_once CLASSES_DIR . 'commentParse.class.php';
 	$messageP = new CommentParse();
 	$messageP->whereOr($value);
 	$messageP->whereOr($value1);
 	$messageP->where('type', 'M');
 	$messageP->where('active', true);
 	$messageP->whereInclude('fromUser');
-	$messageP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitMessagesForMessagePage : $limit);
-	$messageP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
+	$messageP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitMessagesForMessagePage);
+	$messageP->setSkip((!is_null($skip) && is_int($skip)) ? $skip : 0);
 	$messageP->orderByDescending('createdAt');
 	$messages = $messageP->getComments();
 	if ($messages instanceof Error) {
 	    $this->errorManagement($messages->getErrorMessage());
 	    return;
 	} elseif (is_null($messages)) {
-	    $this->errorManagement(null);
+	    $this->errorManagement();
 	    return;
 	} else {
 	    $messagesArray = array();
@@ -193,7 +193,7 @@ class MessageBox {
      * \param	$errorMessafe
      * \todo    
      */
-    private function errorManagement($errorMessage) {
+    private function errorManagement($errorMessage = null) {
 	$this->error = $errorMessage;
 	$this->messageArray = array();
 	$this->userInfoArray = array();
