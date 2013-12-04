@@ -14,7 +14,7 @@
 <script src="resources/javascripts/plugins/foundation/foundation.clearing.js"></script>
 <script src="resources/javascripts/plugins/foundation/foundation.reveal.js"></script>
 <script src="resources/javascripts/plugins/foundation/foundation.abide.js"></script>
-
+<script src="resources/javascripts/plugins/foundation/foundation.tooltips.js"></script>
 <!--
 <script src="javascripts/foundation/foundation.alerts.js"></script>
 
@@ -136,6 +136,11 @@ switch (basename($_SERVER['PHP_SELF'])) {
     case "uploadEvent.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/uploadEvent.js"></script>
+        <?php
+        break;
+	case "uploadAlbum.php":
+        ?>
+        <script type="text/javascript" src="resources/javascripts/customs/uploadAlbum.js"></script>
         <?php
         break;
 }

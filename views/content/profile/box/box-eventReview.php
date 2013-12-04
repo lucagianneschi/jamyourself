@@ -103,7 +103,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 							?>
 							<div class="row">
 								<div  class="small-2 columns ">
-									<div class="coverThumb"><img src="../media/<?php echo $eventReview_thumbnailCover?>" onerror="this.src='../media/<?php echo $default_img['DEFEVENTTHUMB']; ?>'"></div>						
+									<div class="coverThumb"><img src="../media/<?php echo $eventReview_thumbnailCover?>" onerror="this.src='../media/<?php echo DEFEVENTTHUMB; ?>'"></div>						
 								</div>
 								<div  class="small-8 columns ">
 									<div class="row ">							

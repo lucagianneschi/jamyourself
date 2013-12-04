@@ -66,9 +66,11 @@
 	}
 	.delete{
 		width: 63px;
-		background-color: $red !important;
 		background-repeat: no-repeat;
 		background-position-y: 50%;
 		background-position-x: 50%;
+		&:hover{
+			background-color: $red !important;
+		}
 	}
 }
