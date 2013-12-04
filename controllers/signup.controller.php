@@ -146,8 +146,8 @@ class SignupController extends REST {
 
 //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE   
             if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
-                rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicturethumb" . "/" . $user->getProfileThumbnail());
-                rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), USERS_DIR . $user->getObjectId() . "/" . "images" . "/" . "profilepicture" . "/" . $user->getProfilePicture());
+                rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail());
+                rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture" . DIRECTORY_SEPARATOR . $user->getProfilePicture());
             }
 //restituire true o lo user....            
             $this->response(array("status" => $controllers['USERCREATED']), 200);
@@ -473,17 +473,17 @@ class SignupController extends REST {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
                 mkdir(USERS_DIR . $userId, 0, true);
-                mkdir(USERS_DIR . $userId . "/" . "images", 0, true);
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "default", 0, true);
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicturethumb", 0, true);
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicture", 0, true);
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images", 0, true);
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "default", 0, true);
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb", 0, true);
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture", 0, true);
                 if ($type == "JAMMER") {
-                    mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcover", 0, true);
-                    mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcoverthumb", 0, true);
-                    mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcover", 0, true);
-                    mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcoverthumb", 0, true);
-                    mkdir(USERS_DIR . $userId . "/" . "songs");
-                    mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . "default");
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover", 0, true);
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb", 0, true);
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0, true);
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0, true);
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs");
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . "default");
                 }
             }
         } catch (Exception $e) {
