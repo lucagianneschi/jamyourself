@@ -136,7 +136,7 @@ class SignupController extends REST {
 //aggiorno l'oggetto User in sessione
             $_SESSION['currentUser'] = $user;
 //creo la struttura base del file system
-            $this->createFileSystemStructure($user->getObjectId());
+            $this->createFileSystemStructure($user->getObjectId(), $user->getType());
 
 //crea l'album immagini di default        
             $this->createImageDefaultAlbum($user->getObjectId());
@@ -469,7 +469,7 @@ class SignupController extends REST {
         return array('ProfilePicture' => $coverId, 'ProfileThumbnail' => $thumbId);
     }
 
-    private function createFileSystemStructure($userId) {
+    private function createFileSystemStructure($userId, $type) {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
                 mkdir(USERS_DIR . $userId, 0, true);
@@ -477,12 +477,14 @@ class SignupController extends REST {
                 mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "default", 0, true);
                 mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicturethumb", 0, true);
                 mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "profilepicture", 0, true);
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcover", 0, true);
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcoverthumb", 0, true);
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcover", 0, true);
-                mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcoverthumb", 0, true);
-                mkdir(USERS_DIR . $userId . "/" . "songs");
-                mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . "default");
+                if ($type == "JAMMER") {
+                    mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcover", 0, true);
+                    mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "albumcoverthumb", 0, true);
+                    mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcover", 0, true);
+                    mkdir(USERS_DIR . $userId . "/" . "images" . "/" . "recordcoverthumb", 0, true);
+                    mkdir(USERS_DIR . $userId . "/" . "songs");
+                    mkdir(USERS_DIR . $userId . "/" . "songs" . "/" . "default");
+                }
             }
         } catch (Exception $e) {
             return false;
