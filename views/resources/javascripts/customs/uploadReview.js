@@ -48,6 +48,7 @@ $(document).ready(function() {
     $("#button_publish").click(function() {
         json_upload_review.review = $("textarea").val();
         json_upload_review.record = $("#record_id").val();
+        json_upload_review.type = $("#type").val();
         console.log(JSON.stringify(json_upload_review));
         sendRequest("publish", json_upload_review, publicCallback, true);
     });
