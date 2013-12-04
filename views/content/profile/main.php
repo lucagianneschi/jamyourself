@@ -216,6 +216,35 @@ require_once ROOT_DIR . 'config.php';
 						</script>
 						
 						<div id="box-activity"></div>
+						<script type="text/javascript">
+							function loadBoxActivity() {
+								var json_data = {};
+								json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+								json_data.type = '<?php echo $user->getType(); ?>';
+								$.ajax({
+									type: "POST",
+									url: "content/profile/box/box-activity.php",
+									data: json_data,
+									beforeSend: function(xhr) {
+										//spinner.show();
+										console.log('Sono partito box-activity');
+									}
+								}).done(function(message, status, xhr) {
+									//spinner.hide();
+									$("#box-activity").html(message);
+									code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+									console.log("Code: " + code + " | Message: <omitted because too large>");
+								}).fail(function(xhr) {
+									//spinner.hide();
+									console.log("Error: " + $.parseJSON(xhr));
+									//message = $.parseJSON(xhr.responseText).status;
+									//code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+								});
+							}
+						</script>
+						
 						<div id="box-collaboration"></div>
 						<div id="box-followers"></div>
 						<div id="box-post"></div>

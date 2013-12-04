@@ -38,6 +38,7 @@ if (is_null($userInfoBox->error)) {
 				loadBoxRecord();
 				loadBoxRecordReview();
 				loadBoxEventReview();
+				loadBoxActivity();
 				<?php
 				if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
 					?>
