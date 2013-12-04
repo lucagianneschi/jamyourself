@@ -7,7 +7,7 @@ require_once CONTROLLERS_DIR . 'uploadReview.controller.php';
 
 session_start();
 
-$uploadReviewController = new uploadReviewController();
+$uploadReviewController = new UploadReviewController();
 $uploadReviewController->init();
 $viewInfo = $uploadReviewController->reviewedInfo;
 
