@@ -1,0 +1,118 @@
+@import "compass/css3";
+@import "settings";
+
+
+#uploadAlbum-listAlbum .uploadAlbum-boxSingleAlbum{
+	width: 284px;
+	height: 134px;
+	background-color: $grey-dark;
+	margin: 15px !important;
+	margin-right: 0px !important;
+	cursor: pointer !important;
+	&:hover{
+		background-color: $orange;
+	}
+}
+
+#uploadAlbum-listAlbum .arrow-holder{
+	height: 134px !important;
+	margin: 15px !important;
+}
+
+#uploadAlbum-listAlbum .arrow-holder.right{
+	right: -35px;
+}
+
+#uploadAlbum-listAlbum .arrow-icon.left{
+	left: -15px;
+}
+
+#uploadAlbum-listAlbum .coverAlbum{
+	width: 134px;
+	height: 134px;
+	padding: 5px;
+}
+
+#uploadAlbum-listAlbum .title{
+	padding: 10px;
+}
+
+#uploadAlbum-listPhoto table.singlePhoto {
+	border: none !important;
+	
+	td{
+		background-color: $grey-dark;
+		height: 63px;
+		margin-left:3px;
+		color: $white !important;
+		border-right: 3px $grey-superdark solid;
+	}
+	tr{
+		border-bottom: 5px $grey-superdark solid;
+		height: 220px !important;
+	}
+	.photo{
+		width: 385px !important;	
+		text-align: center;		
+		.boxphoto{
+			max-width: 200px;
+			max-height: 240px;
+		} 
+	}
+	.info{
+		width: 470px;
+		text-align: center;
+	}
+	
+	.option{
+		padding: 0px !important;
+	}
+	
+	.iscover{
+		height: 157px;
+		width: 63px;
+		padding-top: 20px;
+		label{
+			padding-top: 10px;
+			padding-left: 35%;
+		}
+		.buttonIsCover{
+			cursor: pointer;
+			height: 15px;
+			width: 15px;
+			border: 1px solid $grey-light;
+    		@include border-radius(10px);
+    		&:hover{
+				background-color: $orange !important;
+			}
+		}
+	}
+	
+	.delete{
+		width: 63px;
+		height: 63px;
+		background-repeat: no-repeat;
+		background-position-y: 50%;
+		background-position-x: 50%;
+		border-top: 3px $grey-superdark solid;
+		&:hover{
+			background-color: $red !important;
+		}
+	}
+	input[type='text'], textarea, .error textarea{
+		background-color:$grey-dark; 
+	  	color: $white;  
+	  	border: 0px;
+	  	border-bottom: 1px solid $grey;
+	  	margin-left:0px;
+		&:focus{
+		    background-color:$grey-superdark;
+		    border-bottom: 1px solid $grey;
+	    }    
+	}
+	
+	input[type='radio']:checked + label .buttonIsCover{
+	    background-color: $orange !important;	
+	}
+}
+
