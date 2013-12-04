@@ -74,7 +74,6 @@ class SignupController extends REST {
 //        }
 //senza captcha:
             if ($this->get_request_method() != "POST") {
-                $this->response(array(), 406);
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
@@ -217,11 +216,6 @@ class SignupController extends REST {
             $up->whereEqualTo("username", $username);
             $res = $up->getCount();
 
-            if ($res instanceof Error) {
-//result è un errore e contiene il motivo dell'errore
-                $this->response(array('status' => $controllers['NODATA']), 503);
-            }
-
 //$res assume valori 0 o 1
             if ($res < 1) {
                 $this->response(array("status" => $controllers["VALIDUSERNAME"]), 200);
@@ -256,10 +250,6 @@ class SignupController extends REST {
             $up->whereEqualTo("email", $email);
             $res = $up->getCount();
 
-            if ($res instanceof Error) {
-//result è un errore e contiene il motivo dell'errore
-                $this->response(array('status' => $controllers['NODATA']), 503);
-            }
 //$res assume valori 0 o 1
             if ($res < 1) {
                 $this->response(array("status" => $controllers["VALIDMAIL"]), 200);
@@ -278,7 +268,13 @@ class SignupController extends REST {
 
             $this->setCommonValues($user, $userJSON);
 
-//step 2
+            $user->setCollaborationCounter(-1); 
+            $user->setFollowersCounter(-1);  
+            $user->setFollowingCounter(0); 
+            $user->setFriendshipCounter(0);
+            $user->setJammerCounter(-1); 
+            $user->setVenueCounter(-1); 
+//step 21
             $user->setFirstname($userJSON->firstname);
             $user->setLastname($userJSON->lastname);
             $user->setCountry($userJSON->country);
@@ -309,9 +305,17 @@ class SignupController extends REST {
 
         if (!is_null($userJSON)) {
             $user = new User("JAMMER");
+            
 //step1
             $this->setCommonValues($user, $userJSON);
 
+            $user->setCollaborationCounter(0);
+            $user->setFollowersCounter(0);
+            $user->setFollowingCounter(-1); 
+            $user->setFriendshipCounter(-1);
+            $user->setJammerCounter(0);
+            $user->setVenueCounter(0);
+            
 //step2
             $user->setJammerType($userJSON->jammerType);
             $user->setCountry($userJSON->country);
@@ -334,6 +338,14 @@ class SignupController extends REST {
 //step1
             $this->setCommonValues($user, $userJSON);
 
+            $user->setCollaborationCounter(0);
+            $user->setFollowersCounter(0);
+            $user->setFollowingCounter(-1);
+            $user->setFriendshipCounter(-1);
+            $user->setJammerCounter(0);
+            $user->setVenueCounter(0);
+
+            
             $user->setCountry($userJSON->country);
             $user->setCity($userJSON->city);
             $location = $userJSON->country . " , ";
@@ -419,16 +431,11 @@ class SignupController extends REST {
         $user->setACL($parseACL);
 
         $user->setActive(true);
-        $user->setBackground(DEFBGD);
-        $user->setCollaborationCounter(0);
-        $user->setFollowersCounter(0);
-        $user->setFollowingCounter(0);
-        $user->setFriendshipCounter(0);
-        $user->setJammerCounter(0);
+        $user->setBackground(DEFBGD);        
+        
         $user->setLevel(0);
         $user->setLevelValue(1);
         $user->setPremium(false);
-        $user->setVenueCounter(0);
     }
 
     private function getImages($decoded) {
@@ -482,9 +489,15 @@ class SignupController extends REST {
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb", 0, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0, true);
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0, true);
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs");
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . "default");
+                }elseif($type == "VENUE"){
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0, true);
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0, true);
                 }
+                    
             }
         } catch (Exception $e) {
             return false;
