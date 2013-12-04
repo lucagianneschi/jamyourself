@@ -131,7 +131,6 @@ class ValidateNewUserService {
      */
     public function checkLocation($location) {
 	$gs = new GeocoderService();
-	$result = $gs->getLocation($location);
 	if (!$gs->getLocation($location))
 	    return false;
 	else
@@ -171,8 +170,6 @@ class ValidateNewUserService {
 	    $this->setInvalid("firstname");
 	if (!isset($user->birthday) && is_null($user->birthday) && !$this->checkBirthday($user->birthday)) {
 	    $this->setInvalid("birthday");
-	} else {
-	    
 	}
 	if (!isset($user->city) || is_null($user->city))
 	    $this->setInvalid("city");
