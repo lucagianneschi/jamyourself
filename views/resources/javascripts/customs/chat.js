@@ -1,28 +1,32 @@
-var firstChat = 1;
-											
+										
 function deleteMsg(id) {
-	$('#'+id).slideToggle();
+	$('.box-membre#'+id).slideToggle();
 }
+
 function showMsg(id) {
 	$('.box-membre').removeClass('active');
-	$('#'+id).addClass('active');
-	$('#'+id+'>.unread').hide();
 	
-	$('#chat').slideToggle();
-	if (firstChat == 0) {
-		$('#chat').delay(500).slideToggle();
-	}
-	if (firstChat == 1) {
+	$('.box-membre#'+id).addClass('active');
+	$('.box-membre#'+id+'>.unread').hide();
+	
+	if(!$('#newmessage').is(':visible')){
 		$('#newmessage').delay(1000).slideToggle();
-	}
-	firstChat = 0;
-	var nome = $('#'+id+'to').text();
+	} 
+	
+//	$('#chat').delay(500).slideToggle();
+	
+	loadBoxMessages(id);
+	var nome = $('.box-membre#'+id+'to').text();
 	$("#to").val('To: ' + nome);
-	$("#to").prop('readonly', true);
+	$("#to").prop('readonly', true);	
+	
+	
 }
-function showNewMsg() {
+function showNewMsg() {	
 	$('.box-membre').removeClass('active');
-	$('#chat').slideToggle();
+	$('#newmessage').delay(500).slideToggle();	
+	
+	loadBoxMessages('newmessage');
 	$("#to").prop('readonly', false);
 	$("#to").val('');
 	$("#to").prop('placeholder', 'To:');

@@ -7,15 +7,12 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+
 session_start();
 $currentUser = $_SESSION['currentUser'];
 
-//esempio: objectId dell'utente collegato 
-$objectIdCurrentUser = "GuUAj83MGH";
-$typeCurrentUser = $_GET['typeCurrentUser'];
-
 //esempio: objectId dell'utente a cui si vuole vedere il profilo 
-$objectIdUser = $_GET['objectIdUser'];
+$user = $_GET['user'];
 
 
 ?>

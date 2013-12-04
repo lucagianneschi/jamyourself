@@ -34,11 +34,16 @@ $(document).ready(function() {
 		
 	//permette di modifica il background del body in base al file php caricato in index
 	var children = $(".body-content").children();
-	if(children.hasClass('bg-grey-dark')){
-		$("body").addClass("bg-grey-dark");
-	}
-	else{
+	
+	
+	if(children.hasClass('bg-double')){
 		$("body").addClass("bg-double");
+	}
+	if(children.hasClass('bg-double')){
+		$("body").addClass("bg-double");
+	}
+	if(children.hasClass('bg-white')){
+		$("body").addClass("bg-white");
 	}
 	
 });
