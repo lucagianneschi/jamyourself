@@ -114,7 +114,7 @@ $pointer = array('__type' => 'Pointer',
 				 'objectId' => 'lK0bNWIi7k');
 $param['where'] = json_encode(array('album' => $pointer));
 */
-
+/*
 // - OR POINTER
 $compoundQuery = array(
     array('album' => array('__type' => 'Pointer',
@@ -125,6 +125,16 @@ $compoundQuery = array(
 						   'objectId' => 'yfRrFv9ukW'))
 );
 $param['where'] = json_encode(array('$or' => $compoundQuery));
+*/
+
+// - IN QUERY
+$param['where'] = json_encode(array('$or' => $compoundQuery));
+//where={"$or":[{"wins":{"$gt":150}},{"wins":{"$lt":5}}]}
+
+$param['where'] = json_encode(array('fromUser' => array('$inQuery' => array('where' => array('collaboration' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77')), 'className' => '_User'))));
+//where={"post":    {"$inQuery":         {"where":{"image":{"$exists":true}}},"className":"Post"}}
+//where={"fromUser":{"$inQuery":         {"where":{"collaboration":{"__type":"Pointer","className":"_User","objectId":"7fes1RyY77"}}},"className":"_User"}}
+$param['limit'] = '1000';
 
 //questo qui ci vuole sempre!
 $args['urlParams'] = $param;
