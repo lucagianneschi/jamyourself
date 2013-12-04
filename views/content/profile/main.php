@@ -187,7 +187,7 @@ require_once ROOT_DIR . 'config.php';
 						
 						<div id="box-eventReview"></div>
 						<script type="text/javascript">
-							function loadBoxRecordReview() {
+							function loadBoxEventReview() {
 								var json_data = {};
 								json_data.objectId = '<?php echo $user->getObjectId(); ?>';
 								json_data.type = '<?php echo $user->getType(); ?>';

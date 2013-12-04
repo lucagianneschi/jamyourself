@@ -12,6 +12,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
+require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 require_once BOXES_DIR . 'review.box.php';
@@ -21,12 +22,12 @@ session_start();
 $objectId = $_POST['objectId'];
 $type = $_POST['type'];
 
-$eventBox = new EventBox();
-$eventBox->initForPersonalPage($objectId);
-if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
+$reviewBox = new ReviewBox();
+$reviewBox->initForPersonalPage($objectId, $type, 'Event');
+if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	$currentUser = $_SESSION['currentUser'];
-	$events = $eventBox->eventArray;
-	$eventCounter = count($events);
+	$reviews = $reviewBox->reviewArray;
+	$reviewCounter = count($reviews);
 	?>
 	<!------------------------------------- Reviews ------------------------------------>
 	<div class="row" id="social-EventReview">
@@ -37,10 +38,10 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 			</div>	
 			<div  class="large-7 columns align-right">
 				<?php
-				if ($eventCounter > 1) {
+				if ($reviewCounter > 1) {
 					?>
 					<a class="icon-block _nextPage grey" onclick="royalSlideNext('EventReview')" style="top: 5px !important; margin-top: 15px !important"></a>
-					<a class="icon-block _prevPage grey text" onclick="royalSlidePrev('EventReview')" style="top: 5px !important; margin-top: 15px !important; "><span class="indexBox">1</span>/<?php echo $eventCounter ?></a>
+					<a class="icon-block _prevPage grey text" onclick="royalSlidePrev('EventReview')" style="top: 5px !important; margin-top: 15px !important; "><span class="indexBox">1</span>/<?php echo $reviewCounter ?></a>
 					<?php
 				}
 				?>
@@ -51,13 +52,19 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 				<div class="box">
 					<div class="royalSlider contentSlider  rsDefault" id="eventReviewSlide">
 					<?php 
-					if ($eventCounter > 0) {
-						foreach ($events as $key => $value) {
+					if ($reviewCounter > 0) {
+						foreach ($reviews as $key => $value) {
 							$eventReview_objectId = $value->getObjectId();
-							$eventReview_user_objectId = $value->getFromUser()->getobjectId();
-							$eventReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
-							$eventReview_user_username = $value->getFromUser()->getUsername();
-							$eventReview_thumbnailCover = $value->getFromUser()->getThumbnailCover();
+							if ($type == 'SPOTTER') {
+								$eventReview_user_objectId = $value->getEvent()->getFromUser()->getObjectId();
+								$eventReview_user_thumbnail = $value->getEvent()->getFromUser()->getProfileThumbnail();
+								$eventReview_user_username = $value->getEvent()->getFromUser()->getUsername();
+							} else {
+								$eventReview_user_objectId = $value->getFromUser()->getObjectId();
+								$eventReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
+								$eventReview_user_username = $value->getFromUser()->getUsername();
+							}
+							$eventReview_thumbnailCover = $value->getEvent()->getThumbnail();
 							$eventReview_title = $value->getTitle();
 							#TODO
 							//$eventReview_rating = $value->getRating();
