@@ -4,6 +4,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'mail.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once CONTROLLERS_DIR . 'rollBackUtils.php';
 require_once CLASSES_DIR . 'recordParse.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'user.class.php';
@@ -128,7 +129,7 @@ class UploadReviewController extends REST {
             $review->setImage(null);
             $review->setLocation(null);
             $review->setLoveCounter(0);
-            $review->setLovers(null);
+            $review->setLovers(array());
             $review->setShareCounter(0);
             $review->setSong(null);
             $review->setStatus(null);
@@ -151,7 +152,7 @@ class UploadReviewController extends REST {
             }
 
             if (!$this->saveActivityForNewRecordReview()) {
-                $this->rollback($resRev->getObjectId());
+                rollbackUploadReviewController($resRev->getObjectId());
             }
             $this->response(array($controllers['REWSAVED']), 200);
         } catch (Exception $e) {
@@ -189,16 +190,7 @@ class UploadReviewController extends REST {
             return true;
     }
 
-    private function rollback($objectId) {
-        global $controllers;
-        $commentParse = new CommentParse();
-        $res = $commentParse->deleteComment($objectId);
-        if ($res instanceof Error) {
-            $this->response(array($controllers['ROLLKO']), 503);
-        } else {
-            $this->response(array($controllers['ROLLOK']), 503);
-        }
-    }
+
 
     private function sendMailNotification() {
         global $controllers;
