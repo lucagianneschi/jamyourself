@@ -2,7 +2,6 @@
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'mail.service.php';
-require_once SERVICES_DIR . 'geocoder.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'recordParse.class.php';
@@ -12,7 +11,7 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 require_once BOXES_DIR . 'review.box.php';
 
-class uploadReviewController extends REST {
+class UploadReviewController extends REST {
 
     public $reviewedId;
     public $reviewed;
@@ -40,6 +39,11 @@ class uploadReviewController extends REST {
             $reviewBox = $reviewBox->initForUploadReviewPage($this->reviewedId, $this->reviewdClassType, 1);
 
             if ($reviewBox instanceof Error || is_null($reviewBox)) {
+                //la initi influenza direttamente la vista nella view.
+                //Soluzioni :  restittuire null/false e trovare un modo di avvisare l'utente
+                //a video / oppure fa morire qua la pagina: ovviamente questa è una soluzione
+                //temporanea per noi che in fase di test dobbiamo avere un riscontro
+                //immediato
                 die("Nessun record/evento trovato con questo ID : " . $this->reviewedId);
             }
 
@@ -78,25 +82,43 @@ class uploadReviewController extends REST {
                 $this->response(array('status' => $controllers['NOREW']), 403);
             } elseif ((!isset($this->request['rating']) || is_null($this->request['rating']) || !(strlen($this->request['rating']) > 0 ))) {
                 $this->response(array('status' => $controllers['NORATING']), 403);
+            } elseif ((!isset($this->request['type']) || is_null($this->request['type']) || !(strlen($this->request['type']) > 0 ))) {
+                $this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
             }
 
 
 
             $currentUser = $_SESSION['currentUser'];
             $reviewRequest = json_decode(json_encode($this->request), false);
-            $this->recordId = $reviewRequest->record;
-            $this->record = $this->getRecord($this->recordId);
-            if ($this->record instanceof Error || is_null($this->record)) {
-                $this->response('', 406);
+            $this->reviewedId = $reviewRequest->record;
+            $this->reviewed = $this->getRecord($this->reviewedId);
+            $this->reviewedClassType = $reviewRequest->type;
+            $rating = intval($this->request['rating']);
+            if ($this->reviewed instanceof Error || is_null($this->reviewed)) {
+                $this->response($controllers['NODATA'], 406);
             }
-            if ($this->record->getFromUser() == $currentUser->getObjectId()) {
+            if ($this->reviewed->getFromUser() == $currentUser->getObjectId()) {
                 //non puoi commentare i tuoi stessi album
-                $this->response(array('NOSELFREVIEW'), 200);
+                $this->response(array($controllers['NOSELFREVIEW']), 403);
             }
 
             $review = new Comment();
             $review->setActive(true);
-            $review->setAlbum(null);
+            
+            switch(strtolower($this->reviewedClassType)){
+               case 'event' :
+                    $review->setEvent($this->reviewedId);
+                   $review->setAlbum(null);
+                   break;
+               case 'record';
+                    $review->setAlbum($this->reviewedId);
+                    $review->setEvent(null);
+                   break;
+               default:
+                   //che classe si sta commentanto??
+                $this->response(array($controllers['CLASSTYPEKO']), 403);
+            }
+            
             $review->setComment(null);
             $review->setCommentCounter(0);
             $review->setCommentators(null);
@@ -111,29 +133,29 @@ class uploadReviewController extends REST {
             $review->setSong(null);
             $review->setStatus(null);
             $review->setTags(null);
-//        $review->setTitle($reviewRequest->title);
+            $review->setTitle(null);
             $review->setText($reviewRequest->review);
-            $review->setToUser($this->record->getFromUser());
+            $review->setToUser($this->reviewed->getFromUser());
             $review->setVideo(null);
-            $review->setVote(null);
+            $review->setVote($rating);
+//            $review->setACL($ACL);
 
             $this->sendMailNotification();
 
-            $review->setRecord($this->record->getObjectId());
+            $review->setRecord($this->reviewed->getObjectId());
             $review->setType('RR');
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
             if ($resRev instanceof Error) {
-                $this->response(array('NOSAVEDREVIEW'), 503);
+                $this->response(array($controllers['NOSAVEDREVIEW']), 503);
             }
 
             if (!$this->saveActivityForNewRecordReview()) {
                 $this->rollback($resRev->getObjectId());
             }
             $this->response(array($controllers['REWSAVED']), 200);
-//        $this->response(array("res" => "OK"), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
+            $this->response(array($controllers['NODATA']), 503);
         }
     }
 
@@ -154,9 +176,9 @@ class uploadReviewController extends REST {
         $activity->setCounter(0);
         $activity->setFromUser($currentUser->getObjectId());
         $activity->setRead(false);
-        $activity->setRecord($this->record->getObjectId());
+        $activity->setRecord($this->reviewed->getObjectId());
         $activity->setStatus('A');
-        $activity->setToUser($this->record->getFromUser());
+        $activity->setToUser($this->reviewed->getFromUser());
         $activity->setType("NEWRECORDREVIEW");
         $activityParse = new ActivityParse();
         $resActivity = $activityParse->saveActivity($activity);
@@ -185,7 +207,7 @@ class uploadReviewController extends REST {
         $html = file_get_contents(STDHTML_DIR . $mail_files['RECORDREVIEWEMAIL']);
         $mail = mailService();
         $mail->IsHTML(true);
-        $mail->AddAddress($this->getUserEmail($this->record->getFromUser()));
+        $mail->AddAddress($this->getUserEmail($this->reviewed->getFromUser()));
         $mail->Subject = $subject;
         $mail->MsgHTML($html);
         $resMail = $mail->Send();
@@ -196,40 +218,11 @@ class uploadReviewController extends REST {
         unset($mail);
     }
 
-////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
 //
-//          Funzioni private per il recupero delle Info per la View
+//          Funzioni private per il recupero delle Url delle immagini/thumnail per la View
 //
-////////////////////////////////////////////////////////////////////////////////
-    private function getRecord($recordId) {
-        $pRecord = new RecordParse();
-        $record = $pRecord->getRecord($recordId);
-
-        if ($record instanceof Error || $record == null) {
-            return null;
-        }
-        else
-            return $record;
-    }
-
-    private function getRecordFeaturingInfoArray() {
-        $info = array();
-        $featuringIds = $this->record->getFeaturing();
-
-        if (count($featuringIds) > 0) {
-            $pUser = new UserParse();
-            foreach ($featuringIds as $userId) {
-                $featurinUser = $pUser->getUser($userId);
-                if (!($featurinUser instanceof Error) && (!is_null($featurinUser))) {
-                    $username = $featurinUser->getUsername();
-                    $featuringUserId = $featurinUser->getObjectId();
-                    $featuringThumbnail = $this->getUserThumbnailURL($featuringUserId, $featurinUser->getProfileThumbnail());
-                    array_push($info, array("featuringThumbnail" => $featuringThumbnail, "featuringUsername" => $username, "featuringUserId" => $featuringUserId));
-                }
-            }
-        }
-        return $info;
-    }
+//////////////////////////////////////////////////////////////////////////////////////////
 
     private function getUserThumbnailURL($userId) {
         $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
@@ -280,35 +273,6 @@ class uploadReviewController extends REST {
         }
 
         return $path;
-    }
-
-    private function getRecordRating() {
-        //@Todo
-        $recordId = $this->record->getObjectId();
-        return 3;
-    }
-
-    private function getRecordTagGenre() {
-        if (!is_null($this->record)) {
-            return $this->record->getGenre();
-        } else {
-            return "";
-        }
-    }
-
-    private function getRecordAuthor() {
-        if (!is_null($this->record)) {
-            $authorId = $this->record->getFromUser();
-            $pUser = new UserParse();
-            $author = $pUser->getUser($authorId);
-            if (!($author instanceof Error) && !is_null($author)) {
-                return $author->getUsername();
-            } else {
-                return "";
-            }
-        } else {
-            return "";
-        }
     }
 
 }
