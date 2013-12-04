@@ -70,7 +70,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php if(isset($dataActivityRecord['objectId']) && $dataActivityRecord['objectId'] != ''){ ?>	
 							<div class="row " id="activity_<?php $dataActivityRecord['objectId']?>">								
 								<div  class="small-3 columns ">
-									<img class="album-thumb" src="../media/<?php echo $dataActivityRecord['thumbnailCover']?>" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB']; ?>'">
+									<img class="album-thumb" src="../media/<?php echo $dataActivityRecord['thumbnailCover']?>" onerror="this.src='../media/<?php echo DEFRECORDTHUMB; ?>'">
 								</div>
 								<div  class="small-9 columns box-info">
 									<div class="sottotitle grey-dark"><?php echo $dataActivityRecord['title']?></div>
@@ -101,7 +101,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php if(isset($dataActivityEvent['objectId']) && $dataActivityEvent['objectId'] != ''){ ?>
 							<div class="row " id="activity_<?php $dataActivityEvent['objectId']?>">
 								<div  class="small-3 columns ">
-									<img class="album-thumb" src="../media/<?php echo $dataActivityEvent['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFEVENTTHUMB']; ?>'">
+									<img class="album-thumb" src="../media/<?php echo $dataActivityEvent['thumbnail']?>" onerror="this.src='../media/<?php echo DEFEVENTTHUMB; ?>'">
 								</div>
 								<div  class="small-9 columns box-info">
 									<div class="sottotitle grey-dark"><?php echo $dataActivityEvent['title']?></div>
@@ -130,7 +130,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php if(isset($data['recordInfo']['objectId']) && $data['recordInfo']['objectId'] != ''){ ?>	
 							<div class="row " id="activity_<?php $data['recordInfo']['objectId']?>">								
 								<div  class="small-3 columns ">
-									<img class="album-thumb" src="../media/<?php echo $data['recordInfo']['thumbnailCover']?>" onerror="this.src='../media/<?php echo $default_img['DEFRECORDTHUMB']; ?>'">
+									<img class="album-thumb" src="../media/<?php echo $data['recordInfo']['thumbnailCover']?>" onerror="this.src='../media/<?php echo DEFRECORDTHUMB; ?>'">
 								</div>
 								<div  class="small-9 columns box-info">
 									<div class="sottotitle grey-dark"><?php echo $data['recordInfo']['title']?></div>
@@ -157,7 +157,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<?php if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''){ ?>
 							<div class="row " id="activity_<?php $data['eventInfo']['objectId']?>">
 								<div  class="small-3 columns ">
-									<img class="album-thumb" src="../media/<?php echo $data['eventInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFEVENTTHUMB']; ?>'">
+									<img class="album-thumb" src="../media/<?php echo $data['eventInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo DEFEVENTTHUMB; ?>'">
 								</div>
 								<div  class="small-9 columns box-info">
 									<div class="sottotitle grey-dark"><?php echo $data['eventInfo']['title']?></div>
@@ -197,7 +197,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 										<?php 
 										$counterPhoto = $data['albumInfo']['imageCounter'] > 4 ? 4 : $data['albumInfo']['imageCounter'];
 										for($i=0;$i<$counterPhoto; $i++){ ?>
-									  		<li><img src="../media/<?php echo $data['albumInfo']['imageArray'][$i]?>" onerror="this.src='../media/<?php echo $default_img['DEFIMAGE']; ?>'"></li>
+									  		<li><img src="../media/<?php echo $data['albumInfo']['imageArray'][$i]?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"></li>
 									  	<?php } ?>
 									</ul>
 								</div>

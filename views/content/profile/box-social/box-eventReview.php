@@ -72,7 +72,7 @@ $typeUser = $_POST['typeUser'];
 													
 								<div  class="small-1 columns ">
 									<div class="userThumb">
-										<img src="../media/<?php echo $eventReview_user_thumbnail ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+										<img src="../media/<?php echo $eventReview_user_thumbnail ?>" onerror="this.src='../media/<?php echo DEFAVATARTHUMB; ?>'">
 									</div>
 								</div>
 								<div  class="small-11 columns">
@@ -86,7 +86,7 @@ $typeUser = $_POST['typeUser'];
 							<?php }?>
 							<div class="row">
 								<div  class="small-2 columns ">
-									<div class="coverThumb"><img src="../media/<?php echo $eventReview_thumbnailCover?>" onerror="this.src='../media/<?php echo $default_img['DEFEVENTTHUMB']; ?>'"></div>						
+									<div class="coverThumb"><img src="../media/<?php echo $eventReview_thumbnailCover?>" onerror="this.src='../media/<?php echo DEFEVENTTHUMB; ?>'"></div>						
 								</div>
 								<div  class="small-8 columns ">
 									<div class="row ">							
