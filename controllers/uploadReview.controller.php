@@ -96,11 +96,11 @@ class UploadReviewController extends REST {
             $this->reviewedClassType = $reviewRequest->type;
             $rating = intval($this->request['rating']);
             if ($this->reviewed instanceof Error || is_null($this->reviewed)) {
-                $this->response($controllers['NODATA'], 406);
+                $this->response(array("status" => $controllers['NODATA']), 406);
             }
             if ($this->reviewed->getFromUser() == $currentUser->getObjectId()) {
                 //non puoi commentare i tuoi stessi album
-                $this->response(array($controllers['NOSELFREVIEW']), 403);
+                $this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
             }
 
             $review = new Comment();
@@ -117,7 +117,7 @@ class UploadReviewController extends REST {
                    break;
                default:
                    //che classe si sta commentanto??
-                $this->response(array($controllers['CLASSTYPEKO']), 403);
+                $this->response(array("status" => $controllers['CLASSTYPEKO']), 403);
             }
             
             $review->setComment(null);
@@ -148,15 +148,15 @@ class UploadReviewController extends REST {
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
             if ($resRev instanceof Error) {
-                $this->response(array($controllers['NOSAVEDREVIEW']), 503);
+                $this->response(array("status" => $controllers['NOSAVEDREVIEW']), 503);
             }
 
             if (!$this->saveActivityForNewRecordReview()) {
                 rollbackUploadReviewController($resRev->getObjectId());
             }
-            $this->response(array($controllers['REWSAVED']), 200);
+            $this->response(array("status" => $controllers['REWSAVED']), 200);
         } catch (Exception $e) {
-            $this->response(array($controllers['NODATA']), 503);
+            $this->response(array("status" => $controllers['NODATA']), 503);
         }
     }
 
