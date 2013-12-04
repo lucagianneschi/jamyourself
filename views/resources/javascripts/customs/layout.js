@@ -39,8 +39,8 @@ $(document).ready(function() {
 	if(children.hasClass('bg-double')){
 		$("body").addClass("bg-double");
 	}
-	if(children.hasClass('bg-double')){
-		$("body").addClass("bg-double");
+	if(children.hasClass('bg-grey-dark')){
+		$("body").addClass("bg-grey-dark");
 	}
 	if(children.hasClass('bg-white')){
 		$("body").addClass("bg-white");
