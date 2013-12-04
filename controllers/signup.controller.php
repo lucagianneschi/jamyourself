@@ -141,7 +141,9 @@ class SignupController extends REST {
             $this->createImageDefaultAlbum($user->getObjectId());
 
 //crea l'album record di default
-            $this->createRecordDefaultAlbum($user->getObjectId());
+            if($user->getType() == "JAMMER"){
+                $this->createRecordDefaultAlbum($user->getObjectId());
+            }
 
 //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE   
             if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
