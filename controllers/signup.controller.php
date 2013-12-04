@@ -43,7 +43,7 @@ class SignupController extends REST {
      * 
      */
     public function init() {
-        global $controllers;
+
 
 //inizializzo la sessione
         session_start();
@@ -75,7 +75,7 @@ class SignupController extends REST {
 //senza captcha:
             if ($this->get_request_method() != "POST") {
                 $this->response(array(), 406);
-                $this->response(array('status' => $controllers['NORATING']), 403);
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
@@ -119,7 +119,7 @@ class SignupController extends REST {
 
             if ($user instanceof Error) {
 //result è un errore e contiene il motivo dell'errore
-                $this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 403);
+                $this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 503);
             }
 //se va a buon fine salvo una nuova activity       
             $activity = new Activity();
@@ -152,7 +152,7 @@ class SignupController extends REST {
 //restituire true o lo user....            
             $this->response(array("status" => $controllers['USERCREATED']), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 503);
+	    $this->response(array('status' => $e->getErrorMessage()), 503);
         }
     }
 
@@ -188,7 +188,7 @@ class SignupController extends REST {
                 $this->response(array("status" => $controllers["WRONGRECAPTCHA"]), 403);
             }
         } catch (Exception $e) {
-            $this->response(array('status' => $controllers["WRONGRECAPTCHA"]), 503);
+	    $this->response(array('status' => $e->getErrorMessage()), 503);
         }
     }
 
@@ -229,7 +229,7 @@ class SignupController extends REST {
                 $this->response(array("status" => $controllers["USERNAMEALREADYEXISTS"]), 200);
             }
         } catch (Exception $e) {
-            $this->response(array('status' => $controllers['NODATA']), 503);
+	    $this->response(array('status' => $e->getErrorMessage()), 503);
         }
     }
 
@@ -248,7 +248,7 @@ class SignupController extends REST {
 
             if (!isset($this->request['email'])) {
 // If invalid inputs "Bad Request" status message and reason
-                $this->response(array('status' => $controllers['NOMAILSPECIFIED']), 400);
+                $this->response(array('status' => $controllers['NOMAILSPECIFIED']), 403);
             }
             $email = $this->request['email'];
 //query per la verifica dell'email
@@ -267,7 +267,7 @@ class SignupController extends REST {
                 $this->response(array("status" => $controllers["MAILALREADYEXISTS"]), 403);
             }
         } catch (Exception $e) {
-            $this->response(array('status' => $controllers["NODATA"]), 503);
+	    $this->response(array('status' => $e->getErrorMessage()), 503);
         }
     }
 
@@ -419,7 +419,7 @@ class SignupController extends REST {
         $user->setACL($parseACL);
 
         $user->setActive(true);
-//        $user->setBackground();
+        $user->setBackground(DEFBGD);
         $user->setCollaborationCounter(0);
         $user->setFollowersCounter(0);
         $user->setFollowingCounter(0);
@@ -495,7 +495,6 @@ class SignupController extends REST {
         $record = new Record();
         $record->setActive(true);
         $record->setCommentCounter(0);
-//$record->setCoverFile();
         $record->setDuration(0);
         $record->setFromUser($userId);
         $record->setLoveCounter(0);
@@ -503,27 +502,21 @@ class SignupController extends REST {
         $record->setShareCounter(0);
         $record->setTitle('Default Record');
         $record->setYear(date("Y"));
-
         $pRecord = new RecordParse();
         return $pRecord->saveRecord($record);
     }
 
     private function createImageDefaultAlbum($userId) {
         $album = new Album();
-
         $album->setActive(true);
         $album->setCommentCounter(0);
         $album->setCounter(0);
-//        $album->setCoverFile("");
         $album->setFromUser($userId);
         $album->setCommentCounter(0);
         $album->setLoveCounter(0);
         $album->setShareCounter(0);
         $album->setTitle('Default Album');
-
         $pAlbum = new AlbumParse();
-
-//result è un errore e contiene il motivo dell'errore
         return $pAlbum->saveAlbum($album);
     }
 
