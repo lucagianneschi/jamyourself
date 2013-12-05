@@ -105,6 +105,9 @@ $controllers = array(
     //RECORD
     'NOMP3LIST' => 'Nessuna lista di mp3',
     'RECORDSAVED' => 'Album salvato con successo',
+    'NODESCRIPTION' => 'Nessuna descrizione',
+    'NOTAGS' => 'Nessun tag',
+    'MP3SAVEERROR' => 'Errore salvataggio mp3',
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',
