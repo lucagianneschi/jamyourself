@@ -1,13 +1,25 @@
 <?php
 
+/* ! \par		Info Generali:
+ * \author		Luca Gianneschi
+ * \version		1.0
+ * \date		2013
+ * \copyright		Jamyourself.com 2013
+ * \par			Info Classe:
+ * \brief		box caricamento messaggi
+ * \details		Recupera le informazioni dei messaggi per la pagina messaggi
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo		
+ *
+ */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
@@ -99,15 +111,15 @@ class MessageBox {
 	$activityP->where('type', 'MESSAGESENT');
 	$activityP->where('active', true);
 	$activityP->whereInclude('fromUser,toUser');
-	$activityP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitUsersForMessagePage : $limit);
-	$activityP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
+	$activityP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitUsersForMessagePage);
+	$activityP->setSkip((!is_null($skip) && is_int($skip)) ? $skip : 0);
 	$activityP->orderByDescending('createdAt');
 	$activities = $activityP->getActivities();
 	if ($activities instanceof Error) {
 	    $this->errorManagement($activities->getErrorMessage());
 	    return;
 	} elseif (is_null($activities)) {
-	    $this->errorManagement(null);
+	    $this->errorManagement();
 	    return;
 	} else {
 	    foreach ($activities as $act) {
@@ -159,15 +171,15 @@ class MessageBox {
 	$messageP->where('type', 'M');
 	$messageP->where('active', true);
 	$messageP->whereInclude('fromUser');
-	$messageP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->limitMessagesForMessagePage : $limit);
-	$messageP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
+	$messageP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitMessagesForMessagePage);
+	$messageP->setSkip((!is_null($skip) && is_int($skip)) ? $skip : 0);
 	$messageP->orderByDescending('createdAt');
 	$messages = $messageP->getComments();
 	if ($messages instanceof Error) {
 	    $this->errorManagement($messages->getErrorMessage());
 	    return;
 	} elseif (is_null($messages)) {
-	    $this->errorManagement(null);
+	    $this->errorManagement();
 	    return;
 	} else {
 	    $messagesArray = array();
@@ -193,7 +205,7 @@ class MessageBox {
      * \param	$errorMessafe
      * \todo    
      */
-    private function errorManagement($errorMessage) {
+    private function errorManagement($errorMessage = null) {
 	$this->error = $errorMessage;
 	$this->messageArray = array();
 	$this->userInfoArray = array();
