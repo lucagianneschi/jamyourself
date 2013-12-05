@@ -116,7 +116,7 @@ function tracklistGenerator($objectId, $limit = DEFAULTQUERY) {
     $song = new SongParse();
     $song->wherePointer('record', 'Record', $objectId);
     $song->where('active', true);
-    $song->setLimit((is_null(!$limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
+    $song->setLimit((!is_null(!$limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
     $song->orderByAscending('position');
     $songs = $song->getSongs();
     return $songs;
