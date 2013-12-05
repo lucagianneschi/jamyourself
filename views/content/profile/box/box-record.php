@@ -160,7 +160,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 					
 					<div class="row" onclick="recordSelectNext('<?php echo $recordSingle_objectId ?>')">
 						<div class="large-12 columns">					
-							<a class="ico-label _back_page text white"><?php echo $views['BACK'];?></a>
+							<a class="ico-label _back_page text white" onclick="loadBoxRecord()"><?php echo $views['BACK'];?></a>
 						</div>
 					</div>
 					<div class="box-info-element">
@@ -192,6 +192,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 								$.ajax({
 									type: "POST",
 									url: "content/profile/box/box-recordDetail.php",
+									data: json_data,
 									beforeSend: function(xhr) {
 										//spinner.show();
 										console.log('Sono partito box-recordDetail');

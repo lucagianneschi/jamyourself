@@ -1,4 +1,4 @@
-
+﻿
 <?php 
 /* box per gli dettagli album record
  * box chiamato tramite ajax con:
@@ -27,10 +27,9 @@ $songs = tracklistGenerator($recordObjectId);
 debug(DEBUG_DIR, 'debug.txt', json_encode($songs));
 if (isset($_SESSION['currentUser'])) {
 	$indice = 0;
-	/*
 	foreach ($songs as $key => $value) {
 		$currentUser = $_SESSION['currentUser'];
-		if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+		if (!in_array($currentUser->getObjectId(), $value->getLovers())) {
 			$track_css_love = '_unlove grey';
 			$track_text_love = $views['LOVE'];
 		} else {
@@ -83,9 +82,7 @@ if (isset($_SESSION['currentUser'])) {
 			</div>
 		</div>
 		<?php
+		$indice++;
 	}
-	*/
-} else {
-	echo 'Errore';
 }
 ?>
