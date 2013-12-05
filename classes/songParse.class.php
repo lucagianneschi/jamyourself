@@ -203,6 +203,7 @@ class SongParse {
             $song->setLocation(fromParseGeoPoint($res->location));
             $song->setLoveCounter($res->loveCounter);
             $song->setLovers($res->lovers);
+            $song->setPosition($res->position);
             $song->setRecord(fromParsePointer($res->record));
             $song->setShareCounter($res->shareCounter);
             $song->setTitle(parse_decode_string($res->title));
@@ -241,6 +242,7 @@ class SongParse {
             is_null($song->getLocation()) ? $parseSong->location = null : $parseSong->location = toParseGeoPoint($song->getLocation());
             is_null($song->getLoveCounter()) ? $parseSong->loveCounter = -1 : $parseSong->loveCounter = $song->getLoveCounter();
             is_null($song->getLovers()) ? $parseSong->lovers = $nullArray : $parseSong->lovers = $song->getLovers();
+            is_null($song->getPosition()) ? $parseSong->position = -1 : $parseSong->position = $song->getPosition();
             is_null($song->getRecord()) ? $parseSong->record = null : $parseSong->record = toParsePointer('Record', $song->getRecord());
             is_null($song->getShareCounter()) ? $parseSong->shareCounter = -1 : $parseSong->shareCounter = $song->getShareCounter();
             is_null($song->getTitle()) ? $parseSong->title = null : $parseSong->title = $song->getTitle();
