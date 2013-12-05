@@ -378,6 +378,15 @@ class PlaylistParse {
     }
 
     /**
+     * \fn	whereInQuery($field, $className, $array)
+     * \brief	Sets a condition for which the field $field matches a value in the array $array
+     * \param	$field, $className, $array
+     */
+    public function whereInQuery($field, $className, $array) {
+        $this->parseQuery->whereInQuery($field, $className, $array);
+    }
+
+    /**
      * \fn		void whereLessThan($field, $value)
      * \brief	Sets a condition for which the field $field must value less than $value
      * \param	$field	the string which represent the field
@@ -427,6 +436,29 @@ class PlaylistParse {
     }
 
     /**
+     * \fn	whereNotInQuery($field, $className, $array)
+     * \brief	Sets a condition for which the field $field does not match a value in the array $array
+     * \param	$field, $className, $array
+     */
+    public function whereNotInQuery($field, $className, $array) {
+        $this->parseQuery->whereNotInQuery($field, $className, $array);
+    }
+
+    /**
+     * \fn		void whereOr($value)
+     * \brief	Sets a condition for which the field in the array $value must value al least one value
+     * 			An example of $value is:
+     * 			$value = array(
+     * 				array('type' => 'EVENTUPDATED'),
+     * 				array('album' => array('__type' => 'Pointer', 'className' => 'Album', 'objectId' => 'lK0bNWIi7k'))
+     * 			);
+     * \param	$field	the array representing the field and the value to put in or
+     */
+    public function whereOr($value) {
+        $this->parseQuery->where('$or', $value);
+    }
+
+    /**
      * \fn		void wherePointer($field, $className, $objectId)
      * \brief	Sets a condition for which the field $field must contain a Pointer to the class $className with pointer value $objectId
      * \param	$field		the string which represent the field
@@ -449,4 +481,5 @@ class PlaylistParse {
     }
 
 }
+
 ?>
