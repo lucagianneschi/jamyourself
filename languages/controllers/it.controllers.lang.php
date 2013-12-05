@@ -108,6 +108,9 @@ $controllers = array(
     'NODESCRIPTION' => 'Nessuna descrizione',
     'NOTAGS' => 'Nessun tag',
     'MP3SAVEERROR' => 'Errore salvataggio mp3',
+    'NOSONGSAVED' => 'Nessuna canzone salvata',
+    'SONGSAVEDWITHERROR' => 'Canzoni salvate con errori',
+    'ALLSONGSSAVED' => 'Canzoni salvate correttamente',
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',

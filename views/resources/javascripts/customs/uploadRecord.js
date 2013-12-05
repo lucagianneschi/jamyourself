@@ -493,10 +493,10 @@ function addSong(id, duration, tags) {
 }
 
 function publish() {
-    sendRequest("publishRecords", json_album, publishCallback, false);
+    sendRequest("publishSongs", json_album, publishCallback, false);
 }
 
-function publishCallback(data){
+function publishCallback(data,status){
     console.log(data);
 }
 //////////////////////////////////////////////////////////////////////////////

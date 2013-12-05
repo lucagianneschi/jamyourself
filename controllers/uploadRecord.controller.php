@@ -159,7 +159,7 @@ class uploadRecordController extends REST {
         }
     }
 
-    public function publishRecords() {
+    public function publishSongs() {
         global $controllers;
         if ($this->get_request_method() != "POST") {
             $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
@@ -176,44 +176,70 @@ class uploadRecordController extends REST {
         $songList = $this->request['list'];
 
         $songErrorList = array(); //lista canzoni non caricate
+        $songSavedList = array();
+        $position = 0;
         if (count($songList) > 0) {
             $pSong = new SongParse();
 
             foreach ($songList as $element) {
-
-                $src = $element['src'];
-                $tags = $element['tags'];
-                $featuring = $element['featuring'];
-                $title = $element['songTitle'];
-                $duration = $element['duration'];
+                $position++;
 
                 $song = new Song();
-                $song->setDuration($duration);
-                $song->setTitle($title);
-                $song->setFeaturing($featuring);
-                $song->setGenre($tags);
-                $song->setFilePath($src);
+                $song->setActive(true);
+                $song->setCommentCounter(0);
+                $song->setCommentators(array());
+                $song->setComments(0);
+                $song->setCounter(0);
+                $song->setDuration($element['duration']);
+                $song->setFeaturing($element['featuring']);
+                $song->setFilePath($element['src']);
+                $song->setFromUser($currentUser->getObjectId());
+                $song->setGenre($element['tags']);
+                $song->setLocation(null);
+                $song->setLovers(array());
+                $song->setLoveCounter(0);
+                $song->setPosition($position);
+                $song->setRecord($recordId);
+                $song->setCounter(0);
+                $song->setShareCounter(0);
+                $song->setTitle($element['songTitle']);
 
-                if ($pSong->saveSong($song) instanceof Error) {
+                $savedSong = $pSong->saveSong($song);
+                if ($savedSong instanceof Error) {
                     //errore: inserire una rollback per la cancellazione di tutti gli mp3? 
                     //come gestire?
-                    
                     //idea: salvo una lista degli mp3 il cui salvataggio e' fallito
-                    $songErrorList[] = $element; 
-                }
-                
-                if(count($songErrorList) == 0){
+                    $songErrorList[] = $element;
+                    
+                    //cancello l'mp3 dalla cache
+                    unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element['src']);
+                    
+                } else {
+                    //salvo la struttura del file system
+                    $this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath());
+                    if (!$this->savePublishSongActivity($savedSong)) {
+                        //errore salvataggio activity-> rollback?
+                    }
+                      
+                    //aggiungo il songId alla lista degli elementi salvati
+                    $element['id'] = $savedSong->getObjectId();
+                    $songSavedList[] = $element;
                     
                 }
 
-                //salvo la struttura del file system
-                $this->saveMp3($currentUser->getObjectId(), $recordId, $src);
-
-//                salvataggio actitivy
+                //gestione risposte
+                if (count($songErrorList) == 0) {
+                    //nessun errore
+                    $this->response(array("status" => $controllers['ALLSONGSSAVED'],"errorList" => null,"savedList" => $songSavedList), 200);
+                }elseif(count($savedSong) == 0){
+                    //nessuna canzone salvata => tutti errori  
+                    $this->response(array("status" => $controllers['NOSONGSAVED']), 403);
+                }else{
+                    //salvate parzialmente, qualche errore
+                    $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'],"errorList" => $songErrorList,"savedList" => $songSavedList), 200);
+                }
             }
         }
-
-        $this->response(array("status" => $controllers['RECORDSAVED']), 200);
     }
 
     private function saveMp3($userId, $recordId, $songId) {
@@ -227,6 +253,35 @@ class uploadRecordController extends REST {
                 rename(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId, $dir . DIRECTORY_SEPARATOR . $songId);
             }
         }
+    }
+
+    private function savePublishSongActivity(Song $song) {
+        $activity = new Activity();
+
+        $activity->setActive(true);
+//        $activity->setAlbum();
+//        $activity->setComment();
+//        $activity->setCounter();
+//        $activity->setEvent();
+        $activity->setFromUser($song->getFromUser());
+//        $activity->setImage();
+//        $activity->setPlaylist();
+//        $activity->setQuestion();
+//        $activity->setRead();
+        $activity->setRecord($song->getRecord());
+        $activity->setSong($song->getObjectId());
+//        $activity->setStatus();
+//        $activity->setToUser();
+//        $activity->setType();
+//        $activity->setUserStatus();
+//        $activity->setVideo();
+//        $activity->setACL();
+
+        $pActivity = new ActivityParse();
+        if (($pActivity->saveActivity($activity)) instanceof Error)
+            return false;
+        else
+            return true;
     }
 
     private function getImages($decoded) {
