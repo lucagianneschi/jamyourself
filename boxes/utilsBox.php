@@ -87,7 +87,6 @@ class UserInfo {
  * \todo        prevere la possibilità di avere più di 1000 utenti in lista
  */
 function getRelatedUsers($objectId, $field, $className, $all = false, $limit = 1000, $skip = 0) {
-    $userArray = array();
     require_once CLASSES_DIR . 'user.class.php';
     require_once CLASSES_DIR . 'userParse.class.php';
     $parseUser = new UserParse();
@@ -99,11 +98,10 @@ function getRelatedUsers($objectId, $field, $className, $all = false, $limit = 1
     if ($users instanceof Error) {
         return $users;
     } elseif (is_null($users)) {
-        return $userArray;
+        return array();
     } else {
         return $users;
     }
-    return $userArray;
 }
 
 /**
