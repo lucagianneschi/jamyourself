@@ -203,6 +203,7 @@ class SongParse {
             $song->setLocation(fromParseGeoPoint($res->location));
             $song->setLoveCounter($res->loveCounter);
             $song->setLovers($res->lovers);
+            $song->setPosition($res->position);
             $song->setRecord(fromParsePointer($res->record));
             $song->setShareCounter($res->shareCounter);
             $song->setTitle(parse_decode_string($res->title));
@@ -241,6 +242,7 @@ class SongParse {
             is_null($song->getLocation()) ? $parseSong->location = null : $parseSong->location = toParseGeoPoint($song->getLocation());
             is_null($song->getLoveCounter()) ? $parseSong->loveCounter = -1 : $parseSong->loveCounter = $song->getLoveCounter();
             is_null($song->getLovers()) ? $parseSong->lovers = $nullArray : $parseSong->lovers = $song->getLovers();
+            is_null($song->getPosition()) ? $parseSong->position = -1 : $parseSong->position = $song->getPosition();
             is_null($song->getRecord()) ? $parseSong->record = null : $parseSong->record = toParsePointer('Record', $song->getRecord());
             is_null($song->getShareCounter()) ? $parseSong->shareCounter = -1 : $parseSong->shareCounter = $song->getShareCounter();
             is_null($song->getTitle()) ? $parseSong->title = null : $parseSong->title = $song->getTitle();
@@ -378,6 +380,15 @@ class SongParse {
     }
 
     /**
+     * \fn	whereInQuery($field, $className, $array)
+     * \brief	Sets a condition for which the field $field matches a value in the array $array
+     * \param	$field, $className, $array
+     */
+    public function whereInQuery($field, $className, $array) {
+        $this->parseQuery->whereInQuery($field, $className, $array);
+    }
+
+    /**
      * \fn		void whereLessThan($field, $value)
      * \brief	Sets a condition for which the field $field must value less than $value
      * \param	$field	the string which represent the field
@@ -424,6 +435,29 @@ class SongParse {
      */
     public function whereNotExists($field) {
         $this->parseQuery->whereDoesNotExist($field);
+    }
+
+    /**
+     * \fn	whereNotInQuery($field, $className, $array)
+     * \brief	Sets a condition for which the field $field does not match a value in the array $array
+     * \param	$field, $className, $array
+     */
+    public function whereNotInQuery($field, $className, $array) {
+        $this->parseQuery->whereNotInQuery($field, $className, $array);
+    }
+
+    /**
+     * \fn		void whereOr($value)
+     * \brief	Sets a condition for which the field in the array $value must value al least one value
+     * 			An example of $value is:
+     * 			$value = array(
+     * 				array('type' => 'EVENTUPDATED'),
+     * 				array('album' => array('__type' => 'Pointer', 'className' => 'Album', 'objectId' => 'lK0bNWIi7k'))
+     * 			);
+     * \param	$field	the array representing the field and the value to put in or
+     */
+    public function whereOr($value) {
+        $this->parseQuery->where('$or', $value);
     }
 
     /**

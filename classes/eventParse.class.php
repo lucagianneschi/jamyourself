@@ -53,7 +53,7 @@ class EventParse {
             $parseObject = new parseObject('Event');
             //we use the increment function with a negative value because decrement function still not work
             $parseObject->increment($field, array(0 - $value));
-			if ($withArray) {
+            if ($withArray) {
                 if (is_null($fieldArray) || empty($valueArray))
                     return throwError(new Exception('decrementEvent parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
                 $parseObject->removeArray($fieldArray, $valueArray);
@@ -206,7 +206,7 @@ class EventParse {
             $event->setEventDate(fromParseDate($res->eventDate));
             $event->setFromUser(fromParsePointer($res->fromUser));
             $event->setImage($res->image);
-            $event->setImageFile(fromParseFile($res->image,"image/jpeg"));
+            $event->setImageFile(fromParseFile($res->image, "image/jpeg"));
             $event->setLocation(fromParseGeoPoint($res->location));
             $event->setLocationName(parse_decode_string($res->locationName));
             $event->setLoveCounter($res->loveCounter);
@@ -400,6 +400,15 @@ class EventParse {
     }
 
     /**
+     * \fn	whereInQuery($field, $className, $array)
+     * \brief	Sets a condition for which the field $field matches a value in the array $array
+     * \param	$field, $className, $array
+     */
+    public function whereInQuery($field, $className, $array) {
+        $this->parseQuery->whereInQuery($field, $className, $array);
+    }
+
+    /**
      * \fn		void whereLessThan($field, $value)
      * \brief	Sets a condition for which the field $field must value less than $value
      * \param	$field	the string which represent the field
@@ -446,6 +455,29 @@ class EventParse {
      */
     public function whereNotExists($field) {
         $this->parseQuery->whereDoesNotExist($field);
+    }
+
+    /**
+     * \fn	whereNotInQuery($field, $className, $array)
+     * \brief	Sets a condition for which the field $field does not match a value in the array $array
+     * \param	$field, $className, $array
+     */
+    public function whereNotInQuery($field, $className, $array) {
+        $this->parseQuery->whereNotInQuery($field, $className, $array);
+    }
+
+    /**
+     * \fn		void whereOr($value)
+     * \brief	Sets a condition for which the field in the array $value must value al least one value
+     * 			An example of $value is:
+     * 			$value = array(
+     * 				array('type' => 'EVENTUPDATED'),
+     * 				array('album' => array('__type' => 'Pointer', 'className' => 'Album', 'objectId' => 'lK0bNWIi7k'))
+     * 			);
+     * \param	$field	the array representing the field and the value to put in or
+     */
+    public function whereOr($value) {
+        $this->parseQuery->where('$or', $value);
     }
 
     /**

@@ -41,6 +41,7 @@ $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $song->setLocation($parseGeoPoint);
 $song->setLoveCounter(100);
 $song->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$song->setPosition(2);
 $song->setRecord('4zD865KrXo');
 $song->setShareCounter(10000);
 $song->setTitle('un titolo');

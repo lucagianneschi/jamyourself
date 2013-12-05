@@ -398,6 +398,15 @@ class CommentParse {
     }
 
     /**
+     * \fn	whereInQuery($field, $className, $array)
+     * \brief	Sets a condition for which the field $field matches a value in the array $array
+     * \param	$field, $className, $array
+     */
+    public function whereInQuery($field, $className, $array) {
+        $this->parseQuery->whereInQuery($field, $className, $array);
+    }
+
+    /**
      * \fn		void whereLessThan($field, $value)
      * \brief	Sets a condition for which the field $field must value less than $value
      * \param	$field	the string which represent the field
@@ -444,6 +453,15 @@ class CommentParse {
      */
     public function whereNotExists($field) {
         $this->parseQuery->whereDoesNotExist($field);
+    }
+
+    /**
+     * \fn	whereNotInQuery($field, $className, $array)
+     * \brief	Sets a condition for which the field $field does not match a value in the array $array
+     * \param	$field, $className, $array
+     */
+    public function whereNotInQuery($field, $className, $array) {
+        $this->parseQuery->whereNotInQuery($field, $className, $array);
     }
 
     /**
