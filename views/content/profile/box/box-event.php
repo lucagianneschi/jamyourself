@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /* Box degli eventi, viene effettuata la chiamata a tale box solo se typeUser: jammer or venue
  * box chiamato tramite load con:
  * data: {data: data, typeUser: typeUser}
@@ -73,9 +73,8 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 									$event_featuring = $event_featuring.' '.$value['username'];
 								}
 							}
-							$event_eventDate_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $value->getEventDate());
-							$event_eventDate = $event_eventDate_DateTime->format('l j F Y - H:i');
 							*/
+							$event_eventDate = $value->getEventDate()->format('l j F Y - H:i');
 							$event_location = $value->getCity(). ' - ' .$value->getAddress();					
 							
 							$event_love = $value->getLoveCounter();
@@ -127,7 +126,7 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 									<div class="row">				
 										<div class="small-12 columns">
 											<div class="small-4 columns event">
-												<img class="eventcover" src="../media/<?php echo  $event_thumbnail?>" onError="this.src='../media/images/default/defaultEventcoverthumb.jpg'">
+												<img class="eventcover" src="../media/<?php echo $event_thumbnail; ?>" onError="this.src='../media/images/default/defaultEventcoverthumb.jpg'">
 											</div>
 											<div class="small-8 columns">
 												<?php
