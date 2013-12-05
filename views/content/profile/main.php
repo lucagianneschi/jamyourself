@@ -245,8 +245,72 @@ require_once ROOT_DIR . 'config.php';
 							}
 						</script>
 						
-						<div id="box-collaboration"></div>
-						<div id="box-followers"></div>
+						<?php
+						if ($user->getType() != 'SPOTTER') {
+							?>
+							<div id="box-collaboration"></div>
+							<script type="text/javascript">
+								function loadBoxCollaboration() {
+									var json_data = {};
+									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+									json_data.type = '<?php echo $user->getType(); ?>';
+									$.ajax({
+										type: "POST",
+										url: "content/profile/box/box-collaboration.php",
+										data: json_data,
+										beforeSend: function(xhr) {
+											//spinner.show();
+											console.log('Sono partito box-collaboration');
+										}
+									}).done(function(message, status, xhr) {
+										//spinner.hide();
+										$("#box-collaboration").html(message);
+										code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+										console.log("Code: " + code + " | Message: <omitted because too large>");
+									}).fail(function(xhr) {
+										//spinner.hide();
+										console.log("Error: " + $.parseJSON(xhr));
+										//message = $.parseJSON(xhr.responseText).status;
+										//code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+									});
+								}
+							</script>
+							
+							<div id="box-followers"></div>
+							<script type="text/javascript">
+								function loadBoxFollowers() {
+									var json_data = {};
+									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+									json_data.type = '<?php echo $user->getType(); ?>';
+									$.ajax({
+										type: "POST",
+										url: "content/profile/box/box-followers.php",
+										data: json_data,
+										beforeSend: function(xhr) {
+											//spinner.show();
+											console.log('Sono partito box-followers');
+										}
+									}).done(function(message, status, xhr) {
+										//spinner.hide();
+										$("#box-followers").html(message);
+										code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+										console.log("Code: " + code + " | Message: <omitted because too large>");
+									}).fail(function(xhr) {
+										//spinner.hide();
+										console.log("Error: " + $.parseJSON(xhr));
+										//message = $.parseJSON(xhr.responseText).status;
+										//code = xhr.status;
+										//console.log("Code: " + code + " | Message: " + message);
+									});
+								}
+							</script>
+							<?php
+						}
+						?>
+						
 						<div id="box-post"></div>
 				</div>			
 			</div>

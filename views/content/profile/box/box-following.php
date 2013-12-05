@@ -77,6 +77,7 @@ $followingCounterV = count($followingsV);
 						<div class="row">
 						<?php
 					}
+					if ($i == $totalView) break;
 					$i++;
 				}
 				?>
@@ -120,6 +121,7 @@ $followingCounterV = count($followingsV);
 						<div class="row">
 						<?php
 					}
+					if ($i == $totalView) break;
 					$i++;
 				}
 				?>

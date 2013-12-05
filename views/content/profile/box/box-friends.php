@@ -54,6 +54,7 @@ $friendshipCounter = count($friends);
 								<div class="row">
 								<?php
 							}
+							if ($i == $totalView) break;
 							$i++;
 						}
 						?>
