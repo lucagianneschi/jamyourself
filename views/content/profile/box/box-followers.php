@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /* box followers
  * box chiamato tramite load con:
  * data: {data,typeuser}

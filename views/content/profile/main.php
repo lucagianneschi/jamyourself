@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../../');
 
@@ -312,6 +312,34 @@ require_once ROOT_DIR . 'config.php';
 						?>
 						
 						<div id="box-post"></div>
+						<script type="text/javascript">
+							function loadBoxPost() {
+								var json_data = {};
+								json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+								json_data.type = '<?php echo $user->getType(); ?>';
+								$.ajax({
+									type: "POST",
+									url: "content/profile/box/box-post.php",
+									data: json_data,
+									beforeSend: function(xhr) {
+										//spinner.show();
+										console.log('Sono partito box-post');
+									}
+								}).done(function(message, status, xhr) {
+									//spinner.hide();
+									$("#box-post").html(message);
+									code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+									console.log("Code: " + code + " | Message: <omitted because too large>");
+								}).fail(function(xhr) {
+									//spinner.hide();
+									console.log("Error: " + $.parseJSON(xhr));
+									//message = $.parseJSON(xhr.responseText).status;
+									//code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+								});
+							}
+						</script>
 				</div>			
 			</div>
 		</div>	

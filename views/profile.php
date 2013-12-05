@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -39,6 +39,7 @@ if (is_null($userInfoBox->error)) {
 				loadBoxRecordReview();
 				loadBoxEventReview();
 				//loadBoxActivity();
+				loadBoxPost();
 				<?php
 				if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
 					?>

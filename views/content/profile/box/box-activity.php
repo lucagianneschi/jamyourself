@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /* box le activity
  * box chiamato tramite ajax con:
  * data: {currentUser: objectId},
