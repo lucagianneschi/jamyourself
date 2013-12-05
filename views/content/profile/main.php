@@ -246,7 +246,7 @@ require_once ROOT_DIR . 'config.php';
 						</script>
 						
 						<?php
-						if ($user->getType() != 'SPOTTER') {
+						if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
 							?>
 							<div id="box-collaboration"></div>
 							<script type="text/javascript">

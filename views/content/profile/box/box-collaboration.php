@@ -13,13 +13,11 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'relation.box.php';
+
 $relationBox = new RelationBox();
 $relationBox->init($_POST['objectId'], $_POST['type']);
-debug(DEBUG_DIR, 'debug.txt', 'QUA');
+
 if (is_null($relationBox->error)) {
-	#TODO
-	//per me i followers non servono a nulla
-	//$followers = $relationsBox->relationArray['followers'];
 	$venuesCollaborators = $relationBox->relationArray['venuesCollaborators'];
 	$jammersCollaborators = $relationBox->relationArray['jammersCollaborators'];
 	

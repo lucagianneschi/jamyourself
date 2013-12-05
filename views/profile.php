@@ -39,11 +39,12 @@ if (is_null($userInfoBox->error)) {
 				loadBoxRecordReview();
 				loadBoxEventReview();
 				//loadBoxActivity();
-				loadBoxCollaboration();
 				<?php
 				if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
 					?>
 					loadBoxEvent();
+					loadBoxCollaboration();
+					loadBoxFollowers();
 					<?php
 				} elseif ($user->getType() == 'SPOTTER') {
 					?>
