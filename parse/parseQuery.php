@@ -281,8 +281,9 @@ class parseQuery extends parseRestClient{
 	public function whereInQuery($key,$className,$inQuery){
 		if(isset($key) && isset($className)){
 			$this->_query[$key] = array(
-				'$inQuery' => $inQuery,
-				'className' => $className
+				'$inQuery' => array(
+					'where' => $inQuery,
+					'className' => $className)
 			);
 		}	
 		else{
@@ -293,8 +294,9 @@ class parseQuery extends parseRestClient{
 	public function whereNotInQuery($key,$className,$inQuery){
 		if(isset($key) && isset($className)){
 			$this->_query[$key] = array(
-				'$notInQuery' => $inQuery,
-				'className' => $className
+				'$notInQuery' => array(
+					'where' => $inQuery,
+					'className' => $className)
 			);
 		}	
 		else{

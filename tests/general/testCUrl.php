@@ -128,9 +128,6 @@ $param['where'] = json_encode(array('$or' => $compoundQuery));
 */
 
 // - IN QUERY
-$param['where'] = json_encode(array('$or' => $compoundQuery));
-//where={"$or":[{"wins":{"$gt":150}},{"wins":{"$lt":5}}]}
-
 $param['where'] = json_encode(array('fromUser' => array('$inQuery' => array('where' => array('collaboration' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77')), 'className' => '_User'))));
 //where={"post":    {"$inQuery":         {"where":{"image":{"$exists":true}}},"className":"Post"}}
 //where={"fromUser":{"$inQuery":         {"where":{"collaboration":{"__type":"Pointer","className":"_User","objectId":"7fes1RyY77"}}},"className":"_User"}}
