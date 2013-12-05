@@ -1,4 +1,5 @@
 <?php
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -22,13 +23,12 @@ class uploadRecordController extends REST {
 
     public function init() {
 //utente non loggato
-        
+
         if (!isset($_SESSION['currentUser'])) {
             /* This will give an error. Note the output
              * above, which is before the header() call */
             header('Location: login.php?from=uploadRecord.php');
-            exit;        
-            
+            exit;
         }
 
         $currentUser = $_SESSION['currentUser'];
@@ -38,40 +38,32 @@ class uploadRecordController extends REST {
         $recordBox = new RecordBox();
         $recordBox->initForUploadRecordPage($currentUser->getObjectId());
         $this->viewRecordList = $recordBox->recordArray;
-       
     }
 
     public function albumCreate() {
 
         global $controllers;
 
-        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser'])) {
-            $this->response('', 406);
+        if ($this->get_request_method() != "POST") {
+            $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
+        } elseif (!isset($_SESSION['currentUser'])) {
+            $this->response($controllers['USERNOSES'], 403);
+        } elseif (!isset($newAlbum['albumTitle']) || is_null($newAlbum['albumTitle']) || !(strlen($newAlbum['albumTitle']) > 0)) {
+            $this->response(array("status" => $controllers['NOTITLE']), 403);
+        } elseif (!isset($newAlbum['description']) || is_null($newAlbum['description']) || !(strlen($newAlbum['description']) > 0)) {
+            $this->response(array("status" => $controllers['NODESCRIPTION']), 403);
+        } elseif (!isset($newAlbum['tags']) || is_null($newAlbum['tags']) || !is_array($newAlbum['tags']) || !(count($newAlbum['tags']) > 0)) {
+            $this->response(array("status" => $controllers['NOTAGS']), 403);
+        }if ($_SESSION['currentUser']->getType() != "JAMMER") {
+            $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
         }
 
         $albumJSON = $this->request;
         $newAlbum = json_decode(json_encode($albumJSON), false);
 
-//        
-//            "albumTitle": $("#albumTitle").val(),
-//            "description": $("#description").val(),
-//            "tags": getTagsAlbumCreate()        
-
-        if (!isset($newAlbum->albumTitle) || is_null($newAlbum->albumTitle) || !(strlen($newAlbum->albumTitle) > 0) ||
-                !isset($newAlbum->description) || is_null($newAlbum->description) || !(strlen($newAlbum->description) > 0) ||
-                !isset($newAlbum->tags) || is_null($newAlbum->tags) || !is_array($newAlbum->tags) || !(count($newAlbum->tags) > 0)
-        ) {
-            $error = array('status' => "Bad Request", "msg" => "Invalid new album");
-            $this->response($error, 400);
-        }
-
         $user = $_SESSION['currentUser'];
         $userId = $user->getObjectId();
 
-        if ($user->getType() != "JAMMER") {
-            $error = array('status' => "Bad Request", "msg" => "Invalid user type");
-            $this->response($error, 400);
-        }
 
         $pRecord = new RecordParse();
         $record = new Record();
@@ -107,8 +99,7 @@ class uploadRecordController extends REST {
 
         if ($newRecord instanceof Error) {
 //result è un errore e contiene il motivo dell'errore
-            $error = array('status' => "Service Unavailable", "msg" => $newRecord->getErrorMessage());
-            $this->response($error, 503);
+            $this->response(array("status" => $controllers['NODATA']), 503);
         }
 
 //se va a buon fine salvo una nuova activity       
@@ -137,11 +128,15 @@ class uploadRecordController extends REST {
 
         unset($_SESSION['currentUserFeaturingArray']);
 
-        $this->response(array("res" => "OK", "recordId" => $newRecord->getObjectId()), 200);
+        $this->response(array("status" => $controllers[''], "id" => $newRecord->getObjectId()), 200);
     }
 
     private function getTags($list) {
-        return implode(",", $list);
+        if (is_array($list) && count($list) > 0) {
+            return implode(",", $list);
+        }
+        else
+            return "";
     }
 
     private function createFolderForRecord($userId, $albumId) {
@@ -174,41 +169,51 @@ class uploadRecordController extends REST {
             $this->response(array('status' => $controllers['NOOBJECTID']), 403);
         } elseif (!isset($this->request['recordId'])) {
             $this->response(array('status' => $controllers['NOMP3LIST']), 403);
-        } 
+        }
 
         $currentUser = $_SESSION['currentUser'];
         $recordId = $this->request['recordId'];
         $songList = $this->request['list'];
 
+        $songErrorList = array(); //lista canzoni non caricate
         if (count($songList) > 0) {
             $pSong = new SongParse();
-            
-            foreach ($songList as $element) {          
-                
+
+            foreach ($songList as $element) {
+
                 $src = $element['src'];
                 $tags = $element['tags'];
                 $featuring = $element['featuring'];
                 $title = $element['songTitle'];
                 $duration = $element['duration'];
-         
+
                 $song = new Song();
                 $song->setDuration($duration);
                 $song->setTitle($title);
                 $song->setFeaturing($featuring);
                 $song->setGenre($tags);
                 $song->setFilePath($src);
-                             
-                if($pSong->saveSong($jamSong) instanceof Error){
-                    //errore
-                } 
+
+                if ($pSong->saveSong($song) instanceof Error) {
+                    //errore: inserire una rollback per la cancellazione di tutti gli mp3? 
+                    //come gestire?
+                    
+                    //idea: salvo una lista degli mp3 il cui salvataggio e' fallito
+                    $songErrorList[] = $element; 
+                }
                 
+                if(count($songErrorList) == 0){
+                    
+                }
+
+                //salvo la struttura del file system
                 $this->saveMp3($currentUser->getObjectId(), $recordId, $src);
-                
+
 //                salvataggio actitivy
             }
         }
 
-        $this->response(array($controllers['RECORDSAVED']), 200);
+        $this->response(array("status" => $controllers['RECORDSAVED']), 200);
     }
 
     private function saveMp3($userId, $recordId, $songId) {
