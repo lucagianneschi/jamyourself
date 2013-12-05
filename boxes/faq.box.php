@@ -45,9 +45,9 @@ class FaqBox {
      * \param	$limit, number of paq to display; $lang, language of the text to display; $field for ordering instances; $direction ascending (true) or descending (false)
      * \return	faqBox
      */
-    public function init($lang, $field, $direction = true, $limit = DEFAULTQUERY) {
+    public function init($lang, $field, $limit, $direction = true) {
 	$faqP = new FaqParse();
-	$faqP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->defaultLimit : $limit);
+	$faqP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->defaultLimit);
 	$faqP->where('lang', $lang);
 	($direction == true) ? $faqP->orderByAscending($field) : $faqP->orderByDescending($field);
 	$faqs = $faqP->getFaqs();
