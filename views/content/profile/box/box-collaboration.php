@@ -14,12 +14,12 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'relation.box.php';
 
-$relationBox = new RelationBox();
-$relationBox->init($_POST['objectId'], $_POST['type']);
+$collaboratorsBox = new CollaboratorsBox();
+$collaboratorsBox->init($_POST['objectId']);
 
-if (is_null($relationBox->error)) {
-	$venuesCollaborators = $relationBox->relationArray['venuesCollaborators'];
-	$jammersCollaborators = $relationBox->relationArray['jammersCollaborators'];
+if (is_null($collaboratorsBox->error)) {
+	$venuesCollaborators = $collaboratorsBox->venueArray;
+	$jammersCollaborators = $collaboratorsBox->jammerArray;
 	
 	$venuesCollaboratorsCounter = count($venuesCollaborators);
 	$jammersCollaboratorsCounter = count($jammersCollaborators);
