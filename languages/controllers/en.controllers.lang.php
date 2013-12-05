@@ -102,6 +102,11 @@ $controllers = array(
     'SHORTREWTITLE' => 'Review title too short',
     'LONGREWTITLE' => 'Review title too long',
     'NORATING' => 'Rating unset',
+    //RECORD
+    'NOMP3LIST' => 'No mp3 list',
+    'RECORDSAVED' => 'Record saved',
+    'NODESCRIPTION' => 'No description',
+    'NOTAGS' => 'No tags',
     //RELATION
     'RELDENIED' => 'You are not allowed to send a relationship request to this user!',
     'SELF' => 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!',
