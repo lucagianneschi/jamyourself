@@ -15,9 +15,30 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
- 
+require_once BOXES_DIR . 'activity.box.php';
+
+$type = $_POST['type'];
+
+$activityRecordBox = ActivityRecordBox();
+$activityRecordBox->init($_POST['objectId']);
+if (is_null($activityRecordBox->error)) {
+	$activitiesRecord = $activityRecordBox->recordArray;
+}
+
+$activityAlbumBox = ActivityAlbumBox();
+$activityAlbumBox->init($_POST['objectId']);
+if (is_null($activityAlbumBox->error)) {
+	$albums = $activityAlbumBox->albumArray;
+}
+
+$activityEventBox = ActivityEventBox();
+$activityEventBox->init($_POST['objectId']);
+if (is_null($activityEventBox->error)) {
+	$activitiesEvent = $activityEventBox->eventArray;
+}
+
 $data = $_POST['data'];
-$typeUser = $_POST['typeUser'];
+//$typeUser = $_POST['typeUser'];
 
 $recordCounter = $data['recordCounter'];
 
@@ -25,12 +46,12 @@ $dataActivityRecord = $_POST['dataActivity']['record'];
 $dataActivityEvent = $_POST['dataActivity']['event'];
 $dataActivityRelation = $_POST['dataActivity']['relation'];
 
-$titleLastALbum =  $typeUser == 'JAMMER' ? 'Last album updated' : 'Last listening';
+$titleLastALbum =  $type == 'JAMMER' ? 'Last album updated' : 'Last listening';
 
 $location = '';
 
 if(isset($dataActivityEvent['objectId']) && $dataActivityEvent['objectId'] != ''){
-	if($typeUser == 'JAMMER') 
+	if($type == 'JAMMER') 
 		$location =  $dataActivityEvent['locationName'].' ';
 	
 	if(isset($dataActivityEvent['city']) && $dataActivityEvent['city'] != '')
@@ -63,7 +84,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 				<div class="box">
 					<!------------------------- LAST RECORD -------------------------------->									
 					<?php
-					if ($typeUser == 'JAMMER') {
+					if ($type == 'JAMMER') {
 						?>	
 						<div class="row box-singleActivity">
 							<div  class="large-12 columns ">
@@ -102,7 +123,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					?>
 					<!-------------------------- LAST EVENT --------------------------------------------->						
 					<?php
-					if ($typeUser != 'SPOTTER') {
+					if ($type != 'SPOTTER') {
 						?>
 						<div class="row box-singleActivity">
 							<div  class="large-12 columns ">
@@ -140,25 +161,27 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					} ?>
 					<!------------------ BOX SPOTTER LAST LISTERING AND ATTENGING EVENT ------------>
 					<?php
-					if ($typeUser == 'SPOTTER') {
+					if ($type == 'SPOTTER') {
 						?>
 						<div class="row box-singleActivity">
 							<div  class="large-12 columns ">
 								<div class="text orange"><?php echo $views['activity']['LASTLISTERING'];?></div>
 								<?php
-								if (isset($data['recordInfo']['objectId']) && $data['recordInfo']['objectId'] != '') {
-									?>
-									<div class="row " id="activity_<?php $data['recordInfo']['objectId']?>">								
-										<div  class="small-3 columns ">
-											<img class="album-thumb" src="../media/<?php echo $data['recordInfo']['thumbnailCover']?>" onerror="this.src='../media/<?php echo DEFRECORDTHUMB; ?>'">
+								if (count($activitiesRecord) > 0) {
+									foreach($activitiesRecord as $key => $value) {
+										?>
+										<div class="row " id="activity_<?php $value->getObjectId(); ?>">								
+											<div  class="small-3 columns ">
+												<img class="album-thumb" src="../media/<?php echo $value->getRecord()->getThumbnailCover(); ?>" onerror="this.src='../media/<?php echo DEFRECORDTHUMB; ?>'">
+											</div>
+											<div  class="small-9 columns box-info">
+												<div class="sottotitle grey-dark"><?php echo $value->getRecord()->getTitle(); ?></div>
+												<div class="text grey"><?php echo $views['activity']['RECORDED'];?> <?php echo $value->getSong()->getTitle(); ?></div>
+												<a class="ico-label _play-large text "><?php echo $views['activity']['VIEWALBUM'];?></a>			
+											</div>									
 										</div>
-										<div  class="small-9 columns box-info">
-											<div class="sottotitle grey-dark"><?php echo $data['recordInfo']['title']?></div>
-											<div class="text grey"><?php echo $views['activity']['RECORDED'];?> <?php echo $data['recordInfo']['songTitle']?></div>
-											<a class="ico-label _play-large text "><?php echo $views['activity']['VIEWALBUM'];?></a>									
-										</div>									
-									</div>
-									<?php
+										<?php
+									}
 								} else {
 									?>
 									<div class="row">
@@ -179,19 +202,21 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 							<div  class="large-12 columns ">
 								<div class="text orange"><?php echo $views['activity']['ATTEVENT'];?></div>
 								<?php
-								if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '') {
-									?>
-									<div class="row " id="activity_<?php $data['eventInfo']['objectId']?>">
-										<div  class="small-3 columns ">
-											<img class="album-thumb" src="../media/<?php echo $data['eventInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo DEFEVENTTHUMB; ?>'">
+								if (count($activitiesEvent) > 0) {
+									foreach($activitiesEvent as $key => $value) {
+										?>
+										<div class="row " id="activity_<?php $value->getObjectId(); ?>">
+											<div  class="small-3 columns ">
+												<img class="album-thumb" src="../media/<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFEVENTTHUMB; ?>'">
+											</div>
+											<div  class="small-9 columns box-info">
+												<div class="sottotitle grey-dark"><?php echo $value->getEvent()->getTitle(); ?></div>
+												<div class="text grey"><?php echo $value->getEvent()->getCity() . ' ' . $value->getEvent()->getAddress(); ?></div>
+												<a class="ico-label _calendar inline text grey"><?php echo $value->getEvent()->getEventDate()->format('l j F - H:i') ?></a>								
+											</div>	
 										</div>
-										<div  class="small-9 columns box-info">
-											<div class="sottotitle grey-dark"><?php echo $data['eventInfo']['title']?></div>
-											<div class="text grey"><?php echo $location ?></div>
-											<a class="ico-label _calendar inline text grey"><?php echo $event_eventDate; ?></a>								
-										</div>	
-									</div>
-									<?php
+										<?php
+									}
 								} else {
 									?>
 									<div class="row">
@@ -215,26 +240,35 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 						<div  class="large-12 columns ">
 							<div class="text orange"><?php echo $views['activity']['LASTPHOTO'];?></div>
 							<?php
-							if (isset($data['albumInfo']['objectId']) && $data['albumInfo']['objectId'] != '') {
-								?>
-								<div class="row " style="margin-bottom: 10px;">
-									<div  class="small-12 columns ">
-										<span class="text grey-dark" style="cursor:pointer"><?php echo $data['albumInfo']['title'];?></span>
-										<span class="text grey"> - <?php echo $data['albumInfo']['imageCounter'];?> <?php echo $views['activity']['PHOTOS'];?> </span>							
+							if (count($albums) > 0) {
+								foreach ($albums as $key => $value) {
+									?>
+									<div class="row " style="margin-bottom: 10px;">
+										<div  class="small-12 columns ">
+											<span class="text grey-dark" style="cursor:pointer"><?php echo $value->getTitle(); ?></span>
+											<span class="text grey"> - <?php echo $value->getImageCounter(); ?> <?php echo $views['activity']['PHOTOS'];?> </span>
+										</div>
 									</div>
-								</div>
-								<div class="row ">
-									<div  class="small-12 columns ">
-										<ul class="small-block-grid-4">
-											<?php 
-											$counterPhoto = $data['albumInfo']['imageCounter'] > 4 ? 4 : $data['albumInfo']['imageCounter'];
-											for($i=0;$i<$counterPhoto; $i++){ ?>
-												<li><img src="../media/<?php echo $data['albumInfo']['imageArray'][$i]?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"></li>
-											<?php } ?>
-										</ul>
+									<div class="row ">
+										<div  class="small-12 columns ">
+											<ul class="small-block-grid-4">
+												<?php 
+												#TODO
+												//questa è una relazione, quindi la devo includere con una whereRelatedTo
+												/*
+												$counterPhoto = $value->getImageCounter() > 4 ? 4 : $value->getImageCounter();
+												for ($i = 1; $i < $counterPhoto; $i++) {
+													?>
+													<li><img src="../media/<?php echo $data['albumInfo']['imageArray'][$i]?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"></li>
+													<?php
+												}
+												*/
+												?>
+											</ul>
+										</div>
 									</div>
-								</div>
-								<?php
+									<?php
+								}
 							} else {
 								?>
 								<div class="row">
@@ -252,7 +286,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 					</div>
 					<!------------------------------ RELATION - COLLABORATION -------------------------------->
 					<?php 
-					if ($typeUser != 'SPOTTER') {
+					if ($type != 'SPOTTER') {
 						?>
 						<!-------------------------- jammersCollaborators ------------------------->
 						<div class="row ">
@@ -380,7 +414,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 						</div>	
 						<?php
 					}  
-					if ($typeUser == 'SPOTTER') {
+					if ($type == 'SPOTTER') {
 						?>
 						<!-------------------------- friendship ------------------------->
 						<div class="row ">
