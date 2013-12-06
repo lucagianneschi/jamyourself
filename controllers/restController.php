@@ -119,8 +119,8 @@ class REST {
     private function set_headers() {
 	$msg = $this->get_status_message();
 	$content = $this->_content_type;
-	header("HTTP/1.1 " . $this->_code . " " . $this->get_status_message());
-	header("Content-Type:" . $this->_content_type);
+//	header("HTTP/1.1 " . $this->_code . " " . $this->get_status_message());
+//	header("Content-Type:" . $this->_content_type);
     }
 
     public function processApi() {
