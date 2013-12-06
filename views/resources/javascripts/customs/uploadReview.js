@@ -43,6 +43,7 @@ $(document).ready(function() {
     
     function publicCallback(data){
         window.console.log(data);
+        alert(data.status);
     }
     
     $("#button_publish").click(function() {
