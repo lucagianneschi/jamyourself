@@ -18,6 +18,8 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 require_once BOXES_DIR . 'relation.box.php';
 
+$followingCounter = $_POST['followingCounter'];
+
 $followingsBox = new FollowingsBox();
 $followingsBox->init($_POST['objectId']);
 
@@ -27,7 +29,7 @@ if (is_null($followingsBox->error)) {
 	
 	$venuesFollowingsCounter = count($venuesFollowings);
 	$jammersFollowingsCounter = count($jammersFollowings);
-	$totFollowings = $venuesFollowingsCounter + $jammersFollowingsCounter;
+	$totFollowings = $followingCounter;
 	?>
 	<!----------------------------------- FOLLOWING -------------------------------------------------->
 	<div class="row" id="profile-following">

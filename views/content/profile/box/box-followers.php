@@ -14,12 +14,13 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 require_once BOXES_DIR . 'relation.box.php';
 
+$followersCounter = $_POST['followersCounter'];
+
 $followersBox = new FollowersBox();
 $followersBox->init($_POST['objectId']);
 
 if (is_null($followersBox->error)) {
 	$followers = $followersBox->followersArray;
-	$followersCounter = count($followers);
 	?>
 	<div class="row" id="social-followers">
 		<div  class="large-12 columns">

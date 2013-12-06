@@ -88,6 +88,7 @@ require_once ROOT_DIR . 'config.php';
 								function loadBoxFriends() {
 									var json_data = {};
 									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+									json_data.friendshipCounter = '<?php echo $user->getFriendshipCounter(); ?>';
 									$.ajax({
 										type: "POST",
 										url: "content/profile/box/box-friends.php",
@@ -117,6 +118,7 @@ require_once ROOT_DIR . 'config.php';
 								function loadBoxFollowing() {
 									var json_data = {};
 									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+									json_data.followingCounter = '<?php echo $user->getFollowingCounter(); ?>';
 									$.ajax({
 										type: "POST",
 										url: "content/profile/box/box-following.php",
@@ -254,6 +256,7 @@ require_once ROOT_DIR . 'config.php';
 									var json_data = {};
 									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
 									json_data.type = '<?php echo $user->getType(); ?>';
+									json_data.collaborationCounter = '<?php echo $user->getCollaborationCounter(); ?>';
 									$.ajax({
 										type: "POST",
 										url: "content/profile/box/box-collaboration.php",
@@ -284,6 +287,7 @@ require_once ROOT_DIR . 'config.php';
 									var json_data = {};
 									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
 									json_data.type = '<?php echo $user->getType(); ?>';
+									json_data.followersCounter = '<?php echo $user->getFollowersCounter(); ?>';
 									$.ajax({
 										type: "POST",
 										url: "content/profile/box/box-followers.php",

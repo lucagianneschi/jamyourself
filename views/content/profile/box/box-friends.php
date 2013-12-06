@@ -14,12 +14,13 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'relation.box.php';
 
+$friendshipCounter = $_POST['friendshipCounter'];
+
 $friendsBox = new FriendsBox();
 $friendsBox->init($_POST['objectId']);
 
 if (is_null($friendsBox->error)) {
-	$friends = $friendsBox->followersArray;
-	$friendshipCounter = count($friends);
+	$friends = $friendsBox->friendsArray;
 	?>
 	<div class="row" id="profile-friends">
 		<div  class="large-12 columns">
