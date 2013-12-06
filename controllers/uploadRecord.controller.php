@@ -16,6 +16,7 @@ require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'song.class.php';
 require_once CLASSES_DIR . 'songParse.class.php';
 require_once BOXES_DIR . "record.box.php";
+require_once SERVICES_DIR . 'mp3.service.php';
 
 class uploadRecordController extends REST {
 
@@ -142,7 +143,7 @@ class uploadRecordController extends REST {
     private function createFolderForRecord($userId, $albumId) {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $albumId, 0, true);
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $albumId, 0777, true);
 
                 if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images")) {
                     $bool = mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images");
@@ -181,78 +182,94 @@ class uploadRecordController extends REST {
         if (count($songList) > 0) {
             $pSong = new SongParse();
 
-            foreach ($songList as $element) {
-                $position++;
-
-                $song = new Song();
-                $song->setActive(true);
-                $song->setCommentCounter(0);
-                $song->setCommentators(array());
-                $song->setComments(0);
-                $song->setCounter(0);
-                $song->setDuration($element['duration']);
-                $song->setFeaturing($element['featuring']);
-                $song->setFilePath($element['src']);
-                $song->setFromUser($currentUser->getObjectId());
-                $song->setGenre($element['tags']);
-                $song->setLocation(null);
-                $song->setLovers(array());
-                $song->setLoveCounter(0);
-                $song->setPosition($position);
-                $song->setRecord($recordId);
-                $song->setCounter(0);
-                $song->setShareCounter(0);
-                $song->setTitle($element['songTitle']);
-
-                $savedSong = $pSong->saveSong($song);
-                if ($savedSong instanceof Error) {
-                    //errore: inserire una rollback per la cancellazione di tutti gli mp3? 
-                    //come gestire?
-                    //idea: salvo una lista degli mp3 il cui salvataggio e' fallito
+            foreach ($songList as $songIstance) {
+                $element = json_decode(json_encode($songIstance),false);
+                $cachedFile = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element->src;
+                if (!file_exists($cachedFile)) {
+                    //errore... il file non e' piu' in cache... :(
                     $songErrorList[] = $element;
-                    
-                    //cancello l'mp3 dalla cache
-                    unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element['src']);
-                    
                 } else {
-                    //salvo la struttura del file system
-                    $this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath());
-                    if (!$this->savePublishSongActivity($savedSong)) {
-                        //errore salvataggio activity-> rollback?
-                    }
-                      
-                    //aggiungo il songId alla lista degli elementi salvati
-                    $element['id'] = $savedSong->getObjectId();
-                    $songSavedList[] = $element;
-                    
-                }
+                    $position++;
+                    $song = new Song();
+                    $song->setActive(true);
+                    $song->setCommentCounter(0);
+                    $song->setCommentators(array());
+                    $song->setComments(0);
+                    $song->setCounter(0);
+                    $song->setDuration($this->getRealLength($cachedFile));
+                    if (isset($element->featuring))
+                        $song->setFeaturing($element->featuring);
+                    else
+                        $song->setFeaturing(array());
+                    $song->setFilePath($element->src);
+                    $song->setFromUser($currentUser->getObjectId());
+                    $song->setGenre(implode(",", $element->tags));
+                    $song->setLocation(null);
+                    $song->setLovers(array());
+                    $song->setLoveCounter(0);
+                    $song->setPosition($position);
+                    $song->setRecord($recordId);
+                    $song->setCounter(0);
+                    $song->setShareCounter(0);
+                    $song->setTitle($element->title);
 
-                //gestione risposte
-                if (count($songErrorList) == 0) {
-                    //nessun errore
-                    $this->response(array("status" => $controllers['ALLSONGSSAVED'],"errorList" => null,"savedList" => $songSavedList), 200);
-                }elseif(count($savedSong) == 0){
-                    //nessuna canzone salvata => tutti errori  
-                    $this->response(array("status" => $controllers['NOSONGSAVED']), 403);
-                }else{
-                    //salvate parzialmente, qualche errore
-                    $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'],"errorList" => $songErrorList,"savedList" => $songSavedList), 200);
+                    $savedSong = $pSong->saveSong($song);
+                    if ($savedSong instanceof Error) {
+                        //errore: inserire una rollback per la cancellazione di tutti gli mp3? 
+                        //come gestire?
+                        //idea: salvo una lista degli mp3 il cui salvataggio e' fallito
+                        $songErrorList[] = $element;
+
+                        //cancello l'mp3 dalla cache
+                        unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element->src);
+                    } else {
+                        //salvo la struttura del file system
+                        $result = $this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath());
+                        if (!$result || !$this->savePublishSongActivity($savedSong)) {
+                            //errore salvataggio activity-> rollback?
+                        }
+
+                        //aggiungo il songId alla lista degli elementi salvati
+                        $element->id = $savedSong->getObjectId();
+                        $songSavedList[] = $element;
+                    }
                 }
+            }
+            //gestione risposte
+            if (count($songErrorList) == 0) {
+                //nessun errore
+                $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList), 200);
+            } elseif (count($songSavedList) == 0) {
+                //nessuna canzone salvata => tutti errori  
+                $this->response(array("status" => $controllers['NOSONGSAVED']), 403);
+            } else {
+                //salvate parzialmente, qualche errore
+                $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'], "errorList" => $songErrorList, "savedList" => $songSavedList), 200);
             }
         }
     }
 
     private function saveMp3($userId, $recordId, $songId) {
-        if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
-            $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId;
+        if (file_exists(MEDIA_DIR . "cache" . "/" . $songId)) {
+            $dir = USERS_DIR . $userId . "/" . "songs" . "/" . $recordId;
             if (!is_dir($dir)) {
-                mkdir($dir, 0, true);
+                mkdir($dir, 0777, true);
             }
 
             if (!is_null($userId) && !is_null($recordId) && !is_null($songId)) {
-                rename(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId, $dir . DIRECTORY_SEPARATOR . $songId);
+                $oldName = MEDIA_DIR . "cache" . "/" . $songId;
+                $newName = $dir . "/" . $songId;
+                return rename($oldName, $newName);
             }
         }
+        else
+            return false;
+    }
+
+    private function getRealLength($cachedFile) {
+        $mp3Analysis = new Mp3file($cachedFile);
+        $metaData = $mp3Analysis->get_metadata();
+        return (int) $metaData['Length'];
     }
 
     private function savePublishSongActivity(Song $song) {
