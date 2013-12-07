@@ -58,7 +58,7 @@ define('DEFVIDEOTHUMB', MEDIA_DIR . 'images/default/defaultVideoThumb.jpg');
 ##################
 #  QUERY LIMITS  #
 ##################
-define('MAX', 1);
+define('MAX', 1000);
 define('MIN', 1);
 define('DEFAULTQUERY', 100);
 define('PLAYLISTLIMIT', 20);
