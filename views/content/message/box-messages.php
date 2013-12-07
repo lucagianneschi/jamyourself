@@ -4,9 +4,9 @@ if(isset($_POST['user']) && $_POST['user'] == 'newmessage'){
 	?>
 	<div class="row">
 		<div class="large-12 columns ">
-		    <h5>Write a new message</h5>
+		    <h5>Write a new message</h5>	
 		    <input id="to" type="text" placeholder="To:">
-		    <textarea placeholder="Message"></textarea>
+		    <textarea id="tomessage" placeholder="Message"></textarea>
 		</div>
 	</div>
 	
@@ -26,11 +26,14 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once BOXES_DIR . 'message.box.php';
 
+$limit = (int)$_POST['limit'];
+$skip = (int)$_POST['skip'];
+
 $messageBox = new MessageBox();
 
 if(isset($_POST['user'])){
 	$user = $_POST['user'];
-	$messageBox->initForMessageList($user, 10, 0);
+	$messageBox->initForMessageList($user, $limit, $skip);
 	if($messageBox->error != $boxes['ONLYIFLOGGEDIN']){
 		
 		$dataPrec = '';
@@ -44,8 +47,16 @@ if(isset($_POST['user'])){
 	    <div id="chat">
 	        <div class="row">
 	            <div class="large-12 columns ">
-	            	
-	            	<?php foreach ($messageBox->messageArray as $key => $value) {
+	            	<?php if(count($messageBox->messageArray) == $limit){ ?>
+	            	<div class="row">
+	                    <div class="large-12 columns">
+	                    	<div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit+$skip ?>)"><small>View Other Messages</small></div>
+	                    </div>
+	               </div>
+	            	<?php 
+					}
+					$risultato = array_reverse($messageBox->messageArray);
+	            	foreach ($risultato as $key => $value) {
 	            								
 						$data = $value->createdAt->format('d-F-Y');
 						$time = $value->createdAt->format('H:i');
@@ -111,8 +122,9 @@ if(isset($_POST['user'])){
 	            </div>
 	        </div>
 	    </div>
-	    
+	    <?php if($skip == 0){?>
 	    <textarea placeholder="Message"></textarea>
+	    <?php } ?>
 	</div>
 </div>
 <?php }}}?>
