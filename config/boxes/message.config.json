@@ -1,4 +1,4 @@
 {
-    "limitMessagesForMessagePage" : 1,
-    "limitUsersForMessagePage" : 1
+    "limitMessagesForMessagePage" : 1000,
+    "limitUsersForMessagePage" : 1000
 }
