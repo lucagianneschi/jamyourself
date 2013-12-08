@@ -133,10 +133,6 @@ function sessionChecker() {
     require_once CLASSES_DIR . 'userParse.class.php';
     global $boxes;
     $currentUserId = $boxes['NOID'];
-    //
-    // non puoi fare lo start di una sessione se la sessione e' gia' attiva
-    // a norma si deve fare una volta, nelle view, o nella pagina di invocazione dei contrller
-    //session_start();
     if (isset($_SESSION['currentUser'])) {
         $currentUser = $_SESSION['currentUser'];
         $currentUserId = $currentUser->getObjectId();
