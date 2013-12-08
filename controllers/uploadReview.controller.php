@@ -34,10 +34,9 @@ class UploadReviewController extends REST {
         if (isset($_GET["recordId"]) && strlen($_GET["recordId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
             $this->reviewedId = $_GET["recordId"];
             $this->reviewdClassType = $_GET["type"];
-            $this->reviewedInfo;
 
             $reviewBox = new ReviewBox();
-            $reviewBox = $reviewBox->initForUploadReviewPage($this->reviewedId, $this->reviewdClassType, 1);
+            $reviewBox->initForUploadReviewPage($this->reviewedId, $this->reviewdClassType, 1);
 
             if ($reviewBox instanceof Error || is_null($reviewBox)) {
                 //la initi influenza direttamente la vista nella view.
@@ -47,17 +46,10 @@ class UploadReviewController extends REST {
                 //immediato
                 die("Nessun record/evento trovato con questo ID : " . $this->reviewedId);
             }
-
-            $this->reviewedInfo = $reviewBox->mediaInfo;
-            switch ($this->reviewdClassType) {
-                case "Record" :
-            $this->reviewedInfo->thumbnail = $this->getRecordThumbnailURL($currentUser->getObjectId(), $reviewBox->mediaInfo->thumbnail);
-                    break;
-                case "Event" :
-            $this->reviewedInfo->thumbnail = $this->getEventThumbnailURL($currentUser->getObjectId(), $reviewBox->mediaInfo->thumbnail);
-                    break;
-            }
-            $this->reviewedInfo->authorThumbnail = $this->getUserThumbnailURL($currentUser->getObjectId());           
+            
+            $this->reviewed = $reviewBox->reviewArray[0];
+            $this->reviewedInfo = $reviewBox->mediaInfo[0];
+        
         } else {
             //PER IL TEST
             ?>
@@ -208,63 +200,6 @@ class UploadReviewController extends REST {
         }
         $mail->SmtpClose();
         unset($mail);
-    }
-
-//////////////////////////////////////////////////////////////////////////////////////////
-//
-//          Funzioni private per il recupero delle Url delle immagini/thumnail per la View
-//
-//////////////////////////////////////////////////////////////////////////////////////////
-
-    private function getUserThumbnailURL($userId) {
-        $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
-
-        if (!is_null($userId) && strlen($userId) > 0) {
-
-            $pAuthor = new UserParse();
-            $author = $pAuthor->getUser($userId);
-
-            if (!$author instanceof Error && !is_null($author)) {
-                $thumbId = $author->getProfileThumbnail();
-                $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $thumbId;
-                if (!file_exists($path)) {
-                    $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
-                }
-            }
-        }
-        return $path;
-    }
-
-    private function getRecordThumbnailURL($userId, $recordCoverThumb) {
-        $path = "";
-        if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
-            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
-            if (!file_exists($path)) {
-                $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
-            }
-        } else {
-            //immagine di default con path realtivo rispetto alla View
-            //http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
-            $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
-        }
-
-        return $path;
-    }
-
-    private function getEventThumbnailURL($userId, $eventCoverThumb) {
-        $path = "";
-        if (!is_null($eventCoverThumb) && strlen($eventCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
-            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $eventCoverThumb;
-            if (!file_exists($path)) {
-                $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultEventThumb.jpg";
-            }
-        } else {
-            //immagine di default con path realtivo rispetto alla View
-            //http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
-            $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultEventThumb.jpg";
-        }
-
-        return $path;
     }
 
 }
