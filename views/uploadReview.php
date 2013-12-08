@@ -20,7 +20,7 @@ $authorThumbnail=$viewInfo->authorThumbnail;
 $thumbnail = $viewInfo->thumbnail;
 $featuringInfoArray = $viewInfo->featuring;
 
-$author = $viewInfo->fromUserInfo->username;
+$author = $viewInfo->fromUser;
 
 //  media info:
 //    public $city;
