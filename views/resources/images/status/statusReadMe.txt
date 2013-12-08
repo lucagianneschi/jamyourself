@@ -1,1 +1,0 @@
-In questa cartella si salvano le immagini caricate per la classe status
