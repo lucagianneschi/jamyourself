@@ -150,20 +150,22 @@ function sessionChecker() {
 //
 //////////////////////////////////////////////////////////////////////////////////////////
 
-function getUserThumbnailURL($userId) {
+function getUserThumbnailURL($userId, $thumbnailFileName = "") {
     $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
-
+    $thumbId = $thumbnailFileName;
     if (!is_null($userId) && strlen($userId) > 0) {
 
-        $pAuthor = new UserParse();
-        $author = $pAuthor->getUser($userId);
-
-        if (!$author instanceof Error && !is_null($author)) {
-            $thumbId = $author->getProfileThumbnail();
-            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $thumbId;
-            if (!file_exists($path)) {
-                $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
+        if (is_null($thumbnailFileName) || !(strlen($thumbnailFileName) > 0)) {
+            $pAuthor = new UserParse();
+            $author = $pAuthor->getUser($userId);
+            if (!$author instanceof Error && !is_null($author)) {
+                $thumbId = $author->getProfileThumbnail();
             }
+        }
+
+        $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $thumbId;
+        if (!file_exists($path)) {
+            $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultAvatarThumb.jpg";
         }
     }
     return $path;
