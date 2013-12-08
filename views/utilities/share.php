@@ -1,4 +1,20 @@
-<?php
+﻿<?php
+/* ! \par		Info Generali:
+ * \author		Daniele Caldelli
+ * \version		1.0
+ * \date		2013
+ * \copyright	Jamyourself.com 2013
+ * \par			Info Classe:
+ * \brief		define the share parameters
+ */
+
+/**
+ * \fn		getShareParameters($classType, $objectId, $imgPath)
+ * \brief	define the share parameters
+ * \param	$classType:	the type of the Parse class
+ *			$objectId:	the objectId of the object of the $classType
+ *			$imgPath:	the path of the image to share in case that $classType is Event, Image, Record and Song
+ */
 function getShareParameters($classType, $objectId, $imgPath) {
 	
 	$parameters = array();
