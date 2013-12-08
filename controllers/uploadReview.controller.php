@@ -25,40 +25,10 @@ class UploadReviewController extends REST {
 
             /* This will give an error. Note the output
              * above, which is before the header() call */
-            header('Location: login.php?from=uploadReview.php');
+            header('Location: login.php?from=uploadEvent.php');
             exit;
        }
 
-        $currentUser = $_SESSION['currentUser'];
-
-        if (isset($_GET["recordId"]) && strlen($_GET["recordId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
-            $this->reviewedId = $_GET["recordId"];
-            $this->reviewdClassType = $_GET["type"];
-
-            $reviewBox = new ReviewBox();
-            $reviewBox->initForUploadReviewPage($this->reviewedId, $this->reviewdClassType, 1);
-
-            if ($reviewBox instanceof Error || is_null($reviewBox)) {
-                //la initi influenza direttamente la vista nella view.
-                //Soluzioni :  restittuire null/false e trovare un modo di avvisare l'utente
-                //a video / oppure fa morire qua la pagina: ovviamente questa è una soluzione
-                //temporanea per noi che in fase di test dobbiamo avere un riscontro
-                //immediato
-                die("Nessun record/evento trovato con questo ID : " . $this->reviewedId);
-            }
-            
-            $this->reviewed = $reviewBox->reviewArray[0];
-            $this->reviewedInfo = $reviewBox->mediaInfo[0];
-        
-        } else {
-            //PER IL TEST
-            ?>
-            <a href="<?php echo VIEWS_DIR . "uploadReview.php?recordId=OoW5rEt94b&type=Record" ?>">Test link</a>
-            <br>
-            <br>
-            <?php
-            die("Devi specificare un album Id ");
-        }
     }
 
     public function publish() {

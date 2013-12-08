@@ -18,7 +18,7 @@ require_once CLASSES_DIR . 'songParse.class.php';
 require_once BOXES_DIR . "record.box.php";
 require_once SERVICES_DIR . 'mp3.service.php';
 
-class uploadRecordController extends REST {
+class UploadRecordController extends REST {
 
     public $viewRecordList;
 
