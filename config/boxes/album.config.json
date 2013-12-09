@@ -1,4 +1,5 @@
 {
     "limitForPersonalPage" : 4,
-    "limitForDetail" : 15
+    "limitForDetail" : 15,
+    "limitForActivityBox": 4
 }
