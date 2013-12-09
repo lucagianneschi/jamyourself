@@ -95,14 +95,14 @@ class MessageBox {
      * \return	MessageBox, error in case of error
      */
     public function initForUserList($limit = null, $skip = null) {
-        require_once CLASSES_DIR . 'activity.class.php';
-        require_once CLASSES_DIR . 'activityParse.class.php';
         global $boxes;
         $currentUserId = sessionChecker();
         if ($currentUserId == $boxes['NOID']) {
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
+        require_once CLASSES_DIR . 'activity.class.php';
+        require_once CLASSES_DIR . 'activityParse.class.php';
         $userList = array();
         $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)),
             array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)));
@@ -154,13 +154,13 @@ class MessageBox {
      */
     public function initForMessageList($otherId, $limit = null, $skip = null) {
         global $boxes;
-        require_once CLASSES_DIR . 'comment.class.php';
-        require_once CLASSES_DIR . 'commentParse.class.php';
         $currentUserId = sessionChecker();
         if ($currentUserId == $boxes['NOID']) {
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
+        require_once CLASSES_DIR . 'comment.class.php';
+        require_once CLASSES_DIR . 'commentParse.class.php';
         $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)),
             array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)));
         $value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
@@ -174,7 +174,6 @@ class MessageBox {
         $messageP->orderByAscending('createdAt');
         $messageP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitMessagesForMessagePage);
         $messageP->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-
         $messages = $messageP->getComments();
         if ($messages instanceof Error) {
             $this->errorManagement($messages->getErrorMessage());
