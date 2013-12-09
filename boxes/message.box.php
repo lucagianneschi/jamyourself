@@ -94,7 +94,7 @@ class MessageBox {
      * \todo    
      * \return	MessageBox, error in case of error
      */
-    public function initForUserList($limit, $skip) {
+    public function initForUserList($limit = null, $skip = null) {
         require_once CLASSES_DIR . 'activity.class.php';
         require_once CLASSES_DIR . 'activityParse.class.php';
         global $boxes;
@@ -112,7 +112,7 @@ class MessageBox {
         $activityP->where('active', true);
         $activityP->whereInclude('fromUser,toUser');
         $activityP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitUsersForMessagePage);
-        $activityP->setSkip((!is_null($skip) && is_int($skip)) ? $skip : 0);
+        $activityP->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
         $activityP->orderByDescending('createdAt');
         $activities = $activityP->getActivities();
         if ($activities instanceof Error) {

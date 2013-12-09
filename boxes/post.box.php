@@ -46,7 +46,7 @@ class PostBox {
      * \return	postBox
      * \todo
      */
-    public function init($objectId, $limit, $skip) {
+    public function init($objectId, $limit = null, $skip = null) {
         $info = array();
         $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
             array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
@@ -56,7 +56,7 @@ class PostBox {
         $post->where('active', true);
         $post->whereInclude('fromUser');
         $post->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitForPersonalPage);
-        $post->setSkip((!is_null($skip) && is_int($skip)) ? $skip : 0);
+        $post->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
         $post->orderByDescending('createdAt');
         $posts = $post->getComments();
         if ($posts instanceof Error) {
