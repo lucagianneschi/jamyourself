@@ -49,13 +49,13 @@ class UploadRecordController extends REST {
             $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
         } elseif (!isset($_SESSION['currentUser'])) {
             $this->response($controllers['USERNOSES'], 403);
-        } elseif (!isset($newAlbum['albumTitle']) || is_null($newAlbum['albumTitle']) || !(strlen($newAlbum['albumTitle']) > 0)) {
+        } elseif (!isset($this->request['albumTitle']) || is_null($this->request['albumTitle']) || !(strlen($this->request['albumTitle']) > 0)) {
             $this->response(array("status" => $controllers['NOTITLE']), 403);
-        } elseif (!isset($newAlbum['description']) || is_null($newAlbum['description']) || !(strlen($newAlbum['description']) > 0)) {
+        } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
             $this->response(array("status" => $controllers['NODESCRIPTION']), 403);
-        } elseif (!isset($newAlbum['tags']) || is_null($newAlbum['tags']) || !is_array($newAlbum['tags']) || !(count($newAlbum['tags']) > 0)) {
+        } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
             $this->response(array("status" => $controllers['NOTAGS']), 403);
-        }if ($_SESSION['currentUser']->getType() != "JAMMER") {
+        } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
             $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
         }
 
@@ -399,7 +399,77 @@ class UploadRecordController extends REST {
 
         return $path;
     }
+    
+///////////////////////////////////////////////////////////////////////////////
+// 
+// Funzioni di simulazione per reperimento delle canzoni (in attesa dei box)
+// 
+//////////////////////////////////////////////////////////////////////////////
+      
+    public function countSongs(){
+        global $controllers;
 
+        if ($this->get_request_method() != "POST") {
+            $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
+        } elseif (!isset($_SESSION['currentUser'])) {
+            $this->response($controllers['USERNOSES'], 403);
+        } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || !(strlen($this->request['recordId']) > 0)) {
+            $this->response(array("status" => $controllers['NOOBJECTID']), 403);
+        }  elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
+            $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
+        }
+        
+        $pSong = new SongParse();
+        
+        $albumId = $this->request['recordId'];
+        $pSong->where("record", $albumId);
+        $count = $pSong->getCount();
+        
+        $this->response(array("status" => $controllers['COUNTSONGOK'], "count" => $count), 200);
+        
+    }
+    
+    public function getSongsList(){
+        global $controllers;
+
+        if ($this->get_request_method() != "POST") {
+            $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
+        } elseif (!isset($_SESSION['currentUser'])) {
+            $this->response($controllers['USERNOSES'], 403);
+        } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
+            $this->response(array("status" => $controllers['NOOBJECTID']), 403);
+        }  elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
+            $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
+        }
+        
+        $albumId = $this->request['albumId'];
+        
+        $pSong = new SongParse();
+        
+	$pSong->wherePointer('record', 'Record', $albumId);
+	$pSong->where('active', true);
+	$pSong->setLimit(1000);
+	$pSong->orderByDescending('createdAt');
+	$songsList = $pSong->getRecords();
+
+        if($songsList instanceof Error){
+            $this->response(array("status" => $controllers['NODATA']), 400);            
+        }
+        
+        $returnInfo = array();
+        foreach($songsList as $song){
+            // info utili
+            // mi serve: titolo, durata, lista generi
+            $title = $song->getTitle();
+            $duration = $song->getDuration();
+            $genre = $song->getGenre();
+            $returnInfo[] = json_encode(array("title" => $title, "duration" => $duration, "genre" => $genre));
+        }
+        
+        $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo), 200);
+        
+    }
+    
 }
 
 ?>

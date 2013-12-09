@@ -538,3 +538,16 @@ function uploaderRefresh() {
         uploader.refresh();
     }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+//
+//  Dati per il precaricamento
+//
+////////////////////////////////////////////////////////////////////////////////
+
+function countSong(recordId){
+    if(recordId != null && strlen(recordId) > 0){
+        var json_for_count_song = {""};
+      function sendRequest("", _data, callback, _async) 
+    }
+}
