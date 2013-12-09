@@ -93,7 +93,7 @@ function getRelatedUsers($objectId, $field, $className, $all = false, $limit = 1
     $parseUser->whereRelatedTo($field, $className, $objectId);
     $parseUser->where('active', true);
     ($all == true) ? $parseUser->setLimit(1000) : $parseUser->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
-    $parseUser->setSkip((!is_null($skip) && is_int($skip) && $skip >0 ) ? $skip : 0);
+    $parseUser->setSkip((!is_null($skip) && is_int($skip) && $skip > 0 ) ? $skip : 0);
     $users = $parseUser->getUsers();
     if ($users instanceof Error) {
 	return $users;
@@ -132,8 +132,9 @@ function sessionChecker() {
     require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
     require_once CLASSES_DIR . 'userParse.class.php';
     global $boxes;
+    $res = session_id() === '' ? FALSE : TRUE;
     $currentUserId = $boxes['NOID'];
-    if (isset($_SESSION['currentUser'])) {
+    if ($res == TRUE && isset($_SESSION['currentUser'])) {
 	$currentUser = $_SESSION['currentUser'];
 	$currentUserId = $currentUser->getObjectId();
     }
