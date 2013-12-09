@@ -131,8 +131,8 @@
                                                         <div class="small-12 columns">
                                                             <?php
 
-                                                            if (is_array($uploadReviewController->reviewedFromUser) && count($uploadReviewController->reviewedFromUser) > 0) {
-                                                            foreach ($uploadReviewController->reviewedFromUser as $featuringUser) {
+                                                            if (is_array($uploadReviewController->reviewedFeaturing) && count($uploadReviewController->reviewedFeaturing) > 0) {
+                                                            foreach ($uploadReviewController->reviewedFeaturing as $featuringUser) {
                                                                 $featuringThumbnail = $featuringUser->getProfileThumbnail();
                                                                 $featuringUsername = $featuringUser->getUsername();
                                                                 $featuringUserId = $featuringUser->getObjectId();

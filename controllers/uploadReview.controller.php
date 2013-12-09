@@ -59,7 +59,9 @@ class UploadReviewController extends REST {
         } else {
             //PER IL TEST
             ?>
-            <a href="<?php echo VIEWS_DIR . "uploadReview.php?rewiewId=OoW5rEt94b&type=Record" ?>">Test link</a>
+            <a href="<?php echo VIEWS_DIR . "uploadReview.php?rewiewId=vR80iF0aI7&type=Record" ?>">Test link per Record</a>
+            <br />
+            <a href="<?php echo VIEWS_DIR . "uploadReview.php?rewiewId=FdNPf4yaxV&type=Event" ?>">Test link per Event</a>
             <br>
             <br>
             <?php
