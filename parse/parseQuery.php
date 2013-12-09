@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class parseQuery extends parseRestClient{
 	private $_limit = 100;
@@ -326,7 +326,19 @@ class parseQuery extends parseRestClient{
 		} else {
 			$this->throwError('the $key and $classname and $objectId parameters must be set when setting a "whereRelatedTo" query method');		
 		}
-	}        
+	}
+	
+	public function whereSelect($key, $query) {
+		if(isset($key) && isset($query)) {
+			$this->_query[$key] = array (
+				'$select' => $query
+			);
+			echo json_encode($this->_query);
+		}	
+		else{
+			$this->throwError('the $key and $query parameters must be set when setting a "where" query method');		
+		}
+	}
 
 }
 ?>

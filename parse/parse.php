@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include 'parseConfig.php';
 include 'parseObject.php';
 include 'parseQuery.php';
@@ -208,6 +208,16 @@ class parseRestClient{
                     $return = array(
 						"__op" => "Remove",
 						"objects" => $params
+					);
+                    break;
+                case 'query':
+                    $return = array(
+						'query' => array('className' => $params[0],
+										 'where' => $params[1],
+										 'skip' => (!isset($params[3])) ? 0 : $params[3],
+										 'limit' => (!isset($params[4])) ? 100 : $params[4]
+										),
+						'key' => $params[2]
 					);
                     break;
                 default:
