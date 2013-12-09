@@ -133,9 +133,12 @@ $param['where'] = json_encode(array('$or' => $compoundQuery));
 // - SELECT
 //$param['where'] = json_encode(array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration')));
 
-$param['where'] = json_encode(array('fromUser' => array('$select' => array('query' => array('className' => '_User', 'where' => array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration'))), 'key' => 'objectId'))));
-
+$param['where'] = json_encode(array('fromUser' => array('$select' => array('query' => array('className' => '_User', 'where' => array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration')), 'limit' => 2, 'skip' => 0), 'key' => 'objectId'))));
 $param['limit'] = '1000';
+$param['order'] = '-createdAt';
+
+//$param['where'] = json_encode(array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration')));
+//$param = json_encode(array('where' => array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration')), 'limit' => 10));
 
 //questo qui ci vuole sempre!
 $args['urlParams'] = $param;
