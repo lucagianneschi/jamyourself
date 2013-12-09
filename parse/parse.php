@@ -214,8 +214,8 @@ class parseRestClient{
                     $return = array(
 						'query' => array('className' => $params[0],
 										 'where' => $params[1],
-										 'skip' => $params[3],
-										 'limit' => $params[4]
+										 'skip' => (!isset($params[3])) ? 0 : $params[3],
+										 'limit' => (!isset($params[4])) ? 100 : $params[4]
 										),
 						'key' => $params[2]
 					);
