@@ -1,6 +1,4 @@
 {
-    "limitAlbumForPersonalPage" : 1,
-    "limitImagesForPersonalPage" : 4,
     "limitSongListenedForPersonalPage" : 1,
     "limitEventConfirmedForPersonalPage" : 1
 }
