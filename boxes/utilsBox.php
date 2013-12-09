@@ -32,10 +32,10 @@ class Counters {
      * \param	$commentCounter, $loveCounter,$reviewCounter, $shareCounter
      */
     function __construct($commentCounter, $loveCounter, $reviewCounter, $shareCounter) {
-        is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
-        is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
-        is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
-        is_null($shareCounter) ? $this->shareCounter = 0 : $this->shareCounter = $shareCounter;
+	is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
+	is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
+	is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
+	is_null($shareCounter) ? $this->shareCounter = 0 : $this->shareCounter = $shareCounter;
     }
 
 }
@@ -57,24 +57,24 @@ class UserInfo {
      * \param	$objectId, $thumbnail, $type, $username
      */
     function __construct($objectId, $thumbnail, $type, $username) {
-        require_once SERVICES_DIR . 'lang.service.php';
-        require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-        global $boxes;
-        is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
-        switch ($type) {
-            case 'SPOTTER':
-                $imageDefault = DEFTHUMBSPOTTER;
-                break;
-            case 'JAMMER':
-                $imageDefault = DEFTHUMBJAMMER;
-                break;
-            case 'VENUE':
-                $imageDefault = DEFTHUMBVENUE;
-                break;
-        }
-        is_null($thumbnail) ? $this->thumbnail = $imageDefault : $this->thumbnail = $thumbnail;
-        is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
-        is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
+	require_once SERVICES_DIR . 'lang.service.php';
+	require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+	global $boxes;
+	is_null($objectId) ? $this->objectId = $boxes['NODATA'] : $this->objectId = $objectId;
+	switch ($type) {
+	    case 'SPOTTER':
+		$imageDefault = DEFTHUMBSPOTTER;
+		break;
+	    case 'JAMMER':
+		$imageDefault = DEFTHUMBJAMMER;
+		break;
+	    case 'VENUE':
+		$imageDefault = DEFTHUMBVENUE;
+		break;
+	}
+	is_null($thumbnail) ? $this->thumbnail = $imageDefault : $this->thumbnail = $thumbnail;
+	is_null($type) ? $this->type = $boxes['NODATA'] : $this->type = $type;
+	is_null($username) ? $this->username = $boxes['NODATA'] : $this->username = $username;
     }
 
 }
@@ -93,14 +93,14 @@ function getRelatedUsers($objectId, $field, $className, $all = false, $limit = 1
     $parseUser->whereRelatedTo($field, $className, $objectId);
     $parseUser->where('active', true);
     ($all == true) ? $parseUser->setLimit(1000) : $parseUser->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
-    $parseUser->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
+    $parseUser->setSkip((!is_null($skip) && is_int($skip) && $skip > 0 ) ? $skip : 0);
     $users = $parseUser->getUsers();
     if ($users instanceof Error) {
-        return $users;
+	return $users;
     } elseif (is_null($users)) {
-        return array();
+	return array();
     } else {
-        return $users;
+	return $users;
     }
 }
 
@@ -132,10 +132,11 @@ function sessionChecker() {
     require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
     require_once CLASSES_DIR . 'userParse.class.php';
     global $boxes;
+    $res = session_id() === '' ? FALSE : TRUE;
     $currentUserId = $boxes['NOID'];
-    if (isset($_SESSION['currentUser'])) {
-        $currentUser = $_SESSION['currentUser'];
-        $currentUserId = $currentUser->getObjectId();
+    if ($res == TRUE && isset($_SESSION['currentUser'])) {
+	$currentUser = $_SESSION['currentUser'];
+	$currentUserId = $currentUser->getObjectId();
     }
     return $currentUserId;
 }
