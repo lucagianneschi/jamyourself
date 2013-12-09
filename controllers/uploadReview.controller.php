@@ -16,19 +16,55 @@ class UploadReviewController extends REST {
 
     public $reviewedId;
     public $reviewed;
-    public $reviewedInfo;
+    public $reviewedFeaturing;
     public $reviewedClassType;
+    public $reviewedFromUser; 
 
     public function init() {
 
         if (!isset($_SESSION['currentUser'])) {
-
             /* This will give an error. Note the output
              * above, which is before the header() call */
-            header('Location: login.php?from=uploadEvent.php');
+            header('Location: login.php?from=uploadReview.php');
             exit;
-       }
+        }
 
+
+        if (isset($_GET["rewiewId"]) && strlen($_GET["rewiewId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
+            $this->reviewedId = $_GET["rewiewId"];
+            $this->reviewedClassType = $_GET["type"];
+
+            $revieBox = new ReviewBox();
+            $revieBox->initForUploadReviewPage($this->reviewedId, $this->reviewedClassType);
+
+            if (!is_null($revieBox->error) ) {   
+                //errore @todo
+                
+            }
+            elseif(is_null($revieBox->mediaInfo)){
+                // errore @todo
+
+            }else{
+                $this->reviewed = $revieBox->mediaInfo[0];
+                $this->reviewedFeaturing = getRelatedUsers($this->reviewedId, "featuring", $this->reviewedClassType);
+                $this->reviewedFromUser = $this->reviewed->getFromUser();
+                
+                
+                if($this->reviewedFeaturing instanceof Error){
+                    //errore parse
+                    
+                }
+            }
+            
+        } else {
+            //PER IL TEST
+            ?>
+            <a href="<?php echo VIEWS_DIR . "uploadReview.php?rewiewId=OoW5rEt94b&type=Record" ?>">Test link</a>
+            <br>
+            <br>
+            <?php
+            die("Devi specificare un Id ");
+        }
     }
 
     public function publish() {
@@ -67,21 +103,21 @@ class UploadReviewController extends REST {
 
             $review = new Comment();
             $review->setActive(true);
-            
-            switch(strtolower($this->reviewedClassType)){
-               case 'event' :
+
+            switch (strtolower($this->reviewedClassType)) {
+                case 'event' :
                     $review->setEvent($this->reviewedId);
-                   $review->setAlbum(null);
-                   break;
-               case 'record';
+                    $review->setAlbum(null);
+                    break;
+                case 'record';
                     $review->setAlbum($this->reviewedId);
                     $review->setEvent(null);
-                   break;
-               default:
-                   //che classe si sta commentanto??
-                $this->response(array("status" => $controllers['CLASSTYPEKO']), 403);
+                    break;
+                default:
+                    //che classe si sta commentanto??
+                    $this->response(array("status" => $controllers['CLASSTYPEKO']), 403);
             }
-            
+
             $review->setComment(null);
             $review->setCommentCounter(0);
             $review->setCommentators(null);
@@ -151,8 +187,6 @@ class UploadReviewController extends REST {
         else
             return true;
     }
-
-
 
     private function sendMailNotification() {
         global $controllers;

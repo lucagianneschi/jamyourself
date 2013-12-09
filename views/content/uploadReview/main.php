@@ -130,11 +130,12 @@
                                                     <div class="row">
                                                         <div class="small-12 columns">
                                                             <?php
-                                                            if (is_array($featuringInfoArray) && count($featuringInfoArray) > 0) {
-                                                            foreach ($featuringInfoArray as $featuringInfo) {
-                                                                $featuringThumbnail = $featuringInfo->thumbnail;
-                                                                $featuringUsername = $featuringInfo->username;
-                                                                $featuringUserId = $featuringInfo->objectId;
+
+                                                            if (is_array($uploadReviewController->reviewedFromUser) && count($uploadReviewController->reviewedFromUser) > 0) {
+                                                            foreach ($uploadReviewController->reviewedFromUser as $featuringUser) {
+                                                                $featuringThumbnail = $featuringUser->getProfileThumbnail();
+                                                                $featuringUsername = $featuringUser->getUsername();
+                                                                $featuringUserId = $featuringUser->getObjectId();
                                                                 ?>
                                                                 <div class="box-membre" id="<?php echo $featuringUserId?>">
                                                                     <div class="row">
