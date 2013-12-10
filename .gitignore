@@ -29,3 +29,6 @@ config.rb
 /tests/optimization/
 /optimization/
 /debug/
+/.gitignore
+
+/.gitignore

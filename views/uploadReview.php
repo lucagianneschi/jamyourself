@@ -9,31 +9,26 @@ session_start();
 
 $uploadReviewController = new UploadReviewController();
 $uploadReviewController->init();
-$viewInfo = $uploadReviewController->reviewedInfo;
 
 
 global $boxes;
-$title = $viewInfo->title;
-$tagGenere = $viewInfo->genre;
-$rating="3";
-$authorThumbnail=$viewInfo->authorThumbnail;
-$thumbnail = $viewInfo->thumbnail;
-$featuringInfoArray = $viewInfo->featuring;
-
-$author = $viewInfo->fromUser;
-
-//  media info:
-//    public $city;
-//    public $className;
-//    public $eventDate;
-//    public $featuring;
-//    public $fromUserInfo;
-//    public $genre;
-//    public $locationName;
-//    public $objectId;
-//    public $tags;
-//    public $thumbnail;
-//    public $title;  
+$title = $uploadReviewController->reviewed->getTitle();
+$tagGenere = "";
+$thumbnail = "";
+switch ($uploadReviewController->reviewedClassType) {
+    case "Record":
+        $tagGenere = $uploadReviewController->reviewed->getGenre();
+        $thumbnail = $uploadReviewController->reviewed->getThumbnailCover();
+        break;
+    case "Event" :
+        $tagGenere = implode("," ,$uploadReviewController->reviewed->getTags());
+        $thumbnail = $uploadReviewController->reviewed->getThumbnail();
+        break;
+}
+$rating = "3";
+$authorThumbnail = $uploadReviewController->reviewedFromUser->getProfileThumbnail();
+$author = $uploadReviewController->reviewedFromUser->getUsername();
+  
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->

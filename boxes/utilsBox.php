@@ -15,6 +15,10 @@
  *
  */
 
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
+    require_once ROOT_DIR . 'config.php';
+
 /**
  * \brief	Counters class 
  * \details	counters shared beetwen many boxes 
@@ -86,14 +90,14 @@ class UserInfo {
  * \return	userArray array of userInfo object
  * \todo        prevere la possibilità di avere più di 1000 utenti in lista
  */
-function getRelatedUsers($objectId, $field, $className, $all = false, $limit = 1000, $skip = 0) {
+function getRelatedUsers($objectId, $field, $className, $all = false, $limit = MAX, $skip = 0) {
     require_once CLASSES_DIR . 'user.class.php';
     require_once CLASSES_DIR . 'userParse.class.php';
     $parseUser = new UserParse();
     $parseUser->whereRelatedTo($field, $className, $objectId);
     $parseUser->where('active', true);
-    ($all == true) ? $parseUser->setLimit(1000) : $parseUser->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
-    $parseUser->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
+    ($all == true) ? $parseUser->setLimit(MAX) : $parseUser->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : MAX);
+    $parseUser->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0 ) ? $skip : 0);
     $users = $parseUser->getUsers();
     if ($users instanceof Error) {
         return $users;
@@ -127,16 +131,23 @@ function tracklistGenerator($objectId, $limit = DEFAULTQUERY) {
  * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
  * \return	string $currentUserId;
  */
-function sessionChecker() {
-    require_once SERVICES_DIR . 'lang.service.php';
+
+function sessionChecker() {	
+	require_once CLASSES_DIR . 'userParse.class.php';
+    require_once SERVICES_DIR . 'lang.service.php';	
     require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-    require_once CLASSES_DIR . 'userParse.class.php';
+	
     global $boxes;
-    $currentUserId = $boxes['NOID'];
-    if (isset($_SESSION['currentUser'])) {
+	if(session_id() == '') session_start();
+	$sessionExist = session_id() === '' ? FALSE : TRUE;
+   
+    $currentUserId = $boxes['NOID'];	
+    if ($sessionExist == TRUE && isset($_SESSION['currentUser'])) {
         $currentUser = $_SESSION['currentUser'];
         $currentUserId = $currentUser->getObjectId();
+		
     }
+	
     return $currentUserId;
 }
 

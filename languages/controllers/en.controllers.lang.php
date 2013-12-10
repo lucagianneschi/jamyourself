@@ -111,6 +111,7 @@ $controllers = array(
     'NOSONGSAVED' => 'No Mp3 saved',
     'SONGSAVEDWITHERROR' => 'Mp3s saved with errors',
     'ALLSONGSSAVED' => 'Mp3s saved with success',
+    'COUNTSONGOK' => 'Request Accepted',
     //RELATION
     'RELDENIED' => 'You are not allowed to send a relationship request to this user!',
     'SELF' => 'Don&apos;t be shy, ask someone else to be your friend or your collaborator!',
