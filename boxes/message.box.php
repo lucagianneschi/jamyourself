@@ -170,7 +170,7 @@ class MessageBox {
         $messageP->where('type', 'M');
         $messageP->where('active', true);
         $messageP->whereInclude('fromUser');
-        $messageP->orderByAscending('createdAt');
+        $messageP->orderByDescending('createdAt');
         $messageP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitMessagesForMessagePage);
         $messageP->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
         $messages = $messageP->getComments();

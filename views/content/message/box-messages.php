@@ -55,8 +55,8 @@ if(isset($_POST['user'])){
 	               </div>
 	            	<?php 
 					}
-					$risultato = array_reverse($messageBox->messageArray);
-	            	foreach ($risultato as $key => $value) {
+				//	$risultato = array_reverse($messageBox->messageArray);
+	            	foreach ($messageBox->messageArray as $key => $value) {
 	            								
 						$data = $value->createdAt->format('d-F-Y');
 						$time = $value->createdAt->format('H:i');
