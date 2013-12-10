@@ -166,8 +166,7 @@ class MessageBox {
         $value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
             array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
         $messageP = new CommentParse();
-        $messageP->whereOr($value);
-        $messageP->whereOr($value1);
+        $messageP->whereOr(array_merge($value,$value1));
         $messageP->where('type', 'M');
         $messageP->where('active', true);
         $messageP->whereInclude('fromUser');
