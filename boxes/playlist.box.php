@@ -49,9 +49,8 @@ class PlaylistBox {
         global $boxes;
         $tracklist = array();
         $currentUserId = sessionChecker();
-        $this->notificationArray = null;
-        global $boxes;
-        if ($currentUserId == $boxes['NOID']) {
+        if (is_null($currentUserId)) {
+            global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
