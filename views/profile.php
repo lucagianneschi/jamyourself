@@ -36,6 +36,7 @@ if (is_null($userInfoBox->error)) {
 			<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
 			<script>
 				loadBoxRecord();
+				loadBoxAlbum();
 				loadBoxRecordReview();
 				loadBoxEventReview();
 				//loadBoxActivity();

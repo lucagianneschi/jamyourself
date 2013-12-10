@@ -1,5 +1,4 @@
 <?php
-
 /* 
  * box album
  * box chiamato tramite load con:
@@ -15,15 +14,16 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once BOXES_DIR . 'album.box.php'; 
-require_once VIEWS_DIR . 'utilities/share.php'; 
+require_once BOXES_DIR . 'album.box.php';
+require_once CLASSES_DIR . 'userParse.class.php';
+session_start();
 
 $albumBox = new AlbumBox();
 $albumBox->init($_POST['objectId']);
-if (is_null($albumBox->error)) {
+if (is_null($albumBox->error) || isset($_SESSION['currentUser'])) {
+	$currentUser = $_SESSION['currentUser'];
 	$albums = $albumBox->albumArray;
 	$albumCounter = count($albums);
-
 	?>
 	<!----------------------------------- Photography -------------------------------------------------->
 	<div class="row" id='profile-Album'>
@@ -53,63 +53,58 @@ if (is_null($albumBox->error)) {
 			<div class="row">
 				<div class="large-12 columns ">
 					<div class="box royalSlider contentSlider  rsDefault" id="albumSlide">
+					<div class="rsContent">
 					<?php
-					if ($albumCounter > 0 ) {
-						foreach ($albums as $key => $value) {
-						//for($j=0; $j<$albumCounter; $j=$j+4){
-							?> 
-							<div  class="rsContent">
-							<?php 
-							for($i=$j; $i<($j+4); $i=$i+2){
-								?>
-								<div class="row" style="margin-left: 0px; margin-right: 0px;">
-									<?php
-									if (isset($data['album' . ($i)]['objectId'])) {
-										$css_love = $data['album' . $i]['showLove'] == 'false' ?  '_love orange' : '_unlove grey';
-										?>				
-										<div class="small-6 columns box-coveralbum <?php echo $data['album' . ($i)]['objectId'] ?>"  onclick="albumSelectSingle('<?php echo $data['album' . $i]['objectId']; ?>',<?php echo $data['album' . $i]['imageCounter']; ?>)">
-											<img class="albumcover" src="../media/<?php echo $data['album' . $i]['thumbnailCover'] ?>" onerror="this.src='../media/<?php echo DEFALBUMTHUMB;?>'">  
-											<div class="text white breakOffTest"><?php echo $data['album' . $i]['title']; ?></div>
-											<div class="row">
-												<div class="small-5 columns ">
-													<a class="note grey"><?php echo $data['album' . $i]['imageCounter']; ?> <?php echo $views['album']['PHOTO'];?></a>								
-												</div>
-												<div class="small-7 columns propriety ">					
-													<a class="icon-propriety <?php echo $css_love ?>"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
-													<a class="icon-propriety _comment"><?php echo $data['album' . $i]['counters']['commentCounter']; ?></a>
-													<a class="icon-propriety _share"><?php echo $data['album' . $i]['counters']['shareCounter']; ?></a>	
-												</div>		
-											</div>
+					if ($albumCounter > 0) {
+						?>
+						<div class="row" style="margin-left: 0px; margin-right: 0px;">
+							<?php
+							$totalView = $albumCounter > 4 ? 4 : $albumCounter;
+							$i = 1;
+							foreach ($albums as $key => $value) {
+								$album_thumbnailCover = $value->getThumbnailCover();
+								$album_objectId = $value->getObjectId();
+								$album_title = $value->getTitle();
+								$album_imageCounter = $value->getImageCounter();
+								$album_love = $value->getLoveCounter();
+								$album_comment = $value->getCommentCounter();
+								$album_share = $value->getShareCounter();
+								
+								if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+									$css_love = '_unlove grey';
+									$text_love = $views['LOVE'];
+								} else{
+									$css_love = '_love orange';
+									$text_love = $views['UNLOVE'];
+								}
+								?> 
+								<div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="albumSelectSingle('<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>)">
+									<img class="albumcover" src="../media/<?php echo $album_thumbnailCover; ?>" onerror="this.src='../media/<?php echo DEFALBUMTHUMB;?>'">  
+									<div class="text white breakOffTest"><?php echo $album_title; ?></div>
+									<div class="row">
+										<div class="small-5 columns ">
+											<a class="note grey"><?php echo $album_imageCounter; ?> <?php echo $views['album']['PHOTO'];?></a>								
 										</div>
-										<?php
-									}
-									if (isset($data['album' . ($i+1)]['objectId'])) {
-										$css_love = $data['album' . ($i+1)]['showLove'] == 'true' ?  '_love orange' : '_unlove grey';
-										?>
-										<div class="small-6 columns box-coveralbum <?php echo $data['album' . ($i+1)]['objectId']?>"  onclick="albumSelectSingle('<?php echo $data['album' . ($i+1)]['objectId']; ?>',<?php echo $data['album' . ($i+1)]['imageCounter']; ?>)">
-											<img class="albumcover" src="../media/<?php echo $data['album' . ($i+1)]['thumbnailCover'] ?>" onerror="this.src='../media/<?php echo DEFALBUMTHUMB;?>'">  
-											<div class="text white breakOffTest"><?php echo $data['album' . ($i+1)]['title']; ?></div>
-											<div class="row">
-												<div class="small-5 columns ">
-													<a class="note grey"><?php echo $data['album' . ($i+1)]['imageCounter']; ?> <?php echo $views['album']['PHOTO'];?></a>								
-												</div>
-												<div class="small-7 columns propriety ">					
-													<a class="icon-propriety <?php echo $css_love ?>"><?php echo $data['album' . ($i+1)]['counters']['loveCounter']; ?></a>
-													<a class="icon-propriety _comment"><?php echo $data['album' . ($i+1)]['counters']['commentCounter']; ?></a>
-													<a class="icon-propriety _share"><?php echo $data['album' . ($i+1)]['counters']['shareCounter']; ?></a>	
-												</div>		
-											</div>
-										</div>
-										<?php
-									}
-									?>
+										<div class="small-7 columns propriety ">					
+											<a class="icon-propriety <?php echo $css_love ?>"><?php echo $album_love; ?></a>
+											<a class="icon-propriety _comment"><?php echo $album_comment; ?></a>
+											<a class="icon-propriety _share"><?php echo $album_share; ?></a>	
+										</div>		
+									</div>
 								</div>
 								<?php
+								if ($i % 2 == 0) {
+									?>
+									</div>
+									<div class="row">
+									<?php
+								}
+								if ($i == $totalView) break;
+								$i++;
 							}
 							?>
-							</div>
-							<?php
-						}
+						</div>
+						<?php
 					} else {
 						?>
 						<div class="row  ">
@@ -124,7 +119,8 @@ if (is_null($albumBox->error)) {
 				</div>
 			</div>
 			<!----------------------------------------- ALBUM PHOTO SINGLE ------------------------------>	
-			<?php 
+			<?php
+			/*
 			for ($i=0; $i<$albumCounter; $i++) {
 				if ($data['album' . $i]['showLove'] == 'true') {
 						$css_love = '_unlove grey';
@@ -187,11 +183,10 @@ if (is_null($albumBox->error)) {
 				<div id='box-albumDetailLB'></div>
 				<?php
 			}
+			*/
 			?>	
 		</div>
 	</div>
 	<?php
-} else {
-	echo 'Errore';
 }
 ?>

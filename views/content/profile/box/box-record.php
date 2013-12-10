@@ -63,74 +63,67 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 				</div>
 				<div id="recordSlide" class="royalSlider rsMinW">
 				<!---------------------------- PRIMO ALBUM ----------------------------------------------->
-				<?php 
-				for ($i = 0; $i < $recordCounter ; $i++) {
-					if ($i % 3 == 0) {
+					<div class="rsContent">
+					<?php
+					foreach ($records as $key => $value) {
+						$record_thumbnailCover = $value->getThumbnailCover();
+						$record_objectId = $value->getObjectId();
+						$record_title = $value->getTitle();
+						$record_data = $value->getYear();
+						$record_songCounter = $value->getSongCounter();
+						
+						$record_love = $value->getLoveCounter();
+						$record_comment = $value->getCommentCounter();
+						$record_share = $value->getShareCounter();
+						$record_review = $value->getReviewCounter();
+						
+						if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+							$css_love = '_unlove grey';
+							$text_love = $views['LOVE'];
+						} else{
+							$css_love = '_love orange';
+							$text_love = $views['UNLOVE'];
+						}
 						?>
-						<div class="rsContent">
-						<?php
-						foreach ($records as $key => $value) {
-							$record_thumbnailCover = $value->getThumbnailCover();
-							$record_objectId = $value->getObjectId();
-							$record_title = $value->getTitle();
-							$record_data = $value->getYear();
-							$record_songCounter = $value->getSongCounter();
-							
-							$record_love = $value->getLoveCounter();
-							$record_comment = $value->getCommentCounter();
-							$record_share = $value->getShareCounter();
-							$record_review = $value->getReviewCounter();
-							
-							if (in_array($currentUser->getObjectId(), $value->getLovers())) {
-								$css_love = '_unlove grey';
-								$text_love = $views['LOVE'];
-							} else{
-								$css_love = '_love orange';
-								$text_love = $views['UNLOVE'];
-							}
-							?>
-							<div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>">
-								<!------------------ CODICE ALBUM: $record_objectId - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
-								<div class="row">
-									<div class="small-4 columns">
-										<img src="<?php echo $record_thumbnailCover ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
-									</div>
-									<div class="small-8 columns">						
-										<div class="row">
-											<div class="large-12 colums">
-												<div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="large-12 colums">
-												<div class="note grey breakOffTest"><?php echo $views['record']['RECORDED'];?> <?php echo $record_data ?></div>
-											</div>
-										</div>
-										<div class="row">
-											<div class="large-12 colums">
-												<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $record_objectId ?>')"><?php echo $views['record']['PLAY'];?></a></div>
-											</div>
-										</div>
-										
-										
-									</div>
-								</div>				
-								<div class="row propriety album-single-propriety">
-									<div class="large-12 colums">
-										<a class="icon-propriety <?php echo $css_love ?>"><?php echo $record_love ?></a>
-										<a class="icon-propriety _comment" ><?php echo $record_comment ?></a>
-										<a class="icon-propriety _share" ><?php echo $record_share ?></a>
-										<a class="icon-propriety _review"><?php echo $record_review ?></a>
-									</div>
+						<div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>">
+							<!------------------ CODICE ALBUM: $record_objectId - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
+							<div class="row">
+								<div class="small-4 columns">
+									<img src="<?php echo $record_thumbnailCover ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
 								</div>
-							</div>			
-							<?php
-						} ?>
-						</div>
+								<div class="small-8 columns">						
+									<div class="row">
+										<div class="large-12 colums">
+											<div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="large-12 colums">
+											<div class="note grey breakOffTest"><?php echo $views['record']['RECORDED'];?> <?php echo $record_data ?></div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="large-12 colums">
+											<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $record_objectId ?>')"><?php echo $views['record']['PLAY'];?></a></div>
+										</div>
+									</div>
+									
+									
+								</div>
+							</div>				
+							<div class="row propriety album-single-propriety">
+								<div class="large-12 colums">
+									<a class="icon-propriety <?php echo $css_love ?>"><?php echo $record_love ?></a>
+									<a class="icon-propriety _comment" ><?php echo $record_comment ?></a>
+									<a class="icon-propriety _share" ><?php echo $record_share ?></a>
+									<a class="icon-propriety _review"><?php echo $record_review ?></a>
+								</div>
+							</div>
+						</div>			
 						<?php
 					}
-				}
-				?>
+					?>
+					</div>
 				</div>	
 			</div>	
 			
