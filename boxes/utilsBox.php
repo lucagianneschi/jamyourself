@@ -90,13 +90,13 @@ class UserInfo {
  * \return	userArray array of userInfo object
  * \todo        prevere la possibilità di avere più di 1000 utenti in lista
  */
-function getRelatedUsers($objectId, $field, $className, $all = false, $limit = 1000, $skip = 0) {
+function getRelatedUsers($objectId, $field, $className, $all = false, $limit = MAX, $skip = 0) {
     require_once CLASSES_DIR . 'user.class.php';
     require_once CLASSES_DIR . 'userParse.class.php';
     $parseUser = new UserParse();
     $parseUser->whereRelatedTo($field, $className, $objectId);
     $parseUser->where('active', true);
-    ($all == true) ? $parseUser->setLimit(1000) : $parseUser->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
+    ($all == true) ? $parseUser->setLimit(MAX) : $parseUser->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : MAX);
     $parseUser->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0 ) ? $skip : 0);
     $users = $parseUser->getUsers();
     if ($users instanceof Error) {
