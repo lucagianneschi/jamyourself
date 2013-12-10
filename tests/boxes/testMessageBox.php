@@ -37,7 +37,7 @@ $activityBoxP->initForUserList(5, 0);
 print "<pre>";
 print_r($activityBoxP);
 print "</pre>";
-$activityBoxP->initForMessageList($fromUser, 10, 0);
+$activityBoxP->initForMessageList($fromUser, 5, 0);
 print "<pre>";
 print_r($activityBoxP);
 print "</pre>";
