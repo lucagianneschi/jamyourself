@@ -547,7 +547,12 @@ function uploaderRefresh() {
 
 function countSong(recordId){
     if(recordId != null && strlen(recordId) > 0){
-        var json_for_count_song = {""};
-      function sendRequest("", _data, callback, _async) 
+        var json_for_count_song = {recordId : recordId};
+      sendRequest("", json_for_count_song, countSongCallback, true);
     }
 }
+
+function countSongCallback(data,status){
+    
+}
+

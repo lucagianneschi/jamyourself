@@ -16,6 +16,7 @@ $(document).ready(function() {
             type: type,
             url: url,
             data: _data,
+            dataType: "json",
             async: async,
             success: function(data, status) {
                 //gestione success
@@ -41,14 +42,14 @@ $(document).ready(function() {
         }
     });
     
-    function publicCallback(data){
-        window.console.log(data);
-        alert(data.status);
+    function publicCallback(data,status){
+            window.console.log(data);
+            alert(data.status);   
     }
     
     $("#button_publish").click(function() {
         json_upload_review.review = $("textarea").val();
-        json_upload_review.record = $("#record_id").val();
+        json_upload_review.reviewedId = $("#record_id").val();
         json_upload_review.type = $("#type").val();
         console.log(JSON.stringify(json_upload_review));
         sendRequest("publish", json_upload_review, publicCallback, true);
