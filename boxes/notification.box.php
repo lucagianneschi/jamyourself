@@ -81,10 +81,10 @@ class NotificationBox {
      * \todo    prendere il type dalla sessione
      */
     public function initForCounter($type) {
-        $currentUserId = sessionChecker();
         $this->notificationArray = null;
-        global $boxes;
-        if ($currentUserId == $boxes['NOID']) {
+        $currentUserId = sessionChecker();
+        if (is_null($currentUserId)) {
+            global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
@@ -140,8 +140,8 @@ class NotificationBox {
      */
     public function initForDetailedList($type) {
         $currentUserId = sessionChecker();
-        global $boxes;
-        if ($currentUserId == $boxes['NOID']) {
+        if (is_null($currentUserId)) {
+            global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
@@ -219,8 +219,8 @@ class NotificationBox {
      */
     public function initForEventList() {
         $currentUserId = sessionChecker();
-         global $boxes;
-        if ($currentUserId == $boxes['NOID']) {
+        if (is_null($currentUserId)) {
+            global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
@@ -274,8 +274,8 @@ class NotificationBox {
      */
     public function initForMessageList() {
         $currentUserId = sessionChecker();
-        global $boxes;
-        if ($currentUserId == $boxes['NOID']) {
+        if (is_null($currentUserId)) {
+            global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
@@ -326,8 +326,8 @@ class NotificationBox {
      */
     public function initForRelationList($type) {
         $currentUserId = sessionChecker();
-        global $boxes;
-        if ($currentUserId == $boxes['NOID']) {
+        if (is_null($currentUserId)) {
+            global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
