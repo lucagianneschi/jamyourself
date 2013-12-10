@@ -132,17 +132,22 @@ function tracklistGenerator($objectId, $limit = DEFAULTQUERY) {
  * \return	string $currentUserId;
  */
 
-function sessionChecker() {
-    require_once SERVICES_DIR . 'lang.service.php';
+function sessionChecker() {	
+	require_once CLASSES_DIR . 'userParse.class.php';
+    require_once SERVICES_DIR . 'lang.service.php';	
     require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+	
     global $boxes;
-    $sessionExist = session_id() === '' ? FALSE : TRUE;
-    $currentUserId = $boxes['NOID'];
+	if(session_id() == '') session_start();
+	$sessionExist = session_id() === '' ? FALSE : TRUE;
+   
+    $currentUserId = $boxes['NOID'];	
     if ($sessionExist == TRUE && isset($_SESSION['currentUser'])) {
         $currentUser = $_SESSION['currentUser'];
         $currentUserId = $currentUser->getObjectId();
+		
     }
-
+	
     return $currentUserId;
 }
 
