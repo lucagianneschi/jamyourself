@@ -20,7 +20,6 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CLASSES_DIR . 'recordParse.class.php';
 
 /**
  * \brief	UploadReviewController class 
