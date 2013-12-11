@@ -134,8 +134,6 @@ function tracklistGenerator($objectId, $limit = DEFAULTQUERY) {
  */
 function sessionChecker() {
     require_once CLASSES_DIR . 'userParse.class.php';
-    require_once SERVICES_DIR . 'lang.service.php';
-    require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
     if (session_id() == '')
         session_start();
     $sessionExist = session_id() === '' ? FALSE : TRUE;
