@@ -21,15 +21,15 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
-require_once BOXES_DIR . 'playlist.box.php';
+require_once BOXES_DIR . 'timeline.box.php';
 require_once PARSE_DIR . 'parse.php';
 
-echo '<br />------------------------- TEST PLAYLIST BOX LDF-------------------------------------------<br />';
+echo '<br />------------------------- TEST TIMELINE LDF-------------------------------------------<br />';
 
-$info1BoxP = new PlaylistBox();
-$info1BoxP->init();
+$timeline = new TimelineBox();
+$timeline->init(10,0);
 print "<pre>";
-print_r($info1BoxP);
+print_r($timeline);
 print "</pre>";
 
 ?>

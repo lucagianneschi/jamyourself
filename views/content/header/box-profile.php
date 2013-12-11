@@ -5,8 +5,8 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once BOXES_DIR . 'playlist.box.php';
 
-$plBox = new PlaylistBox();
-$playlist = $plBox->init();
+$playlist = new PlaylistBox();
+$playlist->init();
 
 #TODO
 //decidere come gestire i possibili errori
@@ -35,11 +35,14 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 				<div  class="small-6 columns">				
 				<?php 
 				if (count($playlist->tracklist) > 0) {
-					foreach ($playlist->tracklist as $key => $value) {
-						$author_name = $value->author->username;
-						$author_objectId = $value->author->objectId;
-						$thumbnail = $value->thumbnail;
-						$title = $value->title;
+					
+					foreach ($playlist->tracklist as $key => $value) {						
+													
+							$author_name = $value->getFromUser()->getUsername();
+							$author_objectId = $value->getFromUser()->getObjectId();
+							
+							$thumbnail = $value->getRecord()->getThumbnailCover();
+							$title = $value->getTitle();
 						?>				
 						<div class="row">
 							<div  class="large-2 columns hide-for-small">
@@ -54,7 +57,8 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 						<div class="row">
 							<div  class="large-12 columns"><div class="line"></div></div>
 						</div>
-						<?php
+				<?php
+						
 					}
 				}
 				?>

@@ -166,7 +166,7 @@ class UploadReviewController extends REST {
                     $file = $mail_files['RECORDREVIEWEMAIL'];
                     break;
             }
-            $this->sendMailNotification($subject, $file);
+            $this->sendMailNotification($subject, $file,$toUser->getObjectId());
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
             if ($resRev instanceof Error) {
@@ -237,13 +237,13 @@ class UploadReviewController extends REST {
      * \brief   funzione per l'nvio della notifica tramite mail
      * \todo    uso funzione unica condivisa tra tutti i controller   
      */
-    private function sendMailNotification($subject, $file) {
+    private function sendMailNotification($subject, $file, $toUser) {
         require_once SERVICES_DIR . 'mail.service.php';
         global $controllers;
         $html = file_get_contents(STDHTML_DIR . $file);
         $mail = mailService();
         $mail->IsHTML(true);
-        $mail->AddAddress($this->getUserEmail($this->reviewed->getToUser()));
+        $mail->AddAddress($this->getUserEmail($toUser));
         $mail->Subject = $subject;
         $mail->MsgHTML($html);
         $resMail = $mail->Send();

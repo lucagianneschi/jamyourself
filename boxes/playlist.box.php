@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -18,6 +19,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once BOXES_DIR . 'utilsBox.php';
 
 /**
  * \brief	PlaylistBox class 
@@ -46,16 +48,17 @@ class PlaylistBox {
      * \todo    implementare la differenziazione della lunghezza della query in base alla proprety premium dell'utente, usa una variabile in più $premium che deve essere un BOOL
      */
     public function init() {
-        global $boxes;
-        $tracklist = array();
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
+            require_once SERVICES_DIR . 'lang.service.php';
+            require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
             global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
         require_once CLASSES_DIR . 'playlist.class.php';
         require_once CLASSES_DIR . 'playlistParse.class.php';
+        $tracklist = array();
         $playlist = new PlaylistParse();
         $playlist->wherePointer('fromUser', '_User', $currentUserId);
         $playlist->where('active', true);
@@ -84,12 +87,13 @@ class PlaylistBox {
                     $this->errorManagement($songs->getErrorMessage());
                     return;
                 } elseif (is_null($songs)) {
-                    $this->errorManagement();
+                    $this->error = null;
+                    $this->tracklist = array();
                     return;
                 } else {
                     foreach ($songs as $song) {
                         if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
-                            array_push($tracklist, $songs);
+                            array_push($tracklist, $song);
                     }
                     $this->error = null;
                     $this->tracklist = $tracklist;
@@ -111,4 +115,5 @@ class PlaylistBox {
     }
 
 }
+
 ?>

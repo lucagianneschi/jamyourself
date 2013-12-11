@@ -1,20 +1,21 @@
 <header>
 	<!------------------------------------- HIDE HEADER ----------------------------->
-	<div id="header-hide" class="no-display">
-		<?php		
+	<div id="header-hide" class="no-display bg-double">
+		<?php
+				
 		if (isset($_SESSION['currentUser'])) {
 			$currentUser = $_SESSION['currentUser'];
 			$userObjectId = $currentUser->getObjectId();
 			$userType = $currentUser->getType();
 			?>		
-			<div  class="row hcento-hero">
+			<div  class="row hcento-hero" style="margin-bottom: 20px">
 				<div id="header-profile" class="small-6 columns">
 					<!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->
 					<?php require_once './content/header/box-profile.php'; ?>
 				</div>			
 				<div id="header-social" class="small-6 columns">				
 					<!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->
-					<?php require_once './content/header/box-social.php'; ?>
+					<?php //require_once './content/header/box-social.php'; ?>
 				</div>
 			</div>
 			<?php
