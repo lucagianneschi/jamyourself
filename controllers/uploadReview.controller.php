@@ -106,7 +106,7 @@ class UploadReviewController extends REST {
             $revieBox->initForUploadReviewPage($this->reviewedId, $this->reviewedClassType);
             if (!is_null($revieBox->error)) {
                 //errore @todo
-            } elseif (is_null($revieBox->mediaInfo)) {
+            } elseif (count($revieBox->mediaInfo) == 0) {
                 // errore @todo
             } else {
                 $this->reviewed = $revieBox->mediaInfo[0];
