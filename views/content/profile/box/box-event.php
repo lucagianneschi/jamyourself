@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* Box degli eventi, viene effettuata la chiamata a tale box solo se typeUser: jammer or venue
  * box chiamato tramite load con:
  * data: {data: data, typeUser: typeUser}

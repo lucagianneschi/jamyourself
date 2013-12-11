@@ -11,6 +11,7 @@ debug(DEBUG_DIR, 'debug.txt', 'QUANTE VOLTE CI PASSO 2');
 			<div id="profile" style="width:100%; max-width:500px; float:right">
 				<div class="row">
 					<div class="large-12 columns">
+						
 						<div id='box-userinfo'>
 							<?php require_once(VIEWS_DIR . "content/event/box/box-classinfo.php"); ?>
 						</div>
@@ -34,7 +35,7 @@ debug(DEBUG_DIR, 'debug.txt', 'QUANTE VOLTE CI PASSO 2');
 									data: json_data,
 									beforeSend: function(xhr) {
 										//spinner.show();
-										console.log('Sono partito Information');
+										console.log('Sono partito information');
 									}
 								}).done(function(message, status, xhr) {
 									//spinner.hide();

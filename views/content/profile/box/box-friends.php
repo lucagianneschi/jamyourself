@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* box friends
  * box chiamato tramite load con:
  * data: {data,typeuser}

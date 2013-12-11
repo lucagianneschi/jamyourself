@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* ! \par		Info Generali:
  * \author		Daniele Caldelli
  * \version		1.0

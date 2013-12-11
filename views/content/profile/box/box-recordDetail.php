@@ -1,4 +1,4 @@
-﻿
+
 <?php 
 /* box per gli dettagli album record
  * box chiamato tramite ajax con:

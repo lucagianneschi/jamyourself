@@ -4,6 +4,6 @@
         <title>Jamyourself</title>
     </head>
     <body>
-		Siamo spiacenti, non è possibile mostrare l'informazione richiesta!
+		Siamo spiacenti, non Ã¨ possibile mostrare l'informazione richiesta!
 	</body>
 </html>

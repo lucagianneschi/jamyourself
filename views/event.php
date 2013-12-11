@@ -7,24 +7,18 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
+require_once BOXES_DIR . 'event.box.php';
 
-$eventObjectId = $_GET['event'];
+$objectId = $_GET['event'];
 
-$eventParse = new EventParse();
-$eventParse->where('objectId', $eventObjectId);
-$eventParse->whereInclude('fromUser');
-$event = $eventParse->getEvents();
-if ($event instanceOf Error) {
-	echo 'Errore';
-} else {
-	$event = $event[$eventObjectId];
-	
+$eventBox = new EventBox();
+$eventBox->initForMediaPage($objectId);
+if (is_null($eventBox->error)) {
+	$event = $eventBox->eventArray[$objectId];
 	?>
 	<!DOCTYPE html>
 	<!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
 	<!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
-
 		<head>
 		<title>Jamyourself</title>
 			<!-------------------------- METADATI --------------------------->

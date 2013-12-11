@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0

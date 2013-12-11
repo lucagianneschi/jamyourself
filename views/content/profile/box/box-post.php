@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* box post
  * box chiamato tramite load con:
  * data: {data,typeuser}

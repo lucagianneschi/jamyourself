@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /* box per elenco following
  * box chiamato tramite ajax con:
  * data: {user: objectId}, 
