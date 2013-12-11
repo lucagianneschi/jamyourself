@@ -8,7 +8,8 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php'; 
 
 require_once CLASSES_DIR . 'userParse.class.php';
-session_start();
+if(session_id() == '')
+	session_start();
 
 $userObjectId = $_POST['userObjectId'];
 $userType = $_POST['userType'];
@@ -26,7 +27,7 @@ if (isset($userObjectId)) {
 		
 	require_once BOXES_DIR . 'notification.box.php';
 	$detailNotification = new NotificationBox();
-	$detailNotification->initForCounter($userType);
+	//$detailNotification->initForCounter($userType);
 	
 	$invited = $_SESSION['invitationCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['invitationCounter'] : 0;
 	$message = $_SESSION['messageCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['messageCounter'] : 0;
@@ -34,7 +35,10 @@ if (isset($userObjectId)) {
 	
 	$totNotification = $invited + $message + $relation;
 		
-	
+	if($totNotification == 0) $css_not = 'no-display';
+	if($invited == 0) $css_inv = 'no-display';
+	if($message == 0) $css_msg = 'no-display';
+	if($relation == 0) $css_rel = 'no-display';
 
 	?>
 	<!---------------------------------------- HEADER HIDE SOCIAL ----------------------------------->
@@ -45,15 +49,15 @@ if (isset($userObjectId)) {
 					<h3 class="inline"><?php echo $views['header']['TITLE'] ?></h3>
 				</div>	
 				<div  class="large-8 columns" style="margin-top: 10px">
-					<a class="ico-label _flag inline" onclick="loadBoxSocial('notification','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $totNotification ?>"><span class="round alert label iconNotification"><?php echo $totNotification ?></span></a>
-					<a class="ico-label _message inline" onclick="loadBoxSocial('message','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $message ?>"><span class="round alert label iconNotification"><?php echo $message ?></span></a>
-					<a class="ico-label _calendar inline" onclick="loadBoxSocial('event','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $invited ?>"><span class="round alert label iconNotification"><?php echo $invited ?></span></a>
-					<a class="ico-label _friend inline"  onclick="loadBoxSocial('relation','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $relation ?>"><span class="round alert label iconNotification"><?php echo $relation ?></span></a>
+					<a class="ico-label _flag inline" onclick="loadBoxSocial('notification','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $totNotification ?>"><span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span></a>
+					<a class="ico-label _message inline" onclick="loadBoxSocial('message','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $message ?>"><span class="round alert label iconNotification <?php echo $css_msg ?>"><?php echo $message ?></span></a>
+					<a class="ico-label _calendar inline" onclick="loadBoxSocial('event','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $invited ?>"><span class="round alert label iconNotification <?php echo $css_inv ?>"><?php echo $invited ?></span></a>
+					<a class="ico-label _friend inline"  onclick="loadBoxSocial('relation','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $relation ?>"><span class="round alert label iconNotification <?php echo $css_rel ?>"><?php echo $relation ?></span></a>
 				</div>
 			</div>											
 		</div>					
 	</div>
-
+	<div id="box-notification">
 	<!------------------------------------ notification ------------------------------------------->
 	<?php
 	try {
@@ -126,8 +130,12 @@ if (isset($userObjectId)) {
 		<!------------------------------------ fine notification ------------------------------------------->
 		<div class"row">
 			<div  class="large-12 large-offset-9 columns"><a href="#" class="note orange"><strong><?php echo $other?></strong> </a></div>
-		</div>	
+		</div>
+		
 		<?php
-	}
+	}?>
+	</div>
+<?php	
 }
 ?>
+	

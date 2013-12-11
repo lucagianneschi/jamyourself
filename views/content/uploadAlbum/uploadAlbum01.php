@@ -1,9 +1,21 @@
 <?php
-$countAlbum = 10;
 
-$thumbnailSrc = '';
-$title = 'Photo Set Title';
-$photoCounter = 10;
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
+require_once BOXES_DIR . 'album.box.php';
+
+$currentUserObjectId = $currentUser->getObjectId();
+
+$albumBoxP = new AlbumBox();
+$albumBoxP->init($currentUserObjectId);
+
+
+$AlbumList = $albumBoxP->albumArray;
+
+
 ?>
 <div class="row">
 	<div  class="large-12 columns formBlack-title">
@@ -13,12 +25,15 @@ $photoCounter = 10;
 <div class="row formBlack-body" id="uploadAlbum-listAlbum">
 	<div  class="large-12 columns ">
 		<?php                 
-        	if($countAlbum > 0){ 
+        	if(count($AlbumList) > 0){ 
         ?>
 		<div  id="uploadAlbum-listAlbumTouch" class="touchcarousel grey-blue">
 			<ul class="touchcarousel-container">		
-				<?php 
-                    for($i = 1; $i <= $countAlbum; $i++ ){
+				<?php                    
+                    foreach ($AlbumList as $key => $value) {
+						$thumbnailSrc = $value->getThumbnailCover();
+						$title = $value->getTitle();
+						$photoCounter = $value->getImageCounter();
                   ?>
 				<li class="touchcarousel-item">
 					

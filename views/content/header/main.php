@@ -1,3 +1,7 @@
+<?php
+$css_not = 'no-display';
+$totNotification = '';
+?>
 <header>
 	<!------------------------------------- HIDE HEADER ----------------------------->
 	<div id="header-hide" class="no-display bg-double">
@@ -8,7 +12,7 @@
 			$userObjectId = $currentUser->getObjectId();
 			$userType = $currentUser->getType();
 			?>		
-			<div  class="row hcento-hero" style="margin-bottom: 20px">
+			<div  class="row hcento-hero" style="padding-bottom: 20px;">
 				<div id="header-profile" class="small-6 columns">
 					<!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->
 					<?php require_once './content/header/box-profile.php'; ?>
@@ -99,7 +103,7 @@
 				  				</div>
 				  				<div class="large-4 columns hide-for-small " id="header-btn-notify">
 				  					<div class="header inline" style="float: right;">
-				  					<a class="ico-label _flag inline" onclick="headerShow()" ><span class="round alert label iconNotification"><?php echo $totNotification ?></span></a>
+				  					<a class="ico-label _flag inline" onclick="headerShow()" ><span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span></a>
 				  					<a class="ico-label _setting inline"></a>
 				  					</div>
 				  				</div>

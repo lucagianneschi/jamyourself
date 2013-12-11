@@ -92,7 +92,7 @@ label.text{
  // @include filter-gradient($grey-dark, $white, horizontal); /* IE6-8 */
  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
  $experimental-support-for-svg: true;
- @include background-image(linear-gradient(left,  $grey-dark 0%,$grey-dark 50%,$white 50%,$white 100%));
+ @include background-image(linear-gradient(left,  $grey-dark 0%,$grey-dark 49.6%,$white 49.6%,$white 100%));
 
  overflow:hidden;
  
