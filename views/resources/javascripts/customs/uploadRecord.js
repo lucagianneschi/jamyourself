@@ -18,6 +18,9 @@ var type_user,
         tumbnail_pane;
 
 $(document).ready(function() {
+    //inizializzazone in sessione dei featuring in maniera asincrona
+    initFeaturingJSON();
+    
     //scorrimento lista album record 
     $("#uploadRecord-listRecordTouch").touchCarousel({
         pagingNav: false,
@@ -34,12 +37,15 @@ $(document).ready(function() {
         $("#uploadRecord01").fadeOut(100, function() {
             $("#uploadRecord03").fadeIn(100);
         });
-        
+
         json_album.recordId = this.id;
         //inizializzazione dell'uploader
         if (uploader == null) {
             initMp3Uploader();
         }
+        
+        //recupero gli mp3 dell'album
+        getSongs(json_album.recordId);
     });
 
     //gesione button create new 
@@ -108,7 +114,7 @@ $(document).ready(function() {
         addoncomma: false,
         input_min_size: 0,
         height: 10,
-        width:"100%",
+        width: "100%",
         cache: true,
         maxshownitems: 10,
         newel: false
@@ -116,7 +122,7 @@ $(document).ready(function() {
     $("#trackFeaturing").fcbkcomplete({
         json_url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
         addontab: true,
-        width:"100%",
+        width: "100%",
         addoncomma: false,
         input_min_size: 0,
         height: 10,
@@ -124,7 +130,7 @@ $(document).ready(function() {
         maxshownitems: 10,
         newel: false
     });
-    
+
 //    Per stampare in console l'array del featuring:
 //    
 //        $.getJSON("../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON", function(data) {
@@ -449,7 +455,7 @@ function initMp3Uploader() {
         console.log(response.response);
         var obj = JSON.parse(response.response);
 
-        addSong(obj.src, obj.duration, getTagsMusicTrack());
+        addNewSong(obj.src, obj.duration, getTagsMusicTrack());
 
     });
 }
@@ -475,19 +481,25 @@ function getFeaturingSongCreate() {
     return featuring;
 }
 
-function addSong(id, duration, tags) {
+function addNewSong(id, duration, tags){
     var songTitle = $("#trackTitle").val();
     var featuring = getFeaturingSongCreate();
-    var json_elem = {"src": id, "tags": tags, "featuring" : featuring, "title":songTitle, "duration":duration};
-    json_album.list.push(json_elem);
-    console.log("added  song=> " + JSON.stringify(json_elem));
+    var json_elem = {"src": id, "tags": tags, "featuring": featuring, "title": songTitle, "duration": duration};
+    json_album.list.push(json_elem);  
+    
+    addSongToList(json_elem.title,json_elem.duration, json_elem.tags.join(), true);
+}
+
+function addSongToList(title, duration, genre , isNew) {
+
     var html = "";
     html += "<tr>";
-    html += '<td class="title _note-button">' + songTitle + '</td>';
+    html += '<td class="title _note-button">' + title + '</td>';
     html += '<td class="time">' + duration + '</td>';
-    html += '<td class="genre">' + tags.join() + '</td>';
-    html += '<td class="delete _delete-button"></td>';
-    html += '</tr>';
+    html += '<td class="genre">' + genre + '</td>';
+    if(isNew){
+        html += '<td class="delete _delete-button"></td>';
+    }
 
     $("#songlist").append(html);
 }
@@ -496,8 +508,12 @@ function publish() {
     sendRequest("publishSongs", json_album, publishCallback, false);
 }
 
-function publishCallback(data,status){
-    console.log(data);
+function publishCallback(data, status) {
+    window.console.log("publishCallback | data => " + JSON.stringify(data));
+    window.console.log("publishCallback | status => " + JSON.stringify(status));
+    alert(data.status);
+    
+    clearAll();
 }
 //////////////////////////////////////////////////////////////////////////////
 //  
@@ -546,15 +562,44 @@ function uploaderRefresh() {
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-function getSong(recordId){
+function getSongs(recordId) {
     //per test : sK0Azt3WiP
-    if(recordId != null && recordId.length > 0){
-        var json_for_count_song = {recordId : recordId};
-      sendRequest("getSongsList", json_for_count_song, getSongCallback, true);
+    if (recordId != undefined && recordId != null && recordId.length > 0) {
+        var json_for_count_song = {recordId: recordId};
+        sendRequest("getSongsList", json_for_count_song, getSongCallback, true);
     }
 }
 
-function getSongCallback(data,status){
-    window.console.log(data);
+function getSongCallback(data, status) {
+//    window.console.log("getSongCallback | data => " + JSON.stringify(data));
+//    window.console.log("getSongCallback | status => " + JSON.stringify(status));
+
+    if (data.songList != undefined && data.songList != null && data.count != undefined && data.count != null && data.count >= 0) {
+        json_album.count = data.count;
+        for (var i = 0; i< data.count ; i++){
+            var song = JSON.parse(data.songList[i]);
+            var title = (song.title != undefined && song.title != null && song.title.length > 0) ? song.title : "no title";
+            var genre = (song.genre != undefined && song.genre != null && song.genre.length > 0) ? song.genre : "no genre";
+            var duration = (song.duration != undefined && song.duration != null) ? song.duration : "no duration";
+           addSongToList(title, duration, genre, false); 
+        }
+    }else{
+        json_album.count = 0; 
+    }
 }
 
+function initFeaturingJSON(){
+    sendRequest("getFeaturingJSON", {}, callbackInitFeaturingJSON, true);
+}
+
+function callbackInitFeaturingJSON(data,status){
+//    window.console.log("callbackInitFeaturingJSON | data => " + JSON.stringify(data));
+}
+
+function clearAll(){
+    var music = null;
+    var json_album_create = {};
+    var uploader = null;
+    var json_album = {"list": []};  
+    $("#songlist").html("");
+}

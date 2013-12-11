@@ -34,8 +34,9 @@ class UploadRecordController extends REST {
         }
 
         $currentUser = $_SESSION['currentUser'];
-//caching dell'array dei featuring
-        $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
+//caching dell'array dei featuring: tolto per velocizzare la pagina, verra' chiamato
+//in maniera asincrona
+//        $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
 
         $recordBox = new RecordBox();
         $recordBox->initForUploadRecordPage($currentUser->getObjectId());
@@ -171,15 +172,17 @@ class UploadRecordController extends REST {
             $this->response(array('status' => $controllers['NOOBJECTID']), 403);
         } elseif (!isset($this->request['recordId'])) {
             $this->response(array('status' => $controllers['NOMP3LIST']), 403);
+        } elseif (!isset($this->request['count'])) {
+            $this->response(array('status' => $controllers['NOCOUNT']), 403);
         }
 
         $currentUser = $_SESSION['currentUser'];
         $recordId = $this->request['recordId'];
         $songList = $this->request['list'];
-
+        $counter = intval($this->request['count']);
         $songErrorList = array(); //lista canzoni non caricate
         $songSavedList = array();
-        $position = 0;
+
         if (count($songList) > 0) {
             $pSong = new SongParse();
 
@@ -190,7 +193,7 @@ class UploadRecordController extends REST {
                     //errore... il file non e' piu' in cache... :(
                     $songErrorList[] = $element;
                 } else {
-                    $position++;
+                    $counter++;
                     $song = new Song();
                     $song->setActive(true);
                     $song->setCommentCounter(0);
@@ -208,7 +211,7 @@ class UploadRecordController extends REST {
                     $song->setLocation(null);
                     $song->setLovers(array());
                     $song->setLoveCounter(0);
-                    $song->setPosition($position);
+                    $song->setPosition($counter);
                     $song->setRecord($recordId);
                     $song->setCounter(0);
                     $song->setShareCounter(0);
@@ -236,8 +239,13 @@ class UploadRecordController extends REST {
                     }
                 }
             }
+            //aggiorno il counter del record
+            $pRecord = new RecordParse();
+            if ($pRecord->incrementRecord($recordId, "songCounter", $counter) instanceof Error) {
+                $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'], "errorList" => $songErrorList, "savedList" => $songSavedList), 200);                
+            }
             //gestione risposte
-            if (count($songErrorList) == 0) {
+            else if (count($songErrorList) == 0) {
                 //nessun errore
                 $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList), 200);
             } elseif (count($songSavedList) == 0) {
@@ -277,22 +285,22 @@ class UploadRecordController extends REST {
         $activity = new Activity();
 
         $activity->setActive(true);
-//        $activity->setAlbum();
-//        $activity->setComment();
-//        $activity->setCounter();
-//        $activity->setEvent();
+        $activity->setAlbum(null);
+        $activity->setComment(null);
+        $activity->setCounter(-1);
+        $activity->setEvent(null);
         $activity->setFromUser($song->getFromUser());
-//        $activity->setImage();
-//        $activity->setPlaylist();
-//        $activity->setQuestion();
-//        $activity->setRead();
+        $activity->setImage(null);
+        $activity->setPlaylist(null);
+        $activity->setQuestion(null);
+        $activity->setRead();
         $activity->setRecord($song->getRecord());
         $activity->setSong($song->getObjectId());
-//        $activity->setStatus();
-//        $activity->setToUser();
-//        $activity->setType();
-//        $activity->setUserStatus();
-//        $activity->setVideo();
+        $activity->setStatus(null);
+        $activity->setToUser(null);
+        $activity->setType(null);
+        $activity->setUserStatus(null);
+        $activity->setVideo(null);
 //        $activity->setACL();
 
         $pActivity = new ActivityParse();
@@ -341,6 +349,11 @@ class UploadRecordController extends REST {
         return array('RecordPicture' => $coverId, 'RecordThumbnail' => $thumbId);
     }
 
+    /**
+     * Prepara la variabile di sessione contenente i featuring dell'utente per 
+     * compilare il form, campo featuring
+     * 
+     */
     public function getFeaturingJSON() {
 
         $currentUserFeaturingArray = null;
@@ -385,28 +398,6 @@ class UploadRecordController extends REST {
             return array();
     }
 
-    public function getRecordThumbnailURL($userId, $recordCoverThumb) {
-        $path = "";
-        if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
-            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
-            if (!file_exists($path)) {
-                $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
-            }
-        } else {
-//immagine di default con path realtivo rispetto alla View
-//http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
-            $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
-        }
-
-        return $path;
-    }
-
-///////////////////////////////////////////////////////////////////////////////
-// 
-// Funzioni di simulazione per reperimento delle canzoni (in attesa dei box)
-// 
-//////////////////////////////////////////////////////////////////////////////
-
     public function getSongsList() {
         global $controllers;
 
@@ -434,7 +425,13 @@ class UploadRecordController extends REST {
             // info utili
             // mi serve: titolo, durata, lista generi
             $title = $song->getTitle();
-            $duration = $song->getDuration();
+            $seconds = $song->getDuration();
+            $hours = floor($seconds / 3600);
+            $mins = floor(($seconds - ($hours * 3600)) / 60);
+            $secs = floor($seconds % 60);
+
+            $duration = $hours == 0 ? $mins . ":" . $secs : $hours . ":" . $mins . ":" . $secs;
+
             $genre = $song->getGenre();
             $returnInfo[] = json_encode(array("title" => $title, "duration" => $duration, "genre" => $genre));
         }
