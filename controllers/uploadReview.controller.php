@@ -171,7 +171,7 @@ class UploadReviewController extends REST {
             $resRev = $commentParse->saveComment($review);
             if ($resRev instanceof Error) {
                 $this->response(array("status" => $controllers['NOSAVEDREVIEW']), 503);
-            } elseif (!$this->saveActivityForNewReview($type, $toUser->getObjectId())) {
+            } elseif ($this->saveActivityForNewReview($type, $toUser->getObjectId()) instanceof Error) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackUploadReviewController($resRev->getObjectId());
                 $this->response(array('status' => $message), 503);
@@ -226,10 +226,8 @@ class UploadReviewController extends REST {
         }
         $activityParse = new ActivityParse();
         $resActivity = $activityParse->saveActivity($activity);
-        if ($resActivity instanceof Error) {
-            return false;
-        } else
-            return true;
+
+        return $resActivity;
     }
 
    /**
