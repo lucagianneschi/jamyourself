@@ -15,7 +15,7 @@
 				</div>			
 				<div id="header-social" class="small-6 columns">				
 					<!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->
-					<?php //require_once './content/header/box-social.php'; ?>
+					<?php require_once './content/header/box-social.php'; ?>
 				</div>
 			</div>
 			<?php

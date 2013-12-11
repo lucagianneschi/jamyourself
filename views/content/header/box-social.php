@@ -15,9 +15,9 @@ $userType = $_POST['userType'];
 $typeNotification = $_POST['typeNotification'];
 
 if(!isset($userObjectId)){
-	if (isset($_SESSION['currentUser'])) {
-		$userObjectId = $currentUser->getObjectId();
+	if (isset($_SESSION['currentUser'])) {		
 		$userType = $currentUser->getType();
+		$userObjectId = $currentUser->getObjectId();
 		$typeNotification = 'notification';
 	}
 }
@@ -25,7 +25,8 @@ if(!isset($userObjectId)){
 if (isset($userObjectId)) {
 		
 	require_once BOXES_DIR . 'notification.box.php';
-	$notificationBox = new NotificationBox();
+	$detailNotification = new NotificationBox();
+	$detailNotification->initForCounter($userType);
 	
 	$invited = $_SESSION['invitationCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['invitationCounter'] : 0;
 	$message = $_SESSION['messageCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['messageCounter'] : 0;
@@ -33,28 +34,7 @@ if (isset($userObjectId)) {
 	
 	$totNotification = $invited + $message + $relation;
 		
-	try {
-		switch ($typeNotification) {
-			case 'notification':				
-				$detailNotification = $notificationBox->initForDetailedList($userObjectId, $userType);
-				break;
-			case 'message':
-				$detailNotification = $notificationBox->initForMessageList($userObjectId);
-				$other = 'vedi tutti i messaggi';	
-				break;
-			case 'event':
-				$detailNotification = $notificationBox->initForEventList($userObjectId);
-				$other = 'vedi tutti gli eventi';
-				break;
-			case 'relation':
-				$detailNotification = $notificationBox->initForRelationList($userObjectId, $userType);
-				$other = 'vedi tutte le relazioni';
-				break;
-			default:
-				break;
-		}
-	} catch(Exception $e) {
-	}
+	
 
 	?>
 	<!---------------------------------------- HEADER HIDE SOCIAL ----------------------------------->
@@ -75,7 +55,29 @@ if (isset($userObjectId)) {
 	</div>
 
 	<!------------------------------------ notification ------------------------------------------->
-	<?php 
+	<?php
+	try {
+		switch ($typeNotification) {
+			case 'notification':				
+				$detailNotification ->initForDetailedList($userType);
+				break;
+			case 'message':
+				$detailNotification ->initForMessageList();
+				$other = 'vedi tutti i messaggi';	
+				break;
+			case 'event':
+				$detailNotification ->initForEventList();
+				$other = 'vedi tutti gli eventi';
+				break;
+			case 'relation':
+				$detailNotification ->initForRelationList($userType);
+				$other = 'vedi tutte le relazioni';
+				break;
+			default:
+				break;
+		}
+	} catch(Exception $e) {
+	} 
 	if ($detailNotification->notificationArray != $boxes['NDB']) {
 		foreach ($detailNotification->notificationArray as $key => $value) {
 			$createdAd = $value->createdAt->format('d/m/Y H:i');
