@@ -87,7 +87,8 @@ class PlaylistBox {
                     $this->errorManagement($songs->getErrorMessage());
                     return;
                 } elseif (is_null($songs)) {
-                    $this->errorManagement();
+                    $this->error = null;
+                    $this->tracklist = array();
                     return;
                 } else {
                     foreach ($songs as $song) {
