@@ -18,7 +18,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-
+require_once BOXES_DIR . 'utilsBox.php';
 /**
  * \brief	PlaylistBox class 
  * \details	box to display user's playlist in each page of the website 
@@ -89,7 +89,7 @@ class PlaylistBox {
                 } else {
                     foreach ($songs as $song) {
                         if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
-                            array_push($tracklist, $songs);
+                            array_push($tracklist, $song);
                     }
                     $this->error = null;
                     $this->tracklist = $tracklist;

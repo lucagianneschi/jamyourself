@@ -22,20 +22,15 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once BOXES_DIR . 'playlist.box.php';
+require_once BOXES_DIR . 'utilsBox.php';
 require_once PARSE_DIR . 'parse.php';
-$i_end = microtime();
-echo '<br />------------------------- TEST PLAYLIST BOX SPATAFORA-------------------------------------------<br />';
-$t1_start = microtime();
+
+
+echo '<br />------------------------- TEST PLAYLIST BOX LDF-------------------------------------------<br />';
+
 $info1BoxP = new PlaylistBox();
-$info1 = $info1BoxP->init('GuUAj83MGH');
-$t1_stop = microtime();
 print "<pre>";
-print_r($info1);
+print_r($info1BoxP);
 print "</pre>";
-$t_end = microtime();
-echo '<br />----------------------TIMERS---------------------------<br />';
-echo 'Tempo include ' . executionTime($i_start, $i_end) . '<br />';
-echo 'Tempo totale ' . executionTime($t1_start, $t1_stop) . '<br />';
-echo 'Tempo totale ' . executionTime($t_start, $t_end) . '<br />';
-echo '<br />----------------------TIMERS---------------------------<br />';
+
 ?>
