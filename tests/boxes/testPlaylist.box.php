@@ -22,13 +22,12 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once BOXES_DIR . 'playlist.box.php';
-require_once BOXES_DIR . 'utilsBox.php';
 require_once PARSE_DIR . 'parse.php';
-
 
 echo '<br />------------------------- TEST PLAYLIST BOX LDF-------------------------------------------<br />';
 
 $info1BoxP = new PlaylistBox();
+$info1BoxP->init();
 print "<pre>";
 print_r($info1BoxP);
 print "</pre>";
