@@ -1,6 +1,8 @@
 <div class="bg-grey-dark">
 	<div class="row formBlack" id="uploadAlbum">
+		
 		<div  class="large-12 columns">
+			<?php if(isset($_SESSION['currentUser'])){ ?>
 			<div class="row">
 				<div  class="large-12 columns">
 					<h3>Upload Photo</h3>
@@ -8,6 +10,7 @@
 			</div>
 			<div class="row">
 				<div  class="large-12 columns formBlack-box">
+				
 					<form action="" method="POST" name="form-uploadAlbum" id="form-uploadAlbum" data-abide>
 						<div id="uploadAlbum01" class="">
 							<?php require_once VIEWS_DIR.'content/uploadAlbum/uploadAlbum01.php'; ?>
@@ -19,8 +22,13 @@
 							<?php require_once VIEWS_DIR.'content/uploadAlbum/uploadAlbum03.php'; ?>
 						</div>			
 					</form>
+				
 				</div>
 			</div>
+			<?php }
+					else echo 'Errore: Utente non loggato'
+				?> 
 		</div>
+		
 	</div>	
 </div>

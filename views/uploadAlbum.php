@@ -3,11 +3,13 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-/*
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-*/
+require_once CLASSES_DIR . 'userParse.class.php';
+
+if(session_id() == '')
+	session_start();
+if(isset($_SESSION['currentUser']))
+	$currentUser = $_SESSION['currentUser'];
+
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->

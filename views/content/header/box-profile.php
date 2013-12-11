@@ -15,7 +15,9 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 } elseif (count($playlist->tracklist) == 0 && !is_null($playlist->error)) {
 	echo $playlist->error;
 } elseif (count($playlist->tracklist) > 0) {
+	
 	?>
+	
 	<div class="row">
 		<div  class="small-6 columns hide-for-small">
 			<h3><?php echo $playlist->name; ?></h3>
