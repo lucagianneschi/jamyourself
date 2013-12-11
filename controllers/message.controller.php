@@ -125,11 +125,11 @@ class MessageController extends REST {
 	    $message->setImage(null);
 	    $message->setLocation(null);
 	    $message->setLoveCounter(0);
-	    $message->setLovers(null);
+	    $message->setLovers(array());
 	    $message->setRecord(null);
 	    $message->setShareCounter(0);
 	    $message->setStatus(null);
-	    $message->setTags(null);
+	    $message->setTags(array());
 	    $message->setText($text);
 	    $message->setTitle($title);
 	    $message->setToUser($toUserId);
