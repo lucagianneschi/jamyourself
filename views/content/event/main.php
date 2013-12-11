@@ -20,6 +20,7 @@
 			<div id="social" style="width:100%; max-width:500px; float:left">
 				<div class="row">
 					<div class="large-12 columns">
+						
 						<div id='box-status' ></div>
 						<script type="text/javascript">
 							function loadBoxStatus() {
@@ -29,7 +30,7 @@
 									url: "content/event/box/box-status.php",
 									beforeSend: function(xhr) {
 										//spinner.show();
-										console.log('Sono partito');
+										console.log('Sono partito status');
 									}
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
@@ -46,24 +47,22 @@
 							}
 						</script>
 						
-						<div id="box-RecordReview"></div>
+						<div id="box-recordReview"></div>
 						<script type="text/javascript">
 							function loadBoxRecordReview() {
 								var json_data = {};
 								json_data.eventObjectId = '<?php echo $eventObjectId; ?>';
-								json_data.limit = 5;
-								json_data.skip = 1;
 								$.ajax({
 									type: "POST",
 									url: "content/event/box/box-recordReview.php",
 									data: json_data,
 									beforeSend: function(xhr) {
 										//spinner.show();
-										console.log('Sono partito');
+										console.log('Sono partito recordReview');
 									}
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
-									$("#box-RecordReview").html(message);
+									$("#box-recordReview").html(message);
 									code = xhr.status;
 									//console.log("Code: " + code + " | Message: " + message);
 									console.log("Code: " + code + " | Message: <omitted because too large>");
@@ -138,6 +137,7 @@
 								});
 							}
 						</script>
+						
 					</div>
 				</div>			
 			</div>
