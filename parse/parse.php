@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 include 'parseConfig.php';
 include 'parseObject.php';
 include 'parseQuery.php';
