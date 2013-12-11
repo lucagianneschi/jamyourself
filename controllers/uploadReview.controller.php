@@ -83,6 +83,7 @@ class UploadReviewController extends REST {
      */
     public function publish() {
         global $controllers;
+        global $mail_files;
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
@@ -99,7 +100,7 @@ class UploadReviewController extends REST {
             }
             $currentUser = $_SESSION['currentUser'];
             $reviewRequest = json_decode(json_encode($this->request), false);
-            
+
             $this->reviewedId = $reviewRequest->reviewedId;
             $this->reviewedClassType = $reviewRequest->type;
             $revieBox = new ReviewBox();
@@ -111,7 +112,7 @@ class UploadReviewController extends REST {
             } else {
                 $this->reviewed = $revieBox->mediaInfo[0];
             }
-            
+
             $rating = intval($this->request['rating']);
             $allowedForReview = array('Event', 'Record');
             if (!in_array($this->reviewedClassType, $allowedForReview)) {
@@ -120,10 +121,10 @@ class UploadReviewController extends REST {
                 $this->response(array("status" => $controllers['NODATA']), 406);
             }
             $toUser = $this->reviewed->getFromUser(); //e' uno User
-            if ( $toUser->getObjectId() == $currentUser->getObjectId()) {
+            if ($toUser->getObjectId() == $currentUser->getObjectId()) {
                 $this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
             }
-            require_once CLASSES_DIR . 'comment.class.php'; //controlla se ti serve
+            require_once CLASSES_DIR . 'comment.class.php';
             require_once CLASSES_DIR . 'commentParse.class.php';
             $review = new Comment();
             $review->setActive(true);
@@ -147,25 +148,30 @@ class UploadReviewController extends REST {
             $review->setToUser($toUser->getObjectId());
             $review->setVideo(null);
             $review->setVote($rating);
-            switch ($this->reviewedClassType) { 
+            switch ($this->reviewedClassType) {
                 case 'Event' :
                     $review->setEvent($this->reviewedId);
                     $review->setRecord(null);
                     $review->setType('RE');
+                    $type = "NEWEVENTREVIEW";
+                    $subject = $controllers['SBJE'];
+                    $file = $mail_files['EVENTREVIEWEMAIL'];
                     break;
                 case 'Record';
                     $review->setRecord($this->reviewedId);
                     $review->setEvent(null);
                     $review->setType('RR');
+                    $type = "NEWRECORDREVIEW";
+                    $subject = $controllers['SBJR'];
+                    $file = $mail_files['RECORDREVIEWEMAIL'];
                     break;
             }
-            $this->sendMailNotification();
+            $this->sendMailNotification($subject,$file);
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
             if ($resRev instanceof Error) {
                 $this->response(array("status" => $controllers['NOSAVEDREVIEW']), 503);
-            }
-            if (!$this->saveActivityForNewRecordReview()) {
+            } elseif (!$this->saveActivityForNewReview($type, $toUser->getObjectId())) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackUploadReviewController($resRev->getObjectId());
                 $this->response(array('status' => $message), 503);
@@ -198,8 +204,9 @@ class UploadReviewController extends REST {
      * \brief   funzione per il salvataggio dell'activity connessa all'inserimento della review
      * \todo    differenziare il caso event o record
      */
-    private function saveActivityForNewRecordReview() {
-        require_once CLASSES_DIR . 'activity.class.php'; //controlla se ti serve
+    private function saveActivityForNewReview($type, $toUser) {
+        require_once CLASSES_DIR . 'user.class.php';
+        require_once CLASSES_DIR . 'activity.class.php';
         require_once CLASSES_DIR . 'activityParse.class.php';
         $currentUser = $_SESSION['currentUser'];
         $activity = new Activity();
@@ -207,10 +214,16 @@ class UploadReviewController extends REST {
         $activity->setCounter(0);
         $activity->setFromUser($currentUser->getObjectId());
         $activity->setRead(false);
-        $activity->setRecord($this->reviewed->getObjectId());
         $activity->setStatus('A');
-        $activity->setToUser($this->reviewed->getFromUser());
-        $activity->setType("NEWRECORDREVIEW");
+        $activity->setType($type);
+        $activity->setToUser($toUser);
+        if ($type == "NEWEVENTREVIEW") {
+            $activity->setEvent($this->reviewed->getObjectId());
+            $activity->setRecord(null);
+        } else {
+            $activity->setEvent(null);
+            $activity->setRecord($this->reviewed->getObjectId());
+        }
         $activityParse = new ActivityParse();
         $resActivity = $activityParse->saveActivity($activity);
         if ($resActivity instanceof Error) {
@@ -219,12 +232,10 @@ class UploadReviewController extends REST {
             return true;
     }
 
-    private function sendMailNotification() {
+    private function sendMailNotification($subject, $file) {
         require_once SERVICES_DIR . 'mail.service.php';
         global $controllers;
-        global $mail_files;
-        $subject = $controllers['SBJR'];
-        $html = file_get_contents(STDHTML_DIR . $mail_files['RECORDREVIEWEMAIL']);
+        $html = file_get_contents(STDHTML_DIR . $file);
         $mail = mailService();
         $mail->IsHTML(true);
         $mail->AddAddress($this->getUserEmail($this->reviewed->getFromUser()));
