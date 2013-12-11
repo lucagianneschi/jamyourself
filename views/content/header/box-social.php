@@ -27,7 +27,7 @@ if (isset($userObjectId)) {
 		
 	require_once BOXES_DIR . 'notification.box.php';
 	$detailNotification = new NotificationBox();
-	$detailNotification->initForCounter($userType);
+	//$detailNotification->initForCounter($userType);
 	
 	$invited = $_SESSION['invitationCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['invitationCounter'] : 0;
 	$message = $_SESSION['messageCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['messageCounter'] : 0;
@@ -57,7 +57,7 @@ if (isset($userObjectId)) {
 			</div>											
 		</div>					
 	</div>
-
+	<div id="box-notification">
 	<!------------------------------------ notification ------------------------------------------->
 	<?php
 	try {
@@ -130,8 +130,12 @@ if (isset($userObjectId)) {
 		<!------------------------------------ fine notification ------------------------------------------->
 		<div class"row">
 			<div  class="large-12 large-offset-9 columns"><a href="#" class="note orange"><strong><?php echo $other?></strong> </a></div>
-		</div>	
+		</div>
+		
 		<?php
-	}
+	}?>
+	</div>
+<?php	
 }
 ?>
+	

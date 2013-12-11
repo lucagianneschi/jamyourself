@@ -8,10 +8,12 @@ function loadBoxSocial(notification, objectId, userType){
 		},
 		type : 'POST',
 		beforeSend: function(){
-			
+			$('#box-notification').slideUp();
 		}
 	}).done(function(message, status, xhr){			
 			$('#header-social').html(message);
+			$('#box-notification').slideDown();
+			
 			hcento();
 	}).fail(function(xhr){							
 			console.log($.parseJSON(xhr.responseText));					
