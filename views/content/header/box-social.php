@@ -8,7 +8,8 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php'; 
 
 require_once CLASSES_DIR . 'userParse.class.php';
-session_start();
+if(session_id() == '')
+	session_start();
 
 $userObjectId = $_POST['userObjectId'];
 $userType = $_POST['userType'];

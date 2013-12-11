@@ -1,8 +1,10 @@
-<?php		
+<?php
+$username = "";		
 if (isset($_SESSION['currentUser'])) {
 	$currentUser = $_SESSION['currentUser'];
 	$username = $currentUser->getUsername();
-}	
+}
+	
 ?>
 	<footer id="footer" >
 		<div id="footer-header" onClick="footerShow()">

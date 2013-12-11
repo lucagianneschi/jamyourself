@@ -30,9 +30,9 @@ $i_end = microtime();
 echo '<br />-------------------------TEST ALBUM PERSONALPAGE-------------------------------------------<br />';
 $album_start = microtime();
 $albumBoxP = new AlbumBox();
-$albumBox = $albumBoxP->initForPersonalPage($LDF);
+$albumBoxP->init('7fes1RyY77');
 print "<pre>";
-print_r($albumBox);
+print_r($albumBoxP);
 print "</pre>";
 $album_stop = microtime();
 echo '<br />----------------------INITFORDETAIL----------------------------------------------<br />';
@@ -40,7 +40,7 @@ echo '<br />----------------------ALBUM_LDF_206_FOTO----------------------------
 $album = '6nl9mn8a4I';
 
 $albumBoxP3 = new AlbumBox();
-$albumBox3 = $albumBoxP3->initForDetail($album, 10,0);
+$albumBoxP3->initForDetail($album, 10,0);
 print "<pre>";
 print_r($albumBox3);
 print "</pre>";
