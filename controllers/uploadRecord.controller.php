@@ -16,6 +16,7 @@ require_once CLASSES_DIR . 'activityParse.class.php';
 require_once CLASSES_DIR . 'song.class.php';
 require_once CLASSES_DIR . 'songParse.class.php';
 require_once BOXES_DIR . "record.box.php";
+require_once BOXES_DIR . "utilsBox.php";
 require_once SERVICES_DIR . 'mp3.service.php';
 
 class UploadRecordController extends REST {
@@ -183,7 +184,7 @@ class UploadRecordController extends REST {
             $pSong = new SongParse();
 
             foreach ($songList as $songIstance) {
-                $element = json_decode(json_encode($songIstance),false);
+                $element = json_decode(json_encode($songIstance), false);
                 $cachedFile = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element->src;
                 if (!file_exists($cachedFile)) {
                     //errore... il file non e' piu' in cache... :(
@@ -399,14 +400,14 @@ class UploadRecordController extends REST {
 
         return $path;
     }
-    
+
 ///////////////////////////////////////////////////////////////////////////////
 // 
 // Funzioni di simulazione per reperimento delle canzoni (in attesa dei box)
 // 
 //////////////////////////////////////////////////////////////////////////////
-      
-    public function countSongs(){
+
+    public function getSongsList() {
         global $controllers;
 
         if ($this->get_request_method() != "POST") {
@@ -415,49 +416,21 @@ class UploadRecordController extends REST {
             $this->response($controllers['USERNOSES'], 403);
         } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || !(strlen($this->request['recordId']) > 0)) {
             $this->response(array("status" => $controllers['NOOBJECTID']), 403);
-        }  elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
+        } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
             $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
         }
-        
-        $pSong = new SongParse();
-        
+
         $albumId = $this->request['recordId'];
-        $pSong->where("record", $albumId);
-        $count = $pSong->getCount();
-        
-        $this->response(array("status" => $controllers['COUNTSONGOK'], "count" => $count), 200);
-        
-    }
-    
-    public function getSongsList(){
-        global $controllers;
 
-        if ($this->get_request_method() != "POST") {
-            $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-        } elseif (!isset($_SESSION['currentUser'])) {
-            $this->response($controllers['USERNOSES'], 403);
-        } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
-            $this->response(array("status" => $controllers['NOOBJECTID']), 403);
-        }  elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
-            $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
-        }
-        
-        $albumId = $this->request['albumId'];
-        
-        $pSong = new SongParse();
-        
-	$pSong->wherePointer('record', 'Record', $albumId);
-	$pSong->where('active', true);
-	$pSong->setLimit(1000);
-	$pSong->orderByDescending('createdAt');
-	$songsList = $pSong->getRecords();
+        $songsList = tracklistGenerator($albumId);
 
-        if($songsList instanceof Error){
-            $this->response(array("status" => $controllers['NODATA']), 400);            
+        if ($songsList instanceof Error || is_null($songsList)) {
+            $this->response(array("status" => $controllers['NODATA']), 503);
+        } elseif (count($songsList) == 0) {
+            $this->response(array("status" => $controllers['NOSONGFORRECORD'], "songList" => null, "count" => 0), 200);
         }
-        
         $returnInfo = array();
-        foreach($songsList as $song){
+        foreach ($songsList as $song) {
             // info utili
             // mi serve: titolo, durata, lista generi
             $title = $song->getTitle();
@@ -465,11 +438,10 @@ class UploadRecordController extends REST {
             $genre = $song->getGenre();
             $returnInfo[] = json_encode(array("title" => $title, "duration" => $duration, "genre" => $genre));
         }
-        
-        $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo), 200);
-        
+
+        $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
     }
-    
+
 }
 
 ?>
