@@ -7,7 +7,8 @@ require_once CLASSES_DIR . 'userParse.class.php';
 
 if(session_id() == '')
 	session_start();
-$currentUser = $_SESSION['currentUser'];
+if(isset($_SESSION['currentUser']))
+	$currentUser = $_SESSION['currentUser'];
 
 ?>
 <!DOCTYPE html>
