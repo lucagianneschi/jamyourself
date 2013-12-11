@@ -34,7 +34,9 @@ if (is_null($eventBox->error)) {
 			<!-------------------------- SCRIPT --------------------------->
 			<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
 			<script>
-				loadBoxInformation();
+				loadBoxInformationFeaturing();
+				loadBoxInformationAttendee();
+				loadBoxInformationInvited();
 				loadBoxStatus();
 				loadBoxRecordReview();
 				loadBoxEventReview();
