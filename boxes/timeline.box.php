@@ -10,17 +10,18 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo			
+ * \todo	        corretta gestione di skip e limit sia per query interna che esterna		
  *
  */
 
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
-ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'utilsBox.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 
 /**
  * \brief	TimelineBox class 
@@ -49,8 +50,6 @@ class TimelineBox {
     public function init($limit = DEFAULTQUERY, $skip = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
-            require_once SERVICES_DIR . 'lang.service.php';
-            require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
             global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
@@ -82,7 +81,7 @@ class TimelineBox {
     /**
      * \fn	query($field, $currentUserId, $cicles, $limit = null, $skip = null)
      * \brief	private funtion for query
-     * \param	$limit, $skip
+     * \param	$limit, $skip per la query estena, ccioè sulle activities
      * \todo    
      */
     private function query($field, $currentUserId, $cicles, $limit = null, $skip = null) {
@@ -106,15 +105,14 @@ class TimelineBox {
                     $activity = $actP->parseToActivity($obj);
                     $condition1 = ($activity->getType() == 'POSTED' && !is_null($activity->getComment()) && !is_null($activity->getComment()->getfromUser()));
                     $condition2 = ($activity->getType() == 'COLLABORATIONREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A'));
-                    if ($condition1 || $condition2) {
+                    if ($condition1 || $condition2)
                         $activities[$activity->getCreatedAt()->format('YmdHis')] = $activity;
-                    }
                 }
             }
         }
         return $activities;
     }
-    
+
     /**
      * \fn	errorManagement($errorMessage = null)
      * \brief	set values in case of error or nothing to send to the view
