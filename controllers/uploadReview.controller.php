@@ -158,15 +158,15 @@ class UploadReviewController extends REST {
                     $file = $mail_files['EVENTREVIEWEMAIL'];
                     break;
                 case 'Record';
-                    $review->setRecord($this->reviewedId);
                     $review->setEvent(null);
+                    $review->setRecord($this->reviewedId);
                     $review->setType('RR');
                     $type = "NEWRECORDREVIEW";
                     $subject = $controllers['SBJR'];
                     $file = $mail_files['RECORDREVIEWEMAIL'];
                     break;
             }
-            $this->sendMailNotification($subject,$file);
+            $this->sendMailNotification($subject, $file);
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
             if ($resRev instanceof Error) {
@@ -200,7 +200,7 @@ class UploadReviewController extends REST {
     }
 
     /**
-     * \fn	saveActivityForNewRecordReview()
+     * \fn	saveActivityForNewReview($type, $toUser)
      * \brief   funzione per il salvataggio dell'activity connessa all'inserimento della review
      * \todo    differenziare il caso event o record
      */
@@ -232,13 +232,18 @@ class UploadReviewController extends REST {
             return true;
     }
 
+   /**
+     * \fn	sendMailNotification($subject, $file)
+     * \brief   funzione per l'nvio della notifica tramite mail
+     * \todo    uso funzione unica condivisa tra tutti i controller   
+     */
     private function sendMailNotification($subject, $file) {
         require_once SERVICES_DIR . 'mail.service.php';
         global $controllers;
         $html = file_get_contents(STDHTML_DIR . $file);
         $mail = mailService();
         $mail->IsHTML(true);
-        $mail->AddAddress($this->getUserEmail($this->reviewed->getFromUser()));
+        $mail->AddAddress($this->getUserEmail($this->reviewed->getToUser()));
         $mail->Subject = $subject;
         $mail->MsgHTML($html);
         $resMail = $mail->Send();
