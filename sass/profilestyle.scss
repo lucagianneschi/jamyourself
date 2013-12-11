@@ -821,4 +821,38 @@ section.active > .title a{
 	margin-bottom : 0px !important;
 }
 
+//--------------------- STREAM ----------------------------
 
+.welcome-stream {
+	text-align: center;
+	margin: 45px 0;
+	h3 {
+		color:$orange;
+	}
+	h5 {
+		color:white;
+	}
+	p {
+		margin-bottom: 0;
+	}
+}
+
+.discover-button {
+	width:100%;
+	height: 45px;
+	color: white;
+	cursor:pointer;
+	line-height: 45px;
+	text-align: center;
+	background-color: $grey-dark;
+	margin-bottom: 20px;
+	@include transition-property(all);
+	@include transition-duration(300ms);
+	&:hover {
+		background-color: $orange;
+	}
+}
+
+.discover-button-active {
+	background-color: $orange;
+}

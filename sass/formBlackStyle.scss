@@ -43,7 +43,8 @@
 }
 
 .formBlack input[type='text'], textarea, .error textarea{
-	background-color:$grey-superdark; 
+	background-color:$black; 
+	padding: 20px 5px;
   	color: $white;  
   	border: 0px;
   	border-bottom: 1px solid $grey-dark;
