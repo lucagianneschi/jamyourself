@@ -156,7 +156,9 @@ $views = array(
 	
 	'header' => array(
 		'TITLE'    => 'Notification',
-		'OTHER' => ''
+		'MESSAGE' => 'view all messages',
+		'EVENT' => 'view all events',
+		'RELATION' => 'view all requests'
 	)
 	
 );

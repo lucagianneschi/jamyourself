@@ -113,7 +113,7 @@ function hcento() {
 	var hr = h - 80;
 	var hrhero = h - 300;
 	$('.hcento').css('height', hr);
-	$('.hcento-hero').css('height', hrhero); 
+//	$('.hcento-hero').css('height', hrhero); 
 	$("#scroll-profile").mCustomScrollbar("update");
 	$("#scroll-social").mCustomScrollbar("update");
 }
@@ -127,7 +127,7 @@ function headerShow() {
  	$("#scroll-profile").mCustomScrollbar("update");
 	$("#scroll-social").mCustomScrollbar("update");
     // Animation complete.
-  		$('#header-hide').height();
+  	//$('#header-hide').height();
   	});
 	
 }
