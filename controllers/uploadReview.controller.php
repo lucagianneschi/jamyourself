@@ -18,6 +18,11 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'recordParse.class.php';
+require_once BOXES_DIR . 'review.box.php';
+
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
@@ -47,7 +52,6 @@ class UploadReviewController extends REST {
         if (isset($_GET["rewiewId"]) && strlen($_GET["rewiewId"]) > 0 && (isset($_GET["type"]) && strlen($_GET["type"]) > 0) && ( ($_GET["type"] == "Event" ) || ($_GET["type"] == "Record" ))) {
             $this->reviewedId = $_GET["rewiewId"];
             $this->reviewedClassType = $_GET["type"];
-            require_once BOXES_DIR . 'review.box.php';
             $revieBox = new ReviewBox();
             $revieBox->initForUploadReviewPage($this->reviewedId, $this->reviewedClassType);
             if (!is_null($revieBox->error)) {
@@ -86,7 +90,7 @@ class UploadReviewController extends REST {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 403);
-            } elseif ((!isset($this->request['record']) || is_null($this->request['record']) || !(strlen($this->request['record']) > 0))) {
+            } elseif ((!isset($this->request['reviewedId']) || is_null($this->request['reviewedId']) || !(strlen($this->request['reviewedId']) > 0))) {
                 $this->response(array('status' => $controllers['NOOBJECTID']), 403);
             } elseif ((!isset($this->request['review']) || is_null($this->request['review']) || !(strlen($this->request['review']) > 0 ))) {
                 $this->response(array('status' => $controllers['NOREW']), 403);
@@ -97,16 +101,28 @@ class UploadReviewController extends REST {
             }
             $currentUser = $_SESSION['currentUser'];
             $reviewRequest = json_decode(json_encode($this->request), false);
-            $this->reviewedId = $reviewRequest->record;
-            $this->reviewed = $this->getRecord($this->reviewedId);
+            
+            $this->reviewedId = $reviewRequest->reviewedId;
             $this->reviewedClassType = $reviewRequest->type;
+            $revieBox = new ReviewBox();
+            $revieBox->initForUploadReviewPage($this->reviewedId, $this->reviewedClassType);
+            if (!is_null($revieBox->error)) {
+                //errore @todo
+            } elseif (is_null($revieBox->mediaInfo)) {
+                // errore @todo
+            } else {
+                $this->reviewed = $revieBox->mediaInfo[0];
+            }
+            
             $rating = intval($this->request['rating']);
             $allowedForReview = array('Event', 'Record');
-            if (in_array($this->reviewedClassType, $allowedForReview)) {
+            if (!in_array($this->reviewedClassType, $allowedForReview)) {
                 $this->response(array("status" => $controllers['CLASSTYPEKO']), 406);
             } elseif ($this->reviewed instanceof Error || is_null($this->reviewed)) {
                 $this->response(array("status" => $controllers['NODATA']), 406);
-            } elseif ($this->reviewed->getFromUser() == $currentUser->getObjectId()) {
+            }
+            $toUser = $this->reviewed->getFromUser(); //e' uno User
+            if ( $toUser->getObjectId() == $currentUser->getObjectId()) {
                 $this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
             }
             require_once CLASSES_DIR . 'comment.class.php'; //controlla se ti serve
@@ -130,16 +146,16 @@ class UploadReviewController extends REST {
             $review->setTags(array());
             $review->setTitle(null);
             $review->setText($reviewRequest->review);
-            $review->setToUser($this->reviewed->getFromUser());
+            $review->setToUser($toUser->getObjectId());
             $review->setVideo(null);
             $review->setVote($rating);
-            switch (strtolower($this->reviewedClassType)) { //perchè ti serve strtolower??
-                case 'event' :
+            switch ($this->reviewedClassType) { 
+                case 'Event' :
                     $review->setEvent($this->reviewedId);
                     $review->setRecord(null);
                     $review->setType('RE');
                     break;
-                case 'record';
+                case 'Record';
                     $review->setRecord($this->reviewedId);
                     $review->setEvent(null);
                     $review->setType('RR');

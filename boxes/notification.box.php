@@ -11,13 +11,11 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		uso whereIncude		
+ * \todo			
  *
  */
-
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
-
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
@@ -44,11 +42,10 @@ class NotificationForDetailedList {
      * \return	infoBox
      */
     function __construct($createdAt, $fromUserInfo, $objectId, $text, $type) {
-        global $boxes;
-        is_null($createdAt) ? $this->createdAt = $boxes['NODATA'] : $this->createdAt = $createdAt;
-        is_null($fromUserInfo) ? $this->fromUserInfo = $boxes['NODATA'] : $this->fromUserInfo = $fromUserInfo;
-        is_null($objectId) ? $this->objectId = $boxes['NDB'] : $this->objectId = $objectId;
-        is_null($text) ? $this->text = $boxes['NODATA'] : $this->text = $text;
+        is_null($createdAt) ? $this->createdAt = null : $this->createdAt = $createdAt;
+        is_null($fromUserInfo) ? $this->fromUserInfo = null : $this->fromUserInfo = $fromUserInfo;
+        is_null($objectId) ? $this->objectId = null : $this->objectId = $objectId;
+        is_null($text) ? $this->text = null : $this->text = $text;
         is_null($type) ? $this->type = 'D' : $this->type = $type;
     }
 
@@ -61,6 +58,7 @@ class NotificationForDetailedList {
 class NotificationBox {
 
     public $config;
+    public $error;
     public $invitationCounter;
     public $messageCounter;
     public $notificationArray;
@@ -80,189 +78,172 @@ class NotificationBox {
      * \param	$objectId
      * \param	$type
      * \return	infoBox
+     * \todo    prendere il type dalla sessione
      */
-    public function initForCounter($objectId, $type) {
-        global $boxes;
+    public function initForCounter($type) {
+        $this->notificationArray = null;
         $currentUserId = sessionChecker();
-        $notificationBox = new NotificationBox();
-        $notificationBox->notificationArray = $boxes['NDB'];
-        if ($currentUserId == $boxes['NOID']) {
-            $notificationBox->invitationCounter = $boxes['ONLYIFLOGGEDIN'];
-            $notificationBox->messageCounter = $boxes['ONLYIFLOGGEDIN'];
-            $notificationBox->relationCounter = $boxes['ONLYIFLOGGEDIN'];
-            return $notificationBox;
-        } elseif ($currentUserId != $objectId) {
-            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
-            return $notificationBox;
+        if (is_null($currentUserId)) {
+            global $boxes;
+            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            return;
         }
         $activity0 = new ActivityParse();
-        $activity0->wherePointer('toUser', '_User', $objectId);
+        $activity0->wherePointer('toUser', '_User', $currentUserId);
         $activity0->where('type', 'INVITED');
         $activity0->where('read', false);
         $activity0->where('status', 'P');
         $activity0->where('active', true);
-        $notificationBox->invitationCounter = $activity0->getCount();
+        $this->invitationCounter = $activity0->getCount();
         $activity1 = new ActivityParse();
-        $activity1->wherePointer('toUser', '_User', $objectId);
+        $activity1->wherePointer('toUser', '_User', $currentUserId);
         $activity1->where('type', 'MESSAGESENT');
         $activity1->where('status', 'P');
         $activity1->where('read', false);
         $activity1->where('active', true);
-        $notificationBox->messageCounter = $activity1->getCount();
+        $this->error = null;
+        $this->messageCounter = $activity1->getCount();
         if ($type == 'SPOTTER') {
             $activity2 = new ActivityParse();
-            $activity2->wherePointer('toUser', '_User', $objectId);
+            $activity2->wherePointer('toUser', '_User', $currentUserId);
             $activity2->where('type', 'FRIENDSHIPREQUEST');
             $activity2->where('status', 'P');
             $activity2->where('read', false);
             $activity2->where('active', true);
-            $notificationBox->relationCounter = $activity2->getCount();
+            $this->error = null;
+            $this->relationCounter = $activity2->getCount();
         } else {
             $activity2 = new ActivityParse();
-            $activity2->wherePointer('toUser', '_User', $objectId);
+            $activity2->wherePointer('toUser', '_User', $currentUserId);
             $activity2->where('type', 'COLLABORATIONREQUEST');
             $activity2->where('status', 'P');
             $activity2->where('read', false);
             $activity2->where('active', true);
             $collaborationNumber = $activity2->getCount();
             $activity3 = new ActivityParse();
-            $activity3->wherePointer('toUser', '_User', $objectId);
+            $activity3->wherePointer('toUser', '_User', $currentUserId);
             $activity3->where('type', 'FOLLOWING');
             $activity3->where('read', false);
             $activity3->where('active', true);
             $newFollowing = $activity3->getCount();
-            $notificationBox->relationCounter = $newFollowing + $collaborationNumber;
+            $this->error = null;
+            $this->relationCounter = $newFollowing + $collaborationNumber;
         }
-        return $notificationBox;
     }
 
     /**
-     * \fn	initForMessageList($objectId,$type)
+     * \fn	initForMessageList($type)
      * \brief	Init NotificationBox instance for message list
-     * \param	$objectId
+     * \param	$type
+     * \prendere il type dalla sessione
      * \return	infoBox
      */
-    public function initForDetailedList($objectId, $type) {
-        global $boxes;
-        $relatedId = null;
+    public function initForDetailedList($type) {
         $currentUserId = sessionChecker();
-        $notificationBox = new NotificationBox();
-        $notificationBox->invitationCounter = $boxes['NDB'];
-        $notificationBox->messageCounter = $boxes['NDB'];
-        $notificationBox->relationCounter = $boxes['NDB'];
-        if ($currentUserId == $boxes['NOID']) {
-            $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
-            return $notificationBox;
-        } elseif ($currentUserId != $objectId) {
-            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
-            return $notificationBox;
+        if (is_null($currentUserId)) {
+            global $boxes;
+            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            return;
         }
+        $relatedId = null;
+        $this->invitationCounter = null;
+        $this->messageCounter = null;
+        $this->relationCounter = null;
         $arrayTypes = ($type == 'SPOTTER') ? array(array('type' => 'MESSAGESENT'), array('type' => 'INVITED'), array('type' => 'FRIENDSHIPREQUEST')) : array(array('type' => 'MESSAGESENT'), array('type' => 'INVITED'), array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
         $notificationArray = array();
-        $activity = new ActivityParse();
-        $activity->wherePointer('toUser', '_User', $objectId);
-        $activity->whereOr($arrayTypes);
-        $activity->setLimit($notificationBox->config->limitForDetail);
-        $activity->where('read', false);
-        $activity->where('active', true);
-        $activity->where('status', 'P');
-        $activity->orderByDescending('createdAt');
-        $activity->whereInclude('fromUser,comment,event');
-        $messages = $activity->getActivities();
-        if ($messages instanceof Error) {
-            return $messages;
-        } elseif (is_null($messages)) {
-            $notificationBox->notificationArray = $boxes['NODATA'];
-            return $notificationBox;
+        $activityP = new ActivityParse();
+        $activityP->wherePointer('toUser', '_User', $currentUserId);
+        $activityP->whereOr($arrayTypes);
+        $activityP->setLimit($this->config->limitForDetail);
+        $activityP->where('read', false);
+        $activityP->where('active', true);
+        $activityP->where('status', 'P');
+        $activityP->orderByDescending('createdAt');
+        $activityP->whereInclude('fromUser,comment,event');
+        $activities = $activityP->getActivities();
+        if ($activities instanceof Error) {
+            $this->errorManagement($activities->getErrorMessage());
+            return;
+        } elseif (is_null($activities)) {
+            $this->errorManagement();
+            return;
         } else {
-            foreach ($messages as $message) {
-                switch ($message->getType()) {
+            foreach ($activities as $activity) {
+                switch ($activity->getType()) {
                     case 'MESSAGESENT':
                         $text = $boxes['MESSAGEFORLIST'];
-                        $relatedId = is_null($message->getComment()) ? $boxes['404'] : $message->getComment()->getObjectId();
+                        $relatedId = is_null($activity->getComment()) ? $boxes['404'] : $activity->getComment()->getObjectId();
                         $elementType = 'M';
                         break;
                     case 'INVITED':
                         $text = $boxes['EVENTFORLIST'];
-                        $relatedId = is_null($message->getEvent()) ? $boxes['404'] : $message->getEvent()->getObjectId();
+                        $relatedId = is_null($activity->getEvent()) ? $boxes['404'] : $activity->getEvent()->getObjectId();
                         $elementType = 'E';
                         break;
                     case 'FRIENDSHIPREQUEST':
                         $text = $boxes['FRIENDSHIPFORLIST'];
-                        $relatedId = $message->getObjectId();
+                        $relatedId = $activity->getObjectId();
                         $elementType = 'R';
                         break;
                     case 'COLLABORATIONREQUEST':
                         $text = $boxes['COLLABORATIONFORLIST'];
-                        $relatedId = $message->getObjectId();
+                        $relatedId = $activity->getObjectId();
                         $elementType = 'R';
                         break;
                     case 'FOLLOWING':
                         $text = $boxes['FOLLOWINGFORLIST'];
-                        $relatedId = $message->getObjectId();
+                        $relatedId = $activity->getObjectId();
                         $elementType = 'R';
                         break;
                 }
-                $createdAt = $message->getCreatedAt();
-                $fromUserId = $message->getFromUser()->getObjectId();
-                $thumbnail = $message->getFromUser()->getProfileThumbnail();
-                $type = $message->getFromUser()->getType();
-                $username = $message->getFromUser()->getUsername();
+                $createdAt = $activity->getCreatedAt();
+                $fromUserId = $activity->getFromUser()->getObjectId();
+                $thumbnail = $activity->getFromUser()->getProfileThumbnail();
+                $type = $activity->getFromUser()->getType();
+                $username = $activity->getFromUser()->getUsername();
                 $fromUserInfo = new UserInfo($fromUserId, $thumbnail, $type, $username);
                 $notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $elementType);
                 array_push($notificationArray, $notificationInfo);
             }
         }
-        $notificationBox->notificationArray = $notificationArray;
-        return $notificationBox;
+        $this->error = null;
+        $this->notificationArray = $notificationArray;
     }
 
     /**
-     * \fn	initForRelationList($objectId,$type)
+     * \fn	initForRelationList($type)
      * \brief	Init NotificationBox instancef for relation list
      * \param	$objectId
      * \param	$type
      * \return	infoBox
      */
-    public function initForEventList($objectId) {
-        global $boxes;
+    public function initForEventList() {
         $currentUserId = sessionChecker();
-        $notificationBox = new NotificationBox();
-        $notificationBox->invitationCounter = $boxes['NDB'];
-        $notificationBox->messageCounter = $boxes['NDB'];
-        $notificationBox->relationCounter = $boxes['NDB'];
-        if ($currentUserId == $boxes['NOID']) {
-            $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
-            return $notificationBox;
-        } elseif ($currentUserId != $objectId) {
-            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
-            return $notificationBox;
+        if (is_null($currentUserId)) {
+            global $boxes;
+            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            return;
         }
+        $this->invitationCounter = null;
+        $this->messageCounter = null;
+        $this->relationCounter = null;
         $relationArray = array();
         $activity = new ActivityParse();
-        $activity->wherePointer('toUser', '_User', $objectId);
+        $activity->wherePointer('toUser', '_User', $currentUserId);
         $activity->where('type', 'INVITED');
         $activity->where('read', false);
         $activity->where('status', 'P');
         $activity->where('active', true);
-        $activity->setLimit($notificationBox->config->limitForMessageList);
+        $activity->setLimit($this->config->limitForMessageList);
         $activity->orderByDescending('createdAt');
         $activity->whereInclude('fromUser,event');
         $activities = $activity->getActivities();
         if ($activities instanceof Error) {
-            return $activities;
+            $this->errorManagement($activities->getErrorMessage());
+            return;
         } elseif (is_null($activities)) {
-            $notificationBox->notificationArray = $boxes['NODATA'];
-            return $notificationBox;
+            $this->errorManagement();
+            return;
         } else {
             foreach ($activities as $act) {
                 if (!is_null($act->getFromUser()) && !is_null($act->getEvent())) {
@@ -280,50 +261,41 @@ class NotificationBox {
                 }
             }
         }
-        $notificationBox->notificationArray = $relationArray;
-        return $notificationBox;
+        $this->error = null;
+        $this->notificationArray = $relationArray;
     }
 
     /**
-     * \fn	initForMessageList($objectId,$type)
+     * \fn	initForMessageList()
      * \brief	Init NotificationBox instancef for relation list
      * \param	$objectId
      * \param	$type
      * \return	infoBox
      */
-    public function initForMessageList($objectId) {
-        global $boxes;
+    public function initForMessageList() {
         $currentUserId = sessionChecker();
-        $notificationBox = new NotificationBox();
-        $notificationBox->invitationCounter = $boxes['NDB'];
-        $notificationBox->messageCounter = $boxes['NDB'];
-        $notificationBox->relationCounter = $boxes['NDB'];
-        if ($currentUserId == $boxes['NOID']) {
-            $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
-            return $notificationBox;
-        } elseif ($currentUserId != $objectId) {
-            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
-            return $notificationBox;
+        if (is_null($currentUserId)) {
+            global $boxes;
+            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            return;
         }
         $relationArray = array();
         $activity = new ActivityParse();
-        $activity->wherePointer('toUser', '_User', $objectId);
+        $activity->wherePointer('toUser', '_User', $currentUserId);
         $activity->where('type', 'MESSAGESENT');
         $activity->where('read', false);
         $activity->where('status', 'P');
         $activity->where('active', true);
-        $activity->setLimit($notificationBox->config->limitForEventList);
+        $activity->setLimit($this->config->limitForEventList);
         $activity->orderByDescending('createdAt');
         $activity->whereInclude('fromUser');
         $activities = $activity->getActivities();
         if ($activities instanceof Error) {
-            return $activities;
+            $this->errorManagement($activities->getErrorMessage());
+            return;
         } elseif (is_null($activities)) {
-            $notificationBox->notificationArray = $boxes['NODATA'];
-            return $notificationBox;
+            $this->errorManagement();
+            return;
         } else {
             foreach ($activities as $act) {
                 if (!is_null($act->getFromUser())) {
@@ -341,37 +313,27 @@ class NotificationBox {
                 }
             }
         }
-        $notificationBox->notificationArray = $relationArray;
-        return $notificationBox;
+        $this->error = null;
+        $this->notificationArray = $relationArray;
     }
 
     /**
      * \fn	initForRelationList($objectId,$type)
      * \brief	Init NotificationBox instancef for relation list
-     * \param	$objectId
      * \param	$type
      * \return	infoBox
+     * \todo    prendere il type dalla sessione
      */
-    public function initForRelationList($objectId, $type) {
-        global $boxes;
+    public function initForRelationList($type) {
         $currentUserId = sessionChecker();
-        $notificationBox = new NotificationBox();
-        $notificationBox->invitationCounter = $boxes['NDB'];
-        $notificationBox->messageCounter = $boxes['NDB'];
-        $notificationBox->relationCounter = $boxes['NDB'];
-        if ($currentUserId == $boxes['NOID']) {
-            $notificationBox->notificationArray = $boxes['ONLYIFLOGGEDIN'];
-            return $notificationBox;
-        } elseif ($currentUserId != $objectId) {
-            $notificationBox->invitationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->messageCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->relationCounter = $boxes['INVALIDNOTIFICATIONBOX'];
-            $notificationBox->notificationArray = $boxes['INVALIDNOTIFICATIONBOX'];
-            return $notificationBox;
+        if (is_null($currentUserId)) {
+            global $boxes;
+            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            return;
         }
         $relationArray = array();
         $activity = new ActivityParse();
-        $activity->wherePointer('toUser', '_User', $objectId);
+        $activity->wherePointer('toUser', '_User', $currentUserId);
         if ($type == 'SPOTTER') {
             $activity->where('type', 'FRIENDSHIPREQUEST');
         } else {
@@ -381,15 +343,16 @@ class NotificationBox {
         $activity->where('read', false);
         $activity->where('status', 'P');
         $activity->where('active', true);
-        $activity->setLimit($notificationBox->config->limitForRelationList);
+        $activity->setLimit($this->config->limitForRelationList);
         $activity->orderByDescending('createdAt');
         $activity->whereInclude('fromUser');
         $activities = $activity->getActivities();
         if ($activities instanceof Error) {
-            return $activities;
+            $this->errorManagement($activities->getErrorMessage());
+            return;
         } elseif (is_null($activities)) {
-            $notificationBox->notificationArray = $boxes['NODATA'];
-            return $notificationBox;
+            $this->errorManagement();
+            return;
         } else {
             foreach ($activities as $act) {
                 if (!is_null($act->getFromUser())) {
@@ -407,10 +370,25 @@ class NotificationBox {
                 }
             }
         }
-        $notificationBox->notificationArray = $relationArray;
-        return $notificationBox;
+        $this->error = null;
+        $this->notificationArray = $relationArray;
+    }
+
+    /**
+     * \fn	function errorManagement($errorMessage)
+     * \brief	set values in case of error or nothing to send to the view
+     * \param	$errorMessafe
+     * \todo    
+     */
+    private function errorManagement($errorMessage = null) {
+        $this->error = $errorMessage;
+        $this->invitationCounter = null;
+        $this->messageCounter = null;
+        $this->notificationArray = array();
+        $this->relationCounter = null;
     }
 
 }
 
 ?>
+

@@ -17,7 +17,7 @@
 
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
-    require_once ROOT_DIR . 'config.php';
+require_once ROOT_DIR . 'config.php';
 
 /**
  * \brief	Counters class 
@@ -131,23 +131,18 @@ function tracklistGenerator($objectId, $limit = DEFAULTQUERY) {
  * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
  * \return	string $currentUserId;
  */
-
-function sessionChecker() {	
-	require_once CLASSES_DIR . 'userParse.class.php';
-    require_once SERVICES_DIR . 'lang.service.php';	
+function sessionChecker() {
+    require_once CLASSES_DIR . 'userParse.class.php';
+    require_once SERVICES_DIR . 'lang.service.php';
     require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-	
-    global $boxes;
-	if(session_id() == '') session_start();
-	$sessionExist = session_id() === '' ? FALSE : TRUE;
-   
-    $currentUserId = $boxes['NOID'];	
+    if (session_id() == '')
+        session_start();
+    $sessionExist = session_id() === '' ? FALSE : TRUE;
+    $currentUserId = null;
     if ($sessionExist == TRUE && isset($_SESSION['currentUser'])) {
         $currentUser = $_SESSION['currentUser'];
         $currentUserId = $currentUser->getObjectId();
-		
     }
-	
     return $currentUserId;
 }
 

@@ -112,6 +112,7 @@ $controllers = array(
     'SONGSAVEDWITHERROR' => 'Canzoni salvate con errori',
     'ALLSONGSSAVED' => 'Canzoni salvate correttamente',
     'COUNTSONGOK' => 'Richiesta Ok',
+    'NOSONGFORRECORD' => 'Il record non contiene nessuna canzone',
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',

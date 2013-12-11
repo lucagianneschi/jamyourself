@@ -519,6 +519,7 @@ function sendRequest(_action, _data, callback, _async) {
         type: type,
         url: url,
         data: _data,
+        dataType: "json",
         async: async,
         success: function(data, status) {
             //gestione success
@@ -545,9 +546,15 @@ function uploaderRefresh() {
 //
 ////////////////////////////////////////////////////////////////////////////////
 
-function countSong(recordId){
-    if(recordId != null && strlen(recordId) > 0){
-        var json_for_count_song = {""};
-      function sendRequest("", _data, callback, _async) 
+function getSong(recordId){
+    //per test : sK0Azt3WiP
+    if(recordId != null && recordId.length > 0){
+        var json_for_count_song = {recordId : recordId};
+      sendRequest("getSongsList", json_for_count_song, getSongCallback, true);
     }
 }
+
+function getSongCallback(data,status){
+    window.console.log(data);
+}
+

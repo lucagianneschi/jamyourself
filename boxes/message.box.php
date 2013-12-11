@@ -95,9 +95,9 @@ class MessageBox {
      * \return	MessageBox, error in case of error
      */
     public function initForUserList($limit = null, $skip = null) {
-        global $boxes;
         $currentUserId = sessionChecker();
-        if ($currentUserId == $boxes['NOID']) {
+        if (is_null($currentUserId)) {
+            global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
@@ -153,9 +153,9 @@ class MessageBox {
      * \return	MessageBox, error in case of error
      */
     public function initForMessageList($otherId, $limit = null, $skip = null) {
-        global $boxes;
         $currentUserId = sessionChecker();
-        if ($currentUserId == $boxes['NOID']) {
+        if (is_null($currentUserId)) {
+            global $boxes;
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
@@ -166,7 +166,7 @@ class MessageBox {
         $value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
             array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
         $messageP = new CommentParse();
-        $messageP->whereOr(array_merge($value,$value1));
+        $messageP->whereOr(array_merge($value, $value1));
         $messageP->where('type', 'M');
         $messageP->where('active', true);
         $messageP->whereInclude('fromUser');
