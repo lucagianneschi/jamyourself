@@ -37,9 +37,10 @@ if (isset($_SESSION['currentUser'])) {
 			$track_text_love = $views['UNLOVE'];
 		}
 		?>
-		<div class="row track " id="<?php echo $value->getObjectId(); ?>">
-		<!------------------ DETTAGLIO TRACCIA ------------------------------------>
+		<div class="row  track" id="<?php echo $value->getObjectId(); ?>">
+		<!------------------ DETTAGLIO TRACCIA ------------------------------------>			
 			<div class="small-12 columns ">	
+				
 				<div class="row">
 					<div class="small-9 columns ">					
 						<a class="ico-label _play-large text breakOffTest"><?php echo $indice + 1; ?>. <?php echo $value->getTitle(); ?></a>
@@ -55,11 +56,11 @@ if (isset($_SESSION['currentUser'])) {
 				</div>
 				<div class="row track-propriety" >
 					<div class="box-propriety album-single-propriety">
-						<div class="small-5 columns ">
+						<div class="small-6 columns ">
 							<a class="note white" onclick="setCounter(this, '<?php echo $value->getObjectId() ?>','Song')"><?php echo $track_text_love;?></a>
 							<a class="note white" onclick="share()"><?php echo $views['SHARE'];?></a>
 						</div>
-						<div class="small-5 columns propriety ">					
+						<div class="small-6 columns propriety ">					
 							<a class="icon-propriety <?php echo $track_css_love ?>" ><?php echo $value->getLoveCounter(); ?></a>
 							<a class="icon-propriety _share" ><?php echo $value->getShareCounter(); ?></a>
 						</div>
@@ -79,6 +80,7 @@ if (isset($_SESSION['currentUser'])) {
 					</div>
 				</div>
 				<!-- AddThis Button END -->
+				
 			</div>
 		</div>
 		<?php
