@@ -91,7 +91,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 								<div class="small-4 columns">
 									<img src="<?php echo $record_thumbnailCover ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
 								</div>
-								<div class="small-8 columns">						
+								<div class="small-8 columns" style="height: 134px;">						
 									<div class="row">
 										<div class="large-12 columns">
 											<div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
@@ -106,7 +106,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 										<div class="small-5 columns">
 											<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $record_objectId ?>')"><?php echo $views['record']['PLAY'];?></a></div>
 										</div>
-										<div class="small-7 columns" style="padding-top: 25px;">
+										<div class="small-7 columns" style="position: absolute;bottom: 0px;right: 0px;">
 											<div class="row propriety">
 												<div class="large-12 columns">
 													<a class="icon-propriety <?php echo $css_love ?>"><?php echo $record_love ?></a>
