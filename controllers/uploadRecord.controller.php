@@ -43,7 +43,7 @@ class UploadRecordController extends REST {
         $this->viewRecordList = $recordBox->recordArray;
     }
 
-    public function albumCreate() {
+    public function recordCreate() {
 
         global $controllers;
 
@@ -202,22 +202,6 @@ class UploadRecordController extends REST {
         $counter = intval($this->request['count']);
         $songErrorList = array(); //lista canzoni non caricate
         $songSavedList = array();
-
-        //devo incrementare se count è -1 nel DB... (potrei evitare di fare questa chiamata se fosse gia' a zero...) e 
-        // velocizzare l'esecuzione della risposta
-        $pRecord = new RecordParse();
-        $record = $pRecord->getRecord($recordId);
-        if ($record instanceof Error) {
-            $this->response(array('status' => $controllers['NODATA']), 403);
-        }
-        if ($record->getSongCounter() == -1) {
-            if ($pRecord->incrementRecord($recordId, "songCounter", 1) instanceof Error) {
-                $this->response(array("status" => $controllers['NOSONGSAVED']), 403);
-            }
-        }
-
-        //fine gestione increment del contatore record
-
 
         if (count($songList) > 0) {
             $pSong = new SongParse();
