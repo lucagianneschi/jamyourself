@@ -149,7 +149,7 @@ class UploadRecordController extends REST {
 
         unset($_SESSION['currentUserFeaturingArray']);
 
-        $this->response(array("status" => $controllers[''], "id" => $newRecord->getObjectId()), 200);
+        $this->response(array("status" => $controllers['RECORDSAVED'], "id" => $newRecord->getObjectId()), 200);
     }
 
     private function getTags($list) {
