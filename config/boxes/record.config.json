@@ -1,5 +1,4 @@
 {
     "limitRecordForMediaPage" : 1,
-    "limitRecordForPersonalPage" : 3,
     "limitRecordForUploadRecordPage" : 1000
 }
