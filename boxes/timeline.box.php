@@ -113,32 +113,32 @@ class TimelineBox {
         foreach ($res->results as $obj) {
             $actP = new ActivityParse();
             $activity = $actP->parseToActivity($obj);
-//            "COMMENTEDONIMAGE",
-//            "COMMENTEDONEVENT",
-//            "COMMENTEDONEVENTREVIEW",
-//            "COMMENTEDONRECORD",
-//            "COMMENTEDONRECORDREVIEW",
-//            "COMMENTEDONPOST",
-//            "COMMENTEDONVIDEO",
-//            "CREATEDALBUM",
-//            "CREATEDEVENT",
-//            "CREATEDRECORD",
-//            "NEWLEVEL",
-//            "NEWBADGE",
-//            "POSTED",
-//            "SHAREDIMAGE",
-//            "SHAREDSONG"
             $addedPhoto = ($activity->getType() == 'ADDEDPHOTO' && !is_null($activity->getImage() && !is_null($activity->getImage()->getFromUser())));
             $addedSong = ($activity->getType() == 'ADDEDSONG' && !is_null($activity->getSong() && !is_null($activity->getSong()->getFromUser())));
-            $commentedOnAlbum = ($activity->getType() == 'COMMENTEDONALBUM' && !is_null($activity->getAlbum() && !is_null($activity->getAlbum()->getFromUser())));
-            $commentedOnEvent = ($activity->getType() == 'COMMENTEDONEVENT' && !is_null($activity->getEvent() && !is_null($activity->getEvent()->getFromUser())));
-            
+            $collaborationRequest = ($activity->getType() == 'COLLABORATIONREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A') && !is_null($activity->getToUser()) );
+            $commentedOnAlbum = ($activity->getType() == 'COMMENTEDONALBUM' && !is_null($activity->getAlbum() && !is_null($activity->getAlbum()->getFromUser()) && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()))); //serve toUser??
+            $commentedOnEvent = ($activity->getType() == 'COMMENTEDONEVENT' && !is_null($activity->getEvent() && !is_null($activity->getEvent()->getFromUser()) && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()))); //serve toUser??
+            $commentedOnImage = ($activity->getType() == 'COMMENTEDONIMAGE' && !is_null($activity->getImage() && !is_null($activity->getImage()->getFromUser()) && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()))); //serve toUser??
+            $commentedOnEventReview = ($activity->getType() == 'COMMENTEDONEVENTREVIEW' && !is_null($activity->getEvent()) && !is_null($activity->getEvent()->getFromUser()) && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()));  //serve toUser??
+            $commentedOnRecord = ($activity->getType() == 'COMMENTEDONRECORD' && !is_null($activity->getRecord()) && !is_null($activity->getRecord()->getFromUser()) && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser())); //serve toUser??
+            $commentedOnRecordReview = ($activity->getType() == 'COMMENTEDONRECORDREVIEW' && !is_null($activity->getRecord()) && !is_null($activity->getRecord()->getFromUser()) && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser())); //serve toUser??
+            $commentedOnPost = ($activity->getType() == 'COMMENTEDONPOST' && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()));
+            $commentedOnVideo = ($activity->getType() == 'COMMENTEDONVIDEO' && !is_null($activity->getVideo()) && !is_null($activity->getVideo()->getFromUser()));
+            $createdAlbum = ($activity->getType() == 'CREATEDALBUM' && !is_null($activity->getAlbum() && !is_null($activity->getAlbum()->getFromUser())));
+            $createdEvent = ($activity->getType() == 'CREATEDEVENT' && !is_null($activity->getEvent() && !is_null($activity->getEvent()->getFromUser())));
+            $createdRecord = ($activity->getType() == 'CREATEDRECORD' && !is_null($activity->getRecord() && !is_null($activity->getRecord()->getFromUser())));
+            $friendshipRequest = ($activity->getType() == 'FRIENDSHIPREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A') && !is_null($activity->getToUser()) );
+            $following = ($activity->getType() == 'FOLLOWING' && !is_null($activity->getFromUser()) && !is_null($activity->getToUser()) );
+            $invited = ($activity->getType() == 'INVITED' && !is_null($activity->getEvent()) && !is_null($activity->getEvent()->getFromUser()) && $activity->getStatus('A') && !is_null($activity->getFromUser()));
+            $newLevel = ($activity->getType() == 'NEWLEVEL' && !is_null($activity->getFromUser()));
+            $newBadge = ($activity->getType() == 'NEWBADGE' && !is_null($activity->getFromUser()));
+            $newEventReview = ($activity->getType() == 'NEWEVENTREVIEW' && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()) && !is_null($activity->getEvent()) && !is_null($activity->getEvent()->getFromUser()));
+            $newRecordReview = ($activity->getType() == 'NEWRECORDREVIEW' && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()) && !is_null($activity->getRecord()) && !is_null($activity->getRecord()->getFromUser()));
             $posted = ($activity->getType() == 'POSTED' && !is_null($activity->getComment()) && !is_null($activity->getComment()->getfromUser()));
-            $collaborationRequest = ($activity->getType() == 'COLLABORATIONREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A') &&!is_null($activity->getToUser()) );
-            $friendshipRequest = ($activity->getType() == 'FRIENDSHIPREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A') &&!is_null($activity->getToUser()) );
-            $following = ($activity->getType() == 'FOLLOWING' && !is_null($activity->getFromUser()) &&!is_null($activity->getToUser()) );
-            
-            if ($addedPhoto || $addedSong || $commentedOnAlbum || $posted || $collaborationRequest)
+            $sharedImage = ($activity->getType() == 'SHAREDIMAGE' && !is_null($activity->getFromUser()));
+            $sharedSong = ($activity->getType() == 'SHAREDSONG' && !is_null($activity->getFromUser()));
+            $testArray = array($addedPhoto, $addedSong, $collaborationRequest, $commentedOnAlbum, $commentedOnEvent, $commentedOnEventReview, $commentedOnImage, $commentedOnPost, $commentedOnRecord, $commentedOnRecordReview, $commentedOnVideo, $createdAlbum, $createdEvent, $createdRecord, $friendshipRequest, $following, $invited, $newBadge, $newEventReview, $newLevel, $newRecordReview, $posted, $sharedImage, $sharedSong);
+            if (in_array(true, $testArray))
                 $activities[$activity->getCreatedAt()->format('YmdHis')] = $activity;
         }
         return $activities;
