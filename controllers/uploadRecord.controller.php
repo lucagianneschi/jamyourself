@@ -105,17 +105,35 @@ class UploadRecordController extends REST {
             $this->response(array("status" => $controllers['NODATA']), 503);
         }
 
-//se va a buon fine salvo una nuova activity       
+//se va a buon fine salvo una nuova activity 
+                
         $activity = new Activity();
         $activity->setActive(true);
+        $activity->setAlbum(null);
+        $activity->setComment(null);
+        $activity->setCounter(-1);
+        $activity->setEvent(null);
         $activity->setFromUser($userId);
+        $activity->setImage(null);
+        $activity->setPlaylist(null);
+        $activity->setQuestion(null);
         $activity->setRead(true);
+        $activity->setRecord($record->getObjectId());
+        $activity->setSong(null);
         $activity->setStatus("A");
-        $activity->setType("CREATEDRECORD");
+        $activity->setToUser(null);
+        $activity->setType("CREATEDRECORD"); // <- l'ho messo a caso, non so se va bene
+        $activity->setUserStatus(null);
+        $activity->setVideo(null);
 //            $activity->setACL(toParseDefaultACL());
 
         $pActivity = new ActivityParse();
-        $pActivity->saveActivity($activity);
+        if($pActivity->saveActivity($activity) instanceof Error){
+            require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+            $message = rollbackUploadRecordController($newRecord->getObjectId(),"Record");
+            $this->response(array("status" => $message), 503);
+
+        }
 
         $this->createFolderForRecord($userId, $newRecord->getObjectId());
 
@@ -230,7 +248,7 @@ class UploadRecordController extends REST {
                     } else {
                         if (!$this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath()) || $this->savePublishSongActivity($savedSong) instanceof Error) {
                             require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-                            rollbackUploadRecordController($savedSong->getObjectId());
+                            rollbackUploadRecordController($savedSong->getObjectId(),"Song");
                             $songErrorList[] = $element;
                             $counter--;
 
@@ -318,7 +336,7 @@ class UploadRecordController extends REST {
         $activity->setSong($song->getObjectId());
         $activity->setStatus(null);
         $activity->setToUser(null);
-        $activity->setType(null);
+        $activity->setType("NEWSONGCREATED"); // <- l'ho messo a caso, non so se va bene
         $activity->setUserStatus(null);
         $activity->setVideo(null);
 //        $activity->setACL();
