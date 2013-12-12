@@ -58,8 +58,8 @@ class TimelineBox {
         $currentUser = $_SESSION['currentUser'];
         $actArray = $this->createActivityArray($currentUser->getType());
         if (($currentUser->getType() == SPOTTER)) {
-            $ciclesFollowing = ceil($currentUser->getFollowingCounter() / 1000);
-            $ciclesFriendship = ceil($currentUser->getFriendshipCounter() / 1000);
+            $ciclesFollowing = ceil($currentUser->getFollowingCounter() / MAX);
+            $ciclesFriendship = ceil($currentUser->getFriendshipCounter() / MAX);
             if ($ciclesFollowing == 0 && $ciclesFriendship == 0) {
                 $this->errorManagement();
                 return;
@@ -68,7 +68,7 @@ class TimelineBox {
             $partialActivities1 = $this->query('friendship', $currentUser->getObjectId(), $ciclesFriendship, $actArray, $limit, $skip);
             $activities = array_merge($partialActivities, $partialActivities1);
         } else {
-            $cicles = ceil($currentUser->getCollaborationCounter() / 1000);
+            $cicles = ceil($currentUser->getCollaborationCounter() / MAX);
             if ($cicles == 0) {
                 $this->errorManagement();
                 return;
@@ -91,7 +91,7 @@ class TimelineBox {
             $parseQuery = new parseQuery('Activity');
             $pointer = $parseQuery->dataType('pointer', array('_User', $currentUserId));
             $related = $parseQuery->dataType('relatedTo', array($pointer, $field));
-            $select = $parseQuery->dataType('query', array('_User', array('$relatedTo' => $related), 'objectId', 1000 * $i, 1000));
+            $select = $parseQuery->dataType('query', array('_User', array('$relatedTo' => $related), 'objectId', MAX * $i, MAX));
             $parseQuery->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
             $parseQuery->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
             $parseQuery->whereSelect('fromUser', $select);
