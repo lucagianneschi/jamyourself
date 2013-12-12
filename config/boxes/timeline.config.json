@@ -1,3 +1,33 @@
 {
-    "defultLimit": 10
+    "defultLimit": 10,
+    "sharedActivities": [
+        "ADDEDPHOTO",
+        "ADDEDSONG",
+        "COMMENTEDONALBUM",
+        "COMMENTEDONIMAGE",
+        "COMMENTEDONEVENT",
+        "COMMENTEDONEVENTREVIEW",
+        "COMMENTEDONRECORD",
+        "COMMENTEDONRECORDREVIEW",
+        "COMMENTEDONPOST",
+        "COMMENTEDONVIDEO",
+        "CREATEDALBUM",
+        "CREATEDEVENT",
+        "CREATEDRECORD",
+        "INVITED",
+        "NEWLEVEL",
+        "NEWBADGE",
+        "POSTED",
+        "SHAREDIMAGE",
+        "SHAREDSONG"
+    ],
+    "spotterActivities": [
+        "FOLLOWING",
+        "FRIENDSHIPREQUEST",
+        "NEWEVENTREVIEW",
+        "NEWRECORDREVIEW"],
+    "venueActivities": [
+        "COLLABORATIONREQUEST"],
+    "jammerActivities": [
+        "COLLABORATIONREQUEST"]
 }
