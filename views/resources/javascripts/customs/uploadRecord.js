@@ -365,8 +365,9 @@ function getTagsAlbumCreate() {
 function callbackAlbumCreate(data, status) {
     console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
     if (status == "success") {
+        var idNuovoAlbum = data.id; //sse servisse...
 //        console.log("Album Creato con successo con id => " + data.recordId);
-        alert("Album creato con successo con id:" + data.recordId);
+        alert(data.status);
     } else {
         alert("Errore");
         console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
