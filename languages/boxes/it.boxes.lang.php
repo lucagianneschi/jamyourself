@@ -12,6 +12,11 @@
  *  \todo
  */
 
+$default_img = array(
+    'DEFAVATAR' => 'images/default/defaultAvatar.jpg',
+    'DEFAVATARTHUMB' => 'images/default/defaultAvatarThumb.jpg',
+);
+
 $boxes = array(
     'NODATA' => 'NESSUN DATO DA MOSTRARE',
     'NDB' => 'NON DEFINITO PER QUESTO TIPO DI BOX',
