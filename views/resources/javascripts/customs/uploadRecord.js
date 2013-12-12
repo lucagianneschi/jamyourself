@@ -20,7 +20,7 @@ var type_user,
 $(document).ready(function() {
     //inizializzazone in sessione dei featuring in maniera asincrona
     initFeaturingJSON();
-    
+
     //scorrimento lista album record 
     $("#uploadRecord-listRecordTouch").touchCarousel({
         pagingNav: false,
@@ -31,6 +31,7 @@ $(document).ready(function() {
         scrollbar: false,
         dragUsingMouse: false
     });
+ 
 
     //gestione select album record
     $('.uploadRecord-boxSingleRecord').click(function() {
@@ -43,7 +44,7 @@ $(document).ready(function() {
         if (uploader == null) {
             initMp3Uploader();
         }
-        
+
         //recupero gli mp3 dell'album
         getSongs(json_album.recordId);
     });
@@ -148,7 +149,7 @@ $(document).ready(function() {
 
 function initImgUploader() {
 
-    console.log("initImgUploader - start => upload div: " + $("#uploader_img_button"));
+//    console.log("initImgUploader - start => upload div: " + $("#uploader_img_button"));
 //    window.console.log("initUploader - params : userType => " + userType);
 //inizializzazione dei parametri
     var selectButtonId = "uploader_img_button";
@@ -171,7 +172,7 @@ function initImgUploader() {
     });
 
     uploader.bind('Init', function(up, params) {
-        window.console.log("initImgUploader - EVENT: Ini");
+//        window.console.log("initImgUploader - EVENT: Ini");
         $('#filelist').html("");
     });
 
@@ -182,19 +183,19 @@ function initImgUploader() {
 //evento: file aggiunto
     uploader.bind('FilesAdded', function(up, files) {
         //avvio subito l'upload
-        window.console.log("initImgUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
+//        window.console.log("initImgUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
 
         uploader.start();
     });
 
 //evento: cambiamento percentuale di caricamento
     uploader.bind('UploadProgress', function(up, file) {
-        window.console.log("initImgUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
+//        window.console.log("initImgUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
     });
 
 //evento: errore
     uploader.bind('Error', function(up, err) {
-        window.console.log("initImgUploader - EVENT: Error - parametri: err => " + JSON.stringify(err));
+//        window.console.log("initImgUploader - EVENT: Error - parametri: err => " + JSON.stringify(err));
         alert("Error occurred");
         up.refresh();
     });
@@ -202,9 +203,9 @@ function initImgUploader() {
 //evento: upload terminato
     uploader.bind('FileUploaded', function(up, file, response) {
 
-        window.console.log("initImgUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
+//        window.console.log("initImgUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
 
-        console.log(response.response);
+//        console.log(response.response);
         var obj = JSON.parse(response.response);
 
         json_album_create.image = obj.src;
@@ -324,8 +325,8 @@ $('#uploadImage_save').click(function() {
         thm_w = Math.round(realwidth / $('#' + input_w).val() * xsize);
         thm_h = Math.round(realheight / $('#' + input_h).val() * ysize);
 
-        console.log(realwidth + ' ' + $('#' + input_w).val() + ' ' + xsize + ' ' + thm_w);
-        console.log(realheight + ' ' + $('#' + input_h).val() + ' ' + ysize + ' ' + thm_h);
+//        console.log(realwidth + ' ' + $('#' + input_w).val() + ' ' + xsize + ' ' + thm_w);
+//        console.log(realheight + ' ' + $('#' + input_h).val() + ' ' + ysize + ' ' + thm_h);
 
         tumbnail.css({
             width: thm_w + 'px',
@@ -364,7 +365,7 @@ function getTagsAlbumCreate() {
 function callbackAlbumCreate(data, status) {
     console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
     if (status == "success") {
-        console.log("Album Creato con successo con id => " + data.recordId);
+//        console.log("Album Creato con successo con id => " + data.recordId);
         alert("Album creato con successo con id:" + data.recordId);
     } else {
         alert("Errore");
@@ -389,7 +390,7 @@ function albumCreate() {
     json_album_create.city = $("#city").val();
     json_album_create.tags = getTagsAlbumCreate();
 
-    console.log("Record => " + JSON.stringify(json_album_create));
+//    console.log("Record => " + JSON.stringify(json_album_create));
     sendRequest("albumCreate", json_album_create, callbackAlbumCreate, false);
 }
 //////////////////////////////////////////////////////////////////////////////
@@ -398,22 +399,13 @@ function albumCreate() {
 //
 /////////////////////////////////////////////////////////////////////////////
 function initMp3Uploader() {
-
-//    window.console.log("initUploader - params : userType => " + userType);
-//inizializzazione dei parametri
-    var selectButtonId = "uploader_mp3_button";
-    var url = "../controllers/request/uploadRequest.php";
-    var runtime = 'html4';
-    var multi_selection = false;
-    var maxFileSize = "12mb";
-
 //creo l'oggetto uploader (l'ho dichiarato ad inizio js in modo che sia globale)
     uploader = new plupload.Uploader({
-        runtimes: runtime, //runtime di upload
-        browse_button: selectButtonId, //id del pulsante di selezione file
-        max_file_size: maxFileSize, //dimensione max dei file da caricare
-        multi_selection: multi_selection, //forza un file alla volta per upload
-        url: url,
+        runtimes: 'html4', //runtime di upload
+        browse_button: "uploader_mp3_button", //id del pulsante di selezione file
+        max_file_size: "12mb", //dimensione max dei file da caricare
+        multi_selection: false, //forza un file alla volta per upload
+        url: "../controllers/request/uploadRequest.php",
         filters: [
             {title: "Audio files", extensions: "mp3"}
         ],
@@ -432,12 +424,16 @@ function initMp3Uploader() {
 //evento: file aggiunto
     uploader.bind('FilesAdded', function(up, files) {
         //avvio subito l'upload
-        window.console.log("initUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
+//        window.console.log("initUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
+
+        while (up.files.length > 1) {
+            up.removeFile(up.files[0]);
+        }
     });
 
 //evento: cambiamento percentuale di caricamento
     uploader.bind('UploadProgress', function(up, file) {
-        window.console.log("initUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
+//        window.console.log("initUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
     });
 
 //evento: errore
@@ -450,9 +446,9 @@ function initMp3Uploader() {
 //evento: upload terminato
     uploader.bind('FileUploaded', function(up, file, response) {
 
-        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
+//        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
 
-        console.log(response.response);
+//        console.log(response.response);
         var obj = JSON.parse(response.response);
 
         addNewSong(obj.src, obj.duration, getTagsMusicTrack());
@@ -481,24 +477,28 @@ function getFeaturingSongCreate() {
     return featuring;
 }
 
-function addNewSong(id, duration, tags){
+function addNewSong(id, duration, tags) {
     var songTitle = $("#trackTitle").val();
     var featuring = getFeaturingSongCreate();
     var json_elem = {"src": id, "tags": tags, "featuring": featuring, "title": songTitle, "duration": duration};
-    json_album.list.push(json_elem);  
-    
-    addSongToList(json_elem.title,json_elem.duration, json_elem.tags.join(), true);
+    json_album.list.push(json_elem);
+    window.console.log("Lista" + JSON.stringify(json_album.list));
+    addSongToList(json_elem.title, json_elem.duration, json_elem.tags.join(), true, id.substring(0,id.indexOf(".")));
 }
 
-function addSongToList(title, duration, genre , isNew) {
+function addSongToList(title, duration, genre, isNew, src) {
 
     var html = "";
-    html += "<tr>";
+    if(isNew){
+        html += '<tr id="tr_song_list_' +src+'">';
+    }else{
+        html += "<tr>";        
+    }
     html += '<td class="title _note-button">' + title + '</td>';
     html += '<td class="time">' + duration + '</td>';
     html += '<td class="genre">' + genre + '</td>';
-    if(isNew){
-        html += '<td class="delete _delete-button"></td>';
+    if (isNew) {
+        html += '<td class="delete _delete-button" onClick="javascript:removeSong(\''+src+'\')"></tdr>';
     }
 
     $("#songlist").append(html);
@@ -509,10 +509,10 @@ function publish() {
 }
 
 function publishCallback(data, status) {
-    window.console.log("publishCallback | data => " + JSON.stringify(data));
-    window.console.log("publishCallback | status => " + JSON.stringify(status));
+//    window.console.log("publishCallback | data => " + JSON.stringify(data));
+//    window.console.log("publishCallback | status => " + JSON.stringify(status));
     alert(data.status);
-    
+
     clearAll();
 }
 //////////////////////////////////////////////////////////////////////////////
@@ -548,10 +548,10 @@ function sendRequest(_action, _data, callback, _async) {
 }
 
 function uploaderRefresh() {
-    console.log(uploader);
+//    console.log(uploader);
 
     if (uploader != null) {
-        console.log("refreshing uploader");
+//        console.log("refreshing uploader");
         uploader.refresh();
     }
 }
@@ -576,30 +576,41 @@ function getSongCallback(data, status) {
 
     if (data.songList != undefined && data.songList != null && data.count != undefined && data.count != null && data.count >= 0) {
         json_album.count = data.count;
-        for (var i = 0; i< data.count ; i++){
+        for (var i = 0; i < data.count; i++) {
             var song = JSON.parse(data.songList[i]);
             var title = (song.title != undefined && song.title != null && song.title.length > 0) ? song.title : "no title";
             var genre = (song.genre != undefined && song.genre != null && song.genre.length > 0) ? song.genre : "no genre";
             var duration = (song.duration != undefined && song.duration != null) ? song.duration : "no duration";
-           addSongToList(title, duration, genre, false); 
+            addSongToList(title, duration, genre, false);
         }
-    }else{
-        json_album.count = 0; 
+    } else {
+        json_album.count = 0;
     }
 }
 
-function initFeaturingJSON(){
+function initFeaturingJSON() {
     sendRequest("getFeaturingJSON", {}, callbackInitFeaturingJSON, true);
 }
 
-function callbackInitFeaturingJSON(data,status){
+function callbackInitFeaturingJSON(data, status) {
 //    window.console.log("callbackInitFeaturingJSON | data => " + JSON.stringify(data));
 }
 
-function clearAll(){
-    var music = null;
-    var json_album_create = {};
-    var uploader = null;
-    var json_album = {"list": []};  
+function clearAll() {
+    json_album_create = {};
+    json_album.list = [];
     $("#songlist").html("");
+    getSongs(json_album.recordId);
+}
+
+function removeSong(src){
+    $('#tr_song_list_' +src).remove();
+    for(var i=0;i <json_album.list.length; i++){
+        var song = json_album.list[i];
+        if(song.src == src+".mp3"){
+            json_album.list.splice(i,1);
+            break;
+        }
+    }
+    console.log("Lista => " + JSON.stringify(json_album.list));
 }
