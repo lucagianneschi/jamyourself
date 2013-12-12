@@ -155,7 +155,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 				<div class="box no-display <?php echo $recordSingle_objectId ?>" >
 					
 					<div class="row" onclick="recordSelectNext('<?php echo $recordSingle_objectId ?>')">
-						<div class="large-12 columns">					
+						<div class="large-12 columns" style="border-bottom: 1px solid #303030;padding-bottom: 5px;">					
 							<a class="ico-label _back_page text white" onclick="loadBoxRecord()"><?php echo $views['BACK'];?></a>
 						</div>
 					</div>
