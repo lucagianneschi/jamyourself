@@ -77,7 +77,7 @@ $(document).ready(function() {
 
     //gesione button publish 
     $('#uploadRecord02-next').click(function() {
-        albumCreate();
+        recordCreate();
     });
 
     //carica i tag music
@@ -381,7 +381,7 @@ function getFeaturingAlbumCreate() {
 
     return featuring;
 }
-function albumCreate() {
+function recordCreate() {
     json_album_create.albumTitle = $("#albumTitle").val();
     json_album_create.description = $("#description").val();
     json_album_create.label = $("#label").val();
@@ -392,7 +392,7 @@ function albumCreate() {
     json_album_create.tags = getTagsAlbumCreate();
 
 //    console.log("Record => " + JSON.stringify(json_album_create));
-    sendRequest("albumCreate", json_album_create, callbackAlbumCreate, false);
+    sendRequest("recordCreate", json_album_create, callbackAlbumCreate, false);
 }
 //////////////////////////////////////////////////////////////////////////////
 //  
