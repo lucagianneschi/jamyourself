@@ -57,7 +57,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 			<!---------------------------- LISTA ALBUM --------------------------------------------->
 			<div class="box" id="record-list">
 				<div class="row">
-					<div class="large-12 columns">
+					<div class="large-12 columns" style="border-bottom: 1px solid #303030;margin-bottom: 10px;">
 						<div class="text white" style="padding: 10px;"><?php echo $views['record']['LIST'];?></div>
 					</div>
 				</div>
@@ -77,7 +77,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 						$record_share = $value->getShareCounter();
 						$record_review = $value->getReviewCounter();
 						
-						if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+						if (is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 							$css_love = '_unlove grey';
 							$text_love = $views['LOVE'];
 						} else{
@@ -91,34 +91,37 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 								<div class="small-4 columns">
 									<img src="<?php echo $record_thumbnailCover ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
 								</div>
-								<div class="small-8 columns">						
+								<div class="small-8 columns" style="height: 134px;">						
 									<div class="row">
-										<div class="large-12 colums">
+										<div class="large-12 columns">
 											<div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
 										</div>
 									</div>
 									<div class="row">
-										<div class="large-12 colums">
+										<div class="large-12 columns">
 											<div class="note grey breakOffTest"><?php echo $views['record']['RECORDED'];?> <?php echo $record_data ?></div>
 										</div>
 									</div>
 									<div class="row">
-										<div class="large-12 colums">
+										<div class="small-5 columns">
 											<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $record_objectId ?>')"><?php echo $views['record']['PLAY'];?></a></div>
 										</div>
+										<div class="small-7 columns" style="position: absolute;bottom: 0px;right: 0px;">
+											<div class="row propriety">
+												<div class="large-12 columns">
+													<a class="icon-propriety <?php echo $css_love ?>"><?php echo $record_love ?></a>
+													<a class="icon-propriety _comment" ><?php echo $record_comment ?></a>
+													<a class="icon-propriety _share" ><?php echo $record_share ?></a>
+													<a class="icon-propriety _review"><?php echo $record_review ?></a>
+												</div>
+											</div>
+										</div>	
 									</div>
 									
 									
 								</div>
 							</div>				
-							<div class="row propriety album-single-propriety">
-								<div class="large-12 colums">
-									<a class="icon-propriety <?php echo $css_love ?>"><?php echo $record_love ?></a>
-									<a class="icon-propriety _comment" ><?php echo $record_comment ?></a>
-									<a class="icon-propriety _share" ><?php echo $record_share ?></a>
-									<a class="icon-propriety _review"><?php echo $record_review ?></a>
-								</div>
-							</div>
+							
 						</div>			
 						<?php
 					}
@@ -141,7 +144,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 				$recordSingle_share = $value->getShareCounter();
 				$recordSingle_review = $value->getReviewCounter();
 				
-				if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+				if (is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 					$recordSingle_css_love = '_unlove grey';
 					$recordSingle_text_love = $views['LOVE'];
 				} else{

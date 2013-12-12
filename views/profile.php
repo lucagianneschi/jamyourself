@@ -9,11 +9,15 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'userInfo.box.php';
 
-$currentUser = $_SESSION['currentUser'];
+if(session_id() == '')
+	session_start();
+if(isset($_SESSION['currentUser']))
+	$currentUser = $_SESSION['currentUser'];
 $userObjectId = $_GET['user'];
 
 $userInfoBox = new UserInfoBox();
 $userInfoBox->init($userObjectId);
+
 if (is_null($userInfoBox->error)) {
 	$user = $userInfoBox->user;
 	?>
@@ -62,3 +66,4 @@ if (is_null($userInfoBox->error)) {
 } else {
 	echo 'Errore';
 }
+
