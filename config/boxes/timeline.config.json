@@ -1,8 +1,6 @@
 {
     "defultLimit": 10,
     "sharedActivities": [
-        "IMAGEUPLOADED",
-        "SONGUPLOADED",
         "COMMENTEDONALBUM",
         "COMMENTEDONIMAGE",
         "COMMENTEDONEVENT",
@@ -16,12 +14,14 @@
         "RECORDCREATED",
         "DEFAULTALBUMCREATED",
         "DAFAULTRECORDCREATED",
+        "IMAGEUPLOADED",
         "INVITED",
         "NEWLEVEL",
         "NEWBADGE",
         "POSTED",
         "SHAREDIMAGE",
-        "SHAREDSONG"
+        "SHAREDSONG",
+        "SONGUPLOADED"
     ],
     "spotterActivities": [
         "FOLLOWING",
