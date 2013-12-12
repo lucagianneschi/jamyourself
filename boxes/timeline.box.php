@@ -10,7 +10,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo	        corretta gestione di skip e limit sia per query interna che esterna		
+ * \todo	        corretta gestione di skip e limit sia per query interna che esterna, correggere whereInclude		
  *
  */
 
@@ -92,10 +92,10 @@ class TimelineBox {
             $pointer = $parseQuery->dataType('pointer', array('_User', $currentUserId));
             $related = $parseQuery->dataType('relatedTo', array($pointer, $field));
             $select = $parseQuery->dataType('query', array('_User', array('$relatedTo' => $related), 'objectId', 1000 * $i, 1000));
-            $parseQuery->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : 1000);
+            $parseQuery->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
             $parseQuery->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
             $parseQuery->whereSelect('fromUser', $select);
-            $parseQuery->whereInclude('comment.fromUser,fromUser');
+            $parseQuery->whereInclude('album.fromUser,event.fromUser,comment.fromUser,comment.toUser,record.fromUser,song.fromUser,video.fromUser,fromUser,toUser');
             $parseQuery->where('active', true);
             $parseQuery->whereContainedIn('type', $actArray);
             $res = $parseQuery->find();
@@ -106,7 +106,7 @@ class TimelineBox {
         }
         return $activities;
     }
-    
+
     /**
      * \fn	activitiesChecker($res)
      * \brief	private funtion for check if the activity on DB is correct
@@ -120,8 +120,8 @@ class TimelineBox {
         foreach ($res->results as $obj) {
             $actP = new ActivityParse();
             $activity = $actP->parseToActivity($obj);
-            $addedPhoto = ($activity->getType() == 'ADDEDPHOTO' && !is_null($activity->getImage() && !is_null($activity->getImage()->getFromUser())));
-            $addedSong = ($activity->getType() == 'ADDEDSONG' && !is_null($activity->getSong() && !is_null($activity->getSong()->getFromUser())));
+            $addedPhoto = ($activity->getType() == 'IMAGEUPLOADED' && !is_null($activity->getImage() && !is_null($activity->getImage()->getFromUser())));
+            $addedSong = ($activity->getType() == 'SONGUPLOADED' && !is_null($activity->getSong() && !is_null($activity->getSong()->getFromUser())));
             $collaborationRequest = ($activity->getType() == 'COLLABORATIONREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A') && !is_null($activity->getToUser()) );
             $commentedOnAlbum = ($activity->getType() == 'COMMENTEDONALBUM' && !is_null($activity->getAlbum() && !is_null($activity->getAlbum()->getFromUser()) && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()))); //serve toUser??
             $commentedOnEvent = ($activity->getType() == 'COMMENTEDONEVENT' && !is_null($activity->getEvent() && !is_null($activity->getEvent()->getFromUser()) && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()))); //serve toUser??
@@ -131,9 +131,9 @@ class TimelineBox {
             $commentedOnRecordReview = ($activity->getType() == 'COMMENTEDONRECORDREVIEW' && !is_null($activity->getRecord()) && !is_null($activity->getRecord()->getFromUser()) && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser())); //serve toUser??
             $commentedOnPost = ($activity->getType() == 'COMMENTEDONPOST' && !is_null($activity->getComment()) && !is_null($activity->getComment()->getFromUser()));
             $commentedOnVideo = ($activity->getType() == 'COMMENTEDONVIDEO' && !is_null($activity->getVideo()) && !is_null($activity->getVideo()->getFromUser()));
-            $createdAlbum = ($activity->getType() == 'CREATEDALBUM' && !is_null($activity->getAlbum() && !is_null($activity->getAlbum()->getFromUser())));
-            $createdEvent = ($activity->getType() == 'CREATEDEVENT' && !is_null($activity->getEvent() && !is_null($activity->getEvent()->getFromUser())));
-            $createdRecord = ($activity->getType() == 'CREATEDRECORD' && !is_null($activity->getRecord() && !is_null($activity->getRecord()->getFromUser())));
+            $createdAlbum = (($activity->getType() == 'ALBUMCREATED' || $activity->getType() == 'DEFAULTALBUMCREATED' ) && !is_null($activity->getAlbum() && !is_null($activity->getAlbum()->getFromUser())));
+            $createdEvent = ($activity->getType() == 'EVENTCREATED' && !is_null($activity->getEvent() && !is_null($activity->getEvent()->getFromUser())));
+            $createdRecord = (($activity->getType() == 'RECORDCREATED'|| $activity->getType() == 'DEFAULTRECORDCREATED') && !is_null($activity->getRecord() && !is_null($activity->getRecord()->getFromUser())));
             $friendshipRequest = ($activity->getType() == 'FRIENDSHIPREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A') && !is_null($activity->getToUser()) );
             $following = ($activity->getType() == 'FOLLOWING' && !is_null($activity->getFromUser()) && !is_null($activity->getToUser()) );
             $invited = ($activity->getType() == 'INVITED' && !is_null($activity->getEvent()) && !is_null($activity->getEvent()->getFromUser()) && $activity->getStatus('A') && !is_null($activity->getFromUser()));
