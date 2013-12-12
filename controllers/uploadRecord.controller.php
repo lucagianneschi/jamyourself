@@ -79,14 +79,13 @@ class UploadRecordController extends REST {
         $imgInfo = $this->getImages($newAlbum);
         $record->setCover($imgInfo['RecordPicture']);
         $record->setThumbnailCover($imgInfo['RecordThumbnail']);
-
+        $record->getSongCounter(0);
         $record->setDescription($newAlbum->albumTitle);
         $record->setDuration(0);
         $record->setFeaturing($newAlbum->albumFeaturing);
         $record->setFromUser($userId);
         $record->setGenre($this->getTags($newAlbum->tags));
         $record->setLabel($newAlbum->label);
-
         if (($location = GeocoderService::getLocation($newAlbum->city))) {
             $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
             $record->setLocation($parseGeoPoint);
@@ -106,7 +105,7 @@ class UploadRecordController extends REST {
         }
 
 //se va a buon fine salvo una nuova activity 
-                
+
         $activity = new Activity();
         $activity->setActive(true);
         $activity->setAlbum(null);
@@ -128,11 +127,10 @@ class UploadRecordController extends REST {
 //            $activity->setACL(toParseDefaultACL());
 
         $pActivity = new ActivityParse();
-        if($pActivity->saveActivity($activity) instanceof Error){
+        if ($pActivity->saveActivity($activity) instanceof Error) {
             require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-            $message = rollbackUploadRecordController($newRecord->getObjectId(),"Record");
+            $message = rollbackUploadRecordController($newRecord->getObjectId(), "Record");
             $this->response(array("status" => $message), 503);
-
         }
 
         $this->createFolderForRecord($userId, $newRecord->getObjectId());
@@ -201,6 +199,22 @@ class UploadRecordController extends REST {
         $songErrorList = array(); //lista canzoni non caricate
         $songSavedList = array();
 
+        //devo incrementare se count è -1 nel DB... (potrei evitare di fare questa chiamata se fosse gia' a zero...) e 
+        // velocizzare l'esecuzione della risposta
+        $pRecord = new RecordParse();
+        $record = $pRecord->getRecord($recordId);
+        if ($record instanceof Error) {
+            $this->response(array('status' => $controllers['NODATA']), 403);
+        }
+        if ($record->getSongCounter() == -1) {
+            if ($pRecord->incrementRecord($recordId, "songCounter", 1) instanceof Error) {
+                $this->response(array("status" => $controllers['NOSONGSAVED']), 403);
+            }
+        }
+
+        //fine gestione increment del contatore record
+        
+        
         if (count($songList) > 0) {
             $pSong = new SongParse();
 
@@ -248,10 +262,9 @@ class UploadRecordController extends REST {
                     } else {
                         if (!$this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath()) || $this->savePublishSongActivity($savedSong) instanceof Error) {
                             require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-                            rollbackUploadRecordController($savedSong->getObjectId(),"Song");
+                            rollbackUploadRecordController($savedSong->getObjectId(), "Song");
                             $songErrorList[] = $element;
                             $counter--;
-
                         } else {
 
                             //aggiungo il songId alla lista degli elementi salvati
@@ -272,8 +285,8 @@ class UploadRecordController extends REST {
             //nessun errore
             $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList), 200);
         } else {
-            
-            foreach($songErrorList as $toRemove){
+
+            foreach ($songErrorList as $toRemove) {
                 $this->deleteMp3($currentUser->getObjectId(), $recordId, $toRemove->src);
             }
             if (count($songSavedList) == 0) {
@@ -491,4 +504,5 @@ class UploadRecordController extends REST {
     }
 
 }
+
 ?>
