@@ -105,17 +105,35 @@ class UploadRecordController extends REST {
             $this->response(array("status" => $controllers['NODATA']), 503);
         }
 
-//se va a buon fine salvo una nuova activity       
+//se va a buon fine salvo una nuova activity 
+                
         $activity = new Activity();
         $activity->setActive(true);
+        $activity->setAlbum(null);
+        $activity->setComment(null);
+        $activity->setCounter(-1);
+        $activity->setEvent(null);
         $activity->setFromUser($userId);
+        $activity->setImage(null);
+        $activity->setPlaylist(null);
+        $activity->setQuestion(null);
         $activity->setRead(true);
+        $activity->setRecord($record->getObjectId());
+        $activity->setSong(null);
         $activity->setStatus("A");
-        $activity->setType("CREATEDRECORD");
+        $activity->setToUser(null);
+        $activity->setType("CREATEDRECORD"); // <- l'ho messo a caso, non so se va bene
+        $activity->setUserStatus(null);
+        $activity->setVideo(null);
 //            $activity->setACL(toParseDefaultACL());
 
         $pActivity = new ActivityParse();
-        $pActivity->saveActivity($activity);
+        if($pActivity->saveActivity($activity) instanceof Error){
+            require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+            $message = rollbackUploadRecordController($newRecord->getObjectId(),"Record");
+            $this->response(array("status" => $message), 503);
+
+        }
 
         $this->createFolderForRecord($userId, $newRecord->getObjectId());
 
@@ -223,32 +241,42 @@ class UploadRecordController extends REST {
                         //come gestire?
                         //idea: salvo una lista degli mp3 il cui salvataggio e' fallito
                         $songErrorList[] = $element;
-
+                        //decremento il contatore
+                        $counter--;
                         //cancello l'mp3 dalla cache
                         unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element->src);
                     } else {
-                        //salvo la struttura del file system
-                        $result = $this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath());
-                        if (!$result || !$this->savePublishSongActivity($savedSong)) {
-                            //errore salvataggio activity-> rollback?
-                        }
+                        if (!$this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath()) || $this->savePublishSongActivity($savedSong) instanceof Error) {
+                            require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+                            rollbackUploadRecordController($savedSong->getObjectId(),"Song");
+                            $songErrorList[] = $element;
+                            $counter--;
 
-                        //aggiungo il songId alla lista degli elementi salvati
-                        $element->id = $savedSong->getObjectId();
-                        $songSavedList[] = $element;
+                        } else {
+
+                            //aggiungo il songId alla lista degli elementi salvati
+                            $element->id = $savedSong->getObjectId();
+                            $songSavedList[] = $element;
+                        }
                     }
                 }
             }
-            //aggiorno il counter del record
-            $pRecord = new RecordParse();
-            if ($pRecord->incrementRecord($recordId, "songCounter", $counter) instanceof Error) {
-                $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'], "errorList" => $songErrorList, "savedList" => $songSavedList), 200);                
+        }
+        //aggiorno il counter del record
+        $pRecord = new RecordParse();
+        if ($pRecord->incrementRecord($recordId, "songCounter", $counter) instanceof Error) {
+            $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'], "errorList" => $songErrorList, "savedList" => $songSavedList), 200);
+        }
+        //gestione risposte
+        else if (count($songErrorList) == 0) {
+            //nessun errore
+            $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList), 200);
+        } else {
+            
+            foreach($songErrorList as $toRemove){
+                $this->deleteMp3($currentUser->getObjectId(), $recordId, $toRemove->src);
             }
-            //gestione risposte
-            else if (count($songErrorList) == 0) {
-                //nessun errore
-                $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList), 200);
-            } elseif (count($songSavedList) == 0) {
+            if (count($songSavedList) == 0) {
                 //nessuna canzone salvata => tutti errori  
                 $this->response(array("status" => $controllers['NOSONGSAVED']), 403);
             } else {
@@ -259,20 +287,30 @@ class UploadRecordController extends REST {
     }
 
     private function saveMp3($userId, $recordId, $songId) {
-        if (file_exists(MEDIA_DIR . "cache" . "/" . $songId)) {
-            $dir = USERS_DIR . $userId . "/" . "songs" . "/" . $recordId;
+        if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
+            $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId;
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
 
             if (!is_null($userId) && !is_null($recordId) && !is_null($songId)) {
-                $oldName = MEDIA_DIR . "cache" . "/" . $songId;
-                $newName = $dir . "/" . $songId;
+                $oldName = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId;
+                $newName = $dir . DIRECTORY_SEPARATOR . $songId;
                 return rename($oldName, $newName);
             }
         }
         else
             return false;
+    }
+
+    private function deleteMp3($userId, $recordId, $songId) {
+        if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
+            unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId);
+        }
+
+        if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId)) {
+            unlink(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId);
+        }
     }
 
     private function getRealLength($cachedFile) {
@@ -281,7 +319,7 @@ class UploadRecordController extends REST {
         return (int) $metaData['Length'];
     }
 
-    private function savePublishSongActivity(Song $song) {
+    private function savePublishSongActivity($song) {
         $activity = new Activity();
 
         $activity->setActive(true);
@@ -298,16 +336,13 @@ class UploadRecordController extends REST {
         $activity->setSong($song->getObjectId());
         $activity->setStatus(null);
         $activity->setToUser(null);
-        $activity->setType(null);
+        $activity->setType("NEWSONGCREATED"); // <- l'ho messo a caso, non so se va bene
         $activity->setUserStatus(null);
         $activity->setVideo(null);
 //        $activity->setACL();
 
         $pActivity = new ActivityParse();
-        if (($pActivity->saveActivity($activity)) instanceof Error)
-            return false;
-        else
-            return true;
+        return $pActivity->saveActivity($activity);
     }
 
     private function getImages($decoded) {
@@ -438,8 +473,8 @@ class UploadRecordController extends REST {
         }
         $returnInfo = array();
         foreach ($songsList as $song) {
-            // info utili
-            // mi serve: titolo, durata, lista generi
+// info utili
+// mi serve: titolo, durata, lista generi
             $title = $song->getTitle();
             $seconds = $song->getDuration();
             $hours = floor($seconds / 3600);
@@ -456,5 +491,4 @@ class UploadRecordController extends REST {
     }
 
 }
-
 ?>
