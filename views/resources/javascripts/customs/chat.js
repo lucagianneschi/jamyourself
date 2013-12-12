@@ -1,17 +1,14 @@
 $(document).ready(function() {
 	
-		
-	autoComplete();
+	//lancia l'autocomplete	per caricare gli user nel campo to
+	autoComplete(".box-message input#to");
    
   
 });	
 
-/*
- * autocomplete 
- */
-
-function autoComplete(){
-	$("input#to").fcbkcomplete({
+//autocomplete
+function autoComplete(box){
+	$(box).fcbkcomplete({
         json_url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
         addontab: true,
         width:"100%",
@@ -33,6 +30,7 @@ function autoComplete(){
         }
     });
 }
+
 /*
  * elimina i box utente
  */									

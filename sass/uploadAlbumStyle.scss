@@ -116,3 +116,47 @@
 	}
 }
 
+//-------------------- fcbkcomplete ---------------------
+#uploadAlbum{
+	.holder{
+		margin-bottom: 10px !important;
+		border: 1px #FFFFFF;
+		padding: 0px;
+		.bit-box{
+			color: #fff;
+			border: 1px solid $orange;
+			background: $orange;
+			font-size: 14px;
+			padding: 7px;
+			padding-right: 15px;
+			@include border-radius(0px);
+		}
+	}
+	.facebook-auto{
+		width: 50% !important;
+		.default{
+			display: none !important;
+		}
+	}
+	.bit-input{
+		width: 100%;
+		.maininput{
+			width: 100% !important;
+			border: none;
+			padding: 5px;
+			font: inherit;
+			&:focus{
+				//background: #FFFFFF;
+			}
+		}
+	}
+	
+	#featuring_feed li{
+		background-color: $grey-light;
+		color: $grey-dark;
+		&:hover{
+			background-color: $orange;
+			color: #fff;
+		}
+	}
+}
