@@ -98,7 +98,7 @@ class PlaylistController extends REST {
     /**
      * \fn		removeSong()
      * \brief   remove song to playlist 
-     * \todo    usare la sessione
+     * \todo   
      */
     public function removeSong() {
         try {
