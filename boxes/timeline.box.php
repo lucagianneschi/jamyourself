@@ -56,6 +56,7 @@ class TimelineBox {
         }
         $activities = array();
         $currentUser = $_SESSION['currentUser'];
+        $actArray = $this->createActivityArray($currentUser->getType());
         if (($currentUser->getType() == SPOTTER)) {
             $ciclesFollowing = ceil($currentUser->getFollowingCounter() / 1000);
             $ciclesFriendship = ceil($currentUser->getFriendshipCounter() / 1000);
@@ -63,8 +64,8 @@ class TimelineBox {
                 $this->errorManagement();
                 return;
             }
-            $partialActivities = $this->query('following', $ciclesFollowing, $limit, $skip);
-            $partialActivities1 = $this->query('friendship', $ciclesFriendship, $limit, $skip);
+            $partialActivities = $this->query('following', $currentUser->getObjectId(), $ciclesFollowing, $actArray, $limit, $skip);
+            $partialActivities1 = $this->query('friendship', $currentUser->getObjectId(), $ciclesFriendship, $actArray, $limit, $skip);
             $activities = array_merge($partialActivities, $partialActivities1);
         } else {
             $cicles = ceil($currentUser->getCollaborationCounter() / 1000);
@@ -72,7 +73,7 @@ class TimelineBox {
                 $this->errorManagement();
                 return;
             }
-            $activities = $this->query('collaboration', $currentUser->getObjectId(), $cicles, $limit, $skip);
+            $activities = $this->query('collaboration', $currentUser->getObjectId(), $cicles, $actArray, $limit, $skip);
         }
         $this->error = (count($activities) == 0) ? 'NOACTIVITIES' : null;
         $this->activitesArray = $activities;
@@ -84,9 +85,8 @@ class TimelineBox {
      * \param	$limit, $skip per la query estena, ccioè sulle activities
      * \todo    
      */
-    private function query($field, $currentUserId, $cicles, $limit = null, $skip = null) {
+    private function query($field, $currentUserId, $cicles, $actArray, $limit = null, $skip = null) {
         $activities = array();
-        $actArray = array('POSTED', 'COLLABORATIONREQUEST');
         for ($i = 0; $i < $cicles; ++$i) {
             $parseQuery = new parseQuery('Activity');
             $pointer = $parseQuery->dataType('pointer', array('_User', $currentUserId));
@@ -96,21 +96,75 @@ class TimelineBox {
             $parseQuery->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
             $parseQuery->whereSelect('fromUser', $select);
             $parseQuery->whereInclude('comment.fromUser,fromUser');
+            $parseQuery->where('active', true);
             $parseQuery->whereContainedIn('type', $actArray);
             $res = $parseQuery->find();
             if (is_array($res->results) && count($res->results) > 0) {
-                require_once CLASSES_DIR . 'activityParse.class.php';
-                foreach ($res->results as $obj) {
-                    $actP = new ActivityParse();
-                    $activity = $actP->parseToActivity($obj);
-                    $condition1 = ($activity->getType() == 'POSTED' && !is_null($activity->getComment()) && !is_null($activity->getComment()->getfromUser()));
-                    $condition2 = ($activity->getType() == 'COLLABORATIONREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A'));
-                    if ($condition1 || $condition2)
-                        $activities[$activity->getCreatedAt()->format('YmdHis')] = $activity;
-                }
+                $partialActivities = $this->activitiesChecker($res);
             }
+            array_push($activities, $partialActivities);
         }
         return $activities;
+    }
+
+    private function activitiesChecker($res) {
+        $activities = array();
+        require_once CLASSES_DIR . 'activityParse.class.php';
+        foreach ($res->results as $obj) {
+            $actP = new ActivityParse();
+            $activity = $actP->parseToActivity($obj);
+//            "COMMENTEDONIMAGE",
+//            "COMMENTEDONEVENT",
+//            "COMMENTEDONEVENTREVIEW",
+//            "COMMENTEDONRECORD",
+//            "COMMENTEDONRECORDREVIEW",
+//            "COMMENTEDONPOST",
+//            "COMMENTEDONVIDEO",
+//            "CREATEDALBUM",
+//            "CREATEDEVENT",
+//            "CREATEDRECORD",
+//            "NEWLEVEL",
+//            "NEWBADGE",
+//            "POSTED",
+//            "SHAREDIMAGE",
+//            "SHAREDSONG"
+            $addedPhoto = ($activity->getType() == 'ADDEDPHOTO' && !is_null($activity->getImage() && !is_null($activity->getImage()->getFromUser())));
+            $addedSong = ($activity->getType() == 'ADDEDSONG' && !is_null($activity->getSong() && !is_null($activity->getSong()->getFromUser())));
+            $commentedOnAlbum = ($activity->getType() == 'COMMENTEDONALBUM' && !is_null($activity->getAlbum() && !is_null($activity->getAlbum()->getFromUser())));
+            $commentedOnEvent = ($activity->getType() == 'COMMENTEDONEVENT' && !is_null($activity->getEvent() && !is_null($activity->getEvent()->getFromUser())));
+            
+            $posted = ($activity->getType() == 'POSTED' && !is_null($activity->getComment()) && !is_null($activity->getComment()->getfromUser()));
+            $collaborationRequest = ($activity->getType() == 'COLLABORATIONREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A') &&!is_null($activity->getToUser()) );
+            $friendshipRequest = ($activity->getType() == 'FRIENDSHIPREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A') &&!is_null($activity->getToUser()) );
+            $following = ($activity->getType() == 'FOLLOWING' && !is_null($activity->getFromUser()) &&!is_null($activity->getToUser()) );
+            
+            if ($addedPhoto || $addedSong || $commentedOnAlbum || $posted || $collaborationRequest)
+                $activities[$activity->getCreatedAt()->format('YmdHis')] = $activity;
+        }
+        return $activities;
+    }
+
+    /**
+     * \fn	createActivityArray($userType)
+     * \brief	private funtion for creating the activity type array based on the user type
+     * \param	$userType
+     * \todo    
+     */
+    private function createActivityArray($userType) {
+        $sharedActivities = $this->config->sharedActivities;
+        switch ($userType) {
+            case 'SPOTTER':
+                $specificActivities = $this->config->spotterActivities;
+                break;
+            case 'VENUE':
+                $specificActivities = $this->config->venueActivities;
+                break;
+            case 'JAMMER':
+                $specificActivities = $this->config->jammerActivities;
+                break;
+        }
+        $actArray = array_merge($sharedActivities, $specificActivities);
+        return $actArray;
     }
 
     /**
