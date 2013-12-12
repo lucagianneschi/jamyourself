@@ -83,7 +83,7 @@ class TimelineBox {
      * \fn	query($field, $currentUserId, $cicles, $limit = null, $skip = null)
      * \brief	private funtion for query
      * \param	$limit, $skip per la query estena, ccioè sulle activities
-     * \todo    
+     * \todo    mettere i corretti whereInclude in funzione delle tipologie di activities
      */
     private function query($field, $currentUserId, $cicles, $actArray, $limit = null, $skip = null) {
         $activities = array();
@@ -106,7 +106,14 @@ class TimelineBox {
         }
         return $activities;
     }
-
+    
+    /**
+     * \fn	activitiesChecker($res)
+     * \brief	private funtion for check if the activity on DB is correct
+     * \param	$res, resul for the query
+     * \retun   $activities array, filtered array with correct activities
+     * \todo    fare controllo con i corretti whereInclude     
+     */
     private function activitiesChecker($res) {
         $activities = array();
         require_once CLASSES_DIR . 'activityParse.class.php';
