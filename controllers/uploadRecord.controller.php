@@ -72,7 +72,10 @@ class UploadRecordController extends REST {
         $record = new Record();
 
         $record->setActive(true);
-        $record->setBuyLink($newAlbum->urlBuy);
+        if (strlen($newAlbum->urlBuy))
+            $record->setBuyLink($newAlbum->urlBuy);
+        else
+            $record->setBuyLink(null);
         $record->setCommentCounter(0);
         $record->setCounter(0);
 //$record->setCoverFile();
@@ -82,7 +85,8 @@ class UploadRecordController extends REST {
         $record->getSongCounter(0);
         $record->setDescription($newAlbum->albumTitle);
         $record->setDuration(0);
-        $record->setFeaturing($newAlbum->albumFeaturing);
+        if (isset($newAlbum->albumFeaturing) && !is_null($newAlbum->albumFeaturing) && count($newAlbum->albumFeaturing) > 0)
+            $record->setFeaturing($newAlbum->albumFeaturing);
         $record->setFromUser($userId);
         $record->setGenre($this->getTags($newAlbum->tags));
         $record->setLabel($newAlbum->label);
@@ -213,8 +217,8 @@ class UploadRecordController extends REST {
         }
 
         //fine gestione increment del contatore record
-        
-        
+
+
         if (count($songList) > 0) {
             $pSong = new SongParse();
 
