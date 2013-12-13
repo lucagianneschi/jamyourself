@@ -1,4 +1,3 @@
 {
-    "limitEventForMediaPage" : 1,
-    "limitEventForTimeline": 10
+    "limitEventForMediaPage" : 1
 }
