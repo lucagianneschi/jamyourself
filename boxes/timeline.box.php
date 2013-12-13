@@ -23,6 +23,55 @@ require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 
+class RecordFilter {
+
+    public $config;
+    public $error;
+    public $recordArray;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/timeline.config.json"), false);
+    }
+
+    public function init($genre = null, $limit = null, $skip = null) {
+        $currentUserId = sessionChecker();
+        if (is_null($currentUserId)) {
+            global $boxes;
+            $this->error = $boxes['ONLYIFLOGGEDIN'];
+            $this->recordArray = array();
+            return;
+        }
+        require_once CLASSES_DIR . 'record.class.php';
+        require_once CLASSES_DIR . 'recordParse.class.php';
+        $record = new RecordParse();
+        if (!is_null($genre)) {
+            $record->where('genre', $genre);
+        }
+        $record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);
+        $record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
+        $record->whereExists('createdAt');
+        $record->orderByDescending('eventDate');
+        $records = $record->getRecords();
+        if ($records instanceof Error) {
+            $this->error = $records->getErrorMessage();
+            $this->recordArray = array();
+            return;
+        } elseif (is_null($records)) {
+            $this->error = null;
+            $this->recordArray = array();
+            return;
+        } else {
+            $this->error = null;
+            $this->recordArray = $records;
+        }
+    }
+
+}
+
 class EventFilter {
 
     public $config;
@@ -51,7 +100,6 @@ class EventFilter {
             $this->eventArray = array();
             return;
         }
-        var_dump($city);
         require_once CLASSES_DIR . 'event.class.php';
         require_once CLASSES_DIR . 'eventParse.class.php';
         $event = new EventParse();
