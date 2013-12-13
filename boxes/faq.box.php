@@ -47,7 +47,7 @@ class FaqBox {
      */
     public function init($lang, $field, $limit, $direction = true) {
 	$faqP = new FaqParse();
-	$faqP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->defaultLimit);
+	$faqP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->defaultLimit);
 	$faqP->where('lang', $lang);
 	($direction == true) ? $faqP->orderByAscending($field) : $faqP->orderByDescending($field);
 	$faqs = $faqP->getFaqs();

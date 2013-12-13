@@ -112,7 +112,7 @@ $views = array(
 		'RECORDED'  	 => 'Recorded',
 		'PLAY'  		 => 'Play Now',
 		'ADDPLAYLIST'    => 'add to playlist',
-		'NODATA' 		 => 'There are no tracks'
+		'NODATA' 		 => 'There are no records'
 	),
 	
 	'RecordReview' => array(

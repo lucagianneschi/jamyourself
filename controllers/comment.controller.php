@@ -115,7 +115,7 @@ class CommentController extends REST {
                     $commentParse = new CommentParse();
                     $comment = $commentParse->getComment($objectId);
                     if ($comment instanceOf Error) {
-                        $this->response(array('Unable to get Comment'), 503);
+                        $this->response(array('status' => $comment->getErrorMessage()), 503);
                     }
                     $res = $commentParse->incrementComment($objectId, 'commentCounter', 1);
                     $cmt->setComment($objectId);

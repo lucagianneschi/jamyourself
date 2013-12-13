@@ -97,7 +97,7 @@ function getRelatedUsers($objectId, $field, $className, $all = false, $limit = M
     $parseUser = new UserParse();
     $parseUser->whereRelatedTo($field, $className, $objectId);
     $parseUser->where('active', true);
-    ($all == true) ? $parseUser->setLimit(MAX) : $parseUser->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : MAX);
+    ($all == true) ? $parseUser->setLimit(MAX) : $parseUser->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : MAX);
     $parseUser->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0 ) ? $skip : 0);
     $users = $parseUser->getUsers();
     if ($users instanceof Error) {
@@ -121,7 +121,7 @@ function tracklistGenerator($objectId, $limit = DEFAULTQUERY) {
     $song = new SongParse();
     $song->wherePointer('record', 'Record', $objectId);
     $song->where('active', true);
-    $song->setLimit((!is_null(!$limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
+    $song->setLimit((!is_null(!$limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : DEFAULTQUERY);
     $song->orderByAscending('position');
     $songs = $song->getSongs();
     return $songs;

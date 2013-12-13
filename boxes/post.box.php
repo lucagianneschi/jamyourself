@@ -55,7 +55,7 @@ class PostBox {
         $post->where('type', 'P');
         $post->where('active', true);
         $post->whereInclude('fromUser');
-        $post->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitForPersonalPage);
+        $post->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitForPersonalPage);
         $post->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
         $post->orderByDescending('createdAt');
         $posts = $post->getComments();
