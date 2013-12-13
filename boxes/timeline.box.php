@@ -42,12 +42,58 @@ class TimelineBox {
     }
 
     /**
+     * \fn	initForTimeLine($city = null, $type = null, $eventDate = null, $limit = null, $skip = null)
+     * \brief	Init EventBox instance for TimeLine
+     * \param	$objectId for user that owns the page
+     * \todo    $city = null, $type = null, $eventDate = null, $limit = null, $skip = null; introdurre la ricerca in abse alall geolocalizzazione, fai query su locationParse, poi cerchi l'evento più vicino
+     */
+    public function initEvent($city = null, $type = null, $eventDate = null, $limit = null, $skip = null) {
+        require_once CLASSES_DIR . 'event.class.php';
+        require_once CLASSES_DIR . 'eventParse.class.php';
+        $event = new EventParse();
+        if (!is_null($city)) {
+            require_once CLASSES_DIR . 'location.class.php';
+            require_once CLASSES_DIR . 'locationParse.class.php';
+            $city = new LocationParse();
+            $city->where('city', $city);
+            $city->setLimit(MIN);
+            $cities = $city->getLocations();
+            if ($cities instanceof Error || is_null($cities)) {
+                $event->where('city', $city);
+            } else {
+                //usa geolocalizzazione
+            }
+        } elseif (!is_null($type)) {
+            $event->where('type', $type);
+        } elseif (!is_null($eventDate)) {
+            $event->whereGreaterThanOrEqualTo('eventDate', $eventDate);
+        }
+        $event->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitEventForTimeline);
+        $event->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
+        $event->whereExists('createdAt');
+        $event->orderByDescending('eventDate');
+        $events = $event->getEvents();
+        if ($events instanceof Error) {
+            $this->error = $events->getErrorMessage();
+            $this->eventArray = array();
+            return;
+        } elseif (is_null($events)) {
+            $this->error = null;
+            $this->eventArray = array();
+            return;
+        } else {
+            $this->error = null;
+            $this->eventArray = $events;
+        }
+    }
+
+    /**
      * \fn	init
      * \brief	timeline init
      * \param	$limit, $skip
      * \todo    
      */
-    public function init($limit = DEFAULTQUERY, $skip = null) {
+    public function initStream($limit = DEFAULTQUERY, $skip = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
             global $boxes;
@@ -105,7 +151,7 @@ class TimelineBox {
             if (is_array($res->results) && count($res->results) > 0) {
                 $partialActivities = $this->activitiesChecker($res);
             }
-            $activities = $activities+$partialActivities;
+            $activities = $activities + $partialActivities;
         }
         return $activities;
     }
