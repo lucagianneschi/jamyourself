@@ -77,10 +77,8 @@ class TimelineBox {
                 return;
             }
             $activities = $this->query('collaboration', $currentUser->getObjectId(), $cicles, $actArray, $limit, $skip);
-        }
-        echo count($activities);
-        $this->error = (count($activities) == 0) ? 'NOACTIVITIES' : null;
-        //manca da fare ordinamento 
+        };
+        $this->error = (count($activities) == 0 || !ksort($activities)) ? 'TIMELINERROR' : null;
         $this->activitesArray = $activities;
     }
 
@@ -107,7 +105,6 @@ class TimelineBox {
             if (is_array($res->results) && count($res->results) > 0) {
                 $partialActivities = $this->activitiesChecker($res);
             }
-            //array_push($activities, $partialActivities);
             $activities = $activities+$partialActivities;
         }
         return $activities;
