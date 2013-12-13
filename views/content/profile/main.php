@@ -51,7 +51,7 @@ require_once ROOT_DIR . 'config.php';
 							<div id='box-event'></div>
 							<script type="text/javascript">
 								function loadBoxEvent() {
-									var json_data = {};
+									var json_data = {typeUser:'<?php echo $type?>'};
 									json_data.objectId = '<?php echo $user->getObjectId(); ?>';
 									$.ajax({
 										type: "POST",
@@ -64,6 +64,7 @@ require_once ROOT_DIR . 'config.php';
 									}).done(function(message, status, xhr) {
 										//spinner.hide();
 										$("#box-event").html(message);
+										rsi_event = slideReview('eventSlide');
 										code = xhr.status;
 										//console.log("Code: " + code + " | Message: " + message);
 										console.log("Code: " + code + " | Message: <omitted because too large>");
