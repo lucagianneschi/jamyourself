@@ -42,7 +42,7 @@ $album = '6nl9mn8a4I';
 $albumBoxP3 = new AlbumBox();
 $albumBoxP3->initForDetail($album, 10,0);
 print "<pre>";
-print_r($albumBox3);
+print_r($albumBoxP3);
 print "</pre>";
 $t_end = microtime();
 
