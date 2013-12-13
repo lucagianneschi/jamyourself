@@ -54,7 +54,6 @@ class TimelineBox {
             $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
             return;
         }
-        $activities = array();
         $currentUser = $_SESSION['currentUser'];
         $actArray = $this->createActivityArray($currentUser->getType());
         if (($currentUser->getType() == SPOTTER)) {
@@ -67,6 +66,10 @@ class TimelineBox {
             $partialActivities = $this->query('following', $currentUser->getObjectId(), $ciclesFollowing, $actArray, $limit, $skip);
             $partialActivities1 = $this->query('friendship', $currentUser->getObjectId(), $ciclesFriendship, $actArray, $limit, $skip);
             $activities = array_merge($partialActivities, $partialActivities1);
+            $this->error = (count($activities) == 0) ? 'NOACTIVITIES' : null;
+            //manca da fare ordinamento 
+            $this->activitesArray = $activities;
+            return;
         } else {
             $cicles = ceil($currentUser->getCollaborationCounter() / MAX);
             if ($cicles == 0) {
@@ -75,7 +78,9 @@ class TimelineBox {
             }
             $activities = $this->query('collaboration', $currentUser->getObjectId(), $cicles, $actArray, $limit, $skip);
         }
+        echo count($activities);
         $this->error = (count($activities) == 0) ? 'NOACTIVITIES' : null;
+        //manca da fare ordinamento 
         $this->activitesArray = $activities;
     }
 
@@ -85,7 +90,7 @@ class TimelineBox {
      * \param	$limit, $skip per la query estena, ccioè sulle activities
      * \todo    mettere i corretti whereInclude in funzione delle tipologie di activities
      */
-    private function query($field, $currentUserId, $cicles, $actArray, $limit = null, $skip = null) {
+    private function query($field, $currentUserId, $cicles, $actArray, $limit, $skip) {
         $activities = array();
         for ($i = 0; $i < $cicles; ++$i) {
             $parseQuery = new parseQuery('Activity');
@@ -102,7 +107,8 @@ class TimelineBox {
             if (is_array($res->results) && count($res->results) > 0) {
                 $partialActivities = $this->activitiesChecker($res);
             }
-            array_push($activities, $partialActivities);
+            //array_push($activities, $partialActivities);
+            $activities = $activities+$partialActivities;
         }
         return $activities;
     }
@@ -133,7 +139,7 @@ class TimelineBox {
             $commentedOnVideo = ($activity->getType() == 'COMMENTEDONVIDEO' && !is_null($activity->getVideo()) && !is_null($activity->getVideo()->getFromUser()));
             $createdAlbum = (($activity->getType() == 'ALBUMCREATED' || $activity->getType() == 'DEFAULTALBUMCREATED' ) && !is_null($activity->getAlbum() && !is_null($activity->getAlbum()->getFromUser())));
             $createdEvent = ($activity->getType() == 'EVENTCREATED' && !is_null($activity->getEvent() && !is_null($activity->getEvent()->getFromUser())));
-            $createdRecord = (($activity->getType() == 'RECORDCREATED'|| $activity->getType() == 'DEFAULTRECORDCREATED') && !is_null($activity->getRecord() && !is_null($activity->getRecord()->getFromUser())));
+            $createdRecord = (($activity->getType() == 'RECORDCREATED' || $activity->getType() == 'DEFAULTRECORDCREATED') && !is_null($activity->getRecord() && !is_null($activity->getRecord()->getFromUser())));
             $friendshipRequest = ($activity->getType() == 'FRIENDSHIPREQUEST' && !is_null($activity->getFromUser()) && $activity->getStatus('A') && !is_null($activity->getToUser()) );
             $following = ($activity->getType() == 'FOLLOWING' && !is_null($activity->getFromUser()) && !is_null($activity->getToUser()) );
             $invited = ($activity->getType() == 'INVITED' && !is_null($activity->getEvent()) && !is_null($activity->getEvent()->getFromUser()) && $activity->getStatus('A') && !is_null($activity->getFromUser()));
