@@ -23,15 +23,11 @@ require_once BOXES_DIR . 'utilsBox.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 
-/**
- * \brief	TimelineBox class 
- * \details	box class to pass info to the view for timelinePage
- */
-class TimelineBox {
+class EventFilter {
 
-    public $activitesArray;
     public $config;
     public $error;
+    public $eventArray;
 
     /**
      * \fn	__construct()
@@ -47,18 +43,26 @@ class TimelineBox {
      * \param	$objectId for user that owns the page
      * \todo    $city = null, $type = null, $eventDate = null, $limit = null, $skip = null; introdurre la ricerca in abse alall geolocalizzazione, fai query su locationParse, poi cerchi l'evento più vicino
      */
-    public function initEvent($city = null, $type = null, $eventDate = null, $limit = null, $skip = null) {
+    public function init($city = null, $type = null, $eventDate = null, $limit = null, $skip = null) {
+        $currentUserId = sessionChecker();
+        if (is_null($currentUserId)) {
+            global $boxes;
+            $this->error = $boxes['ONLYIFLOGGEDIN'];
+            $this->eventArray = array();
+            return;
+        }
+        var_dump($city);
         require_once CLASSES_DIR . 'event.class.php';
         require_once CLASSES_DIR . 'eventParse.class.php';
         $event = new EventParse();
         if (!is_null($city)) {
             require_once CLASSES_DIR . 'location.class.php';
             require_once CLASSES_DIR . 'locationParse.class.php';
-            $city = new LocationParse();
-            $city->where('city', $city);
-            $city->setLimit(MIN);
-            $cities = $city->getLocations();
-            if ($cities instanceof Error || is_null($cities)) {
+            $location = new LocationParse();
+            $location->where('city', $city);
+            $location->setLimit(1);
+            $locations = $location->getLocations();
+            if ($locations instanceof Error || is_null($locations)) {
                 $event->where('city', $city);
             } else {
                 //usa geolocalizzazione
@@ -87,13 +91,33 @@ class TimelineBox {
         }
     }
 
+}
+
+/**
+ * \brief	StreamBox class 
+ * \details	box class to pass info to the view for timelinePage
+ */
+class StreamBox {
+
+    public $activitesArray;
+    public $config;
+    public $error;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/timeline.config.json"), false);
+    }
+
     /**
      * \fn	init
      * \brief	timeline init
      * \param	$limit, $skip
      * \todo    
      */
-    public function initStream($limit = DEFAULTQUERY, $skip = null) {
+    public function init($limit = DEFAULTQUERY, $skip = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
             global $boxes;
