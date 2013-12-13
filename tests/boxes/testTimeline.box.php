@@ -26,10 +26,23 @@ require_once PARSE_DIR . 'parse.php';
 
 echo '<br />------------------------- TEST TIMELINE LDF-------------------------------------------<br />';
 
-$timeline = new TimelineBox();
+$eventFilter = new EventFilter();
+$eventFilter->init('Viareggio');
+print "<pre>";
+print_r($eventFilter);
+print "</pre>";
+echo count($eventFilter->eventArray);
+
+
+
+$timeline = new StreamBox();
 $timeline->init(10,0);
 print "<pre>";
 print_r($timeline);
 print "</pre>";
 echo count($timeline->activitesArray);
+
+
+
+
 ?>
