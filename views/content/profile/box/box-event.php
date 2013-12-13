@@ -141,25 +141,26 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 												<?php
 											}
 											?>
+											<div class="row">
+												<div class="box-propriety ">					
+													<div class="small-7 columns no-display">
+														<a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['CALENDAR']?></a>	
+														<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $text_love?></a>
+														<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['COMM']?></a>
+														<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['SHARE']?></a>
+														<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['REVIEW']?></a>	
+													</div>
+													<div class="small-5 columns propriety ">					
+														<a class="icon-propriety <?php echo $css_love ?>"><?php echo $event_love ?></a>
+														<a class="icon-propriety _comment"><?php echo $event_comment ?></a>
+														<a class="icon-propriety _share"><?php echo $event_share ?></a>
+														<a class="icon-propriety _review"><?php echo $event_review ?></a>		
+													</div>
+												</div>		
+											</div>
 										</div>
 									</div>
-									<div class="row album-single-propriety">
-										<div class="box-propriety ">					
-											<div class="small-7 columns no-display">
-												<a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['CALENDAR']?></a>	
-												<a class="note grey " onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $text_love?></a>
-												<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['COMM']?></a>
-												<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['SHARE']?></a>
-												<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['REVIEW']?></a>	
-											</div>
-											<div class="small-5 columns propriety ">					
-												<a class="icon-propriety <?php echo $css_love ?>"><?php echo $event_love ?></a>
-												<a class="icon-propriety _comment"><?php echo $event_comment ?></a>
-												<a class="icon-propriety _share"><?php echo $event_share ?></a>
-												<a class="icon-propriety _review"><?php echo $event_review ?></a>		
-											</div>
-										</div>		
-									</div>	
+										
 								</div>					
 				
 								<?php 

@@ -32,6 +32,13 @@ require_once ROOT_DIR . 'config.php';
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
 									$("#box-record").html(message);
+									//plugin scorrimento box
+									rsi_record = slideReview('recordSlide');
+									//plugin share
+									addthis.init();
+									addthis.toolbox(".addthis_toolbox");
+									//adatta pagina per scroll
+									hcento();
 									code = xhr.status;
 									//console.log("Code: " + code + " | Message: " + message);
 									console.log("Code: " + code + " | Message: <omitted because too large>");
@@ -64,7 +71,10 @@ require_once ROOT_DIR . 'config.php';
 									}).done(function(message, status, xhr) {
 										//spinner.hide();
 										$("#box-event").html(message);
+										//plugin scorrimento box
 										rsi_event = slideReview('eventSlide');
+										//adatta pagina per scroll
+										hcento();
 										code = xhr.status;
 										//console.log("Code: " + code + " | Message: " + message);
 										console.log("Code: " + code + " | Message: <omitted because too large>");

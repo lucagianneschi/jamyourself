@@ -39,7 +39,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 				</div>	
 				<div  class="small-7 columns align-right">
 					<?php 
-					if ($recordCounter > 4) {
+					if ($recordCounter > 3) {
 						?>
 						<div class="row">					
 							<div  class="small-9 columns">
@@ -61,11 +61,15 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 						<div class="text white" style="padding: 10px;"><?php echo $views['record']['LIST'];?></div>
 					</div>
 				</div>
+				<?php
+				if ($recordCounter > 0) { 
+					$index = 0;
+					?>
 				<div id="recordSlide" class="royalSlider rsMinW">
-				<!---------------------------- PRIMO ALBUM ----------------------------------------------->
-					<div class="rsContent">
+				<!---------------------------- PRIMO ALBUM ----------------------------------------------->					
 					<?php
 					foreach ($records as $key => $value) {
+						if ($index % 3 == 0) {?><div class="rsContent">	<?php }
 						$record_thumbnailCover = $value->getThumbnailCover();
 						$record_objectId = $value->getObjectId();
 						$record_title = $value->getTitle();
@@ -124,10 +128,18 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 							
 						</div>			
 						<?php
+						if (($index+1) % 3 == 0) { ?> </div> <?php }
+							$index++;
 					}
 					?>
 					</div>
-				</div>	
+				</div>
+				<?php } else{?>
+				<div class="row">
+					<div  class="large-12 columns"><p class="grey"><?php echo $views['record']['NODATA'] ?></p></div>
+				</div>
+					
+				<?php } ?>		
 			</div>	
 			
 			<!---------------------------- ALBUM SINGOLO --------------------------------------------->
@@ -204,6 +216,7 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 							    		$('#profile-Record .'+objectId).fadeIn( 100 );
 							    		addthis.init();
 										addthis.toolbox(".addthis_toolbox");
+										rsi_record.updateSliderSize(true);
 									});							
 									
 									console.log("Code: " + code + " | Message: <omitted because too large>");
