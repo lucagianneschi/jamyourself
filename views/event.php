@@ -38,9 +38,8 @@ if (is_null($eventBox->error)) {
 				loadBoxInformationAttendee();
 				loadBoxInformationInvited();
 				loadBoxStatus();
-				loadBoxRecordReview();
-				loadBoxEventReview();
-				loadBoxComment();
+				loadBoxEventReview(3, 0);
+				loadBoxComment(3, 0);
 			</script>
 		</body>
 	</html>

@@ -30,7 +30,7 @@
 									url: "content/event/box/box-status.php",
 									beforeSend: function(xhr) {
 										//spinner.show();
-										console.log('Sono partito status');
+										console.log('Sono partito loadBoxStatus()');
 									}
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
@@ -47,52 +47,24 @@
 							}
 						</script>
 						
-						<div id="box-recordReview"></div>
+						<div id="box-eventReview"></div>
 						<script type="text/javascript">
-							function loadBoxRecordReview() {
+							function loadBoxEventReview(limit, skip) {
 								var json_data = {};
-								json_data.eventObjectId = '<?php echo $eventObjectId; ?>';
-								$.ajax({
-									type: "POST",
-									url: "content/event/box/box-recordReview.php",
-									data: json_data,
-									beforeSend: function(xhr) {
-										//spinner.show();
-										console.log('Sono partito recordReview');
-									}
-								}).done(function(message, status, xhr) {
-									//spinner.hide();
-									$("#box-recordReview").html(message);
-									code = xhr.status;
-									//console.log("Code: " + code + " | Message: " + message);
-									console.log("Code: " + code + " | Message: <omitted because too large>");
-								}).fail(function(xhr) {
-									//spinner.hide();
-									message = $.parseJSON(xhr.responseText).status;
-									code = xhr.status;
-									console.log("Code: " + code + " | Message: " + message);
-								});
-							}
-						</script>
-
-						<div id="box-EventReview"></div>
-						<script type="text/javascript">
-							function loadBoxEventReview() {
-								var json_data = {};
-								json_data.eventObjectId = '<?php echo $eventObjectId; ?>';
-								json_data.limit = 5;
-								json_data.skip = 1;
+								json_data.objectId = '<?php echo $objectId; ?>';
+                                json_data.limit = limit;
+                                json_data.skip = skip;
 								$.ajax({
 									type: "POST",
 									url: "content/event/box/box-eventReview.php",
 									data: json_data,
 									beforeSend: function(xhr) {
 										//spinner.show();
-										console.log('Sono partito');
+										console.log('Sono partito loadBoxEventReview(' + limit +', ' + skip + ')');
 									}
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
-									$("#box-EventReview").html(message);
+									$("#box-eventReview").html(message);
 									code = xhr.status;
 									//console.log("Code: " + code + " | Message: " + message);
 									console.log("Code: " + code + " | Message: <omitted because too large>");
@@ -107,18 +79,18 @@
 						
 						<div id="box-comment"></div>
 						<script type="text/javascript">
-							function loadBoxComment() {
+							function loadBoxComment(limit, skip) {
 								var json_data = {};
-								json_data.eventObjectId = '<?php echo $eventObjectId; ?>';
-								json_data.limit = 5;
-								json_data.skip = 1;
+								json_data.objectId = '<?php echo $objectId; ?>';
+								json_data.limit = limit;
+								json_data.skip = skip;
 								$.ajax({
 									type: "POST",
 									url: "content/event/box/box-comment.php",
 									data: json_data,
 									beforeSend: function(xhr) {
 										//spinner.show();
-										console.log('Sono partito');
+										console.log('Sono partito loadBoxComment(' + limit +', ' + skip + ')');
 									}
 								})
 								.done(function(message, status, xhr) {
