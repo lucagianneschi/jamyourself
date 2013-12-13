@@ -1,5 +1,6 @@
 {
     "defultLimit": 10,
+    "limitEventForTimeline": 10,
     "sharedActivities": [
         "COMMENTEDONALBUM",
         "COMMENTEDONIMAGE",
