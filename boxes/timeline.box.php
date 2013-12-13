@@ -97,7 +97,7 @@ class TimelineBox {
             $pointer = $parseQuery->dataType('pointer', array('_User', $currentUserId));
             $related = $parseQuery->dataType('relatedTo', array($pointer, $field));
             $select = $parseQuery->dataType('query', array('_User', array('$relatedTo' => $related), 'objectId', MAX * $i, MAX));
-            $parseQuery->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : DEFAULTQUERY);
+            $parseQuery->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : DEFAULTQUERY);
             $parseQuery->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
             $parseQuery->whereSelect('fromUser', $select);
             $parseQuery->whereInclude('album.fromUser,event.fromUser,comment.fromUser,comment.toUser,record.fromUser,song.fromUser,video.fromUser,fromUser,toUser');

@@ -114,7 +114,7 @@ class CommentBox {
         $commentP->wherePointer($field, $className, $objectId);
         $commentP->where('type', 'C');
         $commentP->where('active', true);
-        $commentP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $this->config->defaultLimit : $limit);
+        $commentP->setLimit((is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $this->config->defaultLimit : $limit);
         $commentP->setSkip((is_null($skip) && is_int($skip)) ? 0 : $skip);
         $commentP->whereInclude('fromUser');
         $commentP->orderByDescending('createdAt');

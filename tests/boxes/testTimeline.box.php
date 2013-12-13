@@ -17,6 +17,8 @@
 $t_start = microtime(); //timer tempo totale
 $i_start = microtime(); //timer include
 
+echo (is_int(MAX))? "INTERO": "NON INTERO";
+echo (is_int(MIN))? "INTERO": "NON INTERO";
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 ini_set('display_errors', '1');

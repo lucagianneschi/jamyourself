@@ -111,7 +111,7 @@ class MessageBox {
         $activityP->where('type', 'MESSAGESENT');
         $activityP->where('active', true);
         $activityP->whereInclude('fromUser,toUser');
-        $activityP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitUsersForMessagePage);
+        $activityP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitUsersForMessagePage);
         $activityP->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
         $activityP->orderByDescending('createdAt');
         $activities = $activityP->getActivities();
@@ -171,7 +171,7 @@ class MessageBox {
         $messageP->where('active', true);
         $messageP->whereInclude('fromUser');
         $messageP->orderByDescending('createdAt');
-        $messageP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX <= $limit) ? $limit : $this->config->limitMessagesForMessagePage);
+        $messageP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitMessagesForMessagePage);
         $messageP->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
         $messages = $messageP->getComments();
         if ($messages instanceof Error) {
