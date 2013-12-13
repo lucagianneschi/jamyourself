@@ -28,6 +28,7 @@ require_once ROOT_DIR . 'config.php';
 									beforeSend: function(xhr) {
 										//spinner.show();
 										console.log('Sono partito box-record');
+										goSpinner('#box-record','record');
 									}
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
@@ -66,6 +67,7 @@ require_once ROOT_DIR . 'config.php';
 										data: json_data,
 										beforeSend: function(xhr) {
 											//spinner.show();
+											goSpinner('#box-event','event');
 											console.log('Sono partito box-event');
 										}
 									}).done(function(message, status, xhr) {

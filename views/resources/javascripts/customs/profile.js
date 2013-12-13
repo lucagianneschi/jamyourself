@@ -459,4 +459,15 @@ function spinner(){
 		$('.spinner').html(spinner.el.innerHTML);
 }
 
+function goSpinner(id,box){
+	$(id).load('content/profile/box-general/box-spinner.php', {
+		'box' : box
+	}, function(){
+		success:{
+			spinner();
+			hcento();
+		} 
+	});	
+}
+
 
