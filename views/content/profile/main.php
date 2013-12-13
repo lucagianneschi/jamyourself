@@ -164,7 +164,7 @@ require_once ROOT_DIR . 'config.php';
 						<div id='box-album'></div>
 						<script type="text/javascript">
 							function loadBoxAlbum() {
-								var json_data = {};
+								var json_data = {objectIdUser:'<?php echo $user->getObjectId()?>'};
 								json_data.objectId = '<?php echo $user->getObjectId(); ?>';
 								$.ajax({
 									type: "POST",

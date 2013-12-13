@@ -18,6 +18,8 @@ require_once BOXES_DIR . 'album.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 session_start();
 
+$objectIdUser = $_POST['objectIdUser'];
+
 $albumBox = new AlbumBox();
 $albumBox->init($_POST['objectId']);
 if (is_null($albumBox->error) || isset($_SESSION['currentUser'])) {
@@ -78,7 +80,7 @@ if (is_null($albumBox->error) || isset($_SESSION['currentUser'])) {
 									$text_love = $views['UNLOVE'];
 								}
 								?> 
-								<div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="albumSelectSingle('<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>)">
+								<div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="loadBoxAlbumDetail('<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>,30,0)">
 									<img class="albumcover" src="../media/<?php echo $album_thumbnailCover; ?>" onerror="this.src='../media/<?php echo DEFALBUMTHUMB;?>'">  
 									<div class="text white breakOffTest"><?php echo $album_title; ?></div>
 									<div class="row">
@@ -118,10 +120,17 @@ if (is_null($albumBox->error) || isset($_SESSION['currentUser'])) {
 					</div>
 				</div>
 			</div>
+		</div>
 			<!----------------------------------------- ALBUM PHOTO SINGLE ------------------------------>	
 			<?php
-			/*
-			for ($i=0; $i<$albumCounter; $i++) {
+		
+			foreach ($albums as $key => $value) {
+				$album_objectId = $value->getObjectId();
+				$album_imageCounter = $value->getImageCounter();
+				$album_love = $value->getLoveCounter();
+				$album_comment = $value->getCommentCounter();
+				$album_share = $value->getShareCounter();
+				
 				if ($data['album' . $i]['showLove'] == 'true') {
 						$css_love = '_unlove grey';
 						$text_love = $views['LOVE'];
@@ -131,29 +140,69 @@ if (is_null($albumBox->error) || isset($_SESSION['currentUser'])) {
 					}
 					?>
 					<div id="profile-singleAlbum">
-						<div class="box no-display box-singleAlbum" id="<?php echo $data['album' . $i]['objectId'];?>">
-							<div class="row box-album">
-								<div class="large-12 columns">					
-									<a class="ico-label _back_page text white" onclick="albumSelectNext('<?php echo $data['album' . $i]['objectId']; ?>')"><?php echo $views['BACK'];?></a>
+						<div class="box no-display box-singleAlbum" id="<?php echo $album_objectId;?>">
+							<div class="row box-album" style="border-bottom: 1px solid #303030;margin-bottom: 20px;">
+								<div class="large-12 columns" >					
+									<a class="ico-label _back_page text white" style="margin-bottom: 10px;" onclick="loadBoxAlbum()"><?php echo $views['BACK'];?></a>
 								</div>
 							</div>
-							<div class="row" style="padding-bottom: 10px;">
-								<div  class="large-12 columns"><div class="line"></div></div>
-							</div>
+							
 							<!----------------------------------------- ALBUM DETAIL--------------------------->			
-							<div id='box-albumDetailTH'></div>
+							<div id='box-albumDetail'></div>
+							<script type="text/javascript">
+							function loadBoxAlbumDetail(objectId,countImage,limit,skip) {
+								var json_data = {};
+								json_data.objectId = objectId;
+								json_data.countImage = countImage;
+								json_data.limit = limit;
+								json_data.skip = skip;
+								$.ajax({
+									type: "POST",
+									url: "content/profile/box/box-albumDetail.php",
+									data: json_data,
+									beforeSend: function(xhr) {
+										//spinner.show();
+										console.log('Sono partito box-albumDetail');
+										
+									}
+								}).done(function(message, status, xhr) {
+									//spinner.hide();
+									if(skip > 0)
+										$('#box-albumDetail .otherObject').addClass('no-display');
+									$(message).appendTo("#"+objectId+" #box-albumDetail");
+								//	$("#"+objectId+" #box-albumDetail").html(message);
+									code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+									//gestione visualizzazione box detail
+									$( "#albumSlide" ).fadeOut( 100, function() {
+    									$('#'+objectId ).fadeIn( 100 );
+							    		addthis.init();
+										addthis.toolbox(".addthis_toolbox");
+										rsi_record.updateSliderSize(true);
+									});							
+									
+									console.log("Code: " + code + " | Message: <omitted because too large>");
+								}).fail(function(xhr) {
+									//spinner.hide();
+									console.log("Error: " + $.parseJSON(xhr));
+									//message = $.parseJSON(xhr.responseText).status;
+									//code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+								});
+							}
+							</script>
 							<!----------------------------------------- FINE ALBUM DETAIL --------------------------->	
 							<div class="row album-single-propriety">
 								 <div class="box-propriety">
 									<div class="small-6 columns">
-										<a class="note grey" onclick="love(this, 'Album', '<?php echo $data['album' . $i]['objectId']; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
-										<a class="note grey" onclick="setCounter(this,'<?php echo $data['album' . $i]['objectId']; ?>','Album')"><?php echo $views['COMM'];?></a>
-										<a class="note grey" onclick="share(this,'<?php echo $data['album' . $i]['objectId']; ?>','profile-singleAlbum')"><?php echo $views['SHARE'];?></a>
+										<a class="note grey" onclick="love(this, 'Album', '<?php echo $album_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
+										<a class="note grey" onclick="setCounter(this,'<?php echo $album_objectId; ?>','Album')"><?php echo $views['COMM'];?></a>
+										<a class="note grey" onclick="share(this,'<?php echo $album_objectId; ?>','profile-singleAlbum')"><?php echo $views['SHARE'];?></a>
 									</div>
 									<div class="small-6 columns propriety ">					
-										<a class="icon-propriety <?php echo $css_love ?>"><?php echo $data['album' . $i]['counters']['loveCounter']; ?></a>
-										<a class="icon-propriety _comment"><?php echo $data['album' . $i]['counters']['commentCounter']; ?></a>
-										<a class="icon-propriety _share"><?php echo $data['album' . $i]['counters']['shareCounter']; ?></a>	
+										<a class="icon-propriety <?php echo $css_love ?>"><?php echo $album_love; ?></a>
+										<a class="icon-propriety _comment"><?php echo $album_comment; ?></a>
+										<a class="icon-propriety _share"><?php echo $album_share; ?></a>	
 									</div>
 								</div>		
 							</div>	
@@ -162,15 +211,15 @@ if (is_null($albumBox->error) || isset($_SESSION['currentUser'])) {
 						<div class="box-comment no-display"></div>
 						<!---------------------------------------- SHARE ------------------------------------------------->
 						<?php
-						$paramsAlbum = getShareParameters('Album', $data['album' . $i]['objectId'], $data['album' . $i]['image' . $j]['thumbnail']);
+					//	$paramsAlbum = getShareParameters('Album', $album_objectId, $data['album' . $i]['image' . $j]['thumbnail']);
 						?>
 						<!-- AddThis Button BEGIN -->
 						<div class="addthis_toolbox">
 							<div class="hover_menu">
 									<div class="addthis_toolbox addthis_default_style"
-										addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Album&objectId=&imgPath=<?php echo $data['album' . $i]['image' . $j]['thumbnail']; ?>"
+										addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Album&objectId=&imgPath=<?php #TODO//echo $data['album' . $i]['image' . $j]['thumbnail']; ?>"
 										addThis:title="<?php echo $paramsAlbum['title']; ?>"
-										onclick="addShare('<?php echo $objectIdUser; ?>', 'Album', '<?php echo $data['album' . $i]['objectId']; ?>')">
+										onclick="addShare('<?php echo $objectIdUser; ?>', 'Album', '<?php echo $album_objectId; ?>')">
 									<a class="addthis_button_twitter"></a>
 									<a class="addthis_button_facebook"></a>
 									<a class="addthis_button_google_plusone_share"></a>
@@ -183,7 +232,7 @@ if (is_null($albumBox->error) || isset($_SESSION['currentUser'])) {
 				<div id='box-albumDetailLB'></div>
 				<?php
 			}
-			*/
+			
 			?>	
 		</div>
 	</div>
