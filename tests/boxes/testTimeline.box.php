@@ -34,6 +34,12 @@ print "</pre>";
 echo count($eventFilter->eventArray);
 
 
+$recordFilter = new RecordFilter();
+$recordFilter->init('Uncatogorized');
+print "<pre>";
+print_r($recordFilter);
+print "</pre>";
+echo count($recordFilter->recordArray);
 
 $timeline = new StreamBox();
 $timeline->init(10,0);
