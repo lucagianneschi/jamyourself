@@ -10,7 +10,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo	        corretta gestione di skip e limit sia per query interna che esterna, correggere whereInclude		
+ * \todo	        corretta gestione di skip e limit sia per query interna che esterna, correggere whereInclude
  *
  */
 
@@ -24,7 +24,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 
 /**
- * \brief	EventFilter class 
+ * \brief	EventFilter class
  * \details	box class to pass info to the view for timelinePage
  */
 class EventFilter {
@@ -68,7 +68,9 @@ class EventFilter {
 	    if ($locations instanceof Error || is_null($locations)) {
 		$event->where('city', $city);
 	    } else {
-		//usa geolocalizzazione
+		foreach ($locations as $loc) {
+		    $event->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude']);
+		}
 	    }
 	} elseif (!is_null($type)) {
 	    $event->where('type', $type);
@@ -97,7 +99,7 @@ class EventFilter {
 }
 
 /**
- * \brief	RecordFilter class 
+ * \brief	RecordFilter class
  * \details	box class to pass info to the view for timelinePage
  */
 class RecordFilter {
@@ -118,9 +120,9 @@ class RecordFilter {
      * \fn	init($genre = null, $limit = null, $skip = null)
      * \brief	Init RecordFilter instance for TimeLine
      * \param	$genre = null, $limit = null, $skip = null
-     * \todo    
+     * \todo
      */
-    public function init($city = null, $genre = null, $limit = null, $skip = null) {
+    public function init($genre = 'Uncategorized', $city = null, $limit = null, $skip = null) {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    global $boxes;
@@ -141,7 +143,9 @@ class RecordFilter {
 	    if ($locations instanceof Error || is_null($locations)) {
 		$record->where('city', $city);
 	    } else {
-		//usa geolocalizzazione
+		foreach ($locations as $loc) {
+		    $record->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude']);
+		}
 	    }
 	} elseif (!is_null($genre)) {
 	    $record->where('genre', $genre);
@@ -168,7 +172,7 @@ class RecordFilter {
 }
 
 /**
- * \brief	StreamBox class 
+ * \brief	StreamBox class
  * \details	box class to pass info to the view for timelinePage
  */
 class StreamBox {
@@ -189,7 +193,7 @@ class StreamBox {
      * \fn	init
      * \brief	timeline init
      * \param	$limit, $skip
-     * \todo    
+     * \todo
      */
     public function init($limit = DEFAULTQUERY, $skip = null) {
 	$currentUserId = sessionChecker();
@@ -210,8 +214,7 @@ class StreamBox {
 	    $partialActivities = $this->query('following', $currentUser->getObjectId(), $ciclesFollowing, $actArray, $limit, $skip);
 	    $partialActivities1 = $this->query('friendship', $currentUser->getObjectId(), $ciclesFriendship, $actArray, $limit, $skip);
 	    $activities = array_merge($partialActivities, $partialActivities1);
-	    $this->error = (count($activities) == 0) ? 'NOACTIVITIES' : null;
-	    //manca da fare ordinamento 
+	    $this->error = (count($activities) == 0 || !ksort($activities)) ? 'TIMELINERROR' : null;
 	    $this->activitesArray = $activities;
 	    return;
 	} else {
@@ -259,7 +262,7 @@ class StreamBox {
      * \brief	private funtion for check if the activity on DB is correct
      * \param	$res, resul for the query
      * \retun   $activities array, filtered array with correct activities
-     * \todo    fare controllo con i corretti whereInclude     
+     * \todo    fare controllo con i corretti whereInclude
      */
     private function activitiesChecker($res) {
 	$activities = array();
@@ -305,7 +308,7 @@ class StreamBox {
      * \fn	createActivityArray($userType)
      * \brief	private funtion for creating the activity type array based on the user type
      * \param	$userType
-     * \todo    
+     * \todo
      */
     private function createActivityArray($userType) {
 	$sharedActivities = $this->config->sharedActivities;

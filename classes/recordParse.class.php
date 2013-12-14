@@ -34,7 +34,7 @@ class RecordParse {
      * \brief	The constructor instantiates a new object of type ParseQuery on the Record class
      */
     function __construct() {
-        $this->parseQuery = new ParseQuery('Record');
+	$this->parseQuery = new ParseQuery('Record');
     }
 
     /**
@@ -47,20 +47,20 @@ class RecordParse {
      * \return	error		in case of exception
      */
     public function decrementRecord($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
-        try {
-            $parseObject = new parseObject('Record');
-            //we use the increment function with a negative value because decrement function still not work
-            $parseObject->increment($field, array(0 - $value));
-            if ($withArray) {
-                if (is_null($fieldArray) || empty($valueArray))
-                    return throwError(new Exception('decrementRecord parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
-                $parseObject->removeArray($fieldArray, $valueArray);
-            }
-            $res = $parseObject->update($objectId);
-            return $res->$field;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Record');
+	    //we use the increment function with a negative value because decrement function still not work
+	    $parseObject->increment($field, array(0 - $value));
+	    if ($withArray) {
+		if (is_null($fieldArray) || empty($valueArray))
+		    return throwError(new Exception('decrementRecord parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+		$parseObject->removeArray($fieldArray, $valueArray);
+	    }
+	    $res = $parseObject->update($objectId);
+	    return $res->$field;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -70,19 +70,19 @@ class RecordParse {
      * \return	error in case of exception
      */
     public function deleteRecord($objectId, $songsId) {
-        try {
-            $parseObject = new parseObject('Record');
-            $parseObject->active = false;
-            $parseObject->update($objectId);
-            if ($songsId && count($songsId) > 0) {
-                $parseSong = new SongParse();
-                foreach ($songsId as $songId) {
-                    $parseSong->deleteSong($songId);
-                }
-            }
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Record');
+	    $parseObject->active = false;
+	    $parseObject->update($objectId);
+	    if ($songsId && count($songsId) > 0) {
+		$parseSong = new SongParse();
+		foreach ($songsId as $songId) {
+		    $parseSong->deleteSong($songId);
+		}
+	    }
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -91,7 +91,7 @@ class RecordParse {
      * \return	number
      */
     public function getCount() {
-        return $this->parseQuery->getCount()->count;
+	return $this->parseQuery->getCount()->count;
     }
 
     /**
@@ -102,13 +102,13 @@ class RecordParse {
      * \return	Error	the Error raised by the function
      */
     function getRecord($objectId) {
-        try {
-            $parseObject = new parseObject('Record');
-            $res = $parseObject->get($objectId);
-            return $this->parseToRecord($res);
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Record');
+	    $res = $parseObject->get($objectId);
+	    return $this->parseToRecord($res);
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -119,22 +119,22 @@ class RecordParse {
      * \return	Error	the Error raised by the function
      */
     public function getRecords() {
-        $records = null;
-        try {
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $records = array();
-                foreach ($res->results as $obj) {
-                    if ($obj) {
-                        $record = $this->parseToRecord($obj);
-                        $records[$record->getObjectId()] = $record;
-                    }
-                }
-            }
-            return $records;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	$records = null;
+	try {
+	    $res = $this->parseQuery->find();
+	    if (is_array($res->results) && count($res->results) > 0) {
+		$records = array();
+		foreach ($res->results as $obj) {
+		    if ($obj) {
+			$record = $this->parseToRecord($obj);
+			$records[$record->getObjectId()] = $record;
+		    }
+		}
+	    }
+	    return $records;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -147,19 +147,19 @@ class RecordParse {
      * \return	error		in case of exception
      */
     public function incrementRecord($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
-        try {
-            $parseObject = new parseObject('Record');
-            $parseObject->increment($field, array($value));
-            if ($withArray) {
-                if (is_null($fieldArray) || empty($valueArray))
-                    return throwError(new Exception('incrementRecord parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
-                $parseObject->addUniqueArray($fieldArray, $valueArray);
-            }
-            $res = $parseObject->update($objectId);
-            return $res->$field;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Record');
+	    $parseObject->increment($field, array($value));
+	    if ($withArray) {
+		if (is_null($fieldArray) || empty($valueArray))
+		    return throwError(new Exception('incrementRecord parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+		$parseObject->addUniqueArray($fieldArray, $valueArray);
+	    }
+	    $res = $parseObject->update($objectId);
+	    return $res->$field;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -168,7 +168,7 @@ class RecordParse {
      * \param	$field	the field on which to sort
      */
     public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
+	$this->parseQuery->orderBy($field);
     }
 
     /**
@@ -177,7 +177,7 @@ class RecordParse {
      * \param	$field	the field on which to sort ascending
      */
     public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
+	$this->parseQuery->orderByAscending($field);
     }
 
     /**
@@ -186,7 +186,7 @@ class RecordParse {
      * \param	$field	the field on which to sort descending
      */
     public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
+	$this->parseQuery->orderByDescending($field);
     }
 
     /**
@@ -197,39 +197,39 @@ class RecordParse {
      * \return	Error	the Error raised by the function
      */
     function parseToRecord($res) {
-        if (is_null($res))
-            return throwError(new Exception('parseToRecord parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $record = new Record();
-            $record->setObjectId($res->objectId);
-            $record->setActive($res->active);
-            $record->setBuyLink($res->buyLink);
-            $record->setCommentCounter($res->commentCounter);
-            $record->setCounter($res->counter);
-            $record->setCover($res->cover);
-            $record->setDescription(parse_decode_string($res->description));
-            $record->setDuration($res->duration);
-            $record->setFeaturing(fromParseRelation('Record', 'featuring', $res->objectId, '_User'));
-            $record->setFromUser(fromParsePointer($res->fromUser));
-            $record->setGenre($res->genre);
-            $record->setLabel(parse_decode_string($res->label));
-            $record->setLocation(fromParseGeoPoint($res->location));
-            $record->setLocationName(parse_decode_string($res->locationName));
-            $record->setLoveCounter($res->loveCounter);
-            $record->setLovers($res->lovers);
-            $record->setReviewCounter($res->reviewCounter);
-            $record->setShareCounter($res->shareCounter);
-            $record->setSongCounter($res->songCounter);
-            $record->setThumbnailCover($res->thumbnailCover);
-            $record->setTitle(parse_decode_string($res->title));
-            $record->setYear($res->year);
-            $record->setCreatedAt(fromParseDate($res->createdAt));
-            $record->setUpdatedAt(fromParseDate($res->updatedAt));
-            $record->setACL(fromParseACL($res->ACL));
-            return $record;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($res))
+	    return throwError(new Exception('parseToRecord parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $record = new Record();
+	    $record->setObjectId($res->objectId);
+	    $record->setActive($res->active);
+	    $record->setBuyLink($res->buyLink);
+	    $record->setCommentCounter($res->commentCounter);
+	    $record->setCounter($res->counter);
+	    $record->setCover($res->cover);
+	    $record->setDescription(parse_decode_string($res->description));
+	    $record->setDuration($res->duration);
+	    $record->setFeaturing(fromParseRelation('Record', 'featuring', $res->objectId, '_User'));
+	    $record->setFromUser(fromParsePointer($res->fromUser));
+	    $record->setGenre($res->genre);
+	    $record->setLabel(parse_decode_string($res->label));
+	    $record->setLocation(fromParseGeoPoint($res->location));
+	    $record->setLocationName(parse_decode_string($res->locationName));
+	    $record->setLoveCounter($res->loveCounter);
+	    $record->setLovers($res->lovers);
+	    $record->setReviewCounter($res->reviewCounter);
+	    $record->setShareCounter($res->shareCounter);
+	    $record->setSongCounter($res->songCounter);
+	    $record->setThumbnailCover($res->thumbnailCover);
+	    $record->setTitle(parse_decode_string($res->title));
+	    $record->setYear($res->year);
+	    $record->setCreatedAt(fromParseDate($res->createdAt));
+	    $record->setUpdatedAt(fromParseDate($res->updatedAt));
+	    $record->setACL(fromParseACL($res->ACL));
+	    return $record;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -240,47 +240,47 @@ class RecordParse {
      * \return	Error		the Error raised by the function
      */
     function saveRecord($record) {
-        if (is_null($record->getFromUser()))
-            return throwError(new Exception('saveRecord parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $nullArray = array();
-            $parseObject = new parseObject('Record');
-            is_null($record->getActive()) ? $parseObject->active = true : $parseObject->active = $record->getActive();
-            is_null($record->getBuyLink()) ? $parseObject->buyLink = null : $parseObject->buyLink = $record->getBuyLink();
-            is_null($record->getCommentCounter()) ? $parseObject->commentCounter = -1 : $parseObject->commentCounter = $record->getCommentCounter();
-            is_null($record->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseAddRelation('_User', $record->getCommentators());
-            is_null($record->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseAddRelation('Comment', $record->getComments());
-            is_null($record->getCounter()) ? $parseObject->counter = -1 : $parseObject->counter = $record->getCounter();
-            is_null($record->getCover()) ? $parseObject->cover = DEFRECORDCOVER : $parseObject->cover = $record->getCover();
-            is_null($record->getCoverFile()) ? $parseObject->coverFile = null : $parseObject->coverFile = toParseFile($record->getCoverFile());
-            is_null($record->getDescription()) ? $parseObject->description = null : $parseObject->description = $record->getDescription();
-            is_null($record->getDuration()) ? $parseObject->duration = 0 : $parseObject->duration = $record->getDuration();
-            is_null($record->getFeaturing()) ? $parseObject->featuring = null : $parseObject->featuring = toParseAddRelation('_User', $record->getFeaturing());
-            $parseObject->fromUser = toParsePointer('_User', $record->getFromUser());
-            is_null($record->getGenre()) ? $parseObject->genre = null : $parseObject->genre = $record->getGenre();
-            is_null($record->getLabel()) ? $parseObject->label = null : $parseObject->label = $record->getLabel();
-            is_null($record->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($record->getLocation());
-            is_null($record->getLocationName()) ? $parseObject->locationName = null : $parseObject->locationName = $record->getLocationName();
-            is_null($record->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $record->getLoveCounter();
-            is_null($record->getLovers()) ? $parseObject->lovers = $nullArray : $parseObject->lovers = $record->getLovers();
-            is_null($record->getReviewCounter()) ? $parseObject->reviewCounter = -1 : $parseObject->reviewCounter = $record->getReviewCounter();
-            is_null($record->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $record->getShareCounter();
-            is_null($record->getSongCounter()) ? $parseObject->songCounter = -1 : $parseObject->songCounter = $record->getSongCounter();
-            is_null($record->getThumbnailCover()) ? $parseObject->thumbnailCover = DEFRECORDTHUMB : $parseObject->thumbnailCover = $record->getThumbnailCover();
-            is_null($record->getTitle()) ? $parseObject->title = null : $parseObject->title = $record->getTitle();
-            is_null($record->getTracklist()) ? $parseObject->tracklist = null : $parseObject->tracklist = toParseAddRelation('Song', $record->getTracklist());
-            is_null($record->getYear()) ? $parseObject->year = null : $parseObject->year = $record->getYear();
-            is_null($record->getACL()) ? $parseObject->ACL = toParseDefaultACL() : $parseObject->ACL = toParseACL($record->getACL());
-            if ($record->getObjectId() == '') {
-                $res = $parseObject->save();
-                $record->setObjectId($res->objectId);
-                return $record;
-            } else {
-                $parseObject->update($record->getObjectId());
-            }
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($record->getFromUser()))
+	    return throwError(new Exception('saveRecord parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $nullArray = array();
+	    $parseObject = new parseObject('Record');
+	    is_null($record->getActive()) ? $parseObject->active = true : $parseObject->active = $record->getActive();
+	    is_null($record->getBuyLink()) ? $parseObject->buyLink = null : $parseObject->buyLink = $record->getBuyLink();
+	    is_null($record->getCommentCounter()) ? $parseObject->commentCounter = -1 : $parseObject->commentCounter = $record->getCommentCounter();
+	    is_null($record->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseAddRelation('_User', $record->getCommentators());
+	    is_null($record->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseAddRelation('Comment', $record->getComments());
+	    is_null($record->getCounter()) ? $parseObject->counter = -1 : $parseObject->counter = $record->getCounter();
+	    is_null($record->getCover()) ? $parseObject->cover = DEFRECORDCOVER : $parseObject->cover = $record->getCover();
+	    is_null($record->getCoverFile()) ? $parseObject->coverFile = null : $parseObject->coverFile = toParseFile($record->getCoverFile());
+	    is_null($record->getDescription()) ? $parseObject->description = null : $parseObject->description = $record->getDescription();
+	    is_null($record->getDuration()) ? $parseObject->duration = 0 : $parseObject->duration = $record->getDuration();
+	    is_null($record->getFeaturing()) ? $parseObject->featuring = null : $parseObject->featuring = toParseAddRelation('_User', $record->getFeaturing());
+	    $parseObject->fromUser = toParsePointer('_User', $record->getFromUser());
+	    is_null($record->getGenre()) ? $parseObject->genre = null : $parseObject->genre = $record->getGenre();
+	    is_null($record->getLabel()) ? $parseObject->label = null : $parseObject->label = $record->getLabel();
+	    is_null($record->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($record->getLocation());
+	    is_null($record->getLocationName()) ? $parseObject->locationName = null : $parseObject->locationName = $record->getLocationName();
+	    is_null($record->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $record->getLoveCounter();
+	    is_null($record->getLovers()) ? $parseObject->lovers = $nullArray : $parseObject->lovers = $record->getLovers();
+	    is_null($record->getReviewCounter()) ? $parseObject->reviewCounter = -1 : $parseObject->reviewCounter = $record->getReviewCounter();
+	    is_null($record->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $record->getShareCounter();
+	    is_null($record->getSongCounter()) ? $parseObject->songCounter = -1 : $parseObject->songCounter = $record->getSongCounter();
+	    is_null($record->getThumbnailCover()) ? $parseObject->thumbnailCover = DEFRECORDTHUMB : $parseObject->thumbnailCover = $record->getThumbnailCover();
+	    is_null($record->getTitle()) ? $parseObject->title = null : $parseObject->title = $record->getTitle();
+	    is_null($record->getTracklist()) ? $parseObject->tracklist = null : $parseObject->tracklist = toParseAddRelation('Song', $record->getTracklist());
+	    is_null($record->getYear()) ? $parseObject->year = null : $parseObject->year = $record->getYear();
+	    is_null($record->getACL()) ? $parseObject->ACL = toParseDefaultACL() : $parseObject->ACL = toParseACL($record->getACL());
+	    if ($record->getObjectId() == '') {
+		$res = $parseObject->save();
+		$record->setObjectId($res->objectId);
+		return $record;
+	    } else {
+		$parseObject->update($record->getObjectId());
+	    }
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -289,7 +289,7 @@ class RecordParse {
      * \param	$limit	the maximum number
      */
     public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
+	$this->parseQuery->setLimit($limit);
     }
 
     /**
@@ -298,7 +298,7 @@ class RecordParse {
      * \param	$skip	the number of Record(s) to skip
      */
     public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
+	$this->parseQuery->setSkip($skip);
     }
 
     /**
@@ -312,27 +312,27 @@ class RecordParse {
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
     public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-        if (is_null($objectId) || is_null($field))
-            return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
-        if ($isRelation) {
-            if (is_null($typeRelation) || is_null($className))
-                return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
-            if ($typeRelation == 'add') {
-                $parseObject = new parseObject('Record');
-                $parseObject->$field = toParseAddRelation($className, $value);
-                $parseObject->update($objectId);
-            } elseif ($typeRelation == 'remove') {
-                $parseObject = new parseObject('Record');
-                $parseObject->$field = toParseRemoveRelation($className, $value);
-                $parseObject->update($objectId);
-            } else {
-                return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
-            }
-        } else {
-            $parseObject = new parseObject('Record');
-            $parseObject->$field = $value;
-            $parseObject->update($objectId);
-        }
+	if (is_null($objectId) || is_null($field))
+	    return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+	if ($isRelation) {
+	    if (is_null($typeRelation) || is_null($className))
+		return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
+	    if ($typeRelation == 'add') {
+		$parseObject = new parseObject('Record');
+		$parseObject->$field = toParseAddRelation($className, $value);
+		$parseObject->update($objectId);
+	    } elseif ($typeRelation == 'remove') {
+		$parseObject = new parseObject('Record');
+		$parseObject->$field = toParseRemoveRelation($className, $value);
+		$parseObject->update($objectId);
+	    } else {
+		return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
+	    }
+	} else {
+	    $parseObject = new parseObject('Record');
+	    $parseObject->$field = $value;
+	    $parseObject->update($objectId);
+	}
     }
 
     /**
@@ -342,7 +342,7 @@ class RecordParse {
      * \param	$value	the string which represent the value
      */
     public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
+	$this->parseQuery->where($field, $value);
     }
 
     /**
@@ -352,7 +352,7 @@ class RecordParse {
      * \param	$value	the array which represent the values
      */
     public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
+	$this->parseQuery->whereContainedIn($field, $values);
     }
 
     /**
@@ -362,7 +362,7 @@ class RecordParse {
      * \param	$value	the string which represent the value
      */
     public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
+	$this->parseQuery->whereEqualTo($field, $value);
     }
 
     /**
@@ -371,7 +371,7 @@ class RecordParse {
      * \param	$field	the string which represent the field
      */
     public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
+	$this->parseQuery->whereExists($field);
     }
 
     /**
@@ -381,7 +381,7 @@ class RecordParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
+	$this->parseQuery->whereGreaterThan($field, $value);
     }
 
     /**
@@ -391,7 +391,7 @@ class RecordParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
     /**
@@ -400,7 +400,7 @@ class RecordParse {
      * \param	$field	the string which represent the field
      */
     public function whereInclude($field) {
-        $this->parseQuery->whereInclude($field);
+	$this->parseQuery->whereInclude($field);
     }
 
     /**
@@ -409,7 +409,7 @@ class RecordParse {
      * \param	$field, $className, $array
      */
     public function whereInQuery($field, $className, $array) {
-        $this->parseQuery->whereInQuery($field, $className, $array);
+	$this->parseQuery->whereInQuery($field, $className, $array);
     }
 
     /**
@@ -419,7 +419,7 @@ class RecordParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
+	$this->parseQuery->whereLessThan($field, $value);
     }
 
     /**
@@ -429,7 +429,16 @@ class RecordParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	$this->parseQuery->whereLessThanOrEqualTo($field, $value);
+    }
+
+    /**
+     * \fn	whereNearSphere($latitude, $longitude)
+     * \brief	find element in a spherre near the given latitude e longitude
+     * \param	$latitude, $longitude
+     */
+    public function whereNearSphere($latitude, $longitude) {
+	$this->parseQuery->whereNearSphere('location', $latitude, $longitude);
     }
 
     /**
@@ -439,7 +448,7 @@ class RecordParse {
      * \param	$value	the array which represent the values
      */
     public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
+	$this->parseQuery->whereNotContainedIn($field, $array);
     }
 
     /**
@@ -449,7 +458,7 @@ class RecordParse {
      * \param	$value	the string which represent the value
      */
     public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
+	$this->parseQuery->whereNotEqualTo($field, $value);
     }
 
     /**
@@ -458,7 +467,7 @@ class RecordParse {
      * \param	$field, $className, $array
      */
     public function whereNotInQuery($field, $className, $array) {
-        $this->parseQuery->whereNotInQuery($field, $className, $array);
+	$this->parseQuery->whereNotInQuery($field, $className, $array);
     }
 
     /**
@@ -472,7 +481,7 @@ class RecordParse {
      * \param	$field	the array representing the field and the value to put in or
      */
     public function whereOr($value) {
-        $this->parseQuery->where('$or', $value);
+	$this->parseQuery->where('$or', $value);
     }
 
     /**
@@ -481,7 +490,7 @@ class RecordParse {
      * \param	$field	the string which represent the field
      */
     public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
+	$this->parseQuery->whereDoesNotExist($field);
     }
 
     /**
@@ -492,7 +501,7 @@ class RecordParse {
      * \param	$objectId	the string which represent the objectId of the Pointer
      */
     public function wherePointer($field, $className, $objectId) {
-        $this->parseQuery->wherePointer($field, $className, $objectId);
+	$this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
     /**
@@ -503,7 +512,7 @@ class RecordParse {
      * \param	$objectId	the string which represent the objectId
      */
     public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	$this->parseQuery->whereRelatedTo($field, $className, $objectId);
     }
 
 }
