@@ -24,7 +24,7 @@ if (is_null($friendsBox->error)) {
 	?>
 	<div class="row" id="profile-friends">
 		<div  class="large-12 columns">
-			<h3><?php echo $views['friends']['TITLE'];?> <span class="orange">[<?php echo $friendshipCounter; ?>]</span></h3>
+			<h3><?php echo $views['friends']['TITLE'];?> <a data-reveal-id="viewFriendRelation"><span class="orange">[<?php echo $friendshipCounter; ?>]</span></a> </h3>
 			<div class="row  ">
 				<div  class="large-12 columns ">
 					<div class="box">					
@@ -61,8 +61,44 @@ if (is_null($friendsBox->error)) {
 								if ($i == $totalView) break;
 								$i++;
 							}
-							?>
+							?>							
 							</div>
+							<!------------------ elenco jammer ------------------------->
+							<div id="viewFriendRelation" class="reveal-modal">
+								<div class="row">
+							<?php
+								$i = 1;
+								foreach ($friends as $key => $value) { ?>
+													  
+										<div  class="small-6 columns">
+											<div class="box-membre">
+												<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+													<div  class="small-3 columns ">
+														<div class="icon-header">
+															<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+														</div>
+													</div>
+													<div  class="small-9 columns ">
+														<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+													</div>		
+												</div>	
+											</div>
+										</div>
+										<?php
+										if ($i % 2 == 0) {
+											?>
+											</div>
+											<div class="row">
+											<?php
+										}
+										
+										$i++; 
+								}
+								
+								?>
+								</div>
+							</div>
+							<!------------------ fine elenco jammer ------------------------->
 							<?php
 						} else {
 							?>	

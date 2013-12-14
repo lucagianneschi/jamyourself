@@ -45,7 +45,7 @@ if (is_null($followingsBox->error)) {
 					
 					<div class="row">
 						<div class="large-12 columns" style="padding-bottom: 10px;">
-							<div class="text orange">Venue <span class="white">[<?php echo $venuesFollowingsCounter;?>]</span></div>	
+							<a data-reveal-id="viewVenueRelation"><div class="text orange">Venue <span class="white">[<?php echo $venuesFollowingsCounter;?>]</span></div></a>	
 						</div>
 					</div>
 					<?php 
@@ -81,6 +81,42 @@ if (is_null($followingsBox->error)) {
 						$i++;
 					}
 					?>
+					<!------------------ elenco venue ------------------------->
+					<div id="viewVenueRelation" class="reveal-modal">
+						<div class="row">
+					<?php
+						$i = 1;
+						foreach ($venuesFollowings as $key => $value) { ?>
+											  
+								<div  class="small-6 columns">
+									<div class="box-membre">
+										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+											<div  class="small-3 columns ">
+												<div class="icon-header">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+												</div>
+											</div>
+											<div  class="small-9 columns ">
+												<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+											</div>		
+										</div>	
+									</div>
+								</div>
+								<?php
+								if ($i % 2 == 0) {
+									?>
+									</div>
+									<div class="row">
+									<?php
+								}
+								
+								$i++; 
+						}
+						
+						?>
+						</div>
+					</div>
+					<!------------------ fine elenco venu ------------------------->
 					</div>
 					<div class="row">
 						<div  class="large-12 columns"><div class="line"></div></div>
@@ -92,7 +128,7 @@ if (is_null($followingsBox->error)) {
 					<!------------------------------------------ JAMMER ----------------------------------->
 					<div class="row">
 						<div class="large-12 columns" style="padding-bottom: 10px;">
-							<div class="text orange">Jammer <span class="white">[<?php echo $jammersFollowingsCounter;?>]</span></div>	
+							<a data-reveal-id="viewJammerRelation"><div class="text orange">Jammer <span class="white">[<?php echo $jammersFollowingsCounter;?>]</span></div></a>	
 						</div>
 					</div>
 					<?php 
@@ -126,9 +162,46 @@ if (is_null($followingsBox->error)) {
 						}
 						if ($i == $totalView) break;
 						$i++;
+						
+					
 					}
 					?>
+					<!------------------ elenco jammer ------------------------->
+					<div id="viewJammerRelation" class="reveal-modal">
+						<div class="row">
+					<?php
+						$i = 1;
+						foreach ($jammersFollowings as $key => $value) { ?>
+											  
+								<div  class="small-6 columns">
+									<div class="box-membre">
+										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+											<div  class="small-3 columns ">
+												<div class="icon-header">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+												</div>
+											</div>
+											<div  class="small-9 columns ">
+												<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+											</div>		
+										</div>	
+									</div>
+								</div>
+								<?php
+								if ($i % 2 == 0) {
+									?>
+									</div>
+									<div class="row">
+									<?php
+								}
+								
+								$i++; 
+						}
+						
+						?>
+						</div>
 					</div>
+					<!------------------ fine elenco jammer ------------------------->
 					<?php
 				} } else {
 					?>	
