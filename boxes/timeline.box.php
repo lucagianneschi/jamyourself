@@ -68,7 +68,9 @@ class EventFilter {
 	    if ($locations instanceof Error || is_null($locations)) {
 		$event->where('city', $city);
 	    } else {
-		//usa geolocalizzazione
+		foreach ($locations as $loc) {
+		    $event->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude']);
+		}
 	    }
 	} elseif (!is_null($type)) {
 	    $event->where('type', $type);
@@ -141,7 +143,9 @@ class RecordFilter {
 	    if ($locations instanceof Error || is_null($locations)) {
 		$record->where('city', $city);
 	    } else {
-		//usa geolocalizzazione
+		foreach ($locations as $loc) {
+		    $record->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude']);
+		}
 	    }
 	} elseif (!is_null($genre)) {
 	    $record->where('genre', $genre);
@@ -210,8 +214,7 @@ class StreamBox {
 	    $partialActivities = $this->query('following', $currentUser->getObjectId(), $ciclesFollowing, $actArray, $limit, $skip);
 	    $partialActivities1 = $this->query('friendship', $currentUser->getObjectId(), $ciclesFriendship, $actArray, $limit, $skip);
 	    $activities = array_merge($partialActivities, $partialActivities1);
-	    $this->error = (count($activities) == 0) ? 'NOACTIVITIES' : null;
-	    //manca da fare ordinamento
+	    $this->error = (count($activities) == 0 || !ksort($activities)) ? 'TIMELINERROR' : null;
 	    $this->activitesArray = $activities;
 	    return;
 	} else {
