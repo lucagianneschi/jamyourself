@@ -18,12 +18,12 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'record.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
-session_start();
+if(session_id() == '') session_start();
 
 $recordBox = new RecordBox();
 $recordBox->initForPersonalPage($_POST['objectId']);
-if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
-	$currentUser = $_SESSION['currentUser'];
+if (is_null($recordBox->error)) {
+	if(isset($_SESSION['currentUser'])) $currentUser = $_SESSION['currentUser'];
 	$records = $recordBox->recordArray;
 	$recordCounter = count($records);
 	?>
@@ -81,12 +81,13 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 						$record_share = $value->getShareCounter();
 						$record_review = $value->getReviewCounter();
 						
-						if (is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+						if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+							$css_love = '_love orange';
+							$text_love = $views['UNLOVE'];							
+							
+						} else{
 							$css_love = '_unlove grey';
 							$text_love = $views['LOVE'];
-						} else{
-							$css_love = '_love orange';
-							$text_love = $views['UNLOVE'];
 						}
 						?>
 						<div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>">
@@ -120,20 +121,18 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 												</div>
 											</div>
 										</div>	
-									</div>
-									
-									
+									</div>								
 								</div>
-							</div>				
-							
+								
+							</div>
 						</div>			
 						<?php
-						if (($index+1) % 3 == 0) { ?> </div> <?php }
+						if (($index+1) % 3 == 0 || $recordCounter == ($index+1)) { ?> </div> <?php }
 							$index++;
 					}
 					?>
 					</div>
-				</div>
+				
 				<?php } else{?>
 				<div class="row">
 					<div  class="large-12 columns"><p class="grey"><?php echo $views['record']['NODATA'] ?></p></div>
@@ -156,12 +155,13 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 				$recordSingle_share = $value->getShareCounter();
 				$recordSingle_review = $value->getReviewCounter();
 				
-				if (is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+				if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+					$recordSingle_css_love = '_love orange';
+					$recordSingle_text_love = $views['UNLOVE'];					
+					
+				} else{
 					$recordSingle_css_love = '_unlove grey';
 					$recordSingle_text_love = $views['LOVE'];
-				} else{
-					$recordSingle_css_love = '_love orange';
-					$recordSingle_text_love = $views['UNLOVE'];
 				}
 				?>
 				<div class="box no-display <?php echo $recordSingle_objectId ?>" >
@@ -203,21 +203,22 @@ if (is_null($recordBox->error) || isset($_SESSION['currentUser'])) {
 									data: json_data,
 									beforeSend: function(xhr) {
 										//spinner.show();
+										$( "#profile-Record #record-list" ).fadeOut( 100, function() {
+								    		$('#profile-Record .'+objectId).fadeIn( 100 );
+								    		goSpinner("."+objectId+" .box-recordDetail", '');
+										});	
 										console.log('Sono partito box-recordDetail');
 										
 									}
 								}).done(function(message, status, xhr) {
-									//spinner.hide();
+									
 									$("."+objectId+" .box-recordDetail").html(message);
 									code = xhr.status;
 									//console.log("Code: " + code + " | Message: " + message);
 									//gestione visualizzazione box detail
-									$( "#profile-Record #record-list" ).fadeOut( 100, function() {
-							    		$('#profile-Record .'+objectId).fadeIn( 100 );
-							    		addthis.init();
-										addthis.toolbox(".addthis_toolbox");
-										rsi_record.updateSliderSize(true);
-									});							
+									addthis.init();
+									addthis.toolbox(".addthis_toolbox");
+									rsi_record.updateSliderSize(true);							
 									
 									console.log("Code: " + code + " | Message: <omitted because too large>");
 								}).fail(function(xhr) {

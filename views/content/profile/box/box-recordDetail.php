@@ -19,22 +19,26 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
 require_once CLASSES_DIR . 'userParse.class.php';
-session_start();
+
+if(session_id() == '') session_start();
 
 
 $recordObjectId = $_POST['objectId'];
 $songs = tracklistGenerator($recordObjectId);
+
 debug(DEBUG_DIR, 'debug.txt', json_encode($songs));
-if (isset($_SESSION['currentUser'])) {
-	$indice = 0;
+if (isset($_SESSION['currentUser'])) $currentUser = $_SESSION['currentUser'];
+$indice = 0;
+if(is_array($songs) && count($songs) > 0){
 	foreach ($songs as $key => $value) {
-		$currentUser = $_SESSION['currentUser'];
-		if (!in_array($currentUser->getObjectId(), $value->getLovers())) {
-			$track_css_love = '_unlove grey';
-			$track_text_love = $views['LOVE'];
-		} else {
+		
+		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 			$track_css_love = '_love orange';
 			$track_text_love = $views['UNLOVE'];
+		} else {
+			$track_css_love = '_unlove grey';
+			$track_text_love = $views['LOVE'];
+			
 		}
 		?>
 		<div class="row  track" id="<?php echo $value->getObjectId(); ?>">
@@ -87,4 +91,5 @@ if (isset($_SESSION['currentUser'])) {
 		$indice++;
 	}
 }
+
 ?>

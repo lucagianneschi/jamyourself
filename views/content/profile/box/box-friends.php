@@ -46,7 +46,7 @@ if (is_null($friendsBox->error)) {
 												</div>
 											</div>
 											<div  class="small-9 columns ">
-												<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+												<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
 											</div>		
 										</div>	
 									</div>
