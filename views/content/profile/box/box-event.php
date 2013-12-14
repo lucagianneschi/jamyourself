@@ -15,15 +15,16 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'event.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
-session_start();
+
+if(session_id() == '') session_start();
 
 $eventBox = new EventBox();
 $eventBox->initForPersonalPage($_POST['objectId']);
 
 $typeUser = $_POST['typeUser'];
 
-if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
-	$currentUser = $_SESSION['currentUser'];
+if (is_null($eventBox->error)) {
+	if(isset($_SESSION['currentUser'])) $currentUser = $_SESSION['currentUser'];
 	$events = $eventBox->eventArray;
 	$eventCounter = count($events);
 	?>
@@ -81,12 +82,12 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 							$event_review = $value->getReviewCounter();
 							$event_share = $value->getShareCounter();
 							
-							if (is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+							if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+								$css_love = '_love orange';
+								$text_love = $views['UNLOVE'];								
+							} else {
 								$css_love = '_unlove grey';
 								$text_love = $views['LOVE'];
-							} else {
-								$css_love = '_love orange';
-								$text_love = $views['UNLOVE'];
 							}						
 								?>
 								<!----------------------------------- SINGLE Event ------------------------------------>
@@ -164,7 +165,7 @@ if (is_null($eventBox->error) || isset($_SESSION['currentUser'])) {
 								</div>					
 				
 								<?php 
-								if (($index+1) % 3 == 0) { ?> </div> <?php }
+								if (($index+1) % 3 == 0 || $eventCounter == $index+1) { ?> </div> <?php }
 							$index++;
 						} //fine foreach
 						?>
