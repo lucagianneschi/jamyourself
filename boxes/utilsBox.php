@@ -6,12 +6,12 @@
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		file utilities box 
+ * \brief		file utilities box
  * \details		file utilities box
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		
+ * \todo
  *
  */
 
@@ -21,8 +21,8 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 
 /**
- * \brief	UserInfo class 
- * \details	user info to be displayed in thumbnail view over all the website 
+ * \brief	UserInfo class
+ * \details	user info to be displayed in thumbnail view over all the website
  */
 class UserInfo {
 
@@ -39,8 +39,7 @@ class UserInfo {
     function __construct($objectId, $thumbnail, $type, $username) {
 	require_once SERVICES_DIR . 'lang.service.php';
 	require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-	global $boxes;
-	is_null($objectId) ? $this->objectId = null : $this->objectId = $objectId;
+	$this->objectId = is_null($objectId) ? null : $objectId;
 	switch ($type) {
 	    case 'SPOTTER':
 		$imageDefault = DEFTHUMBSPOTTER;
@@ -52,9 +51,9 @@ class UserInfo {
 		$imageDefault = DEFTHUMBVENUE;
 		break;
 	}
-	is_null($thumbnail) ? $this->thumbnail = $imageDefault : $this->thumbnail = $thumbnail;
-	is_null($type) ? $this->type = null : $this->type = $type;
-	is_null($username) ? $this->username = null : $this->username = $username;
+	$this->thumbnail = is_null($thumbnail) ? $imageDefault : $thumbnail;
+	$this->type = is_null($type) ? null : $type;
+	$this->username = is_null($username) ? null : $username;
     }
 
 }
@@ -62,7 +61,7 @@ class UserInfo {
 /**
  * \fn	        getAllUsersInRelation($objectId, $field, $className, $collaboratorType = null)
  * \brief	Convenience method to get all kind of related User to another user, any kind
- * \param	$objectId for the istance of the class the user is supposed to be related to, $field to be related to, 
+ * \param	$objectId for the istance of the class the user is supposed to be related to, $field to be related to,
  * \return	userArray array of userInfo object
  * \todo        prevere la possibilità di avere più di 1000 utenti in lista
  */
@@ -75,32 +74,23 @@ function getAllUsersInRelation($objectId, $field, $userType = null) {
     if ($user instanceof Error) {
 	return $usersArray;
     } else {
-	switch ($field) {
-	    case 'collaboration':
-		if (!is_null($userType) && $userType == 'VENUE') {
-		    $cicles = ceil($user->getVenueCounter() / MAX);
-		} elseif (!is_null($userType) && $userType == 'JAMMER') {
-		    $cicles = ceil($user->getJammerCounter() / MAX);
+	switch ($userType) {
+	    case 'VENUE':
+		$counter = $user->getVenueCounter();
+		break;
+	    case 'JAMMER':
+		$counter = $user->getJammerCounter();
+	    default:
+		if ($field == 'collaboration') {
+		    $counter = $user->getCollaborationCounter();
+		} elseif ($field == 'followers') {
+		    $counter = $user->getFollowersCounter();
 		} else {
-		    $cicles = ceil($user->getCollaborationCounter() / MAX);
+		    $counter = $user->getFriendshipCounter();
 		}
-		break;
-	    case 'followers':
-		$cicles = ceil($user->getFollowersCounter() / MAX);
-		break;
-	    case 'following':
-		if (!is_null($userType) && $userType == 'VENUE') {
-		    $cicles = ceil($user->getVenueCounter() / MAX);
-		} elseif (!is_null($userType) && $userType == 'JAMMER') {
-		    $cicles = ceil($user->getJammerCounter() / MAX);
-		} else {
-		    $cicles = ceil($user->getFollowingCounter() / MAX);
-		}
-		break;
-	    case 'friendship':
-		$cicles = ceil($user->getFriendshipCounter() / MAX);
 		break;
 	}
+	$cicles = ceil($counter / MAX);
 	if ($cicles == 0) {
 	    return $usersArray;
 	} else {
@@ -116,7 +106,7 @@ function getAllUsersInRelation($objectId, $field, $userType = null) {
 		$userP->setLimit(MAX);
 		$userP->setSkip(MAX * $i);
 		$users = $userP->getUsers();
-		if ($users instanceof Error) {
+		if ($users instanceof Error || is_null($users)) {
 		    return $usersArray;
 		} else {
 		    foreach ($users as $user) {
@@ -157,8 +147,8 @@ function getRelatedUsers($objectId, $field, $className, $all = false, $limit = M
 /**
  * \fn	tracklistGenerator($objectId)
  * \brief	retrives info for generating a tracklist
- * \param	$objectId of the 
- * \return  $tracklist, array of Songinfo objects    
+ * \param	$objectId of the
+ * \return  $tracklist, array of Songinfo objects
  */
 function tracklistGenerator($objectId, $limit = DEFAULTQUERY) {
     require_once CLASSES_DIR . 'song.class.php';
