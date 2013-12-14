@@ -73,10 +73,15 @@ class UploadRecordController extends REST {
             $record = new Record();
 
             $record->setActive(true);
-            if (strlen($newRecord->urlBuy))
-                $record->setBuyLink($newRecord->urlBuy);
-            else
-                $record->setBuyLink(null);
+            if (strlen($newRecord->urlBuy)){
+                //questo controllo è stato aggiunto dopo che nel DB
+                //ho visto che salvava una stringa vuota nel caso in cui
+                //il form non avesse questo campo definito
+                $record->setBuyLink($newRecord->urlBuy);                
+            }
+            else{
+                $record->setBuyLink(null);                
+            }
             $record->setCommentCounter(0);
             $record->setCounter(0);
 
@@ -131,13 +136,7 @@ class UploadRecordController extends REST {
             $activity->setVideo(null);
 //            $activity->setACL(toParseDefaultACL());
 
-            $pActivity = new ActivityParse();
-            if ($pActivity->saveActivity($activity) instanceof Error) {
-                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-                $message = rollbackUploadRecordController($record->getObjectId(), "Record");
-                $this->response(array("status" => $message), 503);
-            }
-
+            
             $this->createFolderForRecord($userId, $record->getObjectId());
 
             $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcover";
@@ -151,6 +150,14 @@ class UploadRecordController extends REST {
             }
 
             unset($_SESSION['currentUserFeaturingArray']);
+            
+            
+            $pActivity = new ActivityParse();
+            if ($pActivity->saveActivity($activity) instanceof Error) {
+                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+                $message = rollbackUploadRecordController($record->getObjectId(), "Record");
+                $this->response(array("status" => $message), 503);
+            }
 
             $this->response(array("status" => $controllers['RECORDSAVED'], "id" => $record->getObjectId()), 200);
         } catch (Exception $e) {
