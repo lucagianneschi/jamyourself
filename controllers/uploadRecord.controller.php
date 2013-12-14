@@ -45,113 +45,117 @@ class UploadRecordController extends REST {
 
     public function recordCreate() {
 
-        global $controllers;
+        try {
+            global $controllers;
 
-        if ($this->get_request_method() != "POST") {
-            $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-        } elseif (!isset($_SESSION['currentUser'])) {
-            $this->response($controllers['USERNOSES'], 403);
-        } elseif (!isset($this->request['albumTitle']) || is_null($this->request['albumTitle']) || !(strlen($this->request['albumTitle']) > 0)) {
-            $this->response(array("status" => $controllers['NOTITLE']), 403);
-        } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
-            $this->response(array("status" => $controllers['NODESCRIPTION']), 403);
-        } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
-            $this->response(array("status" => $controllers['NOTAGS']), 403);
-        } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
-            $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
-        }
+            if ($this->get_request_method() != "POST") {
+                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response($controllers['USERNOSES'], 403);
+            } elseif (!isset($this->request['recordTitle']) || is_null($this->request['recordTitle']) || !(strlen($this->request['recordTitle']) > 0)) {
+                $this->response(array("status" => $controllers['NOTITLE']), 403);
+            } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
+                $this->response(array("status" => $controllers['NODESCRIPTION']), 403);
+            } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
+                $this->response(array("status" => $controllers['NOTAGS']), 403);
+            } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
+                $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
+            }
 
-        $albumJSON = $this->request;
-        $newAlbum = json_decode(json_encode($albumJSON), false);
+            $albumJSON = $this->request;
+            $newRecord = json_decode(json_encode($albumJSON), false);
 
-        $user = $_SESSION['currentUser'];
-        $userId = $user->getObjectId();
+            $user = $_SESSION['currentUser'];
+            $userId = $user->getObjectId();
 
 
-        $pRecord = new RecordParse();
-        $record = new Record();
+            $pRecord = new RecordParse();
+            $record = new Record();
 
-        $record->setActive(true);
-        if (strlen($newAlbum->urlBuy))
-            $record->setBuyLink($newAlbum->urlBuy);
-        else
-            $record->setBuyLink(null);
-        $record->setCommentCounter(0);
-        $record->setCounter(0);
-//$record->setCoverFile();
-        $imgInfo = $this->getImages($newAlbum);
-        $record->setCover($imgInfo['RecordPicture']);
-        $record->setThumbnailCover($imgInfo['RecordThumbnail']);
-        $record->getSongCounter(0);
-        $record->setDescription($newAlbum->albumTitle);
-        $record->setDuration(0);
-        if (isset($newAlbum->albumFeaturing) && !is_null($newAlbum->albumFeaturing) && count($newAlbum->albumFeaturing) > 0)
-            $record->setFeaturing($newAlbum->albumFeaturing);
-        $record->setFromUser($userId);
-        $record->setGenre($this->getTags($newAlbum->tags));
-        $record->setLabel($newAlbum->label);
-        if (($location = GeocoderService::getLocation($newAlbum->city))) {
-            $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
-            $record->setLocation($parseGeoPoint);
-        }
+            $record->setActive(true);
+            if (strlen($newRecord->urlBuy))
+                $record->setBuyLink($newRecord->urlBuy);
+            else
+                $record->setBuyLink(null);
+            $record->setCommentCounter(0);
+            $record->setCounter(0);
 
-        $record->setLoveCounter(0);
-        $record->setReviewCounter(0);
-        $record->setShareCounter(0);
-        $record->setTitle($newAlbum->albumTitle);
-        $record->setYear($newAlbum->year);
+            $imgInfo = $this->getImages($newRecord);
+            $record->setCover($imgInfo['RecordPicture']);
+            $record->setThumbnailCover($imgInfo['RecordThumbnail']);
+            $record->getSongCounter(0);
+            $record->setDescription($newRecord->recordTitle);
+            $record->setDuration(0);
+            if (isset($newRecord->albumFeaturing) && !is_null($newRecord->albumFeaturing) && count($newRecord->albumFeaturing) > 0)
+                $record->setFeaturing($newRecord->albumFeaturing);
+            $record->setFromUser($userId);
+            $record->setGenre($this->getTags($newRecord->tags));
+            $record->setLabel($newRecord->label);
+            if (($location = GeocoderService::getLocation($newRecord->city))) {
+                $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
+                $record->setLocation($parseGeoPoint);
+            }
 
-        $newRecord = $pRecord->saveRecord($record);
+            $record->setLoveCounter(0);
+            $record->setReviewCounter(0);
+            $record->setShareCounter(0);
+            $record->setTitle($newRecord->recordTitle);
+            $record->setYear($newRecord->year);
 
-        if ($newRecord instanceof Error) {
+            $record = $pRecord->saveRecord($record);
+
+            if ($record instanceof Error) {
 //result è un errore e contiene il motivo dell'errore
-            $this->response(array("status" => $controllers['NODATA']), 503);
-        }
+                $this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
+            }
 
 //se va a buon fine salvo una nuova activity 
 
-        $activity = new Activity();
-        $activity->setActive(true);
-        $activity->setAlbum(null);
-        $activity->setComment(null);
-        $activity->setCounter(-1);
-        $activity->setEvent(null);
-        $activity->setFromUser($userId);
-        $activity->setImage(null);
-        $activity->setPlaylist(null);
-        $activity->setQuestion(null);
-        $activity->setRead(true);
-        $activity->setRecord($record->getObjectId());
-        $activity->setSong(null);
-        $activity->setStatus("A");
-        $activity->setToUser(null);
-        $activity->setType("CREATEDRECORD"); // <- l'ho messo a caso, non so se va bene
-        $activity->setUserStatus(null);
-        $activity->setVideo(null);
+            $activity = new Activity();
+            $activity->setActive(true);
+            $activity->setAlbum(null);
+            $activity->setComment(0);
+            $activity->setCounter(0);
+            $activity->setEvent(null);
+            $activity->setFromUser($userId);
+            $activity->setImage(null);
+            $activity->setPlaylist(null);
+            $activity->setQuestion(null);
+            $activity->setRead(true);
+            $activity->setRecord($record->getObjectId());
+            $activity->setSong(null);
+            $activity->setStatus("A");
+            $activity->setToUser(null);
+            $activity->setType("CREATEDRECORD"); // <- l'ho messo a caso, non so se va bene
+            $activity->setUserStatus(null);
+            $activity->setVideo(null);
 //            $activity->setACL(toParseDefaultACL());
 
-        $pActivity = new ActivityParse();
-        if ($pActivity->saveActivity($activity) instanceof Error) {
-            require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-            $message = rollbackUploadRecordController($newRecord->getObjectId(), "Record");
-            $this->response(array("status" => $message), 503);
-        }
+            $pActivity = new ActivityParse();
+            if ($pActivity->saveActivity($activity) instanceof Error) {
+                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+                $message = rollbackUploadRecordController($record->getObjectId(), "Record");
+                $this->response(array("status" => $message), 503);
+            }
 
-        $this->createFolderForRecord($userId, $newRecord->getObjectId());
+            $this->createFolderForRecord($userId, $record->getObjectId());
 
-        $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcover";
-        $dirCoverDest = USERS_DIR . $userId . "/images/recordcoverthumb";
+            $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcover";
+            $dirCoverDest = USERS_DIR . $userId . "/images/recordcoverthumb";
 
 
 //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
-        if (!is_null($record->getThumbnailCover()) && strlen($record->getThumbnailCover()) > 0 && strlen($record->getCover()) && !is_null($record->getCover())) {
-            rename(MEDIA_DIR . "cache/" . $record->getThumbnailCover(), $dirThumbnailDest . DIRECTORY_SEPARATOR . $record->getThumbnailCover());
-            rename(MEDIA_DIR . "cache/" . $record->getCover(), $dirCoverDest . DIRECTORY_SEPARATOR . $record->getCover());
+            if (!is_null($record->getThumbnailCover()) && strlen($record->getThumbnailCover()) > 0 && strlen($record->getCover()) && !is_null($record->getCover())) {
+                rename(MEDIA_DIR . "cache/" . $record->getThumbnailCover(), $dirThumbnailDest . DIRECTORY_SEPARATOR . $record->getThumbnailCover());
+                rename(MEDIA_DIR . "cache/" . $record->getCover(), $dirCoverDest . DIRECTORY_SEPARATOR . $record->getCover());
+            }
+
+            unset($_SESSION['currentUserFeaturingArray']);
+
+            $this->response(array("status" => $controllers['RECORDSAVED'], "id" => $record->getObjectId()), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 500);
         }
-
-        unset($_SESSION['currentUserFeaturingArray']);
-
-        $this->response(array("status" => $controllers['RECORDSAVED'], "id" => $newRecord->getObjectId()), 200);
     }
 
     private function getTags($list) {
@@ -162,10 +166,10 @@ class UploadRecordController extends REST {
             return "";
     }
 
-    private function createFolderForRecord($userId, $albumId) {
+    private function createFolderForRecord($userId, $recordId) {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $albumId, 0777, true);
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId, 0777, true);
 
                 if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images")) {
                     $bool = mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images");
@@ -463,13 +467,13 @@ class UploadRecordController extends REST {
             $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
         }
 
-        $albumId = $this->request['recordId'];
+        $recordId = $this->request['recordId'];
 
-        $songsList = tracklistGenerator($albumId);
+        $songsList = tracklistGenerator($recordId);
 
-        if ($songsList instanceof Error || is_null($songsList)) {
-            $this->response(array("status" => $controllers['NODATA']), 503);
-        } elseif (count($songsList) == 0) {
+        if ($songsList instanceof Error) {
+            $this->response(array("status" => $controllers['NODATA']), 200);
+        } elseif (is_null($songsList) || count($songsList) == 0) {
             $this->response(array("status" => $controllers['NOSONGFORRECORD'], "songList" => null, "count" => 0), 200);
         }
         $returnInfo = array();
