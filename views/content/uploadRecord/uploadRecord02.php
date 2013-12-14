@@ -5,8 +5,8 @@
 </div>
 <div class="row formBlack-body">
     <div  class="small-6 columns">
-        <input type="text" name="albumTitle" id="albumTitle" pattern="" required/>
-        <label for="albumTitle">Album title <span class="orange">*</span><small class="error"> Please enter a valid Title</small></label>
+        <input type="text" name="recordTitle" id="recordTitle" pattern="" required/>
+        <label for="recordTitle">Album title <span class="orange">*</span><small class="error"> Please enter a valid Title</small></label>
 
 
 		<!--------------------------- UPLOAD IMAGE -------------------------------->
