@@ -151,7 +151,281 @@ require_once ROOT_DIR . 'config.php';
 	<div id='scroll-social' class='hcento' style="width: 50%;float: right;">
 		<div id="social" style="max-width:500px; float:left" class="row">
 			<div class="large-12 columns">
-				Prova	
+
+<!---------------------------- CONTENT SOCIAL--------------------------------------------->
+
+
+<!---------------- WRITE ----------------->
+
+<h3>Write a post</h3>
+<div class="row  ">
+	<div class="large-12 columns ">
+		<form action="" class="box-write" onsubmit="sendPost('', $('#post').val()); return false;">
+			<div class="">
+				<div class="row  ">
+					<div class="small-9 columns ">
+						<input id="post" type="text" class="post inline" placeholder="Spread the word about your interest!">
+					</div>
+					<div class="small-3 columns ">
+						<input type="button" id="button-post" class="post-button inline" value="Post" onclick="sendPost('', $('#post').val())">
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+</div>
+
+<!---------------- STREAM ----------------->
+
+<h3>Stream</h3>
+
+
+<!---------------- BOX REVIEW ----------------->
+
+<div id="tV0O3eGHqH">
+	<div class="box ">
+		
+		<div class="row  line">
+			<div class="small-1 columns ">
+				<div class="icon-header">
+					<img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+				</div>
+			</div>
+			<div class="small-5 columns">
+				<div class="text grey" style="margin-bottom: 0px;">
+					<strong>Nome Cognome</strong>
+				</div>
+				<div class="note orange">
+					<strong>Jammer</strong>
+				</div>
+			</div>
+			<div class="small-6 columns propriety">
+				<div class="note grey-light">
+					Monday 14 December 2013 - 17:48
+				</div>
+			</div>
+
+		</div>
+		<div class="row  line">
+			<div class="small-12 columns ">
+				<div class="row ">
+					<div class="small-12 columns ">
+						<div class="row  ">
+							<div class="large-12 columns ">
+								<div class="text orange">Album Review</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="small-2 columns ">
+								<div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../media/../../../../media/images/default/defaultEventThumb.jpg'"></div>						
+							</div>
+							<div class="small-8 columns ">
+								<div class="row ">							
+									<div class="small-12 columns ">
+										<div class="sottotitle grey-dark">Recensione Evento/Album</div>
+									</div>	
+								</div>	
+								<div class="row">						
+									<div class="small-12 columns ">
+										<div class="note grey">Rating</div>
+									</div>
+								</div>
+								<div class="row ">						
+									<div class="small-12 columns ">
+										<a class="icon-propriety _star-orange"></a><a class="icon-propriety _star-grey"></a><a class="icon-propriety _star-grey"></a><a class="icon-propriety _star-grey"></a><a class="icon-propriety _star-grey"></a>										</div>
+								</div>													
+							</div>
+							<div class="small-2 columns align-right viewAlbumReview">
+								<a href="#" class="orange"><strong>Read</strong></a>
+							</div>				
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="box-propriety">
+				<div class="small-7 columns ">
+					<a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+					<a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+					<a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+				</div>
+				<div class="small-5 columns propriety ">					
+					<a class="icon-propriety _unlove grey">72</a>
+					<a class="icon-propriety _comment">0</a>
+					<a class="icon-propriety _share">0</a>
+				</div>
+			</div>
+		</div>
+		</div>
+		<!---- COMMENT ---->
+		<div class="box-comment no-display">
+			
+	</div>
+	
+</div>
+
+
+
+<!---------------- BOX POST ----------------->
+
+<div id="tV0O3eGHqH">
+	<div class="box ">
+		
+		<div class="row  line">
+			<div class="small-1 columns ">
+				<div class="icon-header">
+					<img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+				</div>
+			</div>
+			<div class="small-5 columns">
+				<div class="text grey" style="margin-bottom: 0px;">
+					<strong>Nome Cognome</strong>
+				</div>
+				<div class="note orange">
+					<strong>Jammer</strong>
+				</div>
+			</div>
+			<div class="small-6 columns propriety">
+				<div class="note grey-light">
+					Monday 18 November 2013 - 16:51
+				</div>
+			</div>
+
+		</div>
+		<div class="row  line">
+			<div class="small-12 columns ">
+				<div class="row ">
+					<div class="small-12 columns ">
+						<div class="text grey">
+							Questo è un post natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.	
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="box-propriety">
+				<div class="small-7 columns ">
+					<a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+					<a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+					<a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+				</div>
+				<div class="small-5 columns propriety ">					
+					<a class="icon-propriety _unlove grey">72</a>
+					<a class="icon-propriety _comment">0</a>
+					<a class="icon-propriety _share">0</a>
+				</div>
+			</div>
+		</div>
+		</div>
+		<!---- COMMENT ---->
+		<div class="box-comment no-display">
+			
+	</div>
+	
+</div>
+
+
+
+<!---------------- BOX POST ----------------->
+
+<div id="tV0O3eGHqH">
+	<div class="box ">
+		
+		<div class="row  line">
+			<div class="small-1 columns ">
+				<div class="icon-header">
+					<img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+				</div>
+			</div>
+			<div class="small-5 columns">
+				<div class="text grey" style="margin-bottom: 0px;">
+					<strong>Nome Cognome</strong>
+				</div>
+				<div class="note orange">
+					<strong>Jammer</strong>
+				</div>
+			</div>
+			<div class="small-6 columns propriety">
+				<div class="note grey-light">
+					Monday 18 November 2013 - 16:51
+				</div>
+			</div>
+
+		</div>
+		<div class="row  line">
+			<div class="small-12 columns ">
+				<div class="row ">
+					<div class="small-12 columns ">
+						<div class="row  ">
+							<div class="large-12 columns ">
+								<div class="text orange">Just added</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="small-6 columns">
+								<div class="box-membre">
+									<div class="row " id="collaborator_03VPczLItB">
+										<div class="small-3 columns ">
+											<div class="icon-header">
+												<img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+											</div>
+										</div>
+										<div class="small-9 columns ">
+											<div class="text grey-dark breakOffTest"><strong>Elenaradio</strong></div>
+										</div>		
+									</div>	
+								</div>
+							</div>
+															<div class="small-6 columns">
+								<div class="box-membre">
+									<div class="row " id="collaborator_06pkm6j7mg">
+										<div class="small-3 columns ">
+											<div class="icon-header">
+												<img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+											</div>
+										</div>
+										<div class="small-9 columns ">
+											<div class="text grey-dark breakOffTest"><strong>GothicAtmosphere</strong></div>
+										</div>		
+									</div>	
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="row">
+			<div class="box-propriety">
+				<div class="small-7 columns ">
+					<a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+					<a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+					<a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+				</div>
+				<div class="small-5 columns propriety ">					
+					<a class="icon-propriety _unlove grey">72</a>
+					<a class="icon-propriety _comment">0</a>
+					<a class="icon-propriety _share">0</a>
+				</div>
+			</div>
+		</div>
+		</div>
+		<!---- COMMENT ---->
+		<div class="box-comment no-display">
+			
+	</div>
+	
+</div>
+
+<!---------------------------- END CONTENT SOCIAL--------------------------------------------->
+
+
 			</div>			
 		</div>
 	</div>	
