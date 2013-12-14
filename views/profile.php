@@ -39,7 +39,9 @@ if (is_null($userInfoBox->error)) {
 			<!-------------------------- SCRIPT --------------------------->
 			<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
 			<script>
+				<?php	if($user->getType() == 'JAMMER'){ ?>
 				loadBoxRecord();
+				<?php } ?>		
 				loadBoxAlbum();
 				loadBoxRecordReview();
 				loadBoxEventReview();

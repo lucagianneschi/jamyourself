@@ -84,44 +84,58 @@ function noDisplay($dato) {
 		    </div>	    
 		</section>
 		<?php 
-		#TODO
-		//if ($type == 'JAMMER') {
-		if (false) {
+		
+		if ($type == 'JAMMER') {		
 			?>
 			<!--------------------------------------- MEMBRES --------------------------------------->
 			<?php
-			if (is_array($data['membres'])) {
+			if (is_array($user->getMembers())) {
 				?>
 				<section>
 					<p class="title" data-section-title><a href="#"><?php echo $views['information']['CONTENT2'];?></a></p>
 					<div class="content" data-section-content>
+						<div class="row">
+						<?php
 						
-						 <div class="row">
+						$i = 0;
+						foreach ($user->getMembers() as $key => $value) { 
+							
+							?>
+							 						
 							<div class="small-6 columns">
 								<div class="box-membre">
-									<span class="text white"><?php echo $data['membres'] ?></span></br>
-									<span class="note grey"><?php echo $data['membres'] ?></span>
+									<span class="text white"><?php echo $value->name; ?></span></br>
+									<span class="note grey"><?php echo $value->instrument; ?></span>
 								</div>
+							</div>				
+						
+						<?php 
+						if ($i % 2 == 0 && $i != 0) {
+							?>
 							</div>
-							<div class="small-6 columns">
-								<div class="box-membre">
-									<span class="text white"><?php echo $data['membres'] ?></span></br>
-									<span class="note grey"><?php echo $data['membres'] ?></span>
-								</div>	
-							</div>		
-						</div>
-										
+							<div class="row">
+							<?php
+						}						
+						$i++;
+						
+						} ?>				
 					</div>
 				</section>
 				<?php
+				
 			}
 		}
 		// su utente e' tipo venue allora viene mostrato il section del map
 		if ($type == 'VENUE') {
+			if($user->getGeoCoding() instanceof parseGeoPoint){				
+				$lat = $user->getGeoCoding()->lat;
+				$lng = $user->getGeoCoding()->long;
+			}
+			
 			?>
 			<!--------------------------------------- MAP --------------------------------------->
 			<section id="profile_map_venue" > 
-		  	<p class="title" data-section-title onclick="viewMap('<?php echo $user->getLocation()->latitude ?>','<?php echo $user->getLocation()->longitude ?>')"><a href="#"><?php echo $views['information']['CONTENT3'];?></a></p>
+		  	<p class="title" data-section-title onclick="viewMap('<?php echo $lat ?>','<?php echo $lng ?>')"><a href="#"><?php echo $views['information']['CONTENT3'];?></a></p>
 		  	<div class="content" data-section-content>
 		  		<div class="row">
     				<div class="small-12 columns">     					  	

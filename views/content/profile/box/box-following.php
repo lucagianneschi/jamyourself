@@ -38,9 +38,13 @@ if (is_null($followingsBox->error)) {
 			<div class="box" id="following-list">
 				<?php
 				if ($totFollowings > 0 ) {
+					
+					if($venuesFollowingsCounter > 0){
 					?>
+					
+					
 					<div class="row">
-						<div class="large-12 columns">
+						<div class="large-12 columns" style="padding-bottom: 10px;">
 							<div class="text orange">Venue <span class="white">[<?php echo $venuesFollowingsCounter;?>]</span></div>	
 						</div>
 					</div>
@@ -61,7 +65,7 @@ if (is_null($followingsBox->error)) {
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+										<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
 									</div>		
 								</div>	
 							</div>
@@ -81,9 +85,13 @@ if (is_null($followingsBox->error)) {
 					<div class="row">
 						<div  class="large-12 columns"><div class="line"></div></div>
 					</div>
+					<?php } 
+					if($jammersFollowingsCounter > 0){
+					?>
+					
 					<!------------------------------------------ JAMMER ----------------------------------->
 					<div class="row">
-						<div class="large-12 columns">
+						<div class="large-12 columns" style="padding-bottom: 10px;">
 							<div class="text orange">Jammer <span class="white">[<?php echo $jammersFollowingsCounter;?>]</span></div>	
 						</div>
 					</div>
@@ -104,7 +112,7 @@ if (is_null($followingsBox->error)) {
 										</div>
 									</div>
 									<div  class="small-9 columns ">
-										<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+										<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
 									</div>		
 								</div>	
 							</div>
@@ -122,7 +130,7 @@ if (is_null($followingsBox->error)) {
 					?>
 					</div>
 					<?php
-				} else {
+				} } else {
 					?>	
 					<div class="row  ">
 						<div  class="large-12 columns ">
