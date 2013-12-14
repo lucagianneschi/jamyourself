@@ -207,7 +207,6 @@ class RecordParse {
             $record->setCommentCounter($res->commentCounter);
             $record->setCounter($res->counter);
             $record->setCover($res->cover);
-            //$record->setCoverFile(fromParseFile($res->coverFile,"image/jpeg"));
             $record->setDescription(parse_decode_string($res->description));
             $record->setDuration($res->duration);
             $record->setFeaturing(fromParseRelation('Record', 'featuring', $res->objectId, '_User'));
