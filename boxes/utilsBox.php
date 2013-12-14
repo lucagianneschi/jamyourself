@@ -73,7 +73,7 @@ function getAllUsersInRelation($objectId, $field, $userType = null) {
     $parseUser = new UserParse();
     $user = $parseUser->getUser($objectId);
     if ($user instanceof Error) {
-	return array();
+	return $usersArray;
     } else {
 	switch ($field) {
 	    case 'collaboration':
