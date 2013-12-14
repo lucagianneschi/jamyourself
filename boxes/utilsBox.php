@@ -21,31 +21,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 
 /**
- * \brief	Counters class 
- * \details	counters shared beetwen many boxes 
- */
-class Counters {
-
-    public $commentCounter;
-    public $loveCounter;
-    public $reviewCounter;
-    public $shareCounter;
-
-    /**
-     * \fn	__construct($commentCounter, $loveCounter,$reviewCounter, $shareCounter)
-     * \brief	construct for the Counter class
-     * \param	$commentCounter, $loveCounter,$reviewCounter, $shareCounter
-     */
-    function __construct($commentCounter, $loveCounter, $reviewCounter, $shareCounter) {
-        is_null($commentCounter) ? $this->commentCounter = 0 : $this->commentCounter = $commentCounter;
-        is_null($loveCounter) ? $this->loveCounter = 0 : $this->loveCounter = $loveCounter;
-        is_null($reviewCounter) ? $this->reviewCounter = 0 : $this->reviewCounter = $reviewCounter;
-        is_null($shareCounter) ? $this->shareCounter = 0 : $this->shareCounter = $shareCounter;
-    }
-
-}
-
-/**
  * \brief	UserInfo class 
  * \details	user info to be displayed in thumbnail view over all the website 
  */
