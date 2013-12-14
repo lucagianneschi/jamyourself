@@ -382,7 +382,7 @@ function getFeaturingAlbumCreate() {
     return featuring;
 }
 function recordCreate() {
-    json_album_create.albumTitle = $("#albumTitle").val();
+    json_album_create.recordTitle = $("#recordTitle").val();
     json_album_create.description = $("#description").val();
     json_album_create.label = $("#label").val();
     json_album_create.urlBuy = $("#urlBuy").val();
@@ -510,10 +510,9 @@ function publish() {
 }
 
 function publishCallback(data, status) {
-//    window.console.log("publishCallback | data => " + JSON.stringify(data));
-//    window.console.log("publishCallback | status => " + JSON.stringify(status));
-    alert(data.status);
-
+    var result = JSON.parse(data.responseText);
+    window.console.log(data);
+    alert(result.status);   
     clearAll();
 }
 //////////////////////////////////////////////////////////////////////////////
@@ -598,7 +597,6 @@ function callbackInitFeaturingJSON(data, status) {
 }
 
 function clearAll() {
-    json_album_create = {};
     json_album.list = [];
     $("#songlist").html("");
     getSongs(json_album.recordId);

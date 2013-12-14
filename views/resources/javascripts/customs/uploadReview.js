@@ -43,8 +43,9 @@ $(document).ready(function() {
     });
     
     function publicCallback(data,status){
+            var result = JSON.parse(data.responseText);
             window.console.log(data);
-            alert(data.status);   
+            alert(result.status);   
     }
     
     $("#button_publish").click(function() {
