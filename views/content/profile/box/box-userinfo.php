@@ -17,7 +17,8 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 
 $city = $user->getCity();
-$music = implode(', ', $user->getMusic());
+if($user->getType() == 'JAMMER')
+	$music = implode(', ', $user->getMusic());
 
 $userinfo_pin = $city == '' ? '' : '_pin';
 $userinfo_note = $music == '' ? '' : '_note';
