@@ -24,7 +24,7 @@ if (is_null($followersBox->error)) {
 	?>
 	<div class="row" id="social-followers">
 		<div  class="large-12 columns">
-			<h3><?php echo $views['followers']['TITLE'];?> <span class="orange">[<?php echo $followersCounter ?>]</span></h3>
+			<h3><?php echo $views['followers']['TITLE'];?> <?php if($followersCounter > 0){ ?> <a data-reveal-id="viewVenueFoll"><span class="orange">[<?php echo $followersCounter ?>]</span></a><?php } ?></h3>
 			<div class="row  ">
 				<div  class="large-12 columns ">
 					<div class="box">					
@@ -63,6 +63,42 @@ if (is_null($followersBox->error)) {
 						}
 						?>
 						</div>
+						<!------------------ elenco venue ------------------------->
+					<div id="viewVenueFoll" class="reveal-modal">
+						<div class="row">
+					<?php
+						$i = 1;
+						foreach ($followers as $key => $value) { ?>
+											  
+								<div  class="small-6 columns">
+									<div class="box-membre">
+										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+											<div  class="small-3 columns ">
+												<div class="icon-header">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+												</div>
+											</div>
+											<div  class="small-9 columns ">
+												<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+											</div>		
+										</div>	
+									</div>
+								</div>
+								<?php
+								if ($i % 2 == 0) {
+									?>
+									</div>
+									<div class="row">
+									<?php
+								}
+								
+								$i++; 
+						}
+						
+						?>
+						</div>
+					</div>
+					<!------------------ fine elenco venu ------------------------->
 						<?php
 					} else {
 						?>	

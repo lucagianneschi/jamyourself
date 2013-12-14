@@ -36,10 +36,11 @@ if (is_null($collaboratorsBox->error)) {
 					<div class="box">
 						<?php
 						if ($totCollaborators > 0) {
+							if($venuesCollaboratorsCounter > 0){
 							?>
 							<div class="row  ">
 								<div  class="large-12 columns ">
-									<div class="text orange">Venue <span class="grey">[<?php echo $venuesCollaboratorsCounter ?>]</span></div>
+									<a data-reveal-id="viewVenueColl"><div class="text orange">Venue <span class="grey">[<?php echo $venuesCollaboratorsCounter ?>]</span></div></a>
 								</div>
 							</div>
 							<div class="row">
@@ -74,13 +75,52 @@ if (is_null($collaboratorsBox->error)) {
 							}
 							?>
 							</div>
+							<!------------------ elenco $followers ------------------------->
+							<div id="viewVenueColl" class="reveal-modal">
+								<div class="row">
+							<?php
+								$i = 1;
+								foreach ($venuesCollaborators as $key => $value) { ?>
+													  
+										<div  class="small-6 columns">
+											<div class="box-membre">
+												<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+													<div  class="small-3 columns ">
+														<div class="icon-header">
+															<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+														</div>
+													</div>
+													<div  class="small-9 columns ">
+														<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+													</div>		
+												</div>	
+											</div>
+										</div>
+										<?php
+										if ($i % 2 == 0) {
+											?>
+											</div>
+											<div class="row">
+											<?php
+										}
+										
+										$i++; 
+								}
+								
+								?>
+								</div>
+							</div>
+							<!------------------ fine elenco venu ------------------------->
 							<!-------------------------- FINE venue ---------------------------------->
 							<div class="row">
 								<div  class="large-12 columns"><div class="line"></div></div>
 							</div>
+							<?php } 
+							if($jammersCollaboratorsCounter > 0){
+							?>
 							<div class="row  ">
 								<div  class="large-12 columns ">
-									<div class="text orange">Jammer <span class="grey">[<?php echo $jammersCollaboratorsCounter ?>]</span></div>
+									<a data-reveal-id="viewJamColl"><div class="text orange">Jammer <span class="grey">[<?php echo $jammersCollaboratorsCounter ?>]</span></div></a>
 								</div>
 							</div>
 							<div class="row">
@@ -115,8 +155,44 @@ if (is_null($collaboratorsBox->error)) {
 							}
 							?>
 							</div>
+							<!------------------ elenco $followers ------------------------->
+							<div id="viewJamColl" class="reveal-modal">
+								<div class="row">
 							<?php
-						} else{
+								$i = 1;
+								foreach ($jammersCollaborators as $key => $value) { ?>
+													  
+										<div  class="small-6 columns">
+											<div class="box-membre">
+												<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+													<div  class="small-3 columns ">
+														<div class="icon-header">
+															<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+														</div>
+													</div>
+													<div  class="small-9 columns ">
+														<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+													</div>		
+												</div>	
+											</div>
+										</div>
+										<?php
+										if ($i % 2 == 0) {
+											?>
+											</div>
+											<div class="row">
+											<?php
+										}
+										
+										$i++; 
+								}
+								
+								?>
+								</div>
+							</div>
+							<!------------------ fine elenco venu ------------------------->
+							<?php
+						}} else{
 							?>	
 							<div class="row  ">
 								<div  class="large-12 columns ">
