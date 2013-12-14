@@ -39,8 +39,7 @@ class UserInfo {
     function __construct($objectId, $thumbnail, $type, $username) {
 	require_once SERVICES_DIR . 'lang.service.php';
 	require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-	global $boxes;
-	is_null($objectId) ? $this->objectId = null : $this->objectId = $objectId;
+	$this->objectId = is_null($objectId) ? null : $objectId;
 	switch ($type) {
 	    case 'SPOTTER':
 		$imageDefault = DEFTHUMBSPOTTER;
@@ -52,9 +51,9 @@ class UserInfo {
 		$imageDefault = DEFTHUMBVENUE;
 		break;
 	}
-	is_null($thumbnail) ? $this->thumbnail = $imageDefault : $this->thumbnail = $thumbnail;
-	is_null($type) ? $this->type = null : $this->type = $type;
-	is_null($username) ? $this->username = null : $this->username = $username;
+	$this->thumbnail = is_null($thumbnail) ? $imageDefault : $thumbnail;
+	$this->type = is_null($type) ? null : $type;
+	$this->username = is_null($username) ? null : $username;
     }
 
 }
@@ -77,30 +76,31 @@ function getAllUsersInRelation($objectId, $field, $userType = null) {
     } else {
 	switch ($field) {
 	    case 'collaboration':
-		if (!is_null($userType) && $userType == 'VENUE') {
-		    $cicles = ceil($user->getVenueCounter() / MAX);
-		} elseif (!is_null($userType) && $userType == 'JAMMER') {
-		    $cicles = ceil($user->getJammerCounter() / MAX);
+		if ($userType == 'VENUE') {
+		    $counter = $user->getVenueCounter();
+		} elseif ($userType == 'JAMMER') {
+		    $counter = $user->getJammerCounter();
 		} else {
-		    $cicles = ceil($user->getCollaborationCounter() / MAX);
+		    $counter = $user->getCollaborationCounter();
 		}
 		break;
 	    case 'followers':
-		$cicles = ceil($user->getFollowersCounter() / MAX);
+		$counter = $user->getFollowersCounter();
 		break;
 	    case 'following':
-		if (!is_null($userType) && $userType == 'VENUE') {
-		    $cicles = ceil($user->getVenueCounter() / MAX);
-		} elseif (!is_null($userType) && $userType == 'JAMMER') {
-		    $cicles = ceil($user->getJammerCounter() / MAX);
+		if ($userType == 'VENUE') {
+		    $counter = $user->getVenueCounter();
+		} elseif ($userType == 'JAMMER') {
+		    $counter = $user->getJammerCounter();
 		} else {
-		    $cicles = ceil($user->getFollowingCounter() / MAX);
+		    $counter = $user->getFollowingCounter();
 		}
 		break;
 	    case 'friendship':
-		$cicles = ceil($user->getFriendshipCounter() / MAX);
+		$counter = $user->getFriendshipCounter();
 		break;
 	}
+	$cicles = ceil($counter / MAX);
 	if ($cicles == 0) {
 	    return $usersArray;
 	} else {
