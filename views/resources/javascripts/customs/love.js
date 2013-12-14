@@ -35,11 +35,11 @@ function love(_this, classType, objectId, objectIdUser) {
 			$(_this).text('Love');
 		}
 		code = xhr.status;
-		console.log("Code: " + code + " | Message: " + number_love);
+		console.log("Code OK: " + code + " | Message: " + number_love);
 	})
 	.fail(function(xhr) {
 		message = $.parseJSON(xhr.responseText).status;
 		code = xhr.status;
-		console.log("Code: " + code + " | Message: " + message);
+		console.log("Code KO: " + code + " | Message: " + message);
 	});
 }

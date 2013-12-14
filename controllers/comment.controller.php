@@ -1,5 +1,4 @@
 <?php
-
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -14,6 +13,7 @@
  * \todo		implementare i parametri di sessione (es currentUser)
  *
  */
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 

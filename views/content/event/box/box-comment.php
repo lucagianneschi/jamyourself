@@ -17,8 +17,8 @@ require_once BOXES_DIR . 'comment.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 session_start();
 
-$currentUser = $_SESSION['currentUser'];
 $objectId = $_POST['objectId'];
+$fromUserObjectId = $_POST['fromUserObjectId'];
 $limit = $_POST['limit'];
 $skip = $_POST['skip'];
 $commentToShow = 3;
@@ -39,14 +39,14 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 
                     <div class="row  ">
                         <div  class="large-12 columns ">
-                            <form action="" class="box-write">
+                            <form action="" class="box-write" onsubmit="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>'); return false;">
                                 <div class="">
                                     <div class="row  ">
                                         <div  class="small-9 columns ">
                                             <input id="commentEvent_<?php echo $objectId; ?>" type="text" class="comment inline" placeholder="<?php echo $views['comment']['WRITE'];?>" />
                                         </div>
                                         <div  class="small-3 columns ">
-                                            <input type="button" class="post-button inline" value="Comment" onclick="sendComment()"/>
+                                            <input type="button" class="post-button inline" value="Comment" onclick="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>')"/>
                                         </div>
                                     </div>
                                 </div>
@@ -74,6 +74,14 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                             $comment_counter_love = $value->getLoveCounter();
                             $comment_counter_comment = $value->getCommentCounter();
                             $comment_counter_share = $value->getShareCounter();
+                            
+                            if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+                                $css_love = '_love orange';
+                                $text_love = $views['UNLOVE'];
+                            } else{
+                                $css_love = '_unlove grey';
+                                $text_love = $views['LOVE'];
+                            }
                             ?>				
                             <div id='<?php echo $comment_objectId; ?>'>
                                 
@@ -115,14 +123,13 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                                     <div class="row">
                                         <div class="box-propriety">
                                             <div class="small-5 columns ">
-                                                <a class="note grey " onclick="love(this, 'Comment', '<?php echo $comment_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE'];?></a>
+                                                <a class="note grey " onclick="love(this, 'Comment', '<?php echo $comment_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                                             </div>
                                             <div class="small-5 columns propriety ">
-                                                <a class="icon-propriety _unlove grey"><?php echo $comment_counter_love; ?></a>
+                                                <a class="icon-propriety <?php echo $css_love; ?>"><?php echo $comment_counter_love; ?></a>
                                             </div>
                                         </div>
                                     </div>
-                                
                                 
                                 </div> <!--------------- BOX -------------------->	
                                 
@@ -139,8 +146,8 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                                 <?php
                                 $nextToShow = ($commentCounter - $limit > $commentToShow) ? $commentToShow : $commentCounter - $limit;
                                 ?>
-                                <div class="text" onClick="loadBoxComment(<?php echo $limit + $commentToShow; ?>, 0);">Other <?php echo $nextToShow;?> Comment</div>	
-                            </div>	
+                                <div class="text" onclick="loadBoxComment(<?php echo $limit + $commentToShow; ?>, 0);">Other <?php echo $nextToShow;?> Comment</div>	
+                            </div>
                         </div>
                         <?php
                     }

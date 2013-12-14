@@ -82,6 +82,7 @@
 							function loadBoxComment(limit, skip) {
 								var json_data = {};
 								json_data.objectId = '<?php echo $objectId; ?>';
+                                json_data.fromUserObjectId = '<?php echo $event->getFromUser()->getObjectId(); ?>';
 								json_data.limit = limit;
 								json_data.skip = skip;
 								$.ajax({
