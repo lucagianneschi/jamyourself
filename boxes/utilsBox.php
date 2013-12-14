@@ -106,7 +106,7 @@ function getAllUsersInRelation($objectId, $field, $userType = null) {
 		$userP->setLimit(MAX);
 		$userP->setSkip(MAX * $i);
 		$users = $userP->getUsers();
-		if ($users instanceof Error) {
+		if ($users instanceof Error || is_null($users)) {
 		    return $usersArray;
 		} else {
 		    foreach ($users as $user) {
