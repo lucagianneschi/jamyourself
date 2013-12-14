@@ -12,17 +12,22 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
+require_once SERVICES_DIR . 'geocoder.service.php';
 require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once VIEWS_DIR . 'utilities/share.php'; 
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'album.box.php';
+require_once CLASSES_DIR . 'userParse.class.php';
 
 
 $objectId = $_POST['objectId'];
 $countImage = $_POST['countImage'];
 $limit = intval($_POST['limit']);
 $skip =  intval($_POST['skip']);
+
+if(session_id() == '') session_start();
+if(isset($_SESSION['currentUser'])) $currentUser = $_SESSION['currentUser'];  
 
 $albumDetail = new AlbumBox();
 $albumDetail->initForDetail($objectId, $limit, $skip);
@@ -37,7 +42,9 @@ if(($limit + $skip) < $countImage){
 ?>
 
 <ul class="small-block-grid-3 small-block-grid-2 " >	
-	<?php foreach ($albumDetail->imageArray as $key => $value) { ?>
+	<?php foreach ($albumDetail->imageArray as $key => $value) { 
+		$thumbImage = $value->getThumbnail();
+		?>
   	<!------------------------------ THUMBNAIL ---------------------------------->
 	<li><a class="photo-colorbox-group" href="#<?php echo $value->getObjectId(); ?>"><img class="photo" src="../media/<?php echo $value->getThumbnail() ?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"></a></li>
 
@@ -50,61 +57,70 @@ if(($limit + $skip) < $countImage){
 	</div>
 </div>
 
-<?php
-//}
-
-//----------------------------------- lightbox ------------------------------------------
-//else{
-	/*
- ?> 
-
+<!----------------------------------- lightbox ------------------------------------------>
 <div class="row no-display box" id="profile-Image">
 	<div class="large-12 columns">
-		 <?php foreach ($data['image'] as $key => $value) {   
-		 			if($value['showLove'] == 'true'){
-						$css_love = '_unlove grey';
-						$text_love = $views['LOVE'];
-					}
-					elseif($value['showLove'] == 'false'){
+		 <?php foreach ($albumDetail->imageArray as $key => $value) { 
+		 			if(isset($_SESSION['currentUser']) && (is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers()))){
 						$css_love = '_love orange';
 						$text_love = $views['UNLOVE'];
 					}
+					else{		
+						
+						$css_love = '_unlove grey';
+						$text_love = $views['LOVE'];
+					}
 		 	
 		 	?>				 	
-			<div id="<?php echo $value['objectId']; ?>" class="lightbox-photo <?php echo $value['filePath']; ?>">
+			<div id="<?php echo $value->getObjectId(); ?>" class="lightbox-photo <?php echo $value->getFilePath(); ?>">
 				<div class="row " style="max-width: none;">
 					<div class="large-12 columns lightbox-photo-box"   >
-						<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $value['filePath']; ?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"/></div>
+						<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $value->getFilePath(); ?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"/></div>
 			 			<div class="row">
 			 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
 			 			</div>
 			 			<div class="row" style="margin-bottom: 10px">
 			 				<div  class="small-6 columns">
-			 					<a class="note grey " onclick="love(this, 'Image', '<?php echo $value['objectId']; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $value['objectId']; ?>','Image')"><?php echo $views['COMM'];?></a>
-								<a class="note grey" onclick="share(this,'<?php echo $value['objectId']; ?>','profile-Image')"><?php echo $views['SHARE'];?></a>
+			 					<a class="note grey " onclick="love(this, 'Image', '<?php echo $value->getObjectId(); ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
+								<a class="note grey" onclick="setCounter(this,'<?php echo $value->getObjectId(); ?>','Image')"><?php echo $views['COMM'];?></a>
+								<a class="note grey" onclick="share(this,'<?php echo $value->getObjectId(); ?>','profile-Image')"><?php echo $views['SHARE'];?></a>
 			 				</div>
 			 				<div  class="small-6 columns propriety">
-			 					<a class="icon-propriety <?php echo $css_love ?>"><?php echo $value['counters']['loveCounter']; ?></a>
-								<a class="icon-propriety _comment"><?php echo $value['counters']['commentCounter']; ?></a>
-								<a class="icon-propriety _share"><?php echo $value['counters']['shareCounter']; ?></a>	
+			 					<a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getLoveCounter(); ?></a>
+								<a class="icon-propriety _comment"><?php echo $value->getCommentCounter(); ?></a>
+								<a class="icon-propriety _share"><?php echo $value->getShareCounter(); ?></a>	
 			 				</div>
 			 			</div>
 			 			<div class="row">
 			 				<div  class="small-5 columns">
-			 					<div class="sottotitle white"><?php echo $data['album' . $i]['title']; ?></div>
-			 					<?php if($value['description'] != ""){?>
-			 					<div class="text grey"><?php echo $value['description']; ?></div>
+			 					<div class="sottotitle white"><?php echo $album_title; ?></div>
+			 					<?php if($value->getDescription() != ""){?>
+			 					<div class="text grey"><?php echo $value->getDescription(); ?></div>
 			 					
-			 					<?php }if($value['location'] != ""){?>
+			 					<?php }
+			 						if($value->getLocation() instanceof parseGeoPoint){
+										$location = $value->getLocation();
+										$lat = $location->lat;
+										$lng = $location->long;						
+										$geocode = new GeocoderService();
+										
+										$addressCode = $geocode->getAddress($lat, $lng);
+										if(count($addressCode)>0){
+											$address = $addressCode['locality'] . " - " . $addressCode['country'];
+										}						 
+									
 			 						
-			 					<div class="text grey"><?php echo $value['location'];?></div>
+			 						
+			 						
+			 						?>
+			 						
+			 						<div class="text grey"><?php echo $address;?></div>
 			 					
 			 					<?php
 								} 
 			 						$tag = "";
-			 						if(is_array ($value['tags'])){					 							
-			 							foreach ($value['tags'] as $key => $value) {
+			 						if(is_array ($value->getTags())){					 							
+			 							foreach ($value->getTags() as $key => $value) {
 											 $tag = $tag + ' ' + $value;
 										 }
 			 						?>
@@ -117,15 +133,15 @@ if(($limit + $skip) < $countImage){
 								<div class="box-comment no-display" ></div>
 								<!---------------------------------------- SHARE ---------------------------------------------------->
 									<?php
-									$paramsImage = getShareParameters('Image', '', $value['filePath']);
+								//	$paramsImage = getShareParameters('Image', '', $value->getFilePath());
 									?>
 									<!-- AddThis Button BEGIN -->
 									<div class="addthis_toolbox">
 										<div class="hover_menu">
 										        <div class="addthis_toolbox addthis_default_style"
-													addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&objectId=&imgPath=<?php echo $value['filePath']; ?>"
-													addThis:title="<?php echo $paramsImage['title']; ?>"
-													onclick="addShare('<?php echo $objectIdUser; ?>', 'Image', '<?php echo $value['objectId']; ?>')">
+													addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&objectId=&imgPath=<?php echo $value->getFilePath(); ?>"
+													addThis:title="<?php //echo $paramsImage['title']; ?>"
+													onclick="addShare('<?php echo $objectIdUser; ?>', 'Image', '<?php echo $value->getObjectId(); ?>')">
 										        <a class="addthis_button_twitter"></a>
 										        <a class="addthis_button_facebook"></a>
 										        <a class="addthis_button_google_plusone_share"></a>
@@ -140,12 +156,7 @@ if(($limit + $skip) < $countImage){
 			 	
 			</div>
 			
-		<?php //} ?>
+		<?php } ?>
 		
 	</div>	
 </div>
-
-
-<?php
-//} */
-?>
