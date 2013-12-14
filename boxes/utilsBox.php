@@ -6,12 +6,12 @@
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		file utilities box 
+ * \brief		file utilities box
  * \details		file utilities box
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		
+ * \todo
  *
  */
 
@@ -21,8 +21,8 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 
 /**
- * \brief	UserInfo class 
- * \details	user info to be displayed in thumbnail view over all the website 
+ * \brief	UserInfo class
+ * \details	user info to be displayed in thumbnail view over all the website
  */
 class UserInfo {
 
@@ -61,7 +61,7 @@ class UserInfo {
 /**
  * \fn	        getAllUsersInRelation($objectId, $field, $className, $collaboratorType = null)
  * \brief	Convenience method to get all kind of related User to another user, any kind
- * \param	$objectId for the istance of the class the user is supposed to be related to, $field to be related to, 
+ * \param	$objectId for the istance of the class the user is supposed to be related to, $field to be related to,
  * \return	userArray array of userInfo object
  * \todo        prevere la possibilità di avere più di 1000 utenti in lista
  */
@@ -74,30 +74,20 @@ function getAllUsersInRelation($objectId, $field, $userType = null) {
     if ($user instanceof Error) {
 	return $usersArray;
     } else {
-	switch ($field) {
-	    case 'collaboration':
-		if ($userType == 'VENUE') {
-		    $counter = $user->getVenueCounter();
-		} elseif ($userType == 'JAMMER') {
-		    $counter = $user->getJammerCounter();
-		} else {
+	switch ($userType) {
+	    case 'VENUE':
+		$counter = $user->getVenueCounter();
+		break;
+	    case 'JAMMER':
+		$counter = $user->getJammerCounter();
+	    default:
+		if ($field == 'collaboration') {
 		    $counter = $user->getCollaborationCounter();
-		}
-		break;
-	    case 'followers':
-		$counter = $user->getFollowersCounter();
-		break;
-	    case 'following':
-		if ($userType == 'VENUE') {
-		    $counter = $user->getVenueCounter();
-		} elseif ($userType == 'JAMMER') {
-		    $counter = $user->getJammerCounter();
+		} elseif ($field == 'followers') {
+		    $counter = $user->getFollowersCounter();
 		} else {
-		    $counter = $user->getFollowingCounter();
+		    $counter = $user->getFriendshipCounter();
 		}
-		break;
-	    case 'friendship':
-		$counter = $user->getFriendshipCounter();
 		break;
 	}
 	$cicles = ceil($counter / MAX);
@@ -157,8 +147,8 @@ function getRelatedUsers($objectId, $field, $className, $all = false, $limit = M
 /**
  * \fn	tracklistGenerator($objectId)
  * \brief	retrives info for generating a tracklist
- * \param	$objectId of the 
- * \return  $tracklist, array of Songinfo objects    
+ * \param	$objectId of the
+ * \return  $tracklist, array of Songinfo objects
  */
 function tracklistGenerator($objectId, $limit = DEFAULTQUERY) {
     require_once CLASSES_DIR . 'song.class.php';
