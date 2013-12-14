@@ -110,14 +110,40 @@ $totNotification = '';
 			  				</div>
   						</div>
 						<div class="large-2 small-2 columns">
-							<a class="add inline _add inline"></a>
+							<a id="add-main-btn" class="add inline _add inline"></a>
 						</div>
 					</div>						
 				</div>			
-			</div>		
+			</div>	
+			
+			<div id="add" style="display: none;">
+				<div class="row">
+					<div class="large-12 columns">
+						<div class="add-btn">Upload your music</div>
+						<div class="add-btn">Create Event</div>
+						<div class="add-btn">Upload Photo</div>
+					</div>
+				</div>
+			</div>
+			
+			<script>
+				var addState = 0;
+				$('#add-main-btn').click(function() {
+					 $('#add').slideToggle();
+					 if (addState == 0) {
+						 $('._add').css('background-image', 'url(resources/images/icon/close.png)');
+						 addState = 1;
+					} else {
+						 $('._add').css('background-image', 'url(resources/images/icon/add.png)');
+						 addState = 0;
+					}
+				});
+			</script>
 		
 		</div>
 		
+		
 	</div>
 </div>
+
 </header>

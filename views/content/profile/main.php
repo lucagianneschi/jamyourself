@@ -219,6 +219,10 @@ require_once ROOT_DIR . 'config.php';
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
 									$("#box-recordReview").html(message);
+									rsi_recordReview = slideReview('recordReviewSlide');
+									addthis.init();
+									addthis.toolbox(".addthis_toolbox");
+									hcento();
 									code = xhr.status;
 									//console.log("Code: " + code + " | Message: " + message);
 									console.log("Code: " + code + " | Message: <omitted because too large>");
@@ -250,6 +254,10 @@ require_once ROOT_DIR . 'config.php';
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
 									$("#box-eventReview").html(message);
+									rsi_eventReview = slideReview('eventReviewSlide'); 
+									addthis.init();
+									addthis.toolbox(".addthis_toolbox");
+									hcento();
 									code = xhr.status;
 									//console.log("Code: " + code + " | Message: " + message);
 									console.log("Code: " + code + " | Message: <omitted because too large>");
