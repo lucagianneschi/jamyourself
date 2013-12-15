@@ -209,17 +209,19 @@ class UploadRecordController extends REST {
 
     public function publishSongs() {
         try {
+            ini_set('error_reporting', E_ALL);
+            ini_set("display_errors", 1);
             global $controllers;
             if ($this->get_request_method() != "POST") {
-                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 401);
+                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
             } elseif (!isset($_SESSION['currentUser'])) {
-                $this->response(array('status' => $controllers['USERNOSES']), 402);
+                $this->response(array('status' => $controllers['USERNOSES']), 400);
             } elseif (!isset($this->request['list'])) {
-                $this->response(array('status' => $controllers['NOSONGLIST']), 403);
+                $this->response(array('status' => $controllers['NOSONGLIST']), 400);
             } elseif (!isset($this->request['recordId'])) {
-                $this->response(array('status' => $controllers['NORECORDID']), 404);
+                $this->response(array('status' => $controllers['NORECORDID']), 400);
             } elseif (!isset($this->request['count'])) {
-                $this->response(array('status' => $controllers['NOCOUNT']), 405);
+                $this->response(array('status' => $controllers['NOCOUNT']), 400);
             }
 
             $currentUser = $_SESSION['currentUser'];
@@ -228,7 +230,7 @@ class UploadRecordController extends REST {
             $pRecord = new RecordParse();
             $record = $pRecord->getRecord($recordId);
             if ($record instanceof Error) {
-                $this->response(array('status' => $controllers['NORECORD']), 406);
+                $this->response(array('status' => $controllers['NORECORD']), 204);
             }
             $position = $record->getSongCounter();
             $songErrorList = array(); //lista canzoni non caricate
@@ -317,14 +319,14 @@ class UploadRecordController extends REST {
                 }
                 if (count($songSavedList) == 0) {
                     //nessuna canzone salvata => tutti errori  
-                    $this->response(array("status" => $controllers['NOSONGSAVED']), 407);
+                    $this->response(array("status" => $controllers['NOSONGSAVED']), 200);
                 } else {
                     //salvate parzialmente, qualche errore
                     $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'], "errorList" => $songErrorList, "savedList" => $songSavedList), 200);
                 }
             }
         } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 408);
+            $this->response(array('status' => $e->getMessage()), 200);
         }
     }
 
@@ -365,7 +367,7 @@ class UploadRecordController extends REST {
                 $this->response(array("status" => $controllers['NOREMOVERELATIONFROMRECORD']), 408);                
             }
             
-            $this->response(array("status" => $controllers['SONGREMOVEDFROMRECORD'], "id" => $songId), 409);
+            $this->response(array("status" => $controllers['SONGREMOVEDFROMRECORD'], "id" => $songId), 200);
             
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
