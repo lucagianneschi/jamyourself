@@ -15,7 +15,7 @@ function sendPost(objectId, post) {
     })
 	.done(function(message, status, xhr) {
 		$('#post-error').delay(500).hide();
-    	callBox.load('post');
+    	loadBoxPost();
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
 	})

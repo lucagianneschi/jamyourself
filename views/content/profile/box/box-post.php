@@ -34,14 +34,14 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 
 					<div class="row  ">
 						<div  class="large-12 columns ">
-							<form action="" class="box-write" onsubmit="sendPost('<?php echo $objectIdUser; ?>', $('#post').val()); return false;">
+							<form action="" class="box-write" onsubmit="sendPost('<?php echo $currentUser->getObjectId(); ?>', $('#post').val()); return false;">
 								<div class="">
 									<div class="row  ">
 										<div class="small-9 columns ">
 											<input id="post" type="text" class="post inline" placeholder="<?php echo $views['post']['WRITE'];?>" />
 										</div>
 										<div class="small-3 columns ">
-											<input type="button" id="button-post" class="post-button inline" value="Post" onclick="sendPost('<?php echo $objectIdUser; ?>', $('#post').val())" />
+											<input type="button" id="button-post" class="post-button inline" value="Post" onclick="sendPost('<?php echo $currentUser->getObjectId(); ?>', $('#post').val())" />
 										</div>
 									</div>
 								</div>
@@ -66,11 +66,11 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 							$post_loveCounter = $value->getLoveCounter();
 							$post_commentCounter = $value->getCommentCounter();
 							if (in_array($currentUser->getObjectId(), $value->getLovers())) {
-								$css_love = '_unlove grey';
-								$text_love = $views['LOVE'];
-							} else {
 								$css_love = '_love orange';
 								$text_love = $views['UNLOVE'];
+							} else {
+								$css_love = '_unlove grey';
+								$text_love = $views['LOVE'];
 							}
 							?>
 							<div id='<?php echo  $post_objectId; ?>'>
@@ -112,7 +112,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 								<div class="row">
 									<div class="box-propriety">
 										<div class="small-5 columns ">
-											<a class="note grey " onclick="love(this, 'Comment', '<?php echo $data['post' . $i]['objectId']; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
+											<a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love;?></a>
 											<a class="note grey" onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')"><?php echo $views['COMM'];?></a>
 										</div>
 										<div class="small-5 columns propriety ">
