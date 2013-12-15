@@ -11,8 +11,8 @@
  * \warning
  * \bug
  * \todo		
- *
  */
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -100,7 +100,6 @@ class UploadReviewController extends REST {
             }
             $currentUser = $_SESSION['currentUser'];
             $reviewRequest = json_decode(json_encode($this->request), false);
-
             $this->reviewedId = $reviewRequest->reviewedId;
             $this->reviewedClassType = $reviewRequest->type;
             $revieBox = new ReviewBox();
@@ -112,7 +111,6 @@ class UploadReviewController extends REST {
             } else {
                 $this->reviewed = $revieBox->mediaInfo[0];
             }
-
             $rating = intval($this->request['rating']);
             $allowedForReview = array('Event', 'Record');
             if (!in_array($this->reviewedClassType, $allowedForReview)) {
@@ -120,7 +118,7 @@ class UploadReviewController extends REST {
             } elseif ($this->reviewed instanceof Error || is_null($this->reviewed)) {
                 $this->response(array("status" => $controllers['NODATA']), 406);
             }
-            $toUser = $this->reviewed->getFromUser(); //e' uno User
+            $toUser = $this->reviewed->getFromUser(); 
             if ($toUser->getObjectId() == $currentUser->getObjectId()) {
                 $this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
             }
@@ -226,7 +224,6 @@ class UploadReviewController extends REST {
         }
         $activityParse = new ActivityParse();
         $resActivity = $activityParse->saveActivity($activity);
-
         return $resActivity;
     }
 
