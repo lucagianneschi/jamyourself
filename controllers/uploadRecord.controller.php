@@ -148,10 +148,13 @@ class UploadRecordController extends REST {
             $dirCoverDest = USERS_DIR . $userId . "/images/recordcoverthumb";
 
 
-//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
-            if (!is_null($record->getThumbnailCover()) && strlen($record->getThumbnailCover()) > 0 && strlen($record->getCover()) && !is_null($record->getCover())) {
-                rename(MEDIA_DIR . "cache/" . $record->getThumbnailCover(), $dirThumbnailDest . DIRECTORY_SEPARATOR . $record->getThumbnailCover());
-                rename(MEDIA_DIR . "cache/" . $record->getCover(), $dirCoverDest . DIRECTORY_SEPARATOR . $record->getCover());
+//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE 
+            $thumbSrc = $record->getThumbnailCover();
+            $imageSrc = $record->getCover();
+            //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
+            if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0) ) {
+                rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
+                rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
             }
 
             unset($_SESSION['currentUserFeaturingArray']);
