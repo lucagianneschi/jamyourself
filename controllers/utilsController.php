@@ -6,12 +6,12 @@
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		controller di inserimento commenti
- * \details		controller di inserimento commenti
+ * \brief		file per funzioni di utilità per controller
+ * \details		file per funzioni di utilità per controller
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		implementare i parametri di sessione (es currentUser)
+ * \todo		implementare funzioni comuni a più controllers
  *
  */
 
