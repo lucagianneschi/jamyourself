@@ -651,7 +651,7 @@ function deleteSongCallback(data, status, xhr) {
     try {
         if(status === "success"){
             window.console.log(data.status);            
-            $('#tr_song_list_' + result.id).remove();
+            $('#tr_song_list_' + data.id).remove();
             alert(data.status);
         }else{
            alert(data.responseText.status);
