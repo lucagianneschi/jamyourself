@@ -53,20 +53,15 @@ class UploadEventController extends REST {
                 $this->response(array('status' => $controllers['NOEVENTADDRESS']), 400);
             } elseif (!isset($this->request['image']) || is_null($this->request['image'])) {
                 $this->response(array('status' => $controllers['NOEVENTIMAGE']), 400);
-            } elseif (!isset($this->request['thumbnail']) || is_null($this->request['thumbnail'])) {
+            } elseif (!isset($this->request['crop']) || is_null($this->request['crop'])) {
                 $this->response(array('status' => $controllers['NOEVENTTHUMB']), 400);
             }
             $currentUser = $_SESSION['currentUser'];
-
+            $userId = $currentUser->getObjectId();
             require_once CLASSES_DIR . 'event.class.php';
             $event = new Event();
             $event->setActive(true);
             $event->setAttendee(null);
-
-            $address = $this->request['address'];
-
-            $event->setAddress();
-            $event->setCity();
             $event->setCommentCounter(0);
             $event->setCommentators(null);
             $event->setComments(null);
@@ -74,11 +69,23 @@ class UploadEventController extends REST {
             $event->setDescription($this->request['description']);
             $event->setEventDate($this->getDate($this->request['date'],$this->request['hours'])); //tipo Date su parse
             $event->setFeaturing(null);
-            $event->setFromUser($currentUser->getObjectId());
-            $event->setImage($this->request['image']);
+            $event->setFromUser($userId);
+            
+            $imgInfo = $this->getImages($this->request);
+            $event->setImage($imgInfo['EventPicture']);
+            $event->setThumbnail($imgInfo['EventThumbnail']);
+            
+            
 //            $event->setImageFile();
             $event->setInvited(null);
-            $event->setLocation();
+            if (($location = GeocoderService::getLocation($this->request['address']))) {
+                $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
+                $event->setLocation($parseGeoPoint);
+                
+    //            $event->setAddress();
+    //            $event->setCity();
+                
+            }
             $event->setLocationName();
             $event->setLoveCounter(0);
             $event->setLovers(null);
@@ -86,7 +93,6 @@ class UploadEventController extends REST {
             $event->setReviewCounter(0);
             $event->setShareCounter(0);
             $event->setTags(array());
-            $event->setThumbnail($this->request['thumbnail']);
             $event->setTitle($this->request['title']);
 //            $event->setACL();
             require_once CLASSES_DIR . 'eventParse.class.php';
@@ -104,7 +110,7 @@ class UploadEventController extends REST {
             $activity->setComment(0);
             $activity->setCounter(0);
             $activity->setEvent($event->getObjectId());
-            $activity->setFromUser($currentUser->getObjectId());
+            $activity->setFromUser($userId);
             $activity->setImage(null);
             $activity->setPlaylist(null);
             $activity->setQuestion(null);
@@ -120,12 +126,29 @@ class UploadEventController extends REST {
             require_once CLASSES_DIR . 'activityParse.class.php';
 
 
-            $resFSCreation = $this->createFolderForEvent($currentUser->getObjectId(), $event->getObjectId());
+            $resFSCreation = $this->createFolderForEvent($userId, $event->getObjectId());
             if ($resFSCreation instanceof Exception || !$resFSCreation) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackUploadEventController($event->getObjectId());
                 $this->response(array("status" => $message), 503);
             }
+            
+//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE                
+
+
+            $dirThumbnailDest = USERS_DIR . $userId . "/images/eventcover";
+            $dirCoverDest = USERS_DIR . $userId . "/images/eventcoverthumb";
+
+            $thumbSrc = $event->getThumbnail();
+            $imageSrc = $event->getImage();
+            if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0) ) {
+                rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
+                rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
+            }
+            
+            
+            
+            
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -143,6 +166,45 @@ class UploadEventController extends REST {
         } catch (Exception $e) {
             return null;
         }
+    }
+    
+        private function getImages($decoded) {
+//in caso di anomalie ---> default
+        if (!isset($decoded['crop']) || is_null($decoded['crop']) ||
+                !isset($decoded['image']) || is_null($decoded['image'])) {
+            return array("RecordPicture" => null, "RecordThumbnail" => null);
+        }
+
+        $PROFILE_IMG_SIZE = 300;
+        $THUMBNAIL_IMG_SIZE = 150;
+
+//recupero i dati per effettuare l'editing
+        $cropInfo = json_decode(json_encode($decoded['crop']), false);
+
+        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
+                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
+                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
+                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
+            return array("EventPicture" => null, "EventThumbnail" => null);
+        }
+        $cacheDir = MEDIA_DIR . "cache/";
+        $cacheImg = $cacheDir . $decoded->image;
+
+//Preparo l'oggetto per l'editign della foto
+        $cis = new CropImageService();
+
+//gestione dell'immagine di profilo
+        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, $PROFILE_IMG_SIZE);
+        $coverUrl = $cacheDir . $coverId;
+
+//gestione del thumbnail
+        $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
+        $thumbUrl = $cacheDir . $thumbId;
+
+//CANCELLAZIONE DELLA VECCHIA IMMAGINE
+        unlink($cacheImg);
+//RETURN        
+        return array('EventPicture' => $coverId, 'EventThumbnail' => $thumbId);
     }
 
 }
