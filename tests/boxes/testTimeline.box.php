@@ -25,7 +25,7 @@ require_once BOXES_DIR . 'timeline.box.php';
 require_once PARSE_DIR . 'parse.php';
 
 echo '<br />------------------------- TEST TIMELINE LDF-------------------------------------------<br />';
-
+echo '<br />------------------------- EVENTFILTER-------------------------------------------------<br />';
 $eventFilter = new EventFilter();
 $eventFilter->init('Viareggio');
 print "<pre>";
@@ -33,7 +33,7 @@ print_r($eventFilter);
 print "</pre>";
 echo count($eventFilter->eventArray);
 
-
+echo '<br />------------------------- RECORDFILTER-------------------------------------------------<br />';
 $recordFilter = new RecordFilter();
 $recordFilter->init('Uncatogorized');
 print "<pre>";
@@ -41,6 +41,7 @@ print_r($recordFilter);
 print "</pre>";
 echo count($recordFilter->recordArray);
 
+echo '<br />------------------------- STREAM-------------------------------------------------<br />';
 $timeline = new StreamBox();
 $timeline->init(10,0);
 print "<pre>";
