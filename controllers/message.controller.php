@@ -174,21 +174,6 @@ class MessageController extends REST {
 	}
     }
 
-    private function sendMailNotification($address, $subject, $html) {
-	global $controllers;
-	require_once SERVICES_DIR . 'mail.service.php';
-	$mail = mailService();
-	$mail->AddAddress($address);
-	$mail->Subject = $subject;
-	$mail->MsgHTML($html);
-	$resMail = $mail->Send();
-	if ($resMail instanceof phpmailerException) {
-	    $this->response(array('status' => $controllers['NOMAIL']), 403);
-	}
-	$mail->SmtpClose();
-	unset($mail);
-    }
-
 }
 
 ?>

@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		utilizzo del recaptcha, usare chiavi del sito definitive
+ * \todo		utilizzo del recaptcha, usare chiavi del sito definitive, query su Location
  */
 
 if (!defined('ROOT_DIR'))
@@ -118,10 +118,9 @@ class SignupController extends REST {
 	    $_SESSION['currentUser'] = $user;
 	    $this->createFileSystemStructure($user->getObjectId(), $user->getType());
 	    $this->createImageDefaultAlbum($user->getObjectId());
-            if($user->getType() == "JAMMER"){
-                $this->createRecordDefaultAlbum($user->getObjectId());
-            } 
-	    if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
+	    if ($user->getType() == "JAMMER") {
+		$this->createRecordDefaultAlbum($user->getObjectId());
+	    } elseif (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
 		rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail());
 		rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture" . DIRECTORY_SEPARATOR . $user->getProfilePicture());
 	    }
@@ -159,8 +158,6 @@ class SignupController extends REST {
 	}
     }
 
-
-
     /**
      * \fn	checkEmailExists()
      * \brief	verifica esistenza della mail
@@ -188,7 +185,7 @@ class SignupController extends REST {
 	}
     }
 
-        /**
+    /**
      * \fn	checkUsernameExists()
      * \brief	verifica esistenza dello userName
      * \todo
@@ -214,7 +211,7 @@ class SignupController extends REST {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
     }
-    
+
     /**
      * \fn	createFileSystemStructure($userId, $type)
      * \brief	crea le cartelle per tipologia di utente
@@ -303,8 +300,8 @@ class SignupController extends REST {
 	    $user->setFollowersCounter(-1);
 	    $user->setFollowingCounter(0);
 	    $user->setFriendshipCounter(0);
-	    $user->setJammerCounter(-1);
-	    $user->setVenueCounter(-1);
+	    $user->setJammerCounter(0);
+	    $user->setVenueCounter(0);
 	    $user->setFirstname($userJSON->firstname);
 	    $user->setLastname($userJSON->lastname);
 	    $user->setCountry($userJSON->country);
@@ -395,12 +392,10 @@ class SignupController extends REST {
 		    $spot = $this->init_spotter_settings($settings);
 		    $settings = array_merge($settings, $spot);
 		    break;
-
 		case "JAMMER" :
 		    $jam = $this->init_jammer_settings($settings);
 		    $settings = array_merge($settings, $jam);
 		    break;
-
 		case "VENUE" :
 		    $ven = $this->init_venue_settings($settings);
 		    $settings = array_merge($settings, $ven);
