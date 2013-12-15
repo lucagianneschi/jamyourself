@@ -13,7 +13,7 @@ class TestController extends REST {
         }else if(isset($this->request['forceError']) && $this->request['forceError']){
                 $this->response(array('status' => "FORCE ERROR OK"), 405);               
         }else{
-                $this->response(array('status' => "OK"), 200);
+                $this->response(array('status' => "OK", "objectReturned" => array("param1" => "A value", "param2" => "anotherValue")), 200);
         }
     }
 }
