@@ -69,6 +69,9 @@ $controllers = array(
     'CND' => 'Cannot delete this element: you are not its owner!',
     'SBJ' => 'Account delation confirmed',
     'DELERR' => 'Error deleting this element',
+    'NOCITY' => 'Location not specified',
+    'CITYEXISTS' => 'Valid location ',
+    'CITYNOEXISTS' => 'Invalid  location',
     //MESSAGE
     'NOMESSAGE' => 'No message specified',
     'SHORTMESSAGE' => 'Your message is too short | lenght:',

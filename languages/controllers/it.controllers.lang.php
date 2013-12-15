@@ -119,6 +119,9 @@ $controllers = array(
     'NOSONGID' => 'Nessun id specificato per la canzone',
     'NOSONGFORRECORD' => 'Il record non contiene nessuna canzone',
     'NOCOUNT' => 'Count non presente',
+    'NOCITY' => 'Location non specificata',
+    'CITYEXISTS' => 'Location geolocalizzata correttamente',
+    'CITYNOEXISTS' => 'Location non geolocalizzata',    
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',

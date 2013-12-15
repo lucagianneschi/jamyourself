@@ -625,6 +625,30 @@ class UploadRecordController extends REST {
         }
         $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
     }
+    
+    public function checkCityExists(){
+        try {
+            global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response($controllers['USERNOSES'], 402);
+            } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
+                $this->response(array("status" => $controllers['CLASSTYPEKO']), 403);
+            } elseif (!isset($this->request['city']) || is_null($this->request['city']) || !(strlen($this->request['city']) > 0)) {
+                $this->response(array("status" => $controllers['NOCITY']), 404);
+            }
+            
+            if (($location = GeocoderService::getLocation($this->request['city']))) {
+                $this->response(array("status" => $controllers['CITYEXISTS'], "geocoding" => $location), 200);                
+            }else{
+                $this->response(array("status" => $controllers['CITYNOEXISTS'], "geocoding" => array(0,0)), 200);                
+            }            
+            
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 500);
+        }
+    }
 
 }
 
