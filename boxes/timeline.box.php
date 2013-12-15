@@ -65,8 +65,12 @@ class EventFilter {
 	    $location->where('city', $city);
 	    $location->setLimit($this->config->limitLocation);
 	    $locations = $location->getLocations();
-	    if ($locations instanceof Error || is_null($locations)) {
+	    if ($locations instanceof Error) {
 		$event->where('city', $city);
+	    } elseif (is_null($locations)) {
+		$this->error = $boxes['NOEVENTFORTHISLOCATION'];
+		$this->eventArray = array();
+		return;
 	    } else {
 		foreach ($locations as $loc) {
 		    $event->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude']);
@@ -140,8 +144,14 @@ class RecordFilter {
 	    $location->where('city', $city);
 	    $location->setLimit($this->config->limitLocation);
 	    $locations = $location->getLocations();
-	    if ($locations instanceof Error || is_null($locations)) {
-		$record->whereExists('createdAt');
+	    if ($locations instanceof Error) {
+		$this->error = $locations->getErrorMessage();
+		$this->recordArray = array();
+		return;
+	    } elseif (is_null($locations)) {
+		$this->error = $boxes['NORECORDFORTHISLOCATION'];
+		$this->recordArray = array();
+		return;
 	    } else {
 		foreach ($locations as $loc) {
 		    $record->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude']);
