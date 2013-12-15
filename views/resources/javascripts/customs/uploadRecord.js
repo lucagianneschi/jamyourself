@@ -405,7 +405,7 @@ function recordCreate() {
         json_album_create.tags = getTagsAlbumCreate();
 
 //    console.log("Record => " + JSON.stringify(json_album_create));
-        sendRequest("recordCreate", json_album_create, callbackAlbumCreate, false);
+        sendRequest("uploadRecord","recordCreate", json_album_create, callbackAlbumCreate, false);
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
@@ -537,7 +537,7 @@ function addSongToList(title, duration, genre, isNew, id) {
 
 function publish() {
     try {
-        sendRequest("publishSongs", json_album, publishCallback, false);
+        sendRequest("uploadRecord","publishSongs", json_album, publishCallback, false);
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
@@ -551,42 +551,6 @@ function publishCallback(data, status) {
         window.console.log("An error occurred - message : " + err.message);
     }
 }
-//////////////////////////////////////////////////////////////////////////////
-//  
-//      Sezione comunicazione rest API
-//
-/////////////////////////////////////////////////////////////////////////////
-function sendRequest(_action, _data, callback, _async) {
-    try {
-        if (_action === undefined || _action === null || _data === undefined || _data === null) {
-            callback(null);
-        }
-        _data.request = _action;
-        var url = "../controllers/request/uploadRecordRequest.php";
-        var type = "POST";
-        var async = true;
-        if (async !== undefined && async !== null)
-            async = _async;
-
-        $.ajax({
-            type: type,
-            url: url,
-            data: _data,
-            dataType: "json",
-            async: async,
-            success: function(data, status) {
-                //gestione success
-                callback(data, status);
-            },
-            error: function(data, status) {
-                callback(data, status);
-            }
-        });
-    } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
-    }
-}
-
 function uploaderRefresh() {
 //    console.log(uploader);
 
@@ -607,7 +571,7 @@ function getSongs(recordId) {
         //per test : sK0Azt3WiP
         if (recordId != undefined && recordId != null && recordId.length > 0) {
             var json_for_count_song = {recordId: recordId};
-            sendRequest("getSongsList", json_for_count_song, getSongCallback, true);
+            sendRequest("uploadRecord","getSongsList", json_for_count_song, getSongCallback, true);
         }
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
@@ -637,15 +601,12 @@ function getSongCallback(data, status) {
 
 function initFeaturingJSON() {
     try {
-        sendRequest("getFeaturingJSON", {}, callbackInitFeaturingJSON, true);
+        sendRequest("uploadRecord","getFeaturingJSON", {}, null, true);
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
 }
 
-function callbackInitFeaturingJSON(data, status) {
-//    window.console.log("callbackInitFeaturingJSON | data => " + JSON.stringify(data));
-}
 
 function clearAll() {
     try {
@@ -679,19 +640,23 @@ function deleteSong(songId) {
     try {
         if (songId != undefined && songId != null && json_album.recordId != undefined && json_album.recordId != null) {
             var json_delete = {"songId": songId, "recordId": json_album.recordId};
-            sendRequest("deleteSong", json_delete, deleteSongCallback, false);
+            sendRequest("uploadRecord", "deleteSong", json_delete, deleteSongCallback, false);
         }
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
 }
 
-function deleteSongCallback(data, status) {
+function deleteSongCallback(data, status, xhr) {
     try {
-        var result = JSON.parse(data.responseText);
-        window.console.log(data);
-        $('#tr_song_list_' + result.id).remove();
-        alert(result.status);
+        if(status === "success"){
+            window.console.log(data.status);            
+            $('#tr_song_list_' + result.id).remove();
+            alert(data.status);
+        }else{
+           alert(data.responseText.status);
+        }
+
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
