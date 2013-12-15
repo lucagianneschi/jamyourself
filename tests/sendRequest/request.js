@@ -39,23 +39,16 @@ function sendRequest(_server, _action, _data, _callback, _async) {
                 async: async,
                 success: function(data, status, xhr) {
                     //gestione success
-                    if (_callback !== undefined && _callback !== null && async) {
-                        //gestione chiamata asincrona
-                        _callback(data, status, xhr);
-                    } else if (_callback !== undefined && _callback !== null && !async) {
-                        //gestione chiamata sincrona
-                        _callback(data, status, xhr);                        
+                    if (_callback !== undefined && _callback !== null) {
+                        //gestione callback per l'errore
+                        _callback(data, "success", xhr);
                     }
 
                 },
                 error: function(data, status, xhr) {
-                    if (_callback !== undefined && _callback !== null && async) {
-                        //gestione chiamata asincrona
-                        _callback(data, status, xhr);
-                    } else if (_callback !== undefined && _callback !== null && !async) {
-                        //gestione chiamata sincrona
-                        _callback(data, status, xhr);
-                        
+                    if (_callback !== undefined && _callback !== null) {
+                        //gestione callback per l'errore: per poter ottenere l'oggetto
+                        _callback(JSON.parse(data.responseText), "error", xhr);
                     }
                 }
             });
@@ -66,6 +59,7 @@ function sendRequest(_server, _action, _data, _callback, _async) {
 }
 
 function testCallback(data, status, xhr){
+    alert(data.status);
     $("#data").html(JSON.stringify(data));
     $("#status").html(JSON.stringify(status));
     $("#xhr").html(JSON.stringify(xhr));
