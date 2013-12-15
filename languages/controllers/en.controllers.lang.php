@@ -199,7 +199,20 @@ $controllers = array(
     'NOACTIVITYID' => 'ObjectId unset for activity',
     'ACTNOTFOUND' => 'Activity not found for accept invitation',
     'UNABLETOADDATTENDEE' => 'Unable to add attendee',
-    'PARTECIPATIONREMOVED' => 'Partecipation cancelled'
+    'PARTECIPATIONREMOVED' => 'Partecipation cancelled',
+    'NOEVENTTITLE' => 'No event title given',
+    'NOEVENTDESCRIPTION' => 'No event description given',
+    'NOEVENTDATE' => 'No event date given',
+    'NOEVENTHOURS' => 'No event hours given',
+    'NOEVENTMUSIC' => 'No event music type given',
+    'NOEVENTURL' => 'No event url given',
+    'NOEVENTVENUE' => 'No venue given for this event',
+    'NOEVENTADDRESS' => 'No event address given',
+    'NOEVENTIMAGE' => 'No event image give',
+    'EVENTCREATEERROR' => 'An error occurred during the creation of the new event',
+    'NOEVENTTHUMB' => 'No thumbnail given for this event'
+
+
 ); 
 
 $mail_files = array(

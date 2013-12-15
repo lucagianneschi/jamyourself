@@ -200,7 +200,18 @@ $controllers = array(
     'NOACTIVITYID' => 'ObjectId non impostato per activity',
     'ACTNOTFOUND' => 'Activity non trovate',
     'UNABLETOADDATTENDEE' => 'Impossibile aggiungere attendee',
-    'PARTECIPATIONREMOVED' => 'Partecipazione cancellata'
+    'PARTECIPATIONREMOVED' => 'Partecipazione cancellata',
+    'NOEVENTTITLE' => 'Nessun titolo indicato per questo evento',
+    'NOEVENTDESCRIPTION' => 'Nessuna descrizione fornita per questo evento',
+    'NOEVENTDATE' => 'Nessuna data indicata per questo evento',
+    'NOEVENTHOURS' => 'Nessun orario fornito per questo evento',
+    'NOEVENTMUSIC' => 'Nessun genere musicale indicato per questo evento',
+    'NOEVENTURL' => 'Nessun URL fornito per questo evento',
+    'NOEVENTVENUE' => 'Nessuna venue fornita per questo evento',
+    'NOEVENTADDRESS' => 'Nessun indirizzo indicato per questo evento',
+    'NOEVENTIMAGE' => 'Nessuna immagine indicata per questo evento',
+    'EVENTCREATEERROR' => 'Errore durante la creazione del nuovo evento',
+    'NOEVENTTHUMB' => 'Nessuna thumbnial indicata per questo evento'
 
 );
 
