@@ -83,8 +83,6 @@ class EventFilter {
 	}
 	$event->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitEventForTimeline);
 	$event->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-	$event->whereExists('createdAt');
-	$event->orderByDescending('eventDate');
 	$events = $event->getEvents();
 	if ($events instanceof Error) {
 	    $this->error = $events->getErrorMessage();
@@ -162,7 +160,6 @@ class RecordFilter {
 	}
 	$record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);
 	$record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
 	if ($records instanceof Error) {
 	    $this->error = $records->getErrorMessage();
