@@ -12,7 +12,6 @@
  * \warning
  * \bug
  * \todo		implementare funzioni comuni a più controllers
- *
  */
 
 if (!defined('ROOT_DIR'))
