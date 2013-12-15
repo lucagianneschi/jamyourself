@@ -1,7 +1,23 @@
 var json_event_create = {"hours": "", "image": "", "crop": ""};
 var music = null;
-var uploader = null;
+var uploader;
+//-------------- variabili per jcrop ----------------------//
+var input_x,
+        input_y,
+        input_w,
+        input_h,
+        jcrop_api,
+        boundx,
+        boundy,
+        xsize,
+        ysize,
+        preview,
+        tumbnail,
+        tumbnail_pane;
+
 $(document).ready(function() {
+
+    initImgUploader();
 
     //gestione calendario
     $("#date").datepicker({
@@ -10,6 +26,8 @@ $(document).ready(function() {
 
     //gesione button create
     $('#uploadEvent01-next').click(function() {
+
+        creteEvent();
 
     });
 
@@ -48,15 +66,15 @@ $(document).ready(function() {
 
 function getClockTime() {
     var timeString = '';
-    timeString = timeString + '<option value=""></option>'
+    timeString = timeString + '<option value=""></option>';
     for (i = 0; i < 24; i++) {
         if (i < 10) {
-            timeString = timeString + '<option value="0' + i + ':00">0' + i + ':00</option>'
-            timeString = timeString + '<option value="0' + i + ':30">0' + i + ':30</option>'
+            timeString = timeString + '<option value="0' + i + ':00">0' + i + ':00</option>';
+            timeString = timeString + '<option value="0' + i + ':30">0' + i + ':30</option>';
         }
         else {
-            timeString = timeString + '<option value="' + i + ':00">' + i + ':00</option>'
-            timeString = timeString + '<option value="' + i + ':30">' + i + ':30</option>'
+            timeString = timeString + '<option value="' + i + ':00">' + i + ':00</option>';
+            timeString = timeString + '<option value="' + i + ':30">' + i + ':30</option>';
         }
     }
     return timeString;
@@ -98,8 +116,6 @@ function getTagsEventCreate() {
 /////////////////////////////////////////////////////////////////////////////
 function initImgUploader() {
 
-//    console.log("initImgUploader - start => upload div: " + $("#uploader_img_button"));
-//    window.console.log("initUploader - params : userType => " + userType);
 //inizializzazione dei parametri
     var selectButtonId = "uploader_img_button";
     var url = "../controllers/request/uploadRequest.php";
@@ -117,7 +133,7 @@ function initImgUploader() {
         filters: [
             {title: "Image files", extensions: "jpg,gif,png"}
         ],
-        multipart_params: {"request": "uploadImage"}, //parametri passati in POST
+        multipart_params: {"request": "uploadImage"} //parametri passati in POST
     });
 
     uploader.bind('Init', function(up, params) {
@@ -227,7 +243,7 @@ function  initJcrop(img, preview) {
     $(preview).Jcrop({
         onChange: updatePreview,
         onSelect: updatePreview,
-        aspectRatio: xsize / ysize,
+        aspectRatio: xsize / ysize
     }, function() {
         var bounds = this.getBounds();
         boundx = bounds[0];
@@ -242,39 +258,39 @@ function  initJcrop(img, preview) {
     });
 }
 
-    function updatePreview(c) {
+function updatePreview(c) {
     $('#' + input_x).val(c.x);
     $('#' + input_y).val(c.y);
     $('#' + input_w).val(c.w);
-$('#' + input_h).val(c.h);
+    $('#' + input_h).val(c.h);
 
 }
 
-    $('#uploadImage_save').click(function() {
+$('#uploadImage_save').click(function() {
     tumbnail = $('#uploadImage_tumbnail');
     tumbnail.attr('src', preview.attr('src'));
     thmImage = new Image();
     thmImage.src = preview.attr('src');
     var realwidth, realheight;
-        thmImage.onload = function() {
+    thmImage.onload = function() {
         realwidth = this.width;
         realheight = this.height;
         thm_w = Math.round(realwidth / $('#' + input_w).val() * xsize);
         thm_h = Math.round(realheight / $('#' + input_h).val() * ysize);
-            tumbnail.css({
+        tumbnail.css({
             width: thm_w + 'px',
             height: thm_h + 'px',
             marginLeft: '-' + Math.round(thm_w * ($('#' + input_x).val() / realwidth)) + 'px',
-        marginTop: '-' + Math.round(thm_h * ($('#' + input_y).val() / realheight)) + 'px'
-    });
+            marginTop: '-' + Math.round(thm_h * ($('#' + input_y).val() / realheight)) + 'px'
+        });
 
     };
-        json_crop = {
+    json_crop = {
         x: $('#' + input_x).val(),
         y: $('#' + input_y).val(),
         h: $('#' + input_h).val(),
-    w: $('#' + input_w).val(),
+        w: $('#' + input_w).val()
     };
     json_event_create.crop = json_crop;
-$('#upload').foundation('reveal', 'close');
+    $('#upload').foundation('reveal', 'close');
 });

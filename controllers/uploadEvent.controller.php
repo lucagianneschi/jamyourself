@@ -147,7 +147,8 @@ class UploadEventController extends REST {
             }
             
             
-            
+            $this->response(array('status' => $controllers['EVENTCREATED']), 200);
+   
             
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);

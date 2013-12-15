@@ -211,7 +211,8 @@ $controllers = array(
     'NOEVENTADDRESS' => 'Nessun indirizzo indicato per questo evento',
     'NOEVENTIMAGE' => 'Nessuna immagine indicata per questo evento',
     'EVENTCREATEERROR' => 'Errore durante la creazione del nuovo evento',
-    'NOEVENTTHUMB' => 'Nessuna thumbnial indicata per questo evento'
+    'NOEVENTTHUMB' => 'Nessuna thumbnial indicata per questo evento',
+    'EVENTCREATED' => 'Evento creato con successo'
 
 );
 
