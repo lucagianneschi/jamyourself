@@ -73,14 +73,13 @@ class UploadRecordController extends REST {
             $record = new Record();
 
             $record->setActive(true);
-            if (strlen($newRecord->urlBuy)){
+            if (strlen($newRecord->urlBuy)) {
                 //questo controllo è stato aggiunto dopo che nel DB
                 //ho visto che salvava una stringa vuota nel caso in cui
                 //il form non avesse questo campo definito
-                $record->setBuyLink($newRecord->urlBuy);                
-            }
-            else{
-                $record->setBuyLink(null);                
+                $record->setBuyLink($newRecord->urlBuy);
+            } else {
+                $record->setBuyLink(null);
             }
             $record->setCommentCounter(0);
             $record->setCounter(0);
@@ -130,10 +129,10 @@ class UploadRecordController extends REST {
             $activity->setUserStatus(null);
             $activity->setVideo(null);
             $resFSCreation = $this->createFolderForRecord($userId, $record->getObjectId());
-            if($resFSCreation instanceof Exception || !$resFSCreation){
+            if ($resFSCreation instanceof Exception || !$resFSCreation) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackUploadRecordController($record->getObjectId(), "Record");
-                $this->response(array("status" => $message), 503);                
+                $this->response(array("status" => $message), 503);
             }
             $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcover";
             $dirCoverDest = USERS_DIR . $userId . "/images/recordcoverthumb";
@@ -142,7 +141,7 @@ class UploadRecordController extends REST {
             $thumbSrc = $record->getThumbnailCover();
             $imageSrc = $record->getCover();
             //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
-            if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0) ) {
+            if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
                 rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
                 rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
             }
@@ -169,29 +168,29 @@ class UploadRecordController extends REST {
     }
 
     private function createFolderForRecord($userId, $recordId) {
-        try{
+        try {
             if (!is_null($userId) && strlen($userId) > 0) {
                 //creazione cartella del record
-                if(!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId, 0777, true)){
+                if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId, 0777, true)) {
                     return false;
                 }
                 //creazione cartella delle cover del record
                 if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover")) {
                     //se la cartella non esiste la creo
-                    if(!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true)){
+                    if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true)) {
                         return false;
                     }
                 }
                 //creazione cartella delle thumbnail del record                
                 if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb")) {
                     //se la cartella non esiste la creao
-                    if(!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true)){
+                    if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true)) {
                         return false;
+                    }
                 }
             }
-        }
-        return true;
-        }catch(Exception $e){
+            return true;
+        } catch (Exception $e) {
             return $e;
         }
     }
@@ -289,7 +288,7 @@ class UploadRecordController extends REST {
                         }
                     }
                 }
-            }      
+            }
             //gestione risposte
             if (count($songErrorList) == 0) {
                 //nessun errore
@@ -338,12 +337,12 @@ class UploadRecordController extends REST {
                 $this->response(array("status" => $controllers['NOSONGFORDELETE']), 407);
             }
             //rimuovo la relazione tra song e record
-            $resRemoveRelation = $this->removeSongFromRecord($record,$songId);
+            $resRemoveRelation = $this->removeSongFromRecord($record, $songId);
 
             if ($resRemoveRelation instanceof Error || $resRemoveRelation instanceof Exception || !$resRemoveRelation) {
-                $this->response(array("status" => $controllers['NOREMOVERELATIONFROMRECORD']), 408);                
+                $this->response(array("status" => $controllers['NOREMOVERELATIONFROMRECORD']), 408);
             }
-            $this->response(array("status" => $controllers['SONGREMOVEDFROMRECORD'], "id" => $songId), 200);     
+            $this->response(array("status" => $controllers['SONGREMOVEDFROMRECORD'], "id" => $songId), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -356,7 +355,7 @@ class UploadRecordController extends REST {
             $recordId = $record->getObjectId();
             //recupero la tracklist
             $tracklist = $record->getTracklist();
-            if(is_null($tracklist) || !is_array($tracklist)){
+            if (is_null($tracklist) || !is_array($tracklist)) {
                 $tracklist = array();
             }
             //verifico che la canzone non sia gia' presente nella tracklist
@@ -377,7 +376,7 @@ class UploadRecordController extends REST {
                 return $resActivity;
             }
             //aggiorno il contatore del record
-            $resIncr = $pRecord->incrementRecord($recordId, "songCounter",  1);
+            $resIncr = $pRecord->incrementRecord($recordId, "songCounter", 1);
             if ($resIncr instanceof Error) {
                 return $resIncr;
             }
@@ -508,8 +507,6 @@ class UploadRecordController extends REST {
 
 //gestione del thumbnail
         $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
-        $thumbUrl = $cacheDir . $thumbId;
-
 //CANCELLAZIONE DELLA VECCHIA IMMAGINE
         unlink($cacheImg);
 //RETURN        
@@ -563,18 +560,12 @@ class UploadRecordController extends REST {
         if (isset($_SESSION['currentUser'])) {
             $currentUser = $_SESSION['currentUser'];
             $currnetUserId = $currentUser->getObjectId();
-            $parseUser = new UserParse();
-            $parseUser->whereRelatedTo('collaboration', '_User', $currnetUserId);
-            $parseUser->where('type', 'JAMMER');
-            $parseUser->where('active', true);
-            $parseUser->setLimit(1000);
-            $users = $parseUser->getUsers();
-            error_reporting(E_ALL);
-            if (($users instanceof Error) || is_null($users)) {
+            $userArray = getRelatedUsers($currnetUserId, 'collaboration', '_User', true, MAX, 0);
+            if (($userArray instanceof Error) || is_null($userArray)) {
                 return array();
             } else {
                 $userArray = array();
-                foreach ($users as $user) {
+                foreach ($userArray as $user) {
                     $username = $user->getUsername();
                     $userId = $user->getObjectId();
                     array_push($userArray, array("key" => $userId, "value" => $username));
@@ -591,12 +582,12 @@ class UploadRecordController extends REST {
         if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
             $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
             if (!file_exists($path)) {
-                $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
+                $path = DEFALBUMCOVER;
             }
         } else {
 //immagine di default con path realtivo rispetto alla View
 //http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
-            $path = MEDIA_DIR . "images" . DIRECTORY_SEPARATOR . "default" . DIRECTORY_SEPARATOR . "defaultRecordThumb.jpg";
+            $path = DEFALBUMCOVER;
         }
 
         return $path;
