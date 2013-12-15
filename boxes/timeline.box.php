@@ -141,7 +141,7 @@ class RecordFilter {
 	    $location->setLimit($this->config->limitLocation);
 	    $locations = $location->getLocations();
 	    if ($locations instanceof Error || is_null($locations)) {
-		$record->where('city', $city);
+		$record->whereExists('createdAt');
 	    } else {
 		foreach ($locations as $loc) {
 		    $record->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude']);
@@ -152,8 +152,7 @@ class RecordFilter {
 	}
 	$record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);
 	$record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-	$record->whereExists('createdAt');
-	$record->orderByDescending('eventDate');
+	$record->orderByDescending('createdAt');
 	$records = $record->getRecords();
 	if ($records instanceof Error) {
 	    $this->error = $records->getErrorMessage();
