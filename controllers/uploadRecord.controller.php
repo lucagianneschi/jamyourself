@@ -100,20 +100,15 @@ class UploadRecordController extends REST {
                 $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
                 $record->setLocation($parseGeoPoint);
             }
-
             $record->setLoveCounter(0);
             $record->setReviewCounter(0);
             $record->setShareCounter(0);
             $record->setTitle($newRecord->recordTitle);
             $record->setYear($newRecord->year);
-
             $record = $pRecord->saveRecord($record);
-
             if ($record instanceof Error) {
-//result è un errore e contiene il motivo dell'errore
                 $this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
             }
-
 //se va a buon fine salvo una nuova activity 
 
             $activity = new Activity();
@@ -134,19 +129,14 @@ class UploadRecordController extends REST {
             $activity->setType("CREATEDRECORD"); // <- l'ho messo a caso, non so se va bene
             $activity->setUserStatus(null);
             $activity->setVideo(null);
-//            $activity->setACL(toParseDefaultACL());
-
-            
             $resFSCreation = $this->createFolderForRecord($userId, $record->getObjectId());
             if($resFSCreation instanceof Exception || !$resFSCreation){
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackUploadRecordController($record->getObjectId(), "Record");
                 $this->response(array("status" => $message), 503);                
             }
-
             $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcover";
             $dirCoverDest = USERS_DIR . $userId . "/images/recordcoverthumb";
-
 
 //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE 
             $thumbSrc = $record->getThumbnailCover();
@@ -158,15 +148,12 @@ class UploadRecordController extends REST {
             }
 
             unset($_SESSION['currentUserFeaturingArray']);
-            
-            
             $pActivity = new ActivityParse();
             if ($pActivity->saveActivity($activity) instanceof Error) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackUploadRecordController($record->getObjectId(), "Record");
                 $this->response(array("status" => $message), 503);
             }
-
             $this->response(array("status" => $controllers['RECORDSAVED'], "id" => $record->getObjectId()), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
@@ -203,7 +190,6 @@ class UploadRecordController extends REST {
                 }
             }
         }
-        
         return true;
         }catch(Exception $e){
             return $e;
@@ -212,9 +198,6 @@ class UploadRecordController extends REST {
 
     public function publishSongs() {
         try {
-//         #debug online            
-//            ini_set('error_reporting', E_ALL);
-//            ini_set("display_errors", 1);
             global $controllers;
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
@@ -227,7 +210,6 @@ class UploadRecordController extends REST {
             } elseif (!isset($this->request['count'])) {
                 $this->response(array('status' => $controllers['NOCOUNT']), 400);
             }
-
             $currentUser = $_SESSION['currentUser'];
             $recordId = $this->request['recordId'];
             $songList = $this->request['list'];
@@ -239,10 +221,8 @@ class UploadRecordController extends REST {
             $position = $record->getSongCounter();
             $songErrorList = array(); //lista canzoni non caricate
             $songSavedList = array(); //lista canzoni salvate correttamente
-
             if (count($songList) > 0) {
                 $pSong = new SongParse();
-
                 foreach ($songList as $songIstance) {
                     $element = json_decode(json_encode($songIstance), false);
                     $cachedFile = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element->src;
@@ -276,7 +256,6 @@ class UploadRecordController extends REST {
                         $song->setCounter(0);
                         $song->setShareCounter(0);
                         $song->setTitle($element->title);
-
                         $savedSong = $pSong->saveSong($song);
                         if ($savedSong instanceof Error) {
                             //errore: inserire una rollback per la cancellazione di tutti gli mp3? 
@@ -310,14 +289,12 @@ class UploadRecordController extends REST {
                         }
                     }
                 }
-            }
-            
+            }      
             //gestione risposte
             if (count($songErrorList) == 0) {
                 //nessun errore
                 $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList), 200);
             } else {
-
                 foreach ($songErrorList as $toRemove) {
                     $this->deleteMp3($currentUser->getObjectId(), $recordId, $toRemove->src);
                 }
@@ -337,7 +314,6 @@ class UploadRecordController extends REST {
     public function deleteSong() {
         try {
             global $controllers;
-
             if ($this->get_request_method() != "POST") {
                 $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
             } elseif (!isset($_SESSION['currentUser'])) {
@@ -349,11 +325,8 @@ class UploadRecordController extends REST {
             } elseif (!isset($this->request['songId']) || is_null($this->request['songId']) || !(strlen($this->request['songId']) > 0)) {
                 $this->response(array("status" => $controllers['NOSONGID']), 405);
             }
-
-
             $songId = $this->request['songId'];
             $recordId = $this->request['recordId'];
-
             $pRecord = new RecordParse();
             $record = $pRecord->getRecord($recordId);
             if ($record instanceof Error) {
@@ -370,9 +343,7 @@ class UploadRecordController extends REST {
             if ($resRemoveRelation instanceof Error || $resRemoveRelation instanceof Exception || !$resRemoveRelation) {
                 $this->response(array("status" => $controllers['NOREMOVERELATIONFROMRECORD']), 408);                
             }
-            
-            $this->response(array("status" => $controllers['SONGREMOVEDFROMRECORD'], "id" => $songId), 200);
-            
+            $this->response(array("status" => $controllers['SONGREMOVEDFROMRECORD'], "id" => $songId), 200);     
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -429,7 +400,6 @@ class UploadRecordController extends REST {
             if (count($tracklist) == 0) {
                 return false;
             }
-
             $res = $pRecord->updateField($recordId, 'songs', array($songId), true, 'remove', 'Song');
             if ($res instanceof Error) {
                 return $res;
@@ -459,7 +429,6 @@ class UploadRecordController extends REST {
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
-
             if (!is_null($userId) && !is_null($recordId) && !is_null($songId)) {
                 $oldName = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId;
                 $newName = $dir . DIRECTORY_SEPARATOR . $songId;
@@ -474,7 +443,6 @@ class UploadRecordController extends REST {
         if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
             unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId);
         }
-
         if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId)) {
             unlink(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId);
         }
@@ -488,7 +456,6 @@ class UploadRecordController extends REST {
 
     private function savePublishSongActivity($song) {
         $activity = new Activity();
-
         $activity->setActive(true);
         $activity->setAlbum(null);
         $activity->setComment(null);
@@ -506,8 +473,6 @@ class UploadRecordController extends REST {
         $activity->setType("NEWSONGCREATED"); // <- l'ho messo a caso, non so se va bene
         $activity->setUserStatus(null);
         $activity->setVideo(null);
-//        $activity->setACL();
-
         $pActivity = new ActivityParse();
         return $pActivity->saveActivity($activity);
     }
@@ -605,7 +570,6 @@ class UploadRecordController extends REST {
             $parseUser->setLimit(1000);
             $users = $parseUser->getUsers();
             error_reporting(E_ALL);
-
             if (($users instanceof Error) || is_null($users)) {
                 return array();
             } else {
@@ -615,7 +579,6 @@ class UploadRecordController extends REST {
                     $userId = $user->getObjectId();
                     array_push($userArray, array("key" => $userId, "value" => $username));
                 }
-
                 return $userArray;
             }
         }
@@ -641,7 +604,6 @@ class UploadRecordController extends REST {
 
     public function getSongsList() {
         global $controllers;
-
         if ($this->get_request_method() != "POST") {
             $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
         } elseif (!isset($_SESSION['currentUser'])) {
@@ -651,11 +613,8 @@ class UploadRecordController extends REST {
         } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
             $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
         }
-
         $recordId = $this->request['recordId'];
-
         $songsList = tracklistGenerator($recordId);
-
         if ($songsList instanceof Error) {
             $this->response(array("status" => $controllers['NODATA']), 200);
         } elseif (is_null($songsList) || count($songsList) == 0) {
@@ -670,11 +629,9 @@ class UploadRecordController extends REST {
             $mins = floor(($seconds - ($hours * 3600)) / 60);
             $secs = floor($seconds % 60);
             $duration = $hours == 0 ? $mins . ":" . $secs : $hours . ":" . $mins . ":" . $secs;
-
             $genre = $song->getGenre();
             $returnInfo[] = json_encode(array("title" => $song->getTitle(), "duration" => $duration, "genre" => $genre, "id" => $song->getObjectId()));
         }
-
         $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
     }
 
