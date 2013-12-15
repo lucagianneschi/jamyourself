@@ -210,7 +210,9 @@ $controllers = array(
     'NOEVENTADDRESS' => 'No event address given',
     'NOEVENTIMAGE' => 'No event image give',
     'EVENTCREATEERROR' => 'An error occurred during the creation of the new event',
-    'NOEVENTTHUMB' => 'No thumbnail given for this event'
+    'NOEVENTTHUMB' => 'No thumbnail given for this event',
+    'EVENTCREATED' => 'Event created with success'
+
 
 
 ); 
