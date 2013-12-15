@@ -209,8 +209,9 @@ class UploadRecordController extends REST {
 
     public function publishSongs() {
         try {
-            ini_set('error_reporting', E_ALL);
-            ini_set("display_errors", 1);
+//         #debug online            
+//            ini_set('error_reporting', E_ALL);
+//            ini_set("display_errors", 1);
             global $controllers;
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
