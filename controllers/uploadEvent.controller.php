@@ -23,7 +23,7 @@ class UploadEventController extends REST {
         if (!isset($_SESSION['currentUser'])) {
             /* This will give an error. Note the output
              * above, which is before the header() call */
-            header('Location: login.php?from=uploadRecord.php');
+            header('Location: login.php?from=uploadEvent.php');
             exit;
         }
     }
