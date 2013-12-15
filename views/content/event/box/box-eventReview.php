@@ -59,6 +59,14 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                     $review_counter_love = $value->getLoveCounter();
                     $review_counter_comment = $value->getCommentCounter();
                     $review_counter_share = $value->getShareCounter();
+                    
+                    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+                        $css_love = '_love orange';
+                        $text_love = $views['UNLOVE'];
+                    } else{
+                        $css_love = '_unlove grey';
+                        $text_love = $views['LOVE'];
+                    }
                     ?>
                     <div class="row" id="social-EventReview-<?php echo $review_objectId; ?>">
                         <div  class="large-12 columns ">
@@ -124,12 +132,12 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                     <div class="row eventReview-propriety">
                                         <div class="box-propriety">
                                             <div class="small-6 columns ">
-                                                <a class="note grey" onclick="love()"><?php echo $views['LOVE'];?></a>
+                                                <a class="note grey" onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                                                 <a class="note grey" onclick="setCounterMedia(this,'<?php echo $review_objectId; ?>','<?php echo $review_user_objectId; ?>','EventReview')"><?php echo $views['COMM'];?></a>
                                                 <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','EventReview')"><?php echo $views['SHARE'];?></a -->
                                             </div>
                                             <div class="small-6 columns propriety ">
-                                                <a class="icon-propriety _unlove grey" ><?php echo $review_counter_love; ?></a>
+                                                <a class="icon-propriety <?php echo $css_love; ?>" ><?php echo $review_counter_love; ?></a>
                                                 <a class="icon-propriety _comment" ><?php echo $review_counter_comment; ?></a>
                                                 <!-- a class="icon-propriety _share" ><?php echo $review_counter_share; ?></a -->
                                             </div>
