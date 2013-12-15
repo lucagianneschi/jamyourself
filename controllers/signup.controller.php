@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		utilizzo del recaptcha, usare chiavi del sito definitive
+ * \todo		utilizzo del recaptcha, usare chiavi del sito definitive, query su Location
  */
 
 if (!defined('ROOT_DIR'))
