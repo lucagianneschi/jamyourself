@@ -47,7 +47,7 @@ class EventFilter {
      * \param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
      * \todo    introdurre la ricerca in abse alall geolocalizzazione, fai query su locationParse, poi cerchi l'evento più vicino
      */
-    public function init($city = null, $type = null, $eventDate = null, $limit = null, $skip = null) {
+    public function init($city = null, $type = null, $eventDate = null, $time = null, $limit = null, $skip = null) {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    global $boxes;
@@ -83,6 +83,9 @@ class EventFilter {
 	}
 	$event->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitEventForTimeline);
 	$event->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
+	if (!is_null($time)) {
+	    $event->orderByAscending('eventDate');
+	}
 	$events = $event->getEvents();
 	if ($events instanceof Error) {
 	    $this->error = $events->getErrorMessage();
@@ -124,7 +127,7 @@ class RecordFilter {
      * \param	$genre = null, $limit = null, $skip = null
      * \todo
      */
-    public function init($genre = 'Uncategorized', $city = null, $limit = null, $skip = null) {
+    public function init($genre = 'Uncategorized', $city = null, $time = null, $limit = null, $skip = null) {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    global $boxes;
@@ -160,6 +163,9 @@ class RecordFilter {
 	}
 	$record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);
 	$record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
+	if (!is_null($time)) {
+	    $record->orderByDescending('createdAt');
+	}
 	$records = $record->getRecords();
 	if ($records instanceof Error) {
 	    $this->error = $records->getErrorMessage();
