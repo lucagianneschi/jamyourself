@@ -508,6 +508,7 @@ function addNewSong(id, duration, tags) {
         json_album.list.push(json_elem);
         window.console.log("Lista" + JSON.stringify(json_album.list));
         addSongToList(json_elem.title, json_elem.duration, json_elem.tags.join(), true, id.substring(0, id.indexOf(".")));
+        $("#trackTitle").val("");
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
@@ -544,9 +545,7 @@ function publish() {
 
 function publishCallback(data, status) {
     try {
-        var result = JSON.parse(data.responseText);
-        window.console.log(data);
-        alert(result.status);
+        alert(data.status);
         clearAll();
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
@@ -679,7 +678,7 @@ function removeSongFromList(src) {
 function deleteSong(songId) {
     try {
         if (songId != undefined && songId != null && json_album.recordId != undefined && json_album.recordId != null) {
-            var json_delete = {"songId": songId, "recordId ": json_album.recordId};
+            var json_delete = {"songId": songId, "recordId": json_album.recordId};
             sendRequest("deleteSong", json_delete, deleteSongCallback, false);
         }
     } catch (err) {
