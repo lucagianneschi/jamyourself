@@ -400,7 +400,7 @@ class UploadRecordController extends REST {
                 return $resActivity;
             }
             //aggiorno il contatore del record
-            $resIncr = $pRecord->incrementRecord($recordId, "songCounter", ($record->getSongCounter()) + 1);
+            $resIncr = $pRecord->incrementRecord($recordId, "songCounter",  1);
             if ($resIncr instanceof Error) {
                 return $resIncr;
             }
@@ -436,7 +436,7 @@ class UploadRecordController extends REST {
                 return $resActivity;
             }
             //aggiorno il contatore del record
-            $resIncr = $pRecord->decrementRecord($recordId, "songCounter", ($record->getSongCounter()) - 1);
+            $resIncr = $pRecord->decrementRecord($recordId, "songCounter", 1);
             if ($resIncr instanceof Error) {
                 return $resIncr;
             }
