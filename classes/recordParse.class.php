@@ -222,6 +222,7 @@ class RecordParse {
 	    $record->setSongCounter($res->songCounter);
 	    $record->setThumbnailCover($res->thumbnailCover);
 	    $record->setTitle(parse_decode_string($res->title));
+	    $record->setTracklist(fromParseRelation('Record', 'tracklist', $res->objectId, 'Record'));
 	    $record->setYear($res->year);
 	    $record->setCreatedAt(fromParseDate($res->createdAt));
 	    $record->setUpdatedAt(fromParseDate($res->updatedAt));
