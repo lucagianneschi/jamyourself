@@ -116,15 +116,13 @@ switch (basename($_SERVER['PHP_SELF'])) {
         <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
         <?php
         break;
-    case "mediaRecord.php":
+    case "record.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-         <script type="text/javascript" src="resources/javascripts/customs/media.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/mediaCallBox.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
         <?php
         break;
-	case "message.php":
+    case "message.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/chat.js"></script>
         <?php
