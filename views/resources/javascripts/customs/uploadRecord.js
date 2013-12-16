@@ -56,7 +56,7 @@ $(document).ready(function() {
         });
         //inizializzazione per l'upload della copertina dell'album
         initImgUploader();
-
+        initGeocomplete();
     });
 
     //gestione button new in uploadRecord02
@@ -401,7 +401,7 @@ function recordCreate() {
         json_album_create.urlBuy = $("#urlBuy").val();
         json_album_create.albumFeaturing = getFeaturingAlbumCreate();
         json_album_create.year = $("#year").val();
-        json_album_create.city = $("#city").val();
+//        json_album_create.city = $("#city").val();
         json_album_create.tags = getTagsAlbumCreate();
 
 //    console.log("Record => " + JSON.stringify(json_album_create));
@@ -664,27 +664,25 @@ function deleteSongCallback(data, status, xhr) {
 
 
 function initGeocomplete() {
-    $("#city").geocomplete()
-            .bind("geocode:result", function(event, result) {
-            window.console.log(result);
-//        $.log("Result: " + result.formatted_address);
-    })
-            .bind("geocode:error", function(event, status) {
-                    window.console.log("ERROR: " + status);
+    try {
+        $("#city").geocomplete()
+                .bind("geocode:result", function(event, result) {
+            json_album_create.city = result;
+//            var formattedAddress = result.formatted_address;
+//            var lat = result.geometry.location.nb;
+//            var lng = result.geometry.location.ob;
+//            var address_component = result.address_components;
+//            window.console.log(result);
+//            window.console.log("address_component" + JSON.stringify(address_component));
 
-//        $.log("ERROR: " + status);
-    })
-            .bind("geocode:multiple", function(event, results) {
-            window.console.log(result);
-    });
+        })
+                .bind("geocode:error", function(event, status) {
+            json_album_create.city = {};
+        });
+    }
+    catch (err) {
+        window.console.log("An error occurred - message : " + err.message);
+        json_album_create.city = {};
 
-//    $("#find").click(function() {
-//        $("#city").trigger("geocode");
-//    });
-
-
-//    $("#examples a").click(function() {
-//        $("#geocomplete").val($(this).text()).trigger("geocode");
-//        return false;
-//    });
+    }
 }
