@@ -77,7 +77,7 @@ if (is_null($albumBox->error)) {
 												$css_love = '_unlove grey';
 												$text_love = $views['LOVE'];
 											} ?> 
-										<div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="loadBoxAlbumDetail('<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>,30,0)">
+										<div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="loadBoxAlbumDetail('<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>,200,0)">
 											<img class="albumcover" src="../media/<?php echo $album_thumbnailCover; ?>" onerror="this.src='../media/<?php echo DEFALBUMTHUMB;?>'">  
 											<div class="text white breakOffTest"><?php echo $album_title; ?></div>
 											<div class="row">

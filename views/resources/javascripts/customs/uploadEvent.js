@@ -39,7 +39,7 @@ $(document).ready(function() {
         url: "../config/views/tag.config.json",
         dataType: 'json',
         success: function(data, stato) {
-            music = data.music;
+            music = data.localType;
 
             for (var value in music) {
                 var tagCheck = '<input type="checkbox" name="';

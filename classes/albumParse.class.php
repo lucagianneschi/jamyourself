@@ -250,7 +250,7 @@ class AlbumParse {
             is_null($album->getCover()) ? $parseAlbum->cover = DEFALBUMCOVER : $parseAlbum->cover = $album->getCover();
             # TODO
             # is_null($album->getCoverFile()) ? $parseAlbum->coverFile = null : $parseAlbum->coverFile = toParseFile($album->getCoverFile());
-            is_null($album->getDescription()) ? $parseAlbum->description = null : $parseAlbum->description = $album->getDescription();
+            is_null($album->getDescription()) ? $parseAlbum->description = null : $parseAlbum->description = parse_encode_string($album->getDescription());
             is_null($album->getFeaturing()) ? $parseAlbum->featuring = null : $parseAlbum->featuring = toParseAddRelation('_User', $album->getFeaturing());
             $parseAlbum->fromUser = toParsePointer('_User', $album->getFromUser());
             is_null($album->getImageCounter()) ? $parseAlbum->imageCounter = -1 : $parseAlbum->imageCounter = $album->getImageCounter();

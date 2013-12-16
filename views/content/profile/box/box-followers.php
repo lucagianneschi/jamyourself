@@ -63,42 +63,42 @@ if (is_null($followersBox->error)) {
 						}
 						?>
 						</div>
-						<!------------------ elenco venue ------------------------->
-					<div id="viewVenueFoll" class="reveal-modal">
-						<div class="row">
-					<?php
-						$i = 1;
-						foreach ($followers as $key => $value) { ?>
-											  
-								<div  class="small-6 columns">
-									<div class="box-membre">
-										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-											<div  class="small-3 columns ">
-												<div class="icon-header">
-													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+							<!------------------ elenco $followers ------------------------->
+						<div id="viewVenueFoll" class="reveal-modal">
+							<div class="row">
+						<?php
+							$i = 1;
+							foreach ($followers as $key => $value) { ?>
+												  
+									<div  class="small-6 columns">
+										<div class="box-membre">
+											<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+												<div  class="small-3 columns ">
+													<div class="icon-header">
+														<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+													</div>
 												</div>
-											</div>
-											<div  class="small-9 columns ">
-												<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-											</div>		
-										</div>	
+												<div  class="small-9 columns ">
+													<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+												</div>		
+											</div>	
+										</div>
 									</div>
-								</div>
-								<?php
-								if ($i % 2 == 0) {
-									?>
-									</div>
-									<div class="row">
 									<?php
-								}
-								
-								$i++; 
-						}
-						
-						?>
+									if ($i % 2 == 0) {
+										?>
+										</div>
+										<div class="row">
+										<?php
+									}
+									
+									$i++; 
+							}
+							
+							?>
+							</div>
 						</div>
-					</div>
-					<!------------------ fine elenco venu ------------------------->
+						<!------------------ fine elenco venu ------------------------->
 						<?php
 					} else {
 						?>	

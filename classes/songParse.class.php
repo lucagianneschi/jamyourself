@@ -238,14 +238,14 @@ class SongParse {
             is_null($song->getFeaturing()) ? $parseSong->featuring = null : $parseSong->featuring = toParseAddRelation('_User', $song->getFeaturing());
             is_null($song->getFilePath()) ? $parseSong->filePath = null : $parseSong->filePath = $song->getFilePath();
             $parseSong->fromUser = toParsePointer('_User', $song->getFromUser());
-            is_null($song->getGenre()) ? $parseSong->genre = null : $parseSong->genre = $song->getGenre();
+            is_null($song->getGenre()) ? $parseSong->genre = null : $parseSong->genre = parse_encode_array($song->getGenre());
             is_null($song->getLocation()) ? $parseSong->location = null : $parseSong->location = toParseGeoPoint($song->getLocation());
             is_null($song->getLoveCounter()) ? $parseSong->loveCounter = -1 : $parseSong->loveCounter = $song->getLoveCounter();
             is_null($song->getLovers()) ? $parseSong->lovers = $nullArray : $parseSong->lovers = $song->getLovers();
             is_null($song->getPosition()) ? $parseSong->position = -1 : $parseSong->position = $song->getPosition();
             is_null($song->getRecord()) ? $parseSong->record = null : $parseSong->record = toParsePointer('Record', $song->getRecord());
             is_null($song->getShareCounter()) ? $parseSong->shareCounter = -1 : $parseSong->shareCounter = $song->getShareCounter();
-            is_null($song->getTitle()) ? $parseSong->title = null : $parseSong->title = $song->getTitle();
+            is_null($song->getTitle()) ? $parseSong->title = null : $parseSong->title = parse_encode_string($song->getTitle());
             is_null($song->getACL()) ? $parseSong->ACL = toParseDefaultACL() : $parseSong->ACL = toParseACL($song->getACL());
             if ($song->getObjectId() == '') {
                 $res = $parseSong->save();
