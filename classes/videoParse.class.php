@@ -302,7 +302,7 @@ class VideoParse {
             }
         } else {
             $parseObject = new parseObject('Video');
-            $parseObject->$field = $value; //qui fare encode??
+            $parseObject->$field = $value; 
             $parseObject->update($objectId);
         }
     }
