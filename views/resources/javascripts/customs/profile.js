@@ -471,3 +471,8 @@ function goSpinner(id,box){
 }
 
 
+/*
+ * funzione per le stelline del rating
+ */
+$('.auto-submit-star').rating({ callback: function(value, link){ alert(value); } }); 
+
