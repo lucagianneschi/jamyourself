@@ -28,9 +28,9 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
  * \param   $address, $subject, $html
  * \todo    testare
  */
-function getCoordinates($city,$country) {
+function getCoordinates($city,$country = null) {
     $geoPointArray = array();
-    if (!is_null($city)&& (!is_null($country))) {
+    if (!is_null($city)) {
         require_once CLASSES_DIR . 'location.class.php';
         require_once CLASSES_DIR . 'locationParse.class.php';
         $location = new LocationParse();
