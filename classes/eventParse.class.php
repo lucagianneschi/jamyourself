@@ -239,29 +239,29 @@ class EventParse {
 	    $nullArray = array();
 	    $parseEvent = new parseObject('Event');
 	    is_null($event->getActive()) ? $parseEvent->active = true : $parseEvent->active = $event->getActive();
-	    is_null($event->getAddress()) ? $parseEvent->address = null : $parseEvent->address = $event->getAddress();
+	    is_null($event->getAddress()) ? $parseEvent->address = null : $parseEvent->address = parse_encode_string($event->getAddress());
 	    is_null($event->getAttendee()) ? $parseEvent->attendee = null : $parseEvent->attendee = toParseAddRelation('_User', $event->getAttendee());
-	    is_null($event->getCity()) ? $parseEvent->city = null : $parseEvent->city = $event->getCity();
+	    is_null($event->getCity()) ? $parseEvent->city = null : $parseEvent->city = parse_encode_string($event->getCity());
 	    is_null($event->getCommentCounter()) ? $parseEvent->commentCounter = -1 : $parseEvent->commentCounter = $event->getCommentCounter();
 	    is_null($event->getCommentators()) ? $parseEvent->commentators = null : $parseEvent->commentators = toParseAddRelation('_User', $event->getCommentators());
 	    is_null($event->getComments()) ? $parseEvent->comments = null : $parseEvent->comments = toParseAddRelation('Comment', $event->getComments());
 	    is_null($event->getCounter()) ? $parseEvent->counter = -1 : $parseEvent->counter = $event->getCounter();
-	    is_null($event->getDescription()) ? $parseEvent->description = null : $parseEvent->description = $event->getDescription();
+	    is_null($event->getDescription()) ? $parseEvent->description = null : $parseEvent->description = parse_encode_string($event->getDescription());
 	    is_null($event->getEventDate()) ? $parseEvent->eventDate = null : $parseEvent->eventDate = toParseDate($event->getEventDate());
 	    is_null($event->getFeaturing()) ? $parseEvent->featuring = null : $parseEvent->featuring = toParseAddRelation('_User', $event->getFeaturing());
 	    $parseEvent->fromUser = toParsePointer('_User', $event->getFromUser());
 	    is_null($event->getImage()) ? $parseEvent->image = DEFEVENTIMAGE : $parseEvent->image = $event->getImage();
 	    is_null($event->getInvited()) ? $parseEvent->invited = null : $parseEvent->invited = toParseAddRelation('_User', $event->getInvited());
 	    is_null($event->getLocation()) ? $parseEvent->location = null : $parseEvent->location = toParseGeoPoint($event->getLocation());
-	    is_null($event->getLocationName()) ? $parseEvent->locationName = null : $parseEvent->locationName = $event->getLocationName();
+	    is_null($event->getLocationName()) ? $parseEvent->locationName = null : $parseEvent->locationName = parse_encode_string($event->getLocationName());
 	    is_null($event->getLoveCounter()) ? $parseEvent->loveCounter = -1 : $parseEvent->loveCounter = $event->getLoveCounter();
 	    is_null($event->getLovers()) ? $parseEvent->lovers = $nullArray : $parseEvent->lovers = $event->getLovers();
 	    is_null($event->getReviewCounter()) ? $parseObject->reviewCounter = -1 : $parseObject->reviewCounter = $event->getReviewCounter();
 	    is_null($event->getShareCounter()) ? $parseEvent->shareCounter = -1 : $parseEvent->shareCounter = $event->getShareCounter();
 	    is_null($event->getRefused()) ? $parseEvent->refused = null : $parseEvent->refused = toParseAddRelation('_User', $event->getRefused());
-	    is_null($event->getTags()) ? $parseEvent->tags = $nullArray : $parseEvent->tags = $event->getTags();
+	    is_null($event->getTags()) ? $parseEvent->tags = $nullArray : $parseEvent->tags = parse_encode_array($event->getTags());
 	    is_null($event->getThumbnail()) ? $parseEvent->thumbnail = DEFEVENTTHUMB : $parseEvent->thumbnail = $event->getThumbnail();
-	    is_null($event->getTitle()) ? $parseEvent->title = null : $parseEvent->title = $event->getTitle();
+	    is_null($event->getTitle()) ? $parseEvent->title = null : $parseEvent->title = parse_encode_string($event->getTitle());
 	    is_null($event->getACL()) ? $parseEvent->ACL = toParseDefaultACL() : $parseEvent->ACL = toParseACL($event->getACL());
 	    if ($event->getObjectId() == '') {
 		# TODO
