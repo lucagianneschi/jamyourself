@@ -10,7 +10,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo	        corretta gestione di skip e limit sia per query interna che esterna, correggere whereInclude
+ * \todo	        implementare plugin per ricerca spaziale e fare ricerca con whereInSphere nota la località 
  *
  */
 
