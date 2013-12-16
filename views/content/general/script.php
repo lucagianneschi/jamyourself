@@ -71,7 +71,7 @@
 <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-522dd258579a55ca"></script>
 
 <!----------- rating ------------------------------------------------------------------->
-<script type="text/javascript" src='resources/javascripts/plugins/rating/jquery.rating.js'></script> 
+<script type="text/javascript" src='resources/javascripts/plugins/rating/jquery.rating.js'></script>
 
 <!------------------------------------- JAMYOURSELF ------------------------------------------>
 <script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
@@ -116,19 +116,18 @@ switch (basename($_SERVER['PHP_SELF'])) {
         break;
     case "event.php":
         ?>
+        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>       
+        <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>        
+        <?php
+        break;
+    case "record.php":
+        ?>
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
         <?php
         break;
-    case "mediaRecord.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-         <script type="text/javascript" src="resources/javascripts/customs/media.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/mediaCallBox.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
-        <?php
-        break;
-	case "message.php":
+    case "message.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/chat.js"></script>
         <?php

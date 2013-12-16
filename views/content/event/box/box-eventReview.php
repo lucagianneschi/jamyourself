@@ -133,7 +133,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                         <div class="box-propriety">
                                             <div class="small-6 columns ">
                                                 <a class="note grey" onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                                                <a class="note grey" onclick="setCounterMedia(this,'<?php echo $review_objectId; ?>','<?php echo $review_user_objectId; ?>','EventReview')"><?php echo $views['COMM'];?></a>
+                                                <a class="note grey" onclick="loadBoxOpinion('<?php echo $review_objectId; ?>', 'Comment', '#social-EventReview-<?php echo $review_objectId; ?> .box-comment', 10, 0)"><?php echo $views['COMM'];?></a>
                                                 <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','EventReview')"><?php echo $views['SHARE'];?></a -->
                                             </div>
                                             <div class="small-6 columns propriety ">
@@ -161,7 +161,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                         <?php
                         $nextToShow = ($reviewCounter - $limit > $reviewToShow) ? $reviewToShow : ($reviewCounter - $limit);
                         ?>
-                        <div class="text" onClick="loadBoxEventReview(<?php echo $limit + $reviewToShow; ?>, 0);">Other <?php echo $nextToShow; ?> Review</div>
+                        <div class="text" onClick="loadBoxEventReview(<?php echo $limit + $reviewToShow; ?>, 0);">View other reviews</div>
                     </div>
                 </div>
                 <?php

@@ -1,6 +1,6 @@
 <?php
 /*
- * Contiene il box information invited dell'utente
+ * Contiene il box information featuring dell'utente
  * Il contenuto varia a seconda del tipo di utente:
  * spotter: abount
  * jammer: abount e member
@@ -22,20 +22,20 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 $objectId = $_POST['objectId'];
-$inviteds = getRelatedUsers($objectId, 'invited', 'Event', false, 10, 0);
-$invitedsCounter = count($inviteds);
+$featurings = getRelatedUsers($objectId, 'featuring', 'Record', false, 10, 0);
+$featuringsCounter = count($featurings);
 
-if ($invitedsCounter > 0) {
+if ($featuringsCounter > 0) {
 	?>
-	
-	<p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT5']; ?> <span>[<?php echo $invitedsCounter?>]</span></a></p>
+	<section>
+	<p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT2']; ?></a></p>
 	
 	<div class="content" data-section-content>
 		<div class="row">
 		<?php
-		$totalView = $invitedsCounter > 4 ? 4 : $invitedsCounter;
+		$totalView = $featuringsCounter > 4 ? 4 : $featuringsCounter;
 		$i = 1;
-		foreach ($inviteds as $key => $value) {
+		foreach ($featurings as $key => $value) {
 			?>
 			<div  class="small-6 columns">
 				<div class="box-membre">
@@ -65,7 +65,7 @@ if ($invitedsCounter > 0) {
 		?>
 		</div>
 	</div>
-	
+	</section>
 	<?php
 }
 ?>
