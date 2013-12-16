@@ -256,7 +256,7 @@ class EventParse {
 	    is_null($event->getLocationName()) ? $parseEvent->locationName = null : $parseEvent->locationName = parse_encode_string($event->getLocationName());
 	    is_null($event->getLoveCounter()) ? $parseEvent->loveCounter = -1 : $parseEvent->loveCounter = $event->getLoveCounter();
 	    is_null($event->getLovers()) ? $parseEvent->lovers = $nullArray : $parseEvent->lovers = $event->getLovers();
-	    is_null($event->getReviewCounter()) ? $parseObject->reviewCounter = -1 : $parseObject->reviewCounter = $event->getReviewCounter();
+	    is_null($event->getReviewCounter()) ? $parseEvent->reviewCounter = -1 : $parseEvent->reviewCounter = $event->getReviewCounter();
 	    is_null($event->getShareCounter()) ? $parseEvent->shareCounter = -1 : $parseEvent->shareCounter = $event->getShareCounter();
 	    is_null($event->getRefused()) ? $parseEvent->refused = null : $parseEvent->refused = toParseAddRelation('_User', $event->getRefused());
 	    is_null($event->getTags()) ? $parseEvent->tags = $nullArray : $parseEvent->tags = parse_encode_array($event->getTags());
