@@ -53,7 +53,7 @@ if(($limit + $skip) < $countImage){
 
 <div class="row">
 	<div class="small-12 columns">
-		<a class="text orange otherObject <?php echo $css_other; ?>" onclick="loadBoxAlbumDetail('<?php echo $objectId ?>',<?php echo $countImage ?>,30,<?php echo $limit+$skip ?>)" style="padding-bottom: 15px;float: right;">Other <span><?php echo $other; ?></span> photo</a>	
+		<a class="text orange otherObject <?php echo $css_other; ?>" onclick="loadBoxAlbumDetail('<?php echo $objectId ?>',<?php echo $countImage ?>,30,<?php echo $limit+$skip ?>)" style="padding-bottom: 15px;float: right;">Other <span><?php echo $other; ?></span> photos</a>	
 	</div>
 </div>
 
