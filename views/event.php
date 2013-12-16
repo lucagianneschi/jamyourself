@@ -20,7 +20,7 @@ if (is_null($eventBox->error)) {
 	<!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
 	<!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
 		<head>
-		<title>Jamyourself</title>
+            <title>Jamyourself</title>
 			<!-------------------------- METADATI --------------------------->
 			<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
 		</head>
@@ -33,7 +33,7 @@ if (is_null($eventBox->error)) {
 			<?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
 			<!-------------------------- SCRIPT --------------------------->
 			<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
-			<script>
+			<script type="text/javascript">
 				loadBoxInformationFeaturing();
 				loadBoxInformationAttendee();
 				loadBoxInformationInvited();
@@ -45,3 +45,4 @@ if (is_null($eventBox->error)) {
 	</html>
 	<?php
 }
+?>
