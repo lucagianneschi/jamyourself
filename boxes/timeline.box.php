@@ -73,7 +73,7 @@ class EventFilter {
 		return;
 	    } else {
 		foreach ($locations as $loc) {
-		    $event->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude']);
+                    $event->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude'], $this->config->distanceLimitForEvent, 'km');
 		}
 	    }
 	} elseif (!is_null($type)) {
@@ -155,7 +155,7 @@ class RecordFilter {
 		return;
 	    } else {
 		foreach ($locations as $loc) {
-		    $record->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude']);
+                    $record->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude'], $this->config->distanceLimitForRecord, 'km');
 		}
 	    }
 	} elseif (!is_null($genre)) {
