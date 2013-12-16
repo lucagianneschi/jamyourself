@@ -35,7 +35,9 @@ function getCoordinates($city,$country = null) {
         require_once CLASSES_DIR . 'locationParse.class.php';
         $location = new LocationParse();
         $location->where('city', $city);
-        $location->where('country', $country);
+        if(!is_null($country)){
+                  $location->where('country', $country);  
+        }
         $location->setLimit(1);
         $locations = $location->getLocations();
         if ($locations instanceof Error || is_null($locations)) {
