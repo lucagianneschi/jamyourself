@@ -41,7 +41,7 @@ if(!isset($_SESSION['currentUser'])) {
                     loadBoxInformationFeaturing();
                     loadBoxInformationAttendee();
                     loadBoxInformationInvited();
-                    loadBoxStatus();
+               //     loadBoxStatus();
                     loadBoxEventReview(3, 0);
                     loadBoxComment(3, 0);
                 </script>
