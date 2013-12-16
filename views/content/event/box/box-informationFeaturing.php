@@ -27,7 +27,7 @@ $featuringsCounter = count($featurings);
 
 if ($featuringsCounter > 0) {
 	?>
-	<section>
+	
 	<p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT2']; ?></a></p>
 	
 	<div class="content" data-section-content>
@@ -65,7 +65,7 @@ if ($featuringsCounter > 0) {
 		?>
 		</div>
 	</div>
-	</section>
+	
 	<?php
 }
 ?>

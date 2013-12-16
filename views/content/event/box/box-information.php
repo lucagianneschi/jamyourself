@@ -17,7 +17,7 @@ $city = $event->getCity();
 $description = $event->getDescription();
 $eventDate = $event->getEventDate()->format('l j F Y - H:i');
 $lat = $event->getLocation()->lat;
-$lon = $event->getLocation()->lon;
+$lon = $event->getLocation()->long;
 $fromUserObjectId = $event->getFromUser()->getObjectId();
 $fromUserThumbnail = $event->getFromUser()->getProfileThumbnail();
 $fromUserUsername = $event->getfromUser()->getUsername();
@@ -65,7 +65,8 @@ $fromUserUsername = $event->getfromUser()->getUsername();
 		    </div>
 			</section>
 		    <!--------------------------------------- FEATURING - PERFORMED BY --------------------------------------->
-			<div id='box-informationFeaturing'></div>
+		   
+			<section id='box-informationFeaturing'></section>
 			<script type="text/javascript">
 				function loadBoxInformationFeaturing() {
 					var json_data = {};
@@ -102,7 +103,7 @@ $fromUserUsername = $event->getfromUser()->getUsername();
 						</div>
 					</div>
 					<div class="row">
-						<div class="small-12 columns ">
+						<div class="small-12 columns" >
 							<a class="ico-label _pin white " onclick="getDirectionMap()"><?php echo $views['information']['CONTENT3_DIRECTION'];?></a> 
 						</div>
 					</div>				 	
@@ -110,7 +111,7 @@ $fromUserUsername = $event->getfromUser()->getUsername();
 			</section>
 			
 			<!--------------------------------------- ATTENDING --------------------------------------->
-			<div id='box-informationAttendee'></div>
+			<section id='box-informationAttendee'></section>
 			<script type="text/javascript">
 				function loadBoxInformationAttendee() {
 					var json_data = {};
@@ -139,7 +140,7 @@ $fromUserUsername = $event->getfromUser()->getUsername();
 			</script>
 			
 			<!--------------------------------------- INVITED --------------------------------------->
-			<div id='box-informationInvited'></div>
+			<section id='box-informationInvited'></section>
 			<script type="text/javascript">
 				function loadBoxInformationInvited() {
 					var json_data = {};
