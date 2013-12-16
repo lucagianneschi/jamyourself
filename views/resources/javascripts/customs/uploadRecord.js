@@ -1,5 +1,5 @@
 var music = null;
-var json_album_create = {};
+var json_album_create = {'city' : null};
 var uploader = null;
 var json_album = {"list": []};
 //-------------- variabili per jcrop ----------------------//
@@ -401,7 +401,7 @@ function recordCreate() {
         json_album_create.urlBuy = $("#urlBuy").val();
         json_album_create.albumFeaturing = getFeaturingAlbumCreate();
         json_album_create.year = $("#year").val();
-        json_album_create.city = $("#city").val();
+//        json_album_create.city = $("#city").val();
         json_album_create.tags = getTagsAlbumCreate();
 
 //    console.log("Record => " + JSON.stringify(json_album_create));
@@ -666,25 +666,14 @@ function deleteSongCallback(data, status, xhr) {
 function initGeocomplete() {
     $("#city").geocomplete()
             .bind("geocode:result", function(event, result) {
-            window.console.log(result);
-//        $.log("Result: " + result.formatted_address);
+            json_album_create.city = prepareLocationObj(result);
     })
             .bind("geocode:error", function(event, status) {
-                    window.console.log("ERROR: " + status);
+            json_album_create.city = null;
 
-//        $.log("ERROR: " + status);
     })
             .bind("geocode:multiple", function(event, results) {
-            window.console.log(result);
+            json_album_create.city = prepareLocationObj(results[0]);
     });
 
-//    $("#find").click(function() {
-//        $("#city").trigger("geocode");
-//    });
-
-
-//    $("#examples a").click(function() {
-//        $("#geocomplete").val($(this).text()).trigger("geocode");
-//        return false;
-//    });
 }
