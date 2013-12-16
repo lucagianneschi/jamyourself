@@ -161,7 +161,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                         <?php
                         $nextToShow = ($reviewCounter - $limit > $reviewToShow) ? $reviewToShow : ($reviewCounter - $limit);
                         ?>
-                        <div class="text" onClick="loadBoxEventReview(<?php echo $limit + $reviewToShow; ?>, 0);">Other <?php echo $nextToShow; ?> Review</div>
+                        <div class="text" onClick="loadBoxEventReview(<?php echo $limit + $reviewToShow; ?>, 0);">View other reviews</div>
                     </div>
                 </div>
                 <?php
