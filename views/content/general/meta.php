@@ -58,6 +58,9 @@
 <!--------------- scrollbar ------------------------------->
 <link rel="stylesheet" href="resources/stylesheets/plugins/scrollbar/jquery.mCustomScrollbar.css"  />
 
+<!--------------- rating ---------------------------------->
+<link rel="stylesheet" href="resources/stylesheets/plugins/rating/jquery.rating.css"  /> 
+
 <!---------------------------------- JQUERY  ------------------------------------------>
 <script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
 <script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>	

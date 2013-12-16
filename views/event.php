@@ -17,7 +17,7 @@ if(!isset($_SESSION['currentUser'])) {
     $objectId = $_GET['event'];
     $eventBox = new EventBox();
     $eventBox->initForMediaPage($objectId);
-    if (is_null($eventBox->error) && !empty($recordBox->recordArray)) {
+    if (is_null($eventBox->error) && !empty($eventBox->eventArray)) {
         $event = $eventBox->eventArray[$objectId];
         ?>
         <!DOCTYPE html>
@@ -41,7 +41,6 @@ if(!isset($_SESSION['currentUser'])) {
                     loadBoxInformationFeaturing();
                     loadBoxInformationAttendee();
                     loadBoxInformationInvited();
-                    loadBoxStatus();
                     loadBoxEventReview(3, 0);
                     loadBoxComment(3, 0);
                 </script>

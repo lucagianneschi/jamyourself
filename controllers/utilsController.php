@@ -18,13 +18,47 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once PARSE_DIR . 'parse.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 
 /**
- * \fn		comment()
- * \brief   salva un commento
- * \todo    testare con sessione
+ * \fn	    getCoordinates($city)
+ * \brief   cerca le coordinate della città inserita nel form, prima sul DB, poi 
+ * \param   $address, $subject, $html
+ * \todo    testare
+ */
+function getCoordinates($city,$country = null) {
+    $geoPointArray = array();
+    if (!is_null($city)) {
+        require_once CLASSES_DIR . 'location.class.php';
+        require_once CLASSES_DIR . 'locationParse.class.php';
+        $location = new LocationParse();
+        $location->where('city', $city);
+        $location->where('country', $country);
+        $location->setLimit(1);
+        $locations = $location->getLocations();
+        if ($locations instanceof Error || is_null($locations)) {
+            require_once SERVICES_DIR . 'geocoder.service.php';
+            $geoCodingService = new GeocoderService();
+            $geoPoint = $geoCodingService->getLocation($city.','.$country);
+            $parseGeoPoint = (!$geoPoint) ? null : new parseGeoPoint($geoPoint['lat'], $geoPoint['lng']);
+            return $parseGeoPoint;
+        } else {
+            foreach ($locations as $loc) {
+                array_push($geoPointArray, $loc->getGeopoint());
+            }
+        }
+    }
+    $geoPoint = (count($geoPointArray) != 0) ? $geoPointArray[0] : null;
+    return  $geoPoint;
+}
+
+/**
+ * \fn	    sendMailForNotification($address, $subject, $html)
+ * \brief   invia mail ad utente
+ * \param   $address, $subject, $html
+ * \todo    testare
  */
 function sendMailForNotification($address, $subject, $html) {
     global $controllers;
@@ -35,7 +69,7 @@ function sendMailForNotification($address, $subject, $html) {
     $mail->MsgHTML($html);
     $resMail = $mail->Send();
     if ($resMail instanceof phpmailerException) {
-	$this->response(array('status' => $controllers['NOMAIL']), 403);
+        $this->response(array('status' => $controllers['NOMAIL']), 403);
     }
     $mail->SmtpClose();
     unset($mail);

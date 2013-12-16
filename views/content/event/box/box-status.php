@@ -5,22 +5,13 @@
  * 
  * 
  */
-if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../../../');
 
-require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php'; 
- 
-//achievement array -------- DA DEFINIRE -----------------
-$status_achievement1 = '_target1';
-$status_achievement2 = '_target2';
-$status_achievement3 = '_target3';
+
 ?>
 <!------------------------------------------- STATUS ----------------------------------->
 
-<script src='resources/javascripts/plugins/rating/jquery.rating.js' type="text/javascript" language="javascript"></script>
+
+
 
 <div id="social-status">
 	<div class="row">
@@ -28,8 +19,8 @@ $status_achievement3 = '_target3';
 			<h3><strong>4 review</strong></h3>					
 		</div>
 		<div class="small-4 columns">
-			<p class="grey">Spotter Rating</p>		
-			<form id="rating">
+			<p class="grey" style="float: right;">Spotter Rating</p>		
+			<form id="rating" style="float: right;">
 			    <input class="star required" type="radio" name="test-1-rating-5" value="1" checked="checked"/>
 			    <input class="star" type="radio" name="test-1-rating-5" value="2" checked="checked"/>
 			    <input class="star" type="radio" name="test-1-rating-5" value="3" checked="checked"/>

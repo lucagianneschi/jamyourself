@@ -47,7 +47,6 @@ class UploadRecordController extends REST {
 
         try {
             global $controllers;
-
             if ($this->get_request_method() != "POST") {
                 $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
             } elseif (!isset($_SESSION['currentUser'])) {
@@ -61,7 +60,6 @@ class UploadRecordController extends REST {
             } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
                 $this->response(array("status" => $controllers['CLASSTYPEKO']), 406);
             }
-
             $albumJSON = $this->request;
             $newRecord = json_decode(json_encode($albumJSON), false);
 
@@ -162,8 +160,7 @@ class UploadRecordController extends REST {
     private function getTags($list) {
         if (is_array($list) && count($list) > 0) {
             return implode(",", $list);
-        }
-        else
+        } else
             return "";
     }
 
@@ -433,8 +430,7 @@ class UploadRecordController extends REST {
                 $newName = $dir . DIRECTORY_SEPARATOR . $songId;
                 return rename($oldName, $newName);
             }
-        }
-        else
+        } else
             return false;
     }
 
@@ -458,7 +454,7 @@ class UploadRecordController extends REST {
         $activity->setActive(true);
         $activity->setAlbum(null);
         $activity->setComment(null);
-        $activity->setCounter(-1);
+        $activity->setCounter(0);
         $activity->setEvent(null);
         $activity->setFromUser($song->getFromUser());
         $activity->setImage(null);
@@ -469,7 +465,7 @@ class UploadRecordController extends REST {
         $activity->setSong($song->getObjectId());
         $activity->setStatus(null);
         $activity->setToUser(null);
-        $activity->setType("NEWSONGCREATED"); // <- l'ho messo a caso, non so se va bene
+        $activity->setType("SONGUPLOADED");
         $activity->setUserStatus(null);
         $activity->setVideo(null);
         $pActivity = new ActivityParse();
@@ -572,8 +568,7 @@ class UploadRecordController extends REST {
                 }
                 return $userArray;
             }
-        }
-        else
+        } else
             return array();
     }
 
@@ -625,8 +620,8 @@ class UploadRecordController extends REST {
         }
         $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
     }
-    
-    public function checkCityExists(){
+
+    public function checkCityExists() {
         try {
             global $controllers;
             if ($this->get_request_method() != "POST") {
@@ -638,13 +633,12 @@ class UploadRecordController extends REST {
             } elseif (!isset($this->request['city']) || is_null($this->request['city']) || !(strlen($this->request['city']) > 0)) {
                 $this->response(array("status" => $controllers['NOCITY']), 404);
             }
-            
+
             if (($location = GeocoderService::getLocation($this->request['city']))) {
-                $this->response(array("status" => $controllers['CITYEXISTS'], "geocoding" => $location), 200);                
-            }else{
-                $this->response(array("status" => $controllers['CITYNOEXISTS'], "geocoding" => array(0,0)), 200);                
-            }            
-            
+                $this->response(array("status" => $controllers['CITYEXISTS'], "geocoding" => $location), 200);
+            } else {
+                $this->response(array("status" => $controllers['CITYNOEXISTS'], "geocoding" => array(0, 0)), 200);
+            }
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }

@@ -21,7 +21,9 @@
 				<div class="row">
 					<div class="large-12 columns">
 						
-						<div id='box-status' ></div>
+						<div id='box-status' >
+							<?php require_once(VIEWS_DIR . "content/event/box/box-status.php"); ?>
+						</div>
 						<script type="text/javascript">
 							function loadBoxStatus() {
 								var json_data = {};
