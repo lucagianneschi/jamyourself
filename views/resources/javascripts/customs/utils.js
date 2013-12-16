@@ -17,7 +17,6 @@ var restServerList = {
     "uploadReview": "uploadReviewRequest.php",
     "test": "testRequest.php",
 };
-
 function sendRequest(_server, _action, _data, _callback, _async) {
     try {
         if (_server !== undefined && _server !== null && _action !== undefined && _action !== null) {
@@ -56,5 +55,19 @@ function sendRequest(_server, _action, _data, _callback, _async) {
         }
     } catch (err) {
         window.console.log("sendRequest | An error occurred - message : " + err.message);
+    }
+}
+
+function prepareLocationObj(_result) {
+    try {
+        var location = {};
+        location.address_components = _result.address_components;
+        location.latitude = _result.geometry.location.nb;
+        location.longitude = _result.geometry.location.ob;
+        location.formatted_address = _result.formatted_address;
+        return location;
+    }
+    catch (err) {
+        window.console.log("prepareLocationObj | An error occurred - message : " + err.message);
     }
 }
