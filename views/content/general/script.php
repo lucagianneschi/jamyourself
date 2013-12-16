@@ -58,6 +58,10 @@
 
 <!----------- plupload // upload file -------------------------------------------------->
 <script src="resources/javascripts/plugins/plupload/plupload.full.min.js"></script>
+<!---------------- geocomplete ---------------------------------------------------------->
+
+<script src="resources/javascripts/plugins/geocomplete/jquery.geocomplete.min.js"></script>
+<link rel="stylesheet" href="resources/javascripts/plugins/geocomplete/style.css" type="text/css" media="screen" charset="utf-8" />
 
 <!----------- FCBKAutocmplete ---------------------------------------------------------->
 <script src="resources/javascripts/plugins/FCBKcomplete/jquery.fcbkcomplete.min.js"></script>

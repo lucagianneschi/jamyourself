@@ -405,7 +405,7 @@ function recordCreate() {
         json_album_create.tags = getTagsAlbumCreate();
 
 //    console.log("Record => " + JSON.stringify(json_album_create));
-        sendRequest("uploadRecord","recordCreate", json_album_create, callbackAlbumCreate, false);
+        sendRequest("uploadRecord", "recordCreate", json_album_create, callbackAlbumCreate, false);
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
@@ -537,7 +537,7 @@ function addSongToList(title, duration, genre, isNew, id) {
 
 function publish() {
     try {
-        sendRequest("uploadRecord","publishSongs", json_album, publishCallback, false);
+        sendRequest("uploadRecord", "publishSongs", json_album, publishCallback, false);
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
@@ -571,7 +571,7 @@ function getSongs(recordId) {
         //per test : sK0Azt3WiP
         if (recordId != undefined && recordId != null && recordId.length > 0) {
             var json_for_count_song = {recordId: recordId};
-            sendRequest("uploadRecord","getSongsList", json_for_count_song, getSongCallback, true);
+            sendRequest("uploadRecord", "getSongsList", json_for_count_song, getSongCallback, true);
         }
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
@@ -601,7 +601,7 @@ function getSongCallback(data, status) {
 
 function initFeaturingJSON() {
     try {
-        sendRequest("uploadRecord","getFeaturingJSON", {}, null, true);
+        sendRequest("uploadRecord", "getFeaturingJSON", {}, null, true);
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
@@ -649,15 +649,42 @@ function deleteSong(songId) {
 
 function deleteSongCallback(data, status, xhr) {
     try {
-        if(status === "success"){
-            window.console.log(data.status);            
+        if (status === "success") {
+            window.console.log(data.status);
             $('#tr_song_list_' + data.id).remove();
             alert(data.status);
-        }else{
-           alert(data.responseText.status);
+        } else {
+            alert(data.responseText.status);
         }
 
     } catch (err) {
         window.console.log("An error occurred - message : " + err.message);
     }
+}
+
+
+function initGeocomplete() {
+    $("#city").geocomplete()
+            .bind("geocode:result", function(event, result) {
+            window.console.log(result);
+//        $.log("Result: " + result.formatted_address);
+    })
+            .bind("geocode:error", function(event, status) {
+                    window.console.log("ERROR: " + status);
+
+//        $.log("ERROR: " + status);
+    })
+            .bind("geocode:multiple", function(event, results) {
+            window.console.log(result);
+    });
+
+//    $("#find").click(function() {
+//        $("#city").trigger("geocode");
+//    });
+
+
+//    $("#examples a").click(function() {
+//        $("#geocomplete").val($(this).text()).trigger("geocode");
+//        return false;
+//    });
 }
