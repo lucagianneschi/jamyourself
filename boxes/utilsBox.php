@@ -37,8 +37,6 @@ class UserInfo {
      * \param	$objectId, $thumbnail, $type, $username
      */
     function __construct($objectId, $thumbnail, $type, $username) {
-	require_once SERVICES_DIR . 'lang.service.php';
-	require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 	$this->objectId = is_null($objectId) ? null : $objectId;
 	switch ($type) {
 	    case 'SPOTTER':
