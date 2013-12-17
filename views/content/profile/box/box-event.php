@@ -93,10 +93,10 @@ if (is_null($eventBox->error)) {
 								<!----------------------------------- SINGLE Event ------------------------------------>
 								<div class="box-element" id='<?php echo  $event_objectId ?>'>
 									<div class="row">
-										<div class="small-4 columns">
+										<div class="small-4 columns" >
 											<img class="eventcover" src="../media/<?php echo $event_thumbnail; ?>" onError="this.src='../media/images/default/defaultEventcoverthumb.jpg'">
 										</div>
-										<div class="small-8 columns">
+										<div class="small-8 columns" style="min-height: 130px;">
 											<?php												
 											if ($typeUser == 'JAMMER') {
 												?>
@@ -151,7 +151,7 @@ if (is_null($eventBox->error)) {
 														<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['SHARE']?></a>
 														<a class="note grey" onclick="setCounter(this,'<?php echo $event_objectId; ?>','Event')"><?php echo $views['REVIEW']?></a>	
 													</div>
-													<div class="small-5 columns propriety ">					
+													<div class="small-5 columns propriety " style="position: absolute;bottom: 0px;right: 0px;">					
 														<a class="icon-propriety <?php echo $css_love ?>"><?php echo $event_love ?></a>
 														<a class="icon-propriety _comment"><?php echo $event_comment ?></a>
 														<a class="icon-propriety _share"><?php echo $event_share ?></a>
