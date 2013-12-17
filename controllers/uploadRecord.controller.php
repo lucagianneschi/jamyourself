@@ -144,9 +144,10 @@ class UploadRecordController extends REST {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackUploadRecordController($record->getObjectId(), "Record");
                 $this->response(array("status" => $message), 503);
-            }
-            $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcover";
-            $dirCoverDest = USERS_DIR . $userId . "/images/recordcoverthumb";
+            }            
+            
+            $dirCoverDest = USERS_DIR . $userId . "/images/recordcover";
+            $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcoverthumb";
 
 //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE 
             $thumbSrc = $record->getThumbnailCover();
