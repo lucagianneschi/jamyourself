@@ -556,14 +556,12 @@ class UploadRecordController extends REST {
     public function getFeaturingJSON() {
         try {
             $currentUserFeaturingArray = null;
-            if (isset($_SESSION['currentUserFeaturingArray'])) {
-//caching dell'array
+            if (isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
                 $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
             } else {
                 $currentUserFeaturingArray = $this->getFeaturingArray();
                 $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
             }
-
             echo json_encode($currentUserFeaturingArray);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
@@ -574,18 +572,18 @@ class UploadRecordController extends REST {
         error_reporting(E_ALL ^ E_NOTICE);
         if (isset($_SESSION['currentUser'])) {
             $currentUser = $_SESSION['currentUser'];
-            $currnetUserId = $currentUser->getObjectId();
-            $userArray = getRelatedUsers($currnetUserId, 'collaboration', '_User', true, MAX, 0);
+            $currentUserId = $currentUser->getObjectId();
+            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
             if (($userArray instanceof Error) || is_null($userArray)) {
                 return array();
             } else {
-                $userArray = array();
+                $userArrayInfo = array();
                 foreach ($userArray as $user) {
                     $username = $user->getUsername();
                     $userId = $user->getObjectId();
-                    array_push($userArray, array("key" => $userId, "value" => $username));
+                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
                 }
-                return $userArray;
+                return $userArrayInfo;
             }
         }
         else
