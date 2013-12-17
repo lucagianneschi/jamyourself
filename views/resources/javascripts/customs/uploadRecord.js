@@ -2,6 +2,7 @@ var music = null;
 var json_album_create = {'city': null};
 var uploader = null;
 var json_album = {"list": []};
+var recordLoader = null;
 //-------------- variabili per jcrop ----------------------//
 var type_user,
         input_x,
@@ -658,6 +659,7 @@ function initGeocomplete() {
 
 function getUserRecords() {
     try {
+        recordLoader = startLoader("#recordList");
         sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
     } catch (err) {
         console.error("getUserRecords | An error occurred - message : " + err.message);
@@ -705,6 +707,7 @@ function getCarouselHtmlElement(obj) {
 
 function onCarouselReady() {
     try {
+        stopLoader(recordLoader);
         //gestione select album record
         $('.uploadRecord-boxSingleRecord').click(function() {
             $("#uploadRecord01").fadeOut(100, function() {
