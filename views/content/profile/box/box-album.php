@@ -40,10 +40,10 @@ if (is_null($albumBox->error)) {
 						?>
 						<div class="row">					
 							<div  class="small-9 columns">
-								<a class="slide-button-prev _prevPage" onclick="royalSlidePrev('album')"><?php echo $views['PREV'];?> </a>
+								<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this,'album')"><?php echo $views['PREV'];?> </a>
 							</div>
 							<div  class="small-3 columns">
-								<a class="slide-button-next _nextPage" onclick="royalSlideNext('album')"><?php echo $views['NEXT'];?> </a>
+								<a class="slide-button-next _nextPage" onclick="royalSlideNext(this,'album')"><?php echo $views['NEXT'];?> </a>
 							</div>
 						</div>		 		
 						<?php

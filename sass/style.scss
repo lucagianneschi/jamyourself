@@ -186,7 +186,15 @@ a.icon-block{
 	background-position: right top;
 	&:hover{
 		background-position: right bottom;
-		color: $white;
+		color: $orange;
+	}
+}
+
+.slide-button-next-disabled{
+	color:$grey-light !important;
+	&:hover{
+		color: $grey-light !important;
+		background-position: right top !important;
 	}
 }
 
@@ -207,10 +215,16 @@ a.icon-block{
   @include transition-property(background-position);
   &:hover {
     background-position:left bottom;
-    color: $white;
+    color: $orange;
   }
 }
-
+.slide-button-prev-disabled{
+	color:$grey-light !important;
+	&:hover{
+		color: $grey-light !important;
+		background-position: left top !important;
+	}
+}
 
 .add{
   width:43px;
