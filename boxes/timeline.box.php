@@ -132,7 +132,7 @@ class RecordFilter {
      * \param	$genre = null, $limit = null, $skip = null
      * \todo
      */
-    public function init($genre = 'Uncategorized', $city = null, $time = null, $limit = null, $skip = null) {
+    public function init($genre = array('Uncategorized'), $city = null, $time = null, $limit = null, $skip = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
             global $boxes;
@@ -161,7 +161,7 @@ class RecordFilter {
                 }
             }
         } elseif (!is_null($genre)) {
-            $record->where('genre', $genre);
+            $record->whereContainedIn('genre', $genre);
         }
         $record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);
         $record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
