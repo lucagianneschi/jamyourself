@@ -23,16 +23,7 @@ $(document).ready(function() {
     initFeaturingJSON();
     initGeocomplete();
 
-    //scorrimento lista album record 
-    $("#uploadRecord-listRecordTouch").touchCarousel({
-        pagingNav: false,
-        snapToItems: true,
-        itemsPerMove: 1,
-        scrollToLast: false,
-        loopItems: false,
-        scrollbar: false,
-        dragUsingMouse: false
-    });
+
 
     //gesione button create new 
     $('#uploadRecord-new').click(function() {
@@ -609,7 +600,7 @@ function removeSongFromList(src) {
         $('#tr_song_list_' + src).remove();
         for (var i = 0; i < json_album.list.length; i++) {
             var song = json_album.list[i];
-            if (song.src == src + ".mp3") {
+            if (song.src === src + ".mp3") {
                 json_album.list.splice(i, 1);
                 break;
             }
@@ -623,7 +614,7 @@ function removeSongFromList(src) {
 
 function deleteSong(songId) {
     try {
-        if (songId != undefined && songId != null && json_album.recordId != undefined && json_album.recordId != null) {
+        if (songId !== undefined && songId !== null && json_album.recordId !== undefined && json_album.recordId !== null) {
             var json_delete = {"songId": songId, "recordId": json_album.recordId};
             sendRequest("uploadRecord", "deleteSong", json_delete, deleteSongCallback, false);
         }
@@ -673,60 +664,77 @@ function getUserRecords() {
         sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
     } catch (err) {
         window.console.log("getUserRecords | An error occurred - message : " + err.message);
-
     }
 
 }
 
 function getUserRecordsCallback(data, status, xhr) {
     try {
-        if (status === "success") {
-            if (data.count > 0) {
-                for (var i = 0; i < data.count; i++) {
-                    var obj = data.recordList[i];
-                    var html = "";
-                    html += '<li class="touchcarousel-item">';
-                    html += '<div class="item-block uploadRecord-boxSingleRecord" id="' + obj.recordId + '">';
-                    html += '<div class="row">';
-                    html += '<div  class="small-6 columns ">';
-                    html += '<img class="coverRecord"  src="' + obj.thumbnail + '">';
-                    html += '</div>';
-                    html += '<div  class="small-6 columns title">';
-                    html += '<div class="sottotitle white">' + obj.title + '</div>';
-                    html += '<div class="text white">' + obj.songs + ' songs</div>';
-                    html += '</div>';
-                    html += '</div>';
-                    html += '</div>';
-                    html += '</li>';
+        if (status === "success" && data !== undefined && data !== null && data.count !== undefined && data.count !== null && data.count > 0) {
 
-                    $("#recordList").append(html);
-                }
-
+            for (var i = 0; i < data.count; i++) {
+                $("#recordList").append(getCarouselHtmlElement(data.recordList[i]));
             }
-
-            //gestione select album record
-            $('.uploadRecord-boxSingleRecord').click(function() {
-                $("#uploadRecord01").fadeOut(100, function() {
-                    $("#uploadRecord03").fadeIn(100);
-                });
-
-                json_album.recordId = this.id;
-                //inizializzazione dell'uploader
-                if (uploader == null) {
-                    initMp3Uploader();
-                }
-
-                //recupero gli mp3 dell'album
-                getSongs(json_album.recordId);
-            });
-
-
-
         } else {
             alert(data.responseText.status);
         }
+        onCarouselReady();
     } catch (err) {
         window.console.log("getUserRecords | An error occurred - message : " + err.message);
+    }
+}
 
+function getCarouselHtmlElement(obj) {
+    try {
+        var html = "";
+        html += '<li class="touchcarousel-item">';
+        html += '<div class="item-block uploadRecord-boxSingleRecord" id="' + obj.recordId + '">';
+        html += '<div class="row">';
+        html += '<div  class="small-6 columns ">';
+        html += '<img class="coverRecord"  src="' + obj.thumbnail + '">';
+        html += '</div>';
+        html += '<div  class="small-6 columns title">';
+        html += '<div class="sottotitle white">' + obj.title + '</div>';
+        html += '<div class="text white">' + obj.songs + ' songs</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+        html += '</li>';
+        return html;
+    } catch (err) {
+        window.console.log("getCarouselHtmlElement | An error occurred - message : " + err.message);
+    }
+}
+
+function onCarouselReady() {
+    try {
+        //gestione select album record
+        $('.uploadRecord-boxSingleRecord').click(function() {
+            $("#uploadRecord01").fadeOut(100, function() {
+                $("#uploadRecord03").fadeIn(100);
+            });
+
+            json_album.recordId = this.id;
+            //inizializzazione dell'uploader
+            if (uploader === null) {
+                initMp3Uploader();
+            }
+
+            //recupero gli mp3 dell'album
+            getSongs(json_album.recordId);
+        });
+
+        //scorrimento lista album record 
+        $("#uploadRecord-listRecordTouch").touchCarousel({
+            pagingNav: false,
+            snapToItems: true,
+            itemsPerMove: 1,
+            scrollToLast: false,
+            loopItems: false,
+            scrollbar: false,
+            dragUsingMouse: false
+        });
+    } catch (err) {
+        window.console.log("onCarouselReady | An error occurred - message : " + err.message);
     }
 }
