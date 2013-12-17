@@ -97,7 +97,7 @@ class UploadRecordController extends REST {
             $imgInfo = $this->getImages($newRecord);
             $record->setCover($imgInfo['RecordPicture']);
             $record->setThumbnailCover($imgInfo['RecordThumbnail']);
-            $record->getSongCounter(0);
+            $record->setSongCounter(0);
             $record->setDescription($newRecord->recordTitle);
             $record->setDuration(0);
             if (isset($newRecord->albumFeaturing) && !is_null($newRecord->albumFeaturing) && count($newRecord->albumFeaturing) > 0)
