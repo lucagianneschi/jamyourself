@@ -62,4 +62,8 @@ define('MAX', 1000);
 define('MIN', 1);
 define('DEFAULTQUERY', 100);
 define('PLAYLISTLIMIT', 20);
+
+//STRINGHE DI ERRORE
+define('LOCATIONNOTFOUND', 'Location Not Found');
+define('ONLYIFLOGGEDIN', 'Just for logged Users');
 ?>
