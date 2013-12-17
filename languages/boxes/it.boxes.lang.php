@@ -18,7 +18,6 @@ $default_img = array(
 );
 
 $boxes = array(
-    'ONLYIFLOGGEDIN' => 'DISPONIBILE SOLO PER UTENTI LOGGATI',
     'MESSAGEFORLIST' => 'ti ha scritto un messaggio',
     'EVENTFORLIST' => 'ti ha inviato ad un evento',
     'FRIENDSHIPFORLIST' => 'vuole essere tuo amico',
