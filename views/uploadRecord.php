@@ -9,16 +9,6 @@ session_start();
 
 $uploadRecordController = new uploadRecordController();
 $uploadRecordController->init();
-$currentUser = $_SESSION['currentUser'];
-$currentUserId = $currentUser->getObjectId();
-$recordList = $uploadRecordController->viewRecordList;
-if (count($recordList) > 0) {
-    $recordIdList = array();
-    foreach ($recordList as $record) {
-        $recordIdList[] = $record->getObjectId();
-    }
-} else {
-}
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->

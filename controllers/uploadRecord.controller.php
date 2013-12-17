@@ -33,14 +33,13 @@ class UploadRecordController extends REST {
             exit;
         }
 
-        $currentUser = $_SESSION['currentUser'];
+//        $currentUser = $_SESSION['currentUser'];
 //caching dell'array dei featuring: tolto per velocizzare la pagina, verra' chiamato
 //in maniera asincrona
 //        $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
-
-        $recordBox = new RecordBox();
-        $recordBox->initForUploadRecordPage($currentUser->getObjectId());
-        $this->viewRecordList = $recordBox->recordArray;
+//        $recordBox = new RecordBox();
+//        $recordBox->initForUploadRecordPage($currentUser->getObjectId());
+//        $this->viewRecordList = $recordBox->recordArray;
     }
 
     public function recordCreate() {
@@ -92,7 +91,7 @@ class UploadRecordController extends REST {
                 $record->setFeaturing($newRecord->albumFeaturing);
             $record->setFromUser($userId);
             $record->setGenre($this->getTags($newRecord->tags));
-            $record->setLabel($newRecord->label);            
+            $record->setLabel($newRecord->label);
             $infoLocation = GeocoderService::getCompleteLocationInfo($newRecord->city);
             $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
             $record->setLocation($parseGeoPoint);
@@ -160,7 +159,8 @@ class UploadRecordController extends REST {
     private function getTags($list) {
         if (is_array($list) && count($list) > 0) {
             return implode(",", $list);
-        } else
+        }
+        else
             return "";
     }
 
@@ -430,7 +430,8 @@ class UploadRecordController extends REST {
                 $newName = $dir . DIRECTORY_SEPARATOR . $songId;
                 return rename($oldName, $newName);
             }
-        } else
+        }
+        else
             return false;
     }
 
@@ -538,17 +539,20 @@ class UploadRecordController extends REST {
      * 
      */
     public function getFeaturingJSON() {
-
-        $currentUserFeaturingArray = null;
-        if (isset($_SESSION['currentUserFeaturingArray'])) {
+        try {
+            $currentUserFeaturingArray = null;
+            if (isset($_SESSION['currentUserFeaturingArray'])) {
 //caching dell'array
-            $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
-        } else {
-            $currentUserFeaturingArray = $this->getFeaturingArray();
-            $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
-        }
+                $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
+            } else {
+                $currentUserFeaturingArray = $this->getFeaturingArray();
+                $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
+            }
 
-        echo json_encode($currentUserFeaturingArray);
+            echo json_encode($currentUserFeaturingArray);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
     }
 
     private function getFeaturingArray() {
@@ -568,79 +572,94 @@ class UploadRecordController extends REST {
                 }
                 return $userArray;
             }
-        } else
+        }
+        else
             return array();
     }
 
-    public function getRecordThumbnailURL($userId, $recordCoverThumb) {
-        $path = "";
-        if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
-            $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
-            if (!file_exists($path)) {
-                $path = DEFALBUMCOVER;
-            }
-        } else {
+    private function getRecordThumbnailURL($userId, $recordCoverThumb) {
+        try {
+            $path = "";
+            if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
+                $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
+                if (!file_exists($path)) {
+                    $path = DEFALBUMCOVER;
+                }
+            } else {
 //immagine di default con path realtivo rispetto alla View
 //http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
-            $path = DEFALBUMCOVER;
-        }
+                $path = DEFALBUMCOVER;
+            }
 
-        return $path;
+            return $path;
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
     }
 
     public function getSongsList() {
-        global $controllers;
-        if ($this->get_request_method() != "POST") {
-            $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-        } elseif (!isset($_SESSION['currentUser'])) {
-            $this->response($controllers['USERNOSES'], 403);
-        } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || !(strlen($this->request['recordId']) > 0)) {
-            $this->response(array("status" => $controllers['NOOBJECTID']), 403);
-        } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
-            $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
-        }
-        $recordId = $this->request['recordId'];
-        $songsList = tracklistGenerator($recordId);
-        if ($songsList instanceof Error) {
-            $this->response(array("status" => $controllers['NODATA']), 200);
-        } elseif (is_null($songsList) || count($songsList) == 0) {
-            $this->response(array("status" => $controllers['NOSONGFORRECORD'], "songList" => null, "count" => 0), 200);
-        }
-        $returnInfo = array();
-        foreach ($songsList as $song) {
-// info utili
-// mi serve: titolo, durata, lista generi, id
-            $seconds = $song->getDuration();
-            $hours = floor($seconds / 3600);
-            $mins = floor(($seconds - ($hours * 3600)) / 60);
-            $secs = floor($seconds % 60);
-            $duration = $hours == 0 ? $mins . ":" . $secs : $hours . ":" . $mins . ":" . $secs;
-            $genre = $song->getGenre();
-            $returnInfo[] = json_encode(array("title" => $song->getTitle(), "duration" => $duration, "genre" => $genre, "id" => $song->getObjectId()));
-        }
-        $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
-    }
-
-    public function checkCityExists() {
         try {
             global $controllers;
             if ($this->get_request_method() != "POST") {
-                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
+                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
             } elseif (!isset($_SESSION['currentUser'])) {
-                $this->response($controllers['USERNOSES'], 402);
+                $this->response($controllers['USERNOSES'], 403);
+            } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || !(strlen($this->request['recordId']) > 0)) {
+                $this->response(array("status" => $controllers['NOOBJECTID']), 403);
             } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
-                $this->response(array("status" => $controllers['CLASSTYPEKO']), 403);
-            } elseif (!isset($this->request['city']) || is_null($this->request['city']) || !(strlen($this->request['city']) > 0)) {
-                $this->response(array("status" => $controllers['NOCITY']), 404);
+                $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
+            }
+            $recordId = $this->request['recordId'];
+            $songsList = tracklistGenerator($recordId);
+            if ($songsList instanceof Error) {
+                $this->response(array("status" => $controllers['NODATA']), 200);
+            } elseif (is_null($songsList) || count($songsList) == 0) {
+                $this->response(array("status" => $controllers['NOSONGFORRECORD'], "songList" => null, "count" => 0), 200);
+            }
+            $returnInfo = array();
+            foreach ($songsList as $song) {
+// info utili
+// mi serve: titolo, durata, lista generi, id
+                $seconds = $song->getDuration();
+                $hours = floor($seconds / 3600);
+                $mins = floor(($seconds - ($hours * 3600)) / 60);
+                $secs = floor($seconds % 60);
+                $duration = $hours == 0 ? $mins . ":" . $secs : $hours . ":" . $mins . ":" . $secs;
+                $genre = $song->getGenre();
+                $returnInfo[] = json_encode(array("title" => $song->getTitle(), "duration" => $duration, "genre" => $genre, "id" => $song->getObjectId()));
+            }
+            $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
+    }
+
+    public function getUserRecords() {
+        try {
+            global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response($controllers['USERNOSES'], 403);
+            }
+            $currentUser = $_SESSION['currentUser'];
+            $recordBox = new RecordBox();
+            $recordBox->initForUploadRecordPage($currentUser->getObjectId());           
+            $recordIdList = array();
+            if (is_null($recordBox->error) && count($recordBox->recordArray) > 0) {
+                foreach ($recordBox->recordArray as $record) {
+                    $retObj = array();
+                    $retObj["thumbnail"] = $this->getRecordThumbnailURL($currentUser, $record->getThumbnailCover());
+                    $retObj["title"] = $record->getTitle();
+                    $retObj["songs"] = $record->getSongCounter();
+                    $retObj["recordId"] = $record->getObjectId();
+                    $recordIdList[] = $retObj;
+                }
             }
 
-            if (($location = GeocoderService::getLocation($this->request['city']))) {
-                $this->response(array("status" => $controllers['CITYEXISTS'], "geocoding" => $location), 200);
-            } else {
-                $this->response(array("status" => $controllers['CITYNOEXISTS'], "geocoding" => array(0, 0)), 200);
-            }
+            $this->response(array("status" => $controllers['GETRECORDSOK'], "recordList" => $recordIdList, "count" => count($recordIdList)), 200);
         } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 500);
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 

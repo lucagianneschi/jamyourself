@@ -1,5 +1,5 @@
 var music = null;
-var json_album_create = {'city' : null};
+var json_album_create = {'city': null};
 var uploader = null;
 var json_album = {"list": []};
 //-------------- variabili per jcrop ----------------------//
@@ -19,6 +19,7 @@ var type_user,
 
 $(document).ready(function() {
     //inizializzazone in sessione dei featuring in maniera asincrona
+    getUserRecords();
     initFeaturingJSON();
     initGeocomplete();
 
@@ -31,23 +32,6 @@ $(document).ready(function() {
         loopItems: false,
         scrollbar: false,
         dragUsingMouse: false
-    });
-
-
-    //gestione select album record
-    $('.uploadRecord-boxSingleRecord').click(function() {
-        $("#uploadRecord01").fadeOut(100, function() {
-            $("#uploadRecord03").fadeIn(100);
-        });
-
-        json_album.recordId = this.id;
-        //inizializzazione dell'uploader
-        if (uploader == null) {
-            initMp3Uploader();
-        }
-
-        //recupero gli mp3 dell'album
-        getSongs(json_album.recordId);
     });
 
     //gesione button create new 
@@ -665,16 +649,84 @@ function deleteSongCallback(data, status, xhr) {
 
 
 function initGeocomplete() {
-    $("#city").geocomplete()
-            .bind("geocode:result", function(event, result) {
+    try {
+        $("#city").geocomplete()
+                .bind("geocode:result", function(event, result) {
             json_album_create.city = prepareLocationObj(result);
-    })
-            .bind("geocode:error", function(event, status) {
+        })
+                .bind("geocode:error", function(event, status) {
             json_album_create.city = null;
 
-    })
-            .bind("geocode:multiple", function(event, results) {
+        })
+                .bind("geocode:multiple", function(event, results) {
             json_album_create.city = prepareLocationObj(results[0]);
-    });
+        });
 
+    } catch (err) {
+        window.console.log("An error occurred - message : " + err.message);
+    }
+
+}
+
+function getUserRecords() {
+    try {
+        sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
+    } catch (err) {
+        window.console.log("getUserRecords | An error occurred - message : " + err.message);
+
+    }
+
+}
+
+function getUserRecordsCallback(data, status, xhr) {
+    try {
+        if (status === "success") {
+            if (data.count > 0) {
+                for (var i = 0; i < data.count; i++) {
+                    var obj = data.recordList[i];
+                    var html = "";
+                    html += '<li class="touchcarousel-item">';
+                    html += '<div class="item-block uploadRecord-boxSingleRecord" id="' + obj.recordId + '">';
+                    html += '<div class="row">';
+                    html += '<div  class="small-6 columns ">';
+                    html += '<img class="coverRecord"  src="' + obj.thumbnail + '">';
+                    html += '</div>';
+                    html += '<div  class="small-6 columns title">';
+                    html += '<div class="sottotitle white">' + obj.title + '</div>';
+                    html += '<div class="text white">' + obj.songs + ' songs</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</div>';
+                    html += '</li>';
+
+                    $("#recordList").append(html);
+                }
+
+            }
+
+            //gestione select album record
+            $('.uploadRecord-boxSingleRecord').click(function() {
+                $("#uploadRecord01").fadeOut(100, function() {
+                    $("#uploadRecord03").fadeIn(100);
+                });
+
+                json_album.recordId = this.id;
+                //inizializzazione dell'uploader
+                if (uploader == null) {
+                    initMp3Uploader();
+                }
+
+                //recupero gli mp3 dell'album
+                getSongs(json_album.recordId);
+            });
+
+
+
+        } else {
+            alert(data.responseText.status);
+        }
+    } catch (err) {
+        window.console.log("getUserRecords | An error occurred - message : " + err.message);
+
+    }
 }

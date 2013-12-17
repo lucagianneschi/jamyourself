@@ -30,7 +30,7 @@ $controllers = array(
     'NOMAIL' => 'Unable to send mail',
     'NODATA' => 'No data available',
     'NOEXPIRED' => 'Expired unset',
-        //SIGNUP
+    //SIGNUP
     'INVALIDNEWUSER' => 'Invalid user',
     'NEWUSERCREATIONFAILED' => 'Save failed',
     'USERCREATED' => 'User created with success',
@@ -106,6 +106,7 @@ $controllers = array(
     'LONGREWTITLE' => 'Review title too long',
     'NORATING' => 'Rating unset',
     //RECORD
+    'GETRECORDSOK' => 'Record recuperati correttamente',
     'RECORDSAVED' => 'Record saved',
     'NODESCRIPTION' => 'No description',
     'NOTAGS' => 'No tags',
@@ -191,10 +192,10 @@ $controllers = array(
     //EVENTMANAGEMENT
     'NORESPONSE' => 'Response to invitation is unset',
     'INVALIDRESPONSE' => 'Response to invitation is invalid',
-    'INVITATIONDECLINED'=> 'Invitation declined',
-    'INVITATIONACCEPTED'=> 'Invitation accepted',
-    'NOEVENTID'=> 'Event ID unset',
-    'INVITATIONSENT'=> 'Invitation sent',
+    'INVITATIONDECLINED' => 'Invitation declined',
+    'INVITATIONACCEPTED' => 'Invitation accepted',
+    'NOEVENTID' => 'Event ID unset',
+    'INVITATIONSENT' => 'Invitation sent',
     'INVITATIONMAILSBJ' => 'You have been invited to an Event',
     'NOTINRELATION' => 'User not in a relationship',
     'NOEVENTFOUND' => 'Event not found for update',
@@ -215,10 +216,7 @@ $controllers = array(
     'EVENTCREATEERROR' => 'An error occurred during the creation of the new event',
     'NOEVENTTHUMB' => 'No thumbnail given for this event',
     'EVENTCREATED' => 'Event created with success'
-
-
-
-); 
+);
 
 $mail_files = array(
     'USERDELETED' => 'en.userDeletion.html',

@@ -103,6 +103,7 @@ $controllers = array(
     'LONGREWTITLE' => 'Titolo review troppo lungo',
     'NORATING' => 'Rating non impostato',
     //RECORD
+    'GETRECORDSOK' =>'Record recuperati correttamente',
     'RECORDSAVED' => 'Album salvato con successo',
     'NODESCRIPTION' => 'Nessuna descrizione',
     'NOTAGS' => 'Nessun tag',
