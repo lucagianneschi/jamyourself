@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Stefano Muscas
  * \version		1.0
@@ -144,8 +145,8 @@ class UploadRecordController extends REST {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackUploadRecordController($record->getObjectId(), "Record");
                 $this->response(array("status" => $message), 503);
-            }            
-            
+            }
+
             $dirCoverDest = USERS_DIR . $userId . "/images/recordcover";
             $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcoverthumb";
 
@@ -592,19 +593,18 @@ class UploadRecordController extends REST {
 
     private function getRecordThumbnailURL($userId, $recordCoverThumb) {
         try {
-            $path = "";
             if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
                 $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
                 if (!file_exists($path)) {
-                    $path = DEFALBUMCOVER;
+                    return DEFALBUMCOVER;
+                } else {
+                    return ".." . DIRECTORY_SEPARATOR . "users" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
                 }
             } else {
-//immagine di default con path realtivo rispetto alla View
-//http://socialmusicdiscovering.com/media/images/default/defaultEventThumb.jpg
                 $path = DEFALBUMCOVER;
             }
 
-            return $path;
+            return DEFALBUMCOVER;
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
@@ -657,12 +657,12 @@ class UploadRecordController extends REST {
             }
             $currentUser = $_SESSION['currentUser'];
             $recordBox = new RecordBox();
-            $recordBox->initForUploadRecordPage($currentUser->getObjectId());           
+            $recordBox->initForUploadRecordPage($currentUser->getObjectId());
             $recordIdList = array();
             if (is_null($recordBox->error) && count($recordBox->recordArray) > 0) {
                 foreach ($recordBox->recordArray as $record) {
                     $retObj = array();
-                    $retObj["thumbnail"] = $this->getRecordThumbnailURL($currentUser, $record->getThumbnailCover());
+                    $retObj["thumbnail"] = $this->getRecordThumbnailURL($currentUser->getObjectId(), $record->getThumbnailCover());
                     $retObj["title"] = $record->getTitle();
                     $retObj["songs"] = $record->getSongCounter();
                     $retObj["recordId"] = $record->getObjectId();
