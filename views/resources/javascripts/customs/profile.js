@@ -74,7 +74,7 @@ function setCounter(_this, objectId, classbox){
 				classObject = 'Record';
 			}
 			if(classbox == 'Album'){
-				idBox = '#profile-singleAlbum';
+				idBox = '.profile-singleAlbum';
 				classObject = 'Album'
 			}
 			if(classbox == 'Image' || classbox == 'Post'){
@@ -174,8 +174,8 @@ function albumSelectSingle(objectId,num) {
 //nasconde foto singolo album e visualizza lista album
 function albumSelectNext(objectId){		
 	$('#'+objectId ).fadeOut( 100, function() {
-		$('#profile-singleAlbum .box-comment').addClass('no-display');
-		$('#profile-singleAlbum  .box').removeClass('box-commentSpace');		
+		$('.profile-singleAlbum .box-comment').addClass('no-display');
+		$('.profile-singleAlbum  .box').removeClass('box-commentSpace');		
     	$('#albumSlide').fadeIn( 100 );
     	hcento();
 		$("#cboxLoadedContent").mCustomScrollbar("update");
@@ -183,7 +183,7 @@ function albumSelectNext(objectId){
 	});	
 }
 
-//visuallizza il link other 
+//visuallizza il link other  #NON SERVE
 function getOtherObject(dataPrec,num){
 	callBox.limit = 12;
 	callBox.skip = 12;
