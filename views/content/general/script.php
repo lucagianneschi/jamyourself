@@ -134,7 +134,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
         break;
     case "uploadRecord.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/request.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/uploadRecord.js"></script>
         <?php
         break;
@@ -145,7 +145,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
         break;
     case "uploadEvent.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/request.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/uploadEvent.js"></script>
         <?php
         break;
