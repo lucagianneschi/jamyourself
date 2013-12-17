@@ -49,8 +49,7 @@ class EventFilter {
     public function init($city = null, $tags = array(), $eventDate = null, $time = null, $limit = null, $skip = null, $distance = null, $unit = 'km') {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    global $boxes;
-	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
 	require_once CLASSES_DIR . 'event.class.php';
@@ -66,7 +65,7 @@ class EventFilter {
 	    if ($locations instanceof Error) {
 		$event->where('city', $city);
 	    } elseif (is_null($locations)) {
-		$this->errorManagement($boxes['NOEVENTFORTHISLOCATION']);
+		$this->errorManagement(LOCATIONNOTFOUND);
 		return;
 	    } else {
 		foreach ($locations as $loc) {
@@ -139,8 +138,7 @@ class RecordFilter {
     public function init($genre = array(), $city = null, $time = null, $limit = null, $skip = null, $distance = null, $unit = 'km') {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    global $boxes;
-	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
 	require_once CLASSES_DIR . 'record.class.php';
@@ -157,7 +155,7 @@ class RecordFilter {
 		$this->errorManagement($locations->getErrorMessage());
 		return;
 	    } elseif (is_null($locations)) {
-		$this->errorManagement($boxes['NORECORDFORTHISLOCATION']);
+		$this->errorManagement(LOCATIONNOTFOUND);
 		return;
 	    } else {
 		foreach ($locations as $loc) {
@@ -224,8 +222,7 @@ class StreamBox {
     public function init($limit = DEFAULTQUERY, $skip = null) {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    global $boxes;
-	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
 	$currentUser = $_SESSION['currentUser'];

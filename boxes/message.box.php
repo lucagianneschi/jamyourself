@@ -97,8 +97,7 @@ class MessageBox {
     public function initForUserList($limit = null, $skip = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
-            global $boxes;
-            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            $this->errorManagement(ONLYIFLOGGEDIN);
             return;
         }
         require_once CLASSES_DIR . 'activity.class.php';
@@ -155,8 +154,7 @@ class MessageBox {
     public function initForMessageList($otherId, $limit = null, $skip = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
-            global $boxes;
-            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            $this->errorManagement(ONLYIFLOGGEDIN);
             return;
         }
         require_once CLASSES_DIR . 'comment.class.php';

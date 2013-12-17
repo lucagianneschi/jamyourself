@@ -22,7 +22,7 @@ if(isset($user)){
 	$cssNewMessage = "";
 	
 }
-if($messageBox->error != $boxes['ONLYIFLOGGEDIN']){
+if($messageBox->error != ONLYIFLOGGEDIN){
 ?>
 <script type="text/javascript">
 	function viewOtherListMsg(user,limit,skip){
