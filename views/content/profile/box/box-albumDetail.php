@@ -56,6 +56,7 @@ if(($limit + $skip) < $countImage){
 		<a class="text orange otherObject <?php echo $css_other; ?>" onclick="loadBoxAlbumDetail('<?php echo $objectId ?>',<?php echo $countImage ?>,30,<?php echo $limit+$skip ?>)" style="padding-bottom: 15px;float: right;">Other <span><?php echo $other; ?></span> photos</a>	
 	</div>
 </div>
+<div class='spinnerDetail'></div>
 
 <!----------------------------------- lightbox ------------------------------------------>
 <div class="row no-display box" id="profile-Image">
