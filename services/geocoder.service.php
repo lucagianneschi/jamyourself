@@ -53,7 +53,7 @@ class GeocoderService {
             return FALSE;
     }
 
-    public function getCompleteLocationInfo($json) {
+    static function getCompleteLocationInfo($json) {
         $info = array();
         $info["latitude"] = 0;
         $info["longitude"] = 0;
