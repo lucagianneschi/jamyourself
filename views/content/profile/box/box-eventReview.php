@@ -40,8 +40,14 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				<?php
 				if ($reviewCounter > 1) {
 					?>
-					<a class="icon-block _nextPage grey" onclick="royalSlideNext('EventReview')" style="top: 5px !important; margin-top: 15px !important"></a>
-					<a class="icon-block _prevPage grey text" onclick="royalSlidePrev('EventReview')" style="top: 5px !important; margin-top: 15px !important; "><span class="indexBox">1</span>/<?php echo $reviewCounter ?></a>
+					<div class="row">					
+						<div  class="small-9 columns">
+							<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this,'EventReview')"><?php echo $views['PREV'];?> </a>
+						</div>
+						<div  class="small-3 columns">
+							<a class="slide-button-next _nextPage" onclick="royalSlideNext(this,'EventReview')"><?php echo $views['NEXT'];?> </a>
+						</div>
+					</div>
 					<?php
 				}
 				?>
