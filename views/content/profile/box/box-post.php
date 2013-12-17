@@ -113,7 +113,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 									<div class="box-propriety">
 										<div class="small-5 columns ">
 											<a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love;?></a>
-											<a class="note grey" onclick="setCounter(this,'<?php echo $data['post' . $i]['objectId']; ?>','Post')"><?php echo $views['COMM'];?></a>
+											<a class="note grey" onclick="loadBoxOpinion('<?php echo $post_objectId; ?>', 'Comment', '#<?php echo  $post_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM'];?></a>
 										</div>
 										<div class="small-5 columns propriety ">
 											<a class="icon-propriety <?php echo $css_love ?>"><?php echo $post_loveCounter; ?></a>
@@ -123,7 +123,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 								</div>
 								</div> <!--------------- BOX -------------------->	
 								<!---------------------------------------- COMMENT ------------------------------------------------->
-								<div class="box-comment no-display" ></div>
+								<div class="box-opinion no-display" ></div>
 							</div>
 							<?php
 						}
