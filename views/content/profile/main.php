@@ -413,7 +413,8 @@ require_once ROOT_DIR . 'config.php';
 										url: "content/profile/box/box-opinion.php",
 										data: json_data,
 										beforeSend: function(xhr) {
-											//spinner.show();
+											//spinner.show();											
+											goSpinner(box,'');
 											console.log('Sono partito loadBoxOption(' + limit +', ' + skip + ')');
 										}
 									})
@@ -422,6 +423,11 @@ require_once ROOT_DIR . 'config.php';
 										$(box).html(message);										
 										$(box).prev().addClass('box-commentSpace');
 										$(box).removeClass('no-display');
+										if(classBox == 'Image'){
+											$("#cboxLoadedContent").mCustomScrollbar("update");
+											hcento();
+										} 
+										
 										code = xhr.status;
 										//console.log("Code: " + code + " | Message: " + message);
 										console.log("Code: " + code + " | Message: <omitted because too large>");

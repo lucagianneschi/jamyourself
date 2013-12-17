@@ -19,8 +19,6 @@ $default_img = array(
 
 
 $boxes = array(
-    'NODATA' => 'NO DATA TO DISPLAY',
-    'NDB' => 'NOT DEFINED FOR THIS BOX',
     'ONLYIFLOGGEDIN' => 'AVAILABLE ONLY FOR LOGGED USERS',
     'MESSAGEFORLIST' => 'sent you a message',
     'EVENTFORLIST' => 'invited you to an event',

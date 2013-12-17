@@ -253,13 +253,14 @@ function royalSlideNext(box){
 		default:
 		break;
 	}
-	if(box == 'EventReview'){   		
-   		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
-   			$('#social-'+box+' .box-comment').addClass('no-display');
-   	}   		
-   	if(box == 'RecordReview'){   		
-   		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
-   			$('#social-'+box+' .box-comment').addClass('no-display');
+	if(box == 'EventReview' && !$('#social-'+box+' .box-opinion').hasClass('no-display')){
+   			$('#social-'+box+' .box-opinion').addClass('no-display');
+   			$('#social-'+box+' .box-opinion').prev().removeClass('box-commentSpace');   		
+   	} 
+   	  		
+   	if(box == 'RecordReview' && !$('#social-'+box+' .box-opinion').hasClass('no-display')){
+   			$('#social-'+box+' .box-opinion').addClass('no-display');
+   			$('#social-'+box+' .box-opinion').prev().removeClass('box-commentSpace');
    	}
 	rsi.next();
    	if(box == 'EventReview'){
@@ -293,13 +294,15 @@ function royalSlidePrev(box){
 		default:
 		break;
 	}
-	if(box == 'EventReview'){   		
-   		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
-   			$('#social-'+box+' .box-comment').addClass('no-display');
-   	}   		
-   	if(box == 'RecordReview'){   		
-   		if(!$('#social-'+box+' .box-comment').hasClass('no-display'))
-   			$('#social-'+box+' .box-comment').addClass('no-display');
+	
+	if(box == 'EventReview' && !$('#social-'+box+' .box-opinion').hasClass('no-display')){
+   			$('#social-'+box+' .box-opinion').addClass('no-display');
+   			$('#social-'+box+' .box-opinion').prev().removeClass('box-commentSpace');   		
+   	} 
+   	  		
+   	if(box == 'RecordReview' && !$('#social-'+box+' .box-opinion').hasClass('no-display')){
+   			$('#social-'+box+' .box-opinion').addClass('no-display');
+   			$('#social-'+box+' .box-opinion').prev().removeClass('box-commentSpace');
    	}
 	rsi.prev();
    	if(box == 'EventReview'){

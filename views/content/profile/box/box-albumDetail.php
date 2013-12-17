@@ -83,7 +83,7 @@ if(($limit + $skip) < $countImage){
 			 			<div class="row" style="margin-bottom: 10px">
 			 				<div  class="small-6 columns">
 			 					<a class="note grey " onclick="love(this, 'Image', '<?php echo $value->getObjectId(); ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
-								<a class="note grey" onclick="setCounter(this,'<?php echo $value->getObjectId(); ?>','Image')"><?php echo $views['COMM'];?></a>
+								<a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getObjectId(); ?>', 'Image', '#<?php echo  $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM'];?></a>
 								<a class="note grey" onclick="share(this,'<?php echo $value->getObjectId(); ?>','profile-Image')"><?php echo $views['SHARE'];?></a>
 			 				</div>
 			 				<div  class="small-6 columns propriety">
@@ -131,7 +131,7 @@ if(($limit + $skip) < $countImage){
 			 				</div>
 			 				<div  class="small-7 columns">
 			 					<!---------------------------------------- COMMENT ------------------------------------------------->
-								<div class="box-comment no-display" ></div>
+								<div class="box-opinion no-display" ></div>
 								<!---------------------------------------- SHARE ---------------------------------------------------->
 									<?php
 								//	$paramsImage = getShareParameters('Image', '', $value->getFilePath());
