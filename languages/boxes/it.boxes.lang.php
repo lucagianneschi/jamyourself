@@ -18,8 +18,6 @@ $default_img = array(
 );
 
 $boxes = array(
-    'NODATA' => 'NESSUN DATO DA MOSTRARE',
-    'NDB' => 'NON DEFINITO PER QUESTO TIPO DI BOX',
     'ONLYIFLOGGEDIN' => 'DISPONIBILE SOLO PER UTENTI LOGGATI',
     'MESSAGEFORLIST' => 'ti ha scritto un messaggio',
     'EVENTFORLIST' => 'ti ha inviato ad un evento',
