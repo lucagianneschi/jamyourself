@@ -155,7 +155,10 @@ if (is_null($albumBox->error)) {
 								$( "#albumSlide" ).fadeOut( 100, function() {
 									$('#'+objectId ).fadeIn( 100 );
 						    		if(skip == 0) goSpinner('#box-albumDetail', '');
-						    		else goSpinner('#box-albumDetail .spinnerDetail', '');
+						    		else{
+						    			$('#box-albumDetail .otherObject').addClass('no-display');
+						    			goSpinner('#box-albumDetail .spinnerDetail', '');
+						    		} 
 								});
 								
 								console.log('Sono partito box-albumDetail');								
