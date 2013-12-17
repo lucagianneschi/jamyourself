@@ -423,6 +423,11 @@ require_once ROOT_DIR . 'config.php';
 										$(box).html(message);										
 										$(box).prev().addClass('box-commentSpace');
 										$(box).removeClass('no-display');
+										if(classBox == 'Image'){
+											$("#cboxLoadedContent").mCustomScrollbar("update");
+											hcento();
+										} 
+										
 										code = xhr.status;
 										//console.log("Code: " + code + " | Message: " + message);
 										console.log("Code: " + code + " | Message: <omitted because too large>");
