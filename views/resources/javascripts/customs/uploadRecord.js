@@ -23,8 +23,6 @@ $(document).ready(function() {
     initFeaturingJSON();
     initGeocomplete();
 
-
-
     //gesione button create new 
     $('#uploadRecord-new').click(function() {
         $("#uploadRecord01").fadeOut(100, function() {
@@ -40,7 +38,7 @@ $(document).ready(function() {
         $("#uploadRecord02").fadeOut(100, function() {
             $("#uploadRecord03").fadeIn(100);
         });
-        if (uploader != null) {
+        if (uploader !== null) {
             uploader.start();
         }
 
@@ -124,205 +122,201 @@ $(document).ready(function() {
 /////////////////////////////////////////////////////////////////////////////
 
 function initImgUploader() {
-
-//    console.log("initImgUploader - start => upload div: " + $("#uploader_img_button"));
-//    window.console.log("initUploader - params : userType => " + userType);
+    try {
 //inizializzazione dei parametri
-    var selectButtonId = "uploader_img_button";
-    var url = "../controllers/request/uploadRequest.php";
-    var runtime = 'html4';
-    var multi_selection = false;
-    var maxFileSize = "12mb";
+        var selectButtonId = "uploader_img_button";
+        var url = "../controllers/request/uploadRequest.php";
+        var runtime = 'html4';
+        var multi_selection = false;
+        var maxFileSize = "12mb";
 
 //creo l'oggetto uploader (l'ho dichiarato ad inizio js in modo che sia globale)
-    uploader = new plupload.Uploader({
-        runtimes: runtime, //runtime di upload
-        browse_button: selectButtonId, //id del pulsante di selezione file
-        max_file_size: maxFileSize, //dimensione max dei file da caricare
-        multi_selection: multi_selection, //forza un file alla volta per upload
-        url: url,
-        filters: [
-            {title: "Image files", extensions: "jpg,gif,png"}
-        ],
-        multipart_params: {"request": "uploadImage"}, //parametri passati in POST
-    });
+        uploader = new plupload.Uploader({
+            runtimes: runtime, //runtime di upload
+            browse_button: selectButtonId, //id del pulsante di selezione file
+            max_file_size: maxFileSize, //dimensione max dei file da caricare
+            multi_selection: multi_selection, //forza un file alla volta per upload
+            url: url,
+            filters: [
+                {title: "Image files", extensions: "jpg,gif,png"}
+            ],
+            multipart_params: {"request": "uploadImage"}, //parametri passati in POST
+        });
 
-    uploader.bind('Init', function(up, params) {
+        uploader.bind('Init', function(up, params) {
 //        window.console.log("initImgUploader - EVENT: Ini");
-        $('#filelist').html("");
-    });
+            $('#filelist').html("");
+        });
 
 //inizializo l'uploader
 //    window.console.log("initUploader - eseguo uploader.init()");
-    uploader.init();
+        uploader.init();
 
 //evento: file aggiunto
-    uploader.bind('FilesAdded', function(up, files) {
-        //avvio subito l'upload
+        uploader.bind('FilesAdded', function(up, files) {
+            //avvio subito l'upload
 //        window.console.log("initImgUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
 
-        uploader.start();
-    });
+            uploader.start();
+        });
 
 //evento: cambiamento percentuale di caricamento
-    uploader.bind('UploadProgress', function(up, file) {
+        uploader.bind('UploadProgress', function(up, file) {
 //        window.console.log("initImgUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
-    });
+        });
 
 //evento: errore
-    uploader.bind('Error', function(up, err) {
+        uploader.bind('Error', function(up, err) {
 //        window.console.log("initImgUploader - EVENT: Error - parametri: err => " + JSON.stringify(err));
-        alert("Error occurred");
-        up.refresh();
-    });
+            alert("Error occurred");
+            up.refresh();
+        });
 
 //evento: upload terminato
-    uploader.bind('FileUploaded', function(up, file, response) {
+        uploader.bind('FileUploaded', function(up, file, response) {
+            var obj = JSON.parse(response.response);
 
-//        window.console.log("initImgUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
+            json_album_create.image = obj.src;
 
-//        console.log(response.response);
-        var obj = JSON.parse(response.response);
+            //qua ora va attivato il jcrop
+            var img = new Image();
+            img.src = "../media/cache/" + obj.src;
+            img.width = obj.width;
+            img.height = obj.height;
 
-        json_album_create.image = obj.src;
-
-        //qua ora va attivato il jcrop
-        var img = new Image();
-        img.src = "../media/cache/" + obj.src;
-        img.width = obj.width;
-        img.height = obj.height;
-
-        onUploadedImage(img);
-    });
+            onUploadedImage(img);
+        });
+    } catch (err) {
+        window.console.log("onUploadedImage | An error occurred - message : " + err.message);
+    }
 }
 
 function onUploadedImage(img) {
+    try {
+        preview = $('#uploadImage_preview');
+        tumbnail = $('#uploadImage_tumbnail');
+        tumbnail_pane = $('#uploadImage_tumbnail-pane');
 
-    preview = $('#uploadImage_preview');
-    tumbnail = $('#uploadImage_tumbnail');
-    tumbnail_pane = $('#uploadImage_tumbnail-pane');
+        id_tumbnail = tumbnail.attr('id');
+        id_preview = preview.attr('id');
 
-    id_tumbnail = tumbnail.attr('id');
-    id_preview = preview.attr('id');
+        //creo l'html per la preview dell'immagine
 
-    //creo l'html per la preview dell'immagine
+        input_x = 'crop_x';
+        input_y = 'crop_y';
+        input_w = 'crop_w';
+        input_h = 'crop_h';
 
-    input_x = 'crop_x';
-    input_y = 'crop_y';
-    input_w = 'crop_w';
-    input_h = 'crop_h';
+        var html_uploadImage_preview_box = "";
+        html_uploadImage_preview_box += '<img src="' + img.src + '" id="' + id_preview + '" width="' + img.width + 'px" height="' + img.height + 'px" "/>';
+        html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
+        html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
+        html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
+        html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
 
-    var html_uploadImage_preview_box = "";
-    html_uploadImage_preview_box += '<img src="' + img.src + '" id="' + id_preview + '" width="' + img.width + 'px" height="' + img.height + 'px" "/>';
-    html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
-    html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
-    html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
-    html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
-
-    //mostra a video la preview dell'immagine:
-    $('#uploadImage_preview_box').html(html_uploadImage_preview_box);
-    preview = $('#uploadImage_preview_box');
+        //mostra a video la preview dell'immagine:
+        $('#uploadImage_preview_box').html(html_uploadImage_preview_box);
+        preview = $('#uploadImage_preview_box');
 
 
-    //creo l'html per la preview del thumbnail (l'immagine finale dopo il jcrop?)
-    var html_tumbnail_pane = '';
-    html_tumbnail_pane += '<img src="" id="' + id_tumbnail + '" height="50" width="50"/>';
+        //creo l'html per la preview del thumbnail (l'immagine finale dopo il jcrop?)
+        var html_tumbnail_pane = '';
+        html_tumbnail_pane += '<img src="" id="' + id_tumbnail + '" height="50" width="50"/>';
 
 //mostra a video la preview del thumbnail 
-    $("#" + id_tumbnail).html(html_tumbnail_pane);
-    tumbnail = $('#' + id_tumbnail);
+        $("#" + id_tumbnail).html(html_tumbnail_pane);
+        tumbnail = $('#' + id_tumbnail);
 
 //mostro a video l'immagine 
-    $('#uploadImage_save').removeClass('no-display');
+        $('#uploadImage_save').removeClass('no-display');
 
-    //attivo il plugin jcrop (non funzionante per ora)
-    initJcrop(img, preview);
+        //attivo il plugin jcrop (non funzionante per ora)
+        initJcrop(img, preview);
+    } catch (err) {
+        window.console.log("onUploadedImage | An error occurred - message : " + err.message);
+    }
 }
 
 function  initJcrop(img, preview) {
+    try {
+        //se jcrop è gia' stato attivato in precedenza lo disattivo
+        if (jcrop_api) {
+            jcrop_api.destroy();
+            jcrop_api.setOptions({allowSelect: !!this.checked});
+            jcrop_api.focus();
+            //tumbnail.remove();
+        }
+        xsize = tumbnail_pane.width(),
+                ysize = tumbnail_pane.height();
 
-    var imgWidth = img.width;
-    var imgHeight = img.height;
-
-    //se jcrop è gia' stato attivato in precedenza lo disattivo
-    if (jcrop_api) {
-        jcrop_api.destroy();
-        jcrop_api.setOptions({allowSelect: !!this.checked});
-        jcrop_api.focus();
-        //tumbnail.remove();
-    }
-    xsize = tumbnail_pane.width(),
-            ysize = tumbnail_pane.height();
-
-    $(preview).Jcrop({
-        onChange: updatePreview,
-        onSelect: updatePreview,
-        aspectRatio: xsize / ysize,
-    }, function() {
-        var bounds = this.getBounds();
-        boundx = bounds[0];
-        boundy = bounds[1];
-        jcrop_api = this;
-        jcrop_api.setImage(img.src);
-        jcrop_api.setOptions({
-            boxWidth: img.width,
-            boxHeight: img.height
+        $(preview).Jcrop({
+            onChange: updatePreview,
+            onSelect: updatePreview,
+            aspectRatio: xsize / ysize,
+        }, function() {
+            var bounds = this.getBounds();
+            boundx = bounds[0];
+            boundy = bounds[1];
+            jcrop_api = this;
+            jcrop_api.setImage(img.src);
+            jcrop_api.setOptions({
+                boxWidth: img.width,
+                boxHeight: img.height
+            });
+            jcrop_api.animateTo([0, 0, 100, 100]);
         });
-        jcrop_api.animateTo([0, 0, 100, 100]);
-    });
-
-
+    } catch (err) {
+        window.console.log("initJcrop | An error occurred - message : " + err.message);
+    }
 }
 
 function updatePreview(c) {
-    $('#' + input_x).val(c.x);
-    $('#' + input_y).val(c.y);
-    $('#' + input_w).val(c.w);
-    $('#' + input_h).val(c.h);
+    try {
+        $('#' + input_x).val(c.x);
+        $('#' + input_y).val(c.y);
+        $('#' + input_w).val(c.w);
+        $('#' + input_h).val(c.h);
+    } catch (err) {
+        window.console.log("updatePreview | An error occurred - message : " + err.message);
+    }
 
 }
 
 $('#uploadImage_save').click(function() {
-    tumbnail = $('#uploadImage_tumbnail');
+    try {
+        tumbnail = $('#uploadImage_tumbnail');
+        tumbnail.attr('src', preview.attr('src'));
+        thmImage = new Image();
+        thmImage.src = preview.attr('src');
+        var realwidth, realheight;
+        thmImage.onload = function() {
+            try {
+                realwidth = this.width;
+                realheight = this.height;
+                thm_w = Math.round(realwidth / $('#' + input_w).val() * xsize);
+                thm_h = Math.round(realheight / $('#' + input_h).val() * ysize);
+                tumbnail.css({
+                    width: thm_w + 'px',
+                    height: thm_h + 'px',
+                    marginLeft: '-' + Math.round(thm_w * ($('#' + input_x).val() / realwidth)) + 'px',
+                    marginTop: '-' + Math.round(thm_h * ($('#' + input_y).val() / realheight)) + 'px'
+                });
+            } catch (err) {
+                window.console.log("thmImage.onload | An error occurred - message : " + err.message);
+            }
 
-    tumbnail.attr('src', preview.attr('src'));
-
-    thmImage = new Image()
-
-    thmImage.src = preview.attr('src');
-
-    var realwidth, realheight;
-
-    thmImage.onload = function() {
-        realwidth = this.width;
-        realheight = this.height;
-
-
-        thm_w = Math.round(realwidth / $('#' + input_w).val() * xsize);
-        thm_h = Math.round(realheight / $('#' + input_h).val() * ysize);
-
-//        console.log(realwidth + ' ' + $('#' + input_w).val() + ' ' + xsize + ' ' + thm_w);
-//        console.log(realheight + ' ' + $('#' + input_h).val() + ' ' + ysize + ' ' + thm_h);
-
-        tumbnail.css({
-            width: thm_w + 'px',
-            height: thm_h + 'px',
-            marginLeft: '-' + Math.round(thm_w * ($('#' + input_x).val() / realwidth)) + 'px',
-            marginTop: '-' + Math.round(thm_h * ($('#' + input_y).val() / realheight)) + 'px'
-        });
-
+        };
+        var json_crop = {
+            x: $('#' + input_x).val(),
+            y: $('#' + input_y).val(),
+            h: $('#' + input_h).val(),
+            w: $('#' + input_w).val(),
+        };
+        json_album_create.crop = json_crop;
+        $('#upload').foundation('reveal', 'close');
+    } catch (err) {
+        window.console.log("#uploadImage_save.click | An error occurred - message : " + err.message);
     }
-
-    json_crop = {
-        x: $('#' + input_x).val(),
-        y: $('#' + input_y).val(),
-        h: $('#' + input_h).val(),
-        w: $('#' + input_w).val(),
-    };
-
-    json_album_create.crop = json_crop;
-
-    $('#upload').foundation('reveal', 'close');
 });
 
 function getTagsAlbumCreate() {
@@ -338,7 +332,7 @@ function getTagsAlbumCreate() {
 
         return tags;
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        window.console.log("getTagsAlbumCreate | An error occurred - message : " + err.message);
     }
 }
 
@@ -354,7 +348,7 @@ function callbackAlbumCreate(data, status) {
             console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
         }
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        window.console.log("callbackAlbumCreate | An error occurred - message : " + err.message);
     }
 }
 function getFeaturingAlbumCreate() {
@@ -366,7 +360,7 @@ function getFeaturingAlbumCreate() {
 
         return featuring;
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        window.console.log("getFeaturingAlbumCreate | An error occurred - message : " + err.message);
     }
 }
 function recordCreate() {
@@ -392,59 +386,63 @@ function recordCreate() {
 //
 /////////////////////////////////////////////////////////////////////////////
 function initMp3Uploader() {
+    try {
 //creo l'oggetto uploader (l'ho dichiarato ad inizio js in modo che sia globale)
-    uploader = new plupload.Uploader({
-        runtimes: 'html4', //runtime di upload
-        browse_button: "uploader_mp3_button", //id del pulsante di selezione file
-        max_file_size: "12mb", //dimensione max dei file da caricare
-        multi_selection: false, //forza un file alla volta per upload
-        url: "../controllers/request/uploadRequest.php",
-        filters: [
-            {title: "Audio files", extensions: "mp3"}
-        ],
-        multipart_params: {"request": "uploadMp3"}, //parametri passati in POST
-    });
+        uploader = new plupload.Uploader({
+            runtimes: 'html4', //runtime di upload
+            browse_button: "uploader_mp3_button", //id del pulsante di selezione file
+            max_file_size: "12mb", //dimensione max dei file da caricare
+            multi_selection: false, //forza un file alla volta per upload
+            url: "../controllers/request/uploadRequest.php",
+            filters: [
+                {title: "Audio files", extensions: "mp3"}
+            ],
+            multipart_params: {"request": "uploadMp3"}, //parametri passati in POST
+        });
 
-    uploader.bind('Init', function(up, params) {
+        uploader.bind('Init', function(up, params) {
 //        window.console.log("initUploader - EVENT: Ini");
-        $('#filelist').html("");
-    });
+            $('#filelist').html("");
+        });
 
 //inizializo l'uploader
 //    window.console.log("initUploader - eseguo uploader.init()");
-    uploader.init();
+        uploader.init();
 
 //evento: file aggiunto
-    uploader.bind('FilesAdded', function(up, files) {
-        //avvio subito l'upload
+        uploader.bind('FilesAdded', function(up, files) {
+            //avvio subito l'upload
 //        window.console.log("initUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
 
-        while (up.files.length > 1) {
-            up.removeFile(up.files[0]);
-        }
-    });
+            while (up.files.length > 1) {
+                up.removeFile(up.files[0]);
+            }
+        });
 
 //evento: cambiamento percentuale di caricamento
-    uploader.bind('UploadProgress', function(up, file) {
+        uploader.bind('UploadProgress', function(up, file) {
 //        window.console.log("initUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
-    });
+        });
 
 //evento: errore
-    uploader.bind('Error', function(up, err) {
+        uploader.bind('Error', function(up, err) {
 //        window.console.log("initUploader - EVENT: Error - parametri: err => " + JSON.stringify(err));
-        alert("Error occurred");
-        up.refresh();
-    });
+            alert("Error occurred");
+            up.refresh();
+        });
 
 //evento: upload terminato
-    uploader.bind('FileUploaded', function(up, file, response) {
+        uploader.bind('FileUploaded', function(up, file, response) {
 
 //        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
-        var obj = JSON.parse(response.response);
+            var obj = JSON.parse(response.response);
 
-        addNewSong(obj.src, obj.duration, getTagsMusicTrack());
+            addNewSong(obj.src, obj.duration, getTagsMusicTrack());
 
-    });
+        });
+    } catch (err) {
+        console.error("An error occurred - message : " + err.message);
+    }
 }
 
 function getTagsMusicTrack() {
@@ -460,7 +458,7 @@ function getTagsMusicTrack() {
 
         return tags;
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("initMp3Uploader | An error occurred - message : " + err.message);
     }
 }
 function getFeaturingSongCreate() {
@@ -472,7 +470,7 @@ function getFeaturingSongCreate() {
 
         return featuring;
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("getFeaturingSongCreate | An error occurred - message : " + err.message);
     }
 }
 
@@ -486,16 +484,14 @@ function addNewSong(id, duration, tags) {
         addSongToList(json_elem.title, json_elem.duration, json_elem.tags.join(), true, id.substring(0, id.indexOf(".")));
         $("#trackTitle").val("");
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("addNewSong | An error occurred - message : " + err.message);
     }
 }
 
 function addSongToList(title, duration, genre, isNew, id) {
     try {
         var html = "";
-
         html += '<tr id="tr_song_list_' + id + '">';
-
         html += '<td class="title _note-button">' + title + '</td>';
         html += '<td class="time">' + duration + '</td>';
         html += '<td class="genre">' + genre + '</td>';
@@ -507,7 +503,7 @@ function addSongToList(title, duration, genre, isNew, id) {
 
         $("#songlist").append(html);
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("addSongToList | An error occurred - message : " + err.message);
     }
 }
 
@@ -515,7 +511,7 @@ function publish() {
     try {
         sendRequest("uploadRecord", "publishSongs", json_album, publishCallback, false);
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("publish | An error occurred - message : " + err.message);
     }
 }
 
@@ -524,15 +520,17 @@ function publishCallback(data, status) {
         alert(data.status);
         clearAll();
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("publishCallback | An error occurred - message : " + err.message);
     }
 }
 function uploaderRefresh() {
-//    console.log(uploader);
-
-    if (uploader != null) {
+    try {
+        if (uploader != null) {
 //        console.log("refreshing uploader");
-        uploader.refresh();
+            uploader.refresh();
+        }
+    } catch (err) {
+        console.error("uploaderRefresh | An error occurred - message : " + err.message);
     }
 }
 
@@ -550,13 +548,12 @@ function getSongs(recordId) {
             sendRequest("uploadRecord", "getSongsList", json_for_count_song, getSongCallback, true);
         }
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("getSongs | An error occurred - message : " + err.message);
     }
 }
 
 function getSongCallback(data, status) {
     try {
-
         if (data.songList != undefined && data.songList != null && data.count != undefined && data.count != null && data.count >= 0) {
             json_album.count = data.count;
             for (var i = 0; i < data.count; i++) {
@@ -571,7 +568,7 @@ function getSongCallback(data, status) {
             json_album.count = 0;
         }
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("getSongCallback | An error occurred - message : " + err.message);
     }
 }
 
@@ -579,7 +576,7 @@ function initFeaturingJSON() {
     try {
         sendRequest("uploadRecord", "getFeaturingJSON", {}, null, true);
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("initFeaturingJSON | An error occurred - message : " + err.message);
     }
 }
 
@@ -590,7 +587,7 @@ function clearAll() {
         $("#songlist").html("");
         getSongs(json_album.recordId);
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("clearAll | An error occurred - message : " + err.message);
     }
 
 }
@@ -607,7 +604,7 @@ function removeSongFromList(src) {
         }
         console.log("Lista => " + JSON.stringify(json_album.list));
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("removeSongFromList | An error occurred - message : " + err.message);
     }
 
 }
@@ -619,7 +616,7 @@ function deleteSong(songId) {
             sendRequest("uploadRecord", "deleteSong", json_delete, deleteSongCallback, false);
         }
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("deleteSong | An error occurred - message : " + err.message);
     }
 }
 
@@ -634,7 +631,7 @@ function deleteSongCallback(data, status, xhr) {
         }
 
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("deleteSongCallback | An error occurred - message : " + err.message);
     }
 }
 
@@ -654,7 +651,7 @@ function initGeocomplete() {
         });
 
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        console.error("initGeocomplete | An error occurred - message : " + err.message);
     }
 
 }
@@ -663,7 +660,7 @@ function getUserRecords() {
     try {
         sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
     } catch (err) {
-        window.console.log("getUserRecords | An error occurred - message : " + err.message);
+        console.error("getUserRecords | An error occurred - message : " + err.message);
     }
 
 }
@@ -680,7 +677,7 @@ function getUserRecordsCallback(data, status, xhr) {
         }
         onCarouselReady();
     } catch (err) {
-        window.console.log("getUserRecords | An error occurred - message : " + err.message);
+        console.error("getUserRecords | An error occurred - message : " + err.message);
     }
 }
 
@@ -702,7 +699,7 @@ function getCarouselHtmlElement(obj) {
         html += '</li>';
         return html;
     } catch (err) {
-        window.console.log("getCarouselHtmlElement | An error occurred - message : " + err.message);
+        console.error("getCarouselHtmlElement | An error occurred - message : " + err.message);
     }
 }
 
@@ -735,6 +732,6 @@ function onCarouselReady() {
             dragUsingMouse: false
         });
     } catch (err) {
-        window.console.log("onCarouselReady | An error occurred - message : " + err.message);
+        console.error("onCarouselReady | An error occurred - message : " + err.message);
     }
 }
