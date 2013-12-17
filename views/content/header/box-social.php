@@ -82,7 +82,7 @@ if (isset($userObjectId)) {
 		}
 	} catch(Exception $e) {
 	} 
-	if ($detailNotification->notificationArray != $boxes['NDB']) {
+	if (count($detailNotification->notificationArray) > 0) {
 		foreach ($detailNotification->notificationArray as $key => $value) {
 			$createdAd = $value->createdAt->format('d/m/Y H:i');
 			$user_objectId = $value->fromUserInfo->objectId;
