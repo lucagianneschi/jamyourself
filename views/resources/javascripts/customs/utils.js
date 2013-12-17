@@ -58,3 +58,17 @@ function sendRequest(_server, _action, _data, _callback, _async) {
         window.console.log("sendRequest | An error occurred - message : " + err.message);
     }
 }
+
+function prepareLocationObj(_result) {
+    try {
+        var location = {};
+        location.address_components = _result.address_components;
+        location.latitude = _result.geometry.location.nb;
+        location.longitude = _result.geometry.location.ob;
+        location.formatted_address = _result.formatted_address;
+        return location;
+    }
+    catch (err) {
+        window.console.log("prepareLocationObj | An error occurred - message : " + err.message);
+    }
+}
