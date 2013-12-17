@@ -37,8 +37,7 @@ $countComment = count($comment->commentArray);
 			
 			if($countComment > 0) {
 					foreach ($comment->commentArray as $key => $value) {	
-			//			$comment_DateTime = DateTime::createFromFormat('d-m-Y H:i:s', $value->getCreatedAt());
-			//			$comment_createdAd = $comment_DateTime->format('l j F Y - H:i');
+						$comment_data = $value->getCreatedAt()->format('l j F Y - H:i');
 						
 						switch ($value->getFromUser()->getType()) {
 							case 'JAMMER':
@@ -74,7 +73,7 @@ $countComment = count($comment->commentArray);
 									</div>
 									<div  class="small-6 columns align-right">
 										<div class="note grey-light">
-											<?php //echo $comment_createdAd ?>
+											<?php echo $comment_data ?>
 										</div>
 									</div>
 								</div>
