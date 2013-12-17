@@ -413,7 +413,8 @@ require_once ROOT_DIR . 'config.php';
 										url: "content/profile/box/box-opinion.php",
 										data: json_data,
 										beforeSend: function(xhr) {
-											//spinner.show();
+											//spinner.show();											
+											goSpinner(box,'');
 											console.log('Sono partito loadBoxOption(' + limit +', ' + skip + ')');
 										}
 									})
