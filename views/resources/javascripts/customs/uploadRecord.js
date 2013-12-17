@@ -20,6 +20,7 @@ var type_user,
 $(document).ready(function() {
     //inizializzazone in sessione dei featuring in maniera asincrona
     initFeaturingJSON();
+    initGeocomplete();
 
     //scorrimento lista album record 
     $("#uploadRecord-listRecordTouch").touchCarousel({

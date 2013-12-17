@@ -92,11 +92,11 @@ class UploadRecordController extends REST {
                 $record->setFeaturing($newRecord->albumFeaturing);
             $record->setFromUser($userId);
             $record->setGenre($this->getTags($newRecord->tags));
-            $record->setLabel($newRecord->label);
-            if (($location = GeocoderService::getLocation($newRecord->city))) {
-                $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
-                $record->setLocation($parseGeoPoint);
-            }
+            $record->setLabel($newRecord->label);            
+            $infoLocation = GeocoderService::getCompleteLocationInfo($newRecord->city);
+            $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
+            $record->setLocation($parseGeoPoint);
+
             $record->setLoveCounter(0);
             $record->setReviewCounter(0);
             $record->setShareCounter(0);
