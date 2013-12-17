@@ -46,7 +46,7 @@ class EventFilter {
      * \param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
      * \todo    introdurre la ricerca in abse alall geolocalizzazione, fai query su locationParse, poi cerchi l'evento più vicino
      */
-    public function init($city = null, $type = null, $eventDate = null, $time = null, $limit = null, $skip = null) {
+    public function init($city = null, $tags = array(), $eventDate = null, $time = null, $limit = null, $skip = null, $distance = null, $unit = 'km') {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
             global $boxes;
@@ -70,11 +70,15 @@ class EventFilter {
                 return;
             } else {
                 foreach ($locations as $loc) {
-                    $event->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude'], $this->config->distanceLimitForEvent, 'km');
+		    $event->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude'], (is_null($distance) && !is_numeric($distance)) ? $this->config->distanceLimitForEvent : $distance, ($unit == 'km') ? $unit : 'mi');
                 }
             }
-        } elseif (!is_null($type)) {
-            $event->where('type', $type);
+	} elseif (count($tags) != 0) {
+	    $orConditionArray = array();
+	    foreach ($tags as $tag) {
+		array_push($orConditionArray, array('tags' => $tag));
+	    }
+	    $event->whereOr($orConditionArray);
         } elseif (!is_null($eventDate)) {
             $event->whereGreaterThanOrEqualTo('eventDate', $eventDate);
         }
