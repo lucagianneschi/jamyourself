@@ -235,7 +235,7 @@ if (is_null($recordBox->error)) {
 							<div class="box-propriety">
 								<div class="small-6 columns ">
 									<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')"><?php echo $recordSingle_text_love ;?></a>
-									<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')"><?php echo $views['COMM'];?></a>
+									<a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_objectId; ?>', 'Record', '.<?php echo  $recordSingle_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM'];?></a>
 									<a class="note white" onclick="share(this, '<?php echo $recordSingle_objectId ?>','profile-Record')"><?php echo $views['SHARE'];?></a>
 									<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')"><?php echo $views['REVIEW'];?></a>	
 								</div>
@@ -261,14 +261,15 @@ if (is_null($recordBox->error)) {
 							</div>
 						</div>
 						<!-- AddThis Button END -->
-					</div>	
+					</div>
+					<!---------------------------------------- comment ------------------------------------------------->
+					<div class="box-opinion no-display" style="margin-bottom: 0px !important;"></div>	
 				</div>
 					
 			<?php
 			}
 			?>
-			<!---------------------------------------- comment ------------------------------------------------->
-			<div class="box-comment no-display"></div>
+			
 		</div>
 	</div>
 	<?php

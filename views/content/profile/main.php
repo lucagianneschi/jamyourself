@@ -425,7 +425,7 @@ require_once ROOT_DIR . 'config.php';
 										$(box).removeClass('no-display');
 										if(classBox == 'Image'){
 											$("#cboxLoadedContent").mCustomScrollbar("update");
-											hcento();
+										//	hcento();
 										} 
 										
 										code = xhr.status;
