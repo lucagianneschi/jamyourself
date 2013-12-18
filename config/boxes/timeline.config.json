@@ -1,7 +1,5 @@
 {
     "defultLimit": 10,
-    "limitRecordForTimeline": 10,
-    "distanceLimitForRecord":200,
     "limitLocation": 1,
     "sharedActivities": [
 	"COMMENTEDONALBUM",
