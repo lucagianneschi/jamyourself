@@ -598,7 +598,7 @@ class UploadRecordController extends REST {
                 if (!file_exists($path)) {
                     return DEFALBUMCOVER;
                 } else {
-                    return ".." . DIRECTORY_SEPARATOR . "users" . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
+                    return "../users/" . $userId . "/images/recordcoverthumb/" . $recordCoverThumb;
                 }
             } else {
                 $path = DEFALBUMCOVER;
