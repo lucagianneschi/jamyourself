@@ -201,6 +201,7 @@ class MessageBox {
      * \todo    
      */
     private function errorManagement($errorMessage = null) {
+        $this->config = null;
         $this->error = $errorMessage;
         $this->messageArray = array();
         $this->userInfoArray = array();

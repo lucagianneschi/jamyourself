@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -60,10 +61,12 @@ class PostBox {
         $post->orderByDescending('createdAt');
         $posts = $post->getComments();
         if ($posts instanceof Error) {
+            $this->config = null;
             $this->error = $posts->getErrorMessage();
             $this->postArray = array();
             return;
         } elseif (is_null($posts)) {
+            $this->config = null;
             $this->error = null;
             $this->postArray = array();
             return;
@@ -78,4 +81,5 @@ class PostBox {
     }
 
 }
+
 ?>
