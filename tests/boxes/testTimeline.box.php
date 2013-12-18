@@ -27,7 +27,7 @@ require_once PARSE_DIR . 'parse.php';
 echo '<br />------------------------- TEST TIMELINE LDF-------------------------------------------<br />';
 echo '<br />------------------------- EVENTFILTER-------------------------------------------------<br />';
 $eventFilter = new EventFilter();
-$eventFilter->init(array(),'Viareggio');
+$eventFilter->init(array(), 'Viareggio');
 print "<pre>";
 print_r($eventFilter);
 print "</pre>";
@@ -35,7 +35,7 @@ echo count($eventFilter->eventArray);
 
 echo '<br />------------------------- RECORDFILTER-------------------------------------------------<br />';
 $recordFilter = new RecordFilter();
-$recordFilter->init(array('Uncatogorized','Rock'));
+$recordFilter->init(array(), null, null, array('Uncatogorized', 'Rock'));
 print "<pre>";
 print_r($recordFilter);
 print "</pre>";
@@ -43,13 +43,9 @@ echo count($recordFilter->recordArray);
 
 echo '<br />------------------------- STREAM-------------------------------------------------<br />';
 $timeline = new StreamBox();
-$timeline->init(10,0);
+$timeline->init(10, 0);
 print "<pre>";
 print_r($timeline);
 print "</pre>";
 echo count($timeline->activitesArray);
-
-
-
-
 ?>
