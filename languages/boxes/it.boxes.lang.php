@@ -12,11 +12,6 @@
  *  \todo
  */
 
-$default_img = array(
-    'DEFAVATAR' => 'images/default/defaultAvatar.jpg',
-    'DEFAVATARTHUMB' => 'images/default/defaultAvatarThumb.jpg',
-);
-
 $boxes = array(
     'MESSAGEFORLIST' => 'ti ha scritto un messaggio',
     'EVENTFORLIST' => 'ti ha inviato ad un evento',

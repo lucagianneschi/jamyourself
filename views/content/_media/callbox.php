@@ -126,7 +126,7 @@ switch ($typebox) {
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
 				foreach ($commentBox->commentInfoArray as $key => $value) {					
 					$result['comment']['commentInfoArray'][$key]['user_objectId'] = $value -> fromUserInfo -> objectId;
-					$result['comment']['commentInfoArray'][$key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
+					$result['comment']['commentInfoArray'][$key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : DEFTHUMB;
 					$result['comment']['commentInfoArray'][$key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
 					$result['comment']['commentInfoArray'][$key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
 					$result['comment']['commentInfoArray'][$key]['createdAt'] = $value -> createdAt;
@@ -154,7 +154,7 @@ switch ($typebox) {
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
 				foreach ($commentBox->commentInfoArray as $key => $value) {					
 					$result['comment']['commentInfoArray'][$key]['user_objectId'] = $value -> fromUserInfo -> objectId;
-					$result['comment']['commentInfoArray'][$key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
+					$result['comment']['commentInfoArray'][$key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : DEFTHUMB;
 					$result['comment']['commentInfoArray'][$key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
 					$result['comment']['commentInfoArray'][$key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
 					$result['comment']['commentInfoArray'][$key]['createdAt'] = $value -> createdAt;

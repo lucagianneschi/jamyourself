@@ -53,7 +53,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 						<div class="row <?php echo $review_user_objectId ?>">											
 							<div  class="small-1 columns ">
 								<div class="userThumb">
-									<img src="../media/<?php echo $review_user_thumbnail ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+									<img src="../media/<?php echo $review_user_thumbnail ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 								</div>
 							</div>
 							<div  class="small-5 columns">

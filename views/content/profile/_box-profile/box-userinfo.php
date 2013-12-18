@@ -41,6 +41,6 @@ $userinfo_note = $data['music'] == "" ? '' : '_note';
 <div class="row">
 	<div class="large-12 columns">
 		<img class="background" src="../media/<?php echo $data['backGround'] ?>"  onerror="this.src='../media/<?php echo DEFBGD; ?>'" >
-		<img class="picture" src="../media/<?php echo $data['profilePicture'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATAR']; ?>'" width="150" height="150">							
+		<img class="picture" src="../media/<?php echo $data['profilePicture'] ?>" onerror="this.src='../media/<?php echo DEFAVATAR; ?>'" width="150" height="150">							
 	</div>
 </div> 

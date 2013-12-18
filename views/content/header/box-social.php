@@ -107,7 +107,7 @@ if (isset($userObjectId)) {
 			<div class="row">
 				<div  class="large-1 columns hide-for-small">
 					<div class="icon-header">
-						<img src="../media/<?php echo $default_img['DEFAVATARTHUMB']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+						<img src="../media/<?php echo DEFTHUMB?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 					</div>
 				</div>
 				<div  class="large-11 columns">

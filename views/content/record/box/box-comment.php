@@ -90,7 +90,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                                     <div class="row  line">
                                         <div  class="small-1 columns ">
                                             <div class="icon-header">
-                                                <img src="../media/<?php echo $comment_user_thumbnail; ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+                                                <img src="../media/<?php echo $comment_user_thumbnail; ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
                                             </div>
                                         </div>
                                         <div  class="small-5 columns">

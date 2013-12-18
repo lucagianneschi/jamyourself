@@ -70,7 +70,7 @@ $longitude = '40';
 				<div class="row " id="user_<?php echo $user_objectId?>">
 					<div class="small-1 columns ">
 						<div class="icon-header">
-							<img src="<?php echo $user_thumbnail?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+							<img src="<?php echo $user_thumbnail?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 						</div>
 					</div>
 					<div  class="small-11 columns ">
@@ -128,7 +128,7 @@ $longitude = '40';
     						<div class="row " id="featuring_<?php echo $value['$userInfo']['objectId'] ?>">
 								<div  class="small-3 columns ">
 									<div class="icon-header">
-										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 									</div>
 								</div>
 								<div  class="small-9 columns ">
@@ -145,7 +145,7 @@ $longitude = '40';
     						<div class="row " id="featuring_<?php echo $value['$userInfo']['objectId'] ?>">
 								<div  class="small-3 columns ">
 									<div class="icon-header">
-										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 									</div>
 								</div>
 								<div  class="small-9 columns ">
@@ -192,7 +192,7 @@ $longitude = '40';
     						<div class="row " id="featuring_<?php echo $value['$userInfo']['objectId'] ?>">
 								<div  class="small-3 columns ">
 									<div class="icon-header">
-										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 									</div>
 								</div>
 								<div  class="small-9 columns ">
@@ -209,7 +209,7 @@ $longitude = '40';
     						<div class="row " id="featuring_<?php echo $value['$userInfo']['objectId'] ?>">
 								<div  class="small-3 columns ">
 									<div class="icon-header">
-										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 									</div>
 								</div>
 								<div  class="small-9 columns ">
@@ -240,7 +240,7 @@ $longitude = '40';
     						<div class="row " id="featuring_<?php echo $value['$userInfo']['objectId'] ?>">
 								<div  class="small-3 columns ">
 									<div class="icon-header">
-										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 									</div>
 								</div>
 								<div  class="small-9 columns ">
@@ -257,7 +257,7 @@ $longitude = '40';
     						<div class="row " id="featuring_<?php echo $value['$userInfo']['objectId'] ?>">
 								<div  class="small-3 columns ">
 									<div class="icon-header">
-										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+										<img src="../media/<?php echo $value['$userInfo']['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 									</div>
 								</div>
 								<div  class="small-9 columns ">

@@ -40,7 +40,7 @@ $friendshipCounter = $data['relation']['friendship']['friendshipCounter'];
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['friendship'. $i]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['friendship'. $i]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+											<img src="../media/<?php echo $data['relation']['friendship'. $i]['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -55,7 +55,7 @@ $friendshipCounter = $data['relation']['friendship']['friendshipCounter'];
 	    						<div class="row " id="collaborator_<?php echo $data['relation']['friendship'. ($i+1)]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['friendship'. ($i+1)]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+											<img src="../media/<?php echo $data['relation']['friendship'. ($i+1)]['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">

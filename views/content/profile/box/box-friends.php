@@ -42,7 +42,7 @@ if (is_null($friendsBox->error)) {
 										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -75,7 +75,7 @@ if (is_null($friendsBox->error)) {
 												<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 													<div  class="small-3 columns ">
 														<div class="icon-header">
-															<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+															<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 														</div>
 													</div>
 													<div  class="small-9 columns ">
