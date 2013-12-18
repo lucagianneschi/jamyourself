@@ -61,10 +61,10 @@ echo '<br />-------------------------------MEDIAPAGE----------------------------
 $idReview = 'Khlv07KRGH';
 $review3_start = microtime();
 $reviewBoxP3 = new ReviewBox();
-$reviewBox3 = $reviewBoxP3->initForMediaPage('FdNPf4yaxV', 'Event', 3, 0);
+$reviewBoxP3->initForMediaPage('FdNPf4yaxV', 'Event', 3, 0);
 
 print "<pre>";
-print_r($reviewBox3);
+print_r($reviewBoxP3);
 print "</pre>";
 //echo '<br />-------------------------------DETAIL-------------------------------------------<br />';
 //$review3_stop = microtime();
