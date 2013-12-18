@@ -13,7 +13,6 @@
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
  
 $data = $_POST['data'];
@@ -231,7 +230,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+													<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -248,7 +247,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+													<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -281,7 +280,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+													<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -298,7 +297,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+													<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -336,7 +335,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['friendship'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+													<img src="../media/<?php echo $dataActivityRelation['friendship'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -352,7 +351,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['friendship'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+													<img src="../media/<?php echo $dataActivityRelation['friendship'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -384,7 +383,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['following'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+													<img src="../media/<?php echo $dataActivityRelation['following'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -401,7 +400,7 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 			    						<div class="row ">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $dataActivityRelation['following'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+													<img src="../media/<?php echo $dataActivityRelation['following'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">

@@ -10,8 +10,6 @@ session_start();
 $uploadReviewController = new UploadReviewController();
 $uploadReviewController->init();
 
-
-global $boxes;
 $title = $uploadReviewController->reviewed->getTitle();
 $tagGenere = "";
 $thumbnail = "";

@@ -38,7 +38,7 @@ $fromUserUsername = $record->getfromUser()->getUsername();
 				<div class="row " id="user_<?php echo $fromUserObjectId; ?>">
 					<div class="small-1 columns ">
 						<div class="icon-header">
-							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 						</div>
 					</div>
 					<div  class="small-11 columns ">

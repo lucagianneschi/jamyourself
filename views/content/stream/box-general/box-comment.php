@@ -5,7 +5,6 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 
 $data = $_POST['data'];
@@ -54,7 +53,7 @@ $objectId = $_POST['objectId'];
 								<div class="row">
 									<div  class="small-1 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $value['user_thumbnail'] ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+											<img src="../media/<?php echo $value['user_thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 										</div>
 									</div>
 									<div  class="small-5 columns">

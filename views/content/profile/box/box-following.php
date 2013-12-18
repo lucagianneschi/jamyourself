@@ -14,7 +14,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 require_once BOXES_DIR . 'relation.box.php';
 
@@ -61,7 +60,7 @@ if (is_null($followingsBox->error)) {
 								<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+											<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -93,7 +92,7 @@ if (is_null($followingsBox->error)) {
 										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -144,7 +143,7 @@ if (is_null($followingsBox->error)) {
 								<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+											<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -178,7 +177,7 @@ if (is_null($followingsBox->error)) {
 										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB'];?>'">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">

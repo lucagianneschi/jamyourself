@@ -11,7 +11,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'review.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
@@ -75,7 +74,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                     <div class="row <?php echo $review_user_objectId; ?>">
                                         <div  class="small-1 columns ">
                                             <div class="userThumb">
-                                                <img src="../media/<?php echo $review_user_thumbnail; ?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+                                                <img src="../media/<?php echo $review_user_thumbnail; ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
                                             </div>
                                         </div>
                                         <div  class="small-5 columns">
