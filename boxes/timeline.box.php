@@ -10,7 +10,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo	        corretta gestione di skip e limit sia per query interna che esterna, correggere whereInclude,implementare plugin per ricerca spaziale e fare ricerca con whereInSphere nota la località 	        
+ * \todo	        corretta gestione di skip e limit sia per query interna che esterna, correggere whereInclude	        
  */
 
 if (!defined('ROOT_DIR'))
@@ -42,7 +42,7 @@ class EventFilter {
      * \fn	init($city = null, $type = null, $eventDate = null, $limit = null, $skip = null)
      * \brief	Init EventFilter instance for TimeLine
      * \param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
-     * \todo    introdurre la ricerca in abse alall geolocalizzazione, fai query su locationParse, poi cerchi l'evento più vicino
+     * \todo    
      */
     public function init($geopoint = array(), $city = null, $country = null, $tags = array(), $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
         $currentUserId = sessionChecker();
@@ -231,7 +231,7 @@ class StreamBox {
                 return;
             }
             $activities = $this->query('collaboration', $currentUser->getObjectId(), $cicles, $actArray, $limit, $skip);
-        };
+        }
         $this->error = (count($activities) == 0 || !ksort($activities)) ? 'TIMELINERROR' : null;
         $this->activitesArray = $activities;
     }
