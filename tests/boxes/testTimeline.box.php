@@ -21,21 +21,23 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
-require_once BOXES_DIR . 'timeline.box.php';
+require_once BOXES_DIR . 'stream.box.php';
+require_once BOXES_DIR . 'event.box.php';
+require_once BOXES_DIR . 'record.box.php';
 require_once PARSE_DIR . 'parse.php';
 
 echo '<br />------------------------- TEST TIMELINE LDF-------------------------------------------<br />';
 echo '<br />------------------------- EVENTFILTER-------------------------------------------------<br />';
-$eventFilter = new EventFilter();
-$eventFilter->init(array(), 'Viareggio');
+$eventFilter = new EventBox();
+$eventFilter->initForTimeline(array(), 'Viareggio');
 print "<pre>";
 print_r($eventFilter);
 print "</pre>";
 echo count($eventFilter->eventArray);
 
 echo '<br />------------------------- RECORDFILTER-------------------------------------------------<br />';
-$recordFilter = new RecordFilter();
-$recordFilter->init(array(), null, null, array('Uncatogorized', 'Rock'));
+$recordFilter = new RecordBox();
+$recordFilter->initForTimeline(array(), null, null, array('Uncatogorized', 'Rock'));
 print "<pre>";
 print_r($recordFilter);
 print "</pre>";
