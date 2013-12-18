@@ -400,12 +400,15 @@ require_once ROOT_DIR . 'config.php';
 								});
 							}
 							
-							function loadBoxOpinion(objectId, classBox, box, limit, skip) {
+							function loadBoxOpinion(objectId, toUser, classBox, box, limit, skip) {
+                                console.log('Sono stato chiamato => loadBoxOpinion(' + objectId + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
 								if($(box).hasClass('no-display')){							
 								
 									var json_data = {};
 									json_data.objectId = objectId;
+                                    json_data.toUser = toUser;
 									json_data.classBox = classBox;
+                                    json_data.box = box;
 									json_data.limit = limit;
 									json_data.skip = skip;
 									$.ajax({
@@ -415,7 +418,7 @@ require_once ROOT_DIR . 'config.php';
 										beforeSend: function(xhr) {
 											//spinner.show();											
 											goSpinner(box,'');
-											console.log('Sono partito loadBoxOption(' + limit +', ' + skip + ')');
+											console.log('Sono partito loadBoxOpinion(' + objectId + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
 										}
 									})
 									.done(function(message, status, xhr) {
