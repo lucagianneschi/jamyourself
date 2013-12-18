@@ -555,7 +555,7 @@ function getSongs(recordId) {
 
 function getSongCallback(data, status) {
     try {
-        if (data.songList != undefined && data.songList != null && data.count != undefined && data.count != null && data.count >= 0) {
+        if (status == "success" && data.songList != undefined && data.songList != null && data.count != undefined && data.count != null && data.count >= 0) {
             json_album.count = data.count;
             for (var i = 0; i < data.count; i++) {
                 var song = JSON.parse(data.songList[i]);
@@ -628,7 +628,7 @@ function deleteSongCallback(data, status, xhr) {
             $('#tr_song_list_' + data.id).remove();
             alert(data.status);
         } else {
-            alert(data.responseText.status);
+            alert(data.status);
         }
 
     } catch (err) {
@@ -675,7 +675,7 @@ function getUserRecordsCallback(data, status, xhr) {
                 $("#recordList").append(getCarouselHtmlElement(data.recordList[i]));
             }
         } else {
-            alert(data.responseText.status);
+            alert(data.status);
         }
         onCarouselReady();
     } catch (err) {

@@ -1,32 +1,5 @@
 $(document).ready(function() {
-    var json_upload_review = {"rating": 3, "review": "", "record":""};
-
-    function sendRequest(_action, _data, callback, _async) {
-        if (_action === undefined || _action === null || _data === undefined || _data === null) {
-            callback(null);
-        }
-        _data.request = _action;
-        var url = "../controllers/request/uploadReviewRequest.php";
-        var type = "POST";
-        var async = true;
-        if (async !== undefined && async !== null)
-            async = _async;
-
-        $.ajax({
-            type: type,
-            url: url,
-            data: _data,
-            dataType: "json",
-            async: async,
-            success: function(data, status) {
-                //gestione success
-                callback(data, status);
-            },
-            error: function(data, status) {
-                callback(data, status);
-            }
-        });
-    }
+    var json_upload_review = {"rating": 3, "review": ""};
 
     //gestione rating
     $("a[id^='star_rating_']").click(function() {
@@ -41,19 +14,27 @@ $(document).ready(function() {
 
         }
     });
-    
-    function publicCallback(data,status){
-            var result = JSON.parse(data.responseText);
-            window.console.log(data);
-            alert(result.status);   
+
+    function publihsCallback(data, status, xhr) {
+        try {
+            if (status === "success" && data !== undefined && data !== null) {
+                alert(data.status);
+            }
+        } catch (err) {
+            console.log("publihsCallback | An error occurred - message : " + err.message);
+        }
     }
-    
+
     $("#button_publish").click(function() {
-        json_upload_review.review = $("textarea").val();
-        json_upload_review.reviewedId = $("#record_id").val();
-        json_upload_review.type = $("#type").val();
-        console.log(JSON.stringify(json_upload_review));
-        sendRequest("publish", json_upload_review, publicCallback, true);
+        try {
+            json_upload_review.review = $("textarea").val();
+            json_upload_review.reviewedId = $("#record_id").val();
+            json_upload_review.type = $("#type").val();
+            console.log(JSON.stringify(json_upload_review));
+            sendRequest("uploadReview", "publish", json_upload_review, publihsCallback, true);
+        } catch (err) {
+            console.log("button_publish.click | An error occurred - message : " + err.message);
+        }
     });
 
 

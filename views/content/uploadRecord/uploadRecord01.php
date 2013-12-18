@@ -7,9 +7,8 @@
 	<div  class="large-12 columns ">
 
 		<div  id="uploadRecord-listRecordTouch" class="touchcarousel grey-blue">
-			<ul class="touchcarousel-container" id="recordList">			
-			</ul>
-		
+			<ul class="touchcarousel-container" id="recordList">
+			</ul>		
 		</div>
 		
 	</div>		
