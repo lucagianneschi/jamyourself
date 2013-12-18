@@ -21,29 +21,6 @@ require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
- * \fn	        findLocationCoordinates($city = null, $coutry = null)
- * \brief	find location for city and/or country for geoQuery
- * \param	$city = null, $coutry = null
- * \return      $locations, array with 1 element, null, if $city && $country are null at the same time, $error in case of query error
- */
-function findLocationCoordinates($city = null, $coutry = null) {
-    if (is_null($city) && is_null($coutry)) {
-        return null;
-    } else {
-        require_once CLASSES_DIR . 'location.class.php';
-        require_once CLASSES_DIR . 'locationParse.class.php';
-        $location = new LocationParse();
-        if (!is_null($city)) {
-            $location->where('city', $city);
-        } elseif (!is_null($coutry)) {
-            $location->where('country', $coutry);
-        }
-        $location->setLimit(MIN);
-        return $location->getLocations();
-    }
-}
-
-/**
  * \brief	EventFilter class
  * \details	box class to pass info to the view for timelinePage
  */
