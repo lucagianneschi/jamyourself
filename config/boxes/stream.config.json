@@ -1,6 +1,5 @@
 {
     "defultLimit": 10,
-    "limitLocation": 1,
     "sharedActivities": [
 	"COMMENTEDONALBUM",
 	"COMMENTEDONIMAGE",
