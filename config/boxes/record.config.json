@@ -1,5 +1,4 @@
 {
-    "limitRecordForMediaPage": 1,
     "limitRecordForUploadRecordPage": 1000,
     "limitRecordForTimeline": 10,
     "distanceLimitForRecord": 200
