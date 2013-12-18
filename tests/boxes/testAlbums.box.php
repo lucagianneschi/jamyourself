@@ -27,6 +27,15 @@ require_once BOXES_DIR . 'album.box.php';
 
 $i_end = microtime();
 
+
+
+echo '<br />-------------------------TEST ALBUM UPLAODPAGE-------------------------------------------<br />';
+$album3 = new AlbumBox();
+$album3->initForUploadAlbumPage();
+
+print "<pre>";
+print_r($album3);
+print "</pre>";
 echo '<br />-------------------------TEST ALBUM PERSONALPAGE-------------------------------------------<br />';
 $album_start = microtime();
 $albumBoxP = new AlbumBox();
@@ -45,5 +54,9 @@ print "<pre>";
 print_r($albumBoxP3);
 print "</pre>";
 $t_end = microtime();
+
+
+
+
 
 ?>
