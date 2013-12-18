@@ -50,10 +50,7 @@ class PlaylistBox {
     public function init() {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
-            require_once SERVICES_DIR . 'lang.service.php';
-            require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
-            global $boxes;
-            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            $this->errorManagement(ONLYIFLOGGEDIN);
             return;
         }
         require_once CLASSES_DIR . 'playlist.class.php';

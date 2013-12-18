@@ -19,8 +19,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'utilsBox.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 
 /**
  * \brief	EventFilter class
@@ -46,43 +44,39 @@ class EventFilter {
      * \param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
      * \todo    introdurre la ricerca in abse alall geolocalizzazione, fai query su locationParse, poi cerchi l'evento più vicino
      */
-    public function init($city = null, $type = null, $eventDate = null, $time = null, $limit = null, $skip = null) {
+    public function init($geopoint = array(), $city = null, $country = null, $tags = array(), $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
-            global $boxes;
-            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            $this->errorManagement(ONLYIFLOGGEDIN);
             return;
         }
         require_once CLASSES_DIR . 'event.class.php';
         require_once CLASSES_DIR . 'eventParse.class.php';
         $event = new EventParse();
-        if (!is_null($city)) {
-            require_once CLASSES_DIR . 'location.class.php';
-            require_once CLASSES_DIR . 'locationParse.class.php';
-            $location = new LocationParse();
-            $location->where('city', $city);
-            $location->setLimit($this->config->limitLocation);
-            $locations = $location->getLocations();
-            if ($locations instanceof Error) {
-                $event->where('city', $city);
-            } elseif (is_null($locations)) {
-                $this->errorManagement($boxes['NOEVENTFORTHISLOCATION']);
-                return;
-            } else {
+        if ((count($geopoint) != 0)) {
+            $event->whereNearSphere($geopoint[0], $geopoint[1], (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForEvent : $distance, ($unit == 'km') ? $unit : 'mi');
+        } elseif (!is_null($city) || !is_null($country)) {
+            $locations = findLocationCoordinates($city, $country);
+            if (!($locations instanceof Error) && !is_null($locations)) {
                 foreach ($locations as $loc) {
-                    $event->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude'], $this->config->distanceLimitForEvent, 'km');
+                    $lat = $loc->getGeopoint()->location['latitude'];
+                    $long = $loc->getGeopoint()->location['longitude'];
                 }
             }
-        } elseif (!is_null($type)) {
-            $event->where('type', $type);
+            $event->whereNearSphere($lat, $long, (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForEvent : $distance, ($unit == 'km') ? $unit : 'mi');
+        } elseif (count($tags) != 0) {
+            $orConditionArray = array();
+            foreach ($tags as $tag) {
+                array_push($orConditionArray, array('tags' => $tag));
+            }
+            $event->whereOr($orConditionArray);
         } elseif (!is_null($eventDate)) {
             $event->whereGreaterThanOrEqualTo('eventDate', $eventDate);
         }
+        $event->whereExists('createdAt');
         $event->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitEventForTimeline);
         $event->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-        if (!is_null($time)) {
-            $event->orderByAscending('eventDate');
-        }
+        $event->orderByDescending((is_null($field) || ((count($geopoint) == 0) && (is_null($city)) && is_null($country))) ? 'eventDate' : $field);
         $events = $event->getEvents();
         if ($events instanceof Error) {
             $this->errorManagement($events->getErrorMessage());
@@ -108,10 +102,11 @@ class EventFilter {
 
 }
 
-/**
- * \brief	RecordFilter class
- * \details	box class to pass info to the view for timelinePage
+/* *
+ * \brief RecordFilter class
+ * \details box class to pass info to the view for timelinePage
  */
+
 class RecordFilter {
 
     public $config;
@@ -132,42 +127,33 @@ class RecordFilter {
      * \param	$genre = null, $limit = null, $skip = null
      * \todo
      */
-    public function init($genre = array('Uncategorized'), $city = null, $time = null, $limit = null, $skip = null) {
+    public function init($geopoint = array(), $city = null, $country = null, $genre = array(), $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
-            global $boxes;
-            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            $this->errorManagement(ONLYIFLOGGEDIN);
             return;
         }
         require_once CLASSES_DIR . 'record.class.php';
         require_once CLASSES_DIR . 'recordParse.class.php';
         $record = new RecordParse();
-        if (!is_null($city)) {
-            require_once CLASSES_DIR . 'location.class.php';
-            require_once CLASSES_DIR . 'locationParse.class.php';
-            $location = new LocationParse();
-            $location->where('city', $city);
-            $location->setLimit($this->config->limitLocation);
-            $locations = $location->getLocations();
-            if ($locations instanceof Error) {
-                $this->errorManagement($locations->getErrorMessage());
-                return;
-            } elseif (is_null($locations)) {
-                $this->errorManagement($boxes['NORECORDFORTHISLOCATION']);
-                return;
-            } else {
+        if ((count($geopoint) != 0)) {
+            $record->whereNearSphere($geopoint[0], $geopoint[1], (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForRecord : $distance, ($unit == 'km') ? $unit : 'mi');
+        } elseif (!is_null($city) || !is_null($country)) {
+            $locations = findLocationCoordinates($city, $country);
+            if (!($locations instanceof Error) && !is_null($locations)) {
                 foreach ($locations as $loc) {
-                    $record->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude'], $this->config->distanceLimitForRecord, 'km');
+                    $lat = $loc->getGeopoint()->location['latitude'];
+                    $long = $loc->getGeopoint()->location['longitude'];
                 }
             }
-        } elseif (!is_null($genre)) {
+            $record->whereNearSphere($lat, $long, (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForRecord : $distance, ($unit == 'km') ? $unit : 'mi');
+        } elseif (count($genre) != 0) {
             $record->whereContainedIn('genre', $genre);
         }
+        $record->whereExists('createdAt');
         $record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);
         $record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-        if (!is_null($time)) {
-            $record->orderByDescending('createdAt');
-        }
+        $record->orderByDescending((is_null($field) || ((count($geopoint) == 0) && (is_null($city)) && is_null($country))) ? 'createdAt' : $field);
         $records = $record->getRecords();
         if ($records instanceof Error) {
             $this->errorManagement($records->getErrorMessage());
@@ -220,8 +206,7 @@ class StreamBox {
     public function init($limit = DEFAULTQUERY, $skip = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
-            global $boxes;
-            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            $this->errorManagement(ONLYIFLOGGEDIN);
             return;
         }
         $currentUser = $_SESSION['currentUser'];

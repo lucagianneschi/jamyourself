@@ -34,7 +34,7 @@ $messageBox = new MessageBox();
 if(isset($_POST['user'])){
 	$user = $_POST['user'];
 	$messageBox->initForMessageList($user, $limit, $skip);
-	if($messageBox->error != $boxes['ONLYIFLOGGEDIN']){
+	if($messageBox->error != ONLYIFLOGGEDIN){
 		
 		$dataPrec = '';
 ?>

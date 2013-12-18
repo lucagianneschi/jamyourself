@@ -84,8 +84,7 @@ class NotificationBox {
 	$this->notificationArray = null;
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    global $boxes;
-	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
 	$activity0 = new ActivityParse();
@@ -141,8 +140,7 @@ class NotificationBox {
     public function initForDetailedList($type) {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    global $boxes;
-	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
 	$relatedId = null;
@@ -220,8 +218,7 @@ class NotificationBox {
     public function initForEventList() {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    global $boxes;
-	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
 	$this->invitationCounter = null;
@@ -275,8 +272,7 @@ class NotificationBox {
     public function initForMessageList() {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    global $boxes;
-	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
 	$relationArray = array();
@@ -327,8 +323,7 @@ class NotificationBox {
     public function initForRelationList($type) {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
-	    global $boxes;
-	    $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
 	}
 	$relationArray = array();

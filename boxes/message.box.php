@@ -18,8 +18,6 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 /**
@@ -97,8 +95,7 @@ class MessageBox {
     public function initForUserList($limit = null, $skip = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
-            global $boxes;
-            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            $this->errorManagement(ONLYIFLOGGEDIN);
             return;
         }
         require_once CLASSES_DIR . 'activity.class.php';
@@ -155,8 +152,7 @@ class MessageBox {
     public function initForMessageList($otherId, $limit = null, $skip = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
-            global $boxes;
-            $this->errorManagement($boxes['ONLYIFLOGGEDIN']);
+            $this->errorManagement(ONLYIFLOGGEDIN);
             return;
         }
         require_once CLASSES_DIR . 'comment.class.php';

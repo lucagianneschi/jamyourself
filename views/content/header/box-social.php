@@ -29,9 +29,9 @@ if (isset($userObjectId)) {
 	$detailNotification = new NotificationBox();
 	//$detailNotification->initForCounter($userType);
 	
-	$invited = $_SESSION['invitationCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['invitationCounter'] : 0;
-	$message = $_SESSION['messageCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['messageCounter'] : 0;
-	$relation = $_SESSION['relationCounter'] != $boxes['ONLYIFLOGGEDIN'] ? $_SESSION['relationCounter'] : 0;
+	$invited = $_SESSION['invitationCounter'] != ONLYIFLOGGEDIN ? $_SESSION['invitationCounter'] : 0;
+	$message = $_SESSION['messageCounter'] != ONLYIFLOGGEDIN ? $_SESSION['messageCounter'] : 0;
+	$relation = $_SESSION['relationCounter'] != ONLYIFLOGGEDIN ? $_SESSION['relationCounter'] : 0;
 	
 	$totNotification = $invited + $message + $relation;
 		
