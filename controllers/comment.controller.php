@@ -22,6 +22,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once CONTROLLERS_DIR . 'utilsController.php';
 require_once SERVICES_DIR . 'debug.service.php';
 
 /**
@@ -183,6 +184,17 @@ class CommentController extends REST {
                     $this->response(array($message), 503);
                 }
             }
+            
+            require_once CLASSES_DIR . 'userParse.class.php';
+            $userParse = new UserParse();
+            $user = $userParse->getUser($toUserObjectId);
+            #TODO
+            //$address = $user->getEmail();
+            $address = 'alesandro.ghilarducci@gmail.com';
+            $subject = 'Oggetto';
+            $html = 'Mail';
+            sendMailForNotification($address, $subject, $html);
+            
             $this->response(array($controllers['COMMENTSAVED']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getErrorMessage()), 503);
