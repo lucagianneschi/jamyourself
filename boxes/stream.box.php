@@ -10,7 +10,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo	        corretta gestione di skip e limit sia per query interna che esterna, correggere whereInclude,implementare plugin per ricerca spaziale e fare ricerca con whereInSphere nota la località 	        
+ * \todo	        corretta gestione di skip e limit sia per query interna che esterna, correggere whereInclude	        
  */
 
 if (!defined('ROOT_DIR'))
@@ -19,165 +19,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'utilsBox.php';
-
-/**
- * \brief	EventFilter class
- * \details	box class to pass info to the view for timelinePage
- */
-class EventFilter {
-
-    public $config;
-    public $error;
-    public $eventArray;
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/timeline.config.json"), false);
-    }
-
-    /**
-     * \fn	init($city = null, $type = null, $eventDate = null, $limit = null, $skip = null)
-     * \brief	Init EventFilter instance for TimeLine
-     * \param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
-     * \todo    introdurre la ricerca in abse alall geolocalizzazione, fai query su locationParse, poi cerchi l'evento più vicino
-     */
-    public function init($geopoint = array(), $city = null, $country = null, $tags = array(), $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
-        $currentUserId = sessionChecker();
-        if (is_null($currentUserId)) {
-            $this->errorManagement(ONLYIFLOGGEDIN);
-            return;
-        }
-        require_once CLASSES_DIR . 'event.class.php';
-        require_once CLASSES_DIR . 'eventParse.class.php';
-        $event = new EventParse();
-        if ((count($geopoint) != 0)) {
-            $event->whereNearSphere($geopoint[0], $geopoint[1], (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForEvent : $distance, ($unit == 'km') ? $unit : 'mi');
-        } elseif (!is_null($city) || !is_null($country)) {
-            $locations = findLocationCoordinates($city, $country);
-            if (!($locations instanceof Error) && !is_null($locations)) {
-                foreach ($locations as $loc) {
-                    $lat = $loc->getGeopoint()->location['latitude'];
-                    $long = $loc->getGeopoint()->location['longitude'];
-                }
-            }
-            $event->whereNearSphere($lat, $long, (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForEvent : $distance, ($unit == 'km') ? $unit : 'mi');
-        } elseif (count($tags) != 0) {
-            $orConditionArray = array();
-            foreach ($tags as $tag) {
-                array_push($orConditionArray, array('tags' => $tag));
-            }
-            $event->whereOr($orConditionArray);
-        } elseif (!is_null($eventDate)) {
-            $event->whereGreaterThanOrEqualTo('eventDate', $eventDate);
-        }
-        $event->whereExists('createdAt');
-        $event->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitEventForTimeline);
-        $event->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-        $event->orderByDescending((is_null($field) || ((count($geopoint) == 0) && (is_null($city)) && is_null($country))) ? 'eventDate' : $field);
-        $events = $event->getEvents();
-        if ($events instanceof Error) {
-            $this->errorManagement($events->getErrorMessage());
-            return;
-        } elseif (is_null($events)) {
-            $this->errorManagement();
-            return;
-        } else {
-            $this->error = null;
-            $this->eventArray = $events;
-        }
-    }
-
-    /**
-     * \fn	errorManagement($errorMessage = null)
-     * \brief	set values in case of error or nothing to send to the view
-     * \param	$errorMessage
-     */
-    private function errorManagement($errorMessage = null) {
-        $this->error = $errorMessage;
-        $this->eventArray = array();
-    }
-
-}
-
-/* *
- * \brief RecordFilter class
- * \details box class to pass info to the view for timelinePage
- */
-
-class RecordFilter {
-
-    public $config;
-    public $error;
-    public $recordArray;
-
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/timeline.config.json"), false);
-    }
-
-    /**
-     * \fn	init($genre = null, $limit = null, $skip = null)
-     * \brief	Init RecordFilter instance for TimeLine
-     * \param	$genre = null, $limit = null, $skip = null
-     * \todo
-     */
-    public function init($geopoint = array(), $city = null, $country = null, $genre = array(), $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
-        $currentUserId = sessionChecker();
-        if (is_null($currentUserId)) {
-            $this->errorManagement(ONLYIFLOGGEDIN);
-            return;
-        }
-        require_once CLASSES_DIR . 'record.class.php';
-        require_once CLASSES_DIR . 'recordParse.class.php';
-        $record = new RecordParse();
-        if ((count($geopoint) != 0)) {
-            $record->whereNearSphere($geopoint[0], $geopoint[1], (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForRecord : $distance, ($unit == 'km') ? $unit : 'mi');
-        } elseif (!is_null($city) || !is_null($country)) {
-            $locations = findLocationCoordinates($city, $country);
-            if (!($locations instanceof Error) && !is_null($locations)) {
-                foreach ($locations as $loc) {
-                    $lat = $loc->getGeopoint()->location['latitude'];
-                    $long = $loc->getGeopoint()->location['longitude'];
-                }
-            }
-            $record->whereNearSphere($lat, $long, (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForRecord : $distance, ($unit == 'km') ? $unit : 'mi');
-        } elseif (count($genre) != 0) {
-            $record->whereContainedIn('genre', $genre);
-        }
-        $record->whereExists('createdAt');
-        $record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);
-        $record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-        $record->orderByDescending((is_null($field) || ((count($geopoint) == 0) && (is_null($city)) && is_null($country))) ? 'createdAt' : $field);
-        $records = $record->getRecords();
-        if ($records instanceof Error) {
-            $this->errorManagement($records->getErrorMessage());
-            return;
-        } elseif (is_null($records)) {
-            $this->errorManagement();
-            return;
-        } else {
-            $this->error = null;
-            $this->recordArray = $records;
-        }
-    }
-
-    /**
-     * \fn	errorManagement($errorMessage = null)
-     * \brief	set values in case of error or nothing to send to the view
-     * \param	$errorMessage
-     */
-    private function errorManagement($errorMessage = null) {
-        $this->error = $errorMessage;
-        $this->recordArray = array();
-    }
-
-}
 
 /**
  * \brief	StreamBox class
@@ -194,7 +35,7 @@ class StreamBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/timeline.config.json"), false);
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/stream.config.json"), false);
     }
 
     /**
@@ -221,7 +62,7 @@ class StreamBox {
             $partialActivities = $this->query('following', $currentUser->getObjectId(), $ciclesFollowing, $actArray, $limit, $skip);
             $partialActivities1 = $this->query('friendship', $currentUser->getObjectId(), $ciclesFriendship, $actArray, $limit, $skip);
             $activities = array_merge($partialActivities, $partialActivities1);
-            $this->error = (count($activities) == 0 || !ksort($activities)) ? 'TIMELINERROR' : null;
+            $this->error = (count($activities) == 0 || !ksort($activities)) ? 'STREAMERROR' : null;
             $this->activitesArray = $activities;
             return;
         } else {
@@ -231,8 +72,8 @@ class StreamBox {
                 return;
             }
             $activities = $this->query('collaboration', $currentUser->getObjectId(), $cicles, $actArray, $limit, $skip);
-        };
-        $this->error = (count($activities) == 0 || !ksort($activities)) ? 'TIMELINERROR' : null;
+        }
+        $this->error = (count($activities) == 0 || !ksort($activities)) ? 'STREAMERROR' : null;
         $this->activitesArray = $activities;
     }
 
