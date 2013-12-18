@@ -44,7 +44,7 @@ class EventFilter {
      * \param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
      * \todo    introdurre la ricerca in abse alall geolocalizzazione, fai query su locationParse, poi cerchi l'evento più vicino
      */
-    public function init($city = null, $tags = array(), $eventDate = null, $time = null, $limit = null, $skip = null, $distance = null, $unit = 'km') {
+    public function init($city = null, $tags = array(), $eventDate = null,  $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    $this->errorManagement(ONLYIFLOGGEDIN);
@@ -81,8 +81,8 @@ class EventFilter {
 	}
 	$event->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitEventForTimeline);
 	$event->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-	if (!is_null($time)) {
-	    $event->orderByAscending('eventDate');
+	if (!is_null($field)) {
+	    $event->orderByAscending($field);
 	}
 	$events = $event->getEvents();
 	if ($events instanceof Error) {
@@ -133,7 +133,7 @@ class RecordFilter {
      * \param	$genre = null, $limit = null, $skip = null
      * \todo
      */
-    public function init($genre = array(), $city = null, $time = null, $limit = null, $skip = null, $distance = null, $unit = 'km') {
+    public function init($genre = array(), $city = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    $this->errorManagement(ONLYIFLOGGEDIN);
@@ -165,8 +165,8 @@ class RecordFilter {
 	}
 	$record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);
 	$record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-	if (!is_null($time)) {
-	    $record->orderByDescending('createdAt');
+	if (!is_null($field)) {
+	    $record->orderByDescending($field);
 	}
 	$records = $record->getRecords();
 	if ($records instanceof Error) {
