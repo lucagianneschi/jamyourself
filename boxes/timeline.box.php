@@ -127,7 +127,7 @@ class RecordFilter {
      * \param	$genre = null, $limit = null, $skip = null
      * \todo
      */
-    public function init($genre = array(), $city = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
+    public function init($geopoint = array(), $city = null, $country = null, $genre = array(), $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
             $this->errorManagement(ONLYIFLOGGEDIN);
@@ -136,32 +136,24 @@ class RecordFilter {
         require_once CLASSES_DIR . 'record.class.php';
         require_once CLASSES_DIR . 'recordParse.class.php';
         $record = new RecordParse();
-        if (!is_null($city)) {
-            require_once CLASSES_DIR . 'location.class.php';
-            require_once CLASSES_DIR . 'locationParse.class.php';
-            $location = new LocationParse();
-            $location->where('city', $city);
-            $location->setLimit($this->config->limitLocation);
-            $locations = $location->getLocations();
-            if ($locations instanceof Error) {
-                $this->errorManagement($locations->getErrorMessage());
-                return;
-            } elseif (is_null($locations)) {
-                $this->errorManagement(LOCATIONNOTFOUND);
-                return;
-            } else {
+        if ((count($geopoint) != 0)) {
+            $record->whereNearSphere($geopoint[0], $geopoint[1], (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForRecord : $distance, ($unit == 'km') ? $unit : 'mi');
+        } elseif (!is_null($city) || !is_null($country)) {
+            $locations = findLocationCoordinates($city, $country);
+            if (!($locations instanceof Error) && !is_null($locations)) {
                 foreach ($locations as $loc) {
-                    $record->whereNearSphere($loc->getGeopoint()->location['latitude'], $loc->getGeopoint()->location['longitude'], (is_null($distance) && !is_numeric($distance)) ? $this->config->distanceLimitForRecord : $distance, ($unit == 'km') ? $unit : 'mi');
+                    $lat = $loc->getGeopoint()->location['latitude'];
+                    $long = $loc->getGeopoint()->location['longitude'];
                 }
             }
+            $record->whereNearSphere($lat, $long, (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForRecord : $distance, ($unit == 'km') ? $unit : 'mi');
         } elseif (count($genre) != 0) {
             $record->whereContainedIn('genre', $genre);
         }
+        $record->whereExists('createdAt');
         $record->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitRecordForTimeline);
         $record->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-        if (!is_null($field)) {
-            $record->orderByDescending($field);
-        }
+        $record->orderByDescending((is_null($field) || ((count($geopoint) == 0) && (is_null($city)) && is_null($country))) ? 'createdAt' : $field);
         $records = $record->getRecords();
         if ($records instanceof Error) {
             $this->errorManagement($records->getErrorMessage());
