@@ -188,7 +188,7 @@ function initImgUploader() {
             onUploadedImage(img);
         });
     } catch (err) {
-        window.console.log("onUploadedImage | An error occurred - message : " + err.message);
+        window.console.error("onUploadedImage | An error occurred - message : " + err.message);
     }
 }
 
@@ -234,7 +234,7 @@ function onUploadedImage(img) {
         //attivo il plugin jcrop (non funzionante per ora)
         initJcrop(img, preview);
     } catch (err) {
-        window.console.log("onUploadedImage | An error occurred - message : " + err.message);
+        window.console.error("onUploadedImage | An error occurred - message : " + err.message);
     }
 }
 
@@ -267,7 +267,7 @@ function  initJcrop(img, preview) {
             jcrop_api.animateTo([0, 0, 100, 100]);
         });
     } catch (err) {
-        window.console.log("initJcrop | An error occurred - message : " + err.message);
+        window.console.error("initJcrop | An error occurred - message : " + err.message);
     }
 }
 
@@ -278,7 +278,7 @@ function updatePreview(c) {
         $('#' + input_w).val(c.w);
         $('#' + input_h).val(c.h);
     } catch (err) {
-        window.console.log("updatePreview | An error occurred - message : " + err.message);
+        window.console.error("updatePreview | An error occurred - message : " + err.message);
     }
 
 }
@@ -303,7 +303,7 @@ $('#uploadImage_save').click(function() {
                     marginTop: '-' + Math.round(thm_h * ($('#' + input_y).val() / realheight)) + 'px'
                 });
             } catch (err) {
-                window.console.log("thmImage.onload | An error occurred - message : " + err.message);
+                window.console.error("thmImage.onload | An error occurred - message : " + err.message);
             }
 
         };
@@ -316,7 +316,7 @@ $('#uploadImage_save').click(function() {
         json_album_create.crop = json_crop;
         $('#upload').foundation('reveal', 'close');
     } catch (err) {
-        window.console.log("#uploadImage_save.click | An error occurred - message : " + err.message);
+        window.console.error("#uploadImage_save.click | An error occurred - message : " + err.message);
     }
 });
 
@@ -333,7 +333,7 @@ function getTagsAlbumCreate() {
 
         return tags;
     } catch (err) {
-        window.console.log("getTagsAlbumCreate | An error occurred - message : " + err.message);
+        window.console.error("getTagsAlbumCreate | An error occurred - message : " + err.message);
     }
 }
 
@@ -349,7 +349,7 @@ function callbackAlbumCreate(data, status) {
             console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
         }
     } catch (err) {
-        window.console.log("callbackAlbumCreate | An error occurred - message : " + err.message);
+        window.console.error("callbackAlbumCreate | An error occurred - message : " + err.message);
     }
 }
 function getFeaturingAlbumCreate() {
@@ -361,7 +361,7 @@ function getFeaturingAlbumCreate() {
 
         return featuring;
     } catch (err) {
-        window.console.log("getFeaturingAlbumCreate | An error occurred - message : " + err.message);
+        window.console.error("getFeaturingAlbumCreate | An error occurred - message : " + err.message);
     }
 }
 function recordCreate() {
@@ -378,7 +378,7 @@ function recordCreate() {
 //    console.log("Record => " + JSON.stringify(json_album_create));
         sendRequest("uploadRecord", "recordCreate", json_album_create, callbackAlbumCreate, false);
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        window.console.error("An error occurred - message : " + err.message);
     }
 }
 //////////////////////////////////////////////////////////////////////////////
@@ -442,7 +442,7 @@ function initMp3Uploader() {
 
         });
     } catch (err) {
-        console.error("An error occurred - message : " + err.message);
+        console.log("An error occurred - message : " + err.message);
     }
 }
 
@@ -459,7 +459,7 @@ function getTagsMusicTrack() {
 
         return tags;
     } catch (err) {
-        console.error("initMp3Uploader | An error occurred - message : " + err.message);
+        console.log("initMp3Uploader | An error occurred - message : " + err.message);
     }
 }
 function getFeaturingSongCreate() {
@@ -471,7 +471,7 @@ function getFeaturingSongCreate() {
 
         return featuring;
     } catch (err) {
-        console.error("getFeaturingSongCreate | An error occurred - message : " + err.message);
+        console.log("getFeaturingSongCreate | An error occurred - message : " + err.message);
     }
 }
 
@@ -485,7 +485,7 @@ function addNewSong(id, duration, tags) {
         addSongToList(json_elem.title, json_elem.duration, json_elem.tags.join(), true, id.substring(0, id.indexOf(".")));
         $("#trackTitle").val("");
     } catch (err) {
-        console.error("addNewSong | An error occurred - message : " + err.message);
+        console.log("addNewSong | An error occurred - message : " + err.message);
     }
 }
 
@@ -504,7 +504,7 @@ function addSongToList(title, duration, genre, isNew, id) {
 
         $("#songlist").append(html);
     } catch (err) {
-        console.error("addSongToList | An error occurred - message : " + err.message);
+        console.log("addSongToList | An error occurred - message : " + err.message);
     }
 }
 
@@ -512,7 +512,7 @@ function publish() {
     try {
         sendRequest("uploadRecord", "publishSongs", json_album, publishCallback, false);
     } catch (err) {
-        console.error("publish | An error occurred - message : " + err.message);
+        console.log("publish | An error occurred - message : " + err.message);
     }
 }
 
@@ -521,7 +521,7 @@ function publishCallback(data, status) {
         alert(data.status);
         clearAll();
     } catch (err) {
-        console.error("publishCallback | An error occurred - message : " + err.message);
+        console.log("publishCallback | An error occurred - message : " + err.message);
     }
 }
 function uploaderRefresh() {
@@ -531,7 +531,7 @@ function uploaderRefresh() {
             uploader.refresh();
         }
     } catch (err) {
-        console.error("uploaderRefresh | An error occurred - message : " + err.message);
+        console.log("uploaderRefresh | An error occurred - message : " + err.message);
     }
 }
 
@@ -549,7 +549,7 @@ function getSongs(recordId) {
             sendRequest("uploadRecord", "getSongsList", json_for_count_song, getSongCallback, true);
         }
     } catch (err) {
-        console.error("getSongs | An error occurred - message : " + err.message);
+        console.log("getSongs | An error occurred - message : " + err.message);
     }
 }
 
@@ -569,7 +569,7 @@ function getSongCallback(data, status) {
             json_album.count = 0;
         }
     } catch (err) {
-        console.error("getSongCallback | An error occurred - message : " + err.message);
+        console.log("getSongCallback | An error occurred - message : " + err.message);
     }
 }
 
@@ -577,7 +577,7 @@ function initFeaturingJSON() {
     try {
         sendRequest("uploadRecord", "getFeaturingJSON", {}, null, true);
     } catch (err) {
-        console.error("initFeaturingJSON | An error occurred - message : " + err.message);
+        console.log("initFeaturingJSON | An error occurred - message : " + err.message);
     }
 }
 
@@ -588,7 +588,7 @@ function clearAll() {
         $("#songlist").html("");
         getSongs(json_album.recordId);
     } catch (err) {
-        console.error("clearAll | An error occurred - message : " + err.message);
+        console.log("clearAll | An error occurred - message : " + err.message);
     }
 
 }
@@ -605,7 +605,7 @@ function removeSongFromList(src) {
         }
         console.log("Lista => " + JSON.stringify(json_album.list));
     } catch (err) {
-        console.error("removeSongFromList | An error occurred - message : " + err.message);
+        console.log("removeSongFromList | An error occurred - message : " + err.message);
     }
 
 }
@@ -617,7 +617,7 @@ function deleteSong(songId) {
             sendRequest("uploadRecord", "deleteSong", json_delete, deleteSongCallback, false);
         }
     } catch (err) {
-        console.error("deleteSong | An error occurred - message : " + err.message);
+        console.log("deleteSong | An error occurred - message : " + err.message);
     }
 }
 
@@ -632,7 +632,7 @@ function deleteSongCallback(data, status, xhr) {
         }
 
     } catch (err) {
-        console.error("deleteSongCallback | An error occurred - message : " + err.message);
+        console.log("deleteSongCallback | An error occurred - message : " + err.message);
     }
 }
 
@@ -652,17 +652,17 @@ function initGeocomplete() {
         });
 
     } catch (err) {
-        console.error("initGeocomplete | An error occurred - message : " + err.message);
+        console.log("initGeocomplete | An error occurred - message : " + err.message);
     }
 
 }
 
 function getUserRecords() {
     try {
-        recordLoader = startLoader("#recordList");
+//        recordLoader = startLoader("#recordList");
         sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
     } catch (err) {
-        console.error("getUserRecords | An error occurred - message : " + err.message);
+        console.log("getUserRecords | An error occurred - message : " + err.message);
     }
 
 }
@@ -679,7 +679,7 @@ function getUserRecordsCallback(data, status, xhr) {
         }
         onCarouselReady();
     } catch (err) {
-        console.error("getUserRecords | An error occurred - message : " + err.message);
+        console.log("getUserRecords | An error occurred - message : " + err.message);
     }
 }
 
@@ -701,13 +701,13 @@ function getCarouselHtmlElement(obj) {
         html += '</li>';
         return html;
     } catch (err) {
-        console.error("getCarouselHtmlElement | An error occurred - message : " + err.message);
+        console.log("getCarouselHtmlElement | An error occurred - message : " + err.message);
     }
 }
 
 function onCarouselReady() {
     try {
-        stopLoader(recordLoader);
+//        stopLoader(recordLoader);
         //gestione select album record
         $('.uploadRecord-boxSingleRecord').click(function() {
             $("#uploadRecord01").fadeOut(100, function() {
@@ -735,6 +735,6 @@ function onCarouselReady() {
             dragUsingMouse: false
         });
     } catch (err) {
-        console.error("onCarouselReady | An error occurred - message : " + err.message);
+        console.log("onCarouselReady | An error occurred - message : " + err.message);
     }
 }
