@@ -63,6 +63,7 @@ $(document).ready(function() {
         //UTENTE ----------- SPOTTER -----------------
         if (utente == "signup-typeUser-spotter") {
             json_signup_user.type = "SPOTTER";
+            initGeocomplete("#spotter-city");
             $('#signup01-username-spotter').removeClass('no-display');
             $('#spotter-signup01-next').removeClass('no-display');
             $('#signup-fb1').removeClass('no-display');
@@ -84,6 +85,7 @@ $(document).ready(function() {
         //UTENTE ----------- JAMMER -----------------
         if (utente == "signup-typeUser-jammer") {
             json_signup_user.type = "JAMMER";
+            initGeocomplete("#jammer-city");
             $('#signup01-username-jammer').removeClass('no-display');
             $('#jammer-signup01-next').removeClass('no-display');
             $('.signup-no-spotter').removeClass('no-display');
@@ -102,6 +104,7 @@ $(document).ready(function() {
         //UTENTE ----------- venue -----------------
         if (utente == "signup-typeUser-venue") {
             json_signup_user.type = "VENUE";
+            initGeocomplete("#venue-city");
             $('#signup01-username-venue').removeClass('no-display');
             $('#venue-signup01-next').removeClass('no-display');
             $('.signup-no-spotter').removeClass('no-display');
@@ -550,7 +553,7 @@ $(document).ready(function() {
         text = '<div class="row jammer-componentName' + numComponent + '-singup02"> <div  class="small-12 columns"> <input type="text" name="jammer-componentName' + numComponent + '" id="jammer-componentName' + numComponent + '" pattern="username" maxlength="50"/>	<label for="jammer-componentName' + numComponent + '" >Name<small class="error"> Please enter a valid Name</small></label> </div> </div>';
         $('#addComponentName').append(text);
         text = '<div class="row jammer-componentInstrument' + numComponent + '-singup02"> <div  class="small-12 columns"> <select id="jammer_componentInstrument' + numComponent + '" ></select>	<label for="jammer-componentInstrument' + numComponent + '" >Instrument<small class="error"> Please enter a valid Instrument</small></label> </div> </div>';
-        $('#addComponentInstrument').append(text); 
+        $('#addComponentInstrument').append(text);
         getTag('intruments', 'jammer', 'jammer-signup02', null, 'select', numComponent);
         numComponent = numComponent + 1;
     });
@@ -644,19 +647,22 @@ $(document).ready(function() {
  * 
  */
 function getTag(typeTag, typeSelect, typeUser, scheda, max_check, number) {
-	
-	 //carica i tag music
+
+    //carica i tag music
     $.ajax({
         url: "../config/views/tag.config.json",
         dataType: 'json',
         success: function(data, stato) {
-        	var music = '';
-            if(typeTag == 'instruments')  music = data.instruments;
-            if(typeTag == 'localType')  music = data.localType;
-            if(typeTag == 'music')  music = data.music;
-			
+            var music = '';
+            if (typeTag == 'instruments')
+                music = data.instruments;
+            if (typeTag == 'localType')
+                music = data.localType;
+            if (typeTag == 'music')
+                music = data.music;
+
             for (var value in music) {
-                
+
                 if (typeSelect == "check") {
                     $('<input type="checkbox" name="' + typeUser + '-genre[' + value + ']" id="' + typeUser + '-genre[' + value + ']" value="' + value + '" class="no-display"><label for="' + typeUser + '-genre[' + value + ']">' + music[value] + '</label>').appendTo('#' + scheda + ' .signup-genre');
                     //Limita il numero di checked per quanto riguarda il genre dello JAMMER (max 5)
@@ -678,7 +684,7 @@ function getTag(typeTag, typeSelect, typeUser, scheda, max_check, number) {
                     }
 
                 }
-               
+
             }
 
         },
@@ -686,46 +692,46 @@ function getTag(typeTag, typeSelect, typeUser, scheda, max_check, number) {
             console.log("E' evvenuto un errore. Il stato della chiamata: " + stato);
         }
     });
-	
-	
-   /*
-    $.ajax({
-        url: "utilities/readFile.php",
-        type: 'POST',
-        dataType: 'json',
-        data: {file_name_txt: fileName},
-        success: function(data, stato) {
-            $.each(data, function(index, val) {
-                text = val.split('\n');
-                if (typeSelect == "check") {
-                    $('<input type="checkbox" name="' + typeUser + '-genre[' + index + ']" id="' + typeUser + '-genre[' + index + ']" value="' + index + '" class="no-display"><label for="' + typeUser + '-genre[' + index + ']">' + text[0] + '</label>').appendTo('#' + scheda + ' .signup-genre');
-                    //Limita il numero di checked per quanto riguarda il genre dello JAMMER (max 5)
-                    $("#" + scheda + " .signup-genre input[type='checkbox']").click(function() {
-                        $("#" + scheda + " .label-signup-genre .error").css({'display': 'none'});
-                        var bol = $("#" + scheda + " .signup-genre input[type='checkbox']:checked").length >= max_check;
-                        $("#" + scheda + " .signup-genre input[type='checkbox']").not(":checked").attr("disabled", bol);
-                    });
-                }
-                else {
-                    if (number == 2) {
-                        $('<option name="' + typeUser + '-componentInstrument1" id="' + typeUser + '-componentInstrument1" value="' + text[0] + '">' + text[0] + '</option>').appendTo('#jammer_componentInstrument1');
-                        $('<option name="' + typeUser + '-componentInstrument2" id="' + typeUser + '-componentInstrument2" value="' + text[0] + '">' + text[0] + '</option>').appendTo('#jammer_componentInstrument2');
 
-                    }
-                    else {
-                        $('<option name="' + typeUser + '-componentInstrument' + number + '" id="' + typeUser + '-componentInstrument' + number + '" value="' + text[0] + '">' + text[0] + '</option>').appendTo('#jammer_componentInstrument' + number + '');
 
-                    }
-
-                }
-
-            });
-        },
-        error: function(richiesta, stato, errori) {
-            alert("E' evvenuto un errore. Il stato della chiamata: " + stato);
-        }
-    });
-    */
+    /*
+     $.ajax({
+     url: "utilities/readFile.php",
+     type: 'POST',
+     dataType: 'json',
+     data: {file_name_txt: fileName},
+     success: function(data, stato) {
+     $.each(data, function(index, val) {
+     text = val.split('\n');
+     if (typeSelect == "check") {
+     $('<input type="checkbox" name="' + typeUser + '-genre[' + index + ']" id="' + typeUser + '-genre[' + index + ']" value="' + index + '" class="no-display"><label for="' + typeUser + '-genre[' + index + ']">' + text[0] + '</label>').appendTo('#' + scheda + ' .signup-genre');
+     //Limita il numero di checked per quanto riguarda il genre dello JAMMER (max 5)
+     $("#" + scheda + " .signup-genre input[type='checkbox']").click(function() {
+     $("#" + scheda + " .label-signup-genre .error").css({'display': 'none'});
+     var bol = $("#" + scheda + " .signup-genre input[type='checkbox']:checked").length >= max_check;
+     $("#" + scheda + " .signup-genre input[type='checkbox']").not(":checked").attr("disabled", bol);
+     });
+     }
+     else {
+     if (number == 2) {
+     $('<option name="' + typeUser + '-componentInstrument1" id="' + typeUser + '-componentInstrument1" value="' + text[0] + '">' + text[0] + '</option>').appendTo('#jammer_componentInstrument1');
+     $('<option name="' + typeUser + '-componentInstrument2" id="' + typeUser + '-componentInstrument2" value="' + text[0] + '">' + text[0] + '</option>').appendTo('#jammer_componentInstrument2');
+     
+     }
+     else {
+     $('<option name="' + typeUser + '-componentInstrument' + number + '" id="' + typeUser + '-componentInstrument' + number + '" value="' + text[0] + '">' + text[0] + '</option>').appendTo('#jammer_componentInstrument' + number + '');
+     
+     }
+     
+     }
+     
+     });
+     },
+     error: function(richiesta, stato, errori) {
+     alert("E' evvenuto un errore. Il stato della chiamata: " + stato);
+     }
+     });
+     */
 }
 
 
@@ -739,7 +745,7 @@ function signup() {
     getFormValues();
     //invio la richiesta al server
     window.console.log("signup - Sending user => " + JSON.stringify(json_signup_user));
-    sendRequest("signup", json_signup_user, signupCallback, false);
+    sendRequest("signup", "signup", json_signup_user, signupCallback, false);
 }
 
 
@@ -852,7 +858,7 @@ function getFormValues() {
     //step 0 (configurazione browser-utente
     //@todo: completare language e localTime
     json_signup_user.language = navigator.language || navigator.userLanguage;
-    
+
     json_signup_user.localTime = ((new Date()).getTimezoneOffset());
     //step 1   
     json_signup_user.username = $('#signup01-username').val();
@@ -865,8 +871,8 @@ function getFormValues() {
             //step 2
             json_signup_user.firstname = $('#spotter-firstname').val();
             json_signup_user.lastname = $('#spotter-lastname').val();
-            json_signup_user.country = $('#spotter-country').val();
-            json_signup_user.city = $('#spotter-city').val();
+//            json_signup_user.country = $('#spotter-country').val();
+//            json_signup_user.city = $('#spotter-city').val();
             json_signup_user.genre = getSelectedGenre();
             //step 3
             json_signup_user.description = $('#spotter-description').val();
@@ -892,8 +898,8 @@ function getFormValues() {
         case "JAMMER" :
             //step 2            
             json_signup_user.jammerType = $('input[name=jammer-typeArtist]:checked').val();
-            json_signup_user.country = $('#jammer-country').val();
-            json_signup_user.city = $('#jammer-city').val();
+//            json_signup_user.country = $('#jammer-country').val();
+//            json_signup_user.city = $('#jammer-city').val();
             if (json_signup_user.jammerType === "band") {
                 json_signup_user.members = getBandComponents();
             }
@@ -908,11 +914,11 @@ function getFormValues() {
             break;
         case "VENUE" :
             //step 2            
-            json_signup_user.country = $('#venue-country').val();
-            json_signup_user.city = $('#venue-city').val();
-            json_signup_user.province = $('#venue-province').val();
-            json_signup_user.address = $('#venue-adress').val();
-            json_signup_user.number = $('#venue-number').val();
+//            json_signup_user.country = $('#venue-country').val();
+//            json_signup_user.city = $('#venue-city').val();
+//            json_signup_user.province = $('#venue-province').val();
+//            json_signup_user.address = $('#venue-adress').val();
+//            json_signup_user.number = $('#venue-number').val();
 
             //step3            
             json_signup_user.description = $('#venue-description').val();
@@ -970,50 +976,14 @@ function getSelectedGenre() {
         return null;
 }
 
-/**
- * 
- * @param {string} _action Nome della funzione del controller da chiamare
- * @param {json} _data JSON contenente i dati da inviare al controller
- * @param {string} callback funzione da chiamare per gestire il risultato della chiamata
- * @param {boolean} _async parametro non obbligatorio, se FALSE la chiamata è asincrona,
- *                         se omesso o TRUE la chiamata è sincrona
- */
-function sendRequest(_action, _data, callback, _async) {
-    if (_action === undefined || _action === null || _data === undefined || _data === null) {
-        callback(null);
-    }
-    _data.request = _action;
-    var url = "../controllers/request/signupRequest.php";
-    var type = "POST";
-    var async = true;
-    if (async !== undefined && async !== null)
-        async = _async;
-
-    $.ajax({
-        type: type,
-        url: url,
-        data: _data,
-        async: async,
-        success: function(data, status) {
-            //gestione success
-            callback(data, status);
-        },
-        error: function(data, status) {
-            callback(data, status);
-        }
-    });
-}
-
-function signupCallback(data, status) {
-    console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
-    if(status == "200"){
-        $('#'+json_signup_user.type.toLowerCase()+'-signup03').hide('slide', {direction: "left"}, "slow");
-        $('#signup-ok').show('slide', {direction: "right"}, "slow");        
+function signupCallback(data, status, xhr) {
+    if (status === "success") {
+        $('#' + json_signup_user.type.toLowerCase() + '-signup03').hide('slide', {direction: "left"}, "slow");
+        $('#signup-ok').show('slide', {direction: "right"}, "slow");
+        alert(data.status);
     } else {
-        alert("Utente non valido");
-        console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+        alert(data.status);
     }
-
 }
 
 //----------------------------------- IMAGE CROP ----------------------------------
@@ -1196,4 +1166,25 @@ function initUploader(userType) {
         img.height = obj.height;
         onUploadedImage(json_signup_user.type.toLowerCase(), img);
     });
+}
+
+
+function initGeocomplete(id) {
+    try {
+        $(id).geocomplete()
+                .bind("geocode:result", function(event, result) {
+            json_signup_user.city = prepareLocationObj(result);
+        })
+                .bind("geocode:error", function(event, status) {
+            json_signup_user.city = null;
+
+        })
+                .bind("geocode:multiple", function(event, results) {
+            json_signup_user.city = prepareLocationObj(results[0]);
+        });
+
+    } catch (err) {
+        console.log("initGeocomplete | An error occurred - message : " + err.message);
+    }
+
 }
