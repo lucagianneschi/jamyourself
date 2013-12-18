@@ -59,6 +59,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 						foreach ($posts as $key => $value) {
 							$post_objectId = $value->getObjectId();
 							$post_createdAt = $value->getCreatedAt()->format('l j F Y - H:i');
+                            $post_fromUser_objectId = $value->getFromUser()->getObjectId();
 							$post_fromUser_profileThumbnail = $value->getFromUser()->getProfileThumbnail();
 							$post_fromUser_username = $value->getFromUser()->getUsername();
 							$post_fromUser_type = $value->getFromUser()->getType();
@@ -113,7 +114,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 									<div class="box-propriety">
 										<div class="small-5 columns ">
 											<a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love;?></a>
-											<a class="note grey" onclick="loadBoxOpinion('<?php echo $post_objectId; ?>', 'Comment', '#<?php echo  $post_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM'];?></a>
+                                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $post_objectId; ?>', '<?php echo $post_fromUser_objectId; ?>', 'Comment', '#<?php echo  $post_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM'];?></a>
 										</div>
 										<div class="small-5 columns propriety ">
 											<a class="icon-propriety <?php echo $css_love ?>"><?php echo $post_loveCounter; ?></a>

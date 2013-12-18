@@ -99,7 +99,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
     case "profile.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script>
+        <!-- script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script -->
         <script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
