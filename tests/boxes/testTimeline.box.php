@@ -27,7 +27,7 @@ require_once PARSE_DIR . 'parse.php';
 echo '<br />------------------------- TEST TIMELINE LDF-------------------------------------------<br />';
 echo '<br />------------------------- EVENTFILTER-------------------------------------------------<br />';
 $eventFilter = new EventFilter();
-$eventFilter->init('Viareggio');
+$eventFilter->init(array(),'Viareggio');
 print "<pre>";
 print_r($eventFilter);
 print "</pre>";
