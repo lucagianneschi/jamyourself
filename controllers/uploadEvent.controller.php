@@ -43,8 +43,8 @@ class UploadEventController extends REST {
                 $this->response(array('status' => $controllers['NOEVENTDATE']), 400);
             } elseif (!isset($this->request['hours']) || is_null($this->request['hours'])) {
                 $this->response(array('status' => $controllers['NOEVENTHOURS']), 400);
-            } elseif (!isset($this->request['music']) || is_null($this->request['music'])) {
-                $this->response(array('status' => $controllers['NOEVENTMUSIC']), 400);
+            } elseif (!isset($this->request['tags']) || is_null($this->request['tags'])) {
+                $this->response(array('status' => $controllers['NOEVENTTAGS']), 400);
             } elseif (!isset($this->request['url']) || is_null($this->request['url']) || !(strlen($this->request['url']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTURL']), 400);
             } elseif (!isset($this->request['venue']) || is_null($this->request['venue']) || !(strlen($this->request['venue']) > 0)) {
@@ -78,21 +78,20 @@ class UploadEventController extends REST {
             
 //            $event->setImageFile();
             $event->setInvited(null);
-            if (($location = GeocoderService::getLocation($this->request['address']))) {
-                $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
-                $event->setLocation($parseGeoPoint);
+            $event->setLocationName($this->request['venue']);
+
+            $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['address']);
+            $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
+            $event->setLocation($parseGeoPoint);
+            $event->setAddress($infoLocation["address"].", ".$infoLocation['number']);
+            $event->setCity($infoLocation["city"]);
                 
-    //            $event->setAddress();
-    //            $event->setCity();
-                
-            }
-            $event->setLocationName();
             $event->setLoveCounter(0);
             $event->setLovers(null);
             $event->setRefused(null);
             $event->setReviewCounter(0);
             $event->setShareCounter(0);
-            $event->setTags(array());
+            $event->setTags(array($this->request['tags']));
             $event->setTitle($this->request['title']);
 //            $event->setACL();
             require_once CLASSES_DIR . 'eventParse.class.php';

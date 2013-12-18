@@ -16,7 +16,7 @@ var input_x,
         tumbnail_pane;
 
 $(document).ready(function() {
-
+    initGeocomplete();
     initImgUploader();
 
     //gestione calendario
@@ -26,9 +26,6 @@ $(document).ready(function() {
 
     //gesione button create
     $('#uploadEvent01-next').click(function() {
-
-        creteEvent();
-
     });
 
     var time = getClockTime();
@@ -87,8 +84,9 @@ function creteEvent() {
     json_event_create.hours = $("#hours").val();
     json_event_create.venue = $("#venueName").val();
     json_event_create.url = $("#url").val();
-    json_event_create.address = $("#address").val();
-    json_event_create.music = getTagsEventCreate();
+    json_event_create.tags = getTagsEventCreate();
+    
+    console.log("EentCreated => " + JSON.stringify(json_event_create));
 }
 
 function getTagsEventCreate() {
@@ -294,3 +292,23 @@ $('#uploadImage_save').click(function() {
     json_event_create.crop = json_crop;
     $('#upload').foundation('reveal', 'close');
 });
+
+function initGeocomplete() {
+    try {
+        $("#city").geocomplete()
+                .bind("geocode:result", function(event, result) {
+            json_event_create.city = prepareLocationObj(result);
+        })
+                .bind("geocode:error", function(event, status) {
+            json_event_create.city = null;
+
+        })
+                .bind("geocode:multiple", function(event, results) {
+            json_event_create.city = prepareLocationObj(results[0]);
+        });
+
+    } catch (err) {
+        console.log("initGeocomplete | An error occurred - message : " + err.message);
+    }
+
+}
