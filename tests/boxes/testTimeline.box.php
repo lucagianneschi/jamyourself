@@ -35,7 +35,7 @@ echo count($eventFilter->eventArray);
 
 echo '<br />------------------------- RECORDFILTER-------------------------------------------------<br />';
 $recordFilter = new RecordFilter();
-$recordFilter->init('Uncatogorized');
+$recordFilter->init(array('Uncatogorized','Rock'));
 print "<pre>";
 print_r($recordFilter);
 print "</pre>";
