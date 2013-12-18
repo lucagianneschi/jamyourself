@@ -181,6 +181,7 @@ class StreamBox {
      * \param	$errorMessage
      */
     private function errorManagement($errorMessage = null) {
+        $this->config = null;
         $this->error = $errorMessage;
         $this->activitesArray = array();
     }
