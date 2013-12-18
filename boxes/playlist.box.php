@@ -106,6 +106,7 @@ class PlaylistBox {
      * \todo    
      */
     private function errorManagement($errorMessage = null) {
+        $this->config = null;
         $this->error = $errorMessage;
         $this->name = null;
         $this->tracklist = array();
