@@ -1,3 +1,5 @@
 {
-    "limitEventForMediaPage" : 1
+    "limitEventForMediaPage" : 1,
+    "distanceLimitForEvent" : 200,
+    "limitEventForTimeline" : 10
 }

@@ -26,69 +26,7 @@ require_once BOXES_DIR . 'utilsBox.php';
  */
 class EventFilter {
 
-    public $config;
-    public $error;
-    public $eventArray;
 
-    /**
-     * \fn	__construct()
-     * \brief	class construct to import config file
-     */
-    function __construct() {
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/timeline.config.json"), false);
-    }
-
-    /**
-     * \fn	init($city = null, $type = null, $eventDate = null, $limit = null, $skip = null)
-     * \brief	Init EventFilter instance for TimeLine
-     * \param	$city = null, $type = null, $eventDate = null, $limit = null, $skip = null;
-     * \todo    
-     */
-    public function init($geopoint = array(), $city = null, $country = null, $tags = array(), $eventDate = null, $limit = null, $skip = null, $distance = null, $unit = 'km', $field = null) {
-        $currentUserId = sessionChecker();
-        if (is_null($currentUserId)) {
-            $this->errorManagement(ONLYIFLOGGEDIN);
-            return;
-        }
-        require_once CLASSES_DIR . 'event.class.php';
-        require_once CLASSES_DIR . 'eventParse.class.php';
-        $event = new EventParse();
-        if ((count($geopoint) != 0)) {
-            $event->whereNearSphere($geopoint[0], $geopoint[1], (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForEvent : $distance, ($unit == 'km') ? $unit : 'mi');
-        } elseif (!is_null($city) || !is_null($country)) {
-            $locations = findLocationCoordinates($city, $country);
-            if (!($locations instanceof Error) && !is_null($locations)) {
-                foreach ($locations as $loc) {
-                    $lat = $loc->getGeopoint()->location['latitude'];
-                    $long = $loc->getGeopoint()->location['longitude'];
-                }
-            }
-            $event->whereNearSphere($lat, $long, (is_null($distance) || !is_numeric($distance)) ? $this->config->distanceLimitForEvent : $distance, ($unit == 'km') ? $unit : 'mi');
-        } elseif (count($tags) != 0) {
-            $orConditionArray = array();
-            foreach ($tags as $tag) {
-                array_push($orConditionArray, array('tags' => $tag));
-            }
-            $event->whereOr($orConditionArray);
-        } elseif (!is_null($eventDate)) {
-            $event->whereGreaterThanOrEqualTo('eventDate', $eventDate);
-        }
-        $event->whereExists('createdAt');
-        $event->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitEventForTimeline);
-        $event->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-        $event->orderByDescending((is_null($field) || ((count($geopoint) == 0) && (is_null($city)) && is_null($country))) ? 'eventDate' : $field);
-        $events = $event->getEvents();
-        if ($events instanceof Error) {
-            $this->errorManagement($events->getErrorMessage());
-            return;
-        } elseif (is_null($events)) {
-            $this->errorManagement();
-            return;
-        } else {
-            $this->error = null;
-            $this->eventArray = $events;
-        }
-    }
 
     /**
      * \fn	errorManagement($errorMessage = null)
