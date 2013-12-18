@@ -87,7 +87,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
         ?>
         <!-- recatpcha -->
         <script src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>  
-        <!-- signup -->
+        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/signup.js"></script>
         <?php
         break;

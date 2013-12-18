@@ -63,7 +63,7 @@ switch ($box) {
 				$dati -> type != $boxes['NODATA'] ? $result['type'] = $dati -> type : $result['error'] = 1;
 				$result['twitter'] = $dati -> twitterPage != $boxes['NODATA'] ? $dati -> twitterPage : '';
 				$dati -> userName != $boxes['NODATA'] ? $result['username'] = $dati -> userName : $result['error'] = 1;
-				$result['profilePicture'] = $dati -> profilePicture != $default_img['DEFAULTAVATAR'] ? $dati -> profilePicture : $default_img['DEFAVATAR'];
+				$result['profilePicture'] = $dati -> profilePicture != DEFAVATAR ? $dati -> profilePicture : DEFAVATAR;
 				$result['youtube'] = $dati -> youtubeChannel != $boxes['NODATA'] ? $dati -> youtubeChannel : '';
 				$result['web'] = $dati -> webSite != $boxes['NODATA'] ? $dati -> webSite : '';
 				if ($result['type'] == 'JAMMER' || $result['type'] == 'SPOTTER') {
@@ -215,7 +215,7 @@ switch ($box) {
 				$result['comment']['commentCounter'] = count($commentBox->commentInfoArray);
 				foreach ($commentBox->commentInfoArray as $key => $value) {					
 					$result['comment']['commentInfoArray'][$key]['user_objectId'] = $value -> fromUserInfo -> objectId;
-					$result['comment']['commentInfoArray'][$key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
+					$result['comment']['commentInfoArray'][$key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : DEFTHUMB;
 					$result['comment']['commentInfoArray'][$key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
 					$result['comment']['commentInfoArray'][$key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
 					$result['comment']['commentInfoArray'][$key]['createdAt'] = $value -> createdAt;
@@ -350,7 +350,7 @@ switch ($box) {
 				$result['relation']['followers']['followersCounter'] = count($relationsBox -> relationArray ['followers']);
 				foreach ($relationsBox->relationArray['followers'] as $key => $value) {					
 					$result['relation']['followers'. $key]['objectId'] = $value  -> objectId;
-					$result['relation']['followers'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : $default_img['DEFTHUMB'];
+					$result['relation']['followers'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : DEFTHUMB;
 					$result['relation']['followers'. $key]['type'] = $value  -> type;
 					$result['relation']['followers'. $key]['username'] = $value  -> username;
 				}
@@ -362,21 +362,21 @@ switch ($box) {
 				foreach ($relationsBox->relationArray['following'] as $key => $value) {
 						if($value  -> type == 'VENUE'){
 							$result['relation']['followingVenue'. $key]['objectId'] = $value  -> objectId;
-							$result['relation']['followingVenue'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : $default_img['DEFTHUMB'];
+							$result['relation']['followingVenue'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : DEFTHUMB;
 							$result['relation']['followingVenue'. $key]['type'] = $value  -> type;
 							$result['relation']['followingVenue'. $key]['username'] = $value  -> username;
 							$followingVenueCounter++;
 						}
 						if($value  -> type == 'JAMMER'){
 							$result['relation']['followingJammer'. $key]['objectId'] = $value  -> objectId;
-							$result['relation']['followingJammer'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : $default_img['DEFTHUMB'];
+							$result['relation']['followingJammer'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : DEFTHUMB;
 							$result['relation']['followingJammer'. $key]['type'] = $value  -> type;
 							$result['relation']['followingJammer'. $key]['username'] = $value  -> username;
 							$followingJammerCounter++;
 						}
 						if($key < 2){
 							$result['activity']['relation']['following'. $key]['objectId'] = $value  -> objectId;
-							$result['activity']['relation']['following'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : $default_img['DEFTHUMB'];
+							$result['activity']['relation']['following'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : DEFTHUMB;
 							$result['activity']['relation']['following'. $key]['type'] = $value  -> type;
 							$result['activity']['relation']['following'. $key]['username'] = $value  -> username;							
 						}
@@ -390,7 +390,7 @@ switch ($box) {
 				$result['relation']['friendship']['friendshipCounter'] = count($relationsBox -> relationArray ['friendship']);
 				foreach ($relationsBox->relationArray['friendship'] as $key => $value) {
 					$result['relation']['friendship'. $key]['objectId'] = $value  -> objectId;
-					$result['relation']['friendship'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : $default_img['DEFTHUMB'];
+					$result['relation']['friendship'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : DEFTHUMB;
 					$result['relation']['friendship'. $key]['type'] = $value  -> type;
 					$result['relation']['friendship'. $key]['username'] = $value -> username;
 					
@@ -404,7 +404,7 @@ switch ($box) {
 				$result['relation']['venuesCollaborators']['venuesCollaboratorsCounter'] = count($relationsBox -> relationArray ['venuesCollaborators']);
 				foreach ($relationsBox->relationArray['venuesCollaborators'] as $key => $value) {
 					$result['relation']['venuesCollaborators'. $key]['objectId'] = $value  -> objectId;
-					$result['relation']['venuesCollaborators'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : $default_img['DEFTHUMB'];
+					$result['relation']['venuesCollaborators'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : DEFTHUMB;
 					$result['relation']['venuesCollaborators'. $key]['type'] = $value  -> type;
 					$result['relation']['venuesCollaborators'. $key]['username'] = $value  -> username;
 					
@@ -418,7 +418,7 @@ switch ($box) {
 				$result['relation']['jammersCollaborators']['jammersCollaboratorsCounter'] = count($relationsBox -> relationArray ['jammersCollaborators']);
 				foreach ($relationsBox->relationArray['jammersCollaborators'] as $key => $value) {
 					$result['relation']['jammersCollaborators'. $key]['objectId'] = $value  -> objectId;
-					$result['relation']['jammersCollaborators'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : $default_img['DEFTHUMB'];
+					$result['relation']['jammersCollaborators'. $key]['thumbnail'] = $value  -> thumbnail != $boxes['NODATA'] ? $value  -> thumbnail : DEFTHUMB;
 					$result['relation']['jammersCollaborators'. $key]['type'] = $value  -> type;
 					$result['relation']['jammersCollaborators'. $key]['username'] = $value  -> username;
 					
@@ -453,10 +453,10 @@ switch ($box) {
 					$result['recordReview' . $key]['rating'] = $value -> rating;
 					$result['recordReview' . $key]['text'] = $value -> text != $boxes['NODATA'] ? $value -> text : '';
 					$result['recordReview' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
-					$result['recordReview' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : $default_img['DEFRECORDTHUMB'];
+					$result['recordReview' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : DEFRECORDTHUMB;
 					$result['recordReview' . $key]['user_objectId'] = $value -> fromUserInfo -> objectId != $boxes['NODATA'] ? $value -> fromUserInfo -> objectId : '';
 					$result['recordReview' . $key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
-					$result['recordReview' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
+					$result['recordReview' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : DEFTHUMB;
 					$result['recordReview' . $key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
 					$result['recordReview' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
 				}
@@ -475,9 +475,9 @@ switch ($box) {
 				$result['eventReview' . $key]['rating'] = $value -> rating;
 				$result['eventReview' . $key]['text'] = $value -> text != $boxes['NODATA'] ? $value -> text : '';
 				$result['eventReview' . $key]['title'] = $value -> title != $boxes['NODATA'] ? $value -> title : '';
-				$result['eventReview' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : $default_img['DEFEVENTTHUMB'];
+				$result['eventReview' . $key]['thumbnailCover'] = $value -> thumbnailCover != $boxes['NODATA'] ? $value -> thumbnailCover : DEFEVENTTHUMB;
 				$result['eventReview' . $key]['user_type'] = $value -> fromUserInfo -> type != $boxes['NODATA'] ? $value -> fromUserInfo -> type : '';
-				$result['eventReview' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : $default_img['DEFTHUMB'];
+				$result['eventReview' . $key]['user_thumbnail'] = $value -> fromUserInfo -> thumbnail != $boxes['NODATA'] ? $value -> fromUserInfo -> thumbnail : DEFTHUMB;
 				$result['eventReview' . $key]['user_username'] = $value -> fromUserInfo -> username != $boxes['NODATA'] ? $value -> fromUserInfo -> username : '';
 				$result['eventReview' . $key]['showLove'] = $value -> showLove == true ? $value -> showLove : false;
 			}
@@ -501,7 +501,7 @@ switch ($box) {
 				$result['playlist']['tracklist'] = array();
 				foreach ($playListBox->tracklist as $key => $value) {
 					$track['author']['objectId'] = 	$value -> author->objectId != $boxes['NODATA'] ? $value -> author->objectId : '';
-					$track['author']['thumbnail'] = 	$value -> author->thumbnail != $boxes['NODATA'] ? $value -> author->thumbnail : $default_img['DEFTHUMB'];
+					$track['author']['thumbnail'] = 	$value -> author->thumbnail != $boxes['NODATA'] ? $value -> author->thumbnail : DEFTHUMB;
 					$track['author']['type'] = 	$value -> author->type != $boxes['NODATA'] ? $value -> author->type : '';
 					$track['author']['username'] = 	$value -> author->username != $boxes['NODATA'] ? $value -> author->username : '';
 					$track['thumbnail'] = 	$value -> thumbnail != $boxes['NODATA'] ? $value -> thumbnail : DEFRECORDTHUMB;

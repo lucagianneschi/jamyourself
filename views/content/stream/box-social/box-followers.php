@@ -10,7 +10,6 @@
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
-require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
  
 $data = $_POST['data'];
@@ -38,7 +37,7 @@ $followersCounter = $data['relation']['followers']['followersCounter'];
 	    						<div class="row " id="followers_<?php echo $data['relation']['followers'. $i]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['followers'. $i]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+											<img src="../media/<?php echo $data['relation']['followers'. $i]['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -54,7 +53,7 @@ $followersCounter = $data['relation']['followers']['followersCounter'];
 	    						<div class="row " id="followers_<?php echo $data['relation']['followers'. ($i+1)]['objectId']?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $data['relation']['followers'. ($i+1)]['thumbnail']?>" onerror="this.src='../media/<?php echo $default_img['DEFAVATARTHUMB']; ?>'">
+											<img src="../media/<?php echo $data['relation']['followers'. ($i+1)]['thumbnail']?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
