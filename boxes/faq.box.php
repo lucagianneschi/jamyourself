@@ -36,7 +36,7 @@ class FaqBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/comment.config.json"), false);
+        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/comment.config.json"), false);
     }
 
     /**
@@ -46,23 +46,25 @@ class FaqBox {
      * \return	faqBox
      */
     public function init($lang, $field, $limit, $direction = true) {
-	$faqP = new FaqParse();
-	$faqP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->defaultLimit);
-	$faqP->where('lang', $lang);
-	($direction == true) ? $faqP->orderByAscending($field) : $faqP->orderByDescending($field);
-	$faqs = $faqP->getFaqs();
-	if ($faqs instanceof Error) {
-	    $this->error = $faqs->getErrorMessage();
-	    $this->faqArray = array();
-	    return;
-	} elseif (is_null($faqs)) {
-	    $this->error = null;
-	    $this->faqArray = array();
-	    return;
-	} else {
-	    $this->error = null;
-	    $this->faqArray = $faqs;
-	}
+        $faqP = new FaqParse();
+        $faqP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->defaultLimit);
+        $faqP->where('lang', $lang);
+        ($direction == true) ? $faqP->orderByAscending($field) : $faqP->orderByDescending($field);
+        $faqs = $faqP->getFaqs();
+        if ($faqs instanceof Error) {
+            $this->config = null;
+            $this->error = $faqs->getErrorMessage();
+            $this->faqArray = array();
+            return;
+        } elseif (is_null($faqs)) {
+            $this->config = null;
+            $this->error = null;
+            $this->faqArray = array();
+            return;
+        } else {
+            $this->error = null;
+            $this->faqArray = $faqs;
+        }
     }
 
 }
