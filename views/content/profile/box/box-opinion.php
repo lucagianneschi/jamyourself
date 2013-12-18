@@ -9,28 +9,26 @@ require_once LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';  
 require_once BOXES_DIR . 'comment.box.php';
 
-
 $objectId = $_POST['objectId'];
 $toUser = $_POST['toUser'];
 $class = $_POST['classBox'];
 $box = $_POST['box'];
-$limit = $_POST['limit'];
-$skip = $_POST['skip'];
+$limit = (int)$_POST['limit'];
+$skip = (int)$_POST['skip'];
 
 $comment = new CommentBox();
 $comment->init($objectId, $class, $limit, $skip);
-
-/*
-$typeUser = $_POST['typeUser'];
-$objectIdUser = $_POST['objectIdUser'];
-$classBox = $_POST['classBox'];
- //objectId dell'oggetto relativo al comment
-$objectId = $_POST['objectId'];
-$fromUserObjectId = $_POST['fromUserObjectId'];
-*/
- 
 $countComment = count($comment->commentArray);
- 
+
+if ($countComment > 0) {
+    ?>
+    <script type="text/javascript">
+    objectCmt = $('<?php echo $box; ?>').prev().find("a._comment");
+    $(objectCmt).text(<?php echo current($comment->commentArray)->getComment()->getCommentCounter(); ?>);
+    console.log('Ho girato e ho prodotto: ' + $.parseJSON(parent) + ' | ' + $.parseJSON(objectCmt));
+    </script>
+    <?php
+}
 ?>
 <div class="row">
 	<div  class="small-12 columns">
