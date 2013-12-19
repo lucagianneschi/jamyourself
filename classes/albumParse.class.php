@@ -2,12 +2,12 @@
 
 /* ! \par		Info Generali:
  *  \author		Maria Laura Fresu
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Album
- *  \details	Classe raccoglitore per immagini
+ *  \details		Classe raccoglitore per immagini
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -207,7 +207,6 @@ class AlbumParse {
             $album->setCommentCounter($res->commentCounter);
             $album->setCounter($res->counter);
             $album->setCover($res->cover);
-            $album->setCoverFile(fromParseFile($res->coverFile, "image/jpeg"));
             $album->setDescription(parse_decode_string($res->description));
             $album->setFromUser(fromParsePointer($res->fromUser));
             $album->setImageCounter($res->imageCounter);
@@ -239,35 +238,31 @@ class AlbumParse {
         if (is_null($album->getFromUser()))
             return throwError(new Exception('saveAlbum parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
-            $parseAlbum = new parseObject('Album');
+            $parseObject = new parseObject('Album');
             $nullArray = array();
-            is_null($album->getActive()) ? $parseAlbum->active = true : $parseAlbum->active = $album->getActive();
-            is_null($album->getCommentCounter()) ? $parseAlbum->commentCounter = -1 : $parseAlbum->commentCounter = $album->getCommentCounter();
-            is_null($album->getCommentators()) ? $parseAlbum->commentators = null : $parseAlbum->commentators = toParseAddRelation('_User', $album->getCommentators());
-            is_null($album->getComments()) ? $parseAlbum->comments = null : $parseAlbum->comments = toParseAddRelation('Comment', $album->getComments());
-            is_null($album->getCounter()) ? $parseAlbum->counter = -1 : $parseAlbum->counter = $album->getCounter();
-            is_null($album->getCover()) ? $parseAlbum->cover = DEFALBUMCOVER : $parseAlbum->cover = $album->getCover();
-            # TODO
-            # is_null($album->getCoverFile()) ? $parseAlbum->coverFile = null : $parseAlbum->coverFile = toParseFile($album->getCoverFile());
-            is_null($album->getDescription()) ? $parseAlbum->description = null : $parseAlbum->description = parse_encode_string($album->getDescription());
-            is_null($album->getFeaturing()) ? $parseAlbum->featuring = null : $parseAlbum->featuring = toParseAddRelation('_User', $album->getFeaturing());
-            $parseAlbum->fromUser = toParsePointer('_User', $album->getFromUser());
-            is_null($album->getImageCounter()) ? $parseAlbum->imageCounter = -1 : $parseAlbum->imageCounter = $album->getImageCounter();
-            is_null($album->getImages()) ? $parseAlbum->images = null : $parseAlbum->images = toParseAddRelation('Image', $album->getImages());
-            is_null($album->getLocation()) ? $parseAlbum->location = null : $parseAlbum->location = toParseGeoPoint($album->getLocation());
-            is_null($album->getLoveCounter()) ? $parseAlbum->loveCounter = -1 : $parseAlbum->loveCounter = $album->getLoveCounter();
-            is_null($album->getLovers()) ? $parseAlbum->lovers = $nullArray : $parseAlbum->lovers = $album->getLovers();
-            is_null($album->getShareCounter()) ? $parseAlbum->shareCounter = -1 : $parseAlbum->shareCounter = $album->getShareCounter();
-            is_null($album->getTags()) ? $parseAlbum->tags = $nullArray : $parseAlbum->tags = parse_encode_array($album->getTags());
-            is_null($album->getThumbnailCover()) ? $parseAlbum->thumbnailCover = DEFALBUMTHUMB : $parseAlbum->thumbnailCover = $album->getThumbnailCover();
-            is_null($album->getTitle()) ? $parseAlbum->title = null : $parseAlbum->title = parse_encode_string($album->getTitle());
-            is_null($album->getACL()) ? $parseAlbum->ACL = toParseDefaultACL() : $parseAlbum->ACL = toParseACL($album->getACL());
+            $parseObject->active = is_null($album->getActive()) ? true : $album->getActive();
+            $parseObject->commentCounter = is_null($album->getCommentCounter()) ? 0 : $album->getCommentCounter();
+            $parseObject->counter = is_null($album->getCounter()) ? 0 : $album->getCounter();
+            $parseObject->cover = is_null($album->getCover()) ? DEFALBUMCOVER : $album->getCover();
+            $parseObject->description = is_null($album->getDescription()) ? null : parse_encode_string($album->getDescription());
+            $parseObject->featuring = is_null($album->getFeaturing()) ? null : toParseAddRelation('_User', $album->getFeaturing());
+            $parseObject->fromUser = toParsePointer('_User', $album->getFromUser());
+            $parseObject->imageCounter = is_null($album->getImageCounter()) ? 0 : $album->getImageCounter();
+            $parseObject->images = is_null($album->getImages()) ? null : toParseAddRelation('Image', $album->getImages());
+            $parseObject->location = is_null($album->getLocation()) ? null : toParseGeoPoint($album->getLocation());
+            $parseObject->loveCounter = is_null($album->getLoveCounter()) ? 0 : $album->getLoveCounter();
+            $parseObject->lovers = is_null($album->getLovers()) ? $nullArray : $album->getLovers();
+            $parseObject->shareCounter = is_null($album->getShareCounter()) ? 0 : $album->getShareCounter();
+            $parseObject->tags = is_null($album->getTags()) ? $nullArray : parse_encode_array($album->getTags());
+            $parseObject->thumbnailCover = is_null($album->getThumbnailCover()) ? DEFALBUMTHUMB : $album->getThumbnailCover();
+            $parseObject->title = is_null($album->getTitle()) ? null : parse_encode_string($album->getTitle());
+            $parseObject->ACL = is_null($album->getACL()) ? toParseDefaultACL() : toParseACL($album->getACL());
             if ($album->getObjectId() == '') {
-                $res = $parseAlbum->save();
+                $res = $parseObject->save();
                 $album->setObjectId($res->objectId);
                 return $album;
             } else {
-                $parseAlbum->update($album->getObjectId());
+                $parseObject->update($album->getObjectId());
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -421,6 +416,15 @@ class AlbumParse {
      */
     public function whereLessThanOrEqualTo($field, $value) {
         $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+    }
+
+    /**
+     * \fn	whereNearSphere($latitude, $longitude, $distance, $distanceType)
+     * \brief	find element in a spherre near the given latitude e longitude
+     * \param	$latitude, $longitude
+     */
+    public function whereNearSphere($latitude, $longitude, $distance = null, $distanceType = null) {
+        $this->parseQuery->whereNearSphere('location', $latitude, $longitude, $distance, $distanceType);
     }
 
     /**
