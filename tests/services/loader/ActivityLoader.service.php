@@ -22,7 +22,6 @@ $activity->setSong('nBF3KVDGxZ');
 $activity->setStatus('Uno stato');
 $activity->setToUser('GuUAj83MGH');
 $activity->setType('Un tipo');
-$activity->setUserStatus('uqhjnzu3sJ');
 $activity->setVideo('MQbqTvCo7O');
 echo '<br />STAMPO L\'Activity APPENA CREATO<br />';
 echo $activity;

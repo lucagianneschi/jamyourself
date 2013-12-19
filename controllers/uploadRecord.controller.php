@@ -138,7 +138,6 @@ class UploadRecordController extends REST {
             $activity->setStatus("A");
             $activity->setToUser(null);
             $activity->setType("CREATEDRECORD"); // <- l'ho messo a caso, non so se va bene
-            $activity->setUserStatus(null);
             $activity->setVideo(null);
             $resFSCreation = $this->createFolderForRecord($userId, $record->getObjectId());
             if ($resFSCreation instanceof Exception || !$resFSCreation) {
@@ -483,7 +482,6 @@ class UploadRecordController extends REST {
         $activity->setStatus(null);
         $activity->setToUser(null);
         $activity->setType("SONGUPLOADED");
-        $activity->setUserStatus(null);
         $activity->setVideo(null);
         $pActivity = new ActivityParse();
         return $pActivity->saveActivity($activity);
@@ -544,7 +542,6 @@ class UploadRecordController extends REST {
         $activity->setStatus('A');
         $activity->setToUser(null);
         $activity->setType($type);
-        $activity->setUserStatus(null);
         $activity->setVideo(null);
         return $activity;
     }
