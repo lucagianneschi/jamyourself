@@ -2,12 +2,12 @@
 
 /* ! \par		Info Generali:
  *  \author		Daniele Caldelli
- *  \version	1.0
+ *  \version            1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright          Jamyourself.com 2013
  *  \par		Info  Classe:
  *  \brief		Error
- *  \details	Classe Error per la gestione degli errori
+ *  \details            Classe Error per la gestione degli errori
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -150,7 +150,7 @@ class ErrorParse {
      */
     public function saveError($error) {
         if (!is_null($error->getObjectId()))
-            return new Exception('saveError update is not allow here');
+            return new Exception('saveError update is not allowed here');
         try {
             $nullArray = array();
             $parseObject = new parseObject('Error');
