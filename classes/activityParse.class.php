@@ -2,12 +2,12 @@
 
 /* ! \par		Info Generali:
  *  \author		Stefano Muscas
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Playslist
- *  \details	Classe che accoglie le canzoni che andranno nel player della pagina utente
+ *  \brief		Activity
+ *  \details		Classe che accoglie le activities del sito
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -67,9 +67,9 @@ class ActivityParse {
      */
     public function deleteActivity($objectId) {
         try {
-            $parseActivity = new parseObject('Activity');
-            $parseActivity->active = false;
-            $parseActivity->update($objectId);
+            $parseObject= new parseObject('Activity');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
@@ -84,8 +84,8 @@ class ActivityParse {
      */
     public function getActivity($objectId) {
         try {
-            $parseActivity = new parseObject('Activity');
-            return $this->parseToActivity($parseActivity->get($objectId));
+            $parseObject= new parseObject('Activity');
+            return $this->parseToActivity($parseObject->get($objectId));
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
         }
@@ -199,7 +199,6 @@ class ActivityParse {
             $activity->setStatus($res->status);
             $activity->setToUser(fromParsePointer($res->toUser));
             $activity->setType($res->type);
-            $activity->setUserStatus(fromParsePointer($res->userStatus));
             $activity->setVideo(fromParsePointer($res->video));
             $activity->setCreatedAt(fromParseDate($res->createdAt));
             $activity->setUpdatedAt(fromParseDate($res->updatedAt));
@@ -221,31 +220,30 @@ class ActivityParse {
         if (is_null($activity->getFromUser()))
             return throwError(new Exception('saveActivity parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
-            $parseActivity = new parseObject('Activity');
-            is_null($activity->getActive()) ? $parseActivity->active = true : $parseActivity->active = $activity->getActive();
-            is_null($activity->getAlbum()) ? $parseActivity->album = null : $parseActivity->album = toParsePointer('Album', $activity->getAlbum());
-            is_null($activity->getComment()) ? $parseActivity->comment = null : $parseActivity->comment = toParsePointer('Comment', $activity->getComment());
-            is_null($activity->getCounter()) ? $parseActivity->counter = -1 : $parseActivity->counter = $activity->getCounter();
-            is_null($activity->getEvent()) ? $parseActivity->event = null : $parseActivity->event = toParsePointer('Event', $activity->getEvent());
-            $parseActivity->fromUser = toParsePointer('_User', $activity->getFromUser());
-            is_null($activity->getImage()) ? $parseActivity->image = null : $parseActivity->image = toParsePointer('Image', $activity->getImage());
-            is_null($activity->getPlaylist()) ? $parseActivity->playlist = null : $parseActivity->playlist = toParsePointer('Playlist', $activity->getPlaylist());
-            is_null($activity->getQuestion()) ? $parseActivity->question = null : $parseActivity->question = toParsePointer('Question', $activity->getQuestion());
-            is_null($activity->getRead()) ? $parseActivity->read = true : $parseActivity->read = $activity->getRead();
-            is_null($activity->getRecord()) ? $parseActivity->record = null : $parseActivity->record = toParsePointer('Record', $activity->getRecord());
-            is_null($activity->getSong()) ? $parseActivity->song = null : $parseActivity->song = toParsePointer('Song', $activity->getSong());
-            is_null($activity->getStatus()) ? $parseActivity->status = 'A' : $parseActivity->status = $activity->getStatus();
-            is_null($activity->getToUser()) ? $parseActivity->toUser = null : $parseActivity->toUser = toParsePointer('_User', $activity->getToUser());
-            is_null($activity->getType()) ? $parseActivity->type = null : $parseActivity->type = $activity->getType();
-            is_null($activity->getUserStatus()) ? $parseActivity->userStatus = null : $parseActivity->userStatus = toParsePointer('Status', $activity->getUserStatus());
-            is_null($activity->getVideo()) ? $parseActivity->video = null : $parseActivity->video = toParsePointer('Video', $activity->getVideo());
-            is_null($activity->getACL()) ? $parseActivity->ACL = toParseDefaultACL() : $parseActivity->ACL = toParseACL($activity->getACL());
+            $parseObject= new parseObject('Activity');
+            $parseObject->active = is_null($activity->getActive()) ? true : $activity->getActive();
+            $parseObject->album = is_null($activity->getAlbum()) ? null : toParsePointer('Album', $activity->getAlbum());
+            $parseObject->comment = is_null($activity->getComment()) ? null : toParsePointer('Comment', $activity->getComment());
+            $parseObject->counter = is_null($activity->getCounter()) ? 0 : $activity->getCounter();
+            $parseObject->event = is_null($activity->getEvent()) ? null : toParsePointer('Event', $activity->getEvent());
+            $parseObject->fromUser = toParsePointer('_User', $activity->getFromUser());
+            $parseObject->image = is_null($activity->getImage()) ? null : toParsePointer('Image', $activity->getImage());
+            $parseObject->playlist = is_null($activity->getPlaylist()) ? null : toParsePointer('Playlist', $activity->getPlaylist());
+            $parseObject->question = is_null($activity->getQuestion()) ? null : toParsePointer('Question', $activity->getQuestion());
+            $parseObject->read = is_null($activity->getRead()) ? true : $activity->getRead();
+            $parseObject->record = is_null($activity->getRecord()) ? null : toParsePointer('Record', $activity->getRecord());
+            $parseObject->song = is_null($activity->getSong()) ? null : toParsePointer('Song', $activity->getSong());
+            $parseObject->status = is_null($activity->getStatus()) ? 'A' : $activity->getStatus();
+            $parseObject->toUser = is_null($activity->getToUser()) ? null : toParsePointer('_User', $activity->getToUser());
+            $parseObject->type = is_null($activity->getType()) ? null : $activity->getType();
+            $parseObject->video = is_null($activity->getVideo()) ? null : toParsePointer('Video', $activity->getVideo());
+            $parseObject->ACL = is_null($activity->getACL()) ? toParseDefaultACL() : toParseACL($activity->getACL());
             if ($activity->getObjectId() == '') {
-                $res = $parseActivity->save();
+                $res = $parseObject->save();
                 $activity->setObjectId($res->objectId);
                 return $activity;
             } else {
-                $parseActivity->update($activity->getObjectId());
+                $parseObject->update($activity->getObjectId());
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -462,17 +460,6 @@ class ActivityParse {
      */
     public function wherePointer($field, $className, $objectId) {
         $this->parseQuery->wherePointer($field, $className, $objectId);
-    }
-
-    /**
-     * \fn		void whereRelatedTo($field, $className, $objectId)
-     * \brief	Sets a condition for which to return all the Comment objects present in the field $field of object $objectId of type $className
-     * \param	$field		the string which represent the field
-     * \param	$className	the string which represent the className
-     * \param	$objectId	the string which represent the objectId
-     */
-    public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
     }
 
 }

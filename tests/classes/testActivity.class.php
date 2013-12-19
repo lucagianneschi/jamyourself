@@ -3,7 +3,7 @@
  * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		Classe di test
  * \details		Classe di test per la classe Activity
@@ -40,7 +40,6 @@ $activity->setSong('nBF3KVDGxZ');
 $activity->setStatus('Uno stato');
 $activity->setToUser('GuUAj83MGH');
 $activity->setType('Un tipo');
-$activity->setUserStatus('uqhjnzu3sJ');
 $activity->setVideo('MQbqTvCo7O');
 //$activity->setACL();
 
