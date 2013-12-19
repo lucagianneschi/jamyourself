@@ -34,8 +34,6 @@ $event->setActive(true);
 $event->setAddress('Via delle Fia,18');
 $event->setCity('Pupporina');
 $event->setCommentCounter(1000);
-$event->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$event->setComments(array ('nJr1ulgfVo', 'M8Abw83aVG'));
 $event->setCounter(10);
 $event->setDescription('Una descrizione');
 $eventDate = new DateTime();

@@ -74,8 +74,6 @@ class PostController extends REST {
 	    $cmt->setAlbum(null);
 	    $cmt->setComment(null);
 	    $cmt->setCommentCounter(0);
-	    $cmt->setCommentators(null);
-	    $cmt->setComments(null);
 	    $cmt->setCounter(0);
 	    $cmt->setEvent(null);
 	    $cmt->setFromUser($fromUser->getObjectId());

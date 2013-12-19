@@ -54,7 +54,6 @@ $user->setBadge(array('badge1', 'badge2'));
 $user->setBirthDay('1982-02-18');
 $user->setCity('Una citta');
 $user->setCollaborationCounter(666);
-$user->setComments(array("nJr1ulgfVo"));
 $user->setCountry('Un paese');
 $user->setDescription('Una descrizione');
 $user->setEmail('test' . $r . '@xxx.xx');

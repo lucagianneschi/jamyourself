@@ -29,8 +29,6 @@ $song = new Song();
 
 $song->setActive(true);
 $song->setCommentCounter(10000);
-$song->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$song->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $song->setCounter(10);
 $song->setDuration(120);
 $song->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));

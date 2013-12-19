@@ -77,8 +77,6 @@ class CommentController extends REST {
             $cmt = new Comment();
             $cmt->setActive(true);
             $cmt->setCommentCounter(0);
-            $cmt->setCommentators(null);
-            $cmt->setComments(null);
             $cmt->setFromUser($fromUser->getObjectId());
             $cmt->setLocation(null);
             $cmt->setLoveCounter(0);

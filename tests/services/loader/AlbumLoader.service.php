@@ -9,8 +9,6 @@ require_once SERVICES_DIR . 'loader.service.php';
 $album = new Album();
 $album->setActive(true);
 $album->setCommentCounter(10);
-$album->setCommentators(array('n1TXVlIqHw', 'GuUAj83MGH'));
-$album->setComments(array('nJr1ulgfVo', 'M8Abw83aVG'));
 $album->setCounter(10);
 $album->setCover('Una cover');
 $album->setDescription('Una descrizione');

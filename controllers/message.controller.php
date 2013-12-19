@@ -117,8 +117,6 @@ class MessageController extends REST {
             $message->setAlbum(null);
             $message->setComment(null);
             $message->setCommentCounter(0);
-            $message->setCommentators(null);
-            $message->setComments(null);
             $message->setCounter(0);
             $message->setEvent(null);
             $message->setFromUser($currentUser->getObjectId());

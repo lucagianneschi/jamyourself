@@ -30,8 +30,6 @@ $cmt->setActive(true);
 //$cmt->setAlbum(Album $album);
 //$cmt->setComment(Comment $comment);
 $cmt->setCommentCounter(100000);
-$cmt->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$cmt->setComments(array ('nJr1ulgfVo', 'M8Abw83aVG'));
 $cmt->setCounter(10);
 //$cmt->setEvent(Event $event);
 $cmt->setFromUser('GuUAj83MGH');

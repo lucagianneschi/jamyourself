@@ -30,8 +30,6 @@ $record = new Record();
 $record->setActive(true);
 $record->setBuyLink('Un buy link');
 $record->setCommentCounter(10);
-$record->setCommentators(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$record->setComments(array ('2gMM3NmUYY', '5zw3I5d9Od'));
 $record->setCounter(10);
 $record->setCover('Una cover');
 //$record->setCoverFile();
