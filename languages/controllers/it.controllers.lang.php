@@ -54,6 +54,7 @@ $controllers = array(
     'LONGCOMMENT' => 'Dimensione commment troppo lunga | lungh:',
     'COMMENTSAVED' => 'Il tuo commento è stato salvato',
     'COMMENTERR' => 'Unable to save comment',
+    'SBJCOMMENT' => 'Hai un nuovo commento',
     //DELETE
     'NOVIDEOFORDELETE' => 'Video non trovato per cancellazione',
     'NOSTATUSFORDELETE' => 'Status non trovato per cancellazione',
@@ -81,6 +82,7 @@ $controllers = array(
     'NOMESSAGETITLE' => 'Titolo del messaggio non impostato',
     'NOSPAM' => 'Non sei autorizzato ad inviare questo messaggio a questo utente',
     'ALREADYREAD' => 'Messaggio già letto',
+    'SBJMESSAGE' => 'Hai un nuovo messaggio',
     //LOVE
     'LOVEPLUSERR' => 'Errore incrementando Love',
     'LOVEMINUSERR' => 'Error decrementando Love',
@@ -103,13 +105,13 @@ $controllers = array(
     'LONGREWTITLE' => 'Titolo review troppo lungo',
     'NORATING' => 'Rating non impostato',
     //RECORD
-    'GETRECORDSOK' =>'Record recuperati correttamente',
+    'GETRECORDSOK' => 'Record recuperati correttamente',
     'RECORDSAVED' => 'Album salvato con successo',
     'NODESCRIPTION' => 'Nessuna descrizione',
     'NOTAGS' => 'Nessun tag',
     'SONGREMOVEDFROMRECORD' => 'Canzone cancellata con successo',
     'NOREMOVERELATIONFROMRECORD' => 'Impossibile rimuovere la canzone dal record',
-    'NOSONGLIST' => 'Nessuna lista di canzoni specificata', 
+    'NOSONGLIST' => 'Nessuna lista di canzoni specificata',
     'MP3SAVEERROR' => 'Errore salvataggio mp3',
     'NOSONGSAVED' => 'Nessuna canzone salvata',
     'SONGSAVEDWITHERROR' => 'Canzoni salvate con errori',
@@ -122,7 +124,7 @@ $controllers = array(
     'NOCOUNT' => 'Count non presente',
     'NOCITY' => 'Location non specificata',
     'CITYEXISTS' => 'Location geolocalizzata correttamente',
-    'CITYNOEXISTS' => 'Location non geolocalizzata',    
+    'CITYNOEXISTS' => 'Location non geolocalizzata',
     //RELATION
     'RELDENIED' => 'Invio relazione negato',
     'SELF' => 'Non essere timido, invia la richiesta di relazione ad altri!',
@@ -178,7 +180,7 @@ $controllers = array(
     'NOPLAYLISTID' => 'Playlist ID non impostato',
     'NOSONGID' => 'Song ID non impostato',
     'NOADDSONGTOPLAYREL' => 'Impossibile aggiungere canzone dalla playlist (Relation)',
-    'NOADDSONGTOPLAYARRAY' => 'Impossibile aggiungere canzone dalla playlist (Array)',  
+    'NOADDSONGTOPLAYARRAY' => 'Impossibile aggiungere canzone dalla playlist (Array)',
     'NOREMOVESONGTOPLAYREL' => 'Impossibile rimuovere canzone dalla playlist(Relation)',
     'NOREMOVESONGTOPLAYARRAY' => 'Impossibile rimuovere canzone dalla playlist(Array)',
     'SONGALREADYINTRACKLIST' => 'Canzone già presente nella playlist playlist',
@@ -192,15 +194,15 @@ $controllers = array(
     //EVENTMANAGEMENT
     'NORESPONSE' => 'Risposta ad invitato nulla',
     'INVALIDRESPONSE' => 'Risposta ad invitato non valida',
-    'INVITATIONDECLINED'=> 'Invito declinato',
-    'INVITATIONACCEPTED'=> 'Invito accettato',
-    'NOEVENTID'=> 'Event ID non settato',
-    'INVITATIONSENT'=> 'Invito inviato',
+    'INVITATIONDECLINED' => 'Invito declinato',
+    'INVITATIONACCEPTED' => 'Invito accettato',
+    'NOEVENTID' => 'Event ID non settato',
+    'INVITATIONSENT' => 'Invito inviato',
     'INVITATIONMAILSBJ' => 'Sei stato invitato ad un evento',
     'NOTINRELATION' => 'Utenti non in relazione',
     'NOEVENTFOUND' => 'Evento non trovato per update',
     'NOAVAILABLEFORINVITATION' => 'Utente non valido per invio',
-    'NOAVAILABLEACCEPTINVITATION' =>'Utente non valido per accettare invitato',
+    'NOAVAILABLEACCEPTINVITATION' => 'Utente non valido per accettare invitato',
     'NOACTIVITYID' => 'ObjectId non impostato per activity',
     'ACTNOTFOUND' => 'Activity non trovate',
     'UNABLETOADDATTENDEE' => 'Impossibile aggiungere attendee',
@@ -217,7 +219,6 @@ $controllers = array(
     'EVENTCREATEERROR' => 'Errore durante la creazione del nuovo evento',
     'NOEVENTTHUMB' => 'Nessuna thumbnial indicata per questo evento',
     'EVENTCREATED' => 'Evento creato con successo'
-
 );
 
 $mail_files = array(
@@ -229,7 +230,9 @@ $mail_files = array(
     'FOLLOWINGEMAIL' => 'it.following.html',
     'EVENTREVIEWEMAIL' => 'it.eventReviewReceived.html',
     'RECORDREVIEWEMAIL' => 'it.recordReviewReceived.html',
-    'EVENTINVITATION' => 'it.eventInvitation.html'
+    'EVENTINVITATION' => 'it.eventInvitation.html',
+    'COMMENTEMAIL' => 'it.commentEmail.html',
+    'MESSAGEEMAIL' => 'it.messageEmail.php'
 );
 
 $rest_strings = array(

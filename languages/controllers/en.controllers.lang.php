@@ -54,6 +54,7 @@ $controllers = array(
     'LONGCOMMENT' => 'Your comment is too long | lenght:',
     'COMMENTSAVED' => 'Your comment has been saved',
     'COMMENTERR' => 'Unable to save comment',
+    'SBJCOMMENT' => 'Your content received a comment',
     //DELETE
     'NOVIDEOFORDELETE' => 'Video not found for delete',
     'NOSTATUSFORDELETE' => 'Status not found for delete',
@@ -84,6 +85,7 @@ $controllers = array(
     'NOMESSAGETITLE' => 'Message title unset',
     'NOSPAM' => 'You are not authorized to send this message this reciepient',
     'ALREADYREAD' => 'Message already marked as read',
+    'SBJMESSAGE' => 'You have a new message',
     //LOVE
     'LOVEPLUSERR' => 'Error incrementing Love',
     'LOVEMINUSERR' => 'Error decrementing Love',
@@ -227,7 +229,9 @@ $mail_files = array(
     'COLLABORATIONACCEPTEDEMAIL' => 'en.collaborationRequestAccepted.html',
     'EVENTREVIEWEMAIL' => 'en.eventReviewReceived.html',
     'RECORDREVIEWEMAIL' => 'en.recordReviewReceived.html',
-    'EVENTINVITATION' => 'en.eventInvitation.html'
+    'EVENTINVITATION' => 'en.eventInvitation.html',
+    'COMMENTEMAIL' => 'en.commentEmail.html',
+    'MESSAGEEMAIL' => 'en.messageEmail.php'
 );
 
 $rest_strings = array(

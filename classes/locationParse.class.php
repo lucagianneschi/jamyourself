@@ -172,6 +172,16 @@ class LocationParse {
     }
 
     /**
+     * \fn		void whereContainedIn($field, $value)
+     * \brief	Sets a condition for which the field $field must value one or more $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the array which represent the values
+     */
+    public function whereContainedIn($field, $values) {
+        $this->parseQuery->whereContainedIn($field, $values);
+    }
+
+    /**
      * \fn		void whereEqualTo($field, $value)
      * \brief	Sets a condition for which the field $field must value $value
      * \param	$field	the string which represent the field
@@ -228,6 +238,16 @@ class LocationParse {
      */
     public function whereLessThanOrEqualTo($field, $value) {
         $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+    }
+
+    /**
+     * \fn		void whereNotContainedIn($field, $value)
+     * \brief	Sets a condition for which the field $field must not value one or more $value
+     * \param	$field	the string which represent the field
+     * \param	$value	the array which represent the values
+     */
+    public function whereNotContainedIn($field, $array) {
+        $this->parseQuery->whereNotContainedIn($field, $array);
     }
 
     /**
