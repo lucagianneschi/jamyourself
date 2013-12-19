@@ -332,7 +332,7 @@ function parse_encode_array($array) {
     $encodedArray = array();
     if (!empty($array) && !is_null($array) && count($array) > 0) {
 	foreach ($array as $string) {
-	    $encodedString = parse_encode_array($string);
+	    $encodedString = parse_encode_string($string);
 	    array_push($encodedArray, $encodedString);
 	}
     }
