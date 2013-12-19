@@ -202,7 +202,6 @@ class SocialController extends REST {
 	    $activity->setStatus('A');
 	    $activity->setToUser(null);
 	    $activity->setType('ACCOUNTLINKED');
-	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
 	    $resAct = $activityParse->saveActivity($activity);
@@ -277,7 +276,6 @@ class SocialController extends REST {
 	    $activity->setStatus('A');
 	    $activity->setToUser(null);
 	    $activity->setType('SOCIALLOGGEDIN');
-	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
 	    $resAct = $activityParse->saveActivity($activity);
@@ -340,7 +338,6 @@ class SocialController extends REST {
 	    $activity->setStatus('A');
 	    $activity->setToUser(null);
 	    $activity->setType('SOCIALLOGGEDIN');
-	    $activity->setUserStatus(null);
 	    $activity->setVideo(null);
 	    $activityParse = new ActivityParse();
 	    $resAct = $activityParse->saveActivity($activity);
