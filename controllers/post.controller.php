@@ -127,7 +127,7 @@ class PostController extends REST {
 		    $this->response(array('status' => $message), 503);
 		}
 	    }
-	    $this->response(array($controllers['POSTSAVED']), 200);
+	    $this->response(array('status' => $controllers['POSTSAVED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
 	}

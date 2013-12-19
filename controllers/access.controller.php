@@ -87,7 +87,7 @@ class AccessController extends REST {
 			$_SESSION['invitationCounter'] = $counterNotification->invitationCounter;
 			$_SESSION['messageCounter'] = $counterNotification->messageCounter;
 			$_SESSION['relationCounter'] = $counterNotification->relationCounter;
-			$this->response(array($controllers['OKLOGIN']), 200);
+			$this->response(array('status' => $controllers['OKLOGIN']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
@@ -117,7 +117,7 @@ class AccessController extends REST {
             if ($res instanceof Error) {
                 //rifaccio login??
             }
-            $this->response(array($controllers['OKLOGOUT']), 200);
+            $this->response(array('status' => $controllers['OKLOGOUT']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }

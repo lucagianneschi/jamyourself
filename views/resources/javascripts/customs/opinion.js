@@ -14,10 +14,11 @@ function sendOpinion(toUser, comment, objectId, classType, box, limit, skip) {
             //TODO
         }
     })
-    .done(function(message, status, xhr) {
+    .done(function(response, status, xhr) {
         $(box).prev().removeClass('box-commentSpace');
         $(box).addClass('no-display');
         loadBoxOpinion(objectId, toUser, classType, box, limit, skip);
+        message = $.parseJSON(xhr.responseText).status;
         code = xhr.status;
         console.log("Code: " + code + " | Message: " + message);
     })
