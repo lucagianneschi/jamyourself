@@ -72,7 +72,7 @@ function prepareLocationObj(_result) {
     }
 }
 
-function getCompleteLocationInfo(json) {
+function getCompleteLocationInfo(_json) {
     try {
         var info = {};
         info.latitude = 0;
@@ -84,9 +84,9 @@ function getCompleteLocationInfo(json) {
         info.region = null;
         info.country = null;
         info.formattedAddress = null;
-        if (json !== undefined && json !== null) {
-            if (json.address_components !== undefined && json.address_components !== null && json.address_components.length > 0) {
-                json.address_components.forEach(function(address_component) {
+        if (_json !== undefined && _json !== null) {
+            if (_json.address_components !== undefined && _json.address_components !== null && _json.address_components.length > 0) {
+                _json.address_components.forEach(function(address_component) {
                     if (address_component.types !== undefined && address_component.types !== null && address_component.types.length > 0 && $.inArray("street_number", address_component.types) !== -1) {
                         info.number = address_component.long_name;
                     } else if (address_component.types !== undefined && address_component.types !== null && address_component.types.length > 0 && $.inArray("route", address_component.types) !== -1) {
@@ -103,13 +103,13 @@ function getCompleteLocationInfo(json) {
                 });
             }
 
-            if (json.formatted_address !== undefined && json.formatted_address !== null && json.formatted_address.length > 0) {
-                info.formattedAddress = json.formatted_address;
+            if (_json.formatted_address !== undefined && _json.formatted_address !== null && _json.formatted_address.length > 0) {
+                info.formattedAddress = _json.formatted_address;
             }
 
-            if (json.latitude !== undefined && json.latitude !== null && json.longitude !== undefined && json.longitude !== null) {
-                info.latitude = json.latitude;
-                info.longitude = json.longitude;
+            if (_json.latitude !== undefined && _json.latitude !== null && _json.longitude !== undefined && _json.longitude !== null) {
+                info.latitude = _json.latitude;
+                info.longitude = _json.longitude;
             }
         }
 
