@@ -1,12 +1,12 @@
 <?php
 /* ! \par		Info Generali:
  *  \author		Maria Laura Fresu
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Album
- *  \details	Classe raccoglitore per immagini
+ *  \details		Classe raccoglitore per immagini
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -21,11 +21,8 @@ class Album {
 	private $objectId;
 	private $active;
 	private $commentCounter;
-	private $commentators;
-	private $comments;
 	private $counter;
 	private $cover;
-	private $coverFile;
 	private $description;
 	private $featuring;
 	private $fromUser;
@@ -68,24 +65,6 @@ class Album {
 	public function getCommentCounter() {
 		return $this->commentCounter;
 	}
-	
-	/**
-	 * \fn		array getCommentators()
-	 * \brief	Return an array of objectId of istances of _User class who commented on the album
-	 * \return	array
-	 */
-	public function getCommentators() {
-		return $this->commentators;
-	}
-
-	/**
-	 * \fn		array getComments()
-	 * \brief	Return an array of objectId of istances of the Comment class; comments on album istance
-	 * \return	array
-	 */
-	public function getComments() {
-		return $this->comments;
-	}
 
 	/**
 	 * \fn		int getCounter()
@@ -103,15 +82,6 @@ class Album {
 	 */
 	public function getCover() {
 		return $this->cover;
-	}
-
-	/**
-	 * \fn		parseFile getCoverFile()
-	 * \brief	Return the coverFile value
-	 * \return	parseFile
-	 */
-	public function getCoverFile() {
-		return $this->coverFile;
 	}
 
 	/**
@@ -274,25 +244,7 @@ class Album {
 	 */
 	public function setCommentCounter($commentCounter) {
 		$this->commentCounter = $commentCounter;
-	}
-	
-	/**
-	 * \fn		void setCommentators($commentators)
-	 * \brief	Sets the commentators value,array of pointer to ParseUser
-	 * \param	array
-	 */
-	public function setCommentators($commentators) {
-		$this->commentators = $commentators;
-	}
-
-	/**
-	 * \fn		void setComments($comments)
-	 * \brief	Sets the comments value,array of pointer to ParseComment
-	 * \param	array
-	 */
-	public function setComments($comments) {
-		$this->comments = $comments;
-	}
+	}	
 
 	/**
 	 * \fn		void setCounter($counter)
@@ -310,15 +262,6 @@ class Album {
 	 */
 	public function setCover($cover) {
 		$this->cover = $cover;
-	}
-
-	/**
-	 * \fn		void setCoverFile($coverFile)
-	 * \brief	Sets the coverFile value
-	 * \param	parseFile
-	 */
-	public function setCoverFile($coverFile) {
-		$this->coverFile = $coverFile;
 	}
 
 	/**
@@ -470,28 +413,8 @@ class Album {
 			$this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 		}
 		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
-		if (count($this->getCommentators()) != 0) {
-			foreach ($this->getCommentators() as $commentators) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[commentators] => ' . $commentators . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[commentators] => NULL<br />';
-		}
-		if (count($this->getComments()) != 0) {
-			foreach ($this->getComments() as $comments) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[comments] => ' . $comments . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[comments] => NULL<br />';
-		}
 		$string .= '[counter] => ' . $this->getCounter() . '<br />';
 		$string .= '[cover] => ' . $this->getCover() . '<br />';
-		# TODO
-		# $string .= '[coverFile] => ' . $this->getCoverFile() . '<br />';
 		$string .= '[description] => ' . $this->getDescription() . '<br />';
 		if ($this->getFeaturing() != 0) {
 			foreach ($this->getFeaturing() as $featuring) {
