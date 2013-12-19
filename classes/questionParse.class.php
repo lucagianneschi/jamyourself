@@ -1,16 +1,14 @@
 <?php
 
-/* ! \par Info Generali:
- *  \author    Daniele Caldelli
- *  \version   1.0
- *  \date      2013
- *  \copyright Jamyourself.com 2013
- *
- *  \par Info Classe:
- *  \brief     QuestionParse
- *  \details   Classe Parsededicata alle domande e alle risposte tra utenti e amministrazione
- *
- *  \par Commenti:
+/* ! \par       Info Generali:
+ *  \author     Daniele Caldelli
+ *  \version    1.0
+ *  \date       2013
+ *  \copyright  Jamyourself.com 2013
+ *  \par        Info Classe:
+ *  \brief      QuestionParse
+ *  \details    Classe Parse dedicata alle domande e alle risposte tra utenti e amministrazione
+ *  \par        Commenti:
  *  \warning
  *  \bug
  *  \todo
