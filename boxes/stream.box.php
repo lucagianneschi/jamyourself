@@ -62,7 +62,11 @@ class StreamBox {
             $partialActivities = $this->query('following', $currentUserId, $ciclesFollowing, $actArray, $limit, $skip);
             $partialActivities1 = $this->query('friendship', $currentUserId, $ciclesFriendship, $actArray, $limit, $skip);
             $activities = array_merge($partialActivities, $partialActivities1);
-            $this->error = (count($activities) == 0 || !ksort($activities)) ? 'STREAMERROR' : null;
+            if (count($activities) == 0 || !ksort($activities)) {
+                $this->errorManagement('STREAMERROR');
+                return;
+            }
+            $this->error = null;
             $this->activitesArray = $activities;
             return;
         } else {
@@ -73,7 +77,11 @@ class StreamBox {
             }
             $activities = $this->query('collaboration', $currentUserId, $cicles, $actArray, $limit, $skip);
         }
-        $this->error = (count($activities) == 0 || !ksort($activities)) ? 'STREAMERROR' : null;
+        if (count($activities) == 0 || !ksort($activities)) {
+            $this->errorManagement('STREAMERROR');
+            return;
+        }
+        $this->error = null;
         $this->activitesArray = $activities;
     }
 
@@ -181,9 +189,9 @@ class StreamBox {
      * \param	$errorMessage
      */
     private function errorManagement($errorMessage = null) {
+        $this->activitesArray = array();
         $this->config = null;
         $this->error = $errorMessage;
-        $this->activitesArray = array();
     }
 
 }
