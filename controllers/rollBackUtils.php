@@ -105,11 +105,6 @@ function rollbackCommentController($objectId, $classType) {
             $imageParse = new ImageParse();
             $res = $imageParse->decrementImage($objectId, 'commentCounter', 1);
             break;
-        case 'Status':
-            require_once CLASSES_DIR . 'statusParse.class.php';
-            $statusParse = new StatusParse();
-            $res = $statusParse->decrementStatus($objectId, 'commentCounter', 1);
-            break;
         case 'Record':
             require_once CLASSES_DIR . 'recordParse.class.php';
             $recordParse = new RecordParse();
@@ -186,11 +181,6 @@ function rollbackDeleteController($classType, $objectId) {
             require_once CLASSES_DIR . 'songParse.class.php';
             $songParse = new SongParse();
             $res = $songParse->updateField($objectId, 'active', true);
-            break;
-        case 'Status':
-            require_once CLASSES_DIR . 'statusParse.class.php';
-            $statusParse = new StatusParse();
-            $res = $statusParse->updateField($objectId, 'active', true);
             break;
         case 'Video':
             require_once CLASSES_DIR . 'videoParse.class.php';
@@ -300,15 +290,6 @@ function rollbackLoveController($classType, $objectId, $operation, $fromUser) {
                 $res = $songParse->incrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
             } elseif ($operation == 'decrement') {
                 $res = $songParse->decrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-            }
-            break;
-        case 'Status':
-            require_once CLASSES_DIR . 'statusParse.class.php';
-            $statusParse = new StatusParse();
-            if ($operation == 'increment') {
-                $res = $statusParse->incrementStatus($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-            } elseif ($operation == 'decrement') {
-                $res = $statusParse->decrementStatus($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
             }
             break;
         case 'Video':

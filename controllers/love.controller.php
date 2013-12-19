@@ -307,11 +307,6 @@ class LoveController extends REST {
                 $songParse = new SongParse();
                 $res = $songParse->getSong($objectId);
                 break;
-            case 'Status':
-                require_once CLASSES_DIR . 'statusParse.class.php';
-                $statusParse = new StatusParse();
-                $res = $statusParse->getStatus($objectId);
-                break;
             case 'Video':
                 require_once CLASSES_DIR . 'videoParse.class.php';
                 $videoParse = new VideoParse();
