@@ -1,1 +1,0 @@
-In questa cartella si salvano i thumb degli avatar degli utenti, generati automaticamente da codice; la property avatarThumb delle istanze della classe User puntano ad immagini contenute in questa cartella.

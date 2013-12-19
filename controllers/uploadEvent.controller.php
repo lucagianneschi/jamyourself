@@ -10,6 +10,8 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
+require_once BOXES_DIR . "utilsBox.php";
+
 
 
 require_once BOXES_DIR . "record.box.php";
@@ -43,18 +45,18 @@ class UploadEventController extends REST {
                 $this->response(array('status' => $controllers['NOEVENTDATE']), 400);
             } elseif (!isset($this->request['hours']) || is_null($this->request['hours'])) {
                 $this->response(array('status' => $controllers['NOEVENTHOURS']), 400);
-            } elseif (!isset($this->request['music']) || is_null($this->request['music'])) {
-                $this->response(array('status' => $controllers['NOEVENTMUSIC']), 400);
-            } elseif (!isset($this->request['url']) || is_null($this->request['url']) || !(strlen($this->request['url']) > 0)) {
+            } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags'])>0)) {
+                $this->response(array('status' => $controllers['NOEVENTTAGS']), 400);
+            } elseif (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTURL']), 400);
             } elseif (!isset($this->request['venue']) || is_null($this->request['venue']) || !(strlen($this->request['venue']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTVENUE']), 400);
-            } elseif (!isset($this->request['address']) || is_null($this->request['address']) || !(strlen($this->request['address']) > 0)) {
-                $this->response(array('status' => $controllers['NOEVENTADDRESS']), 400);
             } elseif (!isset($this->request['image']) || is_null($this->request['image'])) {
                 $this->response(array('status' => $controllers['NOEVENTIMAGE']), 400);
             } elseif (!isset($this->request['crop']) || is_null($this->request['crop'])) {
                 $this->response(array('status' => $controllers['NOEVENTTHUMB']), 400);
+            } elseif (!isset($this->request['city']) || is_null($this->request['city'])) {
+                $this->response(array('status' => $controllers['NOEVENTADDRESS']), 400);
             }
             $currentUser = $_SESSION['currentUser'];
             $userId = $currentUser->getObjectId();
@@ -67,32 +69,30 @@ class UploadEventController extends REST {
             $event->setComments(null);
             $event->setCounter(0);
             $event->setDescription($this->request['description']);
-            $event->setEventDate($this->getDate($this->request['date'],$this->request['hours'])); //tipo Date su parse
-            $event->setFeaturing(null);
+            $event->setEventDate($this->getDate($this->request['date'], $this->request['hours'])); //tipo Date su parse
+            $event->setFeaturing($this->request['jammers']);
             $event->setFromUser($userId);
-            
+
             $imgInfo = $this->getImages($this->request);
             $event->setImage($imgInfo['EventPicture']);
             $event->setThumbnail($imgInfo['EventThumbnail']);
-            
-            
-//            $event->setImageFile();
+
             $event->setInvited(null);
-            if (($location = GeocoderService::getLocation($this->request['address']))) {
-                $parseGeoPoint = new parseGeoPoint($location['lat'], $location['lng']);
-                $event->setLocation($parseGeoPoint);
-                
-    //            $event->setAddress();
-    //            $event->setCity();
-                
-            }
-            $event->setLocationName();
+            $event->setLocationName($this->request['venue']);
+
+            require_once SERVICES_DIR . 'geocoder.service.php';
+            $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
+            $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
+            $event->setLocation($parseGeoPoint);
+            $event->setAddress($infoLocation["address"] . ", " . $infoLocation['number']);
+            $event->setCity($infoLocation["city"]);
+
             $event->setLoveCounter(0);
             $event->setLovers(null);
             $event->setRefused(null);
             $event->setReviewCounter(0);
             $event->setShareCounter(0);
-            $event->setTags(array());
+            $event->setTags($this->request['tags']);
             $event->setTitle($this->request['title']);
 //            $event->setACL();
             require_once CLASSES_DIR . 'eventParse.class.php';
@@ -125,14 +125,6 @@ class UploadEventController extends REST {
 //            $activity->setACL(toParseDefaultACL());
             require_once CLASSES_DIR . 'activityParse.class.php';
 
-
-            $resFSCreation = $this->createFolderForEvent($userId, $event->getObjectId());
-            if ($resFSCreation instanceof Exception || !$resFSCreation) {
-                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-                $message = rollbackUploadEventController($event->getObjectId());
-                $this->response(array("status" => $message), 503);
-            }
-            
 //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE                
 
 
@@ -141,15 +133,14 @@ class UploadEventController extends REST {
 
             $thumbSrc = $event->getThumbnail();
             $imageSrc = $event->getImage();
-            if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0) ) {
+            if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
                 rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
                 rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
             }
-            
-            
+
+            unset($_SESSION['currentUserFeaturingArray']);
+
             $this->response(array('status' => $controllers['EVENTCREATED']), 200);
-   
-            
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -160,27 +151,29 @@ class UploadEventController extends REST {
             if (!isset($day) || is_null($day) || !(strlen($day) > 0)) {
                 return null;
             } elseif (!isset($hours) || is_null($hours) || !(strlen($hours) > 0)) {
-                return DateTime::createFromFormat("d/m/Y", $day)->format('Y-m-d');
+                return DateTime::createFromFormat("d/m/Y", $day);
             } else {
-                return DateTime::createFromFormat("d/m/Y H:m", $day . " " . $hours)->format('Y-m-d HH:MM');
+                return DateTime::createFromFormat("d/m/Y H:m", $day . " " . $hours);
             }
         } catch (Exception $e) {
             return null;
         }
     }
-    
-        private function getImages($decoded) {
+
+    private function getImages($decoded) {
 //in caso di anomalie ---> default
         if (!isset($decoded['crop']) || is_null($decoded['crop']) ||
                 !isset($decoded['image']) || is_null($decoded['image'])) {
             return array("RecordPicture" => null, "RecordThumbnail" => null);
         }
-
+        if (is_array($decoded)) {
+            $decoded = json_decode(json_encode($decoded), false);
+        }
         $PROFILE_IMG_SIZE = 300;
         $THUMBNAIL_IMG_SIZE = 150;
 
 //recupero i dati per effettuare l'editing
-        $cropInfo = json_decode(json_encode($decoded['crop']), false);
+        $cropInfo = json_decode(json_encode($decoded->crop), false);
 
         if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
                 !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
@@ -190,6 +183,7 @@ class UploadEventController extends REST {
         }
         $cacheDir = MEDIA_DIR . "cache/";
         $cacheImg = $cacheDir . $decoded->image;
+        require_once SERVICES_DIR . 'cropImage.service.php';
 
 //Preparo l'oggetto per l'editign della foto
         $cis = new CropImageService();
@@ -206,6 +200,53 @@ class UploadEventController extends REST {
         unlink($cacheImg);
 //RETURN        
         return array('EventPicture' => $coverId, 'EventThumbnail' => $thumbId);
+    }
+
+    public function getFeaturingJSON() {
+        try {
+            global $controllers;
+            $force = false;
+            if (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 400);
+            }
+
+            if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
+                $force = true;
+            }
+
+            $currentUserFeaturingArray = null;
+            if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
+                $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
+            } else {
+                $currentUserFeaturingArray = $this->getFeaturingArray();
+                $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
+            }
+            echo json_encode($currentUserFeaturingArray);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
+    }
+
+    private function getFeaturingArray() {
+        error_reporting(E_ALL ^ E_NOTICE);
+        if (isset($_SESSION['currentUser'])) {
+            $currentUser = $_SESSION['currentUser'];
+            $currentUserId = $currentUser->getObjectId();
+            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
+            if (($userArray instanceof Error) || is_null($userArray)) {
+                return array();
+            } else {
+                $userArrayInfo = array();
+                foreach ($userArray as $user) {
+                    $username = $user->getUsername();
+                    $userId = $user->getObjectId();
+                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
+                }
+                return $userArrayInfo;
+            }
+        }
+        else
+            return array();
     }
 
 }

@@ -66,6 +66,10 @@ class GeocoderService {
         $info["formattedAddress"] = null;
 
         if (isset($json) && !is_null($json)) {
+            if(is_array($json)){
+                $json = json_decode(json_encode($json), false);
+            }
+            
             if (isset($json->address_components) && !is_null($json->address_components) && count($json->address_components) > 0) {
                 foreach ($json->address_components as $address_component) {
                     if (isset($address_component->types) && !is_null($address_component->types) && count($address_component->types) > 0 && in_array("street_number", (array) $address_component->types)) {
@@ -93,6 +97,8 @@ class GeocoderService {
                 $info["longitude"] = intval($json->longitude);
             }
         }
+
+        return $info;
     }
 
 }

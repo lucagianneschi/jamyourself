@@ -18,7 +18,8 @@ function love(_this, classType, objectId, objectIdUser) {
 		url: "../../../controllers/request/loveRequest.php",
 		data: json_love
 	})
-	.done(function(number_love, status, xhr) {
+	.done(function(response, status, xhr) {
+        number_love = $.parseJSON(xhr.responseText).status;
 		if (typeOpt == 'Love') {
 			parent = $(_this).parent().parent();
 			objectLove = $(parent).find("a._unlove");

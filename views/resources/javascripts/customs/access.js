@@ -13,8 +13,8 @@ function access(usernameOrEmail, password, opType, userId) {
 		url: "../controllers/request/accessRequest.php",
 		data: json_access
 	})
-	.done(function(message, status, xhr) {
-		//status = success
+	.done(function(response, status, xhr) {
+		message = $.parseJSON(xhr.responseText).status;
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
                 

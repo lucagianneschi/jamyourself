@@ -8,7 +8,7 @@
 			</div>
 			<div class="row">
 				<div  class="large-12 columns formBlack-box">
-					<form action="" method="POST" name="form-uploadEvent" id="form-uploadEvent" data-abide>
+					<form action="javascript:creteEvent()" name="form-uploadEvent" id="form-uploadEvent" data-abide>
 						<div id="uploadEvent01">
 							<?php require_once VIEWS_DIR.'content/uploadEvent/uploadEvent01.php'; ?>
 						</div>								

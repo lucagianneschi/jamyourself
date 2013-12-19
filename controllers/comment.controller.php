@@ -32,20 +32,20 @@ require_once SERVICES_DIR . 'debug.service.php';
 class CommentController extends REST {
 
     public $config;
-    
+
     function __construct() {
         parent::__construct();
         $this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/comment.config.json"), false);
     }
-    
+
     /**
-    * \fn		comment()
-    * \brief   salva un commento
-    * \todo    testare con sessione
-    */
+     * \fn		comment()
+     * \brief   salva un commento
+     * \todo    testare con sessione
+     */
     public function comment() {
         global $controllers;
-        
+
         try {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
@@ -184,18 +184,17 @@ class CommentController extends REST {
                     $this->response(array($message), 503);
                 }
             }
-            
+            global $mail_files;
             require_once CLASSES_DIR . 'userParse.class.php';
             $userParse = new UserParse();
             $user = $userParse->getUser($toUserObjectId);
             #TODO
             //$address = $user->getEmail();
             $address = 'alesandro.ghilarducci@gmail.com';
-            $subject = 'Oggetto';
-            $html = 'Mail';
+            $subject = $controllers['SBJCOMMENT'];
+            $html = $mail_files['COMMENTEMAIL'];
             sendMailForNotification($address, $subject, $html);
-            
-            $this->response(array($controllers['COMMENTSAVED']), 200);
+            $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getErrorMessage()), 503);
         }

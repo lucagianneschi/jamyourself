@@ -153,7 +153,7 @@ class LoveController extends REST {
                     $this->response(array('status' => $message), 503);
                 }
             }
-            $this->response(array($res), 200);
+            $this->response(array('status' => $res), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -283,7 +283,7 @@ class LoveController extends REST {
                     $this->response(array('status' => $message), 503);
                 }
             }
-            $this->response(array($res), 200);
+            $this->response(array('status' => $res), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }

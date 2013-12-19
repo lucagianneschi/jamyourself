@@ -132,7 +132,7 @@ class SocialController extends REST {
 		    $this->response(array('status' => $message), 503);
 		}
 	    }
-	    $this->response(array($controllers['OKSHARECOUNTER']), 200);
+	    $this->response(array('status' => $controllers['OKSHARECOUNTER']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
@@ -208,7 +208,7 @@ class SocialController extends REST {
 	    if ($resAct instanceof Error) {
 		$this->response(array($controllers['NOACSAVE']), 503);
 	    }
-	    $this->response(array($controllers['OKSOCIALLINK']), 200);
+	    $this->response(array('status' => $controllers['OKSOCIALLINK']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
@@ -282,7 +282,7 @@ class SocialController extends REST {
 	    if ($resAct instanceof Error) {
 		$this->response(array($controllers['NOACSAVE']), 503);
 	    }
-	    $this->response(array($controllers['OKLOGINSOCIAL']), 200);
+	    $this->response(array('status' => $controllers['OKLOGINSOCIAL']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}
@@ -344,7 +344,7 @@ class SocialController extends REST {
 	    if ($resAct instanceof Error) {
 		$this->response(array($controllers['NOACSAVE']), 503);
 	    }
-	    $this->response(array($controllers['OKSOCIALUNLINK']), 200);
+	    $this->response(array('status' => $controllers['OKSOCIALUNLINK']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getErrorMessage()), 503);
 	}

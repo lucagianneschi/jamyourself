@@ -24,7 +24,8 @@ function addShare(toUser, classType, objectId) {
         url: "../../../controllers/request/socialRequest.php",
         data: json_share
     })
-	.done(function(message, status, xhr) {
+	.done(function(response, status, xhr) {
+		message = $.parseJSON(xhr.responseText).status;
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
 	})
