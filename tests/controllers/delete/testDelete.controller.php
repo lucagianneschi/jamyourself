@@ -69,10 +69,6 @@
 	&nbsp;
 	<button type="button" onclick="deleteObj('Song', 'SdJx4roDEs')">Delete Song SdJx4roDEs FAIL</button>
 	&nbsp;<hr>
-	<button type="button" onclick="deleteObj('Status', 'vxnLsGxJ9I')">Delete Status vxnLsGxJ9I  OK</button>
-	&nbsp;
-	<button type="button" onclick="deleteObj('Status', '6dvbdcScnm')">Delete Status 6dvbdcScnm  FAIL</button>
-	&nbsp;<hr>
 	<button type="button" onclick="deleteObj('User', 'GuUAj83MGH')">Delete User --> RICORDATI di RIATTIVARE SPATAFORA!</button>
 	&nbsp;<hr>
 	<button type="button" onclick="deleteObj('Video', '8e1sj32BK2')">Delete Video 8e1sj32BK2 OK</button>
