@@ -77,8 +77,8 @@
 		<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="" />
         Venue Name <span class="orange">*</span><small class="error"> Please enter a valid Venue Name</small></label>
 
-		<label for="adress"><input type="text" name="adress" id="adress" required pattern=""/>
-        Adress <span class="orange">*</span><small class="error"> Please enter a valid Adress</small></label>
+<!--		<label for="adress"><input type="text" name="adress" id="adress" required pattern=""/>
+        Adress <span class="orange">*</span><small class="error"> Please enter a valid Adress</small></label>-->
 
         <label for="city"><input type="text" name="city" id="city" required pattern=""/>
         City <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>

@@ -298,6 +298,7 @@ function initGeocomplete() {
         $("#city").geocomplete()
                 .bind("geocode:result", function(event, result) {
             json_event_create.city = prepareLocationObj(result);
+            var complTest = getCompleteLocationInfo(json_event_create.city);
         })
                 .bind("geocode:error", function(event, status) {
             json_event_create.city = null;

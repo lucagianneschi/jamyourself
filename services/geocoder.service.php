@@ -93,6 +93,8 @@ class GeocoderService {
                 $info["longitude"] = intval($json->longitude);
             }
         }
+
+        return $info;
     }
 
 }
