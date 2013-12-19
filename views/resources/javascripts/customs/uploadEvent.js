@@ -16,6 +16,7 @@ var input_x,
         tumbnail_pane;
 
 $(document).ready(function() {
+    initJammersJSON();
     initGeocomplete();
     initImgUploader();
 
@@ -78,15 +79,34 @@ function getClockTime() {
 }
 
 function creteEvent() {
-    json_event_create.title = $("#eventTitle").val();
-    json_event_create.description = $("#description").val();
-    json_event_create.date = $("#date").val();
-    json_event_create.hours = $("#hours").val();
-    json_event_create.venue = $("#venueName").val();
-    json_event_create.url = $("#url").val();
-    json_event_create.tags = getTagsEventCreate();
-    
-    console.log("EentCreated => " + JSON.stringify(json_event_create));
+    try {
+        json_event_create.title = $("#eventTitle").val();
+        json_event_create.description = $("#description").val();
+        json_event_create.date = $("#date").val();
+        json_event_create.hours = $("#hours").val();
+        json_event_create.venue = $("#venueName").val();
+        json_event_create.jammers = getJammersUploadEvent();
+        json_event_create.tags = getTagsEventCreate();
+
+        sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
+    } catch (err) {
+        window.console.error("creteEvent | An error occurred - message : " + err.message);
+    }
+
+}
+
+function eventCreateCallback(data, status, xhr) {
+    try {
+        if(status === "success"){
+            alert(data.status);
+            clearAll();
+        }
+        else{
+             alert(data.status);           
+        }
+    } catch (err) {
+        window.console.log("eventCreateCallback | An error occurred - message : " + err.message);
+    }
 }
 
 function getTagsEventCreate() {
@@ -102,7 +122,7 @@ function getTagsEventCreate() {
 
         return tags;
     } catch (err) {
-        window.console.log("An error occurred - message : " + err.message);
+        window.console.log("getTagsEventCreate |An error occurred - message : " + err.message);
     }
 }
 
@@ -312,4 +332,45 @@ function initGeocomplete() {
         console.log("initGeocomplete | An error occurred - message : " + err.message);
     }
 
+}
+
+function initJammersJSON() {
+    try {
+        //inizializza le info in sessione
+        sendRequest("uploadEvent", "getFeaturingJSON", {"force": true}, null, true);
+
+        //inizializza il plugin
+        $("#jammers").fcbkcomplete({
+            json_url: "../controllers/request/uploadEventRequest.php?request=getFeaturingJSON",
+            addontab: true,
+            width: "100%",
+            addoncomma: false,
+            input_min_size: 0,
+            height: 10,
+            cache: true,
+            maxshownitems: 10,
+            newel: false
+        });
+
+    } catch (err) {
+        console.log("initJammersJSON | An error occurred - message : " + err.message);
+    }
+}
+
+function getJammersUploadEvent() {
+    try {
+        var jammers = new Array();
+        $.each($("#jammers option:selected"), function(key, item) {
+            jammers.push($(item).val());
+        });
+
+        return jammers;
+    } catch (err) {
+        window.console.error("getJammersUploadEvent | An error occurred - message : " + err.message);
+    }
+}
+
+function clearAll(){
+    json_event_create = {"hours": "", "image": "", "crop": ""};
+    $('#form-uploadEvent').reset();
 }
