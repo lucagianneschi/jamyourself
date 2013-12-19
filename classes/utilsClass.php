@@ -228,12 +228,6 @@ function fromParsePointer($pointer) {
 		$parseObj = new SongParse();
 		$object = $parseObj->parseToSong($pointer);
 		break;
-	    case 'Status':
-		require_once CLASSES_DIR . 'status.class.php';
-		require_once CLASSES_DIR . 'statusParse.class.php';
-		$parseObj = new StatusParse();
-		$object = $parseObj->parseToStatus($pointer);
-		break;
 	    case '_User':
 		require_once CLASSES_DIR . 'user.class.php';
 		require_once CLASSES_DIR . 'userParse.class.php';
