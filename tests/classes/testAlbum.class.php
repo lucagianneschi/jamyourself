@@ -3,12 +3,10 @@
  * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
- *
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		Classe di test
  * \details		Classe di test per la classe Album
- *
  * \par			Commenti:
  * \warning
  * \bug
@@ -32,8 +30,6 @@ $album->setActive(true);
 $album->setCommentCounter(10);
 $album->setCounter(10);
 $album->setCover('Una cover');
-# TODO
-# $album->setCoverFile();
 $album->setDescription('Una descrizione');
 $album->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $album->setFromUser('GuUAj83MGH');
@@ -155,12 +151,6 @@ $parseACL = new parseACL();
 $parseACL->setPublicWriteAccess(false);
 $albumParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
 echo 'Aggiornato un campo ACL<br />';
-
-$albumParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
-echo 'Aggiornato (add) un campo Relation<br />';
-
-$albumParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
-echo 'Aggiornato (remove) un campo Relation<br />';
 
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELL\'ALBUM<br />';
 
