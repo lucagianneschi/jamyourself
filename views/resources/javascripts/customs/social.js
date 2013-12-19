@@ -67,8 +67,8 @@ function doAjax(json_userUtilities) {
 		url: "../controllers/request/socialRequest.php",
 		data: json_userUtilities
 	})
-	.done(function(message, status, xhr) {
-		//status = success
+	.done(function(response, status, xhr) {
+		message = $.parseJSON(xhr.responseText).status;
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
 	})

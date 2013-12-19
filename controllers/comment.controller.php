@@ -195,7 +195,7 @@ class CommentController extends REST {
             $html = 'Mail';
             sendMailForNotification($address, $subject, $html);
             
-            $this->response(array($controllers['COMMENTSAVED']), 200);
+            $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getErrorMessage()), 503);
         }

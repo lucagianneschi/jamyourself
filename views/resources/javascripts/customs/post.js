@@ -13,9 +13,10 @@ function sendPost(objectId, post) {
         	$('#social-Post #button-post').val('');
         }
     })
-	.done(function(message, status, xhr) {
+	.done(function(response, status, xhr) {
 		$('#post-error').delay(500).hide();
     	loadBoxPost();
+		message = $.parseJSON(xhr.responseText).status;
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
 	})
