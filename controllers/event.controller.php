@@ -268,7 +268,6 @@ class EventController extends REST {
 	$activity->setStatus($status);
 	$activity->setToUser($toUserId);
 	$activity->setType($type);
-	$activity->setUserStatus(null);
 	$activity->setVideo(null);
 	return $activity;
     }

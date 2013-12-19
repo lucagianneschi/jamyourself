@@ -176,21 +176,6 @@ class DeleteController extends REST {
 			$this->response(array('status' => $controllers['CND']), 401);
 		    }
 		    break;
-		case 'Status':
-		    require_once CLASSES_DIR . 'statusParse.class.php';
-		    $statusParse = new StatusParse();
-		    $status = $statusParse->getStatus($objectId);
-		    if ($status instanceof Error) {
-			$this->response(array('status' => $controllers['NOSTATUSFORDELETE']), 503);
-		    }
-		    if ($currentUser->getObjectId() == $status->getFromUser()) {
-			$res = $statusParse->deleteStatus($objectId);
-			$activity->setUserStatus($objectId);
-			$activity->setType("DELETEDSTATUS");
-		    } else {
-			$this->response(array('status' => $controllers['CND']), 401);
-		    }
-		    break;
 		case 'User':
 		    require_once CLASSES_DIR . 'userParse.class.php';
 		    require_once CLASSES_DIR . 'utils.php';

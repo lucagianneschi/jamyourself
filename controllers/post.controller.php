@@ -117,7 +117,6 @@ class PostController extends REST {
 		$activity->setStatus('A');
 		$activity->setToUser($toUserObjectId);
 		$activity->setType('POSTED');
-		$activity->setUserStatus(null);
 		$activity->setVideo(null);
 		$activityParse = new ActivityParse();
 		$resActivity = $activityParse->saveActivity($activity);

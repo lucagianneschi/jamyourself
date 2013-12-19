@@ -159,7 +159,6 @@ class MessageController extends REST {
             $activity->setStatus('P');
             $activity->setToUser($toUserId);
             $activity->setType('MESSAGESENT');
-            $activity->setUserStatus(null);
             $activity->setVideo(null);
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);

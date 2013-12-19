@@ -78,7 +78,6 @@ class SearchController extends REST {
             $activity->setStatus('A');
             $activity->setToUser(null);
             $activity->setType('SEARCH');
-            $activity->setUserStatus(null);
             $activity->setVideo(null);
             $activityParse = new ActivityParse();
             $resActivity = $activityParse->saveActivity($activity);

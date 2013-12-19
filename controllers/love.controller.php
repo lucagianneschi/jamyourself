@@ -127,13 +127,6 @@ class LoveController extends REST {
                 $activity->setSong($objectId);
                 $activity->setType("LOVEDSONG");
                 break;
-            case 'Status':
-                require_once CLASSES_DIR . 'statusParse.class.php';
-                $statusParse = new StatusParse();
-                $res = $statusParse->incrementStatus($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                $activity->setUserStatus($objectId);
-                $activity->setType("LOVEDSTATUS");
-                break;
             case 'Video':
                 require_once CLASSES_DIR . 'videoParse.class.php';
                 $videoParse = new VideoParse();
@@ -256,13 +249,6 @@ class LoveController extends REST {
                     $userParse->updateField($fromUser->getObjectId(), 'loveSongs', array($objectId), true, 'remove', 'Song');
                     $activity->setSong($objectId);
                     $activity->setType("UNLOVEDSONG");
-                    break;
-                case 'Status':
-                    require_once CLASSES_DIR . 'statusParse.class.php';
-                    $statusParse = new StatusParse();
-                    $res = $statusParse->decrementStatus($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-                    $activity->setUserStatus($objectId);
-                    $activity->setType("UNLOVEDSTATUS");
                     break;
                 case 'Video':
                     require_once CLASSES_DIR . 'videoParse.class.php';

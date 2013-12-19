@@ -146,14 +146,6 @@ class CommentController extends REST {
                     $activity->setImage($objectId);
                     $activity->setType('COMMENTEDONIMAGE');
                     break;
-                case 'Status':
-                    require_once CLASSES_DIR . 'statusParse.class.php';
-                    $statusParse = new StatusParse();
-                    $res = $statusParse->incrementStatus($objectId, 'commentCounter', 1);
-                    $cmt->setStatus($objectId);
-                    $activity->setUserStatus($objectId);
-                    $activity->setType('COMMENTEDONSTATUS');
-                    break;
                 case 'Record':
                     require_once CLASSES_DIR . 'recordParse.class.php';
                     $recordParse = new RecordParse();
