@@ -64,9 +64,6 @@ class UploadEventController extends REST {
             $event = new Event();
             $event->setActive(true);
             $event->setAttendee(null);
-            $event->setCommentCounter(0);
-            $event->setCommentators(null);
-            $event->setComments(null);
             $event->setCounter(0);
             $event->setDescription($this->request['description']);
             $event->setEventDate($this->getDate($this->request['date'], $this->request['hours'])); //tipo Date su parse
@@ -107,7 +104,6 @@ class UploadEventController extends REST {
             $activity = new Activity();
             $activity->setActive(true);
             $activity->setAlbum(null);
-            $activity->setComment(0);
             $activity->setCounter(0);
             $activity->setEvent($event->getObjectId());
             $activity->setFromUser($userId);

@@ -254,10 +254,8 @@ class SignupController extends REST {
         require_once CLASSES_DIR . 'albumParse.class.php';
         $album = new Album();
         $album->setActive(true);
-        $album->setCommentCounter(0);
         $album->setCounter(0);
         $album->setFromUser($userId);
-        $album->setCommentCounter(0);
         $album->setLoveCounter(0);
         $album->setShareCounter(0);
         $album->setTitle('Default Album');
@@ -275,7 +273,6 @@ class SignupController extends REST {
         require_once CLASSES_DIR . 'recordParse.class.php';
         $record = new Record();
         $record->setActive(true);
-        $record->setCommentCounter(0);
         $record->setDuration(0);
         $record->setFromUser($userId);
         $record->setLoveCounter(0);
