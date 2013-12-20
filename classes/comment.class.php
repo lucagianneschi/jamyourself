@@ -306,15 +306,6 @@ class Comment {
 	}	
 
 	/**
-	 * \fn		void setComments($comments)
-	 * \brief	Sets the comments value,array of pointer to ParseComment
-	 * \param	array
-	 */
-	public function setComments($comments) {
-		$this->comments = $comments;
-	}
-
-	/**
 	 * \fn		void setCounter($counter)
 	 * \brief	Sets the counter value
 	 * \param	int
