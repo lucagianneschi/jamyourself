@@ -81,7 +81,7 @@ if (get_class($resGets) == 'Error') {
     echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
     foreach ($resGets as $question) {
-        echo '<br />' . $question->getObjectId() . '<br />';
+	echo '<br />' . $question->getObjectId() . '<br />';
     }
 }
 

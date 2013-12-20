@@ -1,24 +1,25 @@
 <?php
+
 /* ! \par		Info Generali:
-* \author		Luca Gianneschi
-* \version		1.0
-* \date			2013
-* \copyright	Jamyourself.com 2013
-*
-* \par			Info Classe:
-* \brief		Classe di test
-* \details		Classe di test per la classe playlist
-*
-* \par			Commenti:
-* \warning
-* \bug
-* \todo
-*
-*/
+ * \author		Luca Gianneschi
+ * \version		1.0
+ * \date			2013
+ * \copyright	Jamyourself.com 2013
+ *
+ * \par			Info Classe:
+ * \brief		Classe di test
+ * \details		Classe di test per la classe playlist
+ *
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo
+ *
+ */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
-	
+    define('ROOT_DIR', '../../');
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -44,9 +45,9 @@ echo 'INIZIO IL SALVATAGGIO DELLA Playlist APPENA CREATA<br />';
 $playlistParse = new PlaylistParse();
 $resSave = $playlistParse->savePlaylist($playlist);
 if (get_class($resSave) == 'Error') {
-	echo 'ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
+    echo 'ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Playlist SAVED<br />' . $resSave . '<br />';
+    echo '<br />Playlist SAVED<br />' . $resSave . '<br />';
 }
 
 echo 'FINITO IL SALVATAGGIO DELA Playlist APPENA CREATA<br />';
@@ -58,9 +59,9 @@ echo '<br />INIZIO IL RECUPERO DI UNA Playlist<br /><br />';
 $playlistParse = new PlaylistParse();
 $resGet = $playlistParse->getPlaylist($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
-	echo $resGet;
+    echo $resGet;
 }
 
 echo '<br />FINITO IL RECUPERO DI UNA Playlist<br />';
@@ -72,9 +73,9 @@ echo '<br />INIZIO LA CANCELLAZIONE DI UNA Playlist<br />';
 $playlistParse = new PlaylistParse();
 $resDelete = $playlistParse->deletePlaylist($resSave->getObjectId());
 if (get_class($resDelete)) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Playlist DELETED<br />';
+    echo '<br />Playlist DELETED<br />';
 }
 
 echo '<br />FINITO LA CANCELLAZIONE DI UNA Playlist<br />';
@@ -89,11 +90,11 @@ $playlistParse->orderByDescending('createdAt');
 $playlistParse->setLimit(5);
 $resGets = $playlistParse->getPlaylists();
 if (get_class($resGets) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
-	foreach($resGets as $status) {
-		echo '<br />' . $status->getObjectId() . '<br />';
-	}
+    foreach ($resGets as $status) {
+	echo '<br />' . $status->getObjectId() . '<br />';
+    }
 }
 
 echo '<br />FINITO IL RECUPERO DI PIU\' Playlist<br />';
@@ -107,9 +108,9 @@ $playlist = $playlistParse->getPlaylist($resSave->getObjectId());
 $playlist->setSongs(array('q1fVHDRD7V', 'SdJx4roDEs'));
 $resUpdate = $playlistParse->savePlaylist($playlist);
 if (get_class($resUpdate)) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Playlist UPDATED<br />';
+    echo '<br />Playlist UPDATED<br />';
 }
 
 echo '<br />FINITO L\'AGGIORNAMENTO DI UNA Playlist<br />';
@@ -119,18 +120,17 @@ echo '<br />INIZIO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLA PLAYLIST<br />';
 
 $playlistParse = new PlaylistParse();
 
-$playlistParse ->updateField($resSave->getObjectId(), 'active', true);
+$playlistParse->updateField($resSave->getObjectId(), 'active', true);
 echo 'Aggiornato un campo boolean<br />';
-$playlistParse ->updateField($resSave->getObjectId(), 'name', 'Un name modificato');
+$playlistParse->updateField($resSave->getObjectId(), 'name', 'Un name modificato');
 echo 'Aggiornato un campo string<br />';
 
 $parseACL = new parseACL();
 $parseACL->setPublicWriteAccess(false);
-$playlistParse ->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
+$playlistParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
 echo 'Aggiornato un campo ACL<br />';
 
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELLA PLAYLIST<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-
 ?>

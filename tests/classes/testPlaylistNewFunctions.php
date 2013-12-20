@@ -29,8 +29,4 @@ echo $playlistParse1->addOjectIdToArray('EWlkBSXQJt', 'songsArray', 'MSJfcWb9Qk'
 
 echo 'TEST REMOVE<br />';
 echo $playlistParse1->removeObjectIdFromArray('EWlkBSXQJt', 'songsArray', 'MSJfcWb9Qk');
-
-
-
-
 ?>

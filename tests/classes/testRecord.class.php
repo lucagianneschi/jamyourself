@@ -1,21 +1,22 @@
 <?php
+
 /* ! \par	    Info Generali:
-* \author	    Luca Gianneschi
-* \version	    1.0
-* \date		    2013
-* \copyright	    Jamyourself.com 2013
-* \par		    Info Classe:
-* \brief	    Classe di test
-* \details	    Classe di test per la classe Record
-* \par Commenti:
-* \warning
-* \bug
-* \todo 
-*
-*/
+ * \author	    Luca Gianneschi
+ * \version	    1.0
+ * \date		    2013
+ * \copyright	    Jamyourself.com 2013
+ * \par		    Info Classe:
+ * \brief	    Classe di test
+ * \details	    Classe di test per la classe Record
+ * \par Commenti:
+ * \warning
+ * \bug
+ * \todo 
+ *
+ */
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
-	
+    define('ROOT_DIR', '../../');
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -32,14 +33,14 @@ $record->setCounter(10);
 $record->setCover('Una cover');
 $record->setDescription('Una descrizione');
 $record->setDuration(120);
-$record->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$record->setFeaturing(array('n1TXVlIqHw', 'GuUAj83MGH'));
 $record->setFromUser('GuUAj83MGH');
 $record->setGenre('Un genere');
 $record->setLabel('Un label');
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $record->setLocation($parseGeoPoint);
 $record->setLoveCounter(100);
-$record->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$record->setLovers(array('n1TXVlIqHw', 'GuUAj83MGH'));
 $record->setReviewCounter(10775757);
 $record->setShareCounter(666);
 $record->setThumbnailCover('Un thumbnail cover');
@@ -60,9 +61,9 @@ echo '<br />INIZIO IL SALVATAGGIO DEL Record APPENA CREATA<br />';
 $recordParse = new RecordParse();
 $resSave = $recordParse->saveRecord($record);
 if (get_class($resSave) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Comment SAVED<br />' . $resSave . '<br />';
+    echo '<br />Comment SAVED<br />' . $resSave . '<br />';
 }
 
 echo '<br />FINITO IL SALVATAGGIO DEL Record APPENA CREATA<br />';
@@ -74,9 +75,9 @@ echo '<br />INIZIO IL RECUPERO DI UN Record<br /><br />';
 $recordParse = new RecordParse();
 $resGet = $recordParse->getRecord($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
-	echo $resGet;
+    echo $resGet;
 }
 
 echo '<br />FINITO IL RECUPERO DI UN Record<br />';
@@ -88,9 +89,9 @@ echo '<br />INIZIO LA CANCELLAZIONE DI UN Record<br />';
 $recordParse = new RecordParse();
 $resDelete = $recordParse->deleteRecord($resSave->getObjectId());
 if (get_class($resDelete)) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Record DELETED<br />';
+    echo '<br />Record DELETED<br />';
 }
 
 echo '<br />FINITO LA CANCELLAZIONE DI UN Record<br />';
@@ -105,11 +106,11 @@ $recordParse->orderByDescending('createdAt');
 $recordParse->setLimit(5);
 $resGets = $recordParse->getRecords();
 if (get_class($resGets) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
-	foreach($resGets as $record) {
-		echo '<br />' . $record->getObjectId() . '<br />';
-	}
+    foreach ($resGets as $record) {
+	echo '<br />' . $record->getObjectId() . '<br />';
+    }
 }
 
 echo '<br />FINITO IL RECUPERO DI PIU\' Record<br />';
@@ -123,9 +124,9 @@ $record = $recordParse->getRecord($resSave->getObjectId());
 $record->setCounter(99);
 $resUpdate = $recordParse->saveRecord($record);
 if (get_class($resUpdate)) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Record UPDATED<br />';
+    echo '<br />Record UPDATED<br />';
 }
 
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Record<br />';

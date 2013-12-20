@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -17,8 +18,8 @@
  */
 
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../');
-	
+    define('ROOT_DIR', '../../');
+
 ini_set('display_errors', '1');
 
 require_once ROOT_DIR . 'config.php';
@@ -29,7 +30,7 @@ require_once CLASSES_DIR . 'eventParse.class.php';
 $event = new Event();
 
 $event->setActive(true);
-$event->setAttendee(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setAttendee(array('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setActive(true);
 $event->setAddress('Via delle Fia,18');
 $event->setCity('Pupporina');
@@ -38,18 +39,18 @@ $event->setCounter(10);
 $event->setDescription('Una descrizione');
 $eventDate = new DateTime();
 $event->setEventDate($eventDate);
-$event->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setFeaturing(array('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setFromUser('GuUAj83MGH');
 $event->setImage('Un link ad Image');
-$event->setInvited(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setInvited(array('n1TXVlIqHw', 'GuUAj83MGH'));
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $event->setLocation($parseGeoPoint);
 $event->setLocationName('Una localita');
 $event->setLoveCounter(100);
-$event->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setLovers(array('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setReviewCounter(10);
 $event->setShareCounter(1000);
-$event->setRefused(array ('n1TXVlIqHw', 'GuUAj83MGH'));
+$event->setRefused(array('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setTags(array('tag1', 'tag2'));
 $event->setThumbnail('Un link thumbnail');
 $event->setTitle('Un titolo');
@@ -67,9 +68,9 @@ echo '<br />INIZIO IL SALVATAGGIO DELL\'Event APPENA CREATO<br />';
 $eventParse = new EventParse();
 $resSave = $eventParse->saveEvent($event);
 if (get_class($resSave) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resSave->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Event SAVED<br />' . $resSave . '<br />';
+    echo '<br />Event SAVED<br />' . $resSave . '<br />';
 }
 
 echo '<br />FINITO IL SALVATAGGIO DELL\'Event APPENA CREATO<br />';
@@ -81,9 +82,9 @@ echo '<br />INIZIO IL RECUPERO DI UN Event<br /><br />';
 $eventParse = new EventParse();
 $resGet = $eventParse->getEvent($resSave->getObjectId());
 if (get_class($resGet) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGet->getErrorMessage() . '<br/>';
 } else {
-	echo $resGet;
+    echo $resGet;
 }
 
 echo '<br />FINITO IL RECUPERO DI UN Event<br />';
@@ -95,9 +96,9 @@ echo '<br />INIZIO LA CANCELLAZIONE DI UN Event<br />';
 $eventParse = new EventParse();
 $resDelete = $eventParse->deleteEvent($resSave->getObjectId());
 if (get_class($resDelete)) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resDelete->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Event DELETED<br />';
+    echo '<br />Event DELETED<br />';
 }
 
 echo '<br />FINITO LA CANCELLAZIONE DI UN Event<br />';
@@ -112,11 +113,11 @@ $eventParse->orderByDescending('createdAt');
 $eventParse->setLimit(5);
 $resGets = $eventParse->getEvents();
 if (get_class($resGets) == 'Error') {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resGets->getErrorMessage() . '<br/>';
 } else {
-	foreach($resGets as $event) {
-		echo '<br />' . $event->getObjectId() . '<br />';
-	}
+    foreach ($resGets as $event) {
+	echo '<br />' . $event->getObjectId() . '<br />';
+    }
 }
 
 echo '<br />FINITO IL RECUPERO DI PIU\' Event<br />';
@@ -130,9 +131,9 @@ $event1 = $eventParse1->getEvent($resSave->getObjectId());
 $event1->setCounter(1000);
 $resUpdate = $eventParse->saveEvent($event);
 if (get_class($resUpdate)) {
-	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
+    echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
 } else {
-	echo '<br />Event UPDATED<br />';
+    echo '<br />Event UPDATED<br />';
 }
 
 echo '<br />FINITO L\'AGGIORNAMENTO DI UN Event<br />';
@@ -166,5 +167,4 @@ echo 'Aggiornato un campo ACL<br />';
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI  EVENT<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';
-
 ?>
