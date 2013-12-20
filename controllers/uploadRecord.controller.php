@@ -108,8 +108,7 @@ class UploadRecordController extends REST {
             $infoLocation = GeocoderService::getCompleteLocationInfo($newRecord->city);
             $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
             $record->setLocation($parseGeoPoint);
-            $record->setLocationName($infoLocation['city']);
-
+            $record->setCity($infoLocation['city']);
             $record->setLoveCounter(0);
             $record->setReviewCounter(0);
             $record->setShareCounter(0);
