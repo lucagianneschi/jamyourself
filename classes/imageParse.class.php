@@ -2,12 +2,12 @@
 
 /* ! \par		Info Generali:
  *  \author		Maria Laura Fresu
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Image
- *  \details	Classe per la singola immagine caricata dall'utente
+ *  \details		Classe per la singola immagine caricata dall'utente
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -34,7 +34,7 @@ class ImageParse {
      * \brief	The constructor instantiates a new object of type ParseQuery on the Image class
      */
     function __construct() {
-        $this->parseQuery = new parseQuery('Image');
+	$this->parseQuery = new parseQuery('Image');
     }
 
     /**
@@ -47,20 +47,20 @@ class ImageParse {
      * \return	error		in case of exception
      */
     public function decrementImage($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
-        try {
-            $parseObject = new parseObject('Image');
-            //we use the increment function with a negative value because decrement function still not work
-            $parseObject->increment($field, array(0 - $value));
-            if ($withArray) {
-                if (is_null($fieldArray) || empty($valueArray))
-                    return throwError(new Exception('decrementImage parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
-                $parseObject->removeArray($fieldArray, $valueArray);
-            }
-            $res = $parseObject->update($objectId);
-            return $res->$field;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Image');
+	    //we use the increment function with a negative value because decrement function still not work
+	    $parseObject->increment($field, array(0 - $value));
+	    if ($withArray) {
+		if (is_null($fieldArray) || empty($valueArray))
+		    return throwError(new Exception('decrementImage parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+		$parseObject->removeArray($fieldArray, $valueArray);
+	    }
+	    $res = $parseObject->update($objectId);
+	    return $res->$field;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -70,13 +70,13 @@ class ImageParse {
      * \return	error		in case of exception
      */
     public function deleteImage($objectId) {
-        try {
-            $parseObject = new parseObject('Image');
-            $parseObject->active = false;
-            $parseObject->update($objectId);
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Image');
+	    $parseObject->active = false;
+	    $parseObject->update($objectId);
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -85,7 +85,7 @@ class ImageParse {
      * \return	number
      */
     public function getCount() {
-        $this->parseQuery->getCount();
+	$this->parseQuery->getCount();
     }
 
     /**
@@ -96,13 +96,13 @@ class ImageParse {
      * \return	Error		the Error raised by the function
      */
     public function getImage($objectId) {
-        try {
-            $parseObject = new parseObject('Image');
-            $res = $parseObject->get($objectId);
-            return $this->parseToImage($res);
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Image');
+	    $res = $parseObject->get($objectId);
+	    return $this->parseToImage($res);
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -113,20 +113,20 @@ class ImageParse {
      * \return	Error	the Error raised by the function
      */
     public function getImages() {
-        try {
-            $images = null;
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $images = array();
-                foreach ($res->results as $obj) {
-                    $image = $this->parseToImage($obj);
-                    $images[$image->getObjectId()] = $image;
-                }
-            }
-            return $images;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $images = null;
+	    $res = $this->parseQuery->find();
+	    if (is_array($res->results) && count($res->results) > 0) {
+		$images = array();
+		foreach ($res->results as $obj) {
+		    $image = $this->parseToImage($obj);
+		    $images[$image->getObjectId()] = $image;
+		}
+	    }
+	    return $images;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -139,19 +139,19 @@ class ImageParse {
      * \return	error		in case of exception
      */
     public function incrementImage($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
-        try {
-            $parseObject = new parseObject('Image');
-            $parseObject->increment($field, array($value));
-            if ($withArray) {
-                if (is_null($fieldArray) || empty($valueArray))
-                    return throwError(new Exception('incrementImage parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
-                $parseObject->addUniqueArray($fieldArray, $valueArray);
-            }
-            $res = $parseObject->update($objectId);
-            return $res->$field;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Image');
+	    $parseObject->increment($field, array($value));
+	    if ($withArray) {
+		if (is_null($fieldArray) || empty($valueArray))
+		    return throwError(new Exception('incrementImage parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+		$parseObject->addUniqueArray($fieldArray, $valueArray);
+	    }
+	    $res = $parseObject->update($objectId);
+	    return $res->$field;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -160,7 +160,7 @@ class ImageParse {
      * \param	$field	the field on which to sort
      */
     public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
+	$this->parseQuery->orderBy($field);
     }
 
     /**
@@ -169,7 +169,7 @@ class ImageParse {
      * \param	$field	the field on which to sort ascending
      */
     public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
+	$this->parseQuery->orderByAscending($field);
     }
 
     /**
@@ -178,7 +178,7 @@ class ImageParse {
      * \param	$field	the field on which to sort descending
      */
     public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
+	$this->parseQuery->orderByDescending($field);
     }
 
     /**
@@ -189,32 +189,31 @@ class ImageParse {
      * \return	Error	the Error raised by the function
      */
     function parseToImage($res) {
-        if (is_null($res))
-            return throwError(new Exception('parseToImage parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $image = new Image();
-            $image->setObjectId($res->objectId);
-            $image->setActive($res->active);
-            $image->setAlbum(fromParsePointer($res->album));
-            $image->setCommentCounter($res->commentCounter);
-            $image->setCounter($res->counter);
-            $image->setDescription(parse_decode_string($res->description));
-            $image->setFile(fromParseFile($res->file, "image/jpeg"));
-            $image->setFilePath($res->filePath);
-            $image->setFromUser(fromParsePointer($res->fromUser));
-            $image->setLocation(fromParseGeoPoint($res->location));
-            $image->setLoveCounter($res->loveCounter);
-            $image->setLovers($res->lovers);
-            $image->setShareCounter($res->shareCounter);
-            $image->setTags(parse_decode_array($res->tags));
-            $image->setThumbnail($res->thumbnail);
-            $image->setCreatedAt(fromParseDate($res->createdAt));
-            $image->setUpdatedAt(fromParseDate($res->updatedAt));
-            $image->setACL(fromParseACL($res->ACL));
-            return $image;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($res))
+	    return throwError(new Exception('parseToImage parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $image = new Image();
+	    $image->setObjectId($res->objectId);
+	    $image->setActive($res->active);
+	    $image->setAlbum(fromParsePointer($res->album));
+	    $image->setCommentCounter($res->commentCounter);
+	    $image->setCounter($res->counter);
+	    $image->setDescription(parse_decode_string($res->description));
+	    $image->setFilePath($res->filePath);
+	    $image->setFromUser(fromParsePointer($res->fromUser));
+	    $image->setLocation(fromParseGeoPoint($res->location));
+	    $image->setLoveCounter($res->loveCounter);
+	    $image->setLovers($res->lovers);
+	    $image->setShareCounter($res->shareCounter);
+	    $image->setTags(parse_decode_array($res->tags));
+	    $image->setThumbnail($res->thumbnail);
+	    $image->setCreatedAt(fromParseDate($res->createdAt));
+	    $image->setUpdatedAt(fromParseDate($res->updatedAt));
+	    $image->setACL(fromParseACL($res->ACL));
+	    return $image;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -225,39 +224,36 @@ class ImageParse {
      * \return	Error	the Error raised by the function
      */
     function saveImage($image) {
-        if (is_null($image->getFromUser()))
-            return throwError(new Exception('saveImage parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $nullArray = array();
-            $parseImage = new parseObject('Image');
-            is_null($image->getActive()) ? $parseImage->active = true : $parseImage->active = $image->getActive();
-            is_null($image->getAlbum()) ? $parseImage->album = null : $parseImage->album = toParsePointer('Album', $image->getAlbum());
-            is_null($image->getCommentCounter()) ? $parseImage->commentCounter = 0 : $parseImage->commentCounter = $image->getCommentCounter();
-            is_null($image->getCommentators()) ? $parseImage->commentators = null : $parseImage->commentators = toParseAddRelation('_User', $image->getCommentators());
-            is_null($image->getComments()) ? $parseImage->comments = null : $parseImage->comments = toParseAddRelation('Comment', $image->getComments());
-            is_null($image->getCounter()) ? $parseImage->counter = 0 : $parseImage->counter = $image->getCounter();
-            is_null($image->getDescription()) ? $parseImage->description = null : $parseImage->description = parse_encode_string($image->getDescription());
-            is_null($image->getFeaturing()) ? $parseImage->featuring = null : $parseImage->featuring = toParseAddRelation('_User', $image->getFeaturing());
-            is_null($image->getFile()) ? $parseImage->file = null : $parseImage->file = toParseFile($image->getFile());
-            is_null($image->getFilePath()) ? $parseImage->filePath = DEFIMAGE : $parseImage->filePath = $image->getFilePath();
-            $parseImage->fromUser = toParsePointer('_User', $image->getFromUser());
-            is_null($image->getLocation()) ? $parseImage->location = null : $parseImage->location = toParseGeoPoint($image->getLocation());
-            is_null($image->getLoveCounter()) ? $parseImage->loveCounter = 0 : $parseImage->loveCounter = $image->getLoveCounter();
-            is_null($image->getLovers()) ? $parseImage->lovers = $nullArray : $parseImage->lovers = $image->getLovers();
-            is_null($image->getShareCounter()) ? $parseImage->shareCounter = 0 : $parseImage->shareCounter = $image->getShareCounter();
-            is_null($image->getTags()) ? $parseImage->tags = $nullArray : $parseImage->tags = parse_encode_array($image->getTags());
-            is_null($image->getThumbnail()) ? $parseImage->thumbnail = DEFIMAGETHUMB : $parseImage->thumbnail = $image->getThumbnail();
-            is_null($image->getACL()) ? $parseImage->ACL = toParseDefaultACL() : $parseImage->ACL = toParseACL($image->getACL());
-            if ($image->getObjectId() == '') {
-                $res = $parseImage->save();
-                $image->setObjectId($res->objectId);
-                return $image;
-            } else {
-                $parseImage->update($image->getObjectId());
-            }
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($image->getFromUser()))
+	    return throwError(new Exception('saveImage parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $nullArray = array();
+	    $parseObject = new parseObject('Image');
+	    $parseObject->active = is_null($image->getActive()) ? true : $image->getActive();
+	    $parseObject->album = is_null($image->getAlbum()) ? null : toParsePointer('Album', $image->getAlbum());
+	    $parseObject->commentCounter = is_null($image->getCommentCounter()) ? 0 : $image->getCommentCounter();
+	    $parseObject->counter = is_null($image->getCounter()) ? 0 : $image->getCounter();
+	    $parseObject->description = is_null($image->getDescription()) ? null : parse_encode_string($image->getDescription());
+	    $parseObject->featuring = is_null($image->getFeaturing()) ? null : toParseAddRelation('_User', $image->getFeaturing());
+	    $parseObject->filePath = is_null($image->getFilePath()) ? DEFIMAGE : $image->getFilePath();
+	    $parseObject->fromUser = toParsePointer('_User', $image->getFromUser());
+	    $parseObject->location = is_null($image->getLocation()) ? null : toParseGeoPoint($image->getLocation());
+	    $parseObject->loveCounter = is_null($image->getLoveCounter()) ? 0 : $image->getLoveCounter();
+	    $parseObject->lovers = is_null($image->getLovers()) ? $nullArray : $image->getLovers();
+	    $parseObject->shareCounter = is_null($image->getShareCounter()) ? 0 : $image->getShareCounter();
+	    $parseObject->tags = is_null($image->getTags()) ? $nullArray : parse_encode_array($image->getTags());
+	    $parseObject->thumbnail = is_null($image->getThumbnail()) ? DEFIMAGETHUMB : $image->getThumbnail();
+	    $parseObject->ACL = is_null($image->getACL()) ? toParseDefaultACL() : toParseACL($image->getACL());
+	    if ($image->getObjectId() == '') {
+		$res = $parseObject->save();
+		$image->setObjectId($res->objectId);
+		return $image;
+	    } else {
+		$parseObject->update($image->getObjectId());
+	    }
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -266,7 +262,7 @@ class ImageParse {
      * \param	$limit	the maximum number
      */
     public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
+	$this->parseQuery->setLimit($limit);
     }
 
     /**
@@ -275,7 +271,7 @@ class ImageParse {
      * \param	$skip	the number of Image(s) to skip
      */
     public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
+	$this->parseQuery->setSkip($skip);
     }
 
     /**
@@ -289,27 +285,27 @@ class ImageParse {
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
     public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-        if (is_null($objectId) || is_null($field))
-            return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
-        if ($isRelation) {
-            if (is_null($typeRelation) || is_null($className))
-                return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
-            if ($typeRelation == 'add') {
-                $parseObject = new parseObject('Image');
-                $parseObject->$field = toParseAddRelation($className, $value);
-                $parseObject->update($objectId);
-            } elseif ($typeRelation == 'remove') {
-                $parseObject = new parseObject('Image');
-                $parseObject->$field = toParseRemoveRelation($className, $value);
-                $parseObject->update($objectId);
-            } else {
-                return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
-            }
-        } else {
-            $parseObject = new parseObject('Image');
-            $parseObject->$field = $value;
-            $parseObject->update($objectId);
-        }
+	if (is_null($objectId) || is_null($field))
+	    return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+	if ($isRelation) {
+	    if (is_null($typeRelation) || is_null($className))
+		return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
+	    if ($typeRelation == 'add') {
+		$parseObject = new parseObject('Image');
+		$parseObject->$field = toParseAddRelation($className, $value);
+		$parseObject->update($objectId);
+	    } elseif ($typeRelation == 'remove') {
+		$parseObject = new parseObject('Image');
+		$parseObject->$field = toParseRemoveRelation($className, $value);
+		$parseObject->update($objectId);
+	    } else {
+		return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
+	    }
+	} else {
+	    $parseObject = new parseObject('Image');
+	    $parseObject->$field = $value;
+	    $parseObject->update($objectId);
+	}
     }
 
     /**
@@ -319,7 +315,7 @@ class ImageParse {
      * \param	$value	the string which represent the value
      */
     public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
+	$this->parseQuery->where($field, $value);
     }
 
     /**
@@ -329,7 +325,7 @@ class ImageParse {
      * \param	$value	the array which represent the values
      */
     public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
+	$this->parseQuery->whereContainedIn($field, $values);
     }
 
     /**
@@ -339,7 +335,7 @@ class ImageParse {
      * \param	$value	the string which represent the value
      */
     public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
+	$this->parseQuery->whereEqualTo($field, $value);
     }
 
     /**
@@ -348,7 +344,7 @@ class ImageParse {
      * \param	$field	the string which represent the field
      */
     public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
+	$this->parseQuery->whereExists($field);
     }
 
     /**
@@ -358,7 +354,7 @@ class ImageParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
+	$this->parseQuery->whereGreaterThan($field, $value);
     }
 
     /**
@@ -368,7 +364,7 @@ class ImageParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
     /**
@@ -377,7 +373,7 @@ class ImageParse {
      * \param	$field	the string which represent the field
      */
     public function whereInclude($field) {
-        $this->parseQuery->whereInclude($field);
+	$this->parseQuery->whereInclude($field);
     }
 
     /**
@@ -386,7 +382,7 @@ class ImageParse {
      * \param	$field, $className, $array
      */
     public function whereInQuery($field, $className, $array) {
-        $this->parseQuery->whereInQuery($field, $className, $array);
+	$this->parseQuery->whereInQuery($field, $className, $array);
     }
 
     /**
@@ -396,7 +392,7 @@ class ImageParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
+	$this->parseQuery->whereLessThan($field, $value);
     }
 
     /**
@@ -406,7 +402,16 @@ class ImageParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	$this->parseQuery->whereLessThanOrEqualTo($field, $value);
+    }
+
+    /**
+     * \fn	whereNearSphere($latitude, $longitude, $distance, $distanceType)
+     * \brief	find element in a spherre near the given latitude e longitude
+     * \param	$latitude, $longitude
+     */
+    public function whereNearSphere($latitude, $longitude, $distance = null, $distanceType = null) {
+	$this->parseQuery->whereNearSphere('location', $latitude, $longitude, $distance, $distanceType);
     }
 
     /**
@@ -416,7 +421,7 @@ class ImageParse {
      * \param	$value	the array which represent the values
      */
     public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
+	$this->parseQuery->whereNotContainedIn($field, $array);
     }
 
     /**
@@ -426,7 +431,7 @@ class ImageParse {
      * \param	$value	the string which represent the value
      */
     public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
+	$this->parseQuery->whereNotEqualTo($field, $value);
     }
 
     /**
@@ -435,7 +440,7 @@ class ImageParse {
      * \param	$field	the string which represent the field
      */
     public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
+	$this->parseQuery->whereDoesNotExist($field);
     }
 
     /**
@@ -444,7 +449,7 @@ class ImageParse {
      * \param	$field, $className, $array
      */
     public function whereNotInQuery($field, $className, $array) {
-        $this->parseQuery->whereNotInQuery($field, $className, $array);
+	$this->parseQuery->whereNotInQuery($field, $className, $array);
     }
 
     /**
@@ -458,7 +463,7 @@ class ImageParse {
      * \param	$field	the array representing the field and the value to put in or
      */
     public function whereOr($value) {
-        $this->parseQuery->where('$or', $value);
+	$this->parseQuery->where('$or', $value);
     }
 
     /**
@@ -469,7 +474,7 @@ class ImageParse {
      * \param	$objectId	the string which represent the objectId of the Pointer
      */
     public function wherePointer($field, $className, $objectId) {
-        $this->parseQuery->wherePointer($field, $className, $objectId);
+	$this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
     /**
@@ -480,7 +485,7 @@ class ImageParse {
      * \param	$objectId	the string which represent the objectId
      */
     public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	$this->parseQuery->whereRelatedTo($field, $className, $objectId);
     }
 
 }

@@ -2,12 +2,12 @@
 
 /* ! \par		Info Generali:
  *  \author		Maria Laura Fresu
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Image
- *  \details	Classe per la singola immagine caricata dall'utente
+ *  \details		Classe per la singola immagine caricata dall'utente
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -23,12 +23,9 @@ class Image {
     private $active;
     private $album;
     private $commentCounter;
-    private $commentators;
-    private $comments;
     private $counter;
     private $description;
     private $featuring;
-    private $file;
     private $filePath;
     private $fromUser;
     private $location;
@@ -78,24 +75,6 @@ class Image {
     }
 
     /**
-     * \fn		array getCommentators()
-     * \brief	Return an array of objectId of istances of _User class who commented on the image
-     * \return	array
-     */
-    public function getCommentators() {
-	return $this->commentators;
-    }
-
-    /**
-     * \fn		array getComments()
-     * \brief	Return an array of objectId of istances of the Comment class; comments on the image istance
-     * \return	array
-     */
-    public function getComments() {
-	return $this->comments;
-    }
-
-    /**
      * \fn		int getCounter()
      * \brief	Return the counter value
      * \return	int
@@ -120,15 +99,6 @@ class Image {
      */
     public function getFeaturing() {
 	return $this->featuring;
-    }
-
-    /**
-     * \fn		parseFile getFile()
-     * \brief	Return the file value, file path
-     * \return	parseFile
-     */
-    public function getFile() {
-	return $this->file;
     }
 
     /**
@@ -267,24 +237,6 @@ class Image {
     }
 
     /**
-     * \fn		void setCommentators($commentators)
-     * \brief	Sets the commentators value,array of pointer to ParseUser
-     * \param	array
-     */
-    public function setCommentators($commentators) {
-	$this->commentators = $commentators;
-    }
-
-    /**
-     * \fn		void setComments($comments)
-     * \brief	Sets the comments value,array of pointer to ParseComment
-     * \param	array
-     */
-    public function setComments($comments) {
-	$this->comments = $comments;
-    }
-
-    /**
      * \fn		void setCounter($counter)
      * \brief	Sets the counter value
      * \param	int
@@ -309,15 +261,6 @@ class Image {
      */
     public function setFeaturing($featuring) {
 	$this->featuring = $featuring;
-    }
-
-    /**
-     * \fn		void setFile($file)
-     * \brief	Sets the file value
-     * \param   parseFile
-     */
-    public function setFile($file) {
-	$this->file = $file;
     }
 
     /**
@@ -430,18 +373,6 @@ class Image {
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string.= '[album] => ' . $this->getAlbum() . '<br />';
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
-	if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
-	    foreach ($this->getCommentators() as $commentator) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= "[commentator] => " . $commentator . "<br />";
-	    }
-	}
-	if ($this->getComments() != null && count($this->getComments() > 0)) {
-	    foreach ($this->getComments() as $comment) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[comment] => ' . $comment . '<br />';
-	    }
-	}
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
@@ -450,7 +381,6 @@ class Image {
 		$string .= '[featuring] => ' . $user . '<br />';
 	    }
 	}
-	//$string .= '[file] => ' . $this->getFile() . '<br />';
 	$string .= '[filePath] => ' . $this->getFilePath() . '<br />';
 	$fromUser = $this->getFromUser();
 	if ($fromUser != null) {

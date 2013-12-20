@@ -4,16 +4,13 @@
  * \version		1.0
  * \date		2013
  * \copyright		Jamyourself.com 2013
- *
  * \par			Info Classe:
  * \brief		Classe di test
  * \details		Classe di test per la classe Image
- *
  * \par			Commenti:
  * \warning
  * \bug
  * \todo
- *
  */
 if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../');
@@ -33,7 +30,6 @@ $image->setCommentCounter(10);
 $image->setCounter(10);
 $image->setDescription('Una descrizione');
 $image->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-//$image->setFile();
 $image->setFilePath('Un path del file');
 $image->setFromUser('GuUAj83MGH');
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
@@ -152,12 +148,6 @@ $parseACL = new parseACL();
 $parseACL->setPublicWriteAccess(false);
 $imageParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
 echo 'Aggiornato un campo ACL<br />';
-
-$imageParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
-echo 'Aggiornato (add) un campo Relation<br />';
-
-$imageParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
-echo 'Aggiornato (remove) un campo Relation<br />';
 
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DELL\'IMAGE<br />';
 
