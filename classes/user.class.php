@@ -2,12 +2,12 @@
 
 /* ! \par 		Info Generali:
  *  \author		Stefano Muscas
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		User Class
- *  \details	Classe utente
+ *  \details		Classe utente
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -26,18 +26,15 @@ class User {
     private $emailVerified;
     private $active;
     private $address;
-    private $albums;
     private $background;
     private $badge;
     private $birthDay;
     private $city;
     private $collaboration;
     private $collaborationCounter;
-    private $comments;
     private $country;
     private $description;
     private $email;
-    private $events;
     private $facebookId;
     private $fbPage;
     private $firstname;
@@ -59,17 +56,12 @@ class User {
     private $loveSongs;
     private $members;
     private $music;
-    private $playlists;
     private $premium;
     private $premiumExpirationDate;
     private $profilePicture;
-    private $profilePictureFile;
     private $profileThumbnail;
-    private $records;
     private $settings;
     private $sex;
-    private $songs;
-    private $statuses;
     private $twitterPage;
     private $type;
     private $venueCounter;
@@ -162,15 +154,6 @@ class User {
     }
 
     /**
-     * \fn		array getAlbum()
-     * \brief	Return an array of objectId of the Album related with the User
-     * \return	array
-     */
-    public function getAlbums() {
-	return $this->albums;
-    }
-
-    /**
      * \fn		string getBackground()
      * \brief	Return the background link of the User
      * \return	string
@@ -225,15 +208,6 @@ class User {
     }
 
     /**
-     * \fn		array getComments()
-     * \brief	Return an array of objectId of the Comment related with the User
-     * \return	array
-     */
-    public function getComments() {
-	return $this->comments;
-    }
-
-    /**
      * \fn		string getCountry()
      * \brief	Return the country of the User
      * \return	string
@@ -258,15 +232,6 @@ class User {
      */
     public function getEmail() {
 	return $this->email;
-    }
-
-    /**
-     * \fn		array getEvents()
-     * \brief	Return an array of objectId of the Event related with the User
-     * \return	array
-     */
-    public function getEvents() {
-	return $this->events;
     }
 
     /**
@@ -387,15 +352,6 @@ class User {
     }
 
     /**
-     * \fn		array getImages()
-     * \brief	Return an array of objectId of the Image related with the User
-     * \return	array
-     */
-    public function getImages() {
-	return $this->images;
-    }
-
-    /**
      * \fn		string getLastname()
      * \brief	Return the lastname of the User
      * \return	string
@@ -459,15 +415,6 @@ class User {
     }
 
     /**
-     * \fn		array getPlaylists()
-     * \brief	Return an array of objectId of the Playlist related with the User
-     * \return	array
-     */
-    public function getPlaylists() {
-	return $this->playlists;
-    }
-
-    /**
      * \fn		boolean getPremium()
      * \brief	Return if the User has a Premium account
      * \return	boolean
@@ -495,30 +442,12 @@ class User {
     }
 
     /**
-     * \fn		File getProfilePictureFile()
-     * \brief	Return the file of the profile picture of the User
-     * \return	File
-     */
-    public function getProfilePictureFile() {
-	return $this->profilePictureFile;
-    }
-
-    /**
      * \fn		string getProfilePictureFile()
      * \brief	Return the thumbnail profile picture link of the User
      * \return	string
      */
     public function getProfileThumbnail() {
 	return $this->profileThumbnail;
-    }
-
-    /**
-     * \fn		array getRecords()
-     * \brief	Return an array of objectId of the Record related with the User
-     * \return	array
-     */
-    public function getRecords() {
-	return $this->records;
     }
 
     /**
@@ -537,24 +466,6 @@ class User {
      */
     public function getSex() {
 	return $this->sex;
-    }
-
-    /**
-     * \fn		array getRecords()
-     * \brief	Return an array of objectId of the Song related with the User
-     * \return	array
-     */
-    public function getSongs() {
-	return $this->songs;
-    }
-
-    /**
-     * \fn		array getStatuses()
-     * \brief	Return an array of objectId of the Status related with the User
-     * \return	array
-     */
-    public function getStatuses() {
-	return $this->statuses;
     }
 
     /**
@@ -582,15 +493,6 @@ class User {
      */
     public function getVenueCounter() {
 	return $this->venueCounter;
-    }
-
-    /**
-     * \fn		array getVideos()
-     * \brief	Return an array of objectId of the Video related with the User
-     * \return	array
-     */
-    public function getVideos() {
-	return $this->videos;
     }
 
     /**
@@ -713,15 +615,6 @@ class User {
     }
 
     /**
-     * \fn		void setAlbums($albums)
-     * \brief	Sets an array of objectId of the Album related with the User
-     * \param	array
-     */
-    public function setAlbums($albums) {
-	$this->albums = $albums;
-    }
-
-    /**
      * \fn		void setBackground($background)
      * \brief	Sets the background value of the User
      * \param	string
@@ -776,15 +669,6 @@ class User {
     }
 
     /**
-     * \fn		void setComments($comments)
-     * \brief	Sets an array of objectId of the Comment related with the User
-     * \param	array
-     */
-    public function setComments($comments) {
-	$this->comments = $comments;
-    }
-
-    /**
      * \fn		void setCountry($country)
      * \brief	Sets the country value of the User
      * \param	string
@@ -809,15 +693,6 @@ class User {
      */
     public function setEmail($email) {
 	$this->email = $email;
-    }
-
-    /**
-     * \fn		void setEvents($events)
-     * \brief	Sets an array of objectId of the Event related with the User
-     * \param	array
-     */
-    public function setEvents($events) {
-	$this->events = $events;
     }
 
     /**
@@ -920,15 +795,6 @@ class User {
     }
 
     /**
-     * \fn		void setImages($images)
-     * \brief	Sets an array of objectId of the Image related with the User
-     * \param	array
-     */
-    public function setImages($images) {
-	$this->images = $images;
-    }
-
-    /**
      * \fn		void setJammerCounter($jammerCounter)
      * \brief	Sets the jammer counter 
      * \param	number
@@ -1010,15 +876,6 @@ class User {
     }
 
     /**
-     * \fn		void setPlaylists($playlists)
-     * \brief	Sets an array of objectId of the Playlist related with the User
-     * \param	array
-     */
-    public function setPlaylists($playlists) {
-	$this->playlists = $playlists;
-    }
-
-    /**
      * \fn		void setPremium($premium)
      * \brief	Sets if the User has a Premium account
      * \param	boolean
@@ -1046,30 +903,12 @@ class User {
     }
 
     /**
-     * \fn		void setProfilePictureFile($profilePictureFile)
-     * \brief	Sets the profile picture File of the User
-     * \param	File
-     */
-    public function setProfilePictureFile($profilePictureFile) {
-	$this->profilePictureFile = $profilePictureFile;
-    }
-
-    /**
      * \fn		void setProfileThumbnail($profileThumbnail)
      * \brief	Sets the profile picture thumbnail link of the User
      * \param	string
      */
     public function setProfileThumbnail($profileThumbnail) {
 	$this->profileThumbnail = $profileThumbnail;
-    }
-
-    /**
-     * \fn		void setRecords($records)
-     * \brief	Sets an array of objectId of the Record related with the User
-     * \param	array
-     */
-    public function setRecords($records) {
-	$this->records = $records;
     }
 
     /**
@@ -1088,24 +927,6 @@ class User {
      */
     public function setSex($sex) {
 	$this->sex = $sex;
-    }
-
-    /**
-     * \fn		void setSongs($songs)
-     * \brief	Sets an array of objectId of the Song related with the User
-     * \param	array
-     */
-    public function setSongs($songs) {
-	$this->songs = $songs;
-    }
-
-    /**
-     * \fn		void setStatuses($statuses)
-     * \brief	Sets an array of objectId of the Status related with the User
-     * \param	array
-     */
-    public function setStatuses($statuses) {
-	$this->statuses = $statuses;
     }
 
     /**
@@ -1133,15 +954,6 @@ class User {
      */
     public function setVenueCounter($venueCounter) {
 	$this->venueCounter = $venueCounter;
-    }
-
-    /**
-     * \fn		void setVideos($videos)
-     * \brief	Sets an array of objectId of the Video related with the User
-     * \param	array
-     */
-    public function setVideos($videos) {
-	$this->videos = $videos;
     }
 
     /**
@@ -1216,15 +1028,6 @@ class User {
 	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 	}
 	$string.= '[address] => ' . $this->getAddress() . '<br />';
-	if (count($this->getAlbums()) != 0) {
-	    foreach ($this->getAlbums() as $album) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[albums] => ' . $album . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[albums] => NULL<br />';
-	}
 	$string .= '[background] => ' . $this->getBackground() . '<br />';
 	foreach ($this->getBadge() as $badge) {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -1241,28 +1044,10 @@ class User {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	    $string .= '[collaboration] => NULL<br />';
 	}
-	if (count($this->getComments()) != 0) {
-	    foreach ($this->getComments() as $comments) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[comments] => ' . $comments . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[comments] => NULL<br />';
-	}
 	$string .= '[collaborationCounter] => ' . $this->getCollaborationCounter() . '<br />';
 	$string .= '[country] => ' . $this->getCountry() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$string .= '[email] => ' . $this->getEmail() . '<br />';
-	if (count($this->getEvents()) != 0) {
-	    foreach ($this->getEvents() as $event) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[events] => ' . $event . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[event] => NULL<br />';
-	}
 	$string .= '[facebookId] => ' . $this->getFacebookId() . '<br />';
 	$string .= '[fbPage] => ' . $this->getFbPage() . '<br />';
 	$string .= '[firstname] => ' . $this->getFirstname() . '<br />';
@@ -1303,15 +1088,6 @@ class User {
 	} else {
 	    $string .= '[geoCoding] => NULL<br />';
 	}
-	if (count($this->getImages()) != 0) {
-	    foreach ($this->getImages() as $image) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[images] => ' . $image . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[image] => NULL<br />';
-	}
 	$string .= '[jammerCounter] => ' . $this->getJammerCounter() . '<br />';
 	$string .= '[jammerType] => ' . $this->getJammerType() . '<br />';
 	$string .= '[lastname] => ' . $this->getLastname() . '<br />';
@@ -1340,15 +1116,6 @@ class User {
 	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 	    $string .= '[music] => ' . $music . '<br />';
 	}
-	if (count($this->getPlaylists()) != 0) {
-	    foreach ($this->getPlaylists() as $playlist) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[playlists] => ' . $playlist . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[playlists] => NULL<br />';
-	}
 	$string .= '[premium] => ' . $this->getPremium() . '<br />';
 	if ($this->getPremiumExpirationDate() != null) {
 	    $string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
@@ -1356,16 +1123,6 @@ class User {
 	    $string .= '[premiumExpirationDate] => NULL<br />';
 	}
 	$string .= '[profilePicture] => ' . $this->getProfilePicture() . '<br />';
-	$string .= '[profilePictureFile] => ' . $this->getProfilePictureFile() . '<br />';
-	if (count($this->getRecords()) != 0) {
-	    foreach ($this->getRecords() as $record) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[records] => ' . $record . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[records] => NULL<br />';
-	}
 	$string .= '[profileThumbnail] => ' . $this->getProfileThumbnail() . '<br />';
 	$string .= '[sessionToken] => ' . $this->getSessionToken() . '<br />';
 	foreach ($this->getSettings() as $settings) {
@@ -1373,36 +1130,9 @@ class User {
 	    $string .= '[settings] => ' . $settings . '<br />';
 	}
 	$string .= '[sex] => ' . $this->getSex() . '<br />';
-	if (count($this->getSongs()) != 0) {
-	    foreach ($this->getSongs() as $song) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[songs] => ' . $song . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[songs] => NULL<br />';
-	}
-	if (count($this->getStatuses()) != 0) {
-	    foreach ($this->getStatuses() as $status) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[status] => ' . $status . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[statuss] => NULL<br />';
-	}
 	$string .= '[twitterPage] => ' . $this->getTwitterPage() . '<br />';
 	$string .= '[type] => ' . $this->getType() . '<br />';
 	$string .= '[venueCounter] => ' . $this->getVenueCounter() . '<br />';
-	if (count($this->getVideos()) != 0) {
-	    foreach ($this->getVideos() as $video) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[video] => ' . $video . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[video] => NULL<br />';
-	}
 	$string .= '[website] => ' . $this->getWebsite() . '<br />';
 	$string .= '[youtubeChannel] => ' . $this->getYoutubeChannel() . '<br />';
 	if ($this->getCreatedAt() != null) {

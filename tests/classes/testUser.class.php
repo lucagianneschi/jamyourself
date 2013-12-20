@@ -5,11 +5,9 @@
  * \version	    1.0
  * \date		    2013
  * \copyright	    Jamyourself.com 2013
- *
  * \par		    Info Classe:
  * \brief	    Classe di test
  * \details	    Classe di test per la classe User
- *
  * \par Commenti:
  * \warning
  * \bug
@@ -45,10 +43,8 @@ $r = rand();
 $userEpass = 'test' . $r;
 $user->setUsername($userEpass);
 $user->setPassword($userEpass);
-//$user->setAuthData();
-//$user->setEmailVerified();
+
 $user->setActive(true);
-//$user->setAlbums();
 $user->setBackground('Un background');
 $user->setBadge(array('badge1', 'badge2'));
 $user->setBirthDay('1982-02-18');
@@ -64,26 +60,21 @@ $user->setFriendshipCounter(666);
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $user->setGooglePlusPage('Una pagina Google Plus');
 $user->setGeoCoding($parseGeoPoint);
-//$user->setImages();
-$user->setJammerCounter(6665665656);
+$user->setJammerCounter(66656);
 $user->setLevel(1);
 $user->setLevelValue(2);
 //$user->setLoveSongs();
 $user->setMusic(array('music1', 'music2'));
-//$user->setPlaylists();
 $user->setPremium(true);
 $dateTime = new DateTime();
 $dateTime->add(new DateInterval('P1D'));
 $user->setPremiumExpirationDate($dateTime);
 $user->setProfilePicture('Una immagine di profilo');
-//$user->setProfilePictureFile();
 $user->setProfileThumbnail('Una micro immagine di profilo');
 //$user->setSessionToken();
 $user->setSettings(array('setting1', 'setting2'));
-//$user->setStatuses();
 $user->setTwitterPage('Una pagina twitter');
-$user->setVenueCounter(1234567890);
-//$user->setVideos();
+$user->setVenueCounter(1234567);
 $user->setWebsite('Un sito web');
 $user->setYoutubeChannel('Un canale youtube');
 //$user->setCreatedAt();

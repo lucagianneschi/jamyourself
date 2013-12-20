@@ -24,12 +24,6 @@ require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once CLASSES_DIR . 'utilsClass.php';
 require_once CLASSES_DIR . 'user.class.php';
-require_once CLASSES_DIR . 'albumParse.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
-require_once CLASSES_DIR . 'eventParse.class.php';
-require_once CLASSES_DIR . 'playlistParse.class.php';
-require_once CLASSES_DIR . 'recordParse.class.php';
-require_once CLASSES_DIR . 'statusParse.class.php';
 require_once SERVICES_DIR . 'debug.service.php';
 
 class UserParse {
@@ -41,7 +35,7 @@ class UserParse {
      * \brief	The constructor instantiates a new object of type ParseQuery on the User class
      */
     public function __construct() {
-        $this->parseQuery = new ParseQuery('_User');
+	$this->parseQuery = new ParseQuery('_User');
     }
 
     /**
@@ -54,20 +48,20 @@ class UserParse {
      * \return	error		in case of exception
      */
     public function decrementUser($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
-        try {
-            $parseObject = new parseObject('_User');
-            //we use the increment function with a negative value because decrement function still not work
-            $parseObject->increment($field, array(0 - $value));
-            if ($withArray) {
-                if (is_null($fieldArray) || empty($valueArray))
-                    return throwError(new Exception('decrementUser parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
-                $parseObject->removeArray($fieldArray, $valueArray);
-            }
-            $res = $parseObject->update($objectId);
-            return $res->$field;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('_User');
+	    //we use the increment function with a negative value because decrement function still not work
+	    $parseObject->increment($field, array(0 - $value));
+	    if ($withArray) {
+		if (is_null($fieldArray) || empty($valueArray))
+		    return throwError(new Exception('decrementUser parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+		$parseObject->removeArray($fieldArray, $valueArray);
+	    }
+	    $res = $parseObject->update($objectId);
+	    return $res->$field;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -77,51 +71,23 @@ class UserParse {
      * \return	Error	the Error raised by the function
      */
     public function deleteUser($objectId) {
-        try {
-            $parseUser = new parseUser();
-            $res = $parseUser->get($objectId);
-            $user = $this->parseToUser($res);
-            //delete properties User
-            foreach ($user->getAlbums() as $albumObjectId) {
-                $albumParse = new AlbumParse();
-                $albumParse->deleteAlbum($albumObjectId);
-            }
-            foreach ($user->getComments() as $cmtObjectId) {
-                $cmtParse = new CommentParse();
-                $cmtParse->deleteComment($cmtObjectId);
-            }
-            foreach ($user->getPlaylists() as $plObjectId) {
-                $plParse = new PlaylistParse();
-                $plParse->deletePlaylist($plObjectId);
-            }
-            foreach ($user->getStatuses() as $statusObjectId) {
-                $statusParse = new StatusParse();
-                $statusParse->deleteStatus($statusObjectId);
-            }
-            if ($user->getType == 'VENUE') {
-                //delete properties Venue
-                foreach ($user->getEvents() as $eventObjectId) {
-                    $eventParse = new EventParse();
-                    $eventParse->deleteEvent($eventObjectId);
-                }
-            } elseif ($res->type == 'JAMMER') {
-                //delete properties Jammer
-                foreach ($user->getEvents() as $eventObjectId) {
-                    $eventParse = new EventParse();
-                    $eventParse->deleteEvent($eventObjectId);
-                }
-                foreach ($user->getRecords() as $recordObjectId) {
-                    $recordParse = new RecordParse();
-                    $recordParse->deleteRecord($recordObjectId);
-                }
-            } elseif ($res->type == 'SPOTTER') {
-                //delete properties Spotter
-            }
-            $user->setActive(false);
-            $this->saveUser($user);
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseUser = new parseUser();
+	    $res = $parseUser->get($objectId);
+	    $user = $this->parseToUser($res);
+	    $this->deleteAllAlbums($objectId);
+	    $this->deleteAllComments($objectId);
+	    $this->deleteAllPlaylists($objectId);
+	    if ($user->getType == 'VENUE' || $res->type == 'JAMMER') {
+		$this->deleteAllEvents($objectId);
+	    } elseif ($res->type == 'JAMMER') {
+		$this->deleteAllRecords($objectId);
+	    }
+	    $user->setActive(false);
+	    $this->saveUser($user);
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -130,7 +96,7 @@ class UserParse {
      * \return	number
      */
     public function getCount() {
-        return $this->parseQuery->getCount()->count;
+	return $this->parseQuery->getCount()->count;
     }
 
     /**
@@ -141,14 +107,14 @@ class UserParse {
      * \return	Error	the Error raised by the function
      */
     public function getUser($objectId) {
-        try {
-            $parseObject = new parseObject('_User');
-            $res = $parseObject->get($objectId);
-            $user = $this->parseToUser($res);
-            return $user;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('_User');
+	    $res = $parseObject->get($objectId);
+	    $user = $this->parseToUser($res);
+	    return $user;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -159,20 +125,20 @@ class UserParse {
      * \return	Error	the Error raised by the function
      */
     public function getUsers() {
-        try {
-            $users = null;
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $users = array();
-                foreach ($res->results as $obj) {
-                    $user = $this->parseToUser($obj);
-                    $users[$user->getObjectId()] = $user;
-                }
-            }
-            return $users;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $users = null;
+	    $res = $this->parseQuery->find();
+	    if (is_array($res->results) && count($res->results) > 0) {
+		$users = array();
+		foreach ($res->results as $obj) {
+		    $user = $this->parseToUser($obj);
+		    $users[$user->getObjectId()] = $user;
+		}
+	    }
+	    return $users;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -185,19 +151,19 @@ class UserParse {
      * \return	error		in case of exception
      */
     public function incrementUser($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
-        try {
-            $parseObject = new parseObject('_User');
-            $parseObject->increment($field, array($value));
-            if ($withArray) {
-                if (is_null($fieldArray) || empty($valueArray))
-                    return throwError(new Exception('incrementUser parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
-                $parseObject->addUniqueArray($fieldArray, $valueArray);
-            }
-            $res = $parseObject->update($objectId);
-            return $res->$field;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('_User');
+	    $parseObject->increment($field, array($value));
+	    if ($withArray) {
+		if (is_null($fieldArray) || empty($valueArray))
+		    return throwError(new Exception('incrementUser parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+		$parseObject->addUniqueArray($fieldArray, $valueArray);
+	    }
+	    $res = $parseObject->update($objectId);
+	    return $res->$field;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -209,14 +175,14 @@ class UserParse {
      * \return	error		in case of exception
      */
     public function linkUser($user, $authData) {
-        try {
-            $parseUser = new parseUser();
-            $parseUser->addAuthData($authData);
-            $res = $parseUser->linkAccounts($user->getObjectId(), $user->getSessionToken());
-            return $res;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseUser = new parseUser();
+	    $parseUser->addAuthData($authData);
+	    $res = $parseUser->linkAccounts($user->getObjectId(), $user->getSessionToken());
+	    return $res;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -226,30 +192,30 @@ class UserParse {
      * \return	Error	the Error raised by the function
      */
     public function loginUser($usernameEmail, $password) {
-        try {
-            // determino lo username tramite l'email
-            if (filter_var($usernameEmail, FILTER_VALIDATE_EMAIL)) {
-                $parseQuery = new parseQuery('_User');
-                $parseQuery->where('email', $usernameEmail);
-                $res = $parseQuery->find();
-                if (count($res->results) > 0) {
-                    $user = $this->parseToUser($res->results[0]);
-                    $username = $user->getUsername();
-                } else {
-                    return throwError(new Exception('loginUser email not found'), __CLASS__, __FUNCTION__, func_get_args());
-                }
-            } else {
-                $username = $usernameEmail;
-            }
-            $parseUser = new parseUser();
-            $parseUser->username = $username;
-            $parseUser->password = $password;
-            $res = $parseUser->login();
-            $user = $this->parseToUser($res);
-            return $user;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    // determino lo username tramite l'email
+	    if (filter_var($usernameEmail, FILTER_VALIDATE_EMAIL)) {
+		$parseQuery = new parseQuery('_User');
+		$parseQuery->where('email', $usernameEmail);
+		$res = $parseQuery->find();
+		if (count($res->results) > 0) {
+		    $user = $this->parseToUser($res->results[0]);
+		    $username = $user->getUsername();
+		} else {
+		    return throwError(new Exception('loginUser email not found'), __CLASS__, __FUNCTION__, func_get_args());
+		}
+	    } else {
+		$username = $usernameEmail;
+	    }
+	    $parseUser = new parseUser();
+	    $parseUser->username = $username;
+	    $parseUser->password = $password;
+	    $res = $parseUser->login();
+	    $user = $this->parseToUser($res);
+	    return $user;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -258,7 +224,7 @@ class UserParse {
      * \param	$field	the field on which to sort
      */
     public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
+	$this->parseQuery->orderBy($field);
     }
 
     /**
@@ -267,7 +233,7 @@ class UserParse {
      * \param	$field	the field on which to sort ascending
      */
     public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
+	$this->parseQuery->orderByAscending($field);
     }
 
     /**
@@ -276,7 +242,7 @@ class UserParse {
      * \param	$field	the field on which to sort descending
      */
     public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
+	$this->parseQuery->orderByDescending($field);
     }
 
     /**
@@ -287,58 +253,58 @@ class UserParse {
      * \return	Error	the Error raised by the function
      */
     public function parseToUser($res) {
-        if (is_null($res))
-            return throwError(new Exception('parseToUser parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $user = new User($res->type);
-            $user->setObjectId($res->objectId);
-            $user->setUsername(parse_decode_string($res->username));
-            $user->setActive($res->active);
-            $user->setAddress(parse_decode_string($res->address));
-            $user->setBackground($res->background);
-            $user->setBirthDay($res->birthDay);
-            $user->setBadge($res->badge);
-            $user->setCity(parse_decode_string($res->city));
-            $user->setCollaborationCounter($res->collaborationCounter);
-            $user->setCountry($res->country);
-            $user->setDescription(parse_decode_string($res->description));
-            $user->setEmail($res->email);
-            $user->setFacebookId($res->facebookId);
-            $user->setFbPage($res->fbPage);
-            $user->setFirstname(parse_decode_string($res->firstname));
-            $user->setFollowersCounter($res->followersCounter);
-            $user->setFollowingCounter($res->followingCounter);
-            $user->setFriendshipCounter($res->friendshipCounter);
-            $user->setGooglePlusPage($res->googlePlusPage);
-            $user->setGeoCoding(fromParseGeoPoint($res->geoCoding));
-            $user->setJammerCounter($res->jammerCounter);
-            $user->setJammerType($res->jammerType);
-            $user->setLastname(parse_decode_string($res->lastname));
-            $user->setLevel($res->level);
-            $user->setLevelValue($res->levelValue);
-            $user->setLocalType($res->localType);
-            $user->setMembers(parse_decode_array($res->members));
-            $user->setMusic($res->music);
-            $user->setPremium($res->premium);
-            $res->premium ? $user->setPremiumExpirationDate(fromParseDate($res->premiumExpirationDate)) : $user->setPremiumExpirationDate(null);
-            $user->setProfilePicture($res->profilePicture);
-            $user->setProfileThumbnail($res->profileThumbnail);
-            if (isset($res->sessionToken))
-                $user->setSessionToken($res->sessionToken);
-            $user->setSettings($res->settings);
-            $user->setSex($res->sex);
-            $user->setTwitterPage($res->twitterPage);
-            $user->setType($res->type);
-            $user->setVenueCounter($res->venueCounter);
-            $user->setWebsite($res->website);
-            $user->setYoutubeChannel($res->youtubeChannel);
-            $user->setCreatedAt(fromParseDate($res->createdAt));
-            $user->setUpdatedAt(fromParseDate($res->updatedAt));
-            $user->setACL(fromParseACL($res->ACL));
-            return $user;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($res))
+	    return throwError(new Exception('parseToUser parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $user = new User($res->type);
+	    $user->setObjectId($res->objectId);
+	    $user->setUsername(parse_decode_string($res->username));
+	    $user->setActive($res->active);
+	    $user->setAddress(parse_decode_string($res->address));
+	    $user->setBackground($res->background);
+	    $user->setBirthDay($res->birthDay);
+	    $user->setBadge($res->badge);
+	    $user->setCity(parse_decode_string($res->city));
+	    $user->setCollaborationCounter($res->collaborationCounter);
+	    $user->setCountry($res->country);
+	    $user->setDescription(parse_decode_string($res->description));
+	    $user->setEmail($res->email);
+	    $user->setFacebookId($res->facebookId);
+	    $user->setFbPage($res->fbPage);
+	    $user->setFirstname(parse_decode_string($res->firstname));
+	    $user->setFollowersCounter($res->followersCounter);
+	    $user->setFollowingCounter($res->followingCounter);
+	    $user->setFriendshipCounter($res->friendshipCounter);
+	    $user->setGooglePlusPage($res->googlePlusPage);
+	    $user->setGeoCoding(fromParseGeoPoint($res->geoCoding));
+	    $user->setJammerCounter($res->jammerCounter);
+	    $user->setJammerType($res->jammerType);
+	    $user->setLastname(parse_decode_string($res->lastname));
+	    $user->setLevel($res->level);
+	    $user->setLevelValue($res->levelValue);
+	    $user->setLocalType($res->localType);
+	    $user->setMembers(parse_decode_array($res->members));
+	    $user->setMusic($res->music);
+	    $user->setPremium($res->premium);
+	    $res->premium ? $user->setPremiumExpirationDate(fromParseDate($res->premiumExpirationDate)) : $user->setPremiumExpirationDate(null);
+	    $user->setProfilePicture($res->profilePicture);
+	    $user->setProfileThumbnail($res->profileThumbnail);
+	    if (isset($res->sessionToken))
+		$user->setSessionToken($res->sessionToken);
+	    $user->setSettings($res->settings);
+	    $user->setSex($res->sex);
+	    $user->setTwitterPage($res->twitterPage);
+	    $user->setType($res->type);
+	    $user->setVenueCounter($res->venueCounter);
+	    $user->setWebsite($res->website);
+	    $user->setYoutubeChannel($res->youtubeChannel);
+	    $user->setCreatedAt(fromParseDate($res->createdAt));
+	    $user->setUpdatedAt(fromParseDate($res->updatedAt));
+	    $user->setACL(fromParseACL($res->ACL));
+	    return $user;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -348,24 +314,24 @@ class UserParse {
      * \return	Error	the Error raised by the function
      */
     public function passwordReset($email) {
-        try {
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $parseQuery = new parseQuery('_User');
-                $parseQuery->where('email', $email);
-                $res = $parseQuery->find();
-                if (count($res->results) > 0) {
-                    $user = $this->parseToUser($res->results[0]);
-                    $parseUser = new parseUser();
-                    $parseUser->email = $email;
-                    $parseUser->requestPasswordReset($email);
-                    return $user;
-                } else {
-                    return throwError(new Exception('user  not found'), __CLASS__, __FUNCTION__, func_get_args());
-                }
-            }
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+		$parseQuery = new parseQuery('_User');
+		$parseQuery->where('email', $email);
+		$res = $parseQuery->find();
+		if (count($res->results) > 0) {
+		    $user = $this->parseToUser($res->results[0]);
+		    $parseUser = new parseUser();
+		    $parseUser->email = $email;
+		    $parseUser->requestPasswordReset($email);
+		    return $user;
+		} else {
+		    return throwError(new Exception('user  not found'), __CLASS__, __FUNCTION__, func_get_args());
+		}
+	    }
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -376,87 +342,77 @@ class UserParse {
      * \return	Exception	the Exception raised by the function
      */
     public function saveUser($user) {
-        try {
-            $nullArray = array();
-            $parseUser = new parseUser();
-            is_null($user->getUsername()) ? $parseUser->username = null : $parseUser->username = parse_encode_string($user->getUsername());
-            is_null($user->getPassword()) ? $parseUser->password = null : $parseUser->password = $user->getPassword();
-            is_null($user->getActive()) ? $parseUser->active = true : $parseUser->active = $user->getActive();
-            is_null($user->getAddress()) ? $parseUser->address = null : $parseUser->address = parse_encode_string($user->getAddress());
-            is_null($user->getAlbums()) ? $parseUser->albums = null : $parseUser->albums = toParseAddRelation('Album', $user->getAlbums());
-            is_null($user->getBackground()) ? $parseUser->background = DEFBGD : $parseUser->background = $user->getBackground();
-            is_null($user->getBadge()) ? $parseUser->badge = $nullArray : $parseUser->badge = $user->getBadge();
-            is_null($user->getBirthDay()) ? $parseUser->birthDay = null : $parseUser->birthDay = $user->getBirthDay();
-            is_null($user->getCity()) ? $parseUser->city = null : $parseUser->city = parse_encode_string($user->getCity());
-            is_null($user->getCollaboration()) ? $parseUser->collaboration = null : $parseUser->collaboration = toParseAddRelation('_User', $user->getCollaboration());
-            is_null($user->getCollaborationCounter()) ? $parseUser->collaborationCounter = -1 : $parseUser->collaborationCounter = $user->getCollaborationCounter();
-            is_null($user->getComments()) ? $parseUser->comments = null : $parseUser->comments = toParseAddRelation('Comment', $user->getComments());
-            is_null($user->getCountry()) ? $parseUser->country = null : $parseUser->country = parse_encode_string($user->getCountry());
-            is_null($user->getDescription()) ? $parseUser->description = null : $parseUser->description = parse_encode_string($user->getDescription());
-            is_null($user->getEmail()) ? $parseUser->email = null : $parseUser->email = $user->getEmail();
-            is_null($user->getEvents()) ? $parseUser->events = null : $parseUser->events = toParseAddRelation('Event', $user->getEvents());
-            is_null($user->getFacebookId()) ? $parseUser->facebookId = null : $parseUser->facebookId = $user->getFacebookId();
-            is_null($user->getFbPage()) ? $parseUser->fbPage = null : $parseUser->fbPage = $user->getFbPage();
-            is_null($user->getFirstname()) ? $parseUser->firstname = null : $parseUser->firstname = parse_encode_string($user->getFirstname());
-            is_null($user->getFollowers()) ? $parseUser->followers = null : $parseUser->followers = toParseAddRelation('_User', $user->getFollowers());
-            is_null($user->getFollowersCounter()) ? $parseUser->followersCounter = -1 : $parseUser->followersCounter = $user->getFollowersCounter();
-            is_null($user->getFollowing()) ? $parseUser->following = null : $parseUser->following = toParseAddRelation('_User', $user->getFollowing());
-            is_null($user->getFollowingCounter()) ? $parseUser->followingCounter = -1 : $parseUser->followingCounter = $user->getFollowingCounter();
-            is_null($user->getFriendship()) ? $parseUser->friendship = null : $parseUser->friendship = toParseAddRelation('_User', $user->getFriendship());
-            is_null($user->getFriendshipCounter()) ? $parseUser->friendshipCounter = -1 : $parseUser->friendshipCounter = $user->getFriendshipCounter();
-            is_null($user->getGooglePlusPage()) ? $parseUser->googlePlusPage = null : $parseUser->googlePlusPage = $user->getGooglePlusPage();
-            is_null($user->getGeoCoding()) ? $parseUser->geoCoding = null : $parseUser->geoCoding = toParseGeoPoint($user->getGeoCoding());
-            is_null($user->getImages()) ? $parseUser->images = null : $parseUser->images = toParseAddRelation('Image', $user->getImages());
-            is_null($user->getJammerCounter()) ? $parseUser->jammerCounter = -1 : $parseUser->jammerCounter = $user->getJammerCounter();
-            is_null($user->getJammerType()) ? $parseUser->jammerType = null : $parseUser->jammerType = $user->getJammerType();
-            is_null($user->getLastname()) ? $parseUser->lastname = null : $parseUser->lastname = $user->getLastname();
-            is_null($user->getLevel()) ? $parseUser->level = -1 : $parseUser->level = $user->getLevel();
-            is_null($user->getLevelValue()) ? $parseUser->levelValue = -1 : $parseUser->levelValue = $user->getLevelValue();
-            is_null($user->getLocalType()) ? $parseUser->localType = $nullArray : $parseUser->localType = $user->getLocalType();
-            is_null($user->getLoveSongs()) ? $parseUser->loveSongs = null : $parseUser->loveSongs = toParseAddRelation('Song', $user->getLoveSongs());
-            is_null($user->getMembers()) ? $parseUser->members = $nullArray : $parseUser->members = parse_encode_array($user->getMembers());
-            is_null($user->getMusic()) ? $parseUser->music = $nullArray : $parseUser->music = $user->getMusic();
-            is_null($user->getPlaylists()) ? $parseUser->playlists = null : $parseUser->playlists = toParseAddRelation('Playlist', $user->getPlaylists());
-            is_null($user->getPremium()) ? $parseUser->premium = null : $parseUser->premium = $user->getPremium();
-            is_null($user->getPremiumExpirationDate()) ? $parseUser->premiumExpirationDate = null : $parseUser->premiumExpirationDate = toParseDate($user->getPremiumExpirationDate());
-            is_null($user->getProfilePictureFile()) ? $parseUser->profilePictureFile = null : $parseUser->profilePictureFile = $user->getProfilePictureFile();
-            is_null($user->getRecords()) ? $parseUser->records = null : $parseUser->records = toParseAddRelation('Record', $user->getRecords());
-            is_null($user->getSettings()) ? $parseUser->settings = $nullArray : $parseUser->settings = $user->getSettings();
-            is_null($user->getSex()) ? $parseUser->sex = null : $parseUser->sex = $user->getSex();
-            is_null($user->getSongs()) ? $parseUser->songs = null : $parseUser->songs = toParseAddRelation('Song', $user->getSongs());
-            is_null($user->getStatuses()) ? $parseUser->statuses = null : $parseUser->statuses = toParseAddRelation('Status', $user->getStatuses());
-            is_null($user->getTwitterPage()) ? $parseUser->twitterPage = null : $parseUser->twitterPage = $user->getTwitterPage();
-            is_null($user->getType()) ? $parseUser->type = null : $parseUser->type = $user->getType();
-            is_null($user->getVenueCounter()) ? $parseUser->venueCounter = -1 : $parseUser->venueCounter = $user->getVenueCounter();
-            is_null($user->getVideos()) ? $parseUser->videos = null : $parseUser->videos = toParseAddRelation('Video', $user->getVideos());
-            is_null($user->getWebsite()) ? $parseUser->website = null : $parseUser->website = $user->getWebsite();
-            is_null($user->getYoutubeChannel()) ? $parseUser->youtubeChannel = null : $parseUser->youtubeChannel = $user->getYoutubeChannel();
-            is_null($user->getACL()) ? $parseUser->ACL = null : $parseUser->ACL = $user->getACL()->acl;
-            if ($parseUser->data['type'] == 'SPOTTER') {
-                $defAvatar = DEFAVATARSPOTTER;
-                $defAvatarThumb = DEFTHUMBSPOTTER;
-            } elseif ($parseUser->data['type'] == 'JAMMER') {
-                $defAvatar = DEFAVATARJAMMER;
-                $defAvatarThumb = DEFTHUMBJAMMER;
-            } elseif ($parseUser->data['type'] == 'VENUE') {
-                $defAvatar = DEFAVATARVENUE;
-                $defAvatarThumb = DEFTHUMBVENUE;
-            } else {
-                return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-            }
-            is_null($user->getProfilePicture()) ? $parseUser->profilePicture = $defAvatar : $parseUser->profilePicture = $user->getProfilePicture();
-            is_null($user->getProfileThumbnail()) ? $parseUser->profileThumbnail = $defAvatarThumb : $parseUser->profileThumbnail = $user->getProfileThumbnail();
-            if ($user->getObjectId() == '') {
-                $res = $parseUser->signup($user->getUsername(), $user->getPassword());
-                $user->setObjectId($res->objectId);
-                $user->setSessionToken($res->sessionToken);
-                return $user;
-            } else {
-                $parseUser->update($user->getObjectId(), $user->getSessionToken());
-            }
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $nullArray = array();
+	    $parseUser = new parseUser();
+	    $parseUser->username = is_null($user->getUsername()) ? null : parse_encode_string($user->getUsername());
+	    $parseUser->password = is_null($user->getPassword()) ? null : $user->getPassword();
+	    $parseUser->active = is_null($user->getActive()) ? true : $user->getActive();
+	    $parseUser->address = is_null($user->getAddress()) ? null : parse_encode_string($user->getAddress());
+	    $parseUser->background = is_null($user->getBackground()) ? DEFBGD : $user->getBackground();
+	    $parseUser->badge = is_null($user->getBadge()) ? $nullArray : $user->getBadge();
+	    $parseUser->birthDay = is_null($user->getBirthDay()) ? null : $user->getBirthDay();
+	    $parseUser->city = is_null($user->getCity()) ? null : parse_encode_string($user->getCity());
+	    $parseUser->collaboration = is_null($user->getCollaboration()) ? null : toParseAddRelation('_User', $user->getCollaboration());
+	    $parseUser->collaborationCounter = is_null($user->getCollaborationCounter()) ? 0 : $user->getCollaborationCounter();
+	    $parseUser->country = is_null($user->getCountry()) ? null : parse_encode_string($user->getCountry());
+	    $parseUser->description = is_null($user->getDescription()) ? null : parse_encode_string($user->getDescription());
+	    $parseUser->email = is_null($user->getEmail()) ? null : $user->getEmail();
+	    $parseUser->facebookId = is_null($user->getFacebookId()) ? null : $user->getFacebookId();
+	    $parseUser->fbPage = is_null($user->getFbPage()) ? null : $user->getFbPage();
+	    $parseUser->firstname = is_null($user->getFirstname()) ? null : parse_encode_string($user->getFirstname());
+	    $parseUser->followers = is_null($user->getFollowers()) ? null : toParseAddRelation('_User', $user->getFollowers());
+	    $parseUser->followersCounter = is_null($user->getFollowersCounter()) ? 0 : $user->getFollowersCounter();
+	    $parseUser->following = is_null($user->getFollowing()) ? null : toParseAddRelation('_User', $user->getFollowing());
+	    $parseUser->followingCounter = is_null($user->getFollowingCounter()) ? 0 : $user->getFollowingCounter();
+	    $parseUser->friendship = is_null($user->getFriendship()) ? null : toParseAddRelation('_User', $user->getFriendship());
+	    $parseUser->friendshipCounter = is_null($user->getFriendshipCounter()) ? 0 : $user->getFriendshipCounter();
+	    $parseUser->googlePlusPage = is_null($user->getGooglePlusPage()) ? null : $user->getGooglePlusPage();
+	    $parseUser->geoCoding = is_null($user->getGeoCoding()) ? null : toParseGeoPoint($user->getGeoCoding());
+	    $parseUser->jammerCounter = is_null($user->getJammerCounter()) ? 0 : $user->getJammerCounter();
+	    $parseUser->jammerType = is_null($user->getJammerType()) ? null : $user->getJammerType();
+	    $parseUser->lastname = is_null($user->getLastname()) ? null : $user->getLastname();
+	    $parseUser->level = is_null($user->getLevel()) ? 1 : $user->getLevel();
+	    $parseUser->levelValue = is_null($user->getLevelValue()) ? 1 : $user->getLevelValue();
+	    $parseUser->localType = is_null($user->getLocalType()) ? $nullArray : $user->getLocalType();
+	    $parseUser->loveSongs = is_null($user->getLoveSongs()) ? null : toParseAddRelation('Song', $user->getLoveSongs());
+	    $parseUser->members = is_null($user->getMembers()) ? $nullArray : parse_encode_array($user->getMembers());
+	    $parseUser->music = is_null($user->getMusic()) ? $nullArray : $user->getMusic();
+	    $parseUser->premium = is_null($user->getPremium()) ? false : $user->getPremium();
+	    $parseUser->premiumExpirationDate = is_null($user->getPremiumExpirationDate()) ? null : toParseDate($user->getPremiumExpirationDate());
+	    $parseUser->settings = is_null($user->getSettings()) ? $nullArray : $user->getSettings();
+	    $parseUser->sex = is_null($user->getSex()) ? null : $user->getSex();
+	    $parseUser->twitterPage = is_null($user->getTwitterPage()) ? null : $user->getTwitterPage();
+	    $parseUser->type = is_null($user->getType()) ? null : $user->getType();
+	    $parseUser->venueCounter = is_null($user->getVenueCounter()) ? 0 : $user->getVenueCounter();
+	    $parseUser->website = is_null($user->getWebsite()) ? null : $user->getWebsite();
+	    $parseUser->youtubeChannel = is_null($user->getYoutubeChannel()) ? null : $user->getYoutubeChannel();
+	    $parseUser->ACL = is_null($user->getACL()) ? null : $user->getACL()->acl;
+	    if ($parseUser->data['type'] == 'SPOTTER') {
+		$defAvatar = DEFAVATARSPOTTER;
+		$defAvatarThumb = DEFTHUMBSPOTTER;
+	    } elseif ($parseUser->data['type'] == 'JAMMER') {
+		$defAvatar = DEFAVATARJAMMER;
+		$defAvatarThumb = DEFTHUMBJAMMER;
+	    } elseif ($parseUser->data['type'] == 'VENUE') {
+		$defAvatar = DEFAVATARVENUE;
+		$defAvatarThumb = DEFTHUMBVENUE;
+	    } else {
+		return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	    }
+	    $parseUser->profilePicture = is_null($user->getProfilePicture()) ? $defAvatar : $user->getProfilePicture();
+	    $parseUser->profileThumbnail = is_null($user->getProfileThumbnail()) ? $defAvatarThumb : $user->getProfileThumbnail();
+	    if ($user->getObjectId() == '') {
+		$res = $parseUser->signup($user->getUsername(), $user->getPassword());
+		$user->setObjectId($res->objectId);
+		$user->setSessionToken($res->sessionToken);
+		return $user;
+	    } else {
+		$parseUser->update($user->getObjectId(), $user->getSessionToken());
+	    }
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -465,7 +421,7 @@ class UserParse {
      * \param	$limit	the maximum number
      */
     public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
+	$this->parseQuery->setLimit($limit);
     }
 
     /**
@@ -474,7 +430,7 @@ class UserParse {
      * \param	$skip	the number of User to skip
      */
     public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
+	$this->parseQuery->setSkip($skip);
     }
 
     /**
@@ -483,15 +439,15 @@ class UserParse {
      * \param	$authData
      */
     public function socialLoginUser($authData) {
-        try {
-            $parseUser = new parseUser();
-            $parseUser->addAuthData($authData);
-            $res = $parseUser->socialLogin();
-            debug(DEBUG_DIR, 'debug.txt', json_encode($res));
-            return $res;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseUser = new parseUser();
+	    $parseUser->addAuthData($authData);
+	    $res = $parseUser->socialLogin();
+	    debug(DEBUG_DIR, 'debug.txt', json_encode($res));
+	    return $res;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -503,15 +459,15 @@ class UserParse {
      * \return	error		in case of exception
      */
     public function unlinkUser($user, $authData) {
-        try {
-            $parseUser = new parseUser();
-            $parseUser->addAuthData($authData);
-            //we use the linkAccounts function for mantain a standard code type
-            $res = $parseUser->linkAccounts($user->getObjectId(), $user->getSessionToken());
-            return $res;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseUser = new parseUser();
+	    $parseUser->addAuthData($authData);
+	    //we use the linkAccounts function for mantain a standard code type
+	    $res = $parseUser->linkAccounts($user->getObjectId(), $user->getSessionToken());
+	    return $res;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -526,27 +482,27 @@ class UserParse {
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
     public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-        if (is_null($objectId) || is_null($field))
-            return throwError(new Exception('updateField parameters objectId and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
-        if ($isRelation) {
-            if (is_null($typeRelation) || is_null($className))
-                return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
-            if ($typeRelation == 'add') {
-                $parseObject = new parseObject('_User');
-                $parseObject->$field = toParseAddRelation($className, $value);
-                $parseObject->update($objectId);
-            } elseif ($typeRelation == 'remove') {
-                $parseObject = new parseObject('_User');
-                $parseObject->$field = toParseRemoveRelation($className, $value);
-                $parseObject->update($objectId);
-            } else {
-                return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
-            }
-        } else {
-            $parseObject = new parseObject('_User');
-            $parseObject->$field = $value;
-            $parseObject->update($objectId);
-        }
+	if (is_null($objectId) || is_null($field))
+	    return throwError(new Exception('updateField parameters objectId and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+	if ($isRelation) {
+	    if (is_null($typeRelation) || is_null($className))
+		return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
+	    if ($typeRelation == 'add') {
+		$parseObject = new parseObject('_User');
+		$parseObject->$field = toParseAddRelation($className, $value);
+		$parseObject->update($objectId);
+	    } elseif ($typeRelation == 'remove') {
+		$parseObject = new parseObject('_User');
+		$parseObject->$field = toParseRemoveRelation($className, $value);
+		$parseObject->update($objectId);
+	    } else {
+		return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
+	    }
+	} else {
+	    $parseObject = new parseObject('_User');
+	    $parseObject->$field = $value;
+	    $parseObject->update($objectId);
+	}
     }
 
     /**
@@ -556,7 +512,7 @@ class UserParse {
      * \param	$value	the string which represent the value
      */
     public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
+	$this->parseQuery->where($field, $value);
     }
 
     /**
@@ -566,7 +522,7 @@ class UserParse {
      * \param	$value	the array which represent the values
      */
     public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
+	$this->parseQuery->whereContainedIn($field, $values);
     }
 
     /**
@@ -576,7 +532,7 @@ class UserParse {
      * \param	$value	the string which represent the value
      */
     public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
+	$this->parseQuery->whereEqualTo($field, $value);
     }
 
     /**
@@ -585,7 +541,7 @@ class UserParse {
      * \param	$field	the string which represent the field
      */
     public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
+	$this->parseQuery->whereExists($field);
     }
 
     /**
@@ -595,7 +551,7 @@ class UserParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
+	$this->parseQuery->whereGreaterThan($field, $value);
     }
 
     /**
@@ -605,7 +561,7 @@ class UserParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
     /**
@@ -614,7 +570,7 @@ class UserParse {
      * \param	$field	the string which represent the field
      */
     public function whereInclude($field) {
-        $this->parseQuery->whereInclude($field);
+	$this->parseQuery->whereInclude($field);
     }
 
     /**
@@ -623,7 +579,7 @@ class UserParse {
      * \param	$field, $className, $array
      */
     public function whereInQuery($field, $className, $array) {
-        $this->parseQuery->whereInQuery($field, $className, $array);
+	$this->parseQuery->whereInQuery($field, $className, $array);
     }
 
     /**
@@ -633,7 +589,7 @@ class UserParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
+	$this->parseQuery->whereLessThan($field, $value);
     }
 
     /**
@@ -643,7 +599,16 @@ class UserParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	$this->parseQuery->whereLessThanOrEqualTo($field, $value);
+    }
+
+    /**
+     * \fn	whereNearSphere($latitude, $longitude, $distance, $distanceType)
+     * \brief	find element in a spherre near the given latitude e longitude
+     * \param	$latitude, $longitude
+     */
+    public function whereNearSphere($latitude, $longitude, $distance = null, $distanceType = null) {
+	$this->parseQuery->whereNearSphere('geoCoding', $latitude, $longitude, $distance, $distanceType);
     }
 
     /**
@@ -653,7 +618,7 @@ class UserParse {
      * \param	$value	the array which represent the values
      */
     public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
+	$this->parseQuery->whereNotContainedIn($field, $array);
     }
 
     /**
@@ -663,7 +628,7 @@ class UserParse {
      * \param	$value	the string which represent the value
      */
     public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
+	$this->parseQuery->whereNotEqualTo($field, $value);
     }
 
     /**
@@ -672,7 +637,7 @@ class UserParse {
      * \param	$field	the string which represent the field
      */
     public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
+	$this->parseQuery->whereDoesNotExist($field);
     }
 
     /**
@@ -681,7 +646,7 @@ class UserParse {
      * \param	$field, $className, $array
      */
     public function whereNotInQuery($field, $className, $array) {
-        $this->parseQuery->whereNotInQuery($field, $className, $array);
+	$this->parseQuery->whereNotInQuery($field, $className, $array);
     }
 
     /**
@@ -695,7 +660,7 @@ class UserParse {
      * \param	$field	the array representing the field and the value to put in or
      */
     public function whereOr($value) {
-        $this->parseQuery->where('$or', $value);
+	$this->parseQuery->where('$or', $value);
     }
 
     /**
@@ -706,7 +671,7 @@ class UserParse {
      * \param	$objectId	the string which represent the objectId of the Pointer
      */
     public function wherePointer($field, $className, $objectId) {
-        $this->parseQuery->wherePointer($field, $className, $objectId);
+	$this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
     /**
@@ -717,7 +682,145 @@ class UserParse {
      * \param	$objectId	the string which represent the objectId
      */
     public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	$this->parseQuery->whereRelatedTo($field, $className, $objectId);
+    }
+
+    /**
+     * \fn      deleteAllAlbums($objectId)
+     * \brief	delete all albums for a user
+     * \param	$objectId	of the user to be deleted
+     */
+    private function deleteAllAlbums($objectId) {
+	require_once CLASSES_DIR . 'albumParse.class.php';
+	$albumParse = new AlbumParse();
+	$albumParse->wherePointer('fromUser', '_User', $objectId);
+	$albumParse->where('active', true);
+	$albumCount = $albumParse->getCount();
+	$albumCicles = ceil($albumCount / MAX);
+	for ($i = 0; $i < $albumCicles; ++$i) {
+	    $albumParse->setLimit(MAX);
+	    $albumParse->setSkip($i * MAX);
+	    $albums = $albumParse->getAlbums();
+	    foreach ($albums as $album) {
+		$albumP = new AlbumParse();
+		$albumP->deleteAlbum($album->getObjectId());
+	    }
+	}
+    }
+
+    /**
+     * \fn      deleteAllComments($objectId)
+     * \brief	delete all instances of Comment class for a user
+     * \param	$objectId	of the user to be deleted
+     */
+    private function deleteAllComments($objectId) {
+	require_once CLASSES_DIR . 'commentParse.class.php';
+	$cmtParse = new CommentParse();
+	$cmtParse->wherePointer('fromUser', '_User', $objectId);
+	$cmtParse->where('active', true);
+	$cmtCount = $cmtParse->getCount();
+	$cmtCicles = ceil($cmtCount / MAX);
+	for ($i = 0; $i < $cmtCicles; ++$i) {
+	    $cmtParse->setLimit(MAX);
+	    $cmtParse->setSkip($i * MAX);
+	    $cmts = $cmtParse->getComments();
+	    foreach ($cmts as $cmt) {
+		$cmtP = new CommentParse();
+		$cmtP->deleteComment($cmt->getObjectId());
+	    }
+	}
+    }
+
+    /**
+     * \fn      deleteAllEvents($objectId)
+     * \brief	delete all instances of Events class for a user
+     * \param	$objectId	of the user to be deleted
+     */
+    private function deleteAllEvents($objectId) {
+	require_once CLASSES_DIR . 'eventParse.class.php';
+	$eventP = new EventParse();
+	$eventP->wherePointer('fromUser', '_User', $objectId);
+	$eventP->where('active', true);
+	$eventCount = $eventP->getCount();
+	$eventCicles = ceil($eventCount / MAX);
+	for ($i = 0; $i < $eventCicles; ++$i) {
+	    $eventP->setLimit(MAX);
+	    $eventP->setSkip($i * MAX);
+	    $events = $eventP->getEvent();
+	    foreach ($events as $event) {
+		$eventParse = new EventParse();
+		$eventParse->deleteEvent($event->getObjectId());
+	    }
+	}
+    }
+
+    /**
+     * \fn      deleteAllPlaylists($objectId)
+     * \brief	delete all instances of playlist class for a user
+     * \param	$objectId	of the user to be deleted
+     */
+    private function deleteAllPlaylists($objectId) {
+	require_once CLASSES_DIR . 'playlistParse.class.php';
+	$plParse = new PlaylistParse();
+	$plParse->wherePointer('fromUser', '_User', $objectId);
+	$plParse->where('active', true);
+	$playlistCount = $plParse->getCount();
+	$playlistCicles = ceil($playlistCount / MAX);
+	for ($i = 0; $i < $playlistCicles; ++$i) {
+	    $plParse->setLimit(MAX);
+	    $plParse->setSkip($i * MAX);
+	    $playlists = $plParse->getComments();
+	    foreach ($playlists as $playlist) {
+		$playlistP = new PlaylistParse();
+		$playlistP->deletePlaylist($playlist->getObjectId());
+	    }
+	}
+    }
+
+    /**
+     * \fn      deleteAllRecords($objectId)
+     * \brief	delete all instances of Record class for a user
+     * \param	$objectId	of the user to be deleted
+     */
+    private function deleteAllRecords($objectId) {
+	require_once CLASSES_DIR . 'recordParse.class.php';
+	$recordP = new RecordParse();
+	$recordP->wherePointer('fromUser', '_User', $objectId);
+	$recordP->where('active', true);
+	$recordCount = $recordP->getCount();
+	$recordCicles = ceil($recordCount / MAX);
+	for ($i = 0; $i < $recordCicles; ++$i) {
+	    $recordP->setLimit(MAX);
+	    $recordP->setSkip($i * MAX);
+	    $records = $recordP->getRecords();
+	    foreach ($records as $record) {
+		$recordParse = new RecordParse();
+		$recordParse->deleteRecord($record->getObjectId());
+	    }
+	}
+    }
+
+    /**
+     * \fn      deleteAllVideos($objectId)
+     * \brief	delete all instances of Video class for a user
+     * \param	$objectId	of the user to be deleted
+     */
+    private function deleteAllVideos($objectId) {
+	require_once CLASSES_DIR . 'videoParse.class.php';
+	$videoParse = new VideoParse();
+	$videoParse->wherePointer('fromUser', '_User', $objectId);
+	$videoParse->where('active', true);
+	$videoCount = $videoParse->getCount();
+	$videoCicles = ceil($videoCount / MAX);
+	for ($i = 0; $i < $videoCicles; ++$i) {
+	    $videoParse->setLimit(MAX);
+	    $videoParse->setSkip($i * MAX);
+	    $videos = $videoParse->getVideos();
+	    foreach ($videos as $video) {
+		$videoP = new VideoParse();
+		$videoP->deleteVideo($video->getObjectId());
+	    }
+	}
     }
 
 }
