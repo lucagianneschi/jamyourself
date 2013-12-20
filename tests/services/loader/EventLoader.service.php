@@ -19,7 +19,6 @@ $event->setEventDate($eventDate);
 $event->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setFromUser('GuUAj83MGH');
 $event->setImage('Un link ad Image');
-//$event->setImageFile(Image $imageFile);
 $event->setInvited(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $event->setLocation($parseGeoPoint);
