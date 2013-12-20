@@ -443,7 +443,6 @@ class UserParse {
 	    $parseUser = new parseUser();
 	    $parseUser->addAuthData($authData);
 	    $res = $parseUser->socialLogin();
-	    debug(DEBUG_DIR, 'debug.txt', json_encode($res));
 	    return $res;
 	} catch (Exception $e) {
 	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());

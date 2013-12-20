@@ -70,7 +70,6 @@ class LoveController extends REST {
 
 	    //controllo se non ho già lovvato
 	    if ($this->isLoved($fromUser->getObjectId(), $objectId, $classType)) {
-		debug(DEBUG_DIR, 'debug.txt', 'SONO QUI');
 		$this->response(array('status' => 'ALREADYLOVED'), 500);
 	    }
 
