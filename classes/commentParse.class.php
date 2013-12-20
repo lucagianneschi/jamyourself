@@ -198,6 +198,7 @@ class CommentParse {
 	    $cmt->setObjectId($res->objectId);
 	    $cmt->setActive($res->active);
 	    $cmt->setAlbum(fromParsePointer($res->album));
+        $cmt->setComment(fromParsePointer($res->comment));
 	    $cmt->setCommentCounter($res->commentCounter);
 	    $cmt->setCounter($res->counter);
 	    $cmt->setEvent(fromParsePointer($res->event));

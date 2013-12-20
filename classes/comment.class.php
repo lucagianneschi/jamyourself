@@ -298,6 +298,15 @@ class Comment {
     }
 
     /**
+     * \fn		void setComment($comment)
+     * \brief	Sets the comment value
+     * \param	string
+     */
+    public function setComment($comment) {
+	$this->comment = $comment;
+    }
+
+    /**
      * \fn		void setCommentCounter($commentCounter)
      * \brief	Sets the commnetCounter value
      * \param	int
