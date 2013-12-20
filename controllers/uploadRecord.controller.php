@@ -92,7 +92,6 @@ class UploadRecordController extends REST {
             } else {
                 $record->setBuyLink(null);
             }
-            $record->setCommentCounter(0);
             $record->setCounter(0);
 
             $imgInfo = $this->getImages($newRecord);
@@ -125,7 +124,6 @@ class UploadRecordController extends REST {
             $activity = new Activity();
             $activity->setActive(true);
             $activity->setAlbum(null);
-            $activity->setComment(0);
             $activity->setCounter(0);
             $activity->setEvent(null);
             $activity->setFromUser($userId);
@@ -245,9 +243,6 @@ class UploadRecordController extends REST {
                     } else {
                         $song = new Song();
                         $song->setActive(true);
-                        $song->setCommentCounter(0);
-                        $song->setCommentators(array());
-                        $song->setComments(array());
                         $song->setCounter(0);
                         $song->setDuration($this->getRealLength($cachedFile));
                         if (isset($element->featuring) && is_array($element->featuring)) {
@@ -469,7 +464,6 @@ class UploadRecordController extends REST {
         $activity = new Activity();
         $activity->setActive(true);
         $activity->setAlbum(null);
-        $activity->setComment(null);
         $activity->setCounter(0);
         $activity->setEvent(null);
         $activity->setFromUser($song->getFromUser());
@@ -529,7 +523,6 @@ class UploadRecordController extends REST {
         $activity = new Activity();
         $activity->setActive(true);
         $activity->setAlbum(null);
-        $activity->setComment(null);
         $activity->setCounter(0);
         $activity->setEvent(null);
         $activity->setFromUser($fromUser);

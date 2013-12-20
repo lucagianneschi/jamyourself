@@ -127,10 +127,6 @@ class UploadReviewController extends REST {
             $review = new Comment();
             $review->setActive(true);
             $review->setAlbum(null);
-            $review->setComment(null);
-            $review->setCommentCounter(0);
-            $review->setCommentators(null);
-            $review->setComments(null);
             $review->setCounter(0);
             $review->setFromUser($currentUser->getObjectId());
             $review->setImage(null);
