@@ -45,7 +45,7 @@ class Song {
      * \return	string
      */
     public function getObjectId() {
-        return $this->objectId;
+	return $this->objectId;
     }
 
     /**
@@ -54,7 +54,7 @@ class Song {
      * \return	BOOL
      */
     public function getActive() {
-        return $this->active;
+	return $this->active;
     }
 
     /**
@@ -63,7 +63,7 @@ class Song {
      * \return	int
      */
     public function getCommentCounter() {
-        return $this->commentCounter;
+	return $this->commentCounter;
     }
 
     /**
@@ -72,7 +72,7 @@ class Song {
      * \return	int
      */
     public function getCounter() {
-        return $this->counter;
+	return $this->counter;
     }
 
     /**
@@ -81,7 +81,7 @@ class Song {
      * \return	int
      */
     public function getDuration() {
-        return $this->duration;
+	return $this->duration;
     }
 
     /**
@@ -90,7 +90,7 @@ class Song {
      * \return	array
      */
     public function getFeaturing() {
-        return $this->featuring;
+	return $this->featuring;
     }
 
     /**
@@ -99,7 +99,7 @@ class Song {
      * \return	string
      */
     public function getFilePath() {
-        return $this->filePath;
+	return $this->filePath;
     }
 
     /**
@@ -108,7 +108,7 @@ class Song {
      * \return	string
      */
     public function getFromUser() {
-        return $this->fromUser;
+	return $this->fromUser;
     }
 
     /**
@@ -117,7 +117,7 @@ class Song {
      * \return	string
      */
     public function getGenre() {
-        return $this->genre;
+	return $this->genre;
     }
 
     /**
@@ -126,7 +126,7 @@ class Song {
      * \return	parseGoPoint
      */
     public function getLocation() {
-        return $this->location;
+	return $this->location;
     }
 
     /**
@@ -135,7 +135,7 @@ class Song {
      * \return	int
      */
     public function getLoveCounter() {
-        return $this->loveCounter;
+	return $this->loveCounter;
     }
 
     /**
@@ -144,7 +144,7 @@ class Song {
      * \return	array
      */
     public function getLovers() {
-        return $this->lovers;
+	return $this->lovers;
     }
 
     /**
@@ -153,7 +153,7 @@ class Song {
      * \return	string
      */
     public function getPosition() {
-        return $this->position;
+	return $this->position;
     }
 
     /**
@@ -162,7 +162,7 @@ class Song {
      * \return	string
      */
     public function getRecord() {
-        return $this->record;
+	return $this->record;
     }
 
     /**
@@ -171,7 +171,7 @@ class Song {
      * \return	int
      */
     public function getShareCounter() {
-        return $this->shareCounter;
+	return $this->shareCounter;
     }
 
     /**
@@ -180,7 +180,7 @@ class Song {
      * \return	string
      */
     public function getTitle() {
-        return $this->title;
+	return $this->title;
     }
 
     /**
@@ -189,7 +189,7 @@ class Song {
      * \return	DateTime
      */
     public function getCreatedAt() {
-        return $this->createdAt;
+	return $this->createdAt;
     }
 
     /**
@@ -198,7 +198,7 @@ class Song {
      * \return	DateTime
      */
     public function getUpdatedAt() {
-        return $this->updatedAt;
+	return $this->updatedAt;
     }
 
     /**
@@ -207,7 +207,7 @@ class Song {
      * \return	parseACL
      */
     public function getACL() {
-        return $this->ACL;
+	return $this->ACL;
     }
 
     /**
@@ -216,7 +216,7 @@ class Song {
      * \param	string
      */
     public function setObjectId($objectId) {
-        $this->objectId = $objectId;
+	$this->objectId = $objectId;
     }
 
     /**
@@ -225,7 +225,7 @@ class Song {
      * \param	BOOL
      */
     public function setActive($active) {
-        $this->active = $active;
+	$this->active = $active;
     }
 
     /**
@@ -234,7 +234,7 @@ class Song {
      * \param	int
      */
     public function setCommentCounter($commentCounter) {
-        $this->commentCounter = $commentCounter;
+	$this->commentCounter = $commentCounter;
     }
 
     /**
@@ -243,7 +243,7 @@ class Song {
      * \param	int
      */
     public function setCounter($counter) {
-        $this->counter = $counter;
+	$this->counter = $counter;
     }
 
     /**
@@ -252,7 +252,7 @@ class Song {
      * \param	int
      */
     public function setDuration($duration) {
-        $this->duration = $duration;
+	$this->duration = $duration;
     }
 
     /**
@@ -261,7 +261,7 @@ class Song {
      * \param	array
      */
     public function setFeaturing($featuring) {
-        $this->featuring = $featuring;
+	$this->featuring = $featuring;
     }
 
     /**
@@ -270,7 +270,7 @@ class Song {
      * \param	string
      */
     public function setFilePath($filePath) {
-        $this->filePath = $filePath;
+	$this->filePath = $filePath;
     }
 
     /**
@@ -279,7 +279,7 @@ class Song {
      * \param	string
      */
     public function setFromUser($fromUser) {
-        $this->fromUser = $fromUser;
+	$this->fromUser = $fromUser;
     }
 
     /**
@@ -288,7 +288,7 @@ class Song {
      * \param	string
      */
     public function setGenre($genre) {
-        $this->genre = $genre;
+	$this->genre = $genre;
     }
 
     /**
@@ -297,7 +297,7 @@ class Song {
      * \param	parseGeopoint
      */
     public function setLocation($location) {
-        $this->location = $location;
+	$this->location = $location;
     }
 
     /**
@@ -306,7 +306,7 @@ class Song {
      * \param	array
      */
     public function setLovers($lovers) {
-        $this->lovers = $lovers;
+	$this->lovers = $lovers;
     }
 
     /**
@@ -315,7 +315,7 @@ class Song {
      * \param	int
      */
     public function setLoveCounter($loveCounter) {
-        $this->loveCounter = $loveCounter;
+	$this->loveCounter = $loveCounter;
     }
 
     /**
@@ -324,7 +324,7 @@ class Song {
      * \param	string
      */
     public function setPosition($position) {
-        $this->position = $position;
+	$this->position = $position;
     }
 
     /**
@@ -333,7 +333,7 @@ class Song {
      * \param	string
      */
     public function setRecord($record) {
-        $this->record = $record;
+	$this->record = $record;
     }
 
     /**
@@ -342,7 +342,7 @@ class Song {
      * \param	int
      */
     public function setShareCounter($shareCounter) {
-        $this->shareCounter = $shareCounter;
+	$this->shareCounter = $shareCounter;
     }
 
     /**
@@ -351,7 +351,7 @@ class Song {
      * \param	string
      */
     public function setTitle($title) {
-        $this->title = $title;
+	$this->title = $title;
     }
 
     /**
@@ -360,7 +360,7 @@ class Song {
      * \param	DateTime
      */
     public function setCreatedAt($createdAt) {
-        $this->createdAt = $createdAt;
+	$this->createdAt = $createdAt;
     }
 
     /**
@@ -369,7 +369,7 @@ class Song {
      * \param	DateTime
      */
     public function setUpdatedAt($updatedAt) {
-        $this->updatedAt = $updatedAt;
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -378,7 +378,7 @@ class Song {
      * \param	parseACL
      */
     public function setACL($ACL) {
-        $this->ACL = $ACL;
+	$this->ACL = $ACL;
     }
 
     /**
@@ -387,67 +387,67 @@ class Song {
      * \return	string
      */
     public function __toString() {
-        $string = '';
-        $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        $string .= '[active] => ' . $this->getActive() . '<br />';
-        $string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
-        $string .= '[counter] => ' . $this->getCounter() . '<br />';
-        $string .= '[duration] => ' . $this->getDuration() . '<br />';
-        if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
-            foreach ($this->getFeaturing() as $user) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[featuring] => ' . $user . '<br />';
-            }
-        }
-        $string.= '[filePath] => ' . $this->getFilePath() . '<br />';
-        $fromUser = $this->getFromUser();
-        if ($fromUser != null) {
-            $string.= '[fromUser] => ' . $fromUser . '<br />';
-        }
-        $string.= '[genre] => ' . $this->getGenre() . '<br />';
-        $parseGeoPoint = $this->getLocation();
-        if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
-            $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
-        }
-        $string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-        if ($this->getLovers() != null && count($this->getLovers() > 0)) {
-            foreach ($this->getLovers() as $lover) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[lover] => ' . $lover . '<br />';
-            }
-        }
-        $string .= '[position] => ' . $this->getPosition() . '<br />';
-        $record = $this->getRecord();
-        if ($record != null) {
-            $string .= '[record] => ' . $record . '<br />';
-        }
-        $string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-        $string .= '[title] => ' . $this->getTitle() . '<br />';
-        if ($this->getCreatedAt() != null) {
-            $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-        } else {
-            $string .= '[createdAt] => NULL<br />';
-        }
-        if ($this->getUpdatedAt() != null) {
-            $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-        } else {
-            $string .= '[updatedAt] => NULL<br />';
-        }
-        if ($this->getACL() != null) {
-            foreach ($this->getACL()->acl as $key => $acl) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[ACL] => ' . $key . '<br />';
-                foreach ($acl as $access => $value) {
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-                }
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ACL] => NULL<br />';
-        }
-        return $string;
+	$string = '';
+	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[active] => ' . $this->getActive() . '<br />';
+	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
+	$string .= '[counter] => ' . $this->getCounter() . '<br />';
+	$string .= '[duration] => ' . $this->getDuration() . '<br />';
+	if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {
+	    foreach ($this->getFeaturing() as $user) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[featuring] => ' . $user . '<br />';
+	    }
+	}
+	$string.= '[filePath] => ' . $this->getFilePath() . '<br />';
+	$fromUser = $this->getFromUser();
+	if ($fromUser != null) {
+	    $string.= '[fromUser] => ' . $fromUser . '<br />';
+	}
+	$string.= '[genre] => ' . $this->getGenre() . '<br />';
+	$parseGeoPoint = $this->getLocation();
+	if ($parseGeoPoint->lat != null && $parseGeoPoint->long) {
+	    $string .= '[location] => ' . $parseGeoPoint->lat . ', ' . $parseGeoPoint->long . '<br />';
+	}
+	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
+	if ($this->getLovers() != null && count($this->getLovers() > 0)) {
+	    foreach ($this->getLovers() as $lover) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[lover] => ' . $lover . '<br />';
+	    }
+	}
+	$string .= '[position] => ' . $this->getPosition() . '<br />';
+	$record = $this->getRecord();
+	if ($record != null) {
+	    $string .= '[record] => ' . $record . '<br />';
+	}
+	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
+	$string .= '[title] => ' . $this->getTitle() . '<br />';
+	if ($this->getCreatedAt() != null) {
+	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	} else {
+	    $string .= '[createdAt] => NULL<br />';
+	}
+	if ($this->getUpdatedAt() != null) {
+	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	} else {
+	    $string .= '[updatedAt] => NULL<br />';
+	}
+	if ($this->getACL() != null) {
+	    foreach ($this->getACL()->acl as $key => $acl) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[ACL] => ' . $key . '<br />';
+		foreach ($acl as $access => $value) {
+		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+		}
+	    }
+	} else {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[ACL] => NULL<br />';
+	}
+	return $string;
     }
 
 }

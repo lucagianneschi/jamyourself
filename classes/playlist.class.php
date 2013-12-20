@@ -36,7 +36,7 @@ class Playlist {
      * \return	string
      */
     public function getObjectId() {
-        return $this->objectId;
+	return $this->objectId;
     }
 
     /**
@@ -45,7 +45,7 @@ class Playlist {
      * \return	BOOL
      */
     public function getActive() {
-        return $this->active;
+	return $this->active;
     }
 
     /**
@@ -54,7 +54,7 @@ class Playlist {
      * \return	string
      */
     public function getFromUser() {
-        return $this->fromUser;
+	return $this->fromUser;
     }
 
     /**
@@ -63,7 +63,7 @@ class Playlist {
      * \return	string
      */
     public function getName() {
-        return $this->name;
+	return $this->name;
     }
 
     /**
@@ -72,7 +72,7 @@ class Playlist {
      * \return	array
      */
     public function getSongs() {
-        return $this->songs;
+	return $this->songs;
     }
 
     /**
@@ -81,7 +81,7 @@ class Playlist {
      * \return	array
      */
     public function getSongsArray() {
-        return $this->songsArray;
+	return $this->songsArray;
     }
 
     /**
@@ -90,7 +90,7 @@ class Playlist {
      * \return	BOOL
      */
     public function getUnlimited() {
-        return $this->unlimited;
+	return $this->unlimited;
     }
 
     /**
@@ -99,7 +99,7 @@ class Playlist {
      * \return	DateTime
      */
     public function getCreatedAt() {
-        return $this->createdAt;
+	return $this->createdAt;
     }
 
     /**
@@ -108,7 +108,7 @@ class Playlist {
      * \return	DateTime
      */
     public function getUpdatedAt() {
-        return $this->updatedAt;
+	return $this->updatedAt;
     }
 
     /**
@@ -117,7 +117,7 @@ class Playlist {
      * \return	parseACL
      */
     public function getACL() {
-        return $this->ACL;
+	return $this->ACL;
     }
 
     /**
@@ -126,7 +126,7 @@ class Playlist {
      * \param	string
      */
     public function setObjectId($objectId) {
-        $this->objectId = $objectId;
+	$this->objectId = $objectId;
     }
 
     /**
@@ -135,7 +135,7 @@ class Playlist {
      * \param	BOOL
      */
     public function setActive($active) {
-        $this->active = $active;
+	$this->active = $active;
     }
 
     /**
@@ -144,7 +144,7 @@ class Playlist {
      * \param	string
      */
     public function setFromUser($fromUser) {
-        $this->fromUser = $fromUser;
+	$this->fromUser = $fromUser;
     }
 
     /**
@@ -153,7 +153,7 @@ class Playlist {
      * \param	string
      */
     public function setName($name) {
-        $this->name = $name;
+	$this->name = $name;
     }
 
     /**
@@ -162,7 +162,7 @@ class Playlist {
      * \param	array
      */
     public function setSongs($songs) {
-        $this->songs = $songs;
+	$this->songs = $songs;
     }
 
     /**
@@ -171,7 +171,7 @@ class Playlist {
      * \param	array
      */
     public function setSongsArray($songsArray) {
-        $this->songsArray = $songsArray;
+	$this->songsArray = $songsArray;
     }
 
     /**
@@ -180,7 +180,7 @@ class Playlist {
      * \param	BOOL
      */
     public function setUnlimited($unlimited) {
-        $this->unlimited = $unlimited;
+	$this->unlimited = $unlimited;
     }
 
     /**
@@ -189,7 +189,7 @@ class Playlist {
      * \param	DateTime
      */
     public function setCreatedAt($createdAt) {
-        $this->createdAt = $createdAt;
+	$this->createdAt = $createdAt;
     }
 
     /**
@@ -198,7 +198,7 @@ class Playlist {
      * \param	DateTime
      */
     public function setUpdatedAt($updatedAt) {
-        $this->updatedAt = $updatedAt;
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -207,7 +207,7 @@ class Playlist {
      * \param	parseACL
      */
     public function setACL($ACL) {
-        $this->ACL = $ACL;
+	$this->ACL = $ACL;
     }
 
     /**
@@ -216,63 +216,63 @@ class Playlist {
      * \return	string
      */
     public function __toString() {
-        $string = '';
-        $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        if (is_null($this->getActive())) {
-            $string .= '[active] => NULL<br />';
-        } else {
-            $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
-        }
-        $string.= '[fromUser] => ' . $this->getFromUser() . '<br />';
-        $string.= '[name] => ' . $this->getName() . '<br />';
-        if (count($this->getSongs()) != 0) {
-            foreach ($this->getSongs() as $song) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[songs] => ' . $song . '<br />';
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[songs] => NULL<br />';
-        }
-        if (count($this->getSongsArray()) != 0) {
-            foreach ($this->getSongsArray() as $songId) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[songId] => ' . $songId . '<br />';
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[songId] => NULL<br />';
-        }
-        if ($this->getUnlimited() === null) {
-            $string .= '[unlimited] => NULL<br />';
-        } else {
-            $this->getUnlimited() ? $string .= '[unlimited] => 1<br />' : $string .= '[unlimited] => 0<br />';
-        }
-        if ($this->getCreatedAt() != null) {
-            $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-        } else {
-            $string .= '[createdAt] => NULL<br />';
-        }
-        if ($this->getUpdatedAt() != null) {
-            $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-        } else {
-            $string .= '[updatedAt] => NULL<br />';
-        }
-        if ($this->getACL() != null) {
-            foreach ($this->getACL()->acl as $key => $acl) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[ACL] => ' . $key . '<br />';
-                foreach ($acl as $access => $value) {
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-                }
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ACL] => NULL<br />';
-        }
-        return $string;
+	$string = '';
+	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	if (is_null($this->getActive())) {
+	    $string .= '[active] => NULL<br />';
+	} else {
+	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
+	}
+	$string.= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	$string.= '[name] => ' . $this->getName() . '<br />';
+	if (count($this->getSongs()) != 0) {
+	    foreach ($this->getSongs() as $song) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[songs] => ' . $song . '<br />';
+	    }
+	} else {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[songs] => NULL<br />';
+	}
+	if (count($this->getSongsArray()) != 0) {
+	    foreach ($this->getSongsArray() as $songId) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[songId] => ' . $songId . '<br />';
+	    }
+	} else {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[songId] => NULL<br />';
+	}
+	if ($this->getUnlimited() === null) {
+	    $string .= '[unlimited] => NULL<br />';
+	} else {
+	    $this->getUnlimited() ? $string .= '[unlimited] => 1<br />' : $string .= '[unlimited] => 0<br />';
+	}
+	if ($this->getCreatedAt() != null) {
+	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	} else {
+	    $string .= '[createdAt] => NULL<br />';
+	}
+	if ($this->getUpdatedAt() != null) {
+	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	} else {
+	    $string .= '[updatedAt] => NULL<br />';
+	}
+	if ($this->getACL() != null) {
+	    foreach ($this->getACL()->acl as $key => $acl) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[ACL] => ' . $key . '<br />';
+		foreach ($acl as $access => $value) {
+		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+		}
+	    }
+	} else {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[ACL] => NULL<br />';
+	}
+	return $string;
     }
 
 }

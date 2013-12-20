@@ -34,7 +34,7 @@ class FaqParse {
      * \brief	The constructor instantiates a new object of type ParseQuery on the FAQ class
      */
     public function __construct() {
-        $this->parseQuery = new parseQuery('FAQ');
+	$this->parseQuery = new parseQuery('FAQ');
     }
 
     /**
@@ -43,7 +43,7 @@ class FaqParse {
      * \return	number
      */
     public function getCount() {
-        return $this->parseQuery->getCount()->count;
+	return $this->parseQuery->getCount()->count;
     }
 
     /**
@@ -52,14 +52,14 @@ class FaqParse {
      * \return	array
      */
     public function getDistinctAreas() {
-        $faqs = $this->getFaqs();
-        $aree = array();
-        foreach ($faqs as $faq) {
-            $aree[] = $faq->getArea();
-        }
-        $aree = array_unique($aree);
-        natcasesort($aree);
-        return $aree;
+	$faqs = $this->getFaqs();
+	$aree = array();
+	foreach ($faqs as $faq) {
+	    $aree[] = $faq->getArea();
+	}
+	$aree = array_unique($aree);
+	natcasesort($aree);
+	return $aree;
     }
 
     /**
@@ -68,14 +68,14 @@ class FaqParse {
      * \return	array
      */
     public function getDistinctTags() {
-        $faqs = $this->getFaqs();
-        $tags = array();
-        foreach ($faqs as $faq) {
-            $tags = array_merge($tags, $faq->getTags());
-        }
-        $tags = array_unique($tags);
-        natcasesort($tags);
-        return $tags;
+	$faqs = $this->getFaqs();
+	$tags = array();
+	foreach ($faqs as $faq) {
+	    $tags = array_merge($tags, $faq->getTags());
+	}
+	$tags = array_unique($tags);
+	natcasesort($tags);
+	return $tags;
     }
 
     /**
@@ -86,14 +86,14 @@ class FaqParse {
      * \return	Error	the Error raised by the function
      */
     public function getFaq($objectId) {
-        try {
-            $parseObject = new parseObject('FAQ');
-            $res = $parseObject->get($objectId);
-            $faq = $this->parseToFaq($res);
-            return $faq;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('FAQ');
+	    $res = $parseObject->get($objectId);
+	    $faq = $this->parseToFaq($res);
+	    return $faq;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -104,20 +104,20 @@ class FaqParse {
      * \return	Error	the Error raised by the function
      */
     public function getFaqs() {
-        try {
-            $faqs = null;
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $faqs = array();
-                foreach ($res->results as $obj) {
-                    $faq = $this->parseToFaq($obj);
-                    $faqs[$faq->getObjectId()] = $faq;
-                }
-            }
-            return $faqs;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $faqs = null;
+	    $res = $this->parseQuery->find();
+	    if (is_array($res->results) && count($res->results) > 0) {
+		$faqs = array();
+		foreach ($res->results as $obj) {
+		    $faq = $this->parseToFaq($obj);
+		    $faqs[$faq->getObjectId()] = $faq;
+		}
+	    }
+	    return $faqs;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -126,7 +126,7 @@ class FaqParse {
      * \param	$field	the field on which to sort
      */
     public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
+	$this->parseQuery->orderBy($field);
     }
 
     /**
@@ -135,7 +135,7 @@ class FaqParse {
      * \param	$field	the field on which to sort ascending
      */
     public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
+	$this->parseQuery->orderByAscending($field);
     }
 
     /**
@@ -144,7 +144,7 @@ class FaqParse {
      * \param	$field	the field on which to sort descending
      */
     public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
+	$this->parseQuery->orderByDescending($field);
     }
 
     /**
@@ -155,24 +155,24 @@ class FaqParse {
      * \return	Error	the Error raised by the function
      */
     public function parseToFaq($res) {
-        if (is_null($res))
-            return throwError(new Exception('parseToFaq parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $faq = new Faq();
-            $faq->setObjectId($res->objectId);
-            $faq->setAnswer(parse_decode_string($res->answer));
-            $faq->setArea($res->area);
-            $faq->setLang($res->lang);
-            $faq->setPosition($res->position);
-            $faq->setQuestion(parse_decode_string($res->question));
-            $faq->setTags($res->tags);
-            $faq->setCreatedAt(fromParseDate($res->createdAt));
-            $faq->setUpdatedAt(fromParseDate($res->updatedAt));
-            $faq->setACL(fromParseACL($res->ACL));
-            return $faq;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($res))
+	    return throwError(new Exception('parseToFaq parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $faq = new Faq();
+	    $faq->setObjectId($res->objectId);
+	    $faq->setAnswer(parse_decode_string($res->answer));
+	    $faq->setArea($res->area);
+	    $faq->setLang($res->lang);
+	    $faq->setPosition($res->position);
+	    $faq->setQuestion(parse_decode_string($res->question));
+	    $faq->setTags($res->tags);
+	    $faq->setCreatedAt(fromParseDate($res->createdAt));
+	    $faq->setUpdatedAt(fromParseDate($res->updatedAt));
+	    $faq->setACL(fromParseACL($res->ACL));
+	    return $faq;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -183,24 +183,24 @@ class FaqParse {
      * \return	Error	the Error raised by the function
      */
     public function saveFaq($faq) {
-        if (!is_null($faq->getObjectId()))
-            return throwError(new Exception('saveFaq update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $nullArray = array();
-            $parseFaq = new parseObject('FAQ');
-            $parseFaq->answer = is_null($faq->getAnswer()) ? null : parse_encode_string($faq->getAnswer());
-            $parseFaq->area = is_null($faq->getArea()) ? null : $faq->getArea();
-            $parseFaq->lang = is_null($faq->getLang()) ? 'en' : $faq->getLang();
-            $parseFaq->position = is_null($faq->getPosition()) ? null : $faq->getPosition();
-            $parseFaq->question = is_null($faq->getQuestion()) ? null : parse_encode_string($faq->getQuestion());
-            $parseFaq->tags = is_null($faq->getTags()) ? $nullArray : parse_encode_array($faq->getTags());
-            $parseFaq->ACL = is_null($faq->getACL()) ? toParseDefaultACL() : toParseACL($faq->getACL());
-            $res = $parseFaq->save();
-            $faq->setObjectId($res->objectId);
-            return $faq;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (!is_null($faq->getObjectId()))
+	    return throwError(new Exception('saveFaq update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $nullArray = array();
+	    $parseFaq = new parseObject('FAQ');
+	    $parseFaq->answer = is_null($faq->getAnswer()) ? null : parse_encode_string($faq->getAnswer());
+	    $parseFaq->area = is_null($faq->getArea()) ? null : $faq->getArea();
+	    $parseFaq->lang = is_null($faq->getLang()) ? 'en' : $faq->getLang();
+	    $parseFaq->position = is_null($faq->getPosition()) ? null : $faq->getPosition();
+	    $parseFaq->question = is_null($faq->getQuestion()) ? null : parse_encode_string($faq->getQuestion());
+	    $parseFaq->tags = is_null($faq->getTags()) ? $nullArray : parse_encode_array($faq->getTags());
+	    $parseFaq->ACL = is_null($faq->getACL()) ? toParseDefaultACL() : toParseACL($faq->getACL());
+	    $res = $parseFaq->save();
+	    $faq->setObjectId($res->objectId);
+	    return $faq;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -209,7 +209,7 @@ class FaqParse {
      * \param	$limit	the maximum number
      */
     public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
+	$this->parseQuery->setLimit($limit);
     }
 
     /**
@@ -218,7 +218,7 @@ class FaqParse {
      * \param	$skip	the number of FAQ(s) to skip
      */
     public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
+	$this->parseQuery->setSkip($skip);
     }
 
     /**
@@ -228,7 +228,7 @@ class FaqParse {
      * \param	$value	the string which represent the value
      */
     public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
+	$this->parseQuery->where($field, $value);
     }
 
     /**
@@ -238,7 +238,7 @@ class FaqParse {
      * \param	$value	the array which represent the values
      */
     public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
+	$this->parseQuery->whereContainedIn($field, $values);
     }
 
     /**
@@ -248,7 +248,7 @@ class FaqParse {
      * \param	$value	the string which represent the value
      */
     public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
+	$this->parseQuery->whereEqualTo($field, $value);
     }
 
     /**
@@ -257,7 +257,7 @@ class FaqParse {
      * \param	$field	the string which represent the field
      */
     public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
+	$this->parseQuery->whereExists($field);
     }
 
     /**
@@ -267,7 +267,7 @@ class FaqParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
+	$this->parseQuery->whereGreaterThan($field, $value);
     }
 
     /**
@@ -277,7 +277,7 @@ class FaqParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
     /**
@@ -287,7 +287,7 @@ class FaqParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
+	$this->parseQuery->whereLessThan($field, $value);
     }
 
     /**
@@ -297,7 +297,7 @@ class FaqParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	$this->parseQuery->whereLessThanOrEqualTo($field, $value);
     }
 
     /**
@@ -307,7 +307,7 @@ class FaqParse {
      * \param	$value	the array which represent the values
      */
     public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
+	$this->parseQuery->whereNotContainedIn($field, $array);
     }
 
     /**
@@ -317,7 +317,7 @@ class FaqParse {
      * \param	$value	the string which represent the value
      */
     public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
+	$this->parseQuery->whereNotEqualTo($field, $value);
     }
 
     /**
@@ -326,7 +326,7 @@ class FaqParse {
      * \param	$field	the string which represent the field
      */
     public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
+	$this->parseQuery->whereDoesNotExist($field);
     }
 
 }

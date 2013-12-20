@@ -33,7 +33,7 @@ class ErrorParse {
      * \brief	The constructor instantiates a new object of type ParseQuery on the Error class
      */
     public function __construct() {
-        $this->parseQuery = new parseQuery('Error');
+	$this->parseQuery = new parseQuery('Error');
     }
 
     /**
@@ -42,7 +42,7 @@ class ErrorParse {
      * \return	number
      */
     public function getCount() {
-        return $this->parseQuery->getCount()->count;
+	return $this->parseQuery->getCount()->count;
     }
 
     /**
@@ -53,14 +53,14 @@ class ErrorParse {
      * \return	Error	the Error raised by the function
      */
     public function getError($objectId) {
-        try {
-            $parseObject = new parseObject('Error');
-            $res = $parseObject->get($objectId);
-            $error = $this->parseToError($res);
-            return $error;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Error');
+	    $res = $parseObject->get($objectId);
+	    $error = $this->parseToError($res);
+	    return $error;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -71,20 +71,20 @@ class ErrorParse {
      * \return	Error	the Error raised by the function
      */
     public function getErrors() {
-        try {
-            $errors = null;
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $errors = array();
-                foreach ($res->results as $obj) {
-                    $error = $this->parseToError($obj);
-                    $errors[$error->getObjectId()] = $error;
-                }
-            }
-            return $errors;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $errors = null;
+	    $res = $this->parseQuery->find();
+	    if (is_array($res->results) && count($res->results) > 0) {
+		$errors = array();
+		foreach ($res->results as $obj) {
+		    $error = $this->parseToError($obj);
+		    $errors[$error->getObjectId()] = $error;
+		}
+	    }
+	    return $errors;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -93,7 +93,7 @@ class ErrorParse {
      * \param	$field	the field on which to sort
      */
     public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
+	$this->parseQuery->orderBy($field);
     }
 
     /**
@@ -102,7 +102,7 @@ class ErrorParse {
      * \param	$field	the field on which to sort ascending
      */
     public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
+	$this->parseQuery->orderByAscending($field);
     }
 
     /**
@@ -111,7 +111,7 @@ class ErrorParse {
      * \param	$field	the field on which to sort descending
      */
     public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
+	$this->parseQuery->orderByDescending($field);
     }
 
     /**
@@ -122,23 +122,23 @@ class ErrorParse {
      * \return	Error	the Error raised by the function
      */
     public function parseToError($res) {
-        if (is_null($res))
-            return throwError(new Exception('parseToError parameter is incorrect'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $error = new Error();
-            $error->setObjectId($res->objectId);
-            $error->setErrorClass($res->errorClass);
-            $error->setErrorCode($res->errorCode);
-            $error->setErrorMessage($res->errorMessage);
-            $error->setErrorFunction($res->errorFunction);
-            $error->setErrorFunctionParameter($res->errorFunctionParameter);
-            $error->setCreatedAt(fromParseDate($res->createdAt));
-            $error->setUpdatedAt(fromParseDate($res->updatedAt));
-            $error->setACL(fromParseACL($res->ACL));
-            return $error;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($res))
+	    return throwError(new Exception('parseToError parameter is incorrect'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $error = new Error();
+	    $error->setObjectId($res->objectId);
+	    $error->setErrorClass($res->errorClass);
+	    $error->setErrorCode($res->errorCode);
+	    $error->setErrorMessage($res->errorMessage);
+	    $error->setErrorFunction($res->errorFunction);
+	    $error->setErrorFunctionParameter($res->errorFunctionParameter);
+	    $error->setCreatedAt(fromParseDate($res->createdAt));
+	    $error->setUpdatedAt(fromParseDate($res->updatedAt));
+	    $error->setACL(fromParseACL($res->ACL));
+	    return $error;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -149,23 +149,23 @@ class ErrorParse {
      * \return	Exception	the Exception raised by the function
      */
     public function saveError($error) {
-        if (!is_null($error->getObjectId()))
-            return new Exception('saveError update is not allowed here');
-        try {
-            $nullArray = array();
-            $parseObject = new parseObject('Error');
-            $parseObject->errorClass = is_null($error->getErrorClass()) ? null : $error->getErrorClass();
-            $parseObject->errorCode = is_null($error->getErrorCode()) ? null : $error->getErrorCode();
-            $parseObject->errorMessage = is_null($error->getErrorMessage()) ? null : $error->getErrorMessage();
-            $parseObject->errorFunction = is_null($error->getErrorFunction()) ? null : $error->getErrorFunction();
-            $parseObject->errorFunctionParameter = is_null($error->getErrorFunctionParameter()) ? $nullArray : $error->getErrorFunctionParameter();
-            $parseObject->ACL = is_null($error->getACL()) ? toParseDefaultACL() : toParseACL($error->getACL());
-            $res = $parseObject->save();
-            $error->setObjectId($res->objectId);
-            return $error;
-        } catch (Exception $e) {
-            return new Exception($e->getMessage());
-        }
+	if (!is_null($error->getObjectId()))
+	    return new Exception('saveError update is not allowed here');
+	try {
+	    $nullArray = array();
+	    $parseObject = new parseObject('Error');
+	    $parseObject->errorClass = is_null($error->getErrorClass()) ? null : $error->getErrorClass();
+	    $parseObject->errorCode = is_null($error->getErrorCode()) ? null : $error->getErrorCode();
+	    $parseObject->errorMessage = is_null($error->getErrorMessage()) ? null : $error->getErrorMessage();
+	    $parseObject->errorFunction = is_null($error->getErrorFunction()) ? null : $error->getErrorFunction();
+	    $parseObject->errorFunctionParameter = is_null($error->getErrorFunctionParameter()) ? $nullArray : $error->getErrorFunctionParameter();
+	    $parseObject->ACL = is_null($error->getACL()) ? toParseDefaultACL() : toParseACL($error->getACL());
+	    $res = $parseObject->save();
+	    $error->setObjectId($res->objectId);
+	    return $error;
+	} catch (Exception $e) {
+	    return new Exception($e->getMessage());
+	}
     }
 
     /**
@@ -174,7 +174,7 @@ class ErrorParse {
      * \param	$limit	the maximum number
      */
     public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
+	$this->parseQuery->setLimit($limit);
     }
 
     /**
@@ -183,7 +183,7 @@ class ErrorParse {
      * \param	$skip	the number of Error to skip
      */
     public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
+	$this->parseQuery->setSkip($skip);
     }
 
     /**
@@ -193,7 +193,7 @@ class ErrorParse {
      * \param	$value	the string which represent the value
      */
     public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
+	$this->parseQuery->where($field, $value);
     }
 
     /**
@@ -203,7 +203,7 @@ class ErrorParse {
      * \param	$value	the array which represent the values
      */
     public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
+	$this->parseQuery->whereContainedIn($field, $values);
     }
 
     /**
@@ -213,7 +213,7 @@ class ErrorParse {
      * \param	$value	the string which represent the value
      */
     public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
+	$this->parseQuery->whereEqualTo($field, $value);
     }
 
     /**
@@ -222,7 +222,7 @@ class ErrorParse {
      * \param	$field	the string which represent the field
      */
     public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
+	$this->parseQuery->whereExists($field);
     }
 
     /**
@@ -232,7 +232,7 @@ class ErrorParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
+	$this->parseQuery->whereGreaterThan($field, $value);
     }
 
     /**
@@ -242,7 +242,7 @@ class ErrorParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
     /**
@@ -252,7 +252,7 @@ class ErrorParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
+	$this->parseQuery->whereLessThan($field, $value);
     }
 
     /**
@@ -262,7 +262,7 @@ class ErrorParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	$this->parseQuery->whereLessThanOrEqualTo($field, $value);
     }
 
     /**
@@ -272,7 +272,7 @@ class ErrorParse {
      * \param	$value	the array which represent the values
      */
     public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
+	$this->parseQuery->whereNotContainedIn($field, $array);
     }
 
     /**
@@ -282,7 +282,7 @@ class ErrorParse {
      * \param	$value	the string which represent the value
      */
     public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
+	$this->parseQuery->whereNotEqualTo($field, $value);
     }
 
     /**
@@ -291,7 +291,7 @@ class ErrorParse {
      * \param	$field	the string which represent the field
      */
     public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
+	$this->parseQuery->whereDoesNotExist($field);
     }
 
 }

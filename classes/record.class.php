@@ -52,7 +52,7 @@ class Record {
      * \return	string
      */
     public function getObjectId() {
-        return $this->objectId;
+	return $this->objectId;
     }
 
     /**
@@ -61,7 +61,7 @@ class Record {
      * \return	BOOL
      */
     public function getActive() {
-        return $this->active;
+	return $this->active;
     }
 
     /**
@@ -70,7 +70,7 @@ class Record {
      * \return	string
      */
     public function getBuyLink() {
-        return $this->buyLink;
+	return $this->buyLink;
     }
 
     /**
@@ -79,7 +79,7 @@ class Record {
      * \return	string
      */
     public function getCity() {
-        return $this->city;
+	return $this->city;
     }
 
     /**
@@ -88,7 +88,7 @@ class Record {
      * \return	int
      */
     public function getCommentCounter() {
-        return $this->commentCounter;
+	return $this->commentCounter;
     }
 
     /**
@@ -97,7 +97,7 @@ class Record {
      * \return	int
      */
     public function getCounter() {
-        return $this->counter;
+	return $this->counter;
     }
 
     /**
@@ -106,7 +106,7 @@ class Record {
      * \return	string
      */
     public function getCover() {
-        return $this->cover;
+	return $this->cover;
     }
 
     /**
@@ -115,7 +115,7 @@ class Record {
      * \return	string
      */
     public function getDescription() {
-        return $this->description;
+	return $this->description;
     }
 
     /**
@@ -124,7 +124,7 @@ class Record {
      * \return	int
      */
     public function getDuration() {
-        return $this->duration;
+	return $this->duration;
     }
 
     /**
@@ -133,7 +133,7 @@ class Record {
      * \return	array
      */
     public function getFeaturing() {
-        return $this->featuring;
+	return $this->featuring;
     }
 
     /**
@@ -142,7 +142,7 @@ class Record {
      * \return	string
      */
     public function getFromUser() {
-        return $this->fromUser;
+	return $this->fromUser;
     }
 
     /**
@@ -151,7 +151,7 @@ class Record {
      * \return	string
      */
     public function getGenre() {
-        return $this->genre;
+	return $this->genre;
     }
 
     /**
@@ -160,7 +160,7 @@ class Record {
      * \return	string
      */
     public function getLabel() {
-        return $this->label;
+	return $this->label;
     }
 
     /**
@@ -169,7 +169,7 @@ class Record {
      * \return	parseGoPoint
      */
     public function getLocation() {
-        return $this->location;
+	return $this->location;
     }
 
     /**
@@ -178,7 +178,7 @@ class Record {
      * \return	int
      */
     public function getLoveCounter() {
-        return $this->loveCounter;
+	return $this->loveCounter;
     }
 
     /**
@@ -187,7 +187,7 @@ class Record {
      * \return	array
      */
     public function getLovers() {
-        return $this->lovers;
+	return $this->lovers;
     }
 
     /**
@@ -196,7 +196,7 @@ class Record {
      * \return	int
      */
     public function getReviewCounter() {
-        return $this->reviewCounter;
+	return $this->reviewCounter;
     }
 
     /**
@@ -205,7 +205,7 @@ class Record {
      * \return	int
      */
     public function getShareCounter() {
-        return $this->shareCounter;
+	return $this->shareCounter;
     }
 
     /**
@@ -214,7 +214,7 @@ class Record {
      * \return	int
      */
     public function getSongCounter() {
-        return $this->songCounter;
+	return $this->songCounter;
     }
 
     /**
@@ -223,7 +223,7 @@ class Record {
      * \return	string
      */
     public function getThumbnailCover() {
-        return $this->thumbnailCover;
+	return $this->thumbnailCover;
     }
 
     /**
@@ -232,7 +232,7 @@ class Record {
      * \return	string
      */
     public function getTitle() {
-        return $this->title;
+	return $this->title;
     }
 
     /**
@@ -241,7 +241,7 @@ class Record {
      * \return	array
      */
     public function getTracklist() {
-        return $this->tracklist;
+	return $this->tracklist;
     }
 
     /**
@@ -250,7 +250,7 @@ class Record {
      * \return	string
      */
     public function getYear() {
-        return $this->year;
+	return $this->year;
     }
 
     /**
@@ -259,7 +259,7 @@ class Record {
      * \return	DateTime
      */
     public function getCreatedAt() {
-        return $this->createdAt;
+	return $this->createdAt;
     }
 
     /**
@@ -268,7 +268,7 @@ class Record {
      * \return	DateTime
      */
     public function getUpdatedAt() {
-        return $this->updatedAt;
+	return $this->updatedAt;
     }
 
     /**
@@ -277,7 +277,7 @@ class Record {
      * \return	parseACL
      */
     public function getACL() {
-        return $this->ACL;
+	return $this->ACL;
     }
 
     /**
@@ -286,7 +286,7 @@ class Record {
      * \param	string
      */
     public function setObjectId($objectId) {
-        $this->objectId = $objectId;
+	$this->objectId = $objectId;
     }
 
     /**
@@ -295,7 +295,7 @@ class Record {
      * \param	BOOL
      */
     public function setActive($active) {
-        $this->active = $active;
+	$this->active = $active;
     }
 
     /**
@@ -304,7 +304,7 @@ class Record {
      * \param	string
      */
     public function setBuyLink($buyLink) {
-        $this->buyLink = $buyLink;
+	$this->buyLink = $buyLink;
     }
 
     /**
@@ -313,7 +313,7 @@ class Record {
      * \param	string
      */
     public function setCity($city) {
-        $this->city = $city;
+	$this->city = $city;
     }
 
     /**
@@ -322,7 +322,7 @@ class Record {
      * \param	int
      */
     public function setCommentCounter($commentCounter) {
-        $this->commentCounter = $commentCounter;
+	$this->commentCounter = $commentCounter;
     }
 
     /**
@@ -331,7 +331,7 @@ class Record {
      * \param	int
      */
     public function setCounter($counter) {
-        $this->counter = $counter;
+	$this->counter = $counter;
     }
 
     /**
@@ -340,7 +340,7 @@ class Record {
      * \param	string
      */
     public function setCover($cover) {
-        $this->cover = $cover;
+	$this->cover = $cover;
     }
 
     /**
@@ -349,7 +349,7 @@ class Record {
      * \param	string
      */
     public function setDescription($description) {
-        $this->description = $description;
+	$this->description = $description;
     }
 
     /**
@@ -358,7 +358,7 @@ class Record {
      * \param	int
      */
     public function setDuration($duration) {
-        $this->duration = $duration;
+	$this->duration = $duration;
     }
 
     /**
@@ -367,7 +367,7 @@ class Record {
      * \param	array
      */
     public function setFeaturing($featuring) {
-        $this->featuring = $featuring;
+	$this->featuring = $featuring;
     }
 
     /**
@@ -376,7 +376,7 @@ class Record {
      * \param	string
      */
     public function setFromUser($fromUser) {
-        $this->fromUser = $fromUser;
+	$this->fromUser = $fromUser;
     }
 
     /**
@@ -385,7 +385,7 @@ class Record {
      * \param	string
      */
     public function setGenre($genre) {
-        $this->genre = $genre;
+	$this->genre = $genre;
     }
 
     /**
@@ -394,7 +394,7 @@ class Record {
      * \param	string
      */
     public function setLabel($label) {
-        $this->label = $label;
+	$this->label = $label;
     }
 
     /**
@@ -403,7 +403,7 @@ class Record {
      * \param	parseGeopoint
      */
     public function setLocation($location) {
-        $this->location = $location;
+	$this->location = $location;
     }
 
     /**
@@ -412,7 +412,7 @@ class Record {
      * \param	array
      */
     public function setLovers($lovers) {
-        $this->lovers = $lovers;
+	$this->lovers = $lovers;
     }
 
     /**
@@ -421,7 +421,7 @@ class Record {
      * \param	int
      */
     public function setLoveCounter($loveCounter) {
-        $this->loveCounter = $loveCounter;
+	$this->loveCounter = $loveCounter;
     }
 
     /**
@@ -430,7 +430,7 @@ class Record {
      * \param	int
      */
     public function setReviewCounter($reviewCounter) {
-        $this->reviewCounter = $reviewCounter;
+	$this->reviewCounter = $reviewCounter;
     }
 
     /**
@@ -439,7 +439,7 @@ class Record {
      * \param	int
      */
     public function setShareCounter($shareCounter) {
-        $this->shareCounter = $shareCounter;
+	$this->shareCounter = $shareCounter;
     }
 
     /**
@@ -448,7 +448,7 @@ class Record {
      * \param	int
      */
     public function setSongCounter($songCounter) {
-        $this->songCounter = $songCounter;
+	$this->songCounter = $songCounter;
     }
 
     /**
@@ -457,7 +457,7 @@ class Record {
      * \param	string
      */
     public function setThumbnailCover($thumbnailCover) {
-        $this->thumbnailCover = $thumbnailCover;
+	$this->thumbnailCover = $thumbnailCover;
     }
 
     /**
@@ -466,7 +466,7 @@ class Record {
      * \param	string
      */
     public function setTitle($title) {
-        $this->title = $title;
+	$this->title = $title;
     }
 
     /**
@@ -475,7 +475,7 @@ class Record {
      * \param	array
      */
     public function setTracklist($tracklist) {
-        $this->tracklist = $tracklist;
+	$this->tracklist = $tracklist;
     }
 
     /**
@@ -484,7 +484,7 @@ class Record {
      * \param	string
      */
     public function setYear($year) {
-        $this->year = $year;
+	$this->year = $year;
     }
 
     /**
@@ -493,7 +493,7 @@ class Record {
      * \param	DateTime
      */
     public function setCreatedAt($createdAt) {
-        $this->createdAt = $createdAt;
+	$this->createdAt = $createdAt;
     }
 
     /**
@@ -502,7 +502,7 @@ class Record {
      * \param	DateTime
      */
     public function setUpdatedAt($updatedAt) {
-        $this->updatedAt = $updatedAt;
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -511,7 +511,7 @@ class Record {
      * \param	parseACL
      */
     public function setACL($ACL) {
-        $this->ACL = $ACL;
+	$this->ACL = $ACL;
     }
 
     /**
@@ -520,82 +520,82 @@ class Record {
      * \return	string
      */
     public function __toString() {
-        $string = '';
-        $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-        if (is_null($this->getActive())) {
-            $string .= '[active] => NULL<br />';
-        } else {
-            $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
-        }
-        $string .= '[buyLink] => ' . $this->buyLink . '<br/>';
-        $string .= '[city] => ' . $this->getCity() . '<br />';
-        $string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
-        $string .= '[counter] => ' . $this->getCounter() . '<br />';
-        $string .= '[cover] => ' . $this->cover . '<br/>';
-        $string .= '[description] => ' . $this->description . '<br/>';
-        $string .= '[duration] => ' . $this->duration . '<br/>';
-        if ($this->featuring && count($this->featuring > 0)) {
-            foreach ($this->featuring as $featuring) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[featuring] => ' . $featuring . '<br />';
-            }
-        }
-        if ($this->getFromUser() != null) {
-            $string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
-        } else {
-            $string .= '[fromUser] => NULL<br />';
-        }
-        $string .= '[genre] .= > ' . $this->genre . '<br/>';
-        $string .= '[label] .= > ' . $this->label . '<br/>';
-        if (($geopoint = $this->getLocation()) != null) {
-            $string .= '[location] => ' . $geopoint->location['latitude'] . ', ' . $geopoint->location['longitude'] . '<br />';
-        } else {
-            $string .= '[location] => NULL<br />';
-        }
-        $string .= '[loveCounter] .= > ' . $this->loveCounter . '<br/>';
-        if ($this->lovers && count($this->lovers > 0)) {
-            foreach ($this->lovers as $lovers) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[lovers] => ' . $lovers . '<br />';
-            }
-        }
-        $string .= '[reviewCounter] => ' . $this->getReviewCounter() . '<br />';
-        $string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-        $string .= '[songCounter] => ' . $this->getSongCounter() . '<br />';
-        $string .= '[thumbnailCover] .= > ' . $this->thumbnailCover . '<br/>';
-        $string .= '[title] .= > ' . $this->title . '<br/>';
-        if ($this->tracklist && count($this->tracklist > 0)) {
-            foreach ($this->tracklist as $tracklist) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[tracklist] => ' . $tracklist . '<br />';
-            }
-        }
-        $string .= '[year] .= > ' . $this->year . '<br/>';
-        if ($this->getCreatedAt() != null) {
-            $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-        } else {
-            $string .= '[createdAt] => NULL<br />';
-        }
-        if ($this->getUpdatedAt() != null) {
-            $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-        } else {
-            $string .= '[updatedAt] => NULL<br />';
-        }
-        if ($this->getACL() != null) {
-            foreach ($this->getACL()->acl as $key => $acl) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[ACL] => ' . $key . '<br />';
-                foreach ($acl as $access => $value) {
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-                }
-            }
-        } else {
-            $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-            $string .= '[ACL] => NULL<br />';
-        }
-        return $string;
+	$string = '';
+	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	if (is_null($this->getActive())) {
+	    $string .= '[active] => NULL<br />';
+	} else {
+	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
+	}
+	$string .= '[buyLink] => ' . $this->buyLink . '<br/>';
+	$string .= '[city] => ' . $this->getCity() . '<br />';
+	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
+	$string .= '[counter] => ' . $this->getCounter() . '<br />';
+	$string .= '[cover] => ' . $this->cover . '<br/>';
+	$string .= '[description] => ' . $this->description . '<br/>';
+	$string .= '[duration] => ' . $this->duration . '<br/>';
+	if ($this->featuring && count($this->featuring > 0)) {
+	    foreach ($this->featuring as $featuring) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[featuring] => ' . $featuring . '<br />';
+	    }
+	}
+	if ($this->getFromUser() != null) {
+	    $string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	} else {
+	    $string .= '[fromUser] => NULL<br />';
+	}
+	$string .= '[genre] .= > ' . $this->genre . '<br/>';
+	$string .= '[label] .= > ' . $this->label . '<br/>';
+	if (($geopoint = $this->getLocation()) != null) {
+	    $string .= '[location] => ' . $geopoint->location['latitude'] . ', ' . $geopoint->location['longitude'] . '<br />';
+	} else {
+	    $string .= '[location] => NULL<br />';
+	}
+	$string .= '[loveCounter] .= > ' . $this->loveCounter . '<br/>';
+	if ($this->lovers && count($this->lovers > 0)) {
+	    foreach ($this->lovers as $lovers) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[lovers] => ' . $lovers . '<br />';
+	    }
+	}
+	$string .= '[reviewCounter] => ' . $this->getReviewCounter() . '<br />';
+	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
+	$string .= '[songCounter] => ' . $this->getSongCounter() . '<br />';
+	$string .= '[thumbnailCover] .= > ' . $this->thumbnailCover . '<br/>';
+	$string .= '[title] .= > ' . $this->title . '<br/>';
+	if ($this->tracklist && count($this->tracklist > 0)) {
+	    foreach ($this->tracklist as $tracklist) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[tracklist] => ' . $tracklist . '<br />';
+	    }
+	}
+	$string .= '[year] .= > ' . $this->year . '<br/>';
+	if ($this->getCreatedAt() != null) {
+	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	} else {
+	    $string .= '[createdAt] => NULL<br />';
+	}
+	if ($this->getUpdatedAt() != null) {
+	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
+	} else {
+	    $string .= '[updatedAt] => NULL<br />';
+	}
+	if ($this->getACL() != null) {
+	    foreach ($this->getACL()->acl as $key => $acl) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[ACL] => ' . $key . '<br />';
+		foreach ($acl as $access => $value) {
+		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
+		}
+	    }
+	} else {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[ACL] => NULL<br />';
+	}
+	return $string;
     }
 
 }

@@ -33,7 +33,7 @@ class QuestionParse {
      * \brief	The constructor instantiates a new object of type ParseQuery on the Question class
      */
     public function __construct() {
-        $this->parseQuery = new parseQuery('Question');
+	$this->parseQuery = new parseQuery('Question');
     }
 
     /**
@@ -42,7 +42,7 @@ class QuestionParse {
      * \return	number
      */
     public function getCount() {
-        return $this->parseQuery->getCount()->count;
+	return $this->parseQuery->getCount()->count;
     }
 
     /**
@@ -53,14 +53,14 @@ class QuestionParse {
      * \return	Error		the Error raised by the function
      */
     public function getQuestion($objectId) {
-        try {
-            $parseObject = new parseObject('Question');
-            $res = $parseObject->get($objectId);
-            $question = $this->parseToQuestion($res);
-            return $question;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Question');
+	    $res = $parseObject->get($objectId);
+	    $question = $this->parseToQuestion($res);
+	    return $question;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -71,20 +71,20 @@ class QuestionParse {
      * \return	Error	the Error raised by the function
      */
     public function getQuestions() {
-        try {
-            $questions = null;
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $questions = array();
-                foreach ($res->results as $obj) {
-                    $question = $this->parseToQuestion($obj);
-                    $questions[$question->getObjectId()] = $question;
-                }
-            }
-            return $questions;
-        } catch (Exception $exception) {
-            return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $questions = null;
+	    $res = $this->parseQuery->find();
+	    if (is_array($res->results) && count($res->results) > 0) {
+		$questions = array();
+		foreach ($res->results as $obj) {
+		    $question = $this->parseToQuestion($obj);
+		    $questions[$question->getObjectId()] = $question;
+		}
+	    }
+	    return $questions;
+	} catch (Exception $exception) {
+	    return throwError($exception, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -93,7 +93,7 @@ class QuestionParse {
      * \param	$field	the field on which to sort
      */
     public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
+	$this->parseQuery->orderBy($field);
     }
 
     /**
@@ -102,7 +102,7 @@ class QuestionParse {
      * \param	$field	the field on which to sort ascending
      */
     public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
+	$this->parseQuery->orderByAscending($field);
     }
 
     /**
@@ -111,7 +111,7 @@ class QuestionParse {
      * \param	$field	the field on which to sort descending
      */
     public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
+	$this->parseQuery->orderByDescending($field);
     }
 
     /**
@@ -122,25 +122,25 @@ class QuestionParse {
      * \return	Error		the Error raised by the function
      */
     function parseToQuestion($res) {
-        if (is_null($res))
-            return throwError(new Exception('parseToQuestion parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $question = new Question();
-            $question->setObjectId($res->objectId);
-            $question->setAnswer(parse_decode_string($res->answer));
-            $question->setMailFrom(parse_decode_string($res->mailFrom));
-            $question->setMailTo(parse_decode_string($res->mailTo));
-            $question->setName(parse_decode_string($res->mailTo));
-            $question->setReplied($res->replied);
-            $question->setSubject(parse_decode_string($res->subject));
-            $question->setText(parse_decode_string($res->text));
-            $question->setCreatedAt(fromParseDate($res->createdAt));
-            $question->setUpdatedAt(fromParseDate($res->updatedAt));
-            $question->setACL(fromParseACL($res->ACL));
-            return $question;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($res))
+	    return throwError(new Exception('parseToQuestion parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $question = new Question();
+	    $question->setObjectId($res->objectId);
+	    $question->setAnswer(parse_decode_string($res->answer));
+	    $question->setMailFrom(parse_decode_string($res->mailFrom));
+	    $question->setMailTo(parse_decode_string($res->mailTo));
+	    $question->setName(parse_decode_string($res->mailTo));
+	    $question->setReplied($res->replied);
+	    $question->setSubject(parse_decode_string($res->subject));
+	    $question->setText(parse_decode_string($res->text));
+	    $question->setCreatedAt(fromParseDate($res->createdAt));
+	    $question->setUpdatedAt(fromParseDate($res->updatedAt));
+	    $question->setACL(fromParseACL($res->ACL));
+	    return $question;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -151,25 +151,25 @@ class QuestionParse {
      * \return	Error		the Error raised by the function
      */
     public function saveQuestion($question) {
-        if (!is_null($question->getObjectId())) {
-            return throwError(new Exception('saveQuestion update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
-        }
-        try {
-            $parseObject = new parseObject('Question');
-            $parseObject->answer = is_null($question->getAnswer()) ? null : $question->getAnswer();
-            $parseObject->mailFrom = is_null($question->getMailFrom()) ? null : parse_encode_string($question->getMailFrom());
-            $parseObject->mailTo = is_null($question->getMailTo()) ? null : parse_encode_string($question->getMailTo());
-            $parseObject->name = is_null($question->getName()) ? null : $question->getName();
-            $parseObject->replied = is_null($question->getReplied()) ? false : $question->getReplied();
-            $parseObject->subject = is_null($question->getSubject()) ? null : parse_encode_string($question->getSubject());
-            $parseObject->text = is_null($question->getText()) ? null : parse_encode_string($question->getText());
-            $parseObject->ACL = is_null($question->getACL()) ? toParseDefaultACL() : toParseACL($question->getACL());
-            $res = $parseObject->save();
-            $question->setObjectId($res->objectId);
-            return $question;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (!is_null($question->getObjectId())) {
+	    return throwError(new Exception('saveQuestion update is not allow here'), __CLASS__, __FUNCTION__, func_get_args());
+	}
+	try {
+	    $parseObject = new parseObject('Question');
+	    $parseObject->answer = is_null($question->getAnswer()) ? null : $question->getAnswer();
+	    $parseObject->mailFrom = is_null($question->getMailFrom()) ? null : parse_encode_string($question->getMailFrom());
+	    $parseObject->mailTo = is_null($question->getMailTo()) ? null : parse_encode_string($question->getMailTo());
+	    $parseObject->name = is_null($question->getName()) ? null : $question->getName();
+	    $parseObject->replied = is_null($question->getReplied()) ? false : $question->getReplied();
+	    $parseObject->subject = is_null($question->getSubject()) ? null : parse_encode_string($question->getSubject());
+	    $parseObject->text = is_null($question->getText()) ? null : parse_encode_string($question->getText());
+	    $parseObject->ACL = is_null($question->getACL()) ? toParseDefaultACL() : toParseACL($question->getACL());
+	    $res = $parseObject->save();
+	    $question->setObjectId($res->objectId);
+	    return $question;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -178,7 +178,7 @@ class QuestionParse {
      * \param	$limit	the maximum number
      */
     public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
+	$this->parseQuery->setLimit($limit);
     }
 
     /**
@@ -187,7 +187,7 @@ class QuestionParse {
      * \param	$skip	the number of Question(s) to skip
      */
     public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
+	$this->parseQuery->setSkip($skip);
     }
 
     /**
@@ -201,27 +201,27 @@ class QuestionParse {
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
     public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-        if (is_null($objectId) || is_null($field))
-            return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
-        if ($isRelation) {
-            if (is_null($typeRelation) || is_null($className))
-                return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
-            if ($typeRelation == 'add') {
-                $parseObject = new parseObject('Question');
-                $parseObject->$field = toParseAddRelation($className, $value);
-                $parseObject->update($objectId);
-            } elseif ($typeRelation == 'remove') {
-                $parseObject = new parseObject('Question');
-                $parseObject->$field = toParseRemoveRelation($className, $value);
-                $parseObject->update($objectId);
-            } else {
-                return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
-            }
-        } else {
-            $parseObject = new parseObject('Question');
-            $parseObject->$field = $value;
-            $parseObject->update($objectId);
-        }
+	if (is_null($objectId) || is_null($field))
+	    return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+	if ($isRelation) {
+	    if (is_null($typeRelation) || is_null($className))
+		return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
+	    if ($typeRelation == 'add') {
+		$parseObject = new parseObject('Question');
+		$parseObject->$field = toParseAddRelation($className, $value);
+		$parseObject->update($objectId);
+	    } elseif ($typeRelation == 'remove') {
+		$parseObject = new parseObject('Question');
+		$parseObject->$field = toParseRemoveRelation($className, $value);
+		$parseObject->update($objectId);
+	    } else {
+		return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
+	    }
+	} else {
+	    $parseObject = new parseObject('Question');
+	    $parseObject->$field = $value;
+	    $parseObject->update($objectId);
+	}
     }
 
     /**
@@ -231,7 +231,7 @@ class QuestionParse {
      * \param	$value	the string which represent the value
      */
     public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
+	$this->parseQuery->where($field, $value);
     }
 
     /**
@@ -241,7 +241,7 @@ class QuestionParse {
      * \param	$value	the array which represent the values
      */
     public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
+	$this->parseQuery->whereContainedIn($field, $values);
     }
 
     /**
@@ -251,7 +251,7 @@ class QuestionParse {
      * \param	$value	the string which represent the value
      */
     public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
+	$this->parseQuery->whereEqualTo($field, $value);
     }
 
     /**
@@ -260,7 +260,7 @@ class QuestionParse {
      * \param	$field	the string which represent the field
      */
     public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
+	$this->parseQuery->whereExists($field);
     }
 
     /**
@@ -270,7 +270,7 @@ class QuestionParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
+	$this->parseQuery->whereGreaterThan($field, $value);
     }
 
     /**
@@ -280,7 +280,7 @@ class QuestionParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
     /**
@@ -290,7 +290,7 @@ class QuestionParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
+	$this->parseQuery->whereLessThan($field, $value);
     }
 
     /**
@@ -300,7 +300,7 @@ class QuestionParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	$this->parseQuery->whereLessThanOrEqualTo($field, $value);
     }
 
     /**
@@ -310,7 +310,7 @@ class QuestionParse {
      * \param	$value	the array which represent the values
      */
     public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
+	$this->parseQuery->whereNotContainedIn($field, $array);
     }
 
     /**
@@ -320,7 +320,7 @@ class QuestionParse {
      * \param	$value	the string which represent the value
      */
     public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
+	$this->parseQuery->whereNotEqualTo($field, $value);
     }
 
     /**
@@ -329,7 +329,7 @@ class QuestionParse {
      * \param	$field	the string which represent the field
      */
     public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
+	$this->parseQuery->whereDoesNotExist($field);
     }
 
 }

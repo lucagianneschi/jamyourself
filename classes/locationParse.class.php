@@ -36,7 +36,7 @@ class LocationParse {
      * \brief	The constructor instantiates a new object of type ParseQuery on the Location class
      */
     function __construct() {
-        $this->parseQuery = new ParseQuery('Location');
+	$this->parseQuery = new ParseQuery('Location');
     }
 
     /**
@@ -45,7 +45,7 @@ class LocationParse {
      * \return	number
      */
     public function getCount() {
-        return $this->parseQuery->getCount()->count;
+	return $this->parseQuery->getCount()->count;
     }
 
     /**
@@ -56,14 +56,14 @@ class LocationParse {
      * \return	Error	the Error raised by the function
      */
     public function getLocation($objectId) {
-        try {
-            $parseLocation = new parseObject('Location');
-            $res = $parseLocation->get($objectId);
-            $cmt = $this->parseToLocation($res);
-            return $cmt;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
-        }
+	try {
+	    $parseLocation = new parseObject('Location');
+	    $res = $parseLocation->get($objectId);
+	    $cmt = $this->parseToLocation($res);
+	    return $cmt;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+	}
     }
 
     /**
@@ -74,20 +74,20 @@ class LocationParse {
      * \return	Error	the Error raised by the function
      */
     public function getLocations() {
-        try {
-            $locations = null;
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $locations = array();
-                foreach ($res->results as $obj) {
-                    $location = $this->parseToLocation($obj);
-                    $locations[$location->getObjectId()] = $location;
-                }
-            }
-            return $locations;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $locations = null;
+	    $res = $this->parseQuery->find();
+	    if (is_array($res->results) && count($res->results) > 0) {
+		$locations = array();
+		foreach ($res->results as $obj) {
+		    $location = $this->parseToLocation($obj);
+		    $locations[$location->getObjectId()] = $location;
+		}
+	    }
+	    return $locations;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -96,7 +96,7 @@ class LocationParse {
      * \param	$field	the field on which to sort
      */
     public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
+	$this->parseQuery->orderBy($field);
     }
 
     /**
@@ -105,7 +105,7 @@ class LocationParse {
      * \param	$field	the field on which to sort ascending
      */
     public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
+	$this->parseQuery->orderByAscending($field);
     }
 
     /**
@@ -114,7 +114,7 @@ class LocationParse {
      * \param	$field	the field on which to sort descending
      */
     public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
+	$this->parseQuery->orderByDescending($field);
     }
 
     /**
@@ -125,22 +125,22 @@ class LocationParse {
      * \return	Error	the Error raised by the function
      */
     function parseToLocation($res) {
-        if (is_null($res))
-            return throwError(new Exception('parseToLocation parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $location = new Location();
-            $location->setObjectId($res->objectId);
-            $location->setCity(parse_decode_string($res->city));
-            $location->setCountry(parse_decode_string($res->country));
-            $location->setGeoPoint(fromParseGeoPoint($res->geoPoint));
-            $location->setLocId($res->locId);
-            $location->setCreatedAt(fromParseDate($res->createdAt));
-            $location->setUpdatedAt(fromParseDate($res->updatedAt));
-            $location->setACL(fromParseACL($res->ACL));
-            return $location;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
-        }
+	if (is_null($res))
+	    return throwError(new Exception('parseToLocation parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $location = new Location();
+	    $location->setObjectId($res->objectId);
+	    $location->setCity(parse_decode_string($res->city));
+	    $location->setCountry(parse_decode_string($res->country));
+	    $location->setGeoPoint(fromParseGeoPoint($res->geoPoint));
+	    $location->setLocId($res->locId);
+	    $location->setCreatedAt(fromParseDate($res->createdAt));
+	    $location->setUpdatedAt(fromParseDate($res->updatedAt));
+	    $location->setACL(fromParseACL($res->ACL));
+	    return $location;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
+	}
     }
 
     /**
@@ -149,7 +149,7 @@ class LocationParse {
      * \param	$limit	the maximum number
      */
     public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
+	$this->parseQuery->setLimit($limit);
     }
 
     /**
@@ -158,7 +158,7 @@ class LocationParse {
      * \param	$skip	the number of Location(s) to skip
      */
     public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
+	$this->parseQuery->setSkip($skip);
     }
 
     /**
@@ -168,7 +168,7 @@ class LocationParse {
      * \param	$value	the string which represent the value
      */
     public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
+	$this->parseQuery->where($field, $value);
     }
 
     /**
@@ -178,7 +178,7 @@ class LocationParse {
      * \param	$value	the array which represent the values
      */
     public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
+	$this->parseQuery->whereContainedIn($field, $values);
     }
 
     /**
@@ -188,7 +188,7 @@ class LocationParse {
      * \param	$value	the string which represent the value
      */
     public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
+	$this->parseQuery->whereEqualTo($field, $value);
     }
 
     /**
@@ -197,7 +197,7 @@ class LocationParse {
      * \param	$field	the string which represent the field
      */
     public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
+	$this->parseQuery->whereExists($field);
     }
 
     /**
@@ -207,7 +207,7 @@ class LocationParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
+	$this->parseQuery->whereGreaterThan($field, $value);
     }
 
     /**
@@ -217,7 +217,7 @@ class LocationParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
     /**
@@ -227,7 +227,7 @@ class LocationParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
+	$this->parseQuery->whereLessThan($field, $value);
     }
 
     /**
@@ -237,7 +237,7 @@ class LocationParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	$this->parseQuery->whereLessThanOrEqualTo($field, $value);
     }
 
     /**
@@ -247,7 +247,7 @@ class LocationParse {
      * \param	$value	the array which represent the values
      */
     public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
+	$this->parseQuery->whereNotContainedIn($field, $array);
     }
 
     /**
@@ -257,7 +257,7 @@ class LocationParse {
      * \param	$value	the string which represent the value
      */
     public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
+	$this->parseQuery->whereNotEqualTo($field, $value);
     }
 
     /**
@@ -266,7 +266,7 @@ class LocationParse {
      * \param	$field	the string which represent the field
      */
     public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
+	$this->parseQuery->whereDoesNotExist($field);
     }
 
 }

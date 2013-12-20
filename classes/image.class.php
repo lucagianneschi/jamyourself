@@ -325,7 +325,7 @@ class Image {
     public function setTags($tags) {
 	$this->tags = $tags;
     }
-    
+
     /**
      * \fn	void setThumbnail($thumbnail)
      * \brief	Sets the thumbnail value,string fot the thumbnail

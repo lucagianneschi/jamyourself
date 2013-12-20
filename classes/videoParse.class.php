@@ -34,7 +34,7 @@ class VideoParse {
      * \brief	The constructor instantiates a new object of type ParseQuery on the Video class
      */
     public function __construct() {
-        $this->parseQuery = new ParseQuery('Video');
+	$this->parseQuery = new ParseQuery('Video');
     }
 
     /**
@@ -47,20 +47,20 @@ class VideoParse {
      * \return	error		in case of exception
      */
     public function decrementVideo($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
-        try {
-            $parseObject = new parseObject('Video');
-            //we use the increment function with a negative value because decrement function still not work
-            $parseObject->increment($field, array(0 - $value));
-            if ($withArray) {
-                if (is_null($fieldArray) || empty($valueArray))
-                    return throwError(new Exception('decrementVideo parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
-                $parseObject->removeArray($fieldArray, $valueArray);
-            }
-            $res = $parseObject->update($objectId);
-            return $res->$field;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Video');
+	    //we use the increment function with a negative value because decrement function still not work
+	    $parseObject->increment($field, array(0 - $value));
+	    if ($withArray) {
+		if (is_null($fieldArray) || empty($valueArray))
+		    return throwError(new Exception('decrementVideo parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+		$parseObject->removeArray($fieldArray, $valueArray);
+	    }
+	    $res = $parseObject->update($objectId);
+	    return $res->$field;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -70,13 +70,13 @@ class VideoParse {
      * \return	error in case of exception
      */
     public function deleteVideo($objectId) {
-        try {
-            $parseObject = new parseObject('Video');
-            $parseObject->active = false;
-            $parseObject->update($objectId);
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Video');
+	    $parseObject->active = false;
+	    $parseObject->update($objectId);
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -85,7 +85,7 @@ class VideoParse {
      * \return	number
      */
     public function getCount() {
-        return $this->parseQuery->getCount()->count;
+	return $this->parseQuery->getCount()->count;
     }
 
     /**
@@ -96,14 +96,14 @@ class VideoParse {
      * \return	Error	the Error raised by the function
      */
     public function getVideo($objectId) {
-        try {
-            $parseObject = new parseObject('Video');
-            $res = $parseObject->get($objectId);
-            $video = $this->parseToVideo($res);
-            return $video;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Video');
+	    $res = $parseObject->get($objectId);
+	    $video = $this->parseToVideo($res);
+	    return $video;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -114,20 +114,20 @@ class VideoParse {
      * \return	Error	the Error raised by the function
      */
     public function getVideos() {
-        try {
-            $videos = null;
-            $res = $this->parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $videos = array();
-                foreach ($res->results as $obj) {
-                    $video = $this->parseToVideo($obj);
-                    $videos[$video->getObjectId()] = $video;
-                }
-            }
-            return $videos;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $videos = null;
+	    $res = $this->parseQuery->find();
+	    if (is_array($res->results) && count($res->results) > 0) {
+		$videos = array();
+		foreach ($res->results as $obj) {
+		    $video = $this->parseToVideo($obj);
+		    $videos[$video->getObjectId()] = $video;
+		}
+	    }
+	    return $videos;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -140,19 +140,19 @@ class VideoParse {
      * \return	error		in case of exception
      */
     public function incrementVideo($objectId, $field, $value, $withArray = false, $fieldArray = '', $valueArray = array()) {
-        try {
-            $parseObject = new parseObject('Video');
-            $parseObject->increment($field, array($value));
-            if ($withArray) {
-                if (is_null($fieldArray) || empty($valueArray))
-                    return throwError(new Exception('incrementVideo parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
-                $parseObject->addUniqueArray($fieldArray, $valueArray);
-            }
-            $res = $parseObject->update($objectId);
-            return $res->$field;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	try {
+	    $parseObject = new parseObject('Video');
+	    $parseObject->increment($field, array($value));
+	    if ($withArray) {
+		if (is_null($fieldArray) || empty($valueArray))
+		    return throwError(new Exception('incrementVideo parameters fieldArray and valueArray must to be set for array update'), __CLASS__, __FUNCTION__, func_get_args());
+		$parseObject->addUniqueArray($fieldArray, $valueArray);
+	    }
+	    $res = $parseObject->update($objectId);
+	    return $res->$field;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -161,7 +161,7 @@ class VideoParse {
      * \param	$field	the field on which to sort
      */
     public function orderBy($field) {
-        $this->parseQuery->orderBy($field);
+	$this->parseQuery->orderBy($field);
     }
 
     /**
@@ -170,7 +170,7 @@ class VideoParse {
      * \param	$field	the field on which to sort ascending
      */
     public function orderByAscending($field) {
-        $this->parseQuery->orderByAscending($field);
+	$this->parseQuery->orderByAscending($field);
     }
 
     /**
@@ -179,7 +179,7 @@ class VideoParse {
      * \param	$field	the field on which to sort descending
      */
     public function orderByDescending($field) {
-        $this->parseQuery->orderByDescending($field);
+	$this->parseQuery->orderByDescending($field);
     }
 
     /**
@@ -190,30 +190,30 @@ class VideoParse {
      * \return	Error	the Error raised by the function
      */
     function parseToVideo($res) {
-        if (is_null($res))
-            return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $video = new Video();
-            $video->setObjectId($res->objectId);
-            $video->setActive($res->active);
-            $video->setAuthor(parse_decode_string($res->author));
-            $video->setCounter($res->counter);
-            $video->setDescription(parse_decode_string($res->description));
-            $video->setDuration($res->duration);
-            $video->setFromUser(fromParsePointer($res->fromUser));
-            $video->setLoveCounter($res->loveCounter);
-            $video->setLovers($res->lovers);
-            $video->setTags(parse_decode_array($res->tags));
-            $video->setTitle(parse_decode_string($res->title));
-            $video->setThumbnail($res->thumbnail);
-            $video->setURL($res->URL);
-            $video->setCreatedAt(fromParseDate($res->createdAt));
-            $video->setUpdatedAt(fromParseDate($res->updatedAt));
-            $video->setACL(fromParseACL($res->ACL));
-            return $video;
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($res))
+	    return throwError(new Exception('parseToVideo parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $video = new Video();
+	    $video->setObjectId($res->objectId);
+	    $video->setActive($res->active);
+	    $video->setAuthor(parse_decode_string($res->author));
+	    $video->setCounter($res->counter);
+	    $video->setDescription(parse_decode_string($res->description));
+	    $video->setDuration($res->duration);
+	    $video->setFromUser(fromParsePointer($res->fromUser));
+	    $video->setLoveCounter($res->loveCounter);
+	    $video->setLovers($res->lovers);
+	    $video->setTags(parse_decode_array($res->tags));
+	    $video->setTitle(parse_decode_string($res->title));
+	    $video->setThumbnail($res->thumbnail);
+	    $video->setURL($res->URL);
+	    $video->setCreatedAt(fromParseDate($res->createdAt));
+	    $video->setUpdatedAt(fromParseDate($res->updatedAt));
+	    $video->setACL(fromParseACL($res->ACL));
+	    return $video;
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -224,35 +224,35 @@ class VideoParse {
      * \return	Error	the Error raised by the function
      */
     public function saveVideo($video) {
-        if (is_null($video->getFromUser()))
-            return throwError(new Exception('saveVideo parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
-        try {
-            $nullArray = array();
-            $parseVideo = new parseObject('Video');
-            is_null($video->getActive()) ? $parseVideo->active = true : $parseVideo->active = $video->getActive();
-            is_null($video->getAuthor()) ? $parseVideo->author = null : $parseVideo->author = parse_encode_string($video->getAuthor());
-            is_null($video->getCounter()) ? $parseVideo->counter = -1 : $parseVideo->counter = $video->getCounter();
-            is_null($video->getDescription()) ? $parseVideo->description = null : $parseVideo->description = parse_encode_string($video->getDescription());
-            is_null($video->getDuration()) ? $parseVideo->duration = 0 : $parseVideo->duration = $video->getDuration();
-            is_null($video->getFeaturing()) ? $parseVideo->featuring = null : $parseVideo->featuring = toParseAddRelation('_User', $video->getFeaturing());
-            $parseVideo->fromUser = toParsePointer('_User', $video->getFromUser());
-            is_null($video->getLoveCounter()) ? $parseVideo->loveCounter = -1 : $parseVideo->loveCounter = $video->getLoveCounter();
-            is_null($video->getLovers()) ? $parseVideo->lovers = $nullArray : $parseVideo->lovers = $video->getLovers();
-            is_null($video->getTags()) ? $parseVideo->tags = $nullArray : $parseVideo->tags = parse_encode_array($video->getTags());
-            is_null($video->getThumbnail()) ? $parseVideo->thumbnail = DEFVIDEOTHUMB : $parseVideo->thumbnail = $video->getThumbnail();
-            is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = parse_encode_string($video->getTitle());
-            is_null($video->getURL()) ? $parseVideo->URL = null : $parseVideo->URL = $video->getURL();
-            is_null($video->getACL()) ? $parseVideo->ACL = toParseDefaultACL() : $parseVideo->ACL = toParseACL($video->getACL());
-            if ($video->getObjectId() == '') {
-                $res = $parseVideo->save();
-                $video->setObjectId($res->objectId);
-                return $video;
-            } else {
-                $parseVideo->update($video->getObjectId());
-            }
-        } catch (Exception $e) {
-            return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-        }
+	if (is_null($video->getFromUser()))
+	    return throwError(new Exception('saveVideo parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+	try {
+	    $nullArray = array();
+	    $parseVideo = new parseObject('Video');
+	    is_null($video->getActive()) ? $parseVideo->active = true : $parseVideo->active = $video->getActive();
+	    is_null($video->getAuthor()) ? $parseVideo->author = null : $parseVideo->author = parse_encode_string($video->getAuthor());
+	    is_null($video->getCounter()) ? $parseVideo->counter = -1 : $parseVideo->counter = $video->getCounter();
+	    is_null($video->getDescription()) ? $parseVideo->description = null : $parseVideo->description = parse_encode_string($video->getDescription());
+	    is_null($video->getDuration()) ? $parseVideo->duration = 0 : $parseVideo->duration = $video->getDuration();
+	    is_null($video->getFeaturing()) ? $parseVideo->featuring = null : $parseVideo->featuring = toParseAddRelation('_User', $video->getFeaturing());
+	    $parseVideo->fromUser = toParsePointer('_User', $video->getFromUser());
+	    is_null($video->getLoveCounter()) ? $parseVideo->loveCounter = -1 : $parseVideo->loveCounter = $video->getLoveCounter();
+	    is_null($video->getLovers()) ? $parseVideo->lovers = $nullArray : $parseVideo->lovers = $video->getLovers();
+	    is_null($video->getTags()) ? $parseVideo->tags = $nullArray : $parseVideo->tags = parse_encode_array($video->getTags());
+	    is_null($video->getThumbnail()) ? $parseVideo->thumbnail = DEFVIDEOTHUMB : $parseVideo->thumbnail = $video->getThumbnail();
+	    is_null($video->getTitle()) ? $parseVideo->title = null : $parseVideo->title = parse_encode_string($video->getTitle());
+	    is_null($video->getURL()) ? $parseVideo->URL = null : $parseVideo->URL = $video->getURL();
+	    is_null($video->getACL()) ? $parseVideo->ACL = toParseDefaultACL() : $parseVideo->ACL = toParseACL($video->getACL());
+	    if ($video->getObjectId() == '') {
+		$res = $parseVideo->save();
+		$video->setObjectId($res->objectId);
+		return $video;
+	    } else {
+		$parseVideo->update($video->getObjectId());
+	    }
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
     }
 
     /**
@@ -261,7 +261,7 @@ class VideoParse {
      * \param	$limit	the maximum number
      */
     public function setLimit($limit) {
-        $this->parseQuery->setLimit($limit);
+	$this->parseQuery->setLimit($limit);
     }
 
     /**
@@ -270,7 +270,7 @@ class VideoParse {
      * \param	$skip	the number of Video(s) to skip
      */
     public function setSkip($skip) {
-        $this->parseQuery->setSkip($skip);
+	$this->parseQuery->setSkip($skip);
     }
 
     /**
@@ -284,27 +284,27 @@ class VideoParse {
      * \param	$className		[optional] default = '' - define the class of the type of object present into the relational field
      */
     public function updateField($objectId, $field, $value, $isRelation = false, $typeRelation = '', $className = '') {
-        if (is_null($objectId) || is_null($field))
-            return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
-        if ($isRelation) {
-            if (is_null($typeRelation) || is_null($className))
-                return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
-            if ($typeRelation == 'add') {
-                $parseObject = new parseObject('Video');
-                $parseObject->$field = toParseAddRelation($className, $value);
-                $parseObject->update($objectId);
-            } elseif ($typeRelation == 'remove') {
-                $parseObject = new parseObject('Video');
-                $parseObject->$field = toParseRemoveRelation($className, $value);
-                $parseObject->update($objectId);
-            } else {
-                return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
-            }
-        } else {
-            $parseObject = new parseObject('Video');
-            $parseObject->$field = $value; 
-            $parseObject->update($objectId);
-        }
+	if (is_null($objectId) || is_null($field))
+	    return throwError(new Exception('updateField parameters objectId, field and value must to be set'), __CLASS__, __FUNCTION__, func_get_args());
+	if ($isRelation) {
+	    if (is_null($typeRelation) || is_null($className))
+		return throwError(new Exception('updateField parameters typeRelation and className must to be set for relation update'), __CLASS__, __FUNCTION__, func_get_args());
+	    if ($typeRelation == 'add') {
+		$parseObject = new parseObject('Video');
+		$parseObject->$field = toParseAddRelation($className, $value);
+		$parseObject->update($objectId);
+	    } elseif ($typeRelation == 'remove') {
+		$parseObject = new parseObject('Video');
+		$parseObject->$field = toParseRemoveRelation($className, $value);
+		$parseObject->update($objectId);
+	    } else {
+		return throwError(new Exception('updateField parameter typeRelation allow only "add" or "remove" value'), __CLASS__, __FUNCTION__, func_get_args());
+	    }
+	} else {
+	    $parseObject = new parseObject('Video');
+	    $parseObject->$field = $value;
+	    $parseObject->update($objectId);
+	}
     }
 
     /**
@@ -314,7 +314,7 @@ class VideoParse {
      * \param	$value	the string which represent the value
      */
     public function where($field, $value) {
-        $this->parseQuery->where($field, $value);
+	$this->parseQuery->where($field, $value);
     }
 
     /**
@@ -324,7 +324,7 @@ class VideoParse {
      * \param	$value	the array which represent the values
      */
     public function whereContainedIn($field, $values) {
-        $this->parseQuery->whereContainedIn($field, $values);
+	$this->parseQuery->whereContainedIn($field, $values);
     }
 
     /**
@@ -334,7 +334,7 @@ class VideoParse {
      * \param	$value	the string which represent the value
      */
     public function whereEqualTo($field, $value) {
-        $this->parseQuery->whereEqualTo($field, $value);
+	$this->parseQuery->whereEqualTo($field, $value);
     }
 
     /**
@@ -343,7 +343,7 @@ class VideoParse {
      * \param	$field	the string which represent the field
      */
     public function whereExists($field) {
-        $this->parseQuery->whereExists($field);
+	$this->parseQuery->whereExists($field);
     }
 
     /**
@@ -353,7 +353,7 @@ class VideoParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThan($field, $value) {
-        $this->parseQuery->whereGreaterThan($field, $value);
+	$this->parseQuery->whereGreaterThan($field, $value);
     }
 
     /**
@@ -363,7 +363,7 @@ class VideoParse {
      * \param	$value	the string which represent the value
      */
     public function whereGreaterThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
+	$this->parseQuery->whereGreaterThanOrEqualTo($field, $value);
     }
 
     /**
@@ -372,7 +372,7 @@ class VideoParse {
      * \param	$field	the string which represent the field
      */
     public function whereInclude($field) {
-        $this->parseQuery->whereInclude($field);
+	$this->parseQuery->whereInclude($field);
     }
 
     /**
@@ -381,7 +381,7 @@ class VideoParse {
      * \param	$field, $className, $array
      */
     public function whereInQuery($field, $className, $array) {
-        $this->parseQuery->whereInQuery($field, $className, $array);
+	$this->parseQuery->whereInQuery($field, $className, $array);
     }
 
     /**
@@ -391,7 +391,7 @@ class VideoParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThan($field, $value) {
-        $this->parseQuery->whereLessThan($field, $value);
+	$this->parseQuery->whereLessThan($field, $value);
     }
 
     /**
@@ -401,7 +401,7 @@ class VideoParse {
      * \param	$value	the string which represent the value
      */
     public function whereLessThanOrEqualTo($field, $value) {
-        $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+	$this->parseQuery->whereLessThanOrEqualTo($field, $value);
     }
 
     /**
@@ -411,7 +411,7 @@ class VideoParse {
      * \param	$value	the array which represent the values
      */
     public function whereNotContainedIn($field, $array) {
-        $this->parseQuery->whereNotContainedIn($field, $array);
+	$this->parseQuery->whereNotContainedIn($field, $array);
     }
 
     /**
@@ -421,7 +421,7 @@ class VideoParse {
      * \param	$value	the string which represent the value
      */
     public function whereNotEqualTo($field, $value) {
-        $this->parseQuery->whereNotEqualTo($field, $value);
+	$this->parseQuery->whereNotEqualTo($field, $value);
     }
 
     /**
@@ -430,7 +430,7 @@ class VideoParse {
      * \param	$field	the string which represent the field
      */
     public function whereNotExists($field) {
-        $this->parseQuery->whereDoesNotExist($field);
+	$this->parseQuery->whereDoesNotExist($field);
     }
 
     /**
@@ -439,7 +439,7 @@ class VideoParse {
      * \param	$field, $className, $array
      */
     public function whereNotInQuery($field, $className, $array) {
-        $this->parseQuery->whereNotInQuery($field, $className, $array);
+	$this->parseQuery->whereNotInQuery($field, $className, $array);
     }
 
     /**
@@ -453,7 +453,7 @@ class VideoParse {
      * \param	$field	the array representing the field and the value to put in or
      */
     public function whereOr($value) {
-        $this->parseQuery->where('$or', $value);
+	$this->parseQuery->where('$or', $value);
     }
 
     /**
@@ -464,7 +464,7 @@ class VideoParse {
      * \param	$objectId	the string which represent the objectId of the Pointer
      */
     public function wherePointer($field, $className, $objectId) {
-        $this->parseQuery->wherePointer($field, $className, $objectId);
+	$this->parseQuery->wherePointer($field, $className, $objectId);
     }
 
     /**
@@ -475,7 +475,7 @@ class VideoParse {
      * \param	$objectId	the string which represent the objectId
      */
     public function whereRelatedTo($field, $className, $objectId) {
-        $this->parseQuery->whereRelatedTo($field, $className, $objectId);
+	$this->parseQuery->whereRelatedTo($field, $className, $objectId);
     }
 
 }
