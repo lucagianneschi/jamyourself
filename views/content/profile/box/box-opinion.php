@@ -20,6 +20,7 @@ $comment->init($objectId, $class, $limit, $skip);
 $countComment = count($comment->commentArray);
 
 if ($countComment > 0) {
+    /*
     ?>
     <script type="text/javascript">
     objectCmt = $('<?php echo $box; ?>').prev().find("a._comment");
@@ -27,6 +28,7 @@ if ($countComment > 0) {
     console.log('Ho girato e ho prodotto: ' + $.parseJSON(parent) + ' | ' + $.parseJSON(objectCmt));
     </script>
     <?php
+    */
 }
 ?>
 <div class="row">

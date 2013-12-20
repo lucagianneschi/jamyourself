@@ -112,6 +112,7 @@ if (is_null($albumBox->error)) {
 		
 		foreach ($albums as $key => $value) {
 			$album_objectId = $value->getObjectId();
+            $album_user_objectId = $value->getFromUser()->getObjectId();
 			$album_title = $value->getTitle();
 			$album_imageCounter = $value->getImageCounter();
 			$album_love = $value->getLoveCounter();
@@ -198,7 +199,7 @@ if (is_null($albumBox->error)) {
 							 <div class="box-propriety">
 								<div class="small-6 columns">
 									<a class="note grey" onclick="love(this, 'Album', '<?php echo $album_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love;?></a>
-									<a class="note grey" onclick="loadBoxOpinion('<?php echo $album_objectId; ?>', 'Album', '#<?php echo $album_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM'];?></a>
+									<a class="note grey" onclick="loadBoxOpinion('<?php echo $album_objectId; ?>', '<?php echo $album_user_objectId; ?>', 'Album', '#<?php echo $album_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM'];?></a>
 									<a class="note grey" onclick="share(this,'<?php echo $album_objectId; ?>','profile-singleAlbum')"><?php echo $views['SHARE'];?></a>
 								</div>
 								<div class="small-6 columns propriety ">					
