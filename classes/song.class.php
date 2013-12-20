@@ -2,12 +2,12 @@
 
 /* ! \par		Info Generali:
  *  \author		Stefano Muscas
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Song Class
- *  \details	Classe dedicata al singolo brano, pu� essere istanziata solo da Jammer
+ *  \details		Classe dedicata al singolo brano, pu� essere istanziata solo da Jammer
  *  \par		Commenti:
  *  \warning
  *  \bug
@@ -22,8 +22,6 @@ class Song {
     private $objectId;
     private $active;
     private $commentCounter;
-    private $commentators;
-    private $comments;
     private $counter;
     private $duration;
     private $featuring;
@@ -66,24 +64,6 @@ class Song {
      */
     public function getCommentCounter() {
         return $this->commentCounter;
-    }
-
-    /**
-     * \fn		array getCommentators()
-     * \brief	Return the commentators value,array of objectId of istance of the _User class who commented the song
-     * \return	array
-     */
-    public function getCommentators() {
-        return $this->commentators;
-    }
-
-    /**
-     * \fn		array getComments()
-     * \brief	Return the comments value,array of objectId of istance of the Comment class, comments on song
-     * \return	array
-     */
-    public function getComments() {
-        return $this->comments;
     }
 
     /**
@@ -258,24 +238,6 @@ class Song {
     }
 
     /**
-     * \fn		void setCommentators($commentators)
-     * \brief	Sets the commentators  value
-     * \param	array
-     */
-    public function setCommentators($commentators) {
-        $this->commentators = $commentators;
-    }
-
-    /**
-     * \fn		void setComments($comments)
-     * \brief	Sets the comments  value
-     * \param	array
-     */
-    public function setComments($comments) {
-        $this->comments = $comments;
-    }
-
-    /**
      * \fn		void setCounter($counter)
      * \brief	Sets the counter  value
      * \param	int
@@ -429,18 +391,6 @@ class Song {
         $string .= '[objectId] => ' . $this->getObjectId() . '<br />';
         $string .= '[active] => ' . $this->getActive() . '<br />';
         $string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
-        if ($this->getCommentators() != null && count($this->getCommentators() > 0)) {
-            foreach ($this->getCommentators() as $commentator) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[commentator] => ' . $commentator . '<br />';
-            }
-        }
-        if ($this->getComments() != null && count($this->getComments() > 0)) {
-            foreach ($this->getComments() as $comment) {
-                $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-                $string .= '[comment] => ' . $comment . '<br />';
-            }
-        }
         $string .= '[counter] => ' . $this->getCounter() . '<br />';
         $string .= '[duration] => ' . $this->getDuration() . '<br />';
         if ($this->getFeaturing() != null && count($this->getFeaturing() > 0)) {

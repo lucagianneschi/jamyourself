@@ -4,11 +4,9 @@
 * \version	    1.0
 * \date		    2013
 * \copyright	    Jamyourself.com 2013
-*
 * \par		    Info Classe:
 * \brief	    Classe di test
 * \details	    Classe di test per la classe Song
-*
 * \par Commenti:
 * \warning
 * \bug
@@ -34,12 +32,11 @@ $song->setDuration(120);
 $song->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $song->setFilePath('Un path del file');
 $song->setFromUser('GuUAj83MGH');
-$song->setGenre('Un genere');
+
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $song->setLocation($parseGeoPoint);
 $song->setLoveCounter(100);
 $song->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$song->setPosition(2);
 $song->setRecord('4zD865KrXo');
 $song->setShareCounter(10000);
 $song->setTitle('un titolo');
@@ -150,12 +147,6 @@ $parseACL = new parseACL();
 $parseACL->setPublicWriteAccess(false);
 $songParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
 echo 'Aggiornato un campo ACL<br />';
-
-$songParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
-echo 'Aggiornato (add) un campo Relation<br />';
-
-$songParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
-echo 'Aggiornato (remove) un campo Relation<br />';
 
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DI UNA Song<br />';
 
