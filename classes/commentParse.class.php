@@ -198,7 +198,6 @@ class CommentParse {
             $cmt->setObjectId($res->objectId);
             $cmt->setActive($res->active);
             $cmt->setAlbum(fromParsePointer($res->album));
-            $cmt->setComment(fromParsePointer($res->comment));
             $cmt->setCommentCounter($res->commentCounter);
             $cmt->setCounter($res->counter);
             $cmt->setEvent(fromParsePointer($res->event));
@@ -210,7 +209,6 @@ class CommentParse {
             $cmt->setRecord(fromParsePointer($res->record));
             $cmt->setShareCounter($res->shareCounter);
             $cmt->setSong(fromParsePointer($res->song));
-            $cmt->setStatus(fromParsePointer($res->status));
             $cmt->setTags(parse_decode_array($res->tags));
             $cmt->setText(parse_decode_string($res->text));
             $cmt->setTitle(parse_decode_string($res->title));
@@ -240,31 +238,28 @@ class CommentParse {
         try {
             $parseObject = new parseObject('Comment');
             $nullArray = array();
-            is_null($cmt->getActive()) ? $parseObject->active = true : $parseObject->active = $cmt->getActive();
-            is_null($cmt->getAlbum()) ? $parseObject->album = null : $parseObject->album = toParsePointer('Album', $cmt->getAlbum());
-            is_null($cmt->getComment()) ? $parseObject->comment = null : $parseObject->comment = toParsePointer('Comment', $cmt->getComment());
-            is_null($cmt->getCommentCounter()) ? $parseObject->commentCounter = -1 : $parseObject->commentCounter = $cmt->getCommentCounter();
-            is_null($cmt->getCommentators()) ? $parseObject->commentators = null : $parseObject->commentators = toParseAddRelation('_User', $cmt->getCommentators());
-            is_null($cmt->getComments()) ? $parseObject->comments = null : $parseObject->comments = toParseAddRelation('Comment', $cmt->getComments());
-            is_null($cmt->getCounter()) ? $parseObject->counter = -1 : $parseObject->counter = $cmt->getCounter();
-            is_null($cmt->getEvent()) ? $parseObject->event = null : $parseObject->event = toParsePointer('Event', $cmt->getEvent());
+            $parseObject->active = is_null($cmt->getActive()) ? true : $cmt->getActive();
+            $parseObject->album = is_null($cmt->getAlbum()) ? null : toParsePointer('Album', $cmt->getAlbum());
+            $parseObject->comment = is_null($cmt->getComment()) ? null : toParsePointer('Comment', $cmt->getComment());
+            $parseObject->commentCounter = is_null($cmt->getCommentCounter()) ? 0 : $cmt->getCommentCounter();
+            $parseObject->counter = is_null($cmt->getCounter()) ? 0 : $cmt->getCounter();
+            $parseObject->event = is_null($cmt->getEvent()) ? null : toParsePointer('Event', $cmt->getEvent());
             $parseObject->fromUser = toParsePointer('_User', $cmt->getFromUser());
-            is_null($cmt->getImage()) ? $parseObject->image = null : $parseObject->image = toParsePointer('Image', $cmt->getImage());
-            is_null($cmt->getLocation()) ? $parseObject->location = null : $parseObject->location = toParseGeoPoint($cmt->getLocation());
-            is_null($cmt->getLoveCounter()) ? $parseObject->loveCounter = -1 : $parseObject->loveCounter = $cmt->getLoveCounter();
-            is_null($cmt->getLovers()) ? $parseObject->lovers = $nullArray : $parseObject->lovers = $cmt->getLovers();
-            is_null($cmt->getRecord()) ? $parseObject->record = null : $parseObject->record = toParsePointer('Record', $cmt->getRecord());
-            is_null($cmt->getShareCounter()) ? $parseObject->shareCounter = -1 : $parseObject->shareCounter = $cmt->getShareCounter();
-            is_null($cmt->getSong()) ? $parseObject->song = null : $parseObject->song = toParsePointer('Song', $cmt->getSong());
-            is_null($cmt->getStatus()) ? $parseObject->status = null : $parseObject->status = toParsePointer('Status', $cmt->getStatus());
-            is_null($cmt->getTags()) ? $parseObject->tags = $nullArray : $parseObject->tags = parse_encode_array($cmt->getTags());
-            is_null($cmt->getText()) ? $parseObject->text = null : $parseObject->text = parse_encode_string($cmt->getText());
-            is_null($cmt->getTitle()) ? $parseObject->title = null : $parseObject->title = parse_encode_string($cmt->getTitle());
-            is_null($cmt->getToUser()) ? $parseObject->toUser = null : $parseObject->toUser = toParsePointer('_User', $cmt->getToUser());
-            is_null($cmt->getType()) ? $parseObject->type = null : $parseObject->type = $cmt->getType();
-            is_null($cmt->getVideo()) ? $parseObject->video = null : $parseObject->video = toParsePointer('Video', $cmt->getVideo());
-            is_null($cmt->getVote()) ? $parseObject->vote = null : $parseObject->vote = $cmt->getVote();
-            is_null($cmt->getACL()) ? $parseObject->ACL = toParseDefaultACL() : $parseObject->ACL = toParseACL($cmt->getACL());
+            $parseObject->image = is_null($cmt->getImage()) ? null : toParsePointer('Image', $cmt->getImage());
+            $parseObject->location = is_null($cmt->getLocation()) ? null : toParseGeoPoint($cmt->getLocation());
+            $parseObject->loveCounter = is_null($cmt->getLoveCounter()) ? 0 : $cmt->getLoveCounter();
+            $parseObject->lovers = is_null($cmt->getLovers()) ? $nullArray : $cmt->getLovers();
+            $parseObject->record = is_null($cmt->getRecord()) ? null : toParsePointer('Record', $cmt->getRecord());
+            $parseObject->shareCounter = is_null($cmt->getShareCounter()) ? 0 : $cmt->getShareCounter();
+            $parseObject->song = is_null($cmt->getSong()) ? null : toParsePointer('Song', $cmt->getSong());
+            $parseObject->tags = is_null($cmt->getTags()) ? $nullArray : parse_encode_array($cmt->getTags());
+            $parseObject->text = is_null($cmt->getText()) ? null : parse_encode_string($cmt->getText());
+            $parseObject->title = is_null($cmt->getTitle()) ? null : parse_encode_string($cmt->getTitle());
+            $parseObject->toUser = is_null($cmt->getToUser()) ? null : toParsePointer('_User', $cmt->getToUser());
+            $parseObject->type = is_null($cmt->getType()) ? null : $cmt->getType();
+            $parseObject->video = is_null($cmt->getVideo()) ? null : toParsePointer('Video', $cmt->getVideo());
+            $parseObject->vote = is_null($cmt->getVote()) ? null : $cmt->getVote();
+            $parseObject->ACL = is_null($cmt->getACL()) ? toParseDefaultACL() : toParseACL($cmt->getACL());
             if ($cmt->getObjectId() == '') {
                 $res = $parseObject->save();
                 $cmt->setObjectId($res->objectId);
@@ -424,6 +419,15 @@ class CommentParse {
      */
     public function whereLessThanOrEqualTo($field, $value) {
         $this->parseQuery->whereLessThanOrEqualTo($field, $value);
+    }
+
+    /**
+     * \fn	whereNearSphere($latitude, $longitude, $distance, $distanceType)
+     * \brief	find element in a spherre near the given latitude e longitude
+     * \param	$latitude, $longitude
+     */
+    public function whereNearSphere($latitude, $longitude, $distance = null, $distanceType = null) {
+        $this->parseQuery->whereNearSphere('location', $latitude, $longitude, $distance, $distanceType);
     }
 
     /**

@@ -193,12 +193,6 @@ $parseACL->setPublicWriteAccess(false);
 $cmtParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
 echo 'Aggiornato un campo ACL<br />';
 
-$cmtParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
-echo 'Aggiornato (add) un campo Relation<br />';
-
-$cmtParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
-echo 'Aggiornato (remove) un campo Relation<br />';
-
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI DEL Comment<br />';
 
 echo '<br />-------------------------------------------------------------------------------<br />';

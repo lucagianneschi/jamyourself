@@ -23,8 +23,6 @@ class Comment {
 	private $album;
 	private $comment;
 	private $commentCounter;
-	private $commentators;
-	private $comments;
 	private $counter;
 	private $event;
 	private $fromUser;
@@ -35,7 +33,6 @@ class Comment {
 	private $record;
 	private $shareCounter;
 	private $song;
-	private $status;
 	private $tags;
 	private $title;
 	private $text;
@@ -90,24 +87,6 @@ class Comment {
 	 */
 	public function getCommentCounter() {
 		return $this->commentCounter;
-	}
-
-	/**
-	 * \fn		array getCommentators()
-	 * \brief	Return an array of objectId of istances of _User class who commented on the comment
-	 * \return	array
-	 */
-	public function getCommentators() {
-		return $this->commentators;
-	}
-
-	/**
-	 * \fn		array getComments()
-	 * \brief	Return an array of objectId of istances of the Comment class; comments on the comment istance
-	 * \return	array
-	 */
-	public function getComments() {
-		return $this->comments;
 	}
 
 	/**
@@ -198,15 +177,6 @@ class Comment {
 	 */
 	public function getSong() {
 		return $this->song;
-	}
-
-	/**
-	 * \fn		string getStatus()
-	 * \brief	Return the status valued objectId
-	 * \return	string
-	 */
-	public function getStatus() {
-		return $this->status;
 	}
 
 	/**
@@ -333,25 +303,7 @@ class Comment {
 	 */
 	public function setCommentCounter($commentCounter) {
 		$this->commentCounter = $commentCounter;
-	}
-	
-	/**
-	 * \fn		void setComment($comment)
-	 * \brief	Sets the comment value, objectId
-	 * \param	string
-	 */
-	public function setComment($comment) {
-		$this->comment = $comment;
-	}
-
-	/**
-	 * \fn		void setCommentators($commentators)
-	 * \brief	Sets the commentators value,array of pointer to ParseUser
-	 * \param	array
-	 */
-	public function setCommentators($commentators) {
-		$this->commentators = $commentators;
-	}
+	}	
 
 	/**
 	 * \fn		void setComments($comments)
@@ -450,15 +402,6 @@ class Comment {
 	 */
 	public function setSong($song) {
 		$this->song = $song;
-	}
-
-	/**
-	 * \fn		void setStatus($status)
-	 * \brief	Sets the status value objectId
-	 * \param	string
-	 */
-	public function setStatus($status) {
-		$this->status = $status;
 	}
 
 	/**
@@ -576,24 +519,6 @@ class Comment {
 			$string .= '[comment] => NULL<br />';
 		}
 		$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
-		if (count($this->getCommentators()) != 0) {
-			foreach ($this->getCommentators() as $commentators) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[commentators] => ' . $commentators . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[commentators] => NULL<br />';
-		}
-		if (count($this->getComments()) != 0) {
-			foreach ($this->getComments() as $comments) {
-				$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-				$string .= '[comments] => ' . $comments . '<br />';
-			}
-		} else {
-			$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-			$string .= '[comments] => NULL<br />';
-		}
 		$string .= '[counter] => ' . $this->getCounter() . '<br />';
 		if ($this->getEvent() != null) {
 			$string .= '[event] => ' . $this->getEvent() . '<br />';
@@ -635,11 +560,6 @@ class Comment {
 			$string .= '[song] => ' . $this->getSong() . '<br />';
 		} else {
 			$string .= '[song] => NULL<br />';
-		}
-		if ($this->getStatus() != null) {
-			$string .= '[status] => ' . $this->getStatus() . '<br />';
-		} else {
-			$string .= '[status] => NULL<br />';
 		}
 		if (count($this->getTags()) != 0) {
 			foreach ($this->getTags() as $tags) {
