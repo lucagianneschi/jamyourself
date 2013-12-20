@@ -41,14 +41,13 @@ $event->setEventDate($eventDate);
 $event->setFeaturing(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setFromUser('GuUAj83MGH');
 $event->setImage('Un link ad Image');
-//$event->setImageFile(Image $imageFile);
 $event->setInvited(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
 $event->setLocation($parseGeoPoint);
 $event->setLocationName('Una localita');
 $event->setLoveCounter(100);
 $event->setLovers(array ('n1TXVlIqHw', 'GuUAj83MGH'));
-$event->setReviewCounter(10000987492387928374928734);
+$event->setReviewCounter(10);
 $event->setShareCounter(1000);
 $event->setRefused(array ('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setTags(array('tag1', 'tag2'));
@@ -126,9 +125,9 @@ echo '<br />--------------------------------------------------------------------
 
 echo '<br />INIZIO L\'AGGIORNAMENTO DI UN Event<br />';
 
-$eventParse = new EventParse();
-$event = $eventParse->getEvent($resSave->getObjectId());
-$event->setCounter(9999999999999);
+$eventParse1 = new EventParse();
+$event1 = $eventParse1->getEvent($resSave->getObjectId());
+$event1->setCounter(1000);
 $resUpdate = $eventParse->saveEvent($event);
 if (get_class($resUpdate)) {
 	echo '<br />ATTENZIONE: e\' stata generata un\'eccezione: ' . $resUpdate->getErrorMessage() . '<br/>';
@@ -163,12 +162,6 @@ $parseACL = new parseACL();
 $parseACL->setPublicWriteAccess(false);
 $eventParse->updateField($resSave->getObjectId(), 'ACL', toParseACL($parseACL));
 echo 'Aggiornato un campo ACL<br />';
-
-$eventParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw', 'WeTEWWfASn'), true, 'add', '_User');
-echo 'Aggiornato (add) un campo Relation<br />';
-
-$eventParse->updateField($resSave->getObjectId(), 'commentators', array('n1TXVlIqHw'), true, 'remove', '_User');
-echo 'Aggiornato (remove) un campo Relation<br />';
 
 echo '<br />FINITO L\'AGGIORNAMENTO DEI SINGOLI CAMPI  EVENT<br />';
 

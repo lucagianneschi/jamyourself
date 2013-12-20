@@ -73,9 +73,9 @@ class EventParse {
      */
     public function deleteEvent($objectId) {
         try {
-            $parseEvent = new parseObject('Event');
-            $parseEvent->active = false;
-            $parseEvent->update($objectId);
+            $parseObject = new parseObject('Event');
+            $parseObject->active = false;
+            $parseObject->update($objectId);
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args);
         }
@@ -99,8 +99,8 @@ class EventParse {
      */
     public function getEvent($objectId) {
         try {
-            $parseEvent = new parseObject('Event');
-            $res = $parseEvent->get($objectId);
+            $parseObject = new parseObject('Event');
+            $res = $parseObject->get($objectId);
             $event = $this->parseToEvent($res);
             return $event;
         } catch (Exception $e) {
@@ -206,7 +206,6 @@ class EventParse {
             $event->setEventDate(fromParseDate($res->eventDate));
             $event->setFromUser(fromParsePointer($res->fromUser));
             $event->setImage($res->image);
-            $event->setImageFile(fromParseFile($res->image, "image/jpeg"));
             $event->setLocation(fromParseGeoPoint($res->location));
             $event->setLocationName(parse_decode_string($res->locationName));
             $event->setLoveCounter($res->loveCounter);
@@ -237,42 +236,36 @@ class EventParse {
             return throwError(new Exception('saveEvent parameter fromUser must to be set'), __CLASS__, __FUNCTION__, func_get_args());
         try {
             $nullArray = array();
-            $parseEvent = new parseObject('Event');
-            is_null($event->getActive()) ? $parseEvent->active = true : $parseEvent->active = $event->getActive();
-            is_null($event->getAddress()) ? $parseEvent->address = null : $parseEvent->address = parse_encode_string($event->getAddress());
-            is_null($event->getAttendee()) ? $parseEvent->attendee = null : $parseEvent->attendee = toParseAddRelation('_User', $event->getAttendee());
-            is_null($event->getCity()) ? $parseEvent->city = null : $parseEvent->city = parse_encode_string($event->getCity());
-            is_null($event->getCommentCounter()) ? $parseEvent->commentCounter = -1 : $parseEvent->commentCounter = $event->getCommentCounter();
-            is_null($event->getCommentators()) ? $parseEvent->commentators = null : $parseEvent->commentators = toParseAddRelation('_User', $event->getCommentators());
-            is_null($event->getComments()) ? $parseEvent->comments = null : $parseEvent->comments = toParseAddRelation('Comment', $event->getComments());
-            is_null($event->getCounter()) ? $parseEvent->counter = -1 : $parseEvent->counter = $event->getCounter();
-            is_null($event->getDescription()) ? $parseEvent->description = null : $parseEvent->description = parse_encode_string($event->getDescription());
-            is_null($event->getEventDate()) ? $parseEvent->eventDate = null : $parseEvent->eventDate = toParseDate($event->getEventDate());
-            is_null($event->getFeaturing()) ? $parseEvent->featuring = null : $parseEvent->featuring = toParseAddRelation('_User', $event->getFeaturing());
-            $parseEvent->fromUser = toParsePointer('_User', $event->getFromUser());
-            is_null($event->getImage()) ? $parseEvent->image = DEFEVENTIMAGE : $parseEvent->image = $event->getImage();
-            is_null($event->getInvited()) ? $parseEvent->invited = null : $parseEvent->invited = toParseAddRelation('_User', $event->getInvited());
-            is_null($event->getLocation()) ? $parseEvent->location = null : $parseEvent->location = toParseGeoPoint($event->getLocation());
-            is_null($event->getLocationName()) ? $parseEvent->locationName = null : $parseEvent->locationName = parse_encode_string($event->getLocationName());
-            is_null($event->getLoveCounter()) ? $parseEvent->loveCounter = -1 : $parseEvent->loveCounter = $event->getLoveCounter();
-            is_null($event->getLovers()) ? $parseEvent->lovers = $nullArray : $parseEvent->lovers = $event->getLovers();
-            is_null($event->getReviewCounter()) ? $parseEvent->reviewCounter = -1 : $parseEvent->reviewCounter = $event->getReviewCounter();
-            is_null($event->getShareCounter()) ? $parseEvent->shareCounter = -1 : $parseEvent->shareCounter = $event->getShareCounter();
-            is_null($event->getRefused()) ? $parseEvent->refused = null : $parseEvent->refused = toParseAddRelation('_User', $event->getRefused());
-            is_null($event->getTags()) ? $parseEvent->tags = $nullArray : $parseEvent->tags = parse_encode_array($event->getTags());
-            is_null($event->getThumbnail()) ? $parseEvent->thumbnail = DEFEVENTTHUMB : $parseEvent->thumbnail = $event->getThumbnail();
-            is_null($event->getTitle()) ? $parseEvent->title = null : $parseEvent->title = parse_encode_string($event->getTitle());
-            is_null($event->getACL()) ? $parseEvent->ACL = toParseDefaultACL() : $parseEvent->ACL = toParseACL($event->getACL());
+            $parseObject = new parseObject('Event');
+            $parseObject->active = is_null($event->getActive()) ? true : $event->getActive();
+            $parseObject->address = is_null($event->getAddress()) ? null : parse_encode_string($event->getAddress());
+            $parseObject->attendee = is_null($event->getAttendee()) ? null : toParseAddRelation('_User', $event->getAttendee());
+            $parseObject->city = is_null($event->getCity()) ? null : parse_encode_string($event->getCity());
+            $parseObject->commentCounter = is_null($event->getCommentCounter()) ? 0 : $event->getCommentCounter();
+            $parseObject->counter = is_null($event->getCounter()) ? 0 : $event->getCounter();
+            $parseObject->description = is_null($event->getDescription()) ? null : parse_encode_string($event->getDescription());
+            $parseObject->eventDate = is_null($event->getEventDate()) ? null : toParseDate($event->getEventDate());
+            $parseObject->featuring = is_null($event->getFeaturing()) ? null : toParseAddRelation('_User', $event->getFeaturing());
+            $parseObject->fromUser = toParsePointer('_User', $event->getFromUser());
+            $parseObject->image = is_null($event->getImage()) ? DEFEVENTIMAGE : $event->getImage();
+            $parseObject->invited = is_null($event->getInvited()) ? null : toParseAddRelation('_User', $event->getInvited());
+            $parseObject->location = is_null($event->getLocation()) ? null : toParseGeoPoint($event->getLocation());
+            $parseObject->locationName = is_null($event->getLocationName()) ? null : parse_encode_string($event->getLocationName());
+            $parseObject->loveCounter = is_null($event->getLoveCounter()) ? 0 : $event->getLoveCounter();
+            $parseObject->lovers = is_null($event->getLovers()) ? $nullArray : $event->getLovers();
+            $parseObject->reviewCounter = is_null($event->getReviewCounter()) ? 0 : $event->getReviewCounter();
+            $parseObject->shareCounter = is_null($event->getShareCounter()) ? 0 : $event->getShareCounter();
+            $parseObject->refused = is_null($event->getRefused()) ? null : toParseAddRelation('_User', $event->getRefused());
+            $parseObject->tags = is_null($event->getTags()) ? $nullArray : parse_encode_array($event->getTags());
+            $parseObject->thumbnail = is_null($event->getThumbnail()) ? DEFEVENTTHUMB : $event->getThumbnail();
+            $parseObject->title = is_null($event->getTitle()) ? null : parse_encode_string($event->getTitle());
+            $parseObject->ACL = is_null($event->getACL()) ? toParseDefaultACL() : toParseACL($event->getACL());
             if ($event->getObjectId() == '') {
-                # TODO
-                # is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseNewFile($event->getImage(), "img/jpg");
-                $res = $parseEvent->save();
+                $res = $parseObject->save();
                 $event->setObjectId($res->objectId);
                 return $event;
             } else {
-                # TODO
-                # is_null($event->getImageFile()) ? $parseObj->imageFile = null : $parseObj->imageFile = toParseFile($event->getImage());
-                $parseEvent->update($event->getObjectId());
+                $parseObject->update($event->getObjectId());
             }
         } catch (Exception $e) {
             return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
@@ -429,6 +422,15 @@ class EventParse {
     }
 
     /**
+     * \fn	whereNearSphere($latitude, $longitude, $distance, $distanceType)
+     * \brief	find element in a spherre near the given latitude e longitude
+     * \param	$latitude, $longitude
+     */
+    public function whereNearSphere($latitude, $longitude, $distance = null, $distanceType = null) {
+        $this->parseQuery->whereNearSphere('location', $latitude, $longitude, $distance, $distanceType);
+    }
+
+    /**
      * \fn		void whereNotContainedIn($field, $value)
      * \brief	Sets a condition for which the field $field must not value one or more $value
      * \param	$field	the string which represent the field
@@ -455,15 +457,6 @@ class EventParse {
      */
     public function whereNotExists($field) {
         $this->parseQuery->whereDoesNotExist($field);
-    }
-
-    /**
-     * \fn	whereNearSphere($latitude, $longitude, $distance, $distanceType)
-     * \brief	find element in a spherre near the given latitude e longitude
-     * \param	$latitude, $longitude
-     */
-    public function whereNearSphere($latitude, $longitude, $distance = null, $distanceType = null) {
-        $this->parseQuery->whereNearSphere('location', $latitude, $longitude, $distance, $distanceType);
     }
 
     /**
