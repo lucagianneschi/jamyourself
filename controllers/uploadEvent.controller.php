@@ -116,7 +116,6 @@ class UploadEventController extends REST {
             $activity->setStatus("A");
             $activity->setToUser(null);
             $activity->setType("EVENTCREATED");
-            $activity->setUserStatus(null);
             $activity->setVideo(null);
 //            $activity->setACL(toParseDefaultACL());
             require_once CLASSES_DIR . 'activityParse.class.php';
