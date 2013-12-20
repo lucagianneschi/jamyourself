@@ -477,7 +477,7 @@ function spinner(){
 }
 
 function goSpinner(id,box){
-	$(id).load('content/profile/box-general/box-spinner.php', {
+	$(id).load('content/profile/box/box-spinner.php', {
 		'box' : box
 	}, function(){
 		success:{
