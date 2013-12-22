@@ -178,7 +178,7 @@ require_once ROOT_DIR . 'config.php';
 
 <!---------------- STREAM ----------------->
 
-<h3>Stream</h3>
+<h3 style="margin-top:30px">Stream</h3>
 
 
 <!---------------- BOX REVIEW ----------------->
@@ -329,9 +329,75 @@ require_once ROOT_DIR . 'config.php';
 	
 </div>
 
+<!---------------- BOX PHOTO ----------------->
+
+<div id="tV0O3eGHqH">
+	<div class="box ">
+		
+		<div class="row  line">
+			<div class="small-1 columns ">
+				<div class="icon-header">
+					<img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+				</div>
+			</div>
+			<div class="small-5 columns">
+				<div class="text grey" style="margin-bottom: 0px;">
+					<strong>Nome Cognome</strong>
+				</div>
+				<div class="note orange">
+					<strong>Jammer</strong>
+				</div>
+			</div>
+			<div class="small-6 columns propriety">
+				<div class="note grey-light">
+					Monday 18 November 2013 - 16:51
+				</div>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="small-12 columns ">
+				<div class="row ">
+					<div class="small-12 columns ">
+						<div class="row  ">
+							<div class="large-12 columns ">
+								<div class="text orange">New photo</div>
+								<div class="sottotitle grey-dark">Titolo del set di fotografie - 16 photos</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="small-12 columns">
+								
+								<div id="box-albumDetail" style="margin-top: 10px;">
+									<ul class="small-block-grid-3 small-block-grid-2 ">	
+									  	<!------------------------------ THUMBNAIL ---------------------------------->
+									<li><a class="photo-colorbox-group cboxElement" href="#o8uxB9jcQ6"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../media/../../../../media/images/default/defaultImage.jpg'"></a></li>
+								
+									  	<!------------------------------ THUMBNAIL ---------------------------------->
+									<li><a class="photo-colorbox-group cboxElement" href="#7v89ijnq1Y"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../media/../../../../media/images/default/defaultImage.jpg'"></a></li>
+								
+									  	<!------------------------------ THUMBNAIL ---------------------------------->
+									<li><a class="photo-colorbox-group cboxElement" href="#SJbjQ1BxfJ"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../media/../../../../media/images/default/defaultImage.jpg'"></a></li>
+								
+									</ul>
+								</div>
+
+							</div>
+							
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+	</div>
+	
+</div>
 
 
-<!---------------- BOX POST ----------------->
+
+<!---------------- BOX JUST ADDED ----------------->
 
 <div id="tV0O3eGHqH">
 	<div class="box ">
