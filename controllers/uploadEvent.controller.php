@@ -118,21 +118,21 @@ class UploadEventController extends REST {
 
             $dirThumbnailDest = USERS_DIR . $userId . "/images/eventcover";
             $dirCoverDest = USERS_DIR . $userId . "/images/eventcoverthumb";
-            $thumbSrc = $event->getThumbnail();
-            $imageSrc = $event->getImage();
+            $thumbSrc = $eventSave->getThumbnail();
+            $imageSrc = $eventSave->getImage();
             if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
                 rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
                 rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
             }
 
             unset($_SESSION['currentUserFeaturingArray']);
-            $activity = createActivity($userId, $event->getObjectId());
+            $activity = createActivity($userId, $eventSave->getObjectId());
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activityP = new ActivityParse();
             $activitySave = $activityP->saveActivity($activity);
             if ($activitySave instanceof Error) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-                $message = rollbackUploadEventController($event->getObjectId());
+                $message = rollbackUploadEventController($eventSave->getObjectId());
                 $this->response(array('status' => $message), 503);
             }
             $this->response(array('status' => $controllers['EVENTCREATED']), 200);
