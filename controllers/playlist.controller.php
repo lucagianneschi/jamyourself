@@ -4,14 +4,14 @@
  * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di gestione della playlist
  * \details		gestisce l'inserimento e la cancellazione di una song dalla tracklist di una playlist
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		implementare i parametri di sessione (es currentUser); check numero di canzoni; check per vedere se song presente già presente nella tracklist
+ * \todo		 check numero di canzoni; check per vedere se song presente già presente nella tracklist
  *
  */
 if (!defined('ROOT_DIR'))
