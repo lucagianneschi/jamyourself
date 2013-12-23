@@ -211,8 +211,9 @@ class UploadEventController extends REST {
     }
 
     /**
-     * \fn	getFeaturingJSON()
+     * \fn	getFeaturingJSON() 
      * \brief   funzione per il recupero dei featuring per l'event
+     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
      */
     public function getFeaturingJSON() {
         try {
