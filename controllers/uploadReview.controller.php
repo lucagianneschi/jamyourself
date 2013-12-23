@@ -118,7 +118,7 @@ class UploadReviewController extends REST {
             } elseif ($this->reviewed instanceof Error || is_null($this->reviewed)) {
                 $this->response(array("status" => $controllers['NODATA']), 406);
             }
-            $toUser = $this->reviewed->getFromUser(); 
+            $toUser = $this->reviewed->getFromUser();
             if ($toUser->getObjectId() == $currentUser->getObjectId()) {
                 $this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
             }
@@ -149,7 +149,7 @@ class UploadReviewController extends REST {
                     $review->setType('RE');
                     $type = "NEWEVENTREVIEW";
                     $subject = $controllers['SBJE'];
-                    $file = $mail_files['EVENTREVIEWEMAIL'];
+                    $html = $mail_files['EVENTREVIEWEMAIL'];
                     break;
                 case 'Record';
                     $review->setEvent(null);
@@ -157,10 +157,10 @@ class UploadReviewController extends REST {
                     $review->setType('RR');
                     $type = "NEWRECORDREVIEW";
                     $subject = $controllers['SBJR'];
-                    $file = $mail_files['RECORDREVIEWEMAIL'];
+                    $html = $mail_files['RECORDREVIEWEMAIL'];
                     break;
             }
-            $this->sendMailNotification($subject, $file,$toUser->getObjectId());
+            sendMailForNotification($toUser->getObjectId(), $subject, $html);
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
             if ($resRev instanceof Error) {
@@ -221,28 +221,6 @@ class UploadReviewController extends REST {
         $activityParse = new ActivityParse();
         $resActivity = $activityParse->saveActivity($activity);
         return $resActivity;
-    }
-
-   /**
-     * \fn	sendMailNotification($subject, $file)
-     * \brief   funzione per l'nvio della notifica tramite mail
-     * \todo    uso funzione unica condivisa tra tutti i controller   
-     */
-    private function sendMailNotification($subject, $file, $toUser) {
-        require_once SERVICES_DIR . 'mail.service.php';
-        global $controllers;
-        $html = file_get_contents(STDHTML_DIR . $file);
-        $mail = mailService();
-        $mail->IsHTML(true);
-        $mail->AddAddress($this->getUserEmail($toUser));
-        $mail->Subject = $subject;
-        $mail->MsgHTML($html);
-        $resMail = $mail->Send();
-        if ($resMail instanceof phpmailerException) {
-            $this->response(array('status' => $controllers['NOMAIL']), 403);
-        }
-        $mail->SmtpClose();
-        unset($mail);
     }
 
 }
