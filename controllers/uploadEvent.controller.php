@@ -126,7 +126,7 @@ class UploadEventController extends REST {
             }
 
             unset($_SESSION['currentUserFeaturingArray']);
-            $activity = createActivity($userId, $eventSave->getObjectId());
+            $activity = $this->createActivity($userId, $eventSave->getObjectId());
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activityP = new ActivityParse();
             $activitySave = $activityP->saveActivity($activity);
