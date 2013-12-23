@@ -523,7 +523,7 @@ class UploadRecordController extends REST {
         $metaData = $mp3Analysis->get_metadata();
         return (int) $metaData['Length'];
     }
-    
+
     /**
      * \fn	getRecordThumbnailURL($userId, $recordCoverThumb)
      * \brief   funzione per il recupero delle immagini del record dal filesystem
@@ -547,7 +547,7 @@ class UploadRecordController extends REST {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
-    
+
     /**
      * \fn	getSongsList()
      * \brief   funzione per il recupero delle immagini della lista canzoni
@@ -588,7 +588,7 @@ class UploadRecordController extends REST {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
-    
+
     /**
      * \fn	getSongsList()
      * \brief   funzione per il recupero dei tags
@@ -599,7 +599,7 @@ class UploadRecordController extends REST {
         } else
             return "";
     }
-    
+
     /**
      * \fn	getUserRecords()
      * \brief   funzione per il recupero dei record dell'utente che fa upload record/song
@@ -633,6 +633,11 @@ class UploadRecordController extends REST {
         }
     }
 
+    /**
+     * \fn	removeSongFromRecord($record, $songId)
+     * \brief   funzione per la rimozione di una song da un record
+     * param   $record, $songId
+     */
     private function removeSongFromRecord($record, $songId) {
         try {
             $currentUser = $_SESSION['currentUser'];
@@ -669,6 +674,11 @@ class UploadRecordController extends REST {
         }
     }
 
+    /**
+     * \fn	$userId, $recordId, $songId
+     * \brief   funzione per il salvataggio di un mp3
+     * param   $userId, $recordId, $songId
+     */
     private function saveMp3($userId, $recordId, $songId) {
         if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
             $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId;
