@@ -1,5 +1,19 @@
 <?php
 
+/* ! \par		Info Generali:
+ * \author		Stefano Muscas
+ * \version		1.0
+ * \date		2013
+ * \copyright           Jamyourself.com 2013
+ * \par			Info Classe:
+ * \brief		controller di upload event 
+ * \details		si collega al form di upload di un evet, effettua controlli, scrive su DB
+ * \par			Commenti:
+ * \warning
+ * \bug
+ * \todo		
+ */
+
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
@@ -9,12 +23,7 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
-require_once CLASSES_DIR . 'activityParse.class.php';
 require_once BOXES_DIR . "utilsBox.php";
-
-
-
-require_once BOXES_DIR . "record.box.php";
 
 class UploadEventController extends REST {
 
@@ -32,7 +41,6 @@ class UploadEventController extends REST {
     public function createEvent() {
         try {
             global $controllers;
-
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 400);
             } elseif (!isset($_SESSION['currentUser'])) {
@@ -45,7 +53,7 @@ class UploadEventController extends REST {
                 $this->response(array('status' => $controllers['NOEVENTDATE']), 400);
             } elseif (!isset($this->request['hours']) || is_null($this->request['hours'])) {
                 $this->response(array('status' => $controllers['NOEVENTHOURS']), 400);
-            } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags'])>0)) {
+            } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTTAGS']), 400);
             } elseif (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTURL']), 400);
@@ -69,11 +77,9 @@ class UploadEventController extends REST {
             $event->setEventDate($this->getDate($this->request['date'], $this->request['hours'])); //tipo Date su parse
             $event->setFeaturing($this->request['jammers']);
             $event->setFromUser($userId);
-
             $imgInfo = $this->getImages($this->request);
             $event->setImage($imgInfo['EventPicture']);
             $event->setThumbnail($imgInfo['EventThumbnail']);
-
             $event->setInvited(null);
             $event->setLocationName($this->request['venue']);
 
@@ -83,23 +89,32 @@ class UploadEventController extends REST {
             $event->setLocation($parseGeoPoint);
             $event->setAddress($infoLocation["address"] . ", " . $infoLocation['number']);
             $event->setCity($infoLocation["city"]);
-
             $event->setLoveCounter(0);
-            $event->setLovers(null);
+            $event->setLovers(array());
             $event->setRefused(null);
             $event->setReviewCounter(0);
             $event->setShareCounter(0);
             $event->setTags($this->request['tags']);
             $event->setTitle($this->request['title']);
-//            $event->setACL();
             require_once CLASSES_DIR . 'eventParse.class.php';
             $pEvent = new EventParse();
-
             $event = $pEvent->saveEvent($event);
             if ($event instanceof Error) {
                 $this->response(array("status" => $controllers['EVENTCREATEERROR']), 503);
             }
+            //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE                
 
+            $dirThumbnailDest = USERS_DIR . $userId . "/images/eventcover";
+            $dirCoverDest = USERS_DIR . $userId . "/images/eventcoverthumb";
+
+            $thumbSrc = $event->getThumbnail();
+            $imageSrc = $event->getImage();
+            if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
+                rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
+                rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
+            }
+
+            unset($_SESSION['currentUserFeaturingArray']);
             require_once CLASSES_DIR . 'activity.class.php';
             $activity = new Activity();
             $activity->setActive(true);
@@ -117,24 +132,12 @@ class UploadEventController extends REST {
             $activity->setToUser(null);
             $activity->setType("EVENTCREATED");
             $activity->setVideo(null);
-//            $activity->setACL(toParseDefaultACL());
             require_once CLASSES_DIR . 'activityParse.class.php';
-
-//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE                
-
-
-            $dirThumbnailDest = USERS_DIR . $userId . "/images/eventcover";
-            $dirCoverDest = USERS_DIR . $userId . "/images/eventcoverthumb";
-
-            $thumbSrc = $event->getThumbnail();
-            $imageSrc = $event->getImage();
-            if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
-                rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
-                rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
+            $activityP = new ActivityParse();
+            $activitySave = $activityP->saveActivity($activity);
+            if ($activitySave instanceof Error) {
+                
             }
-
-            unset($_SESSION['currentUserFeaturingArray']);
-
             $this->response(array('status' => $controllers['EVENTCREATED']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
@@ -239,8 +242,7 @@ class UploadEventController extends REST {
                 }
                 return $userArrayInfo;
             }
-        }
-        else
+        } else
             return array();
     }
 
