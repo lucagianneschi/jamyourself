@@ -524,15 +524,17 @@ function rollbackUploadRecordController($objectId, $classType) {
 
     return $message;
 }
-
+/**
+ * \fn      rollbackUploadEventController($objectId)
+ * \brief   rollback for UploadEventController
+ * \param   $objectId 
+ */
 function rollbackUploadEventController($objectId) {
     global $controllers;
-
-    require_once CLASSES_DIR . 'songParse.class.php';
+    require_once CLASSES_DIR . 'eventParse.class.php';
     $songParse = new EventParse();
     $res = $songParse->deleteEvent($objectId);
     $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
-
     return $message;
 }
 
