@@ -4,7 +4,7 @@
  * \author		Stefano Muscas
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright           Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di upload record 
  * \details		si collega al form di upload di un record, effettua controlli, scrive su DB
@@ -33,10 +33,18 @@ require_once BOXES_DIR . "record.box.php";
 require_once BOXES_DIR . "utilsBox.php";
 require_once SERVICES_DIR . 'mp3.service.php';
 
+/**
+ * \brief	UploadRecordController class 
+ * \details	controller di upload record
+ */
 class UploadRecordController extends REST {
 
     public $viewRecordList;
 
+    /**
+     * \fn	init()
+     * \brief   inizializzazione della pagina
+     */
     public function init() {
 //utente non loggato
 
@@ -56,8 +64,12 @@ class UploadRecordController extends REST {
 //        $this->viewRecordList = $recordBox->recordArray;
     }
 
+    /**
+     * \fn	createEvent()
+     * \brief   funzione per pubblicazione dell'event
+     * \modificare il nome in createRecord
+     */
     public function recordCreate() {
-
         try {
             global $controllers;
             if ($this->get_request_method() != "POST") {
@@ -78,22 +90,11 @@ class UploadRecordController extends REST {
 
             $user = $_SESSION['currentUser'];
             $userId = $user->getObjectId();
-
-
             $pRecord = new RecordParse();
             $record = new Record();
-
             $record->setActive(true);
-            if (strlen($newRecord->urlBuy)) {
-                //questo controllo è stato aggiunto dopo che nel DB
-                //ho visto che salvava una stringa vuota nel caso in cui
-                //il form non avesse questo campo definito
-                $record->setBuyLink($newRecord->urlBuy);
-            } else {
-                $record->setBuyLink(null);
-            }
+            $record->setBuyLink((strlen($newRecord->urlBuy) ? $newRecord->urlBuy : null));
             $record->setCounter(0);
-
             $imgInfo = $this->getImages($newRecord);
             $record->setCover($imgInfo['RecordPicture']);
             $record->setThumbnailCover($imgInfo['RecordThumbnail']);
@@ -118,24 +119,6 @@ class UploadRecordController extends REST {
             if ($record instanceof Error) {
                 $this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
             }
-//se va a buon fine salvo una nuova activity 
-
-            $activity = new Activity();
-            $activity->setActive(true);
-            $activity->setAlbum(null);
-            $activity->setCounter(0);
-            $activity->setEvent(null);
-            $activity->setFromUser($userId);
-            $activity->setImage(null);
-            $activity->setPlaylist(null);
-            $activity->setQuestion(null);
-            $activity->setRead(true);
-            $activity->setRecord($record->getObjectId());
-            $activity->setSong(null);
-            $activity->setStatus("A");
-            $activity->setToUser(null);
-            $activity->setType("CREATEDRECORD"); // <- l'ho messo a caso, non so se va bene
-            $activity->setVideo(null);
             $resFSCreation = $this->createFolderForRecord($userId, $record->getObjectId());
             if ($resFSCreation instanceof Exception || !$resFSCreation) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
@@ -146,7 +129,7 @@ class UploadRecordController extends REST {
             $dirCoverDest = USERS_DIR . $userId . "/images/recordcover";
             $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcoverthumb";
 
-//SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE 
+            //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE 
             $thumbSrc = $record->getThumbnailCover();
             $imageSrc = $record->getCover();
             //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
@@ -154,10 +137,10 @@ class UploadRecordController extends REST {
                 rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
                 rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
             }
-
             unset($_SESSION['currentUserFeaturingArray']);
-            $pActivity = new ActivityParse();
-            if ($pActivity->saveActivity($activity) instanceof Error) {
+            //se va a buon fine salvo una nuova activity 
+            $pActivity = $this->createActivity($userId, $record->getObjectId());
+            if ($pActivity instanceof Error) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                 $message = rollbackUploadRecordController($record->getObjectId(), "Record");
                 $this->response(array("status" => $message), 503);
@@ -168,42 +151,10 @@ class UploadRecordController extends REST {
         }
     }
 
-    private function getTags($list) {
-        if (is_array($list) && count($list) > 0) {
-            return implode(",", $list);
-        }
-        else
-            return "";
-    }
-
-    private function createFolderForRecord($userId, $recordId) {
-        try {
-            if (!is_null($userId) && strlen($userId) > 0) {
-                //creazione cartella del record
-                if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId, 0777, true)) {
-                    return false;
-                }
-                //creazione cartella delle cover del record
-                if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover")) {
-                    //se la cartella non esiste la creo
-                    if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true)) {
-                        return false;
-                    }
-                }
-                //creazione cartella delle thumbnail del record                
-                if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb")) {
-                    //se la cartella non esiste la creao
-                    if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true)) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        } catch (Exception $e) {
-            return $e;
-        }
-    }
-
+    /**
+     * \fn	publishSongs()
+     * \brief   funzione per pubblicazione di song
+     */
     public function publishSongs() {
         try {
             global $controllers;
@@ -272,7 +223,7 @@ class UploadRecordController extends REST {
                             //cancello l'mp3 dalla cache
                             unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element->src);
                         } else {
-                            if (!$this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath()) || $this->savePublishSongActivity($savedSong) instanceof Error) {
+                            if (!$this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath()) || $this->createActivity($currentUser->getObjectId(), $recordId, "SONGUPLOADED", $savedSong->getObjectId()) instanceof Error) {
                                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                                 rollbackUploadRecordController($savedSong->getObjectId(), "Song");
                                 $songErrorList[] = $element;
@@ -316,6 +267,10 @@ class UploadRecordController extends REST {
         }
     }
 
+    /**
+     * \fn	deleteSong()
+     * \brief   funzione per pubblicazione di song
+     */
     public function deleteSong() {
         try {
             global $controllers;
@@ -354,6 +309,11 @@ class UploadRecordController extends REST {
         }
     }
 
+    /**
+     * \fn	addSongToRecord($record, $songId)
+     * \brief   funzione per aggiunta song a record esistente
+     * \param   $record, instance of record.class e songId
+     */
     private function addSongToRecord($record, $songId) {
         try {
             $currentUser = $_SESSION['currentUser'];
@@ -375,9 +335,7 @@ class UploadRecordController extends REST {
             }
             //creo l'activity specifica 
             require_once CLASSES_DIR . 'activityParse.class.php';
-            $activity = $this->createActivityForSongAlbumRelation("SONGADDEDTORECORD", $currentUser->getObjectId(), $recordId, $songId);
-            $activityParse = new ActivityParse();
-            $resActivity = $activityParse->saveActivity($activity);
+            $resActivity = $this->createActivity($currentUser->getObjectId(), $recordId, "SONGADDEDTORECORD", $songId);
             if ($resActivity instanceof Error) {
                 return $resActivity;
             }
@@ -389,6 +347,289 @@ class UploadRecordController extends REST {
             return true;
         } catch (Exception $e) {
             return $e;
+        }
+    }
+
+    /**
+     * \fn	createActivity($fromUser, $recordId, $type = 'RECORDUPLOADED', $songId = null)
+     * \brief   funzione per creazione activity per questo controller
+     * \param   $fromUser, $recordId, $type = 'RECORDUPLOADED', $songId = null
+     */
+    private function createActivity($fromUser, $recordId, $type = 'RECORDUPLOADED', $songId = null) {
+        require_once CLASSES_DIR . 'activity.class.php';
+        require_once CLASSES_DIR . 'activityParse.class.php';
+        $activity = new Activity();
+        $activity->setActive(true);
+        $activity->setAlbum(null);
+        $activity->setCounter(0);
+        $activity->setEvent(null);
+        $activity->setFromUser($fromUser);
+        $activity->setImage(null);
+        $activity->setPlaylist(null);
+        $activity->setQuestion(null);
+        $activity->setRead(true);
+        $activity->setRecord($recordId);
+        $activity->setSong($songId);
+        $activity->setStatus(null);
+        $activity->setToUser(null);
+        $activity->setType($type);
+        $activity->setVideo(null);
+        $pActivity = new ActivityParse();
+        return $pActivity->saveActivity($activity);
+    }
+
+    /**
+     * \fn	createFolderForRecord($userId, $recordId)
+     * \brief   funzione per creazione filesystem dopo aggiunta record
+     * \param   $userId, $recordId
+     */
+    private function createFolderForRecord($userId, $recordId) {
+        try {
+            if (!is_null($userId) && strlen($userId) > 0) {
+                //creazione cartella del record
+                if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId, 0777, true)) {
+                    return false;
+                }
+                //creazione cartella delle cover del record
+                if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover")) {
+                    //se la cartella non esiste la creo
+                    if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true)) {
+                        return false;
+                    }
+                }
+                //creazione cartella delle thumbnail del record                
+                if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb")) {
+                    //se la cartella non esiste la creao
+                    if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } catch (Exception $e) {
+            return $e;
+        }
+    }
+
+    /**
+     * \fn	deleteMp3($userId, $recordId, $songId)
+     * \brief   funzione per cancellazione mp3 dal filesystem
+     * \param   $userId, $recordId, $songId
+     */
+    private function deleteMp3($userId, $recordId, $songId) {
+        if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
+            unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId);
+        }
+        if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId)) {
+            unlink(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId);
+        }
+    }
+
+    /**
+     * \fn	getImages($decoded)
+     * \brief   funzione per recupero immagini
+     * \param   $decoded
+     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+     */
+    private function getImages($decoded) {
+//in caso di anomalie ---> default
+        if (!isset($decoded->crop) || is_null($decoded->crop) ||
+                !isset($decoded->image) || is_null($decoded->image)) {
+            return array("RecordPicture" => null, "RecordThumbnail" => null);
+        }
+
+        $PROFILE_IMG_SIZE = 300;
+        $THUMBNAIL_IMG_SIZE = 150;
+
+//recupero i dati per effettuare l'editing
+        $cropInfo = json_decode(json_encode($decoded->crop), false);
+
+        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
+                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
+                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
+                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
+            return array("RecordPicture" => null, "RecordThumbnail" => null);
+        }
+        $cacheDir = MEDIA_DIR . "cache/";
+        $cacheImg = $cacheDir . $decoded->image;
+
+//Preparo l'oggetto per l'editign della foto
+        $cis = new CropImageService();
+
+//gestione dell'immagine di profilo
+        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, $PROFILE_IMG_SIZE);
+        $coverUrl = $cacheDir . $coverId;
+
+//gestione del thumbnail
+        $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
+//CANCELLAZIONE DELLA VECCHIA IMMAGINE
+        unlink($cacheImg);
+//RETURN        
+        return array('RecordPicture' => $coverId, 'RecordThumbnail' => $thumbId);
+    }
+
+    /**
+     * \fn	getFeaturingArray() 
+     * \brief   funzione per il recupero dei featuring per l'event
+     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+     */
+    private function getFeaturingArray() {
+        error_reporting(E_ALL ^ E_NOTICE);
+        if (isset($_SESSION['currentUser'])) {
+            $currentUser = $_SESSION['currentUser'];
+            $currentUserId = $currentUser->getObjectId();
+            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
+            if (($userArray instanceof Error) || is_null($userArray)) {
+                return array();
+            } else {
+                $userArrayInfo = array();
+                foreach ($userArray as $user) {
+                    $username = $user->getUsername();
+                    $userId = $user->getObjectId();
+                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
+                }
+                return $userArrayInfo;
+            }
+        } else
+            return array();
+    }
+
+    /**
+     * \fn	getFeaturingJSON() 
+     * \brief   funzione per il recupero dei featuring per l'event
+     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+     */
+    public function getFeaturingJSON() {
+        try {
+            $currentUserFeaturingArray = null;
+            if (isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
+                $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
+            } else {
+                $currentUserFeaturingArray = $this->getFeaturingArray();
+                $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
+            }
+            echo json_encode($currentUserFeaturingArray);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
+    }
+
+    /**
+     * \fn	getRealLength($cachedFile) 
+     * \brief   funzione per il recupero della durata di mp3
+     */
+    private function getRealLength($cachedFile) {
+        $mp3Analysis = new Mp3file($cachedFile);
+        $metaData = $mp3Analysis->get_metadata();
+        return (int) $metaData['Length'];
+    }
+    
+    /**
+     * \fn	getRecordThumbnailURL($userId, $recordCoverThumb)
+     * \brief   funzione per il recupero delle immagini del record dal filesystem
+     * \param   $userId, $recordCoverThumb
+     */
+    private function getRecordThumbnailURL($userId, $recordCoverThumb) {
+        try {
+            if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
+                $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
+                if (!file_exists($path)) {
+                    return DEFALBUMCOVER;
+                } else {
+                    return "../users/" . $userId . "/images/recordcoverthumb/" . $recordCoverThumb;
+                }
+            } else {
+                $path = DEFALBUMCOVER;
+            }
+
+            return DEFALBUMCOVER;
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
+    }
+    
+    /**
+     * \fn	getSongsList()
+     * \brief   funzione per il recupero delle immagini della lista canzoni
+     */
+    public function getSongsList() {
+        try {
+            global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response($controllers['USERNOSES'], 403);
+            } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || !(strlen($this->request['recordId']) > 0)) {
+                $this->response(array("status" => $controllers['NOOBJECTID']), 403);
+            } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
+                $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
+            }
+            $recordId = $this->request['recordId'];
+            $songsList = tracklistGenerator($recordId);
+            if ($songsList instanceof Error) {
+                $this->response(array("status" => $controllers['NODATA']), 200);
+            } elseif (is_null($songsList) || count($songsList) == 0) {
+                $this->response(array("status" => $controllers['NOSONGFORRECORD'], "songList" => null, "count" => 0), 200);
+            }
+            $returnInfo = array();
+            foreach ($songsList as $song) {
+// info utili
+// mi serve: titolo, durata, lista generi, id
+                $seconds = $song->getDuration();
+                $hours = floor($seconds / 3600);
+                $mins = floor(($seconds - ($hours * 3600)) / 60);
+                $secs = floor($seconds % 60);
+                $duration = $hours == 0 ? $mins . ":" . $secs : $hours . ":" . $mins . ":" . $secs;
+                $genre = $song->getGenre();
+                $returnInfo[] = json_encode(array("title" => $song->getTitle(), "duration" => $duration, "genre" => $genre, "id" => $song->getObjectId()));
+            }
+            $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
+    }
+    
+    /**
+     * \fn	getSongsList()
+     * \brief   funzione per il recupero dei tags
+     */
+    private function getTags($list) {
+        if (is_array($list) && count($list) > 0) {
+            return implode(",", $list);
+        } else
+            return "";
+    }
+    
+    /**
+     * \fn	getUserRecords()
+     * \brief   funzione per il recupero dei record dell'utente che fa upload record/song
+     */
+    public function getUserRecords() {
+        try {
+            global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response($controllers['USERNOSES'], 403);
+            }
+            $currentUser = $_SESSION['currentUser'];
+            $recordBox = new RecordBox();
+            $recordBox->initForUploadRecordPage($currentUser->getObjectId());
+            $recordIdList = array();
+            if (is_null($recordBox->error) && count($recordBox->recordArray) > 0) {
+                foreach ($recordBox->recordArray as $record) {
+                    $retObj = array();
+                    $retObj["thumbnail"] = $this->getRecordThumbnailURL($currentUser->getObjectId(), $record->getThumbnailCover());
+                    $retObj["title"] = $record->getTitle();
+                    $retObj["songs"] = $record->getSongCounter();
+                    $retObj["recordId"] = $record->getObjectId();
+                    $recordIdList[] = $retObj;
+                }
+            }
+
+            $this->response(array("status" => $controllers['GETRECORDSOK'], "recordList" => $recordIdList, "count" => count($recordIdList)), 200);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
         }
     }
 
@@ -439,230 +680,8 @@ class UploadRecordController extends REST {
                 $newName = $dir . DIRECTORY_SEPARATOR . $songId;
                 return rename($oldName, $newName);
             }
-        }
-        else
+        } else
             return false;
-    }
-
-    private function deleteMp3($userId, $recordId, $songId) {
-        if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
-            unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId);
-        }
-        if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId)) {
-            unlink(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId);
-        }
-    }
-
-    private function getRealLength($cachedFile) {
-        $mp3Analysis = new Mp3file($cachedFile);
-        $metaData = $mp3Analysis->get_metadata();
-        return (int) $metaData['Length'];
-    }
-
-    private function savePublishSongActivity($song) {
-        $activity = new Activity();
-        $activity->setActive(true);
-        $activity->setAlbum(null);
-        $activity->setCounter(0);
-        $activity->setEvent(null);
-        $activity->setFromUser($song->getFromUser());
-        $activity->setImage(null);
-        $activity->setPlaylist(null);
-        $activity->setQuestion(null);
-        $activity->setRead(true);
-        $activity->setRecord($song->getRecord());
-        $activity->setSong($song->getObjectId());
-        $activity->setStatus(null);
-        $activity->setToUser(null);
-        $activity->setType("SONGUPLOADED");
-        $activity->setVideo(null);
-        $pActivity = new ActivityParse();
-        return $pActivity->saveActivity($activity);
-    }
-
-    private function getImages($decoded) {
-//in caso di anomalie ---> default
-        if (!isset($decoded->crop) || is_null($decoded->crop) ||
-                !isset($decoded->image) || is_null($decoded->image)) {
-            return array("RecordPicture" => null, "RecordThumbnail" => null);
-        }
-
-        $PROFILE_IMG_SIZE = 300;
-        $THUMBNAIL_IMG_SIZE = 150;
-
-//recupero i dati per effettuare l'editing
-        $cropInfo = json_decode(json_encode($decoded->crop), false);
-
-        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
-                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
-                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
-                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
-            return array("RecordPicture" => null, "RecordThumbnail" => null);
-        }
-        $cacheDir = MEDIA_DIR . "cache/";
-        $cacheImg = $cacheDir . $decoded->image;
-
-//Preparo l'oggetto per l'editign della foto
-        $cis = new CropImageService();
-
-//gestione dell'immagine di profilo
-        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, $PROFILE_IMG_SIZE);
-        $coverUrl = $cacheDir . $coverId;
-
-//gestione del thumbnail
-        $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
-//CANCELLAZIONE DELLA VECCHIA IMMAGINE
-        unlink($cacheImg);
-//RETURN        
-        return array('RecordPicture' => $coverId, 'RecordThumbnail' => $thumbId);
-    }
-
-    private function createActivityForSongAlbumRelation($type, $fromUser, $recordId, $songId) {
-        require_once CLASSES_DIR . 'activity.class.php';
-        $activity = new Activity();
-        $activity->setActive(true);
-        $activity->setAlbum(null);
-        $activity->setCounter(0);
-        $activity->setEvent(null);
-        $activity->setFromUser($fromUser);
-        $activity->setImage(null);
-        $activity->setPlaylist(null);
-        $activity->setQuestion(null);
-        $activity->setRead(true);
-        $activity->setRecord($recordId);
-        $activity->setSong($songId);
-        $activity->setStatus('A');
-        $activity->setToUser(null);
-        $activity->setType($type);
-        $activity->setVideo(null);
-        return $activity;
-    }
-
-    /**
-     * Prepara la variabile di sessione contenente i featuring dell'utente per 
-     * compilare il form, campo featuring
-     * 
-     */
-    public function getFeaturingJSON() {
-        try {
-            $currentUserFeaturingArray = null;
-            if (isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
-                $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
-            } else {
-                $currentUserFeaturingArray = $this->getFeaturingArray();
-                $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
-            }
-            echo json_encode($currentUserFeaturingArray);
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
-        }
-    }
-
-    private function getFeaturingArray() {
-        error_reporting(E_ALL ^ E_NOTICE);
-        if (isset($_SESSION['currentUser'])) {
-            $currentUser = $_SESSION['currentUser'];
-            $currentUserId = $currentUser->getObjectId();
-            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
-            if (($userArray instanceof Error) || is_null($userArray)) {
-                return array();
-            } else {
-                $userArrayInfo = array();
-                foreach ($userArray as $user) {
-                    $username = $user->getUsername();
-                    $userId = $user->getObjectId();
-                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
-                }
-                return $userArrayInfo;
-            }
-        }
-        else
-            return array();
-    }
-
-    private function getRecordThumbnailURL($userId, $recordCoverThumb) {
-        try {
-            if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
-                $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
-                if (!file_exists($path)) {
-                    return DEFALBUMCOVER;
-                } else {
-                    return "../users/" . $userId . "/images/recordcoverthumb/" . $recordCoverThumb;
-                }
-            } else {
-                $path = DEFALBUMCOVER;
-            }
-
-            return DEFALBUMCOVER;
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
-        }
-    }
-
-    public function getSongsList() {
-        try {
-            global $controllers;
-            if ($this->get_request_method() != "POST") {
-                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['currentUser'])) {
-                $this->response($controllers['USERNOSES'], 403);
-            } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || !(strlen($this->request['recordId']) > 0)) {
-                $this->response(array("status" => $controllers['NOOBJECTID']), 403);
-            } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
-                $this->response(array("status" => $controllers['CLASSTYPEKO']), 400);
-            }
-            $recordId = $this->request['recordId'];
-            $songsList = tracklistGenerator($recordId);
-            if ($songsList instanceof Error) {
-                $this->response(array("status" => $controllers['NODATA']), 200);
-            } elseif (is_null($songsList) || count($songsList) == 0) {
-                $this->response(array("status" => $controllers['NOSONGFORRECORD'], "songList" => null, "count" => 0), 200);
-            }
-            $returnInfo = array();
-            foreach ($songsList as $song) {
-// info utili
-// mi serve: titolo, durata, lista generi, id
-                $seconds = $song->getDuration();
-                $hours = floor($seconds / 3600);
-                $mins = floor(($seconds - ($hours * 3600)) / 60);
-                $secs = floor($seconds % 60);
-                $duration = $hours == 0 ? $mins . ":" . $secs : $hours . ":" . $mins . ":" . $secs;
-                $genre = $song->getGenre();
-                $returnInfo[] = json_encode(array("title" => $song->getTitle(), "duration" => $duration, "genre" => $genre, "id" => $song->getObjectId()));
-            }
-            $this->response(array("status" => $controllers['COUNTSONGOK'], "songList" => $returnInfo, "count" => count($songsList)), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
-        }
-    }
-
-    public function getUserRecords() {
-        try {
-            global $controllers;
-            if ($this->get_request_method() != "POST") {
-                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['currentUser'])) {
-                $this->response($controllers['USERNOSES'], 403);
-            }
-            $currentUser = $_SESSION['currentUser'];
-            $recordBox = new RecordBox();
-            $recordBox->initForUploadRecordPage($currentUser->getObjectId());
-            $recordIdList = array();
-            if (is_null($recordBox->error) && count($recordBox->recordArray) > 0) {
-                foreach ($recordBox->recordArray as $record) {
-                    $retObj = array();
-                    $retObj["thumbnail"] = $this->getRecordThumbnailURL($currentUser->getObjectId(), $record->getThumbnailCover());
-                    $retObj["title"] = $record->getTitle();
-                    $retObj["songs"] = $record->getSongCounter();
-                    $retObj["recordId"] = $record->getObjectId();
-                    $recordIdList[] = $retObj;
-                }
-            }
-
-            $this->response(array("status" => $controllers['GETRECORDSOK'], "recordList" => $recordIdList, "count" => count($recordIdList)), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
-        }
     }
 
 }
