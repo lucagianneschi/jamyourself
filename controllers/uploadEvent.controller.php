@@ -241,6 +241,7 @@ class UploadEventController extends REST {
     /**
      * \fn	getImages($decoded)
      * \brief   funzione per il recupero delle immagini dalle cartelle
+     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
      */
     private function getImages($decoded) {
 //in caso di anomalie ---> default
