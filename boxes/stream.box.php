@@ -86,34 +86,6 @@ class StreamBox {
     }
 
     /**
-     * \fn	query($field, $currentUserId, $cicles, $limit = null, $skip = null)
-     * \brief	private funtion for query
-     * \param	$limit, $skip per la query estena, ccioè sulle activities
-     * \todo    mettere i corretti whereInclude in funzione delle tipologie di activities
-     */
-    private function query($field, $currentUserId, $cicles, $actArray, $limit, $skip) {
-        $activities = array();
-        for ($i = 0; $i < $cicles; ++$i) {
-            $parseQuery = new parseQuery('Activity');
-            $pointer = $parseQuery->dataType('pointer', array('_User', $currentUserId));
-            $related = $parseQuery->dataType('relatedTo', array($pointer, $field));
-            $select = $parseQuery->dataType('query', array('_User', array('$relatedTo' => $related), 'objectId', MAX * $i, MAX));
-            $parseQuery->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : DEFAULTQUERY);
-            $parseQuery->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-            $parseQuery->whereSelect('fromUser', $select);
-            $parseQuery->whereInclude('album,event,comment,record,song,video,fromUser,toUser');
-            $parseQuery->where('active', true);
-            $parseQuery->whereContainedIn('type', $actArray);
-            $res = $parseQuery->find();
-            if (is_array($res->results) && count($res->results) > 0) {
-                $partialActivities = $this->activitiesChecker($res);
-            }
-            $activities = $activities + $partialActivities;
-        }
-        return $activities;
-    }
-
-    /**
      * \fn	activitiesChecker($res)
      * \brief	private funtion for check if the activity on DB is correct
      * \param	$res, resul for the query
@@ -192,6 +164,34 @@ class StreamBox {
         $this->activitesArray = array();
         $this->config = null;
         $this->error = $errorMessage;
+    }
+
+    /**
+     * \fn	query($field, $currentUserId, $cicles, $limit = null, $skip = null)
+     * \brief	private funtion for query
+     * \param	$limit, $skip per la query estena, ccioè sulle activities
+     * \todo    mettere i corretti whereInclude in funzione delle tipologie di activities
+     */
+    private function query($field, $currentUserId, $cicles, $actArray, $limit, $skip) {
+        $activities = array();
+        for ($i = 0; $i < $cicles; ++$i) {
+            $parseQuery = new parseQuery('Activity');
+            $pointer = $parseQuery->dataType('pointer', array('_User', $currentUserId));
+            $related = $parseQuery->dataType('relatedTo', array($pointer, $field));
+            $select = $parseQuery->dataType('query', array('_User', array('$relatedTo' => $related), 'objectId', MAX * $i, MAX));
+            $parseQuery->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : DEFAULTQUERY);
+            $parseQuery->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
+            $parseQuery->whereSelect('fromUser', $select);
+            $parseQuery->whereInclude('album,event,comment,record,song,video,fromUser,toUser');
+            $parseQuery->where('active', true);
+            $parseQuery->whereContainedIn('type', $actArray);
+            $res = $parseQuery->find();
+            if (is_array($res->results) && count($res->results) > 0) {
+                $partialActivities = $this->activitiesChecker($res);
+            }
+            $activities = $activities + $partialActivities;
+        }
+        return $activities;
     }
 
 }
