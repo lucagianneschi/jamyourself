@@ -25,8 +25,16 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once BOXES_DIR . "utilsBox.php";
 
+/**
+ * \brief	UploadEventController class 
+ * \details	controller di upload event
+ */
 class UploadEventController extends REST {
 
+    /**
+     * \fn	init()
+     * \brief   inizializzazione della pagina
+     */
     public function init() {
 //utente non loggato
 
@@ -38,6 +46,10 @@ class UploadEventController extends REST {
         }
     }
 
+    /**
+     * \fn	createEvent()
+     * \brief   funzione per pubblicazione dell'event
+     */
     public function createEvent() {
         try {
             global $controllers;
@@ -98,15 +110,14 @@ class UploadEventController extends REST {
             $event->setTitle($this->request['title']);
             require_once CLASSES_DIR . 'eventParse.class.php';
             $pEvent = new EventParse();
-            $event = $pEvent->saveEvent($event);
-            if ($event instanceof Error) {
+            $eventSave = $pEvent->saveEvent($event);
+            if ($eventSave instanceof Error) {
                 $this->response(array("status" => $controllers['EVENTCREATEERROR']), 503);
             }
             //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE                
 
             $dirThumbnailDest = USERS_DIR . $userId . "/images/eventcover";
             $dirCoverDest = USERS_DIR . $userId . "/images/eventcoverthumb";
-
             $thumbSrc = $event->getThumbnail();
             $imageSrc = $event->getImage();
             if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
@@ -115,28 +126,14 @@ class UploadEventController extends REST {
             }
 
             unset($_SESSION['currentUserFeaturingArray']);
-            require_once CLASSES_DIR . 'activity.class.php';
-            $activity = new Activity();
-            $activity->setActive(true);
-            $activity->setAlbum(null);
-            $activity->setCounter(0);
-            $activity->setEvent($event->getObjectId());
-            $activity->setFromUser($userId);
-            $activity->setImage(null);
-            $activity->setPlaylist(null);
-            $activity->setQuestion(null);
-            $activity->setRead(true);
-            $activity->setRecord(null);
-            $activity->setSong(null);
-            $activity->setStatus("A");
-            $activity->setToUser(null);
-            $activity->setType("EVENTCREATED");
-            $activity->setVideo(null);
+            $activity = createActivity($userId, $event->getObjectId());
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activityP = new ActivityParse();
             $activitySave = $activityP->saveActivity($activity);
             if ($activitySave instanceof Error) {
-                
+                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+                $message = rollbackUploadEventController($event->getObjectId());
+                $this->response(array('status' => $message), 503);
             }
             $this->response(array('status' => $controllers['EVENTCREATED']), 200);
         } catch (Exception $e) {
@@ -144,6 +141,36 @@ class UploadEventController extends REST {
         }
     }
 
+    /**
+     * \fn	createActivity($fromUser, $eventId)
+     * \brief   funzione per la creazione dell'activity legata alla creazione dell'event
+     */
+    private function createActivity($fromUser, $eventId) {
+        require_once CLASSES_DIR . 'activity.class.php';
+        $activity = new Activity();
+        $activity->setActive(true);
+        $activity->setAlbum(null);
+        $activity->setCounter(0);
+        $activity->setEvent($eventId);
+        $activity->setFromUser($fromUser);
+        $activity->setImage(null);
+        $activity->setPlaylist(null);
+        $activity->setQuestion(null);
+        $activity->setRead(true);
+        $activity->setRecord(null);
+        $activity->setSong(null);
+        $activity->setStatus("A");
+        $activity->setToUser(null);
+        $activity->setType("EVENTCREATED");
+        $activity->setVideo(null);
+        return $activity;
+    }
+
+    /**
+     * \fn	getDate($day, $hours)
+     * \brief   funzione per formattazione della data
+     * \todo    check su utilizzo funzioni della utilsClass
+     */
     private function getDate($day, $hours) {
         try {
             if (!isset($day) || is_null($day) || !(strlen($day) > 0)) {
@@ -158,6 +185,62 @@ class UploadEventController extends REST {
         }
     }
 
+    /**
+     * \fn	getFeaturingArray() 
+     * \brief   funzione per il recupero dei featuring per l'event
+     */
+    private function getFeaturingArray() {
+        error_reporting(E_ALL ^ E_NOTICE);
+        if (isset($_SESSION['currentUser'])) {
+            $currentUser = $_SESSION['currentUser'];
+            $currentUserId = $currentUser->getObjectId();
+            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
+            if (($userArray instanceof Error) || is_null($userArray)) {
+                return array();
+            } else {
+                $userArrayInfo = array();
+                foreach ($userArray as $user) {
+                    $username = $user->getUsername();
+                    $userId = $user->getObjectId();
+                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
+                }
+                return $userArrayInfo;
+            }
+        } else
+            return array();
+    }
+
+    /**
+     * \fn	getFeaturingJSON()
+     * \brief   funzione per il recupero dei featuring per l'event
+     */
+    public function getFeaturingJSON() {
+        try {
+            global $controllers;
+            $force = false;
+            if (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 400);
+            }
+            if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
+                $force = true;
+            }
+            $currentUserFeaturingArray = null;
+            if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
+                $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
+            } else {
+                $currentUserFeaturingArray = $this->getFeaturingArray();
+                $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
+            }
+            echo json_encode($currentUserFeaturingArray);
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
+    }
+
+    /**
+     * \fn	getImages($decoded)
+     * \brief   funzione per il recupero delle immagini dalle cartelle
+     */
     private function getImages($decoded) {
 //in caso di anomalie ---> default
         if (!isset($decoded['crop']) || is_null($decoded['crop']) ||
@@ -198,52 +281,6 @@ class UploadEventController extends REST {
         unlink($cacheImg);
 //RETURN        
         return array('EventPicture' => $coverId, 'EventThumbnail' => $thumbId);
-    }
-
-    public function getFeaturingJSON() {
-        try {
-            global $controllers;
-            $force = false;
-            if (!isset($_SESSION['currentUser'])) {
-                $this->response(array('status' => $controllers['USERNOSES']), 400);
-            }
-
-            if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
-                $force = true;
-            }
-
-            $currentUserFeaturingArray = null;
-            if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
-                $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
-            } else {
-                $currentUserFeaturingArray = $this->getFeaturingArray();
-                $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
-            }
-            echo json_encode($currentUserFeaturingArray);
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
-        }
-    }
-
-    private function getFeaturingArray() {
-        error_reporting(E_ALL ^ E_NOTICE);
-        if (isset($_SESSION['currentUser'])) {
-            $currentUser = $_SESSION['currentUser'];
-            $currentUserId = $currentUser->getObjectId();
-            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
-            if (($userArray instanceof Error) || is_null($userArray)) {
-                return array();
-            } else {
-                $userArrayInfo = array();
-                foreach ($userArray as $user) {
-                    $username = $user->getUsername();
-                    $userId = $user->getObjectId();
-                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
-                }
-                return $userArrayInfo;
-            }
-        } else
-            return array();
     }
 
 }
