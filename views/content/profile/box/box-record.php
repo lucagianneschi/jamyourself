@@ -148,6 +148,8 @@ if (is_null($recordBox->error)) {
 				$recordSingle_title = $value->getTitle();
 				$recordSingle_data = $value->getYear();
 				$recordSinle_songCounter = $value->getSongCounter();
+                
+                $recordSingle_fromUser_objectId = $value->getFromUser();
 				
 				$recordSingle_love = $value->getLoveCounter();
 				$recordSingle_comment = $value->getCommentCounter();
@@ -233,9 +235,9 @@ if (is_null($recordBox->error)) {
 						<div class="row album-single-propriety">
 							<div class="box-propriety">
 								<div class="small-6 columns ">
-									<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')"><?php echo $recordSingle_text_love ;?></a>
-									<a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_objectId; ?>', 'Record', '.<?php echo  $recordSingle_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM'];?></a>
-									<a class="note white" onclick="share(this, '<?php echo $recordSingle_objectId ?>','profile-Record')"><?php echo $views['SHARE'];?></a>
+									<a class="note white" onclick="love(this, 'Record', '<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>')"><?php echo $recordSingle_text_love; ?></a>
+									<a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>', 'Record', '.<?php echo  $recordSingle_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM'];?></a>
+ 									<a class="note white" onclick="share(this, '<?php echo $recordSingle_objectId ?>','profile-Record')"><?php echo $views['SHARE'];?></a>
 									<a class="note white" onclick="setCounter(this, '<?php echo $recordSingle_objectId ?>','Record')"><?php echo $views['REVIEW'];?></a>	
 								</div>
 								<div class="small-6 columns propriety ">					
