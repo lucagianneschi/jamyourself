@@ -5,18 +5,12 @@
  * 
  * 
  */
-
-
 ?>
 <!------------------------------------------- STATUS ----------------------------------->
-
-
-
-
 <div id="social-status">
 	<div class="row">
 		<div class="small-8 columns">			
-			<h3><strong>4 review</strong></h3>					
+			<h3><strong><?php echo $event->getReviewCounter(); ?> review</strong></h3>
 		</div>
 		<div class="small-4 columns">
 			<p class="grey" style="float: right;">Spotter Rating</p>		
@@ -42,9 +36,9 @@
 				<a class="note grey" onclick="share()">Share</a>
 			</div>
 			<div class="small-5 columns propriety ">					
-				<a class="icon-propriety _unlove grey">72</a>
-				<a class="icon-propriety _comment">0</a>
-				<a class="icon-propriety _share">0</a>
+				<a class="icon-propriety _unlove grey"><?php echo $event->getLoveCounter(); ?></a>
+				<a id="commentCounter" class="icon-propriety _comment"><?php echo $event->getCommentCounter(); ?></a>
+				<a class="icon-propriety _share"><?php echo $event->getShareCounter(); ?></a>
 			</div>	
 		</div>		
 	</div>
