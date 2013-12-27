@@ -111,14 +111,18 @@
 									console.log("Code: " + code + " | Message: " + message);
 								});
 							}
-						
-							function loadBoxOpinion(objectId, classBox, box, limit, skip) {
-								if($(box).hasClass('no-display')){							
+                        </script>
+                        
+						<script type="text/javascript">
+							function loadBoxOpinion(objectId, toUser, classBox, box, limit, skip) {
+								if ($(box).hasClass('no-display')) {
 								
 									var json_data = {};
 									json_data.objectId = objectId;
-									json_data.classBox = classBox;
-									json_data.limit = limit;
+                                    json_data.toUser = toUser;
+                                    json_data.classBox = classBox;
+									json_data.box = box;
+                                    json_data.limit = limit;
 									json_data.skip = skip;
 									$.ajax({
 										type: "POST",
@@ -126,7 +130,7 @@
 										data: json_data,
 										beforeSend: function(xhr) {
 											//spinner.show();
-											console.log('Sono partito loadBoxOption(' + limit +', ' + skip + ')');
+											console.log('Sono partito loadBoxOpinion(' + objectId + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
 										}
 									})
 									.done(function(message, status, xhr) {
@@ -145,8 +149,7 @@
 										code = xhr.status;
 										console.log("Code: " + code + " | Message: " + message);
 									});
-								}
-								else{
+								} else {
 									$(box).prev().removeClass('box-commentSpace');
 									$(box).addClass('no-display');
 								}
