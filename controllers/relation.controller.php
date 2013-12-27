@@ -272,7 +272,7 @@ class RelationController extends REST {
 	    } elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
 		$resToUserF = $userParse->updateField($toUser->getObjectId(), 'collaboration', array($currentUser->getObjectId()), true, 'remove', '_User');
 		$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'collaboration', array($toUser->getObjectId()), true, 'remove', '_User');
-	    } elseif ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
+	    } elseif ($currentUser->getType() == 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
 		$resToUserF = $userParse->updateField($toUser->getObjectId(), 'following', array($currentUser->getObjectId()), true, 'remove', '_User');
 		$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'followers', array($toUser->getObjectId()), true, 'remove', '_User');
 	    }
