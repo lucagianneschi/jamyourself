@@ -320,24 +320,29 @@ class RelationController extends REST {
 			$message3 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
 		$this->response(array('status' => $message), 503);
 	    }
-
 	    //increment currentUser counter
-	    if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
-		$resToCollaborationCounter = null;
-		$resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'friendshipCounter', 1);
-	    } elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
-		$resToCollaborationCounter = $userParse->decrementUser($currentUser->getObjectId(), 'collaborationCounter', 1);
-		if ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'JAMMER') {
-		    $resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
-		} elseif ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'VENUE') {
-		    $resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
-		} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'JAMMER') {
+	    if ($currentUser->getType() == 'SPOTTER') {
+		$resFromRelationCounter = null;
+		if ($toUser->getType() == 'SPOTTER') {
+		    $resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'friendshipCounter', 1);
+		} elseif ($toUser->getType() == 'VENUE') {
 		    $resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'venueCounter', 1);
-		} elseif ($currentUser->getType() == 'VENUE' && $toUser->getType() == 'VENUE') {
-		    $resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'venueCounter', 1);
+		} else {
+		    $resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'jammerCounter', 1);
+		}
+	    } elseif ($currentUser->getType() != 'SPOTTER') {
+		if ($toUser->getType() == 'SPOTTER') {
+		    $resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'followersCounter', 1);
+		} elseif ($toUser->getType() == 'VENUE') {
+		    $resToRelationCounter = $userParse->decrementUser($currentUser->getObjectId(), 'collaborationCounter', 1);
+		    $resToUserFC = $userParse->decrementUser($$currentUser->getObjectId(), 'venueCounter', 1);
+		} else {
+		    $resToRelationCounter = $userParse->decrementUser($currentUser->getObjectId(), 'collaborationCounter', 1);
+		    $resToUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
 		}
 	    }
-	    if ($resFromUserFC instanceof Error || $resFromCollaborationCounter instanceof Error) {
+
+	    if ($resFromUserFC instanceof Error || $resToRelationCounter instanceof Error) {
 		#TODO
 		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
 		$message1 = rollbackRemoveRelation('rollbackActivityStatus', $objectId, 'status', 'P', '', '', '', '');
