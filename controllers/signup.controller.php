@@ -22,7 +22,6 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'validateNewUser.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
-require_once SERVICES_DIR . 'cropImage.service.php';
 require_once SERVICES_DIR . 'recaptcha.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
@@ -411,35 +410,6 @@ class SignupController extends REST {
     }
 
     /**
-     * \fn	getImages($decoded)
-     * \brief	
-     * \todo
-     */
-    private function getImages($decoded) {
-        if (!isset($decoded->crop) || is_null($decoded->crop) ||
-                !isset($decoded->imageProfile) || is_null($decoded->imageProfile)) {
-            return array("ProfilePicture" => null, "ProfileThumbnail" => null);
-        }
-        $PROFILE_IMG_SIZE = 300;
-        $THUMBNAIL_IMG_SIZE = 150;
-        $cropInfo = json_decode(json_encode($decoded->crop), false);
-        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
-                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
-                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
-                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
-            return array("ProfilePicture" => null, "ProfileThumbnail" => null);
-        }
-        $cacheDir = MEDIA_DIR . "cache/";
-        $cacheImg = $cacheDir . $decoded->imageProfile;
-        $cis = new CropImageService();
-        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, $PROFILE_IMG_SIZE);
-        $coverUrl = $cacheDir . $coverId;
-        $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
-        unlink($cacheImg);
-        return array('ProfilePicture' => $coverId, 'ProfileThumbnail' => $thumbId);
-    }
-
-    /**
      * \fn	getLocalTypeArray($genre)
      * \brief	
      * \todo
@@ -592,10 +562,11 @@ class SignupController extends REST {
         $user->setEmail($decoded->email);
         $user->setPassword($decoded->password);
         $user->setDescription($decoded->description);
-        $imgInfo = $this->getImages($decoded);
+        require_once CONTROLLERS_DIR."utilsController.php";
+        $imgInfo = getCroppedImages($decoded);
         $user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['ProfilePicture']));
-        $user->setProfilePicture($imgInfo['ProfilePicture']);
-        $user->setProfileThumbnail($imgInfo['ProfileThumbnail']);
+        $user->setProfilePicture($imgInfo['picture']);
+        $user->setProfileThumbnail($imgInfo['thumbnail']);
         $user->setFbPage($decoded->facebook);
         $user->setTwitterPage($decoded->twitter);
         $user->setGooglePlusPage($decoded->google);

@@ -20,7 +20,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
-require_once SERVICES_DIR . 'cropImage.service.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
@@ -69,7 +68,7 @@ class UploadRecordController extends REST {
      * \brief   funzione per pubblicazione dell'event
      * \modificare il nome in createRecord
      */
-    public function recordCreate() {
+    public function createRecord() {
         try {
             global $controllers;
             if ($this->get_request_method() != "POST") {
@@ -95,9 +94,10 @@ class UploadRecordController extends REST {
             $record->setActive(true);
             $record->setBuyLink((strlen($newRecord->urlBuy) ? $newRecord->urlBuy : null));
             $record->setCounter(0);
-            $imgInfo = $this->getImages($newRecord);
-            $record->setCover($imgInfo['RecordPicture']);
-            $record->setThumbnailCover($imgInfo['RecordThumbnail']);
+            require_once CONTROLLERS_DIR."utilsController.php";
+            $imgInfo = getCroppedImages($newRecord);
+            $record->setCover($imgInfo['picture']);
+            $record->setThumbnailCover($imgInfo['thumbnail']);
             $record->setSongCounter(0);
             $record->setDescription($newRecord->recordTitle);
             $record->setDuration(0);
@@ -115,14 +115,14 @@ class UploadRecordController extends REST {
             $record->setShareCounter(0);
             $record->setTitle($newRecord->recordTitle);
             $record->setYear($newRecord->year);
-            $record = $pRecord->saveRecord($record);
-            if ($record instanceof Error) {
+            $savedRecord = $pRecord->saveRecord($record);
+            if ($savedRecord instanceof Error) {
                 $this->response(array("status" => $controllers['RECORDCREATEERROR']), 503);
             }
-            $resFSCreation = $this->createFolderForRecord($userId, $record->getObjectId());
+            $resFSCreation = $this->createFolderForRecord($userId, $savedRecord->getObjectId());
             if ($resFSCreation instanceof Exception || !$resFSCreation) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-                $message = rollbackUploadRecordController($record->getObjectId(), "Record");
+                $message = rollbackUploadRecordController($savedRecord->getObjectId(), "Record");
                 $this->response(array("status" => $message), 503);
             }
 
@@ -130,8 +130,8 @@ class UploadRecordController extends REST {
             $dirThumbnailDest = USERS_DIR . $userId . "/images/recordcoverthumb";
 
             //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE 
-            $thumbSrc = $record->getThumbnailCover();
-            $imageSrc = $record->getCover();
+            $thumbSrc = $savedRecord->getThumbnailCover();
+            $imageSrc = $savedRecord->getCover();
             //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
             if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
                 rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
@@ -139,13 +139,13 @@ class UploadRecordController extends REST {
             }
             unset($_SESSION['currentUserFeaturingArray']);
             //se va a buon fine salvo una nuova activity 
-            $pActivity = $this->createActivity($userId, $record->getObjectId());
+            $pActivity = $this->createActivity($userId, $savedRecord->getObjectId());
             if ($pActivity instanceof Error) {
                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-                $message = rollbackUploadRecordController($record->getObjectId(), "Record");
+                $message = rollbackUploadRecordController($savedRecord->getObjectId(), "Record");
                 $this->response(array("status" => $message), 503);
             }
-            $this->response(array("status" => $controllers['RECORDSAVED'], "id" => $record->getObjectId()), 200);
+            $this->response(array("status" => $controllers['RECORDSAVED'], "id" => $savedRecord->getObjectId()), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -424,76 +424,6 @@ class UploadRecordController extends REST {
             unlink(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId);
         }
     }
-
-    /**
-     * \fn	getImages($decoded)
-     * \brief   funzione per recupero immagini
-     * \param   $decoded
-     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
-     */
-    private function getImages($decoded) {
-//in caso di anomalie ---> default
-        if (!isset($decoded->crop) || is_null($decoded->crop) ||
-                !isset($decoded->image) || is_null($decoded->image)) {
-            return array("RecordPicture" => null, "RecordThumbnail" => null);
-        }
-
-        $PROFILE_IMG_SIZE = 300;
-        $THUMBNAIL_IMG_SIZE = 150;
-
-//recupero i dati per effettuare l'editing
-        $cropInfo = json_decode(json_encode($decoded->crop), false);
-
-        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
-                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
-                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
-                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
-            return array("RecordPicture" => null, "RecordThumbnail" => null);
-        }
-        $cacheDir = MEDIA_DIR . "cache/";
-        $cacheImg = $cacheDir . $decoded->image;
-
-//Preparo l'oggetto per l'editign della foto
-        $cis = new CropImageService();
-
-//gestione dell'immagine di profilo
-        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, $PROFILE_IMG_SIZE);
-        $coverUrl = $cacheDir . $coverId;
-
-//gestione del thumbnail
-        $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
-//CANCELLAZIONE DELLA VECCHIA IMMAGINE
-        unlink($cacheImg);
-//RETURN        
-        return array('RecordPicture' => $coverId, 'RecordThumbnail' => $thumbId);
-    }
-
-    /**
-     * \fn	getFeaturingArray() 
-     * \brief   funzione per il recupero dei featuring per l'event
-     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
-     */
-    private function getFeaturingArray() {
-        error_reporting(E_ALL ^ E_NOTICE);
-        if (isset($_SESSION['currentUser'])) {
-            $currentUser = $_SESSION['currentUser'];
-            $currentUserId = $currentUser->getObjectId();
-            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
-            if (($userArray instanceof Error) || is_null($userArray)) {
-                return array();
-            } else {
-                $userArrayInfo = array();
-                foreach ($userArray as $user) {
-                    $username = $user->getUsername();
-                    $userId = $user->getObjectId();
-                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
-                }
-                return $userArrayInfo;
-            }
-        } else
-            return array();
-    }
-
     /**
      * \fn	getFeaturingJSON() 
      * \brief   funzione per il recupero dei featuring per l'event
@@ -505,7 +435,8 @@ class UploadRecordController extends REST {
             if (isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
                 $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
             } else {
-                $currentUserFeaturingArray = $this->getFeaturingArray();
+                require_once CONTROLLERS_DIR . 'utilsController.php';
+                $currentUserFeaturingArray = getFeaturingArray();
                 $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
             }
             echo json_encode($currentUserFeaturingArray);

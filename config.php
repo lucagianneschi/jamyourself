@@ -66,4 +66,10 @@ define('PLAYLISTLIMIT', 20);
 //STRINGHE DI ERRORE
 define('LOCATIONNOTFOUND', 'Location Not Found');
 define('ONLYIFLOGGEDIN', 'Just for logged Users');
+##################
+#  CROP SIZES    #
+##################
+
+define('PROFILE_IMG_SIZE', 300);
+define('THUMBNAIL_IMG_SIZE', 150);
 ?>

@@ -4,11 +4,11 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once CONTROLLERS_DIR . 'uploadAlbum.controller.php';
 
-if(session_id() == '')
-	session_start();
-if(isset($_SESSION['currentUser']))
-	$currentUser = $_SESSION['currentUser'];
+session_start();
+$uploadAlbumController = new UploadAlbumController();
+$uploadAlbumController->init();
 
 ?>
 <!DOCTYPE html>

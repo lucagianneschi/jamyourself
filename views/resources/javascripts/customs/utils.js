@@ -14,8 +14,7 @@ var restServerList = {
     "upload": "uploadRequest.php",
     "uploadEvent": "uploadEventRequest.php",
     "uploadRecord": "uploadRecordRequest.php",
-    "uploadReview": "uploadReviewRequest.php",
-    "test": "testRequest.php",
+    "uploadReview": "uploadReviewRequest.php"
 };
 function sendRequest(_server, _action, _data, _callback, _async) {
     try {
@@ -72,8 +71,9 @@ function prepareLocationObj(_result) {
     }
 }
 
-function getCompleteLocationInfo(_json) {
+function getCompleteLocationInfo(_result) {
     try {
+        var location = prepareLocationObj(_result);        
         var info = {};
         info.latitude = 0;
         info.longitude = 0;
@@ -84,9 +84,9 @@ function getCompleteLocationInfo(_json) {
         info.region = null;
         info.country = null;
         info.formattedAddress = null;
-        if (_json !== undefined && _json !== null) {
-            if (_json.address_components !== undefined && _json.address_components !== null && _json.address_components.length > 0) {
-                _json.address_components.forEach(function(address_component) {
+        if (location !== undefined && location !== null) {
+            if (location.address_components !== undefined && location.address_components !== null && location.address_components.length > 0) {
+                location.address_components.forEach(function(address_component) {
                     if (address_component.types !== undefined && address_component.types !== null && address_component.types.length > 0 && $.inArray("street_number", address_component.types) !== -1) {
                         info.number = address_component.long_name;
                     } else if (address_component.types !== undefined && address_component.types !== null && address_component.types.length > 0 && $.inArray("route", address_component.types) !== -1) {
@@ -103,13 +103,13 @@ function getCompleteLocationInfo(_json) {
                 });
             }
 
-            if (_json.formatted_address !== undefined && _json.formatted_address !== null && _json.formatted_address.length > 0) {
-                info.formattedAddress = _json.formatted_address;
+            if (location.formatted_address !== undefined && location.formatted_address !== null && location.formatted_address.length > 0) {
+                info.formattedAddress = location.formatted_address;
             }
 
-            if (_json.latitude !== undefined && _json.latitude !== null && _json.longitude !== undefined && _json.longitude !== null) {
-                info.latitude = _json.latitude;
-                info.longitude = _json.longitude;
+            if (location.latitude !== undefined && location.latitude !== null && location.longitude !== undefined && location.longitude !== null) {
+                info.latitude = location.latitude;
+                info.longitude = location.longitude;
             }
         }
 
