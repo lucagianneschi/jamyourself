@@ -86,7 +86,6 @@ class RelationController extends REST {
 
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userParse = new UserParse();
-
 	    //update relation
 	    if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
 		$resToUserF = $userParse->updateField($toUser->getObjectId(), 'friendship', array($currentUser->getObjectId()), true, 'add', '_User');
@@ -240,7 +239,6 @@ class RelationController extends REST {
 	    } elseif (!isset($this->request['toUserId'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
 	    }
-
 	    $currentUser = $_SESSION['currentUser'];
 	    $objectId = $this->request['objectId'];
 	    $toUserId = $this->request['toUserId'];
@@ -253,7 +251,6 @@ class RelationController extends REST {
 	    if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUser->getObjectId(), $toUser->getType())) {
 		$this->response(array('status' => $controllers['ALREADYINREALTION']), 503);
 	    }
-
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 
@@ -272,7 +269,6 @@ class RelationController extends REST {
 		$message = rollbackRemoveRelation('rollbackActivityStatus', $objectId, 'status', 'P', '', '', '', '');
 		$this->response(array('status' => $message), 503);
 	    }
-
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userParse = new UserParse();
 
@@ -298,7 +294,6 @@ class RelationController extends REST {
 			$message3 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
 		$this->response(array('status' => $message), 503);
 	    }
-
 	    //decrement toUser counter
 	    if ($currentUser->getType() == 'SPOTTER') {
 		if ($toUser->getType() == 'SPOTTER') {
@@ -351,7 +346,6 @@ class RelationController extends REST {
 		    $resToUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
 		}
 	    }
-
 	    if ($resFromUserFC instanceof Error || $resToRelationCounter instanceof Error) {
 		#TODO
 		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
@@ -365,7 +359,6 @@ class RelationController extends REST {
 			$message4 == $controllers['ROLLKO']) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
 		$this->response(array('status' => $message), 503);
 	    }
-
 	    $this->response(array($controllers['RELDELETED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
