@@ -99,27 +99,29 @@ switch (basename($_SERVER['PHP_SELF'])) {
     case "profile.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-        <!-- script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script -->
         <script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/opinion.js"></script>
         <?php
         break;
-	case "stream.php":
+    case "stream.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/profileComment.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/stream.js"></script>
+        <!-- script type="text/javascript" src="resources/javascripts/customs/profile.js"></script -->
+        <!-- script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script -->
+        <!-- script type="text/javascript" src="resources/javascripts/customs/post.js"></script -->
+        <!-- script type="text/javascript" src="resources/javascripts/customs/profileComment.js"></script -->
+        <!-- script type="text/javascript" src="resources/javascripts/customs/love.js"></script -->
         <?php
         break;
     case "event.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>       
+        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>        
+        <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/opinion.js"></script>
         <?php
         break;
     case "record.php":
@@ -151,7 +153,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
         <script type="text/javascript" src="resources/javascripts/customs/uploadEvent.js"></script>
         <?php
         break;
-	case "uploadAlbum.php":
+    case "uploadAlbum.php":
         ?>
         <script type="text/javascript" src="resources/javascripts/customs/uploadAlbum.js"></script>
         <?php
