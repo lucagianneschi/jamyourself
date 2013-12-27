@@ -226,7 +226,7 @@ class RelationController extends REST {
     /**
      * \fn	removeRelationship ()
      * \brief   remove an existing relationship
-     * \todo    test    
+     * \todo    test
      */
     public function removeRelation() {
 	global $controllers;
@@ -332,7 +332,7 @@ class RelationController extends REST {
 	    }
 	    //increment currentUser counter
 	    if ($currentUser->getType() == 'SPOTTER') {
-		$resFromRelationCounter = null;
+		$resToRelationCounter = null;
 		if ($toUser->getType() == 'SPOTTER') {
 		    $resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'friendshipCounter', 1);
 		} elseif ($toUser->getType() == 'VENUE') {
@@ -457,6 +457,11 @@ class RelationController extends REST {
 	}
     }
 
+    /**
+     * \fn	createActivity($type, $toUserId, $currentUserId, $status)
+     * \brief   private function to create activity class instance
+     * \param   $type, $toUserId, $currentUserId, $status
+     */
     private function createActivity($type, $toUserId, $currentUserId, $status) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	$activity = new Activity();
