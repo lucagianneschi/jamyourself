@@ -53,7 +53,7 @@ $(document).ready(function() {
 
     //gesione button publish 
     $('#uploadRecord02-next').click(function() {
-        recordCreate();
+        createRecord();
     });
 
     //carica i tag music
@@ -365,7 +365,7 @@ function getFeaturingAlbumCreate() {
         window.console.error("getFeaturingAlbumCreate | An error occurred - message : " + err.message);
     }
 }
-function recordCreate() {
+function createRecord() {
     try {
         json_album_create.recordTitle = $("#recordTitle").val();
         json_album_create.description = $("#description").val();
@@ -377,7 +377,7 @@ function recordCreate() {
         json_album_create.tags = getTagsAlbumCreate();
 
 //    console.log("Record => " + JSON.stringify(json_album_create));
-        sendRequest("uploadRecord", "recordCreate", json_album_create, callbackAlbumCreate, false);
+        sendRequest("uploadRecord", "createRecord", json_album_create, callbackAlbumCreate, false);
     } catch (err) {
         window.console.error("An error occurred - message : " + err.message);
     }

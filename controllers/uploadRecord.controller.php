@@ -20,7 +20,6 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
-require_once SERVICES_DIR . 'cropImage.service.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
@@ -69,7 +68,7 @@ class UploadRecordController extends REST {
      * \brief   funzione per pubblicazione dell'event
      * \modificare il nome in createRecord
      */
-    public function recordCreate() {
+    public function createRecord() {
         try {
             global $controllers;
             if ($this->get_request_method() != "POST") {
@@ -95,6 +94,7 @@ class UploadRecordController extends REST {
             $record->setActive(true);
             $record->setBuyLink((strlen($newRecord->urlBuy) ? $newRecord->urlBuy : null));
             $record->setCounter(0);
+            require_once CONTROLLERS_DIR."utilsController.php";
             $imgInfo = getCroppedImages($newRecord);
             $record->setCover($imgInfo['picture']);
             $record->setThumbnailCover($imgInfo['thumbnail']);
