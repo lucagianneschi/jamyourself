@@ -218,8 +218,186 @@ if (is_null($streamBox->error)) {
             case 'SONGUPLOADED':
                 break;
             case 'FOLLOWING':
+                ?>
+                <div id="tV0O3eGHqH">
+                    <div class="box ">
+                        
+                        <div class="row  line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong>Nome Cognome</strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong>Jammer</strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                                <div class="note grey-light">
+                                    Monday 18 November 2013 - 16:51
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row  line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="row  ">
+                                            <div class="large-12 columns ">
+                                                <div class="text orange">Just added</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">
+                                                <div class="box-membre">
+                                                    <div class="row " id="collaborator_03VPczLItB">
+                                                        <div class="small-3 columns ">
+                                                            <div class="icon-header">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                            </div>
+                                                        </div>
+                                                        <div class="small-9 columns ">
+                                                            <div class="text grey-dark breakOffTest"><strong>Elenaradio</strong></div>
+                                                        </div>		
+                                                    </div>	
+                                                </div>
+                                            </div>
+                                                                            <div class="small-6 columns">
+                                                <div class="box-membre">
+                                                    <div class="row " id="collaborator_06pkm6j7mg">
+                                                        <div class="small-3 columns ">
+                                                            <div class="icon-header">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                            </div>
+                                                        </div>
+                                                        <div class="small-9 columns ">
+                                                            <div class="text grey-dark breakOffTest"><strong>GothicAtmosphere</strong></div>
+                                                        </div>		
+                                                    </div>	
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="box-propriety">
+                                <div class="small-7 columns ">
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                </div>
+                                <div class="small-5 columns propriety ">					
+                                    <a class="icon-propriety _unlove grey">72</a>
+                                    <a class="icon-propriety _comment">0</a>
+                                    <a class="icon-propriety _share">0</a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!---- COMMENT ---->
+                        <div class="box-comment no-display">  
+                    </div>
+                </div>
+                <?php
                 break;
             case 'FRIENDSHIPREQUEST':
+                ?>
+                <div id="tV0O3eGHqH">
+                    <div class="box ">
+                        
+                        <div class="row  line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong>Nome Cognome</strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong>Jammer</strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                                <div class="note grey-light">
+                                    Monday 18 November 2013 - 16:51
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row  line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="row  ">
+                                            <div class="large-12 columns ">
+                                                <div class="text orange">Just added</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">
+                                                <div class="box-membre">
+                                                    <div class="row " id="collaborator_03VPczLItB">
+                                                        <div class="small-3 columns ">
+                                                            <div class="icon-header">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                            </div>
+                                                        </div>
+                                                        <div class="small-9 columns ">
+                                                            <div class="text grey-dark breakOffTest"><strong>Elenaradio</strong></div>
+                                                        </div>		
+                                                    </div>	
+                                                </div>
+                                            </div>
+                                                                            <div class="small-6 columns">
+                                                <div class="box-membre">
+                                                    <div class="row " id="collaborator_06pkm6j7mg">
+                                                        <div class="small-3 columns ">
+                                                            <div class="icon-header">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                            </div>
+                                                        </div>
+                                                        <div class="small-9 columns ">
+                                                            <div class="text grey-dark breakOffTest"><strong>GothicAtmosphere</strong></div>
+                                                        </div>		
+                                                    </div>	
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="box-propriety">
+                                <div class="small-7 columns ">
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                </div>
+                                <div class="small-5 columns propriety ">					
+                                    <a class="icon-propriety _unlove grey">72</a>
+                                    <a class="icon-propriety _comment">0</a>
+                                    <a class="icon-propriety _share">0</a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!---- COMMENT ---->
+                        <div class="box-comment no-display">  
+                    </div>
+                </div>
+                <?php
                 break;
             case 'NEWEVENTREVIEW':
                 ?>
@@ -394,6 +572,95 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'COLLABORATIONREQUEST':
+                ?>
+                <div id="tV0O3eGHqH">
+                    <div class="box ">
+                        
+                        <div class="row  line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong>Nome Cognome</strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong>Jammer</strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                                <div class="note grey-light">
+                                    Monday 18 November 2013 - 16:51
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row  line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="row  ">
+                                            <div class="large-12 columns ">
+                                                <div class="text orange">Just added</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">
+                                                <div class="box-membre">
+                                                    <div class="row " id="collaborator_03VPczLItB">
+                                                        <div class="small-3 columns ">
+                                                            <div class="icon-header">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                            </div>
+                                                        </div>
+                                                        <div class="small-9 columns ">
+                                                            <div class="text grey-dark breakOffTest"><strong>Elenaradio</strong></div>
+                                                        </div>		
+                                                    </div>	
+                                                </div>
+                                            </div>
+                                                                            <div class="small-6 columns">
+                                                <div class="box-membre">
+                                                    <div class="row " id="collaborator_06pkm6j7mg">
+                                                        <div class="small-3 columns ">
+                                                            <div class="icon-header">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                            </div>
+                                                        </div>
+                                                        <div class="small-9 columns ">
+                                                            <div class="text grey-dark breakOffTest"><strong>GothicAtmosphere</strong></div>
+                                                        </div>		
+                                                    </div>	
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="box-propriety">
+                                <div class="small-7 columns ">
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                </div>
+                                <div class="small-5 columns propriety ">					
+                                    <a class="icon-propriety _unlove grey">72</a>
+                                    <a class="icon-propriety _comment">0</a>
+                                    <a class="icon-propriety _share">0</a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!---- COMMENT ---->
+                        <div class="box-comment no-display">  
+                    </div>
+                </div>
+                <?php
                 break;
         }   
     }
@@ -401,93 +668,7 @@ if (is_null($streamBox->error)) {
     
     <!---------------- BOX JUST ADDED ----------------->
 
-    <div id="tV0O3eGHqH">
-        <div class="box ">
-            
-            <div class="row  line">
-                <div class="small-1 columns ">
-                    <div class="icon-header">
-                        <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
-                    </div>
-                </div>
-                <div class="small-5 columns">
-                    <div class="text grey" style="margin-bottom: 0px;">
-                        <strong>Nome Cognome</strong>
-                    </div>
-                    <div class="note orange">
-                        <strong>Jammer</strong>
-                    </div>
-                </div>
-                <div class="small-6 columns propriety">
-                    <div class="note grey-light">
-                        Monday 18 November 2013 - 16:51
-                    </div>
-                </div>
-
-            </div>
-            <div class="row  line">
-                <div class="small-12 columns ">
-                    <div class="row ">
-                        <div class="small-12 columns ">
-                            <div class="row  ">
-                                <div class="large-12 columns ">
-                                    <div class="text orange">Just added</div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="small-6 columns">
-                                    <div class="box-membre">
-                                        <div class="row " id="collaborator_03VPczLItB">
-                                            <div class="small-3 columns ">
-                                                <div class="icon-header">
-                                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
-                                                </div>
-                                            </div>
-                                            <div class="small-9 columns ">
-                                                <div class="text grey-dark breakOffTest"><strong>Elenaradio</strong></div>
-                                            </div>		
-                                        </div>	
-                                    </div>
-                                </div>
-                                                                <div class="small-6 columns">
-                                    <div class="box-membre">
-                                        <div class="row " id="collaborator_06pkm6j7mg">
-                                            <div class="small-3 columns ">
-                                                <div class="icon-header">
-                                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
-                                                </div>
-                                            </div>
-                                            <div class="small-9 columns ">
-                                                <div class="text grey-dark breakOffTest"><strong>GothicAtmosphere</strong></div>
-                                            </div>		
-                                        </div>	
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="box-propriety">
-                    <div class="small-7 columns ">
-                        <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                        <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                        <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
-                    </div>
-                    <div class="small-5 columns propriety ">					
-                        <a class="icon-propriety _unlove grey">72</a>
-                        <a class="icon-propriety _comment">0</a>
-                        <a class="icon-propriety _share">0</a>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <!---- COMMENT ---->
-            <div class="box-comment no-display">  
-        </div>
-    </div>
+    
 <?php
 }
 ?>
