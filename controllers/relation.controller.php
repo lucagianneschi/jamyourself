@@ -287,8 +287,7 @@ class RelationController extends REST {
 		$resToUserF = $userParse->updateField($toUser->getObjectId(), 'following', array($currentUser->getObjectId()), true, 'remove', '_User');
 		$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'followers', array($toUser->getObjectId()), true, 'remove', '_User');
 	    }
-	    if ($resToUserF instanceof Error ||
-		    $resFromUserF instanceof Error) {
+	    if ($resToUserF instanceof Error || $resFromUserF instanceof Error) {
 		#TODO
 		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
 		$message1 = rollbackRemoveRelation('rollbackActivityStatus', $objectId, 'status', 'P', '', '', '', '');
