@@ -30,6 +30,7 @@ $(document).ready(function() {
         $("#uploadAlbum01").fadeOut(100, function() {
             $("#uploadAlbum02").fadeIn(100);
             autoComplete('#uploadAlbum #featuring');
+            initGeocomplete();
         });
     });
 
@@ -117,7 +118,7 @@ $(document).foundation('abide', {
 //autocomplete
 function autoComplete(box){
 	$(box).fcbkcomplete({
-        json_url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
+        json_url: "../controllers/request/uploadRecordEvent.php?request=getFeaturingJSON",
         width:"100%",
         input_min_size: 0,
         height: 10,
@@ -130,4 +131,26 @@ function autoComplete(box){
         	//$('.bit-input').removeClass('no-display');
         }
     });
+}
+
+
+function initGeocomplete() {
+    try {
+        $("#city").geocomplete()
+                .bind("geocode:result", function(event, result) {
+            json_event_create.city = prepareLocationObj(result);
+            var complTest = getCompleteLocationInfo(json_event_create.city);
+        })
+                .bind("geocode:error", function(event, status) {
+            json_event_create.city = null;
+
+        })
+                .bind("geocode:multiple", function(event, results) {
+            json_event_create.city = prepareLocationObj(results[0]);
+        });
+
+    } catch (err) {
+        console.log("initGeocomplete | An error occurred - message : " + err.message);
+    }
+
 }
