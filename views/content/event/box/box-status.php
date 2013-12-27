@@ -5,8 +5,16 @@
  * 
  * 
  */
+
+if (in_array($currentUser->getObjectId(), $event->getLovers())) {
+    $css_love = '_love orange';
+    $text_love = $views['UNLOVE'];
+} else{
+    $css_love = '_unlove grey';
+    $text_love = $views['LOVE'];
+}
+
 ?>
-<!------------------------------------------- STATUS ----------------------------------->
 <div id="social-status">
 	<div class="row">
 		<div class="small-8 columns">			
@@ -31,12 +39,12 @@
 	<div class="row recordReview-propriety">
 		<div class="box-propriety">
 			<div class="small-7 columns ">
-				<a class="note grey" onclick="love()">Love</a>
+				<a class="note grey" onclick="love(this, 'Event', '<?php echo $event->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>');"><?php echo $text_love; ?></a>
 				<a class="note grey" onclick="setCounter()">Comment</a>
 				<a class="note grey" onclick="share()">Share</a>
 			</div>
 			<div class="small-5 columns propriety ">					
-				<a class="icon-propriety _unlove grey"><?php echo $event->getLoveCounter(); ?></a>
+				<a class="icon-propriety <?php echo $css_love; ?>"><?php echo $event->getLoveCounter(); ?></a>
 				<a id="commentCounter" class="icon-propriety _comment"><?php echo $event->getCommentCounter(); ?></a>
 				<a class="icon-propriety _share"><?php echo $event->getShareCounter(); ?></a>
 			</div>	
