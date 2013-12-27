@@ -265,13 +265,16 @@ class RelationController extends REST {
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userParse = new UserParse();
 
-	    //update relation
+	    //update relation: devo rimuovere anche il following
 	    if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
 		$resToUserF = $userParse->updateField($toUser->getObjectId(), 'friendship', array($currentUser->getObjectId()), true, 'remove', '_User');
 		$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'friendship', array($toUser->getObjectId()), true, 'remove', '_User');
 	    } elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
 		$resToUserF = $userParse->updateField($toUser->getObjectId(), 'collaboration', array($currentUser->getObjectId()), true, 'remove', '_User');
 		$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'collaboration', array($toUser->getObjectId()), true, 'remove', '_User');
+	    } elseif ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
+		$resToUserF = $userParse->updateField($toUser->getObjectId(), 'following', array($currentUser->getObjectId()), true, 'remove', '_User');
+		$resFromUserF = $userParse->updateField($currentUser->getObjectId(), 'followers', array($toUser->getObjectId()), true, 'remove', '_User');
 	    }
 	    if ($resToUserF instanceof Error ||
 		    $resFromUserF instanceof Error) {
