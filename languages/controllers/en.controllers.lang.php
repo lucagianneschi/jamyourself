@@ -217,7 +217,11 @@ $controllers = array(
     'NOEVENTIMAGE' => 'No event image give',
     'EVENTCREATEERROR' => 'An error occurred during the creation of the new event',
     'NOEVENTTHUMB' => 'No thumbnail given for this event',
-    'EVENTCREATED' => 'Event created with success'
+    'EVENTCREATED' => 'Event created with success',
+    //PLAYER
+    'ACTSONGNOTPLAYED' => 'Unable to save activity for last song played',
+    'SONGPLAYED' => 'Activity for last song played saved',
+    'ERRORSONGINFO' => 'Unable to retrive record info for save activity for last song played'
 );
 
 $mail_files = array(
