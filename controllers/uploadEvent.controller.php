@@ -23,6 +23,7 @@ require_once CLASSES_DIR . 'userParse.class.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
+require_once CONTROLLERS_DIR . 'utilsController.php';
 require_once BOXES_DIR . "utilsBox.php";
 
 /**
@@ -85,13 +86,17 @@ class UploadEventController extends REST {
             $event->setActive(true);
             $event->setAttendee(null);
             $event->setCounter(0);
-            $event->setDescription($this->request['description']);
-            $event->setEventDate($this->getDate($this->request['date'], $this->request['hours'])); //tipo Date su parse
+            $event->setDescription($this->request['description']);            
+            $eventDate = $this->getDate($this->request['date'], $this->request['hours']);
+            if(is_null($eventDate)){
+                $this->response(array('status' => $controllers['NOEVENTDATE']), 400);                
+            }
+            $event->setEventDate($eventDate); //tipo Date su parse
             $event->setFeaturing($this->request['jammers']);
             $event->setFromUser($userId);
-            $imgInfo = $this->getImages($this->request);
-            $event->setImage($imgInfo['EventPicture']);
-            $event->setThumbnail($imgInfo['EventThumbnail']);
+            $imgInfo = getCroppedImages($this->request);
+            $event->setImage($imgInfo['picture']);
+            $event->setThumbnail($imgInfo['thumbnail']);
             $event->setInvited(null);
             $event->setLocationName($this->request['venue']);
 
@@ -186,31 +191,6 @@ class UploadEventController extends REST {
     }
 
     /**
-     * \fn	getFeaturingArray() 
-     * \brief   funzione per il recupero dei featuring per l'event
-     */
-    private function getFeaturingArray() {
-        error_reporting(E_ALL ^ E_NOTICE);
-        if (isset($_SESSION['currentUser'])) {
-            $currentUser = $_SESSION['currentUser'];
-            $currentUserId = $currentUser->getObjectId();
-            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
-            if (($userArray instanceof Error) || is_null($userArray)) {
-                return array();
-            } else {
-                $userArrayInfo = array();
-                foreach ($userArray as $user) {
-                    $username = $user->getUsername();
-                    $userId = $user->getObjectId();
-                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
-                }
-                return $userArrayInfo;
-            }
-        } else
-            return array();
-    }
-
-    /**
      * \fn	getFeaturingJSON() 
      * \brief   funzione per il recupero dei featuring per l'event
      * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
@@ -218,6 +198,7 @@ class UploadEventController extends REST {
     public function getFeaturingJSON() {
         try {
             global $controllers;
+            error_reporting(E_ALL ^ E_NOTICE);
             $force = false;
             if (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 400);
@@ -229,7 +210,7 @@ class UploadEventController extends REST {
             if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
                 $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
             } else {
-                $currentUserFeaturingArray = $this->getFeaturingArray();
+                $currentUserFeaturingArray = getFeaturingArray();
                 $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
             }
             echo json_encode($currentUserFeaturingArray);
@@ -237,54 +218,6 @@ class UploadEventController extends REST {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
-
-    /**
-     * \fn	getImages($decoded)
-     * \brief   funzione per il recupero delle immagini dalle cartelle
-     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
-     */
-    private function getImages($decoded) {
-//in caso di anomalie ---> default
-        if (!isset($decoded['crop']) || is_null($decoded['crop']) ||
-                !isset($decoded['image']) || is_null($decoded['image'])) {
-            return array("RecordPicture" => null, "RecordThumbnail" => null);
-        }
-        if (is_array($decoded)) {
-            $decoded = json_decode(json_encode($decoded), false);
-        }
-        $PROFILE_IMG_SIZE = 300;
-        $THUMBNAIL_IMG_SIZE = 150;
-
-//recupero i dati per effettuare l'editing
-        $cropInfo = json_decode(json_encode($decoded->crop), false);
-
-        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
-                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
-                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
-                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
-            return array("EventPicture" => null, "EventThumbnail" => null);
-        }
-        $cacheDir = MEDIA_DIR . "cache/";
-        $cacheImg = $cacheDir . $decoded->image;
-        require_once SERVICES_DIR . 'cropImage.service.php';
-
-//Preparo l'oggetto per l'editign della foto
-        $cis = new CropImageService();
-
-//gestione dell'immagine di profilo
-        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, $PROFILE_IMG_SIZE);
-        $coverUrl = $cacheDir . $coverId;
-
-//gestione del thumbnail
-        $thumbId = $cis->cropImage($coverUrl, 0, 0, $PROFILE_IMG_SIZE, $PROFILE_IMG_SIZE, $THUMBNAIL_IMG_SIZE);
-        $thumbUrl = $cacheDir . $thumbId;
-
-//CANCELLAZIONE DELLA VECCHIA IMMAGINE
-        unlink($cacheImg);
-//RETURN        
-        return array('EventPicture' => $coverId, 'EventThumbnail' => $thumbId);
-    }
-
 }
 
 ?>

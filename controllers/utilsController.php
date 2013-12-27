@@ -78,4 +78,71 @@ function sendMailForNotification($address, $subject, $html) {
     return true;
 }
 
+
+
+    /**
+     * \fn	getFeaturingArray() 
+     * \brief   funzione per il recupero dei featuring per l'event
+     */
+    function getFeaturingArray() {
+        if (isset($_SESSION['currentUser'])) {
+            $currentUser = $_SESSION['currentUser'];
+            $currentUserId = $currentUser->getObjectId();
+            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
+            if (($userArray instanceof Error) || is_null($userArray)) {
+                return array();
+            } else {
+                $userArrayInfo = array();
+                foreach ($userArray as $user) {
+                    require_once CLASSES_DIR."user.class.php";
+                    $username = $user->getUsername();
+                    $userId = $user->getObjectId();
+                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
+                }
+                return $userArrayInfo;
+            }
+        } else
+            return array();
+    }
+    
+        /**
+     * \fn	getImages($decoded)
+     * \brief   funzione per recupero immagini
+     * \param   $decoded
+     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+     */
+    function getCroppedImages($decoded) {
+//in caso di anomalie ---> default
+        if (!isset($decoded->crop) || is_null($decoded->crop) ||
+                !isset($decoded->image) || is_null($decoded->image)) {
+            return array("picture" => null, "thumbnail" => null);
+        }
+
+//recupero i dati per effettuare l'editing
+        $cropInfo = json_decode(json_encode($decoded->crop), false);
+
+        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
+                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
+                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
+                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
+            return array("picture" => null, "thumbnail" => null);
+        }
+        $cacheDir = MEDIA_DIR . "cache/";
+        $cacheImg = $cacheDir . $decoded->image;
+        require_once SERVICES_DIR . 'cropImage.service.php';
+//Preparo l'oggetto per l'editign della foto
+        $cis = new CropImageService();
+
+//gestione dell'immagine di profilo
+        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, PROFILE_IMG_SIZE);
+        $coverUrl = $cacheDir . $coverId;
+
+//gestione del thumbnail
+        $thumbId = $cis->cropImage($coverUrl, 0, 0, PROFILE_IMG_SIZE, PROFILE_IMG_SIZE, THUMBNAIL_IMG_SIZE);
+//CANCELLAZIONE DELLA VECCHIA IMMAGINE
+        unlink($cacheImg);
+//RETURN        
+        return array('picture' => $coverId, 'thumbnail' => $thumbId);
+    }
+
 ?>
