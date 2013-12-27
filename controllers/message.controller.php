@@ -150,6 +150,7 @@ class MessageController extends REST {
 	    }
 	    global $mail_files;
 	    require_once CLASSES_DIR . 'userParse.class.php';
+	    require_once CONTROLLERS_DIR . 'utilsController.php';
 	    $userParse = new UserParse();
 	    $user = $userParse->getUser($toUserObjectId);
 	    #TODO
