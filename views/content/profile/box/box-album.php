@@ -22,7 +22,7 @@ $objectIdUser = $_POST['objectIdUser'];
 $albumBox = new AlbumBox();
 $albumBox->init($_POST['objectId']);
 if (is_null($albumBox->error)) {
-	if(isset($_SESSION['currentUser'])) $currentUser = $_SESSION['currentUser'];
+	if (isset($_SESSION['currentUser'])) $currentUser = $_SESSION['currentUser'];
 	$albums = $albumBox->albumArray;
 	$albumCounter = count($albums);
 	?>
