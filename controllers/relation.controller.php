@@ -286,7 +286,7 @@ class RelationController extends REST {
 		$this->response(array('status' => $message), 503);
 	    }
 
-	    //increment toUser
+	    //increment toUser counter
 	    if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
 		$resFromCollaborationCounter = null;
 		$resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'friendshipCounter', 1);
@@ -314,7 +314,7 @@ class RelationController extends REST {
 		$this->response(array('status' => $message), 503);
 	    }
 
-	    //increment currentUser
+	    //increment currentUser counter
 	    if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
 		$resToCollaborationCounter = null;
 		$resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'friendshipCounter', 1);
