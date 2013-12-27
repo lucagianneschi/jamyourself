@@ -288,8 +288,10 @@ class RelationController extends REST {
 
 	    //increment toUser
 	    if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
+		$resFromCollaborationCounter = null;
 		$resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'friendshipCounter', 1);
 	    } elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
+		$resFromCollaborationCounter = $userParse->decrementUser($toUser->getObjectId(), 'collaborationCounter', 1);
 		if ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'JAMMER') {
 		    $resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'jammerCounter', 1);
 		} elseif ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'VENUE') {
@@ -300,7 +302,7 @@ class RelationController extends REST {
 		    $resToUserFC = $userParse->decrementUser($toUser->getObjectId(), 'venueCounter', 1);
 		}
 	    }
-	    if ($resToUserFC instanceof Error) {
+	    if ($resToUserFC instanceof Error || $resFromCollaborationCounter instanceof Error) {
 		#TODO
 		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
 		$message1 = rollbackRemoveRelation('rollbackActivityStatus', $objectId, 'status', 'P', '', '', '', '');
@@ -314,8 +316,10 @@ class RelationController extends REST {
 
 	    //increment currentUser
 	    if ($currentUser->getType() == 'SPOTTER' && $toUser->getType() == 'SPOTTER') {
+		$resToCollaborationCounter = null;
 		$resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'friendshipCounter', 1);
 	    } elseif ($currentUser->getType() != 'SPOTTER' && $toUser->getType() != 'SPOTTER') {
+		$resToCollaborationCounter = $userParse->decrementUser($currentUser->getObjectId(), 'collaborationCounter', 1);
 		if ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'JAMMER') {
 		    $resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'jammerCounter', 1);
 		} elseif ($currentUser->getType() == 'JAMMER' && $toUser->getType() == 'VENUE') {
@@ -326,7 +330,7 @@ class RelationController extends REST {
 		    $resFromUserFC = $userParse->decrementUser($currentUser->getObjectId(), 'venueCounter', 1);
 		}
 	    }
-	    if ($resFromUserFC instanceof Error) {
+	    if ($resFromUserFC instanceof Error || $resFromCollaborationCounter instanceof Error) {
 		#TODO
 		require_once CONTROLLERS_DIR . 'rollBack.controller.php';
 		$message1 = rollbackRemoveRelation('rollbackActivityStatus', $objectId, 'status', 'P', '', '', '', '');
