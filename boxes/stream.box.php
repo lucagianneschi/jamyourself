@@ -17,6 +17,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'debug.service.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
@@ -26,7 +27,7 @@ require_once BOXES_DIR . 'utilsBox.php';
  */
 class StreamBox {
 
-    public $activitesArray;
+    public $activitiesArray;
     public $config;
     public $error;
 
@@ -52,22 +53,23 @@ class StreamBox {
         }
         $currentUser = $_SESSION['currentUser'];
         $actArray = $this->createActivityArray($currentUser->getType());
-        if (($currentUser->getType() == SPOTTER)) {
+        if ($currentUser->getType() == SPOTTER) {
             $ciclesFollowing = ceil($currentUser->getFollowingCounter() / MAX);
             $ciclesFriendship = ceil($currentUser->getFriendshipCounter() / MAX);
             if ($ciclesFollowing == 0 && $ciclesFriendship == 0) {
                 $this->errorManagement();
                 return;
             }
-            $partialActivities = $this->query('following', $currentUserId, $ciclesFollowing, $actArray, $limit, $skip);
-            $partialActivities1 = $this->query('friendship', $currentUserId, $ciclesFriendship, $actArray, $limit, $skip);
-            $activities = array_merge($partialActivities, $partialActivities1);
-            if (count($activities) == 0 || !ksort($activities)) {
+            $partialActivitiesFollowing = $this->query('following', $currentUserId, $ciclesFollowing, $actArray, $limit, $skip);
+            $partialActivitiesFriendship = $this->query('friendship', $currentUserId, $ciclesFriendship, $actArray, $limit, $skip);
+            $activities = $partialActivitiesFollowing + $partialActivitiesFriendship;
+            if (count($activities) == 0 || !krsort($activities)) {
                 $this->errorManagement('STREAMERROR');
                 return;
             }
             $this->error = null;
-            $this->activitesArray = $activities;
+            $chunk = array_chunk($activities, 10, true);
+            $this->activitiesArray = $chunk[0];
             return;
         } else {
             $cicles = ceil($currentUser->getCollaborationCounter() / MAX);
@@ -76,13 +78,15 @@ class StreamBox {
                 return;
             }
             $activities = $this->query('collaboration', $currentUserId, $cicles, $actArray, $limit, $skip);
-        }
-        if (count($activities) == 0 || !ksort($activities)) {
-            $this->errorManagement('STREAMERROR');
+            if (count($activities) == 0 || !krsort($activities)) {
+                $this->errorManagement('STREAMERROR');
+                return;
+            }
+            $this->error = null;
+            $chunk = array_chunk($activities, 10, true);
+            $this->activitiesArray = $chunk[0];
             return;
         }
-        $this->error = null;
-        $this->activitesArray = $activities;
     }
 
     /**
@@ -161,7 +165,7 @@ class StreamBox {
      * \param	$errorMessage
      */
     private function errorManagement($errorMessage = null) {
-        $this->activitesArray = array();
+        $this->activitiesArray = array();
         $this->config = null;
         $this->error = $errorMessage;
     }
@@ -185,6 +189,7 @@ class StreamBox {
             $parseQuery->whereInclude('album,event,comment,record,song,video,fromUser,toUser');
             $parseQuery->where('active', true);
             $parseQuery->whereContainedIn('type', $actArray);
+            $parseQuery->orderByDescending('createdAt');
             $res = $parseQuery->find();
             if (is_array($res->results) && count($res->results) > 0) {
                 $partialActivities = $this->activitiesChecker($res);
