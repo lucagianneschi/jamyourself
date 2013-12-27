@@ -6,12 +6,12 @@
  * \date		2013
  * \copyright           Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		controller di gestione della playlist
- * \details		gestisce l'inserimento e la cancellazione di una song dalla tracklist di una playlist
+ * \brief		controller di gestione del player
+ * \details		gestisce la creazione dell'activity legata al player
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		 check numero di canzoni; check per vedere se song presente già presente nella tracklist
+ * \todo		 
  *
  */
 if (!defined('ROOT_DIR'))
@@ -32,7 +32,7 @@ class PlayerController extends REST {
     /**
      * \fn      play()
      * \brief   add song to playlist
-     * \todo    vedere se va fatto controllo su + o meno 20 valori nella relation
+     * \todo    
      */
     public function play() {
 	try {
