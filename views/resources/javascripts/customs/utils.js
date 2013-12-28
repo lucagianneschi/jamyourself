@@ -14,7 +14,8 @@ var restServerList = {
     "upload": "uploadRequest.php",
     "uploadEvent": "uploadEventRequest.php",
     "uploadRecord": "uploadRecordRequest.php",
-    "uploadReview": "uploadReviewRequest.php"
+    "uploadReview": "uploadReviewRequest.php",
+    "uploadAlbum": "uploadAlbumRequest.php"
 };
 function sendRequest(_server, _action, _data, _callback, _async) {
     try {
