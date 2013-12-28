@@ -206,6 +206,7 @@ class RecordParse {
 	    $record->setCity(parse_decode_string($res->city));
 	    $record->setCommentCounter($res->commentCounter);
 	    $record->setCounter($res->counter);
+	    $record->setCity($res->city);
 	    $record->setCover($res->cover);
 	    $record->setDescription(parse_decode_string($res->description));
 	    $record->setDuration($res->duration);
