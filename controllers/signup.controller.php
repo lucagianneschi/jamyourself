@@ -71,8 +71,6 @@ class SignupController extends REST {
 //senza captcha:
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($_SESSION['currentUser'])) {
-                $this->response(array('status' => $controllers['USERNOSES']), 403);
             }
 
 //verifico che l'utente abbia effettivamente completato il captcha
