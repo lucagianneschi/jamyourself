@@ -44,7 +44,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    $review_user_objectId = $value->getFromUser()->getObjectId();
 		    $review_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
 		    $review_user_username = $value->getFromUser()->getUsername();
-		    $review_user_type = $value->getFromUser->getType();
+		    $review_user_type = $value->getFromUser()->getType();
 		    $review_objectId = $value->getObjectId();
 		    $review_data = $value->getCreatedAt()->format('l j F Y - H:i');
 		    $review_title = $value->getTitle();
