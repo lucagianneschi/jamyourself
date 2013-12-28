@@ -66,6 +66,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						$recordReview_user_type = $value->getFromUser()->getType();
 						$recordReview_thumbnailCover = $value->getRecord()->getThumbnailCover();
 						$recordReview_title = $value->getRecord()->getTitle();
+						$recordReview_data = $value->getCreatedAt()->format('l j F Y - H:i');
 						#TODO
 						//$recordReview_rating = $value->getRecord()->getRating();
 						$recordReview_text = $value->getText();
@@ -102,9 +103,14 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 										<img src="../media/<?php echo $recordReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 									</div>
 								</div>
-								<div  class="small-11 columns">
-									<div class="text grey" style="margin-left: 10px;"><strong><?php echo $recordReview_user_username ?></strong></div>
-								</div>	
+								<div  class="small-5 columns">
+									<div class="text grey" style="margin-left: 20px;"><strong><?php echo $recordReview_user_username ?></strong></div>
+								</div>
+								<div  class="small-6 columns" style="text-align: right;">
+					    				<div class="note grey-light">
+										<?php echo $recordReview_data; ?>
+					    				</div>
+				    			    </div>		
 							</div>
 							<div class="row">
 								<div  class="large-12 columns"><div class="line"></div></div>
@@ -116,7 +122,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 							<div  class="small-2 columns ">
 								<div class="coverThumb"><img src="../media/<?php echo $recordReview_thumbnailCover?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
 							</div>
-							<div  class="small-8 columns ">
+							<div  class="small-10 columns ">
 								<div class="row ">							
 									<div  class="small-12 columns ">
 										<div class="sottotitle grey-dark"><?php echo $recordReview_title ?></div>
@@ -141,20 +147,18 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 									</div>
 								</div>													
 							</div>
-							<div  class="small-2 columns align-right viewAlbumReview">
-								<a href="#" class="orange"><strong onclick="toggleTextRecordReview(this,'recordReview_<?php echo $recordReview_objectId ?>')"><?php echo $views['RecordReview']['READ'];?></strong></a>
-							</div>				
+										
 						</div>
-							
-						<div class="textReview no-display">
-							<div class="row ">						
-								<div  class="small-12 columns ">
-									<div class="text grey" style="line-height: 18px !important;">
-										<?php echo $recordReview_text; ?>
-									</div>
-								</div>
-							</div>					
-						</div>
+						<div class="row " style=" margin-top:10px;">						
+		    			    <div  class="small-12 columns ">
+		    				<div class="text grey cropText inline" style="line-height: 18px !important;">
+							<?php echo $recordReview_text; ?>
+		    				</div>
+		    				<a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'recordReview_<?php echo $recordReview_objectId ?>', '<?php echo $recordReview_text ?>')">View All</strong></a>
+		    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $recordReview_objectId ?>', '<?php echo $recordReview_text ?>')">Close</strong></a>
+		    			    </div>
+		    			</div>	
+						
 						<div class="row">
 							<div  class="large-12 columns"><div class="line"></div></div>
 						</div>
