@@ -54,7 +54,7 @@ if ($countComment > 0) {
                             <div class="row">
                                 <div  class="small-1 columns ">
                                     <div class="icon-header">
-                                        <img src="../media/<?php echo $value->getFromUser()->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $defaultThum ?>'">
+                                        <img src="../media/<?php echo $value->getFromUser()->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum ?>'">
                                     </div>
                                 </div>
                                 <div  class="small-5 columns">

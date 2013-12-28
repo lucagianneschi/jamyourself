@@ -40,7 +40,7 @@ $AlbumList = $albumBoxP->albumArray;
 					<div class="item-block uploadAlbum-boxSingleAlbum" id="<?php echo $i ?>">
 						<div class="row uploadAlbum-rowSingleAlbum">
 							<div  class="small-6 columns ">
-								<img class="coverAlbum"  src="<?php echo $thumbnailSrc ?>" onerror="this.src='../media/<?php echo DEFALBUMTHUMB;?>'">  
+								<img class="coverAlbum"  src="<?php echo $thumbnailSrc ?>" onerror="this.src='<?php echo DEFALBUMTHUMB;?>'">  
 							</div>
 							<div  class="small-6 columns title">
 								<div class="sottotitle white"><?php echo $title ?></div>

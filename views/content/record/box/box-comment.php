@@ -81,6 +81,18 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                                 $css_love = '_unlove grey';
                                 $text_love = $views['LOVE'];
                             }
+							
+							switch ($comment_user_type) {
+		                        case 'JAMMER':
+		                            $defaultThum = DEFTHUMBJAMMER;
+		                            break;
+		                        case 'VENUE':
+		                            $defaultThum = DEFTHUMBVENUE;
+		                            break;
+		                        case 'SPOTTER':
+		                            $defaultThum = DEFTHUMBSPOTTER;
+		                            break;
+		                    }
                             ?>				
                             <div id='<?php echo $comment_objectId; ?>'>
                                 
@@ -89,7 +101,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                                     <div class="row  line">
                                         <div  class="small-1 columns ">
                                             <div class="icon-header">
-                                                <img src="../media/<?php echo $comment_user_thumbnail; ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+                                                <img src="../media/<?php echo $comment_user_thumbnail; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
                                             </div>
                                         </div>
                                         <div  class="small-5 columns">

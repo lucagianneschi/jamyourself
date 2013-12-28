@@ -63,6 +63,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						$recordReview_user_objectId = $value->getFromUser()->getObjectId();
 						$recordReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
 						$recordReview_user_username = $value->getFromUser()->getUsername();
+						$recordReview_user_type = $value->getFromUser()->getType();
 						$recordReview_thumbnailCover = $value->getRecord()->getThumbnailCover();
 						$recordReview_title = $value->getRecord()->getTitle();
 						#TODO
@@ -83,11 +84,22 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						<div id='recordReview_<?php echo $recordReview_objectId ?>'>
 						<?php
 						if ($type != 'SPOTTER') {
+							switch ($recordReview_user_type) {
+		                        case 'JAMMER':
+		                            $defaultThum = DEFTHUMBJAMMER;
+		                            break;
+		                        case 'VENUE':
+		                            $defaultThum = DEFTHUMBVENUE;
+		                            break;
+		                        case 'SPOTTER':
+		                            $defaultThum = DEFTHUMBSPOTTER;
+		                            break;
+		                    }
 							?>		
 							<div class="row <?php echo $recordReview_user_objectId ?>">
 								<div  class="small-1 columns ">
 									<div class="userThumb">
-										<img src="../media/<?php echo $recordReview_user_thumbnail ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+										<img src="../media/<?php echo $recordReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 									</div>
 								</div>
 								<div  class="small-11 columns">
@@ -102,7 +114,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						?>
 						<div class="row">
 							<div  class="small-2 columns ">
-								<div class="coverThumb"><img src="../media/<?php echo $recordReview_thumbnailCover?>" onerror="this.src='../media/<?php echo DEFRECORDTHUMB; ?>'"></div>						
+								<div class="coverThumb"><img src="../media/<?php echo $recordReview_thumbnailCover?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
 							</div>
 							<div  class="small-8 columns ">
 								<div class="row ">							

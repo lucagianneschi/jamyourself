@@ -25,7 +25,7 @@ require_once ROOT_DIR . 'config.php';
                                                 url: "content/stream/box/box-lastPost.php",
                                                 beforeSend: function(xhr) {
                                                     console.log('Sono partito box-lastPost');
-                                                    //goSpinner('#box-record', 'record');
+                                                    //goSpinnerBox('#box-record', 'record');
                                                 }
                                             }).done(function(message, status, xhr) {
                                                 $("#box-lastPost").html(message);
@@ -129,7 +129,7 @@ require_once ROOT_DIR . 'config.php';
 									beforeSend: function(xhr) {
 										//spinner.show();
 										console.log('Sono partito box-music');
-										goSpinner('#box-record','record');
+										goSpinnerBox('#box-record','record');
 									}
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
@@ -291,7 +291,7 @@ require_once ROOT_DIR . 'config.php';
                             url: "content/stream/box/box-activity.php",
                             beforeSend: function(xhr) {
                                 console.log('Sono partito box-activity');
-                                //goSpinner('#box-record', 'record');
+                                //goSpinnerBox('#box-record', 'record');
                             }
                         }).done(function(message, status, xhr) {
                             $("#box-activity").html(message);

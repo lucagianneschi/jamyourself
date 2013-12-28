@@ -44,7 +44,7 @@ if(($limit + $skip) < $countImage){
 		$thumbImage = $value->getThumbnail();
 		?>
   	<!------------------------------ THUMBNAIL ---------------------------------->
-	<li><a class="photo-colorbox-group" href="#<?php echo $value->getObjectId(); ?>"><img class="photo" src="../media/<?php echo $value->getThumbnail() ?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"></a></li>
+	<li><a class="photo-colorbox-group" href="#<?php echo $value->getObjectId(); ?>"><img class="photo" src="../media/<?php echo $value->getThumbnail() ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'"></a></li>
 
 	<?php  } ?>
 </ul>
@@ -72,7 +72,7 @@ if(($limit + $skip) < $countImage){
 			<div id="<?php echo $value->getObjectId(); ?>" class="lightbox-photo <?php echo $value->getFilePath(); ?>">
 				<div class="row " style="max-width: none;">
 					<div class="large-12 columns lightbox-photo-box"   >
-						<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $value->getFilePath(); ?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"/></div>
+						<div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="../media/images/image/<?php echo $value->getFilePath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'"/></div>
 			 			<div class="row">
 			 				<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
 			 			</div>

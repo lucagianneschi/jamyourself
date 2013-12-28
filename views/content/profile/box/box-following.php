@@ -54,13 +54,24 @@ if (is_null($followingsBox->error)) {
 					<?php
 					$i = 1;
 					foreach ($venuesFollowings as $key => $value) {
+						switch ($value->getType()) {
+	                        case 'JAMMER':
+	                            $defaultThum = DEFTHUMBJAMMER;
+	                            break;
+	                        case 'VENUE':
+	                            $defaultThum = DEFTHUMBVENUE;
+	                            break;
+	                        case 'SPOTTER':
+	                            $defaultThum = DEFTHUMBSPOTTER;
+	                            break;
+	                    }
 						?>	
 						<div  class="small-6 columns">
 							<div class="box-membre">
 								<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
+											<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum;?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -85,14 +96,26 @@ if (is_null($followingsBox->error)) {
 						<div class="row">
 					<?php
 						$i = 1;
-						foreach ($venuesFollowings as $key => $value) { ?>
+						foreach ($venuesFollowings as $key => $value) { 
+							switch ($value->getType()) {
+		                        case 'JAMMER':
+		                            $defaultThum = DEFTHUMBJAMMER;
+		                            break;
+		                        case 'VENUE':
+		                            $defaultThum = DEFTHUMBVENUE;
+		                            break;
+		                        case 'SPOTTER':
+		                            $defaultThum = DEFTHUMBSPOTTER;
+		                            break;
+		                    }
+							?>
 											  
 								<div  class="small-6 columns">
 									<div class="box-membre">
 										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum;?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -137,13 +160,24 @@ if (is_null($followingsBox->error)) {
 					<?php
 					$i = 1;
 					foreach ($jammersFollowings as $key => $value) {
+						switch ($value->getType()) {
+		                        case 'JAMMER':
+		                            $defaultThum = DEFTHUMBJAMMER;
+		                            break;
+		                        case 'VENUE':
+		                            $defaultThum = DEFTHUMBVENUE;
+		                            break;
+		                        case 'SPOTTER':
+		                            $defaultThum = DEFTHUMBSPOTTER;
+		                            break;
+		                    }
 						?>	
 						<div  class="small-6 columns">
 							<div class="box-membre">
 								<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 									<div  class="small-3 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
+											<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum;?>'">
 										</div>
 									</div>
 									<div  class="small-9 columns ">
@@ -170,14 +204,26 @@ if (is_null($followingsBox->error)) {
 						<div class="row">
 					<?php
 						$i = 1;
-						foreach ($jammersFollowings as $key => $value) { ?>
+						foreach ($jammersFollowings as $key => $value) { 
+							switch ($value->getType()) {
+		                        case 'JAMMER':
+		                            $defaultThum = DEFTHUMBJAMMER;
+		                            break;
+		                        case 'VENUE':
+		                            $defaultThum = DEFTHUMBVENUE;
+		                            break;
+		                        case 'SPOTTER':
+		                            $defaultThum = DEFTHUMBSPOTTER;
+		                            break;
+		                    }
+							?>
 											  
 								<div  class="small-6 columns">
 									<div class="box-membre">
 										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum;?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">

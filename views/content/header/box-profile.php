@@ -49,7 +49,7 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 						<div class="row">
 							<div  class="large-2 columns hide-for-small">
 								<div class="icon-header">							
-									<img src="../media/<?php echo $thumbnail ?>" onerror="this.src='../media/<?php echo DEFALBUMTHUMB;?>'">  
+									<img src="../media/<?php echo $thumbnail ?>" onerror="this.src='<?php echo DEFALBUMTHUMB;?>'">  
 								</div>
 							</div>
 							<div  class="large-10 columns ">

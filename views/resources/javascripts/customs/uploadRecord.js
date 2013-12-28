@@ -652,7 +652,8 @@ function initGeocomplete() {
 
 function getUserRecords() {
     try {
-        startSpinnerForRecords();
+      //  startSpinnerForRecords();
+      	goSpinner('#records_spinner');
         sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
     } catch (err) {
         console.log("getUserRecords | An error occurred - message : " + err.message);
@@ -670,7 +671,7 @@ function getUserRecordsCallback(data, status, xhr) {
         } else {
             alert(data.status);
         }
-        spinner_records.stop();
+        stopSpinner('#records_spinner');
         onCarouselReady();
     } catch (err) {
         console.log("getUserRecords | An error occurred - message : " + err.message);
@@ -735,24 +736,3 @@ function onCarouselReady() {
     }
 }
 
-function startSpinnerForRecords() {
-    var opts = {
-        lines: 10, // The number of lines to draw
-        length: 7, // The length of each line
-        width: 4, // The line thickness
-        radius: 10, // The radius of the inner circle
-        corners: 1, // Corner roundness (0..1)
-        rotate: 0, // The rotation offset
-        color: '#000', // #rgb or #rrggbb
-        speed: 1, // Rounds per second
-        trail: 60, // Afterglow percentage
-        shadow: false, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
-        className: 'spinner', // The CSS class to assign to the spinner
-        zIndex: 2e9, // The z-index (defaults to 2000000000)
-        top: 25, // Top position relative to parent in px
-        left: 25 // Left position relative to parent in px
-    };
-    var target = document.getElementById('records_spinner');
-    spinner_records = new Spinner(opts).spin(target);
-}

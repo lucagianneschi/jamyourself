@@ -72,7 +72,7 @@ if (is_null($streamBox->error)) {
                         <div class="row line">
                             <div class="small-1 columns ">
                                 <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                 </div>
                             </div>
                             <div class="small-5 columns">
@@ -109,13 +109,13 @@ if (is_null($streamBox->error)) {
                                                 <div id="box-albumDetail" style="margin-top: 10px;">
                                                     <ul class="small-block-grid-3 small-block-grid-2 ">
                                                         <!------------------------------ THUMBNAIL ---------------------------------->
-                                                    <li><a class="photo-colorbox-group cboxElement" href="#o8uxB9jcQ6"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../media/../../../../media/images/default/defaultImage.jpg'"></a></li>
+                                                    <li><a class="photo-colorbox-group cboxElement" href="#o8uxB9jcQ6"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
                                                 
                                                         <!------------------------------ THUMBNAIL ---------------------------------->
-                                                    <li><a class="photo-colorbox-group cboxElement" href="#7v89ijnq1Y"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../media/../../../../media/images/default/defaultImage.jpg'"></a></li>
+                                                    <li><a class="photo-colorbox-group cboxElement" href="#7v89ijnq1Y"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
                                                 
                                                         <!------------------------------ THUMBNAIL ---------------------------------->
-                                                    <li><a class="photo-colorbox-group cboxElement" href="#SJbjQ1BxfJ"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../media/../../../../media/images/default/defaultImage.jpg'"></a></li>
+                                                    <li><a class="photo-colorbox-group cboxElement" href="#SJbjQ1BxfJ"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
                                                 
                                                     </ul>
                                                 </div>
@@ -158,7 +158,7 @@ if (is_null($streamBox->error)) {
                         <div class="row  line">
                             <div class="small-1 columns ">
                                 <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                 </div>
                             </div>
                             <div class="small-5 columns">
@@ -225,7 +225,7 @@ if (is_null($streamBox->error)) {
                         <div class="row  line">
                             <div class="small-1 columns ">
                                 <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                 </div>
                             </div>
                             <div class="small-5 columns">
@@ -258,7 +258,7 @@ if (is_null($streamBox->error)) {
                                                     <div class="row " id="collaborator_03VPczLItB">
                                                         <div class="small-3 columns ">
                                                             <div class="icon-header">
-                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                                             </div>
                                                         </div>
                                                         <div class="small-9 columns ">
@@ -272,7 +272,7 @@ if (is_null($streamBox->error)) {
                                                     <div class="row " id="collaborator_06pkm6j7mg">
                                                         <div class="small-3 columns ">
                                                             <div class="icon-header">
-                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                                             </div>
                                                         </div>
                                                         <div class="small-9 columns ">
@@ -316,7 +316,7 @@ if (is_null($streamBox->error)) {
                         <div class="row  line">
                             <div class="small-1 columns ">
                                 <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                 </div>
                             </div>
                             <div class="small-5 columns">
@@ -349,7 +349,7 @@ if (is_null($streamBox->error)) {
                                                     <div class="row " id="collaborator_03VPczLItB">
                                                         <div class="small-3 columns ">
                                                             <div class="icon-header">
-                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                                             </div>
                                                         </div>
                                                         <div class="small-9 columns ">
@@ -363,7 +363,7 @@ if (is_null($streamBox->error)) {
                                                     <div class="row " id="collaborator_06pkm6j7mg">
                                                         <div class="small-3 columns ">
                                                             <div class="icon-header">
-                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                                             </div>
                                                         </div>
                                                         <div class="small-9 columns ">
@@ -407,7 +407,7 @@ if (is_null($streamBox->error)) {
                         <div class="row line">
                             <div class="small-1 columns ">
                                 <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                 </div>
                             </div>
                             <div class="small-5 columns">
@@ -436,7 +436,7 @@ if (is_null($streamBox->error)) {
                                         </div>
                                         <div class="row">
                                             <div class="small-2 columns ">
-                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../media/../../../../media/images/default/defaultEventThumb.jpg'"></div>						
+                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
                                             </div>
                                             <div class="small-8 columns ">
                                                 <div class="row ">							
@@ -493,7 +493,7 @@ if (is_null($streamBox->error)) {
                         <div class="row line">
                             <div class="small-1 columns ">
                                 <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                 </div>
                             </div>
                             <div class="small-5 columns">
@@ -522,7 +522,7 @@ if (is_null($streamBox->error)) {
                                         </div>
                                         <div class="row">
                                             <div class="small-2 columns ">
-                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../media/../../../../media/images/default/defaultEventThumb.jpg'"></div>						
+                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
                                             </div>
                                             <div class="small-8 columns ">
                                                 <div class="row ">							
@@ -579,7 +579,7 @@ if (is_null($streamBox->error)) {
                         <div class="row  line">
                             <div class="small-1 columns ">
                                 <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                 </div>
                             </div>
                             <div class="small-5 columns">
@@ -612,7 +612,7 @@ if (is_null($streamBox->error)) {
                                                     <div class="row " id="collaborator_03VPczLItB">
                                                         <div class="small-3 columns ">
                                                             <div class="icon-header">
-                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                                             </div>
                                                         </div>
                                                         <div class="small-9 columns ">
@@ -626,7 +626,7 @@ if (is_null($streamBox->error)) {
                                                     <div class="row " id="collaborator_06pkm6j7mg">
                                                         <div class="small-3 columns ">
                                                             <div class="icon-header">
-                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='../media/images/default/defaultAvatarThumb.jpg'">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
                                                             </div>
                                                         </div>
                                                         <div class="small-9 columns ">

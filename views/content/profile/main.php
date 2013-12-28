@@ -28,7 +28,7 @@ require_once ROOT_DIR . 'config.php';
 									beforeSend: function(xhr) {
 										//spinner.show();
 										console.log('Sono partito box-record');
-										goSpinner('#box-record','record');
+										goSpinnerBox('#box-record','record');
 									}
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
@@ -67,7 +67,7 @@ require_once ROOT_DIR . 'config.php';
 										data: json_data,
 										beforeSend: function(xhr) {
 											//spinner.show();
-											goSpinner('#box-event','event');
+											goSpinnerBox('#box-event','event');
 											console.log('Sono partito box-event');
 										}
 									}).done(function(message, status, xhr) {
@@ -108,7 +108,7 @@ require_once ROOT_DIR . 'config.php';
 										data: json_data,
 										beforeSend: function(xhr) {
 											//spinner.show();
-											goSpinner('#box-friends','friends');
+											goSpinnerBox('#box-friends','friends');
 											console.log('Sono partito box-friends');
 										}
 									}).done(function(message, status, xhr) {
@@ -139,7 +139,7 @@ require_once ROOT_DIR . 'config.php';
 										data: json_data,
 										beforeSend: function(xhr) {
 											//spinner.show();
-											goSpinner('#box-following','following');
+											goSpinnerBox('#box-following','following');
 											console.log('Sono partito box-following');
 										}
 									}).done(function(message, status, xhr) {
@@ -172,7 +172,7 @@ require_once ROOT_DIR . 'config.php';
 									data: json_data,
 									beforeSend: function(xhr) {
 										//spinner.show();
-										goSpinner('#box-album','album');
+										goSpinnerBox('#box-album','album');
 										console.log('Sono partito box-album');
 									}
 								}).done(function(message, status, xhr) {
@@ -213,7 +213,7 @@ require_once ROOT_DIR . 'config.php';
                                 data: json_data,
                                 beforeSend: function(xhr) {
                                     //spinner.show();
-                                    goSpinner('#box-recordReview','RecordReview');
+                                    goSpinnerBox('#box-recordReview','RecordReview');
                                     console.log('Sono partito box-recordReview');
                                 }
                             }).done(function(message, status, xhr) {
@@ -248,7 +248,7 @@ require_once ROOT_DIR . 'config.php';
                                 data: json_data,
                                 beforeSend: function(xhr) {
                                     //spinner.show();
-                                    goSpinner('#box-eventReview','EventReview');
+                                    goSpinnerBox('#box-eventReview','EventReview');
                                     console.log('Sono partito box-eventReview');
                                 }
                             }).done(function(message, status, xhr) {
@@ -283,7 +283,7 @@ require_once ROOT_DIR . 'config.php';
                                 data: json_data,
                                 beforeSend: function(xhr) {
                                     //spinner.show();
-                                    goSpinner('#box-activity','activity');
+                                    goSpinnerBox('#box-activity','activity');
                                     console.log('Sono partito box-activity');
                                 }
                             }).done(function(message, status, xhr) {
@@ -316,7 +316,7 @@ require_once ROOT_DIR . 'config.php';
                                     data: json_data,
                                     beforeSend: function(xhr) {
                                         //spinner.show();
-                                        goSpinner('#box-collaboration','collaboration');
+                                        goSpinnerBox('#box-collaboration','collaboration');
                                         console.log('Sono partito box-collaboration');
                                     }
                                 }).done(function(message, status, xhr) {
@@ -348,7 +348,7 @@ require_once ROOT_DIR . 'config.php';
                                     data: json_data,
                                     beforeSend: function(xhr) {
                                         //spinner.show();
-                                        goSpinner('#box-followers','followers');
+                                        goSpinnerBox('#box-followers','followers');
                                         console.log('Sono partito box-followers');
                                     }
                                 }).done(function(message, status, xhr) {
@@ -382,7 +382,7 @@ require_once ROOT_DIR . 'config.php';
                                 data: json_data,
                                 beforeSend: function(xhr) {
                                     //spinner.show();
-                                    goSpinner('#box-post','post');
+                                    goSpinnerBox('#box-post','post');
                                     console.log('Sono partito box-post');
                                 }
                             }).done(function(message, status, xhr) {
@@ -417,7 +417,7 @@ require_once ROOT_DIR . 'config.php';
                                     data: json_data,
                                     beforeSend: function(xhr) {
                                         //spinner.show();											
-                                        goSpinner(box,'');
+                                        goSpinnerBox(box,'');
                                         console.log('Sono partito loadBoxOpinion(' + objectId + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
                                     }
                                 })

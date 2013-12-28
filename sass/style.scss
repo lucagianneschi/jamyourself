@@ -191,9 +191,11 @@ a.icon-block{
 }
 
 .slide-button-next-disabled{
-	color:$grey-light !important;
+	@include opacity(0.3); 
 	&:hover{
-		color: $grey-light !important;
+		color:$grey;
+		@include opacity(0.3); 
+		cursor: default;
 		background-position: right top !important;
 	}
 }
@@ -218,10 +220,12 @@ a.icon-block{
     color: $orange;
   }
 }
-.slide-button-prev-disabled{
-	color:$grey-light !important;
+.slide-button-prev-disabled{	
+	@include opacity(0.3); 
 	&:hover{
-		color: $grey-light !important;
+		color:$grey;
+		@include opacity(0.3); 
+		cursor: default;
 		background-position: left top !important;
 	}
 }
