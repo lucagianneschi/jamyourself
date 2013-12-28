@@ -297,13 +297,24 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 									<div class="row">
 										<?php
 										if (isset($dataActivityRelation['jammersCollaborators'.'0']['objectId']) && isset($dataActivityRelation['jammersCollaborators'.'0']['objectId']) != '' ) {
+											switch ($dataActivityRelation['jammersCollaborators'.'0']['type']) {
+						                        case 'JAMMER':
+						                            $defaultThum = DEFTHUMBJAMMER;
+						                            break;
+						                        case 'VENUE':
+						                            $defaultThum = DEFTHUMBVENUE;
+						                            break;
+						                        case 'SPOTTER':
+						                            $defaultThum = DEFTHUMBSPOTTER;
+						                            break;
+						                    }
 											?>
 											<div  class="small-6 columns">
 												<div class="box-membre" id='jammersCollaborators_<?php echo $dataActivityRelation['jammersCollaborators'.'0']['objectId'] ?>'>
 													<div class="row ">
 														<div  class="small-3 columns ">
 															<div class="icon-header">
-																<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+																<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 															</div>
 														</div>
 														<div  class="small-9 columns ">
@@ -316,13 +327,24 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 											<?php
 										}
 										if (isset($dataActivityRelation['jammersCollaborators'.'1']['objectId']) && isset($dataActivityRelation['jammersCollaborators'.'1']['objectId']) != '' ) {
+											switch ($dataActivityRelation['jammersCollaborators'.'1']['type']) {
+						                        case 'JAMMER':
+						                            $defaultThum = DEFTHUMBJAMMER;
+						                            break;
+						                        case 'VENUE':
+						                            $defaultThum = DEFTHUMBVENUE;
+						                            break;
+						                        case 'SPOTTER':
+						                            $defaultThum = DEFTHUMBSPOTTER;
+						                            break;
+						                    }
 											?>
 											<div  class="small-6 columns">
 												<div class="box-membre" id='jammersCollaborators_<?php echo $dataActivityRelation['jammersCollaborators'.'1']['objectId'] ?>'>
 													<div class="row ">
 														<div  class="small-3 columns ">
 															<div class="icon-header">
-																<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+																<img src="../media/<?php echo $dataActivityRelation['jammersCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 															</div>
 														</div>
 														<div  class="small-9 columns ">
@@ -359,13 +381,24 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 									<div class="row">
 										<?php
 										if (isset($dataActivityRelation['venuesCollaborators'.'0']['objectId']) && isset($dataActivityRelation['venuesCollaborators'.'0']['objectId']) != '' ) {
+											switch ($dataActivityRelation['venuesCollaborators'.'0']['type']) {
+						                        case 'JAMMER':
+						                            $defaultThum = DEFTHUMBJAMMER;
+						                            break;
+						                        case 'VENUE':
+						                            $defaultThum = DEFTHUMBVENUE;
+						                            break;
+						                        case 'SPOTTER':
+						                            $defaultThum = DEFTHUMBSPOTTER;
+						                            break;
+						                    }
 											?>
 											<div  class="small-6 columns">
 												<div class="box-membre" id='venuesCollaborators_<?php echo $dataActivityRelation['venuesCollaborators'.'0']['objectId'] ?>'>
 													<div class="row ">
 														<div  class="small-3 columns ">
 															<div class="icon-header">
-																<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+																<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 															</div>
 														</div>
 														<div  class="small-9 columns ">
@@ -378,13 +411,24 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 											<?php
 										}
 										if (isset($dataActivityRelation['venuesCollaborators'.'1']['objectId']) && isset($dataActivityRelation['venuesCollaborators'.'1']['objectId']) != '' ) {
+											switch ($dataActivityRelation['venuesCollaborators'.'1']['type']) {
+						                        case 'JAMMER':
+						                            $defaultThum = DEFTHUMBJAMMER;
+						                            break;
+						                        case 'VENUE':
+						                            $defaultThum = DEFTHUMBVENUE;
+						                            break;
+						                        case 'SPOTTER':
+						                            $defaultThum = DEFTHUMBSPOTTER;
+						                            break;
+						                    }
 											?>
 											<div  class="small-6 columns">
 												<div class="box-membre" id='venuesCollaborators_<?php echo $dataActivityRelation['venuesCollaborators'.'1']['objectId'] ?>'>
 													<div class="row ">
 														<div  class="small-3 columns ">
 															<div class="icon-header">
-																<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+																<img src="../media/<?php echo $dataActivityRelation['venuesCollaborators'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 															</div>
 														</div>
 														<div  class="small-9 columns ">
@@ -425,13 +469,24 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 									<div class="row">
 										<?php
 										if (isset($dataActivityRelation['friendship'.'0']['objectId']) && isset($dataActivityRelation['friendship'.'0']['objectId']) != '' ) {
+											switch ($dataActivityRelation['friendship'.'0']['type']) {
+						                        case 'JAMMER':
+						                            $defaultThum = DEFTHUMBJAMMER;
+						                            break;
+						                        case 'VENUE':
+						                            $defaultThum = DEFTHUMBVENUE;
+						                            break;
+						                        case 'SPOTTER':
+						                            $defaultThum = DEFTHUMBSPOTTER;
+						                            break;
+						                    }
 											?>
 											<div  class="small-6 columns">
 												<div class="box-membre" id='friendship_<?php echo $dataActivityRelation['friendship'.'0']['objectId'] ?>'>
 													<div class="row ">
 														<div  class="small-3 columns ">
 															<div class="icon-header">
-																<img src="../media/<?php echo $dataActivityRelation['friendship'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+																<img src="../media/<?php echo $dataActivityRelation['friendship'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 															</div>
 														</div>
 														<div  class="small-9 columns ">
@@ -443,13 +498,24 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 											<?php
 										}
 										if (isset($dataActivityRelation['friendship'.'1']['objectId']) && isset($dataActivityRelation['friendship'.'1']['objectId']) != '' ) {
+											switch ($dataActivityRelation['friendship'.'1']['type']) {
+						                        case 'JAMMER':
+						                            $defaultThum = DEFTHUMBJAMMER;
+						                            break;
+						                        case 'VENUE':
+						                            $defaultThum = DEFTHUMBVENUE;
+						                            break;
+						                        case 'SPOTTER':
+						                            $defaultThum = DEFTHUMBSPOTTER;
+						                            break;
+						                    }
 											?>
 											<div  class="small-6 columns">
 												<div class="box-membre" id='friendship_<?php echo $dataActivityRelation['friendship'.'1']['objectId'] ?>'>
 													<div class="row ">
 														<div  class="small-3 columns ">
 															<div class="icon-header">
-																<img src="../media/<?php echo $dataActivityRelation['friendship'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+																<img src="../media/<?php echo $dataActivityRelation['friendship'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 															</div>
 														</div>
 														<div  class="small-9 columns ">
@@ -485,13 +551,24 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 									<div class="row">
 										<?php
 										if (isset($dataActivityRelation['following'.'0']['objectId']) && isset($dataActivityRelation['following'.'0']['objectId']) != '' ) {
+											switch ($dataActivityRelation['following'.'0']['type']) {
+						                        case 'JAMMER':
+						                            $defaultThum = DEFTHUMBJAMMER;
+						                            break;
+						                        case 'VENUE':
+						                            $defaultThum = DEFTHUMBVENUE;
+						                            break;
+						                        case 'SPOTTER':
+						                            $defaultThum = DEFTHUMBSPOTTER;
+						                            break;
+						                    }
 											?>
 											<div  class="small-6 columns">
 												<div class="box-membre" id='following_<?php echo $dataActivityRelation['following'.'0']['objectId'] ?>'>
 													<div class="row ">
 														<div  class="small-3 columns ">
 															<div class="icon-header">
-																<img src="../media/<?php echo $dataActivityRelation['following'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+																<img src="../media/<?php echo $dataActivityRelation['following'.'0']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 															</div>
 														</div>
 														<div  class="small-9 columns ">
@@ -504,13 +581,24 @@ if(isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != ''
 											<?php
 										}
 										if (isset($dataActivityRelation['following'.'1']['objectId']) && isset($dataActivityRelation['following'.'1']['objectId']) != '' ) {
+											switch ($dataActivityRelation['following'.'1']['type']) {
+						                        case 'JAMMER':
+						                            $defaultThum = DEFTHUMBJAMMER;
+						                            break;
+						                        case 'VENUE':
+						                            $defaultThum = DEFTHUMBVENUE;
+						                            break;
+						                        case 'SPOTTER':
+						                            $defaultThum = DEFTHUMBSPOTTER;
+						                            break;
+						                    }
 											?>
 											<div  class="small-6 columns">
 												<div class="box-membre" id='following_<?php echo $dataActivityRelation['following'.'1']['objectId'] ?>'>
 													<div class="row ">
 														<div  class="small-3 columns ">
 															<div class="icon-header">
-																<img src="../media/<?php echo $dataActivityRelation['following'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+																<img src="../media/<?php echo $dataActivityRelation['following'.'1']['thumbnail'] ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 															</div>
 														</div>
 														<div  class="small-9 columns ">

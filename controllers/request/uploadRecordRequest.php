@@ -29,7 +29,7 @@ try {
     session_start();
 
 // Initiiate Library
-    $controller = new uploadRecordController();
+    $controller = new UploadRecordController();
     $controller->processApi();
 } catch (Exception $e) {
     //log di sistema

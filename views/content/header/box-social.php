@@ -87,6 +87,18 @@ if (isset($userObjectId)) {
 			$user_objectId = $value->fromUserInfo->objectId;
 			$user_thumb = $value->fromUserInfo->thumbnail;
 			$user_username = $value->fromUserInfo->username;
+			switch ($value->fromUserInfo->type) {
+                case 'JAMMER':
+                    $defaultThum = DEFTHUMBJAMMER;
+                    break;
+                case 'VENUE':
+                    $defaultThum = DEFTHUMBVENUE;
+                    break;
+                case 'SPOTTER':
+                    $defaultThum = DEFTHUMBSPOTTER;
+                    break;
+            }
+			
 			$text = $value->text;
 			$objectId = $value->objectId;
 			switch ($value->type) {
@@ -106,7 +118,7 @@ if (isset($userObjectId)) {
 			<div class="row">
 				<div  class="large-1 columns hide-for-small">
 					<div class="icon-header">
-						<img src="../media/<?php echo DEFTHUMB?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
+						<img src="../media/<?php echo $defaultThum?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
 					</div>
 				</div>
 				<div  class="large-11 columns">

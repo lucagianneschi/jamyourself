@@ -28,22 +28,22 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
  * \param   $address, $subject, $html
  * \todo    testare
  */
-function getCoordinates($city,$country = null) {
+function getCoordinates($city, $country = null) {
     $geoPointArray = array();
     if (!is_null($city)) {
         require_once CLASSES_DIR . 'location.class.php';
         require_once CLASSES_DIR . 'locationParse.class.php';
         $location = new LocationParse();
         $location->where('city', $city);
-        if(!is_null($country)){
-                  $location->where('country', $country);  
+        if (!is_null($country)) {
+            $location->where('country', $country);
         }
         $location->setLimit(1);
         $locations = $location->getLocations();
         if ($locations instanceof Error || is_null($locations)) {
             require_once SERVICES_DIR . 'geocoder.service.php';
             $geoCodingService = new GeocoderService();
-            $geoPoint = $geoCodingService->getLocation($city.','.$country);
+            $geoPoint = $geoCodingService->getLocation($city . ',' . $country);
             $parseGeoPoint = (!$geoPoint) ? null : new parseGeoPoint($geoPoint['lat'], $geoPoint['lng']);
             return $parseGeoPoint;
         } else {
@@ -53,7 +53,7 @@ function getCoordinates($city,$country = null) {
         }
     }
     $geoPoint = (count($geoPointArray) != 0) ? $geoPointArray[0] : null;
-    return  $geoPoint;
+    return $geoPoint;
 }
 
 /**
@@ -78,71 +78,90 @@ function sendMailForNotification($address, $subject, $html) {
     return true;
 }
 
-
-
-    /**
-     * \fn	getFeaturingArray() 
-     * \brief   funzione per il recupero dei featuring per l'event
-     */
-    function getFeaturingArray() {
-        if (isset($_SESSION['currentUser'])) {
-            $currentUser = $_SESSION['currentUser'];
-            $currentUserId = $currentUser->getObjectId();
-            $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
-            if (($userArray instanceof Error) || is_null($userArray)) {
-                return array();
-            } else {
-                $userArrayInfo = array();
-                foreach ($userArray as $user) {
-                    require_once CLASSES_DIR."user.class.php";
-                    $username = $user->getUsername();
-                    $userId = $user->getObjectId();
-                    array_push($userArrayInfo, array("key" => $userId, "value" => $username));
+/**
+ * \fn	getFeaturingArray() 
+ * \brief   funzione per il recupero dei featuring per l'event
+ */
+function getFeaturingArray() {
+    if (isset($_SESSION['currentUser'])) {
+        $currentUser = $_SESSION['currentUser'];
+        $currentUserId = $currentUser->getObjectId();
+        $userArray = null;
+        switch ($currentUser->getType()) {
+            case "SPOTTER":
+                $userArrayFriend = getRelatedUsers($currentUserId, 'friendship', '_User'); 
+                if (($userArrayFriend instanceof Error) || is_null($userArrayFriend)){
+                    $userArrayFriend = array();
                 }
-                return $userArrayInfo;
-            }
-        } else
-            return array();
-    }
-    
-        /**
-     * \fn	getImages($decoded)
-     * \brief   funzione per recupero immagini
-     * \param   $decoded
-     * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
-     */
-    function getCroppedImages($decoded) {
-//in caso di anomalie ---> default
-        if (!isset($decoded->crop) || is_null($decoded->crop) ||
-                !isset($decoded->image) || is_null($decoded->image)) {
-            return array("picture" => null, "thumbnail" => null);
+                $userArrayFollowing = getRelatedUsers($currentUserId, 'following', '_User');  
+                if (($userArrayFollowing instanceof Error) || is_null($userArrayFollowing)){
+                    $userArrayFollowing = array();
+                }
+                $userArray = array_merge($userArrayFriend, $userArrayFollowing);
+                break;
+            case "JAMMER":
+            case "VENUE":
+                $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');                
+                break;
+            default:
+                break;
         }
+
+        if (($userArray instanceof Error) || is_null($userArray)) {
+            return array();
+        } else {
+            $userArrayInfo = array();
+            foreach ($userArray as $user) {
+                require_once CLASSES_DIR . "user.class.php";
+                $username = $user->getUsername();
+                $userId = $user->getObjectId();
+                array_push($userArrayInfo, array("key" => $userId, "value" => $username));
+            }
+            return $userArrayInfo;
+        }
+    }
+    else
+        return array();
+}
+
+/**
+ * \fn	getImages($decoded)
+ * \brief   funzione per recupero immagini
+ * \param   $decoded
+ * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
+ */
+function getCroppedImages($decoded) {
+//in caso di anomalie ---> default
+    if (!isset($decoded->crop) || is_null($decoded->crop) ||
+            !isset($decoded->image) || is_null($decoded->image)) {
+        return array("picture" => null, "thumbnail" => null);
+    }
 
 //recupero i dati per effettuare l'editing
-        $cropInfo = json_decode(json_encode($decoded->crop), false);
+    $cropInfo = json_decode(json_encode($decoded->crop), false);
 
-        if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
-                !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
-                !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
-                !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
-            return array("picture" => null, "thumbnail" => null);
-        }
-        $cacheDir = MEDIA_DIR . "cache/";
-        $cacheImg = $cacheDir . $decoded->image;
-        require_once SERVICES_DIR . 'cropImage.service.php';
+    if (!isset($cropInfo->x) || is_null($cropInfo->x) || !is_numeric($cropInfo->x) ||
+            !isset($cropInfo->y) || is_null($cropInfo->y) || !is_numeric($cropInfo->y) ||
+            !isset($cropInfo->w) || is_null($cropInfo->w) || !is_numeric($cropInfo->w) ||
+            !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
+        return array("picture" => null, "thumbnail" => null);
+    }
+    $cacheDir = MEDIA_DIR . "cache/";
+    $cacheImg = $cacheDir . $decoded->image;
+    require_once SERVICES_DIR . 'cropImage.service.php';
 //Preparo l'oggetto per l'editign della foto
-        $cis = new CropImageService();
+    $cis = new CropImageService();
 
 //gestione dell'immagine di profilo
-        $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, PROFILE_IMG_SIZE);
-        $coverUrl = $cacheDir . $coverId;
+    $coverId = $cis->cropImage($cacheImg, $cropInfo->x, $cropInfo->y, $cropInfo->w, $cropInfo->h, PROFILE_IMG_SIZE);
+    $coverUrl = $cacheDir . $coverId;
 
 //gestione del thumbnail
-        $thumbId = $cis->cropImage($coverUrl, 0, 0, PROFILE_IMG_SIZE, PROFILE_IMG_SIZE, THUMBNAIL_IMG_SIZE);
+    $thumbId = $cis->cropImage($coverUrl, 0, 0, PROFILE_IMG_SIZE, PROFILE_IMG_SIZE, THUMBNAIL_IMG_SIZE);
 //CANCELLAZIONE DELLA VECCHIA IMMAGINE
-        unlink($cacheImg);
+    unlink($cacheImg);
 //RETURN        
-        return array('picture' => $coverId, 'thumbnail' => $thumbId);
-    }
+    return array('picture' => $coverId, 'thumbnail' => $thumbId);
+}
 
 ?>

@@ -82,10 +82,10 @@ class AccessController extends REST {
             $_SESSION['currentUser'] = $resLogin;
 			require_once BOXES_DIR . 'notification.box.php';
 			$notificationBox = new NotificationBox();
-			$counterNotification = $notificationBox->initForCounter($resLogin->getObjectId(), $resLogin->getType());
-			$_SESSION['invitationCounter'] = $counterNotification->invitationCounter;
-			$_SESSION['messageCounter'] = $counterNotification->messageCounter;
-			$_SESSION['relationCounter'] = $counterNotification->relationCounter;
+			$notificationBox->initForCounter($resLogin->getObjectId(), $resLogin->getType());
+			$_SESSION['invitationCounter'] = $notificationBox->invitationCounter;
+			$_SESSION['messageCounter'] = $notificationBox->messageCounter;
+			$_SESSION['relationCounter'] = $notificationBox->relationCounter;
 			$this->response(array('status' => $controllers['OKLOGIN']), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
