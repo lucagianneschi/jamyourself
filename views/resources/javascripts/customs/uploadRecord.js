@@ -375,7 +375,8 @@ function createRecord() {
         json_album_create.description = $("#description").val();
         json_album_create.label = $("#label").val();
         json_album_create.urlBuy = $("#urlBuy").val();
-        json_album_create.albumFeaturing = getFeaturingList("albumFeaturing");;
+        json_album_create.albumFeaturing = getFeaturingList("albumFeaturing");
+        ;
         json_album_create.year = $("#year").val();
 //        json_album_create.city = $("#city").val();
         json_album_create.tags = getTagsAlbumCreate();
@@ -442,8 +443,11 @@ function initMp3Uploader() {
 
 //        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
             var obj = JSON.parse(response.response);
-
-            addNewSong(obj.src, obj.duration, getTagsMusicTrack());
+            if (obj.error !== undefined && obj.error !== null) {
+                alert(obj.error.message);
+            } else {
+                addNewSong(obj.src, obj.duration, getTagsMusicTrack());
+            }
 
         });
     } catch (err) {
@@ -652,8 +656,8 @@ function initGeocomplete() {
 
 function getUserRecords() {
     try {
-      //  startSpinnerForRecords();
-      	goSpinner('#records_spinner');
+        //  startSpinnerForRecords();
+        goSpinner('#records_spinner');
         sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
     } catch (err) {
         console.log("getUserRecords | An error occurred - message : " + err.message);
