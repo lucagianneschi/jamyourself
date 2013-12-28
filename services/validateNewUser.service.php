@@ -200,9 +200,9 @@ class ValidateNewUserService {
         if (is_null($userJSON))
             return null;
         $user = json_decode(json_encode($userJSON), false);
-        if (!isset($user->language) || is_null($user->language) || !$this->checkUsername($user->language) || strlen($user->language) <= 0)
+        if (!isset($user->language) || is_null($user->language) || strlen($user->language) <= 0)
             $this->setInvalid("language");
-        if (!isset($user->localTime) || is_null($user->localTime) || !$this->checkUsername($user->localTime) || strlen($user->localTime) <= 0)
+        if (!isset($user->localTime) || is_null($user->localTime) || strlen($user->localTime) <= 0)
             $this->setInvalid("language");
         if (!isset($user->type) || is_null($user->type))
             $this->setInvalid("type");
@@ -212,7 +212,7 @@ class ValidateNewUserService {
             $this->setInvalid("password");
         if (!isset($user->verifyPassword) || is_null($user->verifyPassword) || !$this->checkVerifyPassword($user->password, $user->verifyPassword))
             $this->setInvalid("verifyPassword");
-        if (!isset($user->email) || is_null($user->email) || !$this->checkEmail($user->email) || !$this->checkEmail($user->email))
+        if (!isset($user->email) || is_null($user->email) || !$this->checkEmail($user->email))
             $this->setInvalid("email");
         if (!isset($user->description) || is_null($user->description) || !$this->checkDescription($user->description))
             $this->setInvalid("description");
