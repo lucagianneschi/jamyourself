@@ -149,5 +149,18 @@ function spinner(){
 }
 
 /*
- * 
+ * Avvia lo spinner
  */
+function goSpinner(box){
+	$(box).addClass('box box-spinner');
+	$( "<div class='spinner'></div>" ).appendTo(box);
+	spinner();
+}
+
+/*
+ * Ferma lo spinner
+ */
+function stopSpinner(box){
+	$(box).removeClass('box box-spinner');
+	$(box).html('');
+}

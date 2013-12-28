@@ -660,7 +660,8 @@ function initGeocomplete() {
 
 function getUserRecords() {
     try {
-        startSpinnerForRecords();
+      //  startSpinnerForRecords();
+      	goSpinner('#records_spinner');
         sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
     } catch (err) {
         console.log("getUserRecords | An error occurred - message : " + err.message);
@@ -678,7 +679,7 @@ function getUserRecordsCallback(data, status, xhr) {
         } else {
             alert(data.status);
         }
-        spinner_records.stop();
+        stopSpinner('#records_spinner');
         onCarouselReady();
     } catch (err) {
         console.log("getUserRecords | An error occurred - message : " + err.message);
