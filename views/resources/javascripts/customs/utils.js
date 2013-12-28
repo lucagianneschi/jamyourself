@@ -124,49 +124,49 @@ function getCompleteLocationInfo(_result) {
 /*
  * Crea  lo spinner 
  */
-function spinner(){
-	var opts = {
-		  lines: 9, // The number of lines to draw
-		  length: 0, // The length of each line
-		  width: 4, // The line thickness
-		  radius: 9, // The radius of the inner circle
-		  corners: 1, // Corner roundness (0..1)
-		  rotate: 4, // The rotation offset
-		  direction: 1, // 1: clockwise, -1: counterclockwise
-		  color: '#000', // #rgb or #rrggbb or array of colors
-		  speed: 2.2, // Rounds per second
-		  trail: 56, // Afterglow percentage
-		  shadow: false, // Whether to render a shadow
-		  hwaccel: false, // Whether to use hardware acceleration
-		  className: 'spinner', // The CSS class to assign to the spinner
-		  zIndex: 2e9, // The z-index (defaults to 2000000000)
-		  top: 'auto', // Top position relative to parent in px
-		  left: 'auto' // Left position relative to parent in px
-		};
+function spinner() {
+    var opts = {
+        lines: 9, // The number of lines to draw
+        length: 0, // The length of each line
+        width: 4, // The line thickness
+        radius: 9, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 4, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        color: '#000', // #rgb or #rrggbb or array of colors
+        speed: 2.2, // Rounds per second
+        trail: 56, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: 'auto', // Top position relative to parent in px
+        left: 'auto' // Left position relative to parent in px
+    };
 
-		var spinner = new Spinner(opts).spin($('.spinner'));
-		$('.spinner').html(spinner.el.innerHTML);
+    var spinner = new Spinner(opts).spin($('.spinner'));
+    $('.spinner').html(spinner.el.innerHTML);
 }
 
 /*
  * Avvia lo spinner
  */
-function goSpinner(box){
-	$(box).addClass('box box-spinner');
-	$( "<div class='spinner'></div>" ).appendTo(box);
-	spinner();
+function goSpinner(box) {
+    $(box).addClass('box box-spinner');
+    $("<div class='spinner'></div>").appendTo(box);
+    spinner();
 }
 
 /*
  * Ferma lo spinner
  */
-function stopSpinner(box){
-	$(box).removeClass('box box-spinner');
-	$(box).html('');
+function stopSpinner(box) {
+    $(box).removeClass('box box-spinner');
+    $(box).html('');
 }
 
 function getFeaturingList(containerId) {
-    try{
+    try {
         var featuring = new Array();
         $.each($("#" + containerId).select2('data'), function(key, item) {
             featuring.push(item.id);
@@ -175,4 +175,8 @@ function getFeaturingList(containerId) {
     } catch (err) {
         window.console.error("getFeaturingList | An error occurred - message : " + err.message);
     }
+}
+
+function supportsCanvas() {
+    return !!document.createElement('canvas').getContext;
 }
