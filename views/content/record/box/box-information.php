@@ -24,6 +24,18 @@ $fromUserObjectId = $record->getFromUser()->getObjectId();
 $fromUserThumbnail = $record->getFromUser()->getProfileThumbnail();
 $fromUserUsername = $record->getfromUser()->getUsername();
 
+switch ( $record->getfromUser()->getType()) {
+    case 'JAMMER':
+        $defaultThum = DEFTHUMBJAMMER;
+        break;
+    case 'VENUE':
+        $defaultThum = DEFTHUMBVENUE;
+        break;
+    case 'SPOTTER':
+        $defaultThum = DEFTHUMBSPOTTER;
+        break;
+}
+
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
@@ -38,7 +50,7 @@ $fromUserUsername = $record->getfromUser()->getUsername();
 				<div class="row " id="user_<?php echo $fromUserObjectId; ?>">
 					<div class="small-1 columns ">
 						<div class="icon-header">
-							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
+							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='../media/<?php echo $defaultThum;?>'">
 						</div>
 					</div>
 					<div  class="small-11 columns ">
