@@ -63,15 +63,10 @@
                             <input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-band" class="no-display inline" value="band" required><label for="jammer-typeArtist-band" unchecked class="inline">Band</label>
                         </div>	
                     </div>
-                    <div class="row jammer-country-singup02">
-                        <div  class="small-12 columns">									
-                            <input type="text" name="jammer-country" id="jammer-country" pattern="username" maxlength="50" required/>								
-                            <label for="jammer-country" >Country <span class="orange">*</span><small class="error"> Please enter a valid Country</small></label>
-                        </div>							
-                    </div>
+                    
                     <div class="row jammer-city-singup02">
                         <div  class="small-12 columns">									
-                            <input type="text" name="jammer-location" id="jammer-city" pattern="username" maxlength="50" required />					
+                            <input type="text" name="jammer-location" id="jammer-city" pattern="description" maxlength="50" required />					
                             <label for="jammer-city " class="inline">City <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>
 
                             <a href="#" data-reveal-id="jammer-myModal" class="location-reveal text grey">Why do you ask me?</a>

@@ -65,15 +65,10 @@
                     <label for="spotter-lastname" >Last Name<small class="error"> Please enter a valid Last Name</small></label>
                 </div>							
             </div>
-            <div class="row spotter-country-singup02">
-                <div  class="small-12 columns">									
-                    <input type="text" name="spotter-country" id="spotter-country" pattern="username" maxlength="50" required/>								
-                    <label for="spotter-country" >Country <span class="orange">*</span><small class="error"> Please enter a valid Country</small></label>
-                </div>							
-            </div>
+           
             <div class="row spotter-city-singup02">
                 <div  class="small-12 columns">									
-                    <input type="text" name="spotter-location" id="spotter-city" pattern="username" maxlength="50" required />					
+                    <input type="text" name="spotter-location" id="spotter-city" pattern="description" maxlength="50" required />					
                     <label for="spotter-city " class="inline">City <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>
 
                     <a href="#" data-reveal-id="spotter-myModal" class="location-reveal text grey">Why do you ask me?</a>
