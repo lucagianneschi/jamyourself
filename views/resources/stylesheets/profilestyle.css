@@ -1,1 +1,988 @@
-#scroll-profile .mCSB_container{margin-right:0px !important}#scroll-profile .mCSB_scrollTools .mCSB_draggerContainer{margin-top:118px !important;margin-bottom:50px !important}#scroll-profile .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{background-color:#222 !important;width:8px !important}#scroll-profile .mCSB_scrollTools .mCSB_draggerRail{background:none !important}#scroll-social .mCSB_scrollTools .mCSB_draggerContainer{margin-top:118px !important;margin-bottom:50px !important}#scroll-social .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{background-color:#CCC !important;width:8px !important}#scroll-social .mCSB_scrollTools .mCSB_draggerRail{background:none !important}#cboxLoadedContent .mCSB_container{margin-right:12px !important}#cboxLoadedContent .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar{background-color:#787878 !important;width:8px !important}#cboxLoadedContent .mCSB_scrollTools .mCSB_draggerRail{background:none !important}.addthis_toolbox .hover_menu{display:none;position:absolute;background-color:#FFFFFF;width:auto;padding:5px;border:1px solid #d8d8d8;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}.addthis_toolbox .hover_menu a{position:relative;display:block}.addthis_toolbox .hover_menu a:hover{background:#f5f5f5;-webkit-border-radius:5px;-moz-border-radius:5px;-ms-border-radius:5px;-o-border-radius:5px;border-radius:5px}.breakOff{overflow:hidden !important;text-overflow:ellipsis !important}.breakOffTest{overflow:hidden !important;text-overflow:ellipsis !important;white-space:nowrap}.spinner{position:relative !important;margin:5px !important;left:50% !important}.box-spinner{position:relative;height:50px}#ascrail2002 div{cursor:pointer !important}#profile{padding-top:30px;background-color:#303030}.background{border:1px solid #787878;margin-top:5px !important;margin-bottom:40px;width:470px;height:470px}section.active>.title a{color:#f3f3f3 !important}.picture{position:absolute;height:150px;width:150px;left:50%;top:50%;margin-left:-75px;margin-top:-75px;z-index:3}.section-container .title{font-size:17px;border-bottom:1px solid #303030}.section-container{margin-bottom:40px !important}.box{background-color:#232323;padding:20px !important;padding-bottom:0px !important;margin-bottom:40px}.box-element{border:1px solid #303030;margin-bottom:5px !important;padding:5px !important;cursor:pointer !important}.box-element .sottotitle{margin-bottom:10px}.box-element .ico-label{margin-bottom:-10px !important}.box-singleAlbum{padding-top:10px !important}.box#albumcover-single{padding:10px !important}.box#album-single{padding:10px !important}.box-membre{padding:10px;margin-bottom:10px;width:auto;height:64px;background-color:#1c1c1c;cursor:pointer}.royalSlider.rsDefault{background:none !important}.rsDefault .rsOverflow{background:none !important}.album-other{cursor:pointer;text-align:right;padding:10px;height:40px;background:url(../images/icon/small/other.png);background-repeat:no-repeat;background-position:Center}.otherSet{cursor:pointer;text-align:right;padding:10px;height:40px;background-color:#d8d8d8 !important;background:url(../images/icon/small/other-grey.png);background-repeat:no-repeat;background-position:Center;margin:1px !important;margin-bottom:40px !important}.otherReview{cursor:pointer;text-align:right;padding:10px;height:40px;background:url(../images/icon/small/other.png);background-repeat:no-repeat;background-position:Center}.album-single-propriety{border-top:1px solid #303030 !important;padding-top:5px;padding-bottom:5px}.propriety{padding-right:5px;text-align:right}.icon-propriety{width:auto;height:15px;font-size:11px;color:#787878;line-height:15px;margin-right:1px;padding:0 0px 0 15px;cursor:pointer;background-repeat:no-repeat}.icon-propriety:hover{color:#787878}.content #map_venue{width:100% !important;height:300px !important;margin-bottom:10px}#colorbox{position:absolute !important;top:50% !important;margin-top:-310px !important}#cboxContent{background:none !important;margin-top:25px !important}#cboxCurrent{right:35px !important;font-size:14px !important}#cboxNext{box-shadow:0 0px 0 rgba(255,255,255,0.5) inset}#cboxPrevious{box-shadow:0 0px 0 rgba(255,255,255,0.5) inset;left:0px !important}#cboxClose{top:-18px !important;box-shadow:0 0px 0 rgba(255,255,255,0.5) inset;right:0px !important}#albumSlide.royalSlider{width:auto !important;background:#232323 !important}#albumSlide.royalSlider .rsContent{background:#232323 !important}.albumcover-list{padding-bottom:10px !important}#albumSlide.box{padding:5px 5px 5px 5px !important}#albumSlide.box .box-coveralbum{cursor:pointer}.albumcover{width:310px;height:160px;padding-bottom:10px !important}.box-coveralbum{padding:10px !important;border:1px solid #303030 !important}#albumcover-single .large-block-grid-3{padding-top:10px !important}#albumcover-single [data-clearing] li{margin-right:0px !important}.photo{cursor:pointer}.lightbox-photo{height:100% !important}.lightbox-photo .lightbox-photo-box{background-color:#232323 !important;border:1px solid #787878;padding-top:15px !important;padding-bottom:15px !important;height:100% !important}.lightbox-photo .lightbox-photo-box .album-photo{width:auto !important;max-height:430px !important}.lightbox-photo .lightbox-photo-box .box-comment{margin-bottom:5px}.lightbox-photo .lightbox-photo-box .album-photo-box{text-align:center;height:450px !important;cursor:pointer}#cboxLoadedContent{width:auto !important;padding-right:8px !important;margin-right:30px !important;margin-left:30px !important;background:none !important;border:0px solid #000 !important}#profile-Record .box{padding:5px !important}#profile-Record .box .propriety{padding-right:15px !important}#recordSlide.royalSlider{width:auto !important}#recordSlide.royalSlider .rsContent{background-color:#232323 !important}#record-list .play_now{background-color:#787878 !important;width:100px;height:33px;margin-top:10px;margin-bottom:10px}#record-list .play_now:hover{background-color:#ff7505 !important}#profile-Record .box-info-element{margin-bottom:5px !important;padding:5px !important;cursor:pointer !important}#profile-Record .box-info-element .sottotitle{margin-bottom:10px}#profile-Record .box-info-element .ico-label{margin-bottom:-10px !important}.album-thumb{width:110px;height:110px}.album-select{cursor:pointer}#profile-Record .track{padding-top:5px;border-top:1px solid #303030 !important}#profile-Record .track ._play-large{margin-bottom:5px !important}#profile-Record .track:hover{background-color:#1c1c1c;border-top:2px solid #ff7505 !important}.userThumb{width:45px;height:45px}.track:hover .track-propriety{display:block !important}.track:hover .track-nopropriety{display:none !important}.track ._play-large:hover{color:#f3f3f3 !important}.track-propriety{padding:2px;display:none}.event{padding:0px !important;padding-right:5px !important}.eventcover{height:130px;width:130px;padding-bottom:5px !important}#albumcover-single .reveal-modal{height:100%;width:100%}#eventSlide.royalSlider{width:auto !important;height:auto !important}#eventSlide.royalSlider .rsContent{background-color:#232323 !important}#profile-Event .box{padding:5px !important}#profile-Event .box .propriety{padding-right:20px !important;padding-left:0px !important}#social{padding-top:65px;background-color:#f3f3f3}.status{text-align:right}.livel-status{font-weight:700;margin-bottom:4px !important}.coverThumb{height:60px;width:60px}#social-status form{margin-bottom:0}#social-status form input{margin-bottom:5px}#social-status p{margin-bottom:2px}#social-status .note{font-size:14px !important}#social #RecordReview .box{padding:10px 10px 0px 10px !important}#social #eventReview .box{padding:10px 10px 0px 10px !important}.touchcarousel{width:auto !important;height:auto !important}.textReview{margin-top:10px}.cropText{height:46 !important}.textEventReview{margin-top:10px}#social_list_achievement .arrow-holder{height:250px}#social_list_achievement{margin-left:30px !important;margin-right:30px !important}.arrow-holder{height:60px !important}.recordReview-propriety{padding-bottom:5px !important;padding-right:15px}#social-EventReview .box{padding-bottom:5px !important}#social-RecordReview .box{padding-bottom:5px !important}.achievement{margin:10px;height:40px;width:40px;float:left;border:#d8d8d8 1px solid;-webkit-border-radius:1000px;-moz-border-radius:1000px;-ms-border-radius:1000px;-o-border-radius:1000px;border-radius:1000px}.achievement-target{margin:10px;border:#ff7505 3px solid;cursor:pointer;background-size:cover;background-repeat:no-repeat;background-position:left top;-webkit-transition-property:background-position,color;-moz-transition-property:background-position,color;-o-transition-property:background-position,color;transition-property:background-position,color}.achievement-target:hover{background-color:#ff7505;background-position:left bottom}.status-button{text-align:right;height:35px;margin-bottom:40px}.status-button .button{padding-left:5px;padding-right:10px}.button{height:35px !important;border:0px !important;padding-top:7px !important}.bg-orange{background-color:#ff7505 !important}.bg-orange:hover{background-color:#c95600 !important}.bg-grey{background-color:#787878 !important}.bg-grey:hover{background-color:#303030 !important}.icon-button{width:auto;height:20px;font-size:14px;color:#f3f3f3;line-height:20px;margin-right:1px;padding:0 0 0 25px;cursor:pointer;background-repeat:no-repeat}#social .box{border:#d8d8d8 1px solid;background-color:#fff !important;padding-bottom:5px !important}#social .text{margin-bottom:10px}#social .album-thumb{width:90px;height:80px;margin-right:0px}.box-info{padding-left:0px !important}#social .line{border-bottom:1px solid #d8d8d8;padding-bottom:5px !important}#activities .small-block-grid-4{padding-top:10px}#social-activity .box-singleActivity{cursor:pointer}#social .box-membre{height:55px;background-color:#f3f3f3}#recordReviewSlide.royalSlider{width:auto !important}#recordReviewSlide.royalSlider .rsContent{background:#fff !important}#eventReviewSlide.royalSlider{width:auto !important}#eventReviewSlide.royalSlider .rsContent{background:#fff !important}#social-Post .box{margin-bottom:10px}.box-post{border:1px solid #d8d8d8;padding:5px}.post{color:#787878 !important;font-size:14px !important;padding:6px 15px 6px 30px !important;border:#fff 0px solid !important;background-color:#fff !important;background:url(../images/icon/write.png) no-repeat 8px 6px !important}.box-write{background-color:#fff !important;padding:5px !important;border:#d8d8d8 1px solid !important;height:45px}.post-button{color:#fff;background-color:#ff7505 !important;border:#fff 0px solid !important;height:34px !important;width:90px !important}.post-button-send{background-repeat:no-repeat;background-image:url(../images/icon/btn-loader.gif);background-position:center center}.comment-btn-loader{background-repeat:no-repeat !important;background-image:url(../images/icon/btn-loader.gif) !important;background-position:center center !important}.comment-btn{color:#fff;background-color:#787878 !important;border:#fff 0px solid !important;height:34px !important;width:90px !important}#social-Post #post-error{margin-bottom:15px;display:none;cursor:pointer}.comment-error{display:none;cursor:pointer;padding-bottom:5px}.box-opinion{padding:5px !important;padding-bottom:1px !important;background:#d8d8d8 !important;margin-bottom:50px}.box-opinion .box-write{margin-bottom:5px !important}.box-opinion .line{border-bottom:1px solid #d8d8d8;padding-bottom:5px !important}.box-opinion .text{margin-bottom:10px}.box-singole-comment{padding:10px !important;padding-bottom:1px !important;background:#fff !important;margin-bottom:5px}.box-commentSpace{margin-bottom:0px !important}.welcome-stream{text-align:center;margin:45px 0}.welcome-stream h3{color:#ff7505}.welcome-stream h5{color:white}.welcome-stream p{margin-bottom:0}.discover-button{width:100%;height:45px;color:white;cursor:pointer;line-height:45px;text-align:center;background-color:#303030;margin-bottom:20px;-webkit-transition-property:all;-moz-transition-property:all;-o-transition-property:all;transition-property:all;-webkit-transition-duration:300ms;-moz-transition-duration:300ms;-o-transition-duration:300ms;transition-duration:300ms}.discover-button:hover{background-color:#ff7505}.discover-button-active{background-color:#ff7505}
+/* line 6, ../sass/profilestyle.scss */
+#scroll-profile .mCSB_container {
+  margin-right: 0px !important;
+}
+
+/* line 10, ../sass/profilestyle.scss */
+#scroll-profile .mCSB_scrollTools .mCSB_draggerContainer {
+  margin-top: 118px !important;
+  margin-bottom: 50px !important;
+}
+
+/* line 15, ../sass/profilestyle.scss */
+#scroll-profile .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  background-color: #222 !important;
+  width: 8px !important;
+}
+
+/* line 20, ../sass/profilestyle.scss */
+#scroll-profile .mCSB_scrollTools .mCSB_draggerRail {
+  background: none !important;
+}
+
+/* line 28, ../sass/profilestyle.scss */
+#scroll-social .mCSB_scrollTools .mCSB_draggerContainer {
+  margin-top: 118px !important;
+  margin-bottom: 50px !important;
+}
+
+/* line 33, ../sass/profilestyle.scss */
+#scroll-social .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  background-color: #CCC !important;
+  width: 8px !important;
+}
+
+/* line 38, ../sass/profilestyle.scss */
+#scroll-social .mCSB_scrollTools .mCSB_draggerRail {
+  background: none !important;
+}
+
+/* line 43, ../sass/profilestyle.scss */
+#cboxLoadedContent .mCSB_container {
+  margin-right: 12px !important;
+}
+
+/* line 46, ../sass/profilestyle.scss */
+#cboxLoadedContent .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  background-color: #787878 !important;
+  width: 8px !important;
+}
+
+/* line 52, ../sass/profilestyle.scss */
+#cboxLoadedContent .mCSB_scrollTools .mCSB_draggerRail {
+  background: none !important;
+}
+
+/* line 59, ../sass/profilestyle.scss */
+.addthis_toolbox .hover_menu {
+  display: none;
+  position: absolute;
+  background-color: #FFFFFF;
+  width: auto;
+  padding: 5px;
+  border: 1px solid #d8d8d8;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
+/* line 69, ../sass/profilestyle.scss */
+.addthis_toolbox .hover_menu a {
+  position: relative;
+  display: block;
+}
+
+/* line 74, ../sass/profilestyle.scss */
+.addthis_toolbox .hover_menu a:hover {
+  background: #f5f5f5;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+
+/* line 81, ../sass/profilestyle.scss */
+.breakOff {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+/* line 86, ../sass/profilestyle.scss */
+.breakOffTest {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap;
+}
+
+/* line 93, ../sass/profilestyle.scss */
+.spinner {
+  position: relative !important;
+  margin: 5px !important;
+  left: 50% !important;
+}
+
+/* line 99, ../sass/profilestyle.scss */
+.box-spinner {
+  position: relative;
+  height: 50px;
+}
+
+/* line 104, ../sass/profilestyle.scss */
+#ascrail2002 div {
+  cursor: pointer !important;
+}
+
+/* line 108, ../sass/profilestyle.scss */
+#profile {
+  padding-top: 30px;
+  background-color: #303030;
+}
+
+/* line 113, ../sass/profilestyle.scss */
+#profile .line {
+  border-bottom: 1px solid #303030;
+  padding-bottom: 5px !important;
+}
+
+/* line 119, ../sass/profilestyle.scss */
+#result .box {
+  margin-bottom: 10px;
+}
+
+/* line 125, ../sass/profilestyle.scss */
+#profile .box-detail {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+/* line 128, ../sass/profilestyle.scss */
+#profile .box-detail h5 {
+  color: white;
+  margin: 0;
+}
+/* line 132, ../sass/profilestyle.scss */
+#profile .box-detail h6 {
+  color: #787878;
+  margin: 0;
+}
+
+/* line 139, ../sass/profilestyle.scss */
+.background {
+  border: 1px solid #787878;
+  margin-top: 5px !important;
+  margin-bottom: 40px;
+  width: 470px;
+  height: 470px;
+}
+
+/* line 147, ../sass/profilestyle.scss */
+section.active > .title a {
+  color: #f3f3f3 !important;
+}
+
+/* line 151, ../sass/profilestyle.scss */
+.picture {
+  position: absolute;
+  height: 150px;
+  width: 150px;
+  left: 50%;
+  top: 50%;
+  margin-left: -75px;
+  margin-top: -75px;
+  z-index: 3;
+}
+
+/* line 160, ../sass/profilestyle.scss */
+.section-container .title {
+  font-size: 17px;
+  border-bottom: 1px solid #303030;
+}
+
+/* line 165, ../sass/profilestyle.scss */
+.section-container {
+  margin-bottom: 40px !important;
+}
+
+/* line 172, ../sass/profilestyle.scss */
+.box {
+  background-color: #232323;
+  padding: 20px !important;
+  padding-bottom: 0px !important;
+  margin-bottom: 40px;
+}
+
+/* line 180, ../sass/profilestyle.scss */
+.box-element {
+  border: 1px solid #303030;
+  margin-bottom: 5px !important;
+  padding: 5px !important;
+  cursor: pointer !important;
+}
+/* line 185, ../sass/profilestyle.scss */
+.box-element .sottotitle {
+  margin-bottom: 10px;
+}
+/* line 188, ../sass/profilestyle.scss */
+.box-element .ico-label {
+  margin-bottom: -10px !important;
+}
+
+/* line 195, ../sass/profilestyle.scss */
+.box-singleAlbum {
+  padding-top: 10px !important;
+}
+
+/* line 201, ../sass/profilestyle.scss */
+.box#albumcover-single {
+  padding: 10px !important;
+}
+
+/* line 205, ../sass/profilestyle.scss */
+.box#album-single {
+  padding: 10px !important;
+}
+
+/* line 212, ../sass/profilestyle.scss */
+.box-membre {
+  padding: 10px;
+  margin-bottom: 10px;
+  width: auto;
+  height: 64px;
+  background-color: #1c1c1c;
+  cursor: pointer;
+}
+
+/* line 222, ../sass/profilestyle.scss */
+.royalSlider.rsDefault {
+  background: none !important;
+}
+
+/* line 225, ../sass/profilestyle.scss */
+.rsDefault .rsOverflow {
+  background: none !important;
+}
+
+/* line 229, ../sass/profilestyle.scss */
+.album-other {
+  cursor: pointer;
+  text-align: right;
+  padding: 10px;
+  height: 40px;
+  background: url(../images/icon/small/other.png);
+  background-repeat: no-repeat;
+  background-position: Center;
+}
+
+/* line 240, ../sass/profilestyle.scss */
+.otherSet {
+  cursor: pointer;
+  text-align: right;
+  padding: 10px;
+  height: 40px;
+  background-color: #d8d8d8 !important;
+  background: url(../images/icon/small/other-grey.png);
+  background-repeat: no-repeat;
+  background-position: Center;
+  margin: 1px !important;
+  margin-bottom: 40px !important;
+}
+
+/* line 254, ../sass/profilestyle.scss */
+.otherReview {
+  cursor: pointer;
+  text-align: right;
+  padding: 10px;
+  height: 40px;
+  background: url(../images/icon/small/other.png);
+  background-repeat: no-repeat;
+  background-position: Center;
+}
+
+/* line 264, ../sass/profilestyle.scss */
+.album-single-propriety {
+  border-top: 1px solid #303030 !important;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* line 270, ../sass/profilestyle.scss */
+.propriety {
+  padding-right: 5px;
+  text-align: right;
+}
+
+/* line 275, ../sass/profilestyle.scss */
+.icon-propriety {
+  width: auto;
+  height: 15px;
+  font-size: 11px;
+  color: #787878;
+  line-height: 15px;
+  margin-right: 1px;
+  padding: 0 0px 0 15px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+}
+/* line 286, ../sass/profilestyle.scss */
+.icon-propriety:hover {
+  color: #787878;
+}
+
+/* line 291, ../sass/profilestyle.scss */
+.content #map_venue {
+  width: 100% !important;
+  height: 300px !important;
+  margin-bottom: 10px;
+}
+
+/* line 299, ../sass/profilestyle.scss */
+#colorbox {
+  position: absolute !important;
+  top: 50% !important;
+  margin-top: -310px !important;
+}
+
+/* line 307, ../sass/profilestyle.scss */
+#cboxContent {
+  background: none !important;
+  margin-top: 25px !important;
+}
+
+/* line 312, ../sass/profilestyle.scss */
+#cboxCurrent {
+  right: 35px !important;
+  font-size: 14px !important;
+}
+
+/* line 317, ../sass/profilestyle.scss */
+#cboxNext {
+  box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
+}
+
+/* line 321, ../sass/profilestyle.scss */
+#cboxPrevious {
+  box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
+  left: 0px !important;
+}
+
+/* line 326, ../sass/profilestyle.scss */
+#cboxClose {
+  top: -18px !important;
+  box-shadow: 0 0px 0 rgba(255, 255, 255, 0.5) inset;
+  right: 0px !important;
+}
+
+/* line 337, ../sass/profilestyle.scss */
+#albumSlide.royalSlider {
+  width: auto !important;
+  background: #232323 !important;
+}
+/* line 340, ../sass/profilestyle.scss */
+#albumSlide.royalSlider .rsContent {
+  background: #232323 !important;
+}
+
+/* line 347, ../sass/profilestyle.scss */
+.albumcover-list {
+  padding-bottom: 10px !important;
+}
+
+/* line 350, ../sass/profilestyle.scss */
+#albumSlide.box {
+  padding: 5px 5px 5px 5px !important;
+}
+/* line 352, ../sass/profilestyle.scss */
+#albumSlide.box .box-coveralbum {
+  cursor: pointer;
+}
+
+/* line 357, ../sass/profilestyle.scss */
+.albumcover {
+  width: 310px;
+  height: 160px;
+  padding-bottom: 10px !important;
+}
+
+/* line 364, ../sass/profilestyle.scss */
+.box-coveralbum {
+  padding: 10px !important;
+  border: 1px solid #303030 !important;
+}
+
+/* line 370, ../sass/profilestyle.scss */
+#albumcover-single .large-block-grid-3 {
+  padding-top: 10px !important;
+}
+
+/* line 374, ../sass/profilestyle.scss */
+#albumcover-single [data-clearing] li {
+  margin-right: 0px !important;
+}
+
+/* line 378, ../sass/profilestyle.scss */
+.photo {
+  cursor: pointer;
+}
+
+/* line 382, ../sass/profilestyle.scss */
+.lightbox-photo {
+  height: 100% !important;
+}
+/* line 384, ../sass/profilestyle.scss */
+.lightbox-photo .lightbox-photo-box {
+  background-color: #232323 !important;
+  border: 1px solid #787878;
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+  height: 100% !important;
+}
+/* line 392, ../sass/profilestyle.scss */
+.lightbox-photo .lightbox-photo-box .album-photo {
+  width: auto !important;
+  max-height: 430px !important;
+}
+/* line 397, ../sass/profilestyle.scss */
+.lightbox-photo .lightbox-photo-box .box-comment {
+  margin-bottom: 5px;
+}
+/* line 400, ../sass/profilestyle.scss */
+.lightbox-photo .lightbox-photo-box .album-photo-box {
+  text-align: center;
+  height: 450px !important;
+  cursor: pointer;
+}
+
+/* line 409, ../sass/profilestyle.scss */
+#cboxLoadedContent {
+  width: auto !important;
+  padding-right: 8px !important;
+  margin-right: 30px !important;
+  margin-left: 30px !important;
+  background: none !important;
+  border: 0px solid #000 !important;
+}
+
+/* line 420, ../sass/profilestyle.scss */
+#profile-Record .box {
+  padding: 5px !important;
+}
+/* line 422, ../sass/profilestyle.scss */
+#profile-Record .box .propriety {
+  padding-right: 15px !important;
+}
+
+/* line 427, ../sass/profilestyle.scss */
+#recordSlide.royalSlider {
+  width: auto !important;
+}
+/* line 429, ../sass/profilestyle.scss */
+#recordSlide.royalSlider .rsContent {
+  background-color: #232323 !important;
+}
+
+/* line 434, ../sass/profilestyle.scss */
+#record-list .play_now {
+  background-color: #787878 !important;
+  width: 100px;
+  height: 33px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+/* line 440, ../sass/profilestyle.scss */
+#record-list .play_now:hover {
+  background-color: #ff7505 !important;
+}
+
+/* line 445, ../sass/profilestyle.scss */
+#profile-Record .box-info-element {
+  margin-bottom: 5px !important;
+  padding: 5px !important;
+  cursor: pointer !important;
+}
+/* line 450, ../sass/profilestyle.scss */
+#profile-Record .box-info-element .sottotitle {
+  margin-bottom: 10px;
+}
+/* line 453, ../sass/profilestyle.scss */
+#profile-Record .box-info-element .ico-label {
+  margin-bottom: -10px !important;
+}
+
+/* line 459, ../sass/profilestyle.scss */
+.album-thumb {
+  width: 110px;
+  height: 110px;
+}
+
+/* line 464, ../sass/profilestyle.scss */
+.album-select {
+  cursor: pointer;
+}
+
+/* line 468, ../sass/profilestyle.scss */
+#profile-Record .track {
+  padding-top: 5px;
+  border-top: 1px solid #303030 !important;
+}
+/* line 471, ../sass/profilestyle.scss */
+#profile-Record .track ._play-large {
+  margin-bottom: 5px !important;
+}
+/* line 474, ../sass/profilestyle.scss */
+#profile-Record .track:hover {
+  background-color: #1c1c1c;
+  border-top: 2px solid #ff7505 !important;
+}
+
+/* line 480, ../sass/profilestyle.scss */
+.userThumb {
+  width: 45px;
+  height: 45px;
+}
+
+/* line 487, ../sass/profilestyle.scss */
+.track:hover .track-propriety {
+  display: block !important;
+}
+/* line 490, ../sass/profilestyle.scss */
+.track:hover .track-nopropriety {
+  display: none !important;
+}
+
+/* line 496, ../sass/profilestyle.scss */
+.track ._play-large:hover {
+  color: #f3f3f3 !important;
+}
+
+/* line 500, ../sass/profilestyle.scss */
+.track-propriety {
+  padding: 2px;
+  display: none;
+}
+
+/* line 506, ../sass/profilestyle.scss */
+.event {
+  padding: 0px !important;
+  padding-right: 5px !important;
+}
+
+/* line 511, ../sass/profilestyle.scss */
+.eventcover {
+  height: 130px;
+  width: 130px;
+  padding-bottom: 5px !important;
+}
+
+/* line 517, ../sass/profilestyle.scss */
+#albumcover-single .reveal-modal {
+  height: 100%;
+  width: 100%;
+}
+
+/* line 522, ../sass/profilestyle.scss */
+#eventSlide.royalSlider {
+  width: auto !important;
+  height: auto !important;
+}
+/* line 525, ../sass/profilestyle.scss */
+#eventSlide.royalSlider .rsContent {
+  background-color: #232323 !important;
+}
+
+/* line 531, ../sass/profilestyle.scss */
+#profile-Event .box {
+  padding: 5px !important;
+}
+/* line 533, ../sass/profilestyle.scss */
+#profile-Event .box .propriety {
+  padding-right: 20px !important;
+  padding-left: 0px !important;
+}
+
+/* line 543, ../sass/profilestyle.scss */
+#social {
+  padding-top: 65px;
+  background-color: #f3f3f3;
+}
+
+/* line 549, ../sass/profilestyle.scss */
+.status {
+  text-align: right;
+}
+
+/* line 553, ../sass/profilestyle.scss */
+.livel-status {
+  font-weight: 700;
+  margin-bottom: 4px !important;
+}
+
+/* line 558, ../sass/profilestyle.scss */
+.coverThumb {
+  height: 60px;
+  width: 60px;
+}
+
+/* line 564, ../sass/profilestyle.scss */
+#social-status form {
+  margin-bottom: 0;
+}
+/* line 566, ../sass/profilestyle.scss */
+#social-status form input {
+  margin-bottom: 5px;
+}
+/* line 570, ../sass/profilestyle.scss */
+#social-status p {
+  margin-bottom: 2px;
+}
+/* line 573, ../sass/profilestyle.scss */
+#social-status .note {
+  font-size: 14px !important;
+}
+
+/* line 578, ../sass/profilestyle.scss */
+#social #RecordReview .box {
+  padding: 10px 10px 0px 10px !important;
+}
+
+/* line 581, ../sass/profilestyle.scss */
+#social #eventReview .box {
+  padding: 10px 10px 0px 10px !important;
+}
+
+/* line 584, ../sass/profilestyle.scss */
+.touchcarousel {
+  width: auto !important;
+  height: auto !important;
+}
+
+/* line 589, ../sass/profilestyle.scss */
+.textReview {
+  margin-top: 10px;
+}
+
+/* line 594, ../sass/profilestyle.scss */
+.cropText {
+  height: 46 !important;
+}
+
+/* line 599, ../sass/profilestyle.scss */
+.textEventReview {
+  margin-top: 10px;
+}
+
+/* line 603, ../sass/profilestyle.scss */
+#social_list_achievement .arrow-holder {
+  height: 250px;
+}
+
+/* line 606, ../sass/profilestyle.scss */
+#social_list_achievement {
+  margin-left: 30px !important;
+  margin-right: 30px !important;
+}
+
+/* line 610, ../sass/profilestyle.scss */
+.arrow-holder {
+  height: 60px !important;
+}
+
+/* line 614, ../sass/profilestyle.scss */
+.recordReview-propriety {
+  padding-bottom: 5px !important;
+  padding-right: 15px;
+}
+
+/* line 619, ../sass/profilestyle.scss */
+#social-EventReview .box {
+  padding-bottom: 5px !important;
+}
+
+/* line 623, ../sass/profilestyle.scss */
+#social-RecordReview .box {
+  padding-bottom: 5px !important;
+}
+
+/* line 627, ../sass/profilestyle.scss */
+.achievement {
+  margin: 10px;
+  height: 40px;
+  width: 40px;
+  float: left;
+  border: #d8d8d8 1px solid;
+  -webkit-border-radius: 1000px;
+  -moz-border-radius: 1000px;
+  -ms-border-radius: 1000px;
+  -o-border-radius: 1000px;
+  border-radius: 1000px;
+}
+
+/* line 636, ../sass/profilestyle.scss */
+.achievement-target {
+  margin: 10px;
+  border: #ff7505 3px solid;
+  cursor: pointer;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left top;
+  -webkit-transition-property: background-position, color;
+  -moz-transition-property: background-position, color;
+  -o-transition-property: background-position, color;
+  transition-property: background-position, color;
+}
+/* line 644, ../sass/profilestyle.scss */
+.achievement-target:hover {
+  background-color: #ff7505;
+  background-position: left bottom;
+}
+
+/* line 651, ../sass/profilestyle.scss */
+.status-button {
+  text-align: right;
+  height: 35px;
+  margin-bottom: 40px;
+}
+/* line 655, ../sass/profilestyle.scss */
+.status-button .button {
+  padding-left: 5px;
+  padding-right: 10px;
+}
+
+/* line 661, ../sass/profilestyle.scss */
+.button {
+  height: 35px !important;
+  border: 0px !important;
+  padding-top: 7px !important;
+}
+
+/* line 667, ../sass/profilestyle.scss */
+.bg-orange {
+  background-color: #ff7505 !important;
+}
+/* line 669, ../sass/profilestyle.scss */
+.bg-orange:hover {
+  background-color: #c95600 !important;
+}
+
+/* line 674, ../sass/profilestyle.scss */
+.bg-grey {
+  background-color: #787878 !important;
+}
+/* line 676, ../sass/profilestyle.scss */
+.bg-grey:hover {
+  background-color: #303030 !important;
+}
+
+/* line 681, ../sass/profilestyle.scss */
+.icon-button {
+  width: auto;
+  height: 20px;
+  font-size: 14px;
+  color: #f3f3f3;
+  line-height: 20px;
+  margin-right: 1px;
+  padding: 0 0 0 25px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+}
+
+/* line 693, ../sass/profilestyle.scss */
+#social .box {
+  border: #d8d8d8 1px solid;
+  background-color: #fff !important;
+  padding-bottom: 5px !important;
+}
+
+/* line 699, ../sass/profilestyle.scss */
+#social .text {
+  margin-bottom: 10px;
+}
+
+/* line 703, ../sass/profilestyle.scss */
+#social .album-thumb {
+  width: 90px;
+  height: 80px;
+  margin-right: 0px;
+}
+
+/* line 708, ../sass/profilestyle.scss */
+.box-info {
+  padding-left: 0px !important;
+}
+
+/* line 712, ../sass/profilestyle.scss */
+#social .line {
+  border-bottom: 1px solid #d8d8d8;
+  padding-bottom: 5px !important;
+}
+
+/* line 717, ../sass/profilestyle.scss */
+#activities .small-block-grid-4 {
+  padding-top: 10px;
+}
+
+/* line 721, ../sass/profilestyle.scss */
+#social-activity .box-singleActivity {
+  cursor: pointer;
+}
+
+/* line 725, ../sass/profilestyle.scss */
+#social .box-membre {
+  height: 55px;
+  background-color: #f3f3f3;
+}
+
+/* line 732, ../sass/profilestyle.scss */
+#recordReviewSlide.royalSlider {
+  width: auto !important;
+}
+/* line 735, ../sass/profilestyle.scss */
+#recordReviewSlide.royalSlider .rsContent {
+  background: #fff !important;
+}
+
+/* line 741, ../sass/profilestyle.scss */
+#eventReviewSlide.royalSlider {
+  width: auto !important;
+}
+/* line 744, ../sass/profilestyle.scss */
+#eventReviewSlide.royalSlider .rsContent {
+  background: #fff !important;
+}
+
+/* line 754, ../sass/profilestyle.scss */
+#social-Post .box {
+  margin-bottom: 10px;
+}
+
+/* line 758, ../sass/profilestyle.scss */
+.box-post {
+  border: 1px solid #d8d8d8;
+  padding: 5px;
+}
+
+/* line 763, ../sass/profilestyle.scss */
+.post {
+  color: #787878 !important;
+  font-size: 14px !important;
+  padding: 6px 15px 6px 30px !important;
+  border: #fff 0px solid !important;
+  background-color: #fff !important;
+  background: url(../images/icon/write.png) no-repeat 8px 6px !important;
+}
+
+/* line 772, ../sass/profilestyle.scss */
+.box-write {
+  background-color: #fff !important;
+  padding: 5px !important;
+  border: #d8d8d8 1px solid !important;
+  height: 45px;
+}
+
+/* line 779, ../sass/profilestyle.scss */
+.post-button {
+  color: #fff;
+  background-color: #ff7505 !important;
+  border: #fff 0px solid !important;
+  height: 34px !important;
+  width: 90px !important;
+}
+
+/* line 787, ../sass/profilestyle.scss */
+.post-button-send {
+  background-repeat: no-repeat;
+  background-image: url(../images/icon/btn-loader.gif);
+  background-position: center center;
+}
+
+/* line 792, ../sass/profilestyle.scss */
+.comment-btn-loader {
+  background-repeat: no-repeat !important;
+  background-image: url(../images/icon/btn-loader.gif) !important;
+  background-position: center center !important;
+}
+
+/* line 797, ../sass/profilestyle.scss */
+.comment-btn {
+  color: #fff;
+  background-color: #787878 !important;
+  border: #fff 0px solid !important;
+  height: 34px !important;
+  width: 90px !important;
+}
+
+/* line 805, ../sass/profilestyle.scss */
+#social-Post #post-error {
+  margin-bottom: 15px;
+  display: none;
+  cursor: pointer;
+}
+
+/* line 812, ../sass/profilestyle.scss */
+.comment-error {
+  display: none;
+  cursor: pointer;
+  padding-bottom: 5px;
+}
+
+/* line 821, ../sass/profilestyle.scss */
+.box-opinion {
+  padding: 5px !important;
+  padding-bottom: 1px !important;
+  background: #d8d8d8 !important;
+  margin-bottom: 50px;
+}
+/* line 826, ../sass/profilestyle.scss */
+.box-opinion .box-write {
+  margin-bottom: 5px !important;
+}
+/* line 829, ../sass/profilestyle.scss */
+.box-opinion .line {
+  border-bottom: 1px solid #d8d8d8;
+  padding-bottom: 5px !important;
+}
+/* line 833, ../sass/profilestyle.scss */
+.box-opinion .text {
+  margin-bottom: 10px;
+}
+
+/* line 839, ../sass/profilestyle.scss */
+.box-singole-comment {
+  padding: 10px !important;
+  padding-bottom: 1px !important;
+  background: #fff !important;
+  margin-bottom: 5px;
+}
+
+/* line 846, ../sass/profilestyle.scss */
+.box-commentSpace {
+  margin-bottom: 0px !important;
+}
+
+/* line 852, ../sass/profilestyle.scss */
+.welcome-stream {
+  text-align: center;
+  margin: 45px 0;
+}
+/* line 855, ../sass/profilestyle.scss */
+.welcome-stream h3 {
+  color: #ff7505;
+}
+/* line 858, ../sass/profilestyle.scss */
+.welcome-stream h5 {
+  color: white;
+}
+/* line 861, ../sass/profilestyle.scss */
+.welcome-stream p {
+  margin-bottom: 0;
+}
+
+/* line 866, ../sass/profilestyle.scss */
+.discover-button {
+  width: 100%;
+  height: 45px;
+  color: white;
+  cursor: pointer;
+  line-height: 45px;
+  text-align: center;
+  background-color: #303030;
+  margin-bottom: 20px;
+  -webkit-transition-property: all;
+  -moz-transition-property: all;
+  -o-transition-property: all;
+  transition-property: all;
+  -webkit-transition-duration: 300ms;
+  -moz-transition-duration: 300ms;
+  -o-transition-duration: 300ms;
+  transition-duration: 300ms;
+}
+/* line 877, ../sass/profilestyle.scss */
+.discover-button:hover {
+  background-color: #ff7505;
+}
+
+/* line 882, ../sass/profilestyle.scss */
+.discover-button-active {
+  background-color: #ff7505;
+}
