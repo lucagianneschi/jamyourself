@@ -106,7 +106,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 								<div class="row <?php echo $eventReview_user_objectId ?>">
 									<div  class="small-1 columns ">
 										<div class="userThumb">
-											<img src="../media/<?php echo $eventReview_user_thumbnail ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
+											<img src="../media/<?php echo $eventReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 										</div>
 									</div>
 									<div  class="small-11 columns">
@@ -121,7 +121,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 							?>
 							<div class="row">
 								<div  class="small-2 columns ">
-									<div class="coverThumb"><img src="../media/<?php echo $eventReview_thumbnailCover?>" onerror="this.src='../media/<?php echo DEFEVENTTHUMB; ?>'"></div>						
+									<div class="coverThumb"><img src="../media/<?php echo $eventReview_thumbnailCover?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></div>						
 								</div>
 								<div  class="small-8 columns ">
 									<div class="row ">							

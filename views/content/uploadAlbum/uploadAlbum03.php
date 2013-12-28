@@ -46,7 +46,7 @@
 		<table class="singlePhoto"> 
 		  <tbody id="photolist">
 		    <tr>
-		      <td class="photo"><img class="boxphoto"  src="../media/images/image/<?php ; ?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"/></td>
+		      <td class="photo"><img class="boxphoto"  src="../media/images/image/<?php ; ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'"/></td>
 		      <td class="info">
 		      	<div class="row">
 					<div  class="small-12 columns">
@@ -72,7 +72,7 @@
 		      </td>
 		    </tr>
              <tr>
-		      <td class="photo"><img class="boxphoto"  src="../media/images/image/<?php  ?>" onerror="this.src='../media/<?php echo DEFIMAGE; ?>'"/></td>
+		      <td class="photo"><img class="boxphoto"  src="../media/images/image/<?php  ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'"/></td>
 		      <td class="info">
 		      	<div class="row">
 					<div  class="small-12 columns">

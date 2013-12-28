@@ -84,7 +84,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    			<div class="row <?php echo $review_user_objectId; ?>">
 	    			    <div  class="small-1 columns ">
 	    				<div class="userThumb">
-	    				    <img src="../media/<?php echo $review_user_thumbnail; ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
+	    				    <img src="../media/<?php echo $review_user_thumbnail; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 	    				</div>
 	    			    </div>
 	    			    <div  class="small-5 columns">

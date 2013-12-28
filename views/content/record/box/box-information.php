@@ -50,7 +50,7 @@ switch ( $record->getfromUser()->getType()) {
 				<div class="row " id="user_<?php echo $fromUserObjectId; ?>">
 					<div class="small-1 columns ">
 						<div class="icon-header">
-							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='../media/<?php echo $defaultThum;?>'">
+							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='<?php echo $defaultThum;?>'">
 						</div>
 					</div>
 					<div  class="small-11 columns ">

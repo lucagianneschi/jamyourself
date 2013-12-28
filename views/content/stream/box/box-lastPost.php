@@ -63,7 +63,7 @@ if (count($posts) == 0) {
 						break;
 					}
 					?>
-    				    <img src="../media/<?php echo $post->getFromUser()->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
+    				    <img src="../media/<?php echo $post->getFromUser()->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
     				</div>
     			    </div>
     			    <div  class="small-5 columns">

@@ -62,7 +62,7 @@ if (is_null($collaboratorsBox->error)) {
 										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -108,7 +108,7 @@ if (is_null($collaboratorsBox->error)) {
 												<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 													<div  class="small-3 columns ">
 														<div class="icon-header">
-															<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $defaultThum;?>'">
+															<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum;?>'">
 														</div>
 													</div>
 													<div  class="small-9 columns ">
@@ -166,7 +166,7 @@ if (is_null($collaboratorsBox->error)) {
 										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
-													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
+													<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 												</div>
 											</div>
 											<div  class="small-9 columns ">
@@ -211,7 +211,7 @@ if (is_null($collaboratorsBox->error)) {
 												<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 													<div  class="small-3 columns ">
 														<div class="icon-header">
-															<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $defaultThum;?>'">
+															<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum;?>'">
 														</div>
 													</div>
 													<div  class="small-9 columns ">
