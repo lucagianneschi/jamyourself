@@ -30,6 +30,7 @@ class Event {
     private $eventDate;
     private $featuring;
     private $fromUser;
+    private $genre;
     private $image;
     private $invited;
     private $location;
@@ -144,6 +145,15 @@ class Event {
      */
     public function getFromUser() {
 	return $this->fromUser;
+    }
+
+    /**
+     * \fn	array getGenre()
+     * \brief	Return the genre (array) value for the genre
+     * \return	array
+     */
+    public function getGenre() {
+	return $this->genre;
     }
 
     /**
@@ -381,6 +391,15 @@ class Event {
     }
 
     /**
+     * \fn	void setGenre($genre)
+     * \brief	Sets the genre value, array for genres
+     * \param	array
+     */
+    public function setGenre($genre) {
+	$this->genre = $genre;
+    }
+
+    /**
      * \fn		void setImage($image)
      * \brief	Sets the image value, path file to cover
      * \param	string
@@ -560,6 +579,15 @@ class Event {
 	    $string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	} else {
 	    $string .= '[fromUser] => NULL<br />';
+	}
+	if ($this->getGenre() != 0) {
+	    foreach ($this->getGenre() as $genre) {
+		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+		$string .= '[tags] => ' . $genre . '<br />';
+	    }
+	} else {
+	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+	    $string .= '[tags] => NULL<br />';
 	}
 	if ($this->getImage() != null) {
 	    $string .= '[image] => ' . $this->getImage() . '<br />';

@@ -205,6 +205,7 @@ class EventParse {
 	    $event->setDescription(parse_decode_string($res->description));
 	    $event->setEventDate(fromParseDate($res->eventDate));
 	    $event->setFromUser(fromParsePointer($res->fromUser));
+	    $event->setGenre($res->genre);
 	    $event->setImage($res->image);
 	    $event->setLocation(fromParseGeoPoint($res->location));
 	    $event->setLocationName(parse_decode_string($res->locationName));
@@ -247,6 +248,7 @@ class EventParse {
 	    $parseObject->eventDate = is_null($event->getEventDate()) ? null : toParseDate($event->getEventDate());
 	    $parseObject->featuring = is_null($event->getFeaturing()) ? null : toParseAddRelation('_User', $event->getFeaturing());
 	    $parseObject->fromUser = toParsePointer('_User', $event->getFromUser());
+	    $parseObject->genre = is_null($event->getGenre()) ? $nullArray : parse_encode_array($event->getGenre());
 	    $parseObject->image = is_null($event->getImage()) ? DEFEVENTIMAGE : $event->getImage();
 	    $parseObject->invited = is_null($event->getInvited()) ? null : toParseAddRelation('_User', $event->getInvited());
 	    $parseObject->location = is_null($event->getLocation()) ? null : toParseGeoPoint($event->getLocation());
