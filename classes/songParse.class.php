@@ -236,7 +236,7 @@ class SongParse {
 	    $parseObject->featuring = is_null($song->getFeaturing()) ? null : toParseAddRelation('_User', $song->getFeaturing());
 	    $parseObject->filePath = is_null($song->getFilePath()) ? null : $song->getFilePath();
 	    $parseObject->fromUser = toParsePointer('_User', $song->getFromUser());
-	    $parseObject->genre = is_null($song->getGenre()) ? null : parse_encode_array($song->getGenre());
+	    $parseObject->genre = is_null($song->getGenre()) ? null : parse_encode_string($song->getGenre());
 	    $parseObject->location = is_null($song->getLocation()) ? null : toParseGeoPoint($song->getLocation());
 	    $parseObject->loveCounter = is_null($song->getLoveCounter()) ? 0 : $song->getLoveCounter();
 	    $parseObject->lovers = is_null($song->getLovers()) ? $nullArray : $song->getLovers();

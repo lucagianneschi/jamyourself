@@ -126,7 +126,7 @@ class StreamBox {
                 $posted = ($activity->getType() == 'POSTED' && !is_null($activity->getComment()) && !is_null($activity->getToUser()));
                 $sharedImage = ($activity->getType() == 'SHAREDIMAGE' );
                 $sharedSong = ($activity->getType() == 'SHAREDSONG' );
-                $songUploaded = ($activity->getType() == 'SONGUPLOADED' && !is_null($activity->getSong())); //OK
+                $songUploaded = ($activity->getType() == 'SONGUPLOADED' && !is_null($activity->getSong()) && !is_null($activity->getRecord())); 
                 $testArray = array($collaborationRequest, $commentedOnAlbum, $commentedOnEvent, $commentedOnEventReview, $commentedOnImage, $commentedOnPost, $commentedOnRecord, $commentedOnRecordReview, $commentedOnVideo, $createdAlbum, $createdEvent, $createdRecord, $friendshipRequest, $following, $imageUploaded, $invited, $newBadge, $newEventReview, $newLevel, $newRecordReview, $posted, $sharedImage, $sharedSong, $songUploaded);
                 if (in_array(true, $testArray))
                     $activities[$activity->getCreatedAt()->format('YmdHis')] = $activity;

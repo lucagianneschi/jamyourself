@@ -71,12 +71,14 @@ class RecordParse {
      */
     public function deleteRecord($objectId) {
 	try {
+	    require_once BOXES_DIR . 'utilsBox.php';
 	    $parseObject = new parseObject('Record');
 	    $res = $parseObject->get($objectId);
 	    $record = $this->parseToRecord($res);
-	    foreach ($record->getTracklist() as $songId) {
-		$songParse = new SongParse();
-		$songParse->deleteSong($songId);
+	    $songs = tracklistGenerator($objectId, MAX);
+	    foreach ($songs as $song) {
+		$songP = new SongParse();
+		$songP->deleteSong($song->getObjectId());
 	    }
 	    $record->setActive(false);
 	    $this->saveRecord($record);

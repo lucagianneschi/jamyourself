@@ -375,7 +375,8 @@ function createRecord() {
         json_album_create.description = $("#description").val();
         json_album_create.label = $("#label").val();
         json_album_create.urlBuy = $("#urlBuy").val();
-        json_album_create.albumFeaturing = getFeaturingList("albumFeaturing");;
+        json_album_create.albumFeaturing = getFeaturingList("albumFeaturing");
+        ;
         json_album_create.year = $("#year").val();
 //        json_album_create.city = $("#city").val();
         json_album_create.tags = getTagsAlbumCreate();
@@ -442,8 +443,11 @@ function initMp3Uploader() {
 
 //        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
             var obj = JSON.parse(response.response);
-
-            addNewSong(obj.src, obj.duration, getTagsMusicTrack());
+            if (obj.error !== undefined && obj.error !== null) {
+                alert(obj.error.message);
+            } else {
+                addNewSong(obj.src, obj.duration, getTagsMusicTrack());
+            }
 
         });
     } catch (err) {
@@ -461,8 +465,7 @@ function getTagsMusicTrack() {
                 tags.push(music[index]);
             }
         });
-
-        return tags;
+        return tags.join();
     } catch (err) {
         console.log("initMp3Uploader | An error occurred - message : " + err.message);
     }
@@ -475,7 +478,7 @@ function addNewSong(id, duration, tags) {
         var json_elem = {"src": id, "tags": tags, "featuring": featuring, "title": songTitle, "duration": duration};
         json_album.list.push(json_elem);
         window.console.log("Lista" + JSON.stringify(json_album.list));
-        addSongToList(json_elem.title, json_elem.duration, json_elem.tags.join(), true, id.substring(0, id.indexOf(".")));
+        addSongToList(json_elem.title, json_elem.duration, json_elem.tags, true, id.substring(0, id.indexOf(".")));
         $("#trackTitle").val("");
     } catch (err) {
         console.log("addNewSong | An error occurred - message : " + err.message);
@@ -561,6 +564,8 @@ function getSongCallback(data, status) {
         } else {
             json_album.count = 0;
         }
+        console.log(data.count);
+        if(data.count > 0 ) $('#uploadRecord-detail').removeClass('no-display');
     } catch (err) {
         console.log("getSongCallback | An error occurred - message : " + err.message);
     }
@@ -652,8 +657,8 @@ function initGeocomplete() {
 
 function getUserRecords() {
     try {
-      //  startSpinnerForRecords();
-      	goSpinner('#records_spinner');
+        //  startSpinnerForRecords();
+        goSpinner('#records_spinner');
         sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
     } catch (err) {
         console.log("getUserRecords | An error occurred - message : " + err.message);
