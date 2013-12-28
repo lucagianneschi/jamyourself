@@ -39,6 +39,22 @@ class UserParse {
     }
 
     /**
+     * \fn	void addUniqueArrayUser($objectId, $field, $value)
+     * \brief	add an element to an array filed
+     * \param	$objectId of the user, field to add element, $value to be added to the field
+     * \return	Error	the Error raised by the function
+     */
+    public function addUniqueArrayUser($objectId, $field, $value) {
+	try {
+	    $parseObject = new parseObject('_User');
+	    $parseObject->addUniqueArray($field, $value);
+	    $parseObject->update($objectId);
+	} catch (Exception $e) {
+	    return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
+	}
+    }
+
+    /**
      * \fn		void decrementUser(string $objectId, string $field, int $value)
      * \brief	Decrement the value of the $field of the objectId $objectId of $value unit
      * \param	$objectId	the string that represent the objectId of the User

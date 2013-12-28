@@ -33,39 +33,41 @@
 		<a type="button" name="uploadRecord03-next" id="uploadRecord03-next" class="buttonOrange _check-button sottotitle" style="padding-right: 50px;"/>Ok</a>
 	</div>	
 </div>
-<div id="uploadRecord-listSong">
-	<div class="row" style="margin-top: 40px">
-		<div  class="large-12 columns"><div class="line"></div></div>
-	</div>
-	<div class="row">
-		<div  class="large-12 columns formBlack-title">
-			<h2>Uploaded song</h2>										
+<div id="uploadRecord-detail" class="no-display">
+	<div id="uploadRecord-listSong">
+		<div class="row" style="margin-top: 40px">
+			<div  class="large-12 columns"><div class="line"></div></div>
+		</div>
+		<div class="row">
+			<div  class="large-12 columns formBlack-title">
+				<h2>Uploaded song</h2>										
+			</div>	
+		</div>
+		<div class="row formBlack-body">		
+			<table class="singleSong"> 
+			  <tbody id="songlist">
+	<!--		    <tr>
+			      <td class="title _note-button">Titolo Brano, ft Nome Jammer</td>
+			      <td class="time">2:43</td>
+			      <td class="genre">Genre: Ska, Rock</td>
+			      <td class="delete _delete-button"></td>
+			    </tr>
+	                    <tr>
+			      <td class="title _note-button">Titolo Brano</td>
+			      <td class="time">3:43</td>
+			      <td class="genre">Genre: Rock</td>
+			      <td class="delete _delete-button"></td>
+			    </tr>-->
+			  </tbody>
+			</table>
 		</div>	
 	</div>
-	<div class="row formBlack-body">		
-		<table class="singleSong"> 
-		  <tbody id="songlist">
-<!--		    <tr>
-		      <td class="title _note-button">Titolo Brano, ft Nome Jammer</td>
-		      <td class="time">2:43</td>
-		      <td class="genre">Genre: Ska, Rock</td>
-		      <td class="delete _delete-button"></td>
-		    </tr>
-                    <tr>
-		      <td class="title _note-button">Titolo Brano</td>
-		      <td class="time">3:43</td>
-		      <td class="genre">Genre: Rock</td>
-		      <td class="delete _delete-button"></td>
-		    </tr>-->
-		  </tbody>
-		</table>
-	</div>	
-</div>
-<div class="row">
-	<div  class="small-6 columns">
-		<div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span> Mandatory fields</div>
-	</div>	
-	<div  class="small-6 columns" >
-		<input type="button" name="uploadRecord03-publish" id="uploadRecord03-publish" class="buttonNext" value="Publish" style="float: right;"/>
-	</div>	
+	<div class="row">
+		<div  class="small-6 columns">
+			<div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span> Mandatory fields</div>
+		</div>	
+		<div  class="small-6 columns" >
+			<input type="button" name="uploadRecord03-publish" id="uploadRecord03-publish" class="buttonNext" value="Publish" style="float: right;"/>
+		</div>	
+	</div>
 </div>
