@@ -72,6 +72,17 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 								$css_love = '_unlove grey';
 								$text_love = $views['LOVE'];
 							}
+							switch ($post_fromUser_type) {
+		                        case 'JAMMER':
+		                            $defaultThum = DEFTHUMBJAMMER;
+		                            break;
+		                        case 'VENUE':
+		                            $defaultThum = DEFTHUMBVENUE;
+		                            break;
+		                        case 'SPOTTER':
+		                            $defaultThum = DEFTHUMBSPOTTER;
+		                            break;
+		                    }
 							?>
 							<div id='<?php echo  $post_objectId; ?>'>
 								<div class="box <?php echo $data['post' . $i]['showLove'] ?>">
@@ -79,7 +90,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 								<div class="row  line">
 									<div  class="small-1 columns ">
 										<div class="icon-header">
-											<img src="../media/<?php echo $post_fromUser_profileThumbnail; ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+											<img src="../media/<?php echo $post_fromUser_profileThumbnail; ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 										</div>
 									</div>
 									<div  class="small-5 columns">
