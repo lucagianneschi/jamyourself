@@ -186,3 +186,57 @@
 .ui-datepicker-calendar{
 	width: 216px !important;
 }
+
+//----------------------------- featuring --------------------------
+#s2id_trackFeaturing{
+	margin-bottom: 10px !important;
+}
+.select2-container-multi .select2-choices{
+	font-size: 14px;
+	background:$black !important; 
+  	color: $white !important;   
+  	border: 0px !important; 
+  //	border-bottom: 1px solid $grey-dark !important; 
+  	margin-left:0px !important; 
+	&:focus{
+	    background-color:$grey-dark !important; 
+	    border-bottom: 0px solid $grey !important; 
+    }  
+}
+
+.select2-no-results{
+	display: none !important;
+}
+
+.select2-drop{
+	color: $white !important;   
+	background:$black !important;
+	border: 1px solid $black !important;	
+}
+
+.select2-highlighted{
+	background: $orange !important;
+}
+.select2-search-choice{
+	background: $orange !important;
+	color: #fff !important;
+	height: 25px !important;
+	border: 1px solid $orange !important;
+	border-radius: 0px !important;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.select2-search input.select2-active{
+	background:$black !important; 
+  	color: $white !important; 
+}
+
+.select2-container-multi .select2-choices .select2-search-field input.select2-active {
+background:$black !important; 
+  	color: $white !important; 
+}
+
+.select2-more-results.select2-active {
+   background:$black !important; 
+  	color: $white !important; 
+}
