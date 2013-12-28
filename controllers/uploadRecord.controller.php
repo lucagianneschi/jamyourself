@@ -202,7 +202,7 @@ class UploadRecordController extends REST {
                         }
                         $song->setFilePath($element->src);
                         $song->setFromUser($currentUser->getObjectId());
-                        $song->setGenre(implode(",", $element->tags));
+                        $song->setGenre($element->tags);
                         $song->setLocation(null);
                         $song->setLovers(array());
                         $song->setLoveCounter(0);
@@ -230,7 +230,7 @@ class UploadRecordController extends REST {
                                 $position--;
                             } else {
                                 //aggiungo il songId alla lista degli elementi salvati
-                                $resAddRelation = $this->addSongToRecord($record, $savedSong->getObjectId());
+                                $resAddRelation = $this->addSongToRecord($record, $savedSong);
                                 if ($resAddRelation instanceof Error || $resAddRelation instanceof Exception || !$resAddRelation) {
                                     //errore creazione relazione fra record e song
                                     rollbackUploadRecordController($savedSong->getObjectId(), "Song");
@@ -294,11 +294,17 @@ class UploadRecordController extends REST {
             }
             $pSong = new SongParse();
             //cancello la canzone
+            
+            $song = $pSong->getSong($songId);
+            if ($song instanceof Error) {
+                $this->response(array('status' => $controllers['NOSONG']), 406);
+            }
+            
             if ($pSong->deleteSong($songId) instanceof Error) {
                 $this->response(array("status" => $controllers['NOSONGFORDELETE']), 407);
             }
             //rimuovo la relazione tra song e record
-            $resRemoveRelation = $this->removeSongFromRecord($record, $songId);
+            $resRemoveRelation = $this->removeSongFromRecord($record, $song);
 
             if ($resRemoveRelation instanceof Error || $resRemoveRelation instanceof Exception || !$resRemoveRelation) {
                 $this->response(array("status" => $controllers['NOREMOVERELATIONFROMRECORD']), 408);
@@ -314,22 +320,23 @@ class UploadRecordController extends REST {
      * \brief   funzione per aggiunta song a record esistente
      * \param   $record, instance of record.class e songId
      */
-    private function addSongToRecord($record, $songId) {
+    private function addSongToRecord($record, $song) {
         try {
             $currentUser = $_SESSION['currentUser'];
             $pRecord = new RecordParse();
             $recordId = $record->getObjectId();
+            
             //recupero la tracklist
-            $tracklist = $record->getTracklist();
-            if (is_null($tracklist) || !is_array($tracklist)) {
-                $tracklist = array();
-            }
-            //verifico che la canzone non sia gia' presente nella tracklist
-            if (in_array($songId, $tracklist)) {
-                return false;
-            }
+//            $tracklist = $record->getTracklist();
+//            if (is_null($tracklist) || !is_array($tracklist)) {
+//                $tracklist = array();
+//            }
+//            //verifico che la canzone non sia gia' presente nella tracklist
+//            if (in_array($songId, $tracklist)) {
+//                return false;
+//            }
             //aggiorno la relazione record/song
-            $res = $pRecord->updateField($recordId, 'tracklist', array($songId), true, 'add', 'Song');
+            $res = $pRecord->updateField($recordId, 'tracklist', array($song->getObjectid()), true, 'add', 'Song');
             if ($res instanceof Error) {
                 return $res;
             }
@@ -340,9 +347,14 @@ class UploadRecordController extends REST {
                 return $resActivity;
             }
             //aggiorno il contatore del record
-            $resIncr = $pRecord->incrementRecord($recordId, "songCounter", 1);
-            if ($resIncr instanceof Error) {
-                return $resIncr;
+            $resIncrSongCounter = $pRecord->incrementRecord($recordId, "songCounter", 1);
+            if ($resIncrSongCounter instanceof Error) {
+                return $resIncrSongCounter;
+            }
+            //aggiorno la durata del record
+            $resIncrDuration = $pRecord->incrementRecord($recordId, "duration", $song->getDuration());
+            if ($resIncrDuration instanceof Error) {
+                return $resIncrDuration;
             }
             return true;
         } catch (Exception $e) {
@@ -589,23 +601,24 @@ class UploadRecordController extends REST {
      * \brief   funzione per la rimozione di una song da un record
      * param   $record, $songId
      */
-    private function removeSongFromRecord($record, $songId) {
+    private function removeSongFromRecord($record, $song) {
         try {
             $currentUser = $_SESSION['currentUser'];
             require_once CLASSES_DIR . 'recordParse.class.php';
             $pRecord = new RecordParse();
             $recordId = $record->getObjectId();
-            $tracklist = $record->getTracklist();
-            if (is_null($tracklist) || !in_array($songId, $tracklist)) {
-                return false;
-            }
-            if (count($tracklist) == 0) {
-                return false;
-            }
-            $res = $pRecord->updateField($recordId, 'songs', array($songId), true, 'remove', 'Song');
+//            $tracklist = $record->getTracklist();
+//            if (is_null($tracklist) || !in_array($songId, $tracklist)) {
+//                return false;
+//            }
+//            if (count($tracklist) == 0) {
+//                return false;
+//            }
+            $res = $pRecord->updateField($recordId, 'tracklist', array($song->getObjectId()), true, 'remove', 'Song');
             if ($res instanceof Error) {
                 return $res;
             }
+            
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activity = $this->createActivityForSongAlbumRelation("SONGREMOVEDFROMRECORD", $currentUser->getObjectId(), $recordId, $songId);
             $activityParse = new ActivityParse();
@@ -614,11 +627,15 @@ class UploadRecordController extends REST {
                 return $resActivity;
             }
             //aggiorno il contatore del record
-            $resIncr = $pRecord->decrementRecord($recordId, "songCounter", 1);
-            if ($resIncr instanceof Error) {
-                return $resIncr;
+            $resDecrSongCounter = $pRecord->decrementRecord($recordId, "songCounter", 1);
+            if ($resDecrSongCounter instanceof Error) {
+                return $resDecrSongCounter;
             }
-
+            //aggiorno la durata del record
+            $resDecrDuration = $pRecord->decrementRecord($recordId, "duration", $song->getDuration());
+            if ($resDecrDuration instanceof Error) {
+                return $resDecrDuration;
+            }
             return true;
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
