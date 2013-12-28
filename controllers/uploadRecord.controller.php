@@ -342,7 +342,7 @@ class UploadRecordController extends REST {
             }
             //creo l'activity specifica 
             require_once CLASSES_DIR . 'activityParse.class.php';
-            $resActivity = $this->createActivity($currentUser->getObjectId(), $recordId, "SONGADDEDTORECORD", $songId);
+            $resActivity = $this->createActivity($currentUser->getObjectId(), $recordId, "SONGADDEDTORECORD", $song->getObjectId());
             if ($resActivity instanceof Error) {
                 return $resActivity;
             }
@@ -620,9 +620,7 @@ class UploadRecordController extends REST {
             }
             
             require_once CLASSES_DIR . 'activityParse.class.php';
-            $activity = $this->createActivityForSongAlbumRelation("SONGREMOVEDFROMRECORD", $currentUser->getObjectId(), $recordId, $songId);
-            $activityParse = new ActivityParse();
-            $resActivity = $activityParse->saveActivity($activity);
+            $resActivity = $this->createActivity($currentUser->getObjectId(), $recordId, "SONGREMOVEDFROMRECORD", $song->getObjectId());
             if ($resActivity instanceof Error) {
                 return $resActivity;
             }
