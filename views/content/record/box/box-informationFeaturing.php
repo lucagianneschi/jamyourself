@@ -35,13 +35,24 @@ if ($featuringsCounter > 0) {
 		$totalView = $featuringsCounter > 4 ? 4 : $featuringsCounter;
 		$i = 1;
 		foreach ($featurings as $key => $value) {
+			switch ($value->getType()) {
+                case 'JAMMER':
+                    $defaultThum = DEFTHUMBJAMMER;
+                    break;
+                case 'VENUE':
+                    $defaultThum = DEFTHUMBVENUE;
+                    break;
+                case 'SPOTTER':
+                    $defaultThum = DEFTHUMBSPOTTER;
+                    break;
+            }
 			?>
 			<div  class="small-6 columns">
 				<div class="box-membre">
 					<div class="row " id="featuring_<?php echo $value->getObjectId(); ?>">
 						<div  class="small-3 columns ">
 							<div class="icon-header">
-								<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
+								<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $defaultThum;?>'">
 							</div>
 						</div>
 						<div  class="small-9 columns ">
