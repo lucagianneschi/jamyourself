@@ -41,6 +41,7 @@ $eventDate = new DateTime();
 $event->setEventDate($eventDate);
 $event->setFeaturing(array('n1TXVlIqHw', 'GuUAj83MGH'));
 $event->setFromUser('GuUAj83MGH');
+$event->setGenre(array('genre1', 'genre2'));
 $event->setImage('Un link ad Image');
 $event->setInvited(array('n1TXVlIqHw', 'GuUAj83MGH'));
 $parseGeoPoint = new parseGeoPoint(12.34, 56.78);
