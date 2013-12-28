@@ -442,8 +442,7 @@ require_once ROOT_DIR . 'config.php';
                                     code = xhr.status;
                                     console.log("Code: " + code + " | Message: " + message);
                                 });
-                            }
-                            else{
+                            } else {
                                 $(box).prev().removeClass('box-commentSpace');
                                 $(box).addClass('no-display');
                             }

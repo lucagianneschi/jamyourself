@@ -6,15 +6,14 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once BOXES_DIR . 'userInfo.box.php';
+require_once CLASSES_DIR . 'userParse.class.php';
 
-$currentUser = $_SESSION['currentUser'];
-$userObjectId = $_GET['user'];
-
-$userInfoBox = new UserInfoBox();
-$userInfoBox->init($userObjectId);
-if (is_null($userInfoBox->error)) {
-	$user = $userInfoBox->user;
+if (session_id() == '') session_start();
+    
+if (!isset($_SESSION['currentUser'])) {
+    header('Location: login.php');
+} else {
+    $currentUser = $_SESSION['currentUser'];
 	?>
 	<!DOCTYPE html>
 	<!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
@@ -34,30 +33,10 @@ if (is_null($userInfoBox->error)) {
 			<!-------------------------- SCRIPT --------------------------->
 			<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
 			<script>
-				loadBoxRecord();
-				loadBoxAlbum();
-				loadBoxRecordReview();
-				loadBoxEventReview();
-				//loadBoxActivity();
-				loadBoxPost();
-				<?php
-				if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
-					?>
-					loadBoxEvent();
-					loadBoxCollaboration();
-					loadBoxFollowers();
-					<?php
-				} elseif ($user->getType() == 'SPOTTER') {
-					?>
-					loadBoxFriends();
-					loadBoxFollowing();
-					<?php
-				}
-				?>
+				loadBoxLastPost();
+                loadBoxActivity();
 			</script>
 		</body>
 	</html>
 	<?php
-} else {
-	echo 'Errore';
 }

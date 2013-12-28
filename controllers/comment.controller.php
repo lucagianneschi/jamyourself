@@ -171,7 +171,7 @@ class CommentController extends REST {
                 if ($resActivity instanceof Error || $res instanceof Error) {
                     require_once CONTROLLERS_DIR . 'rollBackUtils.php';
                     $message = rollbackCommentController($objectId, $classType);
-                    $this->response(array($message), 503);
+                    $this->response(array('status' => $message), 503);
                 }
             }
             global $mail_files;
@@ -184,7 +184,7 @@ class CommentController extends REST {
             $subject = $controllers['SBJCOMMENT'];
             $html = $mail_files['COMMENTEMAIL'];
             sendMailForNotification($address, $subject, $html);
-            $this->response(array('status' => $controllers['COMMENTSAVED']), 200);
+            $this->response(array('status' => $res), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getErrorMessage()), 503);
         }

@@ -17,6 +17,7 @@ function sendComment(toUser, comment, objectId, classType, box, limit, skip) {
     .done(function(response, status, xhr) {
         loadBoxComment(limit, skip);
         message = $.parseJSON(xhr.responseText).status;
+        $('#commentCounter').html(message);
         code = xhr.status;
         console.log("Code: " + code + " | Message: " + message);
     })

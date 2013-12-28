@@ -80,7 +80,7 @@ class PostController extends REST {
 	    $cmt->setImage(null);
 	    $cmt->setLocation(null);
 	    $cmt->setLoveCounter(0);
-	    $cmt->setLovers(null);
+	    $cmt->setLovers(array());
 	    $cmt->setRecord(null);
 	    $cmt->setShareCounter(0);
 	    $cmt->setSong(null);
