@@ -74,7 +74,7 @@ function prepareLocationObj(_result) {
 
 function getCompleteLocationInfo(_result) {
     try {
-        var location = prepareLocationObj(_result);        
+        var location = prepareLocationObj(_result);
         var info = {};
         info.latitude = 0;
         info.longitude = 0;
@@ -149,5 +149,30 @@ function spinner(){
 }
 
 /*
- * 
+ * Avvia lo spinner
  */
+function goSpinner(box){
+	$(box).addClass('box box-spinner');
+	$( "<div class='spinner'></div>" ).appendTo(box);
+	spinner();
+}
+
+/*
+ * Ferma lo spinner
+ */
+function stopSpinner(box){
+	$(box).removeClass('box box-spinner');
+	$(box).html('');
+}
+
+function getFeaturingList(containerId) {
+    try{
+        var featuring = new Array();
+        $.each($("#" + containerId).select2('data'), function(key, item) {
+            featuring.push(item.id);
+        });
+        return featuring;
+    } catch (err) {
+        window.console.error("getFeaturingList | An error occurred - message : " + err.message);
+    }
+}

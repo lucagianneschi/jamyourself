@@ -154,11 +154,16 @@ class UploadAlbumController extends REST {
             global $controllers;
             error_reporting(E_ALL ^ E_NOTICE);
             $force = false;
+            $filter = null;
+
             if (!isset($_SESSION['currentUser'])) {
                 $this->response(array('status' => $controllers['USERNOSES']), 400);
             }
             if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
                 $force = true;
+            }
+            if (isset($this->request['term']) && !is_null($this->request['term']) && (strlen($this->request['term']) > 0)) {
+                $filter = $this->request['term'];
             }
             $currentUserFeaturingArray = null;
             if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
@@ -168,11 +173,19 @@ class UploadAlbumController extends REST {
                 $currentUserFeaturingArray = getFeaturingArray();
                 $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
             }
-            echo json_encode($currentUserFeaturingArray);
+
+            if (!is_null($filter)) {
+                require_once CONTROLLERS_DIR . 'utilsController.php';                
+                echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
+            } else {
+                echo json_encode($currentUserFeaturingArray);                
+            }
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
+
+
 
     public function getImagesList() {
         try {
@@ -276,7 +289,7 @@ class UploadAlbumController extends REST {
             return $e;
         }
     }
-    
+
     private function moveFile($userId, $albumId, $fileInCache) {
         if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileInCache)) {
             $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $albumId;
@@ -288,9 +301,11 @@ class UploadAlbumController extends REST {
                 $newName = $dir . DIRECTORY_SEPARATOR . $fileInCache;
                 return rename($oldName, $newName);
             }
-        } else
+        }
+        else
             return false;
     }
 
 }
+
 ?>

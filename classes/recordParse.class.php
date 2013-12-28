@@ -120,16 +120,14 @@ class RecordParse {
      * \return	Error	the Error raised by the function
      */
     public function getRecords() {
-	$records = null;
 	try {
+	    $records = null;
 	    $res = $this->parseQuery->find();
 	    if (is_array($res->results) && count($res->results) > 0) {
 		$records = array();
 		foreach ($res->results as $obj) {
-		    if ($obj) {
-			$record = $this->parseToRecord($obj);
-			$records[$record->getObjectId()] = $record;
-		    }
+		    $record = $this->parseToRecord($obj);
+		    $records[$record->getObjectId()] = $record;
 		}
 	    }
 	    return $records;
@@ -208,10 +206,10 @@ class RecordParse {
 	    $record->setCity(parse_decode_string($res->city));
 	    $record->setCommentCounter($res->commentCounter);
 	    $record->setCounter($res->counter);
+	    $record->setCity($res->city);
 	    $record->setCover($res->cover);
 	    $record->setDescription(parse_decode_string($res->description));
 	    $record->setDuration($res->duration);
-	    $record->setFeaturing(fromParseRelation('Record', 'featuring', $res->objectId, '_User'));
 	    $record->setFromUser(fromParsePointer($res->fromUser));
 	    $record->setGenre($res->genre);
 	    $record->setLabel(parse_decode_string($res->label));
@@ -223,7 +221,6 @@ class RecordParse {
 	    $record->setSongCounter($res->songCounter);
 	    $record->setThumbnailCover($res->thumbnailCover);
 	    $record->setTitle(parse_decode_string($res->title));
-	    $record->setTracklist(fromParseRelation('Record', 'tracklist', $res->objectId, 'Song'));
 	    $record->setYear($res->year);
 	    $record->setCreatedAt(fromParseDate($res->createdAt));
 	    $record->setUpdatedAt(fromParseDate($res->updatedAt));

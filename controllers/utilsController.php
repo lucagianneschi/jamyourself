@@ -89,19 +89,19 @@ function getFeaturingArray() {
         $userArray = null;
         switch ($currentUser->getType()) {
             case "SPOTTER":
-                $userArrayFriend = getRelatedUsers($currentUserId, 'friendship', '_User'); 
-                if (($userArrayFriend instanceof Error) || is_null($userArrayFriend)){
+                $userArrayFriend = getRelatedUsers($currentUserId, 'friendship', '_User');
+                if (($userArrayFriend instanceof Error) || is_null($userArrayFriend)) {
                     $userArrayFriend = array();
                 }
-                $userArrayFollowing = getRelatedUsers($currentUserId, 'following', '_User');  
-                if (($userArrayFollowing instanceof Error) || is_null($userArrayFollowing)){
+                $userArrayFollowing = getRelatedUsers($currentUserId, 'following', '_User');
+                if (($userArrayFollowing instanceof Error) || is_null($userArrayFollowing)) {
                     $userArrayFollowing = array();
                 }
                 $userArray = array_merge($userArrayFriend, $userArrayFollowing);
                 break;
             case "JAMMER":
             case "VENUE":
-                $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');                
+                $userArray = getRelatedUsers($currentUserId, 'collaboration', '_User');
                 break;
             default:
                 break;
@@ -115,7 +115,7 @@ function getFeaturingArray() {
                 require_once CLASSES_DIR . "user.class.php";
                 $username = $user->getUsername();
                 $userId = $user->getObjectId();
-                array_push($userArrayInfo, array("key" => $userId, "value" => $username));
+                array_push($userArrayInfo, array("id" => $userId, "text" => $username));
             }
             return $userArrayInfo;
         }
@@ -162,6 +162,18 @@ function getCroppedImages($decoded) {
     unlink($cacheImg);
 //RETURN        
     return array('picture' => $coverId, 'thumbnail' => $thumbId);
+}
+
+function filterFeaturingByValue($array, $value) {
+    $newarray = array();
+    if (is_array($array) && count($array) > 0) {
+        foreach ($array as $key) {
+            if (stripos($key['text'], $value) !== false) {
+                $newarray[] = $key;
+            }
+        }
+    }
+    return $newarray;
 }
 
 ?>

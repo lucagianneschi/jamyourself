@@ -1,7 +1,7 @@
 //---------------- VALIDAZIONE FOUNDATION abide  ----------------------------- 
 //------ espressioni regolari -------------------------------
 var exp_description = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})$/;
-
+var featuringJSON = [];
 var json_album_create = {};
 
 $(document).ready(function() {
@@ -71,41 +71,6 @@ $(document).ready(function() {
     $('#uploadAlbum03-publish').click(function() {
         //  publish();
     });
-
-
-
-
-    /*
-     $("#albumFeaturing").fcbkcomplete({
-     json_url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
-     addontab: true,
-     addoncomma: false,
-     input_min_size: 0,
-     height: 10,
-     width:"100%",
-     cache: true,
-     maxshownitems: 10,
-     newel: false
-     });
-     $("#trackFeaturing").fcbkcomplete({
-     json_url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
-     addontab: true,
-     width:"100%",
-     addoncomma: false,
-     input_min_size: 0,
-     height: 10,
-     cache: true,
-     maxshownitems: 10,
-     newel: false
-     });
-     */
-//    Per stampare in console l'array del featuring:
-//    
-//        $.getJSON("../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON", function(data) {
-//            console.log("featuring: list : ");
-//            console.log(JSON.stringify(data));
-//    });
-
 });
 
 // plugin di fondation per validare i campi tramite espressioni regolari (vedi sopra)
@@ -118,42 +83,30 @@ $(document).foundation('abide', {
     }
 });
 
-//autocomplete
-function autoComplete(box) {
-    $(box).fcbkcomplete({
-        json_url: "../controllers/request/uploadRecordController.php?request=getFeaturingJSON",
-        width: "100%",
-        input_min_size: 0,
-        height: 10,
-        cache: true,
-        maxshownitems: 20,
-        onselect: function() {
-            //$('.bit-input').addClass('no-display'); 			
-        },
-        onremove: function() {
-            //$('.bit-input').removeClass('no-display');
-        }
-    });
-}
-
 function initFeaturing() {
     try {
         //inizializza le info in sessione
         sendRequest("uploadAlbum", "getFeaturingJSON", {"force": true}, null, true);
 
-        //inizializza il plugin
-        $("#featuring").fcbkcomplete({
-            json_url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
-//            width: "100%",
-            input_min_size: 0,
-            height: 10,
-            cache: true,
-            maxshownitems: 10,
-            addontab: false,
-            addoncomma: false,
-            newel: false
+        $('#featuring').select2({
+            multiple: true,
+            minimumInputLength: 1,
+            width: "100%",
+            ajax: {
+                url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
+                dataType: 'json',
+                data: function(term) {
+                    return {
+                        term: term
+                    };
+                },
+                results: function(data) {
+                    return {
+                        results: data
+                    };
+                }
+            }
         });
-
     } catch (err) {
         console.log("initFeaturing | An error occurred - message : " + err.message);
     }

@@ -63,10 +63,9 @@
 <script src="resources/javascripts/plugins/geocomplete/jquery.geocomplete.min.js"></script>
 <link rel="stylesheet" href="resources/javascripts/plugins/geocomplete/style.css" type="text/css" media="screen" charset="utf-8" />
 
-<!----------- FCBKAutocmplete ---------------------------------------------------------->
-<script src="resources/javascripts/plugins/FCBKcomplete/jquery.fcbkcomplete.min.js"></script>
-<link rel="stylesheet" href="resources/javascripts/plugins/FCBKcomplete/style.css" type="text/css" media="screen" charset="utf-8" />
-
+<!----------- Select2 ---------------------------------------------------------->
+<script src="resources/javascripts/plugins/select2/select2.js"></script>
+<link rel="stylesheet" href="resources/javascripts/plugins/select2/style.css" type="text/css" media="screen" charset="utf-8" />
 <!----------- addthis // finestra share ------------------------------------------------>
 <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-522dd258579a55ca"></script>
 
