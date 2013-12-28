@@ -12,7 +12,7 @@
  * 
  */
 if (!defined('ROOT_DIR'))
-	define('ROOT_DIR', '../../../../');
+    define('ROOT_DIR', '../../../../');
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
@@ -25,46 +25,58 @@ $inviteds = getRelatedUsers($objectId, 'invited', 'Event', false, 10, 0);
 $invitedsCounter = count($inviteds);
 
 if ($invitedsCounter > 0) {
-	?>
-	
-	<p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT5']; ?> <span>[<?php echo $invitedsCounter?>]</span></a></p>
-	
-	<div class="content" data-section-content>
-		<div class="row">
-		<?php
-		$totalView = $invitedsCounter > 4 ? 4 : $invitedsCounter;
-		$i = 1;
-		foreach ($inviteds as $key => $value) {
-			?>
-			<div  class="small-6 columns">
-				<div class="box-membre">
-					<div class="row " id="featuring_<?php echo $value->getObjectId(); ?>">
-						<div  class="small-3 columns ">
-							<div class="icon-header">
-								<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo DEFTHUMB;?>'">
-							</div>
-						</div>
-						<div  class="small-9 columns ">
-							<div class="text white breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-							<small class="orange"><?php echo $value->getType(); ?></small>
-						</div>		
-					</div>
-				</div>
-			</div>
-			<?php
-			if ($i % 2 == 0) {
-				?>
-				</div>
-				<div class="row">
-				<?php
-			}
-			if ($i == $totalView) break;
-			$i++;
+    ?>
+
+    <p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT5']; ?> <span>[<?php echo $invitedsCounter ?>]</span></a></p>
+
+    <div class="content" data-section-content>
+        <div class="row">
+	    <?php
+	    $totalView = $invitedsCounter > 4 ? 4 : $invitedsCounter;
+	    $i = 1;
+	    foreach ($inviteds as $key => $value) {
+		switch ($value->getType()) {
+		    case 'JAMMER':
+			$defaultThum = DEFTHUMBJAMMER;
+			break;
+		    case 'VENUE':
+			$defaultThum = DEFTHUMBVENUE;
+			break;
+		    case 'SPOTTER':
+			$defaultThum = DEFTHUMBSPOTTER;
+			break;
 		}
 		?>
+		<div  class="small-6 columns">
+		    <div class="box-membre">
+			<div class="row " id="featuring_<?php echo $value->getObjectId(); ?>">
+			    <div  class="small-3 columns ">
+				<div class="icon-header">
+				    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
+				</div>
+			    </div>
+			    <div  class="small-9 columns ">
+				<div class="text white breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+				<small class="orange"><?php echo $value->getType(); ?></small>
+			    </div>		
+			</div>
+		    </div>
 		</div>
-	</div>
-	
 	<?php
+	if ($i % 2 == 0) {
+	    ?>
+	        </div>
+	        <div class="row">
+		    <?php
+		}
+		if ($i == $totalView)
+		    break;
+		$i++;
+	    }
+	    ?>
+        </div>
+    </div>
+
+    <?php
 }
 ?>
