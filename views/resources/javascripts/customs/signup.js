@@ -232,7 +232,7 @@ $(document).ready(function() {
 
         //controllo se sono stati inseriti city e country
         //validation county
-        var espressione = new RegExp(exp_username);
+        var espressione = new RegExp(exp_description);
         if (!espressione.test($('#spotter-city').val())) {
             $('#spotter-city').focus();
             validation_city = false;
@@ -323,7 +323,7 @@ $(document).ready(function() {
 
         //controllo se sono stati inseriti city e country
         //validation county
-        var espressione = new RegExp(exp_username);
+        var espressione = new RegExp(exp_description);
         if (!espressione.test($('#jammer-city').val())) {
             $('#jammer-city').focus();
             validation_city = false;
@@ -425,14 +425,14 @@ $(document).ready(function() {
         }
         else
             validation_country = true;
-
+		var espressione = new RegExp(exp_description);
         if (!espressione.test($('#venue-city').val())) {
             $('#venue-city').focus();
             validation_city = false;
         }
         else
             validation_city = true;
-
+		var espressione = new RegExp(exp_username);
         if (!espressione.test($('#venue-province').val())) {
             $('#venue-province').focus();
             validation_zipcode = false;

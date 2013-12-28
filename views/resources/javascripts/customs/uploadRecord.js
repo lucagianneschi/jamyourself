@@ -565,6 +565,8 @@ function getSongCallback(data, status) {
         } else {
             json_album.count = 0;
         }
+        console.log(data.count);
+        if(data.count > 0 ) $('#uploadRecord-detail').removeClass('no-display');
     } catch (err) {
         console.log("getSongCallback | An error occurred - message : " + err.message);
     }
