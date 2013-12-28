@@ -88,7 +88,7 @@ function noDisplay($dato) {
 			?>
 			<!--------------------------------------- MEMBRES --------------------------------------->
 			<?php
-			if (is_array($user->getMembers())) {
+			if (is_array($user->getMembers()) && count($user->getMembers()) > 0) {
 				?>
 				<section>
 					<p class="title" data-section-title><a href="#"><?php echo $views['information']['CONTENT2'];?></a></p>
