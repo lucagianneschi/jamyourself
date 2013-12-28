@@ -104,7 +104,7 @@ require_once ROOT_DIR . 'config.php';
 										    </div>	
 										    <div class="small-6 columns">
 										        <input type="submit" name="" id="" class="buttonNext" value="Search" style="float: right;"
-                                                onclick="loadBoxResultMusic()" />
+                                                onclick="loadBoxResultRecord()" />
 										    </div>	
 										</div>
 			        					
@@ -116,7 +116,7 @@ require_once ROOT_DIR . 'config.php';
                             var json_data = {};
                             var genres = new Array();
                             
-                            function loadBoxResultMusic() {
+                            function loadBoxResultRecord() {
                                 getGenre();
                                 json_data.latitude = json_data.location.latitude;
                                 json_data.longitude = json_data.location.longitude;
@@ -129,10 +129,15 @@ require_once ROOT_DIR . 'config.php';
 										//spinner.show();
 										console.log('Sono partito box-resultRecord');
 										//goSpinnerBox('#box-record','record');
+                                        $("#result").slideToggle('slow');
+                                        $("#search").slideToggle('slow');
+                                        $("#discover").html('Here you are!');
+                                        var elID="#result";
+                                        $("#scroll-profile").mCustomScrollbar("scrollTo",elID);
 									}
 								}).done(function(message, status, xhr) {
 									//spinner.hide();
-									//$("#box-record").html(message);
+                                    $("#result").html(message);
 									//plugin scorrimento box
 									//rsi_record = slideReview('recordSlide');
 									//plugin share
@@ -254,152 +259,23 @@ require_once ROOT_DIR . 'config.php';
                 
                 <div id="result" class="no-display">
                 
-                
-                <div id="">
-                    <div class="box ">
-                        
-                        <div class="row line">
-                            <div class="small-1 columns ">
-                                <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumbVenue.jpg" onerror="this.src='images/default/defaultAvatarThumbVenue.jpg'">
+                    <!-- END BOX RESULT -->
+                    
+                    <div class="row">
+                        <div  class="large-5 columns">
+                            <div class="" onclick="hideResult()"><h6>New search</h6></div>
+                        </div>	
+                        <div  class="large-7 columns align-right">
+                            <div class="row">					
+                                <div  class="small-9 columns">
+                                    <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick=""><?php echo $views['PREV'];?> </a>
+                                </div>
+                                <div  class="small-3 columns">
+                                    <a class="slide-button-next _nextPage" onclick=""><?php echo $views['NEXT'];?> </a>
                                 </div>
                             </div>
-                            <div class="small-5 columns">
-                                <div class="text grey" style="margin-bottom: 0px;">
-                                    <strong>Username</strong>
-                                </div>
-                                <div class="note orange">
-                                    <strong>UserType</strong>
-                                </div>
-                            </div>
-                            <div class="small-6 columns propriety">
-                            </div>
-
-                        </div>
-                        <div class="row  line">
-                            <div class="small-12 columns box-detail">
-                                <div class="row ">
-                                    <div class="small-12 columns">
-                                        
-                                        <div class="row">
-                                            <div class="small-2 columns ">
-                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
-                                            </div>
-                                            <div class="small-10 columns ">
-                                                <div class="row ">							
-                                                    <div class="small-12 columns ">
-                                                        <h5>Titolo Evento</h5>
-                                                        <h6>Nome del locale - Città</h6>
-                                                        <h6>Sabato 18 maggio - ore 22.30</h6>
-                                                    </div>	
-                                                </div>	
-                                                <div class="row">						
-                                                    <div class="small-12 columns ">
-                                                        
-                                                    </div>
-                                                </div>
-                                                												
-                                            </div>
-                                            			
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        
+                        </div>	
                     </div>
-                        
-                </div>
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                <div id="">
-                    <div class="box ">
-                        
-                        <div class="row line">
-                            <div class="small-1 columns ">
-                                <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumbVenue.jpg" onerror="this.src='images/default/defaultAvatarThumbVenue.jpg'">
-                                </div>
-                            </div>
-                            <div class="small-5 columns">
-                                <div class="text grey" style="margin-bottom: 0px;">
-                                    <strong>Username</strong>
-                                </div>
-                                <div class="note orange">
-                                    <strong>UserType</strong>
-                                </div>
-                            </div>
-                            <div class="small-6 columns propriety">
-                            </div>
-
-                        </div>
-                        <div class="row  line">
-                            <div class="small-12 columns box-detail">
-                                <div class="row ">
-                                    <div class="small-12 columns">
-                                        
-                                        <div class="row">
-                                            <div class="small-2 columns ">
-                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
-                                            </div>
-                                            <div class="small-10 columns ">
-                                                <div class="row ">							
-                                                    <div class="small-12 columns ">
-                                                        <h5>Titolo Evento</h5>
-                                                        <h6>Nome del locale - Città</h6>
-                                                        <h6>Sabato 18 maggio - ore 22.30</h6>
-                                                    </div>	
-                                                </div>	
-                                                <div class="row">						
-                                                    <div class="small-12 columns ">
-                                                        
-                                                    </div>
-                                                </div>
-                                                												
-                                            </div>
-                                            			
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        
-                    </div>
-                        
-                </div>
-                
-                
-                <!-- END BOX RESULT -->
-                
-                
-                <div class="row">
-                    <div  class="large-5 columns">
-                        <div class="" onclick="hideResult()"><h6>New search</h6></div>
-                    </div>	
-                    <div  class="large-7 columns align-right">
-                        <div class="row">					
-                            <div  class="small-9 columns">
-                                <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick=""><?php echo $views['PREV'];?> </a>
-                            </div>
-                            <div  class="small-3 columns">
-                                <a class="slide-button-next _nextPage" onclick=""><?php echo $views['NEXT'];?> </a>
-                            </div>
-                        </div>
-                    </div>	
-                </div>
-                
-                
-                
-                
                 
                 </div>
                 
