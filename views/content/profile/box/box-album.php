@@ -155,10 +155,10 @@ if (is_null($albumBox->error)) {
 									//spinner.show();
 									$( "#albumSlide" ).fadeOut( 100, function() {
 										$('#'+objectId ).fadeIn( 100 );
-							    		if(skip == 0) goSpinner('#box-albumDetail', '');
+							    		if(skip == 0) goSpinnerBox('#box-albumDetail', '');
 							    		else{
 							    			$('#box-albumDetail .otherObject').addClass('no-display');
-							    			goSpinner('#box-albumDetail .spinnerDetail', '');
+							    			goSpinnerBox('#box-albumDetail .spinnerDetail', '');
 							    		} 
 									});
 									

@@ -206,7 +206,7 @@ if (is_null($recordBox->error)) {
 										//spinner.show();
 										$( "#profile-Record #record-list" ).fadeOut( 100, function() {
 								    		$('#profile-Record .'+objectId).fadeIn( 100 );
-								    		goSpinner("."+objectId+" .box-recordDetail", '');
+								    		goSpinnerBox("."+objectId+" .box-recordDetail", '');
 										});	
 										console.log('Sono partito box-recordDetail');
 										
