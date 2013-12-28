@@ -50,7 +50,7 @@ require_once ROOT_DIR . 'config.php';
 							</div>	
 						</div>
                         
-                         <div id="search">
+                        <div id="search">
 						
 						<div class="box" id="discoverMusic" style="display: none;">
 							<div class="row formBlack">
@@ -114,13 +114,15 @@ require_once ROOT_DIR . 'config.php';
 						</div>
                         <script type="text/javascript">
                             var json_data = {};
+                            json_data.location = {};
                             var genres = new Array();
                             
                             function loadBoxResultRecord() {
-                                getGenre();
+                                json_data.genre = getGenre();
                                 json_data.latitude = json_data.location.latitude;
                                 json_data.longitude = json_data.location.longitude;
-                                json_data.genre = genres;
+                                json_data.city = json_data.location.city;
+                                json_data.country = json_data.location.country;
                                 $.ajax({
 									type: "POST",
 									url: "content/stream/box/box-resultRecord.php",
@@ -175,15 +177,17 @@ require_once ROOT_DIR . 'config.php';
                                 try {
                                     $("#location").geocomplete()
                                             .bind("geocode:result", function(event, result) {
+                                        json_data.location = getCompleteLocationInfo(result);
+                                        /*
                                         json_data.location = prepareLocationObj(result);
                                         var complTest = getCompleteLocationInfo(json_data.location);
-                                        console.log(complTest);
+                                        */
                                     })
                                             .bind("geocode:error", function(event, status) {
                                         json_data.location = null;
                                     })
                                             .bind("geocode:multiple", function(event, results) {
-                                        json_data.location = prepareLocationObj(results[0]);
+                                        json_data.location = getCompleteLocationInfo(results[0]);
                                     });
                                 } catch (err) {
                                     console.log("initGeocomplete | An error occurred - message : " + err.message);
@@ -247,39 +251,16 @@ require_once ROOT_DIR . 'config.php';
 							</div>
 						</div>
 							
-					</div>
-				</div>
+                        </div>
+                    </div>
                 
                 
                 </div>
                 
 					
-				<!-- RESULT -->                
+				<!-- RESULT -->
                 
-                
-                <div id="result" class="no-display">
-                
-                    <!-- END BOX RESULT -->
-                    
-                    <div class="row">
-                        <div  class="large-5 columns">
-                            <div class="" onclick="hideResult()"><h6>New search</h6></div>
-                        </div>	
-                        <div  class="large-7 columns align-right">
-                            <div class="row">					
-                                <div  class="small-9 columns">
-                                    <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick=""><?php echo $views['PREV'];?> </a>
-                                </div>
-                                <div  class="small-3 columns">
-                                    <a class="slide-button-next _nextPage" onclick=""><?php echo $views['NEXT'];?> </a>
-                                </div>
-                            </div>
-                        </div>	
-                    </div>
-                
-                </div>
-                
-                
+                <div id="result" class="no-display"></div>
                 
                 <script>
 				
@@ -301,7 +282,7 @@ require_once ROOT_DIR . 'config.php';
 							break;
 						}
 					}
-					
+					/*
 					function result() {
 						$("#result").slideToggle('slow');
 						$("#search").slideToggle('slow');
@@ -309,7 +290,7 @@ require_once ROOT_DIR . 'config.php';
 						var elID="#result";
 						$("#scroll-profile").mCustomScrollbar("scrollTo",elID);
 					}
-					
+					*/
 					function hideResult() {
 						$("#result").slideToggle('slow');
 						$("#search").slideToggle('slow');
