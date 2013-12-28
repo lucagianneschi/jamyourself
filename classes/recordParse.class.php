@@ -120,16 +120,14 @@ class RecordParse {
      * \return	Error	the Error raised by the function
      */
     public function getRecords() {
-	$records = null;
 	try {
+	    $records = null;
 	    $res = $this->parseQuery->find();
 	    if (is_array($res->results) && count($res->results) > 0) {
 		$records = array();
 		foreach ($res->results as $obj) {
-		    if ($obj) {
-			$record = $this->parseToRecord($obj);
-			$records[$record->getObjectId()] = $record;
-		    }
+		    $record = $this->parseToRecord($obj);
+		    $records[$record->getObjectId()] = $record;
 		}
 	    }
 	    return $records;
