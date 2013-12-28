@@ -562,7 +562,7 @@ class SignupController extends REST {
         $user->setDescription($decoded->description);
         require_once CONTROLLERS_DIR."utilsController.php";
         $imgInfo = getCroppedImages($decoded);
-        $user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['ProfilePicture']));
+        $user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['picture']));
         $user->setProfilePicture($imgInfo['picture']);
         $user->setProfileThumbnail($imgInfo['thumbnail']);
         $user->setFbPage($decoded->facebook);
