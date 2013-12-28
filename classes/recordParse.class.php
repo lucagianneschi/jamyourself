@@ -210,7 +210,6 @@ class RecordParse {
 	    $record->setCover($res->cover);
 	    $record->setDescription(parse_decode_string($res->description));
 	    $record->setDuration($res->duration);
-	    $record->setFeaturing(fromParseRelation('Record', 'featuring', $res->objectId, '_User'));
 	    $record->setFromUser(fromParsePointer($res->fromUser));
 	    $record->setGenre($res->genre);
 	    $record->setLabel(parse_decode_string($res->label));
@@ -222,7 +221,6 @@ class RecordParse {
 	    $record->setSongCounter($res->songCounter);
 	    $record->setThumbnailCover($res->thumbnailCover);
 	    $record->setTitle(parse_decode_string($res->title));
-	    $record->setTracklist(fromParseRelation('Record', 'tracklist', $res->objectId, 'Song'));
 	    $record->setYear($res->year);
 	    $record->setCreatedAt(fromParseDate($res->createdAt));
 	    $record->setUpdatedAt(fromParseDate($res->updatedAt));
