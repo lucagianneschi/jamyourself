@@ -24,6 +24,7 @@ define('USERS_DIR', ROOT_DIR . 'users/');
 ################
 define('IMAGES_DIR', ROOT_DIR . 'media/images/');
 define('SONGS_DIR', ROOT_DIR . 'media/songs/');
+define('BADGE_DIR', ROOT_DIR . 'media/images/badge/');
 
 #################
 # DEFAULT IMAGE #
