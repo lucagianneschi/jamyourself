@@ -54,7 +54,7 @@
 <script src="resources/javascripts/plugins/scrollbar/jquery.mCustomScrollbar.js"></script>
 
 <!----------- spinner ------------------------------------------------------------------>
-<script type="text/javascript" src="http://fgnass.github.io/spin.js/dist/spin.js"></script>
+<script type="text/javascript" src="resources/javascripts/plugins/spinner/spinner.js"></script>
 
 <!----------- plupload // upload file -------------------------------------------------->
 <script src="resources/javascripts/plugins/plupload/plupload.full.min.js"></script>
