@@ -2,11 +2,15 @@
 //------ espressioni regolari -------------------------------
 var exp_description = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})$/;
 
+var json_album_create = {};
 
 $(document).ready(function() {
-		
+
+    initFeaturing();
+
+
     //scorrimento lista album  
-   var sliderInstance =  $("#uploadAlbum-listAlbumTouch").touchCarousel({
+    var sliderInstance = $("#uploadAlbum-listAlbumTouch").touchCarousel({
         pagingNav: false,
         snapToItems: true,
         itemsPerMove: 1,
@@ -14,88 +18,87 @@ $(document).ready(function() {
         loopItems: false,
         scrollbar: false,
         dragUsingMouse: false
-    }).data("touchCarousel"); 
-         
+    }).data("touchCarousel");
+
 
     //gestione select album record
     $('.uploadAlbum-boxSingleAlbum').click(function() {
         $("#uploadAlbum01").fadeOut(100, function() {
             $("#uploadAlbum03").fadeIn(100);
         });
-        
+
     });
 
     //gesione button create new 
     $('#uploadAlbum-new').click(function() {
         $("#uploadAlbum01").fadeOut(100, function() {
             $("#uploadAlbum02").fadeIn(100);
-            autoComplete('#uploadAlbum #featuring');
             initGeocomplete();
         });
     });
 
     //gestione button new in uploadAlbum02
     $('#uploadAlbum02-next').click(function() {
-        var validation_title,validation_description  = true; 
+        var validation_title, validation_description = true;
         //controllo validazione campi di uploadAlbum2
-        var espressione = new RegExp(exp_description);        
-       //validation description
+        var espressione = new RegExp(exp_description);
+        //validation description
         if (!espressione.test($('#description').val())) {
             $('#description').focus();
-         //   $('label[for="description"] small.error').css({'display':'block'});
+            //   $('label[for="description"] small.error').css({'display':'block'});
             validation_description = false;
-        }else{
-        	validation_description = true;
+        } else {
+            validation_description = true;
         }
         //validation title        
         if (!espressione.test($('#albumTitle').val())) {
             $('#albumTitle').focus();
-          //  $('label[for="albumTitle"] small.error').css({'display':'block'});
+            //  $('label[for="albumTitle"] small.error').css({'display':'block'});
             validation_title = false;
         }
-        else{
-        	validation_title = true;
+        else {
+            validation_title = true;
         }
-        if(validation_title && validation_description){
-        	$("#uploadAlbum02").fadeOut(100, function() {
-	            $("#uploadAlbum03").fadeIn(100);         
-	            
-	        });
+        if (validation_title && validation_description) {
+            $("#uploadAlbum02").fadeOut(100, function() {
+                $("#uploadAlbum03").fadeIn(100);
+
+            });
         }
     });
 
     //gesione button publish 
     $('#uploadAlbum03-publish').click(function() {
-      //  publish();
+        //  publish();
     });
 
-       
-   
-    
-/*
-    $("#albumFeaturing").fcbkcomplete({
-        json_url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
-        addontab: true,
-        addoncomma: false,
-        input_min_size: 0,
-        height: 10,
-        width:"100%",
-        cache: true,
-        maxshownitems: 10,
-        newel: false
-    });
-    $("#trackFeaturing").fcbkcomplete({
-        json_url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
-        addontab: true,
-        width:"100%",
-        addoncomma: false,
-        input_min_size: 0,
-        height: 10,
-        cache: true,
-        maxshownitems: 10,
-        newel: false
-    });
-  */  
+
+
+
+    /*
+     $("#albumFeaturing").fcbkcomplete({
+     json_url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
+     addontab: true,
+     addoncomma: false,
+     input_min_size: 0,
+     height: 10,
+     width:"100%",
+     cache: true,
+     maxshownitems: 10,
+     newel: false
+     });
+     $("#trackFeaturing").fcbkcomplete({
+     json_url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
+     addontab: true,
+     width:"100%",
+     addoncomma: false,
+     input_min_size: 0,
+     height: 10,
+     cache: true,
+     maxshownitems: 10,
+     newel: false
+     });
+     */
 //    Per stampare in console l'array del featuring:
 //    
 //        $.getJSON("../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON", function(data) {
@@ -110,43 +113,63 @@ $(document).foundation('abide', {
     live_validate: true,
     focus_on_invalid: true,
     timeout: 1000,
-    patterns: {        
+    patterns: {
         description: exp_description,
     }
 });
 
 //autocomplete
-function autoComplete(box){
-	$(box).fcbkcomplete({
-        json_url: "../controllers/request/uploadRecordEvent.php?request=getFeaturingJSON",
-        width:"100%",
+function autoComplete(box) {
+    $(box).fcbkcomplete({
+        json_url: "../controllers/request/uploadRecordController.php?request=getFeaturingJSON",
+        width: "100%",
         input_min_size: 0,
         height: 10,
         cache: true,
         maxshownitems: 20,
-        onselect: function(){        	
-       		//$('.bit-input').addClass('no-display'); 			
+        onselect: function() {
+            //$('.bit-input').addClass('no-display'); 			
         },
-        onremove: function(){
-        	//$('.bit-input').removeClass('no-display');
+        onremove: function() {
+            //$('.bit-input').removeClass('no-display');
         }
     });
 }
 
+function initFeaturing() {
+    try {
+        //inizializza le info in sessione
+        sendRequest("uploadAlbum", "getFeaturingJSON", {"force": true}, null, true);
 
+        //inizializza il plugin
+        $("#featuring").fcbkcomplete({
+            json_url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
+//            width: "100%",
+            input_min_size: 0,
+            height: 10,
+            cache: true,
+            maxshownitems: 10,
+            addontab: false,
+            addoncomma: false,
+            newel: false
+        });
+
+    } catch (err) {
+        console.log("initFeaturing | An error occurred - message : " + err.message);
+    }
+}
 function initGeocomplete() {
     try {
         $("#city").geocomplete()
                 .bind("geocode:result", function(event, result) {
-            json_event_create.city = prepareLocationObj(result);
-            var complTest = getCompleteLocationInfo(json_event_create.city);
+            json_album_create.city = prepareLocationObj(result);
         })
                 .bind("geocode:error", function(event, status) {
-            json_event_create.city = null;
+            json_album_create.city = null;
 
         })
                 .bind("geocode:multiple", function(event, results) {
-            json_event_create.city = prepareLocationObj(results[0]);
+            json_album_create.city = prepareLocationObj(results[0]);
         });
 
     } catch (err) {
