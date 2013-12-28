@@ -9,13 +9,6 @@
 <link rel="apple-touch-icon" sizes="72x72" href="resources/images/icon/touch-icon-ipad.png" />
 <link rel="apple-touch-icon" sizes="114x114" href="resources/images/icon/touch-icon-iphone-retina.png" />
 <link rel="apple-touch-icon" sizes="144x144" href="resources/images/icon/touch-icon-ipad-retina.png" />
-<link href="http://www.example.com/mobile/images/apple-startup-iPhone.jpg" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image" />
-<link href="http://www.example.com/mobile/images/apple-startup-iPhone-RETINA.jpg" media="(device-width: 320px) and (device-height: 480px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
-<link href="http://www.example.com/mobile/images/apple-startup-iPhone-Tall-RETINA.jpg"  media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
-<link href="http://www.example.com/mobile/images/apple-startup-iPad-Portrait.jpg" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image" />
-<link href="http://www.example.com/mobile/images/apple-startup-iPad-Landscape.jpg" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 1)" rel="apple-touch-startup-image" />
-<link href="http://www.example.com/mobile/images/apple-startup-iPad-RETINA-Portrait.jpg" media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
-<link href="http://www.example.com/mobile/images/apple-startup-iPad-RETINA-Landscape.jpg" media="(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)" rel="apple-touch-startup-image" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
