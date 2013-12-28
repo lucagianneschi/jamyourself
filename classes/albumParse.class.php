@@ -71,15 +71,15 @@ class AlbumParse {
      * \return	error in case of exception
      */
     public function deleteAlbum($objectId) {
-	if (is_null($objectId))
-	    return throwError(new Exception('deleteAlbum parameter is unset'), __CLASS__, __FUNCTION__, func_get_args());
 	try {
+	    require_once BOXES_DIR . 'utilsBox.php';
 	    $parseObject = new parseObject('Album');
 	    $res = $parseObject->get($objectId);
 	    $album = $this->parseToAlbum($res);
-	    foreach ($album->getImages() as $imageObjectId) {
-		$imageParse = new ImageParse();
-		$imageParse->deleteImage($imageObjectId);
+	    $images = fromParseRelation('Album', 'images', $objectId, 'Image');
+	    foreach ($images as $image) {
+		$imageP = new ImageParse();
+		$imageP->deleteImage($image->getObjectId());
 	    }
 	    $album->setActive(false);
 	    $this->saveAlbum($album);
