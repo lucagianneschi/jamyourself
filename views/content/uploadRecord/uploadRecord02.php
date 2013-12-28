@@ -64,7 +64,7 @@
         <input type="text" name="urlBuy" id="urlBuy" pattern="" placeholder="http://"/>
         <label for="urlBuy">Buy album at</label>
 
-        <select name="albumFeaturing" id="albumFeaturing" pattern=""></select>
+        <input type="text" name="albumFeaturing" id="albumFeaturing" pattern="">
         <label for="albumFeaturing">Featuring</label>
 
         <input type="text" name="year" id="year" pattern=""/>

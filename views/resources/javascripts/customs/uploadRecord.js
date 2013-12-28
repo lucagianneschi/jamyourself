@@ -84,28 +84,44 @@ $(document).ready(function() {
         }
     });
 
-
-    $("#albumFeaturing").fcbkcomplete({
-        json_url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
-        addontab: true,
-        addoncomma: false,
-        input_min_size: 0,
-        height: 10,
+    //inizializza il plugin
+    $('#albumFeaturing').select2({
+        multiple: true,
+        minimumInputLength: 1,
         width: "100%",
-        cache: true,
-        maxshownitems: 10,
-        newel: false
+        ajax: {
+            url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
+            dataType: 'json',
+            data: function(term) {
+                return {
+                    term: term
+                };
+            },
+            results: function(data) {
+                return {
+                    results: data
+                };
+            }
+        }
     });
-    $("#trackFeaturing").fcbkcomplete({
-        json_url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
-        addontab: true,
+    $('#trackFeaturing').select2({
+        multiple: true,
+        minimumInputLength: 1,
         width: "100%",
-        addoncomma: false,
-        input_min_size: 0,
-        height: 10,
-        cache: true,
-        maxshownitems: 10,
-        newel: false
+        ajax: {
+            url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
+            dataType: 'json',
+            data: function(term) {
+                return {
+                    term: term
+                };
+            },
+            results: function(data) {
+                return {
+                    results: data
+                };
+            }
+        }
     });
 
 //    Per stampare in console l'array del featuring:
@@ -353,25 +369,13 @@ function callbackAlbumCreate(data, status) {
         window.console.error("callbackAlbumCreate | An error occurred - message : " + err.message);
     }
 }
-function getFeaturingAlbumCreate() {
-    try {
-        var featuring = new Array();
-        $.each($("#albumFeaturing option:selected"), function(key, item) {
-            featuring.push($(item).val());
-        });
-
-        return featuring;
-    } catch (err) {
-        window.console.error("getFeaturingAlbumCreate | An error occurred - message : " + err.message);
-    }
-}
 function createRecord() {
     try {
         json_album_create.recordTitle = $("#recordTitle").val();
         json_album_create.description = $("#description").val();
         json_album_create.label = $("#label").val();
         json_album_create.urlBuy = $("#urlBuy").val();
-        json_album_create.albumFeaturing = getFeaturingAlbumCreate();
+        json_album_create.albumFeaturing = getFeaturingList("albumFeaturing");;
         json_album_create.year = $("#year").val();
 //        json_album_create.city = $("#city").val();
         json_album_create.tags = getTagsAlbumCreate();
@@ -463,23 +467,11 @@ function getTagsMusicTrack() {
         console.log("initMp3Uploader | An error occurred - message : " + err.message);
     }
 }
-function getFeaturingSongCreate() {
-    try {
-        var featuring = new Array();
-        $.each($("#trackFeaturing option:selected"), function(key, item) {
-            featuring.push($(item).val());
-        });
-
-        return featuring;
-    } catch (err) {
-        console.log("getFeaturingSongCreate | An error occurred - message : " + err.message);
-    }
-}
 
 function addNewSong(id, duration, tags) {
     try {
         var songTitle = $("#trackTitle").val();
-        var featuring = getFeaturingSongCreate();
+        var featuring = getFeaturingList("trackFeaturing");
         var json_elem = {"src": id, "tags": tags, "featuring": featuring, "title": songTitle, "duration": duration};
         json_album.list.push(json_elem);
         window.console.log("Lista" + JSON.stringify(json_album.list));
@@ -736,8 +728,8 @@ function onCarouselReady() {
             scrollbar: false,
             dragUsingMouse: false
         });
-        
-        
+
+
     } catch (err) {
         console.log("onCarouselReady | An error occurred - message : " + err.message);
     }

@@ -85,7 +85,7 @@ function creteEvent() {
         json_event_create.date = $("#date").val();
         json_event_create.hours = $("#hours").val();
         json_event_create.venue = $("#venueName").val();
-        json_event_create.jammers = getJammersUploadEvent();
+        json_event_create.jammers = getFeaturingList("jammers");
         json_event_create.tags = getTagsEventCreate();
 
         sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
@@ -97,12 +97,12 @@ function creteEvent() {
 
 function eventCreateCallback(data, status, xhr) {
     try {
-        if(status === "success"){
+        if (status === "success") {
             alert(data.status);
             clearAll();
         }
-        else{
-             alert(data.status);           
+        else {
+            alert(data.status);
         }
     } catch (err) {
         window.console.log("eventCreateCallback | An error occurred - message : " + err.message);
@@ -340,16 +340,24 @@ function initJammersJSON() {
         sendRequest("uploadEvent", "getFeaturingJSON", {"force": true}, null, true);
 
         //inizializza il plugin
-        $("#jammers").fcbkcomplete({
-            json_url: "../controllers/request/uploadEventRequest.php?request=getFeaturingJSON",
-            addontab: true,
+        $('#jammers').select2({
+            multiple: true,
+            minimumInputLength: 1,
             width: "100%",
-            addoncomma: false,
-            input_min_size: 0,
-            height: 10,
-            cache: true,
-            maxshownitems: 10,
-            newel: false
+            ajax: {
+                url: "../controllers/request/uploadEventRequest.php?request=getFeaturingJSON",
+                dataType: 'json',
+                data: function(term) {
+                    return {
+                        term: term
+                    };
+                },
+                results: function(data) {
+                    return {
+                        results: data
+                    };
+                }
+            }
         });
 
     } catch (err) {
@@ -357,20 +365,7 @@ function initJammersJSON() {
     }
 }
 
-function getJammersUploadEvent() {
-    try {
-        var jammers = new Array();
-        $.each($("#jammers option:selected"), function(key, item) {
-            jammers.push($(item).val());
-        });
-
-        return jammers;
-    } catch (err) {
-        window.console.error("getJammersUploadEvent | An error occurred - message : " + err.message);
-    }
-}
-
-function clearAll(){
+function clearAll() {
     json_event_create = {"hours": "", "image": "", "crop": ""};
     $('#form-uploadEvent').reset();
 }
