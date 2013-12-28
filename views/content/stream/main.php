@@ -40,23 +40,27 @@ require_once ROOT_DIR . 'config.php';
                                     </script>
 								</div>
 							</div>	
-						</div>	
+						</div>
+                        
+                       
 						
 						<div class="row">
 							<div class="small-12 columns">
 								<h3 id="discover">What are you looking for?</h3>
 							</div>	
-						</div>	
+						</div>
+                        
+                         <div id="search">
 						
 						<div class="box" id="discoverMusic" style="display: none;">
 							<div class="row formBlack">
 								<div class="large-12 columns">
-									<form action="javascript:return false;" method="POST" name="discoverMusic" id="" data-abide="" novalidate="novalidate">
+									<form action="javascript:return false;" method="POST" name="discoverMusic" id="" novalidate="novalidate">
 										
 										<div class="row">
 											<div class="large-12 columns" style="margin-bottom: 25px;">
 												<label for="location" class="error">
-													<input type="text" name="location" id="location" pattern="" required="" data-invalid="">
+													<input type="text" name="location" id="location" pattern="" data-invalid="">
 			        								Search by city
 			        							</label>
 			        						</div>
@@ -189,18 +193,18 @@ require_once ROOT_DIR . 'config.php';
 						<div class="box" id="discoverEvent" style="display: none;">
 							<div class="row formBlack">
 								<div class="large-12 columns">
-									<form action="" method="POST" name="discoverEvent" id="" data-abide="" novalidate="novalidate">
+									<form action="" method="POST" name="discoverEvent" id="" novalidate="novalidate">
 										
 										<div class="row">
 											<div class="large-8 columns" style="margin-bottom: 25px;">
 												<label for="eventTitle" class="error">
-													<input type="text" name="eventTitle" id="eventTitle" pattern="" required="" data-invalid="">
+													<input type="text" name="eventTitle" id="eventTitle" pattern="" data-invalid="">
 			        								Search by city
 			        							</label>
 			        						</div>
 			        						
 			        						<div class="large-4 columns">
-											 	<input type="text" name="date" id="date" required="" pattern="" class="hasDatepicker">
+											 	<input type="text" name="date" id="date" pattern="" class="hasDatepicker">
 								        		<label for="date">Date</label>
 											 </div>	
 											 
@@ -218,8 +222,7 @@ require_once ROOT_DIR . 'config.php';
 										        <!--<div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span> Mandatory fields</div>-->
 										    </div>	
 										    <div class="small-6 columns">
-										        <input type="submit" name="" id="" class="buttonNext" value="Search" style="float: right;"
-                                                onclick="loadBoxMusic()" />
+										        <input type="submit" name="" id="" class="buttonNext" value="Search" style="float: right;" onclick="result()" />
 										    </div>	
 										</div>
 			        					
@@ -241,11 +244,173 @@ require_once ROOT_DIR . 'config.php';
 							
 					</div>
 				</div>
+                
+                
+                </div>
+                
 					
-				<script>
+				<!-- RESULT -->                
+                
+                
+                <div id="result" class="no-display">
+                
+                
+                <div id="">
+                    <div class="box ">
+                        
+                        <div class="row line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumbVenue.jpg" onerror="this.src='images/default/defaultAvatarThumbVenue.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong>Username</strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong>UserType</strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                            </div>
+
+                        </div>
+                        <div class="row  line">
+                            <div class="small-12 columns box-detail">
+                                <div class="row ">
+                                    <div class="small-12 columns">
+                                        
+                                        <div class="row">
+                                            <div class="small-2 columns ">
+                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
+                                            </div>
+                                            <div class="small-10 columns ">
+                                                <div class="row ">							
+                                                    <div class="small-12 columns ">
+                                                        <h5>Titolo Evento</h5>
+                                                        <h6>Nome del locale - Città</h6>
+                                                        <h6>Sabato 18 maggio - ore 22.30</h6>
+                                                    </div>	
+                                                </div>	
+                                                <div class="row">						
+                                                    <div class="small-12 columns ">
+                                                        
+                                                    </div>
+                                                </div>
+                                                												
+                                            </div>
+                                            			
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                        
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <div id="">
+                    <div class="box ">
+                        
+                        <div class="row line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumbVenue.jpg" onerror="this.src='images/default/defaultAvatarThumbVenue.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong>Username</strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong>UserType</strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                            </div>
+
+                        </div>
+                        <div class="row  line">
+                            <div class="small-12 columns box-detail">
+                                <div class="row ">
+                                    <div class="small-12 columns">
+                                        
+                                        <div class="row">
+                                            <div class="small-2 columns ">
+                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
+                                            </div>
+                                            <div class="small-10 columns ">
+                                                <div class="row ">							
+                                                    <div class="small-12 columns ">
+                                                        <h5>Titolo Evento</h5>
+                                                        <h6>Nome del locale - Città</h6>
+                                                        <h6>Sabato 18 maggio - ore 22.30</h6>
+                                                    </div>	
+                                                </div>	
+                                                <div class="row">						
+                                                    <div class="small-12 columns ">
+                                                        
+                                                    </div>
+                                                </div>
+                                                												
+                                            </div>
+                                            			
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        
+                    </div>
+                        
+                </div>
+                
+                
+                <!-- END BOX RESULT -->
+                
+                
+                <div class="row">
+                    <div  class="large-5 columns">
+                        <div class="" onclick="hideResult()"><h6>New search</h6></div>
+                    </div>	
+                    <div  class="large-7 columns align-right">
+                        <div class="row">					
+                            <div  class="small-9 columns">
+                                <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick=""><?php echo $views['PREV'];?> </a>
+                            </div>
+                            <div  class="small-3 columns">
+                                <a class="slide-button-next _nextPage" onclick=""><?php echo $views['NEXT'];?> </a>
+                            </div>
+                        </div>
+                    </div>	
+                </div>
+                
+                
+                
+                
+                
+                </div>
+                
+                
+                
+                <script>
 				
 					function discover(what) {
 						$('.discover-button').removeClass('discover-button-active');
+						var elID="#search";
+						$("#scroll-profile").mCustomScrollbar("scrollTo",elID);
 						switch(what)
 						{
 							case 'music':
@@ -260,7 +425,28 @@ require_once ROOT_DIR . 'config.php';
 							break;
 						}
 					}
-				</script>	
+					
+					function result() {
+						$("#result").slideToggle('slow');
+						$("#search").slideToggle('slow');
+						$("#discover").html('Here you are!');
+						var elID="#result";
+						$("#scroll-profile").mCustomScrollbar("scrollTo",elID);
+					}
+					
+					function hideResult() {
+						$("#result").slideToggle('slow');
+						$("#search").slideToggle('slow');
+						$("#discover").html('What are you looking for?');
+						var elID="#search";
+						$("#scroll-profile").mCustomScrollbar("scrollTo",elID);
+						
+					}
+					
+				</script>
+                
+                
+                
 			
 <!---------------------------- END CONTENT PROFILE--------------------------------------------->
 
