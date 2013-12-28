@@ -64,10 +64,12 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 								$eventReview_user_objectId = $value->getEvent()->getFromUser()->getObjectId();
 								$eventReview_user_thumbnail = $value->getEvent()->getFromUser()->getProfileThumbnail();
 								$eventReview_user_username = $value->getEvent()->getFromUser()->getUsername();
+								$eventReview_user_type = $value->getEvent()->getFromUser()->getType();
 							} else {
 								$eventReview_user_objectId = $value->getFromUser()->getObjectId();
 								$eventReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
 								$eventReview_user_username = $value->getFromUser()->getUsername();
+								$eventReview_user_type = $value->getFromUser()->getType();
 							}
 							$eventReview_thumbnailCover = $value->getEvent()->getThumbnail();
 							$eventReview_title = $value->getTitle();
@@ -89,11 +91,22 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 							<div id='eventReview_<?php echo $eventReview_objectId ?>'>	
 							<?php
 							if ($type != "SPOTTER") {
+								switch ($eventReview_user_type) {
+				                        case 'JAMMER':
+				                            $defaultThum = DEFTHUMBJAMMER;
+				                            break;
+				                        case 'VENUE':
+				                            $defaultThum = DEFTHUMBVENUE;
+				                            break;
+				                        case 'SPOTTER':
+				                            $defaultThum = DEFTHUMBSPOTTER;
+				                            break;
+				                    }
 								?>
 								<div class="row <?php echo $eventReview_user_objectId ?>">
 									<div  class="small-1 columns ">
 										<div class="userThumb">
-											<img src="../media/<?php echo $eventReview_user_thumbnail ?>" onerror="this.src='../media/<?php echo DEFTHUMB; ?>'">
+											<img src="../media/<?php echo $eventReview_user_thumbnail ?>" onerror="this.src='../media/<?php echo $defaultThum; ?>'">
 										</div>
 									</div>
 									<div  class="small-11 columns">
