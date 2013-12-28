@@ -157,7 +157,8 @@ function findLocationCoordinates($city = null, $coutry = null) {
         $location = new LocationParse();
         if (!is_null($city)) {
             $location->where('city', $city);
-        } elseif (!is_null($coutry)) {
+        }
+        if (!is_null($coutry)) {
             $location->where('country', $coutry);
         }
         $location->setLimit(MIN);

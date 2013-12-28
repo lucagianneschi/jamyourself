@@ -75,6 +75,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 							$eventReview_title = $value->getTitle();
 							#TODO
 							//$eventReview_rating = $value->getRating();
+							$eventReview_data = $value->getCreatedAt()->format('l j F Y - H:i');
 							$eventReview_text = $value->getText();
 							$eventReview_love = $value->getLoveCounter();
 							$eventReview_comment = $value->getCommentCounter();
@@ -109,9 +110,14 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 											<img src="../media/<?php echo $eventReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 										</div>
 									</div>
-									<div  class="small-11 columns">
-										<div class="text grey" style="margin-left: 10px;"><strong><?php echo $eventReview_user_username ?></strong></div>
-									</div>	
+									<div  class="small-5 columns">
+										<div class="text grey" style="margin-left: 20px;"><strong><?php echo $eventReview_user_username ?></strong></div>
+									</div>
+									<div  class="small-6 columns" style="text-align: right;">
+					    				<div class="note grey-light">
+										<?php echo $eventReview_data; ?>
+					    				</div>
+				    			    </div>		
 								</div>
 								<div class="row">
 									<div  class="large-12 columns"><div class="line"></div></div>
@@ -123,7 +129,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 								<div  class="small-2 columns ">
 									<div class="coverThumb"><img src="../media/<?php echo $eventReview_thumbnailCover?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></div>						
 								</div>
-								<div  class="small-8 columns ">
+								<div  class="small-10 columns ">
 									<div class="row ">							
 										<div  class="small-12 columns ">
 											<div class="sottotitle grey-dark"><?php echo $eventReview_title ?></div>
@@ -147,20 +153,17 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 											?>
 										</div>
 									</div>													
-								</div>
-								<div  class="small-2 columns align-right viewAlbumReview">
-									<a href="#" class="orange"><strong onclick="toggleTextEventReview(this,'eventReview_<?php echo $eventReview_objectId ?>')"><?php echo $views['EventReview']['READ'];?></strong></a>
-								</div>				
-							</div>
-							<div class="textReview no-display">
-								<div class="row ">						
-									<div  class="small-12 columns ">
-										<div class="text grey" style="line-height: 18px !important;">
-											<?php echo $eventReview_text; ?>
-										</div>
-									</div>
-								</div>					
-							</div>
+								</div>											
+							</div>							
+							<div class="row " style=" margin-top:10px;">						
+			    			    <div  class="small-12 columns ">
+			    				<div class="text grey cropText inline" style="line-height: 18px !important;">
+								<?php echo $eventReview_text; ?>
+			    				</div>
+			    				<a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'eventReview_<?php echo $eventReview_objectId ?>', '<?php echo $eventReview_text ?>')">View All</strong></a>
+			    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'eventReview_<?php echo $eventReview_objectId ?>', '<?php echo $eventReview_text ?>')">Close</strong></a>
+			    			    </div>
+			    			</div>
 							<div class="row">
 								<div  class="large-12 columns">
 									<div class="line"></div>

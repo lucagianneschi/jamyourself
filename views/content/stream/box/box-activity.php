@@ -53,7 +53,6 @@ if (is_null($streamBox->error)) {
     <?php
     
     foreach ($activities as $key => $value) {
-        debug(DEBUG_DIR, 'debug.txt', json_encode($value->getType()));
         switch ($value->getType()) {
             case ($value->getType() == 'COMMENTEDONALBUM' ||
                   $value->getType() == 'COMMENTEDONIMAGE' ||
@@ -77,9 +76,6 @@ if (is_null($streamBox->error)) {
                             </div>
                             <div class="small-5 columns">
                                 <div class="text grey" style="margin-bottom: 0px;">
-                                    <?php
-                                    debug(DEBUG_DIR, 'debug.txt', json_encode((array)$value->getFromUser()));
-                                    ?>
                                     <strong><?php echo $value->getFromUser()->getUsername(); ?></strong>
                                 </div>
                                 <div class="note orange">

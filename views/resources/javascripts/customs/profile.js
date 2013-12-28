@@ -32,10 +32,55 @@ $(document).ready(function() {
 
 	});
 	 
- 	
+ 	cropText(null);
  	
  	
 });
+
+
+
+/*
+ * Visualizza o nasconde il testo delle recensioni
+ */
+function toggleText(_this, box, text){
+	
+	if($(_this).text() == 'View All'){
+		
+		$('#'+box+' .viewText').insertBefore('#'+box+' .closeText');
+		
+		$('#'+box+' .cropText').text(text);
+		
+		$('#'+box+' .viewText').addClass('no-display');
+		
+		$('#'+box+' .closeText').removeClass('no-display');
+		
+		rsi_recordReview.updateSliderSize(true);
+		rsi_eventReview.updateSliderSize(true);
+		hcento();
+	}
+		
+	if($(_this).text() == 'Close'){
+		
+		$('#'+box+' .closeText').addClass('no-display');
+		
+		var text = $('#'+box+" .cropText");
+		
+		textCrop = text.text().substr(0, 170);						
+		
+		textCrop = textCrop + '... ';
+		
+		text.text(textCrop);
+		
+		$('#'+box+' .viewText').removeClass('no-display');
+		
+		$('#'+box+' .viewText').appendTo(text);
+		rsi_recordReview.updateSliderSize(true);
+		rsi_eventReview.updateSliderSize(true);
+		hcento();
+		
+	}
+}
+
 /*
  * Funzione per gestire i counters (love, comment, share e review)
  * 
@@ -255,12 +300,14 @@ function royalSlideNext(btn, box){
 	}
 	if(box == 'EventReview' && !$('#social-'+box+' .box-opinion').hasClass('no-display')){
    			$('#social-'+box+' .box-opinion').addClass('no-display');
-   			$('#social-'+box+' .box-opinion').prev().removeClass('box-commentSpace');   		
+   			$('#social-'+box+' .box-opinion').prev().removeClass('box-commentSpace');
+   					
    	} 
    	  		
    	if(box == 'RecordReview' && !$('#social-'+box+' .box-opinion').hasClass('no-display')){
    			$('#social-'+box+' .box-opinion').addClass('no-display');
    			$('#social-'+box+' .box-opinion').prev().removeClass('box-commentSpace');
+   			
    	}
    	rsi.next();
    	
@@ -270,15 +317,8 @@ function royalSlideNext(btn, box){
 	}else{
 		$(btn).removeClass('slide-button-next-disabled');
 	}
-	
-   	if(box == 'EventReview'){
-   		$('#social-EventReview span.indexBox').html(rsi.currSlideId+1);
-   	}   		
-   	if(box == 'RecordReview'){
-   		$('#social-RecordReview span.indexBox').html(rsi.currSlideId+1);
-   	}
-   		
-  
+	  		
+  	cropText('#social-'+box+' .cropText');
 }
 
 function royalSlidePrev(btn, box){
@@ -319,12 +359,11 @@ function royalSlidePrev(btn, box){
 	}else{
 		$(btn).removeClass('slide-button-prev-disabled');
 	}
-   	if(box == 'EventReview'){
-   		$('#social-EventReview span.indexBox').html(rsi.currSlideId+1);
-   	}   		
-   	if(box == 'RecordReview'){
-   		$('#social-RecordReview span.indexBox').html(rsi.currSlideId+1);
-   	}
+   	
+   	
+   	cropText('#social-'+box+' .cropText');
+   	
+   	
  }
 
 
@@ -464,6 +503,34 @@ function goSpinnerBox(id,box){
 			hcento();
 		} 
 	});	
+}
+
+function cropText(box){
+	
+		if(box == null) box = '.cropText';	
+		
+		$( box ).each(function( index, element ) {
+			
+			if($(this).text().length > 170 && !$(this).children().hasClass('viewText')){
+				
+				textCrop = $( this ).text().substr(0, 170);
+				
+				textCrop = textCrop + '... ';
+				
+				$( this ).text(textCrop);
+				
+				$( this ).next().removeClass('no-display');		
+			
+				$( this ).next().appendTo(this);
+				
+				$( this ).next().addClass('no-display');		
+				
+			}
+					
+			
+		});
+	
+	
 }
 
 

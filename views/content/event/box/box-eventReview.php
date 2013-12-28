@@ -89,7 +89,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    			    </div>
 	    			    <div  class="small-5 columns">
 	    				<div class="text grey" style="margin-left: 20px; margin-bottom: 0px !important;"><strong><?php echo $review_user_username ?></strong></div>
-	    				<small class="orange" style="margin-left: 20px;"><?php echo $review_user_type; ?></small>
+	    				<!--small class="orange" style="margin-left: 20px;"><?php echo $review_user_type; ?></small-->
 	    			    </div>
 	    			    <div  class="small-6 columns propriety">
 	    				<div class="note grey-light">

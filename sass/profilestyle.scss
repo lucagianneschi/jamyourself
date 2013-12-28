@@ -110,6 +110,32 @@
  background-color: $grey-dark;
 }
 
+#profile .line{
+  border-bottom: 1px solid $grey-dark; 
+  padding-bottom: 5px !important;
+}
+
+#result {
+	.box {
+		margin-bottom:10px
+	}
+}
+
+
+#profile .box-detail {
+	padding-top:10px;
+	padding-bottom:10px;
+	h5 {
+		color: white;
+		margin:0;
+	}
+	h6 {
+		color: $grey;
+		margin:0;
+	}
+	
+}
+
 .background{
   border: 1px solid $grey;
   margin-top:5px !important; 
