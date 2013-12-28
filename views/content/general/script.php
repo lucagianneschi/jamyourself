@@ -74,8 +74,8 @@
 <script type="text/javascript" src='resources/javascripts/plugins/rating/jquery.rating.js'></script>
 
 <!------------------------------------- JAMYOURSELF ------------------------------------------>
-<script type="text/javascript" src="resources/javascripts/customs/layout.js"></script>
-
+<script type="text/javascript" src="resources/javascripts/customs/layout.js"></script> 
+        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/headerCallBox.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/header.js"></script>
@@ -86,8 +86,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
     case "signup.php":
         ?>
         <!-- recatpcha -->
-        <script src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>  
-        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
+        <script src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script> 
         <script type="text/javascript" src="resources/javascripts/customs/signup.js"></script>
         <?php
         break;
@@ -107,7 +106,6 @@ switch (basename($_SERVER['PHP_SELF'])) {
         break;
     case "stream.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/stream.js"></script>
         <!-- script type="text/javascript" src="resources/javascripts/customs/profile.js"></script -->
         <!-- script type="text/javascript" src="resources/javascripts/customs/profileCallBox.js"></script -->
@@ -137,25 +135,21 @@ switch (basename($_SERVER['PHP_SELF'])) {
         break;
     case "uploadRecord.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/uploadRecord.js"></script>
         <?php
         break;
     case "uploadReview.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/uploadReview.js"></script>
         <?php
         break;
     case "uploadEvent.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/uploadEvent.js"></script>
         <?php
         break;
     case "uploadAlbum.php":
         ?>
-        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>        
         <script type="text/javascript" src="resources/javascripts/customs/uploadAlbum.js"></script>
         <?php
         break;
