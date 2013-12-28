@@ -32,36 +32,12 @@ $(document).ready(function() {
 
 	});
 	 
- 	cropText();
+ 	cropText(null);
  	
  	
 });
 
-function cropText(){	
-		
-		$( ".cropText" ).each(function( index, element ) {
-			
-			if($(this).text().length > 170 && !$(this).children().hasClass('viewText')){
-				
-				textCrop = $( this ).text().substr(0, 170);
-				
-				textCrop = textCrop + '... ';
-				
-				$( this ).text(textCrop);
-				
-				$( this ).next().removeClass('no-display');		
-			
-				$( this ).next().appendTo(this);
-				
-				$( this ).next().addClass('no-display');		
-				
-			}
-					
-			
-		});
-	
-	
-}
+
 
 /*
  * Visualizza o nasconde il testo delle recensioni
@@ -342,7 +318,7 @@ function royalSlideNext(btn, box){
 		$(btn).removeClass('slide-button-next-disabled');
 	}
 	  		
-  	cropText();
+  	cropText('#social-'+box+' .cropText');
 }
 
 function royalSlidePrev(btn, box){
@@ -384,7 +360,10 @@ function royalSlidePrev(btn, box){
 		$(btn).removeClass('slide-button-prev-disabled');
 	}
    	
-   	cropText();
+   	
+   	cropText('#social-'+box+' .cropText');
+   	
+   	
  }
 
 
@@ -524,6 +503,34 @@ function goSpinnerBox(id,box){
 			hcento();
 		} 
 	});	
+}
+
+function cropText(box){
+	
+		if(box == null) box = '.cropText';	
+		
+		$( box ).each(function( index, element ) {
+			
+			if($(this).text().length > 170 && !$(this).children().hasClass('viewText')){
+				
+				textCrop = $( this ).text().substr(0, 170);
+				
+				textCrop = textCrop + '... ';
+				
+				$( this ).text(textCrop);
+				
+				$( this ).next().removeClass('no-display');		
+			
+				$( this ).next().appendTo(this);
+				
+				$( this ).next().addClass('no-display');		
+				
+			}
+					
+			
+		});
+	
+	
 }
 
 
