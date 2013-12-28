@@ -53,6 +53,7 @@ if (is_null($streamBox->error)) {
     <?php
     
     foreach ($activities as $key => $value) {
+        debug(DEBUG_DIR, 'debug.txt', $value->getType());
         switch ($value->getType()) {
             case ($value->getType() == 'COMMENTEDONALBUM' ||
                   $value->getType() == 'COMMENTEDONIMAGE' ||
@@ -65,6 +66,281 @@ if (is_null($streamBox->error)) {
                 break;
             case 'ALBUMCREATED':
                 ?>
+                <!-- OK -->
+                <div id="<?php echo $value->getObjectId(); ?>">
+                    <div class="box ">
+                        <div class="row line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong><?php echo $value->getFromUser()->getUsername(); ?></strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong><?php echo $value->getFromUser()->getType(); ?></strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                                <div class="note grey-light">
+                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="row  ">
+                                            <div class="large-12 columns ">
+                                                <div class="text orange">New photo</div>
+                                                <div class="sottotitle grey-dark"><?php echo $value->getAlbum()->getTitle(); ?> - <?php echo $value->getAlbum()->getImageCounter(); ?> photos</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-12 columns">
+                                                <div id="box-albumDetail" style="margin-top: 10px;">
+                                                    <ul class="small-block-grid-3 small-block-grid-2 ">
+                                                        <!------------------------------ THUMBNAIL ---------------------------------->
+                                                    <li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
+                                                    </ul>
+                                                </div>
+                                           </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="box-propriety">
+                                <div class="small-7 columns ">
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                </div>
+                                <div class="small-5 columns propriety ">					
+                                    <a class="icon-propriety _unlove grey">1</a>
+                                    <a class="icon-propriety _comment">2</a>
+                                    <a class="icon-propriety _share">3</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                break;
+            case 'EVENTCREATED':
+                ?>
+                <!-- OK -->
+                <div id="<?php echo $value->getObjectId(); ?>">
+                    <div class="box ">
+                        <div class="row line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong><?php echo $value->getFromUser()->getUsername(); ?></strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong><?php echo $value->getFromUser()->getType(); ?></strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                                <div class="note grey-light">
+                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="row  ">
+                                            <div class="large-12 columns ">
+                                                <div class="text orange">New Event</div>
+                                                <div class="sottotitle grey-dark"><?php echo $value->getEvent()->getTitle(); ?></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-12 columns">
+                                                <div id="box-albumDetail" style="margin-top: 10px;">
+                                                    <ul class="small-block-grid-3 small-block-grid-2 ">
+                                                        <!------------------------------ THUMBNAIL ---------------------------------->
+                                                    <li>
+                                                        <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../users/<?php echo $value->getFromUser()->getObjectId(); ?>/images/eventcoverthumb/<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
+                                                    </ul>
+                                                </div>
+                                           </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="box-propriety">
+                                <div class="small-7 columns ">
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                </div>
+                                <div class="small-5 columns propriety ">					
+                                    <a class="icon-propriety _unlove grey">1</a>
+                                    <a class="icon-propriety _comment">2</a>
+                                    <a class="icon-propriety _share">3</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                break;
+            case 'RECORDCREATED':
+                break;
+            case 'DEFAULTALBUMCREATED':
+                break;
+            case 'DEFAULTRECORDCREATED':
+                break;
+            case 'IMAGEUPLOADED':
+                ?>
+                <!-- OK -->
+                <div id="<?php echo $value->getObjectId(); ?>">
+                    <div class="box ">
+                        <div class="row line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong><?php echo $value->getFromUser()->getUsername(); ?></strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong><?php echo $value->getFromUser()->getType(); ?></strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                                <div class="note grey-light">
+                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="row  ">
+                                            <div class="large-12 columns ">
+                                                <div class="text orange">Image Uploaded</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-12 columns">
+                                                <div id="box-albumDetail" style="margin-top: 10px;">
+                                                    <ul class="small-block-grid-3 small-block-grid-2 ">
+                                                        <!------------------------------ THUMBNAIL ---------------------------------->
+                                                    <li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="box-propriety">
+                                <div class="small-7 columns ">
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                </div>
+                                <div class="small-5 columns propriety ">					
+                                    <a class="icon-propriety _unlove grey">1</a>
+                                    <a class="icon-propriety _comment">2</a>
+                                    <a class="icon-propriety _share">3</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                break;
+            case 'INVITED':
+                break;
+            case 'NEWLEVEL':
+                break;
+            case 'NEWBADGE':
+                break;
+            case 'POSTED':
+                ?>
+                <!-- OK -->
+                <div id="<?php echo $value->getObjectId(); ?>">
+                    <div class="box ">
+                        <div class="row  line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong><?php echo $value->getFromUser()->getUsername(); ?></strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong><?php echo $value->getFromUser()->getType(); ?></strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                                <div class="note grey-light">
+                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="text grey">
+                                            <?php echo $value->getComment()->getText(); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="box-propriety">
+                                <div class="small-7 columns ">
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                </div>
+                                <div class="small-5 columns propriety ">					
+                                    <a class="icon-propriety _unlove grey"><?php echo $value->getComment()->getLoveCounter(); ?></a>
+                                    <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentCounter(); ?></a>
+                                    <a class="icon-propriety _share"><?php echo $value->getComment()->getShareCounter(); ?></a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!---- COMMENT ---->
+                        <div class="box-comment no-display">
+                    </div>
+                </div>
+                <?php
+                break;
+            case 'SHAREDIMAGE':
+                break;
+            case 'SHAREDSONG':
+                break;
+            case 'SONGUPLOADED':
+                ?>
+                <!-- OK -->
                 <div id="<?php echo $value->getObjectId(); ?>">
                     <div class="box ">
                         
@@ -87,131 +363,57 @@ if (is_null($streamBox->error)) {
                                     <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="row">
+                        <div class="row  line">
                             <div class="small-12 columns ">
                                 <div class="row ">
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">New photo</div>
-                                                <div class="sottotitle grey-dark"><?php echo $value->getAlbum()->getTitle(); ?> - <?php echo $value->getAlbum()->getImageCounter(); ?> photos</div>
+                                                <div class="text orange">Song Uploaded</div>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="small-12 columns">
-                                                
-                                                <div id="box-albumDetail" style="margin-top: 10px;">
-                                                    <ul class="small-block-grid-3 small-block-grid-2 ">
-                                                        <!------------------------------ THUMBNAIL ---------------------------------->
-                                                    <li><a class="photo-colorbox-group cboxElement" href="#o8uxB9jcQ6"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
-                                                
-                                                        <!------------------------------ THUMBNAIL ---------------------------------->
-                                                    <li><a class="photo-colorbox-group cboxElement" href="#7v89ijnq1Y"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
-                                                
-                                                        <!------------------------------ THUMBNAIL ---------------------------------->
-                                                    <li><a class="photo-colorbox-group cboxElement" href="#SJbjQ1BxfJ"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
-                                                
-                                                    </ul>
+                                        <div class="row box-detail" onclick="">
+                                            <div class="small-2 columns">
+                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
+                                            </div>
+                                            <div class="small-10 columns">
+                                                <div class="row">							
+                                                    <div class="small-12 columns">
+                                                        <div class="sottotitle grey-dark"><?php echo $value->getSong()->getTitle(); ?></div>
+                                                    </div>	
+                                                </div>	
+                                                <div class="row">						
+                                                    <div class="small-12 columns">
+                                                        <div class="grey"><?php echo $value->getRecord()->getTitle(); ?></div>
+                                                    </div>
                                                 </div>
-
                                             </div>
-                                            
                                         </div>
                                     </div>
                                 </div>
-
-                            </div>
-                        </div>
-                        
-                    </div>
-                    
-                </div>
-                <?php
-                break;
-            case 'EVENTCREATED':
-                break;
-            case 'RECORDCREATED':
-                break;
-            case 'DEFAULTALBUMCREATED':
-                break;
-            case 'DEFAULTRECORDCREATED':
-                break;
-            case 'IMAGEUPLOADED':
-                break;
-            case 'INVITED':
-                break;
-            case 'NEWLEVEL':
-                break;
-            case 'NEWBADGE':
-                break;
-            case 'POSTED':
-                ?>
-                <div id="<?php echo $value->getObjectId(); ?>">
-                    <div class="box ">
-                        
-                        <div class="row  line">
-                            <div class="small-1 columns ">
-                                <div class="icon-header">
-                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
-                                </div>
-                            </div>
-                            <div class="small-5 columns">
-                                <div class="text grey" style="margin-bottom: 0px;">
-                                    <strong><?php echo $value->getFromUser()->getUsername(); ?></strong>
-                                </div>
-                                <div class="note orange">
-                                    <strong><?php echo $value->getFromUser()->getType(); ?></strong>
-                                </div>
-                            </div>
-                            <div class="small-6 columns propriety">
-                                <div class="note grey-light">
-                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row  line">
-                            <div class="small-12 columns ">
-                                <div class="row ">
-                                    <div class="small-12 columns ">
-                                        <div class="text grey">
-                                            <?php echo $value->getComment()->getText(); ?>
-                                        </div>
-                                    </div>
-                                </div>
-
                             </div>
                         </div>
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')">Love</a>
                                     <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
                                     <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
-                                    <a class="icon-propriety _unlove grey"><?php echo $value->getComment()->getLoveCounter(); ?></a>
-                                    <a class="icon-propriety _comment"><?php echo $value->getComment()->getCommentCounter(); ?></a>
-                                    <a class="icon-propriety _share"><?php echo $value->getComment()->getShareCounter(); ?></a>
+                                    <a class="icon-propriety _unlove grey">1</a>
+                                    <a class="icon-propriety _comment">2</a>
+                                    <a class="icon-propriety _share">3</a>
                                 </div>
                             </div>
                         </div>
                         </div>
                         <!---- COMMENT ---->
                         <div class="box-comment no-display">
-                            
                     </div>
-                    
                 </div>
                 <?php
-                break;
-            case 'SHAREDIMAGE':
-                break;
-            case 'SHAREDSONG':
-                break;
-            case 'SONGUPLOADED':
                 break;
             case 'FOLLOWING':
                 ?>
@@ -259,20 +461,6 @@ if (is_null($streamBox->error)) {
                                                         </div>
                                                         <div class="small-9 columns ">
                                                             <div class="text grey-dark breakOffTest"><strong>Elenaradio</strong></div>
-                                                        </div>		
-                                                    </div>	
-                                                </div>
-                                            </div>
-                                                                            <div class="small-6 columns">
-                                                <div class="box-membre">
-                                                    <div class="row " id="collaborator_06pkm6j7mg">
-                                                        <div class="small-3 columns ">
-                                                            <div class="icon-header">
-                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
-                                                            </div>
-                                                        </div>
-                                                        <div class="small-9 columns ">
-                                                            <div class="text grey-dark breakOffTest"><strong>GothicAtmosphere</strong></div>
                                                         </div>		
                                                     </div>	
                                                 </div>
@@ -354,20 +542,6 @@ if (is_null($streamBox->error)) {
                                                     </div>	
                                                 </div>
                                             </div>
-                                                                            <div class="small-6 columns">
-                                                <div class="box-membre">
-                                                    <div class="row " id="collaborator_06pkm6j7mg">
-                                                        <div class="small-3 columns ">
-                                                            <div class="icon-header">
-                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
-                                                            </div>
-                                                        </div>
-                                                        <div class="small-9 columns ">
-                                                            <div class="text grey-dark breakOffTest"><strong>GothicAtmosphere</strong></div>
-                                                        </div>		
-                                                    </div>	
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -434,26 +608,13 @@ if (is_null($streamBox->error)) {
                                             <div class="small-2 columns ">
                                                 <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
                                             </div>
-                                            <div class="small-8 columns ">
+                                            <div class="small-10 columns ">
                                                 <div class="row ">							
                                                     <div class="small-12 columns ">
                                                         <div class="sottotitle grey-dark">Recensione Evento</div>
                                                     </div>	
-                                                </div>	
-                                                <div class="row">						
-                                                    <div class="small-12 columns ">
-                                                        <div class="note grey">Rating</div>
-                                                    </div>
                                                 </div>
-                                                <div class="row ">						
-                                                    <div class="small-12 columns ">
-                                                        <a class="icon-propriety _star-orange"></a><a class="icon-propriety _star-grey"></a><a class="icon-propriety _star-grey"></a><a class="icon-propriety _star-grey"></a><a class="icon-propriety _star-grey"></a>
-                                                    </div>
-                                                </div>													
                                             </div>
-                                            <div class="small-2 columns align-right viewAlbumReview">
-                                                <a href="#" class="orange"><strong>Read</strong></a>
-                                            </div>				
                                         </div>
                                     </div>
                                 </div>
@@ -520,26 +681,13 @@ if (is_null($streamBox->error)) {
                                             <div class="small-2 columns ">
                                                 <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
                                             </div>
-                                            <div class="small-8 columns ">
+                                            <div class="small-10 columns ">
                                                 <div class="row ">							
                                                     <div class="small-12 columns ">
                                                         <div class="sottotitle grey-dark">Recensione Record</div>
                                                     </div>	
-                                                </div>	
-                                                <div class="row">						
-                                                    <div class="small-12 columns ">
-                                                        <div class="note grey">Rating</div>
-                                                    </div>
                                                 </div>
-                                                <div class="row ">						
-                                                    <div class="small-12 columns ">
-                                                        <a class="icon-propriety _star-orange"></a><a class="icon-propriety _star-grey"></a><a class="icon-propriety _star-grey"></a><a class="icon-propriety _star-grey"></a><a class="icon-propriety _star-grey"></a>
-                                                    </div>
-                                                </div>													
-                                            </div>
-                                            <div class="small-2 columns align-right viewAlbumReview">
-                                                <a href="#" class="orange"><strong>Read</strong></a>
-                                            </div>				
+                                            </div>		
                                         </div>
                                     </div>
                                 </div>
@@ -569,6 +717,85 @@ if (is_null($streamBox->error)) {
                 break;
             case 'COLLABORATIONREQUEST':
                 ?>
+                <div id="<?php echo $value->getObjectId(); ?>">
+                    <div class="box ">
+                        
+                        <div class="row  line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong><?php echo $value->getFromUser()->getUsername(); ?></strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong><?php echo $value->getFromUser()->getType(); ?></strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                                <div class="note grey-light">
+                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row  line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="row  ">
+                                            <div class="large-12 columns ">
+                                                <div class="text orange">Just added</div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="small-6 columns">
+                                                <div class="box-membre">
+                                                    <div class="row " id="collaborator_03VPczLItB">
+                                                        <div class="small-3 columns ">
+                                                            <div class="icon-header">
+                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
+                                                            </div>
+                                                        </div>
+                                                        <div class="small-9 columns ">
+                                                            <div class="text grey-dark breakOffTest"><strong><?php echo $value->getToUser()->getUsername(); ?></strong></div>
+                                                        </div>		
+                                                    </div>	
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="box-propriety">
+                                <div class="small-7 columns ">
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                </div>
+                                <div class="small-5 columns propriety ">					
+                                    <a class="icon-propriety _unlove grey">72</a>
+                                    <a class="icon-propriety _comment">0</a>
+                                    <a class="icon-propriety _share">0</a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        <!---- COMMENT ---->
+                        <div class="box-comment no-display">  
+                    </div>
+                </div>
+                <?php
+                break;
+        }   
+    }
+    ?>
+                <!-- TEST -->
                 <div id="tV0O3eGHqH">
                     <div class="box ">
                         
@@ -617,20 +844,6 @@ if (is_null($streamBox->error)) {
                                                     </div>	
                                                 </div>
                                             </div>
-                                                                            <div class="small-6 columns">
-                                                <div class="box-membre">
-                                                    <div class="row " id="collaborator_06pkm6j7mg">
-                                                        <div class="small-3 columns ">
-                                                            <div class="icon-header">
-                                                                <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
-                                                            </div>
-                                                        </div>
-                                                        <div class="small-9 columns ">
-                                                            <div class="text grey-dark breakOffTest"><strong>GothicAtmosphere</strong></div>
-                                                        </div>		
-                                                    </div>	
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -645,9 +858,9 @@ if (is_null($streamBox->error)) {
                                     <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
-                                    <a class="icon-propriety _unlove grey">72</a>
-                                    <a class="icon-propriety _comment">0</a>
-                                    <a class="icon-propriety _share">0</a>
+                                    <a class="icon-propriety _unlove grey">1</a>
+                                    <a class="icon-propriety _comment">2</a>
+                                    <a class="icon-propriety _share">3</a>
                                 </div>
                             </div>
                         </div>
@@ -656,15 +869,6 @@ if (is_null($streamBox->error)) {
                         <div class="box-comment no-display">  
                     </div>
                 </div>
-                <?php
-                break;
-        }   
-    }
-    ?>
-    
-    <!---------------- BOX JUST ADDED ----------------->
-
-    
-<?php
+    <?php
 }
 ?>
