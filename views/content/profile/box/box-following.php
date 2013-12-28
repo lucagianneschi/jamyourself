@@ -33,7 +33,7 @@ if (is_null($followingsBox->error)) {
 	<!----------------------------------- FOLLOWING -------------------------------------------------->
 	<div class="row" id="profile-following">
 		<div class="large-12 columns ">
-			<h3><?php echo $views['following']['TITLE'];?></h3>	
+			<h3><?php echo $views['following']['TITLE'];?> <a data-reveal-id=""><span class="orange">[<?php echo $followingCounter; ?>]</span></a> </h3>
 			<div class="box" id="following-list">
 				<?php
 				if ($totFollowings > 0 ) {
