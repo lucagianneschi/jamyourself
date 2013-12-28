@@ -465,8 +465,7 @@ function getTagsMusicTrack() {
                 tags.push(music[index]);
             }
         });
-
-        return tags;
+        return tags.join();
     } catch (err) {
         console.log("initMp3Uploader | An error occurred - message : " + err.message);
     }
@@ -479,7 +478,7 @@ function addNewSong(id, duration, tags) {
         var json_elem = {"src": id, "tags": tags, "featuring": featuring, "title": songTitle, "duration": duration};
         json_album.list.push(json_elem);
         window.console.log("Lista" + JSON.stringify(json_album.list));
-        addSongToList(json_elem.title, json_elem.duration, json_elem.tags.join(), true, id.substring(0, id.indexOf(".")));
+        addSongToList(json_elem.title, json_elem.duration, json_elem.tags, true, id.substring(0, id.indexOf(".")));
         $("#trackTitle").val("");
     } catch (err) {
         console.log("addNewSong | An error occurred - message : " + err.message);
