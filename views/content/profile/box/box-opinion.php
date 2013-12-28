@@ -35,7 +35,8 @@ if ($countComment > 0) {
 	<div  class="small-12 columns">
 			<?php
 			if ($countComment > 0) {
-                foreach ($comment->commentArray as $key => $value) {	
+                $comments = array_reverse($comment->commentArray);
+                foreach ($comments as $key => $value) {	
                     $comment_data = $value->getCreatedAt()->format('l j F Y - H:i');
                     switch ($value->getFromUser()->getType()) {
                         case 'JAMMER':
@@ -89,8 +90,7 @@ if ($countComment > 0) {
 				?>
 				<div class="box-singole-comment">
 					<div class="row"><div  class="large-12 columns"><p class="grey"><?php echo $views['comment']['NODATA'];?></p></div></div>
-				</div>	
-					
+				</div>
 				<?php
 			}
 			?>
