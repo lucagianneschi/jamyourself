@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		
+ * \todo		test di funzionamento
  *
  */
 if (!defined('ROOT_DIR'))
@@ -114,7 +114,7 @@ class EventController extends REST {
 	    require_once CLASSES_DIR . 'eventParse.class.php';
 	    $eventP = new EventParse();
 	    $event = $eventP->updateField($eventId, 'attendee', $currentUser->getObjectId(), true, 'add', '_User');
-	    if($event instanceof Error){
+	    if ($event instanceof Error) {
 		$this->response(array('status' => $controllers['ERRORUPDATINGEVENTATTENDEE']), 503);
 	    }
 	    $activity = $this->createActivity("INVITED", null, $currentUser->getObjectId(), 'A', $eventId, true);
@@ -179,7 +179,7 @@ class EventController extends REST {
     /**
      * \fn	declineInvitationRequest()
      * \brief   decline invitation request
-     * \todo    test, in caso di partecipazione aggiungere all'event lo user che partecipa
+     * \todo    test
      */
     public function removeAttendee() {
 	try {
