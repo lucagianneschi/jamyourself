@@ -4,7 +4,7 @@ $totNotification = '';
 ?>
 <header>
 	<!------------------------------------- HIDE HEADER ----------------------------->
-	<div id="header-hide" class="no-display bg-double">
+	<div id="header-hide" class="no-display bg-black">
 		<?php
 				
 		if (isset($_SESSION['currentUser'])) {
