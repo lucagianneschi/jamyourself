@@ -30,8 +30,6 @@ define('BADGE_DIR', ROOT_DIR . 'media/images/badge/');
 # DEFAULT IMAGE #
 #################
 //USER
-define('DEFAVATAR', MEDIA_DIR . 'images/default/defaultAvatar.jpg');
-define('DEFTHUMB', MEDIA_DIR . 'images/default/defaultAvatarThumb.jpg');
 define('DEFBGD', MEDIA_DIR . 'images/default/defaultBackground.jpg');
 define('DEFAVATARJAMMER', MEDIA_DIR . 'images/default/defaultAvatarJammer.jpg');
 define('DEFTHUMBJAMMER', MEDIA_DIR . 'images/default/defaultAvatarThumbJammer.jpg');
