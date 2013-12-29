@@ -42,9 +42,10 @@
   	} 
 }
 
-.formBlack input[type='text'], textarea, .error textarea{
+.formBlack input[type='text'], textarea, .error textarea, select{
 	background-color:$black; 
-	padding: 20px 5px;
+	// padding: 20px 5px;
+	min-height:40px;
   	color: $white;  
   	border: 0px;
   	border-bottom: 1px solid $grey-dark;
