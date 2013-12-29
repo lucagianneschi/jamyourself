@@ -37,10 +37,10 @@ if (isset($_SESSION['currentUser'])) {
 					<br>	
 					<div class="row">
 						<div class="small-3 columns">
-							<h5>Abaut Jamyoursef</h5>
+							<h5>About Jamyoursef</h5>
 							<a href="#">About us</a><br>
 							<a href="#">Virtual Tour</a><br>
-							<a href="#">Carreer</a><br>
+							<a href="#">Career</a><br>
 							<a href="#">Terms & Condition</a><br>
 							<a href="#">Licenses</a><br>
 							<a href="#">Princing Policy</a><br>
