@@ -54,35 +54,35 @@ $status_achievement3 = '_target3';
 <div class="row" id="social-achievement">
 	<div id="social_list_achievement" class="touchcarousel grey-blue">
 		<ul class="touchcarousel-container">
-			<li class="touchcarousel-item">  
-				<div class="item-block achievement achievement-target <?php echo $status_achievement1; ?>"></div>
+			<li class="touchcarousel-item">
+				<div data-tooltip class="item-block has-tip tip-left" title="Old School!"><img src="/media/images/badge/badgeOldSchool.png"</div></div>
+			</li>
+            <li class="touchcarousel-item">
+				<div data-tooltip class="item-block has-tip tip-left" title="Welcome on Board!"><img src="/media/images/badge/badgeWelcome.png"</div></div>
+			</li>
+            <li class="touchcarousel-item">
+				<div data-tooltip class="item-block has-tip tip-left" title="Metal Addicted"><img src="/media/images/badge/badgeMetal.png"</div></div>
 			</li>
 			<li class="touchcarousel-item">
-				<div class="item-block achievement achievement-target <?php echo $status_achievement2; ?>"></div>
-			</li>
-			<li class="touchcarousel-item">
-				<div class="item-block achievement achievement-target <?php echo $status_achievement3; ?>"></div>
-			</li>
-			<li class="touchcarousel-item">
-				<div class="item-block achievement "></div>
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
 			</li>		
 			<li class="touchcarousel-item">
-				<div class="item-block achievement "></div>
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
 			</li>
-			<li class="touchcarousel-item">
-				<div class="item-block achievement "></div>
+            <li class="touchcarousel-item">
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
 			</li>
-			<li class="touchcarousel-item">
-				<div class="item-block achievement "></div>
+            <li class="touchcarousel-item">
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
 			</li>
-			<li class="touchcarousel-item">
-				<div class="item-block achievement "></div>
+            <li class="touchcarousel-item">
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
 			</li>
-			<li class="touchcarousel-item">
-				<div class="item-block achievement "></div>
+            <li class="touchcarousel-item">
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
 			</li>
-			<li class="touchcarousel-item">
-				<div class="item-block achievement "></div>
+            <li class="touchcarousel-item">
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
 			</li>
 		</ul>		
 	</div>
