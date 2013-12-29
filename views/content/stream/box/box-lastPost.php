@@ -26,6 +26,7 @@ $posts = $postBox->postArray;
 
 if (count($posts) == 0) {
     ?>
+    <p>Your last post is...</p>
     <h5>Ops! You have not written anything yet!</h5>
     <?php
 } else {
@@ -38,74 +39,12 @@ if (count($posts) == 0) {
 	$text_love = $views['UNLOVE'];
     }
     ?>
-    <!-- p>Your last post is...</p -->
-    <h5>Your last post is...</h5>
-    <div class="row" id="social-Post" style='margin-bottom: 40px;'>
-        <div class="large-12 columns">
-    	<div class="row">
-    	    <div class="large-12 columns ">
-    		<div id='<?php echo $post->getObjectId(); ?>'>
-                        <div class="box">
-
-    			<div class="row  line">
-    			    <div  class="small-1 columns ">
-    				<div class="icon-header">
-					<?php
-					switch ($post->getFromUser()->getType()) {
-					    case 'JAMMER':
-						$defaultThum = DEFTHUMBJAMMER;
-						break;
-					    case 'VENUE':
-						$defaultThum = DEFTHUMBVENUE;
-						break;
-					    case 'SPOTTER':
-						$defaultThum = DEFTHUMBSPOTTER;
-						break;
-					}
-					?>
-    				    <img src="../media/<?php echo $post->getFromUser()->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-    				</div>
-    			    </div>
-    			    <div  class="small-5 columns">
-    				<div class="text grey" style="margin-bottom: 0px;">
-    				    <strong><?php echo $post->getFromUser()->getUsername(); ?></strong>
-    				</div>
-    				<div class="note orange">
-    				    <strong><?php echo $post->getFromUser()->getType(); ?></strong>
-    				</div>
-    			    </div>
-    			    <div  class="small-6 columns propriety">
-    				<div class="note grey-light">
-    <?php echo $post->getCreatedAt()->format('l j F Y - H:i'); ?>
-    				</div>
-    			    </div>
-
-    			</div>
-    			<div class="row  line">
-    			    <div  class="small-12 columns ">
-    				<div class="row ">
-    				    <div  class="small-12 columns ">
-    					<div class="text grey">
-    <?php echo $post->getText(); ?>	
-    					</div>
-    				    </div>
-    				</div>
-
-    			    </div>
-    			</div>
-    			<div class="row">
-    			    <div class="box-propriety">
-    				<div class="small-5 columns propriety ">
-    				    <a class="icon-propriety <?php echo $css_love ?>"><?php echo $post->getLoveCounter(); ?></a>
-    				    <a class="icon-propriety _comment"><?php echo $post->getCommentCounter(); ?></a>
-    				</div>
-    			    </div>
-    			</div>
-                        </div>
-                    </div>
-    	    </div>
-    	</div>
-        </div>
+    <div id='<?php echo $post->getObjectId(); ?>'>
+    	<br /><br />
+        <p class="grey">Your last post is...</p>
+        <h5 style="margin-top:0"><?php echo $post->getText(); ?>	</h5>
+        <!-- p class="grey"> <?php echo $post->getCreatedAt()->format('l j F Y - H:i'); ?></p -->
+        <br />
     </div>
     <?php
 }
