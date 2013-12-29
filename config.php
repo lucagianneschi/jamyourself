@@ -96,4 +96,12 @@ define('ONLYIFLOGGEDIN', 'Just for logged Users');
 
 define('PROFILE_IMG_SIZE', 300);
 define('THUMBNAIL_IMG_SIZE', 150);
+
+##################
+#  FILES SIZES   #
+##################
+
+define('MAX_IMG_UPLOAD_FILE_SIZE', 6291456); //6 Mb
+define('MAX_MP3_UPLOAD_FILE_SIZE', 12582912);//12 Mb
+
 ?>

@@ -91,6 +91,12 @@ class UploadController extends REST {
                 // Strip the temp .part suffix off 
                 rename("{$filePath}.part", $filePath);
             }
+
+            if (filesize($filePath) > MAX_IMG_UPLOAD_FILE_SIZE) {
+                unlink($filePath);
+                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "File is too big."}, "id" : "id"}');
+            }
+
 //effettuo il resize dell'immagine
 //prelevo gli attributi dell'immagine
             list($imgWidth, $imgHeight, $imgType, $imgAttr) = getimagesize($filePath);
@@ -182,12 +188,17 @@ class UploadController extends REST {
                 // Strip the temp .part suffix off 
                 rename("{$filePath}.part", $filePath);
             }
-            
+
+            if (filesize($filePath) > MAX_MP3_UPLOAD_FILE_SIZE) {
+                unlink($filePath);
+                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "File is too big."}, "id" : "id"}');
+            }
+
 //Analizzo l'mp3
             $mp3Analysis = new Mp3file($filePath);
-            $metadata = $mp3Analysis->get_metadata();            
+            $metadata = $mp3Analysis->get_metadata();
 // Restituisco successo            
-            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "duration" : "' .$metadata['Length mm:ss']. '"}');
+            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "duration" : "' . $metadata['Length mm:ss'] . '"}');
         } catch (Exception $e) {
             
         }

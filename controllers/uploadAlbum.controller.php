@@ -93,7 +93,7 @@ class UploadAlbumController extends REST {
         require_once CLASSES_DIR . 'activityParse.class.php';
         $activity = new Activity();
         $activity->setActive(true);
-        $activity->setAlbum(null);
+        $activity->setAlbum($albumId);        
         $activity->setCounter(0);
         $activity->setEvent(null);
         $activity->setFromUser($fromUser);
@@ -101,7 +101,6 @@ class UploadAlbumController extends REST {
         $activity->setPlaylist(null);
         $activity->setQuestion(null);
         $activity->setRead(true);
-        $activity->setAlbum($albumId);
         $activity->setSong($imageId);
         $activity->setStatus(null);
         $activity->setToUser(null);
