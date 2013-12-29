@@ -7,16 +7,16 @@
 
 #uploadEvent01 #hours{
   position: relative;
-  height: 30px;
+  min-height:40px;
   display: block;
   line-height: 14px;
-  padding: 5px 25px 4px 5px;
+  //padding: 5px 25px 4px 5px;
   margin: 0;
   -moz-appearance: window;
   -moz-padding-end: 19px;
   background: transparent;
   background-color: transparent;
-  background-color:$grey-superdark; 
+  background-color:$black; 
   	color: $white;  
   	border: 0px;
   	border-bottom: 1px solid $grey-dark;

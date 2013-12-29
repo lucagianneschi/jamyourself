@@ -3,11 +3,13 @@
         <h2>Create a event</h2>												
     </div>	
 </div>
+
 <div class="row formBlack-body">
     <div  class="small-6 columns">
-        <label for="eventTitle"><input type="text" name="eventTitle" id="eventTitle" pattern="" required/>
+        <label for="eventTitle"><input type="text" name="eventTitle" id="eventTitle" required>
         Event title <span class="orange">*</span><small class="error"> Please enter a valid Title</small></label>
-
+    
+   
 
 		<!--------------------------- UPLOAD IMAGE -------------------------------->
         <div class="row upload-box">
@@ -38,10 +40,10 @@
                         <div  class="small-10 small-centered columns align-center">
                                     <div id="uploadImage_preview_box">
                                         <img src="" id="spotter_uploadImage_preview"/>
-                                        <input type="hidden" id="spotter_x" name="crop_x" value="0"/>
-                                        <input type="hidden" id="spotter_y" name="crop_y" value="0"/>
-                                        <input type="hidden" id="spotter_w" name="crop_w" value="100"/>
-                                        <input type="hidden" id="spotter_h" name="crop_h" value="100"/>
+                                        <input type="hidden" id="spotter_x" name="crop_x" value="0">
+                                        <input type="hidden" id="spotter_y" name="crop_y" value="0">
+                                        <input type="hidden" id="spotter_w" name="crop_w" value="100">
+                                        <input type="hidden" id="spotter_h" name="crop_h" value="100">
                                     </div>
                         </div>
 
@@ -49,7 +51,7 @@
 
                     <div class="row">							
                         <div  class="small-3 small-offset-9 columns">
-                            <input type="button" id="uploadImage_save" name="uploadImage_save" class="buttonNext no-display" value="Save"/>
+                            <input type="button" id="uploadImage_save" name="uploadImage_save" class="buttonNext no-display" value="Save">
                         </div>
                     </div>
 
@@ -59,7 +61,7 @@
 		<!--------------------------- FINE UPLOAD IMAGE -------------------------------->
 		<div class="row">
 			 <div  class="small-8 columns">
-			 	<input type="text" name="date" id="date" required pattern=""/>
+			 	<input type="text" name="date" id="date" required pattern="">
         		<label for="date">Date <span class="orange">*</span><small class="error"> Please enter a valid Date</small></label>
 			 	
 			 </div>			
@@ -71,17 +73,17 @@
 			 </div>
 		</div>
         
-        <label for="url"><input type="text" name="featuring" id="jammers" required pattern=""/>
+        <label for="url"><input type="text" name="featuring" id="jammers" required pattern="">
         Who is going to play? <span class="orange">*</span><small class="error"> Please enter a valid Jammer Name</small></label>
 		
-		<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="" />
+		<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="" >
         Venue Name <span class="orange">*</span><small class="error"> Please enter a valid Venue Name</small></label>
 
-<!--		<label for="adress"><input type="text" name="adress" id="adress" required pattern=""/>
+<!--		<label for="adress"><input type="text" name="adress" id="adress" required pattern="">
         Adress <span class="orange">*</span><small class="error"> Please enter a valid Adress</small></label>
 -->
 
-        <label for="city"><input type="text" name="city" id="city" required pattern=""/>
+        <label for="city"><input type="text" name="city" id="city" required pattern="">
         City <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>
 
     </div>
