@@ -205,7 +205,7 @@ class EventParse {
 	    $event->setDescription(parse_decode_string($res->description));
 	    $event->setEventDate(fromParseDate($res->eventDate));
 	    $event->setFromUser(fromParsePointer($res->fromUser));
-	    $event->setGenre($res->genre);
+	    $event->setGenre(parse_decode_array($res->genre));
 	    $event->setImage($res->image);
 	    $event->setLocation(fromParseGeoPoint($res->location));
 	    $event->setLocationName(parse_decode_string($res->locationName));
