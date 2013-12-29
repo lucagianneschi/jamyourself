@@ -22,6 +22,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'debug.service.php';
+require_once SERVICES_DIR . 'eventChecker.service.php';
 
 /**
  * \brief	EventController class 
@@ -67,9 +68,9 @@ class EventController extends REST {
 		$this->response(array('status' => $controllers['ACTNOTFOUND']), 403);
 	    } elseif (is_null($res->getEvent())) {
 		$this->response(array('status' => $controllers['NOEVENTFOUND']), 503);
-	    } elseif ($this->checkUserInEventRelation($currentUser->getObjectId(), $res->getEvent()->getObjectId(), 'invited') ||
-		    $this->checkUserInEventRelation($currentUser->getObjectId(), $res->getEvent()->getObjectId(), 'refused') ||
-		    $this->checkUserInEventRelation($currentUser->getObjectId(), $res->getEvent()->getObjectId(), 'attendee')) {
+	    } elseif ((checkUserInEventRelation($currentUser->getObjectId(), $res->getEvent()->getObjectId(), 'invited') == true) ||
+		    (checkUserInEventRelation($currentUser->getObjectId(), $res->getEvent()->getObjectId(), 'refused') == true) ||
+		    (checkUserInEventRelation($currentUser->getObjectId(), $res->getEvent()->getObjectId(), 'attendee') == true)) {
 		$this->response(array('status' => $controllers['NOAVAILABLEACCEPTINVITATION']), 503);
 	    }
 	    require_once CLASSES_DIR . 'eventParse.class.php';
@@ -107,8 +108,7 @@ class EventController extends REST {
 	    }
 	    $currentUser = $_SESSION['currentUser'];
 	    $eventId = $this->request['objectId'];
-	    $isAttending = $this->checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'attendee');
-	    if ($isAttending == true) {
+	    if (checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'attendee') == true) {
 		$this->response(array('status' => $controllers['NOAVAILABLEACCEPTINVITATION']), 503);
 	    }
 	    require_once CLASSES_DIR . 'eventParse.class.php';
@@ -249,9 +249,9 @@ class EventController extends REST {
 	    if ($currentUser->getObjectId() == $toUserId) {
 		$this->response(array('status' => $controllers['SELF']), 503);
 	    }
-	    if ($this->checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'invited') ||
-		    $this->checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'refused') ||
-		    $this->checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'attendee')) {
+	    if ((checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'invited') == true) ||
+		    (checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'refused') == true) ||
+		    (checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'attendee') == true)) {
 		$this->response(array('status' => $controllers['NOAVAILABLEFORINVITATION']), 503);
 	    }
 	    require_once CLASSES_DIR . 'userParse.class.php';
