@@ -23,7 +23,7 @@ if (is_null($followersBox->error)) {
 	?>
 	<div class="row" id="social-followers">
 		<div  class="large-12 columns">
-			<h3><?php echo $views['followers']['TITLE'];?> <?php if($followersCounter > 0){ ?> <a data-reveal-id="viewVenueFoll"><span class="orange">[<?php echo $followersCounter ?>]</span></a><?php } ?></h3>
+			<h3><?php echo $views['followers']['TITLE'];?> <a data-reveal-id="viewVenueFoll"><span class="orange">[<?php echo $followersCounter ?>]</span></a></h3>
 			<div class="row  ">
 				<div  class="large-12 columns ">
 					<div class="box">					
