@@ -41,7 +41,7 @@ echo '<br />------------------------- TEST TIMELINE LDF-------------------------
 echo '<br />------------------------- EVENTFILTER-------------------------------------------------<br />';
 $t_start = microtime(); //timer tempo totale
 $eventFilter = new EventBox();
-$eventFilter->initForStream(array(), 'Viareggio');
+$eventFilter->initForStream();
 $t_stop = microtime(); //timer tempo totale
 echo 'Tempo totale ' . executionTime($t_start, $t_stop) . '<br />';
 print "<pre>";
@@ -52,7 +52,7 @@ echo count($eventFilter->eventArray);
 echo '<br />------------------------- RECORDFILTER-------------------------------------------------<br />';
 $t_start = microtime(); //timer tempo totale
 $recordFilter = new RecordBox();
-$recordFilter->initForStream(array(), null, null, array('Uncatogorized', 'Rock'));
+$recordFilter->initForStream();
 $t_stop = microtime(); //timer tempo totale
 echo 'Tempo totale ' . executionTime($t_start, $t_stop) . '<br />';
 print "<pre>";

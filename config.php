@@ -24,13 +24,12 @@ define('USERS_DIR', ROOT_DIR . 'users/');
 ################
 define('IMAGES_DIR', ROOT_DIR . 'media/images/');
 define('SONGS_DIR', ROOT_DIR . 'media/songs/');
+define('BADGE_DIR', ROOT_DIR . 'media/images/badge/');
 
 #################
 # DEFAULT IMAGE #
 #################
 //USER
-define('DEFAVATAR', MEDIA_DIR . 'images/default/defaultAvatar.jpg');
-define('DEFTHUMB', MEDIA_DIR . 'images/default/defaultAvatarThumb.jpg');
 define('DEFBGD', MEDIA_DIR . 'images/default/defaultBackground.jpg');
 define('DEFAVATARJAMMER', MEDIA_DIR . 'images/default/defaultAvatarJammer.jpg');
 define('DEFTHUMBJAMMER', MEDIA_DIR . 'images/default/defaultAvatarThumbJammer.jpg');
@@ -54,6 +53,31 @@ define('DEFIMAGE', MEDIA_DIR . 'images/default/defaultImage.jpg');
 define('DEFIMAGETHUMB', MEDIA_DIR . 'images/default/defaultImageThumb.jpg');
 //VIDEO
 define('DEFVIDEOTHUMB', MEDIA_DIR . 'images/default/defaultVideoThumb.jpg');
+//BADGE
+define('BADGE0',  BADGE_DIR . 'badgeDefault.png');
+define('BADGE1',  BADGE_DIR . 'badgeOldSchool.png');
+define('BADGE2',  BADGE_DIR . 'badgeWelcome.png');
+define('BADGE3',  BADGE_DIR . 'badgePub.png');
+define('BADGE4',  BADGE_DIR . 'badgeNightLife.png');
+define('BADGE5',  BADGE_DIR . 'badgeLive.png');
+define('BADGE6',  BADGE_DIR . 'badgeRock.png');
+define('BADGE7',  BADGE_DIR . 'badgeJamSession.png');
+define('BADGE8',  BADGE_DIR . 'badgeJammedIn.png');
+define('BADGE9',  BADGE_DIR . 'badgeHappyHour.png');
+define('BADGE10', BADGE_DIR . 'badgeProducer.png');
+define('BADGE11', BADGE_DIR . 'badgeDj.png');
+define('BADGE12', BADGE_DIR . 'badgeDinner.png');
+define('BADGE13', BADGE_DIR . 'badgeContest.png');
+define('BADGE14', BADGE_DIR . 'badgeDance.png');
+define('BADGE15', BADGE_DIR . 'badgeElectro.png');
+define('BADGE16', BADGE_DIR . 'badgePop.png');
+define('BADGE17', BADGE_DIR . 'badgeMetal.png');
+define('BADGE18', BADGE_DIR . 'badgeJazz.png');
+define('BADGE19', BADGE_DIR . 'badgeInDemand.png');
+define('BADGE20', BADGE_DIR . 'badgeTeamUp.png');
+define('BADGE21', BADGE_DIR . 'badgePhotographer.png');
+define('BADGE22', BADGE_DIR . 'badgePr.png');
+define('BADGE23', BADGE_DIR . 'badgeJournalist.png');
 
 ##################
 #  QUERY LIMITS  #

@@ -6,11 +6,13 @@
                 <div class="row">
                     <div class="large-12 columns">
                         <div class="box">
+                        
                             <div class="row box-upload-title">
                                 <div class="large-12 columns">
                                     <h2>Create a new review about...</h2>
                                 </div>
                             </div>
+                            
                             <div class="row">
                                 <div class="large-4 columns">
                                     <div class="sidebar">
@@ -19,85 +21,90 @@
 
                                             <div class="row">
                                                 <div class="small-3 columns ">
-                                                    <div class="coverThumb"><img src="<?php echo $thumbnail ?>" onerror="this.src='<?php echo DEFEVENTTHUMB ?>'></div>						
-										 </div>
-										 <div class="small-9 columns ">
-										 <div class="row ">							
-							    <div class="small-12 columns ">
-								<div class="sottotitle grey-dark"><?php echo $title ?></div>
-								<a class="ico-label _tag inline text grey"><?php echo $tagGenere ?></a>
-							    </div>	
-							</div>	
-						    </div>
-						</div>
-						<div class="row">
-						    <div class="large-12 columns"><div class="line"></div></div>
-						</div>
-						<div class="row">						
-						    <div class="small-3 columns ">
-							<div class="note grey">Rating</div>
-						    </div>
-						    <div class="small-9 columns ">
-							<?php
-							switch ($rating) {
-							    case 0 :
-								?>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>                                                    
-								<?php
-								break;
-							    case 1 :
-								?>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>                                                    
-								<?php
-								break;
-							    case 2 :
-								?>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>                                                                                                        
-								<?php
-								break;
-							    case 3 :
-								?>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-grey"></a>
-								<a class="icon-propriety _star-grey"></a>                                                                                                        
-								<?php
-								break;
-							    case 4 :
-								?>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-grey"></a>                                                       
-								<?php
-								break;
-							    case 5 :
-								?>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>
-								<a class="icon-propriety _star-orange"></a>                                                       
-								<?php
-								break;
-							}
-							?>
-						    </div>
-						</div>
+
+
+                                                  <div class="coverThumb"><img src="<?php echo $thumbnail ?>" onerror="this.src='<?php echo DEFEVENTTHUMB ?>'"></div>
+
+
+
+                                                </div>						
+										 		<div class="small-9 columns ">
+													<div class="row ">							
+                                                        <div class="small-12 columns ">
+                                                            <div class="sottotitle grey-dark"><?php echo $title ?></div>
+                                                            <a class="ico-label _tag inline text grey"><?php echo $tagGenere ?></a>
+                                                        </div>	
+													</div>	
+						    					</div>
+											</div>
+                                            <div class="row">
+                                                <div class="large-12 columns"><div class="line"></div></div>
+                                            </div>
+                                            <div class="row">						
+                                                <div class="small-3 columns ">
+                                                	<div class="note grey">Rating</div>
+                                                </div>
+                                                <div class="small-9 columns ">
+                                                <?php
+                                                switch ($rating) {
+                                                    case 0 :
+                                                    ?>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>                                                    
+                                                    <?php
+                                                    break;
+                                                    case 1 :
+                                                    ?>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>                                                    
+                                                    <?php
+                                                    break;
+                                                    case 2 :
+                                                    ?>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>                                                                                                        
+                                                    <?php
+                                                    break;
+                                                    case 3 :
+                                                    ?>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-grey"></a>
+                                                    <a class="icon-propriety _star-grey"></a>                                                                                                        
+                                                    <?php
+                                                    break;
+                                                    case 4 :
+                                                    ?>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-grey"></a>                                                       
+                                                    <?php
+                                                    break;
+                                                    case 5 :
+                                                    ?>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>
+                                                    <a class="icon-propriety _star-orange"></a>                                                       
+                                                    <?php
+                                                    break;
+                                                }
+                                                ?>
+                                                </div>
+                                            </div>
 
 					    </div>
 
@@ -208,4 +215,3 @@
 		</div>
 	    </div>
 	</div>
-	<div class="bg-grey">
