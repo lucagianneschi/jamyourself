@@ -35,8 +35,8 @@ class EventController extends REST {
      * \todo    test, in caso di partecipazione aggiungere all'event lo user che partecipa
      */
     public function acceptInvitation() {
-	global $controllers;
 	try {
+	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
@@ -89,13 +89,57 @@ class EventController extends REST {
     }
 
     /**
+     * \fn	attendEvent()
+     * \brief   set the currentUser as an attendee
+     * \todo    test
+     */
+    public function attendEvent() {
+	try {
+	    global $controllers;
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    } elseif (!isset($this->request['objectId'])) {
+		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
+	    } elseif (!isset($this->request['toUserId'])) {
+		$this->response(array('status' => $controllers['NOTOUSER']), 403);
+	    }
+	    $currentUser = $_SESSION['currentUser'];
+	    $eventId = $this->request['objectId'];
+	    $isAttending = $this->checkUserInEventRelation($currentUser->getObjectId(), $eventId, 'attendee');
+	    if ($isAttending == true) {
+		$this->response(array('status' => $controllers['NOAVAILABLEACCEPTINVITATION']), 503);
+	    }
+	    require_once CLASSES_DIR . 'eventParse.class.php';
+	    $eventP = new EventParse();
+	    $event = $eventP->updateField($eventId, 'attendee', $currentUser->getObjectId(), true, 'add', '_User');
+	    if($event instanceof Error){
+		$this->response(array('status' => $controllers['ERRORUPDATINGEVENTATTENDEE']), 503);
+	    }
+	    $activity = $this->createActivity("INVITED", null, $currentUser->getObjectId(), 'A', $eventId, true);
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activityP = new ActivityParse();
+	    $activitySave = $activityP->saveActivity($activity);
+	    if ($activitySave instanceof Error) {
+		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		$message = rollbackEventManagementController(null, 'declineInvitation', $currentUser->getObjectId(), $eventId);
+		$this->response(array('status' => $message), 503);
+	    }
+	    $this->response(array($controllers['DIRECTATTENDEE']), 200);
+	} catch (Exception $e) {
+	    $this->response(array('status' => $e->getMessage()), 503);
+	}
+    }
+
+    /**
      * \fn	declineRelationRequest()
      * \brief   decline relationship request
      * \todo    test
      */
     public function declineInvitation() {
-	global $controllers;
 	try {
+	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
@@ -138,8 +182,8 @@ class EventController extends REST {
      * \todo    test, in caso di partecipazione aggiungere all'event lo user che partecipa
      */
     public function removeAttendee() {
-	global $controllers;
 	try {
+	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($this->request['currentUser'])) {
@@ -187,9 +231,9 @@ class EventController extends REST {
      * \todo    test
      */
     public function sendInvitation() {
-	global $controllers;
-	global $mail_files;
 	try {
+	    global $controllers;
+	    global $mail_files;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
