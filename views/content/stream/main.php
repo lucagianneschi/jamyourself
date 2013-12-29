@@ -15,7 +15,7 @@ require_once ROOT_DIR . 'config.php';
 						<div class="row welcome-stream">
 							<div class="small-12 columns">
 								<div class="welcome-stream">
-									<img src="resources/images/stream/spotter.png" />
+									<img src="resources/images/stream/<?php echo $currentUser->getType(); ?>.png" />
                                     <h3>Welcome <?php echo $currentUser->getType(); ?>!</h3>
                                     <div id="box-lastPost"></div>
                                     <script type="text/javascript">
