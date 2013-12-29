@@ -181,3 +181,17 @@
 		background-color: darken($orange, 5);
 	}
 }
+
+//---------------- playlist -------------------------
+header .track{
+
+  padding-top: 5px;  
+   border-top: 1px solid $grey-dark !important;
+   ._play-large{
+   	margin-bottom: 5px !important;
+   } 
+    &:hover {
+   		background-color: $black;
+   		border-top: 2px solid $orange !important; 
+   }  
+}

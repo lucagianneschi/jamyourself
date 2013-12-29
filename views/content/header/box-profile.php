@@ -30,43 +30,58 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 	</div>
 
 	<div class="row">
-		<div  class="small-12 columns">
-			<!------------ HEADER HIDE PROFILE ------------------------------------>
-			<div class="row">
-				<!------------ START PLAYLIST ------------------------------------>
-				<div  class="small-6 columns">				
+		<div  class="small-12 columns">					
 				<?php 
 				if (count($playlist->tracklist) > 0) {
 					
 					foreach ($playlist->tracklist as $key => $value) {						
-													
+							$objectId = $value->getObjectId();						
 							$author_name = $value->getFromUser()->getUsername();
 							$author_objectId = $value->getFromUser()->getObjectId();
-							
-							$thumbnail = $value->getRecord()->getThumbnailCover();
+							$duration = $value->getDuration();
 							$title = $value->getTitle();
+							$loveCounter = $value->getLoveCounter();
+							$shareCounter = $value->getShareCounter();
 						?>				
-						<div class="row">
-							<div  class="large-2 columns hide-for-small">
-								<div class="icon-header">							
-									<img src="../media/<?php echo $thumbnail ?>" onerror="this.src='<?php echo DEFALBUMTHUMB;?>'">  
-								</div>
-							</div>
-							<div  class="large-10 columns ">
-								<label class="text grey inline"><?php echo ($key+1).'. '.$title.' - '.$author_name; ?></label>									
-							</div>
-						</div>
-						<div class="row">
-							<div  class="large-12 columns"><div class="line"></div></div>
-						</div>
+												
+						<div class="row" id="<?php echo $objectId ?>"> 
+                                <div class="small-12 columns">
+                                	<div class="track">
+                                        <div class="row">
+                                                <div class="small-8 columns ">                                        
+                                                        <a class="ico-label _play-large text breakOffTest"><?php echo $title.' - '.$author_name;?></a>                                                                
+                                                </div>
+                                                <div class="small-2 columns">
+                                                        <p class="grey"><?php echo $duration ?></p>        
+                                                </div>
+                                                <div class="small-2 columns track-propriety align-right" style="padding-right: 15px;">                                        
+                                                        <a class="icon-propriety _menu-small note orange "> <?php echo $views['record']['REMOVEPLAYLIST'];?></a>
+                                                                                                                                                
+                                                </div>
+                                                                
+                                        </div>
+                                        <div class="row track-propriety" >
+                                                <div class="box-propriety album-single-propriety" style="padding: 10px;">
+                                                        <div class="small-5 columns ">
+                                                                <a class="note white" onclick="love(this, 'Song', '<?php echo $objectId ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE'];?></a>
+                                                                <a class="note white" onclick="setCounter(this, '<?php echo $objectId ?>','Song')"><?php echo $views['SHARE'];?></a>        
+                                                        </div>
+                                                        <div class="small-5 columns propriety ">                                        
+                                                                <a class="icon-propriety _unlove grey" ><?php echo $loveCounter ?></a>
+                                                                <a class="icon-propriety _share" ><?php echo $shareCounter ?></a>                        
+                                                        </div>
+                                                </div>                
+                                        </div>
+                                	</div>
+                                </div>
+                        </div>
+                        
 				<?php
 						
 					}
 				}
 				?>
-				</div>
-				<!------------ END PLAYLIST ------------------------------------>
-			</div>
+				
 		</div>
 	</div>	
 	<?php

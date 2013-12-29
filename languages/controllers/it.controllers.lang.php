@@ -219,6 +219,8 @@ $controllers = array(
     'EVENTCREATEERROR' => 'Errore durante la creazione del nuovo evento',
     'NOEVENTTHUMB' => 'Nessuna thumbnial indicata per questo evento',
     'EVENTCREATED' => 'Evento creato con successo',
+    'DIRECTATTENDEE' => 'Conferma partecipazione diretta utente',
+    'ERRORUPDATINGEVENTATTENDEE' => 'Impossibile aggiungere un partecipante direttamente',
      //PLAYER
     'ACTSONGNOTPLAYED' => 'Impossibile salvare activity per ultima canzone suonata',
     'SONGPLAYED' => 'Activity salvata per ultima canzone suonata',

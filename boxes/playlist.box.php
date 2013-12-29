@@ -30,6 +30,7 @@ class PlaylistBox {
     public $config;
     public $error;
     public $name;
+    public $objectId;
     public $tracklist;
 
     /**
@@ -37,7 +38,7 @@ class PlaylistBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
     }
 
     /**
@@ -48,55 +49,57 @@ class PlaylistBox {
      * \todo    implementare la differenziazione della lunghezza della query in base alla proprety premium dell'utente, usa una variabile in più $premium che deve essere un BOOL
      */
     public function init() {
-        $currentUserId = sessionChecker();
-        if (is_null($currentUserId)) {
-            $this->errorManagement(ONLYIFLOGGEDIN);
-            return;
-        }
-        require_once CLASSES_DIR . 'playlist.class.php';
-        require_once CLASSES_DIR . 'playlistParse.class.php';
-        $tracklist = array();
-        $playlist = new PlaylistParse();
-        $playlist->wherePointer('fromUser', '_User', $currentUserId);
-        $playlist->where('active', true);
-        $playlist->orderByDescending('createdAt');
-        $playlist->setLimit($this->config->limitForPlaylist);
-        $playlists = $playlist->getPlaylists();
-        if ($playlists instanceof Error) {
-            $this->errorManagement($playlists->getErrorMessage());
-            return;
-        } elseif (is_null($playlists)) {
-            $this->errorManagement();
-            return;
-        } else {
-            foreach ($playlists as $playlist) {
-                require_once CLASSES_DIR . 'song.class.php';
-                require_once CLASSES_DIR . 'songParse.class.php';
-                $this->name = ($playlist->getName());
-                $song = new SongParse();
-                $song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
-                $song->where('active', true);
-                $song->orderByDescending('createdAt');
-                $song->setLimit($this->config->limitForTracklist);
-                $song->whereInclude('fromUser,record');
-                $songs = $song->getSongs();
-                if ($songs instanceof Error) {
-                    $this->errorManagement($songs->getErrorMessage());
-                    return;
-                } elseif (is_null($songs)) {
-                    $this->error = null;
-                    $this->tracklist = array();
-                    return;
-                } else {
-                    foreach ($songs as $song) {
-                        if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
-                            array_push($tracklist, $song);
-                    }
-                    $this->error = null;
-                    $this->tracklist = $tracklist;
-                }
-            }
-        }
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    return;
+	}
+	require_once CLASSES_DIR . 'playlist.class.php';
+	require_once CLASSES_DIR . 'playlistParse.class.php';
+	$tracklist = array();
+	$playlist = new PlaylistParse();
+	$playlist->wherePointer('fromUser', '_User', $currentUserId);
+	$playlist->where('active', true);
+	$playlist->orderByDescending('createdAt');
+	$playlist->setLimit($this->config->limitForPlaylist);
+	$playlists = $playlist->getPlaylists();
+	if ($playlists instanceof Error) {
+	    $this->errorManagement($playlists->getErrorMessage());
+	    return;
+	} elseif (is_null($playlists)) {
+	    $this->errorManagement();
+	    return;
+	} else {
+	    foreach ($playlists as $playlist) {
+		require_once CLASSES_DIR . 'song.class.php';
+		require_once CLASSES_DIR . 'songParse.class.php';
+		$this->name = $playlist->getName();
+		$this->objectId = $playlist->getObjectId();
+		$song = new SongParse();
+		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
+		$song->where('active', true);
+		$song->orderByDescending('createdAt');
+		$song->setLimit($this->config->limitForTracklist);
+		$song->whereInclude('fromUser,record');
+		$songs = $song->getSongs();
+		if ($songs instanceof Error) {
+		    $this->errorManagement($songs->getErrorMessage());
+		    return;
+		} elseif (is_null($songs)) {
+		    $this->error = null;
+		    $this->objectId = null;
+		    $this->tracklist = array();
+		    return;
+		} else {
+		    foreach ($songs as $song) {
+			if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
+			    array_push($tracklist, $song);
+		    }
+		    $this->error = null;
+		    $this->tracklist = $tracklist;
+		}
+	    }
+	}
     }
 
     /**
@@ -106,10 +109,11 @@ class PlaylistBox {
      * \todo    
      */
     private function errorManagement($errorMessage = null) {
-        $this->config = null;
-        $this->error = $errorMessage;
-        $this->name = null;
-        $this->tracklist = array();
+	$this->config = null;
+	$this->error = $errorMessage;
+	$this->name = null;
+	$this->objectId = null;
+	$this->tracklist = array();
     }
 
 }

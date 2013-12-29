@@ -50,6 +50,80 @@ if (is_null($streamBox->error)) {
     <!---------------- STREAM ----------------->
 
     <h3 style="margin-top:30px">Stream</h3>
+    
+    
+    
+    <!-- BADGE -->
+                <div id="">
+                    <div class="box ">
+                        
+                        <div class="row line">
+                            <div class="small-1 columns ">
+                                <div class="icon-header">
+                                    <img src="../media/images/default/defaultAvatarThumb.jpg" onerror="this.src='images/default/defaultAvatarThumb.jpg'">
+                                </div>
+                            </div>
+                            <div class="small-5 columns">
+                                <div class="text grey" style="margin-bottom: 0px;">
+                                    <strong>Username</strong>
+                                </div>
+                                <div class="note orange">
+                                    <strong>TYPE</strong>
+                                </div>
+                            </div>
+                            <div class="small-6 columns propriety">
+                                <div class="note grey-light">
+                                    Date
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row  line">
+                            <div class="small-12 columns ">
+                                <div class="row ">
+                                    <div class="small-12 columns ">
+                                        <div class="row  ">
+                                            <div class="large-12 columns ">
+                                                <div class="text orange">New Badge Earned</div>
+                                            </div>
+                                        </div>
+                                        <div class="row newBadge">
+                                            <div class="small-2 columns">
+                                                <div class="badgeThumb"><img src="/media/images/badge/badgeElectro.png" onerror="this.src='/media/images/badge/badgeDefault.png'"></div>						
+                                            </div>
+                                            <div class="small-10 columns ">
+                                                <div class="row ">							
+                                                    <div class="small-12 columns ">
+                                                    	<h5>Electro Addicted</h5>
+                                                        <p>Descrizione lunga badge</p>
+                                                    </div>	
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="box-propriety">
+                                <div class="small-7 columns ">
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                </div>
+                                <div class="small-5 columns propriety ">					
+                                    <a class="icon-propriety _unlove grey">0></a>
+                                    <a class="icon-propriety _comment">1</a>
+                                    <a class="icon-propriety _share">2</a>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        
+                </div>
+    
+    
     <?php
     
     foreach ($activities as $key => $value) {

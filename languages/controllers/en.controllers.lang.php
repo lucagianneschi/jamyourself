@@ -218,6 +218,8 @@ $controllers = array(
     'EVENTCREATEERROR' => 'An error occurred during the creation of the new event',
     'NOEVENTTHUMB' => 'No thumbnail given for this event',
     'EVENTCREATED' => 'Event created with success',
+    'DIRECTATTENDEE' => 'User attendance direct confirmation',
+    'ERRORUPDATINGEVENTATTENDEE' => 'Unable to add directly attendde to current event',
     //PLAYER
     'ACTSONGNOTPLAYED' => 'Unable to save activity for last song played',
     'SONGPLAYED' => 'Activity for last song played saved',

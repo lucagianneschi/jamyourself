@@ -300,7 +300,7 @@ class UserParse {
 	    $user->setLevelValue($res->levelValue);
 	    $user->setLocalType($res->localType);
 	    $user->setMembers(parse_decode_array($res->members));
-	    $user->setMusic($res->music);
+	    $user->setMusic(parse_decode_array($res->music));
 	    $user->setPremium($res->premium);
 	    $res->premium ? $user->setPremiumExpirationDate(fromParseDate($res->premiumExpirationDate)) : $user->setPremiumExpirationDate(null);
 	    $user->setProfilePicture($res->profilePicture);
