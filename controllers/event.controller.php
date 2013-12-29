@@ -276,20 +276,6 @@ class EventController extends REST {
     }
 
     /**
-     * \fn	checkUserInEventRelation($userId, $eventId, $field)
-     * \brief   check if user is in a sort of relation with event
-     * \todo    test
-     */
-    private function checkUserInEventRelation($userId, $eventId, $field) {
-	require_once CLASSES_DIR . 'eventParse.class.php';
-	$eventP = new EventParse();
-	$eventP->where('objectId', $eventId);
-	$eventP->whereRelatedTo($field, '_User', $userId);
-	$check = $eventP->getCount();
-	return ($check != 0) ? true : false;
-    }
-
-    /**
      * \fn      createActivity($type, $toUserId, $currentUserId, $status, $eventId, $readr)
      * \brief   private function to create ad hoc activity
      * \param   $type, $toUserId, $currentUserId, $status, $eventId, $read
