@@ -586,6 +586,22 @@ section.active > .title a{
   height: auto !important;
 }
 
+#social-achievement {
+	.touchcarousel-item {
+		padding:5px 9px;
+	}
+}
+
+.has-tip {
+	border-bottom: none !important;
+	&:hover{
+		border-bottom: none !important;
+	}
+	&:focus{
+		border-bottom: none !important;
+	}
+}
+
 .textReview{
   margin-top:10px;
 }
