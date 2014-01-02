@@ -24,30 +24,6 @@
 						<div id='box-status' >
 							<?php require_once(VIEWS_DIR . "content/event/box/box-status.php"); ?>
 						</div>
-						<script type="text/javascript">
-							function loadBoxStatus() {
-								var json_data = {};
-								$.ajax({
-									type: "POST",
-									url: "content/event/box/box-status.php",
-									beforeSend: function(xhr) {
-										//spinner.show();
-										console.log('Sono partito loadBoxStatus()');
-									}
-								}).done(function(message, status, xhr) {
-									//spinner.hide();
-									$("#box-status").html(message);
-									code = xhr.status;
-									//console.log("Code: " + code + " | Message: " + message);
-									console.log("Code: " + code + " | Message: <omitted because too large>");
-								}).fail(function(xhr) {
-									//spinner.hide();
-									message = $.parseJSON(xhr.responseText).status;
-									code = xhr.status;
-									console.log("Code: " + code + " | Message: " + message);
-								});
-							}
-						</script>
 						
 						<div id="box-eventReview"></div>
 						<script type="text/javascript">
