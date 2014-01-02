@@ -113,9 +113,9 @@ switch ($event->getFromUser()->getType()) {
 			</div>
 		    </div>
 		    <div class="row">
-			<div class="small-12 columns" >
+			<!-- div class="small-12 columns" >
 			    <a class="ico-label _pin white " onclick="getDirectionMap()"><?php echo $views['information']['CONTENT3_DIRECTION']; ?></a> 
-			</div>
+			</div -->
 		    </div>				 	
 		</div>
 	    </section>
