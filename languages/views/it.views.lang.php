@@ -138,11 +138,21 @@ $views = array(
             'TITLE' => 'Reviews',
         ),
     ),
-    'header' => array(
-        'TITLE' => 'Notifiche',
-        'MESSAGE' => 'vedi tutti i messaggi',
-        'EVENT' => 'vedi tutti gli eventi',
-        'RELATION' => 'vedi tutte le richieste'
+    'header' => array(		
+		'OPTADD1' => 'Carica la tua musica',
+		'OPTADD2' => 'Carica un evento',
+		'OPTADD3' => 'Carica le tue foto',
+		'SEARCH' => 'Cerca persone, musica o eventi',
+		'profile' => array(
+			'TITLE' => 'Now Playing',
+		),
+		'social' => array(
+			'TITLE' => 'Notifiche',
+			'MESSAGE_MARK' => 'segna come letto',
+			'MESSAGE_EVENT' => 'vedi tutti gli eventi',
+			'MESSAGE_MSG' => 'vedi tutti i messaggi',
+			'MESSAGE_RELATION' => 'vedi tutte le richieste',
+		)
     ),
     'tag' => array(
         'music' => array(
