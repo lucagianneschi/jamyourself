@@ -32,7 +32,7 @@ if ($invitedsCounter > 0) {
     <div class="content" data-section-content>
         <div class="row">
 	    <?php
-	    $totalView = $invitedsCounter > 4 ? 4 : $invitedsCounter;
+	    $totalView = $invitedsCounter > 6 ? 6 : $invitedsCounter;
 	    $i = 1;
 	    foreach ($inviteds as $key => $value) {
 		switch ($value->getType()) {
