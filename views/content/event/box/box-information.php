@@ -45,7 +45,7 @@ switch ($event->getFromUser()->getType()) {
 
 		    <div class="row " id="user_<?php echo $fromUserObjectId ?>">
 			<div class="small-1 columns ">
-			    <div class="icon-header">
+			    <div class="icon-header" onclick="location.href='profile.php?user=<?php echo $fromUserObjectId; ?>'">
 				<img src="<?php echo $fromUserThumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 			    </div>
 			</div>

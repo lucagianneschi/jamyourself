@@ -48,7 +48,7 @@ if ($invitedsCounter > 0) {
 		}
 		?>
 		<div  class="small-6 columns">
-		    <div class="box-membre">
+		    <div class="box-membre" onclick="location.href='profile.php?user=<?php echo $value->getObjectId(); ?>'">
 			<div class="row " id="featuring_<?php echo $value->getObjectId(); ?>">
 			    <div  class="small-3 columns ">
 				<div class="icon-header">
