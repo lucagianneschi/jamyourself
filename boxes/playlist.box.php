@@ -78,11 +78,14 @@ class PlaylistBox {
 			$song = new SongParse();
 			$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
 			$song->where('active', true);
-			$song->orderByDescending('createdAt');
 			$song->setLimit($this->config->limitForTracklist);
 			$song->whereInclude('fromUser,record');
 			$songs = $song->getSongs();
-			if ($songs instanceof Error) {
+            //order the song by the songsArray property
+            foreach(current($playlists)->getSongsArray() as $value) {
+                $orderSongs[$value] = $songs[$value];
+            }
+            if ($songs instanceof Error) {
 			    $this->errorManagement($songs->getErrorMessage());
 			    return;
 			} elseif (is_null($songs)) {
@@ -91,7 +94,7 @@ class PlaylistBox {
 			    $this->tracklist = array();
 			    return;
 			} else {
-			    foreach ($songs as $song) {
+			    foreach ($orderSongs as $song) {
 				if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
 				    array_push($tracklist, $song);
 			    }
