@@ -33,11 +33,19 @@ if (isset($userObjectId)) {
 	$relation = $_SESSION['relationCounter'] != ONLYIFLOGGEDIN ? $_SESSION['relationCounter'] : 0;
 	
 	$totNotification = $invited + $message + $relation;
-		
-	if($totNotification == 0) $css_not = 'no-display';
+	
+	$css_not = 'no-display';
+	$css_inv = 'no-display';
+	$css_msg = 'no-display';
+	$css_rel = 'no-display';	
+	if($totNotification === 0) $css_not = 'no-display';
+	else $css_not = '';
 	if($invited == 0) $css_inv = 'no-display';
+	else $css_inv = '';
 	if($message == 0) $css_msg = 'no-display';
+	else $css_msg = '';
 	if($relation == 0) $css_rel = 'no-display';
+	else $css_rel = '';
 
 	?>
 	<!---------------------------------------- HEADER HIDE SOCIAL ----------------------------------->
@@ -45,13 +53,15 @@ if (isset($userObjectId)) {
 		<div  class="large-12 columns" style="margin-bottom: 29px">
 			<div class="row">
 				<div  class="large-4 columns hide-for-small">	
-					<h3 class="inline"><?php echo $views['header']['TITLE'] ?></h3>
+					<h3 class="inline"><?php echo $views['header']['social']['TITLE'] ?></h3>
 				</div>	
 				<div  class="large-8 columns" style="margin-top: 10px">
-					<a class="ico-label _flag inline" onclick="loadBoxSocial('notification','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $totNotification ?>"><span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span></a>
-					<a class="ico-label _message inline" onclick="loadBoxSocial('message','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $message ?>"><span class="round alert label iconNotification <?php echo $css_msg ?>"><?php echo $message ?></span></a>
-					<a class="ico-label _calendar inline" onclick="loadBoxSocial('event','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $invited ?>"><span class="round alert label iconNotification <?php echo $css_inv ?>"><?php echo $invited ?></span></a>
-					<a class="ico-label _friend inline"  onclick="loadBoxSocial('relation','<?php echo $userObjectId?>','<?php echo $userType  ?>')" title="<?php echo $relation ?>"><span class="round alert label iconNotification <?php echo $css_rel ?>"><?php echo $relation ?></span></a>
+					<a class="ico-label _flag inline" onclick="loadBoxSocial('notification','<?php echo $userObjectId?>','<?php echo $userType  ?>')" >
+						<span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span>
+					</a>
+					<a class="ico-label _message inline" onclick="loadBoxSocial('message','<?php echo $userObjectId?>','<?php echo $userType  ?>')" ><span class="round alert label iconNotification <?php echo $css_msg ?>"><?php echo $message ?></span></a>
+					<a class="ico-label _calendar inline" onclick="loadBoxSocial('event','<?php echo $userObjectId?>','<?php echo $userType  ?>')" ><span class="round alert label iconNotification <?php echo $css_inv ?>"><?php echo $invited ?></span></a>
+					<a class="ico-label _friend inline"  onclick="loadBoxSocial('relation','<?php echo $userObjectId?>','<?php echo $userType  ?>')" ><span class="round alert label iconNotification <?php echo $css_rel ?>"><?php echo $relation ?></span></a>
 				</div>
 			</div>											
 		</div>					
@@ -63,18 +73,19 @@ if (isset($userObjectId)) {
 		switch ($typeNotification) {
 			case 'notification':				
 				$detailNotification ->initForDetailedList($userType);
+				$other = '';	
 				break;
 			case 'message':
 				$detailNotification ->initForMessageList();
-				$other = 'vedi tutti i messaggi';	
+				$other = $views['header']['social']['MESSAGE_MSG'];	
 				break;
 			case 'event':
 				$detailNotification ->initForEventList();
-				$other = 'vedi tutti gli eventi';
+				$other = $views['header']['social']['MESSAGE_EVENT'];	
 				break;
 			case 'relation':
 				$detailNotification ->initForRelationList($userType);
-				$other = 'vedi tutte le relazioni';
+				$other = $views['header']['social']['MESSAGE_RELATION'];	
 				break;
 			default:
 				break;
@@ -140,7 +151,8 @@ if (isset($userObjectId)) {
 		?>
 		<!------------------------------------ fine notification ------------------------------------------->
 		<div class"row">
-			<div  class="large-12 large-offset-9 columns"><a href="#" class="note orange"><strong><?php echo $other?></strong> </a></div>
+			<div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK']?></strong> </a></div>
+			<div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other?></strong> </a></div>			
 		</div>
 		
 		<?php

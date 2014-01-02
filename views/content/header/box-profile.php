@@ -37,7 +37,7 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 			<h3><?php echo $playlist->name; ?></h3>
 			<div class="row">
 				<div  class="large-6 columns">
-					<div class="text white" style="margin-bottom: 15px;">Now Playing</div>
+					<div class="text white" style="margin-bottom: 15px;"><?php echo $views['header']['profile']['TITLE'] ?></div>
 				</div>	
 			</div>
 		</div>	

@@ -53,7 +53,7 @@ $playlistCurrentUser = array();
 							});
 						}						
 				</script>			
-				<div id="header-social" class="small-6 columns">				
+				<div id="header-social" class="small-6 columns" style="padding-bottom: 20px">				
 					<!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->
 					<?php require_once './content/header/box-social.php'; ?>
 				</div>
@@ -132,7 +132,7 @@ $playlistCurrentUser = array();
 									<div class="header inline">
 										<!---------------------------- SEARCH ------------------------------------>						
 										<form class="inline" action="">
-											<span><input id='header-btn-search' name='header-btn-search' type="search" class="search" placeholder="Cerca persone, musica o eventi"></span>
+											<span><input id='header-btn-search' name='header-btn-search' type="search" class="search" placeholder="<?php echo $views['header']['SEARCH'] ?>"></span>
 											<!-- <span><input type="search" class="search-small show-for-small" placeholder="Cerca "></span> -->
 					  					</form>
 				  					</div>	
@@ -155,9 +155,9 @@ $playlistCurrentUser = array();
 			<div id="add" style="display: none;">
 				<div class="row">
 					<div class="large-12 columns">
-						<div class="add-btn">Upload your music</div>
-						<div class="add-btn">Create Event</div>
-						<div class="add-btn">Upload Photo</div>
+						<div class="add-btn"><?php echo $views['header']['OPTADD1'] ?></div>
+						<div class="add-btn"><?php echo $views['header']['OPTADD2'] ?></div>
+						<div class="add-btn"><?php echo $views['header']['OPTADD3'] ?></div>
 					</div>
 				</div>
 			</div>
