@@ -50,14 +50,15 @@ class PlaylistController extends REST {
             global $controllers;
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($this->request['currentUser'])) {
-                $this->response(array('status' => $controllers['USERNOSES']), 403);
-            } elseif (!isset($this->request['playlistId'])) {
-                $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
+		  //TODO prende dalla sessione l'objectId dell currentUser e della playlist 
+          //  } elseif (!isset($this->request['currentUser'])) {
+          //      $this->response(array('status' => $controllers['USERNOSES']), 403);
+         //   } elseif (!isset($this->request['playlistId'])) {
+         //       $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
             } elseif (!isset($this->request['songId'])) {
                 $this->response(array('status' => $controllers['NOSONGID']), 403);
             }
-            $playlistId = $this->request['playlistId'];
+            $playlistId = $_SESSION['playlist']['objectId'];
             $songId = $this->request['songId'];
             $currentUser = $_SESSION['currentUser'];
             require_once CLASSES_DIR . 'playlistParse.class.php';
@@ -68,7 +69,9 @@ class PlaylistController extends REST {
             } elseif (in_array($songId, $playlist->getSongsArray())) {
                 $this->response(array('status' => $controllers['SONGALREADYINTRACKLIST']), 503);
             }
-            if (count($playlist->songsArray) >= PLAYLISTLIMIT && $currentUser->getPremium() != true) {
+			//TODO controllo sbagliato?? se l'utente e' premium non ha limiti nella playlist?
+            //if (count($playlist->getSongsArray()) >= PLAYLISTLIMIT && $currentUser->getPremium() != true) {
+            if (count($playlist->getSongsArray()) <= PLAYLISTLIMIT || $currentUser->getPremium() == true) {
                 $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
                 if ($res instanceof Error) {
                     $this->response(array('status' => $controllers['NOADDSONGTOPLAYREL']), 503);
@@ -105,14 +108,15 @@ class PlaylistController extends REST {
             global $controllers;
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            } elseif (!isset($this->request['currentUser'])) {
-                $this->response(array('status' => $controllers['USERNOSES']), 403);
-            } elseif (!isset($this->request['playlistId'])) {
-                $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
+	   //TODO prende direttamente l'objectId dell currentUser dalla session
+      //      } elseif (!isset($this->request['currentUser'])) {
+      //          $this->response(array('status' => $controllers['USERNOSES']), 403);
+      //      } elseif (!isset($this->request['playlistId'])) {
+       //         $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
             } elseif (!isset($this->request['songId'])) {
                 $this->response(array('status' => $controllers['NOSONGID']), 403);
             }
-            $playlistId = $this->request['playlistId'];
+            $playlistId = $_SESSION['playlist']['objectId'];
             $songId = $this->request['songId'];
             $currentUser = $_SESSION['currentUser'];
             require_once CLASSES_DIR . 'playlistParse.class.php';
@@ -123,7 +127,7 @@ class PlaylistController extends REST {
             } elseif (!in_array($songId, $playlist->getSongsArray())) {
                 $this->response(array('status' => $controllers['ERRORCHECKINGSONGINTRACKLIST']), 503);
             }
-            if (count($playlist->songsArray) == 0) {
+            if (count($playlist->getSongsArray()) == 0) {
                 $this->response(array('status' => $controllers['NOTHINGTOREMOVE']), 503);
             }
             $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');

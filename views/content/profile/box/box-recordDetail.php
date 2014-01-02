@@ -39,6 +39,27 @@ if(is_array($songs) && count($songs) > 0){
 			$track_text_love = $views['LOVE'];
 			
 		}
+		$css_addPlayList = "";
+		$css_removePlayList = "";
+		if(in_array($value->getObjectId(), $_SESSION['playlist']['songs'])){
+			$css_addPlayList = 	'no-display';
+		}
+		else{
+			$css_removePlayList = 'no-display';
+		}
+		
+		$song = json_encode(array( 
+		   'objectId' => $value->getObjectId(), 
+		   'title' => $value->getTitle(),
+		   'artist' => $_POST['username'],
+		   'mp3' => $value->getFilePath(),
+		   'love' => $value->getLoveCounter(),
+		   'share' => $value->getShareCounter(), 
+		));
+		
+		
+	
+		 
 		?>
 		<div class="row  track" id="<?php echo $value->getObjectId(); ?>">
 		<!------------------ DETTAGLIO TRACCIA ------------------------------------>			
@@ -48,10 +69,10 @@ if(is_array($songs) && count($songs) > 0){
 					<div class="small-9 columns ">					
 						<a class="ico-label _play-large text breakOffTest"><?php echo $indice + 1; ?>. <?php echo $value->getTitle(); ?></a>
 							
-					</div>
+					</div>					
 					<div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">					
-						<a class="icon-propriety _menu-small note orange "> <?php echo $views['record']['ADDPLAYLIST'];?></a>
-																	
+						<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this,"add",<?php  echo $song ?>)'> <?php echo $views['record']['ADDPLAYLIST'];?></a>
+						<a class="icon-propriety _menu-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this,"remove",<?php  echo $song; ?>)'> <?php echo $views['record']['REMOVEPLAYLIST'];?></a>											
 					</div>
 					<div class="small-3 columns track-nopropriety align-right" style="padding-right: 15px;">
 						<a class="icon-propriety "><?php echo $value->getDuration(); ?></a>	

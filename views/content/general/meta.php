@@ -54,9 +54,18 @@
 <!--------------- rating ---------------------------------->
 <link rel="stylesheet" href="resources/stylesheets/plugins/rating/jquery.rating.css"  /> 
 
-<!---------------------------------- JQUERY  ------------------------------------------>
+<!---------------------------------- JQUERY  -------------------------------------
 <script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
 <script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>	
 <script src="resources/javascripts/plugins/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+----->
+
+
+
+<!----------------------------------- PLAYLIST ---------------------------------->
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<link href="resources/stylesheets/plugins/jplayer/jplayer.pink.flag.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="resources/javascripts/plugins/jplayer/jquery.jplayer.min.js"></script>
+<script type="text/javascript" src="resources/javascripts/plugins/jplayer/jplayer.playlist.min.js"></script>
 
 <script type="text/javascript" src="resources/javascripts/customs/header.js"></script>

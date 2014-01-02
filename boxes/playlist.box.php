@@ -71,33 +71,33 @@ class PlaylistBox {
 	    return;
 	} else {
 	    foreach ($playlists as $playlist) {
-		require_once CLASSES_DIR . 'song.class.php';
-		require_once CLASSES_DIR . 'songParse.class.php';
-		$this->name = $playlist->getName();
-		$this->objectId = $playlist->getObjectId();
-		$song = new SongParse();
-		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
-		$song->where('active', true);
-		$song->orderByDescending('createdAt');
-		$song->setLimit($this->config->limitForTracklist);
-		$song->whereInclude('fromUser,record');
-		$songs = $song->getSongs();
-		if ($songs instanceof Error) {
-		    $this->errorManagement($songs->getErrorMessage());
-		    return;
-		} elseif (is_null($songs)) {
-		    $this->error = null;
-		    $this->objectId = null;
-		    $this->tracklist = array();
-		    return;
-		} else {
-		    foreach ($songs as $song) {
-			if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
-			    array_push($tracklist, $song);
-		    }
-		    $this->error = null;
-		    $this->tracklist = $tracklist;
-		}
+			require_once CLASSES_DIR . 'song.class.php';
+			require_once CLASSES_DIR . 'songParse.class.php';
+			$this->name = $playlist->getName();
+			$this->objectId = $playlist->getObjectId();
+			$song = new SongParse();
+			$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
+			$song->where('active', true);
+			$song->orderByDescending('createdAt');
+			$song->setLimit($this->config->limitForTracklist);
+			$song->whereInclude('fromUser,record');
+			$songs = $song->getSongs();
+			if ($songs instanceof Error) {
+			    $this->errorManagement($songs->getErrorMessage());
+			    return;
+			} elseif (is_null($songs)) {
+			    $this->error = null;
+			    $this->objectId = null;
+			    $this->tracklist = array();
+			    return;
+			} else {
+			    foreach ($songs as $song) {
+				if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
+				    array_push($tracklist, $song);
+			    }
+			    $this->error = null;
+			    $this->tracklist = $tracklist;
+			}
 	    }
 	}
     }

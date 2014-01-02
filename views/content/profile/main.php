@@ -21,6 +21,7 @@ require_once ROOT_DIR . 'config.php';
 							function loadBoxRecord() {
 								var json_data = {};
 								json_data.objectId = '<?php echo $user->getObjectId(); ?>';
+								json_data.username = '<?php echo $user->getUsername(); ?>';
 								$.ajax({
 									type: "POST",
 									url: "content/profile/box/box-record.php",

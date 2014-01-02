@@ -1,12 +1,20 @@
 <?php
 if (!defined('ROOT_DIR'))
-    define('ROOT_DIR', '../');
+    define('ROOT_DIR', '../../../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once SERVICES_DIR . 'debug.service.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'playlist.box.php';
+
+
+//session_start();
 
 $playlist = new PlaylistBox();
 $playlist->init();
+
+$currentUser = $_SESSION['currentUser'];
 
 #TODO
 //decidere come gestire i possibili errori
@@ -15,9 +23,15 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 } elseif (count($playlist->tracklist) == 0 && !is_null($playlist->error)) {
 	echo $playlist->error;
 } elseif (count($playlist->tracklist) > 0) {
-	
+	$_SESSION['playlist']['objectId'] = $playlist->objectId;
+	$_SESSION['playlist']['songs'] = array();
 	?>
-	
+	<script>
+		var myPlaylist;
+		$(document).ready(function(){
+		   myPlaylist = getPlayer();
+		});
+	</script>
 	<div class="row">
 		<div  class="small-6 columns hide-for-small">
 			<h3><?php echo $playlist->name; ?></h3>
@@ -29,7 +43,64 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 		</div>	
 	</div>
 
-	<div class="row">
+	
+	<div id="jp_container_N" class="jp-video jp-video-270p">
+			<div class="jp-type-playlist">
+				<div id="jquery_jplayer_N" class="jp-jplayer"></div>
+				<div class="jp-gui">
+					<div class="jp-video-play">
+						<a href="javascript:;" class="jp-video-play-icon" tabindex="1">play</a>
+					</div>
+					<div class="jp-interface">
+						<div class="jp-progress">
+							<div class="jp-seek-bar">
+								<div class="jp-play-bar"></div>
+							</div>
+						</div>
+						<div class="jp-current-time"></div>
+						<div class="jp-duration"></div>
+						<div class="jp-title">
+							<ul>
+								<li></li>
+							</ul>
+						</div>
+						<div class="jp-controls-holder">
+							<ul class="jp-controls">
+								<li><a href="javascript:;" class="jp-previous" tabindex="1">previous</a></li>
+								<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
+								<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
+								<li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>
+								<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
+								<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
+								<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
+								<li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+							</ul>
+							<div class="jp-volume-bar">
+								<div class="jp-volume-bar-value"></div>
+							</div>
+							<ul class="jp-toggles">								
+								<li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle">shuffle</a></li>
+								<li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off">shuffle off</a></li>
+								<li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
+								<li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="jp-playlist">
+					<ul>
+						
+						<!-- The method Playlist.displayPlaylist() uses this unordered list -->
+						<li></li>
+					</ul>
+				</div>
+				<div class="jp-no-solution">
+					<span>Update Required</span>
+					To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+				</div>
+			</div>
+		</div>
+		<div class="row">
 		<div  class="small-12 columns">					
 				<?php 
 				if (count($playlist->tracklist) > 0) {
@@ -42,9 +113,20 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 							$title = $value->getTitle();
 							$loveCounter = $value->getLoveCounter();
 							$shareCounter = $value->getShareCounter();
+							array_push($_SESSION['playlist']['songs'], $objectId);
+							
 						?>				
-												
-						<div class="row" id="<?php echo $objectId ?>"> 
+						<script>
+						$(document).ready(function(){
+							myPlaylist.add({
+								objectId: "<?php echo $objectId ?>",
+								title:"<?php echo $title?>",
+								artist:"<?php echo $author_name?>",
+								mp3:"http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3" //ci va l'url dell'mp3
+							});
+						});
+						</script>						
+						<!--div class="row" id="<?php echo $objectId ?>"> 
                                 <div class="small-12 columns">
                                 	<div class="track">
                                         <div class="row">
@@ -74,7 +156,7 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
                                         </div>
                                 	</div>
                                 </div>
-                        </div>
+                        </div-->
                         
 				<?php
 						
@@ -83,6 +165,6 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 				?>
 				
 		</div>
-	</div>	
+	</div>
 	<?php
 }

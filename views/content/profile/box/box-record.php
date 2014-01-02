@@ -198,6 +198,7 @@ if (is_null($recordBox->error)) {
 							function loadBoxRecordDetail(objectId) {
 								var json_data = {};
 								json_data.objectId = objectId;
+								json_data.username = '<?php echo $_POST['username'] ?>';
 								$.ajax({
 									type: "POST",
 									url: "content/profile/box/box-recordDetail.php",
