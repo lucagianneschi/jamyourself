@@ -24,6 +24,7 @@ $views = array(
     'COMM' => 'Comment',
     'SHARE' => 'Share',
     'REVIEW' => 'Review',
+    'post_button' => 'Post',
     'activity' => array(
         'TITLE' => 'Activities',
         'LASTALBUM' => 'Last album updated',
@@ -243,6 +244,29 @@ $views = array(
             'voice' => 'Voice',
             'xylophone' => 'Xylophone'
         )
+    ),
+    'stream' => array(
+        'welcome' => 'Benvenuto',
+        'looking_for' => 'Cosa stai cercando?',
+        'search_city' => 'Ricerca per citt&agrave;',
+        'select_genre' => 'Seleziona genere',
+        'search' => 'Ricerca',
+        'date' => 'Data',
+        'music' => 'Musica',
+        'events' => 'Eventi',
+        'new_search' => 'Nuova ricerca',
+        'last_post' => 'Il tuo ultimo Post &egrave;...',
+        'not_yet' => 'Ops! Non hai ancora scritto niente!',
+        'write_post' => 'Scrivi un Post',
+        'stream' => 'Stream',
+        'new_photo' => 'Nuova foto',
+        'photos' => 'foto',
+        'new_event' => 'Nuovo Evento',
+        'image_uploaded' => 'Immagine caricata',
+        'song_uploaded' => 'Canzone caricata',
+        'just_added' => 'Appena aggiunto',
+        'event_review' => 'Recensione di un Event',
+        'record_review' => 'Recensione di una Canzone'
     )
 );
 ?>

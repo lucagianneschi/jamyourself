@@ -28,7 +28,7 @@ if (is_null($streamBox->error)) {
     
     ?>
     <!---------------- WRITE ----------------->
-    <h3>Write a post</h3>
+    <h3><?php echo $views['stream']['write_post']; ?></h3>
     <div class="row  ">
         <div class="large-12 columns ">
             <form action="" class="box-write" onsubmit="sendPost('', $('#post').val()); return false;">
@@ -38,7 +38,7 @@ if (is_null($streamBox->error)) {
                             <input id="post" type="text" class="post inline" placeholder="Spread the word about your interest!">
                         </div>
                         <div class="small-3 columns ">
-                            <input type="button" id="button-post" class="post-button inline" value="Post" onclick="sendPost('', $('#post').val())">
+                            <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('', $('#post').val())">
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@ if (is_null($streamBox->error)) {
     
     <!---------------- STREAM ----------------->
 
-    <h3 style="margin-top:30px">Stream</h3>
+    <h3 style="margin-top:30px"><?php echo $views['stream']['stream']; ?></h3>
     
     
     
@@ -108,9 +108,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey">0></a>
@@ -159,7 +159,7 @@ if (is_null($streamBox->error)) {
                             </div>
                             <div class="small-6 columns propriety">
                                 <div class="note grey-light">
-                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                    <?php echo ucwords(strftime("%A %e %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
                                 </div>
                             </div>
                         </div>
@@ -169,8 +169,8 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">New photo</div>
-                                                <div class="sottotitle grey-dark"><?php echo $value->getAlbum()->getTitle(); ?> - <?php echo $value->getAlbum()->getImageCounter(); ?> photos</div>
+                                                <div class="text orange"><?php echo $views['stream']['new_photo']; ?></div>
+                                                <div class="sottotitle grey-dark"><?php echo $value->getAlbum()->getTitle(); ?> - <?php echo $value->getAlbum()->getImageCounter(); ?> <?php echo $views['stream']['photos']; ?></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -190,9 +190,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey">1</a>
@@ -226,7 +226,7 @@ if (is_null($streamBox->error)) {
                             </div>
                             <div class="small-6 columns propriety">
                                 <div class="note grey-light">
-                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                    <?php echo ucwords(strftime("%A %e %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
                                 </div>
                             </div>
                         </div>
@@ -236,7 +236,7 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">New Event</div>
+                                                <div class="text orange"><?php echo $views['stream']['new_event']; ?></div>
                                                 <div class="sottotitle grey-dark"><?php echo $value->getEvent()->getTitle(); ?></div>
                                             </div>
                                         </div>
@@ -258,9 +258,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey">1</a>
@@ -300,7 +300,7 @@ if (is_null($streamBox->error)) {
                             </div>
                             <div class="small-6 columns propriety">
                                 <div class="note grey-light">
-                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                    <?php echo ucwords(strftime("%A %e %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
                                 </div>
                             </div>
                         </div>
@@ -310,7 +310,7 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">Image Uploaded</div>
+                                                <div class="text orange"><?php echo $views['stream']['image_uploaded']; ?></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -330,9 +330,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey">1</a>
@@ -372,7 +372,7 @@ if (is_null($streamBox->error)) {
                             </div>
                             <div class="small-6 columns propriety">
                                 <div class="note grey-light">
-                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                    <?php echo ucwords(strftime("%A %e %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
                                 </div>
                             </div>
                         </div>
@@ -390,9 +390,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey"><?php echo $value->getComment()->getLoveCounter(); ?></a>
@@ -434,7 +434,7 @@ if (is_null($streamBox->error)) {
                             </div>
                             <div class="small-6 columns propriety">
                                 <div class="note grey-light">
-                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                    <?php echo ucwords(strftime("%A %e %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
                                 </div>
                             </div>
                         </div>
@@ -444,7 +444,7 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">Song Uploaded</div>
+                                                <div class="text orange"><?php echo $views['stream']['song_uploaded']; ?></div>
                                             </div>
                                         </div>
                                         <div class="row box-detail" onclick="">
@@ -471,9 +471,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey">1</a>
@@ -521,7 +521,7 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">Just added</div>
+                                                <div class="text orange"><?php echo $views['stream']['just_added']; ?></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -548,9 +548,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey">72</a>
@@ -598,7 +598,7 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">Just added</div>
+                                                <div class="text orange"><?php echo $views['stream']['just_added']; ?></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -625,9 +625,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey">72</a>
@@ -664,7 +664,7 @@ if (is_null($streamBox->error)) {
                             </div>
                             <div class="small-6 columns propriety">
                                 <div class="note grey-light">
-                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                    <?php echo ucwords(strftime("%A %e %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
                                 </div>
                             </div>
 
@@ -675,7 +675,7 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">Event Review</div>
+                                                <div class="text orange"><?php echo $views['stream']['event_review']; ?></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -698,9 +698,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey"><?php echo $value->getComment()->getLoveCounter(); ?></a>
@@ -737,7 +737,7 @@ if (is_null($streamBox->error)) {
                             </div>
                             <div class="small-6 columns propriety">
                                 <div class="note grey-light">
-                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                    <?php echo ucwords(strftime("%A %e %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
                                 </div>
                             </div>
 
@@ -748,7 +748,7 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">Record Review</div>
+                                                <div class="text orange"><?php echo $views['stream']['record_review']; ?></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -771,9 +771,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey"><?php echo $value->getComment()->getLoveCounter(); ?></a>
@@ -810,7 +810,7 @@ if (is_null($streamBox->error)) {
                             </div>
                             <div class="small-6 columns propriety">
                                 <div class="note grey-light">
-                                    <?php echo $value->getCreatedAt()->format('l j F Y - H:i'); ?>
+                                    <?php echo ucwords(strftime("%A %e %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
                                 </div>
                             </div>
 
@@ -821,7 +821,7 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">Just added</div>
+                                                <div class="text orange"><?php echo $views['stream']['just_added']; ?></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -848,9 +848,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey">72</a>
@@ -900,7 +900,7 @@ if (is_null($streamBox->error)) {
                                     <div class="small-12 columns ">
                                         <div class="row  ">
                                             <div class="large-12 columns ">
-                                                <div class="text orange">Just added</div>
+                                                <div class="text orange"><?php echo $views['stream']['just_added']; ?></div>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -927,9 +927,9 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')">Love</a>
-                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')">Comment</a>
-                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')">Share</a>
+                                    <a class="note grey" onclick="love(this, 'Comment', 'Khlv07KRGH', '')"><?php echo $views['LOVE']; ?></a>
+                                    <a class="note grey" onclick="setCounter(this,'Khlv07KRGH','EventReview')"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="share(this,'Khlv07KRGH','social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">					
                                     <a class="icon-propriety _unlove grey">1</a>

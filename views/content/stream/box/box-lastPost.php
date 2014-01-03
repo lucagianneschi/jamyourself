@@ -26,22 +26,15 @@ $posts = $postBox->postArray;
 
 if (count($posts) == 0) {
     ?>
-    <p>Your last post is...</p>
-    <h5>Ops! You have not written anything yet!</h5>
+    <p><?php echo $views['stream']['last_post']; ?></p>
+    <h5><?php echo $views['stream']['not_yet']; ?></h5>
     <?php
 } else {
     $post = current($posts);
-    if (in_array($currentUser->getObjectId(), $post->getLovers())) {
-	$css_love = '_unlove grey';
-	$text_love = $views['LOVE'];
-    } else {
-	$css_love = '_love orange';
-	$text_love = $views['UNLOVE'];
-    }
     ?>
     <div id='<?php echo $post->getObjectId(); ?>'>
     	<br /><br />
-        <p class="grey">Your last post is...</p>
+        <p class="grey"><?php echo $views['stream']['last_post']; ?></p>
         <h5 style="margin-top:0"><?php echo $post->getText(); ?>	</h5>
         <!-- p class="grey"> <?php echo $post->getCreatedAt()->format('l j F Y - H:i'); ?></p -->
         <br />

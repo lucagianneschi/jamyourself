@@ -8,10 +8,9 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'userInfo.box.php';
 
-if(session_id() == '')
-	session_start();
+if (session_id() == '') session_start();
     
-if(!isset($_SESSION['currentUser'])) {
+if (!isset($_SESSION['currentUser'])) {
     header('Location: login.php');
 } else {
 	$currentUser = $_SESSION['currentUser'];

@@ -16,7 +16,7 @@ require_once ROOT_DIR . 'config.php';
 							<div class="small-12 columns">
 								<div class="welcome-stream">
 									<img src="resources/images/stream/<?php echo $currentUser->getType(); ?>.png" />
-                                    <h3>Welcome <?php echo $currentUser->getType(); ?>!</h3>
+                                    <h3><?php echo $views['stream']['welcome']; ?> <?php echo $currentUser->getType(); ?>!</h3>
                                     <div id="box-lastPost"></div>
                                     <script type="text/javascript">
                                         function loadBoxLastPost() {
@@ -46,12 +46,13 @@ require_once ROOT_DIR . 'config.php';
 						
 						<div class="row">
 							<div class="small-12 columns">
-								<h3 id="discover">What are you looking for?</h3>
+								<h3 id="discover"><?php echo $views['stream']['looking_for']; ?></h3>
 							</div>	
 						</div>
                         
                         <div id="search">
 						
+                        <!-- Search by Music -->
 						<div class="box" id="discoverMusic" style="display: none;">
 							<div class="row formBlack">
 								<div class="large-12 columns">
@@ -61,39 +62,39 @@ require_once ROOT_DIR . 'config.php';
 											<div class="large-12 columns" style="margin-bottom: 25px;">
 												<label for="location" class="error">
 													<input type="text" name="location" id="location" pattern="" data-invalid="">
-			        								Search by city
+			        								<?php echo $views['stream']['search_city']; ?>
 			        							</label>
 			        						</div>
 			        					</div>
 			        					
 			        					<div class="row">
 			        						<div class="small-12 columns">
-										        <label style="padding-bottom: 0px !important;">Select genre <span class="orange">*</span><small class="error"> Please enter a Genre</small></label>		
+										        <label style="padding-bottom: 0px !important;"><?php echo $views['stream']['select_genre']; ?></label>		
 										        <div id="tag-music">
-                                                    <input type="checkbox" name="tag-music0" id="tag-music0" value="acoustic" class="no-display"><label for="tag-music0">Acoustic</label>
-                                                    <input type="checkbox" name="tag-music1" id="tag-music1" value="alternative" class="no-display"><label for="tag-music1">Alternative</label>
-                                                    <input type="checkbox" name="tag-music2" id="tag-music2" value="ambient" class="no-display"><label for="tag-music2">Ambient</label>
-                                                    <input type="checkbox" name="tag-music3" id="tag-music3" value="dance" class="no-display"><label for="tag-music3">Dance</label>
-                                                    <input type="checkbox" name="tag-music4" id="tag-music4" value="dark" class="no-display"><label for="tag-music4">Dark</label>
-                                                    <input type="checkbox" name="tag-music5" id="tag-music5" value="electronic" class="no-display"><label for="tag-music5">Electronic</label>
-                                                    <input type="checkbox" name="tag-music6" id="tag-music6" value="experimental" class="no-display"><label for="tag-music6">Experimental</label>
-                                                    <input type="checkbox" name="tag-music7" id="tag-music7" value="folk" class="no-display"><label for="tag-music7">Folk</label>
-                                                    <input type="checkbox" name="tag-music8" id="tag-music8" value="funk" class="no-display"><label for="tag-music8">Funk</label>
-                                                    <input type="checkbox" name="tag-music9" id="tag-music9" value="grunge" class="no-display"><label for="tag-music9">Grunge</label>
-                                                    <input type="checkbox" name="tag-music10" id="tag-music10" value="hardcore" class="no-display"><label for="tag-music10">Hardcore</label>
-                                                    <input type="checkbox" name="tag-music11" id="tag-music11" value="house" class="no-display"><label for="tag-music11">House</label>
-                                                    <input type="checkbox" name="tag-music12" id="tag-music12" value="indie_rock" class="no-display"><label for="tag-music12">Indie Rock</label>
-                                                    <input type="checkbox" name="tag-music13" id="tag-music13" value="instrumental" class="no-display"><label for="tag-music13">Instrumental</label>
-                                                    <input type="checkbox" name="tag-music14" id="tag-music14" value="jazz_blues" class="no-display"><label for="tag-music14">Jazz&amp;Blues</label>
-                                                    <input type="checkbox" name="tag-music15" id="tag-music15" value="metal" class="no-display"><label for="tag-music15">Metal</label>
-                                                    <input type="checkbox" name="tag-music16" id="tag-music16" value="pop" class="no-display"><label for="tag-music16">Pop</label>
-                                                    <input type="checkbox" name="tag-music17" id="tag-music17" value="progressive" class="no-display"><label for="tag-music17">Progressive</label>
-                                                    <input type="checkbox" name="tag-music18" id="tag-music18" value="punk" class="no-display"><label for="tag-music18">Punk</label>
-                                                    <input type="checkbox" name="tag-music19" id="tag-music19" value="rap_hip_hop" class="no-display"><label for="tag-music19">Rap/Hip-Hop</label>
-                                                    <input type="checkbox" name="tag-music20" id="tag-music20" value="rock" class="no-display"><label for="tag-music20">Rock</label>
-                                                    <input type="checkbox" name="tag-music21" id="tag-music21" value="ska" class="no-display"><label for="tag-music21">Ska</label>
-                                                    <input type="checkbox" name="tag-music22" id="tag-music22" value="songwriter" class="no-display"><label for="tag-music22">Songwriter</label>
-                                                    <input type="checkbox" name="tag-music23" id="tag-music23" value="techno" class="no-display"><label for="tag-music23">Techno</label>
+                                                    <input type="checkbox" name="tag-music0" id="tag-music0" value="acoustic" class="no-display"><label for="tag-music0"><?php echo $views['tag']['music']['acoustic']; ?></label>
+                                                    <input type="checkbox" name="tag-music1" id="tag-music1" value="alternative" class="no-display"><label for="tag-music1"><?php echo $views['tag']['music']['alternative']; ?></label>
+                                                    <input type="checkbox" name="tag-music2" id="tag-music2" value="ambient" class="no-display"><label for="tag-music2"><?php echo $views['tag']['music']['ambient']; ?></label>
+                                                    <input type="checkbox" name="tag-music3" id="tag-music3" value="dance" class="no-display"><label for="tag-music3"><?php echo $views['tag']['music']['dance']; ?></label>
+                                                    <input type="checkbox" name="tag-music4" id="tag-music4" value="dark" class="no-display"><label for="tag-music4"><?php echo $views['tag']['music']['dark']; ?></label>
+                                                    <input type="checkbox" name="tag-music5" id="tag-music5" value="electronic" class="no-display"><label for="tag-music5"><?php echo $views['tag']['music']['electronic']; ?></label>
+                                                    <input type="checkbox" name="tag-music6" id="tag-music6" value="experimental" class="no-display"><label for="tag-music6"><?php echo $views['tag']['music']['experimental']; ?></label>
+                                                    <input type="checkbox" name="tag-music7" id="tag-music7" value="folk" class="no-display"><label for="tag-music7"><?php echo $views['tag']['music']['folk']; ?></label>
+                                                    <input type="checkbox" name="tag-music8" id="tag-music8" value="funk" class="no-display"><label for="tag-music8"><?php echo $views['tag']['music']['funk']; ?></label>
+                                                    <input type="checkbox" name="tag-music9" id="tag-music9" value="grunge" class="no-display"><label for="tag-music9"><?php echo $views['tag']['music']['grunge']; ?></label>
+                                                    <input type="checkbox" name="tag-music10" id="tag-music10" value="hardcore" class="no-display"><label for="tag-music10"><?php echo $views['tag']['music']['hardcore']; ?></label>
+                                                    <input type="checkbox" name="tag-music11" id="tag-music11" value="house" class="no-display"><label for="tag-music11"><?php echo $views['tag']['music']['house']; ?></label>
+                                                    <input type="checkbox" name="tag-music12" id="tag-music12" value="indie_rock" class="no-display"><label for="tag-music12"><?php echo $views['tag']['music']['indie_rock']; ?></label>
+                                                    <input type="checkbox" name="tag-music13" id="tag-music13" value="instrumental" class="no-display"><label for="tag-music13"><?php echo $views['tag']['music']['instrumental']; ?></label>
+                                                    <input type="checkbox" name="tag-music14" id="tag-music14" value="jazz_blues" class="no-display"><label for="tag-music14"><?php echo $views['tag']['music']['jazz_blues']; ?></label>
+                                                    <input type="checkbox" name="tag-music15" id="tag-music15" value="metal" class="no-display"><label for="tag-music15"><?php echo $views['tag']['music']['metal']; ?></label>
+                                                    <input type="checkbox" name="tag-music16" id="tag-music16" value="pop" class="no-display"><label for="tag-music16"><?php echo $views['tag']['music']['pop']; ?></label>
+                                                    <input type="checkbox" name="tag-music17" id="tag-music17" value="progressive" class="no-display"><label for="tag-music17"><?php echo $views['tag']['music']['progressive']; ?></label>
+                                                    <input type="checkbox" name="tag-music18" id="tag-music18" value="punk" class="no-display"><label for="tag-music18"><?php echo $views['tag']['music']['punk']; ?></label>
+                                                    <input type="checkbox" name="tag-music19" id="tag-music19" value="rap_hip_hop" class="no-display"><label for="tag-music19"><?php echo $views['tag']['music']['rap_hip_hop']; ?></label>
+                                                    <input type="checkbox" name="tag-music20" id="tag-music20" value="rock" class="no-display"><label for="tag-music20"><?php echo $views['tag']['music']['rock']; ?></label>
+                                                    <input type="checkbox" name="tag-music21" id="tag-music21" value="ska" class="no-display"><label for="tag-music21"><?php echo $views['tag']['music']['ska']; ?></label>
+                                                    <input type="checkbox" name="tag-music22" id="tag-music22" value="songwriter" class="no-display"><label for="tag-music22"><?php echo $views['tag']['music']['songwriter']; ?></label>
+                                                    <input type="checkbox" name="tag-music23" id="tag-music23" value="techno" class="no-display"><label for="tag-music23"><?php echo $views['tag']['music']['techno']; ?></label>
                                                 </div>
 										    </div>
 			        					</div>
@@ -103,7 +104,7 @@ require_once ROOT_DIR . 'config.php';
 										        <!--<div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span> Mandatory fields</div>-->
 										    </div>	
 										    <div class="small-6 columns">
-										        <input type="submit" name="" id="" class="buttonNext" value="Search" style="float: right;"
+										        <input type="submit" name="" id="" class="buttonNext" value="<?php echo $views['stream']['search']; ?>" style="float: right;"
                                                 onclick="loadBoxResultRecord()" />
 										    </div>	
 										</div>
@@ -199,6 +200,7 @@ require_once ROOT_DIR . 'config.php';
                             });
                         </script>
 						
+						<!-- Search by Event -->
 						<div class="box" id="discoverEvent" style="display: none;">
 							<div class="row formBlack">
 								<div class="large-12 columns">
@@ -208,21 +210,46 @@ require_once ROOT_DIR . 'config.php';
 											<div class="large-8 columns" style="margin-bottom: 25px;">
 												<label for="eventTitle" class="error">
 													<input type="text" name="eventTitle" id="eventTitle" pattern="" data-invalid="">
-			        								Search by city
+			        								<?php echo $views['stream']['search_city']; ?>
 			        							</label>
 			        						</div>
 			        						
 			        						<div class="large-4 columns">
 											 	<input type="text" name="date" id="date" pattern="" class="hasDatepicker">
-								        		<label for="date">Date</label>
+								        		<label for="date"><?php echo $views['stream']['date']; ?></label>
 											 </div>	
 											 
 			        					</div>
 			        					
 			        					<div class="row">
 			        						<div class="small-12 columns">
-										        <label style="padding-bottom: 0px !important;">Select genre</label>		
-										        <div id="tag-music"><input type="checkbox" name="tag-event0" id="tag-event0" value="0" class="no-display"><label for="tag-music0">Acoustic</label><input type="checkbox" name="tag-event1" id="tag-event1" value="1" class="no-display"><label for="tag-music1">Alternative</label><input type="checkbox" name="tag-event1" id="tag-event1" value="2" class="no-display"><label for="tag-event1">Ambient</label><input type="checkbox" name="tag-music3" id="tag-music3" value="3" class="no-display"><label for="tag-music3">Dance</label><input type="checkbox" name="tag-music4" id="tag-music4" value="4" class="no-display"><label for="tag-music4">Dark</label><input type="checkbox" name="tag-music5" id="tag-music5" value="5" class="no-display"><label for="tag-music5">Electronic</label><input type="checkbox" name="tag-music6" id="tag-music6" value="6" class="no-display"><label for="tag-music6">Experimental</label><input type="checkbox" name="tag-music7" id="tag-music7" value="7" class="no-display"><label for="tag-music7">Folk</label><input type="checkbox" name="tag-music8" id="tag-music8" value="8" class="no-display"><label for="tag-music8">Funk</label><input type="checkbox" name="tag-music9" id="tag-music9" value="9" class="no-display"><label for="tag-music9">Grunge</label><input type="checkbox" name="tag-music10" id="tag-music10" value="10" class="no-display"><label for="tag-music10">Hardcore</label><input type="checkbox" name="tag-music11" id="tag-music11" value="11" class="no-display"><label for="tag-music11">House</label><input type="checkbox" name="tag-music12" id="tag-music12" value="12" class="no-display"><label for="tag-music12">Indie Rock</label><input type="checkbox" name="tag-music13" id="tag-music13" value="13" class="no-display"><label for="tag-music13">Instrumental</label><input type="checkbox" name="tag-music14" id="tag-music14" value="14" class="no-display"><label for="tag-music14">Jazz&amp;Blues</label><input type="checkbox" name="tag-music15" id="tag-music15" value="15" class="no-display"><label for="tag-music15">Metal</label><input type="checkbox" name="tag-music16" id="tag-music16" value="16" class="no-display"><label for="tag-music16">Pop</label><input type="checkbox" name="tag-music17" id="tag-music17" value="17" class="no-display"><label for="tag-music17">Progressive</label><input type="checkbox" name="tag-music18" id="tag-music18" value="18" class="no-display"><label for="tag-music18">Punk</label><input type="checkbox" name="tag-music19" id="tag-music19" value="19" class="no-display"><label for="tag-music19">Rap/Hip-Hop</label><input type="checkbox" name="tag-event10" id="tag-event10" value="20" class="no-display"><label for="tag-event10">Rock</label><input type="checkbox" name="tag-event11" id="tag-event11" value="21" class="no-display"><label for="tag-event11">Ska</label><input type="checkbox" name="tag-event12" id="tag-event12" value="22" class="no-display"><label for="tag-event12">Songwriter</label><input type="checkbox" name="tag-event13" id="tag-event13" value="23" class="no-display"><label for="tag-event13">Techno</label></div>
+										        <label style="padding-bottom: 0px !important;"><?php echo $views['stream']['select_genre']; ?></label>
+                                                <div id="tag-event">
+                                                    <input type="checkbox" name="tag-event0" id="tag-event0" value="acoustic" class="no-display"><label for="tag-event0"><?php echo $views['tag']['music']['acoustic']; ?></label>
+                                                    <input type="checkbox" name="tag-event1" id="tag-event1" value="alternative" class="no-display"><label for="tag-event1"><?php echo $views['tag']['music']['alternative']; ?></label>
+                                                    <input type="checkbox" name="tag-event2" id="tag-event2" value="ambient" class="no-display"><label for="tag-event2"><?php echo $views['tag']['music']['ambient']; ?></label>
+                                                    <input type="checkbox" name="tag-event3" id="tag-event3" value="dance" class="no-display"><label for="tag-event3"><?php echo $views['tag']['music']['dance']; ?></label>
+                                                    <input type="checkbox" name="tag-event4" id="tag-event4" value="dark" class="no-display"><label for="tag-event4"><?php echo $views['tag']['music']['dark']; ?></label>
+                                                    <input type="checkbox" name="tag-event5" id="tag-event5" value="electronic" class="no-display"><label for="tag-event5"><?php echo $views['tag']['music']['electronic']; ?></label>
+                                                    <input type="checkbox" name="tag-event6" id="tag-event6" value="experimental" class="no-display"><label for="tag-event6"><?php echo $views['tag']['music']['experimental']; ?></label>
+                                                    <input type="checkbox" name="tag-event7" id="tag-event7" value="folk" class="no-display"><label for="tag-event7"><?php echo $views['tag']['music']['folk']; ?></label>
+                                                    <input type="checkbox" name="tag-event8" id="tag-event8" value="funk" class="no-display"><label for="tag-event8"><?php echo $views['tag']['music']['funk']; ?></label>
+                                                    <input type="checkbox" name="tag-event9" id="tag-event9" value="grunge" class="no-display"><label for="tag-event9"><?php echo $views['tag']['music']['grunge']; ?></label>
+                                                    <input type="checkbox" name="tag-event10" id="tag-event10" value="hardcore" class="no-display"><label for="tag-event10"><?php echo $views['tag']['music']['hardcore']; ?></label>
+                                                    <input type="checkbox" name="tag-event11" id="tag-event11" value="house" class="no-display"><label for="tag-event11"><?php echo $views['tag']['music']['house']; ?></label>
+                                                    <input type="checkbox" name="tag-event12" id="tag-event12" value="indie_rock" class="no-display"><label for="tag-event12"><?php echo $views['tag']['music']['indie_rock']; ?></label>
+                                                    <input type="checkbox" name="tag-event13" id="tag-event13" value="instrumental" class="no-display"><label for="tag-event13"><?php echo $views['tag']['music']['instrumental']; ?></label>
+                                                    <input type="checkbox" name="tag-event14" id="tag-event14" value="jazz_blues" class="no-display"><label for="tag-event14"><?php echo $views['tag']['music']['jazz_blues']; ?></label>
+                                                    <input type="checkbox" name="tag-event15" id="tag-event15" value="metal" class="no-display"><label for="tag-event15"><?php echo $views['tag']['music']['metal']; ?></label>
+                                                    <input type="checkbox" name="tag-event16" id="tag-event16" value="pop" class="no-display"><label for="tag-event16"><?php echo $views['tag']['music']['pop']; ?></label>
+                                                    <input type="checkbox" name="tag-event17" id="tag-event17" value="progressive" class="no-display"><label for="tag-event17"><?php echo $views['tag']['music']['progressive']; ?></label>
+                                                    <input type="checkbox" name="tag-event18" id="tag-event18" value="punk" class="no-display"><label for="tag-event18"><?php echo $views['tag']['music']['punk']; ?></label>
+                                                    <input type="checkbox" name="tag-event19" id="tag-event19" value="rap_hip_hop" class="no-display"><label for="tag-event19"><?php echo $views['tag']['music']['rap_hip_hop']; ?></label>
+                                                    <input type="checkbox" name="tag-event20" id="tag-event20" value="rock" class="no-display"><label for="tag-event20"><?php echo $views['tag']['music']['rock']; ?></label>
+                                                    <input type="checkbox" name="tag-event21" id="tag-event21" value="ska" class="no-display"><label for="tag-event21"><?php echo $views['tag']['music']['ska']; ?></label>
+                                                    <input type="checkbox" name="tag-event22" id="tag-event22" value="songwriter" class="no-display"><label for="tag-event22"><?php echo $views['tag']['music']['songwriter']; ?></label>
+                                                    <input type="checkbox" name="tag-event23" id="tag-event23" value="techno" class="no-display"><label for="tag-event23"><?php echo $views['tag']['music']['techno']; ?></label>
+                                                </div>
 										    </div>
 			        					</div>
 			        					
@@ -231,7 +258,7 @@ require_once ROOT_DIR . 'config.php';
 										        <!--<div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span> Mandatory fields</div>-->
 										    </div>	
 										    <div class="small-6 columns">
-										        <input type="submit" name="" id="" class="buttonNext" value="Search" style="float: right;" onclick="result()" />
+										        <input type="submit" name="" id="" class="buttonNext" value="<?php echo $views['stream']['search']; ?>" style="float: right;" onclick="result()" />
 										    </div>	
 										</div>
 			        					
@@ -243,10 +270,10 @@ require_once ROOT_DIR . 'config.php';
 						<div class="box">
 							<div class="row">
 								<div class="large-6 columns">
-									<div class="discover-button" id="btn-music" onclick="discover('music')">Music</div>
+									<div class="discover-button" id="btn-music" onclick="discover('music')"><?php echo $views['stream']['music']; ?></div>
 								</div>
 								<div class="large-6 columns">
-									<div class="discover-button" id="btn-event" onclick="discover('event')">Events</div>
+									<div class="discover-button" id="btn-event" onclick="discover('event')"><?php echo $views['stream']['events']; ?></div>
 								</div>
 							</div>
 						</div>
