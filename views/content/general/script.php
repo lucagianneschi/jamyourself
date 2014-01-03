@@ -80,6 +80,7 @@
 <script type="text/javascript" src="resources/javascripts/customs/playlist.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/header.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/share.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/access.js"></script>
 
 <?php
 switch (basename($_SERVER['PHP_SELF'])) {
