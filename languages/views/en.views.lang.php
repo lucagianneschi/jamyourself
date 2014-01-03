@@ -154,6 +154,31 @@ $views = array(
 			'MESSAGE_RELATION' => 'view all requests',
 		)
     ),
+    'FOOTER' => array(
+		'STAYTUNEDON' => 'Stay tuned on',
+        'ABOUTJAM' => 'About Jamyoursef',
+        'ABOUTUS' => 'About us',
+        'VIRTUALTOUR' => 'Virtual Tour',
+        'CARRER' => 'Career',
+        'TERMSCONDITION' => 'Terms & Condition',
+        'LICENSES' => 'Licenses',
+        'PRINCINGPOLICY' => 'Princing Policy',
+        'SUPPORT' => 'Support',
+        'GUIDE' => 'Guide',
+        'FAQ' => 'FAQ',
+        'PLUGIN' => 'Plugin',
+        'REFOUNDPOLICY' => 'Refound Policy',
+        'RESOURCES' => 'Resources',
+        'API' => 'API',
+        'MOBILE' => 'Mobile',
+        'LOGOSBADGE' => 'Logos and Badge',
+        'PRESRESOURCES' => 'Pres Resources',
+        'ADVRESOURCES' => 'ADV Resources',
+        'CONTACT' => 'Contact',
+        'REPORTABUSE' => 'Report abuse',
+        'WRITEUS' => 'Write us',
+        'NEWSLETTER' => 'Newsletter'
+    ),
     'tag' => array(
         'music' => array(
             'acoustic' => 'Acoustic',
