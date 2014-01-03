@@ -1,5 +1,5 @@
 <?php
-$username = "";		
+$username = '';
 if (isset($_SESSION['currentUser'])) {
 	$currentUser = $_SESSION['currentUser'];
 	$username = $currentUser->getUsername();
@@ -10,7 +10,7 @@ if (isset($_SESSION['currentUser'])) {
 		<div id="footer-header" onClick="footerShow()">
 			<div class="row">
 				<div class="large-2 columns hide-for-small" >
-					<div class="user grey">Stay tuned on</div>
+					<div class="user grey"><?php echo $views['FOOTER']['STAYTUNEDON']; ?></div>
 				</div>
 				<div class="large-5 small-6 columns">
 					<a class="ico-label _facebook"></a>
@@ -22,10 +22,10 @@ if (isset($_SESSION['currentUser'])) {
 				<div class="large-5 small-1 columns">
 					<div class="row">
 						<div class="large-1 small-1 columns">
-							<a class="ico-label _off"></a>	
+							<a class="ico-label _off" onclick="access(null, null, 'logout', null)"></a>
 						</div>
 						<div class="large-11 columns hide-for-small">						
-							<div class="user"><?php echo $username?></div>									
+							<div class="user"><?php echo $username; ?></div>									
 						</div>		
 					</div>						
 				</div>
@@ -33,38 +33,38 @@ if (isset($_SESSION['currentUser'])) {
 		</div>
 		<div id="footer-body" class="no-display">
 			<div class="row">
-				<div class="large-12 columns">							
+				<div class="large-12 columns">					
 					<br>	
 					<div class="row">
 						<div class="small-3 columns">
-							<h5>About Jamyoursef</h5>
-							<a href="#">About us</a><br>
-							<a href="#">Virtual Tour</a><br>
-							<a href="#">Career</a><br>
-							<a href="#">Terms & Condition</a><br>
-							<a href="#">Licenses</a><br>
-							<a href="#">Princing Policy</a><br>
+							<h5><?php echo $views['FOOTER']['ABOUTJAM']; ?></h5>
+							<a href="#"><?php echo $views['FOOTER']['ABOUTUS']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['VIRTUALTOUR']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['CAREER']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['TERMSCONDITION']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['LICENSES']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['PRINCINGPOLICY']; ?></a><br>
 						</div>
 						<div class="small-3 columns">
-							<h5>Support</h5>
-							<a href="#">Guide</a><br>
-							<a href="#">FAQ</a><br>
-							<a href="#">Plugin</a><br>
-							<a href="#">Refound Policy</a><br>
+							<h5><?php echo $views['FOOTER']['SUPPORT']; ?></h5>
+							<a href="#"><?php echo $views['FOOTER']['GUIDE']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['FAQ']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['PLUGIN']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['REFOUNDPOLICY']; ?></a><br>
 						</div>	
 						<div class="small-3 columns">
-							<h5>Resources</h5>							
-							<a href="#">API</a><br>
-							<a href="#">Mobile</a><br>
-							<a href="#">Logos and Badge</a><br>
-							<a href="#">Pres Resources</a><br>
-							<a href="#">ADV Resources</a><br>
+							<h5><?php echo $views['FOOTER']['RESOURCES']; ?></h5>							
+							<a href="#"><?php echo $views['FOOTER']['API']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['MOBILE']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['LOGOSBADGE']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['PRESRESOURCES']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['ADVRESOURCES']; ?></a><br>
 						</div>	
 						<div class="small-3 columns">
-							<h5>Contact</h5>
-							<a href="#">Report abuse</a><br>
-							<a href="#">Write us</a><br>
-							<a href="#">Newsletter</a>
+							<h5><?php echo $views['FOOTER']['CONTACT']; ?></h5>
+							<a href="#"><?php echo $views['FOOTER']['REPORTABUSE']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['WRITEUS']; ?></a><br>
+							<a href="#"><?php echo $views['FOOTER']['NEWSLETTER']; ?></a>
 						</div>		
 					</div>
 					
