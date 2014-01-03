@@ -10,61 +10,65 @@ require_once BOXES_DIR . 'userInfo.box.php';
 
 if(session_id() == '')
 	session_start();
-if(isset($_SESSION['currentUser']))
-	$currentUser = $_SESSION['currentUser'];
-$userObjectId = $_GET['user'];
-
-$userInfoBox = new UserInfoBox();
-$userInfoBox->init($userObjectId);
-
-if (is_null($userInfoBox->error)) {
-	$user = $userInfoBox->user;
-	?>
-	<!DOCTYPE html>
-	<!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
-	<!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
-		<head>
-			<title>Jamyourself</title>
-			<!-------------------------- METADATI --------------------------->
-			<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
-		</head>
-		<body>
-			<!-------------------------- HEADER --------------------------->
-			<?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
-			<!-------------------------- BODY --------------------------->
-			<?php require_once(VIEWS_DIR . 'content/profile/main.php'); ?>
-			<!-------------------------- FOOTER --------------------------->
-			<?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
-			<!-------------------------- SCRIPT --------------------------->
-			<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
-			<script>
-				<?php	if($user->getType() == 'JAMMER'){ ?>
-				loadBoxRecord();
-				<?php } ?>		
-				loadBoxAlbum();
-				loadBoxRecordReview();
-				loadBoxEventReview();
-				//loadBoxActivity();
-				loadBoxPost();
-				<?php
-				if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
-					?>
-					loadBoxEvent();
-					loadBoxCollaboration();
-					loadBoxFollowers();
-					<?php
-				} elseif ($user->getType() == 'SPOTTER') {
-					?>
-					loadBoxFriends();
-					loadBoxFollowing();
-					<?php
-				}
-				?>
-			</script>
-		</body>
-	</html>
-	<?php
+    
+if(!isset($_SESSION['currentUser'])) {
+    header('Location: login.php');
 } else {
-	echo 'Errore';
+	$currentUser = $_SESSION['currentUser'];
+    $userObjectId = $_GET['user'];
+
+    $userInfoBox = new UserInfoBox();
+    $userInfoBox->init($userObjectId);
+
+    if (is_null($userInfoBox->error)) {
+        $user = $userInfoBox->user;
+        ?>
+        <!DOCTYPE html>
+        <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
+        <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
+            <head>
+                <title>Jamyourself</title>
+                <!-------------------------- METADATI --------------------------->
+                <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
+            </head>
+            <body>
+                <!-------------------------- HEADER --------------------------->
+                <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
+                <!-------------------------- BODY --------------------------->
+                <?php require_once(VIEWS_DIR . 'content/profile/main.php'); ?>
+                <!-------------------------- FOOTER --------------------------->
+                <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
+                <!-------------------------- SCRIPT --------------------------->
+                <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
+                <script>
+                    <?php	if($user->getType() == 'JAMMER'){ ?>
+                    loadBoxRecord();
+                    <?php } ?>		
+                    loadBoxAlbum();
+                    loadBoxRecordReview();
+                    loadBoxEventReview();
+                    //loadBoxActivity();
+                    loadBoxPost();
+                    <?php
+                    if ($user->getType() == 'JAMMER' || $user->getType() == 'VENUE') {
+                        ?>
+                        loadBoxEvent();
+                        loadBoxCollaboration();
+                        loadBoxFollowers();
+                        <?php
+                    } elseif ($user->getType() == 'SPOTTER') {
+                        ?>
+                        loadBoxFriends();
+                        loadBoxFollowing();
+                        <?php
+                    }
+                    ?>
+                </script>
+            </body>
+        </html>
+        <?php
+    } else {
+        echo 'Errore';
+    }
 }
 
