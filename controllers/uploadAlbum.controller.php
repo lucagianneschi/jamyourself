@@ -77,7 +77,7 @@ class UploadAlbumController extends REST {
             $user = $_SESSION['currentUser'];
             $userId = $user->getObjectId();
 
-            $this->response(array("status" => $controllers['RECORDSAVED'], "id" => $savedAlbum->getObjectId()), 200);
+            $this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $savedAlbum->getObjectId()), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -93,7 +93,7 @@ class UploadAlbumController extends REST {
         require_once CLASSES_DIR . 'activityParse.class.php';
         $activity = new Activity();
         $activity->setActive(true);
-        $activity->setAlbum($albumId);        
+        $activity->setAlbum($albumId);
         $activity->setCounter(0);
         $activity->setEvent(null);
         $activity->setFromUser($fromUser);
@@ -174,17 +174,15 @@ class UploadAlbumController extends REST {
             }
 
             if (!is_null($filter)) {
-                require_once CONTROLLERS_DIR . 'utilsController.php';                
+                require_once CONTROLLERS_DIR . 'utilsController.php';
                 echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
             } else {
-                echo json_encode($currentUserFeaturingArray);                
+                echo json_encode($currentUserFeaturingArray);
             }
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
-
-
 
     public function getImagesList() {
         try {
@@ -209,7 +207,7 @@ class UploadAlbumController extends REST {
 // mi serve: id, src, 
                 $returnInfo[] = json_encode(array("id" => $image->getObjectId(), "src" => $image->getFilePath()));
             }
-            $this->response(array("status" => $controllers['COUNTSONGOK'], "imageList" => $returnInfo, "count" => count($imagesList)), 200);
+            $this->response(array("status" => $controllers['COUNTALBUMOK'], "imageList" => $returnInfo, "count" => count($imagesList)), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
@@ -303,6 +301,52 @@ class UploadAlbumController extends REST {
         }
         else
             return false;
+    }
+
+    public function getAlbums() {
+        global $controllers;
+        if ($this->get_request_method() != "POST") {
+            $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
+        } elseif (!isset($_SESSION['currentUser'])) {
+            $this->response($controllers['USERNOSES'], 402);
+        }
+
+        require_once BOXES_DIR . "album.box.php";      
+        $albumBox = new AlbumBox();
+        $albumBox->initForUploadAlbumPage();
+
+        $albumList = array();
+        if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
+            foreach ($albumBox->albumArray as $album) {
+                $retObj = array();
+                $retObj["thumbnail"] = $this->getAlbumThumbnailURL(sessionChecker(), $album->getThumbnailCover());
+                $retObj["title"] = $album->getTitle();
+                $retObj["images"] = $album->getImageCounter();
+                $retObj["albumId"] = $album->getObjectId();
+                $albumList[] = $retObj;
+            }
+        }
+
+        $this->response(array("status" => $controllers['GETALBUMSSOK'], "albumList" => $albumList, "count" => count($albumList)), 200);
+    }
+
+    private function getAlbumThumbnailURL($userId, $albumCoverThumb) {
+        try {
+            if (!is_null($albumCoverThumb) && strlen($albumCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
+                $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb" . DIRECTORY_SEPARATOR . $albumCoverThumb;
+                if (!file_exists($path)) {
+                    return DEFALBUMTHUMB;
+                } else {
+                    return "../users/" . $userId . "/images/recordcoverthumb/" . $albumCoverThumb;
+                }
+            } else {
+                $path = DEFALBUMTHUMB;
+            }
+
+            return DEFALBUMTHUMB;
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
     }
 
 }
