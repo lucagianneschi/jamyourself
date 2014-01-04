@@ -6,23 +6,9 @@ var json_album_create = {};
 var imageList = new Array();
 $(document).ready(function() {
 
+    getAlbums();
     initFeaturing();
-    //scorrimento lista album  
-    var sliderInstance = $("#uploadAlbum-listAlbumTouch").touchCarousel({
-        pagingNav: false,
-        snapToItems: true,
-        itemsPerMove: 1,
-        scrollToLast: false,
-        loopItems: false,
-        scrollbar: false,
-        dragUsingMouse: false
-    }).data("touchCarousel");
-    //gestione select album record
-    $('.uploadAlbum-boxSingleAlbum').click(function() {
-        $("#uploadAlbum01").fadeOut(100, function() {
-            $("#uploadAlbum03").fadeIn(100);
-        });
-    });
+
     //gesione button create new 
     $('#uploadAlbum-new').click(function() {
         $("#uploadAlbum01").fadeOut(100, function() {
@@ -70,7 +56,7 @@ $(document).foundation('abide', {
     focus_on_invalid: true,
     timeout: 1000,
     patterns: {
-        description: exp_description,
+        description: exp_description
     }
 });
 function initFeaturing() {
@@ -140,9 +126,7 @@ function initImgUploader() {
         });
         uploader.bind('Init', function(up, params) {
         });
-
         uploader.init();
-
         uploader.bind('FilesAdded', function(up, files) {
             try {
                 $.each(files, function() {
@@ -266,11 +250,9 @@ function startEventsImage(img, id) {
             this.embed($(id).get(0), {
             });
         };
-
         img.onembedded = function() {
             this.destroy();
         };
-
         img.onerror = function() {
             this.destroy();
         };
@@ -291,7 +273,7 @@ function publish() {
 
 }
 
-function publishCallback(data,status,xhr) {
+function publishCallback(data, status, xhr) {
     try {
         console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
         if (status === "success") {
@@ -322,4 +304,70 @@ function getImagesInfo() {
     } catch (err) {
         window.console.log("getImagesInfo | An error occurred - message : " + err.message);
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+//
+// Gestione carosello album
+//
+////////////////////////////////////////////////////////////////////////////////
+function getAlbums() {
+
+    try {
+        sendRequest("uploadAlbum", "getAlbums", null, getAlbumsCallback, false);
+    } catch (err) {
+        window.console.log("getAlbums | An error occurred - message : " + err.message);
+    }
+}
+function getAlbumsCallback(data, status, xhr) {
+    try {
+        console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+        if (status === "success") {
+            if (data.count !== undefined && data.count !== null && data.count > 0) {
+                for (var i = 0; i < data.count; i++) {
+                    $("#albumList").append(getCarouselElementHTML(data.albumList[i]));
+                }
+                onCarouselReady();
+            }
+        } else {
+            console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+        }
+
+    } catch (err) {
+        window.console.log("getAlbumsCallback | An error occurred - message : " + err.message);
+    }
+}
+function getCarouselElementHTML(obj) {
+    var html = '<li class="touchcarousel-item">' +
+            '<div class="item-block uploadAlbum-boxSingleAlbum" id="' + obj.albumId + '">' +
+            '<div class="row uploadAlbum-rowSingleAlbum">' +
+            '<div  class="small-6 columns ">' +
+            '<img class="coverAlbum"  src="' + obj.thumbnail + '"> ' +
+            '</div>' +
+            '<div  class="small-6 columns title">' +
+            '<div class="sottotitle white">' + obj.title + '</div>' +
+            '<div class="text white">' + obj.images + ' photos</div>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '</li>';
+    return html;
+}
+function onCarouselReady() {
+    //scorrimento lista album  
+    var sliderInstance = $("#uploadAlbum-listAlbumTouch").touchCarousel({
+        pagingNav: false,
+        snapToItems: true,
+        itemsPerMove: 1,
+        scrollToLast: false,
+        loopItems: false,
+        scrollbar: false,
+        dragUsingMouse: false
+    }).data("touchCarousel");
+    //gestione select album record
+    $('.uploadAlbum-boxSingleAlbum').click(function() {
+        $("#uploadAlbum01").fadeOut(100, function() {
+            $("#uploadAlbum03").fadeIn(100);
+        });
+    });
 }
