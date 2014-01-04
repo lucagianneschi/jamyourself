@@ -223,7 +223,14 @@ $controllers = array(
     //PLAYER
     'ACTSONGNOTPLAYED' => 'Unable to save activity for last song played',
     'SONGPLAYED' => 'Activity for last song played saved',
-    'ERRORSONGINFO' => 'Unable to retrive record info for save activity for last song played'
+    'ERRORSONGINFO' => 'Unable to retrive record info for save activity for last song played',
+    //ALBUM
+    'NOALBUMTITLE' => 'No title specified for this album',
+    'NOALBUMDESCRIPTION' => 'No description specified for this album',
+    'ALBUMSAVED' => 'Album saved with success',
+    'NOIMAGEFORALBUM' => 'No images found for this album',
+    'COUNTALBUMOK' => 'Ok',
+    'GETALBUMSSOK' => 'Album loaded with success'
 );
 
 $mail_files = array(

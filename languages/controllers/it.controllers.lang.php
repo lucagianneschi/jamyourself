@@ -224,7 +224,14 @@ $controllers = array(
      //PLAYER
     'ACTSONGNOTPLAYED' => 'Impossibile salvare activity per ultima canzone suonata',
     'SONGPLAYED' => 'Activity salvata per ultima canzone suonata',
-    'ERRORSONGINFO' => 'Impossibile recuperare la info del record per salvare activity per ultima canzone suonata'
+    'ERRORSONGINFO' => 'Impossibile recuperare la info del record per salvare activity per ultima canzone suonata',
+    //ALBUM
+    'NOALBUMTITLE' => 'Nessun titolo specificato per quest album',
+    'NOALBUMDESCRIPTION' => 'Nessuna descrizione specificata per quest album',
+    'ALBUMSAVED' => 'Album salvato con successo',
+    'NOIMAGEFORALBUM' => 'Nessun immagine trovata per quest album',
+    'COUNTALBUMOK' => 'Ok',
+    'GETALBUMSSOK' => 'Album caricati con successo'
 );
 
 $mail_files = array(
