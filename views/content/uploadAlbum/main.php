@@ -2,7 +2,6 @@
 	<div class="row formBlack" id="uploadAlbum">
 		
 		<div  class="large-12 columns">
-			<?php if(isset($_SESSION['currentUser'])){ ?>
 			<div class="row">
 				<div  class="large-12 columns">
 					<h3>Upload Photo</h3>
@@ -25,9 +24,6 @@
 				
 				</div>
 			</div>
-			<?php }
-					else echo 'Errore: Utente non loggato'
-				?> 
 		</div>
 		
 	</div>	
