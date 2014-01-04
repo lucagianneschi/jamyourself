@@ -497,15 +497,15 @@ class UploadRecordController extends REST {
             if (!is_null($recordCoverThumb) && strlen($recordCoverThumb) > 0 && !is_null($userId) && strlen($userId) > 0) {
                 $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $recordCoverThumb;
                 if (!file_exists($path)) {
-                    return DEFALBUMCOVER;
+                    return DEFRECORDTHUMB;
                 } else {
                     return "../users/" . $userId . "/images/recordcoverthumb/" . $recordCoverThumb;
                 }
             } else {
-                $path = DEFALBUMCOVER;
+                $path = DEFRECORDTHUMB;
             }
 
-            return DEFALBUMCOVER;
+            return DEFRECORDTHUMB;
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
