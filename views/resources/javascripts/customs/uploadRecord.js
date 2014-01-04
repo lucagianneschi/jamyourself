@@ -3,7 +3,6 @@ var json_album_create = {'city': null};
 var uploader = null;
 var json_album = {"list": []};
 var recordLoader = null;
-var spinner_records;
 //-------------- variabili per jcrop ----------------------//
 var type_user,
         input_x,
@@ -657,7 +656,6 @@ function initGeocomplete() {
 
 function getUserRecords() {
     try {
-        //  startSpinnerForRecords();
         goSpinner('#records_spinner');
         sendRequest("uploadRecord", "getUserRecords", null, getUserRecordsCallback, true);
     } catch (err) {
