@@ -155,9 +155,9 @@ $playlistCurrentUser = array();
 			<div id="add" style="display: none;">
 				<div class="row">
 					<div class="large-12 columns">
-						<div class="add-btn"><?php echo $views['header']['OPTADD1'] ?></div>
-						<div class="add-btn"><?php echo $views['header']['OPTADD2'] ?></div>
-						<div class="add-btn"><?php echo $views['header']['OPTADD3'] ?></div>
+						<div class="add-btn" onclick="location.href='uploadRecord.php'"><?php echo $views['header']['OPTADD1'] ?></div>
+						<div class="add-btn" onclick="location.href='uploadEvent.php'"><?php echo $views['header']['OPTADD2'] ?></div>
+						<div class="add-btn" onclick="location.href='uploadAlbum.php'"><?php echo $views['header']['OPTADD3'] ?></div>
 					</div>
 				</div>
 			</div>
