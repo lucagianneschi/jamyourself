@@ -46,16 +46,51 @@ if (isset($userObjectId)) {
 	else $css_msg = '';
 	if($relation == 0) $css_rel = 'no-display';
 	else $css_rel = '';
-
+	
+	
+	try {
+		switch ($typeNotification) {
+			case 'notification':				
+				$detailNotification ->initForDetailedList($userType);
+				$numNot = $totNotification;
+				$other = '';	
+				break;
+			case 'message':
+				$detailNotification ->initForMessageList();
+				$numNot = $message;
+				$other = $views['header']['social']['MESSAGE_MSG'];	
+				break;
+			case 'event':
+				$detailNotification ->initForEventList();
+				$numNot = $invited;
+				$other = $views['header']['social']['MESSAGE_EVENT'];	
+				break;
+			case 'relation':
+				$detailNotification ->initForRelationList($userType);
+				$numNot = $relation;
+				$other = $views['header']['social']['MESSAGE_RELATION'];	
+				break;
+			default:
+				break;
+		}
+	} catch(Exception $e) {
+	}
 	?>
 	<!---------------------------------------- HEADER HIDE SOCIAL ----------------------------------->
+	<script>
+		var rsi_not;
+		$(document).ready(function(){
+		  rsi_not = slideReview('box-notification');
+		  
+		});
+	</script>
 	<div class="row">
 		<div  class="large-12 columns" style="margin-bottom: 29px">
 			<div class="row">
 				<div  class="large-4 columns hide-for-small">	
 					<h3 class="inline"><?php echo $views['header']['social']['TITLE'] ?></h3>
 				</div>	
-				<div  class="large-8 columns" style="margin-top: 10px">
+				<div  class="large-4 columns" style="margin-top: 10px">
 					<a class="ico-label _flag inline" onclick="loadBoxSocial('notification','<?php echo $userObjectId?>','<?php echo $userType  ?>')" >
 						<span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span>
 					</a>
@@ -63,37 +98,31 @@ if (isset($userObjectId)) {
 					<a class="ico-label _calendar inline" onclick="loadBoxSocial('event','<?php echo $userObjectId?>','<?php echo $userType  ?>')" ><span class="round alert label iconNotification <?php echo $css_inv ?>"><?php echo $invited ?></span></a>
 					<a class="ico-label _friend inline"  onclick="loadBoxSocial('relation','<?php echo $userObjectId?>','<?php echo $userType  ?>')" ><span class="round alert label iconNotification <?php echo $css_rel ?>"><?php echo $relation ?></span></a>
 				</div>
+				<div  class="large-4 columns">
+					<?php if ($numNot > 4) { ?>
+					<div class="row align-right">					
+						<div  class="small-9 columns">
+							<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="slidePrev(this, rsi_not)"></a>
+						</div>
+						<div  class="small-3 columns">
+							<a class="slide-button-next _nextPage" onclick="slideNext(this, rsi_not)"></a>
+						</div>
+					</div>
+					<?php } ?>
+				</div>	
+				
 			</div>											
 		</div>					
 	</div>
-	<div id="box-notification">
+	
+	<div class="royalSlider contentSlider rsDefault" id="box-notification">		
 	<!------------------------------------ notification ------------------------------------------->
 	<?php
-	try {
-		switch ($typeNotification) {
-			case 'notification':				
-				$detailNotification ->initForDetailedList($userType);
-				$other = '';	
-				break;
-			case 'message':
-				$detailNotification ->initForMessageList();
-				$other = $views['header']['social']['MESSAGE_MSG'];	
-				break;
-			case 'event':
-				$detailNotification ->initForEventList();
-				$other = $views['header']['social']['MESSAGE_EVENT'];	
-				break;
-			case 'relation':
-				$detailNotification ->initForRelationList($userType);
-				$other = $views['header']['social']['MESSAGE_RELATION'];	
-				break;
-			default:
-				break;
-		}
-	} catch(Exception $e) {
-	} 
+	
+	$index = 0;
 	if (count($detailNotification->notificationArray) > 0) {
 		foreach ($detailNotification->notificationArray as $key => $value) {
+			if ($index % 4 == 0) {?><div class="rsContent">	<?php }
 			$createdAd = $value->createdAt->format('d/m/Y H:i');
 			$user_objectId = $value->fromUserInfo->objectId;
 			$user_thumb = $value->fromUserInfo->thumbnail;
@@ -126,6 +155,7 @@ if (isset($userObjectId)) {
 					break;
 			}
 			?>
+			
 			<div class="row">
 				<div  class="large-1 columns hide-for-small">
 					<div class="icon-header">
@@ -146,18 +176,27 @@ if (isset($userObjectId)) {
 			<div class="row">
 				<div  class="large-12 columns"><div class="line"></div></div>
 			</div>
+			
 			<?php
+			if (($index+1) % 4 == 0 || count($detailNotification->notificationArray) == ($index+1)) { ?> </div> <?php }
+			$index++;
+			
 		}
 		?>
 		<!------------------------------------ fine notification ------------------------------------------->
-		<div class"row">
-			<div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK']?></strong> </a></div>
-			<div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other?></strong> </a></div>			
-		</div>
+		
 		
 		<?php
 	}?>
+	
 	</div>
+	<div class"row">
+		<div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK']?></strong> </a></div>
+		<div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other?></strong> </a></div>			
+	</div>
+	<script>		
+		rsi_not.updateSliderSize(true);
+	</script>
 <?php	
 }
 ?>

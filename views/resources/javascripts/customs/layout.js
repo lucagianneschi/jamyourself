@@ -129,7 +129,7 @@ function headerShow() {
     // Animation complete.
   	//$('#header-hide').height();
   	});
-	
+	rsi_not.updateSliderSize(true);
 }
 
 //Show footer

@@ -251,32 +251,6 @@ function getScrollBar(boxId){
 	return scrollbar;
 }
 
-
- 
-function slideReview(idBox) {
-var rsi = $('#' + idBox).royalSlider({
-		arrowsNav : false,
-		arrowsNavAutoHide : false,
-		navigateByClick: false,
-		fadeinLoadedSlide : false,
-		controlNavigationSpacing : 0,
-		controlNavigation : 'none',
-		imageScaleMode : 'none',
-		imageAlignCenter : false,
-		blockLoop : false,
-		loop : false,
-		numImagesToPreload : 6,
-		transitionType : 'fade',
-		transitionSpeed : 300,
-		keyboardNavEnabled : true,
-		autoHeight: true,
-		block : {
-			delay : 400
-		}
-	}).data('royalSlider');
-	return rsi;
-}
-
 function royalSlideNext(btn, box){
 	var rsi;
 	switch(box) {

@@ -11,9 +11,10 @@ function loadBoxSocial(notification, objectId, userType){
 			$('#box-notification').slideUp();
 		}
 	}).done(function(message, status, xhr){			
-			$('#header-social').html(message);
-			$('#box-notification').slideDown();
-			
+			$('#header-social').html(message);			
+			$('#header-social').slideDown();
+			rsi_not = slideReview('box-notification');
+			rsi_not.updateSliderSize(true);
 			hcento();
 	}).fail(function(xhr){							
 			console.log($.parseJSON(xhr.responseText));					

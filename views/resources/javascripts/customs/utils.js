@@ -180,3 +180,56 @@ function getFeaturingList(containerId) {
 function supportsCanvas() {
     return !!document.createElement('canvas').getContext;
 }
+
+/*
+ * gestione per lo scorrimento dei box
+ */
+function slideReview(idBox) {
+	var rsi = $('#' + idBox).royalSlider({
+		arrowsNav : false,
+		arrowsNavAutoHide : false,
+		navigateByClick: false,
+		fadeinLoadedSlide : false,
+		controlNavigationSpacing : 0,
+		controlNavigation : 'none',
+		imageScaleMode : 'none',
+		imageAlignCenter : false,
+		blockLoop : false,
+		loop : false,
+		numImagesToPreload : 6,
+		transitionType : 'fade',
+		transitionSpeed : 300,
+		keyboardNavEnabled : true,
+		autoHeight: true,
+		block : {
+			delay : 400
+		}
+	}).data('royalSlider');
+	return rsi;
+}
+
+function slideNext(btn, rsi){
+	
+   	rsi.next();
+   	
+   	$(btn).parent().prev().children().removeClass('slide-button-prev-disabled');
+	
+	if(rsi.numSlides == rsi.currSlideId+1){
+		$(btn).addClass('slide-button-next-disabled');
+	}else{
+		$(btn).removeClass('slide-button-next-disabled');
+	}
+   	
+}
+
+function slidePrev(btn, rsi){
+	
+	rsi.prev();
+		
+   	$(btn).parent().next().children().removeClass('slide-button-next-disabled');
+	if(rsi.currSlideId == 0){
+		$(btn).addClass('slide-button-prev-disabled');
+	}else{
+		$(btn).removeClass('slide-button-prev-disabled');
+	}
+ }
