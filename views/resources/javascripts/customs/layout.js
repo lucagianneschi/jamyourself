@@ -49,7 +49,7 @@ $(document).ready(function() {
 });
 
 /*
- * visualizza solo una parte del profile 
+ * visualizza solo una parte del profile a seconda della dimensione dalla pagina
  */
 function showOneProfile(width){
 	if(width < 889){
