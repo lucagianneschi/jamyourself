@@ -151,8 +151,9 @@ $views = array(
 			'TITLE' => 'Notifiche',
 			'MESSAGE_MARK' => 'segna come letto',
 			'MESSAGE_EVENT' => 'vedi tutti gli eventi',
-			'MESSAGE_MSG' => 'vedi tutti i messaggi',
+			'MESSAGE_MSG' => 'vai alla pagina dei messaggi',
 			'MESSAGE_RELATION' => 'vedi tutte le richieste',
+			'NODATA' => 'Non ci sono Notifiche'
 		)
     ),
     'FOOTER' => array(

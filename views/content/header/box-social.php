@@ -186,10 +186,22 @@ if (isset($userObjectId)) {
 		<!------------------------------------ fine notification ------------------------------------------->
 		
 		
+		
 		<?php
+	
+
 	}?>
 	
-	</div>
+	</div>	
+	
+	<?php if(count($detailNotification->notificationArray) == 0){ ?>
+	<div class"row">
+		<div  class="large-12 columns"><?php echo $views['header']['social']['NODATA'] ?></div>
+	</div>	
+		
+	<?php }
+	else{
+	?>
 	<div class"row">
 		<div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK']?></strong> </a></div>
 		<div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other?></strong> </a></div>			
@@ -197,7 +209,10 @@ if (isset($userObjectId)) {
 	<script>		
 		rsi_not.updateSliderSize(true);
 	</script>
-<?php	
+	
+	<?php	
+	}
+		 
 }
 ?>
 	

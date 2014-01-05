@@ -148,11 +148,12 @@ $views = array(
 			'TITLE' => 'Now Playing',
 		),
 		'social' => array(
-			'TITLE' => 'Notification',
+			'TITLE' => 'Notifications',
 			'MESSAGE_MARK' => 'mark as read',
 			'MESSAGE_EVENT' => 'view all events',
-			'MESSAGE_MSG' => 'view all messages',
+			'MESSAGE_MSG' => 'go to page of messages',
 			'MESSAGE_RELATION' => 'view all requests',
+			'NODATA' => 'There are no Notifications'
 		)
     ),
     'FOOTER' => array(
