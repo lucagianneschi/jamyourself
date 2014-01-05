@@ -154,25 +154,32 @@ if (isset($userObjectId)) {
 				default:
 					break;
 			}
-			?>
+			if($value->type == 'M'){
 			
-			<div class="row">
-				<div  class="large-1 columns hide-for-small">
-					<div class="icon-header">
-						<img src="../media/<?php echo $defaultThum?>" onerror="this.src='<?php echo DEFTHUMB;?>'">
-					</div>
-				</div>
-				<div  class="large-11 columns">
-					<div class="row">
-						<div  class="large-8 columns" style="padding-right: 0px;">
-							<label class="text grey inline"><a class="icon-small <?php echo $css_icon ?> inline"></a><strong id="<?php echo $user_objectId?>"><?php echo $user_username?></strong><span id="<?php echo $objectId ?>"> <?php echo $text?></span></label>									
+			?>
+			<div onclick="location.href='message.php?user=<?php echo $user_objectId ?>'" style="cursor: pointer">
+			<?php } ?>	
+				<div class="row">
+					<div  class="large-1 columns hide-for-small">
+						<div class="icon-header">
+							<img src="../media/<?php echo $defaultThum?>" onerror="this.src='<?php echo DEFTHUMB;?>'">
 						</div>
-						<div  class="large-4 columns " style="padding-left: 0px;">
-							<label class="text grey-light inline" style="float: right !important"><?php echo $createdAd ?></label>
-						</div>	
+					</div>
+					<div  class="large-11 columns">
+						<div class="row">
+							<div  class="large-8 columns" style="padding-right: 0px;">
+								<label class="text grey inline"><a class="icon-small <?php echo $css_icon ?> inline"></a><strong id="<?php echo $user_objectId?>"><?php echo $user_username?></strong><span id="<?php echo $objectId ?>"> <?php echo $text?></span></label>									
+							</div>
+							<div  class="large-4 columns " style="padding-left: 0px;">
+								<label class="text grey-light inline" style="float: right !important"><?php echo $createdAd ?></label>
+							</div>	
+						</div>
 					</div>
 				</div>
-			</div>
+			<?php if($value->type == 'M'){ ?>
+			</div>	
+			<?php } ?>
+			
 			<div class="row">
 				<div  class="large-12 columns"><div class="line"></div></div>
 			</div>
