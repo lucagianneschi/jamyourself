@@ -89,16 +89,16 @@ if (is_null($recordBox->error)) {
 							$text_love = $views['LOVE'];
 						}
 						?>
-						<div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>">
+						<div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>" >
 							<!------------------ CODICE ALBUM: $record_objectId - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
 							<div class="row">
 								<div class="small-4 columns">
-									<img src="<?php echo $record_thumbnailCover ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
+									<img src="<?php echo $record_thumbnailCover ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;" onclick="location.href='record.php?record=<?php echo $record_objectId ?>'">
 								</div>
 								<div class="small-8 columns" style="height: 134px;">						
 									<div class="row">
 										<div class="large-12 columns">
-											<div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
+											<div class="sottotitle white breakOffTest" onclick="location.href='record.php?record=<?php echo $record_objectId ?>'"><?php echo $record_title ?></div>
 										</div>
 									</div>
 									<div class="row">
@@ -175,12 +175,12 @@ if (is_null($recordBox->error)) {
 					<div class="box-info-element">
 						<div class="row">
 							<div class="small-4 columns">
-								<img src="../media/<?php echo $recordSingle_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB;?>'" style="padding-bottom: 5px;">
+								<img src="../media/<?php echo $recordSingle_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB;?>'" onclick="location.href='record.php?record=<?php echo $recordSingle_objectId ?>'" style="padding-bottom: 5px;">
 							</div>
 							<div class="small-8 columns">						
 								<div class="row">
 									<div class="large-12 colums">
-										<div class="sottotitle white breakOffTest"><?php echo $recordSingle_title ?></div>
+										<div class="sottotitle white breakOffTest" onclick="location.href='record.php?record=<?php echo $recordSingle_objectId ?>'"><?php echo $recordSingle_title ?></div>
 									</div>
 								</div>				
 								<div class="row">
