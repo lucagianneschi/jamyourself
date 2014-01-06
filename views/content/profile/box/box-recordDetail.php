@@ -57,8 +57,10 @@ if(is_array($songs) && count($songs) > 0){
 		   'share' => $value->getShareCounter(), 
 		));
 		
-		
-	
+		if($value->getDuration() >= 3600)
+			$hoursminsandsecs = date('H:i:s',$value->getDuration());
+		else
+			$hoursminsandsecs = date('i:s',$value->getDuration());
 		 
 		?>
 		<div class="row  track" id="<?php echo $value->getObjectId(); ?>">
@@ -75,7 +77,7 @@ if(is_array($songs) && count($songs) > 0){
 						<a class="icon-propriety _remove-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this,"remove",<?php  echo $song; ?>)'> <?php echo $views['record']['REMOVEPLAYLIST'];?></a>											
 					</div>
 					<div class="small-3 columns track-nopropriety align-right" style="padding-right: 15px;">
-						<a class="icon-propriety "><?php echo $value->getDuration(); ?></a>	
+						<a class="icon-propriety "><?php echo $hoursminsandsecs ?></a>	
 					</div>		
 				</div>
 				<div class="row track-propriety" >
