@@ -88,7 +88,7 @@ $status_achievement3 = '_target3';
 		</ul>		
 	</div>
 </div>
-<div class="row">
+<div class="row <?php echo $type . ' ' . $currentUserType ?>" >
 	<div  class="large-12 columns"><div class="line"></div></div>
 </div>
 <?php if($type == "SPOTTER" && $currentUserType == "SPOTTER"){?>
@@ -96,7 +96,7 @@ $status_achievement3 = '_target3';
 	<div  class="large-12 columns">
 		<div class="status-button">
 			<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
-			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['ADDFRIEND'];?></div></a>
+			<a href="#" class="button bg-orange"><div class="icon-button _friend_status"><?php echo $views['status']['ADDFRIEND'];?></div></a>
 		</div>
 	</div>
 </div>
