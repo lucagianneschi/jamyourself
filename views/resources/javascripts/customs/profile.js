@@ -4,7 +4,6 @@ $(document).ready(function() {
 	 * apertura e chiusura testo review album e eventi social
 	 */
 	
-
 	$('.viewEventReview a').toggle(function() {
 		$('.textEventReview').removeClass('no-display');
 		$('.viewEventReview a strong').text('Close');
@@ -14,7 +13,7 @@ $(document).ready(function() {
 		$('.viewEventReview a strong').text('Read');
 	});
 
-	$("#social_list_achievement").touchCarousel({
+	$("#social_list_badge").touchCarousel({
 		pagingNav : false,
 		snapToItems : true,
 		itemsPerMove : 1,
@@ -22,7 +21,7 @@ $(document).ready(function() {
 		loopItems : false,
 		scrollbar : false
 	});
-
+/*
 	$(".royalSlider").royalSlider({
 		// options go here
 		// as an example, enable keyboard arrows nav
@@ -31,7 +30,7 @@ $(document).ready(function() {
 		controlNavigation : 'none',
 
 	});
-	 
+*/	 
  	cropText(null);
  	
  	
@@ -158,7 +157,7 @@ function setCounter(_this, objectId, classbox){
 }
 
 function slideAchievement(){	
-	$("#social_list_achievement").touchCarousel({
+	$("#social_list_badge").touchCarousel({
 		pagingNav : false,
 		snapToItems : true,
 		itemsPerMove : 1,

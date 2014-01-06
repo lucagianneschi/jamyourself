@@ -214,7 +214,7 @@ if (isset($userObjectId)) {
 		<div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other?></strong> </a></div>			
 	</div>
 	<script>		
-		rsi_not.updateSliderSize(true);
+	//	rsi_not.updateSliderSize(true);
 	</script>
 	
 	<?php	

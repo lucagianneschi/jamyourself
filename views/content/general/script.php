@@ -74,7 +74,7 @@
 
 <!------------------------------------- JAMYOURSELF ------------------------------------------>
 <script type="text/javascript" src="resources/javascripts/customs/layout.js"></script> 
-        <script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
+<script type="text/javascript" src="resources/javascripts/customs/utils.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/headerCallBox.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/player.js"></script>
 <script type="text/javascript" src="resources/javascripts/customs/playlist.js"></script>

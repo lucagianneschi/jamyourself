@@ -29,6 +29,7 @@ $status_achievement1 = '_target1';
 $status_achievement2 = '_target2';
 $status_achievement3 = '_target3';
 ?>
+
 <!------------------------------------------- STATUS ----------------------------------->
 <div class="row" id="social-status">
 	<div class="small-9 columns status">			
@@ -51,38 +52,38 @@ $status_achievement3 = '_target3';
 	<div  class="large-12 columns"><div class="line"></div></div>
 </div>
 <!------------------------------------ ACHIEVEMENT ----------------------------------------->
-<div class="row" id="social-achievement">
-	<div id="social_list_achievement" class="touchcarousel grey-blue">
+<div class="row" id="social-badge">
+	<div id="social_list_badge" class="touchcarousel grey-blue">
 		<ul class="touchcarousel-container">
 			<li class="touchcarousel-item">
-				<div data-tooltip class="item-block has-tip tip-left" title="Old School!"><img src="/media/images/badge/badgeOldSchool.png"</div></div>
+				<div data-tooltip class="item-block has-tip tip-left" title="Old School!"><img src="/media/images/badge/badgeOldSchool.png" /></div>
 			</li>
             <li class="touchcarousel-item">
-				<div data-tooltip class="item-block has-tip tip-left" title="Welcome on Board!"><img src="/media/images/badge/badgeWelcome.png"</div></div>
+				<div data-tooltip class="item-block has-tip tip-left" title="Welcome on Board!"><img src="/media/images/badge/badgeWelcome.png" /></div>
 			</li>
             <li class="touchcarousel-item">
-				<div data-tooltip class="item-block has-tip tip-left" title="Metal Addicted"><img src="/media/images/badge/badgeMetal.png"</div></div>
+				<div data-tooltip class="item-block has-tip tip-left" title="Metal Addicted"><img src="/media/images/badge/badgeMetal.png" /></div>
 			</li>
 			<li class="touchcarousel-item">
-				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png" /></div>
 			</li>		
 			<li class="touchcarousel-item">
-				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png" /></div>
 			</li>
             <li class="touchcarousel-item">
-				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
 			</li>
             <li class="touchcarousel-item">
-				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
 			</li>
             <li class="touchcarousel-item">
-				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
 			</li>
             <li class="touchcarousel-item">
-				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
 			</li>
             <li class="touchcarousel-item">
-				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"</div></div>
+				<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
 			</li>
 		</ul>		
 	</div>
@@ -93,50 +94,52 @@ $status_achievement3 = '_target3';
 <?php if($type == "SPOTTER" && $currentUserType == "SPOTTER"){?>
 <div class="row ">
 	<div  class="large-12 columns">
-	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['ADDFRIEND'];?></div></a>
-	</div>
+		<div class="status-button">
+			<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['ADDFRIEND'];?></div></a>
+		</div>
 	</div>
 </div>
 <?php }?>
 <?php if($type == "JAMMER" && ($currentUserType == "JAMMER" || $currentUserType == "VENUE")){?>
 <div class="row ">
 	<div  class="large-12 columns">
-	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['COLL'];?></div></a>
-	</div>
+		<div class="status-button">
+			<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['COLL'];?></div></a>
+		</div>
 	</div>
 </div>
 <?php }?>
 <?php if($type == "JAMMER" && ($currentUserType == "SPOTTER")){?>
 <div class="row ">
 	<div  class="large-12 columns">
-	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL'];?></div></a>
-	</div>
+		<div class="status-button">
+			<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL'];?></div></a>
+		</div>
 	</div>
 </div>
 <?php }?>
 <?php if($type == "VENUE" && ($currentUserType == "SPOTTER")){?>
 <div class="row ">
 	<div  class="large-12 columns">
-	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL'];?></div></a>
-	</div>
+		<div class="status-button">
+			<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL'];?></div></a>
+		</div>
 	</div>
 </div>
 <?php }?>
 <?php if($type == "VENUE" && ($currentUserType == "JAMMER")){?>
 <div class="row ">
 	<div  class="large-12 columns">
-	<div class="status-button">
-		<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['COLL'];?></div></a>
-	</div>
+		<div class="status-button">
+			<a href="#" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['COLL'];?></div></a>
+		</div>
 	</div>
 </div>
+
 <?php } ?>
+

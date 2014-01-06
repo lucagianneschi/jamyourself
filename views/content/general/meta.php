@@ -28,7 +28,7 @@
 <link rel="stylesheet" href="resources/stylesheets/headerstyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/messageStyle.css" />
 
-
+<!---------------- touchCarouser ------------------------>
 <link rel="stylesheet" href="resources/stylesheets/plugins/touchCarousel/touchcarousel.css" />
 <link rel="stylesheet" href="resources/stylesheets/plugins/touchCarousel/grey-blue-skin.css" />
 
