@@ -90,7 +90,7 @@ if (is_null($eventBox->error)) {
 							}						
 								?>
 								<!----------------------------------- SINGLE Event ------------------------------------>
-								<div class="box-element" id='<?php echo  $event_objectId ?>'>
+								<div class="box-element" id='<?php echo  $event_objectId ?>' onclick="location.href='event.php?event=<?php echo $event_objectId ?>'">
 									<div class="row">
 										<div class="small-4 columns" >
 											<img class="eventcover" src="../media/<?php echo $event_thumbnail; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB?>'">
