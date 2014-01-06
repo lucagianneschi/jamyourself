@@ -314,6 +314,7 @@ function getImagesInfo() {
 function getAlbums() {
 
     try {
+        goSpinner('#albums_spinner');
         sendRequest("uploadAlbum", "getAlbums", null, getAlbumsCallback, false);
     } catch (err) {
         window.console.log("getAlbums | An error occurred - message : " + err.message);
@@ -327,6 +328,7 @@ function getAlbumsCallback(data, status, xhr) {
                 for (var i = 0; i < data.count; i++) {
                     $("#albumList").append(getCarouselElementHTML(data.albumList[i]));
                 }
+//                stopSpinner('#albums_spinner');
                 onCarouselReady();
             }
         } else {

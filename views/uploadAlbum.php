@@ -9,7 +9,6 @@ require_once CONTROLLERS_DIR . 'uploadAlbum.controller.php';
 session_start();
 $uploadAlbumController = new UploadAlbumController();
 $uploadAlbumController->init();
-
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
@@ -44,9 +43,9 @@ $uploadAlbumController->init();
         ?>	
 
         <!-------------------------- SCRIPT --------------------------->
-		<?php
-		require_once(VIEWS_DIR . "content/general/script.php");
-		?>
+        <?php
+        require_once(VIEWS_DIR . "content/general/script.php");
+        ?>
     </body>
 
 </html>

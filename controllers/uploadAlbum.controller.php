@@ -60,24 +60,75 @@ class UploadAlbumController extends REST {
                 $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
             } elseif (!isset($_SESSION['currentUser'])) {
                 $this->response($controllers['USERNOSES'], 402);
-            } elseif (!isset($this->request['title']) || is_null($this->request['title']) || !(strlen($this->request['title']) > 0)) {
+            } elseif (!isset($this->request['albumTitle']) || is_null($this->request['albumTitle']) || !(strlen($this->request['albumTitle']) > 0)) {
                 $this->response(array('status' => $controllers['NOALBUMTITLE']), 400);
             } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
                 $this->response(array('status' => $controllers['NOALBUMDESCRIPTION']), 400);
+            } elseif (!isset($this->request['city']) || is_null($this->request['city'])) {
+                $this->response(array('status' => $controllers['NOALBUMLOCATION']), 400);
+            } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
+                $this->response(array('status' => $controllers['NOALBUMLOCATION']), 400);
             }
 
-//            title
-//            description
-//            featuring
-//            city
 
+            $currentUser = $_SESSION['currentUser'];
             $albumJSON = $this->request;
             $newAlbum = json_decode(json_encode($albumJSON), false);
 
-            $user = $_SESSION['currentUser'];
-            $userId = $user->getObjectId();
+            $album = new Album();
+            $album->setActive(true);
+            $album->setCommentCounter(0);
+            $album->setCounter(0);
+//            $album->setCover(); 
+            $album->setDescription($this->request['description']);
+            if(isset($this->request['featuring']) && is_array($this->request['featuring']) && count($this->request['featuring']) > 0){
+                $album->setFeaturing($this->request['featuring']);
+            }
+            
+            $album->setFromUser($currentUser->getObjectId());
+            $album->setImageCounter(0);
+//            $album->setImages();
+            $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
+            $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
+            $album->setLocation($parseGeoPoint);
+            $album->setLoveCounter();
+            $album->setLovers(array());
+            $album->setShareCounter(0);
+            $album->setTags(array());
+//            $album->setThumbnailCover();
+            $album->setTitle($this->request['albumTitle']);
+//            $album->setCreatedAt();
+//            $album->setUpdatedAt();
+//            $album->setACL();
+            
+            $albumParse = new AlbumParse();
+            $albumSaved = $albumParse->saveAlbum($album);
+            if($albumSaved instanceof Error){
+                $this->response(array('status' => $controllers['ALBUMNOTSAVED']), 400);                
+            }
+            
+            //activity per l'album
 
-            $this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $savedAlbum->getObjectId()), 200);
+            
+            
+            
+            //ora devo aggiungere tutte le foto
+            $albumId = $albumSaved->getObjectId();
+            $errorImages = array();
+            foreach($this->request['images'] as $image){
+                $res = $this->saveImage($image['src'], $image['description'], $image['featuring'], $albumId);
+                if($res instanceof Error || $res instanceof Exception){
+                    array_push($errorImages, $image);
+                }else{
+                    //activity per l'immagine
+                }
+            }
+
+
+            
+            
+            
+            $this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $albumSaved->getObjectId()), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -247,7 +298,7 @@ class UploadAlbumController extends REST {
                 return $savedImage;
             }
         } catch (Exception $e) {
-            return null;
+            return $e;
         }
     }
 
@@ -311,7 +362,7 @@ class UploadAlbumController extends REST {
             $this->response($controllers['USERNOSES'], 402);
         }
 
-        require_once BOXES_DIR . "album.box.php";      
+        require_once BOXES_DIR . "album.box.php";
         $albumBox = new AlbumBox();
         $albumBox->initForUploadAlbumPage();
 
@@ -347,6 +398,25 @@ class UploadAlbumController extends REST {
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
         }
+    }
+
+    private function validateAlbumImages($imageList) {
+        if (is_array($imageList) && count($imageList) > 0) {
+            foreach ($imageList as $elem) {
+                if (!isset($elem["description"]) || is_null($elem["description"]) || !( strlen($elem["description"]) > 0)) {
+                    return false;
+                }
+
+                if (!isset($elem["src"]) || is_null($elem["src"]) || !( strlen($elem["src"]) > 0)) {
+                    return false;
+                }
+
+                if (!isset($elem["featuring"]) || is_null($elem["featuring"]) || !is_array($elem["featuring"])) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }
