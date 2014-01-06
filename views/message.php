@@ -12,7 +12,7 @@ $currentUser = $_SESSION['currentUser'];
 
 //esempio: objectId dell'utente a cui si vuole vedere il profilo 
 $user = $_GET['user'];
-
+$toUser = $_GET['toUser'];
 
 ?>
 <!DOCTYPE html>
