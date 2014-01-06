@@ -207,7 +207,9 @@ function slideReview(idBox) {
 	}).data('royalSlider');
 	return rsi;
 }
-
+/*
+ * gestione pulsante next scorrimento box
+ */
 function slideNext(btn, rsi){
 	
    	rsi.next();
@@ -222,6 +224,9 @@ function slideNext(btn, rsi){
    	
 }
 
+/*
+ * gestione pulsante previus scorrimento box
+ */
 function slidePrev(btn, rsi){
 	
 	rsi.prev();
@@ -233,3 +238,4 @@ function slidePrev(btn, rsi){
 		$(btn).removeClass('slide-button-prev-disabled');
 	}
  }
+

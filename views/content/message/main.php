@@ -93,7 +93,7 @@ if($messageBox->error != ONLYIFLOGGEDIN){
 	}
 											
 </script>
-<div class="bg-white">
+<div class="bg-white formWhite">
 	<div class="row" style="padding-top: 3%;">
 		<div class="large-12 columns">
 			<div class="box-message">

@@ -1,34 +1,43 @@
 $(document).ready(function() {
 	
 	//lancia l'autocomplete	per caricare gli user nel campo to
-	autoComplete(".box-message input#to");
-   
+	//autoComplete(".box-message input#to");
+  
+	autoComplete('.box-message input#to');
+
+
   
 });	
 
-//autocomplete
-function autoComplete(box){
-	$(box).fcbkcomplete({
-        json_url: "../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON",
-        addontab: true,
-        width:"100%",
-        addoncomma: false,
-        firstselected: true,
-        input_min_size: 0,
-        height: 10,
-        cache: true,
-        maxshownitems: 10,
-        newel: false,
-        oncreate: function(){
-        	$('.bit-input input').attr("placeholder", "To:");        	
-        },
-        onselect: function(){        	
-       		$('.bit-input').addClass('no-display'); 			
-        },
-        onremove: function(){
-        	$('.bit-input').removeClass('no-display');
-        }
-    });
+/*
+ * 
+ */ 
+function autoComplete(box) {
+    try {
+        //inizializza le info in sessione
+        sendRequest("uploadAlbum", "getFeaturingJSON", {"force": true}, null, true);
+        $(box).select2({
+            multiple: false,
+            minimumInputLength: 1,
+            width: "100%",
+            ajax: {
+                url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
+                dataType: 'json',
+                data: function(term) {
+                    return {
+                        term: term
+                    };
+                },
+                results: function(data) {
+                    return {
+                        results: data
+                    };
+                }
+            }
+        });
+    } catch (err) {
+        window.console.log("initFeaturing | An error occurred - message : " + err.message);
+    }
 }
 
 /*
