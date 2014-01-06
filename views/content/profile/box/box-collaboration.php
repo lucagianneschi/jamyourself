@@ -58,7 +58,7 @@ if (is_null($collaboratorsBox->error)) {
 			                    }
 								?>
 								<div  class="small-6 columns">
-									<div class="box-membre">
+									<div class="box-membre" onclick="location.href='profile.php?user=<?php echo $value->getObjectId(); ?>'">
 										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
@@ -104,7 +104,7 @@ if (is_null($collaboratorsBox->error)) {
 									?>
 													  
 										<div  class="small-6 columns">
-											<div class="box-membre">
+											<div class="box-membre" onclick="location.href='profile.php?user=<?php echo $value->getObjectId(); ?>'">
 												<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 													<div  class="small-3 columns ">
 														<div class="icon-header">
@@ -162,7 +162,7 @@ if (is_null($collaboratorsBox->error)) {
 				                    }
 								?>
 								<div  class="small-6 columns">
-									<div class="box-membre">
+									<div class="box-membre" onclick="location.href='profile.php?user=<?php echo $value->getObjectId(); ?>'">
 										<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 											<div  class="small-3 columns ">
 												<div class="icon-header">
@@ -207,7 +207,7 @@ if (is_null($collaboratorsBox->error)) {
 									?>
 													  
 										<div  class="small-6 columns">
-											<div class="box-membre">
+											<div class="box-membre" onclick="location.href='profile.php?user=<?php echo $value->getObjectId(); ?>'">
 												<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 													<div  class="small-3 columns ">
 														<div class="icon-header">
