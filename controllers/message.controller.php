@@ -88,8 +88,8 @@ class MessageController extends REST {
 	try {
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    // } elseif (!isset($_SESSION['currentUser'])) {
+		// $this->response(array('status' => $controllers['USERNOSES']), 403);
 	    } elseif (!isset($this->request['message'])) {
 		$this->response(array('status' => $controllers['NOMESSAGE']), 403);
 	    } elseif (!isset($this->request['toUser'])) {
@@ -97,39 +97,32 @@ class MessageController extends REST {
 	    } elseif (!isset($this->request['title'])) {
 		$this->response(array('status' => $controllers['NOMESSAGETITLE']), 400);
 	    }
-	    $currentUser = $this->request['currentUser'];
+	    $currentUser = $_SESSION['currentUser'];
 	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
 	    if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
 		$this->response(array('status' => $controllers['NOSPAM']), 401);
 	    }
 	    $text = $this->request['message'];
-	    $title = $this->request['title'];
+//	    $title = $this->request['title'];
 	    if (strlen($text) < $this->config->minMessageSize) {
 		$this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
-	    } elseif (strlen($title) < $this->config->minTitleSize) {
-		$this->response(array('status' => $controllers['SHORTTITLEMESSAGE'] . strlen($text)), 406);
+//	    } elseif (strlen($title) < $this->config->minTitleSize) {
+//		$this->response(array('status' => $controllers['SHORTTITLEMESSAGE'] . strlen($text)), 406);
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
 	    require_once CLASSES_DIR . 'commentParse.class.php';
 	    $message = new Comment();
 	    $message->setActive(true);
-	    $message->setAlbum(null);
-	    $message->setComment(null);
 	    $message->setCommentCounter(0);
-	    $message->setCounter(0);
-	    $message->setEvent(null);
 	    $message->setFromUser($currentUser->getObjectId());
-	    $message->setImage(null);
 	    $message->setLocation(null);
 	    $message->setLoveCounter(0);
 	    $message->setLovers(array());
-	    $message->setRecord(null);
 	    $message->setShareCounter(0);
-	    $message->setStatus(null);
 	    $message->setTags(array());
 	    $message->setText($text);
-	    $message->setTitle($title);
+	    $message->setTitle(null);
 	    $message->setToUser($toUserId);
 	    $message->setType('M');
 	    $message->setVideo(null);
@@ -137,7 +130,7 @@ class MessageController extends REST {
 	    $commentParse = new CommentParse();
 	    $resCmt = $commentParse->saveComment($message);
 	    if ($resCmt instanceof Error) {
-		$this->response(array('status' => 'NOSAVEMESS'), 503);
+			$this->response(array('status' => 'NOSAVEMESS'), 503);
 	    }
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = $this->createActivity($currentUser->getObjectId(), $toUserId);

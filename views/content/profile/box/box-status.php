@@ -96,7 +96,7 @@ $status_achievement3 = '_target3';
 <div class="row ">
 	<div  class="large-12 columns">
 		<div class="status-button">
-			<a href="#" class="button bg-grey" onclick="location.href='message.php?toUser=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-grey" onclick="location.href='message.php?user=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
 			<a href="#" class="button bg-orange"><div class="icon-button _friend_status"><?php echo $views['status']['ADDFRIEND'];?></div></a>
 		</div>
 	</div>
@@ -106,7 +106,7 @@ $status_achievement3 = '_target3';
 <div class="row ">
 	<div  class="large-12 columns">
 		<div class="status-button">
-			<a href="#" class="button bg-grey" onclick="location.href='message.php?toUser=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-grey" onclick="location.href='message.php?user=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
 			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['COLL'];?></div></a>
 		</div>
 	</div>
@@ -116,7 +116,7 @@ $status_achievement3 = '_target3';
 <div class="row ">
 	<div  class="large-12 columns">
 		<div class="status-button">
-			<a href="#" class="button bg-grey" onclick="location.href='message.php?toUser=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-grey" onclick="location.href='message.php?user=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
 			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL'];?></div></a>
 		</div>
 	</div>
@@ -126,7 +126,7 @@ $status_achievement3 = '_target3';
 <div class="row ">
 	<div  class="large-12 columns">
 		<div class="status-button">
-			<a href="#" class="button bg-grey" onclick="location.href='message.php?toUser=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-grey" onclick="location.href='message.php?user=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
 			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL'];?></div></a>
 		</div>
 	</div>
@@ -136,7 +136,7 @@ $status_achievement3 = '_target3';
 <div class="row ">
 	<div  class="large-12 columns">
 		<div class="status-button">
-			<a href="#" class="button bg-grey" onclick="location.href='message.php?toUser=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
+			<a href="#" class="button bg-grey" onclick="location.href='message.php?user=<?php echo $objectId ?>'"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG'];?></div></a>
 			<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['COLL'];?></div></a>
 		</div>
 	</div>

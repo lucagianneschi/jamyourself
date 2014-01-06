@@ -35,6 +35,8 @@ if(isset($_POST['user'])){
 	if($messageBox->error != ONLYIFLOGGEDIN){
 		
 		$dataPrec = '';
+		
+		if(count($messageBox->messageArray) > 0){
 ?>
 
 
@@ -121,8 +123,26 @@ if(isset($_POST['user'])){
 	        </div>
 	    </div>
 	    <?php if($skip == 0){?>
-	    <textarea placeholder="Message"></textarea>
+	    <textarea placeholder="Message" id="textMessage"></textarea>
 	    <?php } ?>
 	</div>
 </div>
-<?php }}}?>
+	<?php }
+		else{ ?>
+		
+		<div class="row">
+            <div class="large-12 columns">
+            	<div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit+$skip ?>)"><small>Non ci sono messaggi</small></div>
+            </div>
+       </div>	
+			
+			
+		
+		<?php 	
+			
+		}
+	}
+					
+
+}
+}?>

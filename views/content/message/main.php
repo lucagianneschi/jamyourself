@@ -20,6 +20,7 @@ if(isset($user)){
 	$cssNewMessage = "";
 	
 }
+
 if($messageBox->error != ONLYIFLOGGEDIN){
 ?>
 <script type="text/javascript">
@@ -93,7 +94,8 @@ if($messageBox->error != ONLYIFLOGGEDIN){
 	}
 											
 </script>
-<div class="bg-white formWhite">
+<form class="formWhite" data-abide >
+<div class="bg-white ">
 	<div class="row" style="padding-top: 3%;">
 		<div class="large-12 columns">
 			<div class="box-message">
@@ -134,6 +136,7 @@ if($messageBox->error != ONLYIFLOGGEDIN){
 										            </div>
 										        </div>
 												<div id="box-listMsg">
+													<!--------------------------- lista utenti --------------------------->
 													<?php require_once './content/message/box-listMessages.php'; ?> 
 												</div>                                        
                                     	    </div>
@@ -145,17 +148,22 @@ if($messageBox->error != ONLYIFLOGGEDIN){
 								<div class="large-8 columns">
 									 <div id="box-messageSingle">
 									 	<?php if(isset($user)){ ?>
-										<script type="text/javascript">									
+										<script type="text/javascript">	
+										//------------------------  messaggi ---------------------------------------								
 										loadBoxMessages("<?php echo $user ?>",<?php echo LIMITMSG ?>, <?php echo SKIPMSG ?>);		
 										</script>
-										<?php } else{ ?>	
+										<?php } else{ 
+											$user = '';
+											?>	
 									 	<div class="row">
 											<div class="large-12 columns ">
-											    <h5>Write a new message</h5>	
-											    <input id="to" type="text" placeholder="To:">
-											    <textarea id="tomessage" placeholder="Message"></textarea>
+											    <h5>Write a new message</h5>
+											    <label for="to"><small class="error"> Please enter a valid User</small></label>
+											    <input id="to" type="text" placeholder="To:" required>											    
+											    <textarea id="textNewMessage" placeholder="Message"></textarea>
 											</div>
-										</div> 
+										</div>										
+										 
 										<?php } ?>           
                                     	
                                     </div>	                                              
@@ -166,7 +174,7 @@ if($messageBox->error != ONLYIFLOGGEDIN){
                           <br><br>
                             <div class="row">
                                 <div class="large-12">
-                                   <input type="button" class="buttonNext" value="Send">
+                                   <input type="button" class="buttonNext" value="Send" id="sendMessage" onclick="btSendMessage('<?php echo $user ?>')">
                                 </div>
                             </div>
                             
@@ -177,7 +185,7 @@ if($messageBox->error != ONLYIFLOGGEDIN){
 		</div>
 	</div>
 </div>
-
+</form>
 <?php
 }
 else{
