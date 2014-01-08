@@ -297,6 +297,11 @@ function getImagesInfo() {
                 elem.description = $("#descriptionPhoto_" + id).val();
                 elem.featuring = getFeaturingList('featuringPhoto_' + id);
                 elem.src = this.uploaded.src;
+                if ($('#idCover_'+id).is(':checked')) {
+                    elem.isCover = true;
+                } else {
+                    elem.isCover = false;
+                }
                 info.push(elem);
             }
         });
