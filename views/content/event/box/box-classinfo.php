@@ -41,6 +41,6 @@ $image = '../media/images/' . $event->getImage();
 			
 <div class="row">
 	<div class="large-12 columns">
-		<img class="background" src="../media/<?php echo $image; ?>"  onerror="this.src='<?php echo DEFBGD; ?>'" >						
+		<img class="background" src="../media/<?php echo $image; ?>"  onerror="this.src='<?php echo DEFEVENTIMAGE; ?>'" >						
 	</div>
 </div> 
