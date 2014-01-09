@@ -66,11 +66,12 @@ if (is_array($record->getLovers()) && in_array($currentUser->getObjectId(), $rec
 		<div  class="large-12 columns"><div class="line"></div></div>
 	</div>
 </div>
-
+<?php if($currentUser->getType() == 'SPOTTER'){ ?>
 <div class="row ">
 	<div  class="large-12 columns">
 	<div class="status-button">
-		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['media']['ADDREVIEW']?></div></a>
+		<a href="#" class="button bg-orange" onclick="location.href='uploadReview.php?rewiewId=<?php echo $record->getObjectId() ?>&type=Record'"><div class="icon-button _follower_status"><?php echo $views['media']['ADDREVIEW']?></div></a>
 	</div>
 	</div>
 </div>
+<?php } ?>
