@@ -11,6 +11,33 @@
 						<div id='box-information'>
 							<?php require_once(VIEWS_DIR . "content/record/box/box-information.php"); ?>
 						</div>
+						<div id="box-record"></div>
+						<script type="text/javascript">
+							function loadBoxRecord() {
+								var json_data = {};
+								json_data.objectId = '<?php echo $objectId; ?>';
+								$.ajax({
+									type: "POST",
+									url: "content/record/box/box-record.php",
+									data: json_data,
+									beforeSend: function(xhr) {
+										//spinner.show();
+										console.log('Sono partito loadBoxRecord()');
+									}
+								}).done(function(message, status, xhr) {
+									//spinner.hide();
+									$("#box-record").html(message);
+									code = xhr.status;
+									//console.log("Code: " + code + " | Message: " + message);
+									console.log("Code: " + code + " | Message: <omitted because too large>");
+								}).fail(function(xhr) {
+									//spinner.hide();
+									message = $.parseJSON(xhr.responseText).status;
+									code = xhr.status;
+									console.log("Code: " + code + " | Message: " + message);
+								});
+							}
+						</script>
 						
 					</div>
 				</div>

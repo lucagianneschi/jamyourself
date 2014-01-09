@@ -37,6 +37,7 @@ if(!isset($_SESSION['currentUser'])) {
                 <!-------------------------- SCRIPT --------------------------->
                 <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
                 <script type="text/javascript">
+                    loadBoxRecord();
                     loadBoxInformationFeaturing();
                     loadBoxRecordReview(3, 0);
                     loadBoxComment(3, 0);
