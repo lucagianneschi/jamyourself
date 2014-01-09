@@ -47,7 +47,7 @@ switch ( $record->getfromUser()->getType()) {
 		    <p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['media']['Information']['CONTENT1_RECORD'] ?></a></p>
 		    <div class="content" data-section-content>
 		    	
-				<div class="row " id="user_<?php echo $fromUserObjectId; ?>">
+				<div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>"  onclick="location.href='profile.php?user=<?php echo $fromUserObjectId ?>'">
 					<div class="small-1 columns ">
 						<div class="icon-header">
 							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='<?php echo $defaultThum;?>'">
