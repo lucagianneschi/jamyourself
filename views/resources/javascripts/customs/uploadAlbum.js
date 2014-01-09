@@ -47,7 +47,7 @@ $(document).ready(function() {
     });
     //gesione button publish 
     $('#uploadAlbum03-publish').click(function() {
-        window.console.log(JSON.stringify(imageList));
+        publish();
     });
 });
 // plugin di fondation per validare i campi tramite espressioni regolari (vedi sopra)
@@ -248,6 +248,9 @@ function startEventsImage(img, id) {
     try {
         img.onload = function() {
             this.embed($(id).get(0), {
+                width: 300,  //max width    
+                height: 300, //max height
+                crop: false     // true => immagini quadrate (ritagliate)
             });
         };
         img.onembedded = function() {
@@ -266,6 +269,7 @@ function publish() {
         json_album_create.albumTitle = $("#albumTitle").val();
         json_album_create.description = $("#description").val();
         json_album_create.images = getImagesInfo();
+        json_album_create.featuring = getFeaturingList("featuring");
         sendRequest("uploadAlbum", "albumCreate", json_album_create, publishCallback, false);
     } catch (err) {
         window.console.log("publish | An error occurred - message : " + err.message);

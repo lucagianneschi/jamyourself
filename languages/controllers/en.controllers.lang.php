@@ -230,7 +230,13 @@ $controllers = array(
     'ALBUMSAVED' => 'Album saved with success',
     'NOIMAGEFORALBUM' => 'No images found for this album',
     'COUNTALBUMOK' => 'Ok',
-    'GETALBUMSSOK' => 'Album loaded with success'
+    'GETALBUMSSOK' => 'Album loaded with success',
+    'NOALBUMLOCATION' => "No location specified",
+    'NOALBUMIMAGES' => 'No image loaded',
+    'ALBUMNOTSAVED' => 'Album creation failed',
+    'ALBUMSAVENOIMGSAVED' => 'Album saved, but no image saved',
+    'ALBUMSAVEDWITHERRORS' => 'Album saved, but some image throw errors',
+    'ALBUMSAVED' => 'Album created with success'
 );
 
 $mail_files = array(

@@ -231,7 +231,13 @@ $controllers = array(
     'ALBUMSAVED' => 'Album salvato con successo',
     'NOIMAGEFORALBUM' => 'Nessun immagine trovata per quest album',
     'COUNTALBUMOK' => 'Ok',
-    'GETALBUMSSOK' => 'Album caricati con successo'
+    'GETALBUMSSOK' => 'Album caricati con successo',
+    'NOALBUMLOCATION' => "Nessuna location specificata per l'album",
+    'NOALBUMIMAGES' => 'Nessuna immagine caricata',
+    'ALBUMNOTSAVED' => 'Album non creato',
+    'ALBUMSAVENOIMGSAVED' => 'Album creato, ma senza immagini',
+    'ALBUMSAVEDWITHERRORS' => 'Album creato, ma alcun immagini non sono state salvate',
+    'ALBUMSAVED' => 'Album creato correttamente'
 );
 
 $mail_files = array(

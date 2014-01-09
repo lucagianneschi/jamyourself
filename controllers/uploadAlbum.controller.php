@@ -22,6 +22,8 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once CLASSES_DIR . 'album.class.php';
+require_once CLASSES_DIR . 'albumParse.class.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
@@ -53,7 +55,7 @@ class UploadAlbumController extends REST {
      * \brief   funzione per pubblicazione dell'event
      * \modificare il nome in createAlbum
      */
-    public function createAlbum() {
+    public function albumCreate() {
         try {
             global $controllers;
             if ($this->get_request_method() != "POST") {
@@ -67,7 +69,7 @@ class UploadAlbumController extends REST {
             } elseif (!isset($this->request['city']) || is_null($this->request['city'])) {
                 $this->response(array('status' => $controllers['NOALBUMLOCATION']), 405);
             } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
-                $this->response(array('status' => $controllers['NOALBUMLOCATION']), 406);
+                $this->response(array('status' => $controllers['NOALBUMIMAGES']), 406);
             }
 
             $currentUser = $_SESSION['currentUser'];
@@ -86,7 +88,7 @@ class UploadAlbumController extends REST {
             $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
             $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
             $album->setLocation($parseGeoPoint);
-            $album->setLoveCounter();
+            $album->setLoveCounter(0);
             $album->setLovers(array());
             $album->setShareCounter(0);
             $album->setTags(array());
@@ -114,7 +116,7 @@ class UploadAlbumController extends REST {
             //ora devo aggiungere tutte le foto
             $errorImages = array();
             foreach ($this->request['images'] as $image) {
-                $resImage = $this->saveImage($image['src'], $image['description'], $image['featuring'], $albumId);
+                $resImage = $this->saveImage($image, $albumId);
                 if ($resImage instanceof Error || $resImage instanceof Exception || is_null($resImage)) {
                     array_push($errorImages, $image);
                 } else {
@@ -172,11 +174,11 @@ class UploadAlbumController extends REST {
         $activity->setCounter(0);
         $activity->setEvent(null);
         $activity->setFromUser($fromUser);
-        $activity->setImage(null);
+        $activity->setImage($imageId);
         $activity->setPlaylist(null);
         $activity->setQuestion(null);
         $activity->setRead(true);
-        $activity->setSong($imageId);
+        $activity->setSong(null);
         $activity->setStatus(null);
         $activity->setToUser(null);
         $activity->setType($type);
@@ -288,14 +290,15 @@ class UploadAlbumController extends REST {
         }
     }
 
-    private function saveImage($src, $description, $featuringArray, $albumId) {
+//    private function saveImage($src, $description, $featuringArray, $albumId) {
+    private function saveImage($imgInfo, $albumId) {
         try {
             $currentUser = $_SESSION['currentUser'];
-            $cachedFile = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $src;
+            $cachedFile = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $imgInfo['src'];
             if (!file_exists($cachedFile)) {
                 return null;
             } else {
-                if (!$this->moveFile($currentUser->getObjectId(), $albumId, $src)) {
+                if (!$this->moveFile($currentUser->getObjectId(), $albumId, $imgInfo['src'])) {
                     return null;
                 }
                 $image = new Image();
@@ -303,13 +306,13 @@ class UploadAlbumController extends REST {
                 $image->setAlbum($albumId);
                 $image->setCommentCounter(0);
                 $image->setCounter(0);
-                $image->setDescription($description);
-                if (is_array($featuringArray) && count($featuringArray) > 0) {
-                    $image->setFeaturing($featuringArray);
+                $image->setDescription($imgInfo['description']);
+                if (isset($imgInfo['featuring']) && is_array($imgInfo['featuring']) && count($imgInfo['featuring']) > 0) {
+                    $image->setFeaturing($imgInfo['featuring']);
                 } else {
                     $image->setFeaturing(null);
                 }
-                $image->setFilePath($src);
+                $image->setFilePath($imgInfo['src']);
                 $image->setFromUser($currentUser->getObjectId());
                 $image->setLocation(null);
                 $image->setLoveCounter(0);
@@ -363,7 +366,7 @@ class UploadAlbumController extends REST {
 
     private function moveFile($userId, $albumId, $fileInCache) {
         if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileInCache)) {
-            $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $albumId;
+            $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . $albumId;
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
@@ -431,9 +434,10 @@ class UploadAlbumController extends REST {
                 if (!isset($elem["src"]) || is_null($elem["src"]) || !( strlen($elem["src"]) > 0)) {
                     return false;
                 }
-                if (!isset($elem["featuring"]) || is_null($elem["featuring"]) || !is_array($elem["featuring"])) {
-                    return false;
-                }
+// featuring non obbligatori
+//                if (!isset($elem["featuring"]) || is_null($elem["featuring"]) || !is_array($elem["featuring"])) {
+//                    return false;
+//                }
                 if (!isset($elem["isCover"]) || is_null($elem["isCover"]) || !(strlen($elem["isCover"]) > 0)) {
                     return false;
                 }
