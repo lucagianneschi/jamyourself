@@ -98,7 +98,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                                 
                                 <div class="box">
                                 
-                                    <div class="row  line">
+                                    <div class="row  line" style="cursor: pointer" onclick="location.href='profile.php?user=<?php echo $comment_user_objectId ?>'">
                                         <div  class="small-1 columns ">
                                             <div class="icon-header">
                                                 <img src="../media/<?php echo $comment_user_thumbnail; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
