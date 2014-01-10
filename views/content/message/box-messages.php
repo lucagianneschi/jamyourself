@@ -132,7 +132,7 @@ if(isset($_POST['user'])){
 		
 		<div class="row">
             <div class="large-12 columns">
-            	<div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit+$skip ?>)"><small>Non ci sono messaggi</small></div>
+            	<div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit+$skip ?>)"><small>No Messages</small></div>
             </div>
        </div>	
 			
