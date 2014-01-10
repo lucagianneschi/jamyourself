@@ -1,7 +1,15 @@
+<?php
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+?>
 <div id="jammer-signup02"  class="no-display">
     <div class="row">
         <div  class="large-12 columns signup-title">
-            <h2><span id="signup02-jammer-name-artist"></span>tell us something about you:</h2>		
+            <h2><span id="signup02-jammer-name-artist"></span><?php echo $views['signup']['tell_us']; ?></h2>		
         </div>	
     </div>
     <div class="row signup-body">
@@ -15,19 +23,19 @@
                             </div>
                         </div>
                         <div  class="small-9 columns signup-box-avatar-text">							        						
-                            <a data-reveal-id="jammer-uploadImage" class="text orange">Upload Image</a>
+                            <a data-reveal-id="jammer-uploadImage" class="text orange"><?php echo $views['signup']['upload_image']; ?></a>
                             <div id="jammer-uploadImage" class="reveal-modal uploadImage-reveal">
                                 <div class="uploadImage" >
                                     <div class="row">
                                         <div  class="large-12 columns signup-title">
-                                            <h2>Upload Image</h2>		
+                                            <h2><?php echo $views['signup']['upload_image']; ?></h2>		
                                         </div>	
                                     </div>
                                     <div class="row">							
                                         <div id="jammer_container" class="small-5 small-centered columns align-center">
-                                            <div id="filelist">Upload not supported.</div>
+                                            <div id="filelist"><?php echo $views['signup']['invalid_image_format']; ?></div>
                                             <br />
-                                            <label class="uploadImage_file_label" for="jammer_uploadImage_file" id="jammer_uploadImage_file_label" style="width: 300px;">Select a file from your computer</label>
+                                            <label class="uploadImage_file_label" for="jammer_uploadImage_file" id="jammer_uploadImage_file_label" style="width: 300px;"><?php echo $views['signup']['select_file']; ?></label>
                                         </div>
                                     </div>
                                     <div class="row">							
@@ -56,23 +64,23 @@
                 <div  class="small-6 columns">
                     <div class="row">
                         <div  class="small-4 columns">
-                            <p id="jammer-typeArtist-label" class="text grey-light inline">I'm recording as <span class="orange">*</span><small class="error"> Please enter a type recording</small></p>					
+                            <p id="jammer-typeArtist-label" class="text grey-light inline"><?php echo $views['signup']['signing_as']; ?></small></p>					
                         </div>
                         <div  class="small-8 columns inline signup-radio">			
-                            <input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-musician" class="no-display inline" value ="musician" required><label for="jammer-typeArtist-musician" unchecked class="inline">Musician</label>
-                            <input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-band" class="no-display inline" value="band" required><label for="jammer-typeArtist-band" unchecked class="inline">Band</label>
+                            <input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-musician" class="no-display inline" value ="musician" required><label for="jammer-typeArtist-musician" unchecked class="inline"><?php echo $views['signup']['musician']; ?></label>
+                            <input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-band" class="no-display inline" value="band" required><label for="jammer-typeArtist-band" unchecked class="inline"><?php echo $views['signup']['band']; ?></label>
                         </div>	
                     </div>
-                    
+
                     <div class="row jammer-city-singup02">
                         <div  class="small-12 columns">									
                             <input type="text" name="jammer-location" id="jammer-city" pattern="description" maxlength="50" required />					
-                            <label for="jammer-city " class="inline">City <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>
+                            <label for="jammer-city " class="inline"><?php echo $views['signup']['city']; ?><span class="orange">*</span><small class="error"><?php echo $views['signup']['valid_city']; ?></small></label>
 
-                            <a href="#" data-reveal-id="jammer-myModal" class="location-reveal text grey">Why do you ask me?</a>
+                            <a href="#" data-reveal-id="jammer-myModal" class="location-reveal text grey"><?php echo $views['signup']['localization_question']; ?></a>
                             <div id="jammer-myModal" class="reveal-modal">
                                 <h3>Why do you ask me?</h3>					 
-                                <p class="grey">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                                <p class="grey"><?php echo $views['signup']['localization_answer']; ?></p>
                                 <a class="close-reveal-modal">&#215;</a>
                             </div>
                         </div>							
@@ -84,7 +92,7 @@
         <div id="jammer-component-signup02" class="no-display">
             <div class="row ">
                 <div  class="small-12 columns">
-                    <h3>Components</h3>
+                    <h3><?php echo $views['signup']['components']; ?></h3>
                 </div>	
             </div>
             <div class="row ">
@@ -92,13 +100,13 @@
                     <div class="row jammer-componentName1-singup02">
                         <div  class="small-12 columns">									
                             <input type="text" name="jammer-componentName1" id="jammer-componentName1" pattern="username" maxlength="50"/>								
-                            <label for="jammer-componentName1" >Name<small class="error"> Please enter a valid Name</small></label>
+                            <label for="jammer-componentName1" ><?php echo $views['signup']['name']; ?><small class="error"><?php echo $views['signup']['valid_name']; ?></small></label>
                         </div>							
                     </div>
                     <div class="row jammer-componentName2-singup02">
                         <div  class="small-12 columns">									
                             <input type="text" name="jammer-componentName2" id="jammer-componentName2" pattern="username" maxlength="50"/>								
-                            <label for="jammer-componentName2" >Name<small class="error"> Please enter a valid Name</small></label>
+                            <label for="jammer-componentName2" ><?php echo $views['signup']['name']; ?><small class="error"><?php echo $views['signup']['valid_name']; ?></small></label>
                         </div>							
                     </div>
                     <div id="addComponentName">
@@ -110,14 +118,14 @@
                         <div  class="small-12 columns">
                             <select id="jammer_componentInstrument1">																
                             </select>							
-                            <label for="jammer-componentInstrument1" >Instrument<small class="error"> Please enter a valid Instrument</small></label>
+                            <label for="jammer-componentInstrument1" ><?php echo $views['signup']['instrument']; ?><small class="error"><?php echo $views['signup']['valid_instrument']; ?></small></label>
                         </div>							
                     </div>
                     <div class="row jammer-componentInstrument2-singup02">
                         <div  class="small-12 columns">									
                             <select id="jammer_componentInstrument2">																
                             </select>								
-                            <label for="jammer-componentInstrument2" >Instrument<small class="error"> Please enter a valid Instrument</small></label>
+                            <label for="jammer-componentInstrument2" ><?php echo $views['signup']['instrument']; ?><small class="error"><?php echo $views['signup']['valid_instrument']; ?></small></label>
                         </div>							
                     </div>
                     <div id="addComponentInstrument">
@@ -127,14 +135,14 @@
             </div>
             <div class="row">
                 <div  class="small-3 small-centered columns">
-                    <div class="text orange addComponents">Add more components</div>
+                    <div class="text orange addComponents"><?php echo $views['signup']['add_components']; ?></div>
                 </div>
             </div>
         </div>			
     </div>
     <div class="row">
         <div  class="small-3 small-offset-1 columns">
-            <div class="note grey-light signup-note"><span class="orange">* </span> Mandatory fields</div>
+            <div class="note grey-light signup-note"><span class="orange">* </span><?php echo $views['mandatory_fields']; ?></div>
         </div>	
         <div  class="small-8 columns">
             <input type="button" name="jammer-signup02-back" id="jammer-signup02-back" class="signup-button-back" value="Go Back"/>
