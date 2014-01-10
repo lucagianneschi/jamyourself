@@ -5,15 +5,11 @@
  *  \version   1.0
  *  \date      2013
  *  \copyright Jamyourself.com 2013
- *
  *  \par       Info:
  *  \brief     English strings for views
  *  \warning
  *  \bug
- *  \todo      messaggio riga 279
- *
- *  
- *  
+ *  \todo      messaggio riga 279  
  */
 $views = array(
     'PREV' => 'Previous',
@@ -414,8 +410,9 @@ $views = array(
         'rating' => 'Rating',
         'performed' => 'Performed by',
         'rating' => 'Rating',
-        'feauturing' => 'Feauturing',
-        'write' => 'Write here your review'
+        'featuring' => 'Featuring',
+        'write' => 'Write here your review',
+	'your_rating' => 'Your Rating'
     )
 );
 ?>
