@@ -46,11 +46,11 @@
 					</div>	
 					<div class="youtube-label no-display">
 						<input type="text" name="venue-youtube" id="venue-youtube" pattern="url" placeholder="http://"/>								
-						<label for="venue-youtube">Url of your Youtube profile<small class="error"> Please enter a valid url</small></label>
+						<label for="venue-youtube">Url of your Youtube channel<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					<div class="web-label no-display">
 						<input type="text" name="venue-web" id="venue-web" pattern="url" placeholder="http://"/>								
-						<label for="venue-web">Url of your Web Site<small class="error"> Please enter a valid url</small></label>
+						<label for="venue-web">Url of your Website<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					
 				</div>	

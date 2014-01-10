@@ -59,7 +59,7 @@
                     <div class="row venue-city-singup02">
                         <div  class="small-12 columns">									
                             <input type="text" name="venue-city" id="venue-city" pattern="description" required/>								
-                            <label for="venue-city" >Address <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>
+                            <label for="venue-city" >Address <span class="orange">*</span><small class="error"> Please enter a valid Address</small></label>
                         </div>							
                     </div>	
                 </div>
