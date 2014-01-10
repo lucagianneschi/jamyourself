@@ -190,13 +190,13 @@ class UploadAlbumController extends REST {
                         $resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getFilePath());
                         if ($resUpdateCover instanceof Error) {
                             array_push($errorImages, $image);
-                            rollbackUploadAlbumController($resImage->getObjectId(), "Image", 1);
+                            rollbackUploadAlbumController($resImage->getObjectId(), "Image");
                             continue;
                         }
                         $resUpdateThumb = $albumParseUpdate->updateField($albumId, "thumbnailCover", $resImage->getThumbnail());
                         if ($resUpdateThumb instanceof Error) {
                             array_push($errorImages, $image);
-                            rollbackUploadAlbumController($resImage->getObjectId(), "Image", 2);
+                            rollbackUploadAlbumController($resImage->getObjectId(), "Image");
                             continue;
                         }
                     }
@@ -204,7 +204,7 @@ class UploadAlbumController extends REST {
                     $resRelation = $this->addImageToAlbum($album, $resImage->getObjectid());
                     if ($resRelation instanceof Error || $resRelation instanceof Exception || is_null($resRelation)) {
                         array_push($errorImages, $image);
-                        rollbackUploadAlbumController($resImage->getObjectId(), "Image", 3);
+                        rollbackUploadAlbumController($resImage->getObjectId(), "Image");
                         continue;
                     }
                 }
