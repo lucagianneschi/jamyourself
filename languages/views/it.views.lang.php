@@ -7,7 +7,7 @@
  *  \copyright Jamyourself.com 2013
  *
  *  \par       Info:
- *  \brief     English strings for views
+ *  \brief     Italian strings for views
  *  \warning
  *  \bug
  *  \todo
