@@ -10,7 +10,7 @@
  *  \brief     English strings for views
  *  \warning
  *  \bug
- *  \todo      messaggio riga 261
+ *  \todo      messaggio riga 279
  *
  *  
  *  
