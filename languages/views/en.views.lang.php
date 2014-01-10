@@ -24,6 +24,8 @@ $views = array(
     'COMM' => 'Comment',
     'SHARE' => 'Share',
     'REVIEW' => 'Review',
+    'CLOSE' => 'Close',
+    'VIEWALL' => 'View All',
     'post_button' => 'Post',
     'mandatory_fields' => 'Mandatory fields',
     'activity' => array(
@@ -86,14 +88,14 @@ $views = array(
     'information' => array(
         'TITLE' => 'Information',
         'CONTENT1' => 'About',
-        'CONTENT2' => 'Membres',
+        'CONTENT2' => 'Members',
         'CONTENT3' => 'Map',
         'CONTENT3_DIRECTION' => 'Get direction'
     ),
     'post' => array(
         'TITLE' => 'Post',
         'WRITE' => 'Write a post',
-        'NODATA' => 'There are no Post'
+        'NODATA' => 'There are no Posts'
     ),
     'record' => array(
         'TITLE' => 'Music',
