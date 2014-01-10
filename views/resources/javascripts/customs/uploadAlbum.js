@@ -5,6 +5,7 @@ var featuringJSON = [];
 var json_album_create = null;
 var json_album_update = null;
 var imageList = null;
+var uploader = null;
 $(document).ready(function() {
 
     getAlbums();
@@ -17,8 +18,9 @@ $(document).ready(function() {
             initGeocomplete();
             imageList = new Array();
             json_album_create = {};
-            initImgUploader();
-
+            if (uploader === null) {
+                initImgUploader();
+            }
         });
     });
     //gestione button new in uploadAlbum02
@@ -117,7 +119,7 @@ function initImgUploader() {
         }
         var multi_selection = true;
         var maxFileSize = "12mb";
-        var uploader = new plupload.Uploader({
+        uploader = new plupload.Uploader({
             runtimes: runtime, //runtime di upload
             browse_button: selectButtonId, //id del pulsante di selezione file
             max_file_size: maxFileSize, //dimensione max dei file da caricare
@@ -275,10 +277,12 @@ function publish() {
             json_album_create.description = $("#description").val();
             json_album_create.images = getImagesInfo();
             json_album_create.featuring = getFeaturingList("featuring");
+            window.console.log("SENDING: " + JSON.stringify(json_album_create));
             sendRequest("uploadAlbum", "createAlbum", json_album_create, publishCallback, false);
         } else if (json_album_update !== null && json_album_update !== undefined) {
             json_album_update.images = getImagesInfo();
             json_album_update.featuring = getFeaturingList("featuring");
+            window.console.log("SENDING: " + JSON.stringify(json_album_create));
             sendRequest("uploadAlbum", "updateAlbum", json_album_update, publishCallback, false);
         }
 
@@ -399,10 +403,10 @@ function onCarouselReady() {
         $("#uploadAlbum01").fadeOut(100, function() {
             $("#uploadAlbum03").fadeIn(100);
         });
-
         imageList = new Array();
         json_album_update = {"albumId": this.id};
-        initImgUploader();
-
+        if (uploader === null) {
+            initImgUploader();
+        }
     });
 }
