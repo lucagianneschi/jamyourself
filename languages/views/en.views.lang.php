@@ -222,7 +222,7 @@ $views = array(
         ),
         'localType' => array(
             'contest_area' => 'Contest Area',
-            'dinner' => 'Dinner',
+            'dinner' => 'Diner',
             'dj_set' => 'DJ Set',
             'happy_hour_apperizer' => 'Happy Hour/Apperizer',
             'jam_session_club' => 'Jam Session Club',
