@@ -46,11 +46,11 @@
 					</div>	
 					<div class="youtube-label no-display">
 						<input type="text" name="spotter-youtube" id="spotter-youtube" pattern="url" placeholder="http://"/>								
-						<label for="spotter-youtube">Url of your Youtube profile<small class="error"> Please enter a valid url</small></label>
+						<label for="spotter-youtube">Url of your Youtube channel<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					<div class="web-label no-display">
 						<input type="text" name="spotter-web" id="spotter-web" pattern="url" placeholder="http://"/>								
-						<label for="spotter-web">Url of your Web Site<small class="error"> Please enter a valid url</small></label>
+						<label for="spotter-web">Url of your Website<small class="error"> Please enter a valid url</small></label>
 					</div>	
 					
 				</div>	
