@@ -24,8 +24,8 @@ require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'debug.service.php';
 
 /**
- * \brief	LoveController class 
- * \details	controller di love/unlove
+ * \brief	PlaylistController class 
+ * \details	controller di gestione playlist
  */
 class PlaylistController extends REST {
 
