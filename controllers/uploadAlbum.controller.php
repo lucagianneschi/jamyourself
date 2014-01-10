@@ -103,13 +103,14 @@ class UploadAlbumController extends REST {
 
             //creo le cartelle dell'album
             if (!$this->createFolderForAlbum($currentUser->getObjectId(), $albumId)) {
-                rollbackUploadAlbumController($albumId, "Album", 1);
+                rollbackUploadAlbumController($albumId, "Album");
                 $this->response(array("status" => $controllers['ALBUMNOTSAVED']), 408);
             }
             //activity per l'album
             $resActivity = $this->createActivity($currentUser->getObjectId(), $albumId);
             if ($resActivity instanceof Error) {
-                rollbackUploadAlbumController($albumId, "Album", 2);
+                rollbackUploadAlbumController($albumId, "Album");
+                rmdir(USERS_DIR.DIRECTORY_SEPARATOR.$currentUser->getObjectId().DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.$albumId);
                 $this->response(array("status" => $controllers['ALBUMNOTSAVED']), 409);
             }
             //ora devo aggiungere tutte le foto
@@ -125,13 +126,11 @@ class UploadAlbumController extends REST {
                         $resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getFilePath());
                         if ($resUpdateCover instanceof Error) {
                             array_push($errorImages, $image);
-                            rollbackUploadAlbumController($resImage->getObjectId(), "Image", 1);
                             continue;
                         }
                         $resUpdateThumb = $albumParseUpdate->updateField($albumId, "thumbnailCover", $resImage->getThumbnail());
                         if ($resUpdateThumb instanceof Error) {
                             array_push($errorImages, $image);
-                            rollbackUploadAlbumController($resImage->getObjectId(), "Image", 2);
                             continue;
                         }
                     }
@@ -139,7 +138,7 @@ class UploadAlbumController extends REST {
                     $resRelation = $this->addImageToAlbum($albumSaved, $resImage->getObjectid());
                     if ($resRelation instanceof Error || $resRelation instanceof Exception || is_null($resRelation)) {
                         array_push($errorImages, $image);
-                        rollbackUploadAlbumController($resImage->getObjectId(), "Image", 3);
+                        rollbackUploadAlbumController($resImage->getObjectId(), "Image");
                         continue;
                     }
                 }

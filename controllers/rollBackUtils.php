@@ -536,43 +536,28 @@ function rollbackUploadRecordController($objectId, $classType) {
 function rollbackUploadEventController($objectId) {
     global $controllers;
     require_once CLASSES_DIR . 'eventParse.class.php';
-    $songParse = new EventParse();
-    $res = $songParse->deleteEvent($objectId);
+    $eventParse = new EventParse();
+    $res = $eventParse->deleteEvent($objectId);
     $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
     return $message;
 }
 
-function rollbackUploadAlbumController($objectId, $classType, $step) {
+function rollbackUploadAlbumController($objectId, $classType) {
     global $controllers;
     $message = null;
     switch ($classType) {
         case "Album":
-            switch ($step) {
-                case 1 :
-                    break;
-                case 2 :
-                    break;
-                case 3 :
-                    break;
-                default:
-                    break;
-            }
+            $albumParse = new AlbumParse();
+            $res = $albumParse->deleteAlbum($objectId);
+            $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
             break;
         case "Image" :
-            switch ($step) {
-                case 1 :
-                    break;
-                case 2 :
-                    break;
-                case 3 :
-                    break;
-                default:
-                    break;
-            }
-            break;
-        default:
-            break;
+            $imageParse = new ImageParse();
+            $res = $imageParse->deleteImage($objectId);
+            $message = ($res instanceof Error) ? $controllers['ROLLKO'] : $controllers['ROLLOK'];
+            break;       
     }
+    return $message;
 }
 
 ?>
