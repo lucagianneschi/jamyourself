@@ -221,7 +221,7 @@ $controllers = array(
     'EVENTCREATED' => 'Evento creato con successo',
     'DIRECTATTENDEE' => 'Conferma partecipazione diretta utente',
     'ERRORUPDATINGEVENTATTENDEE' => 'Impossibile aggiungere un partecipante direttamente',
-     //PLAYER
+    //PLAYER
     'ACTSONGNOTPLAYED' => 'Impossibile salvare activity per ultima canzone suonata',
     'SONGPLAYED' => 'Activity salvata per ultima canzone suonata',
     'ERRORSONGINFO' => 'Impossibile recuperare la info del record per salvare activity per ultima canzone suonata',
@@ -237,7 +237,13 @@ $controllers = array(
     'ALBUMNOTSAVED' => 'Album non creato',
     'ALBUMSAVENOIMGSAVED' => 'Album creato, ma senza immagini',
     'ALBUMSAVEDWITHERRORS' => 'Album creato, ma alcun immagini non sono state salvate',
-    'ALBUMSAVED' => 'Album creato correttamente'
+    'ALBUMSAVED' => 'Album creato correttamente',
+    'NOALBUMID' => 'Nessun albumId specificato',
+    'NOALBUMIMAGES' => 'Nessuna immagine caricata',
+    'NOALBUMFOUNDED' => 'Album specificato non trovato',
+    'NOIMAGESAVED' => 'Salvataggio immagini fallito',
+    'IMAGESSAVEDWITHERRORS' => 'Alcune immagini non sono state salvate',
+    'IMAGESSAVED' => 'Caricamento immagini avvenuto con successo'
 );
 
 $mail_files = array(

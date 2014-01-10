@@ -53,9 +53,8 @@ class UploadAlbumController extends REST {
     /**
      * \fn	createAlbum()
      * \brief   funzione per pubblicazione dell'event
-     * \modificare il nome in createAlbum
      */
-    public function albumCreate() {
+    public function createAlbum() {
         try {
             global $controllers;
             if ($this->get_request_method() != "POST") {
@@ -105,7 +104,7 @@ class UploadAlbumController extends REST {
             //creo le cartelle dell'album
             if (!$this->createFolderForAlbum($currentUser->getObjectId(), $albumId)) {
                 rollbackUploadAlbumController($albumId, "Album", 1);
-                $this->response(array("status" => $controllers['ALBUMNOTSAVED']), 408);                
+                $this->response(array("status" => $controllers['ALBUMNOTSAVED']), 408);
             }
             //activity per l'album
             $resActivity = $this->createActivity($currentUser->getObjectId(), $albumId);
@@ -154,6 +153,73 @@ class UploadAlbumController extends REST {
             } else {
                 //tutto OK
                 $this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $albumSaved->getObjectId()), 200);
+            }
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 500);
+        }
+    }
+
+    public function updateAlbum() {
+        try {
+            global $controllers;
+            if ($this->get_request_method() != "POST") {
+                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
+            } elseif (!isset($_SESSION['currentUser'])) {
+                $this->response($controllers['USERNOSES'], 402);
+            } elseif (!isset($this->request['albumId']) || is_null($this->request['albumId']) || !(strlen($this->request['albumId']) > 0)) {
+                $this->response(array('status' => $controllers['NOALBUMID']), 403);
+            } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
+                $this->response(array('status' => $controllers['NOALBUMIMAGES']), 404);
+            }
+
+            $albumParse = new AlbumParse();
+            $albumId = $this->request['albumId'];
+            $album = $albumParse->getAlbum($albumId);
+            if ($album instanceof Error) {
+                $this->response(array('status' => $controllers['NOALBUMFOUNDED']), 405);
+            }
+            //ora devo aggiungere tutte le foto
+            $errorImages = array();
+            foreach ($this->request['images'] as $image) {
+                $resImage = $this->saveImage($image, $albumId);
+                if ($resImage instanceof Error || $resImage instanceof Exception || is_null($resImage)) {
+                    array_push($errorImages, $image);
+                } else {
+                    //se l'immagine è quella scelta come cover:
+                    if ($image['isCover'] == "true") {
+                        $albumParseUpdate = new AlbumParse();
+                        $resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getFilePath());
+                        if ($resUpdateCover instanceof Error) {
+                            array_push($errorImages, $image);
+                            rollbackUploadAlbumController($resImage->getObjectId(), "Image", 1);
+                            continue;
+                        }
+                        $resUpdateThumb = $albumParseUpdate->updateField($albumId, "thumbnailCover", $resImage->getThumbnail());
+                        if ($resUpdateThumb instanceof Error) {
+                            array_push($errorImages, $image);
+                            rollbackUploadAlbumController($resImage->getObjectId(), "Image", 2);
+                            continue;
+                        }
+                    }
+                    //in ogni caso:
+                    $resRelation = $this->addImageToAlbum($album, $resImage->getObjectid());
+                    if ($resRelation instanceof Error || $resRelation instanceof Exception || is_null($resRelation)) {
+                        array_push($errorImages, $image);
+                        rollbackUploadAlbumController($resImage->getObjectId(), "Image", 3);
+                        continue;
+                    }
+                }
+            }
+
+            if (count($errorImages) == count($this->request['images'])) {
+                //nessuna immagine salvata
+                $this->response(array("status" => $controllers['NOIMAGESAVED'], "id" => $albumId), 200);
+            } elseif (count($errorImages) > 0) {
+                //immagini salvate, ma non tutte....
+                $this->response(array("status" => $controllers['IMAGESSAVEDWITHERRORS'], "id" => $albumId), 200);
+            } else {
+                //tutto OK
+                $this->response(array("status" => $controllers['IMAGESSAVED'], "id" => $albumId), 200);
             }
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
@@ -428,7 +494,7 @@ class UploadAlbumController extends REST {
     private function validateAlbumImages($imageList) {
         if (is_array($imageList) && count($imageList) > 0) {
             foreach ($imageList as $elem) {
-                if (!isset($elem["description"]) || is_null($elem["description"]) || !( strlen($elem["description"]) > 0)) {
+                if (!isset($elem["description"]) || is_null($elem["description"])) {
                     return false;
                 }
                 if (!isset($elem["src"]) || is_null($elem["src"]) || !( strlen($elem["src"]) > 0)) {
@@ -445,7 +511,6 @@ class UploadAlbumController extends REST {
         }
         return true;
     }
-
 }
 
 ?>

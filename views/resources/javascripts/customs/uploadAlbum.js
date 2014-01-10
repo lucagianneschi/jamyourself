@@ -2,8 +2,9 @@
 //------ espressioni regolari -------------------------------
 var exp_description = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})$/;
 var featuringJSON = [];
-var json_album_create = {};
-var imageList = new Array();
+var json_album_create = null;
+var json_album_update = null;
+var imageList = null;
 $(document).ready(function() {
 
     getAlbums();
@@ -14,7 +15,10 @@ $(document).ready(function() {
         $("#uploadAlbum01").fadeOut(100, function() {
             $("#uploadAlbum02").fadeIn(100);
             initGeocomplete();
+            imageList = new Array();
+            json_album_create = {};
             initImgUploader();
+
         });
     });
     //gestione button new in uploadAlbum02
@@ -113,7 +117,7 @@ function initImgUploader() {
         }
         var multi_selection = true;
         var maxFileSize = "12mb";
-        uploader = new plupload.Uploader({
+        var uploader = new plupload.Uploader({
             runtimes: runtime, //runtime di upload
             browse_button: selectButtonId, //id del pulsante di selezione file
             max_file_size: maxFileSize, //dimensione max dei file da caricare
@@ -248,7 +252,7 @@ function startEventsImage(img, id) {
     try {
         img.onload = function() {
             this.embed($(id).get(0), {
-                width: 300,  //max width    
+                width: 300, //max width    
                 height: 300, //max height
                 crop: false     // true => immagini quadrate (ritagliate)
             });
@@ -266,15 +270,28 @@ function startEventsImage(img, id) {
 
 function publish() {
     try {
-        json_album_create.albumTitle = $("#albumTitle").val();
-        json_album_create.description = $("#description").val();
-        json_album_create.images = getImagesInfo();
-        json_album_create.featuring = getFeaturingList("featuring");
-        sendRequest("uploadAlbum", "albumCreate", json_album_create, publishCallback, false);
+        if (json_album_create !== null && json_album_create !== undefined) {
+            json_album_create.albumTitle = $("#albumTitle").val();
+            json_album_create.description = $("#description").val();
+            json_album_create.images = getImagesInfo();
+            json_album_create.featuring = getFeaturingList("featuring");
+            sendRequest("uploadAlbum", "createAlbum", json_album_create, publishCallback, false);
+        } else if (json_album_update !== null && json_album_update !== undefined) {
+            json_album_update.images = getImagesInfo();
+            json_album_update.featuring = getFeaturingList("featuring");
+            sendRequest("uploadAlbum", "updateAlbum", json_album_update, publishCallback, false);
+        }
+
     } catch (err) {
         window.console.log("publish | An error occurred - message : " + err.message);
     }
 
+}
+function clearList() {
+//        json_album_create = null;
+//        json_album_update = null;
+    imageList = new Array();
+    $("#photolist").empty();
 }
 
 function publishCallback(data, status, xhr) {
@@ -283,9 +300,11 @@ function publishCallback(data, status, xhr) {
         if (status === "success") {
             alert(data.status);
         } else {
-            alert("Errore");
+            alert(data.status);
             console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
         }
+
+        clearList();
     } catch (err) {
         window.console.log("publish | An error occurred - message : " + err.message);
     }
@@ -301,7 +320,7 @@ function getImagesInfo() {
                 elem.description = $("#descriptionPhoto_" + id).val();
                 elem.featuring = getFeaturingList('featuringPhoto_' + id);
                 elem.src = this.uploaded.src;
-                if ($('#idCover_'+id).is(':checked')) {
+                if ($('#idCover_' + id).is(':checked')) {
                     elem.isCover = true;
                 } else {
                     elem.isCover = false;
@@ -380,5 +399,10 @@ function onCarouselReady() {
         $("#uploadAlbum01").fadeOut(100, function() {
             $("#uploadAlbum03").fadeIn(100);
         });
+
+        imageList = new Array();
+        json_album_update = {"albumId": this.id};
+        initImgUploader();
+
     });
 }
