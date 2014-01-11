@@ -11,6 +11,12 @@
  * 
  * 
  */
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 $objectId = $record->getObjectId();
 #TODO
@@ -24,100 +30,99 @@ $fromUserObjectId = $record->getFromUser()->getObjectId();
 $fromUserThumbnail = $record->getFromUser()->getProfileThumbnail();
 $fromUserUsername = $record->getfromUser()->getUsername();
 
-switch ( $record->getfromUser()->getType()) {
+switch ($record->getfromUser()->getType()) {
     case 'JAMMER':
-        $defaultThum = DEFTHUMBJAMMER;
-        break;
+	$defaultThum = DEFTHUMBJAMMER;
+	break;
     case 'VENUE':
-        $defaultThum = DEFTHUMBVENUE;
-        break;
+	$defaultThum = DEFTHUMBVENUE;
+	break;
     case 'SPOTTER':
-        $defaultThum = DEFTHUMBSPOTTER;
-        break;
+	$defaultThum = DEFTHUMBSPOTTER;
+	break;
 }
-
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
-	<div class="large-12 columns">
-	<h3><?php echo $views['information']['TITLE'];?></h3>		
-		<div class="section-container accordion" data-section="accordion">
-		  <section class="active" >
-		  	<!--------------------------------- ABOUT ---------------------------------------------------->
-		    <p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['media']['Information']['CONTENT1_RECORD'] ?></a></p>
-		    <div class="content" data-section-content>
-		    	
-				<div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>"  onclick="location.href='profile.php?user=<?php echo $fromUserObjectId ?>'">
-					<div class="small-1 columns ">
-						<div class="icon-header">
-							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='<?php echo $defaultThum;?>'">
-						</div>
-					</div>
-					<div  class="small-11 columns ">
-						<div class="text white breakOffTest"><strong><?php echo $fromUserUsername ?></strong></div>
-					</div>		
+    <div class="large-12 columns">
+	<h3><?php echo $views['information']['TITLE']; ?></h3>		
+	<div class="section-container accordion" data-section="accordion">
+	    <section class="active" >
+		<!--------------------------------- ABOUT ---------------------------------------------------->
+		<p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['media']['Information']['CONTENT1_RECORD'] ?></a></p>
+		<div class="content" data-section-content>
+
+		    <div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>"  onclick="location.href = 'profile.php?user=<?php echo $fromUserObjectId ?>'">
+			<div class="small-1 columns ">
+			    <div class="icon-header">
+				<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+			    </div>
+			</div>
+			<div  class="small-11 columns ">
+			    <div class="text white breakOffTest"><strong><?php echo $fromUserUsername ?></strong></div>
+			</div>		
+		    </div>
+
+		</div>	
+		<div class="content" data-section-content>
+		    <div class="row">
+			<div class="small-12 columns">
+			    <div class="row">
+				<div class="small-12 columns">				
+				    <a class="ico-label white breakOff <?php if ($city != '') echo '_pin-white' ?>"><?php echo $city; ?></a>
+				    <a class="ico-label white breakOff <?php if ($year != '') echo '_calendar' ?>"><?php echo $year; ?></a>
 				</div>
-					
-		    </div>	
-		   <div class="content" data-section-content>
-		    	<div class="row">
-		    		<div class="small-12 columns">
-		    			<div class="row">
-		    				<div class="small-12 columns">				
-								<a class="ico-label white breakOff <?php if ($city != '') echo '_pin-white' ?>"><?php echo $city; ?></a>
-								<a class="ico-label white breakOff <?php if ($year != '') echo '_calendar' ?>"><?php echo $year; ?></a>
-							</div>
-						</div>
-                        <div class="row">
-		    				<div class="small-12 columns">
-		    					<a class="ico-label white breakOff <?php if($label != '') echo '_tag' ?>"><?php echo $label; ?></a>		    								    					
-		    				</div>
-						</div>
-		    		</div>
-		    			
-		    	</div>
+			    </div>
+			    <div class="row">
+				<div class="small-12 columns">
+				    <a class="ico-label white breakOff <?php if ($label != '') echo '_tag' ?>"><?php echo $label; ?></a>		    								    					
+				</div>
+			    </div>
+			</div>
+
 		    </div>
-            <div class="content" data-section-content>
-		    	<div class="row">
-    				<div class="small-12 columns">
-    					<div class="text orange"><span class="white">Buy this album</span> <?php echo $buylink; ?></div>		    								    					
-    				</div>
-				</div> 
-		    </div>
-		    <div class="content" data-section-content>
-		    	<p class="text grey">
-		    	<?php echo $description; ?>
-		    	</p> 
-		    </div>
-			</section>
-		    <!--------------------------------------- FEATURING - PERFORMED BY --------------------------------------->
-			<div id='box-informationFeaturing'></div>
-			<script type="text/javascript">
-				function loadBoxInformationFeaturing() {
-					var json_data = {};
-					json_data.objectId = '<?php echo $objectId; ?>';
-					$.ajax({
-						type: "POST",
-						url: "content/record/box/box-informationFeaturing.php",
-						data: json_data,
-						beforeSend: function(xhr) {
-							//spinner.show();
-							console.log('Sono partito informationFeaturing');
-						}
-					}).done(function(message, status, xhr) {
-						//spinner.hide();
-						$("#box-informationFeaturing").html(message);
-						code = xhr.status;
-						//console.log("Code: " + code + " | Message: " + message);
-						console.log("Code: " + code + " | Message: <omitted because too large>");
-					}).fail(function(xhr) {
-						//spinner.hide();
-						message = $.parseJSON(xhr.responseText).status;
-						code = xhr.status;
-						console.log("Code: " + code + " | Message: " + message);
-					});
-				}
-			</script>
 		</div>
+		<div class="content" data-section-content>
+		    <div class="row">
+			<div class="small-12 columns">
+			    <div class="text orange"><span class="white"><?php echo $views['media']['Record']['buy']; ?></span> <?php echo $buylink; ?></div>		    								    					
+			</div>
+		    </div> 
+		</div>
+		<div class="content" data-section-content>
+		    <p class="text grey">
+			<?php echo $description; ?>
+		    </p> 
+		</div>
+	    </section>
+	    <!--------------------------------------- FEATURING - PERFORMED BY --------------------------------------->
+	    <div id='box-informationFeaturing'></div>
+	    <script type="text/javascript">
+		    function loadBoxInformationFeaturing() {
+			var json_data = {};
+			json_data.objectId = '<?php echo $objectId; ?>';
+			$.ajax({
+			    type: "POST",
+			    url: "content/record/box/box-informationFeaturing.php",
+			    data: json_data,
+			    beforeSend: function(xhr) {
+				//spinner.show();
+				console.log('Sono partito informationFeaturing');
+			    }
+			}).done(function(message, status, xhr) {
+			    //spinner.hide();
+			    $("#box-informationFeaturing").html(message);
+			    code = xhr.status;
+			    //console.log("Code: " + code + " | Message: " + message);
+			    console.log("Code: " + code + " | Message: <omitted because too large>");
+			}).fail(function(xhr) {
+			    //spinner.hide();
+			    message = $.parseJSON(xhr.responseText).status;
+			    code = xhr.status;
+			    console.log("Code: " + code + " | Message: " + message);
+			});
+		    }
+	    </script>
 	</div>
+    </div>
 </div>
