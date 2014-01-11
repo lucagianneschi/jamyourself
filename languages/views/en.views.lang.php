@@ -137,6 +137,7 @@ $views = array(
         ),
         'RecordReview' => array(
             'TITLE' => 'Reviews',
+	    'review' => ' Review'
         ),
         'EventReview' => array(
             'TITLE' => 'Reviews',
