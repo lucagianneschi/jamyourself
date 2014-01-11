@@ -8,8 +8,6 @@
  * 
  * box chiamato tramite load con:
  * data: array conente infomazoini di tipo userInfo, 
- * 
- * 
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../../../');
