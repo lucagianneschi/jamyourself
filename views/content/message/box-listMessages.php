@@ -17,7 +17,6 @@ if (!isset($messageBox)) {
     $messageBox = new MessageBox();
     $messageBox->initForUserList($limit, $skip);
 
-
     $cssNewMessage = "no-display";
 }
 
