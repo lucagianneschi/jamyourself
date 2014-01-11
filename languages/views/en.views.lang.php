@@ -123,10 +123,10 @@ $views = array(
             'CONTENT2' => 'Featuring',
             'CONTENT3' => 'Map',
             'CONTENT4' => 'Attending',
-            'CONTENT5' => 'Invited',
+            'CONTENT5' => 'Invited'
         ),
         'Comment' => array(
-            'TITLE' => 'Comment',
+            'TITLE' => 'Comment'
         ),
         'Record' => array(
             'TITLE' => 'Tracklist',
@@ -140,7 +140,7 @@ $views = array(
 	    'review' => ' Review'
         ),
         'EventReview' => array(
-            'TITLE' => 'Reviews',
+            'TITLE' => 'Reviews'
         ),
     ),
     'header' => array(
@@ -444,7 +444,6 @@ $views = array(
 	'select_genre' => 'Select genre ',
 	'enter_genre' => ' Please enter a Genre',
 	'uploaded_song' => 'Uploaded song'
-	
     ),
     'uploadReview' => array(
         'review' => 'Review',
