@@ -42,7 +42,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		<div  class="small-12 columns">
 		    <div class="facebook-label">
 			<input type="text" name="jammer-facebook" id="jammer-facebook" pattern="url" placeholder="http://"/>								
-			<label for="jammer-facebook" ><?php echo $views['signup']['facebook']; ?><small class="error"> Please enter a valid url</small></label>
+			<label for="jammer-facebook" ><?php echo $views['signup']['facebook']; ?><small class="error"><?php echo $views['signup']['valid_url']; ?></small></label>
 		    </div>
 		    <div class="twitter-label no-display">
 			<input type="text" name="jammer-twitter" id="jammer-twitter" pattern="url" placeholder="http://"/>								
