@@ -144,7 +144,7 @@ function spinner() {
         left: 'auto' // Left position relative to parent in px
     };
 
-    var spinner = new Spinner(opts).spin($('.spinner'));
+    var spinner = new Spinner(opts).spin($('.spinner').get(0));
     $('.spinner').html(spinner.el.innerHTML);
 }
 
