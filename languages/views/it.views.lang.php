@@ -157,6 +157,12 @@ $views = array(
 	)
     ),
     'player' => array(
+	'play' => 'play',
+	'previous' => 'previous',
+	'pause' => 'pause',
+	'next' => 'next',
+	'stop' => 'stop',
+	'max volume' => 'max volume',
 	'mute' => 'mute',
 	'mute_off' => 'mute off',
 	'shuffle' => 'shuffle',
