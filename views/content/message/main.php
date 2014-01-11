@@ -5,6 +5,8 @@ if (!defined('ROOT_DIR'))
 ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once BOXES_DIR . 'message.box.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 define('LIMITLISTMSG', 5);
 define('SKIPLISTMSG', 0);
@@ -111,7 +113,7 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
     					<div class="sidebar">
     					    <div class="row ">							
     						<div class="large-12 columns ">
-    						    <div class="sottotitle grey">You talked to...</div>
+    						    <div class="sottotitle grey"><?php echo $views['message']['talked_to']; ?></div>
     						</div>	
     					    </div>
     					    <div class="row">
@@ -129,7 +131,7 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
     								    </div>
     								</div>
     								<div class="small-10 columns" style="padding-top: 8px;">
-    								    <div class="text orange breakOffTest">New message</div>
+    								    <div class="text orange breakOffTest"><?php echo $views['message']['new_msg']; ?></div>
     								</div>		
     							    </div>
     							</div>
@@ -157,8 +159,8 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
 						    ?>	
 						    <div class="row">
 							<div class="large-12 columns ">
-							    <h5>Write a new message</h5>
-							    <label for="to"><small class="error"> Please enter a valid User</small></label>
+							    <h5><?php echo $views['message']['write_message']; ?></h5>
+							    <label for="to"><small class="error"><?php echo $views['message']['valid_user']; ?></small></label>
 							    <input id="to" type="text" placeholder="To:" required>											    
 							    <textarea id="textNewMessage" placeholder="Message"></textarea>
 							</div>
