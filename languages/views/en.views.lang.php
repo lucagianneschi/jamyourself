@@ -260,6 +260,8 @@ $views = array(
         )
     ),
     'message' => array(
+	'talked_to' => 'You talked to...',
+	'new_msg' => 'New Message',
         'write_message' => 'Write a new message',
         'valid_user' => 'Please enter a valid User',
         'other_messages' => 'View Other Messages',
