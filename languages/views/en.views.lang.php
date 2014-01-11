@@ -263,9 +263,10 @@ $views = array(
 	'talked_to' => 'You talked to...',
 	'new_msg' => 'New Message',
         'write_message' => 'Write a new message',
-        'valid_user' => 'Please enter a valid User',
+        'valid_user' => ' Please enter a valid User',
         'other_messages' => 'View Other Messages',
-        'no_messages' => 'No Messages'
+        'no_messages' => 'No Messages',
+	'view_other' => 'View Other'
     ),
     'signup' => array(
 	'enrollment' => 'Enrollment',
@@ -381,7 +382,7 @@ $views = array(
         'city' => 'City ',
         'valid_title' => ' Please enter a valid Title',
         'description' => 'Description ',
-        'valid_description' => 'Please enter a valid Description',
+        'valid_description' => 'Please enter a valid Description'
     ),
     'uploadEvent' => array(
 	'upload' => 'Upload Event',
@@ -403,7 +404,7 @@ $views = array(
         'description' => 'Description ',
         'valid_description' => ' Please enter a valid Description',
         'select_genre' => 'Select genre ',
-        'enter_genre' => 'Please enter a Genre',
+        'enter_genre' => 'Please enter a Genre'
     ),
     'uploadRecord' => array(
 	'upload_media' => 'Upload Media',
