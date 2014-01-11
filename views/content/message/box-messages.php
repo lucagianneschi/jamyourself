@@ -43,22 +43,22 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 			<div id="chat">
 			    <div class="row">
 				<div class="large-12 columns ">
-		<?php if (count($messageBox->messageArray) == $limit) { ?>
+				    <?php if (count($messageBox->messageArray) == $limit) { ?>
 		    		    <div class="row">
 		    			<div class="large-12 columns">
-		    			    <div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit + $skip ?>)"><small>View Other Messages</small></div>
+		    			    <div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit + $skip ?>)"><small><?php echo $views['message']['other_messages']; ?></small></div>
 		    			</div>
 		    		    </div>
-		    <?php
-		}
-		$risultato = array_reverse($messageBox->messageArray);
-		foreach ($risultato as $key => $value) {
+					<?php
+				    }
+				    $risultato = array_reverse($messageBox->messageArray);
+				    foreach ($risultato as $key => $value) {
 
-		    $data = $value->createdAt->format('d-F-Y');
-		    $time = $value->createdAt->format('H:i');
-		    if ($data != $dataPrec) {
-			//12-Jan-2013
-			?>
+					$data = $value->createdAt->format('d-F-Y');
+					$time = $value->createdAt->format('H:i');
+					if ($data != $dataPrec) {
+					    //12-Jan-2013
+					    ?>
 
 					    <div class="row">
 						<div class="large-12 columns">
@@ -66,10 +66,10 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 						</div>
 					    </div>
 
-		    <?php
-		    }
-		    if ($value->send == 'S') {
-			?>
+					    <?php
+					}
+					if ($value->send == 'S') {
+					    ?>
 
 					    <div class="row" >
 						<div class="large-8 large-offset-2 columns msg msg-mine">
@@ -81,7 +81,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 						    </div>
 						</div>
 					    </div>
-		    <?php } else { ?>
+					<?php } else { ?>
 					    <div class="row">
 						<div class="large-2 hide-for-small columns">
 						    <div class="date-yours">
@@ -92,12 +92,12 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 						    <p><?php echo $value->text ?></p>
 						</div>
 					    </div>	                
-		    <?php
-		    }
-		    $dataPrec = $data;
-		}
-		if (count($messageBox->messageArray) == 0) {
-		    ?>
+					    <?php
+					}
+					$dataPrec = $data;
+				    }
+				    if (count($messageBox->messageArray) == 0) {
+					?>
 		    		    <div class="row">
 		    			<div class="large-2 hide-for-small columns">
 		    			    <div class="date-yours">
@@ -105,7 +105,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 		    			    </div>
 		    			</div>	                	
 		    			<div class="small-8 columns msg msg-yours">
-		    			    <p>Nessun Messaggio</p>
+		    			    <p><?php echo $views['message']['no_messages']; ?></p>
 		    			</div>
 		    			<div class="large-2 hide-for-small columns">
 		    			    <div class="date-yours">
@@ -129,11 +129,9 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 
 		<div class="row">
 		    <div class="large-12 columns">
-			<div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit + $skip ?>)"><small>No Messages</small></div>
+			<div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit + $skip ?>)"><small><?php echo $views['message']['no_messages']; ?></small></div>
 		    </div>
 		</div>	
-
-
 
 		<?php
 	    }
