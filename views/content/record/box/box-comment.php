@@ -158,7 +158,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 				<?php
 				$nextToShow = ($commentCounter - $limit > $commentToShow) ? $commentToShow : $commentCounter - $limit;
 				?>
-				<div class="text" onclick="loadBoxComment(<?php echo $limit + $commentToShow; ?>, 0);"><?php echo $views['signup']['tell_us']['other']; ?><?php echo $nextToShow; ?><?php echo $views['signup']['tell_us']['comment']; ?></div>	
+				<div class="text" onclick="loadBoxComment(<?php echo $limit + $commentToShow; ?>, 0);"><?php echo $views['media']['Record']['other']; ?><?php echo $nextToShow; ?><?php echo $views['media']['Record']['comment']; ?></div>	
 			    </div>
 			</div>
 			<?php
