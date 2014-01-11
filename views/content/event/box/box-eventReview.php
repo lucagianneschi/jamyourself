@@ -34,7 +34,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
         <div  class="large-12 columns">
     	<div class="row">
     	    <div  class="large-12 columns">
-    		<h3>Reviews</h3>
+    		<h3><?php echo $views['media']['EventReview']['TITLE']; ?></h3>
     	    </div>			
     	</div>	
 
