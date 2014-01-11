@@ -31,14 +31,14 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     ?>
     <div class="row" id="social-Comment <?php echo $objectId; ?>">
         <div  class="large-12 columns">
-    	<h3>Comment</h3>
+    	<h3><?php echo $views['media']['Comment']['TITLE']; ?></h3>
 
     	<div class="row ">
     	    <div  class="large-12 columns ">
 
     		<div class="row  ">
     		    <div  class="large-12 columns ">
-    			  <form action="" class="box-write" onsubmit="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>');
+    			<form action="" class="box-write" onsubmit="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>');
     				return false;">
     			    <div class="">
     				<div class="row  ">
