@@ -1,7 +1,15 @@
+<?php
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+?>
 <div id="spotter-signup02" class="no-display">
     <div class="row">
         <div  class="large-12 columns signup-title">
-            <h2>Tell us something about you:</h2>		
+            <h2><?php echo $views['signup']['tell_us']; ?></h2>		
         </div>	
     </div>
     <div class="row signup-body">
@@ -16,19 +24,19 @@
                     </div>
                 </div>
                 <div  class="small-9 columns signup-box-avatar-text">							        						
-                    <a data-reveal-id="spotter-uploadImage" class="text orange">Upload Image</a>
+                    <a data-reveal-id="spotter-uploadImage" class="text orange"><?php echo $views['signup']['upload_image']; ?></a>
                     <div id="spotter-uploadImage" class="reveal-modal uploadImage-reveal">
                         <div class="uploadImage" >
                             <div class="row">
                                 <div  class="large-12 columns signup-title">
-                                    <h2>Upload Image</h2>		
+                                    <h2><?php echo $views['signup']['upload_image']; ?></h2>		
                                 </div>	
                             </div>
                             <div class="row">
                                 <div id="spotter_container" class="small-5 small-centered columns align-center">
-                                    <div id="filelist">Upload not supported.</div>
+                                    <div id="filelist"><?php echo $views['signup']['invalid_image_format']; ?></div>
                                     <br />
-                                    <label class="uploadImage_file_label" for="spotter_uploadImage_file" id="spotter_uploadImage_file_label" style="width: 300px;">Select a file from your computer</label>
+                                    <label class="uploadImage_file_label" for="spotter_uploadImage_file" id="spotter_uploadImage_file_label" style="width: 300px;"><?php echo $views['signup']['select_file']; ?></label>
                                 </div>
                             </div>
                             <div class="row">							
@@ -56,25 +64,25 @@
             <div class="row spotter-firstname-singup02">
                 <div  class="small-12 columns">									
                     <input type="text" name="spotter-firstname" id="spotter-firstname" pattern="username" maxlength="50" />								
-                    <label for="spotter-firstname" >First Name<small class="error"> Please enter a valid First Name</small></label>
+                    <label for="spotter-firstname" ><?php echo $views['signup']['first_name']; ?><small class="error"><?php echo $views['signup']['valid_first_name']; ?></small></label>
                 </div>							
             </div>
             <div class="row spotter-lastname-singup02">
                 <div  class="small-12 columns">									
                     <input type="text" name="spotter-lastname" id="spotter-lastname" pattern="username" maxlength="50" />								
-                    <label for="spotter-lastname" >Last Name<small class="error"> Please enter a valid Last Name</small></label>
+                    <label for="spotter-lastname" ><?php echo $views['signup']['last_name']; ?><small class="error"><?php echo $views['signup']['valid_last_name']; ?></small></label>
                 </div>							
             </div>
-           
+
             <div class="row spotter-city-singup02">
                 <div  class="small-12 columns">									
                     <input type="text" name="spotter-location" id="spotter-city" pattern="description" maxlength="50" required />					
-                    <label for="spotter-city " class="inline">City <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>
+                    <label for="spotter-city " class="inline"><?php echo $views['signup']['city']; ?><span class="orange">*</span><small class="error"><?php echo $views['signup']['valid_city']; ?></small></label>
 
                     <a href="#" data-reveal-id="spotter-myModal" class="location-reveal text grey">Why do you ask me?</a>
                     <div id="spotter-myModal" class="reveal-modal">
-                        <h3>Why do you ask me?</h3>					 
-                        <p class="grey">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                        <h3><?php echo $views['signup']['localization_question']; ?></h3>					 
+                        <p class="grey"><?php echo $views['signup']['localization_answer']; ?></p>
                         <a class="close-reveal-modal">&#215;</a>
                     </div>
                 </div>							
@@ -82,10 +90,10 @@
 
         </div>
         <div  class="small-6 columns">
-            <h3>What kind of music do you like?</h3>
+            <h3><?php echo $views['signup']['music']; ?></h3>
             <div class="row" style="padding-top: 30px">
                 <div  class="small-12 columns">
-                    <div class="label-signup-genre text grey-light">Select at least one genre (max 10)<span class="orange">*</span><small class="error"> Please select a genre</small></div>
+                    <div class="label-signup-genre text grey-light"><?php echo $views['signup']['select_music']; ?><span class="orange">*</span><small class="error"><?php echo $views['signup']['select_genre']; ?></small></div>
                 </div>	
             </div>
             <div class="row" >
@@ -99,7 +107,7 @@
     </div>
     <div class="row">
         <div  class="small-3 small-offset-1 columns">
-            <div class="note grey-light signup-note"><span class="orange">* </span> Mandatory fields</div>
+            <div class="note grey-light signup-note"><span class="orange">* </span><?php echo $views['mandatory_fields']; ?></div>
         </div>	
         <div  class="small-8 columns">
             <input type="button" name="spotter-signup02-back" id="spotter-signup02-back" class="signup-button-back" value="Go Back"/>
