@@ -140,6 +140,10 @@ $views = array(
 	'OPTADD2' => 'Carica un evento',
 	'OPTADD3' => 'Carica le tue foto',
 	'SEARCH' => 'Cerca persone, musica o eventi',
+	'radio' => array(
+	    'profile' => 'Profilo',
+	    'social' => 'Social'
+	),
 	'profile' => array(
 	    'TITLE' => 'Now Playing',
 	),
@@ -402,13 +406,13 @@ $views = array(
 	'mp3_upload' => 'Upload an mp3 file *'
     ),
     'uploadReview' => array(
-        'review' => 'Review',
-        'create' => 'Create a new review about...',
-        'rating' => 'Rating',
-        'performed' => 'Performed by',
-        'rating' => 'Rating',
-        'featuring' => 'Featuring',
-        'write' => 'Write here your review',
+	'review' => 'Review',
+	'create' => 'Create a new review about...',
+	'rating' => 'Rating',
+	'performed' => 'Performed by',
+	'rating' => 'Rating',
+	'featuring' => 'Featuring',
+	'write' => 'Write here your review',
 	'your_rating' => 'Your Rating'
     )
 );

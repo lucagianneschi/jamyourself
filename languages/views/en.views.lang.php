@@ -147,6 +147,10 @@ $views = array(
         'OPTADD2' => 'Create Event',
         'OPTADD3' => 'Upload Photo',
         'SEARCH' => 'Search people, music or events',
+	'radio' =>array(
+	    'profile' => 'Profile',
+	    'social' => 'Social'
+	),
         'profile' => array(
             'TITLE' => 'Now Playing',
         ),
