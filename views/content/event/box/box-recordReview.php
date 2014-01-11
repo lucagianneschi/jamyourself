@@ -31,7 +31,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
         <div  class="large-12 columns">
     	<div class="row">
     	    <div  class="large-12 columns">
-    		<h3>Reviews</h3>
+    		<h3><?php echo $views['media']['RecordReview']['TITLE']; ?></h3>
     	    </div>			
     	</div>	
 
@@ -80,7 +80,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    			    </div>
 	    			    <div  class="small-6 columns propriety">
 	    				<div class="note grey-light">
-	    <?php echo $review_data ?>
+						<?php echo $review_data ?>
 	    				</div>
 	    			    </div>	
 	    			</div>
@@ -98,15 +98,15 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div class="row ">						
 	    				    <div  class="small-12 columns ">
 	    					<div class="note grey">Rating
-	    <?php
-	    for ($i = 1; $i <= 5; $i++) {
-		if ($review_rating >= $i) {
-		    echo '<a class="icon-propriety _star-orange"></a>';
-		} else {
-		    echo '<a class="icon-propriety _star-grey"></a>';
-		}
-	    }
-	    ?>										
+							<?php
+							for ($i = 1; $i <= 5; $i++) {
+							    if ($review_rating >= $i) {
+								echo '<a class="icon-propriety _star-orange"></a>';
+							    } else {
+								echo '<a class="icon-propriety _star-grey"></a>';
+							    }
+							}
+							?>										
 	    					</div>								
 	    				    </div>
 	    				</div>													
@@ -115,10 +115,10 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    			<div class="row " style=" margin-top:10px;">						
 	    			    <div  class="small-12 columns ">
 	    				<div class="text grey cropText inline" style="line-height: 18px !important;">
-	    <?php echo $review_text ?>									
+						<?php echo $review_text ?>									
 	    				</div>
-	    				<a href="#" class="orange  no-display viewText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')">View All</strong></a>
-	    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')">Close</strong></a>
+	    				<a href="#" class="orange  no-display viewText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['VIEWALL']; ?></strong></a>
+	    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['CLOSE']; ?></strong></a>
 	    			    </div>
 	    			</div>					
 
@@ -147,20 +147,20 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    		<div class="box-comment no-display"></div>						
 	    	    </div> 
 	    	</div>
-	    <?php
-	}
-    }
-    if ($review_other > 0) {
-	?>
+		    <?php
+		}
+	    }
+	    if ($review_other > 0) {
+		?>
 		<div class="row otherSet">
 		    <div class="large-12 colums">
-			<div class="text">Other <?php echo $review_other; ?> Review</div>	
+			<div class="text">Other <?php echo $review_other; ?><?php echo $views['media']['RecordReview']['review']; ?></div>	
 		    </div>	
 		</div>
-	<?php
-    }
-    if ($reviewCounter == 0) {
-	?>
+		<?php
+	    }
+	    if ($reviewCounter == 0) {
+		?>
 		<div class="row">
 		    <div  class="large-12 columns ">
 			<div class="box">						
@@ -170,9 +170,9 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 			</div>
 		    </div>
 		</div>
-	<?php
-    }
-    ?>
+		<?php
+	    }
+	    ?>
         </div>
     </div> <!--- <div class="row" id="social-EventReview"> -->
     <?php
