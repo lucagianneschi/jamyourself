@@ -116,7 +116,7 @@ if (isset($userObjectId)) {
 				<a class="slide-button-next _nextPage" onclick="slideNext(this, rsi_not)"></a>
 			    </div>
 			</div>
-	<?php } ?>
+		    <?php } ?>
     	    </div>	
 
     	</div>											
@@ -166,7 +166,7 @@ if (isset($userObjectId)) {
 		if ($value->type == 'M') {
 		    ?>
 			<div onclick="location.href = 'message.php?user=<?php echo $user_objectId ?>'" style="cursor: pointer">
-	    <?php } ?>	
+			<?php } ?>	
 	    	    <div class="row">
 	    		<div  class="large-1 columns hide-for-small">
 	    		    <div class="icon-header">
@@ -184,15 +184,15 @@ if (isset($userObjectId)) {
 	    		    </div>
 	    		</div>
 	    	    </div>
-		    <?php if ($value->type == 'M') { ?>
+			<?php if ($value->type == 'M') { ?>
 			</div>	
-		<?php } ?>
+		    <?php } ?>
 
 	    	<div class="row">
 	    	    <div  class="large-12 columns"><div class="line"></div></div>
 	    	</div>
 
-		<?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
+		    <?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
 		}
 		$index++;
 	    }
@@ -200,7 +200,7 @@ if (isset($userObjectId)) {
 	    <!------------------------------------ fine notification ------------------------------------------->
 
 	<?php }
-    ?>
+	?>
 
     </div>	
 
@@ -209,7 +209,7 @@ if (isset($userObjectId)) {
 	     <div  class="large-12 columns"><?php echo $views['header']['social']['NODATA'] ?></div>
 	</div>	
 
-    <?php
+	<?php
     } else {
 	?>
 	<div class"row">
