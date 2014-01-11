@@ -8,7 +8,6 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'playlist.box.php';
 
-
 //session_start();
 
 $playlist = new PlaylistBox();
@@ -48,7 +47,7 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
     	<div id="jquery_jplayer_N" class="jp-jplayer"></div>
     	<div class="jp-gui">
     	    <div class="jp-video-play">
-    		<a href="javascript:;" class="jp-video-play-icon" tabindex="1">play</a>
+    		<a href="javascript:;" class="jp-video-play-icon" tabindex="1"><?php echo $views['header']['player']['play']; ?></a>
     	    </div>
     	    <div class="jp-interface">
     		<div class="jp-progress">
@@ -65,23 +64,23 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
     		</div>
     		<div class="jp-controls-holder">
     		    <ul class="jp-controls">
-    			<li><a href="javascript:;" class="jp-previous" tabindex="1">previous</a></li>
-    			<li><a href="javascript:;" class="jp-play" tabindex="1">play</a></li>
-    			<li><a href="javascript:;" class="jp-pause" tabindex="1">pause</a></li>
-    			<li><a href="javascript:;" class="jp-next" tabindex="1">next</a></li>
-    			<li><a href="javascript:;" class="jp-stop" tabindex="1">stop</a></li>
-    			<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute">mute</a></li>
-    			<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute">unmute</a></li>
-    			<li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume">max volume</a></li>
+    			<li><a href="javascript:;" class="jp-previous" tabindex="1"><?php echo $views['header']['player']['previous']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-play" tabindex="1"><?php echo $views['header']['player']['play']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-pause" tabindex="1"><?php echo $views['header']['player']['pause']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-next" tabindex="1"><?php echo $views['header']['player']['next']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-stop" tabindex="1"><?php echo $views['header']['player']['stop']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-mute" tabindex="1" title="mute"><?php echo $views['header']['player']['mute']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-unmute" tabindex="1" title="unmute"><?php echo $views['header']['player']['unmute']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-volume-max" tabindex="1" title="max volume"><?php echo $views['header']['player']['max volume']; ?></a></li>
     		    </ul>
     		    <div class="jp-volume-bar">
     			<div class="jp-volume-bar-value"></div>
     		    </div>
     		    <ul class="jp-toggles">								
-    			<li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle">shuffle</a></li>
-    			<li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off">shuffle off</a></li>
-    			<li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat">repeat</a></li>
-    			<li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off">repeat off</a></li>
+    			<li><a href="javascript:;" class="jp-shuffle" tabindex="1" title="shuffle"><?php echo $views['header']['player']['shuffle']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-shuffle-off" tabindex="1" title="shuffle off"><?php echo $views['header']['player']['shuffle off']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-repeat" tabindex="1" title="repeat"><?php echo $views['header']['player']['repeat']; ?></a></li>
+    			<li><a href="javascript:;" class="jp-repeat-off" tabindex="1" title="repeat off"><?php echo $views['header']['player']['repeat off']; ?></a></li>
     		    </ul>
     		</div>
     	    </div>
@@ -94,8 +93,8 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
     	    </ul>
     	</div>
     	<div class="jp-no-solution">
-    	    <span>Update Required</span>
-    	    To play the media you will need to either update your browser to a recent version or update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+    	    <span><?php echo $views['header']['player']['update']; ?></span>
+	    <?php echo $views['header']['player']['update_message']; ?>
     	</div>
         </div>
     </div>
@@ -125,9 +124,9 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 	    	    });
 	    	</script>						
 	    	<!--div class="row" id="<?php echo $objectId ?>"> 
-	    <div class="small-12 columns">
-	    <div class="track">
-	    <div class="row">
+	        <div class="small-12 columns">
+	        <div class="track">
+	        <div class="row">
 	    	<div class="small-8 columns ">                                        
 	    		<a class="ico-label _play-large text breakOffTest"><?php echo $title . ' - ' . $author_name; ?></a>                                                                
 	    	</div>
@@ -139,8 +138,8 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 	    													
 	    	</div>
 	    			
-	    </div>
-	    <div class="row track-propriety" >
+	        </div>
+	        <div class="row track-propriety" >
 	    	<div class="box-propriety album-single-propriety" style="padding: 10px;">
 	    		<div class="small-5 columns ">
 	    			<a class="note white" onclick="love(this, 'Song', '<?php echo $objectId ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE']; ?></a>
@@ -151,10 +150,10 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 	    			<a class="icon-propriety _share" ><?php echo $shareCounter ?></a>                        
 	    		</div>
 	    	</div>                
-	    </div>
-	    </div>
-	    </div>
-	    </div-->
+	        </div>
+	        </div>
+	        </div>
+	        </div-->
 
 		    <?php
 		}
