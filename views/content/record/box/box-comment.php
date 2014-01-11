@@ -114,7 +114,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 	    			    </div>
 	    			    <div  class="small-6 columns propriety">
 	    				<div class="note grey-light">
-	    <?php echo $comment_data; ?>
+						<?php echo $comment_data; ?>
 	    				</div>
 	    			    </div>
 
@@ -124,7 +124,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div class="row ">
 	    				    <div  class="small-12 columns ">
 	    					<div class="text grey">
-	    <?php echo $comment_text; ?>	
+							<?php echo $comment_text; ?>	
 	    					</div>
 	    				    </div>
 	    				</div>

@@ -63,9 +63,9 @@ if (isset($_SESSION['currentUser']))
 		    ));
 		    ?>
 		    <div class="row" id="<?php echo $value->getObjectId() ?>"> <!------------------ CODICE TRACCIA: track01  ------------------------------------>
-	                <div class="small-12 columns ">
+			<div class="small-12 columns ">
 			    <div class="track">
-	                        <div class="row">
+				<div class="row">
 				    <div class="small-9 columns ">                                        
 					<a class="ico-label _play-large text breakOffTest"><?php echo $record_title ?></a>
 
@@ -77,8 +77,8 @@ if (isset($_SESSION['currentUser']))
 				    <div class="small-3 columns track-nopropriety align-right" style="padding-right: 20px;">
 					<a class="icon-propriety "><?php echo $hoursminsandsecs ?></a>        
 				    </div>                
-	                        </div>
-	                        <div class="row track-propriety" >
+				</div>
+				<div class="row track-propriety" >
 				    <div class="box-propriety album-single-propriety">
 					<div class="small-5 columns ">
 					    <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE']; ?></a>
@@ -89,28 +89,30 @@ if (isset($_SESSION['currentUser']))
 					    <a class="icon-propriety _share" ><?php echo $value->getShareCounter(); ?></a>                        
 					</div>
 				    </div>                
-	                        </div>
+				</div>
 			    </div>
-	                </div>
+			</div>
 		    </div>
 
-    <?php }
-} else { ?>        
+		<?php
+		}
+	    } else {
+		?>        
     	    <div class="row">
-                    <div  class="large-12 columns ">
+    		<div  class="large-12 columns ">
     		    <div class="box">                                                
     			<div class="row">
     			    <div  class="large-12 columns"><p class="grey"><?php echo $views['record']['NODATA']; ?></p></div>
     			</div>
     		    </div>
-                    </div>
+    		</div>
     	    </div>
 <?php } ?>
 	    <div class="box-comment no-display"></div>
 
 	</div>
 
-<?php // }  ?>
+<?php // }    ?>
 
 	<!---------------------------------------- comment ------------------------------------------------->
 	<div class="box-comment no-display"></div>
