@@ -1,4 +1,10 @@
 <?php
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../../../');
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+
 $css_not = 'no-display';
 $totNotification = '';
 
@@ -15,7 +21,7 @@ $playlistCurrentUser = array();
 	    ?>		
     	<div  class="row hcento-hero" style="padding-bottom: 20px;">
     	    <div id="header-profile" class="small-6 columns" style="padding-bottom: 20px">
-    <?php require_once './content/header/box-profile.php'; ?>
+		    <?php require_once './content/header/box-profile.php'; ?>
     	    </div>
     	    <!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->					
     	    <script type="text/javascript">
@@ -53,12 +59,12 @@ $playlistCurrentUser = array();
     	    </script>			
     	    <div id="header-social" class="small-6 columns" style="padding-bottom: 20px">				
     		<!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->
-    <?php require_once './content/header/box-social.php'; ?>
+		    <?php require_once './content/header/box-social.php'; ?>
     	    </div>
     	</div>
-    <?php
-}
-?>
+	    <?php
+	}
+	?>
     </div>
 
     <!------------------------------------- HEADER ----------------------------->
@@ -113,10 +119,10 @@ $playlistCurrentUser = array();
 			<div class="header">
 			    <div class="switch round" onclick="getSwich()">
 				<input id="z" name="switch-z" type="radio" checked>
-				<label for="z">Profilo</label>
+				<label for="z"><?php echo $views['header']['radio']['profile']; ?></label>
 
 				<input id="z1" name="switch-z" type="radio">
-				<label for="z1">Social</label>
+				<label for="z1"><?php echo $views['header']['radio']['social']; ?></label>
 
 				<span></span>
 			    </div>
