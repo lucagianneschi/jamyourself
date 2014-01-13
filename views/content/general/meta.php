@@ -19,13 +19,19 @@
 <link rel="stylesheet" href="resources/stylesheets/normalize.css" />
 <link rel="stylesheet" href="resources/stylesheets/app.css" />
 <link rel="stylesheet" href="resources/stylesheets/style.css" />
+
+<link rel="stylesheet" href="resources/stylesheets/profilestyle.css" />
+<link rel="stylesheet" href="resources/stylesheets/headerstyle.css" /> 
+<link rel="stylesheet" href="resources/stylesheets/footerStyle.css" /> 
+
 <link rel="stylesheet" href="resources/stylesheets/formBlackStyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/formWhiteStyle.css" />
-<link rel="stylesheet" href="resources/stylesheets/profilestyle.css" />
+
+<link rel="stylesheet" href="resources/stylesheets/signupStyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/uploadRecordStyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/uploadEventStyle.css" />
 <link rel="stylesheet" href="resources/stylesheets/uploadAlbumStyle.css" />
-<link rel="stylesheet" href="resources/stylesheets/headerstyle.css" />
+
 <link rel="stylesheet" href="resources/stylesheets/messageStyle.css" />
 
 <!---------------- touchCarouser ------------------------>
