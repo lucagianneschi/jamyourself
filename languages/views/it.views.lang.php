@@ -340,6 +340,7 @@ $views = array(
 		'password' => 'Password ',
         'verify_password' => 'Verify Password ',
         'valid_password' => 'Please enter a valid password',
+        'valid_captcha' => 'Please enter a valid captcha',
         'first_name' => 'First Name',
         'valid_first_name' => ' Please enter a valid First Name',
         'last_name' => 'Last Name',

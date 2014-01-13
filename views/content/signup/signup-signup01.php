@@ -59,7 +59,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		<div  class="small-5 small-centered   columns">
 		    <div id="signup01-captcha" >						 
 
-		    </div>	
+		    </div>
+		     <label for="signup01-captcha" id="valid-captcha"><span class="orange">*</span><small class="error"><?php echo $views['signup']['valid_captcha']; ?></small></label>		
 		</div>	
 	    </div>
 	</div>			
