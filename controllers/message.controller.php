@@ -104,11 +104,8 @@ class MessageController extends REST {
 		$this->response(array('status' => $controllers['NOSPAM']), 401);
 	    }
 	    $text = $this->request['message'];
-//	    $title = $this->request['title'];
 	    if (strlen($text) < $this->config->minMessageSize) {
 		$this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
-//	    } elseif (strlen($title) < $this->config->minTitleSize) {
-//		$this->response(array('status' => $controllers['SHORTTITLEMESSAGE'] . strlen($text)), 406);
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
 	    require_once CLASSES_DIR . 'commentParse.class.php';

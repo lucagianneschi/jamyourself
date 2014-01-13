@@ -1,7 +1,15 @@
+<?php
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'lang.service.php';
+require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+?>
 <div id="venue-signup02"  class="no-display">
     <div class="row">
         <div  class="large-12 columns signup-title">
-            <h2>Tell us something about your Venue:</h2>		
+            <h2><?php echo $views['signup']['tell_us_venue']; ?></h2>		
         </div>	
     </div>
     <div class="row signup-body">
@@ -14,19 +22,19 @@
                     </div>
                 </div>
                 <div  class="small-9 columns signup-box-avatar-text">							        						
-                    <a data-reveal-id="venue-uploadImage" class="text orange">Upload Image</a>
+                    <a data-reveal-id="venue-uploadImage" class="text orange"><?php echo $views['signup']['upload_image']; ?></a>
                     <div id="venue-uploadImage" class="reveal-modal uploadImage-reveal">
                         <div class="uploadImage" >
                             <div class="row">
                                 <div  class="large-12 columns signup-title">
-                                    <h2>Upload Image</h2>		
+                                    <h2><?php echo $views['signup']['upload_image']; ?></h2>		
                                 </div>	
                             </div>
                             <div class="row">							
                                 <div id="venue_container" class="small-5 small-centered columns align-center">
-                                    <div id="filelist">Upload not supported.</div>
+                                    <div id="filelist"><?php echo $views['signup']['invalid_image_format']; ?></div>
                                     <br />
-                                    <label class="uploadImage_file_label" for="venue_uploadImage_file" id="venue_uploadImage_file_label" style="width: 300px;">Select a file from your computer</label>
+                                    <label class="uploadImage_file_label" for="venue_uploadImage_file" id="venue_uploadImage_file_label" style="width: 300px;"><?php echo $views['signup']['select_file']; ?></label>
                                 </div>
                             </div>
                             <div class="row">							
@@ -59,13 +67,13 @@
                     <div class="row venue-city-singup02">
                         <div  class="small-12 columns">									
                             <input type="text" name="venue-city" id="venue-city" pattern="description" required/>								
-                            <label for="venue-city" >Address <span class="orange">*</span><small class="error"> Please enter a valid City</small></label>
+                            <label for="venue-city" ><?php echo $views['signup']['address']; ?><span class="orange">*</span><small class="error"><?php echo $views['signup']['valid_address']; ?></small></label>
                         </div>							
                     </div>	
                 </div>
-                
+
             </div>
-           	
+
         </div>
     </div>
     <div class="row">

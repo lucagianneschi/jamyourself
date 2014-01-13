@@ -34,7 +34,7 @@ if ($countComment > 0) {
     <div  class="small-12 columns">
 	<?php
 	if ($countComment > 0) {
-        $comments = array_reverse($comment->commentArray);
+	    $comments = array_reverse($comment->commentArray);
 	    foreach ($comments as $key => $value) {
 		$comment_data = $value->getCreatedAt()->format('l j F Y - H:i');
 		switch ($value->getFromUser()->getType()) {
@@ -97,7 +97,7 @@ if ($countComment > 0) {
 	<div class="row  ">
 	    <div  class="large-12 columns ">
 		<form action="" class="box-write" onsubmit="sendOpinion('<?php echo $toUser; ?>', $('#comment<?php echo $class . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', '10', 0);
-						return false;">
+			return false;">
 		    <div class="">
 			<div class="row  ">
 			    <div  class="small-9 columns ">
