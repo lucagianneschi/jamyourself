@@ -26,7 +26,8 @@ var type_user,
         ysize,
         preview,
         tumbnail,
-        tumbnail_pane;
+        tumbnail_pane,
+        validation_recaptcha = false;
 
 // plugin di fondation per validare i campi tramite espressioni regolari (vedi sopra)
 $(document).foundation('abide', {
@@ -201,10 +202,13 @@ $(document).ready(function() {
             $('.signup01-verifyPassword-signup01 small.error').css({'display': 'none'});
             validation_verifyPassword = true;
         }
-        //console.log(validateCaptcha());
-
+       validateCaptcha();
+		if(!validation_recaptcha){
+			$('#valid-captcha small.error').css({'display': 'block'});
+		}
+		else $('#valid-captcha small.error').css({'display': 'none'});
         // va allo step successivo se tutti i campi sono validi
-        if (validation_username && validation_mail && validation_password && validation_verifyPassword) {
+        if (validation_username && validation_mail && validation_password && validation_verifyPassword && validation_recaptcha) {        	
             $('#signup01-signup01').hide('slide', {direction: "left"}, "slow");
             setTimeout(function() {
                 $(scheda_succ).show('slide', {direction: "right"}, "slow");
@@ -213,6 +217,9 @@ $(document).ready(function() {
             if (type_user == "jammer") {
                 $('#signup02-jammer-name-artist').text($('#signup01-username').val() + ", ");
             }
+        }
+        else{
+        	showCaptcha();
         }
 
     });
@@ -842,12 +849,12 @@ function validateCaptcha() {
         async: false,
         success: function(data, status) {
             //captcha corretto
-
+			validation_recaptcha = true;
         },
         error: function(data, status) {
             console.log("[validateCaptcha] errore.data : " + JSON.stringify(data));
             console.log("[validateCaptcha] errore.status : " + status);
-
+			validation_recaptcha = false;
         }
     });
 }

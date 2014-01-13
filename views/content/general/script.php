@@ -34,6 +34,8 @@
     $(document).foundation();
 </script>
 
+<script src="resources/javascripts/plugins/jquery/jquery-ui-1.10.3.custom.min.js"></script>
+
 <!------------------------------------ ALTRI PLUGINS ---------------------------------------------->
 <!------------ touchCarousel //scorrimento element --------------------------------------->
 <script src="resources/javascripts/plugins/touchCarousel/jquery.touchcarousel-1.1.min.js"></script>
@@ -125,6 +127,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
         break;
     case "record.php":
         ?>
+        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
         <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
         <?php

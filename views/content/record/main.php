@@ -23,6 +23,7 @@
 				beforeSend: function(xhr) {
 				    //spinner.show();
 				    console.log('Sono partito loadBoxRecord()');
+				    goSpinnerBox('#box-record', 'media Record');
 				}
 			    }).done(function(message, status, xhr) {
 				//spinner.hide();
@@ -66,6 +67,7 @@
 				beforeSend: function(xhr) {
 				    //spinner.show();
 				    console.log('Sono partito loadBoxRecordReview(' + limit + ', ' + skip + ')');
+				    goSpinnerBox('#box-recordReview', 'media RecordReview');
 				}
 			    }).done(function(message, status, xhr) {
 				//spinner.hide();
@@ -97,6 +99,7 @@
 				beforeSend: function(xhr) {
 				    //spinner.show();
 				    console.log('Sono partito loadBoxComment(' + limit + ', ' + skip + ')');
+				    goSpinnerBox('#box-comment', 'media Comment');
 				}
 			    })
 				    .done(function(message, status, xhr) {

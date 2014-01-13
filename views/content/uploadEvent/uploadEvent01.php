@@ -14,7 +14,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 <div class="row formBlack-body">
     <div  class="small-6 columns">
-        <label for="eventTitle"><input type="text" name="eventTitle" id="eventTitle" required>
+        <label for="eventTitle"><input type="text" name="eventTitle" id="eventTitle" required pattern="general">
 	    <?php echo $views['uploadEvent']['event_title']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_title']; ?></small></label>
 
 
@@ -69,7 +69,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<!--------------------------- FINE UPLOAD IMAGE -------------------------------->
 	<div class="row">
 	    <div  class="small-8 columns">
-		<input type="text" name="date" id="date" required pattern="">
+		<input type="text" name="date" id="date" required>
 		<label for="date"><?php echo $views['uploadEvent']['date']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_date']; ?></small></label>
 
 	    </div>			
@@ -84,26 +84,47 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         <label for="url"><input type="text" name="featuring" id="jammers" required pattern="">
 	    <?php echo $views['uploadEvent']['jammer_name']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_jammer']; ?></small></label>
 
-	<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="" >
-	    <?php echo $views['uploadEvent']['venue_name']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['vaild_venue']; ?></small></label>
+	<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="general" >
+	    <?php echo $views['uploadEvent']['venue_name']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_venue']; ?></small></label>
 
 <!--		<label for="adress"><input type="text" name="adress" id="adress" required pattern="">
         Adress <span class="orange">*</span><small class="error"> Please enter a valid Adress</small></label>
 	-->
 
-        <label for="city"><input type="text" name="city" id="city" required pattern="">
+        <label for="city"><input type="text" name="city" id="city" required pattern="general">
 	    <?php echo $views['uploadEvent']['city']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_city']; ?></small></label>
 
     </div>
 
     <div  class="small-6 columns">
-
+		<div class="row">
         <label for="description"><?php echo $views['uploadEvent']['description']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_description']; ?></small>		
-	    <textarea name="description" id="description"  maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea></label>		
-
-        <label style="padding-bottom: 0px !important;"><?php echo $views['uploadEvent']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre']; ?></small></label>		
-        <div id="tag-music"></div>
-
+	    <textarea name="description"  pattern="general" id="description"  maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea></label>		
+		</div>
+		<div class="row">
+        <label style="padding-bottom: 0px !important;" id="label-tag-localType"><?php echo $views['uploadEvent']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre']; ?></small></label>		
+        <div id="tag-localType">
+        	<?php 
+        	$index = 0;
+        	foreach ($views['tag']['localType'] as $key => $value) { ?>
+	        	<input type="checkbox" name="tag-localType<?php echo $index ?>" id="tag-localType<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
+	        	<label for="tag-localType<?php echo $index ?>"><?php echo $value ?></label>
+        	<?php	
+			$index++; } ?>
+        </div>
+        </div>
+        <div class="row" style="margin-top: 30px">
+        <label style="padding-bottom: 0px !important;" id="label-tag-music"><?php echo $views['uploadEvent']['select_genre_music']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre_music']; ?></small></label>		
+        <div id="tag-music">
+        	<?php 
+        	$index = 0;
+        	foreach ($views['tag']['music'] as $key => $value) { ?>
+	        	<input type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
+	        	<label for="tag-music<?php echo $index ?>"><?php echo $value ?></label>
+        	<?php	
+			$index++; } ?>
+        </div>
+		</div>
     </div>
 
 </div>

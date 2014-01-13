@@ -11,23 +11,11 @@ html {
 .inline-display { display:inline }
 
 
-//scroll
-
-#ascrail2000{
-//  top: 160px !important;
- 
-}
-
-
-#ascrail2001{
-//  top: 160px !important;
-  
-}
-
 // -------------------- TESTO -------------------------------
 body{
   h2{ color: $white; margin-bottom: 0px;}
   h3{ color: $grey; margin-bottom: 5px; }
+  overflow-y: scroll !important;
 }
 
 
@@ -78,19 +66,13 @@ label.text{
   color:$red !important;
 }
 
-.content p{
-  font-size: 14px;
-  line-height:120%;
-}
-.content{
-  border-bottom: 1px solid $grey-dark;
-}
+//---------------------------- COLORE FONDO --------------------------------
 
 .bg-double{
  background-color: $white;
  height:auto;
- // @include filter-gradient($grey-dark, $white, horizontal); /* IE6-8 */
- /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+ // @include filter-gradient($grey-dark, $white, horizontal); // IE6-8 
+ // IE9 SVG, needs conditional override of 'filter' to 'none' 
  $experimental-support-for-svg: true;
  @include background-image(linear-gradient(left,  $grey-dark 0%,$grey-dark 49.6%,$white 49.6%,$white 100%));
 
@@ -109,7 +91,7 @@ label.text{
 }
 
 .bg-white{
-	background-color: $white !important;
+  background-color: $white !important;
   height:100%;
 }
 
@@ -118,10 +100,17 @@ label.text{
 }
 
 
+.content p{
+  font-size: 14px;
+  line-height:120%;
+}
+.content{
+  border-bottom: 1px solid $grey-dark;
+}
 
 
 
-
+//---------------------- ICONE ------------------------
 
 a.ico-label {
   word-wrap: break-word !important;
@@ -172,6 +161,48 @@ a.icon-block{
     background-position:left bottom;
   }
  
+}
+
+
+.add{
+  width:43px;
+  height:43px;
+  background-color:$orange;
+  float:left;
+  cursor:pointer;
+  &:hover{
+    background-color:$orange-dark;
+  }
+}
+
+.icon-small{
+  width:15px;
+  height:15px;
+  margin-right: 5px !important;
+}
+
+
+
+.iconNotification{
+	left: -15px;
+	top: -13px;
+	background-color: $orange !important;
+}
+
+
+//-------------------- royalSlide --------------------
+.royalSlider {
+width: auto !important;
+}
+.royalSlider.rsDefault{
+	background: none !important;
+}
+.rsDefault .rsOverflow{
+	background: none !important;
+}
+
+.rsDefault .rsSlide{
+	background: none !important;
 }
 
 .slide-button-next{
@@ -235,115 +266,6 @@ a.icon-block{
 	}
 }
 
-.add{
-  width:43px;
-  height:43px;
-  background-color:$orange;
-  float:left;
-  cursor:pointer;
-  &:hover{
-    background-color:$orange-dark;
-  }
-}
-
-.icon-small{
-  width:15px;
-  height:15px;
-  margin-right: 5px !important;
-}
-
-#header-social .ico-label{
-	 width:15px !important;
-}
-
-.iconNotification{
-	left: -15px;
-	top: -13px;
-	background-color: $orange !important;
-}
-
-
-//-------------------- royalSlide --------------------
-.royalSlider {
-width: auto !important;
-}
-.royalSlider.rsDefault{
-	background: none !important;
-}
-.rsDefault .rsOverflow{
-	background: none !important;
-}
-
-.rsDefault .rsSlide{
-	background: none !important;
-}
-
-
-//-------------------- footer -------------------------
-
-footer {  
-  width:100%;
-  height:auto;
-  padding:8px;
-  background:$black;  
-  position: fixed;
-  bottom: 0px;
-  margin: 0px;
-  z-index:999; 
-  
-  overflow:visible !important;  
-}
-
-
-#footer{
-  overflow:auto;
-  h1, h2, h3, h4, h5, h6  {
-  color:$grey !important;
-  margin-bottom:0.2em !important;
-  }
-  
-}
-
-.footer-ico{  
-  color:$grey !important;  
-  font-size:20px; 
-  margin-right:15px;
-  cursor:pointer;
-  
-}
-
-.footer-ico-off{  
-  color:$orange !important;  
-  font-size:20px;   
-  cursor:pointer;
-}
-
-#footer-header{
-  
-}
-
-.user{
-  font-size:20px; 
-  color:$grey !important;  
-  margin-top:5px;
-  padding-bottom:0;   
-}
-
-#footer-body{
-  overflow:auto;
-  h1, h2, h3, h4, h5, h6  {
-  color:$grey !important;
-  margin-bottom:0.5em !important;
-  }
-}
-
-#footer-body a{
-  font-size:12px; 
-  color:$grey !important;
-  margin-bottom:0.2em !important;
-}
-
-
 
 //-------------------------- error -----------------------
 #error_page{
@@ -354,357 +276,6 @@ footer {
 	}
 }
 
-//---------------- signup------------------------------
-#signup{
-  padding-top: 3%;
-  h2, h3{
-    color: $grey-light;
-  }
-}
-
-.signup-box{
-  border-top: 1px solid $orange;
-  background-color: $grey-superdark;
-  margin-bottom: 60px;
-}
-
-.signup-title{
-  text-align:center;
-  margin-top: 5%;
-  margin-bottom: 5%;
-}
-
-#signup01{
-  text-align:center;
-  margin-left: 10%;
-  margin-right: 10%;
-  padding-bottom:5%;
-  h3{
-    color: $grey !important;
-  }
-}
-
-#form-signup label{
-  font-size: 14px;
-  color: $grey-light;
-  text-align:left !important; 
-  padding-bottom:20px !important;  
-}
-
-
-
-#signup01 label{
- text-align:center !important;
- color: $grey !important;
- &:hover {
-    color: $grey-light !important;
-    h3{color: $orange !important;} ;  
-    .img-white{display:inline; text-align:center;};
-    .img-grey{display:none}; 
-  }
-  
-}
-
-
-#signup-ok label{
- text-align:center !important;
- color: $grey !important; 
- &:hover {
-    color: $grey-light !important;
-    h3{color: $orange !important;} ;  
-    .img-white{display:inline; text-align:center;};
-    .img-grey{display:none}; 
-  }
-  
-}
-
-.signup-ok{
-  h3{ color: $grey !important;}
-  padding-left: 150px !important;
-  padding-right: 150px !important; 
-  padding-bottom: 50px !important;   
-}
-
-#form-signup input[type='text'],input[type='password']{ 
- // width: auto !important; 
-  color: $white;
-  background-color:$grey-superdark;
-  border: 0px;
-  border-bottom: 1px solid $grey-dark;
-  margin-left:0px;
-  &:focus{
-    background-color:$grey-dark;
-    border-bottom: 1px solid $grey;
-  }
-  
-}
-
-#form-signup input[type='text'].error,input[type='password'].error{
-  border: 1px solid $red;
-  
-}
-
-#form-signup select + #spotter-birth-day{
-  cursor:pointer !important;
-}
-
-#form-signup textarea{
-  color: $white !important;
-  background-color:$grey-superdark;
-  border: 1px solid $grey-dark;
-  height: 150px;
-  &:focus{
-    background-color:$grey-dark;
-   // border-bottom: 1px solid $grey;
-  }
-  
-}
-.captcha input[type='text']{
-  width: auto !important;
-}
-
-
-#signup .signup-body{
-  padding: 30px !important;
-  padding-left: 60px !important;
-  padding-right: 60px !important;
-}
-
-#signup .signup-labelStep{
-  width: 95px;
-  height: 50px;
-  color: $grey-light;
-  font-size:14px;
-  background-color: $orange-dark;
-  
-  float:left;
-  margin-left: 2px;
-  padding: 20px;
-  text-align:center !important;
- // font-weight: bold;
-  float:right;
-}
-
-#signup .signup-button{
-  background-image:url(../images/button/signup-next.png) !important;
-  background-color: $grey-superdark;
-  border: 0px;
-//  float:center !important;
-  color:$white;
-  width:135px;
-  height:35px;
-  margin:20px !important;
-  background-repeat:no-repeat;
-  
-}
-
-#signup .signup-button-back{
-  background-image:url(../images/button/signup-back.png) !important;
-  background-color: $grey-superdark;
-  border: 0px;
-//  float:center !important;
-  color:$grey;
-  width:135px;
-  height:35px;
- // margin:20px !important;
- background-repeat:no-repeat;
-  
-}
-
-#signup .signup-note{
-  padding-top: 50px;
-}
-
-#signup .signup-button-fb{
-  width: 344px;
-   height:55px !important;
-   font-size:27px;
-   font-weight: normal  !important; 
-  background-color: $grey-light !important;
-  @include border-radius(5px); 
-  color: $grey-dark !important;
-  background-image:url(../images/icon/facebook-button.png);
-  background-repeat:no-repeat;
-  background-position:5px 10px;
-  padding: 5px !important;
-  
-}
-
-#signup .align-center{
-  text-align:center;
-}
-
-
-#signup .signup-box-image{
-  border: 2px solid $grey;
-  //width: 344px;
-  height:105px !important;
-  padding:0px !important;
-  margin-bottom: 30px; 
-}
-.signup-box-avatar{
-  padding:0px !important;
-}
-
-.signup-image{
-  text-align:center !important;
-  background-color: $grey-dark !important;
-  height:99px !important;
-  margin:1px !important;
-  width:99px !important;
-}
-
-.signup-box-avatar-text{
-  padding-top:30px !important;
-}
-
-#form-signup .signup-genre label{
-  background-color: $grey-dark !important;
-  height:25px !important;  
-  color:$white;
-  float:left;
-  padding:5px;
-  margin-right:15px;
-  margin-top:15px;
-  padding-left:10px;
-  padding-right:10px;
-}
-
-#form-signup .signup-genre input[type='checkbox']:checked + label{
-
-    background-color: $orange !important;
-
-}
-
-
-#form-signup .signup-icon-social{
-  width:30px;
-  height:30px;
-  cursor:pointer;
-  float:left;
-  margin-left:10px;
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:left bottom;
-}
-
-#form-signup .signup-icon-social-focus{
-  width:30px;
-  height:30px;
-  cursor:pointer;
-  float:left;
-  margin-left:10px;
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:left top !important;
-}
-
-#form-signup .signup-bottom{
-  margin-bottom: 50px;
-}
-
-#form-signup .signup-radio input[type='radio'] + label{
-  height: 30px;
-  width:auto;
-  background-image:url(../images/icon/double-icone/check.png);
-  background-repeat:no-repeat;
-  background-position:left bottom !important;
-  line-height:30px;
-  margin-right:20px;
-  padding:0 0px 0 30px;
-}
-
-#form-signup .signup-radio input[type='radio']:checked + label{
-  background-position:left top !important;
-}
-
-.addComponents{
-  cursor:pointer;
-}
-
-#form-signup select{
-  
-  cursor:pointer;
-  padding:2px !important;
-  color: $grey-light !important;
-  background-color:$grey-superdark;
-  border: 1px solid $grey-dark;
-  height: 30px;
-   background: $grey-superdark url(../images/icon/small/other.png) no-repeat right !important;
-  -webkit-appearance: none;
-  &:focus{
-    border: 1px solid $grey-dark;
-    background-color:$grey-dark;
-    border-bottom: 1px solid $grey;
-  }
-}
-
-
-.reveal-modal{
-  top:-100px !important; 
-}
-.location-reveal{
-  text-align:right !important;
-  position: absolute;
-  right:0px;
-}
-
-
-#form-signup .error{
-  background-color: inherit !important;
-  color: $red !important;
-  float:center !important;
-  margin-bottom: 0px;
-  padding-bottom: 0px;
- // margin-top: 10px !important;   
-}
-
-#form-signup small.error{
-  float:right !important;
-}
-
-.uploadImage_tumbnail-pane {
-  width: 99px !important;
-  height: 99px !important;
-  overflow: hidden;
-}
-
-
-.uploadImage_tumbnail-pane img {
-  max-width: none !important;
-}
-
-
-.uploadImage {
-  min-height: 400px;  
-}
-
-
-.uploadImage input[type='file'] {
-  display: none;
-}
-
-
-.uploadImage .uploadImage_file_label {
-  background-color: #ff7505;
-  height: 40px;
-  padding: 13px;
-  padding-left: 40px;
-  background-image: url(../images/icon/add.png) !important;
-  background-repeat: no-repeat;
-  font-size: 14px !important;
-  margin-bottom: 50px;
-}
-
-.uploadImage-reveal{
-  left: 5px !important;
-  width: 900px !important;
-  background-color: $grey-superdark !important;
-}
-
-.uploadImage_preview{
- // width: 800px !important;
-}
 
 //---------------- ICON -----------------------------
 
@@ -780,4 +351,4 @@ footer {
 //----------------- icon button status -------------------------------
 ._message_status { background-image:url(../images/icon/status/message.png); }
 ._follower_status { background-image:url(../images/icon/status/follower.png); }
-._friend_status { background-image:url(../images/icon/status/friend.png); }
+._friend_status { background-image:url(../images/icon/status/friend.png); } 

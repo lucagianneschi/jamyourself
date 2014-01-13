@@ -6,6 +6,7 @@ ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once SERVICES_DIR . 'relationChecker.service.php';
+require_once CLASSES_DIR . 'utilsClass.php';
 
 $ldf = '7fes1RyY77';
 $id1 = 'bNoL9OZt7V';

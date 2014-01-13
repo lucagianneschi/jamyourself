@@ -1,6 +1,9 @@
 var json_event_create = {"hours": "", "image": "", "crop": ""};
 var music = null;
 var uploader;
+//------ espressioni regolari -------------------------------
+var exp_general = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})$/;
+
 //-------------- variabili per jcrop ----------------------//
 var input_x,
         input_y,
@@ -20,63 +23,71 @@ $(document).ready(function() {
     initGeocomplete();
     initImgUploader();
 
-    //gestione calendario
-    $("#date").datepicker({
-        altFormat: "dd/mm/yy"
-    });
-
-    //gesione button create
-    $('#uploadEvent01-next').click(function() {
-    });
-
-    var time = getClockTime();
+	getCalendar();
+    var time = getClockTime();  
     $("#hours").html(time);
-
-    //carica i tag music
-    $.ajax({
-        url: "../config/views/tag.config.json",
-        dataType: 'json',
-        success: function(data, stato) {
-            music = data.localType;
-
-            for (var value in music) {
-                var tagCheck = '<input type="checkbox" name="';
-                var tagCheckTrack = '<input type="checkbox" name="';
-                var name = 'tag-music' + value + '"';
-                var nameTrack = 'tag-musicTrack' + value + '"';
-                tagCheck = tagCheck + name + 'id="' + name + 'value="' + value + '" class="no-display">';
-                tagCheck = tagCheck + '<label for="' + name + '>' + music[value] + '</label>';
-
-                tagCheckTrack = tagCheckTrack + nameTrack + 'id="' + nameTrack + 'value="' + value + '" class="no-display">';
-                tagCheckTrack = tagCheckTrack + '<label for="' + nameTrack + '>' + music[value] + '</label>';
-
-                $(tagCheck).appendTo('#uploadEvent #tag-music');
-                $(tagCheckTrack).appendTo('#uploadEvent #tag-musicTrack');
-            }
-
-        },
-        error: function(richiesta, stato, errori) {
-            console.log("E' evvenuto un errore. Il stato della chiamata: " + stato);
-        }
-    });
+    
+    validation();
+    
 
 });
 
-function getClockTime() {
-    var timeString = '';
-    timeString = timeString + '<option value=""></option>';
-    for (i = 0; i < 24; i++) {
-        if (i < 10) {
-            timeString = timeString + '<option value="0' + i + ':00">0' + i + ':00</option>';
-            timeString = timeString + '<option value="0' + i + ':30">0' + i + ':30</option>';
-        }
-        else {
-            timeString = timeString + '<option value="' + i + ':00">' + i + ':00</option>';
-            timeString = timeString + '<option value="' + i + ':30">' + i + ':30</option>';
-        }
+/*
+ * controller javascrip
+ */
+function validation(){
+	try {	
+		// plugin di fondation per validare i campi tramite espressioni regolari (vedi sopra)
+		$(document).foundation('abide', {
+		    live_validate: true,
+		    focus_on_invalid: true,
+		    timeout: 1000,
+		    patterns: {
+		        general: exp_general,
+		    }
+		});	
+	 } catch (err) {
+        window.console.error("validation | An error occurred - message : " + err.message);
     }
-    return timeString;
 }
+
+/*
+ * gestione calendario
+ */
+
+function getCalendar(){
+	try {	
+	    $("#date").datepicker({
+	        altFormat: "dd/mm/yy"
+	    });
+     } catch (err) {
+        window.console.error("getCalendar | An error occurred - message : " + err.message);
+    }
+}
+
+/*
+ * compila campo hours
+ */
+function getClockTime() {
+	try {	
+	    var timeString = '';
+	    timeString = timeString + '<option value=""></option>';
+	    for (i = 0; i < 24; i++) {
+	        if (i < 10) {
+	            timeString = timeString + '<option value="0' + i + ':00">0' + i + ':00</option>';
+	            timeString = timeString + '<option value="0' + i + ':30">0' + i + ':30</option>';
+	        }
+	        else {
+	            timeString = timeString + '<option value="' + i + ':00">' + i + ':00</option>';
+	            timeString = timeString + '<option value="' + i + ':30">' + i + ':30</option>';
+	        }
+	    }
+	    return timeString;
+    } catch (err) {
+        window.console.error("getClockTime | An error occurred - message : " + err.message);
+    }
+}
+
 
 function creteEvent() {
     try {
@@ -87,8 +98,16 @@ function creteEvent() {
         json_event_create.venue = $("#venueName").val();
         json_event_create.jammers = getFeaturingList("jammers");
         json_event_create.tags = getTagsEventCreate();
-
-        sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
+        
+        if (json_event_create.tags.length > 0) {
+            $("#label-tag-music .error").css({'display': 'none'});
+            sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
+        }
+        else {
+           
+            $("#label-tag-music  .error").css({'display': 'block'});
+        }
+        
     } catch (err) {
         window.console.error("creteEvent | An error occurred - message : " + err.message);
     }
@@ -115,8 +134,8 @@ function getTagsEventCreate() {
         $.each($("#tag-music :checkbox"), function() {
 
             if ($(this).is(":checked")) {
-                var index = parseInt($(this).val());
-                tags.push(music[index]);
+             //   var index = parseInt($(this).val());
+                tags.push($(this).val());
             }
         });
 

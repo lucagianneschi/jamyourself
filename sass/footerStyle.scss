@@ -1,0 +1,61 @@
+@import "compass/css3";
+@import "settings";
+
+footer {  
+  width:100%;
+  height:auto;
+  padding:8px;
+  background:$black;  
+  position: fixed;
+  bottom: 0px;
+  margin: 0px;
+  z-index:999; 
+  
+  overflow:visible !important;  
+}
+
+
+#footer{
+  overflow:auto;
+  h1, h2, h3, h4, h5, h6  {
+  color:$grey !important;
+  margin-bottom:0.2em !important;
+  }
+  
+}
+
+.footer-ico{  
+  color:$grey !important;  
+  font-size:20px; 
+  margin-right:15px;
+  cursor:pointer;
+  
+}
+
+.footer-ico-off{  
+  color:$orange !important;  
+  font-size:20px;   
+  cursor:pointer;
+}
+
+
+.user{
+  font-size:20px; 
+  color:$grey !important;  
+  margin-top:5px;
+  padding-bottom:0;   
+}
+
+#footer-body{
+  overflow:auto;
+  h1, h2, h3, h4, h5, h6  {
+  color:$grey !important;
+  margin-bottom:0.5em !important;
+  }
+}
+
+#footer-body a{
+  font-size:12px; 
+  color:$grey !important;
+  margin-bottom:0.2em !important;
+}
