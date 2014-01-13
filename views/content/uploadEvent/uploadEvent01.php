@@ -97,13 +97,34 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     </div>
 
     <div  class="small-6 columns">
-
+		<div class="row">
         <label for="description"><?php echo $views['uploadEvent']['description']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_description']; ?></small>		
 	    <textarea name="description"  pattern="general" id="description"  maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea></label>		
-
-        <label style="padding-bottom: 0px !important;" id="label-tag-music"><?php echo $views['uploadEvent']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre']; ?></small></label>		
-        <div id="tag-music"></div>
-
+		</div>
+		<div class="row">
+        <label style="padding-bottom: 0px !important;" id="label-tag-localType"><?php echo $views['uploadEvent']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre']; ?></small></label>		
+        <div id="tag-localType">
+        	<?php 
+        	$index = 0;
+        	foreach ($views['tag']['localType'] as $key => $value) { ?>
+	        	<input type="checkbox" name="tag-localType<?php echo $index ?>" id="tag-localType<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
+	        	<label for="tag-localType<?php echo $index ?>"><?php echo $value ?></label>
+        	<?php	
+			$index++; } ?>
+        </div>
+        </div>
+        <div class="row" style="margin-top: 30px">
+        <label style="padding-bottom: 0px !important;" id="label-tag-music"><?php echo $views['uploadEvent']['select_genre_music']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['select_genre_music']; ?></small></label>		
+        <div id="tag-music">
+        	<?php 
+        	$index = 0;
+        	foreach ($views['tag']['music'] as $key => $value) { ?>
+	        	<input type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
+	        	<label for="tag-music<?php echo $index ?>"><?php echo $value ?></label>
+        	<?php	
+			$index++; } ?>
+        </div>
+		</div>
     </div>
 
 </div>

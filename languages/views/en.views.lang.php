@@ -416,6 +416,7 @@ $views = array(
         'description' => 'Description ',
         'valid_description' => ' Please enter a valid Description',
         'select_genre' => 'Select genre ',
+        'select_genre_music' => 'Select genre',
         'enter_genre' => 'Please enter a Genre'
     ),
     'uploadRecord' => array(
