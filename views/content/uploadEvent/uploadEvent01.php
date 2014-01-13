@@ -114,7 +114,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         </div>
         </div>
         <div class="row" style="margin-top: 30px">
-        <label style="padding-bottom: 0px !important;" id="label-tag-music"><?php echo $views['uploadEvent']['select_genre_music']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['select_genre_music']; ?></small></label>		
+        <label style="padding-bottom: 0px !important;" id="label-tag-music"><?php echo $views['uploadEvent']['select_genre_music']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre_music']; ?></small></label>		
         <div id="tag-music">
         	<?php 
         	$index = 0;

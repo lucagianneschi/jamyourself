@@ -415,9 +415,10 @@ $views = array(
         'valid_city' => ' Please enter a valid City',
         'description' => 'Description ',
         'valid_description' => ' Please enter a valid Description',
-        'select_genre' => 'Select genre ',
+        'select_genre' => 'Select event type',
         'select_genre_music' => 'Select genre',
-        'enter_genre' => 'Please enter a Genre'
+        'enter_genre' => 'Please enter a event type',
+        'enter_genre_music' => 'Please enter a Genre',
     ),
     'uploadRecord' => array(
 		'upload_media' => 'Upload Media',
