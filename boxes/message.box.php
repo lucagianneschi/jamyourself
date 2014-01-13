@@ -157,12 +157,11 @@ class MessageBox {
         }
         require_once CLASSES_DIR . 'comment.class.php';
         require_once CLASSES_DIR . 'commentParse.class.php';
-        $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)),
-            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)));
-        $value1 = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)),
-            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)));
+        $compoundQuery = array(
+            array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId)), 'className' => 'Comment'), 'key' => 'objectId'))),
+            array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $otherId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)), 'className' => 'Comment'), 'key' => 'objectId'))));
         $messageP = new CommentParse();
-        $messageP->whereOr(array_merge($value, $value1));
+        $messageP->whereOr($compoundQuery);
         $messageP->where('type', 'M');
         $messageP->where('active', true);
         $messageP->whereInclude('fromUser');
