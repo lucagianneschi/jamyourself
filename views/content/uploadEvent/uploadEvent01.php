@@ -14,7 +14,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 <div class="row formBlack-body">
     <div  class="small-6 columns">
-        <label for="eventTitle"><input type="text" name="eventTitle" id="eventTitle" required>
+        <label for="eventTitle"><input type="text" name="eventTitle" id="eventTitle" required pattern="general">
 	    <?php echo $views['uploadEvent']['event_title']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_title']; ?></small></label>
 
 
@@ -69,7 +69,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<!--------------------------- FINE UPLOAD IMAGE -------------------------------->
 	<div class="row">
 	    <div  class="small-8 columns">
-		<input type="text" name="date" id="date" required pattern="">
+		<input type="text" name="date" id="date" required>
 		<label for="date"><?php echo $views['uploadEvent']['date']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_date']; ?></small></label>
 
 	    </div>			
@@ -84,14 +84,14 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         <label for="url"><input type="text" name="featuring" id="jammers" required pattern="">
 	    <?php echo $views['uploadEvent']['jammer_name']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_jammer']; ?></small></label>
 
-	<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="" >
+	<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="general" >
 	    <?php echo $views['uploadEvent']['venue_name']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_venue']; ?></small></label>
 
 <!--		<label for="adress"><input type="text" name="adress" id="adress" required pattern="">
         Adress <span class="orange">*</span><small class="error"> Please enter a valid Adress</small></label>
 	-->
 
-        <label for="city"><input type="text" name="city" id="city" required pattern="">
+        <label for="city"><input type="text" name="city" id="city" required pattern="general">
 	    <?php echo $views['uploadEvent']['city']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_city']; ?></small></label>
 
     </div>
@@ -99,9 +99,9 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     <div  class="small-6 columns">
 
         <label for="description"><?php echo $views['uploadEvent']['description']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_description']; ?></small>		
-	    <textarea name="description" id="description"  maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea></label>		
+	    <textarea name="description"  pattern="general" id="description"  maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea></label>		
 
-        <label style="padding-bottom: 0px !important;"><?php echo $views['uploadEvent']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre']; ?></small></label>		
+        <label style="padding-bottom: 0px !important;" id="label-tag-music"><?php echo $views['uploadEvent']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre']; ?></small></label>		
         <div id="tag-music"></div>
 
     </div>

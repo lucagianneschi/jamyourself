@@ -1,6 +1,9 @@
 var json_event_create = {"hours": "", "image": "", "crop": ""};
 var music = null;
 var uploader;
+//------ espressioni regolari -------------------------------
+var exp_general = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})$/;
+
 //-------------- variabili per jcrop ----------------------//
 var input_x,
         input_y,
@@ -17,7 +20,7 @@ var input_x,
 
 $(document).ready(function() {
     initJammersJSON();
-    initGeocomplete();
+//    initGeocomplete();
     initImgUploader();
 
     //gestione calendario
@@ -59,6 +62,16 @@ $(document).ready(function() {
             console.log("E' evvenuto un errore. Il stato della chiamata: " + stato);
         }
     });
+    
+    // plugin di fondation per validare i campi tramite espressioni regolari (vedi sopra)
+	$(document).foundation('abide', {
+	    live_validate: true,
+	    focus_on_invalid: true,
+	    timeout: 1000,
+	    patterns: {
+	        general: exp_general,
+	    }
+	});
 
 });
 
@@ -87,8 +100,16 @@ function creteEvent() {
         json_event_create.venue = $("#venueName").val();
         json_event_create.jammers = getFeaturingList("jammers");
         json_event_create.tags = getTagsEventCreate();
-
-        sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
+        
+        if (json_event_create.tags.length > 0) {
+            $("#label-tag-music .error").css({'display': 'none'});
+            sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
+        }
+        else {
+           
+            $("#label-tag-music  .error").css({'display': 'block'});
+        }
+        
     } catch (err) {
         window.console.error("creteEvent | An error occurred - message : " + err.message);
     }
