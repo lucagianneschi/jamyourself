@@ -186,7 +186,7 @@ class StreamBox {
             $parseQuery->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : DEFAULTQUERY);
             $parseQuery->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
             $parseQuery->whereSelect('fromUser', $select);
-            $parseQuery->whereInclude('album,event,comment,record,song,video,fromUser,toUser');
+            $parseQuery->whereInclude('album,comment,event,image,record,song,video,fromUser,toUser');
             $parseQuery->where('active', true);
             $parseQuery->whereContainedIn('type', $actArray);
             $parseQuery->orderByDescending('createdAt');
