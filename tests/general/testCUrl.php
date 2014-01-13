@@ -52,7 +52,7 @@ curl_setopt($c, CURLOPT_CUSTOMREQUEST, 'GET'); //$args['method']);
 
 //preparo la url su cui fare la query
 //$url = 'https://api.parse.com/1/' . 'classes/Comment/FIEm6BFFxl'; //'classes/Comment/FIEm6BFFxl'; //$url = $this->_parseurl . $args['requestUrl'];
-$url = 'https://api.parse.com/1/classes/Activity';
+$url = 'https://api.parse.com/1/classes/Comment';
 
 //dato che eseguo la GET allora eseguo sempre questo codice (che non mi dovrebbe servire perchè è una chiamata GET)
 /*
@@ -133,12 +133,19 @@ $param['where'] = json_encode(array('$or' => $compoundQuery));
 // - SELECT
 //$param['where'] = json_encode(array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration')));
 
-$param['where'] = json_encode(array('fromUser' => array('$select' => array('query' => array('className' => '_User', 'where' => array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration')), 'limit' => 2, 'skip' => 0), 'key' => 'objectId'))));
-$param['limit'] = '1000';
-$param['order'] = '-createdAt';
+//$param['where'] = json_encode(array('fromUser' => array('$select' => array('query' => array('className' => '_User', 'where' => array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration')), 'limit' => 2, 'skip' => 0), 'key' => 'objectId'))));
+//$param['limit'] = '1000';
+//$param['order'] = '-createdAt';
 
 //$param['where'] = json_encode(array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration')));
 //$param = json_encode(array('where' => array('$relatedTo' => array('object' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'key' => 'collaboration')), 'limit' => 10));
+
+// - SELECT CON OR (per fare (A and B) or (C and D)
+$compoundQuery = array(
+    array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77'), 'toUser' =>   array('__type' => 'Pointer', 'className' => '_User', 'objectId' => 'GuUAj83MGH')), 'className' => 'Comment'), 'key' => 'objectId'))),
+    array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => 'GuUAj83MGH'), 'toUser' =>   array('__type' => 'Pointer', 'className' => '_User', 'objectId' => '7fes1RyY77')), 'className' => 'Comment'), 'key' => 'objectId')))
+);
+$param['where'] = json_encode(array('$or' => $compoundQuery));
 
 //questo qui ci vuole sempre!
 $args['urlParams'] = $param;
