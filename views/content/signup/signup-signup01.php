@@ -79,5 +79,6 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     </div>
     <!------------------- messaggi di errori sui campi --------------------->
     <input type="hidden" id="error_field1" value="<?php echo $views['signup']['error_field1']?>"/>
-    <input type="hidden" id="error_field2" value="<?php echo $views['signup']['error_field2']?>"/>	
+    <input type="hidden" id="error_field2" value="<?php echo $views['signup']['error_field2']?>"/>
+    <input type="hidden" id="error_field3" value="<?php echo $views['signup']['error_field3']?>"/>		
 </div>

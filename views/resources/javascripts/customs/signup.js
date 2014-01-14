@@ -39,7 +39,7 @@ $(document).ready(function() {
     //controllo validazione campi
     validateFields()
     validateUsername();
-    
+    validatePassword();
     // ------------------------ GESTIONE BOTTONI NEXT E BACK ------------------------------
 	//prima scheda
 	step1Next();
@@ -326,6 +326,35 @@ function validateUsername(){
 	    });
 	}catch(err){
 		window.console.error("validateUsername | An error occurred - message : " + err.message);
+	}
+}
+
+/*
+ * validazione javascript campo password
+ */
+function validatePassword(){
+	try{
+		$('#signup01-password').blur(function(){
+	    	
+	    	var label_error = $('label[for="signup01-password"] .error');
+	    	var text_error = $(label_error).html();
+	    	
+	    	var exp1 = new RegExp(/^[!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]/);
+	    	if($('#signup01-password').val().length < 8){
+	        	//stringa vuota
+	        	$(label_error).html($('#signup01-signup01 #error_field3').val());
+	        	
+	        }	        
+	        else if(!exp1.test($('#signup01-username').val())){
+					$(label_error).html($('#signup01-signup01 #error_field2').val());	
+	        }
+	         else{
+				$(label_error).html(text_error);	
+	        } 	
+			
+	    });
+	}catch(err){
+		window.console.error("validatePassword | An error occurred - message : " + err.message);
 	}
 }
 

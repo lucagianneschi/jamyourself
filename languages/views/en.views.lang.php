@@ -362,7 +362,8 @@ $views = array(
         'venue_description' => 'Describe your Venue:',
         'birth_date' => 'Date of birth',
         'error_field1' => 'You did enter a space at end',
-        'error_field2' => 'Contains illegal characters'
+        'error_field2' => 'Contains illegal characters',
+        'error_field3' => 'Please enter minimum 8 characters'
     ),
     'stream' => array(
         'welcome' => 'Welcome',
