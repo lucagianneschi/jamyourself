@@ -1,8 +1,13 @@
+var exp_url = /(https?|ftp|file|ssh):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?/;
+var exp_general = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~\s][""]{0,0})$/;
+
 var music = null;
 var json_album_create = {'city': null};
 var uploader = null;
 var json_album = {"list": []};
 var recordLoader = null;
+
+
 //-------------- variabili per jcrop ----------------------//
 var type_user,
         input_x,
@@ -23,7 +28,10 @@ $(document).ready(function() {
     getUserRecords();
     initFeaturingJSON();
     initGeocomplete();
-
+	
+	validateFields();
+	validateUrl('urlBuy');
+	
     //gesione button create new 
     $('#uploadRecord-new').click(function() {
         $("#uploadRecord01").fadeOut(100, function() {
@@ -131,6 +139,45 @@ $(document).ready(function() {
 //    });
 
 });
+
+/*
+ * validazione campi con plugin abide di foundation
+ * trami espressioni regolari definite sopra
+ */
+function validateFields(){
+	try{
+		$(document).foundation('abide', {
+		    live_validate: true,
+		    focus_on_invalid: true,
+		    timeout: 1000,
+		    patterns: {
+		    	general : exp_general,
+		    	year: /^(19|20)\d{2}$/,
+		        url: exp_url
+		    }
+		});
+	}catch(err){
+		window.console.error("validateFields | An error occurred - message : " + err.message);
+	}
+		
+}
+
+/*
+ * validazione javascript campo url
+ */
+function validateUrl(field){
+	try{
+		$('#'+field).blur(function(){	    	
+	    	var str = $('#'+field).val();	    	
+	    	if(str.indexOf("http://") < 0){
+				$('#'+field).val('http://'+str);	
+	        }
+	    });
+	}catch(err){
+		window.console.error("validateUrl | An error occurred - message : " + err.message);
+	}
+}
+
 
 //////////////////////////////////////////////////////////////////////////////
 //  

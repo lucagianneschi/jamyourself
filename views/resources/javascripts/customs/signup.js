@@ -277,9 +277,7 @@ function validateFields(){
 	}catch(err){
 		window.console.error("validateFields | An error occurred - message : " + err.message);
 	}
-	
-	var illegalChat = /^[!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]/;
-	
+		
 }
 
 /*
@@ -370,6 +368,9 @@ function validateCharacters(field){
 	}
 }
 
+/*
+ * validazione javascript campo url
+ */
 function validateUrl(field){
 	try{
 		$('#'+field).blur(function(){	    	
@@ -379,7 +380,7 @@ function validateUrl(field){
 	        }
 	    });
 	}catch(err){
-		window.console.error("validateCharacters | An error occurred - message : " + err.message);
+		window.console.error("validateUrl | An error occurred - message : " + err.message);
 	}
 }
 
