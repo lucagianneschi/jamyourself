@@ -132,6 +132,10 @@ function getFeaturingArray() {
  */
 function getCroppedImages($decoded) {
 //in caso di anomalie ---> default
+    if (is_array($decoded)) {
+        $decoded = json_decode(json_encode($decoded), false);
+    }
+
     if (!isset($decoded->crop) || is_null($decoded->crop) ||
             !isset($decoded->image) || is_null($decoded->image)) {
         return array("picture" => null, "thumbnail" => null);

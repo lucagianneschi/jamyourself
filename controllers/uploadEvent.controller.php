@@ -70,7 +70,7 @@ class UploadEventController extends REST {
                 $this->response(array('status' => $controllers['NOEVENTMUSIC']), 400);
             } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTTAGS']), 400);
-            }elseif (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
+            } elseif (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTURL']), 400);
             } elseif (!isset($this->request['venue']) || is_null($this->request['venue']) || !(strlen($this->request['venue']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTVENUE']), 400);
@@ -88,10 +88,10 @@ class UploadEventController extends REST {
             $event->setActive(true);
             $event->setAttendee(null);
             $event->setCounter(0);
-            $event->setDescription($this->request['description']);            
+            $event->setDescription($this->request['description']);
             $eventDate = $this->getDate($this->request['date'], $this->request['hours']);
-            if(is_null($eventDate)){
-                $this->response(array('status' => $controllers['NOEVENTDATE']), 400);                
+            if (is_null($eventDate)) {
+                $this->response(array('status' => $controllers['NOEVENTDATE']), 400);
             }
             $event->setEventDate($eventDate); //tipo Date su parse
             $event->setFeaturing($this->request['jammers']);
@@ -124,11 +124,19 @@ class UploadEventController extends REST {
             }
             //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE                
 
-            $dirThumbnailDest = USERS_DIR . $userId . "/images/eventcover";
-            $dirCoverDest = USERS_DIR . $userId . "/images/eventcoverthumb";
+            $dirThumbnailDest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover";
+            $dirCoverDest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb";
             $thumbSrc = $eventSave->getThumbnail();
             $imageSrc = $eventSave->getImage();
             if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
+                //creo le cartelle se non esistono (per sicurezza)
+                if (!file_exists($dirThumbnailDest)) {
+                    mkdir($dirThumbnailDest, 0777, true);
+                }
+                if (!file_exists($dirCoverDest)) {
+                    mkdir($dirCoverDest, 0777, true);
+                }
+                //sposto i file
                 rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
                 rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
             }
@@ -224,10 +232,10 @@ class UploadEventController extends REST {
             }
 
             if (!is_null($filter)) {
-                require_once CONTROLLERS_DIR . 'utilsController.php';                
+                require_once CONTROLLERS_DIR . 'utilsController.php';
                 echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
             } else {
-                echo json_encode($currentUserFeaturingArray);                
+                echo json_encode($currentUserFeaturingArray);
             }
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
