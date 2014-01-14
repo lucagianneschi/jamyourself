@@ -98,6 +98,7 @@ function creteEvent() {
         json_event_create.venue = $("#venueName").val();
         json_event_create.jammers = getFeaturingList("jammers");
         json_event_create.tags = getTagsEventCreate();
+        json_event_create.music = getMusicEventCreate();
         
         if (json_event_create.tags.length > 0) {
             $("#label-tag-music .error").css({'display': 'none'});
@@ -142,6 +143,23 @@ function getTagsEventCreate() {
         return tags;
     } catch (err) {
         window.console.log("getTagsEventCreate |An error occurred - message : " + err.message);
+    }
+}
+
+function getMusicEventCreate() {
+    try {
+        var music = new Array();
+        $.each($("#tag-localType :checkbox"), function() {
+
+            if ($(this).is(":checked")) {
+             //   var index = parseInt($(this).val());
+                music.push($(this).val());
+            }
+        });
+
+        return music;
+    } catch (err) {
+        window.console.log("getMusicEventCreate |An error occurred - message : " + err.message);
     }
 }
 
