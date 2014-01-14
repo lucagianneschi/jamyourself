@@ -6,7 +6,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 ?>
-<div id="jammer-signup02"  class="no-display">
+<div id="jammer-signup02"  class="">
     <div class="row">
         <div  class="large-12 columns signup-title">
             <h2><span id="signup02-jammer-name-artist"></span><?php echo $views['signup']['tell_us']; ?></h2>		
@@ -116,26 +116,33 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                 <div  class="small-6 columns">
                     <div class="row jammer-componentInstrument1-singup02">
                         <div  class="small-12 columns">
-                            <select id="jammer_componentInstrument1">																
+                            <select id="jammer_componentInstrument1">
+                            	<option name="jammer-componentInstrument1" id="jammer-componentInstrument1" value="Accordion">Accordion</option>
+                            	<?php foreach ($views['tag']['instruments'] as $key => $value) { ?>
+									<option name="jammer-componentInstrument1" id="jammer-componentInstrument1" value="<?php echo $key ?>"><?php echo $value ?></option>
+								<?php } ?>																
                             </select>							
                             <label for="jammer-componentInstrument1" ><?php echo $views['signup']['instrument']; ?><small class="error"><?php echo $views['signup']['valid_instrument']; ?></small></label>
                         </div>							
                     </div>
-                    <div class="row jammer-componentInstrument2-singup02">
+                    <div class="row jammer-componentInstrument2-singup02" >
                         <div  class="small-12 columns">									
-                            <select id="jammer_componentInstrument2">																
+                            <select id="jammer_componentInstrument2">
+                            	<?php foreach ($views['tag']['instruments'] as $key => $value) { ?>
+									<option name="jammer-componentInstrument2" id="jammer-componentInstrument2" value="<?php echo $key ?>"><?php echo $value ?></option>
+								<?php } ?>																
                             </select>								
                             <label for="jammer-componentInstrument2" ><?php echo $views['signup']['instrument']; ?><small class="error"><?php echo $views['signup']['valid_instrument']; ?></small></label>
                         </div>							
                     </div>
                     <div id="addComponentInstrument">
-
+						
                     </div>
                 </div>		
             </div>
             <div class="row">
                 <div  class="small-3 small-centered columns">
-                    <div class="text orange addComponents"><?php echo $views['signup']['add_components']; ?></div>
+                    <div class="text orange addComponents" onclick="addComponent()"><?php echo $views['signup']['add_components']; ?></div>
                 </div>
             </div>
         </div>			

@@ -269,14 +269,14 @@
 }
 
 #form-signup select{
-  
+  margin-bottom : 14px !important;
   cursor:pointer;
   padding:2px !important;
   color: $grey-light !important;
   background-color:$grey-superdark;
   border: 1px solid $grey-dark;
-  height: 30px;
-   background: $grey-superdark url(../images/icon/small/other.png) no-repeat right !important;
+  min-height: 32px !important;
+  background: $grey-superdark url(../images/icon/small/other.png) no-repeat 99% !important;
   -webkit-appearance: none;
   &:focus{
     border: 1px solid $grey-dark;

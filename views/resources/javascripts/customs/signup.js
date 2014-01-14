@@ -108,23 +108,7 @@ $(document).ready(function() {
 			window.console.error("Event click .signup-social-button a | An error occurred - message : " + err.message);
 		}
     });
-    
-    /*
-     * gestione event click per aumentare il numero di componenti della band
-     */
-    var numComponent = 3;
-    $('.addComponents').click(function() {
-    	try{
-	        text = '<div class="row jammer-componentName' + numComponent + '-singup02"> <div  class="small-12 columns"> <input type="text" name="jammer-componentName' + numComponent + '" id="jammer-componentName' + numComponent + '" pattern="username" maxlength="50"/>	<label for="jammer-componentName' + numComponent + '" >Name<small class="error"> Please enter a valid Name</small></label> </div> </div>';
-	        $('#addComponentName').append(text);
-	        text = '<div class="row jammer-componentInstrument' + numComponent + '-singup02"> <div  class="small-12 columns"> <select id="jammer_componentInstrument' + numComponent + '" ></select>	<label for="jammer-componentInstrument' + numComponent + '" >Instrument<small class="error"> Please enter a valid Instrument</small></label> </div> </div>';
-	        $('#addComponentInstrument').append(text);
-	        getTag('intruments', 'jammer', 'jammer-signup02', null, 'select', numComponent);
-	        numComponent = numComponent + 1;
-        }catch(err){
-			window.console.error("Event click .addComponents | An error occurred - message : " + err.message);
-		}
-    });
+     
 
     $('.uploadImage_save').click(function() {
     	try{
@@ -444,24 +428,17 @@ function step1Next(){
 	        var validation_verifyPassword = false;
 	
 	        var id = $(this).attr('id');
-	
-	
 	        if (id == "spotter-signup01-next") {
 	            type_user = "spotter";
 	            scheda_succ = '#spotter-signup02';
-	            getTag('music', 'check', 'spotter', 'spotter-signup02', max_genre_spotter, null);
 	        }
 	        if (id == "jammer-signup01-next") {
 	            type_user = "jammer";
 	            scheda_succ = '#jammer-signup02';
-	            getTag('music', 'check', 'jammer', 'jammer-signup03', max_genre, null);
-	            getTag('instruments', 'select', 'jammer', 'jammer-signup02', null, 2);
 	        }
 	        if (id == "venue-signup01-next") {
 	            type_user = "venue";
 	            scheda_succ = '#venue-signup02';
-	            getTag('localType', 'check', 'venue', 'venue-signup03', max_genre, null);
-	
 	        }
 	
 	        //validation username
@@ -950,105 +927,30 @@ function step3BackVenue(){
 }
 
 /*
- * legge i dati da filename e a seconda del tipo di operazione (typeSelect) inseriesce questi dati nella rispettiva scheda del tipo di utente typeUser
- * -filename: nome del file che verra inviato tramite POST a getTag.php, questo restituisce un array di elementi
- * -typeSelect: tipo di elemento html da inserire dinamicamente (check o select)
- * -typeUser: tipo di utente 
- * -scheda: indica la scheda in cui vannp inseriti i dati
- * -max-check: se typeSelect="check" allora max-check indica il max num di check possibili
- * -number: se typeSelect="select" allora number indica il numero di componentInstrument da inserire
- * 
- * @author: Maria Laura
- * 
+ * auomenta i campi per i componenti della band
  */
-function getTag(typeTag, typeSelect, typeUser, scheda, max_check, number) {
-
-    //carica i tag music
-    $.ajax({
-        url: "../config/views/tag.config.json",
-        dataType: 'json',
-        success: function(data, stato) {
-            var music = '';
-            if (typeTag == 'instruments')
-                music = data.instruments;
-            if (typeTag == 'localType')
-                music = data.localType;
-            if (typeTag == 'music')
-                music = data.music;
-
-            for (var value in music) {
-
-                if (typeSelect == "check") {
-                    $('<input type="checkbox" name="' + typeUser + '-genre[' + value + ']" id="' + typeUser + '-genre[' + value + ']" value="' + value + '" class="no-display"><label for="' + typeUser + '-genre[' + value + ']">' + music[value] + '</label>').appendTo('#' + scheda + ' .signup-genre');
-                    //Limita il numero di checked per quanto riguarda il genre dello JAMMER (max 5)
-                    $("#" + scheda + " .signup-genre input[type='checkbox']").click(function() {
-                        $("#" + scheda + " .label-signup-genre .error").css({'display': 'none'});
-                        var bol = $("#" + scheda + " .signup-genre input[type='checkbox']:checked").length >= max_check;
-                        $("#" + scheda + " .signup-genre input[type='checkbox']").not(":checked").attr("disabled", bol);
-                    });
-                }
-                else {
-                    if (number == 2) {
-                        $('<option name="' + typeUser + '-componentInstrument1" id="' + typeUser + '-componentInstrument1" value="' + music[value] + '">' + music[value] + '</option>').appendTo('#jammer_componentInstrument1');
-                        $('<option name="' + typeUser + '-componentInstrument2" id="' + typeUser + '-componentInstrument2" value="' + music[value] + '">' + music[value] + '</option>').appendTo('#jammer_componentInstrument2');
-
-                    }
-                    else {
-                        $('<option name="' + typeUser + '-componentInstrument' + number + '" id="' + typeUser + '-componentInstrument' + number + '" value="' + music[value] + '">' + music[value] + '</option>').appendTo('#jammer_componentInstrument' + number + '');
-
-                    }
-
-                }
-
-            }
-
-        },
-        error: function(richiesta, stato, errori) {
-            console.log("E' evvenuto un errore. Il stato della chiamata: " + stato);
-        }
-    });
-
-
-    /*
-     $.ajax({
-     url: "utilities/readFile.php",
-     type: 'POST',
-     dataType: 'json',
-     data: {file_name_txt: fileName},
-     success: function(data, stato) {
-     $.each(data, function(index, val) {
-     text = val.split('\n');
-     if (typeSelect == "check") {
-     $('<input type="checkbox" name="' + typeUser + '-genre[' + index + ']" id="' + typeUser + '-genre[' + index + ']" value="' + index + '" class="no-display"><label for="' + typeUser + '-genre[' + index + ']">' + text[0] + '</label>').appendTo('#' + scheda + ' .signup-genre');
-     //Limita il numero di checked per quanto riguarda il genre dello JAMMER (max 5)
-     $("#" + scheda + " .signup-genre input[type='checkbox']").click(function() {
-     $("#" + scheda + " .label-signup-genre .error").css({'display': 'none'});
-     var bol = $("#" + scheda + " .signup-genre input[type='checkbox']:checked").length >= max_check;
-     $("#" + scheda + " .signup-genre input[type='checkbox']").not(":checked").attr("disabled", bol);
-     });
-     }
-     else {
-     if (number == 2) {
-     $('<option name="' + typeUser + '-componentInstrument1" id="' + typeUser + '-componentInstrument1" value="' + text[0] + '">' + text[0] + '</option>').appendTo('#jammer_componentInstrument1');
-     $('<option name="' + typeUser + '-componentInstrument2" id="' + typeUser + '-componentInstrument2" value="' + text[0] + '">' + text[0] + '</option>').appendTo('#jammer_componentInstrument2');
-     
-     }
-     else {
-     $('<option name="' + typeUser + '-componentInstrument' + number + '" id="' + typeUser + '-componentInstrument' + number + '" value="' + text[0] + '">' + text[0] + '</option>').appendTo('#jammer_componentInstrument' + number + '');
-     
-     }
-     
-     }
-     
-     });
-     },
-     error: function(richiesta, stato, errori) {
-     alert("E' evvenuto un errore. Il stato della chiamata: " + stato);
-     }
-     });
-     */
+var numComponent = 3;
+function addComponent(){
+	try{
+		
+        text = '<div class="row jammer-componentName' + numComponent + '-singup02"> <div  class="small-12 columns"> <input type="text" name="jammer-componentName' + numComponent + '" id="jammer-componentName' + numComponent + '" pattern="username" maxlength="50"/>	<label for="jammer-componentName' + numComponent + '" >Name<small class="error"> Please enter a valid Name</small></label> </div> </div>';
+        $('#addComponentName').append(text);
+        
+        text = '<div class="row jammer-componentInstrument' + numComponent + '-singup02"> <div  class="small-12 columns"> <select id="jammer_componentInstrument' + numComponent + '" ></select>	<label for="jammer-componentInstrument' + numComponent + '" >Instrument<small class="error"> Please enter a valid Instrument</small></label> </div> </div>';
+        $('#addComponentInstrument').append(text);
+        		
+		option = $("#jammer_componentInstrument1 option").clone();  
+		
+		jQuery.each( option, function( i, val ) {
+			jQuery(val).attr("id","jammer-componentInstrument"+ numComponent);
+			jQuery(val).attr("name","jammer-componentInstrument"+ numComponent);
+			$( val ).appendTo( '#jammer_componentInstrument' + numComponent );
+		});   
+   		numComponent = numComponent + 1;
+	}catch(err){
+		window.console.error("addComponent | An error occurred - message : " + err.message);
+	}
 }
-
 
 /**
  * Da chiamare al momento dell'esecuzione effettiva 
