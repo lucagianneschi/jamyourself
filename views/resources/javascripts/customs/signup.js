@@ -314,10 +314,10 @@ function validateUsername(){
 	        	
 	        }
 	        else if(exp.test($('#signup01-username').val())){
-					$(label_error).html("You did enter a space at end");	
+					$(label_error).html($('#signup01-signup01 #error_field1').val());	
 	        }
 	        else if(!exp1.test($('#signup01-username').val())){
-					$(label_error).html("Contains illegal characters");	
+					$(label_error).html($('#signup01-signup01 #error_field2').val());	
 	        }
 	         else{
 				$(label_error).html(text_error);	

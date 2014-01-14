@@ -57,10 +57,10 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 	    <div  class="row">
 		<div  class="small-5 small-centered   columns">
-		    <div id="signup01-captcha" >						 
+		    <div id="signup01-captcha" >		 
 
 		    </div>
-		     <label for="signup01-captcha" id="valid-captcha"><span class="orange">*</span><small class="error"><?php echo $views['signup']['valid_captcha']; ?></small></label>		
+		     <label for="signup01-captcha" id="valid-captcha"><small class="error"><?php echo $views['signup']['valid_captcha']; ?></small></label>		
 		</div>	
 	    </div>
 	</div>			
@@ -76,5 +76,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <input type="button" name="venue-signup01-next" id="venue-signup01-next" class="signup-button" value="Next"/>
 
 	</div>	
-    </div>	
+    </div>
+    <!------------------- messaggi di errori sui campi --------------------->
+    <input type="hidden" id="error_field1" value="<?php echo $views['signup']['error_field1']?>"/>
+    <input type="hidden" id="error_field2" value="<?php echo $views['signup']['error_field2']?>"/>	
 </div>

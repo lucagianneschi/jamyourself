@@ -360,7 +360,9 @@ $views = array(
         'address' => 'Address ',
         'valid_address' => ' Please enter a valid Address',
         'venue_description' => 'Describe your Venue:',
-        'birth_date' => 'Date of birth'
+        'birth_date' => 'Date of birth',
+        'error_field1' => 'You did enter a space at end',
+        'error_field2' => 'Contains illegal characters'
     ),
     'stream' => array(
         'welcome' => 'Welcome',
