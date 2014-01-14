@@ -141,7 +141,7 @@ $(document).ready(function() {
 	            });
 	
 	        }
-	
+			
 	        json_crop = {
 	            x: $('#' + input_x).val(),
 	            y: $('#' + input_y).val(),
@@ -150,8 +150,9 @@ $(document).ready(function() {
 	        };
 	
 	        json_signup_user.crop = json_crop;
-	
+			
 	        $('#' + type_user + '-uploadImage').foundation('reveal', 'close');
+	        
         }catch(err){
 			window.console.error("Event click .uploadImage_save | An error occurred - message : " + err.message);
 		}
@@ -421,7 +422,7 @@ function viewStep3() {
 function step1Next(){
 	try{
 		$('#signup01-signup01 .signup-button').click(function() {
-	        var type_user, scheda_succ;	
+	        var scheda_succ;	
 	        var validation_username = false;
 	        var validation_mail = false;
 	        var validation_password = false;
@@ -507,7 +508,7 @@ function step1Next(){
 	        else{
 	        	showCaptcha();
 	        }
-	
+			
 	    });
 	}catch(err){
 		window.console.error("step1Next | An error occurred - message : " + err.message);

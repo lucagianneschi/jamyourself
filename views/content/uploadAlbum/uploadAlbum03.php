@@ -9,7 +9,7 @@
 		<!--------------------------- UPLOAD IMAGE -------------------------------->
         <div class="row upload-box" id="upload-album">
             <div  class="small-3 columns" id="tumbnail-pane" >
-                    <div class="signup-image" style="height: 105px !important;">
+                    <div class="signup-image">
                         <div id="uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane">
                             <img id="uploadImage_tumbnail" name="uploadImage_tumbnail"/>
                         </div>

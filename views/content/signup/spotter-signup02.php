@@ -79,7 +79,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                     <input type="text" name="spotter-location" id="spotter-city" pattern="description" maxlength="50" required />					
                     <label for="spotter-city " class="inline"><?php echo $views['signup']['city']; ?><span class="orange">*</span><small class="error"><?php echo $views['signup']['valid_city']; ?></small></label>
 
-                    <a href="#" data-reveal-id="spotter-myModal" class="location-reveal text grey"><?php echo $views['signup']['localization_question']; ?><</a>
+                    <a href="#" data-reveal-id="spotter-myModal" class="location-reveal text grey"><?php echo $views['signup']['localization_question']; ?></a>
                     <div id="spotter-myModal" class="reveal-modal">
                         <h3><?php echo $views['signup']['localization_question']; ?></h3>					 
                         <p class="grey"><?php echo $views['signup']['localization_answer']; ?></p>
