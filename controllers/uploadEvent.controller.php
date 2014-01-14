@@ -66,9 +66,11 @@ class UploadEventController extends REST {
                 $this->response(array('status' => $controllers['NOEVENTDATE']), 400);
             } elseif (!isset($this->request['hours']) || is_null($this->request['hours'])) {
                 $this->response(array('status' => $controllers['NOEVENTHOURS']), 400);
+            } elseif (!isset($this->request['music']) || is_null($this->request['music']) || !is_array($this->request['music']) || !(count($this->request['music']) > 0)) {
+                $this->response(array('status' => $controllers['NOEVENTMUSIC']), 400);
             } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTTAGS']), 400);
-            } elseif (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
+            }elseif (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTURL']), 400);
             } elseif (!isset($this->request['venue']) || is_null($this->request['venue']) || !(strlen($this->request['venue']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTVENUE']), 400);
@@ -112,6 +114,7 @@ class UploadEventController extends REST {
             $event->setReviewCounter(0);
             $event->setShareCounter(0);
             $event->setTags($this->request['tags']);
+            $event->setGenre($this->request['music']);
             $event->setTitle($this->request['title']);
             require_once CLASSES_DIR . 'eventParse.class.php';
             $pEvent = new EventParse();
