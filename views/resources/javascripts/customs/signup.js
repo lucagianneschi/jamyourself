@@ -3,7 +3,7 @@
 var exp_username = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27][!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27][!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]{0,0})$/;
 var exp_mail = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+[\.]([a-z0-9-]+)*([a-z]{2,3})$/;
 var exp_password = /(^[a-zA-Z0-9]{7,})+([a-zA-Z0-9])$/;
-var exp_description = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})$/;
+var exp_description = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~\s][""]{0,0})$/;
 var exp_url = /(https?|ftp|file|ssh):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?/;
 
 //------------ variabili generiche --------------------
@@ -40,6 +40,9 @@ $(document).ready(function() {
     validateFields()
     validateUsername();
     validatePassword();
+    validateCharacters('spotter-firstname');
+    validateCharacters('spotter-lastname');
+    
     // ------------------------ GESTIONE BOTTONI NEXT E BACK ------------------------------
 	//prima scheda
 	step1Next();
@@ -288,6 +291,9 @@ function validateFields(){
 	}catch(err){
 		window.console.error("validateFields | An error occurred - message : " + err.message);
 	}
+	
+	var illegalChat = /^[!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]/;
+	
 }
 
 /*
@@ -306,8 +312,9 @@ function validateUsername(){
 	    		}
 			  			
 			});
+			var illegalChat = /^[!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]/;
 	    	var exp = new RegExp(/(\s)$/);
-	    	var exp1 = new RegExp(/^[!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]/);
+	    	var exp1 = new RegExp(illegalChat);
 	    	if($('#signup01-username').val() == ''){
 	        	//stringa vuota
 	        	$(label_error).html(text_error);
@@ -317,7 +324,7 @@ function validateUsername(){
 					$(label_error).html($('#signup01-signup01 #error_field1').val());	
 	        }
 	        else if(!exp1.test($('#signup01-username').val())){
-					$(label_error).html($('#signup01-signup01 #error_field2').val());	
+					$(label_error).html($('#signup01-signup01 #error_field2').val()+': '+illegalChat);	
 	        }
 	         else{
 				$(label_error).html(text_error);	
@@ -338,15 +345,15 @@ function validatePassword(){
 	    	
 	    	var label_error = $('label[for="signup01-password"] .error');
 	    	var text_error = $(label_error).html();
-	    	
-	    	var exp1 = new RegExp(/^[!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]/);
+	    	var illegalChat = /^[!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]/;
+	    	var exp1 = new RegExp(illegalChat);
 	    	if($('#signup01-password').val().length < 8){
 	        	//stringa vuota
 	        	$(label_error).html($('#signup01-signup01 #error_field3').val());
 	        	
 	        }	        
-	        else if(!exp1.test($('#signup01-username').val())){
-					$(label_error).html($('#signup01-signup01 #error_field2').val());	
+	        else if(!exp1.test($('#signup01-password').val())){
+					$(label_error).html($('#signup01-signup01 #error_field2').val()+': '+illegalChat);	
 	        }
 	         else{
 				$(label_error).html(text_error);	
@@ -357,6 +364,27 @@ function validatePassword(){
 		window.console.error("validatePassword | An error occurred - message : " + err.message);
 	}
 }
+
+/*
+ * validazione javascript campo password
+ */
+function validateCharacters(field){
+	try{
+		$('#'+field).blur(function(){	    	
+	    	var label_error = $('label[for="'+field+'"] .error');
+	    	var text_error = $(label_error).html();
+	    	var illegalChat = /^[!""#$%&'()*+,-./:;<=>?[\]^_`{|}~]/;
+	    	var exp1 = new RegExp(illegalChat);
+	    	if(!exp1.test($('#'+field).val())){
+					$(label_error).html($('#signup01-signup01 #error_field2').val()+': '+illegalChat);	
+	        }
+	    });
+	}catch(err){
+		window.console.error("validateCharacters | An error occurred - message : " + err.message);
+	}
+}
+
+
 
 /*
  * gestione visualizzazione step
