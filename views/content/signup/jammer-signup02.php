@@ -64,7 +64,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                 <div  class="small-6 columns">
                     <div class="row">
                         <div  class="small-4 columns">
-                            <p id="jammer-typeArtist-label" class="text grey-light inline"><?php echo $views['signup']['signing_as']; ?></small></p>					
+                            <p id="jammer-typeArtist-label" class="text grey-light inline"><?php echo $views['signup']['signing_as']; ?> <span class="orange">*</span></small></p>					
                         </div>
                         <div  class="small-8 columns inline signup-radio">			
                             <input type="radio" name="jammer-typeArtist" id="jammer-typeArtist-musician" class="no-display inline" value ="musician" required><label for="jammer-typeArtist-musician" unchecked class="inline"><?php echo $views['signup']['musician']; ?></label>

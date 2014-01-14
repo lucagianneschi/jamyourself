@@ -42,6 +42,7 @@ $(document).ready(function() {
     validatePassword();
     validateCharacters('spotter-firstname');
     validateCharacters('spotter-lastname');
+   	
     
     // ------------------------ GESTIONE BOTTONI NEXT E BACK ------------------------------
 	//prima scheda
@@ -369,7 +370,18 @@ function validateCharacters(field){
 	}
 }
 
-
+function validateUrl(field){
+	try{
+		$('#'+field).blur(function(){	    	
+	    	var str = $('#'+field).val();	    	
+	    	if(str.indexOf("http://") < 0){
+				$('#'+field).val('http://'+str);	
+	        }
+	    });
+	}catch(err){
+		window.console.error("validateCharacters | An error occurred - message : " + err.message);
+	}
+}
 
 /*
  * gestione visualizzazione step
@@ -581,6 +593,12 @@ function step2NextSpotter(){
 	            //il secondo blocco dello step sara' arancione gli altri arancione scuro
 	            viewStep3();
 	        }
+	        validateUrl('spotter-facebook');
+		    validateUrl('spotter-twitter');
+		    validateUrl('spotter-google');
+		    validateUrl('spotter-youtube');
+		    validateUrl('spotter-web');
+	        
 	    });
 	}catch(err){
 		window.console.error("step2NextSpotter | An error occurred - message : " + err.message);
@@ -710,6 +728,11 @@ function step2NextJammer(){
 	            //il secondo blocco dello step sara' arancione gli altri arancione scuro
 	            viewStep3();
 	        }
+	        validateUrl('jammer-facebook');
+		    validateUrl('jammer-twitter');
+		    validateUrl('jammer-google');
+		    validateUrl('jammer-youtube');
+		    validateUrl('jammer-web');
 	    });
 	}catch(err){
 		window.console.error("step2NextJammer | An error occurred - message : " + err.message);
@@ -847,6 +870,11 @@ function step2NextVenue(){
 	            //il secondo blocco dello step sara' arancione gli altri arancione scuro
 	            viewStep3();
 	        }
+	        validateUrl('venue-facebook');
+		    validateUrl('venue-twitter');
+		    validateUrl('venue-google');
+		    validateUrl('venue-youtube');
+		    validateUrl('venue-web');
 	    });
 	}catch(err){
 		window.console.error("step2NextVenue | An error occurred - message : " + err.message);
