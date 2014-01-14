@@ -6,7 +6,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 ?>
-<div id="jammer-signup02"  class="">
+<div id="jammer-signup02"  class="no-display">
     <div class="row">
         <div  class="large-12 columns signup-title">
             <h2><span id="signup02-jammer-name-artist"></span><?php echo $views['signup']['tell_us']; ?></h2>		
