@@ -32,9 +32,12 @@ $(document).ready(function() {
 	validateFields();
 	validateUrl('urlBuy');
 	    
-	createNewRecord();
+	step1NewRecord();
+	
 	step2Next();
 	step2Back();
+	
+	step3Ok();
 	
     //gesione button publish 
     $('#uploadRecord03-publish').click(function() {
@@ -61,6 +64,7 @@ $(document).ready(function() {
             }
         }
     });
+    
     $('#trackFeaturing').select2({
         multiple: true,
         minimumInputLength: 1,
@@ -131,7 +135,7 @@ function validateUrl(field){
 /*
  * gesione button create new record
  */
-function createNewRecord(){
+function step1NewRecord(){
 	try{
 	    $('#uploadRecord-new').click(function() {
 	        $("#uploadRecord01").fadeOut(100, function() {
@@ -154,15 +158,15 @@ function step2Next(){
 	    	var espressione = new RegExp(exp_general); 
 	    	var esprUrl = new RegExp(exp_url);  
 	    	var esprYear = new RegExp(/^(19|20)\d{2}$/);     	
-	    	var validation_title,validation_description,validation_label,validation_urlBuy,validation_year,validation_city,validation_genre = false;
 	    	//title
-	    	if ($('#recordTitle').val() == '' && !espressione.test($('#recordTitle').val())) {
+	    	var validation_title = false;	    	
+	    	if ($('#recordTitle').val() == '' || !espressione.test($('#recordTitle').val())) {
 	            $('#recordTitle').focus();
 	            validation_title = false;
 	        }else validation_title = true;
 	    	//description
 	    	var validation_description = false;
-	    	if ($('#description').val() == '' && !espressione.test($('#description').val())) {
+	    	if ($('#description').val() == '' || !espressione.test($('#description').val())) {
 	            $('#description').focus();
 	            validation_description = false;
 	        }else validation_description = true;
@@ -190,10 +194,10 @@ function step2Next(){
 	    		$('#city').focus();
 	            validation_city = false;
 	        }else validation_city = true;
-	        
-	        console.log($('#urlBuy').attr('data-invalid'));
-	        //controllo se almeno esiste un checked per genre    	    	 
-	        if (!$("input[type='checkbox']").is(':checked')) {
+	       	       
+	        //controllo se almeno esiste un checked per genre
+	        var validation_genre = false;    	    	 
+	        if (!$("#tag-music input[type='checkbox']").is(':checked')) {
 	            $("#labelTag .error").css({'display': 'block'});
 	            validation_genre = false;
 	        }
@@ -228,6 +232,33 @@ function step2Back(){
 	}catch(err){
 		window.console.error("step2Back | An error occurred - message : " + err.message);
 	}
+}
+
+function step3Ok(){
+	$('#uploadRecord03-next').click(function() {
+		//trackTitle
+		var validation_trackTitle = false;
+    	if ($('#trackTitle').val() == '' || $('#trackTitle').attr('data-invalid') != undefined) {
+    		$('#trackTitle').focus();
+            validation_trackTitle = false;
+        }else validation_trackTitle = true;
+        
+        //genre
+        var validation_genreTrack = false; 	    	 
+        if (!$("#tag-musicTrack input[type='checkbox']").is(':checked')) {
+            $("#labelmusicTrack .error").css({'display': 'block'});
+            validation_genreTrack = false;
+        }
+        else {
+        	 $("#labelmusicTrack .error").css({'display': 'none'});
+            validation_genreTrack = true;
+        }
+        
+        if(validation_trackTitle && validation_genreTrack){
+        	$('#uploadRecord-detail').removeClass('no-display');
+        } 
+		
+	});
 }
 
 

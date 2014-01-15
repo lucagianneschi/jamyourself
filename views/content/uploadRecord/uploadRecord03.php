@@ -29,7 +29,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<label for="trackFeaturing"><?php echo $views['uploadRecord']['feat']; ?></label>
     </div>
     <div  class="small-6 columns">
-	<label style="padding-bottom: 0px !important;"><?php echo $views['uploadRecord']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadRecord']['enter_genre']; ?></small></label>		
+	<label id='labelmusicTrack' style="padding-bottom: 0px !important;"><?php echo $views['uploadRecord']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadRecord']['enter_genre']; ?></small></label>		
 	<div id="tag-musicTrack">
 		<?php 
         	$index = 0;
