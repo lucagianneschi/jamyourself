@@ -23,30 +23,30 @@ $(document).ready(function() {
     initGeocomplete();
     initImgUploader();
 
-	getCalendar();
-    var time = getClockTime();  
+    getCalendar();
+    var time = getClockTime();
     $("#hours").html(time);
-    
+
     validation();
-    
+
 
 });
 
 /*
  * controller javascrip
  */
-function validation(){
-	try {	
-		// plugin di fondation per validare i campi tramite espressioni regolari (vedi sopra)
-		$(document).foundation('abide', {
-		    live_validate: true,
-		    focus_on_invalid: true,
-		    timeout: 1000,
-		    patterns: {
-		        general: exp_general,
-		    }
-		});	
-	 } catch (err) {
+function validation() {
+    try {
+        // plugin di fondation per validare i campi tramite espressioni regolari (vedi sopra)
+        $(document).foundation('abide', {
+            live_validate: true,
+            focus_on_invalid: true,
+            timeout: 1000,
+            patterns: {
+                general: exp_general,
+            }
+        });
+    } catch (err) {
         window.console.error("validation | An error occurred - message : " + err.message);
     }
 }
@@ -55,12 +55,12 @@ function validation(){
  * gestione calendario
  */
 
-function getCalendar(){
-	try {	
-	    $("#date").datepicker({
-	        altFormat: "dd/mm/yy"
-	    });
-     } catch (err) {
+function getCalendar() {
+    try {
+        $("#date").datepicker({
+            altFormat: "dd/mm/yy"
+        });
+    } catch (err) {
         window.console.error("getCalendar | An error occurred - message : " + err.message);
     }
 }
@@ -69,20 +69,20 @@ function getCalendar(){
  * compila campo hours
  */
 function getClockTime() {
-	try {	
-	    var timeString = '';
-	    timeString = timeString + '<option value=""></option>';
-	    for (i = 0; i < 24; i++) {
-	        if (i < 10) {
-	            timeString = timeString + '<option value="0' + i + ':00">0' + i + ':00</option>';
-	            timeString = timeString + '<option value="0' + i + ':30">0' + i + ':30</option>';
-	        }
-	        else {
-	            timeString = timeString + '<option value="' + i + ':00">' + i + ':00</option>';
-	            timeString = timeString + '<option value="' + i + ':30">' + i + ':30</option>';
-	        }
-	    }
-	    return timeString;
+    try {
+        var timeString = '';
+        timeString = timeString + '<option value=""></option>';
+        for (i = 0; i < 24; i++) {
+            if (i < 10) {
+                timeString = timeString + '<option value="0' + i + ':00">0' + i + ':00</option>';
+                timeString = timeString + '<option value="0' + i + ':30">0' + i + ':30</option>';
+            }
+            else {
+                timeString = timeString + '<option value="' + i + ':00">' + i + ':00</option>';
+                timeString = timeString + '<option value="' + i + ':30">' + i + ':30</option>';
+            }
+        }
+        return timeString;
     } catch (err) {
         window.console.error("getClockTime | An error occurred - message : " + err.message);
     }
@@ -99,16 +99,16 @@ function creteEvent() {
         json_event_create.jammers = getFeaturingList("jammers");
         json_event_create.tags = getTagsEventCreate();
         json_event_create.music = getMusicEventCreate();
-        
+
         if (json_event_create.tags.length > 0) {
             $("#label-tag-music .error").css({'display': 'none'});
             sendRequest("uploadEvent", "createEvent", json_event_create, eventCreateCallback, false);
         }
         else {
-           
+
             $("#label-tag-music  .error").css({'display': 'block'});
         }
-        
+
     } catch (err) {
         window.console.error("creteEvent | An error occurred - message : " + err.message);
     }
@@ -135,7 +135,6 @@ function getTagsEventCreate() {
         $.each($("#tag-music :checkbox"), function() {
 
             if ($(this).is(":checked")) {
-             //   var index = parseInt($(this).val());
                 tags.push($(this).val());
             }
         });
@@ -152,7 +151,6 @@ function getMusicEventCreate() {
         $.each($("#tag-localType :checkbox"), function() {
 
             if ($(this).is(":checked")) {
-             //   var index = parseInt($(this).val());
                 music.push($(this).val());
             }
         });
@@ -350,10 +348,16 @@ $('#uploadImage_save').click(function() {
     $('#upload').foundation('reveal', 'close');
 });
 
+//////////////////////////////////////////////////////////////////////////////
+//  
+//      Sezione geolocalizzazione
+//
+/////////////////////////////////////////////////////////////////////////////
 function initGeocomplete() {
     try {
         $("#city").geocomplete()
                 .bind("geocode:result", function(event, result) {
+            validateLocation(result);
             json_event_create.city = prepareLocationObj(result);
         })
                 .bind("geocode:error", function(event, status) {
@@ -361,7 +365,7 @@ function initGeocomplete() {
 
         })
                 .bind("geocode:multiple", function(event, results) {
-            json_event_create.city = prepareLocationObj(results[0]);
+            validateLocation(results[0]);
         });
 
     } catch (err) {
@@ -370,6 +374,28 @@ function initGeocomplete() {
 
 }
 
+function validateLocation(_result) {
+    try {
+        var location = getCompleteLocationInfo(_result);
+        if (location.latitude === 0 || location.longitude === 0 || location.address === null) {
+            //NON VALIDO
+            json_event_create.city = null;
+            $('#city').attr("class","error");
+            console.log("Location non valida");
+        } else {
+            //VALIDO
+            console.log("Location ok");
+            json_event_create.city = prepareLocationObj(_result);
+        }
+    } catch (err) {
+        console.log("validateLocation | An error occurred - message : " + err.message);
+    }
+}
+//////////////////////////////////////////////////////////////////////////////
+//  
+//      Sezione featuring
+//
+/////////////////////////////////////////////////////////////////////////////
 function initJammersJSON() {
     try {
         //inizializza le info in sessione
