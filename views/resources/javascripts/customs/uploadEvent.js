@@ -149,12 +149,10 @@ function getMusicEventCreate() {
     try {
         var music = new Array();
         $.each($("#tag-localType :checkbox"), function() {
-
             if ($(this).is(":checked")) {
                 music.push($(this).val());
             }
         });
-
         return music;
     } catch (err) {
         window.console.log("getMusicEventCreate |An error occurred - message : " + err.message);
