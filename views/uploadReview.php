@@ -6,7 +6,10 @@ require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'uploadReview.controller.php';
 
 session_start();
-
+if (!isset($_SESSION['currentUser'])) {
+    header('Location: login.php');
+} else {
+$currentUser = $_SESSION['currentUser'];
 $uploadReviewController = new UploadReviewController();
 $uploadReviewController->init();
 
@@ -24,8 +27,13 @@ switch ($uploadReviewController->reviewedClassType) {
         break;
 }
 $rating = "3";
+$authorObjectId = $uploadReviewController->reviewedFromUser->getObjectId();
 $authorThumbnail = $uploadReviewController->reviewedFromUser->getProfileThumbnail();
 $author = $uploadReviewController->reviewedFromUser->getUsername();
+
+if($authorObjectId == $currentUser->getObjectId()){
+    header('Location: stream.php');
+} else {
   
 ?>
 <!DOCTYPE html>
@@ -57,3 +65,4 @@ $author = $uploadReviewController->reviewedFromUser->getUsername();
     </body>
 
 </html>
+<?php }} ?>

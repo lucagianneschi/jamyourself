@@ -453,7 +453,8 @@ $views = array(
 		'valid_feat' => ' Please enter a valid Featuring',
 		'select_genre' => 'Select genre ',
 		'enter_genre' => ' Please enter a Genre',
-		'uploaded_song' => 'Uploaded song'
+		'uploaded_song' => 'Uploaded song',
+		'uploadError' => 'Error',
     ),
     'uploadReview' => array(
         'review' => 'Review',
@@ -462,6 +463,7 @@ $views = array(
         'performed' => 'Performed by',
         'rating' => 'Rating',
         'featuring' => 'Featuring',
+        'notfeaturing' => 'There are not featuring',
         'write' => 'Write here your review',
 		'your_rating' => 'Your Rating'
     )

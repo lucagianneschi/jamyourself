@@ -38,5 +38,5 @@ $(document).ready(function() {
     });
 
 
-
+	$('#example-f').barrating({ showSelectedRating:false });
 });
