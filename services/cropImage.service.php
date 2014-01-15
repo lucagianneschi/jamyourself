@@ -8,16 +8,12 @@ class CropImageService {
 
     public function cropImage($img, $x, $y, $w, $h, $dim) {
         try {
-			//prelevo il tipo di estensione del file
+            //prelevo il tipo di estensione del file
             list($width, $height, $type, $attr) = getimagesize($img);
-
-			//recupero l'estensione del file
-            $ext = strtolower(pathinfo($img, PATHINFO_EXTENSION));
-
-			//nome file univoco            
+            //nome file univoco            
             $profileImgName = md5(time() . rand()) . ".jpg";
 
-			//Controllo tipo di file: se è un file immagine (GIF, JPG o PNG), Altrimenti genera eccezione.
+            //Controllo tipo di file: se è un file immagine (GIF, JPG o PNG), Altrimenti genera eccezione.
             switch ($type) {
                 case IMAGETYPE_GIF:
                     $image = imagecreatefromgif($img);
@@ -34,18 +30,18 @@ class CropImageService {
 
             // CROP della cover
             $cover = $this->createThumbnail($image, $dim, $x, $y, $w, $h);
-          
+
             //SALVO L' IMMAGINE NELLA RISPETTIVE CARTELLA:
             $cover_url = "";
 
-            if (imagejpeg($cover, MEDIA_DIR."cache/".$profileImgName, 100)) {
+            if (imagejpeg($cover, MEDIA_DIR . "cache/" . $profileImgName, 100)) {
                 $cover_url = $profileImgName;
-            }  
+            }
 
             //elimino i file vecchi
             imagedestroy($image);
             imagedestroy($cover);
-			
+
             //ritorno l'url in cui ho salvsato l'immagine
             return $cover_url;
         } catch (Exception $e) {
@@ -53,11 +49,11 @@ class CropImageService {
         }
     }
 
-    public function createThumbnail($image, $dim, $x, $y, $w, $h) {
+    private function createThumbnail($image, $dim, $x, $y, $w, $h) {
         //dimensioni origine immagine
         $width_origine = ImageSX($image);
         $height_origine = ImageSY($image);
-       
+
         //se l'immagine originale ha una altezza > di 300 allora viene fatto il crop in porporzione all'originale
         //altrimenti viene fatto in porporzione alla preview, questo per permettere di effettuare uno crop mantenendo la risoluzione
         //originaria 
@@ -93,6 +89,47 @@ class CropImageService {
         imagecopyresampled($prop, $image, 0, 0, 0, 0, $x_prop, $dpi, $x, $y);
 
         return $prop;
+    }
+
+    public function resizeImageFromSrc($cacheImg, $desiredWidth) {
+        $image = null;
+        list($width_, $height_, $type, $attr_) = getimagesize( MEDIA_DIR . "cache/" . $cacheImg);
+
+        //nome file univoco            
+        $profileImgName = md5(time() . rand()) . ".jpg";
+
+        //Controllo tipo di file: se è un file immagine (GIF, JPG o PNG), Altrimenti genera eccezione.
+        switch ($type) {
+            case IMAGETYPE_GIF:
+                $image = imagecreatefromgif( MEDIA_DIR . "cache/" . $cacheImg);
+                break;
+            case IMAGETYPE_JPEG:
+                $image = imagecreatefromjpeg( MEDIA_DIR . "cache/" . $cacheImg);
+                break;
+            case IMAGETYPE_PNG:
+                $image = imagecreatefrompng( MEDIA_DIR . "cache/" . $cacheImg);
+                break;
+            default:
+                return null;
+        }
+
+        $source_image = imagecreatefromjpeg( MEDIA_DIR . "cache/" . $cacheImg);
+        $width = imagesx($image);
+        $height = imagesy($image);
+
+        /* find the "desired height" of this thumbnail, relative to the desired width  */
+        $desired_height = floor($height * ($desiredWidth / $width));
+
+        /* create a new, "virtual" image */
+        $virtual_image = imagecreatetruecolor($desiredWidth, $desired_height);
+
+        /* copy source image at a resized size */
+        imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desiredWidth, $desired_height, $width, $height);
+
+        /* create the physical thumbnail image to its destination */
+        imagejpeg($virtual_image,  MEDIA_DIR . "cache/" . $profileImgName);
+        
+        return $profileImgName;
     }
 
 }
