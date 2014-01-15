@@ -43,13 +43,69 @@ $(document).ready(function() {
     });
 
     //gestione button new in uploadRecord02
-    $('#uploadRecord03-next').click(function() {
-        $("#uploadRecord02").fadeOut(100, function() {
-            $("#uploadRecord03").fadeIn(100);
-        });
-        if (uploader !== null) {
-            uploader.start();
+    $('#uploadRecord02-next').click(function() {
+    	var espressione = new RegExp(exp_general); 
+    	var esprUrl = new RegExp(exp_url);  
+    	var esprYear = new RegExp(/^(19|20)\d{2}$/);     	
+    	var validation_title,validation_description,validation_label,validation_urlBuy,validation_year,validation_city,validation_genre = false;
+    	//title
+    	if ($('#recordTitle').val() == '' && !espressione.test($('#recordTitle').val())) {
+            $('#recordTitle').focus();
+            validation_title = false;
+        }else validation_title = true;
+    	//description
+    	var validation_description = false;
+    	if ($('#description').val() == '' && !espressione.test($('#description').val())) {
+            $('#description').focus();
+            validation_description = false;
+        }else validation_description = true;
+        //label
+        var validation_label = false;
+    	if ($('#label').attr('data-invalid') != undefined) {
+    		$('#label').focus();
+            validation_label = false;
+        }else validation_label = true; 
+        //urlBuy
+        var validation_urlBuy = false;
+    	if ($('#urlBuy').attr('data-invalid') != undefined) {
+    		$('#urlBuy').focus();
+            validation_urlBuy = false;
+        }else validation_urlBuy = true;   
+         //year
+        var validation_year = false;
+    	if ($('#year').attr('data-invalid') != undefined) {
+    		$('#year').focus();
+            validation_year = false;
+        }else validation_year = true;
+         //city
+        var validation_city = false;
+    	if ($('#city').attr('data-invalid') != undefined) {
+    		$('#city').focus();
+            validation_city = false;
+        }else validation_city = true;
+        
+        console.log($('#urlBuy').attr('data-invalid'));
+        //controllo se almeno esiste un checked per genre    	    	 
+        if (!$("input[type='checkbox']").is(':checked')) {
+            $("#labelTag .error").css({'display': 'block'});
+            validation_genre = false;
         }
+        else {
+        	 $("#labelTag .error").css({'display': 'none'});
+            validation_genre = true;
+        }
+	
+            	
+    	if(validation_title && validation_description && validation_label && validation_urlBuy && validation_year && validation_city && validation_genre){
+    		$("#uploadRecord02").fadeOut(100, function() {
+	            $("#uploadRecord03").fadeIn(100);
+	        });
+	        if (uploader !== null) {
+	            uploader.start();
+	        }
+    	}    	
+        
+        
 
     });
 
@@ -58,10 +114,11 @@ $(document).ready(function() {
         publish();
     });
 
-    //gesione button publish 
+    /*gesione button publish 
     $('#uploadRecord02-next').click(function() {
+    	
         createRecord();
-    });
+    });*/
 
     //carica i tag music
     $.ajax({
@@ -169,7 +226,7 @@ function validateUrl(field){
 	try{
 		$('#'+field).blur(function(){	    	
 	    	var str = $('#'+field).val();	    	
-	    	if(str.indexOf("http://") < 0){
+	    	if(str != '' && str.indexOf("http://") < 0){
 				$('#'+field).val('http://'+str);	
 	        }
 	    });

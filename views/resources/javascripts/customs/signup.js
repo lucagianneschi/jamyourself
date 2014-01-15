@@ -375,7 +375,7 @@ function validateUrl(field){
 	try{
 		$('#'+field).blur(function(){	    	
 	    	var str = $('#'+field).val();	    	
-	    	if(str.indexOf("http://") < 0){
+	    	if(str != '' && str.indexOf("http://") < 0){
 				$('#'+field).val('http://'+str);	
 	        }
 	    });

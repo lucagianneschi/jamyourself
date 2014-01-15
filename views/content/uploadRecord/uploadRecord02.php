@@ -94,7 +94,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		    <textarea name="description" id="description" pattern="general" maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea>	
 		</div>
 		<div>
-	        <label style="padding-bottom: 0px !important;"><?php echo $views['uploadRecord']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadRecord']['enter_genre']; ?></small></label>		
+	        <label id="labelTag" style="padding-bottom: 0px !important;"><?php echo $views['uploadRecord']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadRecord']['enter_genre']; ?></small></label>		
 	        <div id="tag-music"></div>
 		</div>
     </div>
