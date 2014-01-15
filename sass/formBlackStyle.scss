@@ -74,18 +74,25 @@
 }
 
 .formBlack .buttonNext{
-	background-image:url(../images/button/signup-next.png) !important;
-	background-color: $grey-superdark;
   	border: 0px;
 	color:$white;
   	width:135px;
   	height:35px;
   	margin:20px !important;
   	background-repeat:no-repeat;
+  	background-image:url(../images/button/signup-next.png) !important;
+	background-color: $grey-superdark;
 }
 
-.formBlack .buttonBlack{
-	background-color: $grey-dark !important;
+.formBlack .buttonBlack{	
+  border: 0px;
+  color:$grey;
+  width:135px;
+  height:35px;
+  margin:20px !important;
+  background-repeat:no-repeat;
+  background-image:url(../images/button/signup-back.png) !important;
+  background-color: $grey-superdark;
 }
 
 
@@ -196,14 +203,17 @@
 	.select2-container-multi .select2-choices{
 		font-size: 14px;
 		background:$black !important; 
-	  	color: $white !important;   
-	  	border: 0px !important; 
-	  //	border-bottom: 1px solid $grey-dark !important; 
+	  	color: $white !important; 
+	  	border: 1px solid $grey-dark !important; 
 	  	margin-left:0px !important; 
 		&:focus{
 		    background-color:$grey-dark !important; 
 		    border-bottom: 0px solid $grey !important; 
 	    }  
+	}
+	
+	.select2-container-active{
+		border: 1px solid $grey-dark !important; 
 	}
 	
 	.select2-no-results{
@@ -220,9 +230,12 @@
 		background: $orange !important;
 	}
 	.select2-search-choice{
+		font-weight: 500 !important;
+		height: 30px !important;
+		padding: 6px !important;
+		padding-left: 16px !important;
 		background: $orange !important;
 		color: #fff !important;
-		height: 25px !important;
 		border: 1px solid $orange !important;
 		border-radius: 0px !important;
 		-webkit-box-shadow: none !important;
