@@ -95,7 +95,15 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		</div>
 		<div>
 	        <label id="labelTag" style="padding-bottom: 0px !important;"><?php echo $views['uploadRecord']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadRecord']['enter_genre']; ?></small></label>		
-	        <div id="tag-music"></div>
+	        <div id="tag-music">
+	        	<?php 
+	        	$index = 0;
+	        	foreach ($views['tag']['music'] as $key => $value) { ?>
+					<input type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
+					<label for="tag-music<?php echo $index ?>"><?php echo $value ?></label>	
+				<?php 
+				$index++; } ?>
+	        </div>
 		</div>
     </div>
 
