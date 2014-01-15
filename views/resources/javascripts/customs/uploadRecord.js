@@ -3,7 +3,7 @@ var exp_general = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>
 
 var music = null;
 var json_album_create = {'city': null};
-var uploader = null;
+var uploader = null; 
 var json_album = {"list": []};
 var recordLoader = null;
 
@@ -38,8 +38,7 @@ $(document).ready(function() {
 	step2Back();
 	
 	step3Ok();
-	if (uploader === null) 
-		initMp3Uploader();
+	
     //gesione button publish 
     $('#uploadRecord03-publish').click(function() {
         publish();
@@ -213,9 +212,11 @@ function step2Next(){
 		            $("#uploadRecord03").fadeIn(100);
 		            
 		        });
+		        
 		        if (uploader !== null) {
 		            uploader.start();
 		        }
+		        initMp3Uploader();
 		        createRecord();
 	    	} 
 	    });
@@ -258,7 +259,7 @@ function step3Ok(){
         
         if(validation_trackTitle && validation_genreTrack){
         	
-        	if (uploader !== null) {
+        if (uploader !== null) {
             uploader.start();
         }
         
@@ -479,7 +480,7 @@ function getTagsAlbumCreate() {
 
             if ($(this).is(":checked")) {
                 var index = parseInt($(this).val());
-                tags.push(music[index]);
+                tags.push($(this).val());
             }
         });
 
@@ -553,12 +554,11 @@ function initMp3Uploader() {
 
 //evento: file aggiunto
         uploader.bind('FilesAdded', function(up, files) {
-            //avvio subito l'upload
+            //avvio subito l'upload            
 //        window.console.log("initUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
-
             while (up.files.length > 1) {
                 up.removeFile(up.files[0]);
-            }
+            }            
         });
        
 //evento: cambiamento percentuale di caricamento
@@ -574,19 +574,20 @@ function initMp3Uploader() {
 //evento: errore
         uploader.bind('Error', function(up, err) {
 //        window.console.log("initUploader - EVENT: Error - parametri: err => " + JSON.stringify(err));
-            alert("Error occurred");
+            $('#uploaderError').removeClass('no-display');
+            $('#progressbar').addClass('no-display');
+            console.log(err);
             up.refresh();
         });
 
 //evento: upload terminato
         uploader.bind('FileUploaded', function(up, file, response) {
-
 //        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
             var obj = JSON.parse(response.response);
             if (obj.error !== undefined && obj.error !== null) {
             	$('#uploaderError').removeClass('no-display');
             	$('#progressbar').addClass('no-display');
-                console.log(obj.error.message);
+                console.log(response);
             } else {
                 addNewSong(obj.src, obj.duration, getTagsMusicTrack());
             }
@@ -604,7 +605,7 @@ function getTagsMusicTrack() {
 
             if ($(this).is(":checked")) {
                 var index = parseInt($(this).val());
-                tags.push(music[index]);
+                tags.push($(this).val());
             }
         });
         return tags.join();
@@ -856,13 +857,10 @@ function onCarouselReady() {
             });
 
             json_album.recordId = this.id;
-            //inizializzazione dell'uploader
-            if (uploader === null) {
-                //initMp3Uploader();
-            }
-
             //recupero gli mp3 dell'album
             getSongs(json_album.recordId);
+            //inizializzazione dell'uploader
+            initMp3Uploader();
         });
 
         //scorrimento lista album record 

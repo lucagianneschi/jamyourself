@@ -23,7 +23,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    </div>
 	    <div  class="small-9 columns">        						
 			<a  class="text orange" id ="uploader_mp3_button"><?php echo $views['uploadRecord']['mp3_upload']; ?></a>
-			<a  class="text grey no-display" id ="uploaderError"><?php echo $views['uploadRecord']['uploadError']; ?></a>
+			<a  class="text grey no-display" id="uploaderError"><?php echo $views['uploadRecord']['uploadError']; ?></a>
 			<div id="progressbar" style="left: -44px"></div>										
 	    </div>	
 	</div>
