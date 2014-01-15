@@ -73,6 +73,7 @@
 
 <!----------- rating ------------------------------------------------------------------->
 <script type="text/javascript" src='resources/javascripts/plugins/rating/jquery.rating.js'></script>
+<script type="text/javascript" src='resources/javascripts/plugins/rating/jquery.barrating.js'></script>
 
 <!------------------------------------- JAMYOURSELF ------------------------------------------>
 <script type="text/javascript" src="resources/javascripts/customs/layout.js"></script> 

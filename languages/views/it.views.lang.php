@@ -463,6 +463,7 @@ $views = array(
         'performed' => 'Performed by',
         'rating' => 'Rating',
         'featuring' => 'Featuring',
+        'notfeaturing' => 'There are not featuring',
         'write' => 'Write here your review',
 		'your_rating' => 'Your Rating'
     )
