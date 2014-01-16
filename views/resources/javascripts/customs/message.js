@@ -8,13 +8,25 @@ $(document).ready(function() {
   
 });	
 
+function removeSendMessage(){
+	$('#sendMessage').addClass('no-display');
+}
+
+function addSendMessage(){
+	$('#sendMessage').removeClass('no-display');
+}
+
 function btSendMessage(toUser){
+	
+//	var array = getFeaturingList('to');
+//	console.log(array);
+	console.log("Selected value is: "+$("#to").select2("val"));
 	if( $(".select2-container").is(':visible')) { 
 		//to:
-		if($('.select2-chosen').val() != '' && $('.select2-chosen').val() != 'To:'){
+		if($("#to").select2("val") != ''){
 			//user okkk
-			//$('.select2-chosen').val() <--- prendere objectId
-			//sendMessage(toUser, $('#textNewMessage').val(), title);
+			var objectId = $("#to").select2("val");
+			sendMessage(objectId, $('#textNewMessage').val(), null);
 		}
 		else{
 			//user no ok
@@ -24,7 +36,7 @@ function btSendMessage(toUser){
 	}
 	else{
 		//valido toUser
-		sendMessage(toUser,  $('#textMessage').val(), '');
+		sendMessage(toUser,  $('#textMessage').val(), null);
 	}
 	
 /*	if (toUser == "" && ) {
@@ -48,14 +60,15 @@ function autoComplete(box) {
             minimumInputLength: 1,
             width: "100%",
             ajax: {
-                url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
+                url: "../controllers/request/messageRequest.php?request=getFeaturingJSON",
                 dataType: 'json',
-                data: function(term) {
+                data: function(term) {                    
                     return {
                         term: term
                     };
                 },
                 results: function(data) {
+                	console.log(data);
                     return {
                         results: data
                     };
@@ -100,7 +113,7 @@ function showMsg(id) {
  * visualizza il box per invio nuovo messaggio
  */
 function showNewMsg() {	
-	$('.box-membre').removeClass('active');
+	$('.box-membre').removeClass('active');	
 	$('#newmessage').delay(500).slideToggle();	
 	
 	loadBoxMessages('newmessage',5,0);

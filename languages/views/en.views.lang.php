@@ -278,7 +278,12 @@ $views = array(
         'valid_user' => ' Please enter a valid User',
         'other_messages' => 'View Other Messages',
         'no_messages' => 'No Messages',
-		'view_other' => 'View Other'
+		'view_other' => 'View Other',
+		'to' => 'To:',
+		'message' => 'Message',
+		'send' => 'Send',
+		'ERROR1' => 'Error',
+		'ERROR2' => "You can't send message at this user"
     ),
     'signup' => array(
 		'enrollment' => 'Enrollment',

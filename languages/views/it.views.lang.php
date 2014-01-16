@@ -272,13 +272,18 @@ $views = array(
 	)
     ),
     'message' => array(
-	'talked_to' => 'You talked to...',
-	'new_msg' => 'New Message',
+		'talked_to' => 'You talked to...',
+		'new_msg' => 'New Message',
         'write_message' => 'Write a new message',
         'valid_user' => ' Please enter a valid User',
         'other_messages' => 'View Other Messages',
         'no_messages' => 'No Messages',
-	'view_other' => 'View Other'
+		'view_other' => 'View Other',
+		'to' => 'To:',
+		'message' => 'Message',
+		'send' => 'Send',
+		'ERROR1' => 'Error',
+		'ERROR2' => "You can't send message at this user"
     ),
     'signup' => array(
 		'enrollment' => 'Enrollment',

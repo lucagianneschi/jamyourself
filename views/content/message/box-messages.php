@@ -10,11 +10,14 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
     ?>
-    <div class="row">
+    <script>
+    	autoComplete('#newMsg input#to');
+    </script>
+    <div class="row" id="newMsg">
         <div class="large-12 columns ">
     	<h5><?php echo $views['message']['write_message']; ?></h5>	
-    	<input id="to" type="text" placeholder="To:">
-    	<textarea id="tomessage" placeholder="Message"></textarea>
+    	<input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>">
+    	<textarea id="tomessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
         </div>
     </div>
 
@@ -36,7 +39,9 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 
 	    if (count($messageBox->messageArray) > 0) {
 		?>
-
+		<script>
+			addSendMessage();
+		</script>
 		<div class="row">
 		    <div class="large-12 columns ">
 
@@ -125,16 +130,52 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 		    </div>
 		</div>
 	    <?php } else {
+	    	require_once BOXES_DIR . 'userInfo.box.php';
+	    	$user = $_POST['user'];
+			$userInfoBox = new UserInfoBox();
+    		$userInfoBox->init($user);
+			if (is_null($userInfoBox->error)  ) {
+				$toUser = $userInfoBox->user;
+				$toUsername = $toUser->getUsername();
+				$toType = $toUser->getType();
+				if (session_id() == '') session_start();
+				$currentUser = $_SESSION['currentUser'];
+				$fromType = $currentUser->getType();
+				
+				if($fromType == 'SPOTTER' || ($fromType != 'SPOTTER' && $toType != 'SPOTTER')){
 		?>
 
 		<div class="row">
-		    <div class="large-12 columns">
-			<div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit + $skip ?>)"><small><?php echo $views['message']['no_messages']; ?></small></div>
-		    </div>
-		</div>	
+	        <div class="large-12 columns ">
+		    	<h5><?php echo $views['message']['write_message']; ?></h5>	
+		    	<input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" value="<?php echo $toUsername ?>" disabled>
+		    	<textarea id="tomessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
+	        </div>
+	    </div>	
 
 		<?php
+	    }else{ ?>
+	    <script>
+    		removeSendMessage();
+    	</script> 
+		<div class="row">
+			<div class="large-12 columns">
+			    <div class="line-date"><small><?php echo $views['message']['ERROR2']?></small></div>
+			</div>
+	    </div>	
+		<?php	}}else{
+	    	?>
+	    	<script>
+	    		removeSendMessage();
+	    	</script> 
+	    	<div class="row">
+			<div class="large-12 columns">
+			    <div class="line-date"><small><?php echo $views['message']['ERROR1']?></small></div>
+			</div>
+		    </div>
+	    	<?php
 	    }
+		}
 	}
     }
 }?>

@@ -2,7 +2,6 @@
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../../');
 
-ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once BOXES_DIR . 'message.box.php';
 require_once SERVICES_DIR . 'lang.service.php';
@@ -33,7 +32,7 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
     		limit: limit,
     		skip: skip
     	    },
-    	    url: "./content/message/box-listMessages.php",
+    	    url: "./content/message/box-listUsers.php",
     	    beforeSend: function(xhr) {
     		if (user != 'newmessage') {
     		    //$('#box-messageSingle').slideUp();
@@ -138,7 +137,7 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
     						    </div>
     						    <div id="box-listMsg">
     							<!--------------------------- lista utenti --------------------------->
-							    <?php require_once './content/message/box-listMessages.php'; ?> 
+							    <?php require_once './content/message/box-listUsers.php'; ?> 
     						    </div>                                        
     						</div>
     					    </div>                                              
@@ -150,8 +149,8 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
     					<div id="box-messageSingle">
 						<?php if (isset($user)) { ?>
 						    <script type="text/javascript">
-	    //------------------------  messaggi ---------------------------------------								
-	    loadBoxMessages("<?php echo $user ?>",<?php echo LIMITMSG ?>, <?php echo SKIPMSG ?>);
+						    //------------------------  messaggi ---------------------------------------								
+						    loadBoxMessages("<?php echo $user ?>",<?php echo LIMITMSG ?>, <?php echo SKIPMSG ?>);
 						    </script>
 						<?php
 						} else {
@@ -161,8 +160,8 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
 							<div class="large-12 columns ">
 							    <h5><?php echo $views['message']['write_message']; ?></h5>
 							    <label for="to"><small class="error"><?php echo $views['message']['valid_user']; ?></small></label>
-							    <input id="to" type="text" placeholder="To:" required>											    
-							    <textarea id="textNewMessage" placeholder="Message"></textarea>
+							    <input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" required>											    
+							    <textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
 							</div>
 						    </div>										
 
@@ -176,7 +175,7 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
     				<br><br>
     				<div class="row">
     				    <div class="large-12">
-    					<input type="button" class="buttonNext" value="Send" id="sendMessage" onclick="btSendMessage('<?php echo $user ?>')">
+    					<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('<?php echo $user ?>')">
     				    </div>
     				</div>
 
@@ -189,17 +188,10 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
         </div>
     </form>
     <?php
-} else {
-    ?>
-    <div class="bg-white">
-        <div class="row" style="padding-top: 3%;">
-    	<div class="large-12 columns">
-    	    <div class="box-message">
-    		Errore: Utente non loggato
-    	    </div>
-    	</div>
-        </div>
-    </div>
-    <?php
-}
-?>
+} else { ?>
+    <div class="row box-upload-title">
+	    <div class="large-12 columns">
+		Error
+	    </div>
+	</div>
+<?php } ?>
