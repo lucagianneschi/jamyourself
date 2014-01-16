@@ -94,7 +94,6 @@ class CropImageService {
     public function resizeImageFromSrc($cacheImg, $desiredWidth) {
         $image = null;
         list($width_, $height_, $type, $attr_) = getimagesize( MEDIA_DIR . "cache/" . $cacheImg);
-
         //nome file univoco            
         $profileImgName = md5(time() . rand()) . ".jpg";
 
