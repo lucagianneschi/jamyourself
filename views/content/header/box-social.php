@@ -66,16 +66,21 @@ if (isset($userObjectId)) {
 		$detailNotification->initForMessageList();
 		$numNot = $message;
 		$other = $views['header']['social']['MESSAGE_MSG'];
+		$param = '';
+		if (count($detailNotification->notificationArray) > 0) $param =  end($detailNotification->notificationArray);
+		$onclick = 'message.php?user='.$param->fromUserInfo->objectId;
 		break;
 	    case 'event':
 		$detailNotification->initForEventList();
 		$numNot = $invited;
 		$other = $views['header']['social']['MESSAGE_EVENT'];
+		$onclick = '';
 		break;
 	    case 'relation':
 		$detailNotification->initForRelationList($userType);
 		$numNot = $relation;
 		$other = $views['header']['social']['MESSAGE_RELATION'];
+		$onclick = '';
 		break;
 	    default:
 		break;
@@ -214,7 +219,7 @@ if (isset($userObjectId)) {
 	?>
 	<div class"row">
 	     <div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK'] ?></strong> </a></div>
-	    <div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other ?></strong> </a></div>			
+	     <div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="<?php echo $onclick?>" class="note orange"><strong><?php echo $other ?></strong> </a></div>			
 	</div>
 	<script>
 	//	rsi_not.updateSliderSize(true);
