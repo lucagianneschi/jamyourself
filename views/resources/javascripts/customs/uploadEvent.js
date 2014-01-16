@@ -378,11 +378,12 @@ function validateLocation(_result) {
         if (location.latitude === 0 || location.longitude === 0 || location.address === null) {
             //NON VALIDO
             json_event_create.city = null;
-            $('#city').attr("class","error");
-            console.log("Location non valida");
+            $('label[for="city"]').addClass('error');
         } else {
             //VALIDO
-            console.log("Location ok");
+            if ($('label[for="city"]').hasClass('error')) {
+                $('label[for="city"]').removeClass('error');
+            }
             json_event_create.city = prepareLocationObj(_result);
         }
     } catch (err) {
