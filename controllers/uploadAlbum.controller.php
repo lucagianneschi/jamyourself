@@ -110,7 +110,7 @@ class UploadAlbumController extends REST {
             $resActivity = $this->createActivity($currentUser->getObjectId(), $albumId);
             if ($resActivity instanceof Error) {
                 rollbackUploadAlbumController($albumId, "Album");
-                rmdir(USERS_DIR.DIRECTORY_SEPARATOR.$currentUser->getObjectId().DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR.$albumId);
+                rmdir(USERS_DIR . DIRECTORY_SEPARATOR . $currentUser->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . $albumId);
                 $this->response(array("status" => $controllers['ALBUMNOTSAVED']), 409);
             }
             //ora devo aggiungere tutte le foto
@@ -363,9 +363,7 @@ class UploadAlbumController extends REST {
             if (!file_exists($cachedFile)) {
                 return null;
             } else {
-                if (!$this->moveFile($currentUser->getObjectId(), $albumId, $imgInfo['src'])) {
-                    return null;
-                }
+                $imgMoved = $this->moveFile($currentUser->getObjectId(), $albumId, $imgInfo['src']);
                 $image = new Image();
                 $image->setActive(true);
                 $image->setAlbum($albumId);
@@ -377,14 +375,14 @@ class UploadAlbumController extends REST {
                 } else {
                     $image->setFeaturing(null);
                 }
-                $image->setFilePath($imgInfo['src']);
+                $image->setFilePath($imgMoved['image']);
                 $image->setFromUser($currentUser->getObjectId());
                 $image->setLocation(null);
                 $image->setLoveCounter(0);
                 $image->setLovers(array());
                 $image->setShareCounter(0);
                 $image->setTags(null);
-                $image->setThumbnail(null);
+                $image->setThumbnail($imgMoved['thumbnail']);
                 $pImage = new ImageParse();
                 return $pImage->saveImage($image);
             }
@@ -436,13 +434,35 @@ class UploadAlbumController extends REST {
                 mkdir($dir, 0777, true);
             }
             if (!is_null($userId) && !is_null($albumId) && !is_null($fileInCache)) {
-                $oldName = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileInCache;
-                $newName = $dir . DIRECTORY_SEPARATOR . $fileInCache;
-                return rename($oldName, $newName);
+
+                //reperisco le info sull'immagine
+                list($width, $height, $type, $attr) = getimagesize(MEDIA_DIR . "cache/" . $fileInCache);
+
+                require_once SERVICES_DIR . 'cropImage.service.php';
+                //Preparo l'oggetto per l'editing della foto
+                $cis = new CropImageService();
+
+                //immagine 
+                $jpg = $cis->resizeImageFromSrc($fileInCache, $width);
+                $destName = $dir . DIRECTORY_SEPARATOR . $jpg;
+                $res_1 = rename(MEDIA_DIR . "cache/" . $jpg, $destName);
+
+                //thumbnail
+                $thumbnail = $cis->resizeImageFromSrc($fileInCache, THUMBNAIL_IMG_SIZE);
+                $destName = $dir . DIRECTORY_SEPARATOR . $thumbnail;
+                $res_2 = rename(MEDIA_DIR . "cache/" . $thumbnail, $destName);
+
+                //cancello il vecchio file
+                unlink(MEDIA_DIR . "cache/" . $fileInCache);
+                if ($res_1 && $res_2) {
+                    
+                } else {
+                    return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
+                }
             }
+        } else {
+            return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
         }
-        else
-            return false;
     }
 
     public function getAlbums() {
@@ -510,6 +530,7 @@ class UploadAlbumController extends REST {
         }
         return true;
     }
+
 }
 
 ?>
