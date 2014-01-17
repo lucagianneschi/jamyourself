@@ -161,26 +161,57 @@ class MessageController extends REST {
      * \param   $fromUser,$toUser
      */
     private function createActivity($fromUser,$toUser) {
-	require_once CLASSES_DIR . 'activity.class.php';
-	$activity = new Activity();
-	$activity->setActive(true);
-	$activity->setAlbum(null);
-	$activity->setComment(null);
-	$activity->setCounter(0);
-	$activity->setEvent(null);
-	$activity->setFromUser($fromUser);
-	$activity->setImage(null);
-	$activity->setPlaylist(null);
-	$activity->setQuestion(null);
-	$activity->setRead(false);
-	$activity->setRecord(null);
-	$activity->setSong(null);
-	$activity->setStatus('P');
-	$activity->setToUser($toUser);
-	$activity->setType('MESSAGESENT');
-	$activity->setVideo(null);
-	return $activity;
+		require_once CLASSES_DIR . 'activity.class.php';
+		$activity = new Activity();
+		$activity->setActive(true);
+		$activity->setAlbum(null);
+		$activity->setComment(null);
+		$activity->setCounter(0);
+		$activity->setEvent(null);
+		$activity->setFromUser($fromUser);
+		$activity->setImage(null);
+		$activity->setPlaylist(null);
+		$activity->setQuestion(null);
+		$activity->setRead(false);
+		$activity->setRecord(null);
+		$activity->setSong(null);
+		$activity->setStatus('P');
+		$activity->setToUser($toUser);
+		$activity->setType('MESSAGESENT');
+		$activity->setVideo(null);
+		return $activity;
     }
+	
+	/**
+     * \fn	createActivity($fromUser,$toUser)
+     * \brief   private function to delete activity class instance
+     * \param   $objectId
+     */
+	public function deleteConversation(){
+		global $controllers;
+		try{
+			
+			if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+		    } elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
+		    } elseif (!isset($this->request['objectId'])) {
+				$this->response(array('status' => $controllers['NOOBJECTID']), 403);
+		    }
+			$currentUser = $_SESSION['currentUser'];
+	    	$objectId = $this->request['objectId'];
+			
+			//#TODO DA FARE
+			
+			
+			
+			$this->response(array($controllers['MESSAGEDELETE']), 200);
+		}catch (Exception $e) {
+	    	$this->response(array('status' => $e->getMessage()), 503);
+		}
+		
+		
+	}
 	
 	/**
      * \fn	getFeaturingJSON() 
@@ -214,7 +245,17 @@ class MessageController extends REST {
 
             if (!is_null($filter)) {
                 require_once CONTROLLERS_DIR . 'utilsController.php';
-                echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
+				$featuring = array();
+				if (is_array($currentUserFeaturingArray) && count($currentUserFeaturingArray) > 0) {
+					$currentUser = $_SESSION['currentUser'];
+					$typeCurrent = $currentUser->getType();
+			        foreach ($currentUserFeaturingArray as $value) {			        	
+			            if ($typeCurrent == 'SPOTTER' || ($typeCurrent != 'SPOTTER' && $value->type != 'SPOTTER')) {
+			                $featuring[] = $value;
+			            }
+			        }
+			    }
+                echo json_encode($featuring);
             } else {
                 echo json_encode($currentUserFeaturingArray);
             }
@@ -222,6 +263,7 @@ class MessageController extends REST {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
+	
 	
 
 }

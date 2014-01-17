@@ -5,16 +5,108 @@ $(document).ready(function() {
   
 	autoComplete('.box-message input#to');
 	
-  
-});	
+	if($("#user").length > 0 && $("#limit").length > 0 && $("#skip").length > 0){
+		loadBoxMessages($("#user").val(),$("#limit").val(), $("#skip").val());
+	}
+	
+});
+
+/*
+ * permette di visualizzare più utenti nella lista degli utenti 
+ */
+function viewOtherListMsg(user, limit, skip) {
+	$.ajax({
+	    type: "POST",
+	    data: {
+			user: user,
+			limit: limit,
+			skip: skip
+	    },
+	    url: "./content/message/box-listUsers.php",
+	    beforeSend: function(xhr) {
+			if (user != 'newmessage') {
+			    //$('#box-messageSingle').slideUp();
+			}
+	    }
+	}).done(function(message, status, xhr) {
+	    $('.box-other').addClass('no-display');
+	    $(message).appendTo("#box-listMsg");	
+	    //$('#box-messageSingle').slideDown();
+	    console.log('SUCCESS: box-message ' + user);
+	    if (user == 'newmessage') {
+			//	autoComplete();
+	    }
+	}).fail(function(xhr) {
+	    console.log("Error: " + $.parseJSON(xhr));
+	});
+}
+
+/*
+ * visualizza la lista dei messaggi relativi al user
+ */
+function loadBoxMessages(user, limit, skip) {
+	try{
+		$.ajax({
+		    type: "POST",
+		    data: {
+				user: user,
+				limit: limit,
+				skip: skip
+		    },
+		    url: "./content/message/box-messages.php",
+		    beforeSend: function(xhr) {
+		    	goSpinner('#spinner');
+				addSendMessage();
+				disableSendMessage();
+				if (user != 'newmessage' && skip == 0) {
+				    $('#msgUser').slideUp();
+				}
+		    }
+		}).done(function(message, status, xhr) {
+			stopSpinner('#spinner');
+		    if (skip == 0) {
+				$("#msgUser").html(message);
+				$('#msgUser').slideDown();
+		    }
+		    else {
+				$('.otherMessage').addClass('no-display');
+				$(message).prependTo("#msgUser");
+		    }
+		    console.log('SUCCESS: box-message ' + user);
+		    if (user == 'newmessage') {
+				autoComplete();
+		    }
+		    abledSendMessage();  
+		}).fail(function(xhr) {
+		    console.log("Error: " + $.parseJSON(xhr));
+		});
+	}catch(err){
+		window.console.error("loadBoxMessages | An error occurred - message : " + err.message);
+	}	
+	
+}	
 
 function removeSendMessage(){
-	$('#sendMessage').addClass('no-display');
+	$('#boxInvioMSG').addClass('no-display');
 }
 
 function addSendMessage(){
-	$('#sendMessage').removeClass('no-display');
+	$('#boxInvioMSG').removeClass('no-display');
 }
+
+function disableSendMessage(){
+	$('#boxInvioMSG #textNewMessage').attr('disabled','');
+	$('#boxInvioMSG input[type="button"]').attr('disabled','');
+}
+
+
+function abledSendMessage(){
+	$('#boxInvioMSG #textNewMessage').removeAttr('disabled','');
+	$('#boxInvioMSG input[type="button"]').removeAttr('disabled','');
+}
+
+
+
 
 function btSendMessage(toUser){
 	
@@ -68,7 +160,6 @@ function autoComplete(box) {
                     };
                 },
                 results: function(data) {
-                	console.log(data);
                     return {
                         results: data
                     };
@@ -84,6 +175,7 @@ function autoComplete(box) {
  * elimina i box utente
  */									
 function deleteMsg(id) {
+	deleteMessage(id);
 	$('.box-membre#'+id).slideToggle();
 }
 
@@ -172,4 +264,29 @@ function readMessage(activityId) {
                 code = xhr.status;
                 console.log("Code: " + code + " | Message: " + message);
             });
+}
+
+function deleteMessage(objectId){	
+	var json_message = {};    
+    json_message.objectId = objectId;
+    json_message.request = 'deleteConversation';    
+    $.ajax({
+        type: "POST",
+        url: "../controllers/request/messageRequest.php",
+        data: json_message,
+        beforeSend: function() {
+            //aggiungere il caricamento del bottone
+        }
+    }).done(function(message, status, xhr) {
+      	
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message);
+    })
+    .fail(function(xhr) {
+        //mostra errore
+  /*      message = $.parseJSON(xhr.responseText).status;
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message); */
+       console.log(xhr.responseText);
+    });
 }

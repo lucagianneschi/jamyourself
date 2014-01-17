@@ -135,6 +135,12 @@ body {
 	.select2-arrow{
 		display: none !important;
 	}
+	
+	input[type="text"][disabled]{
+		background: #fff;
+		color: $grey;
+		font-size: 16px;
+	}
 }
 
 .select2-no-results{

@@ -1,4 +1,5 @@
 <?php
+
 $limit = LIMITLISTMSG;
 $skip = SKIPLISTMSG;
 
@@ -11,12 +12,11 @@ if (!isset($messageBox)) {
     require_once BOXES_DIR . 'message.box.php';
     require_once SERVICES_DIR . 'lang.service.php';
     require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+	
     $limit = (int) $_POST['limit'];
     $skip = (int) $_POST['skip'];
-    echo $skip;
     $messageBox = new MessageBox();
     $messageBox->initForUserList($limit, $skip);
-
     $cssNewMessage = "no-display";
 }
 
