@@ -64,12 +64,16 @@ p {
 	.box-other{
 		cursor: pointer;
 		position:relative;
+		
 		@include transition-property(background);
  		@include transition-duration(300ms);
 		background-color:lighten($grey-light, 12);
 		padding: 10px;
 		text-align: center;
 		font-size: 14px;
+		a{
+			color: $grey  !important;
+		}
 		&:hover {
 			background-color:$orange !important;
 			* {

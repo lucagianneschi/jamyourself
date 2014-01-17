@@ -7,7 +7,7 @@ require_once BOXES_DIR . 'message.box.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
-define('LIMITLISTMSG', 1);
+define('LIMITLISTMSG', 5);
 define('SKIPLISTMSG', 0);
 
 define('LIMITMSG', 5);
@@ -72,19 +72,17 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
 						    <div class="row">
 								<div class="large-12 columns">
 									<div id="spinner"></div>
-								<?php if(!isset($user)){ ?>
-								    <h5><?php echo $views['message']['write_message']; ?></h5>
-								    <label for="to"><small class="error"><?php echo $views['message']['valid_user']; ?></small></label>
-								    <input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" required>											    
-								<?php }else{ ?>
+									
+								<?php if(!isset($user))  
+										$user = 'newmessage';
+										?>
 									<!--- messaggi utente ---->
 									<div id="msgUser">
 										<input type="hidden" id="user" value="<?php echo $user ?>"/>
 										<input type="hidden" id="limit" value="<?php echo LIMITMSG ?>"/>
 										<input type="hidden" id="skip" value="<?php echo SKIPMSG ?>"/>
 									</div>																		
-								<?php } ?>
-									
+								
 									<div id="boxInvioMSG">	    
 									    <textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
 									    <br><br>

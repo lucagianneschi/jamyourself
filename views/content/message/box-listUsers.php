@@ -47,7 +47,7 @@ foreach ($messageBox->userInfoArray as $key => $value) {
 	$activeCss = 'active';
     ?>		
 
-    <div class="box-membre <?php echo $activeCss ?> <?php echo count($messageBox->userInfoArray); ?>" id="<?php echo $key ?>">
+    <div class="box-membre <?php echo $activeCss ?> <?php echo $limit ?> <?php echo $skip ?>" id="<?php echo $key ?>">
         <div class="unread <?php echo $readCss ?>"></div>
         <div class="delete" onClick="deleteMsg('<?php echo $key ?>')"></div>
         <div class="box-msg" onClick="showMsg('<?php echo $key ?>')">

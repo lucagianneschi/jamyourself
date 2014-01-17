@@ -30,7 +30,8 @@ function viewOtherListMsg(user, limit, skip) {
 	    }
 	}).done(function(message, status, xhr) {
 	    $('.box-other').addClass('no-display');
-	    $(message).appendTo("#box-listMsg");	
+	    //$(message).appendTo("#box-listMsg");
+	    	$("#box-listMsg").html(message);
 	    //$('#box-messageSingle').slideDown();
 	    console.log('SUCCESS: box-message ' + user);
 	    if (user == 'newmessage') {
