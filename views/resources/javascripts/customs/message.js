@@ -55,6 +55,9 @@ function loadBoxMessages(user, limit, skip) {
 				    $('#msgUser').slideUp({complete:function(){
 				    	goSpinner('#spinner');
 				    }});
+				}
+				else if(skip != 0){
+					goSpinner('#spinner');
 				}					
 		    }
 		}).done(function(message, status, xhr) {
@@ -83,14 +86,37 @@ function loadBoxMessages(user, limit, skip) {
 
 
 function btSendMessage(box, toUser){
-	var user;
-	try{
-		
-		user = toUser == 'newmessage' ? $("#to").select2("val") : toUser;
+	
+	try{		
+		var user = toUser == 'newmessage' ? $("#to").select2("val") : toUser;
+		var messaggio =  $('#'+box+' #textNewMessage').val();	
+		if(user != null && user != '' && messaggio != ""){
+			var dataPrec = '';
+			$( 'input[name="data"]' ).each(function( index ) {				
+			  dataPrec = $( this ).val();
+			});
 			
-		if(user != null && user != '' && $('#'+box+' #textNewMessage').val() != ""){
-			sendMessage(user, $('#'+box+' #textNewMessage').val(), null);
-			console.log('Invio messaggio a: '+user);
+			var arryDataPrec = dataPrec.split(" ");
+			var preimpostata = new Date(arryDataPrec[2], arryDataPrec[1]-1, arryDataPrec[0]);
+			var oggi = new Date();
+     		    		
+			if(arryDataPrec[0] != oggi.getDate() || (arryDataPrec[1]-1) != oggi.getMonth() ||  arryDataPrec[2] != oggi.getFullYear()){				
+				//data diversa: aggiungo data
+				var monthNames = [ "January", "February", "March", "April", "May", "June",
+    			"July", "August", "September", "October", "November", "December" ];
+				var data = oggi.getDate() + ' ' + monthNames[oggi.getMonth()] + ' ' + oggi.getFullYear();
+				var dataImput = oggi.getDate() + ' ' + (oggi.getMonth()+1) + ' ' + oggi.getFullYear();			
+				
+		       	createData(data, dataImput);
+		       
+		    }
+		    var hour = oggi.getHours();
+		    var min = oggi.getMinutes();
+		    if(hour < 10) hour = '0'+hour;
+		    if(min < 10) min = '0'+min;   
+			var num = createMessage(messaggio, hour+':'+min);			
+			sendMessage('#'+box, user, $('#'+box+' #textNewMessage').val(), num);
+			
 		}
 		else{
 			console.log('Inserisci to user');
@@ -103,7 +129,40 @@ function btSendMessage(box, toUser){
 }
 
 /*
- * 
+ * html per la data
+ */
+function createData(data, dataImput){
+	var html = '<div class="row">'+
+		'<div class="large-12 columns">'+
+		    '<div class="line-date"><small>'+data+'</small></div>'+
+		    	'<input type="hidden" value="'+dataImput+'" name="data"/>'+
+			'</div>'+
+    	'</div>';
+	$( html ).appendTo( "#msgTmp" );  
+	return html;
+}
+
+/*
+ * html per il messaggio
+ */
+function createMessage(msg, time){
+	var num = Math.round(10000*Math.random());
+	var html = '<div class="row newMsg '+num+'" >'+
+		'<div class="large-8 large-offset-2 columns msg msg-mine">'+
+		    '<p>'+msg+'</p>'+
+		'</div>'+
+		'<div class="large-2 hide-for-small columns">'+
+		    '<div class="date-mine">'+
+			'	<small>'+time+'</small>'+
+		    '</div>'+
+		'</div>'+
+    '</div>';
+    $( html ).appendTo( "#msgTmp" );  
+	return num;
+}
+
+/*
+ * autocomplete per l'imput test To:
  */ 
 function autoComplete() {
     try {
@@ -179,11 +238,11 @@ function showNewMsg() {
 }
 
 
-function sendMessage(toUser, message, title) {
+function sendMessage(box, toUser, message, num) {
     var json_message = {};
     json_message.toUser = toUser;
     json_message.message = message;
-    json_message.title = title;
+    json_message.title = null;
     json_message.request = 'message';
 
     $.ajax({
@@ -196,8 +255,12 @@ function sendMessage(toUser, message, title) {
     })//ADATTARE AL MESSAGE
             .done(function(message, status, xhr) {
               //	loadBoxMessages(toUser,5,0);
+              console.log($('.'+num));
+             	$('.'+num).removeClass('newMsg');
+             	$(box+' #textNewMessage').val('');	
                 code = xhr.status;
                 console.log("Code: " + code + " | Message: " + message);
+                
             })
             .fail(function(xhr) {
                 //mostra errore

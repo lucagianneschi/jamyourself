@@ -57,12 +57,14 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 					    $risultato = array_reverse($messageBox->messageArray);
 					    foreach ($risultato as $key => $value) {
 	
-						$data = $value->createdAt->format('d-F-Y');
+						$data = $value->createdAt->format('d F Y');
+						$dataFormato = $value->createdAt->format('j n Y');
 						$time = $value->createdAt->format('H:i');
 						if ($data != $dataPrec) { ?>		
 						    <div class="row">
 								<div class="large-12 columns">
 								    <div class="line-date"><small><?php echo $data ?></small></div>
+								    <input type="hidden" value="<?php echo $dataFormato ?>" name="data"/>
 								</div>
 						    </div>
 						<?php
@@ -110,11 +112,13 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 				    			</div>
 			    		    </div>	
 						<?php }   ?>
+						<div id="msgTmp"></div>
 						</div>
 				    </div>
 				</div>			
 		    </div>
 		</div>
+		<?php if($skip == 0){?>
 		<textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
 	    <br><br>
 	    <div class="row">
@@ -122,6 +126,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 		    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('userMsg','<?php echo $user ?>')">
 		    </div>
 		</div>
+		<?php } ?>
 	</div>
 	    <?php } else {
     	// ARRAY LISTA MESSAGGI VUOTO -> DEVO INVIARE UN MESS DA UN NUOVO UTENTE 
