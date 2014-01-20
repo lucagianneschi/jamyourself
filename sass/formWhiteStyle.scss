@@ -2,149 +2,155 @@
 @import "settings";
 
 body {
-	background-color: #F3F3F3;
-	
+        background-color: #F3F3F3;
+        
 }
 
 
 
 .box-upload-review-event {
-	padding-top: 3%;
-	.box-upload-title {
-		padding-top:40px;
-		padding-bottom:70px;
-	}
-	
-	.buttonNext{
-		background-image:url(../images/button/signup-next.png) !important;
-		background-color:white;
-		border: 0px;
-		color:$white;
-		width:135px;
-		height:35px;
-		margin:20px !important;
-		background-repeat:no-repeat;
-		float:right;
-	}
-	
-	textarea, .error textarea, textarea:focus {
-		background-color: white;
-		color: #666;
-		border: 1px solid $grey-light;
-		min-height:240px;
-		}
+        padding-top: 3%;
+        .box-upload-title {
+                padding-top:40px;
+                padding-bottom:70px;
+        }
+        
+        .buttonNext{
+                background-image:url(../images/button/signup-next.png) !important;
+                background-color:white;
+                border: 0px;
+                color:$white;
+                width:135px;
+                height:35px;
+                margin:20px !important;
+                background-repeat:no-repeat;
+                float:right;
+        }
+        
+        textarea, .error textarea, textarea:focus {
+                background-color: white;
+                color: #666;
+                border: 1px solid $grey-light;
+                min-height:240px;
+                }
 
-	.line { 
-		border-bottom: 1px solid $grey-light;
-		padding-bottom: 5px !important;
-	}
-	
-	h2 {
-		color:$grey;
-		font-weight: normal;
-		text-align: center;
+        .line { 
+                border-bottom: 1px solid $grey-light;
+                padding-bottom: 5px !important;
+        }
+        
+        h2 {
+                color:$grey;
+                font-weight: normal;
+                text-align: center;
 
-	}
-	
-	h3 {
-			color:$orange;
-			font-weight: normal;
-		}
-		
-	h5 {
-		color:$grey;
-		font-weight: normal;
-	}
-	
-	.rating {
-		margin-top:45px;
-	}
-	
-	.big-star {
-		padding-top:8px;
-	}
-	
-	.box {
-		background-color: white;
-		border-top: $orange 1px solid;
-		
-		.sidebar {
-			padding-left:25px;
-			padding-top:9px;
-			.box-membre {
-				padding: 10px;
-				margin-bottom: 10px;
-				width: auto;
-				height: 55px;
-				background-color: #f3f3f3;
-				cursor: pointer;
-			}
-			
-			.note {
-				padding-top:4px;
-			}
-			
-			.text {
-				margin-bottom: 10px;
-			}
-			
-			.oggetto-review {
-				margin-bottom:80px;
-			}
-		}
-		
-	}
-	
+        }
+        
+        h3 {
+                        color:$orange;
+                        font-weight: normal;
+                }
+                
+        h5 {
+                color:$grey;
+                font-weight: normal;
+        }
+        
+        .rating {
+                margin-top:45px;
+        }
+        
+        .big-star {
+                padding-top:8px;
+        }
+        
+        .box {
+                background-color: white;
+                border-top: $orange 1px solid;
+                
+                .sidebar {
+                        padding-left:25px;
+                        padding-top:9px;
+                        .box-membre {
+                                padding: 10px;
+                                margin-bottom: 10px;
+                                width: auto;
+                                height: 55px;
+                                background-color: #f3f3f3;
+                                cursor: pointer;
+                        }
+                        
+                        .note {
+                                padding-top:4px;
+                        }
+                        
+                        .text {
+                                margin-bottom: 10px;
+                        }
+                        
+                        .oggetto-review {
+                                margin-bottom:80px;
+                        }
+                }
+                
+        }
+        
 }
 
 //----------------------------- featuring --------------------------
 .formWhite{
-		
-	.select2-container{
-		margin-bottom: 10px !important;
-		border: 1px solid #ccc;
-	}
-	
-	.select2-container-multi .select2-choices{
-		font-size: 14px;		
-	  	border: 0px !important;	  
-	  	margin-left:0px !important; 
-		&:focus{		   
-		    border-bottom: 0px solid $grey-light !important; 
-	    }  
-	}
-		
-	.select2-search-choice{
-		background: $orange !important;
-		color: #fff !important;
-		height: 25px !important;
-		border: 1px solid $orange !important;
-		border-radius: 0px !important;
-		-webkit-box-shadow: none !important;
-		box-shadow: none !important;
-	}
-	
-	.select2-container .select2-choice{
-		border: none !important;
-		background-image: none !important;
-		color: $grey !important;
-		background-color: initial !important;
+                
+        .select2-container{
+                margin-bottom: 10px !important;
+                border: 1px solid #ccc;
+        }
+        
+        .select2-container-multi .select2-choices{
+                font-size: 14px;                
+                  border: 0px !important;          
+                  margin-left:0px !important; 
+                &:focus{                   
+                    border-bottom: 0px solid $grey-light !important; 
+            }  
+        }
+                
+        .select2-search-choice{
+                background: $orange !important;
+                color: #fff !important;
+                height: 25px !important;
+                border: 1px solid $orange !important;
+                border-radius: 0px !important;
+                -webkit-box-shadow: none !important;
+                box-shadow: none !important;
+        }
+        
+        .select2-container .select2-choice{
+                border: none !important;
+                background-image: none !important;
+                color: $grey !important;
+                background-color: initial !important;
 
-	}
-	
-	.select2-arrow{
-		display: none !important;
-	}
+        }
+        
+        .select2-arrow{
+                display: none !important;
+        }
+        
+        input[type="text"][disabled]{
+                background: #fff;
+                color: $grey;
+                font-size: 16px;
+        }
 }
 
 .select2-no-results{
-		display: none !important;
-	}
-	
+                display: none !important;
+        }
+        
 .select2-drop-active{
-	border: 1px solid #ccc !important;
+        border: 1px solid #ccc !important;
 }
 
 .select2-highlighted{
-	background:$orange !important; 
+        background:$orange !important; 
 }
