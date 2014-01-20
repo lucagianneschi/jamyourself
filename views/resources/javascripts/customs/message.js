@@ -7,8 +7,9 @@ $(document).ready(function() {
 });
 
 /*
- * permette di visualizzare più utenti nella lista degli utenti 
+ * permette di visualizzare più utenti nella lista degli utenti - PER ORA NON E' GESTITA - RIMANDATA.
  */
+/*
 function viewOtherListMsg(user, limit, skip) {
 	$.ajax({
 	    type: "POST",
@@ -35,7 +36,7 @@ function viewOtherListMsg(user, limit, skip) {
 	}).fail(function(xhr) {
 	    console.log("Error: " + $.parseJSON(xhr));
 	});
-}
+} */
 
 /*
  * visualizza la lista dei messaggi relativi al user
@@ -82,6 +83,22 @@ function loadBoxMessages(user, limit, skip) {
 		window.console.error("loadBoxMessages | An error occurred - message : " + err.message);
 	}	
 	
+}
+
+function btSendNewMessage(box, toUser,toUserType){
+	try{
+		var user = toUser == 'newmessage' ? $("#to").select2("val") : toUser;
+		var type = toUser == 'newmessage' ? $("#to").select2("type") : toUserType;
+		var message =  $('#'+box+' #textNewMessage').val();
+		if(user != null && user != '' && type != null && type != '' && message != ""){		
+			sendMessage('#'+box, user,type, $('#'+box+' #textNewMessage').val(), -1);	
+		}else{
+			console.log('Insert to user or message');
+		}
+			
+	}catch(err){
+		window.console.error("btSendNewMessage | An error occurred - message : " + err.message);
+	}	
 }	
 
 
@@ -97,7 +114,7 @@ function btSendMessage(box, toUser,toUserType){
 			else type = toUserType;
 		}
 		var messaggio =  $('#'+box+' #textNewMessage').val();	
-		if(user != null && user != '' && messaggio != ""){
+		if(user != null && user != '' && type != null && type != '' && messaggio != ""){
 			var dataPrec = '';
 			$( 'input[name="data"]' ).each(function( index ) {				
 			  dataPrec = $( this ).val();
@@ -126,7 +143,7 @@ function btSendMessage(box, toUser,toUserType){
 			
 		}
 		else{
-			console.log('Inserisci to user');
+			console.log('Insert to user or message');
 		}
 		
 	}catch(err){
@@ -265,24 +282,36 @@ function sendMessage(box, toUser,toUserType, message, num) {
         data: json_message,
         beforeSend: function() {
             //aggiungere il caricamento del bottone
+            if(num == -1){
+            	$('#newMsgUser').slideUp({complete:function(){
+			    	goSpinner('#spinner');
+			    }});
+            }
+            $(box+' #textNewMessage').val('');	
         }
     })//ADATTARE AL MESSAGE
-            .done(function(message, status, xhr) {
-              //	loadBoxMessages(toUser,5,0);
-              
-             	$('.'+num).removeClass('newMsg');
-             	$(box+' #textNewMessage').val('');	
-                code = xhr.status;
-                console.log("Code: " + code + " | Message: " + message);
-                
-            })
-            .fail(function(xhr) {
-                //mostra errore
-                errorMesseage(num);
-                message = $.parseJSON(xhr.responseText).status;
-                code = xhr.status;
-                console.log("Code: " + code + " | Message: " + message);
-            });
+    .done(function(message, status, xhr) {
+      	if(num == -1){
+      		window.location.href = 'message.php?user='+toUser;
+      	}
+     	else $('.'+num).removeClass('newMsg');             	
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message);
+        
+    })
+    .fail(function(xhr) {
+        //mostra errore
+        if(num == -1){
+        	$('#newMsgUser').html('ERROR');
+        	$('#newMsgUser').slideDown({complete:function(){
+		    	stopSpinner('#spinner');
+		    }});
+        }else
+        	errorMesseage(num);
+        message = $.parseJSON(xhr.responseText).status;
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message);
+    });
 }
 
 function readMessage(activityId) {

@@ -92,7 +92,7 @@ class MessageBox {
      * \todo    
      * \return	MessageBox, error in case of error
      */
-    public function initForUserList($limit = null, $skip = null) {
+    public function initForUserList() {
         $currentUserId = sessionChecker();
         if (is_null($currentUserId)) {
             $this->errorManagement(ONLYIFLOGGEDIN);
