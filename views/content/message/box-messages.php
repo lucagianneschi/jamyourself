@@ -10,6 +10,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 	$user = $_POST['user'];
+	$type = $_POST['type'];
     ?>
     <script>
     	autoComplete('#newMsg input#to');
@@ -60,6 +61,9 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 						$data = $value->createdAt->format('d F Y');
 						$dataFormato = $value->createdAt->format('j n Y');
 						$time = $value->createdAt->format('H:i');
+						
+					//	$data = ucwords(strftime("%e %B %Y", $value->createdAt->getTimestamp()));
+						$time = ucwords(strftime("%H:%M", $value->createdAt->getTimestamp()));
 						if ($data != $dataPrec) { ?>		
 						    <div class="row">
 								<div class="large-12 columns">
@@ -122,8 +126,8 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 		<textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
 	    <br><br>
 	    <div class="row">
-		    <div class="large-12">
-		    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('userMsg','<?php echo $user ?>')">
+		    <div class="large-12">		    	
+		    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('userMsg','<?php echo $user ?>',null)">
 		    </div>
 		</div>
 		<?php } ?>
@@ -151,7 +155,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 		    <br><br>
 		    <div class="row">
 			    <div class="large-12">
-			    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('newMsgUser','<?php echo $user ?>')">
+			    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('newMsgUser','<?php echo $user ?>','<?php echo $toType ?>'))">
 			    </div>
 			</div>
 		</div>

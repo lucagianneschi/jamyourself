@@ -108,8 +108,7 @@ class MessageBox {
         $activityP->where('type', 'MESSAGESENT');
         $activityP->where('active', true);
         $activityP->whereInclude('fromUser,toUser');
-        $activityP->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitUsersForMessagePage);
-        $activityP->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
+        $activityP->setLimit(MAX);
         $activityP->orderByDescending('createdAt');
         $activities = $activityP->getActivities();
         if ($activities instanceof Error) {

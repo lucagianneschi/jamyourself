@@ -85,10 +85,17 @@ function loadBoxMessages(user, limit, skip) {
 }	
 
 
-function btSendMessage(box, toUser){
+function btSendMessage(box, toUser,toUserType){
 	
 	try{		
 		var user = toUser == 'newmessage' ? $("#to").select2("val") : toUser;
+		
+		if( toUser == 'newmessage'){
+			type = $("#to").select2("type");
+		}else{
+			if(toUserType == null) type = $('#'+toUser+' input[name="type"]').val();
+			else type = toUserType;
+		}
 		var messaggio =  $('#'+box+' #textNewMessage').val();	
 		if(user != null && user != '' && messaggio != ""){
 			var dataPrec = '';
@@ -115,7 +122,7 @@ function btSendMessage(box, toUser){
 		    if(hour < 10) hour = '0'+hour;
 		    if(min < 10) min = '0'+min;   
 			var num = createMessage(messaggio, hour+':'+min);			
-			sendMessage('#'+box, user, $('#'+box+' #textNewMessage').val(), num);
+			sendMessage('#'+box, user,type, $('#'+box+' #textNewMessage').val(), num);
 			
 		}
 		else{
@@ -159,6 +166,13 @@ function createMessage(msg, time){
     '</div>';
     $( html ).appendTo( "#msgTmp" );  
 	return num;
+}
+
+function errorMesseage(num){
+	$('.'+num).removeClass('newMsg');
+	$('.'+num).addClass('newMsgError');
+	var time = $('.'+num+' .date-mine small').html();
+	$('.'+num+' .date-mine small').html('ERROR - '+time);
 }
 
 /*
@@ -238,11 +252,11 @@ function showNewMsg() {
 }
 
 
-function sendMessage(box, toUser, message, num) {
+function sendMessage(box, toUser,toUserType, message, num) {
     var json_message = {};
     json_message.toUser = toUser;
+    json_message.toUserType = toUserType;
     json_message.message = message;
-    json_message.title = null;
     json_message.request = 'message';
 
     $.ajax({
@@ -255,7 +269,7 @@ function sendMessage(box, toUser, message, num) {
     })//ADATTARE AL MESSAGE
             .done(function(message, status, xhr) {
               //	loadBoxMessages(toUser,5,0);
-              console.log($('.'+num));
+              
              	$('.'+num).removeClass('newMsg');
              	$(box+' #textNewMessage').val('');	
                 code = xhr.status;
@@ -264,6 +278,7 @@ function sendMessage(box, toUser, message, num) {
             })
             .fail(function(xhr) {
                 //mostra errore
+                errorMesseage(num);
                 message = $.parseJSON(xhr.responseText).status;
                 code = xhr.status;
                 console.log("Code: " + code + " | Message: " + message);

@@ -78,7 +78,7 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
 										?>
 									<!--- messaggi utente ---->
 									<div id="msgUser">
-										<input type="hidden" id="user" value="<?php echo $user ?>"/>
+										<input type="hidden" id="user" value="<?php echo $user ?>"/>										
 										<input type="hidden" id="limit" value="<?php echo LIMITMSG ?>"/>
 										<input type="hidden" id="skip" value="<?php echo SKIPMSG ?>"/>
 									</div>										

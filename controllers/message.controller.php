@@ -84,75 +84,75 @@ class MessageController extends REST {
      * \todo    testare, possibilità di invio a utenti multipli, controllo della relazione
      */
     public function message() {
-	global $controllers;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    // } elseif (!isset($_SESSION['currentUser'])) {
-		// $this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['message'])) {
-		$this->response(array('status' => $controllers['NOMESSAGE']), 403);
-	    } elseif (!isset($this->request['toUser'])) {
-		$this->response(array('status' => $controllers['NOTOUSER']), 403);
-	    } elseif (!isset($this->request['title'])) {
-		$this->response(array('status' => $controllers['NOMESSAGETITLE']), 400);
-	    }
-	    $currentUser = $_SESSION['currentUser'];
-	    $toUserId = $this->request['toUser'];
-	    $toUserType = $this->request['toUserType'];
-	    if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
-		$this->response(array('status' => $controllers['NOSPAM']), 401);
-	    }
-	    $text = $this->request['message'];
-	    if (strlen($text) < $this->config->minMessageSize) {
-		$this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
-	    }
-	    require_once CLASSES_DIR . 'comment.class.php';
-	    require_once CLASSES_DIR . 'commentParse.class.php';
-	    $message = new Comment();
-	    $message->setActive(true);
-	    $message->setCommentCounter(0);
-	    $message->setFromUser($currentUser->getObjectId());
-	    $message->setLocation(null);
-	    $message->setLoveCounter(0);
-	    $message->setLovers(array());
-	    $message->setShareCounter(0);
-	    $message->setTags(array());
-	    $message->setText($text);
-//	    $message->setTitle(null);
-	    $message->setToUser($toUserId);
-	    $message->setType('M');
-	    $message->setVideo(null);
-	    $message->setVote(null);
-	    $commentParse = new CommentParse();
-	    $resCmt = $commentParse->saveComment($message);
-	    if ($resCmt instanceof Error) {
-			$this->response(array('status' => 'NOSAVEMESS'), 503);
-	    }
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = $this->createActivity($currentUser->getObjectId(), $toUserId);
-	    $activityParse = new ActivityParse();
-	    $resActivity = $activityParse->saveActivity($activity);
-	    if ($resActivity instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
-		$this->response(array('status' => $message), 503);
-	    }
-	    global $mail_files;
-	    require_once CLASSES_DIR . 'userParse.class.php';
-	    require_once CONTROLLERS_DIR . 'utilsController.php';
-	    $userParse = new UserParse();
-	    $user = $userParse->getUser($toUserObjectId);
-	    #TODO
-	    //$address = $user->getEmail();
-	    $address = 'alesandro.ghilarducci@gmail.com';
-	    $subject = $controllers['SBJMESSAGE'];
-	    $html = $mail_files['MESSAGEEMAIL'];
-	    sendMailForNotification($address, $subject, $html);
-	    $this->response(array($controllers['MESSAGESAVED']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+		global $controllers;
+		try {
+		    if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+			} elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);	   
+		    } elseif (!isset($this->request['toUser'])) {
+				$this->response(array('status' => $controllers['NOTOUSER']), 403);
+			} elseif (!isset($this->request['toUserType'])) {
+				$this->response(array('status' => $controllers['NOTOUSERTYPE']), 403);
+		    } elseif (!isset($this->request['message'])) {
+				$this->response(array('status' => $controllers['NOMESSAGE']), 403);
+			}
+		    $currentUser = $_SESSION['currentUser'];
+		    $toUserId = $this->request['toUser'];
+		    $toUserType = $this->request['toUserType'];
+		    if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
+				$this->response(array('status' => $controllers['NOSPAM']), 401);
+		    }
+		    $text = $this->request['message'];
+		    if (strlen($text) < $this->config->minMessageSize) {
+				$this->response(array('status' => $controllers['SHORTMESSAGE'] . strlen($text)), 406);
+		    }
+		    require_once CLASSES_DIR . 'comment.class.php';
+		    require_once CLASSES_DIR . 'commentParse.class.php';
+		    $message = new Comment();
+		    $message->setActive(true);
+		    $message->setCommentCounter(0);
+		    $message->setFromUser($currentUser->getObjectId());
+		    $message->setLocation(null);
+		    $message->setLoveCounter(0);
+		    $message->setLovers(array());
+		    $message->setShareCounter(0);
+		    $message->setTags(array());
+		    $message->setText($text);
+		    $message->setTitle(null);
+		    $message->setToUser($toUserId);
+		    $message->setType('M');
+		    $message->setVideo(null);
+		    $message->setVote(null);
+		    $commentParse = new CommentParse();
+		    $resCmt = $commentParse->saveComment($message);
+		    if ($resCmt instanceof Error) {
+				$this->response(array('status' => 'NOSAVEMESS'), 503);
+		    }
+		    require_once CLASSES_DIR . 'activityParse.class.php';
+		    $activity = $this->createActivity($currentUser->getObjectId(), $toUserId);
+		    $activityParse = new ActivityParse();
+		    $resActivity = $activityParse->saveActivity($activity);
+		    if ($resActivity instanceof Error) {
+			require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+			$message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
+			$this->response(array('status' => $message), 503);
+		    }
+		    global $mail_files;
+		    require_once CLASSES_DIR . 'userParse.class.php';
+		    require_once CONTROLLERS_DIR . 'utilsController.php';
+		    $userParse = new UserParse();
+		    $user = $userParse->getUser($toUserObjectId);
+		    #TODO
+		    //$address = $user->getEmail();
+		    $address = 'alesandro.ghilarducci@gmail.com';
+		    $subject = $controllers['SBJMESSAGE'];
+		    $html = $mail_files['MESSAGEEMAIL'];
+		    sendMailForNotification($address, $subject, $html);
+		    $this->response(array($controllers['MESSAGESAVED']), 200);
+		} catch (Exception $e) {
+		    $this->response(array('status' => $e->getMessage()), 503);
+		}
     }
 
     /**
