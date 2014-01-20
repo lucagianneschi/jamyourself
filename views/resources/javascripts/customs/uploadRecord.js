@@ -3,7 +3,7 @@ var exp_general = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>
 
 var music = null;
 var json_album_create = {'city': null};
-var uploader = null; 
+var uploader = null;
 var json_album = {"list": []};
 var recordLoader = null;
 
@@ -28,17 +28,17 @@ $(document).ready(function() {
     getUserRecords();
     initFeaturingJSON();
     initGeocomplete();
-	
-	validateFields();
-	validateUrl('urlBuy');
-	    
-	step1NewRecord();
-	
-	step2Next();
-	step2Back();
-	
-	step3Ok();
-	
+
+    validateFields();
+    validateUrl('urlBuy');
+
+    step1NewRecord();
+
+    step2Next();
+    step2Back();
+
+    step3Ok();
+
     //gesione button publish 
     $('#uploadRecord03-publish').click(function() {
         publish();
@@ -64,7 +64,7 @@ $(document).ready(function() {
             }
         }
     });
-    
+
     $('#trackFeaturing').select2({
         multiple: true,
         minimumInputLength: 1,
@@ -98,174 +98,181 @@ $(document).ready(function() {
  * validazione campi con plugin abide di foundation
  * trami espressioni regolari definite sopra
  */
-function validateFields(){
-	try{
-		$(document).foundation('abide', {
-		    live_validate: true,
-		    focus_on_invalid: true,
-		    timeout: 1000,
-		    patterns: {
-		    	general : exp_general,
-		    	year: /^(19|20)\d{2}$/,
-		        url: exp_url
-		    }
-		});
-	}catch(err){
-		window.console.error("validateFields | An error occurred - message : " + err.message);
-	}
-		
+function validateFields() {
+    try {
+        $(document).foundation('abide', {
+            live_validate: true,
+            focus_on_invalid: true,
+            timeout: 1000,
+            patterns: {
+                general: exp_general,
+                year: /^(19|20)\d{2}$/,
+                url: exp_url
+            }
+        });
+    } catch (err) {
+        window.console.error("validateFields | An error occurred - message : " + err.message);
+    }
+
 }
 
 /*
  * validazione javascript campo url
  */
-function validateUrl(field){
-	try{
-		$('#'+field).blur(function(){	    	
-	    	var str = $('#'+field).val();	    	
-	    	if(str != '' && str.indexOf("http://") < 0){
-				$('#'+field).val('http://'+str);	
-	        }
-	    });
-	}catch(err){
-		window.console.error("validateUrl | An error occurred - message : " + err.message);
-	}
+function validateUrl(field) {
+    try {
+        $('#' + field).blur(function() {
+            var str = $('#' + field).val();
+            if (str != '' && str.indexOf("http://") < 0) {
+                $('#' + field).val('http://' + str);
+            }
+        });
+    } catch (err) {
+        window.console.error("validateUrl | An error occurred - message : " + err.message);
+    }
 }
 
 /*
  * gesione button create new record
  */
-function step1NewRecord(){
-	try{
-	    $('#uploadRecord-new').click(function() {
-	        $("#uploadRecord01").fadeOut(100, function() {
-	            $("#uploadRecord02").fadeIn(100);
-	        });
-	        //inizializzazione per l'upload della copertina dell'album
-	        initImgUploader();
-	    });
-	}catch(err){
-		window.console.error("createNewRecord | An error occurred - message : " + err.message);
-	}
+function step1NewRecord() {
+    try {
+        $('#uploadRecord-new').click(function() {
+            $("#uploadRecord01").fadeOut(100, function() {
+                $("#uploadRecord02").fadeIn(100);
+            });
+            //inizializzazione per l'upload della copertina dell'album
+            initImgUploader();
+        });
+    } catch (err) {
+        window.console.error("createNewRecord | An error occurred - message : " + err.message);
+    }
 }
 
 /*
  * gestione button new in uploadRecord02
  */
-function step2Next(){
-	try{
-		$('#uploadRecord02-next').click(function() {
-	    	var espressione = new RegExp(exp_general); 
-	    	var esprUrl = new RegExp(exp_url);  
-	    	var esprYear = new RegExp(/^(19|20)\d{2}$/);     	
-	    	//title
-	    	var validation_title = false;	    	
-	    	if ($('#recordTitle').val() == '' || !espressione.test($('#recordTitle').val())) {
-	            $('#recordTitle').focus();
-	            validation_title = false;
-	        }else validation_title = true;
-	    	//description
-	    	var validation_description = false;
-	    	if ($('#description').val() == '' || !espressione.test($('#description').val())) {
-	            $('#description').focus();
-	            validation_description = false;
-	        }else validation_description = true;
-	        //label
-	        var validation_label = false;
-	    	if ($('#label').attr('data-invalid') != undefined) {
-	    		$('#label').focus();
-	            validation_label = false;
-	        }else validation_label = true; 
-	        //urlBuy
-	        var validation_urlBuy = false;
-	    	if ($('#urlBuy').attr('data-invalid') != undefined) {
-	    		$('#urlBuy').focus();
-	            validation_urlBuy = false;
-	        }else validation_urlBuy = true;   
-	         //year
-	        var validation_year = false;
-	    	if ($('#year').attr('data-invalid') != undefined) {
-	    		$('#year').focus();
-	            validation_year = false;
-	        }else validation_year = true;
-	         //city
-	        var validation_city = false;
-	    	if ($('#city').attr('data-invalid') != undefined) {
-	    		$('#city').focus();
-	            validation_city = false;
-	        }else validation_city = true;
-	       	       
-	        //controllo se almeno esiste un checked per genre
-	        var validation_genre = false;    	    	 
-	        if (!$("#tag-music input[type='checkbox']").is(':checked')) {
-	            $("#labelTag .error").css({'display': 'block'});
-	            validation_genre = false;
-	        }
-	        else {
-	        	 $("#labelTag .error").css({'display': 'none'});
-	            validation_genre = true;
-	        }
-		
-	            	
-	    	if(validation_title && validation_description && validation_label && validation_urlBuy && validation_year && validation_city && validation_genre){
-	    		$("#uploadRecord02").fadeOut(100, function() {
-		            $("#uploadRecord03").fadeIn(100);
-		            
-		        });
-		        
-		        if (uploader !== null) {
-		            uploader.start();
-		        }
-		        initMp3Uploader();
-		        createRecord();
-	    	} 
-	    });
-	}catch(err){
-		window.console.error("step2Next | An error occurred - message : " + err.message);
-	}
+function step2Next() {
+    try {
+        $('#uploadRecord02-next').click(function() {
+            var espressione = new RegExp(exp_general);
+            var esprUrl = new RegExp(exp_url);
+            var esprYear = new RegExp(/^(19|20)\d{2}$/);
+            //title
+            var validation_title = false;
+            if ($('#recordTitle').val() == '' || !espressione.test($('#recordTitle').val())) {
+                $('#recordTitle').focus();
+                validation_title = false;
+            } else
+                validation_title = true;
+            //description
+            var validation_description = false;
+            if ($('#description').val() == '' || !espressione.test($('#description').val())) {
+                $('#description').focus();
+                validation_description = false;
+            } else
+                validation_description = true;
+            //label
+            var validation_label = false;
+            if ($('#label').attr('data-invalid') != undefined) {
+                $('#label').focus();
+                validation_label = false;
+            } else
+                validation_label = true;
+            //urlBuy
+            var validation_urlBuy = false;
+            if ($('#urlBuy').attr('data-invalid') != undefined) {
+                $('#urlBuy').focus();
+                validation_urlBuy = false;
+            } else
+                validation_urlBuy = true;
+            //year
+            var validation_year = false;
+            if ($('#year').attr('data-invalid') != undefined) {
+                $('#year').focus();
+                validation_year = false;
+            } else
+                validation_year = true;
+            //city
+            var validation_city = false;
+            if ($('#city').attr('data-invalid') != undefined) {
+                $('#city').focus();
+                validation_city = false;
+            } else
+                validation_city = true;
+
+            //controllo se almeno esiste un checked per genre
+            var validation_genre = false;
+            if (!$("#tag-music input[type='checkbox']").is(':checked')) {
+                $("#labelTag .error").css({'display': 'block'});
+                validation_genre = false;
+            }
+            else {
+                $("#labelTag .error").css({'display': 'none'});
+                validation_genre = true;
+            }
+
+
+            if (validation_title && validation_description && validation_label && validation_urlBuy && validation_year && validation_city && validation_genre) {
+                $("#uploadRecord02").fadeOut(100, function() {
+                    $("#uploadRecord03").fadeIn(100);
+
+                });
+
+                if (uploader !== null) {
+                    uploader.start();
+                }
+                initMp3Uploader();
+                createRecord();
+            }
+        });
+    } catch (err) {
+        window.console.error("step2Next | An error occurred - message : " + err.message);
+    }
 }
 
-function step2Back(){
-	try{
-		$('#uploadRecord02-back').click(function() {
-	        $("#uploadRecord02").fadeOut(100, function() {
-	            $("#uploadRecord01").fadeIn(100);
-	        });	       
-	    });
-	}catch(err){
-		window.console.error("step2Back | An error occurred - message : " + err.message);
-	}
+function step2Back() {
+    try {
+        $('#uploadRecord02-back').click(function() {
+            $("#uploadRecord02").fadeOut(100, function() {
+                $("#uploadRecord01").fadeIn(100);
+            });
+        });
+    } catch (err) {
+        window.console.error("step2Back | An error occurred - message : " + err.message);
+    }
 }
 
-function step3Ok(){
-	$('#uploadRecord03-next').click(function() {
-		//trackTitle
-		var validation_trackTitle = false;
-    	if ($('#trackTitle').val() == '' || $('#trackTitle').attr('data-invalid') != undefined) {
-    		$('#trackTitle').focus();
+function step3Ok() {
+    $('#uploadRecord03-next').click(function() {
+        //trackTitle
+        var validation_trackTitle = false;
+        if ($('#trackTitle').val() == '' || $('#trackTitle').attr('data-invalid') != undefined) {
+            $('#trackTitle').focus();
             validation_trackTitle = false;
-        }else validation_trackTitle = true;
-        
+        } else
+            validation_trackTitle = true;
+
         //genre
-        var validation_genreTrack = false; 	    	 
+        var validation_genreTrack = false;
         if (!$("#tag-musicTrack input[type='checkbox']").is(':checked')) {
             $("#labelmusicTrack .error").css({'display': 'block'});
             validation_genreTrack = false;
         }
         else {
-        	 $("#labelmusicTrack .error").css({'display': 'none'});
+            $("#labelmusicTrack .error").css({'display': 'none'});
             validation_genreTrack = true;
         }
-        
-        if(validation_trackTitle && validation_genreTrack){
-        	
-        if (uploader !== null) {
-            uploader.start();
+
+        if (validation_trackTitle && validation_genreTrack) {
+
+            if (uploader !== null) {
+                uploader.start();
+            }
+
         }
-        
-        } 
-		
-	});
+
+    });
 }
 
 
@@ -280,7 +287,7 @@ function initImgUploader() {
 //inizializzazione dei parametri
         var selectButtonId = "uploader_img_button";
         var url = "../controllers/request/uploadRequest.php";
-        var runtime = 'html4';
+        var runtime = 'html5';
         var multi_selection = false;
         var maxFileSize = "12mb";
 
@@ -290,6 +297,7 @@ function initImgUploader() {
             browse_button: selectButtonId, //id del pulsante di selezione file
             max_file_size: maxFileSize, //dimensione max dei file da caricare
             multi_selection: multi_selection, //forza un file alla volta per upload
+            chunk_size : '100kb',
             url: url,
             filters: [
                 {title: "Image files", extensions: "jpg,gif,png"}
@@ -532,9 +540,10 @@ function initMp3Uploader() {
     try {
 //creo l'oggetto uploader (l'ho dichiarato ad inizio js in modo che sia globale)
         uploader = new plupload.Uploader({
-            runtimes: 'html4', //runtime di upload
+            runtimes: 'html5', //runtime di upload
             browse_button: "uploader_mp3_button", //id del pulsante di selezione file
             max_file_size: "12mb", //dimensione max dei file da caricare
+            chunk_size : '100kb',
             multi_selection: false, //forza un file alla volta per upload
             url: "../controllers/request/uploadRequest.php",
             filters: [
@@ -558,17 +567,17 @@ function initMp3Uploader() {
 //        window.console.log("initUploader - EVENT: FilesAdded - parametri: files => " + JSON.stringify(files));
             while (up.files.length > 1) {
                 up.removeFile(up.files[0]);
-            }            
+            }
         });
-       
+
 //evento: cambiamento percentuale di caricamento
         uploader.bind('UploadProgress', function(up, file) {
 //        window.console.log("initUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
-		  	var progressBarValue = up.total.percent;
-	        $('#progressbar').fadeIn().progressbar({
-	            value: progressBarValue
-	        });
-	        $('#progressbar .ui-progressbar-value').html('<span class="progressTooltip">' + up.total.percent + '%</span>');
+            var progressBarValue = up.total.percent;
+            $('#progressbar').fadeIn().progressbar({
+                value: progressBarValue
+            });
+            $('#progressbar .ui-progressbar-value').html('<span class="progressTooltip">' + up.total.percent + '%</span>');
         });
 
 //evento: errore
@@ -585,8 +594,8 @@ function initMp3Uploader() {
 //        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
             var obj = JSON.parse(response.response);
             if (obj.error !== undefined && obj.error !== null) {
-            	$('#uploaderError').removeClass('no-display');
-            	$('#progressbar').addClass('no-display');
+                $('#uploaderError').removeClass('no-display');
+                $('#progressbar').addClass('no-display');
                 console.log(response);
             } else {
                 addNewSong(obj.src, obj.duration, getTagsMusicTrack());
@@ -640,7 +649,7 @@ function addSongToList(title, duration, genre, isNew, id) {
         } else {
             html += '<td class="delete _delete-button" onClick="javascript:deleteSong(\'' + id + '\')"></tdr>';
         }
-		
+
         $("#songlist").append(html);
         $('#uploadRecord-detail').removeClass('no-display');
     } catch (err) {
@@ -707,8 +716,9 @@ function getSongCallback(data, status) {
             }
         } else {
             json_album.count = 0;
-        }        
-        if(data.count > 0 ) $('#uploadRecord-detail').removeClass('no-display');
+        }
+        if (data.count > 0)
+            $('#uploadRecord-detail').removeClass('no-display');
     } catch (err) {
         console.log("getSongCallback | An error occurred - message : " + err.message);
     }
@@ -873,10 +883,9 @@ function onCarouselReady() {
             scrollbar: false,
             dragUsingMouse: false
         });
-		
+
 
     } catch (err) {
         console.log("onCarouselReady | An error occurred - message : " + err.message);
     }
 }
-

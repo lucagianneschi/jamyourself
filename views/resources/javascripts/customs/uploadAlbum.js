@@ -113,7 +113,7 @@ function initImgUploader() {
 //inizializzazione dei parametri
         var selectButtonId = "upload-album";
         var url = "../controllers/request/uploadRequest.php";
-        var runtime = 'html4';
+        var runtime = 'html5';
         if (supportsCanvas()) {
             runtime = 'html5';
         }
@@ -125,6 +125,7 @@ function initImgUploader() {
             max_file_size: maxFileSize, //dimensione max dei file da caricare
             multi_selection: multi_selection, //forza un file alla volta per upload
             url: url,
+            chunk_size : '100kb',
             filters: [
                 {title: "Image files", extensions: "jpg,gif,png"}
             ],

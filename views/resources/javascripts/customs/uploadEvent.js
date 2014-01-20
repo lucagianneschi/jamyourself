@@ -29,6 +29,14 @@ $(document).ready(function() {
 
     validation();
 
+    $("#city").onblur=function(){
+        if (json_event_create.city === null) {
+            //NON VALIDO
+            $('label[for="city"]').addClass('error');
+            $("#city").attr("data-invalid",'');
+        }
+    };
+
 
 });
 
@@ -170,7 +178,7 @@ function initImgUploader() {
 //inizializzazione dei parametri
     var selectButtonId = "uploader_img_button";
     var url = "../controllers/request/uploadRequest.php";
-    var runtime = 'html4';
+    var runtime = 'html5';
     var multi_selection = false;
     var maxFileSize = "12mb";
 
@@ -181,6 +189,7 @@ function initImgUploader() {
         max_file_size: maxFileSize, //dimensione max dei file da caricare
         multi_selection: multi_selection, //forza un file alla volta per upload
         url: url,
+        chunk_size : '100kb',
         filters: [
             {title: "Image files", extensions: "jpg,gif,png"}
         ],
@@ -356,7 +365,6 @@ function initGeocomplete() {
         $("#city").geocomplete()
                 .bind("geocode:result", function(event, result) {
             validateLocation(result);
-            json_event_create.city = prepareLocationObj(result);
         })
                 .bind("geocode:error", function(event, status) {
             json_event_create.city = null;
@@ -379,10 +387,12 @@ function validateLocation(_result) {
             //NON VALIDO
             json_event_create.city = null;
             $('label[for="city"]').addClass('error');
+            $("#city").attr("data-invalid",'');
         } else {
             //VALIDO
             if ($('label[for="city"]').hasClass('error')) {
                 $('label[for="city"]').removeClass('error');
+                $("#city").removeAttr("data-invalid");
             }
             json_event_create.city = prepareLocationObj(_result);
         }
