@@ -23,7 +23,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 	    <br><br>
 	    <div class="row">
 		    <div class="large-12">
-		    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('newMsg','<?php echo $user ?>')">
+		    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendNewMessage('newMsg','<?php echo $user ?>',null)">
 		    </div>
 		</div>
 	</div>
@@ -155,7 +155,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 		    <br><br>
 		    <div class="row">
 			    <div class="large-12">
-			    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('newMsgUser','<?php echo $user ?>','<?php echo $toType ?>'))">
+			    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendNewMessage('newMsgUser','<?php echo $user ?>','<?php echo $toType ?>')">
 			    </div>
 			</div>
 		</div>

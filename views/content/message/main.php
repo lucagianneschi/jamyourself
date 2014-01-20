@@ -7,14 +7,11 @@ require_once BOXES_DIR . 'message.box.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
-define('LIMITLISTMSG', 5);
-define('SKIPLISTMSG', 0);
-
 define('LIMITMSG', 5);
 define('SKIPMSG', 0);
 
 $messageBox = new MessageBox();
-$messageBox->initForUserList(LIMITLISTMSG, SKIPLISTMSG);
+$messageBox->initForUserList();
 
 $cssNewMessage = "no-display";
 if (isset($user)) {

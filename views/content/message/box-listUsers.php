@@ -1,8 +1,5 @@
 <?php
 
-$limit = LIMITLISTMSG;
-$skip = SKIPLISTMSG;
-
 if (!isset($messageBox)) {
     if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../../');
@@ -12,11 +9,9 @@ if (!isset($messageBox)) {
     require_once BOXES_DIR . 'message.box.php';
     require_once SERVICES_DIR . 'lang.service.php';
     require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-	
-    $limit = (int) $_POST['limit'];
-    $skip = (int) $_POST['skip'];
+	   
     $messageBox = new MessageBox();
-    $messageBox->initForUserList($limit, $skip);
+    $messageBox->initForUserList();
     $cssNewMessage = "no-display";
 }
 
@@ -64,10 +59,11 @@ foreach ($messageBox->userInfoArray as $key => $value) {
 	    	</div>
         </div>
     </div>
+    
 
 <?php
 }
-
+/*
 if (count($messageBox->userInfoArray) >= LIMITLISTMSG && count($messageBox->userInfoArray) > 0) {
     ?>  
 
@@ -75,5 +71,6 @@ if (count($messageBox->userInfoArray) >= LIMITLISTMSG && count($messageBox->user
         <a><?php echo $views['message']['view_other']; ?></a>
     </div>
     <?php
-}
+}*/
 ?>
+<div id='userTmp'></div>
