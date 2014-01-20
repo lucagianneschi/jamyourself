@@ -180,7 +180,12 @@ function initImgUploader() {
             }
         });
         uploader.bind('UploadProgress', function(up, file) {
-            window.console.log("initImgUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
+            handleProgressBar(file);    
+            if(up.total.percent !== 100){
+                $('#uploadAlbum03-publish').hide();
+            }else{
+                $('#uploadAlbum03-publish').show();                
+            }            
         });
         uploader.bind('Error', function(up, err) {
             up.refresh();
@@ -203,6 +208,9 @@ function initImgUploader() {
         window.console.log("initImgUploader | An error occurred - message : " + err.message);
     }
 
+}
+function handleProgressBar(file){
+            $('#percentage_' + file.id).html(file.percent +"%");
 }
 
 function getTableRowImage(id) {
@@ -228,6 +236,8 @@ function getTableRowImage(id) {
                 '<span data-tooltip class="tip-top" title="Set as Cover">' +
                 '<input type="radio" name="cover" id="idCover_' + id + '" value="idCover_' + id + '" class="no-display">' +
                 '<label for="idCover_' + id + '"><div class="buttonIsCover"></div></label></span>' +
+                '</div>' +
+                '<div id="percentage_' + id + '">0%' +
                 '</div>' +
                 '<div class="delete _delete-button" onclick="javascript:removeImageFromList(\'' + $.trim(id) + '\')"></div>' +
                 '</td>' +
