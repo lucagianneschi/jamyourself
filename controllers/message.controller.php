@@ -100,7 +100,7 @@ class MessageController extends REST {
 		    $currentUser = $_SESSION['currentUser'];
 		    $toUserId = $this->request['toUser'];
 		    $toUserType = $this->request['toUserType'];
-		    if (relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
+		    if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
 				$this->response(array('status' => $controllers['NOSPAM']), 401);
 		    }
 		    $text = $this->request['message'];
