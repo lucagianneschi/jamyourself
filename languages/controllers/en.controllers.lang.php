@@ -16,6 +16,7 @@
 $controllers = array(
     //GENERAL
     'NOTOUSER' => 'No toUser specified',
+    'NOTOUSERTYPE' => 'No toUser type specified',
     'NOFROMUSER' => 'No fromUser specified',
     'NOCLASSTYPE' => 'No classType specified',
     'NOOBJECTID' => 'No objectId specified',

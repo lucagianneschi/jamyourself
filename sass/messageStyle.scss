@@ -238,5 +238,14 @@ p {
 		}
 	}
 
+	.newMsg{
+		opacity: 0.5 !important;
+	}
+	
+	.newMsgError{
+		.msg-mine{
+			background-color: $red;
+		}
+	}
 	
 }

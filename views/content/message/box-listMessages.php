@@ -1,4 +1,5 @@
 <?php
+
 $limit = LIMITLISTMSG;
 $skip = SKIPLISTMSG;
 
@@ -11,12 +12,11 @@ if (!isset($messageBox)) {
     require_once BOXES_DIR . 'message.box.php';
     require_once SERVICES_DIR . 'lang.service.php';
     require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+	
     $limit = (int) $_POST['limit'];
     $skip = (int) $_POST['skip'];
-    echo $skip;
     $messageBox = new MessageBox();
     $messageBox->initForUserList($limit, $skip);
-
     $cssNewMessage = "no-display";
 }
 
@@ -47,20 +47,21 @@ foreach ($messageBox->userInfoArray as $key => $value) {
 	$activeCss = 'active';
     ?>		
 
-    <div class="box-membre <?php echo $activeCss ?> <?php echo count($messageBox->userInfoArray); ?>" id="<?php echo $key ?>">
+    <div class="box-membre <?php echo $activeCss ?>" id="<?php echo $key ?>">
         <div class="unread <?php echo $readCss ?>"></div>
         <div class="delete" onClick="deleteMsg('<?php echo $key ?>')"></div>
         <div class="box-msg" onClick="showMsg('<?php echo $key ?>')">
-    	<div class="row">
-    	    <div class="small-2 columns ">
-    		<div class="icon-header">
-    		    <img src="<?php echo $value->userInfo->thumbnail ?>" onerror="this.src='<?php echo $tumb ?>'">
-    		</div>
-    	    </div>
-    	    <div class="small-10 columns" style="padding-top: 8px;">
-    		<div id="a1to" class="text grey-dark breakOffTest"><?php echo $value->userInfo->username ?></div>
-    	    </div>		
-    	</div>
+	    	<div class="row">
+	    	    <div class="small-2 columns ">
+	    		<div class="icon-header">
+	    		    <img src="<?php echo $value->userInfo->thumbnail ?>" onerror="this.src='<?php echo $tumb ?>'">
+	    		    <input type="hidden" name="type" value="<?php echo $value->userInfo->type ?>"/>
+	    		</div>
+	    	    </div>
+	    	    <div class="small-10 columns" style="padding-top: 8px;">
+	    		<div id="a1to" class="text grey-dark breakOffTest"><?php echo $value->userInfo->username ?></div>
+	    	    </div>		
+	    	</div>
         </div>
     </div>
 

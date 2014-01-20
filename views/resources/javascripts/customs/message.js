@@ -1,56 +1,195 @@
 $(document).ready(function() {
 	
-	//lancia l'autocomplete	per caricare gli user nel campo to
-	//autoComplete(".box-message input#to");
-  
-	autoComplete('.box-message input#to');
+	if($("#user").length > 0 && $("#limit").length > 0 && $("#skip").length > 0){
+		loadBoxMessages($("#user").val(),$("#limit").val(), $("#skip").val());
+	}
 	
-  
-});	
+});
 
-function btSendMessage(toUser){
-	if( $(".select2-container").is(':visible')) { 
-		//to:
-		if($('.select2-chosen').val() != '' && $('.select2-chosen').val() != 'To:'){
-			//user okkk
-			//$('.select2-chosen').val() <--- prendere objectId
-			//sendMessage(toUser, $('#textNewMessage').val(), title);
-		}
-		else{
-			//user no ok
-			console.log('Utente non valido');
-			 $('.select2-chosen').focus();  
-		}
-	}
-	else{
-		//valido toUser
-		sendMessage(toUser,  $('#textMessage').val(), '');
-	}
-	
-/*	if (toUser == "" && ) {
-                     
-     }
-     else{
-     	
-     }
-     */	
+/*
+ * permette di visualizzare più utenti nella lista degli utenti 
+ */
+function viewOtherListMsg(user, limit, skip) {
+	$.ajax({
+	    type: "POST",
+	    data: {
+			user: user,
+			limit: limit,
+			skip: skip
+	    },
+	    url: "./content/message/box-listUsers.php",
+	    beforeSend: function(xhr) {
+			if (user != 'newmessage') {
+			    //$('#box-messageSingle').slideUp();
+			}
+	    }
+	}).done(function(message, status, xhr) {
+	    $('.box-other').addClass('no-display');
+	    //$(message).appendTo("#box-listMsg");
+	    	$("#box-listMsg").html(message);
+	    //$('#box-messageSingle').slideDown();
+	    console.log('SUCCESS: box-message ' + user);
+	    if (user == 'newmessage') {
+			//	autoComplete();
+	    }
+	}).fail(function(xhr) {
+	    console.log("Error: " + $.parseJSON(xhr));
+	});
 }
 
 /*
- * 
+ * visualizza la lista dei messaggi relativi al user
+ */
+function loadBoxMessages(user, limit, skip) {
+	try{
+		$.ajax({
+		    type: "POST",
+		    data: {
+				user: user,
+				limit: limit,
+				skip: skip
+		    },
+		    url: "./content/message/box-messages.php",
+		    beforeSend: function(xhr) {		    			
+				if (user != 'newmessage' && skip == 0) {
+				    $('#msgUser').slideUp({complete:function(){
+				    	goSpinner('#spinner');
+				    }});
+				}
+				else if(skip != 0){
+					goSpinner('#spinner');
+				}					
+		    }
+		}).done(function(message, status, xhr) {
+			stopSpinner('#spinner');
+		    if (skip == 0) {
+				$("#msgUser").html(message);
+				$('#msgUser').slideDown();
+		    }
+		    else {
+				$('.otherMessage').addClass('no-display');
+				$(message).prependTo("#msgUser");
+		    }
+		    console.log('SUCCESS: box-message ' + user);
+		    if (user == 'newmessage') {
+				autoComplete();
+		    }
+		
+		}).fail(function(xhr) {
+		    console.log("Error: " + $.parseJSON(xhr));
+		});
+	}catch(err){
+		window.console.error("loadBoxMessages | An error occurred - message : " + err.message);
+	}	
+	
+}	
+
+
+function btSendMessage(box, toUser,toUserType){
+	
+	try{		
+		var user = toUser == 'newmessage' ? $("#to").select2("val") : toUser;
+		
+		if( toUser == 'newmessage'){
+			type = $("#to").select2("type");
+		}else{
+			if(toUserType == null) type = $('#'+toUser+' input[name="type"]').val();
+			else type = toUserType;
+		}
+		var messaggio =  $('#'+box+' #textNewMessage').val();	
+		if(user != null && user != '' && messaggio != ""){
+			var dataPrec = '';
+			$( 'input[name="data"]' ).each(function( index ) {				
+			  dataPrec = $( this ).val();
+			});
+			
+			var arryDataPrec = dataPrec.split(" ");
+			var preimpostata = new Date(arryDataPrec[2], arryDataPrec[1]-1, arryDataPrec[0]);
+			var oggi = new Date();
+     		    		
+			if(arryDataPrec[0] != oggi.getDate() || (arryDataPrec[1]-1) != oggi.getMonth() ||  arryDataPrec[2] != oggi.getFullYear()){				
+				//data diversa: aggiungo data
+				var monthNames = [ "January", "February", "March", "April", "May", "June",
+    			"July", "August", "September", "October", "November", "December" ];
+				var data = oggi.getDate() + ' ' + monthNames[oggi.getMonth()] + ' ' + oggi.getFullYear();
+				var dataImput = oggi.getDate() + ' ' + (oggi.getMonth()+1) + ' ' + oggi.getFullYear();			
+				
+		       	createData(data, dataImput);
+		       
+		    }
+		    var hour = oggi.getHours();
+		    var min = oggi.getMinutes();
+		    if(hour < 10) hour = '0'+hour;
+		    if(min < 10) min = '0'+min;   
+			var num = createMessage(messaggio, hour+':'+min);			
+			sendMessage('#'+box, user,type, $('#'+box+' #textNewMessage').val(), num);
+			
+		}
+		else{
+			console.log('Inserisci to user');
+		}
+		
+	}catch(err){
+		window.console.error("btSendMessage | An error occurred - message : " + err.message);
+	}	
+
+}
+
+/*
+ * html per la data
+ */
+function createData(data, dataImput){
+	var html = '<div class="row">'+
+		'<div class="large-12 columns">'+
+		    '<div class="line-date"><small>'+data+'</small></div>'+
+		    	'<input type="hidden" value="'+dataImput+'" name="data"/>'+
+			'</div>'+
+    	'</div>';
+	$( html ).appendTo( "#msgTmp" );  
+	return html;
+}
+
+/*
+ * html per il messaggio
+ */
+function createMessage(msg, time){
+	var num = Math.round(10000*Math.random());
+	var html = '<div class="row newMsg '+num+'" >'+
+		'<div class="large-8 large-offset-2 columns msg msg-mine">'+
+		    '<p>'+msg+'</p>'+
+		'</div>'+
+		'<div class="large-2 hide-for-small columns">'+
+		    '<div class="date-mine">'+
+			'	<small>'+time+'</small>'+
+		    '</div>'+
+		'</div>'+
+    '</div>';
+    $( html ).appendTo( "#msgTmp" );  
+	return num;
+}
+
+function errorMesseage(num){
+	$('.'+num).removeClass('newMsg');
+	$('.'+num).addClass('newMsgError');
+	var time = $('.'+num+' .date-mine small').html();
+	$('.'+num+' .date-mine small').html('ERROR - '+time);
+}
+
+/*
+ * autocomplete per l'imput test To:
  */ 
-function autoComplete(box) {
+function autoComplete() {
     try {
         //inizializza le info in sessione
         sendRequest("uploadAlbum", "getFeaturingJSON", {"force": true}, null, true);
-        $(box).select2({
+        $('#newMsg #to').select2({
             multiple: false,
             minimumInputLength: 1,
             width: "100%",
             ajax: {
-                url: "../controllers/request/uploadAlbumRequest.php?request=getFeaturingJSON",
+                url: "../controllers/request/messageRequest.php?request=getFeaturingJSON",
                 dataType: 'json',
-                data: function(term) {
+                data: function(term) {                    
                     return {
                         term: term
                     };
@@ -71,6 +210,7 @@ function autoComplete(box) {
  * elimina i box utente
  */									
 function deleteMsg(id) {
+	deleteMessage(id);
 	$('.box-membre#'+id).slideToggle();
 }
 
@@ -100,11 +240,11 @@ function showMsg(id) {
  * visualizza il box per invio nuovo messaggio
  */
 function showNewMsg() {	
-	$('.box-membre').removeClass('active');
+	$('.box-membre').removeClass('active');	
 	$('#newmessage').delay(500).slideToggle();	
 	
 	loadBoxMessages('newmessage',5,0);
-	autoComplete('#box-messageSingle input#to');
+//	autoComplete('#box-messageSingle input#to');
 	$("#to").prop('readonly', false);
 	$("#to").val('');
 	$("#to").prop('placeholder', 'To:');
@@ -112,11 +252,11 @@ function showNewMsg() {
 }
 
 
-function sendMessage(toUser, message, title) {
+function sendMessage(box, toUser,toUserType, message, num) {
     var json_message = {};
     json_message.toUser = toUser;
+    json_message.toUserType = toUserType;
     json_message.message = message;
-    json_message.title = title;
     json_message.request = 'message';
 
     $.ajax({
@@ -128,12 +268,17 @@ function sendMessage(toUser, message, title) {
         }
     })//ADATTARE AL MESSAGE
             .done(function(message, status, xhr) {
-              	loadBoxMessages(toUser,5,0)
+              //	loadBoxMessages(toUser,5,0);
+              
+             	$('.'+num).removeClass('newMsg');
+             	$(box+' #textNewMessage').val('');	
                 code = xhr.status;
                 console.log("Code: " + code + " | Message: " + message);
+                
             })
             .fail(function(xhr) {
                 //mostra errore
+                errorMesseage(num);
                 message = $.parseJSON(xhr.responseText).status;
                 code = xhr.status;
                 console.log("Code: " + code + " | Message: " + message);
@@ -148,15 +293,40 @@ function readMessage(activityId) {
         url: "../controllers/request/messageRequest.php",
         data: json_message
     }) //ADATTARE AL MESSAGE
-            .done(function(message, status, xhr) {
-               
-                code = xhr.status;
-                console.log("Code: " + code + " | Message: " + message);
-            })
-            .fail(function(xhr) {
-                //mostra errore
-                message = $.parseJSON(xhr.responseText).status;
-                code = xhr.status;
-                console.log("Code: " + code + " | Message: " + message);
-            });
+    .done(function(message, status, xhr) {
+       
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message);
+    })
+    .fail(function(xhr) {
+        //mostra errore
+        message = $.parseJSON(xhr.responseText).status;
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message);
+    });
+}
+
+function deleteMessage(objectId){	
+	var json_message = {};    
+    json_message.objectId = objectId;
+    json_message.request = 'deleteConversation';    
+    $.ajax({
+        type: "POST",
+        url: "../controllers/request/messageRequest.php",
+        data: json_message,
+        beforeSend: function() {
+            //aggiungere il caricamento del bottone
+        }
+    }).done(function(message, status, xhr) {
+      	
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message);
+    })
+    .fail(function(xhr) {
+        //mostra errore
+  /*      message = $.parseJSON(xhr.responseText).status;
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message); */
+       console.log(xhr.responseText);
+    });
 }
