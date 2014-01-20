@@ -81,17 +81,8 @@ if ($messageBox->error != ONLYIFLOGGEDIN) {
 										<input type="hidden" id="user" value="<?php echo $user ?>"/>
 										<input type="hidden" id="limit" value="<?php echo LIMITMSG ?>"/>
 										<input type="hidden" id="skip" value="<?php echo SKIPMSG ?>"/>
-									</div>																		
+									</div>										
 								
-									<div id="boxInvioMSG">	    
-									    <textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
-									    <br><br>
-									    <div class="row">
-										    <div class="large-12">
-										    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('<?php echo $user ?>')">
-										    </div>
-										</div>
-									</div>
 								</div>
 						    </div>	
     					</div>    					                                           

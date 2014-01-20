@@ -1,10 +1,5 @@
 $(document).ready(function() {
 	
-	//lancia l'autocomplete	per caricare gli user nel campo to
-	//autoComplete(".box-message input#to");
-  
-	autoComplete('.box-message input#to');
-	
 	if($("#user").length > 0 && $("#limit").length > 0 && $("#skip").length > 0){
 		loadBoxMessages($("#user").val(),$("#limit").val(), $("#skip").val());
 	}
@@ -55,13 +50,12 @@ function loadBoxMessages(user, limit, skip) {
 				skip: skip
 		    },
 		    url: "./content/message/box-messages.php",
-		    beforeSend: function(xhr) {
-		    	goSpinner('#spinner');
-				addSendMessage();
-				disableSendMessage();
+		    beforeSend: function(xhr) {		    			
 				if (user != 'newmessage' && skip == 0) {
-				    $('#msgUser').slideUp();
-				}
+				    $('#msgUser').slideUp({complete:function(){
+				    	goSpinner('#spinner');
+				    }});
+				}					
 		    }
 		}).done(function(message, status, xhr) {
 			stopSpinner('#spinner');
@@ -77,7 +71,7 @@ function loadBoxMessages(user, limit, skip) {
 		    if (user == 'newmessage') {
 				autoComplete();
 		    }
-		    abledSendMessage();  
+		
 		}).fail(function(xhr) {
 		    console.log("Error: " + $.parseJSON(xhr));
 		});
@@ -87,68 +81,35 @@ function loadBoxMessages(user, limit, skip) {
 	
 }	
 
-function removeSendMessage(){
-	$('#boxInvioMSG').addClass('no-display');
-}
 
-function addSendMessage(){
-	$('#boxInvioMSG').removeClass('no-display');
-}
-
-function disableSendMessage(){
-	$('#boxInvioMSG #textNewMessage').attr('disabled','');
-	$('#boxInvioMSG input[type="button"]').attr('disabled','');
-}
-
-
-function abledSendMessage(){
-	$('#boxInvioMSG #textNewMessage').removeAttr('disabled','');
-	$('#boxInvioMSG input[type="button"]').removeAttr('disabled','');
-}
-
-
-
-
-function btSendMessage(toUser){
-	
-//	var array = getFeaturingList('to');
-//	console.log(array);
-	console.log("Selected value is: "+$("#to").select2("val"));
-	if( $(".select2-container").is(':visible')) { 
-		//to:
-		if($("#to").select2("val") != ''){
-			//user okkk
-			var objectId = $("#to").select2("val");
-			sendMessage(objectId, $('#textNewMessage').val(), null);
+function btSendMessage(box, toUser){
+	var user;
+	try{
+		
+		user = toUser == 'newmessage' ? $("#to").select2("val") : toUser;
+			
+		if(user != null && user != '' && $('#'+box+' #textNewMessage').val() != ""){
+			sendMessage(user, $('#'+box+' #textNewMessage').val(), null);
+			console.log('Invio messaggio a: '+user);
 		}
 		else{
-			//user no ok
-			console.log('Utente non valido');
-			 $('.select2-chosen').focus();  
+			console.log('Inserisci to user');
 		}
-	}
-	else{
-		//valido toUser
-		sendMessage(toUser,  $('#textMessage').val(), null);
-	}
-	
-/*	if (toUser == "" && ) {
-                     
-     }
-     else{
-     	
-     }
-     */	
+		
+	}catch(err){
+		window.console.error("btSendMessage | An error occurred - message : " + err.message);
+	}	
+
 }
 
 /*
  * 
  */ 
-function autoComplete(box) {
+function autoComplete() {
     try {
         //inizializza le info in sessione
         sendRequest("uploadAlbum", "getFeaturingJSON", {"force": true}, null, true);
-        $(box).select2({
+        $('#newMsg #to').select2({
             multiple: false,
             minimumInputLength: 1,
             width: "100%",
@@ -210,7 +171,7 @@ function showNewMsg() {
 	$('#newmessage').delay(500).slideToggle();	
 	
 	loadBoxMessages('newmessage',5,0);
-	autoComplete('#box-messageSingle input#to');
+//	autoComplete('#box-messageSingle input#to');
 	$("#to").prop('readonly', false);
 	$("#to").val('');
 	$("#to").prop('placeholder', 'To:');
@@ -234,7 +195,7 @@ function sendMessage(toUser, message, title) {
         }
     })//ADATTARE AL MESSAGE
             .done(function(message, status, xhr) {
-              	loadBoxMessages(toUser,5,0)
+              //	loadBoxMessages(toUser,5,0);
                 code = xhr.status;
                 console.log("Code: " + code + " | Message: " + message);
             })
@@ -254,17 +215,17 @@ function readMessage(activityId) {
         url: "../controllers/request/messageRequest.php",
         data: json_message
     }) //ADATTARE AL MESSAGE
-            .done(function(message, status, xhr) {
-               
-                code = xhr.status;
-                console.log("Code: " + code + " | Message: " + message);
-            })
-            .fail(function(xhr) {
-                //mostra errore
-                message = $.parseJSON(xhr.responseText).status;
-                code = xhr.status;
-                console.log("Code: " + code + " | Message: " + message);
-            });
+    .done(function(message, status, xhr) {
+       
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message);
+    })
+    .fail(function(xhr) {
+        //mostra errore
+        message = $.parseJSON(xhr.responseText).status;
+        code = xhr.status;
+        console.log("Code: " + code + " | Message: " + message);
+    });
 }
 
 function deleteMessage(objectId){	

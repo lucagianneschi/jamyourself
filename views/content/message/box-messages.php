@@ -9,6 +9,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
+	$user = $_POST['user'];
     ?>
     <script>
     	autoComplete('#newMsg input#to');
@@ -17,6 +18,13 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 	   	<h5><?php echo $views['message']['write_message']; ?></h5>
 	    <label for="to"><small class="error"><?php echo $views['message']['valid_user']; ?></small></label>
 	    <input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" required>
+	    <textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
+	    <br><br>
+	    <div class="row">
+		    <div class="large-12">
+		    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('newMsg','<?php echo $user ?>')">
+		    </div>
+		</div>
 	</div>
     <?php
 } else {
@@ -31,10 +39,8 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 	if ($messageBox->error != ONLYIFLOGGEDIN) {
 	    $dataPrec = '';
 	    if (count($messageBox->messageArray) > 0) {
-		?>
-		<script>
-			addSendMessage();
-		</script>
+		?>		
+	<div id="userMsg" >
 		<div class="row">
 		    <div class="large-12 columns ">
 				<div id="chat">
@@ -109,6 +115,14 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 				</div>			
 		    </div>
 		</div>
+		<textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
+	    <br><br>
+	    <div class="row">
+		    <div class="large-12">
+		    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('userMsg','<?php echo $user ?>')">
+		    </div>
+		</div>
+	</div>
 	    <?php } else {
     	// ARRAY LISTA MESSAGGI VUOTO -> DEVO INVIARE UN MESS DA UN NUOVO UTENTE 
     	require_once BOXES_DIR . 'userInfo.box.php';
@@ -125,21 +139,26 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 			
 			if($fromType == 'SPOTTER' || ($fromType != 'SPOTTER' && $toType != 'SPOTTER')){
 		?>
-		<h5><?php echo $views['message']['write_message']; ?></h5>	
-		<input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" value="<?php echo $toUsername ?>" disabled>
+		<div id="newMsgUser" >
+			<h5><?php echo $views['message']['write_message']; ?></h5>	
+			<input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" value="<?php echo $toUsername ?>" disabled>
+			<textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
+		    <br><br>
+		    <div class="row">
+			    <div class="large-12">
+			    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('newMsgUser','<?php echo $user ?>')">
+			    </div>
+			</div>
+		</div>
 		<?php  }else{ ?>
-	    <script>
-    		removeSendMessage();
-    	</script> 
+	    
 		<div class="row">
 			<div class="large-12 columns">
 			    <div class="line-date"><small><?php echo $views['message']['ERROR2']?></small></div>
 			</div>
 	    </div>	
 		<?php }}else{ ?>
-    	<script>
-    		removeSendMessage();
-    	</script> 
+    	
     	<div class="row">
 			<div class="large-12 columns">
 			    <div class="line-date"><small><?php echo $views['message']['ERROR1']?></small></div>
