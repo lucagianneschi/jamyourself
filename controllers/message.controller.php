@@ -46,36 +46,36 @@ class MessageController extends REST {
      * \todo    testare
      */
     public function read() {
-	global $controllers;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif ($this->request['objectId']) {
-		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
-	    }
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $objectId = $this->request['objectId'];
-	    $activityP = new ActivityParse();
-	    $activity = $activityP->getActivity($objectId);
-	    if ($activity instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
-	    } elseif ($activity->getRead() != false) {
-		$this->response(array('status' => $controllers['ALREADYREAD']), 503);
-	    } else {
-		$res = $activityP->updateField($objectId, 'read', true);
-		$res1 = $activityP->updateField($objectId, 'status', 'A');
-	    }
-	    if ($res instanceof Error || $res1 instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($objectId, 'readMessage');
-		$this->response(array('status' => $message), 503);
-	    }
-	    $this->response(array($controllers['MESSAGEREAD']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+		global $controllers;
+		try {
+		    if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+		    } elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
+		    } elseif (!isset($this->request['objectId'])) {
+				$this->response(array('status' => $controllers['NOOBJECTID']), 403);
+		    }
+		    require_once CLASSES_DIR . 'activityParse.class.php';
+		    $objectId = $this->request['objectId'];
+		    $activityP = new ActivityParse();
+		    $activity = $activityP->getActivity($objectId);
+		    if ($activity instanceof Error) {
+				$this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
+		    } elseif ($activity->getRead() != false) {
+				$this->response(array('status' => $controllers['ALREADYREAD']), 503);
+		    } else {
+				$res = $activityP->updateField($objectId, 'read', true);
+				$res1 = $activityP->updateField($objectId, 'status', 'A');
+		    }
+		    if ($res instanceof Error || $res1 instanceof Error) {
+				require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+				$message = rollbackMessageController($objectId, 'readMessage');
+				$this->response(array('status' => $message), 503);
+		    }
+		    $this->response(array($controllers['MESSAGEREAD']), 200);
+		} catch (Exception $e) {
+		    $this->response(array('status' => $e->getMessage()), 503);
+		}
     }
 
     /**

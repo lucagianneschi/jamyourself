@@ -46,18 +46,19 @@ class ElementList {
  * \details	contains info for message to be displayed in Message Page
  */
 class MessageInfo {
-
+	public $activityId;
     public $createdAt;
     public $objectId;
     public $send;
     public $text;
-
+	
     /**
      * \fn	__construct($createdAt, $objectId, $send, $text)
      * \brief	construct for the MessageInfo class
      * \param	$createdAt, $objectId, $send, $text, $title
      */
-    function __construct($createdAt, $objectId, $send, $text) {
+    function __construct($activityId, $createdAt, $objectId, $send, $text) {
+    	is_null($activityId) ? $this->activityId = null : $this->activityId = $activityId;
         is_null($createdAt) ? $this->createdAt = null : $this->createdAt = $createdAt;
         is_null($objectId) ? $this->objectId = null : $this->objectId = $objectId;
         is_null($send) ? $this->send = 'S' : $this->send = $send;
@@ -189,7 +190,7 @@ class MessageBox {
 					$activity->wherePointer('comment', 'Comment', $message->getObjectId());
 					$activity->whereNotEqualTo('status', 'D');
 					$activity->where('active', true);
-					$activity->whereInclude('fromUser');
+					$activity->whereInclude('objectId,fromUser');
 					$msg = $activity->getActivities();
 					if($msg instanceof Error){
 						$this->errorManagement($msg->getErrorMessage());
@@ -197,11 +198,12 @@ class MessageBox {
 					} elseif (!is_null($msg)) {
 			        	 foreach ($msg as $value) {			        	 	
 							$send = ($message->getFromUser()->getObjectId() == $currentUserId) ? 'S' : 'R';							
-						 	if(($send == 'S' && $message->getFromUser()->getObjectId() == $value->getFromUser()->getObjectId()) || ($send == 'R' && $message->getToUser()->getObjectId() == $value->getFromUser()->getObjectId())){						 		
+						 	if(($send == 'S' && $message->getFromUser()->getObjectId() == $value->getFromUser()->getObjectId()) || ($send == 'R' && $message->getToUser()->getObjectId() == $value->getFromUser()->getObjectId())){
+			                    $activityId = $value->getObjectId();						 		
 			                    $createdAt = $message->getCreatedAt();
 			                    $messageId = $message->getObjectId();
 			                    $text = $message->getText();								
-			                    $messageInfo = new MessageInfo($createdAt, $messageId, $send, $text);
+			                    $messageInfo = new MessageInfo($activityId, $createdAt, $messageId, $send, $text);
 			                    array_push($messagesArray, $messageInfo);
 						 	}
 						 }
