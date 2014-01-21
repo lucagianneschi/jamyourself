@@ -8,6 +8,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 
 session_start();
+if(isset($_SESSION['currentUser'])){
 $currentUser = $_SESSION['currentUser'];
 
 //esempio: objectId dell'utente a cui si vuole vedere il profilo 
@@ -25,7 +26,7 @@ $user = $_GET['user'];
         <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
         
         <style>
-        	
+                
         </style>
 
     </head>
@@ -39,7 +40,7 @@ $user = $_GET['user'];
         <?php require_once(VIEWS_DIR . 'content/message/main.php'); ?>
         
         <!-------------------------- FOOTER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
+        <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>        
 
         <!-------------------------- SCRIPT --------------------------->
         <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
@@ -47,3 +48,9 @@ $user = $_GET['user'];
     </body>
 
 </html>
+<?php
+}else{
+header('Location: login.php');        
+}
+
+?>

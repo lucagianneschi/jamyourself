@@ -146,7 +146,8 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 			$currentUser = $_SESSION['currentUser'];
 			$fromType = $currentUser->getType();
 			
-			if($fromType == 'SPOTTER' || ($fromType != 'SPOTTER' && $toType != 'SPOTTER')){
+//			if($fromType == 'SPOTTER' || ($fromType != 'SPOTTER' && $toType != 'SPOTTER')){
+			if(!is_null($toType)){
 		?>
 		<div id="newMsgUser" >
 			<h5><?php echo $views['message']['write_message']; ?></h5>	

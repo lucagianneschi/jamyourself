@@ -105,14 +105,9 @@ function btSendNewMessage(box, toUser,toUserType){
 function btSendMessage(box, toUser,toUserType){
 	
 	try{		
-		var user = toUser == 'newmessage' ? $("#to").select2("val") : toUser;
+		var user = toUser;
+		var type = $('.box-message #'+toUser+' input[name="type"]').val();
 		
-		if( toUser == 'newmessage'){
-			type = $("#to").select2("type");
-		}else{
-			if(toUserType == null) type = $('#'+toUser+' input[name="type"]').val();
-			else type = toUserType;
-		}
 		var messaggio =  $('#'+box+' #textNewMessage').val();	
 		if(user != null && user != '' && type != null && type != '' && messaggio != ""){
 			var dataPrec = '';
@@ -228,7 +223,7 @@ function autoComplete() {
  */									
 function deleteMsg(id) {
 	deleteMessage(id);
-	$('.box-membre#'+id).slideToggle();
+	
 }
 
 /*
@@ -323,7 +318,7 @@ function readMessage(activityId) {
         data: json_message
     }) //ADATTARE AL MESSAGE
     .done(function(message, status, xhr) {
-       
+       	
         code = xhr.status;
         console.log("Code: " + code + " | Message: " + message);
     })
@@ -335,27 +330,28 @@ function readMessage(activityId) {
     });
 }
 
-function deleteMessage(objectId){	
+function deleteMessage(toUser){	
 	var json_message = {};    
-    json_message.objectId = objectId;
+    json_message.toUser = toUser;
     json_message.request = 'deleteConversation';    
     $.ajax({
         type: "POST",
         url: "../controllers/request/messageRequest.php",
         data: json_message,
         beforeSend: function() {
+        	$('.box-membre#'+toUser).css({'opacity':'0.3'});
             //aggiungere il caricamento del bottone
         }
     }).done(function(message, status, xhr) {
-      	
+      	$('.box-membre#'+toUser).slideToggle();
         code = xhr.status;
         console.log("Code: " + code + " | Message: " + message);
     })
     .fail(function(xhr) {
         //mostra errore
-  /*      message = $.parseJSON(xhr.responseText).status;
+       	message = $.parseJSON(xhr.responseText).status;
         code = xhr.status;
-        console.log("Code: " + code + " | Message: " + message); */
-       console.log(xhr.responseText);
+        console.log("Code: " + code + " | Message: " + message); 
+      
     });
 }

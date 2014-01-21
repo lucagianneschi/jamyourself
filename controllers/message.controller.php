@@ -101,7 +101,7 @@ class MessageController extends REST {
 	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
 	    if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
-		$this->response(array('status' => $controllers['NOSPAM']), 401);
+			$this->response(array('status' => $controllers['NOSPAM']), 401);
 	    }
 	    $text = $this->request['message'];
 	    if (strlen($text) < $this->config->minMessageSize) {
@@ -129,15 +129,23 @@ class MessageController extends REST {
 	    if ($resCmt instanceof Error) {
 		$this->response(array('status' => 'NOSAVEMESS'), 503);
 	    }
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $activity = $this->createActivity($currentUser->getObjectId(), $toUserId,$message);
-	    $activityParse = new ActivityParse();
-	    $resActivity = $activityParse->saveActivity($activity);
-	    if ($resActivity instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
-		$this->response(array('status' => $message), 503);
-	    }
+	    // CREA ACTIVITY 
+		    require_once CLASSES_DIR . 'activityParse.class.php';
+		    $toActivity = $this->createActivity($currentUser->getObjectId(), $toUserId,$resCmt->getObjectId());
+			$fromActivity = $this->createActivity($toUserId,$currentUser->getObjectId(),$resCmt->getObjectId());
+		    $activityParse = new ActivityParse();
+		    $resToActivity = $activityParse->saveActivity($toActivity);
+			$resFromActivity = $activityParse->saveActivity($fromActivity);
+		    if ($resToActivity instanceof Error) {
+			require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+			$message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
+			$this->response(array('status' => $message), 503);
+		    }
+			if ($resFromActivity instanceof Error) {
+			require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+			$message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
+			$this->response(array('status' => $message), 503);
+		    }
 	    global $mail_files;
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    require_once CONTROLLERS_DIR . 'utilsController.php';
@@ -188,27 +196,53 @@ class MessageController extends REST {
      * \param   $objectId
      */
     public function deleteConversation() {
-	global $controllers;
-	try {
-
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['objectId'])) {
-		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
-	    }
-	    $currentUser = $_SESSION['currentUser'];
-	    $objectId = $this->request['objectId'];
-
-	    //#TODO DA FARE
-
-
-
-	    $this->response(array($controllers['MESSAGEDELETE']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+		global $controllers;
+		try{
+			
+			if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+		    } elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
+		    } elseif (!isset($this->request['toUser'])) {
+				$this->response(array('status' => $controllers['NOTOUSER']), 403);
+			}
+			$currentUser = $_SESSION['currentUser'];
+	    	$toUser = $this->request['toUser'];
+			
+			require_once CLASSES_DIR . 'activityParse.class.php';
+			$activity = new ActivityParse();
+			$activity->wherePointer('fromUser', '_User', $currentUser->getObjectId());
+			$activity->wherePointer('toUser', '_User', $toUser);
+		   	$activity->where('type', 'MESSAGESENT');
+			$activity->where('active', true);	
+			
+			$conversation = $activity->getActivities();
+			
+			if ($conversation instanceof Error) {
+				#TODO CHE MESSAGGIO E CHE CODICE???
+			    $this->response(array('status' => 'NOSAVEMESS'), 501);
+			    return;
+			} elseif (is_null($conversation)) {
+			    #TODO CHE MESSAGGIO E CHE CODICE???
+			    $this->response(array('status' => 'NOSAVEMESS'), 502);
+			    return;
+			} else {
+				foreach ($conversation as $message) {
+					$statusUpdate = $activity->updateField($message->getObjectId(), 'status', 'D');
+				//	$statusUpdate = $activity->updateField($message->getObjectId(), 'active', 'false');
+					if($statusUpdate instanceof Error){
+						#TODO CHE MESSAGGIO E CHE CODICE???
+			    		$this->response(array('status' => 'NOSAVEMESS'), 504);
+						return;
+					}
+			    }
+			    $this->response(array($controllers['MESSAGEDELETE']), 200);
+			}
+			
+			
+		}catch (Exception $e) {
+	    	$this->response(array('status' => $e->getMessage()), 503);
+		}
     }
 
     /**
