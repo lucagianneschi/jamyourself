@@ -46,36 +46,36 @@ class MessageController extends REST {
      * \todo    testare
      */
     public function read() {
-	global $controllers;
-	try {
-	    if ($this->get_request_method() != "POST") {
-		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	    } elseif (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif ($this->request['objectId']) {
-		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
-	    }
-	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $objectId = $this->request['objectId'];
-	    $activityP = new ActivityParse();
-	    $activity = $activityP->getActivity($objectId);
-	    if ($activity instanceof Error) {
-		$this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
-	    } elseif ($activity->getRead() != false) {
-		$this->response(array('status' => $controllers['ALREADYREAD']), 503);
-	    } else {
-		$res = $activityP->updateField($objectId, 'read', true);
-		$res1 = $activityP->updateField($objectId, 'status', 'A');
-	    }
-	    if ($res instanceof Error || $res1 instanceof Error) {
-		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($objectId, 'readMessage');
-		$this->response(array('status' => $message), 503);
-	    }
-	    $this->response(array($controllers['MESSAGEREAD']), 200);
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+		global $controllers;
+		try {
+		    if ($this->get_request_method() != "POST") {
+				$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+		    } elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
+		    } elseif (!isset($this->request['objectId'])) {
+				$this->response(array('status' => $controllers['NOOBJECTID']), 403);
+		    }
+		    require_once CLASSES_DIR . 'activityParse.class.php';
+		    $objectId = $this->request['objectId'];
+		    $activityP = new ActivityParse();
+		    $activity = $activityP->getActivity($objectId);
+		    if ($activity instanceof Error) {
+				$this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
+		    } elseif ($activity->getRead() != false) {
+				$this->response(array('status' => $controllers['ALREADYREAD']), 503);
+		    } else {
+				$res = $activityP->updateField($objectId, 'read', true);
+				$res1 = $activityP->updateField($objectId, 'status', 'A');
+		    }
+		    if ($res instanceof Error || $res1 instanceof Error) {
+				require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+				$message = rollbackMessageController($objectId, 'readMessage');
+				$this->response(array('status' => $message), 503);
+		    }
+		    $this->response(array($controllers['MESSAGEREAD']), 200);
+		} catch (Exception $e) {
+		    $this->response(array('status' => $e->getMessage()), 503);
+		}
     }
 
     /**
@@ -251,49 +251,40 @@ class MessageController extends REST {
      * \todo check possibilità utilizzo di questa funzione come pubblica e condivisa tra più controller
      */
     public function getFeaturingJSON() {
-	try {
-	    global $controllers;
-	    error_reporting(E_ALL ^ E_NOTICE);
-	    $force = false;
-	    $filter = null;
+	
+	   try {
+            global $controllers;
+            error_reporting(E_ALL ^ E_NOTICE);
+            $force = false;
+            $filter = null;
 
-	    if (!isset($_SESSION['currentUser'])) {
-		$this->response(array('status' => $controllers['USERNOSES']), 400);
-	    }
-	    if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
-		$force = true;
-	    }
-	    if (isset($this->request['term']) && !is_null($this->request['term']) && (strlen($this->request['term']) > 0)) {
-		$filter = $this->request['term'];
-	    }
-	    $currentUserFeaturingArray = null;
-	    if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
-		$currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
-	    } else {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		$currentUserFeaturingArray = getFeaturingArray();
-		$_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
-	    }
+            if (!isset($_SESSION['currentUser'])) {
+                $this->response(array('status' => $controllers['USERNOSES']), 400);
+            }
+            if (isset($this->request['force']) && !is_null($this->request['force']) && $this->request['force'] == "true") {
+                $force = true;
+            }
+            if (isset($this->request['term']) && !is_null($this->request['term']) && (strlen($this->request['term']) > 0)) {
+                $filter = $this->request['term'];
+            }
+            $currentUserFeaturingArray = null;
+            if ($force == false && isset($_SESSION['currentUserFeaturingArray']) && !is_null($_SESSION['currentUserFeaturingArray'])) {//caching dell'array
+                $currentUserFeaturingArray = $_SESSION['currentUserFeaturingArray'];
+            } else {
+                require_once CONTROLLERS_DIR . 'utilsController.php';
+                $currentUserFeaturingArray = getFeaturingArray();
+                $_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
+            }
 
-	    if (!is_null($filter)) {
-		require_once CONTROLLERS_DIR . 'utilsController.php';
-		$featuring = array();
-		if (is_array($currentUserFeaturingArray) && count($currentUserFeaturingArray) > 0) {
-		    $currentUser = $_SESSION['currentUser'];
-		    $typeCurrent = $currentUser->getType();
-		    foreach ($currentUserFeaturingArray as $value) {
-			if ($typeCurrent == 'SPOTTER' || ($typeCurrent != 'SPOTTER' && $value->type != 'SPOTTER')) {
-			    $featuring[] = $value;
-			}
-		    }
-		}
-		echo json_encode($featuring);
-	    } else {
-		echo json_encode($currentUserFeaturingArray);
-	    }
-	} catch (Exception $e) {
-	    $this->response(array('status' => $e->getMessage()), 503);
-	}
+            if (!is_null($filter)) {
+                require_once CONTROLLERS_DIR . 'utilsController.php';
+                echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
+            } else {
+                echo json_encode($currentUserFeaturingArray);                
+            }
+        } catch (Exception $e) {
+            $this->response(array('status' => $e->getMessage()), 503);
+        }
     }
 
 }

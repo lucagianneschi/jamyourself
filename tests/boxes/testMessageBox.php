@@ -28,7 +28,7 @@ require_once BOXES_DIR . 'message.box.php';
 
 $i_end = microtime();
 //SPOTTER
-$fromUser = 'GuUAj83MGH'; //spatafora
+$fromUser = '7fes1RyY77'; //spatafora
 echo '<br />----------------------PAGINA MESSAGGI DI LDF---------------------------------------------------------------------<br />';
 echo '<br />TEST MESSAGE BOX<br />';
 $jammer_start = microtime();

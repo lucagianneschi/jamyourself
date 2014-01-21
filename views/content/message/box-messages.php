@@ -97,6 +97,11 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 						    </div>	                
 						<?php }
 						$dataPrec = $data;
+						?>
+						<script>
+							readMessage('<?php echo $value->activityId ?>');
+						</script>
+						<?php
 					    }
 					    if (count($messageBox->messageArray) == 0) {
 						?>
