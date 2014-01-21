@@ -222,6 +222,7 @@ function autoComplete() {
  * elimina i box utente
  */									
 function deleteMsg(id) {
+
 	deleteMessage(id);
 	
 }
@@ -230,10 +231,10 @@ function deleteMsg(id) {
  * visualizza la chat dell'utente passato come parametro
  */
 function showMsg(id) {
-	$('.box-membre').removeClass('active');
+	$('#box-listMsg .box-membre').removeClass('active');
 	
-	$('.box-membre#'+id).addClass('active');
-	$('.box-membre#'+id+'>.unread').hide();
+	$('#box-listMsg .box-membre#'+id).addClass('active');
+	$('#box-listMsg .box-membre#'+id+'>.unread').hide();
 	
 	if(!$('#newmessage').is(':visible')){
 		$('#newmessage').delay(1000).slideToggle();
@@ -252,7 +253,7 @@ function showMsg(id) {
  * visualizza il box per invio nuovo messaggio
  */
 function showNewMsg() {	
-	$('.box-membre').removeClass('active');	
+	$('#box-listMsg .box-membre').removeClass('active');	
 	$('#newmessage').delay(500).slideToggle();	
 	
 	loadBoxMessages('newmessage',5,0);
@@ -338,12 +339,14 @@ function deleteMessage(toUser){
         type: "POST",
         url: "../controllers/request/messageRequest.php",
         data: json_message,
-        beforeSend: function() {
-        	$('.box-membre#'+toUser).css({'opacity':'0.3'});
+        beforeSend: function() {        	
+        	$('#box-listMsg .box-membre#'+toUser).css({'opacity':'0.3','pointer-events': 'none'});
             //aggiungere il caricamento del bottone
         }
     }).done(function(message, status, xhr) {
-      	$('.box-membre#'+toUser).slideToggle();
+      	$('#box-listMsg .box-membre#'+toUser).slideToggle();
+      	showNewMsg();
+      	
         code = xhr.status;
         console.log("Code: " + code + " | Message: " + message);
     })
