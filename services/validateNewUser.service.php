@@ -440,10 +440,6 @@ class ValidateNewUserService {
     private function checkLocalType($localType) {
         if (!is_array($localType) || count($localType) <= 0 || count($localType) > $this->config->maxLocalTypeSize)
             return false;
-        foreach ($localType as $val) {
-            if (!is_numeric($val))
-                return false;
-        }
         return true;
     }
 
@@ -465,10 +461,7 @@ class ValidateNewUserService {
         }
         if (is_null($music) || !is_array($music) || count($music) <= 0 || count($music) > $dim)
             return false;
-        foreach ($music as $val) {
-            if (!is_numeric($val))
-                return false;
-        }
+
         return true;
     }
 
