@@ -281,7 +281,7 @@ function sendMessage(box, toUser,toUserType, message, num) {
         beforeSend: function() {
             //aggiungere il caricamento del bottone
             if(num == -1){
-            	$('#'+box).slideUp({complete:function(){
+            	$(box).slideUp({complete:function(){
 			    	goSpinner('#spinner');
 			    }});			  
             }
