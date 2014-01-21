@@ -115,7 +115,8 @@ function getFeaturingArray() {
                 require_once CLASSES_DIR . "user.class.php";
                 $username = $user->getUsername();
                 $userId = $user->getObjectId();
-                array_push($userArrayInfo, array("id" => $userId, "text" => $username));
+				$userType = $user->getType();
+                array_push($userArrayInfo, array("id" => $userId, "text" => $username, 'type' => $userType));
             }
             return $userArrayInfo;
         }

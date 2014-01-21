@@ -87,9 +87,11 @@ function loadBoxMessages(user, limit, skip) {
 
 function btSendNewMessage(box, toUser,toUserType){
 	try{
-		var user = toUser == 'newmessage' ? $("#to").select2("val") : toUser;
-		var type = toUser == 'newmessage' ? $("#to").select2("type") : toUserType;
+		
+		var user = toUser == 'newmessage' ? $("#to").select2("val") : toUser;		
+		var type = toUser == 'newmessage' ? ($("#to").select2("data")).type : toUserType;
 		var message =  $('#'+box+' #textNewMessage').val();
+		
 		if(user != null && user != '' && type != null && type != '' && message != ""){		
 			sendMessage('#'+box, user,type, $('#'+box+' #textNewMessage').val(), -1);	
 		}else{
@@ -279,9 +281,9 @@ function sendMessage(box, toUser,toUserType, message, num) {
         beforeSend: function() {
             //aggiungere il caricamento del bottone
             if(num == -1){
-            	$('#newMsgUser').slideUp({complete:function(){
+            	$('#'+box).slideUp({complete:function(){
 			    	goSpinner('#spinner');
-			    }});
+			    }});			  
             }
             $(box+' #textNewMessage').val('');	
         }
