@@ -123,7 +123,7 @@ class SignupController extends REST {
             $pActivity = new ActivityParse();
             $pActivity->saveActivity($activity);
             $this->debug("signup", "activity saved => ".var_export($activity,true));
-            $_SESSION['currentUser'] = $user->getObjectId();
+            $_SESSION['currentUser'] = $user;
             $this->debug("signup", "create FileSystem Structure...");
             $this->createFileSystemStructure($user->getObjectId(), $user->getType());
             $this->createImageDefaultAlbum($user->getObjectId());
@@ -603,10 +603,10 @@ class SignupController extends REST {
         $user->setPremium(false);
     }
     
-    private function debug($functionName,$msg){
-        $path = DEBUG_DIR."signup.controller_";
-        $file = $functionName.".log";
-        debug($path, $file, $msg);
+    private function debug($function, $msg){
+        $path = "signup.controller/";
+        $file = date("Ymd"); //today
+        debug($path, $file, $function." | ".$msg);
     }
 
 }

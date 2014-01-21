@@ -3,6 +3,7 @@
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'cropImage.service.php';
+require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'mp3.service.php';
 
 class UploadController extends REST {
@@ -14,24 +15,24 @@ class UploadController extends REST {
 
     public function uploadImage() {
         try {
+            $this->debug("uploadImage", "START");
             $this->setHeader();
 
 // imposto limite di tempo di esecuzione
             if ($this->config->timeLimit > 0) {
+                $this->debug("uploadImage", "time_limit is : ".$this->config->timeLimit);
                 @set_time_limit($this->config->timeLimit);
             }
-
-// settings
-            $targetDir = $this->config->targetDir;
-
 //commentare per produzione
             $targetDir = MEDIA_DIR . "cache";
+            $this->debug("uploadImage", "targetDir is : ".$targetDir);
+            
 // creao la directory di destinazione se non esiste
             if (!file_exists($targetDir)) {
+                $this->debug("uploadImage", "targetDir does not exists.. creating.");
                 @mkdir($targetDir);
             }
-
-// recupero l'estensione del file
+            // recupero l'estensione del file
             if (isset($_REQUEST["name"])) {
                 $fileName = $_REQUEST["name"];
             } elseif (!empty($_FILES)) {
@@ -39,42 +40,43 @@ class UploadController extends REST {
             } else {
                 $fileName = uniqid("file_");
             }
-
+            
             $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
 //nome file univoco            
             $fileName = md5(time() . rand()) . "." . $ext;
+            $this->debug("uploadImage", "fileName is: ".$fileName);
 
             $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
+            $this->debug("uploadImage", "filePath  is: ".$filePath );
 
 // Chunking might be enabled
             $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
             $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
-
-
-// rimuovo i vecchi files	
-            if ($this->config->cleanUpTargetDir) {
-                if (!$this->cleanUpTargetDir($targetDir, $filePath)) {
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 100, "message": "Failed to open temp directory."}, "id" : "id"}');
-                }
-            }
+            
+            $this->debug("uploadImage", "chunk  is: ".$chunk );
+            $this->debug("uploadImage", "chunks  is: ".$chunks);
 
 // Apro il file temporaneo
             if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
+                $this->debug("uploadImage", "ERROR: Failed to open output stream - END");
                 die('{"jsonrpc" : "2.0", "error" : {"code": 102, "message": "Failed to open output stream."}, "id" : "id"}');
             }
 
             if (!empty($_FILES)) {
                 if ($_FILES["file"]["error"] || !is_uploaded_file($_FILES["file"]["tmp_name"])) {
+                    $this->debug("uploadImage", "ERROR: Failed to move uploaded file - END");
                     die('{"jsonrpc" : "2.0", "error" : {"code": 103, "message": "Failed to move uploaded file."}, "id" : "id"}');
                 }
 
                 // Read binary input stream and append it to temp file
                 if (!$in = @fopen($_FILES["file"]["tmp_name"], "rb")) {
+                    $this->debug("uploadImage", "ERROR: Failed to open input stream - END");
                     die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
                 }
             } else {
                 if (!$in = @fopen("php://input", "rb")) {
+                    $this->debug("uploadImage", "ERROR: Failed to open input stream - END");
                     die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Failed to open input stream."}, "id" : "id"}');
                 }
             }
@@ -89,10 +91,18 @@ class UploadController extends REST {
 // Verifico che il file sia stato caricato
             if (!$chunks || $chunk == $chunks - 1) {
                 // Strip the temp .part suffix off 
-                rename("{$filePath}.part", $filePath);
+                $this->debug("uploadImage", "Renaiming {$filePath}.part in : ".$filePath);                
+                $resRename = rename("{$filePath}.part", $filePath);
+                if(!$resRename){
+                    $this->debug("uploadImage", "ERROR: Error renaming file - END");  
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Error renaming file."}, "id" : "id"}');                    
+                }
             }
 
+            $this->debug("uploadImage", "file size is : ".filesize($filePath)." - MAX_IMG_UPLOAD_FILE_SIZE : ".MAX_IMG_UPLOAD_FILE_SIZE);
+
             if (filesize($filePath) > MAX_IMG_UPLOAD_FILE_SIZE) {
+                $this->debug("uploadImage", "ERROR: File is too big - END");
                 unlink($filePath);
                 die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "File is too big."}, "id" : "id"}');
             }
@@ -102,10 +112,11 @@ class UploadController extends REST {
             list($imgWidth, $imgHeight, $imgType, $imgAttr) = getimagesize($filePath);
 //calcolo le proporzioni da mostrare a video
             $prop = $this->calculateNewProperties($imgWidth, $imgHeight);
-// Restituisco successo         
+// Restituisco successo    
+            $this->debug("uploadImage", "Returning : src : ".$fileName . ", width : " . $prop['width'] . ",height : ". $prop['height'] ." - END");
             die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $prop['width'] . '","height" : "' . $prop['height'] . '" }');
         } catch (Exception $e) {
-            
+            $this->debug("uploadImage", "Exception : ".var_export($e,true));            
         }
     }
 
@@ -267,6 +278,12 @@ class UploadController extends REST {
         } catch (Exception $e) {
             return array(0, 0);
         }
+    }
+    
+    private function debug($function, $msg){
+        $path = "upload.controller/";
+        $file = date("Ymd"); //today
+        debug($path, $file, $function." | ".$msg);
     }
 
 }

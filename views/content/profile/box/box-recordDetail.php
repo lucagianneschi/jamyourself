@@ -26,7 +26,7 @@ if (session_id() == '')
 $recordObjectId = $_POST['objectId'];
 $songs = tracklistGenerator($recordObjectId);
 
-debug(DEBUG_DIR, 'debug.txt', json_encode($songs));
+debug("", 'debug.txt', json_encode($songs));
 if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
 $indice = 0;

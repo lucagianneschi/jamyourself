@@ -1334,7 +1334,7 @@ function initUploader(userType) {
     var selectButtonId = "";
     var progressbar = "";
     var url = "../controllers/request/uploadRequest.php";
-    var runtime = 'html5';
+    var runtime = 'html4';
     var multi_selection = false;
     var maxFileSize = "10mb";
 
@@ -1363,7 +1363,7 @@ function initUploader(userType) {
         container: containerId, //id del div per l'upload
         max_file_size: maxFileSize, //dimensione max dei file da caricare
         multi_selection: multi_selection, //forza un file alla volta per upload
-        chunk_size : '100kb',
+//        chunk_size : '100kb',
         url: url,
         filters: [
             {title: "Image files", extensions: "jpg,gif,png"}, //lista file accettati

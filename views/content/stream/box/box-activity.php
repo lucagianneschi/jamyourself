@@ -53,7 +53,7 @@ if (is_null($streamBox->error)) {
     
     <?php    
     foreach ($activities as $key => $value) {
-        debug(DEBUG_DIR, 'debug.txt', $value->getType());
+        debug("", 'debug.txt', $value->getType());
         ?>
         <div id="<?php echo $value->getObjectId(); ?>">
             <div class="box ">
