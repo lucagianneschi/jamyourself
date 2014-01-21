@@ -1332,6 +1332,7 @@ function initUploader(userType) {
 //inizializzazione dei parametri
     var containerId = "";
     var selectButtonId = "";
+    var progressbar = "";
     var url = "../controllers/request/uploadRequest.php";
     var runtime = 'html5';
     var multi_selection = false;
@@ -1341,15 +1342,17 @@ function initUploader(userType) {
         case  "SPOTTER" :
             containerId = "spotter_container";
             selectButtonId = "spotter_uploadImage_file_label";
-
+			progressbar = '#progressbarSpotter';
             break;
         case  "VENUE" :
             containerId = "venue_container";
             selectButtonId = "venue_uploadImage_file_label";
+            progressbar = '#progressbarVenue';
             break;
         case  "JAMMER" :
             containerId = "jammer_container";
             selectButtonId = "jammer_uploadImage_file_label";
+            progressbar = '#progressbarJammer';
             break;
     }
 
@@ -1388,6 +1391,11 @@ function initUploader(userType) {
 //evento: cambiamento percentuale di caricamento
     uploader.bind('UploadProgress', function(up, file) {
 //        window.console.log("initUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
+			var progressBarValue = up.total.percent;
+            $(progressbar).fadeIn().progressbar({
+                value: progressBarValue
+            });
+            $(progressbar+' .ui-progressbar-value').html('<span class="progressTooltip">' + up.total.percent + '%</span>');
     });
 
 //evento: errore

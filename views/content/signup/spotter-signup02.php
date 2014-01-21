@@ -25,6 +25,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                 </div>
                 <div  class="small-9 columns signup-box-avatar-text">							        						
                     <a data-reveal-id="spotter-uploadImage" class="text orange"><?php echo $views['signup']['upload_image']; ?></a>
+                    <div id="progressbarSpotter"  class="signupProgressBar"></div>
                     <div id="spotter-uploadImage" class="reveal-modal uploadImage-reveal">
                         <div class="uploadImage" >
                             <div class="row">
