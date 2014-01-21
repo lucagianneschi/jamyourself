@@ -62,8 +62,8 @@ function prepareLocationObj(_result) {
     try {
         var location = {};
         location.address_components = _result.address_components;
-        location.latitude = _result.geometry.location.b;
-        location.longitude = _result.geometry.location.d;
+        location.latitude = _result.geometry.location.lat();
+        location.longitude = _result.geometry.location.lng();
         location.formatted_address = _result.formatted_address;
         return location;
     }
