@@ -74,11 +74,11 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_comment = $value->getCommentCounter();
 				    $recordReview_share = $value->getShareCounter();
 				    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
-					$css_love = '_unlove grey';
-					$text_love = $views['LOVE'];
-				    } else {
 					$css_love = '_love orange';
 					$text_love = $views['UNLOVE'];
+				    } else {
+					$css_love = '_unlove grey';
+					$text_love = $views['LOVE'];
 				    }
 				    ?>
 	    			<div  class="rsContent">	
