@@ -302,7 +302,7 @@ if (is_null($streamBox->error)) {
                                                     <ul class="small-block-grid-3 small-block-grid-2 ">
                                                         <!-- THUMBNAIL OF THE CLASS -->
                                                         <li>
-                                                        <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
+                                                        <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -361,7 +361,7 @@ if (is_null($streamBox->error)) {
                                                     <ul class="small-block-grid-3 small-block-grid-2 ">
                                                         <!-- THUMBNAIL OF THE CLASS -->
                                                         <li>
-                                                        <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
+                                                        <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getComment()->getEvent(); ?>"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -463,7 +463,7 @@ if (is_null($streamBox->error)) {
                                                     <ul class="small-block-grid-3 small-block-grid-2 ">
                                                         <!-- THUMBNAIL OF THE CLASS -->
                                                         <li>
-                                                        <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
+                                                        <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -521,9 +521,7 @@ if (is_null($streamBox->error)) {
                                                 <div id="box-albumDetail" style="margin-top: 10px;">
                                                     <ul class="small-block-grid-3 small-block-grid-2 ">
                                                         <!-- THUMBNAIL OF THE CLASS -->
-                                                        <li>
-                                                        <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
-                                                        </li>
+                                                        <li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getComment()->getRecord(); ?>"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
                                                     </ul>
                                                 </div>
                                            </div>
@@ -631,7 +629,7 @@ if (is_null($streamBox->error)) {
                                                 <div id="box-albumDetail" style="margin-top: 10px;">
                                                     <ul class="small-block-grid-3 small-block-grid-2 ">
                                                         <!-- THUMBNAIL -->
-                                                        <li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../users/<?php echo $value->getFromUser()->getObjectId(); ?>/images/eventcoverthumb/<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
+                                                        <li><a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="../users/<?php echo $value->getFromUser()->getObjectId(); ?>/images/eventcoverthumb/<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
                                                     </ul>
                                                 </div>
                                            </div>
@@ -862,7 +860,7 @@ if (is_null($streamBox->error)) {
                                                     <ul class="small-block-grid-3 small-block-grid-2 ">
                                                         <!-- THUMBNAIL OF EVENT-->
                                                         <li>
-                                                            <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
+                                                            <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -944,7 +942,7 @@ if (is_null($streamBox->error)) {
                                         </div>
                                         <div class="row">
                                             <div class="small-2 columns ">
-                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
+                                                <div class="coverThumb"><a href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></a></div>
                                             </div>
                                             <div class="small-10 columns ">
                                                 <div class="row ">							
@@ -1022,7 +1020,7 @@ if (is_null($streamBox->error)) {
                                         </div>
                                         <div class="row">
                                             <div class="small-2 columns ">
-                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
+                                                <div class="coverThumb"><a href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></a></div>
                                             </div>
                                             <div class="small-10 columns ">
                                                 <div class="row ">							
@@ -1127,7 +1125,7 @@ if (is_null($streamBox->error)) {
                                                     <ul class="small-block-grid-3 small-block-grid-2 ">
                                                         <!-- THUMBNAIL OF RECORD -->
                                                         <li>
-                                                            <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
+                                                            <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -1188,9 +1186,7 @@ if (is_null($streamBox->error)) {
                                                 <div id="box-albumDetail" style="margin-top: 10px;">
                                                     <ul class="small-block-grid-3 small-block-grid-2 ">
                                                         <!-- THUMBNAIL OF RECORD -->
-                                                        <li>
-                                                            <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a>
-                                                        </li>
+                                                        <li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='../../../../media/images/default/defaultImage.jpg'"></a></li>
                                                     </ul>
                                                 </div>
                                            </div>
@@ -1239,7 +1235,7 @@ if (is_null($streamBox->error)) {
                                         </div>
                                         <div class="row box-detail" onclick="">
                                             <div class="small-2 columns">
-                                                <div class="coverThumb"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></div>						
+                                                <div class="coverThumb"><a href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='../../../../media/images/default/defaultEventThumb.jpg'"></a></div>
                                             </div>
                                             <div class="small-10 columns">
                                                 <div class="row">							
