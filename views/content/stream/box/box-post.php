@@ -35,8 +35,8 @@ if (count($posts) == 0) {
     <div id='<?php echo $post->getObjectId(); ?>'>
     	<br /><br />
         <p class="grey"><?php echo $views['stream']['last_post']; ?></p>
-        <h5 style="margin-top:0"><?php echo $post->getText(); ?>	</h5>
-        <!-- p class="grey"> <?php echo $post->getCreatedAt()->format('l j F Y - H:i'); ?></p -->
+        <h5 style="margin-top:0"><?php echo $post->getText(); ?></h5>
+        <?php echo $post->getCreatedAt()->format('l j F Y - H:i'); ?>
         <br />
     </div>
     <?php

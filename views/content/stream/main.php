@@ -16,19 +16,19 @@ require_once ROOT_DIR . 'config.php';
 			    <div class="small-12 columns">
 				<div class="welcome-stream">
 				    <img src="resources/images/stream/<?php echo $currentUser->getType(); ?>.png" />
-                                    <h3><?php echo $views['stream']['welcome']; ?> <?php echo $currentUser->getType(); ?>!</h3>
-                                    <div id="box-lastPost"></div>
-                                    <script type="text/javascript">
-					function loadBoxLastPost() {
+                    <h3><?php echo $views['stream']['welcome']; ?> <?php echo $currentUser->getType(); ?>!</h3>
+                    <div id="box-post"></div>
+                    <script type="text/javascript">
+					function loadBoxPost() {
 					    $.ajax({
 						type: "POST",
-						url: "content/stream/box/box-lastPost.php",
+						url: "content/stream/box/box-post.php",
 						beforeSend: function(xhr) {
-						    console.log('Sono partito box-lastPost');
+						    console.log('Sono partito box-post');
 						    //goSpinnerBox('#box-record', 'record');
 						}
 					    }).done(function(message, status, xhr) {
-						$("#box-lastPost").html(message);
+						$("#box-post").html(message);
 						//plugin scorrimento box
 						//rsi_record = slideReview('recordSlide');
 						code = xhr.status;
@@ -37,7 +37,7 @@ require_once ROOT_DIR . 'config.php';
 						console.log("Error: " + $.parseJSON(xhr));
 					    });
 					}
-                                    </script>
+                    </script>
 				</div>
 			    </div>	
 			</div>

@@ -38,7 +38,7 @@ if (is_null($streamBox->error)) {
                             <input id="post" type="text" class="post inline" placeholder="Spread the word about your interest!">
                         </div>
                         <div class="small-3 columns ">
-                            <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('', $('#post').val())">
+                            <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('<?php echo $currentUser->getObjectId(); ?>', $('#post').val())">
                         </div>
                     </div>
                 </div>
@@ -53,7 +53,6 @@ if (is_null($streamBox->error)) {
     
     <?php    
     foreach ($activities as $key => $value) {
-        debug("", 'debug.txt', $value->getType());
         ?>
         <div id="<?php echo $value->getObjectId(); ?>">
             <div class="box ">

@@ -33,7 +33,7 @@ if (!isset($_SESSION['currentUser'])) {
 			<!-------------------------- SCRIPT --------------------------->
 			<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
 			<script>
-				loadBoxLastPost();
+				loadBoxPost();
                 loadBoxActivity();
 			</script>
 		</body>
