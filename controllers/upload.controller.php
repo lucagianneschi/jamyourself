@@ -20,19 +20,20 @@ class UploadController extends REST {
 
 // imposto limite di tempo di esecuzione
             if ($this->config->timeLimit > 0) {
-                $this->debug("uploadImage", "time_limit is : ".$this->config->timeLimit);
+                $this->debug("uploadImage", "time_limit is : " . $this->config->timeLimit);
                 @set_time_limit($this->config->timeLimit);
             }
-//commentare per produzione
+
             $targetDir = MEDIA_DIR . "cache";
-            $this->debug("uploadImage", "targetDir is : ".$targetDir);
-            
+            $this->debug("uploadImage", "targetDir is : " . $targetDir);
+
 // creao la directory di destinazione se non esiste
             if (!file_exists($targetDir)) {
                 $this->debug("uploadImage", "targetDir does not exists.. creating.");
                 @mkdir($targetDir);
             }
-            // recupero l'estensione del file
+
+// recupero il nome del file
             if (isset($_REQUEST["name"])) {
                 $fileName = $_REQUEST["name"];
             } elseif (!empty($_FILES)) {
@@ -40,22 +41,16 @@ class UploadController extends REST {
             } else {
                 $fileName = uniqid("file_");
             }
-            
-            $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-//nome file univoco            
-            $fileName = md5(time() . rand()) . "." . $ext;
-            $this->debug("uploadImage", "fileName is: ".$fileName);
 
             $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-            $this->debug("uploadImage", "filePath  is: ".$filePath );
+            $this->debug("uploadImage", "filePath is: " . $filePath);
 
 // Chunking might be enabled
             $chunk = isset($_REQUEST["chunk"]) ? intval($_REQUEST["chunk"]) : 0;
             $chunks = isset($_REQUEST["chunks"]) ? intval($_REQUEST["chunks"]) : 0;
-            
-            $this->debug("uploadImage", "chunk  is: ".$chunk );
-            $this->debug("uploadImage", "chunks  is: ".$chunks);
+
+            $this->debug("uploadImage", "chunk  is: " . $chunk . " of " . $chunks . " chunks");
 
 // Apro il file temporaneo
             if (!$out = @fopen("{$filePath}.part", $chunks ? "ab" : "wb")) {
@@ -91,32 +86,40 @@ class UploadController extends REST {
 // Verifico che il file sia stato caricato
             if (!$chunks || $chunk == $chunks - 1) {
                 // Strip the temp .part suffix off 
-                $this->debug("uploadImage", "Renaiming {$filePath}.part in : ".$filePath);                
-                $resRename = rename("{$filePath}.part", $filePath);
-                if(!$resRename){
-                    $this->debug("uploadImage", "ERROR: Error renaming file - END");  
-                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Error renaming file."}, "id" : "id"}');                    
+                $this->debug("uploadImage", "Renaming {$filePath}.part in : " . $filePath);
+                rename("{$filePath}.part", $filePath);
+
+                $this->debug("uploadImage", "file size is : " . filesize($filePath) . " - MAX_IMG_UPLOAD_FILE_SIZE : " . MAX_IMG_UPLOAD_FILE_SIZE);
+
+                if (filesize($filePath) > MAX_IMG_UPLOAD_FILE_SIZE) {
+                    $this->debug("uploadImage", "ERROR: File is too big - END");
+                    unlink($filePath);
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "File is too big."}, "id" : "id"}');
                 }
-            }
 
-            $this->debug("uploadImage", "file size is : ".filesize($filePath)." - MAX_IMG_UPLOAD_FILE_SIZE : ".MAX_IMG_UPLOAD_FILE_SIZE);
 
-            if (filesize($filePath) > MAX_IMG_UPLOAD_FILE_SIZE) {
-                $this->debug("uploadImage", "ERROR: File is too big - END");
-                unlink($filePath);
-                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "File is too big."}, "id" : "id"}');
-            }
+                $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+                $fileName = (md5(time() . rand())) . "." . $ext;
+                $randomName = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileName;
+                $resRename = rename($filePath, $randomName);
+                if (!$resRename) {
+                    $this->debug("uploadImage", "ERROR: Error renaming file - END");
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Error renaming file."}, "id" : "id"}');
+                }
 
 //effettuo il resize dell'immagine
 //prelevo gli attributi dell'immagine
-            list($imgWidth, $imgHeight, $imgType, $imgAttr) = getimagesize($filePath);
+                list($imgWidth, $imgHeight, $imgType, $imgAttr) = getimagesize($randomName);
 //calcolo le proporzioni da mostrare a video
-            $prop = $this->calculateNewProperties($imgWidth, $imgHeight);
+                $prop = $this->calculateNewProperties($imgWidth, $imgHeight);
 // Restituisco successo    
-            $this->debug("uploadImage", "Returning : src : ".$fileName . ", width : " . $prop['width'] . ",height : ". $prop['height'] ." - END");
-            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $prop['width'] . '","height" : "' . $prop['height'] . '" }');
+                $this->debug("uploadImage", "Returning : src : " . $fileName . ", width : " . $prop['width'] . ",height : " . $prop['height'] . " - END");
+                die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "width" : "' . $prop['width'] . '","height" : "' . $prop['height'] . '" }');
+            } else {
+                die('{"jsonrpc" : "2.0"}');
+            }
         } catch (Exception $e) {
-            $this->debug("uploadImage", "Exception : ".var_export($e,true));            
+            $this->debug("uploadImage", "Exception : " . var_export($e, true));
         }
     }
 
@@ -147,11 +150,6 @@ class UploadController extends REST {
             } else {
                 $fileName = uniqid("file_");
             }
-
-            $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-
-//nome file univoco            
-            $fileName = md5(time() . rand()) . "." . $ext;
 
             $filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
 
@@ -197,19 +195,33 @@ class UploadController extends REST {
 // Verifico che il file sia stato caricato
             if (!$chunks || $chunk == $chunks - 1) {
                 // Strip the temp .part suffix off 
+                $this->debug("uploadImage", "Renaming {$filePath}.part in : " . $filePath);
                 rename("{$filePath}.part", $filePath);
+
+                if (filesize($filePath) > MAX_MP3_UPLOAD_FILE_SIZE) {
+                    unlink($filePath);
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "File is too big."}, "id" : "id"}');
+                }
+
+                $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+                $fileName = (md5(time() . rand())) . "." . $ext;
+                $randomName = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileName;
+                $resRename = rename($filePath, $randomName);
+                if (!$resRename) {
+                    $this->debug("uploadImage", "ERROR: Error renaming file - END");
+                    die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "Error renaming file."}, "id" : "id"}');
+                }
+
+                //Analizzo l'mp3
+                $mp3Analysis = new Mp3file($randomName);
+                $metadata = $mp3Analysis->get_metadata();
+                die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "duration" : "' . $metadata['Length mm:ss'] . '"}');
+            } else {
+                die('{"jsonrpc" : "2.0"}');
             }
 
-            if (filesize($filePath) > MAX_MP3_UPLOAD_FILE_SIZE) {
-                unlink($filePath);
-                die('{"jsonrpc" : "2.0", "error" : {"code": 101, "message": "File is too big."}, "id" : "id"}');
-            }
 
-//Analizzo l'mp3
-            $mp3Analysis = new Mp3file($filePath);
-            $metadata = $mp3Analysis->get_metadata();
 // Restituisco successo            
-            die('{"jsonrpc" : "2.0", "src" : "' . $fileName . '", "duration" : "' . $metadata['Length mm:ss'] . '"}');
         } catch (Exception $e) {
             
         }
@@ -279,11 +291,11 @@ class UploadController extends REST {
             return array(0, 0);
         }
     }
-    
-    private function debug($function, $msg){
+
+    private function debug($function, $msg) {
         $path = "upload.controller/";
         $file = date("Ymd"); //today
-        debug($path, $file, $function." | ".$msg);
+        debug($path, $file, $function . " | " . $msg);
     }
 
 }
