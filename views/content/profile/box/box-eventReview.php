@@ -75,7 +75,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $eventReview_title = $value->getTitle();
 				    #TODO
 				    //$eventReview_rating = $value->getRating();
-				    $eventReview_data = $value->getCreatedAt()->format('l j F Y - H:i');
+				    $eventReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
 				    $eventReview_text = $value->getText();
 				    $eventReview_love = $value->getLoveCounter();
 				    $eventReview_comment = $value->getCommentCounter();

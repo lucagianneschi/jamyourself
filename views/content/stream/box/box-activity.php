@@ -72,7 +72,7 @@ if (is_null($streamBox->error)) {
                     </div>
                     <div class="small-6 columns propriety">
                         <div class="note grey-light">
-                            <?php echo ucwords(strftime("%A %e %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
+                            <?php echo ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp())); ?>
                         </div>
                     </div>
                 </div>

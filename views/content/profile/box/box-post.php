@@ -58,7 +58,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 		    if ($postCounter > 0) {
 			foreach ($posts as $key => $value) {
 			    $post_objectId = $value->getObjectId();
-			    $post_createdAt = $value->getCreatedAt()->format('l j F Y - H:i');
+			    $post_createdAt = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
 			    $post_fromUser_objectId = $value->getFromUser()->getObjectId();
 			    $post_fromUser_profileThumbnail = $value->getFromUser()->getProfileThumbnail();
 			    $post_fromUser_username = $value->getFromUser()->getUsername();
