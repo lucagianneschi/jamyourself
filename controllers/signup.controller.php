@@ -438,7 +438,7 @@ class SignupController extends REST {
         if (count($genre) > 0) {
             $return = array();
             foreach ($genre as $val) {
-                $return[] = $this->config->localType[$val];
+                $return[] = $val;
             }
             return $return;
         }
@@ -472,7 +472,7 @@ class SignupController extends REST {
         if (count($genre) > 0) {
             $return = array();
             foreach ($genre as $val) {
-                $return[] = $this->config->music[$val];
+                $return[] = $val;
             }
             return $return;
         }
