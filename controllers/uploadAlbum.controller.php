@@ -110,7 +110,7 @@ class UploadAlbumController extends REST {
             $resActivity = $this->createActivity($currentUser->getObjectId(), $albumId);
             if ($resActivity instanceof Error) {
                 rollbackUploadAlbumController($albumId, "Album");
-                rmdir(USERS_DIR . DIRECTORY_SEPARATOR . $currentUser->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . $albumId);
+//                rmdir(USERS_DIR . DIRECTORY_SEPARATOR . $currentUser->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR ."photos".DIRECTORY_SEPARATOR. $albumId);
                 $this->response(array("status" => $controllers['ALBUMNOTSAVED']), 409);
             }
             //ora devo aggiungere tutte le foto
@@ -261,7 +261,7 @@ class UploadAlbumController extends REST {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
                 //creazione cartella del album
-                if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . $albumId, 0777, true)) {
+                if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR ."photos".DIRECTORY_SEPARATOR. $albumId, 0777, true)) {
                     return false;
                 }
                 //creazione cartella delle cover del album
@@ -429,7 +429,7 @@ class UploadAlbumController extends REST {
 
     private function moveFile($userId, $albumId, $fileInCache) {
         if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileInCache)) {
-            $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . $albumId;
+            $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR ."photos".DIRECTORY_SEPARATOR. $albumId;
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
