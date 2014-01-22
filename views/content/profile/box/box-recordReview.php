@@ -66,7 +66,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_user_type = $value->getFromUser()->getType();
 				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnailCover();
 				    $recordReview_title = $value->getRecord()->getTitle();
-				    $recordReview_data = $value->getCreatedAt()->format('l j F Y - H:i');
+				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
 				    #TODO
 				    //$recordReview_rating = $value->getRecord()->getRating();
 				    $recordReview_text = $value->getText();
@@ -74,11 +74,11 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_comment = $value->getCommentCounter();
 				    $recordReview_share = $value->getShareCounter();
 				    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
-					$css_love = '_unlove grey';
-					$text_love = $views['LOVE'];
-				    } else {
 					$css_love = '_love orange';
 					$text_love = $views['UNLOVE'];
+				    } else {
+					$css_love = '_unlove grey';
+					$text_love = $views['LOVE'];
 				    }
 				    ?>
 	    			<div  class="rsContent">	

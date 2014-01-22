@@ -84,7 +84,6 @@ class PostController extends REST {
 	    $cmt->setRecord(null);
 	    $cmt->setShareCounter(0);
 	    $cmt->setSong(null);
-	    $cmt->setStatus(null);
 	    $cmt->setTags(null);
 	    $cmt->setTitle(null);
 	    $cmt->setText($post);
