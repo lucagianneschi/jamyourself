@@ -22,11 +22,14 @@ if (session_id() == '')
 
 $recordBox = new RecordBox();
 $recordBox->initForPersonalPage($_POST['objectId']);
+
 if (is_null($recordBox->error)) {
     if (isset($_SESSION['currentUser']))
 	$currentUser = $_SESSION['currentUser'];
     $records = $recordBox->recordArray;
     $recordCounter = count($records);
+	
+	$pathCoverRecord = USERS_DIR . $currentUser->getObjectId(). '/images/recordcoverthumb/';
     ?>
     <!----------------------------------------- PLAYER ALBUM ----------------------------------------------->
     <script>
@@ -69,6 +72,7 @@ if (is_null($recordBox->error)) {
 		    <div id="recordSlide" class="royalSlider rsMinW">
 			<!---------------------------- PRIMO ALBUM ----------------------------------------------->					
 			<?php
+			
 			foreach ($records as $key => $value) {
 			    if ($index % 3 == 0) {
 				?><div class="rsContent">	<?php
@@ -91,22 +95,30 @@ if (is_null($recordBox->error)) {
 				$css_love = '_unlove grey';
 				$text_love = $views['LOVE'];
 			    }
+				$textData = '';
+				if(!is_null($record_data) && $record_data != ''){
+					$textData = $views['record']['RECORDED'];
+				}
 			    ?>
 	    		    <div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>" >
 	    			<!------------------ CODICE ALBUM: $record_objectId - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
 	    			<div class="row">
 	    			    <div class="small-4 columns">
-	    				<img src="<?php echo $record_thumbnailCover ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" onclick="location.href = 'record.php?record=<?php echo $record_objectId ?>'">
+	    			    	<a href="record.php?record=<?php echo $record_objectId ?>">
+	    						<img src="<?php echo $pathCoverRecord.$record_thumbnailCover ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;">
+	    			    	</a>
 	    			    </div>
 	    			    <div class="small-8 columns" style="height: 134px;">						
 	    				<div class="row">
 	    				    <div class="large-12 columns">
-	    					<div class="sottotitle white breakOffTest" onclick="location.href = 'record.php?record=<?php echo $record_objectId ?>'"><?php echo $record_title ?></div>
+	    				    	<a href="record.php?record=<?php echo $record_objectId ?>">
+	    							<div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
+	    				    	</a>
 	    				    </div>
 	    				</div>
 	    				<div class="row">
 	    				    <div class="large-12 columns">
-	    					<div class="note grey breakOffTest"><?php echo $views['record']['RECORDED']; ?> <?php echo $record_data ?></div>
+	    					<div class="note grey breakOffTest"><?php echo $textData; ?> <?php echo $record_data ?></div>
 	    				    </div>
 	    				</div>
 	    				<div class="row">
@@ -166,6 +178,11 @@ if (is_null($recordBox->error)) {
 		    $recordSingle_css_love = '_unlove grey';
 		    $recordSingle_text_love = $views['LOVE'];
 		}
+		$textData = '';
+		if(!is_null($recordSingle_data) && $recordSingle_data != ''){
+			$textData = $views['record']['RECORDED'];
+		}
+		
 		?>
 		<div class="box no-display <?php echo $recordSingle_objectId ?>" >
 
@@ -177,17 +194,21 @@ if (is_null($recordBox->error)) {
 		    <div class="box-info-element">
 			<div class="row">
 			    <div class="small-4 columns">
-				<img src="../media/<?php echo $recordSingle_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" onclick="location.href = 'record.php?record=<?php echo $recordSingle_objectId ?>'" style="padding-bottom: 5px;">
+			    	<a href="record.php?record=<?php echo $recordSingle_objectId ?>">
+						<img src="<?php echo $pathCoverRecord.$recordSingle_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;">
+			    	</a>
 			    </div>
 			    <div class="small-8 columns">						
 				<div class="row">
 				    <div class="large-12 colums">
-					<div class="sottotitle white breakOffTest" onclick="location.href = 'record.php?record=<?php echo $recordSingle_objectId ?>'"><?php echo $recordSingle_title ?></div>
+				    	<a href="record.php?record=<?php echo $recordSingle_objectId ?>">
+							<div class="sottotitle white breakOffTest"><?php echo $recordSingle_title ?></div>
+						</a>
 				    </div>
 				</div>				
 				<div class="row">
 				    <div class="large-12 colums">
-					<div class="note grey album-player-data"><?php echo $views['record']['RECORDED']; ?> <?php echo $recordSingle_data ?></div>
+					<div class="note grey album-player-data"><?php echo $textData; ?> <?php echo $recordSingle_data ?></div>
 				    </div>
 				</div>
 
