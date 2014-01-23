@@ -14,7 +14,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'event.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
-
+require_once BOXES_DIR . 'utilsBox.php';
 if (session_id() == '')
     session_start();
 
@@ -69,6 +69,19 @@ if (is_null($eventBox->error)) {
 			    $event_locationName = $value->getLocationName();
 			    $event_title = $value->getTitle();
 			    $event_featuring = "";
+			   
+			    $featurings = getRelatedUsers($event_objectId, 'featuring', 'Event', false, 6, 0);
+			//	$featuringsCounter = count($featurings);
+				$indexFeat = 0;
+				foreach ($featurings as  $key1 =>  $feat) {
+					if($indexFeat == 0) $event_featuring = $feat->getUsername();
+					elseif($indexFeat < 5){
+						$event_featuring = $event_featuring + ', ' +$feat->getUsername();
+					}
+					else $event_featuring = $feat->getUsername(). '...';
+					$indexFeat++;					
+				}
+				
 			    #TODO
 			    /*
 			      if(is_array($value->getfeaturing']) && count($value->getfeaturing'])>0){
@@ -77,9 +90,19 @@ if (is_null($eventBox->error)) {
 			      }
 			      }
 			     */
-			    $event_eventDate = $value->getEventDate()->format('l j F Y - H:i');
-			    $event_location = $value->getCity() . ' - ' . $value->getAddress();
-
+			    $event_eventDate =  ucwords(strftime("%A %d %B %Y - %H:%M", $value->getEventDate()->getTimestamp()));
+				$css_location = '';
+				if(is_null($value->getCity()) || $value->getCity() == ''){
+					if(is_null($value->getAddress()) || $value->getAddress() == '' || $value->getAddress() == ', '){
+						$event_location = '';
+						$css_location = 'no-display';
+					} 
+					else $event_location = $value->getAddress();
+				}else{
+					if(is_null($value->getAddress()) || $value->getAddress() == '' || $value->getAddress() == ', ') $event_location = $value->getCity();
+					else $event_location = $value->getCity() . ' - ' . $value->getAddress();
+				} 	
+				
 			    $event_love = $value->getLoveCounter();
 			    $event_comment = $value->getCommentCounter();
 			    $event_review = $value->getReviewCounter();
@@ -94,15 +117,16 @@ if (is_null($eventBox->error)) {
 			    }
 			    ?>
 	    		    <!----------------------------------- SINGLE Event ------------------------------------>
-	    		    <div class="box-element" id='<?php echo $event_objectId ?>' onclick="location.href = 'event.php?event=<?php echo $event_objectId ?>'">
+	    		   <a href="event.php?event=<?php echo $event_objectId ?>">
+	    		    <div class="box-element" id='<?php echo $event_objectId ?>'>
 	    			<div class="row">
 	    			    <div class="small-4 columns" >
 	    				<img class="eventcover" src="../media/<?php echo $event_thumbnail; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB ?>'">
 	    			    </div>
 	    			    <div class="small-8 columns" style="min-height: 130px;">
-	    <?php
-	    if ($typeUser == 'JAMMER') {
-		?>
+				    <?php
+				    if ($typeUser == 'JAMMER') {
+					?>
 						<div class="row">
 						    <div class="large-12 colums">
 							<div class="sottotitle white breakOffTest"><?php echo $event_locationName ?></div>
@@ -113,17 +137,17 @@ if (is_null($eventBox->error)) {
 							<div class="sottotitle grey breakOffTest"><?php echo $event_title ?></div>
 						    </div>
 						</div>
-		<?php
-	    } else {
-		?>	
+					<?php
+				    } else {
+					?>	
 						<div class="row">
 						    <div class="large-12 colums">
 							<div class="sottotitle white breakOffTest"><?php echo $event_title ?></div>
 						    </div>
 						</div>
-		<?php
-	    }
-	    ?>
+					<?php
+				    }
+				    ?>
 	    				<div class="row">
 	    				    <div class="large-12 colums">
 	    					<div class="sottotitle white breakOffTest"><?php echo $event_featuring ?></div>
@@ -134,39 +158,39 @@ if (is_null($eventBox->error)) {
 	    					<a class="ico-label _calendar inline text grey breakOff"><?php echo $event_eventDate ?></a>
 	    				    </div>
 	    				</div>
-	    <?php
-	    if ($typeUser == 'JAMMER') {
-		?>
+				    <?php
+				    if ($typeUser == 'JAMMER') {
+					?>
 						<div class="row">
 						    <div class="large-12 colums">
-							<a class="ico-label _pin inline text grey breakOff"><?php echo $event_location ?></a>
+							<a class="ico-label _pin inline text grey breakOff <?php echo $css_location?>"><?php echo $event_location ?></a>
 						    </div>
 						</div>	
-		<?php
-	    }
-	    ?>
+					<?php
+				    }
+				    ?>
 	    				<div class="row">
 	    				    <div class="box-propriety ">					
-	    					<div class="small-7 columns no-display">
-	    					    <a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['CALENDAR'] ?></a>	
-	    					    <a class="note grey " onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $text_love ?></a>
-	    					    <a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['COMM'] ?></a>
-	    					    <a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['SHARE'] ?></a>
-	    					    <a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['REVIEW'] ?></a>	
-	    					</div>
-	    					<div class="small-5 columns propriety " style="position: absolute;bottom: 0px;right: 0px;">					
-	    					    <a class="icon-propriety <?php echo $css_love ?>"><?php echo $event_love ?></a>
-	    					    <a class="icon-propriety _comment"><?php echo $event_comment ?></a>
-	    					    <a class="icon-propriety _share"><?php echo $event_share ?></a>
-	    					    <a class="icon-propriety _review"><?php echo $event_review ?></a>		
-	    					</div>
+		    					<div class="small-7 columns no-display">
+		    					    <a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['CALENDAR'] ?></a>	
+		    					    <a class="note grey " onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $text_love ?></a>
+		    					    <a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['COMM'] ?></a>
+		    					    <a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['SHARE'] ?></a>
+		    					    <a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['REVIEW'] ?></a>	
+		    					</div>
+		    					<div class="small-5 columns propriety " style="position: absolute;bottom: 0px;right: 0px;">					
+		    					    <a class="icon-propriety <?php echo $css_love ?>"><?php echo $event_love ?></a>
+		    					    <a class="icon-propriety _comment"><?php echo $event_comment ?></a>
+		    					    <a class="icon-propriety _share"><?php echo $event_share ?></a>
+		    					    <a class="icon-propriety _review"><?php echo $event_review ?></a>		
+		    					</div>
 	    				    </div>		
 	    				</div>
-	    			    </div>
-	    			</div>
+    			    </div>
+    			</div>
 
-	    		    </div>					
-
+    		    </div>					
+				</a>
 			    <?php if (($index + 1) % 3 == 0 || $eventCounter == $index + 1) { ?> </div> <?php
 	    }
 	    $index++;
