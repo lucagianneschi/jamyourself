@@ -170,7 +170,7 @@ class UploadReviewController extends REST {
                 $message = rollbackUploadReviewController($resRev->getObjectId());
                 $this->response(array('status' => $message), 503);
             }
-            $this->response(array("status" => $controllers['REWSAVED']), 200);
+            $this->response(array("status" => $controllers['REWSAVED'], "id" => $resRev->getObjectId()), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }

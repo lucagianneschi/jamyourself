@@ -17,8 +17,18 @@ $(document).ready(function() {
 
     function publihsCallback(data, status, xhr) {
         try {
-            if (status === "success" && data !== undefined && data !== null) {
+            if (status === "success" && data !== undefined && data !== null && data.id !== undefined && data.id !== null) {
                 alert(data.status);
+                switch (json_upload_review.type) {
+                    case  "Record" :
+                        redirect("record.php&record=" + data.id);
+                        break;
+                    case "Event":
+                        redirect("record.php&event=" + data.id);
+                        break;
+                }
+            } else {
+                location.reload();
             }
         } catch (err) {
             console.log("publihsCallback | An error occurred - message : " + err.message);
@@ -38,5 +48,5 @@ $(document).ready(function() {
     });
 
 
-	$('#example-f').barrating({ showSelectedRating:false });
+    $('#example-f').barrating({showSelectedRating: false});
 });
