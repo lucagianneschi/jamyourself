@@ -34,10 +34,13 @@ $(document).ready(function() {
  	cropText(null);
  	
  	
+ 	
+ 	
 });
 
-
-
+function prova(){
+	$('#modalRelation').foundation('reveal', 'open');
+}
 /*
  * Visualizza o nasconde il testo delle recensioni
  */

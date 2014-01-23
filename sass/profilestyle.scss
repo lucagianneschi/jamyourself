@@ -213,7 +213,7 @@ section.active > .title a{
   padding: 10px;
   margin-bottom: 10px;
   width:auto;
-  height: 64px;
+  height: 53px;
   background-color:$black;  
   cursor:pointer;
 }
@@ -910,3 +910,14 @@ section.active > .title a{
 		margin-bottom:0;
 	}
 }
+
+//------- relation
+#modalRelation{
+	top: 20% !important;
+}
+
+#spinnerRelation.box{	
+		background-color: #fff;
+	
+}
+

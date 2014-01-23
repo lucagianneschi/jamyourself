@@ -32,6 +32,10 @@ if ($user->getType() == 'JAMMER')
 
 $userinfo_pin = $city == '' ? '' : '_pin';
 $userinfo_note = $music == '' ? '' : '_note';
+
+$pathPicture = USERS_DIR . $user->getObjectId(). '/images/profilepicture/';
+$pathBackground = USERS_DIR . $user->getObjectId(). '/images/background/';
+
 ?>
 <div class="row" id="profile-userInfo">
     <div class="large-12 columns">
@@ -50,7 +54,7 @@ $userinfo_note = $music == '' ? '' : '_note';
 
 <div class="row">
     <div class="large-12 columns">
-	<img class="background" src="../media/<?php echo $user->getBackground(); ?>"  onerror="this.src='<?php echo DEFBGD; ?>'" >
-	<img class="picture" src="../media/<?php echo $user->getProfilePicture(); ?>" onerror="this.src='<?php echo $defaultImage; ?>'" width="150" height="150">							
+	<img class="background" src="<?php echo $pathBackground.$user->getBackground(); ?>"  onerror="this.src='<?php echo DEFBGD; ?>'" >
+	<img class="picture" src="<?php echo $pathPicture.$user->getProfilePicture(); ?>" onerror="this.src='<?php echo $defaultImage; ?>'" width="150" height="150">							
     </div>
 </div> 
