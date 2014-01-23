@@ -3,7 +3,7 @@ var exp_general = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>
 var music = null;
 var json_album_create = {'city': null};
 var uploader = null;
-var json_album = {"list": [],'count':0};
+var json_album = {"list": [], 'count': 0};
 var recordLoader = null;
 //-------------- variabili per jcrop ----------------------//
 var type_user,
@@ -606,9 +606,10 @@ function publishCallback(data, status) {
         console.log(data);
         if (status === "success" && data !== undefined && data !== null && data.id !== undefined && data.id !== null) {
             alert(data.status);
-//            redirect("../record.php&record=".data.id);
+            redirect("record.php&record="+data.id);
         } else {
-//            location.reload();
+            alert(data.status);
+            location.reload();
         }
     } catch (err) {
         console.log("publishCallback | An error occurred - message : " + err.message);

@@ -258,17 +258,17 @@ class UploadRecordController extends REST {
             //gestione risposte
             if (count($songErrorList) == 0) {
                 //nessun errore
-                $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList), 200);
+                $this->response(array("status" => $controllers['ALLSONGSSAVED'], "errorList" => null, "savedList" => $songSavedList, "id" => $recordId), 200);
             } else {
                 foreach ($songErrorList as $toRemove) {
                     $this->deleteMp3($currentUser->getObjectId(), $recordId, $toRemove->src);
                 }
                 if (count($songSavedList) == 0) {
                     //nessuna canzone salvata => tutti errori  
-                    $this->response(array("status" => $controllers['NOSONGSAVED']), 200);
+                    $this->response(array("status" => $controllers['NOSONGSAVED'], "id" => $recordId), 200);
                 } else {
                     //salvate parzialmente, qualche errore
-                    $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'], "errorList" => $songErrorList, "savedList" => $songSavedList), 200);
+                    $this->response(array("status" => $controllers['SONGSAVEDWITHERROR'], "errorList" => $songErrorList, "savedList" => $songSavedList, "id" => $recordId), 200);
                 }
             }
         } catch (Exception $e) {
