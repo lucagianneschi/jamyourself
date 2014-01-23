@@ -537,7 +537,7 @@ class UploadAlbumController extends REST {
         $dirAlbum = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $albumId;
         $destCover = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover";
         $destThumb = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb";
-        if (file_exists($dirAlbum . DIRECTORY_SEPARATOR . $cover && $dirAlbum . DIRECTORY_SEPARATOR . $thumbnail)) {
+        if (file_exists($dirAlbum . DIRECTORY_SEPARATOR . $cover) && file_exists($dirAlbum . DIRECTORY_SEPARATOR . $thumbnail)) {
             $fileNameCover = (md5(time() . rand())) . ".jpg";
             $fileNameThumb = (md5(time() . rand())) . ".jpg";
             if (!file_exists($destCover)) {
@@ -549,8 +549,8 @@ class UploadAlbumController extends REST {
                     return array("cover" => DEFALBUMCOVER, "thumbnail" => DEFALBUMTHUMB);
             }
 
-            $res_1 = copy($dirAlbum . DIRECTORY_SEPARATOR . $cover, $destCover . $fileNameCover);
-            $res_2 = copy($dirAlbum . DIRECTORY_SEPARATOR . $thumbnail, $destCover . $fileNameThumb);
+            $res_1 = copy($dirAlbum . DIRECTORY_SEPARATOR . $cover, $destCover.DIRECTORY_SEPARATOR . $fileNameCover);
+            $res_2 = copy($dirAlbum . DIRECTORY_SEPARATOR . $thumbnail, $destThumb .DIRECTORY_SEPARATOR. $fileNameThumb);
             if ($res_1 && $res_2)
                 return array("cover" => $fileNameCover, "thumbnail" => $fileNameThumb);
             else
