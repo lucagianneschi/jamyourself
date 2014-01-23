@@ -33,87 +33,33 @@ if (is_null($followingsBox->error)) {
     <!----------------------------------- FOLLOWING -------------------------------------------------->
     <div class="row" id="profile-following">
         <div class="large-12 columns ">
-    	<h3 style="cursor: pointer" onclick="loadBoxActivity('following',21,0,<?php echo $followingCounter; ?>)"><?php echo $views['following']['TITLE']; ?><span class="orange"> [<?php echo $followingCounter; ?>]</span></h3>
-    	<div class="box" id="following-list">
-		<?php
-		if ($totFollowings > 0) {
-
-		    if ($venuesFollowingsCounter > 0) {
-			?>
-    	    <div class="row">
-	    		<div class="large-12 columns" style="padding-bottom: 10px;">
-	    		    <a data-reveal-id="viewVenueRelation"><div class="text orange">Venue <span class="white"></span></div></a>	
-	    		</div>
-    	    </div>
+    		<h3 style="cursor: pointer" onclick="loadBoxActivity('following',21,0,<?php echo $followingCounter; ?>)"><?php echo $views['following']['TITLE']; ?><span class="orange"> [<?php echo $followingCounter; ?>]</span></h3>
+    		<div class="box" id="following-list">
 			<?php
-			$totalView = $venuesFollowingsCounter > 4 ? 4 : $venuesFollowingsCounter;
-			?>
-	    	    <div class="row">
-			    <?php
-			    $i = 1;
-			    foreach ($venuesFollowings as $key => $value) {
-				switch ($value->getType()) {
-				    case 'JAMMER':
-					$defaultThum = DEFTHUMBJAMMER;
-					break;
-				    case 'VENUE':
-					$defaultThum = DEFTHUMBVENUE;
-					break;
-				    case 'SPOTTER':
-					$defaultThum = DEFTHUMBSPOTTER;
-					break;
-				}
-				$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
-				?>	
-				<div  class="small-6 columns">
-					<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
-					    <div class="box-membre">
-							<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-							    <div  class="small-3 columns ">
-									<div class="icon-header">
-									    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-									</div>
-								</div>
-							    <div  class="small-9 columns ">
-									<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-					    		</div>	
-							</div>
-				    	</div>
-				    </a>
-				</div>
-				<?php
-				if ($i % 2 == 0) {
-				    ?>
-		    	    </div>
+			if ($totFollowings > 0) {	
+			    if ($venuesFollowingsCounter > 0) { ?>
 		    	    <div class="row">
-				    <?php
-				}
-				if ($i == $totalView)
-				    break;
-				$i++;
-			    }
-			    ?>
-			    
-	    		<!------------------ elenco venue ------------------------->
-	    		<div id="viewVenueRelation" class="reveal-modal">
-	    		    <div class="row">
-				    <?php
-				    $i = 1;
+			    		<div class="large-12 columns" style="padding-bottom: 10px;">
+			    		   <div class="text orange">Venue <span class="white"></span></div>
+			    		</div>
+		    	    </div>
+					    	    
+				    <?php  $i = 0;
 				    foreach ($venuesFollowings as $key => $value) {
-					switch ($value->getType()) {
-					    case 'JAMMER':
-						$defaultThum = DEFTHUMBJAMMER;
-						break;
-					    case 'VENUE':
-						$defaultThum = DEFTHUMBVENUE;
-						break;
-					    case 'SPOTTER':
-						$defaultThum = DEFTHUMBSPOTTER;
-						break;
-					}
-					$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
-					?>
-
+						switch ($value->getType()) {
+						    case 'JAMMER':
+							$defaultThum = DEFTHUMBJAMMER;
+							break;
+						    case 'VENUE':
+							$defaultThum = DEFTHUMBVENUE;
+							break;
+						    case 'SPOTTER':
+							$defaultThum = DEFTHUMBSPOTTER;
+							break;
+						}
+						$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
+						if ($i % 2 == 0) { ?> <div class="row">  <?php } ?>
+					?>	
 					<div  class="small-6 columns">
 						<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
 						    <div class="box-membre">
@@ -122,155 +68,84 @@ if (is_null($followingsBox->error)) {
 										<div class="icon-header">
 										    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 										</div>
-								    </div>
+									</div>
 								    <div  class="small-9 columns ">
 										<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-								    </div>		
-								</div>	
-						    </div>
+						    		</div>	
+								</div>
+					    	</div>
 					    </a>
 					</div>
-					<?php
-					if ($i % 2 == 0) {
-					    ?>
-		    		    </div>
-		    		    <div class="row">
-					    <?php
+					<?php if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }  
+				    $i++;
 					}
-
-					$i++;
-				    }
-				    ?>
-	    		    </div>
-	    		</div>
-	    		<!------------------ fine elenco venu ------------------------->
-	    	    </div>
-	    	    <div class="row">
-	    		<div  class="large-12 columns"><div class="line"></div></div>
-	    	    </div>
-		    <?php
-		    }
-		    if ($jammersFollowingsCounter > 0) {
-			?>
-
-	    	    <!------------------------------------------ JAMMER ----------------------------------->
-	    	    <div class="row">
-	    		<div class="large-12 columns" style="padding-bottom: 10px;">
-	    		    <a data-reveal-id="viewJammerRelation"><div class="text orange">Jammer <span class="white"></span></div></a>	
-	    		</div>
-	    	    </div>
-			<?php
-			$totalView = $jammersFollowingsCounter > 4 ? 4 : $jammersFollowingsCounter;
-			?>
-	    	    <div class="row">
-			    <?php
-			    $i = 1;
-			    foreach ($jammersFollowings as $key => $value) {
-				switch ($value->getType()) {
-				    case 'JAMMER':
-					$defaultThum = DEFTHUMBJAMMER;
-					break;
-				    case 'VENUE':
-					$defaultThum = DEFTHUMBVENUE;
-					break;
-				    case 'SPOTTER':
-					$defaultThum = DEFTHUMBSPOTTER;
-					break;
-				}
-				$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
-				?>	
-				<div  class="small-6 columns">
-					<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
-					    <div class="box-membre">
-							<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-							    <div  class="small-3 columns ">
-									<div class="icon-header">
-									    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-									</div>
+				    ?>	
+		    	    <div class="row">
+		    			<div  class="large-12 columns"><div class="line"></div></div>
+		    	    </div>
+			   	 	<?php
+			    }
+			    if ($jammersFollowingsCounter > 0) { ?>
+	
+		    	    <!------------------------------------------ JAMMER ----------------------------------->
+		    	    <div class="row">
+			    		<div class="large-12 columns" style="padding-bottom: 10px;">
+			    		   <div class="text orange">Jammer <span class="white"></span></div>
+			    	    </div>
+					</div>
+		    	    
+				    <?php
+				    $i = 0;
+				    foreach ($jammersFollowings as $key => $value) {
+						switch ($value->getType()) {
+						    case 'JAMMER':
+							$defaultThum = DEFTHUMBJAMMER;
+							break;
+						    case 'VENUE':
+							$defaultThum = DEFTHUMBVENUE;
+							break;
+						    case 'SPOTTER':
+							$defaultThum = DEFTHUMBSPOTTER;
+							break;
+						}
+						$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
+						if ($i % 2 == 0) { ?> <div class="row">  <?php } ?>
+						
+						<div  class="small-6 columns">
+							<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+							    <div class="box-membre">
+									<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+									    <div  class="small-3 columns ">
+											<div class="icon-header">
+											    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+											</div>
+									    </div>
+									    <div  class="small-9 columns ">
+											<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+									    </div>		
+									</div>	
 							    </div>
-							    <div  class="small-9 columns ">
-									<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-							    </div>		
-							</div>	
-					    </div>
-				    </a>
+						    </a>
+						</div>
+						<?php
+						if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }  
+		    			$i++;
+				  	} ?>
+			   
+    	    	
+    	    	<?php }
+				} else {
+				?>	
+				<div class="row  ">
+				    <div  class="large-12 columns ">
+						<p class="grey"><?php echo $views['following']['NODATA']; ?></p>
+				    </div>
 				</div>
 				<?php
-				if ($i % 2 == 0) {
-				    ?>
-		    	    </div>
-		    	    <div class="row">
-				    <?php
-				}
-				if ($i == $totalView)
-				    break;
-				$i++;
 			    }
 			    ?>
-	    		<!------------------ elenco jammer ------------------------->
-	    		<div id="viewJammerRelation" class="reveal-modal">
-	    		    <div class="row">
-				    <?php
-				    $i = 1;
-				    foreach ($jammersFollowings as $key => $value) {
-					switch ($value->getType()) {
-					    case 'JAMMER':
-						$defaultThum = DEFTHUMBJAMMER;
-						break;
-					    case 'VENUE':
-						$defaultThum = DEFTHUMBVENUE;
-						break;
-					    case 'SPOTTER':
-						$defaultThum = DEFTHUMBSPOTTER;
-						break;
-					}
-					$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
-					?>
-
-					<div  class="small-6 columns">
-						<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
-						    <div class="box-membre">
-								<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-								    <div  class="small-3 columns ">
-										<div class="icon-header">
-										    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-										</div>
-								    </div>
-								    <div  class="small-9 columns ">
-										<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-								    </div>		
-								</div>	
-						    </div>
-					    </a>
-					</div>
-					<?php
-					if ($i % 2 == 0) {
-					    ?>
-		    		    </div>
-		    		    <div class="row">
-					    <?php
-					}
-
-					$i++;
-				    }
-				    ?>
-	    		    </div>
-	    		</div>
-	    		<!------------------ fine elenco jammer ------------------------->
-			    <?php
-			}
-		    } else {
-			?>	
-			<div class="row  ">
-			    <div  class="large-12 columns ">
-				<p class="grey"><?php echo $views['following']['NODATA']; ?></p>
 			    </div>
-			</div>
-			<?php
-		    }
-		    ?>
-    	    </div>
-    	</div>
+    		</div>
         </div>
 	<?php
     }
