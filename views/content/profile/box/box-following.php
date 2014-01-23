@@ -44,7 +44,7 @@ if (is_null($followingsBox->error)) {
 
 	    	    <div class="row">
 	    		<div class="large-12 columns" style="padding-bottom: 10px;">
-	    		    <a data-reveal-id="viewVenueRelation"><div class="text orange">Venue <span class="white">[<?php echo $venuesFollowingsCounter; ?>]</span></div></a>	
+	    		    <a data-reveal-id="viewVenueRelation"><div class="text orange">Venue <span class="white"></span></div></a>	
 	    		</div>
 	    	    </div>
 			<?php
@@ -65,20 +65,23 @@ if (is_null($followingsBox->error)) {
 					$defaultThum = DEFTHUMBSPOTTER;
 					break;
 				}
+				$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
 				?>	
 				<div  class="small-6 columns">
-				    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-					<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-					    <div  class="small-3 columns ">
-						<div class="icon-header">
-						    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-						</div>
-					    </div>
-					    <div  class="small-9 columns ">
-						<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-					    </div>		
-					</div>	
-				    </div>
+					<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+					    <div class="box-membre">
+							<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+							    <div  class="small-3 columns ">
+									<div class="icon-header">
+									    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+									</div>
+								</div>
+							    <div  class="small-9 columns ">
+									<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+					    		</div>	
+							</div>
+				    	</div>
+				    </a>
 				</div>
 				<?php
 				if ($i % 2 == 0) {
@@ -109,21 +112,24 @@ if (is_null($followingsBox->error)) {
 						$defaultThum = DEFTHUMBSPOTTER;
 						break;
 					}
+					$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
 					?>
 
 					<div  class="small-6 columns">
-					    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-						<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-						    <div  class="small-3 columns ">
-							<div class="icon-header">
-							    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-							</div>
+						<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+						    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
+								<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+								    <div  class="small-3 columns ">
+										<div class="icon-header">
+										    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+										</div>
+								    </div>
+								    <div  class="small-9 columns ">
+										<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+								    </div>		
+								</div>	
 						    </div>
-						    <div  class="small-9 columns ">
-							<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-						    </div>		
-						</div>	
-					    </div>
+					    </a>
 					</div>
 					<?php
 					if ($i % 2 == 0) {
@@ -151,7 +157,7 @@ if (is_null($followingsBox->error)) {
 	    	    <!------------------------------------------ JAMMER ----------------------------------->
 	    	    <div class="row">
 	    		<div class="large-12 columns" style="padding-bottom: 10px;">
-	    		    <a data-reveal-id="viewJammerRelation"><div class="text orange">Jammer <span class="white">[<?php echo $jammersFollowingsCounter; ?>]</span></div></a>	
+	    		    <a data-reveal-id="viewJammerRelation"><div class="text orange">Jammer <span class="white"></span></div></a>	
 	    		</div>
 	    	    </div>
 			<?php
@@ -172,20 +178,23 @@ if (is_null($followingsBox->error)) {
 					$defaultThum = DEFTHUMBSPOTTER;
 					break;
 				}
+				$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
 				?>	
 				<div  class="small-6 columns">
-				    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-					<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-					    <div  class="small-3 columns ">
-						<div class="icon-header">
-						    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-						</div>
+					<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+					    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
+							<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+							    <div  class="small-3 columns ">
+									<div class="icon-header">
+									    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+									</div>
+							    </div>
+							    <div  class="small-9 columns ">
+									<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+							    </div>		
+							</div>	
 					    </div>
-					    <div  class="small-9 columns ">
-						<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-					    </div>		
-					</div>	
-				    </div>
+				    </a>
 				</div>
 				<?php
 				if ($i % 2 == 0) {
@@ -216,21 +225,24 @@ if (is_null($followingsBox->error)) {
 						$defaultThum = DEFTHUMBSPOTTER;
 						break;
 					}
+					$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
 					?>
 
 					<div  class="small-6 columns">
-					    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-						<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-						    <div  class="small-3 columns ">
-							<div class="icon-header">
-							    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-							</div>
+						<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+						    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
+								<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+								    <div  class="small-3 columns ">
+										<div class="icon-header">
+										    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+										</div>
+								    </div>
+								    <div  class="small-9 columns ">
+										<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+								    </div>		
+								</div>	
 						    </div>
-						    <div  class="small-9 columns ">
-							<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-						    </div>		
-						</div>	
-					    </div>
+					    </a>
 					</div>
 					<?php
 					if ($i % 2 == 0) {
