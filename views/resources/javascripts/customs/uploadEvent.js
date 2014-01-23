@@ -66,6 +66,7 @@ function validation() {
 function getCalendar() {
     try {
         $("#date").datepicker({
+            dateFormat: "dd/mm/yy",
             altFormat: "dd/mm/yy"
         });
     } catch (err) {
