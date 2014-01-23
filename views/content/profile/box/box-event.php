@@ -60,6 +60,7 @@ if (is_null($eventBox->error)) {
 		    ?>
 		    <div class="royalSlider rsMinW>" id="eventSlide">					
 			<?php
+			$pathCoverEvent = USERS_DIR . $currentUser->getObjectId(). '/images/eventcoverthumb/';
 			foreach ($events as $key => $value) {
 			    if ($index % 3 == 0) {
 				?><div class="rsContent">	<?php
@@ -121,7 +122,7 @@ if (is_null($eventBox->error)) {
 	    		    <div class="box-element" id='<?php echo $event_objectId ?>'>
 	    			<div class="row">
 	    			    <div class="small-4 columns" >
-	    				<img class="eventcover" src="../media/<?php echo $event_thumbnail; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB ?>'">
+	    				<img class="eventcover" src="<?php echo $pathCoverEvent.$event_thumbnail; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB ?>'">
 	    			    </div>
 	    			    <div class="small-8 columns" style="min-height: 130px;">
 				    <?php
