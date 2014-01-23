@@ -65,8 +65,6 @@ class UploadAlbumController extends REST {
                 $this->response(array('status' => $controllers['NOALBUMTITLE']), 403);
             } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
                 $this->response(array('status' => $controllers['NOALBUMDESCRIPTION']), 404);
-            } elseif (!isset($this->request['city']) || is_null($this->request['city'])) {
-                $this->response(array('status' => $controllers['NOALBUMLOCATION']), 405);
             } elseif (!isset($this->request['images']) || is_null($this->request['images']) || !is_array($this->request['images']) || !(count($this->request['images']) > 0) || !$this->validateAlbumImages($this->request['images'])) {
                 $this->response(array('status' => $controllers['NOALBUMIMAGES']), 406);
             }
@@ -84,9 +82,11 @@ class UploadAlbumController extends REST {
             }
             $album->setFromUser($currentUser->getObjectId());
             $album->setImageCounter(0);
-            $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
-            $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
-            $album->setLocation($parseGeoPoint);
+            if (isset($this->request['city']) && !is_null($this->request['city'])) {
+                $infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
+                $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
+                $album->setLocation($parseGeoPoint);
+            }
             $album->setLoveCounter(0);
             $album->setLovers(array());
             $album->setShareCounter(0);
@@ -122,13 +122,15 @@ class UploadAlbumController extends REST {
                 } else {
                     //se l'immagine è quella scelta come cover:
                     if ($image['isCover'] == "true") {
+                        $copyImagesInfo = $this->createAlbumCoverFiles($currentUser->getObjectId(), $albumId, $resImage->getFilePath(), $resImage->getThumbnail());
+
                         $albumParseUpdate = new AlbumParse();
-                        $resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getFilePath());
+                        $resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $copyImagesInfo["cover"]);
                         if ($resUpdateCover instanceof Error) {
                             array_push($errorImages, $image);
                             continue;
                         }
-                        $resUpdateThumb = $albumParseUpdate->updateField($albumId, "thumbnailCover", $resImage->getThumbnail());
+                        $resUpdateThumb = $albumParseUpdate->updateField($albumId, "thumbnailCover", $copyImagesInfo["thumbnail"]);
                         if ($resUpdateThumb instanceof Error) {
                             array_push($errorImages, $image);
                             continue;
@@ -261,7 +263,7 @@ class UploadAlbumController extends REST {
         try {
             if (!is_null($userId) && strlen($userId) > 0) {
                 //creazione cartella del album
-                if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR ."photos".DIRECTORY_SEPARATOR. $albumId, 0777, true)) {
+                if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $albumId, 0777, true)) {
                     return false;
                 }
                 //creazione cartella delle cover del album
@@ -429,7 +431,7 @@ class UploadAlbumController extends REST {
 
     private function moveFile($userId, $albumId, $fileInCache) {
         if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileInCache)) {
-            $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR ."photos".DIRECTORY_SEPARATOR. $albumId;
+            $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $albumId;
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
@@ -455,7 +457,7 @@ class UploadAlbumController extends REST {
                 //cancello il vecchio file
                 unlink(MEDIA_DIR . "cache/" . $fileInCache);
                 if ($res_1 && $res_2) {
-                    
+                    return array("image" => $jpg, "thumbnail" => $thumbnail);
                 } else {
                     return array("image" => DEFIMAGE, "thumbnail" => DEFIMAGETHUMB);
                 }
@@ -529,6 +531,32 @@ class UploadAlbumController extends REST {
             }
         }
         return true;
+    }
+
+    private function createAlbumCoverFiles($userId, $albumId, $cover, $thumbnail) {
+        $dirAlbum = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $albumId;
+        $destCover = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover";
+        $destThumb = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb";
+        if (file_exists($dirAlbum . DIRECTORY_SEPARATOR . $cover && $dirAlbum . DIRECTORY_SEPARATOR . $thumbnail)) {
+            $fileNameCover = (md5(time() . rand())) . ".jpg";
+            $fileNameThumb = (md5(time() . rand())) . ".jpg";
+            if (!file_exists($destCover)) {
+                if (!mkdir($destCover, 0777, true))
+                    return array("cover" => DEFALBUMCOVER, "thumbnail" => DEFALBUMTHUMB);
+            }
+            if (!file_exists($destThumb)) {
+                if (!mkdir($destThumb, 0777, true))
+                    return array("cover" => DEFALBUMCOVER, "thumbnail" => DEFALBUMTHUMB);
+            }
+
+            $res_1 = copy($dirAlbum . DIRECTORY_SEPARATOR . $cover, $destCover . $fileNameCover);
+            $res_2 = copy($dirAlbum . DIRECTORY_SEPARATOR . $thumbnail, $destCover . $fileNameThumb);
+            if ($res_1 && $res_2)
+                return array("cover" => $fileNameCover, "thumbnail" => $fileNameThumb);
+            else
+                return array("cover" => DEFALBUMCOVER, "thumbnail" => DEFALBUMTHUMB);
+        }
+        return array("cover" => DEFALBUMCOVER, "thumbnail" => DEFALBUMTHUMB);
     }
 
 }
