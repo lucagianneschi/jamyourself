@@ -33,20 +33,18 @@ if (is_null($followingsBox->error)) {
     <!----------------------------------- FOLLOWING -------------------------------------------------->
     <div class="row" id="profile-following">
         <div class="large-12 columns ">
-    	<h3><?php echo $views['following']['TITLE']; ?> <a data-reveal-id=""><span class="orange">[<?php echo $followingCounter; ?>]</span></a> </h3>
+    	<h3 style="cursor: pointer" onclick="loadBoxActivity('following',30,0,<?php echo $followingCounter; ?>)"><?php echo $views['following']['TITLE']; ?><span class="orange"> [<?php echo $followingCounter; ?>]</span></h3>
     	<div class="box" id="following-list">
 		<?php
 		if ($totFollowings > 0) {
 
 		    if ($venuesFollowingsCounter > 0) {
 			?>
-
-
-	    	    <div class="row">
+    	    <div class="row">
 	    		<div class="large-12 columns" style="padding-bottom: 10px;">
 	    		    <a data-reveal-id="viewVenueRelation"><div class="text orange">Venue <span class="white"></span></div></a>	
 	    		</div>
-	    	    </div>
+    	    </div>
 			<?php
 			$totalView = $venuesFollowingsCounter > 4 ? 4 : $venuesFollowingsCounter;
 			?>
@@ -95,6 +93,7 @@ if (is_null($followingsBox->error)) {
 				$i++;
 			    }
 			    ?>
+			    
 	    		<!------------------ elenco venue ------------------------->
 	    		<div id="viewVenueRelation" class="reveal-modal">
 	    		    <div class="row">
