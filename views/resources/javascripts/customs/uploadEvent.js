@@ -29,11 +29,11 @@ $(document).ready(function() {
 
     validation();
 
-    $("#city").onblur=function(){
+    $("#city").onblur = function() {
         if (json_event_create.city === null) {
             //NON VALIDO
             $('label[for="city"]').addClass('error');
-            $("#city").attr("data-invalid",'');
+            $("#city").attr("data-invalid", '');
         }
     };
 
@@ -126,12 +126,14 @@ function creteEvent() {
 
 function eventCreateCallback(data, status, xhr) {
     try {
-        if (status === "success") {
+        if (status === "success" && data !== undefined && data !== null && data.id !== undefined && data.id !== null) {
             alert(data.status);
-            clearAll();
+//            clearAll();
+            redirect("record.php&event=" + data.id);
         }
         else {
             alert(data.status);
+            location.reload();
         }
     } catch (err) {
         window.console.log("eventCreateCallback | An error occurred - message : " + err.message);
@@ -190,7 +192,7 @@ function initImgUploader() {
         max_file_size: maxFileSize, //dimensione max dei file da caricare
         multi_selection: multi_selection, //forza un file alla volta per upload
         url: url,
-        chunk_size : '100kb',
+        chunk_size: '100kb',
         filters: [
             {title: "Image files", extensions: "jpg,gif,png"}
         ],
@@ -388,7 +390,7 @@ function validateLocation(_result) {
             //NON VALIDO
             json_event_create.city = null;
             $('label[for="city"]').addClass('error');
-            $("#city").attr("data-invalid",'');
+            $("#city").attr("data-invalid", '');
         } else {
             //VALIDO
             if ($('label[for="city"]').hasClass('error')) {

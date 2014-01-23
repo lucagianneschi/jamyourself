@@ -151,7 +151,7 @@ class UploadEventController extends REST {
                 $message = rollbackUploadEventController($eventSave->getObjectId());
                 $this->response(array('status' => $message), 503);
             }
-            $this->response(array('status' => $controllers['EVENTCREATED']), 200);
+            $this->response(array('status' => $controllers['EVENTCREATED'],"id" => $eventSave->getObjectId()), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
