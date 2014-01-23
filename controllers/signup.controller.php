@@ -233,19 +233,20 @@ class SignupController extends REST {
             if (!is_null($userId) && strlen($userId) > 0) {
                 mkdir(USERS_DIR . $userId, 0777, true);
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "default", 0777, true);
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb", 0777, true);
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture", 0777, true);
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover", 0777, true);
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos", 0777, true);                
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos", 0777, true);   
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" .DIRECTORY_SEPARATOR . "photos". DIRECTORY_SEPARATOR . "default", 0777, true);
+
                 if ($type == "JAMMER") {                    
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs");
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . "default");
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs", 0777, true);
+                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . "default", 0777, true);
                 } elseif ($type == "VENUE") {
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
