@@ -93,8 +93,8 @@ class GeocoderService {
             }
 
             if (isset($json->latitude) && !is_null($json->latitude) && isset($json->longitude) && !is_null($json->longitude)) {
-                $info["latitude"] = intval($json->latitude);
-                $info["longitude"] = intval($json->longitude);
+                $info["latitude"] = (float)$json->latitude;
+                $info["longitude"] = (float)$json->longitude;
             }
         }
 
