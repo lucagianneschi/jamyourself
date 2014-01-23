@@ -50,15 +50,16 @@ else {
     	if ($index % 3 == 0) { ?> <div class="row">	<?php } ?>
     		<div class="small-4 columns">
 				<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
-				    <div class="box-membre" style="width: 200px">
+				    <div class="box-membre">
 						<div class="row">
-						    <div  class="small-3 columns ">
+						    <div  class="small-3 columns hide-for-medium-down">
 								<div class="icon-header">
 								    <img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 								</div>
 						    </div>
-						    <div  class="small-9 columns ">
+						    <div  class="small-9 columns">
 								<div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+								<div class="note orange breakOffTest" style="margin-top: 8px;"><?php echo $value->getType(); ?></div>
 						    </div>		
 						</div>	
 				    </div>
@@ -80,7 +81,7 @@ if($tot > ($limit+$skip)){$css_next = '';}
 	<div class="small-6 columns">
 		<div class="row">
 		    <div class="small-12 columns">
-				<a class="text orange <?php echo $css_prev ?> " style="float: left !important;" onclick="loadBoxActivity('following', 30,<?php echo ($skip - $limit) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['PREV'] ?></a>	
+				<a class="text orange <?php echo $css_prev ?> " style="float: left !important;" onclick="loadBoxActivity('following', 21,<?php echo ($skip - $limit) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['PREV'] ?></a>	
 		    </div>
 		</div>
 	</div>
@@ -89,7 +90,7 @@ if($tot > ($limit+$skip)){$css_next = '';}
 	<div class="small-6 columns">
 		<div class="row">
 		    <div class="small-12 columns">
-				<a class="text orange <?php echo $css_next ?>" onclick="loadBoxActivity('following', 30,<?php echo ($limit + $skip) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['NEXT'] ?></a>	
+				<a class="text orange <?php echo $css_next ?>" onclick="loadBoxActivity('following', 21,<?php echo ($limit + $skip) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['NEXT'] ?></a>	
 		    </div>
 		</div>
 	</div>
