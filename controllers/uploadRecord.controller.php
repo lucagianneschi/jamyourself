@@ -68,24 +68,19 @@ class UploadRecordController extends REST {
      * \brief   funzione per pubblicazione dell'event
      * \modificare il nome in createRecord
      */
-    public function createRecord() {
+    private function createRecord($record) {
         try {
             global $controllers;
-            if ($this->get_request_method() != "POST") {
-                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 401);
-            } elseif (!isset($_SESSION['currentUser'])) {
-                $this->response($controllers['USERNOSES'], 402);
-            } elseif (!isset($this->request['recordTitle']) || is_null($this->request['recordTitle']) || !(strlen($this->request['recordTitle']) > 0)) {
+            if (!isset($record['recordTitle']) || is_null($record['recordTitle']) || !(strlen($record['recordTitle']) > 0)) {
                 $this->response(array("status" => $controllers['NOTITLE']), 403);
-            } elseif (!isset($this->request['description']) || is_null($this->request['description']) || !(strlen($this->request['description']) > 0)) {
+            } elseif (!isset($record['description']) || is_null($record['description']) || !(strlen($record['description']) > 0)) {
                 $this->response(array("status" => $controllers['NODESCRIPTION']), 404);
-            } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
+            } elseif (!isset($record['tags']) || is_null($record['tags']) || !is_array($record['tags']) || !(count($record['tags']) > 0)) {
                 $this->response(array("status" => $controllers['NOTAGS']), 405);
             } elseif ($_SESSION['currentUser']->getType() != "JAMMER") {
                 $this->response(array("status" => $controllers['CLASSTYPEKO']), 406);
             }
-            $albumJSON = $this->request;
-            $newRecord = json_decode(json_encode($albumJSON), false);
+            $newRecord = json_decode(json_encode($record), false);
 
             $user = $_SESSION['currentUser'];
             $userId = $user->getObjectId();
@@ -94,7 +89,7 @@ class UploadRecordController extends REST {
             $record->setActive(true);
             $record->setBuyLink((strlen($newRecord->urlBuy) ? $newRecord->urlBuy : null));
             $record->setCounter(0);
-            require_once CONTROLLERS_DIR."utilsController.php";
+            require_once CONTROLLERS_DIR . "utilsController.php";
             $imgInfo = getCroppedImages($newRecord);
             $record->setCover($imgInfo['picture']);
             $record->setThumbnailCover($imgInfo['thumbnail']);
@@ -145,7 +140,7 @@ class UploadRecordController extends REST {
                 $message = rollbackUploadRecordController($savedRecord->getObjectId(), "Record");
                 $this->response(array("status" => $message), 503);
             }
-            $this->response(array("status" => $controllers['RECORDSAVED'], "id" => $savedRecord->getObjectId()), 200);
+            return $savedRecord;
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -155,7 +150,7 @@ class UploadRecordController extends REST {
      * \fn	publishSongs()
      * \brief   funzione per pubblicazione di song
      */
-    public function publishSongs() {
+    public function publish() {
         try {
             global $controllers;
             if ($this->get_request_method() != "POST") {
@@ -164,16 +159,30 @@ class UploadRecordController extends REST {
                 $this->response(array('status' => $controllers['USERNOSES']), 400);
             } elseif (!isset($this->request['list'])) {
                 $this->response(array('status' => $controllers['NOSONGLIST']), 400);
-            } elseif (!isset($this->request['recordId'])) {
-                $this->response(array('status' => $controllers['NORECORDID']), 400);
+            } elseif (!isset($this->request['recordId']) || is_null($this->request['recordId']) || strlen($this->request['recordId']) == 0) {
+                //se non c'e' recordId allora sto creando un nuovo album
+                if (!isset($this->request['record']) || is_null($this->request['record'])) {
+                    $this->response(array('status' => $controllers['NORECORDID']), 400);
+                }
             } elseif (!isset($this->request['count'])) {
                 $this->response(array('status' => $controllers['NOCOUNT']), 400);
             }
+
+            $recordId = null;
+            $record = null;
+            if (!isset($this->request['recordId']) || is_null($this->request['recordId']) || strlen($this->request['recordId']) == 0) {
+                $record = $this->createRecord($this->request['record']);
+                $recordId = $record->getObjectId();
+            } elseif (isset($this->request['recordId'])) {
+                $recordId = $this->request['recordId'];
+            }
+
             $currentUser = $_SESSION['currentUser'];
-            $recordId = $this->request['recordId'];
             $songList = $this->request['list'];
-            $pRecord = new RecordParse();
-            $record = $pRecord->getRecord($recordId);
+            if (is_null($record)) {
+                $pRecord = new RecordParse();
+                $record = $pRecord->getRecord($recordId);
+            }
             if ($record instanceof Error) {
                 $this->response(array('status' => $controllers['NORECORD']), 204);
             }
@@ -294,12 +303,12 @@ class UploadRecordController extends REST {
             }
             $pSong = new SongParse();
             //cancello la canzone
-            
+
             $song = $pSong->getSong($songId);
             if ($song instanceof Error) {
                 $this->response(array('status' => $controllers['NOSONG']), 406);
             }
-            
+
             if ($pSong->deleteSong($songId) instanceof Error) {
                 $this->response(array("status" => $controllers['NOSONGFORDELETE']), 407);
             }
@@ -325,7 +334,7 @@ class UploadRecordController extends REST {
             $currentUser = $_SESSION['currentUser'];
             $pRecord = new RecordParse();
             $recordId = $record->getObjectId();
-            
+
             //recupero la tracklist
 //            $tracklist = $record->getTracklist();
 //            if (is_null($tracklist) || !is_array($tracklist)) {
@@ -436,6 +445,7 @@ class UploadRecordController extends REST {
             unlink(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId);
         }
     }
+
     /**
      * \fn	getFeaturingJSON() 
      * \brief   funzione per il recupero dei featuring per l'event
@@ -470,7 +480,7 @@ class UploadRecordController extends REST {
                 require_once CONTROLLERS_DIR . 'utilsController.php';
                 echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
             } else {
-                echo json_encode($currentUserFeaturingArray);                
+                echo json_encode($currentUserFeaturingArray);
             }
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 503);
@@ -559,7 +569,8 @@ class UploadRecordController extends REST {
     private function getTags($list) {
         if (is_array($list) && count($list) > 0) {
             return implode(",", $list);
-        } else
+        }
+        else
             return "";
     }
 
@@ -618,7 +629,7 @@ class UploadRecordController extends REST {
             if ($res instanceof Error) {
                 return $res;
             }
-            
+
             require_once CLASSES_DIR . 'activityParse.class.php';
             $resActivity = $this->createActivity($currentUser->getObjectId(), $recordId, "SONGREMOVEDFROMRECORD", $song->getObjectId());
             if ($resActivity instanceof Error) {
@@ -656,7 +667,8 @@ class UploadRecordController extends REST {
                 $newName = $dir . DIRECTORY_SEPARATOR . $songId;
                 return rename($oldName, $newName);
             }
-        } else
+        }
+        else
             return false;
     }
 

@@ -108,6 +108,7 @@ $controllers = array(
     'NORATING' => 'Rating non impostato',
     //RECORD
     'GETRECORDSOK' => 'Record recuperati correttamente',
+    'RECORDCREATEERROR' => 'Impossibile creare il nuovo record',
     'RECORDSAVED' => 'Album salvato con successo',
     'NODESCRIPTION' => 'Nessuna descrizione',
     'NOTAGS' => 'Nessun tag',

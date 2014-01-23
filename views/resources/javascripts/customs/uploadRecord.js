@@ -1,13 +1,10 @@
 var exp_url = /(https?|ftp|file|ssh):\/\/(((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?/;
 var exp_general = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~\s][""]{0,0})$/;
-
 var music = null;
 var json_album_create = {'city': null};
 var uploader = null;
-var json_album = {"list": []};
+var json_album = {"list": [],'count':0};
 var recordLoader = null;
-
-
 //-------------- variabili per jcrop ----------------------//
 var type_user,
         input_x,
@@ -22,28 +19,21 @@ var type_user,
         preview,
         tumbnail,
         tumbnail_pane;
-
 $(document).ready(function() {
-    //inizializzazone in sessione dei featuring in maniera asincrona
+//inizializzazone in sessione dei featuring in maniera asincrona
     getUserRecords();
     initFeaturingJSON();
     initGeocomplete();
-
     validateFields();
     validateUrl('urlBuy');
-
     step1NewRecord();
-
     step2Next();
     step2Back();
-
     step3Ok();
-
     //gesione button publish 
     $('#uploadRecord03-publish').click(function() {
         publish();
     });
-
     //inizializza il plugin
     $('#albumFeaturing').select2({
         multiple: true,
@@ -64,7 +54,6 @@ $(document).ready(function() {
             }
         }
     });
-
     $('#trackFeaturing').select2({
         multiple: true,
         minimumInputLength: 1,
@@ -84,7 +73,6 @@ $(document).ready(function() {
             }
         }
     });
-
 //    Per stampare in console l'array del featuring:
 //    
 //        $.getJSON("../controllers/request/uploadRecordRequest.php?request=getFeaturingJSON", function(data) {
@@ -93,7 +81,6 @@ $(document).ready(function() {
 //    });
 
 });
-
 /*
  * validazione campi con plugin abide di foundation
  * trami espressioni regolari definite sopra
@@ -200,7 +187,6 @@ function step2Next() {
                 validation_city = false;
             } else
                 validation_city = true;
-
             //controllo se almeno esiste un checked per genre
             var validation_genre = false;
             if (!$("#tag-music input[type='checkbox']").is(':checked')) {
@@ -216,9 +202,7 @@ function step2Next() {
             if (validation_title && validation_description && validation_label && validation_urlBuy && validation_year && validation_city && validation_genre) {
                 $("#uploadRecord02").fadeOut(100, function() {
                     $("#uploadRecord03").fadeIn(100);
-
                 });
-
                 if (uploader !== null) {
                     uploader.start();
                 }
@@ -252,7 +236,6 @@ function step3Ok() {
             validation_trackTitle = false;
         } else
             validation_trackTitle = true;
-
         //genre
         var validation_genreTrack = false;
         if (!$("#tag-musicTrack input[type='checkbox']").is(':checked')) {
@@ -290,30 +273,26 @@ function initImgUploader() {
         var runtime = 'html5';
         var multi_selection = false;
         var maxFileSize = "12mb";
-
 //creo l'oggetto uploader (l'ho dichiarato ad inizio js in modo che sia globale)
         uploader = new plupload.Uploader({
             runtimes: runtime, //runtime di upload
             browse_button: selectButtonId, //id del pulsante di selezione file
             max_file_size: maxFileSize, //dimensione max dei file da caricare
             multi_selection: multi_selection, //forza un file alla volta per upload
-            chunk_size : '100kb',
+            chunk_size: '100kb',
             url: url,
             filters: [
                 {title: "Image files", extensions: "jpg,gif,png"}
             ],
             multipart_params: {"request": "uploadImage"}, //parametri passati in POST
         });
-
         uploader.bind('Init', function(up, params) {
 //        window.console.log("initImgUploader - EVENT: Ini");
             $('#filelist').html("");
         });
-
 //inizializo l'uploader
 //    window.console.log("initUploader - eseguo uploader.init()");
         uploader.init();
-
 //evento: file aggiunto
         uploader.bind('FilesAdded', function(up, files) {
             //avvio subito l'upload
@@ -321,31 +300,25 @@ function initImgUploader() {
 
             uploader.start();
         });
-
 //evento: cambiamento percentuale di caricamento
         uploader.bind('UploadProgress', function(up, file) {
 //        window.console.log("initImgUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
         });
-
 //evento: errore
         uploader.bind('Error', function(up, err) {
 //        window.console.log("initImgUploader - EVENT: Error - parametri: err => " + JSON.stringify(err));
             alert("Error occurred");
             up.refresh();
         });
-
 //evento: upload terminato
         uploader.bind('FileUploaded', function(up, file, response) {
             var obj = JSON.parse(response.response);
-
             json_album_create.image = obj.src;
-
             //qua ora va attivato il jcrop
             var img = new Image();
             img.src = "../media/cache/" + obj.src;
             img.width = obj.width;
             img.height = obj.height;
-
             onUploadedImage(img);
         });
     } catch (err) {
@@ -358,40 +331,31 @@ function onUploadedImage(img) {
         preview = $('#uploadImage_preview');
         tumbnail = $('#uploadImage_tumbnail');
         tumbnail_pane = $('#uploadImage_tumbnail-pane');
-
         id_tumbnail = tumbnail.attr('id');
         id_preview = preview.attr('id');
-
         //creo l'html per la preview dell'immagine
 
         input_x = 'crop_x';
         input_y = 'crop_y';
         input_w = 'crop_w';
         input_h = 'crop_h';
-
         var html_uploadImage_preview_box = "";
         html_uploadImage_preview_box += '<img src="' + img.src + '" id="' + id_preview + '" width="' + img.width + 'px" height="' + img.height + 'px" "/>';
         html_uploadImage_preview_box += '<input type="hidden" id="' + input_x + '" name="' + input_x + '" value="0"/>';
         html_uploadImage_preview_box += '<input type="hidden" id="' + input_y + '" name="' + input_y + '" value="0"/>';
         html_uploadImage_preview_box += '<input type="hidden" id="' + input_w + '" name="' + input_w + '" value="100"/>';
         html_uploadImage_preview_box += '<input type="hidden" id="' + input_h + '" name="' + input_h + '" value="100"/>';
-
         //mostra a video la preview dell'immagine:
         $('#uploadImage_preview_box').html(html_uploadImage_preview_box);
         preview = $('#uploadImage_preview_box');
-
-
         //creo l'html per la preview del thumbnail (l'immagine finale dopo il jcrop?)
         var html_tumbnail_pane = '';
         html_tumbnail_pane += '<img src="" id="' + id_tumbnail + '" height="50" width="50"/>';
-
 //mostra a video la preview del thumbnail 
         $("#" + id_tumbnail).html(html_tumbnail_pane);
         tumbnail = $('#' + id_tumbnail);
-
 //mostro a video l'immagine 
         $('#uploadImage_save').removeClass('no-display');
-
         //attivo il plugin jcrop (non funzionante per ora)
         initJcrop(img, preview);
     } catch (err) {
@@ -410,7 +374,6 @@ function  initJcrop(img, preview) {
         }
         xsize = tumbnail_pane.width(),
                 ysize = tumbnail_pane.height();
-
         $(preview).Jcrop({
             onChange: updatePreview,
             onSelect: updatePreview,
@@ -480,7 +443,6 @@ $('#uploadImage_save').click(function() {
         window.console.error("#uploadImage_save.click | An error occurred - message : " + err.message);
     }
 });
-
 function getTagsAlbumCreate() {
     try {
         var tags = new Array();
@@ -491,26 +453,9 @@ function getTagsAlbumCreate() {
                 tags.push($(this).val());
             }
         });
-
         return tags;
     } catch (err) {
         window.console.error("getTagsAlbumCreate | An error occurred - message : " + err.message);
-    }
-}
-
-function callbackAlbumCreate(data, status) {
-    try {
-        console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
-        if (status == "success") {
-            var idNuovoAlbum = data.id; //sse servisse...
-//        console.log("Album Creato con successo con id => " + data.recordId);
-            console.log(data.status);
-        } else {
-            alert("Errore");
-            console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
-        }
-    } catch (err) {
-        window.console.error("callbackAlbumCreate | An error occurred - message : " + err.message);
     }
 }
 function createRecord() {
@@ -520,13 +465,10 @@ function createRecord() {
         json_album_create.label = $("#label").val();
         json_album_create.urlBuy = $("#urlBuy").val();
         json_album_create.albumFeaturing = getFeaturingList("albumFeaturing");
-        ;
         json_album_create.year = $("#year").val();
-//        json_album_create.city = $("#city").val();
         json_album_create.tags = getTagsAlbumCreate();
-
-//    console.log("Record => " + JSON.stringify(json_album_create));
-        sendRequest("uploadRecord", "createRecord", json_album_create, callbackAlbumCreate, false);
+        json_album.record = json_album_create;
+        json_album.recordId = null;
     } catch (err) {
         window.console.error("An error occurred - message : " + err.message);
     }
@@ -543,7 +485,7 @@ function initMp3Uploader() {
             runtimes: 'html5', //runtime di upload
             browse_button: "uploader_mp3_button", //id del pulsante di selezione file
             max_file_size: "12mb", //dimensione max dei file da caricare
-            chunk_size : '100kb',
+            chunk_size: '100kb',
             multi_selection: false, //forza un file alla volta per upload
             url: "../controllers/request/uploadRequest.php",
             filters: [
@@ -551,16 +493,13 @@ function initMp3Uploader() {
             ],
             multipart_params: {"request": "uploadMp3"}, //parametri passati in POST
         });
-
         uploader.bind('Init', function(up, params) {
 //        window.console.log("initUploader - EVENT: Ini");
             $('#filelist').html("");
         });
-
 //inizializo l'uploader
 //    window.console.log("initUploader - eseguo uploader.init()");
         uploader.init();
-
 //evento: file aggiunto
         uploader.bind('FilesAdded', function(up, files) {
             //avvio subito l'upload            
@@ -569,7 +508,6 @@ function initMp3Uploader() {
                 up.removeFile(up.files[0]);
             }
         });
-
 //evento: cambiamento percentuale di caricamento
         uploader.bind('UploadProgress', function(up, file) {
 //        window.console.log("initUploader - EVENT: UploadProgress - parametri: file => " + JSON.stringify(file));
@@ -579,7 +517,6 @@ function initMp3Uploader() {
             });
             $('#progressbar .ui-progressbar-value').html('<span class="progressTooltip">' + up.total.percent + '%</span>');
         });
-
 //evento: errore
         uploader.bind('Error', function(up, err) {
 //        window.console.log("initUploader - EVENT: Error - parametri: err => " + JSON.stringify(err));
@@ -588,7 +525,6 @@ function initMp3Uploader() {
             console.log(err);
             up.refresh();
         });
-
 //evento: upload terminato
         uploader.bind('FileUploaded', function(up, file, response) {
 //        window.console.log("initUploader - EVENT: FileUploaded - parametri: err => " + JSON.stringify(file) + " - response => " + JSON.stringify(response));
@@ -659,7 +595,7 @@ function addSongToList(title, duration, genre, isNew, id) {
 
 function publish() {
     try {
-        sendRequest("uploadRecord", "publishSongs", json_album, publishCallback, false);
+        sendRequest("uploadRecord", "publish", json_album, publishCallback, false);
     } catch (err) {
         console.log("publish | An error occurred - message : " + err.message);
     }
@@ -667,8 +603,13 @@ function publish() {
 
 function publishCallback(data, status) {
     try {
-        alert(data.status);
-        clearAll();
+        console.log(data);
+        if (status === "success" && data !== undefined && data !== null && data.id !== undefined && data.id !== null) {
+            alert(data.status);
+//            redirect("../record.php&record=".data.id);
+        } else {
+//            location.reload();
+        }
     } catch (err) {
         console.log("publishCallback | An error occurred - message : " + err.message);
     }
@@ -796,12 +737,10 @@ function initGeocomplete() {
         })
                 .bind("geocode:error", function(event, status) {
             json_album_create.city = null;
-
         })
                 .bind("geocode:multiple", function(event, results) {
             json_album_create.city = prepareLocationObj(results[0]);
         });
-
     } catch (err) {
         console.log("initGeocomplete | An error occurred - message : " + err.message);
     }
@@ -865,14 +804,12 @@ function onCarouselReady() {
             $("#uploadRecord01").fadeOut(100, function() {
                 $("#uploadRecord03").fadeIn(100);
             });
-
             json_album.recordId = this.id;
             //recupero gli mp3 dell'album
             getSongs(json_album.recordId);
             //inizializzazione dell'uploader
             initMp3Uploader();
         });
-
         //scorrimento lista album record 
         $("#uploadRecord-listRecordTouch").touchCarousel({
             pagingNav: false,
@@ -883,8 +820,6 @@ function onCarouselReady() {
             scrollbar: false,
             dragUsingMouse: false
         });
-
-
     } catch (err) {
         console.log("onCarouselReady | An error occurred - message : " + err.message);
     }
