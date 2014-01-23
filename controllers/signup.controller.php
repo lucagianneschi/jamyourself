@@ -238,7 +238,6 @@ class SignupController extends REST {
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover", 0777, true);
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb", 0777, true);
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos", 0777, true);   
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" .DIRECTORY_SEPARATOR . "photos". DIRECTORY_SEPARATOR . "default", 0777, true);
 
                 if ($type == "JAMMER") {                    
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true);
@@ -246,7 +245,6 @@ class SignupController extends REST {
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . "default", 0777, true);
                 } elseif ($type == "VENUE") {
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
@@ -589,11 +587,11 @@ class SignupController extends REST {
         $user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['picture']));
         $user->setProfilePicture($imgInfo['picture']);
         $user->setProfileThumbnail($imgInfo['thumbnail']);
-        $user->setFbPage($decoded->facebook);
-        $user->setTwitterPage($decoded->twitter);
-        $user->setGooglePlusPage($decoded->google);
-        $user->setYoutubeChannel($decoded->youtube);
-        $user->setWebsite($decoded->web);
+        if(strlen($decoded->facebook))$user->setFbPage($decoded->facebook);
+        if(strlen($decoded->twitter))$user->setTwitterPage($decoded->twitter);
+        if(strlen($decoded->google))$user->setGooglePlusPage($decoded->google);
+        if(strlen($decoded->youtube))$user->setYoutubeChannel($decoded->youtube);
+        if(strlen($decoded->web))$user->setWebsite($decoded->web);
         $user->setBadge(array());
         $parseACL = new parseACL();
         $parseACL->setPublicReadAccess(true);
