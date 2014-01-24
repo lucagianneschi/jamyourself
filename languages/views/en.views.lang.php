@@ -403,7 +403,11 @@ $views = array(
         'city' => 'City ',
         'valid_title' => ' Please enter a valid Title',
         'description' => 'Description ',
-        'valid_description' => 'Please enter a valid Description'
+        'valid_description' => 'Please enter a valid Description',
+        'photo_to_photo_set' => 'Add photo to Photo Set Title',
+        'add' => 'Add images*',
+        'select_photo' => 'Select one or more images for upload',
+        'upload' => 'Uploaded photos'
     ),
     'uploadEvent' => array(
                 'upload' => 'Upload Event',
