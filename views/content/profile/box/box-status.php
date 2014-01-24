@@ -23,31 +23,28 @@ $levelValue = $user->getLevelValue();
 $type = $user->getType();
 $objectId = $user->getObjectId();
 $currentUserType = $currentUser->getType();
+$badge = $user->getBadge();
+$noBadge = 10 - count($badge);
 
-#TODO
-//achievement array
-$status_achievement1 = '_target1';
-$status_achievement2 = '_target2';
-$status_achievement3 = '_target3';
 ?>
 
 <!------------------------------------------- STATUS ----------------------------------->
 <div class="row" id="social-status">
-    <div class="small-9 columns status">			
+    <div class="small-12 columns status">			
 	<h3><strong><?php echo $level; ?><span class="text">pt.</span></strong></h3>					
     </div>
-    <div class="small-3 columns">			
+    <!--div class="small-3 columns">			
 	<div class="row">
 	    <div  class="large-12 columns">
 		<div class="text orange livel-status"><?php echo $levelValue; ?></div>
 	    </div>
 	</div>
-	<div class="row">
+	<-div class="row">
 	    <div  class="large-12 columns">
 		<img src="./resources/images/status/popolarity.png"/> 	
 	    </div>
 	</div>		
-    </div>
+    </div-->
 </div>
 <div class="row">
     <div  class="large-12 columns"><div class="line"></div></div>
@@ -56,36 +53,23 @@ $status_achievement3 = '_target3';
 <div class="row" id="social-badge">
     <div id="social_list_badge" class="touchcarousel grey-blue">
 	<ul class="touchcarousel-container">
-	    <li class="touchcarousel-item">
-		<div data-tooltip class="item-block has-tip tip-left" title="Old School!"><img src="/media/images/badge/badgeOldSchool.png" /></div>
-	    </li>
-            <li class="touchcarousel-item">
-		<div data-tooltip class="item-block has-tip tip-left" title="Welcome on Board!"><img src="/media/images/badge/badgeWelcome.png" /></div>
-	    </li>
-            <li class="touchcarousel-item">
-		<div data-tooltip class="item-block has-tip tip-left" title="Metal Addicted"><img src="/media/images/badge/badgeMetal.png" /></div>
-	    </li>
-	    <li class="touchcarousel-item">
-		<div class="item-block"><img src="/media/images/badge/badgeDefault.png" /></div>
-	    </li>		
-	    <li class="touchcarousel-item">
-		<div class="item-block"><img src="/media/images/badge/badgeDefault.png" /></div>
-	    </li>
-            <li class="touchcarousel-item">
-		<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
-	    </li>
-            <li class="touchcarousel-item">
-		<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
-	    </li>
-            <li class="touchcarousel-item">
-		<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
-	    </li>
-            <li class="touchcarousel-item">
-		<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
-	    </li>
-            <li class="touchcarousel-item">
-		<div class="item-block"><img src="/media/images/badge/badgeDefault.png"/></div>
-	    </li>
+	<?php if(!is_null($badge) && is_array($badge)){			
+			foreach ($badge as $value) { ?>
+				<li class="touchcarousel-item">			    	
+					<div data-tooltip class="item-block has-tip tip-left" title="<?php echo $views['status'][$value]; ?>"><img src="<?php echo constant($value); ?>" /></div>
+			    </li>
+			<?php  }
+			?>
+	    
+	    <?php } 
+	    if($noBadge > 0){
+	    	for($i = 0; $i< $noBadge; $i++){ ?>
+	    	<li class="touchcarousel-item">
+				<div class="item-block has-tip tip-left"><img src="<?php echo BADGE0 ?>" /></div>
+	    	</li>
+	    		
+	    <?php }	    	
+	    }?>        
 	</ul>		
     </div>
 </div>
