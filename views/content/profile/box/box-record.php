@@ -60,15 +60,16 @@ if (is_null($recordBox->error)) {
     	</div>	
     	<!---------------------------- LISTA ALBUM --------------------------------------------->
     	<div class="box" id="record-list">
-    	    <div class="row">
-    		<div class="large-12 columns" style="border-bottom: 1px solid #303030;margin-bottom: 10px;">
-    		    <div class="text white" style="padding: 10px;"><?php echo $views['record']['LIST']; ?></div>
-    		</div>
-    	    </div>
+    	    
 		<?php
 		if ($recordCounter > 0) {
 		    $index = 0;
 		    ?>
+		    <div class="row">
+	    		<div class="large-12 columns" style="border-bottom: 1px solid #303030;margin-bottom: 10px;">
+	    		    <div class="text white" style="padding: 10px;"><?php echo $views['record']['LIST']; ?></div>
+	    		</div>
+    	    </div>
 		    <div id="recordSlide" class="royalSlider rsMinW">
 			<!---------------------------- PRIMO ALBUM ----------------------------------------------->					
 			<?php
@@ -148,7 +149,7 @@ if (is_null($recordBox->error)) {
 		    </div>
 
     <?php } else { ?>
-		    <div class="row">
+		    <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
 			<div  class="large-12 columns"><p class="grey"><?php echo $views['record']['NODATA'] ?></p></div>
 		    </div>
 
