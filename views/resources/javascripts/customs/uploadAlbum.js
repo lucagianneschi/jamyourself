@@ -125,7 +125,7 @@ function initImgUploader() {
             max_file_size: maxFileSize, //dimensione max dei file da caricare
             multi_selection: multi_selection, //forza un file alla volta per upload
             url: url,
-            chunk_size : '100kb',
+            chunk_size: '100kb',
             filters: [
                 {title: "Image files", extensions: "jpg,gif,png"}
             ],
@@ -180,12 +180,12 @@ function initImgUploader() {
             }
         });
         uploader.bind('UploadProgress', function(up, file) {
-            handleProgressBar(file);    
-            if(up.total.percent !== 100){
+            handleProgressBar(file);
+            if (up.total.percent !== 100) {
                 $('#uploadAlbum03-publish').hide();
-            }else{
-                $('#uploadAlbum03-publish').show();                
-            }            
+            } else {
+                $('#uploadAlbum03-publish').show();
+            }
         });
         uploader.bind('Error', function(up, err) {
             up.refresh();
@@ -209,8 +209,8 @@ function initImgUploader() {
     }
 
 }
-function handleProgressBar(file){
-            $('#percentage_' + file.id).html(file.percent +"%");
+function handleProgressBar(file) {
+    $('#percentage_' + file.id).html(file.percent + "%");
 }
 
 function getTableRowImage(id) {
@@ -366,15 +366,14 @@ function getAlbums() {
 function getAlbumsCallback(data, status, xhr) {
     try {
         console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
-        if (status === "success") {
-            if (data.count !== undefined && data.count !== null && data.count > 0) {
-                for (var i = 0; i < data.count; i++) {
-                    $("#albumList").append(getCarouselElementHTML(data.albumList[i]));
-                }
-//                stopSpinner('#albums_spinner');
-                onCarouselReady();
+        if (status === "success" && data.count !== undefined && data.count !== null && data.count > 0) {
+            for (var i = 0; i < data.count; i++) {
+                $("#albumList").append(getCarouselElementHTML(data.albumList[i]));
             }
+            stopSpinner('#albums_spinner');
+            onCarouselReady();
         } else {
+            stopSpinner('#albums_spinner');
             console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
         }
 

@@ -15,7 +15,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     <div  class="large-12 columns ">
 
         <div  id="uploadAlbum-listAlbumTouch" class="touchcarousel grey-blue">
-	    <!--            <div id="albums_spinner"></div>-->
+            <div id="albums_spinner"></div>
             <ul class="touchcarousel-container" id="albumList">		
             </ul>
 
