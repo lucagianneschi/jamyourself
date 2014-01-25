@@ -433,7 +433,7 @@ $views = array(
         'photo_to_photo_set' => 'Add photo to Photo Set Title',
         'add' => 'Add images*',
         'select_photo' => 'Select one or more images for upload',
-        'upload' => 'Uploaded photos'
+        'uploaded' => 'Uploaded photos'
     ),
     'uploadEvent' => array(
         'upload' => 'Upload Event',
