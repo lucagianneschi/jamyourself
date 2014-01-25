@@ -14,7 +14,12 @@ if (!isset($_SESSION['currentUser'])) {
     header('Location: login.php');
 } else {
 	$currentUser = $_SESSION['currentUser'];
-    $userObjectId = $_GET['user'];
+        $userObjectId = $currentUser->getObjectId();
+        
+    if(isset($_GET['user'])){
+        $userObjectId = $_GET['user'];
+    }
+    
 
     $userInfoBox = new UserInfoBox();
     $userInfoBox->init($userObjectId);
