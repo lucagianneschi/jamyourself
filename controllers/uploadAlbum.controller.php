@@ -187,18 +187,19 @@ class UploadAlbumController extends REST {
                     array_push($errorImages, $image);
                 } else {
                     //se l'immagine è quella scelta come cover:
+                    //se l'immagine è quella scelta come cover:
                     if ($image['isCover'] == "true") {
+                        $copyImagesInfo = $this->createAlbumCoverFiles($currentUser->getObjectId(), $albumId, $resImage->getFilePath(), $resImage->getThumbnail());
+
                         $albumParseUpdate = new AlbumParse();
-                        $resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getFilePath());
+                        $resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $copyImagesInfo["cover"]);
                         if ($resUpdateCover instanceof Error) {
                             array_push($errorImages, $image);
-                            rollbackUploadAlbumController($resImage->getObjectId(), "Image");
                             continue;
                         }
-                        $resUpdateThumb = $albumParseUpdate->updateField($albumId, "thumbnailCover", $resImage->getThumbnail());
+                        $resUpdateThumb = $albumParseUpdate->updateField($albumId, "thumbnailCover", $copyImagesInfo["thumbnail"]);
                         if ($resUpdateThumb instanceof Error) {
                             array_push($errorImages, $image);
-                            rollbackUploadAlbumController($resImage->getObjectId(), "Image");
                             continue;
                         }
                     }
@@ -501,7 +502,7 @@ class UploadAlbumController extends REST {
                 if (!file_exists($path)) {
                     return DEFALBUMTHUMB;
                 } else {
-                    return "../users/" . $userId . "/images/recordcoverthumb/" . $albumCoverThumb;
+                    return "../users/" . $userId . "/images/albumcoverthumb/" . $albumCoverThumb;
                 }
             } else {
                 $path = DEFALBUMTHUMB;
@@ -549,8 +550,8 @@ class UploadAlbumController extends REST {
                     return array("cover" => DEFALBUMCOVER, "thumbnail" => DEFALBUMTHUMB);
             }
 
-            $res_1 = copy($dirAlbum . DIRECTORY_SEPARATOR . $cover, $destCover.DIRECTORY_SEPARATOR . $fileNameCover);
-            $res_2 = copy($dirAlbum . DIRECTORY_SEPARATOR . $thumbnail, $destThumb .DIRECTORY_SEPARATOR. $fileNameThumb);
+            $res_1 = copy($dirAlbum . DIRECTORY_SEPARATOR . $cover, $destCover . DIRECTORY_SEPARATOR . $fileNameCover);
+            $res_2 = copy($dirAlbum . DIRECTORY_SEPARATOR . $thumbnail, $destThumb . DIRECTORY_SEPARATOR . $fileNameThumb);
             if ($res_1 && $res_2)
                 return array("cover" => $fileNameCover, "thumbnail" => $fileNameThumb);
             else
