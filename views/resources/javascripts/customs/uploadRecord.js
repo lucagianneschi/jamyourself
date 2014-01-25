@@ -536,7 +536,7 @@ function initMp3Uploader() {
             } else {
                 addNewSong(obj.src, obj.duration, getTagsMusicTrack());
             }
-
+            $('#progressbar').fadeOut();
         });
     } catch (err) {
         console.log("An error occurred - message : " + err.message);
@@ -606,7 +606,7 @@ function publishCallback(data, status) {
         console.log(data);
         if (status === "success" && data !== undefined && data !== null && data.id !== undefined && data.id !== null) {
             alert(data.status);
-            redirect("record.php&record="+data.id);
+            redirect("record.php&record=" + data.id);
         } else {
             alert(data.status);
             location.reload();
