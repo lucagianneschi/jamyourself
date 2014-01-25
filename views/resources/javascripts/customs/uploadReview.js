@@ -21,10 +21,10 @@ $(document).ready(function() {
                 alert(data.status);
                 switch (json_upload_review.type) {
                     case  "Record" :
-                        redirect("record.php&record=" + data.id);
+                        redirect("record.php?record=" + data.id);
                         break;
                     case "Event":
-                        redirect("record.php&event=" + data.id);
+                        redirect("event.php?event=" + data.id);
                         break;
                 }
             } else {

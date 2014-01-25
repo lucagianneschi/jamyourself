@@ -129,7 +129,7 @@ function eventCreateCallback(data, status, xhr) {
         if (status === "success" && data !== undefined && data !== null && data.id !== undefined && data.id !== null) {
             alert(data.status);
 //            clearAll();
-            redirect("record.php&event=" + data.id);
+            redirect("event.php?event=" + data.id);
         }
         else {
             alert(data.status);

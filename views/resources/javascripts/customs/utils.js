@@ -249,7 +249,7 @@ function slidePrev(btn, rsi) {
 
 function redirect(url) {
     try {
-        window.location.replace(url);
+        $(location).attr('href',url);
     } catch (err) {
         window.console.error("redirect | An error occurred - message : " + err.message);
     }
