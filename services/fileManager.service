@@ -154,7 +154,7 @@ class FileManagerService {
             return $this->createDefaultAlbumDir($userId);
         } else if ($this->checkRecordsDir($userId) && file_exists($filename)) {
             return true;
-        } 
+        }
     }
 
     public function checkAlbumCoverDir($userId) {
@@ -163,7 +163,7 @@ class FileManagerService {
             return $this->createAlbumCoverDir($userId);
         } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
             return true;
-        }        
+        }
     }
 
     public function checkAlbumCoverThumbnailDir($userId) {
@@ -172,7 +172,7 @@ class FileManagerService {
             return $this->createAlbumCoverThumbnailDir($userId);
         } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
             return true;
-        }         
+        }
     }
 
     public function checkEventCoverDir($userId) {
@@ -181,7 +181,7 @@ class FileManagerService {
             return $this->createEventCoverDir($userId);
         } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
             return true;
-        }         
+        }
     }
 
     public function checkEventCoverThumbnailDir($userId) {
@@ -190,7 +190,7 @@ class FileManagerService {
             return $this->createEventCoverThumbnailDir($userId);
         } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
             return true;
-        }            
+        }
     }
 
     public function checkProfileCoverDir($userId) {
@@ -199,7 +199,7 @@ class FileManagerService {
             return $this->createProfileCoverDir($userId);
         } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
             return true;
-        }        
+        }
     }
 
     public function checkProfileCoverThumbnailDir($userId) {
@@ -208,7 +208,7 @@ class FileManagerService {
             return $this->createProfileCoverThumbnailDir($userId);
         } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
             return true;
-        }           
+        }
     }
 
     public function checkRecordCoverDir($userId) {
@@ -217,7 +217,7 @@ class FileManagerService {
             return $this->createRecordCoverDir($userId);
         } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
             return true;
-        }          
+        }
     }
 
     public function checkRecordCoverThumbnailDir($userId) {
@@ -226,39 +226,54 @@ class FileManagerService {
             return $this->createRecordCoverThumbnailDir($userId);
         } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
             return true;
-        }         
+        }
     }
-    
+
 ////////////////////////////////////////////////////////////////////////////////////////
 //
 //      Sezione aggiunta file
 //
 ////////////////////////////////////////////////////////////////////////////////////////
-    
-    public function addRecordDir($userId){
+
+    public function addRecordDir($userId) {
         
     }
-    public function addAlbumDir($userId){
+
+    public function addAlbumDir($userId) {
         
     }
-    public function addImageFileToAlbum($userId, $album, $cachedFile){
+
+    public function addImageFileToAlbum($userId, $album, $cachedFile) {
         
     }
-    public function addSongFileToRecord($userId, $recordId, $cachedFile){
+
+    public function addSongFileToRecord($userId, $recordId, $cachedFile) {
         
     }
-    
-    public function removeRecordDir($userId, $recordId){
+
+    public function removeRecordDir($userId, $recordId) {
         
     }
-    public function removeAlbumDir($userId, $albumId){
+
+    public function removeAlbumDir($userId, $albumId) {
         
     }
-    public function removeImageFileFromAlbum($userId, $recordId, $fileName){
+
+    public function removeImageFileFromAlbum($userId, $recordId, $fileName) {
         
     }
-    public function removeSongFileFromRecord($userId, $recordId, $fileName){
+
+    public function removeSongFileFromRecord($userId, $recordId, $fileName) {
         
+    }
+
+    public function cleanUpCacheDirectory() {
+        $files = glob(MEDIA_DIR.DIRECTORY_SEPARATOR. "cache".DIRECTORY_SEPARATOR."*");
+        foreach ($files as $file) {
+            if (is_file($file) && time() - filemtime($file) >= 2 * 24 * 60 * 60) { // 2 days
+                unlink($file);
+            }
+        }
     }
 
 }
