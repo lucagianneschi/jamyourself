@@ -314,9 +314,11 @@ function publishCallback(data, status, xhr) {
         console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
         if (status === "success") {
             alert(data.status);
+            redirect("profile.php");
         } else {
             alert(data.status);
             console.debug("Data : " + JSON.stringify(data) + " | Status: " + status);
+            redirect("profile.php");
         }
 
         clearList();
