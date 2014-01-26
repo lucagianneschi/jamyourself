@@ -29,7 +29,7 @@ if (is_null($recordBox->error)) {
     $records = $recordBox->recordArray;
     $recordCounter = count($records);
 	
-	$pathCoverRecord = USERS_DIR . $currentUser->getObjectId(). '/images/recordcoverthumb/';
+	$pathCoverRecord = USERS_DIR . $_POST['objectId'] . '/images/recordcoverthumb/';
     ?>
     <!----------------------------------------- PLAYER ALBUM ----------------------------------------------->
     <script>
@@ -124,7 +124,7 @@ if (is_null($recordBox->error)) {
 	    				</div>
 	    				<div class="row">
 	    				    <div class="small-5 columns">
-	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $record_objectId ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
+	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $record_objectId ?>','<?php echo $pathCoverRecord.$record_thumbnailCover ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
 	    				    </div>
 	    				    <div class="small-7 columns" style="position: absolute;bottom: 0px;right: 0px;">
 	    					<div class="row propriety">
@@ -219,42 +219,43 @@ if (is_null($recordBox->error)) {
 			<!------------------------------- RECORD DETAIL ------------------------------------------>
 			<div class="box-recordDetail"></div>
 			<script type="text/javascript">
-	    function loadBoxRecordDetail(objectId) {
-		var json_data = {};
-		json_data.objectId = objectId;
-		json_data.username = '<?php echo $_POST['username'] ?>';
-		$.ajax({
-		    type: "POST",
-		    url: "content/profile/box/box-recordDetail.php",
-		    data: json_data,
-		    beforeSend: function(xhr) {
-			//spinner.show();
-			$("#profile-Record #record-list").fadeOut(100, function() {
-			    $('#profile-Record .' + objectId).fadeIn(100);
-			    goSpinnerBox("." + objectId + " .box-recordDetail", '');
-			});
-			console.log('Sono partito box-recordDetail');
-
-		    }
-		}).done(function(message, status, xhr) {
-
-		    $("." + objectId + " .box-recordDetail").html(message);
-		    code = xhr.status;
-		    //console.log("Code: " + code + " | Message: " + message);
-		    //gestione visualizzazione box detail
-		    addthis.init();
-		    addthis.toolbox(".addthis_toolbox");
-		    rsi_record.updateSliderSize(true);
-
-		    console.log("Code: " + code + " | Message: <omitted because too large>");
-		}).fail(function(xhr) {
-		    //spinner.hide();
-		    console.log("Error: " + $.parseJSON(xhr));
-		    //message = $.parseJSON(xhr.responseText).status;
-		    //code = xhr.status;
-		    //console.log("Code: " + code + " | Message: " + message);
-		});
-	    }
+			    function loadBoxRecordDetail(objectId,pathCover) {
+					var json_data = {};
+					json_data.objectId = objectId;
+					json_data.username = '<?php echo $_POST['username'] ?>';
+					json_data.pathCover = pathCover;
+					$.ajax({
+					    type: "POST",
+					    url: "content/profile/box/box-recordDetail.php",
+					    data: json_data,
+					    beforeSend: function(xhr) {
+						//spinner.show();
+						$("#profile-Record #record-list").fadeOut(100, function() {
+						    $('#profile-Record .' + objectId).fadeIn(100);
+						    goSpinnerBox("." + objectId + " .box-recordDetail", '');
+						});
+						console.log('Sono partito box-recordDetail');
+			
+					    }
+					}).done(function(message, status, xhr) {
+			
+					    $("." + objectId + " .box-recordDetail").html(message);
+					    code = xhr.status;
+					    //console.log("Code: " + code + " | Message: " + message);
+					    //gestione visualizzazione box detail
+					    addthis.init();
+					    addthis.toolbox(".addthis_toolbox");
+					    rsi_record.updateSliderSize(true);
+			
+					    console.log("Code: " + code + " | Message: <omitted because too large>");
+					}).fail(function(xhr) {
+					    //spinner.hide();
+					    console.log("Error: " + $.parseJSON(xhr));
+					    //message = $.parseJSON(xhr.responseText).status;
+					    //code = xhr.status;
+					    //console.log("Code: " + code + " | Message: " + message);
+					});
+			    }
 			</script>
 			<!------------------------------- FINE RECORD DETAIL ------------------------------------->
 			<div class="row album-single-propriety">
