@@ -457,7 +457,7 @@ require_once ROOT_DIR . 'config.php';
     </div>
     <script type="text/javascript">
     //$objectId, 'following', '_User', false, $this->config->followings, 0
-	    function loadBoxActivity(relation,limit,skip,tot) {
+	    function loadBoxRelation(relation,limit,skip,tot) {
 			var json_data = {};
 			json_data.objectId = '<?php echo $user->getObjectId(); ?>';			
 			json_data.relation =  relation;
