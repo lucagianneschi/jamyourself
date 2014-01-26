@@ -124,8 +124,8 @@ class UploadEventController extends REST {
             }
             //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE                
 
-            $dirThumbnailDest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover";
-            $dirCoverDest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb";
+            $dirThumbnailDest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb";
+            $dirCoverDest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover";
             $thumbSrc = $eventSave->getThumbnail();
             $imageSrc = $eventSave->getImage();
             if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
