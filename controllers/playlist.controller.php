@@ -50,14 +50,13 @@ class PlaylistController extends REST {
             global $controllers;
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-		  //TODO prende dalla sessione l'objectId dell currentUser e della playlist 
-          //  } elseif (!isset($this->request['currentUser'])) {
-          //      $this->response(array('status' => $controllers['USERNOSES']), 403);
-         //   } elseif (!isset($this->request['playlistId'])) {
-         //       $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
+		 	} elseif (!isset($_SESSION['currentUser'])) {
+				$this->response(array('status' => $controllers['USERNOSES']), 403);
             } elseif (!isset($this->request['songId'])) {
                 $this->response(array('status' => $controllers['NOSONGID']), 403);
-            }
+			} elseif (!isset($_SESSION['playlist'])) {
+				//creare la playlist
+			}
             $playlistId = $_SESSION['playlist']['objectId'];
             $songId = $this->request['songId'];
             $currentUser = $_SESSION['currentUser'];

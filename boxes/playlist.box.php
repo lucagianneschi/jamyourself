@@ -90,7 +90,6 @@ class PlaylistBox {
 			    return;
 			} elseif (is_null($orderSongs)) {
 			    $this->error = null;
-			    $this->objectId = null;
 			    $this->tracklist = array();
 			    return;
 			} else {

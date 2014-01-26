@@ -19,18 +19,13 @@ $currentUser = $_SESSION['currentUser'];
 //decidere come gestire i possibili errori
 if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
     echo 'Playlist vuota';
-} elseif (count($playlist->tracklist) == 0 && !is_null($playlist->error)) {
+} elseif (!is_null($playlist->error)) {
     echo $playlist->error;
-} elseif (count($playlist->tracklist) > 0) {
+} 
     $_SESSION['playlist']['objectId'] = $playlist->objectId;
     $_SESSION['playlist']['songs'] = array();
     ?>
-    <script>
-        var myPlaylist;
-        $(document).ready(function() {
-    	myPlaylist = getPlayer();
-        });
-    </script>
+    
     <div class="row">
         <div  class="small-6 columns hide-for-small">
     	<h3><?php echo $playlist->name; ?></h3>
@@ -42,6 +37,12 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
         </div>	
     </div>
 
+	<script>
+        var myPlaylist;
+        $(document).ready(function() {
+    	myPlaylist = getPlayer();
+        });
+    </script>
     <div id="jp_container_N" class="jp-video jp-video-270p">
         <div class="jp-type-playlist">
     	<div id="jquery_jplayer_N" class="jp-jplayer"></div>
@@ -162,5 +163,4 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 
         </div>
     </div>
-    <?php
-}
+  
