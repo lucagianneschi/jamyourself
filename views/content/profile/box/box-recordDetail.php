@@ -42,7 +42,7 @@ if (is_array($songs) && count($songs) > 0) {
 	}
 	$css_addPlayList = "";
 	$css_removePlayList = "";
-	if (in_array($value->getObjectId(), $_SESSION['playlist']['songs'])) {
+	if (is_array($_SESSION['playlist']['songs']) && in_array($value->getObjectId(), $_SESSION['playlist']['songs'])) {
 	    $css_addPlayList = 'no-display';
 	} else {
 	    $css_removePlayList = 'no-display';
