@@ -60,7 +60,7 @@ if (is_null($eventBox->error)) {
 		    ?>
 		    <div class="royalSlider rsMinW>" id="eventSlide">					
 			<?php
-			$pathCoverEvent = USERS_DIR . $currentUser->getObjectId(). '/images/eventcoverthumb/';
+			$pathCoverEvent = USERS_DIR . $_POST['objectId'] . '/images/eventcoverthumb/';
 			foreach ($events as $key => $value) {
 			    if ($index % 3 == 0) {
 				?><div class="rsContent">	<?php

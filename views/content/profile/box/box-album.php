@@ -56,7 +56,7 @@ if (is_null($albumBox->error)) {
 					?>
 					<div class="box royalSlider rsMinW" id="albumSlide">						
 					    <?php 
-					    $pathCoverAlbum = USERS_DIR . $currentUser->getObjectId(). '/images/albumcoverthumb/';
+					    $pathCoverAlbum = USERS_DIR . $_POST['objectId'] . '/images/albumcoverthumb/';
 					    foreach ($albums as $key => $value) {
 							$album_thumbnailCover = $value->getThumbnailCover();
 							$album_objectId = $value->getObjectId();
@@ -77,7 +77,7 @@ if (is_null($albumBox->error)) {
 							?>									
 							<div class="row" style="margin-left: 0px; margin-right: 0px;">
 								<?php } ?>	
-			    			    <div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="loadBoxAlbumDetail('<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>, 30, 0)">
+			    			    <div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="loadBoxAlbumDetail('<?php echo $_POST['objectId'] ?>','<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>, 30, 0)">
 				    				<img class="albumcover" src="<?php echo $pathCoverAlbum . $album_thumbnailCover; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" />  
 				    				<div class="text white breakOffTest"><?php echo $album_title; ?></div>
 				    				<div class="row">
@@ -136,8 +136,10 @@ if (is_null($albumBox->error)) {
 					    <!----------------------------------------- ALBUM DETAIL--------------------------->			
 					    <div id='box-albumDetail'></div>
 					    <script type="text/javascript">
-						    function loadBoxAlbumDetail(objectId, countImage, limit, skip) {
+						    function loadBoxAlbumDetail(userId, objectId, countImage, limit, skip) {
 								var json_data = {};
+								
+								json_data.userId = userId;
 								json_data.objectId = objectId;
 								json_data.countImage = countImage;
 								json_data.limit = limit;

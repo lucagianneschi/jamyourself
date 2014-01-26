@@ -19,6 +19,7 @@ require_once VIEWS_DIR . 'utilities/share.php';
 require_once BOXES_DIR . 'album.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 
+$userId = $_POST['userId'];
 $objectId = $_POST['objectId'];
 $countImage = $_POST['countImage'];
 $limit = intval($_POST['limit']);
@@ -39,7 +40,7 @@ if (($limit + $skip) < $countImage) {
     $other = $countImage - ($limit + $skip);
 }
 
-$pathImage = USERS_DIR . $currentUser->getObjectId(). '/images/photos/'.$objectId.'/';
+$pathImage = USERS_DIR . $userId . '/images/photos/'.$objectId.'/';
 ?>
 
 <ul class="small-block-grid-3 small-block-grid-2 " >	
