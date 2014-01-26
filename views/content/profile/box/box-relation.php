@@ -81,7 +81,7 @@ if($tot > ($limit+$skip)){$css_next = '';}
 	<div class="small-6 columns">
 		<div class="row">
 		    <div class="small-12 columns">
-				<a class="text orange <?php echo $css_prev ?> " style="float: left !important;" onclick="loadBoxActivity('following', 21,<?php echo ($skip - $limit) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['PREV'] ?></a>	
+				<a class="text orange <?php echo $css_prev ?> " style="float: left !important;" onclick="loadBoxRelation('following', 21,<?php echo ($skip - $limit) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['PREV'] ?></a>	
 		    </div>
 		</div>
 	</div>
@@ -90,7 +90,7 @@ if($tot > ($limit+$skip)){$css_next = '';}
 	<div class="small-6 columns">
 		<div class="row">
 		    <div class="small-12 columns">
-				<a class="text orange <?php echo $css_next ?>" onclick="loadBoxActivity('following', 21,<?php echo ($limit + $skip) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['NEXT'] ?></a>	
+				<a class="text orange <?php echo $css_next ?>" onclick="loadBoxRelation('following', 21,<?php echo ($limit + $skip) ?>,<?php echo $tot ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['NEXT'] ?></a>	
 		    </div>
 		</div>
 	</div>

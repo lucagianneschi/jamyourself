@@ -91,7 +91,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 					
 				    ?>
 	    			<div  class="rsContent">	
-	    			    <div id='eventReview_<?php echo $event_objectId ?>'>	
+	    			    <div id='eventReview_<?php echo $eventReview_objectId ?>'>	
 					    <?php
 					    if ($type != "SPOTTER") {
 						switch ($eventReview_user_type) {

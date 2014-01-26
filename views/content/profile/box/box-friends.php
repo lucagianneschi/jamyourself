@@ -23,7 +23,7 @@ if (is_null($friendsBox->error)) {
     ?>
     <div class="row" id="profile-friends">
         <div  class="large-12 columns">
-    		<h3 style="cursor: pointer" onclick="loadBoxActivity('friendship',21,0,<?php echo $friendshipCounter; ?>)"><?php echo $views['friends']['TITLE']; ?> <span class="orange">[<?php echo $friendshipCounter; ?>]</span> </h3>
+    		<h3 style="cursor: pointer" onclick="loadBoxRelation('friendship',21,0,<?php echo $friendshipCounter; ?>)"><?php echo $views['friends']['TITLE']; ?> <span class="orange">[<?php echo $friendshipCounter; ?>]</span> </h3>
 			<div class="row">
 	    	    <div  class="large-12 columns ">
 	    			<div class="box">					
