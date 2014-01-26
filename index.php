@@ -168,9 +168,9 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	</div>
 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-	<script type="text/javascript" src="js/jquery.stellar.min.js"></script>
-	<script type="text/javascript" src="js/waypoints.min.js"></script>
-	<script type="text/javascript" src="js/jquery.easing.1.3.js"></script>
+	<script type="text/javascript" src="views/resources/javascripts/jquery/jquery.stellar.min.js"></script>
+	<script type="text/javascript" src="views/resources/javascripts/jquery/waypoints.min.js"></script>
+	<script type="text/javascript" src="views/resources/javascripts/jquery/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="js/scripts.js"></script>
 	<script>
 	    function scrollto(id)
