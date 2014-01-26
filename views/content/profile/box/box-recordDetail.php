@@ -82,7 +82,7 @@ if (is_array($songs) && count($songs) > 0) {
 		<div class="row track-propriety" >
 		    <div class="box-propriety album-single-propriety">
 			<div class="small-6 columns ">
-			    <a class="note white" onclick="setCounter(this, '<?php echo $value->getObjectId() ?>', 'Song')"><?php echo $track_text_love; ?></a>
+			    <a class="note white" onclick="love(this, 'Song', '<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser(); ?>')"><?php echo $track_text_love; ?></a>
 			    <!--a class="note white" onclick="share()"><?php echo $views['SHARE']; ?></a-->
 			</div>
 			<div class="small-6 columns propriety ">					
