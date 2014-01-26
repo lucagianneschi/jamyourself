@@ -39,7 +39,7 @@ if (($limit + $skip) < $countImage) {
     $other = $countImage - ($limit + $skip);
 }
 
-$pathImage = USERS_DIR . $currentUser->getObjectId(). '/images/'.$objectId.'/';
+$pathImage = USERS_DIR . $currentUser->getObjectId(). '/images/photos/'.$objectId.'/';
 ?>
 
 <ul class="small-block-grid-3 small-block-grid-2 " >	
