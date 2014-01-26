@@ -112,7 +112,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		    <img src="views/resources/images/home/spotter.png">
 		</div>
 		<div class="grid_6 omega">
-		    <h1><?php echo $views['home']['you_told']; ?><br>B<?php echo $views['home']['before']; ?></h1>
+		    <h1><?php echo $views['home']['you_told']; ?><br><?php echo $views['home']['before']; ?></h1>
 		    <h2><?php echo $views['home']['talent_scout']; ?></h2>
 		    <p><?php echo $views['home']['next_star']; ?></p>
 		</div>
