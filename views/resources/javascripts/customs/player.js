@@ -251,7 +251,7 @@ function playlist(_this,opt,song) {
 					objectId: song.objectId,
 					title: song.title,
 					artist: song.artist,
-					mp3:"http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3" //ci va l'url dell'mp3  -> song.mp3
+					mp3: song.mp3 //ci va l'url dell'mp3  -> song.mp3
 				});
 				$(_this).addClass('no-display');
 				$(_this).next().removeClass('no-display');

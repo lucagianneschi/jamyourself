@@ -18,7 +18,7 @@ $currentUser = $_SESSION['currentUser'];
 #TODO
 //decidere come gestire i possibili errori
 if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
-    echo 'Playlist vuota';
+   // echo 'Playlist vuota';
 } elseif (!is_null($playlist->error)) {
     echo $playlist->error;
 } 
@@ -31,7 +31,7 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
     	<h3><?php echo $playlist->name; ?></h3>
     	<div class="row">
     	    <div  class="large-6 columns">
-    			<div class="text white" style="margin-bottom: 15px;"><?php echo $views['header']['profile']['TITLE'] ?></div>    		
+    			<!--div class="text white" style="margin-bottom: 15px;"><?php echo $views['header']['profile']['TITLE'] ?></div-->    		
     	    </div>	
     	</div>
         </div>	
@@ -110,7 +110,7 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 		    $loveCounter = $value->getLoveCounter();
 		    $shareCounter = $value->getShareCounter();
 			$recordObjectId = $value->getRecord()->getObjectId();
-			$pathCover = USERS_DIR . $recordObjectId . '/images/recordcoverthumb/';
+			$pathCover = USERS_DIR . $author_objectId . '/images/recordcoverthumb/';
 			$pathSong= USERS_DIR . $author_objectId . '/songs/'.$recordObjectId.'/';
 		    array_push($_SESSION['playlist']['songs'], $objectId);
 			if ($value->getDuration() >= 3600)
@@ -124,7 +124,7 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 			    'mp3' => $pathSong.$value->getFilePath(),
 			    'love' => $value->getLoveCounter(),
 			    'share' => $value->getShareCounter(),
-			    'pathCover' => $pathCover
+			    'pathCover' => $pathCover.$value->getRecord()->getThumbnailCover()
 			));
 			if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 			    $track_css_love = '_love orange';
@@ -187,3 +187,11 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 		
         </div>
     </div>
+<?php 
+if (count($playlist->tracklist) == 0 && is_null($playlist->error)) { ?>
+    <div class="row">
+        <div  class="small-12 columns hide-for-small">
+    	<div class="text grey"><?php echo $views['recordDetail']['NODATA'] ?></div>    	
+        </div>	
+    </div>
+<?php } ?>

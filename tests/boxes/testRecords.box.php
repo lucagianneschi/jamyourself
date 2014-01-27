@@ -24,19 +24,22 @@ ini_set('display_errors', '1');
 require_once ROOT_DIR . 'config.php';
 require_once PARSE_DIR . 'parse.php';
 require_once BOXES_DIR . 'record.box.php';
+require_once BOXES_DIR . 'utilsBox.php';
+require_once CLASSES_DIR . 'userParse.class.php';
 $i_end = microtime();
 
 //JAMMER
-$SPATAFORA = 'GuUAj83MGH';
-$idRec = 'b8r9q9b5se';
+$SPATAFORA = '7fes1RyY77';
+$idRec = 'zTbYqzySea';
 echo '<br />-------------------------------------------------------------------------------------------<br />';
 echo '<br />-------------------------TEST  RECORD BOX PERSONAL PAGE -------------------------------------------<br />';
 echo '<br />------------------------- TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
 $record1_start = microtime();
 $recordBoxP = new RecordBox();
-$recordBox = $recordBoxP->initForPersonalPage($SPATAFORA);
+$recordBoxP->initForPersonalPage($SPATAFORA);
+$songs = tracklistGenerator($idRec);
 print "<pre>";
-print_r($recordBox);
+print_r($recordBoxP);
 print "</pre>";
 $record1_stop = microtime();
 echo '<br />-------------------------FINE TEST RECORD BOX SPATAFORA-------------------------------------------<br />';
