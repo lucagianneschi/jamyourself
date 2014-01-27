@@ -96,7 +96,8 @@ function playSongPlayList(song,play){
 }
 
 function playSong(objectId,pathCover){
-	jQuery.each($('#box-recordDetail .jpPlay'), function (index, obj){
+	jQuery.each($('#box-record a.jpPlay'), function (index, obj){
+		console.log(obj);
         $(obj).removeClass('orange');
     });	
 	var title = $('#'+objectId+' .songTitle').html();
