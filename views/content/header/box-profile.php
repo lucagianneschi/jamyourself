@@ -142,7 +142,10 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 		    		    objectId: "<?php echo $objectId ?>",
 		    		    title: "<?php echo $title ?>",
 		    		    artist: "<?php echo $author_name ?>",
-		    		    mp3: "<?php echo $pathSong.$value->getFilePath() ?>" //ci va l'url dell'mp3
+		    		    mp3: "<?php echo $pathSong.$value->getFilePath() ?>", //ci va l'url dell'mp3
+		    		    love: "<?php echo $value->getLoveCounter() ?>",
+		    		    share: "<?php echo $value->getShareCounter() ?>",
+		    		    pathCover: "<?php echo $pathCover.$value->getRecord()->getThumbnailCover() ?>",
 		    		});
 	    	    });
 	    	</script>						

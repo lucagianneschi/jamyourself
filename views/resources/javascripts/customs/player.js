@@ -2,26 +2,20 @@
 //<![CDATA[
 var duration;
 $(document).ready(function(){
-   duration = $('#duration-player').val();
-// permette di muovere il playhead ------ INIT POSITION playhead-player 110
-//loadBoxPlayList();
-
+    
+    duration = $('#duration-player').val();
+   
+	// permette di muovere il playhead ------ INIT POSITION playhead-player 110
   	$("#playhead-player").draggable({ 
 		containment: "#bar-player",
 		axis: "x",
 		opacity:50,
-	    drag: function(ev,ui) {      
-	    //   d_width = $('#bar-player').width();
+	    drag: function(ev,ui) {
 	    	pos = ui.position.left - 115;
-	       	
 	       	//--- in base alla posizione del playhead si muove la barra dello status della canzone
 	       	$("#statusbar-player").css({width: pos+"px"});
 	        var posizione = parseInt((pos/155)*100);
 	       	$("#jquery_jplayer_N").jPlayer("playHead", posizione);
-	    //   pos = ui.position.left;	       
-	    //   tempo_att = (duration * pos)/d_width;
-	       
-	    //   soundManager.setPosition('mySound',tempo_att);	
 	    }
 	});
 	$('.play-pause').click(function() {
@@ -36,48 +30,14 @@ $(document).ready(function(){
 			myPlaylist.play();
 		}
 	}); 
-	// The shuffle commands
-
-	$("#playlist-shuffle").click(function() {
-		myPlaylist.shuffle();
-	});
-
-	$("#playlist-shuffle-false").click(function() {
-		myPlaylist.shuffle(false);
-	});
-	$("#playlist-shuffle-true").click(function() {
-		myPlaylist.shuffle(true);
-	});
-
-
-
-	// The next/previous commands
-
-	$("#playlist-next").click(function() {
-		myPlaylist.next();
-	});
-	$("#playlist-previous").click(function() {
-		myPlaylist.previous();
-	});
-
-	// The play commands
-
-	$("#playlist-play").click(function() {
-		myPlaylist.play();
-	});
-
 	
-
-	// The pause command
-
-	$("#playlist-pause").click(function() {
-		myPlaylist.pause();
-	});
-
 
 
 
 });
+/*
+ * play song dalla playlist
+ */
 function playSongPlayList(song,play){
 	try{		
 		jQuery.each($('#header-profile .songTitle'), function (index, obj){
@@ -90,26 +50,34 @@ function playSongPlayList(song,play){
 		$('#header-box-menu .title-player').html(title);
 		if(play) myPlaylist.play(index);		
 		$('#pl_'+song.objectId+' .songTitle').addClass('orange');
+		$('#play').hide();
+		$('#pause').show();
 	}catch(err){
 		window.console.error("playSongPlayList a | An error occurred - message : " + err.message);
 	}
 }
-
+/*
+ * play song da box record
+ */
 function playSong(objectId,pathCover){
-	jQuery.each($('#box-record a.jpPlay'), function (index, obj){
-		console.log(obj);
-        $(obj).removeClass('orange');
-    });	
-	var title = $('#'+objectId+' .songTitle').html();
-	var mp3 = $('#'+objectId+' input[name="song"]').val();
-	$('#header-box-thum img').attr('src',pathCover);
-	$('#header-box-menu .title-player').html(title);
-	$('#'+objectId+' .jpPlay').addClass('orange');
-	$("#jquery_jplayer_N").jPlayer("setMedia", {
-		mp3: mp3
-	});
-	myPlaylist.play();
-	
+	try{
+		jQuery.each($('#box-record a.jpPlay'), function (index, obj){
+	        $(obj).removeClass('orange');
+	    });	
+		var title = $('#'+objectId+' .songTitle').html();
+		var mp3 = $('#'+objectId+' input[name="song"]').val();
+		$('#header-box-thum img').attr('src',pathCover);
+		$('#header-box-menu .title-player').html(title);
+		$('#'+objectId+' .jpPlay').addClass('orange');
+		$("#jquery_jplayer_N").jPlayer("setMedia", {
+			mp3: mp3
+		});
+		$('#play').hide();
+		$('#pause').show();
+		myPlaylist.play();
+	}catch(err){
+		window.console.error("playSong a | An error occurred - message : " + err.message);
+	}
 }
 
 function getPlayer(){
@@ -251,7 +219,10 @@ function playlist(_this,opt,song) {
 					objectId: song.objectId,
 					title: song.title,
 					artist: song.artist,
-					mp3: song.mp3 //ci va l'url dell'mp3  -> song.mp3
+					mp3: song.mp3, //ci va l'url dell'mp3  -> song.mp3
+					love :song.love,
+				    share: song.share,
+				    pathCover :song.pathCover
 				});
 				$(_this).addClass('no-display');
 				$(_this).next().removeClass('no-display');
