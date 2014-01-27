@@ -6,8 +6,36 @@ $(document).ready(function(){
 // permette di muovere il playhead ------ INIT POSITION playhead-player 110
 //loadBoxPlayList();
 
-  
-
+  	$("#playhead-player").draggable({ 
+		containment: "#bar-player",
+		axis: "x",
+		opacity:50,
+	    drag: function(ev,ui) {      
+	    //   d_width = $('#bar-player').width();
+	    	pos = ui.position.left - 115;
+	       	
+	       	//--- in base alla posizione del playhead si muove la barra dello status della canzone
+	       	$("#statusbar-player").css({width: pos+"px"});
+	        var posizione = parseInt((pos/155)*100);
+	       	$("#jquery_jplayer_N").jPlayer("playHead", posizione);
+	    //   pos = ui.position.left;	       
+	    //   tempo_att = (duration * pos)/d_width;
+	       
+	    //   soundManager.setPosition('mySound',tempo_att);	
+	    }
+	});
+	$('.play-pause').click(function() {
+		if($("#pause").is(":visible") == true){
+			$('#pause').hide();
+			$('#play').show();
+			myPlaylist.pause();
+		}
+		else{
+			$('#play').hide();
+			$('#pause').show();
+			myPlaylist.play();
+		}
+	}); 
 	// The shuffle commands
 
 	$("#playlist-shuffle").click(function() {
@@ -38,7 +66,7 @@ $(document).ready(function(){
 		myPlaylist.play();
 	});
 
-
+	
 
 	// The pause command
 
@@ -50,12 +78,47 @@ $(document).ready(function(){
 
 
 });
+function playSongPlayList(song,play){
+	try{		
+		jQuery.each($('#header-profile .songTitle'), function (index, obj){
+	        $(obj).removeClass('orange');
+	    });	
+		var title = $('#pl_'+song.objectId+' .songTitle').html();
+		var mp3 = $('#pl_'+song.objectId+' input[name="song"]').val();
+		var index = parseInt($('#pl_'+song.objectId+' input[name="index"]').val());
+		$('#header-box-thum img').attr('src',song.pathCover);
+		$('#header-box-menu .title-player').html(title);
+		if(play) myPlaylist.play(index);		
+		$('#pl_'+song.objectId+' .songTitle').addClass('orange');
+	}catch(err){
+		window.console.error("playSongPlayList a | An error occurred - message : " + err.message);
+	}
+}
+
+function playSong(objectId,pathCover){
+	jQuery.each($('#box-recordDetail .jpPlay'), function (index, obj){
+        $(obj).removeClass('orange');
+    });	
+	var title = $('#'+objectId+' .songTitle').html();
+	var mp3 = $('#'+objectId+' input[name="song"]').val();
+	$('#header-box-thum img').attr('src',pathCover);
+	$('#header-box-menu .title-player').html(title);
+	$('#'+objectId+' .jpPlay').addClass('orange');
+	$("#jquery_jplayer_N").jPlayer("setMedia", {
+		mp3: mp3
+	});
+	myPlaylist.play();
+	
+}
 
 function getPlayer(){
-
 	var myPlaylist = new jPlayerPlaylist({
 			jPlayer: "#jquery_jplayer_N",
-			cssSelectorAncestor: "#jp_container_N"
+			cssSelectorAncestor: "#jp_container_N",
+			cssSelector: {
+				play: '.jp-play',
+				duration: '#duration-player',
+			}
 		}, [], {
 			playlistOptions: {
 				enableRemoveControls: true
@@ -67,9 +130,44 @@ function getPlayer(){
 			supplied: "mp3",
 			smoothPlayBar: true,
 			keyEnabled: true,
-			audioFullScreen: false
+			audioFullScreen: false,
+			play: function(event) {				
+				playSongPlayList(event.jPlayer.status.media,false);
+			},			
+			ended: function(event) {
+				jQuery.each($('#header-profile .songTitle'), function (index, obj){
+			        $(obj).removeClass('orange');
+			    });	
+			},
+
+			timeupdate: function(event) {
+				var currentTime = event.jPlayer.status.currentTime;				
+    			$('#time-player').html(getTime(currentTime));
+    			var durata = event.jPlayer.status.duration;				
+    			$('#duration-player').html(getTime(durata));    			
+    			var posizione =   parseInt(currentTime/durata*155);   			
+    			$("#statusbar-player").css({'width': posizione+"px"});
+    			posizione = posizione + 115;
+				$("#playhead-player").css({'left': posizione+"px"});	
+			},
 		});
 	return myPlaylist;
+}
+
+/*
+ * formato time
+ */
+function getTime(time){
+	var sec_num = parseInt(time, 10); // don't forget the second param
+	var hours   = Math.floor(sec_num / 3600);
+	var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+	var seconds = sec_num - (hours * 3600) - (minutes * 60);
+	if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    if(hours == '00') var timeF    = minutes+':'+seconds;
+	else var timeF    = hours+':'+minutes+':'+seconds;
+	return timeF;
 }
 
 /*
@@ -101,12 +199,12 @@ function addTrackPlaylist(_this,objectId){
         } else {
 			playlist  = myPlaylist.playlist;
 			jQuery.each(playlist, function (index, obj){
-            if (obj.objectId == objectId){
-                    myPlaylist.remove(index);
-
-            } // if condition end
-            $(_this).text(' add to playlist');
-        });
+	            if (obj.objectId == objectId){
+	                    myPlaylist.remove(index);
+	
+	            } // if condition end
+	            $(_this).text(' add to playlist');
+	        });
 			
 			
         }
@@ -125,6 +223,67 @@ function addTrackPlaylist(_this,objectId){
 	
 	//aggiungere alla playlist
 	
+}
+
+function playlist(_this,opt,song) {	
+	var json_playlist = {};
+	try {
+	
+	   //chiama il controller per aggiungere la song alla playlist			
+		switch(opt){
+			case 'add':
+				json_playlist.request = "addSong";
+				break;
+			case 'remove':
+				json_playlist.request = "removeSong";
+				break;
+		}
+		json_playlist.songId = song.objectId;
+		$.ajax({
+	        data: json_playlist,
+	        type: "POST",
+	        url: "../controllers/request/playlistRequest.php"
+	    })
+	    .done(function(response, status, xhr) {
+	        if (opt == 'add') {
+				myPlaylist.add({
+					objectId: song.objectId,
+					title: song.title,
+					artist: song.artist,
+					mp3:"http://www.jplayer.org/audio/mp3/TSP-01-Cro_magnon_man.mp3" //ci va l'url dell'mp3  -> song.mp3
+				});
+				$(_this).addClass('no-display');
+				$(_this).next().removeClass('no-display');
+	        } else {
+				
+				var songs  = myPlaylist.playlist;
+				
+				jQuery.each(songs, function (index, obj){
+		            if (obj.objectId === song.objectId){
+		                    myPlaylist.remove(index);
+		
+		            } 
+		            
+		        });
+				$(_this).addClass('no-display');
+				$(_this).prev().removeClass('no-display');	
+				
+	        }
+	        loadBoxPlayList();
+	        code = xhr.status;
+	        message = $.parseJSON(xhr.responseText).status;
+	        console.log("Code: " + code + " | Message: " + message);
+	    })
+	    .fail(function(xhr) {
+	        message = $.parseJSON(xhr.responseText).status;
+	        code = xhr.status;
+	        console.log("Code: " + code + " | Message: " + message);
+	    });
+	
+  	} catch (err) {
+        console.log("playlist | An error occurred - message : " + err.message);
+    }
+    
 }
 //]]>
 

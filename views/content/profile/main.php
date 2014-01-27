@@ -26,6 +26,7 @@ require_once ROOT_DIR . 'config.php';
 				    type: "POST",
 				    url: "content/profile/box/box-record.php",
 				    data: json_data,
+				    async: true,
 				    beforeSend: function(xhr) {
 					//spinner.show();
 					console.log('Sono partito box-record');
@@ -66,6 +67,7 @@ require_once ROOT_DIR . 'config.php';
 	    			    type: "POST",
 	    			    url: "content/profile/box/box-event.php",
 	    			    data: json_data,
+	    			    async: true,
 	    			    beforeSend: function(xhr) {
 	    				//spinner.show();
 	    				goSpinnerBox('#box-event', 'event');
@@ -107,6 +109,7 @@ require_once ROOT_DIR . 'config.php';
 	    			    type: "POST",
 	    			    url: "content/profile/box/box-friends.php",
 	    			    data: json_data,
+	    			    async: true,
 	    			    beforeSend: function(xhr) {
 	    				//spinner.show();
 	    				goSpinnerBox('#box-friends', 'friends');
@@ -138,6 +141,7 @@ require_once ROOT_DIR . 'config.php';
 	    			    type: "POST",
 	    			    url: "content/profile/box/box-following.php",
 	    			    data: json_data,
+	    			    async: true,
 	    			    beforeSend: function(xhr) {
 	    				//spinner.show();
 	    				goSpinnerBox('#box-following', 'following');
@@ -171,6 +175,7 @@ require_once ROOT_DIR . 'config.php';
 				    type: "POST",
 				    url: "content/profile/box/box-album.php",
 				    data: json_data,
+				    async: true,
 				    beforeSend: function(xhr) {
 					//spinner.show();
 					goSpinnerBox('#box-album', 'album');
@@ -212,6 +217,7 @@ require_once ROOT_DIR . 'config.php';
 				    type: "POST",
 				    url: "content/profile/box/box-recordReview.php",
 				    data: json_data,
+				    async: true,
 				    beforeSend: function(xhr) {
 					//spinner.show();
 					goSpinnerBox('#box-recordReview', 'RecordReview');
@@ -247,6 +253,7 @@ require_once ROOT_DIR . 'config.php';
 				    type: "POST",
 				    url: "content/profile/box/box-eventReview.php",
 				    data: json_data,
+				    async: true,
 				    beforeSend: function(xhr) {
 					//spinner.show();
 					goSpinnerBox('#box-eventReview', 'EventReview');
@@ -282,6 +289,7 @@ require_once ROOT_DIR . 'config.php';
 				    type: "POST",
 				    url: "content/profile/box/box-activity.php",
 				    data: json_data,
+				    async: true,
 				    beforeSend: function(xhr) {
 					//spinner.show();
 					goSpinnerBox('#box-activity', 'activity');
@@ -315,6 +323,7 @@ require_once ROOT_DIR . 'config.php';
 	    			    type: "POST",
 	    			    url: "content/profile/box/box-collaboration.php",
 	    			    data: json_data,
+	    			    async: true,
 	    			    beforeSend: function(xhr) {
 	    				//spinner.show();
 	    				goSpinnerBox('#box-collaboration', 'collaboration');
@@ -347,6 +356,7 @@ require_once ROOT_DIR . 'config.php';
 	    			    type: "POST",
 	    			    url: "content/profile/box/box-followers.php",
 	    			    data: json_data,
+	    			    async: true,
 	    			    beforeSend: function(xhr) {
 	    				//spinner.show();
 	    				goSpinnerBox('#box-followers', 'followers');
@@ -381,6 +391,7 @@ require_once ROOT_DIR . 'config.php';
 				    type: "POST",
 				    url: "content/profile/box/box-post.php",
 				    data: json_data,
+				    async: true,
 				    beforeSend: function(xhr) {
 					//spinner.show();
 					goSpinnerBox('#box-post', 'post');
@@ -416,6 +427,7 @@ require_once ROOT_DIR . 'config.php';
 					type: "POST",
 					url: "content/profile/box/box-opinion.php",
 					data: json_data,
+					async: true,
 					beforeSend: function(xhr) {
 					    //spinner.show();											
 					    goSpinnerBox(box, '');
@@ -468,6 +480,7 @@ require_once ROOT_DIR . 'config.php';
 			    type: "POST",
 			    url: "content/profile/box/box-relation.php",
 			    data: json_data,
+			    async: true,
 			    beforeSend: function(xhr) {
 			    	$('#modalRelation').html('<div id="spinnerRelation"></div>');
 					goSpinner('#spinnerRelation')

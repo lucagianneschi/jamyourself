@@ -5,6 +5,7 @@
   width:100%;
   height:43px;
   background:$black;
+  
 }
 
 .header{
@@ -32,7 +33,7 @@
 }
 
 #header-profile{
-	background-color: $grey-dark !important;
+//	background-color: $grey-dark !important;
 }
 
 #header-social{
@@ -70,16 +71,16 @@
 #playhead-player{ 
   position:absolute;
   height:10px;
-  width:3px;  
+  width:5px;  
   background-color: $orange !important;
-  left:154px;  
+  left:115px;  
   cursor:pointer;
   z-index:3;  
 }
 
 #statusbar-player{
   position:absolute;
-  width:44px;
+ // width:44px;
   height:5px;   
   background-color:  $grey !important;
   margin-left:5px;
@@ -189,13 +190,23 @@
 //---------------- playlist -------------------------
 header .track{
 
-  padding-top: 5px;  
-   border-top: 1px solid $grey-dark !important;
+  	padding-top: 5px; 
+ 	padding-right: 15px; 
+   	border-top: 1px solid $grey-dark !important;
+   .album-single-propriety {
+	  	border-top: none !important;
+	  	padding-top: 0px !important;
+	  	padding-left: 15px;
+		padding-right: 15px;
+  }
    ._play-large{
    	margin-bottom: 5px !important;
    } 
     &:hover {
-   		background-color: $black;
+    	.songTitle{
+    		color: $white !important;
+    	}   		
    		border-top: 2px solid $orange !important; 
-   }  
+   }
+     
 }

@@ -124,7 +124,7 @@ if (is_null($recordBox->error)) {
 	    				</div>
 	    				<div class="row">
 	    				    <div class="small-5 columns">
-	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $record_objectId ?>','<?php echo $pathCoverRecord.$record_thumbnailCover ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
+	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $_POST['objectId'] ?>','<?php echo $record_objectId ?>','<?php echo $pathCoverRecord.$record_thumbnailCover ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
 	    				    </div>
 	    				    <div class="small-7 columns" style="position: absolute;bottom: 0px;right: 0px;">
 	    					<div class="row propriety">
@@ -219,8 +219,9 @@ if (is_null($recordBox->error)) {
 			<!------------------------------- RECORD DETAIL ------------------------------------------>
 			<div class="box-recordDetail"></div>
 			<script type="text/javascript">
-			    function loadBoxRecordDetail(objectId,pathCover) {
+			    function loadBoxRecordDetail(userId,objectId,pathCover) {
 					var json_data = {};
+					json_data.userId = userId;
 					json_data.objectId = objectId;
 					json_data.username = '<?php echo $_POST['username'] ?>';
 					json_data.pathCover = pathCover;

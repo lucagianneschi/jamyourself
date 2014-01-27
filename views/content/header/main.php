@@ -18,10 +18,16 @@ $playlistCurrentUser = array();
 	    $currentUser = $_SESSION['currentUser'];
 	    $userObjectId = $currentUser->getObjectId();
 	    $userType = $currentUser->getType();
-	    ?>		
+	    ?>
+	    <script>
+	        var myPlaylist;
+	        $(document).ready(function() {
+	    		myPlaylist = getPlayer();
+	        });
+	    </script>		
     	<div  class="row hcento-hero" style="padding-bottom: 20px;">
     	    <div id="header-profile" class="small-6 columns" style="padding-bottom: 20px">
-		    <?php require_once './content/header/box-profile.php'; ?>
+		    	<?php require_once './content/header/box-profile.php'; ?>
     	    </div>
     	    <!-- TODO - ci devo mettere una chiamata ajax al box per parallelizzare il caricamento-->					
     	    <script type="text/javascript">
@@ -78,15 +84,16 @@ $playlistCurrentUser = array();
 			    <div class="icon-header _menu" onClick="headerShow()"></div>
 			    <!------------------------------------- thumbnail album ----------------------------->			
 			    <div class="icon-header" id='header-box-thum'>
-				<img src="../media/<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
+					<img src="<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
 			    </div>				
 
 			    <!------------------------------------- PLAYER ----------------------------->
+			    <div id="jquery_jplayer_N"></div>
 			    <div id="header-box-player">
 				<!---------- TITLE --------->
 				<div class="title-player">In The Belly Of A Shark</div>
 				<!---------- TIME MUSIC  --------->
-				<small id="time-player" class="inline">0:58</small>
+				<small id="time-player" class="inline grey">00:58</small>
 
 				<!---------- CONTROL --------->
 				<div id="controls-player" class="inline">
@@ -95,13 +102,13 @@ $playlistCurrentUser = array();
 				    <div id="statusbar-player" class="inline"></div> 
 				</div>
 				<!---------- DURATION MUSIC  --------->
-				<small id="duration-player"  class="inline">2:30</small>
+				<small id="duration-player"  class="inline grey">2:30</small>
 
 				<div id="display">
-				    <a id="back"  class="icon-player _back"></a>
-				    <a id="pause" class="icon-player _pause play-pause"></a>
-				    <a id="play"  class="icon-player _play play-pause" style="display: none;"></a>
-				    <a id="next"  class="icon-player _next"></a>					
+				    <!-- a id="back"  class="icon-player _back"></a-->
+				    <a id="pause" class="icon-player _pause play-pause jp-pause"></a>
+				    <a id="play"  class="icon-player _play play-pause jp-play" style="display: none;"></a>
+				    <!-- a id="next"  class="icon-player _next"></a-->					
 				    <span id="execution" ></span>
 				</div>			
 			    </div>
