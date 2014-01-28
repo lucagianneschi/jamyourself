@@ -220,7 +220,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 			    <br><br>
 			    <div class="row">
 					<div class="large-12">
-					    <input type="button" class="buttonNext" id="button_publish" value="Publish">
+					    <input type="button" class="buttonNext" id="button_publish" value="<?php echo $views['publish']; ?>">
 					    <input type="hidden" id="record_id" value="<?php echo $uploadReviewController->reviewedId; ?>">
 					    <input type="hidden" id="type" value="<?php echo $uploadReviewController->reviewedClassType; ?>">
 					</div>
