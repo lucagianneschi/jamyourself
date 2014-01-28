@@ -149,7 +149,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		<div class="grid_5">
 		    <form>
 			<input placeholder="yourname@mail.com" type="mail" />
-			<input type="submit" name="submit" value="Send" id="submit" />
+			<input type="submit" name="submit" value="<?php echo $views['send']; ?>" id="submit" />
 		    </form>
 		</div>
 		<div class="grid_1 omega">&nbsp;</div>
