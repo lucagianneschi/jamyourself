@@ -223,8 +223,9 @@ if (is_null($streamBox->error)) {
 				    <div class="small-12 columns">
 					<div id="box-albumDetail" style="margin-top: 10px;">
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
-						<!-- THUMBNAIL OF THE CLASS -->
 						<li>
+						    <!-- THUMBNAIL ALBUM -->
+						    <?php $pathAlbumThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $value->getAlbum()->getThumbnailCover(); ?>
 						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathAlbumThumb; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'"></a>
 						</li>
 					    </ul>
@@ -336,6 +337,7 @@ if (is_null($streamBox->error)) {
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
 						<!-- THUMBNAIL OF THE CLASS -->
 						<li>
+
 						    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a>
 						</li>
 					    </ul>
