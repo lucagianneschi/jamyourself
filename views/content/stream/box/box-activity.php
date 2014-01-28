@@ -225,7 +225,7 @@ if (is_null($streamBox->error)) {
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
 						<li>
 						    <!-- THUMBNAIL ALBUM -->
-						    <?php $pathAlbumThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $value->getAlbum()->getThumbnailCover(); ?>
+						    <?php $pathAlbumThumb = USERS_DIR . $value->getAlbum()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $value->getAlbum()->getThumbnailCover(); ?>
 						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathAlbumThumb; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'"></a>
 						</li>
 					    </ul>
@@ -281,7 +281,7 @@ if (is_null($streamBox->error)) {
 						<!-- THUMBNAIL OF THE CLASS -->
 						<li>
 						    <!-- THUMBNAIL IMAGE -->
-						    <?php $pathImageThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $value->getImage()->getThumbnail(); ?>
+						    <?php $pathImageThumb = USERS_DIR . $value->getImage()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $value->getImage()->getThumbnail(); ?>
 						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'"></a>
 						</li>
 					    </ul>
@@ -337,7 +337,7 @@ if (is_null($streamBox->error)) {
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
 						<li>
 						    <!-- THUMBNAIL EVENT -->
-						    <?php $pathEventThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getEvent()->getThumbnail(); ?>
+						    <?php $pathEventThumb = USERS_DIR . $value->getEvent()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getEvent()->getThumbnail(); ?>
 						    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $pathEventThumb; ?>"><img class="photo" src="<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a>
 						</li>
 					    </ul>
