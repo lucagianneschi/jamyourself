@@ -56,7 +56,8 @@ if (is_null($albumBox->error)) {
 					?>
 					<div class="box royalSlider rsMinW" id="albumSlide">						
 					    <?php 
-					    $pathCoverAlbum = USERS_DIR . $_POST['objectId'] . '/images/albumcoverthumb/';
+					    
+						
 					    foreach ($albums as $key => $value) {
 							$album_thumbnailCover = $value->getThumbnailCover();
 							$album_objectId = $value->getObjectId();
@@ -65,6 +66,7 @@ if (is_null($albumBox->error)) {
 							$album_love = $value->getLoveCounter();
 							$album_comment = $value->getCommentCounter();
 							$album_share = $value->getShareCounter();
+							$pathCoverAlbum = USERS_DIR . $_POST['objectId'] . '/images/photos/'.$album_objectId.'/';
 							if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 							    $css_love = '_love orange';
 							    $text_love = $views['UNLOVE'];
