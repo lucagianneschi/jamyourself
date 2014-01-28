@@ -26,7 +26,7 @@ $featuringsCounter = count($featurings);
 
 if ($featuringsCounter > 0) {
     ?>
-    <section>
+    
         <p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT2']; ?></a></p>
 
         <div class="content" data-section-content>
@@ -46,21 +46,24 @@ if ($featuringsCounter > 0) {
 			    $defaultThum = DEFTHUMBSPOTTER;
 			    break;
 		    }
+			$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/'; 
 		    ?>
 		    <div  class="small-6 columns">
-			<div class="box-membre">
-			    <div class="row " id="featuring_<?php echo $value->getObjectId(); ?>">
-				<div  class="small-3 columns ">
-				    <div class="icon-header">
-					<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-				    </div>
-				</div>
-				<div  class="small-9 columns ">
-				    <div class="text white breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-				    <small class="orange"><?php echo $value->getType(); ?></small>
-				</div>		
-			    </div>
-			</div>
+		    	<a href="profile.php?user=<?php echo $value->getObjectId(); ?> ">
+					<div class="box-membre">
+					    <div class="row ">
+							<div  class="small-3 columns ">
+							    <div class="icon-header">
+									<img src="<?php echo $pathPicture.$value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+							    </div>
+							</div>
+							<div  class="small-9 columns ">
+							    <div class="text white breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+							    <small class="orange"><?php echo $value->getType(); ?></small>
+							</div>		
+					    </div>
+					</div>
+				</a>
 		    </div>
 		    <?php
 		    if ($i % 2 == 0) {
@@ -76,7 +79,7 @@ if ($featuringsCounter > 0) {
 		?>
     	</div>
         </div>
-    </section>
+    
     <?php
 }
 ?>

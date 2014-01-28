@@ -1,17 +1,3 @@
-body {
-  color: #333;
-}
-
-body, input, button {
-//  line-height: 1.4;
-//  font: 13px Helvetica,arial,freesans,clean,sans-serif;
-}
-
-
-a {
-  color: #4183C4;
-  text-decoration: none;
-}
 
 #examples a {
   text-decoration: underline;

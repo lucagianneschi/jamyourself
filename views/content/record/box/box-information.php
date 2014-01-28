@@ -19,9 +19,9 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 $objectId = $record->getObjectId();
-#TODO
-//$city = $record->getCity();
-$city = 'City_non_presente';
+
+$city = $record->getCity();
+
 $year = $record->getYear();
 $label = $record->getLabel();
 $buylink = $record->getBuylink();
@@ -51,17 +51,18 @@ switch ($record->getfromUser()->getType()) {
 		<!--------------------------------- ABOUT ---------------------------------------------------->
 		<p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['media']['Information']['CONTENT1_RECORD'] ?></a></p>
 		<div class="content" data-section-content>
-
-		    <div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>"  onclick="location.href = 'profile.php?user=<?php echo $fromUserObjectId ?>'">
-			<div class="small-1 columns ">
-			    <div class="icon-header">
-				<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+			<a href="profile.php?user=<?php echo $fromUserObjectId ?>">
+			    <div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>">
+					<div class="small-1 columns ">
+					    <div class="icon-header">
+							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+					    </div>
+					</div>
+					<div  class="small-11 columns ">
+					    <div class="text white breakOffTest"><strong><?php echo $fromUserUsername ?></strong></div>
+					</div>		
 			    </div>
-			</div>
-			<div  class="small-11 columns ">
-			    <div class="text white breakOffTest"><strong><?php echo $fromUserUsername ?></strong></div>
-			</div>		
-		    </div>
+		    </a>
 
 		</div>	
 		<div class="content" data-section-content>
@@ -85,7 +86,7 @@ switch ($record->getfromUser()->getType()) {
 		<div class="content" data-section-content>
 		    <div class="row">
 			<div class="small-12 columns">
-			    <div class="text orange"><span class="white"><?php echo $views['media']['Record']['buy']; ?></span> <?php echo $buylink; ?></div>		    								    					
+			    <div class="text orange"><span class="white"><?php echo $views['media']['Record']['buy']; ?></span> <a class="orange" href="<?php echo $buylink; ?>"><?php echo $buylink; ?></a></div>		    								    					
 			</div>
 		    </div> 
 		</div>
@@ -96,7 +97,7 @@ switch ($record->getfromUser()->getType()) {
 		</div>
 	    </section>
 	    <!--------------------------------------- FEATURING - PERFORMED BY --------------------------------------->
-	    <div id='box-informationFeaturing'></div>
+	    <section id='box-informationFeaturing'></section>
 	    <script type="text/javascript">
 		    function loadBoxInformationFeaturing() {
 			var json_data = {};
