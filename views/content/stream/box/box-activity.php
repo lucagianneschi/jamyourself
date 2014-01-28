@@ -989,7 +989,9 @@ if (is_null($streamBox->error)) {
 				</div>
 				<div class="row">
 				    <div class="small-2 columns ">
-					<div class="coverThumb"><a href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img src="<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a></div>
+					<!-- THUMBNAIL EVENT -->
+					<?php $pathEventThumb = USERS_DIR . $value->getEvent()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getEvent()->getThumbnail(); ?>
+					<div class="coverThumb"><a href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a></div>
 				    </div>
 				    <div class="small-10 columns ">
 					<div class="row ">							
