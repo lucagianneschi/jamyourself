@@ -1287,8 +1287,10 @@ if (is_null($streamBox->error)) {
 				    </div>
 				</div>
 				<div class="row box-detail" onclick="">
+				    <!-- THUMBNAIL RECORD -->
+				    <?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
 				    <div class="small-2 columns">
-					<div class="coverThumb"><a href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>
+					<div class="coverThumb"><a href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>
 				    </div>
 				    <div class="small-10 columns">
 					<div class="row">							
