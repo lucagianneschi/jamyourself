@@ -28,7 +28,7 @@ if (is_null($followersBox->error)) {
 	    	    <div  class="large-12 columns ">
 		    		<div class="box">					
 						<?php
-						if ($followersCounter > 0) {			
+						if ($followersCounter > 0 && count($followers) > 0) {			
 							$i = 0;
 							foreach ($followers as $key => $value) {
 							    switch ($value->getType()) {

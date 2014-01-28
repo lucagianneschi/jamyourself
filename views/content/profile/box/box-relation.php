@@ -19,6 +19,8 @@ $tot      =  intval($_POST['tot']);
 
 $arrayRelation = getRelatedUsers($objectId, $relation, '_User', false, $limit, $skip);
 
+if($relation == 'friendship') $rel = 'friends';
+else $rel = $relation;
 
 if ($arrayRelation instanceof Error) { ?>
     
@@ -27,7 +29,7 @@ if ($arrayRelation instanceof Error) { ?>
 <?php } 
 elseif (is_null($arrayRelation) || count($arrayRelation) == 0) { ?>
 	
-	<div class="grey "><?php echo $views[$relation]['NODATA'] ?></div>
+	<div class="grey "><?php echo $views[$rel]['NODATA'] ?></div>
             
 <?php } 
 else {
