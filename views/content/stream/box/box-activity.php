@@ -32,7 +32,7 @@ if (is_null($streamBox->error)) {
     <div class="row  ">
         <div class="large-12 columns ">
     	  <form action="" class="box-write" onsubmit="sendPost('', $('#post').val());
-    		    return false;">
+    		  return false;">
     	    <div class="">
     		<div class="row  ">
     		    <div class="small-9 columns ">
@@ -74,7 +74,9 @@ if (is_null($streamBox->error)) {
 					break;
 				}
 				?>
-				<img src="<?php echo $value->getFromUser()->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThumb; ?>'">
+				<!--THUMB FROMUSER-->
+				<?php $pathPictureThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'profilepicturethumb' . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail(); ?>
+				<img src="<?php echo $pathPictureThumb; ?>" onerror="this.src='<?php echo $defaultThumb; ?>'">
 			    </div>
 			</div>
 			<div class="small-5 columns">
@@ -178,6 +180,7 @@ if (is_null($streamBox->error)) {
 								break;
 							}
 							?>
+
 							<img src="<?php echo $value->getToUser()->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defThumb; ?>'">
 						    </div>
 						</div>
