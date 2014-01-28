@@ -58,21 +58,23 @@ if (is_null($collaboratorsBox->error)) {
 						}
 						if ($i % 2 == 0) { ?> <div class="row">  <?php } ?>
 						<div  class="small-6 columns">
-						    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-								<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-								    <div  class="small-3 columns ">
-										<div class="icon-header">
-										    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-										</div>
-								    </div>
-								    <div  class="small-9 columns ">
-										<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-								    </div>		
-								</div>	
-						    </div>
+							<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+							    <div class="box-membre">
+									<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+									    <div  class="small-3 columns ">
+											<div class="icon-header">
+											    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+											</div>
+									    </div>
+									    <div  class="small-9 columns ">
+											<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+									    </div>		
+									</div>	
+							    </div>
+						   </a>
 						</div>
 						<?php						
-			   		 	if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }						  
+			   		 	if (($i+1) % 2 == 0 || count($venuesCollaborators) == ($i+1)) {  ?>  </div>  <?php }						  
 	    			 	$i++;
 						if($i == 4) break;
 				    } ?>
@@ -108,21 +110,23 @@ if (is_null($collaboratorsBox->error)) {
 						if ($i % 2 == 0) { ?> <div class="row">  <?php } 
 						?>
 						<div  class="small-6 columns">
-						    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-							<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-							    <div  class="small-3 columns ">
-								<div class="icon-header">
-								    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-								</div>
+							<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+							    <div class="box-membre">
+									<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+									    <div  class="small-3 columns ">
+											<div class="icon-header">
+											    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+											</div>
+									    </div>
+									    <div  class="small-9 columns ">
+											<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+									    </div>		
+									</div>	
 							    </div>
-							    <div  class="small-9 columns ">
-								<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-							    </div>		
-							</div>	
-						    </div>
+						   </a>
 						</div>
 						<?php
-						if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }  
+						if (($i+1) % 2 == 0 || count($jammersCollaborators) == ($i+1)) {  ?>  </div>  <?php }  
 	    			 	$i++;
 						if($i == 4) break;
 				    }
