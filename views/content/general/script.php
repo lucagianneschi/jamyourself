@@ -105,6 +105,7 @@ switch (basename($_SERVER['PHP_SELF'])) {
         <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
         <!-- script type="text/javascript" src="resources/javascripts/customs/comment.js"></script -->
         <script type="text/javascript" src="resources/javascripts/customs/opinion.js"></script>
+        <script type="text/javascript" src="resources/javascripts/customs/relation.js"></script>
         <?php
         break;
     case "stream.php":
