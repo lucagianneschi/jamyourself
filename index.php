@@ -65,7 +65,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <div class="container clearfix">
 		<div class="grid_4">
 		    <div class="spot" onclick="scrollto('spotter')">
-			<img src="img/spotter-spot.png">
+			<img src="views/resources/images/home/spotter-spot.png">
 			<h2><?php echo $views['home']['are_you']; ?><br><?php echo $views['home']['music_lover']; ?></h2>
 		    </div>
 		</div>
