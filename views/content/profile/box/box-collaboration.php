@@ -27,7 +27,7 @@ if (is_null($collaboratorsBox->error)) {
     <!------------------------------------- Collaboration ------------------------------------>
     <div class="row" id="social-collaboration">
         <div  class="large-12 columns">
-    	<h3><?php echo $views['collaboration']['TITLE']; ?> <span class="orange">[<?php echo $totCollaborators ?>]</span></h3>
+    	<h3 style="cursor: pointer" onclick="loadBoxRelation('collaboration',21,0,<?php echo $totCollaborators; ?>)"><?php echo $views['collaboration']['TITLE']; ?> <span class="orange">[<?php echo $totCollaborators ?>]</span></h3>
     	<div class="row  ">
     	    <div  class="large-12 columns ">
     		<div class="box">
@@ -36,205 +36,99 @@ if (is_null($collaboratorsBox->error)) {
 			    if ($venuesCollaboratorsCounter > 0) {
 				?>
 	    		    <div class="row  ">
-	    			<div  class="large-12 columns ">
-	    			    <a data-reveal-id="viewVenueColl"><div class="text orange">Venue <span class="grey">[<?php echo $venuesCollaboratorsCounter ?>]</span></div></a>
-	    			</div>
+		    			<div  class="large-12 columns ">
+		    			    <div class="text orange">Venue <span class="grey">[<?php echo $venuesCollaboratorsCounter ?>]</span></div>
+		    			</div>
 	    		    </div>
-	    		    <div class="row">
+	    		   
 				    <?php
 				    $totalView = $venuesCollaboratorsCounter > 4 ? 4 : $venuesCollaboratorsCounter;
-				    $i = 1;
+				    $i = 0;
 				    foreach ($venuesCollaborators as $key => $value) {
-					switch ($value->getType()) {
-					    case 'JAMMER':
-						$defaultThum = DEFTHUMBJAMMER;
-						break;
-					    case 'VENUE':
-						$defaultThum = DEFTHUMBVENUE;
-						break;
-					    case 'SPOTTER':
-						$defaultThum = DEFTHUMBSPOTTER;
-						break;
-					}
-					?>
-					<div  class="small-6 columns">
-					    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-						<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-						    <div  class="small-3 columns ">
-							<div class="icon-header">
-							    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-							</div>
+						switch ($value->getType()) {
+						    case 'JAMMER':
+							$defaultThum = DEFTHUMBJAMMER;
+							break;
+						    case 'VENUE':
+							$defaultThum = DEFTHUMBVENUE;
+							break;
+						    case 'SPOTTER':
+							$defaultThum = DEFTHUMBSPOTTER;
+							break;
+						}
+						if ($i % 2 == 0) { ?> <div class="row">  <?php } ?>
+						<div  class="small-6 columns">
+						    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
+								<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+								    <div  class="small-3 columns ">
+										<div class="icon-header">
+										    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+										</div>
+								    </div>
+								    <div  class="small-9 columns ">
+										<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+								    </div>		
+								</div>	
 						    </div>
-						    <div  class="small-9 columns ">
-							<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-						    </div>		
-						</div>	
-					    </div>
-					</div>
-					<?php
-					if ($i % 2 == 0) {
-					    ?>
-		    		    </div>
-		    		    <div class="row">
-					    <?php
-					}
-					if ($i == $totalView)
-					    break;
-					$i++;
-				    }
-				    ?>
-	    		    </div>
-	    		    <!------------------ elenco $followers ------------------------->
-	    		    <div id="viewVenueColl" class="reveal-modal">
-	    			<div class="row">
-					<?php
-					$i = 1;
-					foreach ($venuesCollaborators as $key => $value) {
-					    switch ($value->getType()) {
-						case 'JAMMER':
-						    $defaultThum = DEFTHUMBJAMMER;
-						    break;
-						case 'VENUE':
-						    $defaultThum = DEFTHUMBVENUE;
-						    break;
-						case 'SPOTTER':
-						    $defaultThum = DEFTHUMBSPOTTER;
-						    break;
-					    }
-					    ?>
-
-					    <div  class="small-6 columns">
-						<div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-						    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-							<div  class="small-3 columns ">
-							    <div class="icon-header">
-								<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-							    </div>
-							</div>
-							<div  class="small-9 columns ">
-							    <div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-							</div>		
-						    </div>	
 						</div>
-					    </div>
-					    <?php
-					    if ($i % 2 == 0) {
-						?>
-		    			</div>
-		    			<div class="row">
-						<?php
-					    }
-
-					    $i++;
-					}
-					?>
-	    			</div>
-	    		    </div>
-	    		    <!------------------ fine elenco venu ------------------------->
+						<?php						
+			   		 	if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }						  
+	    			 	$i++;
+						if($i == 4) break;
+				    } ?>
 	    		    <!-------------------------- FINE venue ---------------------------------->
 	    		    <div class="row">
-	    			<div  class="large-12 columns"><div class="line"></div></div>
+	    				<div  class="large-12 columns"><div class="line"></div></div>
 	    		    </div>
 			    <?php
 			    }
 			    if ($jammersCollaboratorsCounter > 0) {
 				?>
 	    		    <div class="row  ">
-	    			<div  class="large-12 columns ">
-	    			    <a data-reveal-id="viewJamColl"><div class="text orange">Jammer <span class="grey">[<?php echo $jammersCollaboratorsCounter ?>]</span></div></a>
-	    			</div>
+		    			<div  class="large-12 columns ">
+		    			    <div class="text orange">Jammer <span class="grey">[<?php echo $jammersCollaboratorsCounter ?>]</span></div>
+		    			</div>
 	    		    </div>
-	    		    <div class="row">
+	    		   
 				    <?php
 				    $totalView = $jammersCollaboratorsCounter > 4 ? 4 : $jammersCollaboratorsCounter;
-				    $i = 1;
+				    $i = 0;
 				    foreach ($jammersCollaborators as $key => $value) {
-					switch ($value->getType()) {
-					    case 'JAMMER':
-						$defaultThum = DEFTHUMBJAMMER;
-						break;
-					    case 'VENUE':
-						$defaultThum = DEFTHUMBVENUE;
-						break;
-					    case 'SPOTTER':
-						$defaultThum = DEFTHUMBSPOTTER;
-						break;
-					}
-					?>
-					<div  class="small-6 columns">
-					    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-						<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-						    <div  class="small-3 columns ">
-							<div class="icon-header">
-							    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-							</div>
+						switch ($value->getType()) {
+						    case 'JAMMER':
+							$defaultThum = DEFTHUMBJAMMER;
+							break;
+						    case 'VENUE':
+							$defaultThum = DEFTHUMBVENUE;
+							break;
+						    case 'SPOTTER':
+							$defaultThum = DEFTHUMBSPOTTER;
+							break;
+						}
+						if ($i % 2 == 0) { ?> <div class="row">  <?php } 
+						?>
+						<div  class="small-6 columns">
+						    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
+							<div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+							    <div  class="small-3 columns ">
+								<div class="icon-header">
+								    <img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+								</div>
+							    </div>
+							    <div  class="small-9 columns ">
+								<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+							    </div>		
+							</div>	
 						    </div>
-						    <div  class="small-9 columns ">
-							<div class="text grey-dark breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-						    </div>		
-						</div>	
-					    </div>
-					</div>
-					<?php
-					if ($i % 2 == 0) {
-					    ?>
-		    		    </div>
-		    		    <div class="row">
-					    <?php
-					}
-					if ($i == $totalView)
-					    break;
-					$i++;
+						</div>
+						<?php
+						if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }  
+	    			 	$i++;
+						if($i == 4) break;
 				    }
 				    ?>
 	    		    </div>
-	    		    <!------------------ elenco $followers ------------------------->
-	    		    <div id="viewJamColl" class="reveal-modal">
-	    			<div class="row">
-					<?php
-					$i = 1;
-					foreach ($jammersCollaborators as $key => $value) {
-					    switch ($value->getType()) {
-						case 'JAMMER':
-						    $defaultThum = DEFTHUMBJAMMER;
-						    break;
-						case 'VENUE':
-						    $defaultThum = DEFTHUMBVENUE;
-						    break;
-						case 'SPOTTER':
-						    $defaultThum = DEFTHUMBSPOTTER;
-						    break;
-					    }
-					    ?>
-
-					    <div  class="small-6 columns">
-						<div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
-						    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
-							<div  class="small-3 columns ">
-							    <div class="icon-header">
-								<img src="../media/<?php echo $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-							    </div>
-							</div>
-							<div  class="small-9 columns ">
-							    <div class="text grey-light breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-							</div>		
-						    </div>	
-						</div>
-					    </div>
-					    <?php
-					    if ($i % 2 == 0) {
-						?>
-		    			</div>
-		    			<div class="row">
-						<?php
-					    }
-
-					    $i++;
-					}
-					?>
-	    			</div>
-	    		    </div>
-	    		    <!------------------ fine elenco venu ------------------------->
+	    		    
 				<?php
 			    }
 			} else {
@@ -254,3 +148,4 @@ if (is_null($collaboratorsBox->error)) {
     </div>
     <?php
 }
+else echo 'ERROR';
