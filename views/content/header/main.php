@@ -82,37 +82,39 @@ $playlistCurrentUser = array();
 			<div class="header">
 			    <!------------------------------------- MENU ----------------------------->
 			    <div class="icon-header _menu" onClick="headerShow()"></div>
-			    <!------------------------------------- thumbnail album ----------------------------->			
-			    <div class="icon-header" id='header-box-thum'>
-					<img src="<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
-			    </div>				
-
-			    <!------------------------------------- PLAYER ----------------------------->
-			    <div id="jquery_jplayer_N"></div>
-			    <div id="header-box-player">
-				<!---------- TITLE --------->
-				<div class="title-player">In The Belly Of A Shark</div>
-				<!---------- TIME MUSIC  --------->
-				<small id="time-player" class="inline grey">00:58</small>
-
-				<!---------- CONTROL --------->
-				<div id="controls-player" class="inline">
-				    <div id="bar-player"  class="inline"></div>	
-				    <div id="playhead-player"  class="inline"></div>			   	
-				    <div id="statusbar-player" class="inline"></div> 
-				</div>
-				<!---------- DURATION MUSIC  --------->
-				<small id="duration-player"  class="inline grey">2:30</small>
-
-				<div id="display">
-				    <!-- a id="back"  class="icon-player _back"></a-->
-				    <a id="pause" class="icon-player _pause play-pause jp-pause"></a>
-				    <a id="play"  class="icon-player _play play-pause jp-play" style="display: none;"></a>
-				    <!-- a id="next"  class="icon-player _next"></a-->					
-				    <span id="execution" ></span>
-				</div>			
-			    </div>
-
+			    <!------------------------------------- thumbnail album ----------------------------->
+			    <div id="player">	
+				    <div class="icon-header" id='header-box-thum'>
+						<img src="<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
+				    </div>				
+	
+				    <!------------------------------------- PLAYER ----------------------------->
+				    <div id="jquery_jplayer_N"></div>
+				    <div id="header-box-player">
+						<!---------- TITLE --------->
+						<div class="title-player">In The Belly Of A Shark</div>
+						<!---------- TIME MUSIC  --------->
+						<small id="time-player" class="inline grey">00:00</small>
+		
+						<!---------- CONTROL --------->
+						<div id="controls-player" class="inline">
+						    <div id="bar-player"  class="inline"></div>	
+						    <div id="playhead-player"  class="inline"></div>			   	
+						    <div id="statusbar-player" class="inline"></div> 
+						</div>
+						<!---------- DURATION MUSIC  --------->
+						<small id="duration-player"  class="inline grey">00:00</small>
+		
+						<div id="display">
+						    <!-- a id="back"  class="icon-player _back"></a-->
+						    <a id="pause" class="icon-player _pause play-pause jp-pause"></a>
+						    <a id="play"  class="icon-player _play play-pause jp-play" style="display: none;"></a>
+						    <!-- a id="next"  class="icon-player _next"></a-->					
+						    <span id="execution" ></span>
+						</div>			
+				    </div>
+			    </div>		
+				<div class="no-display" id="noPlaylist"><?php echo $views['header']['SONG']?></div>
 			</div>			
 		    </div>
 		    <!------------------------------------- LOGO --------------------------------------------->

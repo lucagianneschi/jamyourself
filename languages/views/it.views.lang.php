@@ -217,6 +217,7 @@ $views = array(
         'OPTADD2' => 'Carica un evento',
         'OPTADD3' => 'Carica le tue foto',
         'SEARCH' => 'Cerca persone, musica o eventi',
+        'SONG' => 'Aggiungi brani alla tua playlist',
         'radio' => array(
             'profile' => 'Profilo',
             'social' => 'Social'

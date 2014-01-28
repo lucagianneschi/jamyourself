@@ -217,12 +217,14 @@ $views = array(
 	'OPTADD2' => 'Create Event',
 	'OPTADD3' => 'Upload Photo',
 	'SEARCH' => 'Search people, music or events',
+	'SONG' => 'Start adding songs to your playlist',
 	'radio' => array(
 	    'profile' => 'Profile',
 	    'social' => 'Social'
 	),
 	'profile' => array(
 	    'TITLE' => 'Now Playing',
+	    
 	),
 	'social' => array(
 	    'TITLE' => 'Notifications',

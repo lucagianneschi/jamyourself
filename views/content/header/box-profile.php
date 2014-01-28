@@ -147,7 +147,14 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 		    		    share: "<?php echo $value->getShareCounter() ?>",
 		    		    pathCover: "<?php echo $pathCover.$value->getRecord()->getThumbnailCover() ?>",
 		    		});
+		    		var index = '<?php echo $index ?>';
+		    		 if(index == '0'){
+		    	    	 $('.title-player').html("<?php echo $title ?>");
+		    	    	 $('#duration-player').html("<?php echo $hoursminsandsecs ?>");
+		    	    	 $('#header-box-thum img').attr('src',"<?php echo $pathCover.$value->getRecord()->getThumbnailCover() ?>");
+		    	    }
 	    	    });
+	    	   
 	    	</script>						
 	    	<div class="row" id="pl_<?php echo $objectId ?>"> 
 		        <div class="small-12 columns">
@@ -185,9 +192,7 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
 		    <?php
 		    $index++;
 		}
-	    }
-	    ?>
-		
+	    } ?>
         </div>
     </div>
 <?php 
@@ -197,4 +202,11 @@ if (count($playlist->tracklist) == 0 && is_null($playlist->error)) { ?>
     	<div class="text grey"><?php echo $views['recordDetail']['NODATA'] ?></div>    	
         </div>	
     </div>
+    <script>
+    	 $(document).ready(function() {
+    	 	 $('.title-player').html("<?php echo $views['header']['SONG'] ?>");
+    //	 	$('#player').addClass('no-display');
+    //	 	$('#noPlaylist').removeClass('no-display');
+    	 });
+    </script>
 <?php } ?>
