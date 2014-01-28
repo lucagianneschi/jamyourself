@@ -62,14 +62,15 @@ function playSong(objectId,pathCover){
 	    });	
 		var title = $('#'+objectId+' .songTitle').html();
 		var mp3 = $('#'+objectId+' input[name="song"]').val();
+		
 		$('#header-box-thum img').attr('src',pathCover);
 		$('#header-box-menu .title-player').html(title);
+		
 		$('#'+objectId+' .jpPlay').addClass('orange');
 		$("#jquery_jplayer_N").jPlayer("setMedia", {
 			mp3: mp3
 		});
-		$('#play').hide();
-		$('#pause').show();
+		
 		myPlaylist.play();
 	}catch(err){
 		window.console.error("playSong a | An error occurred - message : " + err.message);

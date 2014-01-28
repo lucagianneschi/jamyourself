@@ -20,7 +20,7 @@ require_once CLASSES_DIR . 'userParse.class.php';
 
 if (session_id() == '')
     session_start();
-
+$userId = $_POST['userId'];
 $tracklist = tracklistGenerator($_POST['objectId']);
 if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
@@ -52,23 +52,25 @@ if (isset($_SESSION['currentUser']))
 		    } else {
 			$css_removePlayList = 'no-display';
 		    }
-
-		    $song = json_encode(array(
-			'objectId' => $value->getObjectId(),
-			'title' => $value->getTitle(),
-			'artist' => $_POST['username'],
-			'mp3' => $value->getFilePath(),
-			'love' => $value->getLoveCounter(),
-			'share' => $value->getShareCounter(),
-		    ));
+			$pathCoverRecord = USERS_DIR . $userId . '/images/recordcoverthumb/';
+		    $pathSong= USERS_DIR . $userId . '/songs/'.$_POST['objectId'].'/';
+			$song = json_encode(array(
+			    'objectId' => $value->getObjectId(),
+			    'title' => $value->getTitle(),
+			    'artist' => $_POST['username'],
+			    'mp3' => $pathSong.$value->getFilePath(),
+			    'love' => $value->getLoveCounter(),
+			    'share' => $value->getShareCounter(),
+			    'pathCover' => $pathCoverRecord
+			));
 		    ?>
 		    <div class="row" id="<?php echo $value->getObjectId() ?>"> <!------------------ CODICE TRACCIA: track01  ------------------------------------>
 			<div class="small-12 columns ">
 			    <div class="track">
 				<div class="row">
 				    <div class="small-9 columns ">                                        
-					<a class="ico-label _play-large text breakOffTest"><?php echo $record_title ?></a>
-
+						<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getObjectId(); ?>','<?php echo $pathCoverRecord ?>')"><span class="songTitle"><?php echo $record_title ?></span></a>
+						<input type="hidden" name="song" value="<?php echo $pathSong.$value->getFilePath(); ?>" />
 				    </div>
 				    <div class="small-3 columns track-propriety align-right" style="padding-right: 20px;">                                        
 					<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['ADDPLAYLIST']; ?></a>
@@ -82,11 +84,11 @@ if (isset($_SESSION['currentUser']))
 				    <div class="box-propriety album-single-propriety">
 					<div class="small-5 columns ">
 					    <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE']; ?></a>
-					    <a class="note white" onclick="setCounter(this, '<?php echo $record_objectId ?>', 'Song')"><?php echo $views['SHARE']; ?></a>        
+					    <!--a class="note white" onclick="setCounter(this, '<?php echo $record_objectId ?>', 'Song')"><?php echo $views['SHARE']; ?></a-->        
 					</div>
 					<div class="small-5 columns propriety ">                                        
 					    <a class="icon-propriety _unlove grey" ><?php echo $value->getLoveCounter() ?></a>
-					    <a class="icon-propriety _share" ><?php echo $value->getShareCounter(); ?></a>                        
+					    <!--a class="icon-propriety _share" ><?php echo $value->getShareCounter(); ?></a-->                        
 					</div>
 				    </div>                
 				</div>

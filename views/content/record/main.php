@@ -16,6 +16,7 @@
 			function loadBoxRecord() {
 			    var json_data = {};
 			    json_data.objectId = '<?php echo $objectId; ?>';
+			    json_data.userId = '<?php echo $fromUserObjectId ?>';
 			    $.ajax({
 				type: "POST",
 				url: "content/record/box/box-record.php",
