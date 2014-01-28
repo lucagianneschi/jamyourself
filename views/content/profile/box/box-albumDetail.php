@@ -60,7 +60,14 @@ $pathImage = USERS_DIR . $userId . '/images/photos/'.$objectId.'/';
     </div>
 </div>
 <div class='spinnerDetail'></div>
-
+<?php if(count($albumDetail->imageArray) == 0){ ?>
+	<div class="row  ">
+		<div  class="large-12 columns ">
+		    <p class="grey"><?php echo $views['album']['NODATA']; ?></p>
+		</div>
+    </div>
+	
+<?php } ?>
 <!----------------------------------- lightbox ------------------------------------------>
 <div class="row no-display box" id="profile-Image">
     <div class="large-12 columns">
