@@ -14,6 +14,8 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+
+require_once SERVICES_DIR . 'relationChecker.service.php';
 session_start();
 
 $currentUser = $_SESSION['currentUser'];
@@ -22,10 +24,18 @@ $level = $user->getLevel();
 $levelValue = $user->getLevelValue();
 $type = $user->getType();
 $objectId = $user->getObjectId();
+
 $currentUserType = $currentUser->getType();
 $currentUser = $currentUser->getObjectId();
 $badge = $user->getBadge();
 $noBadge = 10 - count($badge);
+
+$css_message = '';
+$css_relation = 'no-display';
+if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
+	$css_message = 'no-display';
+	$css_relation = '';
+}
 
 ?>
 
@@ -83,17 +93,17 @@ $noBadge = 10 - count($badge);
 		<div class="row">
 			<div  class="large-12 columns">
 				<div class="status-button">
-				    <a href="message.php?user=<?php echo $objectId ?>" class="button bg-grey"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG']; ?></div></a>
+				    <a href="message.php?user=<?php echo $objectId ?>" class="button bg-grey <?php echo $css_message?>"><div class="icon-button _message_status"> <?php echo $views['status']['SENDMSG']; ?></div></a>
 				   	<?php if ($currentUserType == "SPOTTER" && $type == "SPOTTER"){ ?>
-			    		<a href="#" class="button bg-orange"><div class="icon-button _friend_status"><?php echo $views['status']['ADDFRIEND']; ?></div></a>
+			    		<a href="#" class="button bg-orange"><div class="icon-button _friend_status <?php echo $css_relation ?>"><?php echo $views['status']['ADDFRIEND']; ?></div></a>
 			    	<?php }elseif (($currentUserType == "JAMMER" || $currentUserType == "VENUE") && ($type == "JAMMER" || $type == "VENUE")){ ?>
-			    		<a href="#" class="button bg-orange" onclick="sendRelation('<?php echo $objectId ?>');">
+			    		<a href="#" class="button bg-orange <?php echo $css_relation ?>" onclick="sendRelation('<?php echo $objectId ?>');">
                             <div class="icon-button _follower_status">
                                 <?php echo $views['status']['COLL']; ?>
                             </div>
                         </a>
 			    	<?php }elseif ($currentUserType == "SPOTTER" && ($type == "JAMMER" || $type == "VENUE")){  ?>
-			    		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL']; ?></div></a>    	
+			    		<a href="#" class="button bg-orange <?php echo $css_relation ?>"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL']; ?></div></a>    	
 			    	<?php } ?>
 				</div>
 			</div>
