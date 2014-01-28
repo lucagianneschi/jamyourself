@@ -475,7 +475,8 @@ $views = array(
         'invite_ok' => 'Invited accepted',
         'new_badge' => 'New Badge Earned',
         'new_level' => 'New Level Earned',
-        'record_created' => 'Record Created'
+        'record_created' => 'Record Created',
+	'song_added' => 'Song Added to Record'
     ),
     'uploadAlbum' => array(
         'upload' => 'Upload Photo',
