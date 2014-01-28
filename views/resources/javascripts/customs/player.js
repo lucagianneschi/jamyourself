@@ -19,14 +19,10 @@ $(document).ready(function(){
 	    }
 	});
 	$('.play-pause').click(function() {
-		if($("#pause").is(":visible") == true){
-			$('#pause').hide();
-			$('#play').show();
+		if($("#pause").is(":visible") == true){			
 			myPlaylist.pause();
 		}
-		else{
-			$('#play').hide();
-			$('#pause').show();
+		else{			
 			myPlaylist.play();
 		}
 	}); 
@@ -100,9 +96,15 @@ function getPlayer(){
 			smoothPlayBar: true,
 			keyEnabled: true,
 			audioFullScreen: false,
-			play: function(event) {				
+			play: function(event) {
+				$('#play').hide();
+				$('#pause').show();				
 				playSongPlayList(event.jPlayer.status.media,false);
-			},			
+			},
+			pause:function(event) {
+				$('#pause').hide();
+				$('#play').show();
+			}, 			
 			ended: function(event) {
 				jQuery.each($('#header-profile .songTitle'), function (index, obj){
 			        $(obj).removeClass('orange');

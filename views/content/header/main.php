@@ -107,8 +107,8 @@ $playlistCurrentUser = array();
 		
 						<div id="display">
 						    <!-- a id="back"  class="icon-player _back"></a-->
-						    <a id="pause" class="icon-player _pause play-pause jp-pause"></a>
-						    <a id="play"  class="icon-player _play play-pause jp-play" style="display: none;"></a>
+						    <a id="pause" class="icon-player _pause play-pause jp-pause" style="display: none;"></a>
+						    <a id="play"  class="icon-player _play play-pause jp-play"></a>
 						    <!-- a id="next"  class="icon-player _next"></a-->					
 						    <span id="execution" ></span>
 						</div>			
