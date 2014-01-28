@@ -75,8 +75,8 @@ if (is_null($streamBox->error)) {
 				}
 				?>
 				<!--THUMB FROMUSER-->
-				<?php $pathPictureThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'profilepicturethumb' . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail(); ?>
-				<img src="<?php echo $pathPictureThumb; ?>" onerror="this.src='<?php echo $defaultThumb; ?>'">
+				<?php $pathPictureThumbFromUser = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'profilepicturethumb' . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail(); ?>
+				<img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo $defaultThumb; ?>'">
 			    </div>
 			</div>
 			<div class="small-5 columns">
@@ -180,8 +180,9 @@ if (is_null($streamBox->error)) {
 								break;
 							}
 							?>
-
-							<img src="<?php echo $value->getToUser()->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defThumb; ?>'">
+							<!--THUMB TOUSER-->
+							<?php $pathPictureThumbToUser = USERS_DIR . $value->getToUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'profilepicturethumb' . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail(); ?>
+							<img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'">
 						    </div>
 						</div>
 						<div class="small-9 columns ">
