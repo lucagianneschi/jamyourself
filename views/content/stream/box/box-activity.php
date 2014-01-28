@@ -558,8 +558,9 @@ if (is_null($streamBox->error)) {
 				    <div class="small-12 columns">
 					<div id="box-albumDetail" style="margin-top: 10px;">
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
-						<!-- THUMBNAIL OF THE CLASS -->
-						<li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getComment()->getRecord(); ?>"><img class="photo" src="<?php echo $value->getRecord()->getThumbnailCover(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></li>
+						<!-- THUMBNAIL RECORD -->
+						<?php $pathRecordThumb = USERS_DIR . $value->getRecord()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
+						<li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getComment()->getRecord(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></li>
 					    </ul>
 					</div>
 				    </div>
