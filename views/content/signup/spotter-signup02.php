@@ -55,7 +55,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
                             <div class="row">							
                                 <div  class="small-3 small-offset-9 columns">
-                                    <input type="button" id="spotter_uploadImage_save" name="spotter_uploadImage_save" class="signup-button no-display uploadImage_save" value="Save" />
+                                    <input type="button" id="spotter_uploadImage_save" name="spotter_uploadImage_save" class="signup-button no-display uploadImage_save" value="<?php echo $views['save']; ?>" />
                                 </div>
                             </div>
                         </div>
@@ -118,8 +118,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
             <div class="note grey-light signup-note"><span class="orange">* </span><?php echo $views['mandatory_fields']; ?></div>
         </div>	
         <div  class="small-8 columns">
-            <input type="button" name="spotter-signup02-back" id="spotter-signup02-back" class="signup-button-back" value="Go Back"/>
-            <input type="button" name="spotter-signup02-next" id="spotter-signup02-next" class="signup-button" value="Next"/>
+            <input type="button" name="spotter-signup02-back" id="spotter-signup02-back" class="signup-button-back" value="<?php echo $views['go_back']; ?>"/>
+            <input type="button" name="spotter-signup02-next" id="spotter-signup02-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
         </div>	
     </div>	
 

@@ -104,7 +104,7 @@ if ($countComment > 0) {
 				<input id="comment<?php echo $class . '_' . $objectId; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['WRITE']; ?>" />
 			    </div>
 			    <div  class="small-3 columns ">
-				<input type="button" class="comment-button inline comment-btn" value="Comment" onclick="sendOpinion('<?php echo $toUser; ?>', $('#comment<?php echo $class . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', 10, 0)" />
+				<input type="button" class="comment-button inline comment-btn" value="<?php echo $views['COMM']; ?>" onclick="sendOpinion('<?php echo $toUser; ?>', $('#comment<?php echo $class . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', 10, 0)" />
 			    </div>
 			</div>
 		    </div>

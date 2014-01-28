@@ -41,7 +41,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
     					<input id="post" type="text" class="post inline" placeholder="<?php echo $views['post']['WRITE']; ?>" />
     				    </div>
     				    <div class="small-3 columns ">
-    					<input type="button" id="button-post" class="post-button inline" value="Post" onclick="sendPost('<?php echo $_POST['objectId']; ?>', $('#post').val())" />
+    					<input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('<?php echo $_POST['objectId']; ?>', $('#post').val())" />
     				    </div>
     				</div>
     			    </div>

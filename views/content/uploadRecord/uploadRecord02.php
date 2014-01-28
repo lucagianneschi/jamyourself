@@ -58,7 +58,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
                     <div class="row">							
                         <div  class="small-3 small-offset-9 columns">
-                            <input type="button" id="uploadImage_save" name="uploadImage_save" class="buttonNext no-display" value="Save"/>
+                            <input type="button" id="uploadImage_save" name="uploadImage_save" class="buttonNext no-display" value="<?php echo $views['save']; ?>"/>
                         </div>
                     </div>
 
@@ -113,7 +113,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         <div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span><?php echo $views['mandatory_fields']; ?></div>
     </div>	
     <div  class="small-10 columns" >
-    	<input type="button" name="uploadRecord02-back" id="uploadRecord02-back" class="buttonBlack" value="Go Back"/>
-        <input type="button" name="uploadRecord02-next" id="uploadRecord02-next" class="buttonNext" value="Next" style="float: right;"/>
+    	<input type="button" name="uploadRecord02-back" id="uploadRecord02-back" class="buttonBlack" value="<?php echo $views['go_back']; ?>"/>
+        <input type="button" name="uploadRecord02-next" id="uploadRecord02-next" class="buttonNext" value="<?php echo $views['NEXT']; ?>" style="float: right;"/>
     </div>	
 </div>

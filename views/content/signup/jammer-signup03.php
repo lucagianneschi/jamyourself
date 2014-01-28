@@ -91,8 +91,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <div class="note grey-light signup-note"><span class="orange">* </span><?php echo $views['mandatory_fields']; ?></div>
 	</div>	
 	<div  class="small-8 columns">
-	    <input type="button" name="jammer-signup03-back" id="jammer-signup03-back" class="signup-button-back" value="Go Back"/>
-	    <input type="submit" name="jammer-signup03-next" id="jammer-signup03-next" class="signup-button" value="Complete"/>
+	    <input type="button" name="jammer-signup03-back" id="jammer-signup03-back" class="signup-button-back" value="<?php echo $views['go_back']; ?>"/>
+	    <input type="submit" name="jammer-signup03-next" id="jammer-signup03-next" class="signup-button" value="<?php echo $views['complete']; ?>"/>
 	</div>	
     </div>	
 </div>

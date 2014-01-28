@@ -53,7 +53,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
                             <div class="row">							
                                 <div  class="small-3 small-offset-9 columns">
-                                    <input type="button" id="venue_uploadImage_save" name="venue_uploadImage_save" class="signup-button no-display uploadImage_save" value="Save" />
+                                    <input type="button" id="venue_uploadImage_save" name="venue_uploadImage_save" class="signup-button no-display uploadImage_save" value="<?php echo $views['save']; ?>" />
                                 </div>
                             </div>
                         </div>
@@ -88,8 +88,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
             <div class="note grey-light signup-note"><span class="orange">* </span> Mandatory fields</div>
         </div>	
         <div  class="small-8 columns">
-            <input type="button" name="venue-signup02-back" id="venue-signup02-back" class="signup-button-back" value="Go Back"/>
-            <input type="button" name="venue-signup02-next" id="venue-signup02-next" class="signup-button" value="Next"/>
+            <input type="button" name="venue-signup02-back" id="venue-signup02-back" class="signup-button-back" value="<?php echo $views['go_back']; ?>"/>
+            <input type="button" name="venue-signup02-next" id="venue-signup02-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
         </div>	
     </div>
 </div>

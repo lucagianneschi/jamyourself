@@ -46,7 +46,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     					<input id="commentEvent_<?php echo $objectId; ?>" type="text" class="comment inline" placeholder="<?php echo $views['comment']['WRITE']; ?>" />
     				    </div>
     				    <div  class="small-3 columns ">
-    					<input type="button" class="post-button inline" value="Comment" onclick="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>')"/>
+    					<input type="button" class="post-button inline" value="<?php echo $views['COMM']; ?>" onclick="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>')"/>
     				    </div>
     				</div>
     			    </div>

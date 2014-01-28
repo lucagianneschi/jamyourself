@@ -14,7 +14,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     </div>
     <div class="row" id="signup-fb1">							
 	<div  class="large-12 columns align-center" >
-	    <input type="button" class="button signup-button-fb"  value="Connect with Facebook"/>
+	    <input type="button" class="button signup-button-fb"  value="<?php echo $views['signup']['fb_connect']; ?>"/>
 	</div>
     </div>	
     <div class="row" id="signup-fb2">							
@@ -70,10 +70,10 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <div class="note grey-light signup-note"><span class="orange">* </span><?php echo $views['mandatory_fields']; ?></div>
 	</div>	
 	<div  class="small-8 small-offset-1 columns">
-	    <input type="button" name="signup01-back" id="signup01-back" class="signup-button-back" value="Go Back"/>
-	    <input type="button" name="spotter-signup01-next" id="spotter-signup01-next" class="signup-button" value="Next"/>
-	    <input type="button" name="jammer-signup01-next" id="jammer-signup01-next" class="signup-button" value="Next"/>
-	    <input type="button" name="venue-signup01-next" id="venue-signup01-next" class="signup-button" value="Next"/>
+	    <input type="button" name="signup01-back" id="signup01-back" class="signup-button-back" value="<?php echo $views['go_back']; ?>"/>
+	    <input type="button" name="spotter-signup01-next" id="spotter-signup01-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
+	    <input type="button" name="jammer-signup01-next" id="jammer-signup01-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
+	    <input type="button" name="venue-signup01-next" id="venue-signup01-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
 
 	</div>	
     </div>
