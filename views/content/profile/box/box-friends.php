@@ -62,7 +62,7 @@ if (is_null($friendsBox->error)) {
 				    			    </a>
 				    			</div>
 					   		 	<?php 
-					   		 	if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }  
+					   		 	if (($i+1) % 2 == 0 || count($friends) == ($i+1)) {  ?>  </div>  <?php }  
 			    			 	$i++;
 							} 
 						} else {

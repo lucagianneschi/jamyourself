@@ -77,7 +77,7 @@ if (is_null($followingsBox->error)) {
 					    	</div>
 					    </a>
 					</div>
-					<?php if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }  
+					<?php if (($i+1) % 2 == 0 || count($venuesFollowings) == ($i+1)) {  ?>  </div>  <?php }  
 				    $i++;
 					if($i == 4) break;
 					}
