@@ -395,9 +395,10 @@ if (is_null($streamBox->error)) {
 				    <div class="small-12 columns">
 					<div id="box-albumDetail" style="margin-top: 10px;">
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
-						<!-- THUMBNAIL OF THE CLASS -->
 						<li>
-						    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getComment()->getEvent(); ?>"><img class="photo" src="<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a>
+						    <!-- THUMBNAIL EVENT -->
+						    <?php $pathEventThumb = USERS_DIR . $value->getEvent()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getEvent()->getThumbnail(); ?>
+						    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $pathEventThumb; ?>"><img class="photo" src="<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a>
 						</li>
 					    </ul>
 					</div>
