@@ -19,7 +19,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                     <div class="row signup-box-image">
                         <div  class="small-3 columns signup-box-avatar">									
                             <div class="signup-image">
-                                <div id="jammer_uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane"><img src="resources/images/avatar-signup/jammer.png" id="jammer_uploadImage_tumbnail" name="jammer_uploadImage_tumbnail"/></div>
+                                <div id="jammer_uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane"><img src="resources/images/signup/jammer.png" id="jammer_uploadImage_tumbnail" name="jammer_uploadImage_tumbnail"/></div>
                             </div>
                         </div>
                         <div  class="small-9 columns signup-box-avatar-text">							        						

@@ -25,8 +25,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		<label for="signup-ok-explore">
 		    <input name="signup-ok-explore" type="radio" id="signup-ok-explore" class="no-display">
 		    <span class="custom radio">
-			<img src="resources/images/avatar-signup/explore.png" class="img-grey "/>
-			<img src="resources/images/avatar-signup/explore-select.png" class="img-white no-display"/>	
+			<img src="resources/images/signup/explore.png" class="img-grey "/>
+			<img src="resources/images/signup/explore-select.png" class="img-white no-display"/>	
 			<h3><?php echo $views['signup']['explore']; ?></h3>
 		    </span> 
 		</label>
@@ -34,16 +34,16 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <div  class="small-4 columns">
 		<label for="signup-ok-checkout">
 		    <input name="signup-ok-checkout" type="radio" id="signup-ok-checkout" class="no-display"><span class="custom radio"></span>
-		    <img src="resources/images/avatar-signup/checkout.png" class="img-grey"/>
-		    <img src="resources/images/avatar-signup/checkout-select.png" class="no-display img-white"/>	 
+		    <img src="resources/images/signup/checkout.png" class="img-grey"/>
+		    <img src="resources/images/signup/checkout-select.png" class="no-display img-white"/>	 
 		    <h3><?php echo $views['signup']['faq']; ?></h3>
 		</label>		
 	    </div>
 	    <div  class="small-4 columns">
 		<label for="signup-ok-event">
 		    <input name="signup-ok-event" type="radio" id="signup-ok-event" class="no-display"><span class="custom radio"></span>
-		    <img src="resources/images/avatar-signup/event.png" class="img-grey"/> 
-		    <img src="resources/images/avatar-signup/event-select.png" class="no-display img-white"/>
+		    <img src="resources/images/signup/event.png" class="img-grey"/> 
+		    <img src="resources/images/signup/event-select.png" class="no-display img-white"/>
 		    <h3><?php echo $views['signup']['create_event']; ?></h3>
 		</label>		
 	    </div>	

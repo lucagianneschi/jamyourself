@@ -19,7 +19,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                 <div  class="small-3 columns signup-box-avatar">									
                     <div class="signup-image">
                         <div id="spotter_uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane">
-                            <img src="resources/images/avatar-signup/spotter.png" id="spotter_uploadImage_tumbnail" name="spotter_uploadImage_tumbnail"/>
+                            <img src="resources/images/signup/spotter.png" id="spotter_uploadImage_tumbnail" name="spotter_uploadImage_tumbnail"/>
                         </div>
                     </div>
                 </div>
