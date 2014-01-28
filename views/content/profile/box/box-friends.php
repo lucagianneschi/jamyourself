@@ -28,7 +28,7 @@ if (is_null($friendsBox->error)) {
 	    	    <div  class="large-12 columns ">
 	    			<div class="box">					
 						<?php 
-						if ($friendshipCounter > 0) { 
+						if ($friendshipCounter > 0 && count($friends) > 0) { 
 							$i = 0;
 							foreach ($friends as $key => $value) {
 							    switch ($value->getType()) {
@@ -62,7 +62,7 @@ if (is_null($friendsBox->error)) {
 				    			    </a>
 				    			</div>
 					   		 	<?php 
-					   		 	if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }  
+					   		 	if (($i+1) % 2 == 0 || count($friends) == ($i+1)) {  ?>  </div>  <?php }  
 			    			 	$i++;
 							} 
 						} else {

@@ -46,7 +46,6 @@ class User {
     private $friendshipCounter;
     private $geoCoding;
     private $googlePlusPage;
-    private $images;
     private $jammerCounter;
     private $jammerType;
     private $lastname;
@@ -65,7 +64,6 @@ class User {
     private $twitterPage;
     private $type;
     private $venueCounter;
-    private $videos;
     private $website;
     private $youtubeChannel;
     private $createdAt;

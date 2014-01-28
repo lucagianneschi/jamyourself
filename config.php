@@ -24,35 +24,36 @@ define('USERS_DIR', ROOT_DIR . 'users/');
 ################
 define('IMAGES_DIR', ROOT_DIR . 'media/images/');
 define('SONGS_DIR', ROOT_DIR . 'media/songs/');
-define('BADGE_DIR', ROOT_DIR . 'media/images/badge/');
+define('BADGE_DIR', ROOT_DIR . 'views/resources/images/badge/');
+define('DEF_IMAGES_DIR', ROOT_DIR . 'views/resources/images/default/');
 
 #################
 # DEFAULT IMAGE #
 #################
 //USER
-define('DEFBGD', MEDIA_DIR . 'images/default/defaultBackground.jpg');
-define('DEFAVATARJAMMER', MEDIA_DIR . 'images/default/defaultAvatarJammer.jpg');
-define('DEFTHUMBJAMMER', MEDIA_DIR . 'images/default/defaultAvatarThumbJammer.jpg');
-define('DEFAVATARVENUE', MEDIA_DIR . 'images/default/defaultAvatarVenue.jpg');
-define('DEFTHUMBVENUE', MEDIA_DIR . 'images/default/defaultAvatarThumbVenue.jpg');
-define('DEFAVATARSPOTTER', MEDIA_DIR . 'images/default/defaultAvatarSpotter.jpg');
-define('DEFTHUMBSPOTTER', MEDIA_DIR . 'images/default/defaultAvatarThumbSpotter.jpg');
+define('DEFBGD', DEF_IMAGES_DIR . 'defaultBackground.jpg');
+define('DEFAVATARJAMMER', DEF_IMAGES_DIR . 'defaultAvatarJammer.jpg');
+define('DEFTHUMBJAMMER', DEF_IMAGES_DIR . 'defaultAvatarThumbJammer.jpg');
+define('DEFAVATARVENUE', DEF_IMAGES_DIR . 'defaultAvatarVenue.jpg');
+define('DEFTHUMBVENUE', DEF_IMAGES_DIR . 'defaultAvatarThumbVenue.jpg');
+define('DEFAVATARSPOTTER', DEF_IMAGES_DIR . 'defaultAvatarSpotter.jpg');
+define('DEFTHUMBSPOTTER', DEF_IMAGES_DIR . 'defaultAvatarThumbSpotter.jpg');
 //ALBUM
-define('DEFALBUMCOVER', MEDIA_DIR . 'images/default/defaultAlbumCover.jpg');
-define('DEFALBUMTHUMB', MEDIA_DIR . 'images/default/defaultAlbumThumb.jpg');
+define('DEFALBUMCOVER', DEF_IMAGES_DIR . 'defaultAlbumCover.jpg');
+define('DEFALBUMTHUMB', DEF_IMAGES_DIR . 'defaultAlbumThumb.jpg');
 //EVENT
-define('DEFEVENTTHUMB', MEDIA_DIR . 'images/default/defaultEventThumb.jpg');
-define('DEFEVENTIMAGE', MEDIA_DIR . 'images/default/defaultEventImage.jpg');
+define('DEFEVENTTHUMB', DEF_IMAGES_DIR . 'defaultEventThumb.jpg');
+define('DEFEVENTIMAGE', DEF_IMAGES_DIR . 'defaultEventImage.jpg');
 //RECORD
-define('DEFRECORDCOVER', MEDIA_DIR . 'images/default/defaultRecordCover.jpg');
-define('DEFRECORDTHUMB', MEDIA_DIR . 'images/default/defaultRecordThumb.jpg');
+define('DEFRECORDCOVER', DEF_IMAGES_DIR . 'defaultRecordCover.jpg');
+define('DEFRECORDTHUMB', DEF_IMAGES_DIR . 'defaultRecordThumb.jpg');
 //SONG
-define('DEFSONGTHUMB', MEDIA_DIR . 'images/default/defaultSongThumb.jpg');
+define('DEFSONGTHUMB', DEF_IMAGES_DIR . 'defaultSongThumb.jpg');
 //IMAGE 
-define('DEFIMAGE', MEDIA_DIR . 'images/default/defaultImage.jpg');
-define('DEFIMAGETHUMB', MEDIA_DIR . 'images/default/defaultImageThumb.jpg');
+define('DEFIMAGE', DEF_IMAGES_DIR . 'defaultImage.jpg');
+define('DEFIMAGETHUMB', DEF_IMAGES_DIR . 'defaultImageThumb.jpg');
 //VIDEO
-define('DEFVIDEOTHUMB', MEDIA_DIR . 'images/default/defaultVideoThumb.jpg');
+define('DEFVIDEOTHUMB', DEF_IMAGES_DIR . 'defaultVideoThumb.jpg');
 //BADGE
 define('BADGE0',  BADGE_DIR . 'badgeDefault.png');
 define('BADGE1',  BADGE_DIR . 'badgeOldSchool.png');

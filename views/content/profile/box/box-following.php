@@ -28,6 +28,7 @@ if (is_null($followingsBox->error)) {
 
     $venuesFollowingsCounter = count($venuesFollowings);
     $jammersFollowingsCounter = count($jammersFollowings);
+	$followingCounter = $venuesFollowingsCounter + $jammersFollowingsCounter;
     $totFollowings = $followingCounter;
     ?>
     <!----------------------------------- FOLLOWING -------------------------------------------------->
@@ -40,7 +41,7 @@ if (is_null($followingsBox->error)) {
 			    if ($venuesFollowingsCounter > 0) { ?>
 		    	    <div class="row">
 			    		<div class="large-12 columns" style="padding-bottom: 10px;">
-			    		   <div class="text orange">Venue <span class="white"></span></div>
+			    		   <div class="text orange">Venue <span class="white">[<?php echo $venuesFollowingsCounter ?>]</span></div>
 			    		</div>
 		    	    </div>
 					    	    
@@ -58,7 +59,7 @@ if (is_null($followingsBox->error)) {
 							break;
 						}
 						$pathPicture = USERS_DIR . $value->getObjectId(). '/images/profilepicturethumb/';
-						if ($i % 2 == 0) { ?> <div class="row">  <?php } ?>
+						if ($i % 2 == 0) { ?> <div class="row">  <?php } 
 					?>	
 					<div  class="small-6 columns">
 						<a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
@@ -76,8 +77,9 @@ if (is_null($followingsBox->error)) {
 					    	</div>
 					    </a>
 					</div>
-					<?php if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }  
+					<?php if (($i+1) % 2 == 0 || count($venuesFollowings) == ($i+1)) {  ?>  </div>  <?php }  
 				    $i++;
+					if($i == 4) break;
 					}
 				    ?>	
 		    	    <div class="row">
@@ -90,7 +92,7 @@ if (is_null($followingsBox->error)) {
 		    	    <!------------------------------------------ JAMMER ----------------------------------->
 		    	    <div class="row">
 			    		<div class="large-12 columns" style="padding-bottom: 10px;">
-			    		   <div class="text orange">Jammer <span class="white"></span></div>
+			    		   <div class="text orange">Jammer <span class="white">[<?php echo $jammersFollowingsCounter ?>]</span></div>
 			    	    </div>
 					</div>
 		    	    
@@ -130,6 +132,7 @@ if (is_null($followingsBox->error)) {
 						<?php
 						if (($i+1) % 2 == 0 || count($jammersFollowings) == ($i+1)) {  ?>  </div>  <?php }  
 		    			$i++;
+						if($i == 4) break;
 				  	} ?>
 			   
     	    	
