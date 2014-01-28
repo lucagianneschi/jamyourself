@@ -11,7 +11,6 @@ require_once CLASSES_DIR . 'albumParse.class.php';
 require_once CLASSES_DIR . 'commentParse.class.php';
 require_once CLASSES_DIR . 'errorParse.class.php';
 require_once CLASSES_DIR . 'eventParse.class.php';
-require_once CLASSES_DIR . 'faqParse.class.php';
 require_once CLASSES_DIR . 'imageParse.class.php';
 require_once CLASSES_DIR . 'locationParse.class.php';
 require_once CLASSES_DIR . 'playlistParse.class.php';
@@ -65,10 +64,6 @@ class TestController extends REST {
                 case 'event' :
                     $parse = new EventParse();
                     $obj = $parse->getEvent($objectId);
-                    break;
-                case 'faq' :
-                    $parse = new FaqParse();
-                    $obj = $parse->getFaq($objectId);
                     break;
                 case 'image' :
                     $parse = new ImageParse();

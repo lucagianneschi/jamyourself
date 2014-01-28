@@ -186,12 +186,6 @@ function fromParsePointer($pointer) {
 		$parseObj = new EventParse();
 		$object = $parseObj->parseToEvent($pointer);
 		break;
-	    case 'Faq':
-		require_once CLASSES_DIR . 'faq.class.php';
-		require_once CLASSES_DIR . 'faqParse.class.php';
-		$parseObj = new FaqParse();
-		$object = $parseObj->parseToFaq($pointer);
-		break;
 	    case 'Image':
 		require_once CLASSES_DIR . 'image.class.php';
 		require_once CLASSES_DIR . 'imageParse.class.php';
