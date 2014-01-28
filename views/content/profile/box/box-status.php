@@ -87,7 +87,11 @@ $noBadge = 10 - count($badge);
 				   	<?php if ($currentUserType == "SPOTTER" && $type == "SPOTTER"){ ?>
 			    		<a href="#" class="button bg-orange"><div class="icon-button _friend_status"><?php echo $views['status']['ADDFRIEND']; ?></div></a>
 			    	<?php }elseif (($currentUserType == "JAMMER" || $currentUserType == "VENUE") && ($type == "JAMMER" || $type == "VENUE")){ ?>
-			    		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['COLL']; ?></div></a>
+			    		<a href="#" class="button bg-orange" onclick="sendRelation('<?php echo $objectId ?>');">
+                            <div class="icon-button _follower_status">
+                                <?php echo $views['status']['COLL']; ?>
+                            </div>
+                        </a>
 			    	<?php }elseif ($currentUserType == "SPOTTER" && ($type == "JAMMER" || $type == "VENUE")){  ?>
 			    		<a href="#" class="button bg-orange"><div class="icon-button _follower_status"><?php echo $views['status']['FOLL']; ?></div></a>    	
 			    	<?php } ?>
