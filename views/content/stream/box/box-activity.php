@@ -1229,7 +1229,7 @@ if (is_null($streamBox->error)) {
 			    <div class="small-12 columns ">
 				<div class="row  ">
 				    <div class="large-12 columns ">
-					<div class="text orange">Song Added to Record</div>
+					<div class="text orange"><?php echo $views['stream']['song_added']; ?></div>
 					<div class="sottotitle grey-dark"><?php echo $value->getRecord()->getTitle(); ?></div>
 				    </div>
 				</div>
@@ -1237,8 +1237,9 @@ if (is_null($streamBox->error)) {
 				    <div class="small-12 columns">
 					<div id="box-albumDetail" style="margin-top: 10px;">
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
-						<!-- THUMBNAIL OF RECORD -->
-						<li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></li>
+						<!-- THUMBNAIL RECORD -->
+						<?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
+						<li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></li>
 					    </ul>
 					</div>
 				    </div>
