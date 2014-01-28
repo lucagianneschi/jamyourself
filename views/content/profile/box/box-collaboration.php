@@ -152,4 +152,4 @@ if (is_null($collaboratorsBox->error)) {
     </div>
     <?php
 }
-else echo 'ERROR';
+

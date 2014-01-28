@@ -25,9 +25,9 @@ if ($arrayRelation instanceof Error) { ?>
     <h3 class="red">Error</h3>
     
 <?php } 
-elseif (is_null($arrayRelation)) { ?>
+elseif (is_null($arrayRelation) || count($arrayRelation) == 0) { ?>
 	
-	<h3 class="red"><?php echo $views[$relation]['NODATA'] ?></h3>
+	<div class="grey "><?php echo $views[$relation]['NODATA'] ?></div>
             
 <?php } 
 else {
