@@ -279,7 +279,9 @@ if (is_null($streamBox->error)) {
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
 						<!-- THUMBNAIL OF THE CLASS -->
 						<li>
-						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $value->getImage()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'"></a>
+						    <!-- THUMBNAIL IMAGE -->
+						    <?php $pathImageThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $value->getImage()->getThumbnail(); ?>
+						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'"></a>
 						</li>
 					    </ul>
 					</div>
