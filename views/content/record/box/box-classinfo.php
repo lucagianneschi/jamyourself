@@ -18,13 +18,25 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 $title = $record->getTitle();
 $genre = $record->getGenre();
 $image = $record->getCover();
+$fromUserObjectId = $record->getFromUser()->getObjectId();
+
+$pathCoverRecord = USERS_DIR . $fromUserObjectId . '/images/recordcover/';
+
+$arrayGenre = explode(",", $genre);
+$stringGenre = '';
+
+foreach ($arrayGenre as $key => $value) {
+	if($key == 0) $stringGenre = $views['tag']['music'][$value];
+	else $stringGenre = $stringGenre.', '.$views['tag']['music'][$value];
+}
+//$stringGenre = $views['tag']['music'][$arrayGenre[0]];
 ?>
 <div class="row" id="profile-userInfo">
     <div class="large-12 columns">
 	<h2><?php echo $title ?></h2>			
 	<div class="row">
 	    <div class="small-12 columns">				
-		<a class="ico-label _tag"><?php echo $genre ?></a>
+		<a class="ico-label _tag"><?php echo $stringGenre ?></a>
 	    </div>				
 	</div>		
     </div>
@@ -35,6 +47,6 @@ $image = $record->getCover();
 
 <div class="row">
     <div class="large-12 columns">
-	<img class="background" src="../media/<?php echo $image; ?>"  onerror="this.src='<?php echo DEFRECORDCOVER; ?>'" >						
+	<img class="background" src="<?php echo $pathCoverRecord.$image; ?>"  onerror="this.src='<?php echo DEFRECORDCOVER; ?>'" >						
     </div>
 </div> 
