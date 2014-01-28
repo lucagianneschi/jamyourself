@@ -225,7 +225,7 @@ if (is_null($streamBox->error)) {
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
 						<!-- THUMBNAIL OF THE CLASS -->
 						<li>
-						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $value->getAlbum()->getThumbnailCover(); ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'"></a>
+						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathAlbumThumb; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'"></a>
 						</li>
 					    </ul>
 					</div>
