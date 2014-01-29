@@ -1,1 +1,0 @@
-In questa cartella si salvano i brani caricati dagli utenti.

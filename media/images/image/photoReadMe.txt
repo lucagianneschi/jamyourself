@@ -1,1 +1,0 @@
-In questa cartella si salvano le immagini caricate dagli utenti; la property XXX delle istanze della classe Photo puntano ad immagini contenute in questa cartella.
