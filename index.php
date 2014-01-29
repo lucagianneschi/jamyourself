@@ -23,13 +23,13 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     </head>
 
     <body>
-	<div id="logo" onclick="scrollto('top')"><img src="views/resources/images/home/logo.png" /></div>
+	<div id="logo" onclick="scrollto('top');"><img src="views/resources/images/home/logo.png" /></div>
 	<div class="menu">
-	    <div class="facebook" onclick="window.open('<?php echo FACEBOOK; ?>')"></div>
-	    <div class="twitter" onclick="window.open('<?php echo TWITTER; ?>')"></div>
+	    <div class="facebook" onclick="window.open('<?php echo FACEBOOK; ?>');"></div>
+	    <div class="twitter" onclick="window.open('<?php echo TWITTER; ?>');"></div>
 <!--	    <div class="blog" onclick="window.open('<?php echo BLOG; ?>')" ><?php echo $views['home']['blog']; ?></div>-->
 	    <div class="blog"><?php echo $views['home']['blog']; ?></div>
-	    <div class="subscribe" onclick="scrollto('subscribe')"><?php echo $views['home']['subscribe']; ?></div>
+	    <div class="subscribe" onclick="scrollto('subscribe');"><?php echo $views['home']['subscribe']; ?></div>
 	    <div class="login"><?php echo $views['home']['login']; ?></div>
 	</div>
 
@@ -65,19 +65,19 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<div class="slide spot-link" data-stellar-background-ratio="0.7">
 	    <div class="container clearfix">
 		<div class="grid_4">
-		    <div class="spot" onclick="scrollto('spotter')">
+		    <div class="spot" onclick="scrollto('spotter');">
 			<img src="views/resources/images/home/spotter-spot.png">
 			<h2><?php echo $views['home']['are_you']; ?><br><?php echo $views['home']['music_lover']; ?></h2>
 		    </div>
 		</div>
 		<div class="grid_4">
-		    <div class="spot" onclick="scrollto('jammer')">
+		    <div class="spot" onclick="scrollto('jammer');">
 			<img src="views/resources/images/home/jammer-spot.png">
 			<h2><?php echo $views['home']['are_you']; ?><br><?php echo $views['home']['emerging_artist']; ?></h2>
 		    </div>
 		</div>
 		<div class="grid_4 omega">
-		    <div class="spot" onclick="scrollto('venue')">
+		    <div class="spot" onclick="scrollto('venue');">
 			<img src="views/resources/images/home/venue-spot.png">
 			<h2><?php echo $views['home']['own']; ?><br><?php echo $views['home']['venue']; ?></h2>
 		    </div>
