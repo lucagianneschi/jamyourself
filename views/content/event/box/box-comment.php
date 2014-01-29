@@ -95,14 +95,14 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                             <div id='<?php echo $comment_objectId; ?>'>
                                 <div class="box" style="padding: 15px !important;padding-bottom: 10px !important;">
                                     <a href="profile.php?user=<?php echo $comment_user_objectId ?>">
-                                        <div class="row  line">
+                                        <div class="row  line" style="padding-bottom: 10px !important;padding-right: 20px !important;>
                                             <div  class="small-1 columns ">
                                                 <div class="icon-header">
                                                     <?php $thumbPath = USERS_DIR . $comment_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $comment_user_thumbnail; ?>
                                                     <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
                                                 </div>
                                             </div>
-                                            <div  class="small-5 columns">
+                                            <div  class="small-5 columns" style="padding-left: 20px;">
                                                 <div class="text grey" style="margin-bottom: 0px;">
                                                     <strong><?php echo $comment_user_username; ?></strong>
                                                 </div>
