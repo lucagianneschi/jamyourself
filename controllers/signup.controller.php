@@ -488,7 +488,8 @@ class SignupController extends REST {
         if (count($members) > 0) {
             $return = array();
             foreach ($members as $member) {
-                $return[] = array("instrument" => $member->instrument, "name" => $member->name);
+                array_push($return, $member->name);
+                array_push($return, $member->instrument);
             }
             return $return;
         }
