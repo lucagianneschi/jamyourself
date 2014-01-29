@@ -99,7 +99,8 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 	    			<div class="row  line">
 	    			    <div  class="small-1 columns ">
 	    				<div class="icon-header">
-	    				    <img src="../media/<?php echo $comment_user_thumbnail; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+                                            <?php $thumbPath = USERS_DIR . $comment_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb".DIRECTORY_SEPARATOR.$comment_user_thumbnail ; ?>
+	    				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 	    				</div>
 	    			    </div>
 	    			    <div  class="small-5 columns">
