@@ -31,11 +31,11 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
     ?>
     <div class="row" id="social-RecordReview">
         <div  class="large-12 columns">
-    	<div class="row">
-    	    <div  class="large-12 columns">
-    		<h3>Reviews</h3>
-    	    </div>			
-    	</div>	
+	    	<div class="row">
+	    	    <div  class="large-12 columns">
+	    			<h3>Reviews</h3>
+	    	    </div>			
+	    	</div>	
 
 	    <?php
 	    $review_limit_count = $reviewCounter > $limit ? $limit : $reviewCounter;
@@ -49,7 +49,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    $review_user_username = $value->getFromUser()->getUsername();
 		    $review_user_type = $value->getFromUser()->getType();
 		    $review_objectId = $value->getObjectId();
-		    $review_data = $value->getCreatedAt()->format('l j F Y - H:i');
+		    $review_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
 		    $review_title = $value->getTitle();
 		    $review_text = $value->getText();
 		    #TODO
@@ -59,107 +59,108 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    $review_counter_share = $value->getShareCounter();
 
 		    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
-			$css_love = '_love orange';
-			$text_love = $views['UNLOVE'];
+				$css_love = '_love orange';
+				$text_love = $views['UNLOVE'];
 		    } else {
-			$css_love = '_unlove grey';
-			$text_love = $views['LOVE'];
+				$css_love = '_unlove grey';
+				$text_love = $views['LOVE'];
 		    }
 		    switch ($review_user_type) {
-			case 'JAMMER':
-			    $defaultThum = DEFTHUMBJAMMER;
-			    break;
-			case 'VENUE':
-			    $defaultThum = DEFTHUMBVENUE;
-			    break;
-			case 'SPOTTER':
-			    $defaultThum = DEFTHUMBSPOTTER;
-			    break;
+				case 'JAMMER':
+				    $defaultThum = DEFTHUMBJAMMER;
+				    break;
+				case 'VENUE':
+				    $defaultThum = DEFTHUMBVENUE;
+				    break;
+				case 'SPOTTER':
+				    $defaultThum = DEFTHUMBSPOTTER;
+				    break;
 		    }
 		    ?>
 	    	<div class="row" id='social-RecordReview-<?php echo $review_objectId; ?>'>
 	    	    <div  class="large-12 columns ">
-	    		<div class="box">				
-	    		    <div id='recordReview_<?php echo $review_objectId; ?>'>					
-	    			<div class="row <?php echo $review_user_objectId; ?>">											
-	    			    <div  class="small-1 columns ">
-	    				<div class="userThumb">
-                                            <!-- THUMB USER-->
-                                            <?php $thumbPath = USERS_DIR . $review_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $review_user_thumbnail; ?>
-	    				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-	    				</div>
-	    			    </div>
-	    			    <div  class="small-5 columns">
-	    				<div class="text grey" style="margin-left: 20px; margin-bottom: 0px !important;"><strong><?php echo $review_user_username ?></strong></div>
-	    				<small class="orange" style="margin-left: 20px;"><?php echo $review_user_type; ?></small>
-	    			    </div>
-	    			    <div  class="small-6 columns propriety">
-	    				<div class="note grey-light">
-						<?php echo $review_data; ?>
-	    				</div>
-	    			    </div>	
-	    			</div>
-	    			<div class="row">
-	    			    <div  class="large-12 columns"><div class="line"></div></div>
-	    			</div>
-
-	    			<div class="row">							
-	    			    <div  class="small-12 columns ">
-	    				<div class="row ">							
-	    				    <div  class="small-12 columns ">
-	    					<div class="sottotitle grey-dark"><?php echo $review_title; ?></div>
-	    				    </div>	
-	    				</div>								
-	    				<div class="row ">						
-	    				    <div  class="small-12 columns ">
-	    					<div class="note grey">Rating
-							<?php
-							for ($i = 1; $i <= 5; $i++) {
-							    if ($review_rating >= $i) {
-								echo '<a class="icon-propriety _star-orange"></a>';
-							    } else {
-								echo '<a class="icon-propriety _star-grey"></a>';
-							    }
-							}
-							?>										
-	    					</div>								
-	    				    </div>
-	    				</div>													
-	    			    </div>									
-	    			</div>
-	    			<div class="row " style=" margin-top:10px;">						
-	    			    <div  class="small-12 columns ">
-	    				<div class="text grey cropText inline" style="line-height: 18px !important;">
-						<?php echo $review_text ?>									
-	    				</div>
-	    				<a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['VIEWALL']; ?></strong></a>
-	    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['CLOSE']; ?></strong></a>
-	    			    </div>
-	    			</div>					
-
-	    			<div class="row">
-	    			    <div  class="large-12 columns">
-	    				<div class="line"></div>
-	    			    </div>
-	    			</div>
-	    			<div class="row recordReview-propriety">
-	    			    <div class="box-propriety">
-	    				<div class="small-6 columns ">
-	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-	    				    <a class="note grey" onclick="setCounterMedia(this, '<?php echo $review_objectId; ?>', '<?php echo $review_user_objectId; ?>', 'RecordReview')"><?php echo $views['COMM']; ?></a>
-	    				    <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','RecordReview')"><?php echo $views['SHARE']; ?></a -->
-	    				</div>
-	    				<div class="small-6 columns propriety ">					
-	    				    <a class="icon-propriety <?php echo $css_love; ?>"><?php echo $review_counter_love; ?></a>
-	    				    <a class="icon-propriety _comment" ><?php echo $review_counter_comment; ?></a>
-	    				    <!-- a class="icon-propriety _share" ><?php echo $review_counter_share; ?></a -->
-	    				</div>	
-	    			    </div>		
-	    			</div>
-	    		    </div>					
-	    		</div>
-	    		<!---------------------------------------- comment ------------------------------------------------->
-	    		<div class="box-comment no-display"></div>						
+		    		<div class="box">				
+		    		    <div id='recordReview_<?php echo $review_objectId; ?>'>	
+		    		    	<a href="profile.php?user=<?php echo $review_user_objectId ?>">	    		    					
+				    			<div class="row <?php echo $review_user_objectId; ?>">
+				    			    <div  class="small-1 columns ">
+					    				<div class="userThumb">
+				                            <!-- THUMB USER-->
+				                            <?php $thumbPath = USERS_DIR . $review_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $review_user_thumbnail; ?>
+					    				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+					    				</div>
+				    			    </div>
+				    			    <div  class="small-5 columns">
+					    				<div class="text grey" style="margin-left: 20px; margin-bottom: 0px !important;"><strong><?php echo $review_user_username ?></strong></div>
+					    				<small class="orange" style="margin-left: 20px;"><?php echo $review_user_type; ?></small>
+					    			</div>
+				    			    <div  class="small-6 columns propriety">
+					    				<div class="note grey-light">
+											<?php echo $review_data; ?>
+					    				</div>
+				    			    </div>	
+				    			</div>
+			    			</a>	
+			    			<div class="row">
+			    			    <div  class="large-12 columns"><div class="line"></div></div>
+			    			</div>		
+			    			<div class="row">							
+			    			    <div  class="small-12 columns ">
+				    				<div class="row ">							
+				    				    <div  class="small-12 columns ">
+				    						<div class="sottotitle grey-dark"><?php echo $review_title; ?></div>
+				    				    </div>	
+				    				</div>								
+				    				<div class="row ">						
+				    				    <div  class="small-12 columns ">
+					    					<div class="note grey">Rating
+											<?php
+											for ($i = 1; $i <= 5; $i++) {
+											    if ($review_rating >= $i) {
+												echo '<a class="icon-propriety _star-orange"></a>';
+											    } else {
+												echo '<a class="icon-propriety _star-grey"></a>';
+											    }
+											}
+											?>										
+					    					</div>								
+				    				    </div>
+				    				</div>													
+			    			    </div>									
+			    			</div>
+			    			<div class="row " style=" margin-top:10px;">						
+			    			    <div  class="small-12 columns ">
+				    				<div class="text grey cropText inline" style="line-height: 18px !important;">
+										<?php echo $review_text ?>									
+				    				</div>
+				    				<a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['VIEWALL']; ?></strong></a>
+				    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['CLOSE']; ?></strong></a>
+			    			    </div>
+			    			</div>					
+		
+			    			<div class="row">
+			    			    <div  class="large-12 columns">
+			    					<div class="line"></div>
+			    			    </div>
+			    			</div>
+			    			<div class="row recordReview-propriety">
+			    			    <div class="box-propriety">
+				    				<div class="small-6 columns ">
+				    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
+				    				    <a class="note grey" onclick="setCounterMedia(this, '<?php echo $review_objectId; ?>', '<?php echo $review_user_objectId; ?>', 'RecordReview')"><?php echo $views['COMM']; ?></a>
+				    				    <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','RecordReview')"><?php echo $views['SHARE']; ?></a -->
+				    				</div>
+				    				<div class="small-6 columns propriety ">					
+				    				    <a class="icon-propriety <?php echo $css_love; ?>"><?php echo $review_counter_love; ?></a>
+				    				    <a class="icon-propriety _comment" ><?php echo $review_counter_comment; ?></a>
+				    				    <!-- a class="icon-propriety _share" ><?php echo $review_counter_share; ?></a -->
+				    				</div>	
+			    			    </div>		
+			    			</div>
+		    		    </div>					
+		    		</div>
+		    		<!---------------------------------------- comment ------------------------------------------------->
+		    		<div class="box-comment no-display"></div>						
 	    	    </div> 
 	    	</div>
 		    <?php
@@ -172,10 +173,10 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		?>
 		<div class="row otherSet">
 		    <div class="large-12 colums">
-			<?php
-			$nextToShow = ($reviewCounter - $limit > $reviewToShow) ? $reviewToShow : ($reviewCounter - $limit);
-			?>
-			<div class="text" onClick="loadBoxRecordReview(<?php echo $limit + $reviewToShow; ?>, 0);">Other <?php echo $nextToShow; ?><?php echo $views['REVIEW']; ?></div>
+				<?php
+				$nextToShow = ($reviewCounter - $limit > $reviewToShow) ? $reviewToShow : ($reviewCounter - $limit);
+				?>
+				<div class="text" onClick="loadBoxRecordReview(<?php echo $limit + $reviewToShow; ?>, 0);">Other <?php echo $nextToShow; ?> <?php echo $views['REVIEW']; ?></div>
 		    </div>	
 		</div>
 		<?php
@@ -184,11 +185,11 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		?>
 		<div class="row">
 		    <div  class="large-12 columns ">
-			<div class="box">						
-			    <div class="row">
-				<div  class="large-12 columns"><p class="grey"><?php echo $views['RecordReview']['NODATA']; ?></p></div>
-			    </div>
-			</div>
+				<div class="box">						
+				    <div class="row">
+						<div  class="large-12 columns"><p class="grey"><?php echo $views['RecordReview']['NODATA']; ?></p></div>
+				    </div>
+				</div>
 		    </div>
 		</div>
 		<?php
