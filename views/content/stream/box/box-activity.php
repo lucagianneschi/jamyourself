@@ -950,7 +950,7 @@ if (is_null($streamBox->error)) {
 				</div>
 				<div class="row newBadge">
 				    <div class="small-2 columns">
-					<div class="badgeThumb"><img src="/media/images/badge/badgeElectro.png" onerror="this.src='<?php echo BADGE0; ?>'"></div>						
+					<div class="badgeThumb"><img src="views/resources/images/badge/badgeElectro.png" onerror="this.src='<?php echo BADGE0; ?>'"></div>						
 				    </div>
 				    <div class="small-10 columns ">
 					<div class="row ">							
