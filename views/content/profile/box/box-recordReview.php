@@ -123,37 +123,38 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						<?php
 					    }
 					    ?>
-					    <a href="record.php?record=<?php echo $recordObjectId ?>"></a>
-	    				<div class="row">
-	    				    <div  class="small-2 columns ">
-	    						<div class="coverThumb"><img src="<?php echo $pathRecord.$recordReview_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
-	    				    </div>
-	    				    <div  class="small-10 columns ">
-		    					<div class="row ">							
-		    					    <div  class="small-12 columns ">
-		    							<div class="sottotitle grey-dark"><?php echo $recordReview_title ?></div>
-		    					    </div>	
-		    					</div>	
-		    					<div class="row">						
-		    					    <div  class="small-12 columns ">
-		    							<div class="note grey"><?php echo $views['RecordReview']['RATING']; ?></div>
-		    					    </div>
-		    					</div>
-		    					<div class="row ">						
-		    					    <div  class="small-12 columns ">
-								    <?php
-								    for ($index = 0; $index < 5; $index++) {
-									if ($index <= $recordReview_rating) {
-										    echo '<a class="icon-propriety _star-orange"></a>';
-										} else {
-										    echo '<a class="icon-propriety _star-grey"></a>';
-										}
-								    }
-								    ?>
-		    					    </div>
-		    					</div>													
-	    				    </div>
-	    				</div>
+					    <a href="record.php?record=<?php echo $recordObjectId ?>">
+		    				<div class="row">
+		    				    <div  class="small-2 columns ">
+		    						<div class="coverThumb"><img src="<?php echo $pathRecord.$recordReview_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
+		    				    </div>
+		    				    <div  class="small-10 columns ">
+			    					<div class="row ">							
+			    					    <div  class="small-12 columns ">
+			    							<div class="sottotitle grey-dark"><?php echo $recordReview_title ?></div>
+			    					    </div>	
+			    					</div>	
+			    					<div class="row">						
+			    					    <div  class="small-12 columns ">
+			    							<div class="note grey"><?php echo $views['RecordReview']['RATING']; ?></div>
+			    					    </div>
+			    					</div>
+			    					<div class="row ">						
+			    					    <div  class="small-12 columns ">
+									    <?php
+									    for ($index = 0; $index < 5; $index++) {
+										if ($index <= $recordReview_rating) {
+											    echo '<a class="icon-propriety _star-orange"></a>';
+											} else {
+											    echo '<a class="icon-propriety _star-grey"></a>';
+											}
+									    }
+									    ?>
+			    					    </div>
+			    					</div>													
+		    				    </div>
+		    				</div>
+	    				</a>
 	    				<div class="row " style=" margin-top:10px;">						
 	    				    <div  class="small-12 columns ">
 	    					<div class="text grey cropText inline" style="line-height: 18px !important;">
