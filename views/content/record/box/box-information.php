@@ -41,6 +41,11 @@ switch ($record->getfromUser()->getType()) {
 	$defaultThum = DEFTHUMBSPOTTER;
 	break;
 }
+
+$css_city = (!isset($city) || $city == '') ? 'no-display' : '';
+$css_year = (!isset($year) || $year == '') ? 'no-display' : '';
+$css_label = (!isset($label) || $label == '') ? 'no-display' : '';
+$css_buylink = (!isset($buylink) || $buylink == '') ? 'no-display' : '';
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
@@ -70,20 +75,20 @@ switch ($record->getfromUser()->getType()) {
 			<div class="small-12 columns">
 			    <div class="row">
 				<div class="small-12 columns">				
-				    <a class="ico-label white breakOff <?php if ($city != '') echo '_pin-white' ?>"><?php echo $city; ?></a>
-				    <a class="ico-label white breakOff <?php if ($year != '') echo '_calendar' ?>"><?php echo $year; ?></a>
+				    <a class="ico-label white breakOff _pin-white <?php echo $css_city ?>"><?php echo $city; ?></a>
+				    <a class="ico-label white breakOff _calendar <?php echo $css_year ?>"><?php echo $year; ?></a>
 				</div>
 			    </div>
 			    <div class="row">
 				<div class="small-12 columns">
-				    <a class="ico-label white breakOff <?php if ($label != '') echo '_tag' ?>"><?php echo $label; ?></a>		    								    					
+				    <a class="ico-label white breakOff _tag <?php echo $css_label ?>"><?php echo $label; ?></a>		    								    					
 				</div>
 			    </div>
 			</div>
 
 		    </div>
 		</div>
-		<div class="content" data-section-content>
+		<div class="content <?php echo $css_buylink ?>" data-section-content>
 		    <div class="row">
 			<div class="small-12 columns">
 			    <div class="text orange"><span class="white"><?php echo $views['media']['Record']['buy']; ?></span> <a class="orange" href="<?php echo $buylink; ?>"><?php echo $buylink; ?></a></div>		    								    					
