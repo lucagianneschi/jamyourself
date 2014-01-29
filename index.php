@@ -25,8 +25,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     <body>
 	<div id="logo" onclick="scrollto('top')"><img src="views/resources/images/home/logo.png" /></div>
 	<div class="menu">
-	    <div class="facebook" onclick="window.open('https://www.facebook.com/Jamyourselfcom')"></div>
-	    <div class="twitter" onclick="window.open('https://twitter.com/Jamyourself')"></div>
+	    <div class="facebook" onclick="window.open('<?php echo FACEBOOK; ?>')"></div>
+	    <div class="twitter" onclick="window.open('<?php echo TWITTER; ?>')"></div>
 	    <div class="blog"><?php echo $views['home']['blog']; ?></div>
 	    <div class="subscribe" onclick="scrollto('subscribe')"><?php echo $views['home']['subscribe']; ?></div>
 	    <div class="login"><?php echo $views['home']['login']; ?></div>
