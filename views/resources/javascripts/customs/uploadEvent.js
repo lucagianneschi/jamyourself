@@ -237,7 +237,7 @@ function initImgUploader() {
 
         //qua ora va attivato il jcrop
         var img = new Image();
-        img.src = "../media/cache/" + obj.src;
+        img.src = "../cache/" + obj.src;
         img.width = obj.width;
         img.height = obj.height;
 
