@@ -22,7 +22,7 @@ foreach ($event->getGenre() as $key => $value) {
     $genre = $genre . $space . $views['tag']['localType'][$value];
     $space = ', ';
 }
-$pathImage = USERS_DIR . $event->getFromUser() . DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'eventcover'.$event->getImage();
+$pathImage = USERS_DIR . $event->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'eventcover'.DIRECTORY_SEPARATOR.$event->getImage();
 ?>
 <div class="row" id="profile-userInfo">
     <div class="large-12 columns">
