@@ -5,19 +5,19 @@ require_once 'path.php';
 ##################
 # GENERIC FOLDER #
 ##################
-define('BOXES_DIR', ROOT_DIR . 'boxes/');
-define('CLASSES_DIR', ROOT_DIR . 'classes/');
-define('CONFIG_DIR', ROOT_DIR . 'config/');
-define('CONTROLLERS_DIR', ROOT_DIR . 'controllers/');
-define('DEBUG_DIR', ROOT_DIR . 'debug/');
-define('LANGUAGES_DIR', ROOT_DIR . 'languages/');
-define('PARSE_DIR', ROOT_DIR . 'parse/');
-define('SERVICES_DIR', ROOT_DIR . 'services/');
-define('STDHTML_DIR', SERVICES_DIR . 'mail/standardHTML/');
-define('TESTS_DIR', ROOT_DIR . 'tests/');
-define('VIEWS_DIR', ROOT_DIR . 'views/');
-define('USERS_DIR', ROOT_DIR . 'users/');
-define('DEF_IMAGES_DIR', ROOT_DIR . 'views/resources/images/default/');
+define('BOXES_DIR', ROOT_DIR . 'boxes'. DIRECTORY_SEPARATOR);
+define('CLASSES_DIR', ROOT_DIR . 'classes'. DIRECTORY_SEPARATOR);
+define('CONFIG_DIR', ROOT_DIR . 'config'. DIRECTORY_SEPARATOR);
+define('CONTROLLERS_DIR', ROOT_DIR . 'controllers'. DIRECTORY_SEPARATOR);
+define('DEBUG_DIR', ROOT_DIR . 'debug'. DIRECTORY_SEPARATOR);
+define('LANGUAGES_DIR', ROOT_DIR . 'languages'. DIRECTORY_SEPARATOR);
+define('PARSE_DIR', ROOT_DIR . 'parse'. DIRECTORY_SEPARATOR);
+define('SERVICES_DIR', ROOT_DIR . 'services'. DIRECTORY_SEPARATOR);
+define('STDHTML_DIR', SERVICES_DIR . 'mail'. DIRECTORY_SEPARATOR.'standardHTML'. DIRECTORY_SEPARATOR);
+define('TESTS_DIR', ROOT_DIR . 'tests'. DIRECTORY_SEPARATOR);
+define('VIEWS_DIR', ROOT_DIR . 'views'. DIRECTORY_SEPARATOR);
+define('USERS_DIR', ROOT_DIR . 'users'. DIRECTORY_SEPARATOR);
+define('DEF_IMAGES_DIR', ROOT_DIR . 'views'. DIRECTORY_SEPARATOR.'resources'. DIRECTORY_SEPARATOR.'images'. DIRECTORY_SEPARATOR.'default'. DIRECTORY_SEPARATOR);
 
 #################
 # DEFAULT IMAGEs #
@@ -47,7 +47,7 @@ define('DEFIMAGETHUMB', DEF_IMAGES_DIR . 'defaultImageThumb.jpg');
 //VIDEO
 define('DEFVIDEOTHUMB', DEF_IMAGES_DIR . 'defaultVideoThumb.jpg');
 //BADGE
-define('BADGE_DIR', ROOT_DIR . 'views/resources/images/badge/');
+define('BADGE_DIR', ROOT_DIR . 'views'. DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'badge'.DIRECTORY_SEPARATOR);
 define('BADGE0',  BADGE_DIR . 'badgeDefault.png');
 define('BADGE1',  BADGE_DIR . 'badgeOldSchool.png');
 define('BADGE2',  BADGE_DIR . 'badgeWelcome.png');
