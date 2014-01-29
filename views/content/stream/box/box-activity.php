@@ -240,7 +240,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Album', '<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getAlbum()->getObjectId(); ?>', 'Album')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -296,7 +296,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getImage()->getObjectId(); ?>', 'Image')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -352,7 +352,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getEvent()->getObjectId(); ?>', 'Event')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -412,7 +412,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getComment()->getObjectId(); ?>', 'EventReview')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -459,7 +459,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getComment()->getObjectId(); ?>', 'Post')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -515,7 +515,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getRecord()->getObjectId(); ?>', 'Record')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -573,7 +573,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getComment()->getObjectId(); ?>', 'RecordReview')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -628,7 +628,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Video', '<?php echo $value->getVideo()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getVideo()->getObjectId(); ?>', 'Video')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -682,7 +682,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getEvent()->getObjectId(); ?>', 'Event')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -795,9 +795,10 @@ if (is_null($streamBox->error)) {
 				    <div class="small-12 columns">
 					<div id="box-albumDetail" style="margin-top: 10px;">
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
-						<!-- THUMBNAIL OF ADDED IMAGE -->
 						<li>
-						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'"></a>
+						    <!--THUMB Image-->
+						    <?php $pathImageThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'photos' . DIRECTORY_SEPARATOR . $value->getImage()->getThumbnail(); ?>
+						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'"></a>
 						</li>
 					    </ul>
 					</div>
@@ -811,7 +812,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getImage()->getObjectId(); ?>', 'Image')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -849,8 +850,9 @@ if (is_null($streamBox->error)) {
 				    <div class="small-12 columns">
 					<div id="box-albumDetail" style="margin-top: 10px;">
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
-						<!-- THUMBNAIL -->
-						<li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="../media/../../../../media/images/default/defaultImage.jpg" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'"></a></li>
+						<!--THUMB Image-->
+						<?php $pathImageThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'photos' . DIRECTORY_SEPARATOR . $value->getImage()->getThumbnail(); ?>
+						<li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'"></a></li>
 					    </ul>
 					</div>
 				    </div>
@@ -863,7 +865,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getImage()->getObjectId(); ?>', 'Image')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -902,9 +904,10 @@ if (is_null($streamBox->error)) {
 				    <div class="small-12 columns">
 					<div id="box-albumDetail" style="margin-top: 10px;">
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
-						<!-- THUMBNAIL OF EVENT-->
+						<!-- THUMBNAIL EVENT -->
+						<?php $pathEventThumb = USERS_DIR . $value->getEvent()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getEvent()->getThumbnail(); ?>
 						<li>
-						    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a>
+						    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a>
 						</li>
 					    </ul>
 					</div>
@@ -918,7 +921,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getEvent()->getObjectId(); ?>', 'Event')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -986,7 +989,9 @@ if (is_null($streamBox->error)) {
 				</div>
 				<div class="row">
 				    <div class="small-2 columns ">
-					<div class="coverThumb"><a href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img src="<?php echo $value->getEvent()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a></div>
+					<!-- THUMBNAIL EVENT -->
+					<?php $pathEventThumb = USERS_DIR . $value->getEvent()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getEvent()->getThumbnail(); ?>
+					<div class="coverThumb"><a href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a></div>
 				    </div>
 				    <div class="small-10 columns ">
 					<div class="row ">							
@@ -1008,7 +1013,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getEvent()->getObjectId(); ?>', 'Event')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -1063,8 +1068,10 @@ if (is_null($streamBox->error)) {
 				    </div>
 				</div>
 				<div class="row">
-				    <div class="small-2 columns ">
-					<div class="coverThumb"><a href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img src="<?php echo $value->getRecord()->getThumbnailCover(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>
+				    <div class="small-2 columns "
+					 <!-- THUMBNAIL EVENT -->
+					 <?php $pathRecordThumb = USERS_DIR . $value->getRecord()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
+					 <div class="coverThumb"><a href="record.php?record=<?php echo $pathRecordThumb; ?>"><img src="<?php echo $value->getRecord()->getThumbnailCover(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>
 				    </div>
 				    <div class="small-10 columns ">
 					<div class="row ">							
@@ -1086,7 +1093,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getRecord()->getObjectId(); ?>', 'RecordReview')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -1128,7 +1135,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getComment()->getObjectId(); ?>', 'Post')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -1167,9 +1174,10 @@ if (is_null($streamBox->error)) {
 				    <div class="small-12 columns">
 					<div id="box-albumDetail" style="margin-top: 10px;">
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
-						<!-- THUMBNAIL OF RECORD -->
+						<!-- THUMBNAIL RECORD -->
+						<?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
 						<li>
-						    <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a>
+						    <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a>
 						</li>
 					    </ul>
 					</div>
@@ -1183,7 +1191,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getRecord()->getObjectId(); ?>', 'Record')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -1221,7 +1229,7 @@ if (is_null($streamBox->error)) {
 			    <div class="small-12 columns ">
 				<div class="row  ">
 				    <div class="large-12 columns ">
-					<div class="text orange">Song Added to Record</div>
+					<div class="text orange"><?php echo $views['stream']['song_added']; ?></div>
 					<div class="sottotitle grey-dark"><?php echo $value->getRecord()->getTitle(); ?></div>
 				    </div>
 				</div>
@@ -1229,8 +1237,9 @@ if (is_null($streamBox->error)) {
 				    <div class="small-12 columns">
 					<div id="box-albumDetail" style="margin-top: 10px;">
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
-						<!-- THUMBNAIL OF RECORD -->
-						<li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img class="photo" src="../users/xxxxxxxxxx/images/eventcoverthumb/immagine.jpg" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></li>
+						<!-- THUMBNAIL RECORD -->
+						<?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
+						<li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></li>
 					    </ul>
 					</div>
 				    </div>
@@ -1243,7 +1252,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getSong()->getObjectId(); ?>', 'Song')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -1278,8 +1287,10 @@ if (is_null($streamBox->error)) {
 				    </div>
 				</div>
 				<div class="row box-detail" onclick="">
+				    <!-- THUMBNAIL RECORD -->
+				    <?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
 				    <div class="small-2 columns">
-					<div class="coverThumb"><a href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img src="../media/../../../../media/images/default/defaultEventThumb.jpg" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>
+					<div class="coverThumb"><a href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>
 				    </div>
 				    <div class="small-10 columns">
 					<div class="row">							
@@ -1302,7 +1313,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-			    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+			    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getSong()->getObjectId(); ?>', 'Song')"><?php echo $views['COMM']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			

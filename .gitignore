@@ -17,6 +17,7 @@ media/images/recordcover/
 media/images/recordcoverthumb/
 media/songs/
 media/cache/
+media/
 
 # foundation
 config.rb
