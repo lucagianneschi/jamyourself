@@ -769,7 +769,7 @@ function step3NextJammer(){
 	        var validation_genre = false;
 	        var validation_description = false;
 	        //validation county
-	        var espressione = new RegExp(exp_username);
+	        var espressione = new RegExp(exp_description);
 	        if (!espressione.test($('#jammer-description').val())) {
 	            $('#jammer-description').focus();
 	            validation_description = false;
