@@ -30,6 +30,7 @@ $views = array(
     'create' => 'Create',
     'complete' => 'Complete',
     'mandatory_fields' => ' Mandatory fields',
+    'other_rew' => 'View other reviews',
     'activity' => array(
         'TITLE' => 'Activities',
         'LASTALBUM' => 'Last album updated',
