@@ -344,32 +344,6 @@ require_once ROOT_DIR . 'config.php';
                             window.console.log("getTags | An error occurred - message : " + err.message);
                         }
                     }
-
-
-                    function initGeocomplete() {
-                        try {
-                            $("#location").geocomplete()
-                                    .bind("geocode:result", function(event, result) {
-                                        json_data.location = getCompleteLocationInfo(result);
-                                        /*
-                                         json_data.location = prepareLocationObj(result);
-                                         var complTest = getCompleteLocationInfo(json_data.location);
-                                         */
-                                    })
-                                    .bind("geocode:error", function(event, status) {
-                                        json_data.location = null;
-                                    })
-                                    .bind("geocode:multiple", function(event, results) {
-                                        json_data.location = getCompleteLocationInfo(results[0]);
-                                    });
-                        } catch (err) {
-                            console.log("initGeocomplete | An error occurred - message : " + err.message);
-                        }
-                    }
-
-                    $(document).ready(function() {
-                        initGeocomplete();
-                    });
                 </script>
 
                 <!-- RESULT -->
