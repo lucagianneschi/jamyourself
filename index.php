@@ -17,7 +17,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="views/resources/stylesheets/normalize.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="views/resources/stylesheets/grid.css" type="text/css" media="screen">
-	<link rel="stylesheet" href="views/resources/stylesheets//style.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="views/resources/stylesheets/home.css" type="text/css" media="screen">
 	<!-- <link rel="stylesheet" href="css/style.min.css" type="text/css" media="screen"> -->
 	<!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     </head>
