@@ -18,8 +18,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 $title = $event->getTitle();
 $genre = '';
 $space = '';
-foreach ($event->getTags() as $key => $value) {
-    $genre = $genre . $space . $value;
+foreach ($event->getGenre() as $key => $value) {
+    $genre = $genre . $space . $views['tag']['localType'][$value];
     $space = ', ';
 }
 $pathImage = USERS_DIR . $event->getFromUser() . DIRECTORY_SEPARATOR.'images'.DIRECTORY_SEPARATOR.'eventcover'.$event->getImage();
