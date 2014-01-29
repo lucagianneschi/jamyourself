@@ -27,14 +27,20 @@ switch ($user->getType()) {
 	$defaultImage = DEFAVATARSPOTTER;
 	break;
 }
-if ($user->getType() == 'JAMMER')
-    $music = implode(', ', $user->getMusic());
+$music = '';
+$space = '';
+foreach ($user->getMusic() as $key => $value) {
+    $music = $music . $space . $views['tag']['music'][$value];
+    $space = ', ';
+}
 
 $userinfo_pin = $city == '' ? '' : '_pin';
 $userinfo_note = $music == '' ? '' : '_note';
 
 $pathPicture = USERS_DIR . $user->getObjectId(). '/images/profilepicture/';
 $pathBackground = USERS_DIR . $user->getObjectId(). '/images/background/';
+
+
 
 ?>
 <div class="row" id="profile-userInfo">
