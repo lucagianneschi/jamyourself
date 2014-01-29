@@ -99,6 +99,12 @@ define('MAX_IMG_UPLOAD_FILE_SIZE', 6291456); //6 Mb
 define('MAX_MP3_UPLOAD_FILE_SIZE', 12582912);//12 Mb
 
 ##################
+# SOCIAL NETWORK #
+##################
+define('FACEBOOK', 'https://www.facebook.com/Jamyourselfcom'); 
+define('TWITTER', 'https://twitter.com/Jamyourself'); 
+
+##################
 #  LOG LEVEL     #
 ##################
 
