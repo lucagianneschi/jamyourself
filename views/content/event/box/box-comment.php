@@ -121,7 +121,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                                             <div  class="small-12 columns ">
                                                 <div class="row ">
                                                     <div  class="small-12 columns ">
-                                                        <div class="text grey">
+                                                        <div class="text grey" style="padding-top: 10px;">
                                                             <?php echo $comment_text; ?>	
                                                         </div>
                                                     </div>
