@@ -18,17 +18,10 @@ define('STDHTML_DIR', SERVICES_DIR . 'mail/standardHTML/');
 define('TESTS_DIR', ROOT_DIR . 'tests/');
 define('VIEWS_DIR', ROOT_DIR . 'views/');
 define('USERS_DIR', ROOT_DIR . 'users/');
-
-################
-# MEDIA FOLDER #
-################
-define('IMAGES_DIR', ROOT_DIR . 'media/images/');
-define('SONGS_DIR', ROOT_DIR . 'media/songs/');
-define('BADGE_DIR', ROOT_DIR . 'views/resources/images/badge/');
 define('DEF_IMAGES_DIR', ROOT_DIR . 'views/resources/images/default/');
 
 #################
-# DEFAULT IMAGE #
+# DEFAULT IMAGEs #
 #################
 //USER
 define('DEFBGD', DEF_IMAGES_DIR . 'defaultBackground.jpg');
@@ -55,6 +48,7 @@ define('DEFIMAGETHUMB', DEF_IMAGES_DIR . 'defaultImageThumb.jpg');
 //VIDEO
 define('DEFVIDEOTHUMB', DEF_IMAGES_DIR . 'defaultVideoThumb.jpg');
 //BADGE
+define('BADGE_DIR', ROOT_DIR . 'views/resources/images/badge/');
 define('BADGE0',  BADGE_DIR . 'badgeDefault.png');
 define('BADGE1',  BADGE_DIR . 'badgeOldSchool.png');
 define('BADGE2',  BADGE_DIR . 'badgeWelcome.png');
@@ -110,7 +104,5 @@ define('MAX_MP3_UPLOAD_FILE_SIZE', 12582912);//12 Mb
 ##################
 
 define('DEBUG', true);
-
-
 
 ?>
