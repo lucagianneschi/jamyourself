@@ -54,20 +54,20 @@ a:visited {
 }
 
 .facebook {
-	background-image: url(../img/fb.png);
+	background-image: url(../images/home/fb.png);
 	margin-left: 25px;
 }
 
 .facebook:hover {
-	background-image: url(../img/fb-hover.png);
+	background-image: url(../images/home/fb-hover.png);
 }
 
 .twitter {
-	background-image: url(../img/tw.png);
+	background-image: url(../images/home/tw.png);
 }
 
 .twitter:hover {
-	background-image: url(../img/tw-hover.png);
+	background-image: url(../images/home/tw-hover.png);
 }
 
 .blog, .login {
@@ -140,7 +140,7 @@ input[type=submit] {
 
 .slide{
 	background-attachment: fixed;
-	background: url(../img/dot2.png);
+	background: url(../images/home/dot2.png);
 	width:100%;
 	height:auto;
 	position: relative;
@@ -149,13 +149,13 @@ input[type=submit] {
 
 .top {
 	padding: 120px 0px 50px 0px;
-	background: url(../img/dot.png);
+	background: url(../images/home/dot.png);
 	text-align: center;
 }
 
 .spot-slide {
 	padding:45px 0 25px 0;
-	background:#FF7505 url(../img/dot3.png);
+	background:#FF7505 url(../images/home/dot3.png);
 	text-align: center;
 }
 
