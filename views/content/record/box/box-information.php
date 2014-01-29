@@ -46,6 +46,8 @@ $css_city = (!isset($city) || $city == '') ? 'no-display' : '';
 $css_year = (!isset($year) || $year == '') ? 'no-display' : '';
 $css_label = (!isset($label) || $label == '') ? 'no-display' : '';
 $css_buylink = (!isset($buylink) || $buylink == '') ? 'no-display' : '';
+$css_description = (!isset($description) || $description == '') ? 'no-display' : '';
+
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
@@ -95,7 +97,7 @@ $css_buylink = (!isset($buylink) || $buylink == '') ? 'no-display' : '';
 			</div>
 		    </div> 
 		</div>
-		<div class="content" data-section-content>
+		<div class="content <?php echo $css_description ?>" data-section-content>
 		    <p class="text grey">
 			<?php echo $description; ?>
 		    </p> 
