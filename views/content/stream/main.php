@@ -331,20 +331,6 @@ require_once ROOT_DIR . 'config.php';
                         });
                     }
 
-                    function getGenre() {
-                        genres = new Array();
-                        try {
-                            $.each($("#tag-music :checkbox"), function() {
-                                if ($(this).is(":checked")) {
-                                    genres.push($(this).val());
-                                }
-                            });
-                            return genres;
-                        } catch (err) {
-                            window.console.log("getGenre | An error occurred - message : " + err.message);
-                        }
-                    }
-
                     function getTags() {
                         tags = new Array();
                         try {
