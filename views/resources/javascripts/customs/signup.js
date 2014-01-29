@@ -1413,7 +1413,7 @@ function initUploader(userType) {
         console.log(response.response);
         var obj = JSON.parse(response.response);
         //aggiorno nel json l'immagine del profilo (mi basta il nome del file in cache)
-        json_signup_user.imageProfile = obj.src;
+        json_signup_user.image = obj.src;
 
         //qua ora va attivato il jcrop
         var img = new Image();

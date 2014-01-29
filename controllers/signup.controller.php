@@ -74,7 +74,7 @@ class SignupController extends REST {
             if ($this->get_request_method() != "POST") {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             }
-            $this->debug("signup", "request => ".var_export($this->request,true));
+            $this->debug("signup", "request => " . var_export($this->request, true));
 
 //verifico che l'utente abbia effettivamente completato il captcha
 //        if ($_SESSION['captchaValidation'] == false) {
@@ -85,7 +85,7 @@ class SignupController extends REST {
             $userJSON = $this->request;
             $this->userValidator->checkNewUser($userJSON);
             if (!$this->userValidator->getIsValid()) {
-                $this->debug("signup", "validator errors => ".var_export($this->userValidator->getErrors(),true));
+                $this->debug("signup", "validator errors => " . var_export($this->userValidator->getErrors(), true));
                 $error = array('status' => "Bad Request", "msg" => "Invalid new user", "errorList" => $this->userValidator->getErrors());
                 $this->response(array('status' => $controllers['INVALIDNEWUSER'], 'errors' => $error), 403);
             }
@@ -102,15 +102,15 @@ class SignupController extends REST {
                     $newUser = $this->createVenue($newUser);
                     break;
             }
-            $this->debug("signup", "newUser => ".var_export($newUser,true));
+            $this->debug("signup", "newUser => " . var_export($newUser, true));
             $this->debug("signup", "saving user on DB");
             $pUser = new UserParse();
             $user = $pUser->saveUser($newUser);
             if ($user instanceof Error) {
-                $this->debug("signup", "ERROR SAVING USER => ".var_export($user,true));
+                $this->debug("signup", "ERROR SAVING USER => " . var_export($user, true));
                 $this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 503);
             }
-            $this->debug("signup", "user saved => ".var_export($user,true));
+            $this->debug("signup", "user saved => " . var_export($user, true));
             require_once CLASSES_DIR . 'activity.class.php';
             require_once CLASSES_DIR . 'activityParse.class.php';
             $activity = new Activity();
@@ -122,21 +122,55 @@ class SignupController extends REST {
             $this->debug("signup", "saving activity on DB");
             $pActivity = new ActivityParse();
             $pActivity->saveActivity($activity);
-            $this->debug("signup", "activity saved => ".var_export($activity,true));
+            $this->debug("signup", "activity saved => " . var_export($activity, true));
             $_SESSION['currentUser'] = $user;
             $this->debug("signup", "create FileSystem Structure...");
             $this->createFileSystemStructure($user->getObjectId(), $user->getType());
             $this->createImageDefaultAlbum($user->getObjectId());
             if ($user->getType() == "JAMMER") {
                 $this->createRecordDefaultAlbum($user->getObjectId());
-            } elseif (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
-                rename(MEDIA_DIR . "cache/" . $user->getProfileThumbnail(), USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail());
-                rename(MEDIA_DIR . "cache/" . $user->getProfilePicture(), USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture" . DIRECTORY_SEPARATOR . $user->getProfilePicture());
+            }
+
+            if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
+                $res_1 = false;
+                $res_2 = false;
+                $src_img = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $user->getProfilePicture();
+                $dest_img = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture" . DIRECTORY_SEPARATOR . $user->getProfilePicture();
+                $src_thumb = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail();
+                $dest_thumb = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail();
+                $this->debug("signup", "Source image : " . $src_img);
+                $this->debug("signup", "Destination image : " . $dest_img);
+                $this->debug("signup", "Source thumbnail : " . $src_thumb);
+                $this->debug("signup", "Destination thumbnail : " . $dest_thumb);
+                //profile image
+                if (file_exists($src_img)) {
+                    $res_1 = rename($src_img, $dest_img);
+                    if ($res_1) {
+                        $this->debug("signup", "Destination image : SAVED");
+                    } else {
+                        $this->debug("signup", "Destination image : NOT SAVED - ERROR!!!");
+                    }
+                } else {
+                    $this->debug("signup", "Destination image : " . $src_img . " - FILE NOT FOUND - ERROR!!!");
+                }
+                //thumbnail
+                if (file_exists($src_thumb)) {
+                    $res_2 = rename($src_thumb, $dest_thumb);
+                    if ($res_2) {
+                        $this->debug("signup", "Destination thumbnail : SAVED");
+                    } else {
+                        $this->debug("signup", "Destination thumbnail : NOT SAVED - ERROR!!!");
+                    }
+                } else {
+                    $this->debug("signup", "Destination thumbnail : " . $src_thumb . " - FILE NOT FOUND - ERROR!!!");
+                }
+            } else {
+                $this->debug("signup", "no image or thumbnail specified for this user");
             }
             $this->debug("signup", "signup END => USER CREATED");
             $this->response(array("status" => $controllers['USERCREATED']), 200);
         } catch (Exception $e) {
-            $this->debug("signup", "Exception => ".var_export($e,true));
+            $this->debug("signup", "Exception => " . var_export($e, true));
             $this->response(array('status' => $e->getErrorMessage()), 503);
         }
     }
@@ -237,9 +271,9 @@ class SignupController extends REST {
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture", 0777, true);
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover", 0777, true);
                 mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos", 0777, true);   
+                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos", 0777, true);
 
-                if ($type == "JAMMER") {                    
+                if ($type == "JAMMER") {
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true);
                     mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
@@ -301,8 +335,8 @@ class SignupController extends REST {
      * \todo
      */
     private function createSpotter($userJSON) {
-        $this->debug("createSpotter", "START");                            
-        $this->debug("createSpotter", "userJSON => ".var_export($userJSON,true));
+        $this->debug("createSpotter", "START");
+        $this->debug("createSpotter", "userJSON => " . var_export($userJSON, true));
         if (!is_null($userJSON)) {
             $user = new User("SPOTTER");
             $this->setCommonValues($user, $userJSON);
@@ -327,7 +361,7 @@ class SignupController extends REST {
             if (strlen($birthday->year) > 0 && strlen($birthday->month) > 0 && strlen($birthday->day) > 0) {
                 $user->setBirthDay($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
             }
-            $this->debug("createSpotter", "returning user => ".var_export($user,true));
+            $this->debug("createSpotter", "returning user => " . var_export($user, true));
             return $user;
         }
         return null;
@@ -339,8 +373,8 @@ class SignupController extends REST {
      * \todo
      */
     private function createVenue($userJSON) {
-        $this->debug("createVenue", "START");                    
-        $this->debug("createVenue", "userJSON => ".var_export($userJSON,true));            
+        $this->debug("createVenue", "START");
+        $this->debug("createVenue", "userJSON => " . var_export($userJSON, true));
         if (!is_null($userJSON)) {
             $user = new User("VENUE");
             $this->setCommonValues($user, $userJSON);
@@ -359,7 +393,7 @@ class SignupController extends REST {
             $user->setGeoCoding($parseGeoPoint);
 
             $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
-            $this->debug("createVenue", "returning  user => ".var_export($user,true));
+            $this->debug("createVenue", "returning  user => " . var_export($user, true));
             return $user;
         }
         return null;
@@ -371,8 +405,8 @@ class SignupController extends REST {
      * \todo
      */
     private function createJammer($userJSON) {
-            $this->debug("createJammer", "START");                    
-            $this->debug("createJammer", "userJSON => ".var_export($userJSON,true));                    
+        $this->debug("createJammer", "START");
+        $this->debug("createJammer", "userJSON => " . var_export($userJSON, true));
         if (!is_null($userJSON)) {
             $user = new User("JAMMER");
             $this->setCommonValues($user, $userJSON);
@@ -383,7 +417,6 @@ class SignupController extends REST {
             $user->setJammerCounter(0);
             $user->setVenueCounter(0);
             $user->setJammerType($userJSON->jammerType);
-            $user->setCountry($userJSON->country);
 
             $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
             $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
@@ -395,7 +428,7 @@ class SignupController extends REST {
                 $user->setMembers($this->getMembersArray($userJSON->members));
             }
             $user->setMusic($this->getMusicArray($userJSON->genre));
-            $this->debug("createJammer", "returning user => ".var_export($user,true));
+            $this->debug("createJammer", "returning user => " . var_export($user, true));
             return $user;
         }
         return null;
@@ -582,16 +615,21 @@ class SignupController extends REST {
         $user->setEmail($decoded->email);
         $user->setPassword($decoded->password);
         $user->setDescription($decoded->description);
-        require_once CONTROLLERS_DIR."utilsController.php";
+        require_once CONTROLLERS_DIR . "utilsController.php";
         $imgInfo = getCroppedImages($decoded);
         $user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['picture']));
         $user->setProfilePicture($imgInfo['picture']);
         $user->setProfileThumbnail($imgInfo['thumbnail']);
-        if(strlen($decoded->facebook))$user->setFbPage($decoded->facebook);
-        if(strlen($decoded->twitter))$user->setTwitterPage($decoded->twitter);
-        if(strlen($decoded->google))$user->setGooglePlusPage($decoded->google);
-        if(strlen($decoded->youtube))$user->setYoutubeChannel($decoded->youtube);
-        if(strlen($decoded->web))$user->setWebsite($decoded->web);
+        if (strlen($decoded->facebook))
+            $user->setFbPage($decoded->facebook);
+        if (strlen($decoded->twitter))
+            $user->setTwitterPage($decoded->twitter);
+        if (strlen($decoded->google))
+            $user->setGooglePlusPage($decoded->google);
+        if (strlen($decoded->youtube))
+            $user->setYoutubeChannel($decoded->youtube);
+        if (strlen($decoded->web))
+            $user->setWebsite($decoded->web);
         $user->setBadge(array());
         $parseACL = new parseACL();
         $parseACL->setPublicReadAccess(true);
@@ -602,11 +640,11 @@ class SignupController extends REST {
         $user->setLevelValue(1);
         $user->setPremium(false);
     }
-    
-    private function debug($function, $msg){
+
+    private function debug($function, $msg) {
         $path = "signup.controller/";
         $file = date("Ymd"); //today
-        debug($path, $file, $function." | ".$msg);
+        debug($path, $file, $function . " | " . $msg);
     }
 
 }
