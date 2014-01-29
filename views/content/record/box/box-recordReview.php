@@ -132,8 +132,8 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div class="text grey cropText inline" style="line-height: 18px !important;">
 						<?php echo $review_text ?>									
 	    				</div>
-	    				<a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')">View All</strong></a>
-	    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')">Close</strong></a>
+	    				<a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['VIEWALL']; ?></strong></a>
+	    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['CLOSE']; ?></strong></a>
 	    			    </div>
 	    			</div>					
 
@@ -175,7 +175,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 			<?php
 			$nextToShow = ($reviewCounter - $limit > $reviewToShow) ? $reviewToShow : ($reviewCounter - $limit);
 			?>
-			<div class="text" onClick="loadBoxRecordReview(<?php echo $limit + $reviewToShow; ?>, 0);">Other <?php echo $nextToShow; ?> Review</div>
+			<div class="text" onClick="loadBoxRecordReview(<?php echo $limit + $reviewToShow; ?>, 0);">Other <?php echo $nextToShow; ?><?php echo $views['REVIEW']; ?></div>
 		    </div>	
 		</div>
 		<?php
