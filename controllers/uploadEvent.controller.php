@@ -139,8 +139,8 @@ class UploadEventController extends REST {
                     mkdir($dirCoverDest, 0777, true);
                 }
                 //sposto i file
-                rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
-                rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
+                rename(CACHE_DIR . DIRECTORY_SEPARATOR . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
+                rename(CACHE_DIR . DIRECTORY_SEPARATOR . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
             }
 
             unset($_SESSION['currentUserFeaturingArray']);
