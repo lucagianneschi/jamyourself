@@ -397,9 +397,6 @@ class ValidateNewUserService {
             return false;
         if (strlen($component->instrument) <= 0)
             return false;
-        $instrumentList = $this->config->instruments;
-        if (!in_array(strtolower($component->instrument), $instrumentList))
-            return false;
         return true;
     }
 
