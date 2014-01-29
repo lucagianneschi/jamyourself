@@ -1373,7 +1373,6 @@ function initUploader(userType) {
 
     uploader.bind('Init', function(up, params) {
 //        window.console.log("initUploader - EVENT: Ini");
-        $('#filelist').html("");
     });
 
 //inizializo l'uploader

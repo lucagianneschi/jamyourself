@@ -35,7 +35,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                             </div>
                             <div class="row">
                                 <div id="spotter_container" class="small-5 small-centered columns align-center">
-                                    <div id="filelist"><?php echo $views['signup']['invalid_image_format']; ?></div>
+                                    <div id="filelist"></div>
                                     <br />
                                     <label class="uploadImage_file_label" for="spotter_uploadImage_file" id="spotter_uploadImage_file_label" style="width: 300px;"><?php echo $views['signup']['select_file']; ?></label>
                                 </div>
