@@ -27,6 +27,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<div class="menu">
 	    <div class="facebook" onclick="window.open('<?php echo FACEBOOK; ?>')"></div>
 	    <div class="twitter" onclick="window.open('<?php echo TWITTER; ?>')"></div>
+<!--	    <div class="blog" onclick="window.open('<?php echo BLOG; ?>')" ><?php echo $views['home']['blog']; ?></div>-->
 	    <div class="blog"><?php echo $views['home']['blog']; ?></div>
 	    <div class="subscribe" onclick="scrollto('subscribe')"><?php echo $views['home']['subscribe']; ?></div>
 	    <div class="login"><?php echo $views['home']['login']; ?></div>
