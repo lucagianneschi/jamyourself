@@ -55,27 +55,27 @@ function noDisplay($dato) {
 		<div class="small-6 columns">
 		    <div class="row <?php echo noDisplay($user->getFbPage()); ?>">
 			<div class="small-12 columns">
-			    <a href="<?php echo $user->getFbPage(); ?>" class="ico-label _facebook breakOff"><?php echo $user->getFbPage(); ?></a>
+			    <a style="max-width: 210px;" href="<?php echo $user->getFbPage(); ?>"  class="ico-label _facebook breakOff" ><?php echo $user->getFbPage(); ?></a>
 			</div>
 		    </div>
 		    <div class="row <?php echo noDisplay($user->getTwitterPage()); ?>">
 			<div class="small-12 columns">
-			    <a href="<?php echo $user->getTwitterPage(); ?>" class="ico-label _twitter breakOff"><?php echo $user->getTwitterPage(); ?></a>
+			    <a style="max-width: 210px;" href="<?php echo $user->getTwitterPage(); ?>" class="ico-label _twitter breakOff"><?php echo $user->getTwitterPage(); ?></a>
 			</div>	
 		    </div>
 		    <div class="row  <?php echo noDisplay($user->getGooglePlusPage()); ?>">
 			<div class="small-12 columns">
-			    <a href="<?php echo $user->getGooglePlusPage(); ?>" class="ico-label _google breakOff"><?php echo $user->getGooglePlusPage(); ?></a>
+			    <a style="max-width: 210px;" href="<?php echo $user->getGooglePlusPage(); ?>" class="ico-label _google breakOff"><?php echo $user->getGooglePlusPage(); ?></a>
 			</div>	
 		    </div>
 		    <div class="row  <?php echo noDisplay($user->getYoutubeChannel()); ?>">
 			<div class="small-12 columns">
-			    <a href="<?php echo $user->getYoutubeChannel(); ?>" class="ico-label _youtube breakOff"><?php echo $user->getYoutubeChannel(); ?></a>
+			    <a style="max-width: 210px;" href="<?php echo $user->getYoutubeChannel(); ?>" class="ico-label _youtube breakOff"><?php echo $user->getYoutubeChannel(); ?></a>
 			</div>	
 		    </div>
 		    <div class="row  <?php echo noDisplay($user->getWebsite()); ?>">
 			<div class="small-12 columns">
-			    <a href="<?php echo $user->getWebsite(); ?>" class="ico-label _web breakOff"><?php echo $user->getWebsite(); ?></a>
+			    <a style="max-width: 210px;"href="<?php echo $user->getWebsite(); ?>" class="ico-label _web breakOff"><?php echo $user->getWebsite(); ?></a>
 			</div>	
 		    </div>
 		</div>					
@@ -92,27 +92,22 @@ function noDisplay($dato) {
 		<section>
 		    <p class="title" data-section-title><a href="#"><?php echo $views['information']['CONTENT2']; ?></a></p>
 		    <div class="content" data-section-content>
-			<div class="row">
+			
 			    <?php
 			    $i = 0;
 			    foreach ($user->getMembers() as $key => $value) {
-				?>
-
+					if($i % 2 == 0){ ?> <div class="row"> <?php }
+					?>
 	    		    <div class="small-6 columns">
-	    			<div class="box-membre">
-	    			    <span class="text white"><?php echo $value->name; ?></span></br>
-	    			    <span class="note grey"><?php echo $value->instrument; ?></span>
-	    			</div>
-	    		    </div>				
+		    			<div class="box-membre">
+		    			    <span class="text white"><?php echo $value->name; ?></span></br>
+		    			    <span class="note grey"><?php echo $value->instrument; ?></span>
+		    			</div>
+	    		    </div>		
 
-	    <?php
-	    if ($i % 2 == 0 && $i != 0) {
-		?>
-				</div>
-				<div class="row">
-				    <?php
-				}
-				$i++;
+			    	<?php
+			   		if (($i+1) % 2 == 0 || ($i+1) == count($user->getMembers())) { ?> </div>  <?php }
+					$i++;
 			    }
 			    ?>				
 			</div>
