@@ -66,7 +66,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                             $comment_user_username = $value->getFromUser()->getUsername();
                             $comment_user_type = $value->getFromUser()->getType();
                             $comment_objectId = $value->getObjectId();
-                            $comment_data = $value->getCreatedAt()->format('l j F Y - H:i');
+                            $comment_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
                             $comment_title = $value->getTitle();
                             $comment_text = $value->getText();
                             #TODO
@@ -96,36 +96,36 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                             ?>				
                             <div id='<?php echo $comment_objectId; ?>'>
 
-                                <div class="box">
-
-                                    <div class="row  line" style="cursor: pointer" onclick="location.href = 'profile.php?user=<?php echo $comment_user_objectId ?>'">
-                                        <div  class="small-1 columns ">
-                                            <div class="icon-header">
-                                                <!-- THUMB USER-->
-                                                <?php $thumbPath = USERS_DIR . $comment_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $comment_user_thumbnail; ?>
-                                                <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-                                            </div>
-                                        </div>
-                                        <div  class="small-5 columns">
-                                            <div class="text grey" style="margin-bottom: 0px;">
-                                                <strong><?php echo $comment_user_username; ?></strong>
-                                            </div>
-                                            <div class="note orange">
-                                                <strong><?php echo $comment_user_type ?></strong>
-                                            </div>
-                                        </div>
-                                        <div  class="small-6 columns propriety">
-                                            <div class="note grey-light">
-                                                <?php echo $comment_data; ?>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                                <div class="box" style="padding: 15px !important;padding-bottom: 10px !important;">
+									<a href="profile.php?user=<?php echo $comment_user_objectId ?>">
+	                                    <div class="row  line" style="padding-bottom: 10px !important;padding-right: 20px !important;">
+	                                        <div  class="small-1 columns ">
+	                                            <div class="icon-header">
+	                                                <!-- THUMB USER-->
+	                                                <?php $thumbPath = USERS_DIR . $comment_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $comment_user_thumbnail; ?>
+	                                                <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+	                                            </div>
+	                                        </div>
+	                                        <div  class="small-5 columns" style="padding-left: 20px;">
+	                                            <div class="text grey" style="margin-bottom: 0px;">
+	                                                <strong><?php echo $comment_user_username; ?></strong>
+	                                            </div>
+	                                            <div class="note orange">
+	                                                <strong><?php echo $comment_user_type ?></strong>
+	                                            </div>
+	                                        </div>
+	                                        <div  class="small-6 columns propriety">
+	                                            <div class="note grey-light">
+	                                                <?php echo $comment_data; ?>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+                                    </a>
                                     <div class="row  line">
                                         <div  class="small-12 columns ">
                                             <div class="row ">
                                                 <div  class="small-12 columns ">
-                                                    <div class="text grey">
+                                                    <div class="text grey" style="padding-top: 10px;">
                                                         <?php echo $comment_text; ?>	
                                                     </div>
                                                 </div>
