@@ -34,7 +34,7 @@ class CropImageService {
             //SALVO L' IMMAGINE NELLA RISPETTIVE CARTELLA:
             $cover_url = "";
 
-            if (imagejpeg($cover, MEDIA_DIR . "cache/" . $profileImgName, 100)) {
+            if (imagejpeg($cover, CACHE_DIR . $profileImgName, 100)) {
                 $cover_url = $profileImgName;
             }
 
@@ -93,26 +93,26 @@ class CropImageService {
 
     public function resizeImageFromSrc($cacheImg, $desiredWidth) {
         $image = null;
-        list($width_, $height_, $type, $attr_) = getimagesize( MEDIA_DIR . "cache/" . $cacheImg);
+        list($width_, $height_, $type, $attr_) = getimagesize(CACHE_DIR . $cacheImg);
         //nome file univoco            
         $profileImgName = md5(time() . rand()) . ".jpg";
 
         //Controllo tipo di file: se è un file immagine (GIF, JPG o PNG), Altrimenti genera eccezione.
         switch ($type) {
             case IMAGETYPE_GIF:
-                $image = imagecreatefromgif( MEDIA_DIR . "cache/" . $cacheImg);
+                $image = imagecreatefromgif(CACHE_DIR . $cacheImg);
                 break;
             case IMAGETYPE_JPEG:
-                $image = imagecreatefromjpeg( MEDIA_DIR . "cache/" . $cacheImg);
+                $image = imagecreatefromjpeg(CACHE_DIR . $cacheImg);
                 break;
             case IMAGETYPE_PNG:
-                $image = imagecreatefrompng( MEDIA_DIR . "cache/" . $cacheImg);
+                $image = imagecreatefrompng(CACHE_DIR . $cacheImg);
                 break;
             default:
                 return null;
         }
 
-        $source_image = imagecreatefromjpeg( MEDIA_DIR . "cache/" . $cacheImg);
+        $source_image = imagecreatefromjpeg(CACHE_DIR . $cacheImg);
         $width = imagesx($image);
         $height = imagesy($image);
 
@@ -126,8 +126,8 @@ class CropImageService {
         imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desiredWidth, $desired_height, $width, $height);
 
         /* create the physical thumbnail image to its destination */
-        imagejpeg($virtual_image,  MEDIA_DIR . "cache/" . $profileImgName);
-        
+        imagejpeg($virtual_image, CACHE_DIR . $profileImgName);
+
         return $profileImgName;
     }
 

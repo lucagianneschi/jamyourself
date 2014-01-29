@@ -134,9 +134,9 @@ class SignupController extends REST {
             if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
                 $res_1 = false;
                 $res_2 = false;
-                $src_img = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $user->getProfilePicture();
+                $src_img = CACHE_DIR . DIRECTORY_SEPARATOR . $user->getProfilePicture();
                 $dest_img = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture" . DIRECTORY_SEPARATOR . $user->getProfilePicture();
-                $src_thumb = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail();
+                $src_thumb = CACHE_DIR . DIRECTORY_SEPARATOR . $user->getProfileThumbnail();
                 $dest_thumb = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail();
                 $this->debug("signup", "Source image : " . $src_img);
                 $this->debug("signup", "Destination image : " . $dest_img);

@@ -24,7 +24,7 @@ class UploadController extends REST {
                 @set_time_limit($this->config->timeLimit);
             }
 
-            $targetDir = MEDIA_DIR . "cache";
+            $targetDir = CACHE_DIR;
             $this->debug("uploadImage", "targetDir is : " . $targetDir);
 
 // creao la directory di destinazione se non esiste
@@ -100,7 +100,7 @@ class UploadController extends REST {
 
                 $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
                 $fileName = (md5(time() . rand())) . "." . $ext;
-                $randomName = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileName;
+                $randomName = CACHE_DIR .  DIRECTORY_SEPARATOR . $fileName;
                 $resRename = rename($filePath, $randomName);
                 if (!$resRename) {
                     $this->debug("uploadImage", "ERROR: Error renaming file - END");
@@ -136,7 +136,7 @@ class UploadController extends REST {
             $targetDir = $this->config->targetDir;
 
 //commentare per produzione
-            $targetDir = MEDIA_DIR . "cache";
+            $targetDir = CACHE_DIR;
 // creao la directory di destinazione se non esiste
             if (!file_exists($targetDir)) {
                 @mkdir($targetDir);
@@ -205,7 +205,7 @@ class UploadController extends REST {
 
                 $ext = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
                 $fileName = (md5(time() . rand())) . "." . $ext;
-                $randomName = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileName;
+                $randomName = CACHE_DIR .  DIRECTORY_SEPARATOR . $fileName;
                 $resRename = rename($filePath, $randomName);
                 if (!$resRename) {
                     $this->debug("uploadImage", "ERROR: Error renaming file - END");

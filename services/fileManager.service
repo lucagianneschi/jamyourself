@@ -268,7 +268,7 @@ class FileManagerService {
     }
 
     public function cleanUpCacheDirectory() {
-        $files = glob(MEDIA_DIR.DIRECTORY_SEPARATOR. "cache".DIRECTORY_SEPARATOR."*");
+        $files = glob(CACHE_DIR ."*");
         foreach ($files as $file) {
             if (is_file($file) && time() - filemtime($file) >= 2 * 24 * 60 * 60) { // 2 days
                 unlink($file);

@@ -70,8 +70,8 @@ class UploadEventController extends REST {
                 $this->response(array('status' => $controllers['NOEVENTMUSIC']), 400);
             } elseif (!isset($this->request['tags']) || is_null($this->request['tags']) || !is_array($this->request['tags']) || !(count($this->request['tags']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTTAGS']), 400);
-            } elseif (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
-                $this->response(array('status' => $controllers['NOEVENTURL']), 400);
+//            } elseif (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
+//                $this->response(array('status' => $controllers['NOEVENTURL']), 400);
             } elseif (!isset($this->request['venue']) || is_null($this->request['venue']) || !(strlen($this->request['venue']) > 0)) {
                 $this->response(array('status' => $controllers['NOEVENTVENUE']), 400);
             } elseif (!isset($this->request['image']) || is_null($this->request['image'])) {
@@ -94,7 +94,9 @@ class UploadEventController extends REST {
                 $this->response(array('status' => $controllers['NOEVENTDATE']), 400);
             }
             $event->setEventDate($eventDate); //tipo Date su parse
-            $event->setFeaturing($this->request['jammers']);
+            if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
+                $event->setFeaturing($this->request['jammers']);
+            }
             $event->setFromUser($userId);
             $imgInfo = getCroppedImages($this->request);
             $event->setImage($imgInfo['picture']);
@@ -151,7 +153,7 @@ class UploadEventController extends REST {
                 $message = rollbackUploadEventController($eventSave->getObjectId());
                 $this->response(array('status' => $message), 503);
             }
-            $this->response(array('status' => $controllers['EVENTCREATED'],"id" => $eventSave->getObjectId()), 200);
+            $this->response(array('status' => $controllers['EVENTCREATED'], "id" => $eventSave->getObjectId()), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
@@ -241,6 +243,7 @@ class UploadEventController extends REST {
             $this->response(array('status' => $e->getMessage()), 503);
         }
     }
+
 }
 
 ?>

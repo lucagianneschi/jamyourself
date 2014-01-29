@@ -129,8 +129,8 @@ class UploadRecordController extends REST {
             $imageSrc = $savedRecord->getCover();
             //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
             if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
-                rename(MEDIA_DIR . "cache/" . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
-                rename(MEDIA_DIR . "cache/" . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
+                rename(CACHE_DIR . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
+                rename(CACHE_DIR . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
             }
             unset($_SESSION['currentUserFeaturingArray']);
             //se va a buon fine salvo una nuova activity 
@@ -193,7 +193,7 @@ class UploadRecordController extends REST {
                 $pSong = new SongParse();
                 foreach ($songList as $songIstance) {
                     $element = json_decode(json_encode($songIstance), false);
-                    $cachedFile = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element->src;
+                    $cachedFile = CACHE_DIR . $element->src;
                     if (!file_exists($cachedFile) || !isset($element->tags) || !isset($element->title)) {
                         //errore... il file non e' piu' in cache... :(
                         // tags non presenti
@@ -230,7 +230,7 @@ class UploadRecordController extends REST {
                             //decremento il contatore
                             $position--;
                             //cancello l'mp3 dalla cache
-                            unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $element->src);
+                            unlink(CACHE_DIR . $element->src);
                         } else {
                             if (!$this->saveMp3($currentUser->getObjectId(), $recordId, $song->getFilePath()) || $this->createActivity($currentUser->getObjectId(), $recordId, "SONGUPLOADED", $savedSong->getObjectId()) instanceof Error) {
                                 require_once CONTROLLERS_DIR . 'rollBackUtils.php';
@@ -438,8 +438,8 @@ class UploadRecordController extends REST {
      * \param   $userId, $recordId, $songId
      */
     private function deleteMp3($userId, $recordId, $songId) {
-        if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
-            unlink(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId);
+        if (file_exists(CACHE_DIR . $songId)) {
+            unlink(CACHE_DIR . $songId);
         }
         if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId)) {
             unlink(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId . DIRECTORY_SEPARATOR . $songId);
@@ -657,13 +657,13 @@ class UploadRecordController extends REST {
      * param   $userId, $recordId, $songId
      */
     private function saveMp3($userId, $recordId, $songId) {
-        if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId)) {
+        if (file_exists(CACHE_DIR . $songId)) {
             $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId;
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
             }
             if (!is_null($userId) && !is_null($recordId) && !is_null($songId)) {
-                $oldName = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $songId;
+                $oldName = CACHE_DIR . $songId;
                 $newName = $dir . DIRECTORY_SEPARATOR . $songId;
                 return rename($oldName, $newName);
             }

@@ -362,7 +362,7 @@ class UploadAlbumController extends REST {
     private function saveImage($imgInfo, $albumId) {
         try {
             $currentUser = $_SESSION['currentUser'];
-            $cachedFile = MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $imgInfo['src'];
+            $cachedFile = CACHE_DIR . $imgInfo['src'];
             if (!file_exists($cachedFile)) {
                 return null;
             } else {
@@ -431,7 +431,7 @@ class UploadAlbumController extends REST {
     }
 
     private function moveFile($userId, $albumId, $fileInCache) {
-        if (file_exists(MEDIA_DIR . "cache" . DIRECTORY_SEPARATOR . $fileInCache)) {
+        if (file_exists(CACHE_DIR . $fileInCache)) {
             $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $albumId;
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
@@ -439,7 +439,7 @@ class UploadAlbumController extends REST {
             if (!is_null($userId) && !is_null($albumId) && !is_null($fileInCache)) {
 
                 //reperisco le info sull'immagine
-                list($width, $height, $type, $attr) = getimagesize(MEDIA_DIR . "cache/" . $fileInCache);
+                list($width, $height, $type, $attr) = getimagesize(CACHE_DIR . $fileInCache);
 
                 require_once SERVICES_DIR . 'cropImage.service.php';
                 //Preparo l'oggetto per l'editing della foto
@@ -448,15 +448,15 @@ class UploadAlbumController extends REST {
                 //immagine 
                 $jpg = $cis->resizeImageFromSrc($fileInCache, $width);
                 $destName = $dir . DIRECTORY_SEPARATOR . $jpg;
-                $res_1 = rename(MEDIA_DIR . "cache/" . $jpg, $destName);
+                $res_1 = rename(CACHE_DIR . $jpg, $destName);
 
                 //thumbnail
                 $thumbnail = $cis->resizeImageFromSrc($fileInCache, THUMBNAIL_IMG_SIZE);
                 $destName = $dir . DIRECTORY_SEPARATOR . $thumbnail;
-                $res_2 = rename(MEDIA_DIR . "cache/" . $thumbnail, $destName);
+                $res_2 = rename(CACHE_DIR . $thumbnail, $destName);
 
                 //cancello il vecchio file
-                unlink(MEDIA_DIR . "cache/" . $fileInCache);
+                unlink(CACHE_DIR . $fileInCache);
                 if ($res_1 && $res_2) {
                     return array("image" => $jpg, "thumbnail" => $thumbnail);
                 } else {

@@ -151,7 +151,7 @@ function getCroppedImages($decoded) {
             !isset($cropInfo->h) || is_null($cropInfo->h) || !is_numeric($cropInfo->h)) {
         return array("picture" => null, "thumbnail" => null);
     }
-    $cacheDir = MEDIA_DIR . "cache/";
+    $cacheDir = CACHE_DIR;
     $cacheImg = $cacheDir . $decoded->image;
     require_once SERVICES_DIR . 'cropImage.service.php';
 //Preparo l'oggetto per l'editign della foto

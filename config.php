@@ -16,6 +16,7 @@ define('SERVICES_DIR', ROOT_DIR . 'services/');
 define('STDHTML_DIR', SERVICES_DIR . 'mail/standardHTML/');
 define('TESTS_DIR', ROOT_DIR . 'tests/');
 define('VIEWS_DIR', ROOT_DIR . 'views/');
+define('CACHE_DIR', ROOT_DIR . 'cache/');
 define('USERS_DIR', ROOT_DIR . 'users/');
 define('DEF_IMAGES_DIR', ROOT_DIR . 'views/resources/images/default/');
 
