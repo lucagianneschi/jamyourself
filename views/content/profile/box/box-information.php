@@ -55,22 +55,22 @@ function noDisplay($dato) {
 		<div class="small-6 columns">
 		    <div class="row <?php echo noDisplay($user->getFbPage()); ?>">
 			<div class="small-12 columns">
-			    <a class="ico-label _facebook breakOff"><?php echo $user->getFbPage(); ?></a>
+			    <a href="<?php echo $user->getFbPage(); ?>" class="ico-label _facebook breakOff"><?php echo $user->getFbPage(); ?></a>
 			</div>
 		    </div>
 		    <div class="row <?php echo noDisplay($user->getTwitterPage()); ?>">
 			<div class="small-12 columns">
-			    <a class="ico-label _twitter breakOff"><?php echo $user->getTwitterPage(); ?></a>
+			    <a href="<?php echo $user->getTwitterPage(); ?>" class="ico-label _twitter breakOff"><?php echo $user->getTwitterPage(); ?></a>
 			</div>	
 		    </div>
 		    <div class="row  <?php echo noDisplay($user->getGooglePlusPage()); ?>">
 			<div class="small-12 columns">
-			    <a class="ico-label _google breakOff"><?php echo $user->getGooglePlusPage(); ?></a>
+			    <a href="<?php echo $user->getGooglePlusPage(); ?>" class="ico-label _google breakOff"><?php echo $user->getGooglePlusPage(); ?></a>
 			</div>	
 		    </div>
 		    <div class="row  <?php echo noDisplay($user->getYoutubeChannel()); ?>">
 			<div class="small-12 columns">
-			    <a class="ico-label _youtube breakOff"><?php echo $user->getYoutubeChannel(); ?></a>
+			    <a href="<?php echo $user->getYoutubeChannel(); ?>" class="ico-label _youtube breakOff"><?php echo $user->getYoutubeChannel(); ?></a>
 			</div>	
 		    </div>
 		    <div class="row  <?php echo noDisplay($user->getWebsite()); ?>">
