@@ -30,6 +30,8 @@ switch ($event->getFromUser()->getType()) {
 	$defaultThum = DEFTHUMBSPOTTER;
 	break;
 }
+
+$thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $fromUserThumbnail;
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
@@ -41,10 +43,10 @@ switch ($event->getFromUser()->getType()) {
 		<p class="title" data-section-title onclick="removeMap();"><a href="#"><?php echo $views['media']['Information']['CONTENT1_EVENT'] ?></a></p>
 		<div class="content" data-section-content>
 		    <a href="profile.php?user=<?php echo $fromUserObjectId ?>">
-			<div class="row " id="user_<?php echo $fromUserObjectId ?>">
+			<div class="row" id="user_<?php echo $fromUserObjectId ?>">
 			    <div class="small-1 columns ">
 				<div class="icon-header" onclick="location.href = 'profile.php?user=<?php echo $fromUserObjectId; ?>'">
-				    <img src="<?php echo $fromUserThumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+				    <img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 				</div>
 			    </div>
 			    <div  class="small-11 columns ">
