@@ -65,17 +65,6 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				$css_love = '_unlove grey';
 				$text_love = $views['LOVE'];
 		    }
-		    switch ($review_user_type) {
-				case 'JAMMER':
-				    $defaultThum = DEFTHUMBJAMMER;
-				    break;
-				case 'VENUE':
-				    $defaultThum = DEFTHUMBVENUE;
-				    break;
-				case 'SPOTTER':
-				    $defaultThum = DEFTHUMBSPOTTER;
-				    break;
-		    }
 		    ?>
 	    	<div class="row" id='social-RecordReview-<?php echo $review_objectId; ?>'>
 	    	    <div  class="large-12 columns ">
@@ -87,7 +76,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 					    				<div class="userThumb">
 				                            <!-- THUMB USER-->
 				                            <?php $thumbPath = USERS_DIR . $review_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $review_user_thumbnail; ?>
-					    				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+	    					<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'">
 					    				</div>
 				    			    </div>
 				    			    <div  class="small-5 columns">
