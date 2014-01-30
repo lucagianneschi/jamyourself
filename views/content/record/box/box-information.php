@@ -30,18 +30,6 @@ $fromUserObjectId = $record->getFromUser()->getObjectId();
 $fromUserThumbnail = $record->getFromUser()->getProfileThumbnail();
 $fromUserUsername = $record->getfromUser()->getUsername();
 
-switch ($record->getfromUser()->getType()) {
-    case 'JAMMER':
-	$defaultThum = DEFTHUMBJAMMER;
-	break;
-    case 'VENUE':
-	$defaultThum = DEFTHUMBVENUE;
-	break;
-    case 'SPOTTER':
-	$defaultThum = DEFTHUMBSPOTTER;
-	break;
-}
-
 $css_city = (!isset($city) || $city == '') ? 'no-display' : '';
 $css_year = (!isset($year) || $year == '') ? 'no-display' : '';
 $css_label = (!isset($label) || $label == '') ? 'no-display' : '';
@@ -65,7 +53,7 @@ $thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DI
 			    <div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>">
 					<div class="small-1 columns ">
 					    <div class="icon-header">
-							<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+							<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo DEFTHUMBJAMMER; ?>'">
 					    </div>
 					</div>
 					<div  class="small-11 columns ">
