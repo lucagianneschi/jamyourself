@@ -106,6 +106,13 @@ define('FACEBOOK', 'https://www.facebook.com/Jamyourselfcom');
 define('TWITTER', 'https://twitter.com/Jamyourself'); 
 define('BLOG', 'http://blog.jamyourself.com/'); 
 
+################
+# DEFAULT NAMES#
+################
+define('DEF_PLAY', 'Playslist'); 
+define('DEF_REC', 'Default Record'); 
+define('DEF_ALBUM', 'Default Album'); 
+
 ##################
 #  LOG LEVEL     #
 ##################
