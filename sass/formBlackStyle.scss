@@ -268,13 +268,7 @@
  
  .ui-progressbar-value {
  	top: 12px;
-    background: $orange;
-    /*
-    background: -webkit-linear-gradient(top,$orange 0%, #51af34 100%);
-    background: -moz-linear-gradient(top, $orange 0%, #51af34 100%);
-    background: -o-linear-gradient(top, $orange 0%, #51af34 100%);
-    background: -ms-linear-gradient(top, $orange 0%, #51af34 100%);
-    background: linear-gradient(top, $orange 0%, #51af34 100%); */
+    background: $orange;    
 }
  
  .ui-progressbar-value span.progressTooltip {
@@ -292,6 +286,5 @@
     text-align: center;
     font-size: 12px;
     color: #646464;
- 
-    background: transparent url(../img/tooltip.png) no-repeat;
+
 }
