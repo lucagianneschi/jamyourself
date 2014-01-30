@@ -19,6 +19,7 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
+require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'geocoder.service.php';
 require_once CLASSES_DIR . 'user.class.php';
 require_once CLASSES_DIR . 'userParse.class.php';
@@ -657,7 +658,9 @@ class UploadRecordController extends REST {
      * param   $userId, $recordId, $songId
      */
     private function saveMp3($userId, $recordId, $songId) {
+        $this->debug("saveMp3", "Params => userId => ".$userId." - songId => ".$songId, null);
         if (file_exists(CACHE_DIR . $songId)) {
+                $this->debug("saveMp3", "file ".CACHE_DIR . $songId." exists", null);
             $dir = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . $recordId;
             if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
@@ -665,11 +668,27 @@ class UploadRecordController extends REST {
             if (!is_null($userId) && !is_null($recordId) && !is_null($songId)) {
                 $oldName = CACHE_DIR . $songId;
                 $newName = $dir . DIRECTORY_SEPARATOR . $songId;
-                return rename($oldName, $newName);
+                $res_rename = rename($oldName, $newName);
+                if($res_rename){
+                    
+                }
+                $this->debug("saveMp3", "renaming  - file \"".CACHE_DIR . $songId."\" not exists", null);
+                return $res_rename;
             }
         }
-        else
+        else{
+            $this->debug("saveMp3", "ERROR - file \"".CACHE_DIR . $songId."\" not exists", null);
             return false;
+        }
+    }
+    
+        private function debug($function, $msg, $complexObject) {
+        $path = "uploadRecord.controller/";
+        $file = date("Ymd"); //today
+        if(isset($complexObject) && !is_null($complexObject)){
+            $msg = $msg. " ".var_export($complexObject, true);
+        }
+        debug($path, $file, $function . " | " . $msg);
     }
 
 }
