@@ -65,9 +65,8 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	createEvent()
-     * \brief   funzione per pubblicazione dell'event
-     * \modificare il nome in createRecord
+     * \fn	createRecord($record)
+     * \brief   funzione per pubblicazione del record
      */
     private function createRecord($record) {
         try {
@@ -107,6 +106,7 @@ class UploadRecordController extends REST {
             $record->setLocation($parseGeoPoint);
             $record->setCity($infoLocation['city']);
             $record->setLoveCounter(0);
+	    $record->setLovers(array());
             $record->setReviewCounter(0);
             $record->setShareCounter(0);
             $record->setTitle($newRecord->recordTitle);
@@ -392,7 +392,7 @@ class UploadRecordController extends REST {
         $activity->setRead(true);
         $activity->setRecord($recordId);
         $activity->setSong($songId);
-        $activity->setStatus(null);
+        $activity->setStatus('A');
         $activity->setToUser(null);
         $activity->setType($type);
         $activity->setVideo(null);

@@ -72,7 +72,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 					$eventReview_user_type = $value->getFromUser()->getType();
 				    }
 				    $eventReview_thumbnailCover = $value->getEvent()->getThumbnail();
-					$event_objectId = $value->getEvent()->getObjectId();
+				    $event_objectId = $value->getEvent()->getObjectId();
 				    $eventReview_title = $value->getTitle();
 				    #TODO
 				    //$eventReview_rating = $value->getRating();
@@ -88,7 +88,6 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 					$css_love = '_unlove grey';
 					$text_love = $views['LOVE'];
 				    }
-					
 				    ?>
 	    			<div  class="rsContent">	
 	    			    <div id='eventReview_<?php echo $eventReview_objectId ?>'>	
@@ -101,29 +100,26 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						    case 'VENUE':
 							$defaultThum = DEFTHUMBVENUE;
 							break;
-						    case 'SPOTTER':
-							$defaultThum = DEFTHUMBSPOTTER;
-							break;
 						}
-						$pathUser = USERS_DIR . $eventReview_user_objectId. '/images/profilepicturethumb/';
-						$pathEvent = USERS_DIR . $currentUser->getObjectId(). '/images/eventcoverthumb/';
+						$pathUser = USERS_DIR . $eventReview_user_objectId . '/images/profilepicturethumb/';
+						$pathEvent = USERS_DIR . $currentUser->getObjectId() . '/images/eventcoverthumb/';
 						?>
 						<a href="profile.php?user=<?php echo $eventReview_user_objectId ?>">
-							<div class="row">
-							    <div  class="small-1 columns ">
-									<div class="userThumb">
-									    <img src="<?php echo $pathUser.$eventReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-									</div>
+						    <div class="row">
+							<div  class="small-1 columns ">
+							    <div class="userThumb">
+								<img src="<?php echo $pathUser . $eventReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 							    </div>
-							    <div  class="small-5 columns">
-									<div class="text grey" style="margin-left: 20px;"><strong><?php echo $eventReview_user_username ?></strong></div>
-								</div>
-								<div  class="small-6 columns" style="text-align: right;">
-									<div class="note grey-light">
-									    <?php echo $eventReview_data; ?>
-									</div>
-							    </div>		
 							</div>
+							<div  class="small-5 columns">
+							    <div class="text grey" style="margin-left: 20px;"><strong><?php echo $eventReview_user_username ?></strong></div>
+							</div>
+							<div  class="small-6 columns" style="text-align: right;">
+							    <div class="note grey-light">
+								<?php echo $eventReview_data; ?>
+							    </div>
+							</div>		
+						    </div>
 						</a>						
 						<div class="row">
 						    <div  class="large-12 columns"><div class="line"></div></div>
@@ -131,37 +127,37 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						<?php
 					    }
 					    ?>
-					    <a href="event.php?event=<?php echo $eventReview_objectId ?>" >
-		    				<div class="row">
-		    				    <div  class="small-2 columns ">
-		    						<div class="coverThumb"><img src="<?php echo $pathEvent.$eventReview_thumbnailCover ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></div>						
-		    				    </div>
-		    				    <div  class="small-10 columns ">
-			    					<div class="row ">							
-			    					    <div  class="small-12 columns ">
-			    						<div class="sottotitle grey-dark"><?php echo $eventReview_title ?></div>
-			    					    </div>	
-			    					</div>	
-			    					<div class="row">						
-			    					    <div  class="small-12 columns ">
-			    						<div class="note grey"><?php echo $views['EventReview']['RATING']; ?></div>
-			    					    </div>
-			    					</div>
-			    					<div class="row ">						
-			    					    <div  class="small-12 columns ">
-									    <?php
-									    for ($index = 0; $index < 5; $index++) {
-											if ($index <= $eventReview_rating) {
-											    echo '<a class="icon-propriety _star-orange"></a>';
-											} else {
-											    echo '<a class="icon-propriety _star-grey"></a>';
-											}
-									    }
-									    ?>
-			    					    </div>
-			    					</div>													
-		    				    </div>											
-		    				</div>
+	    				<a href="event.php?event=<?php echo $eventReview_objectId ?>" >
+	    				    <div class="row">
+	    					<div  class="small-2 columns ">
+	    					    <div class="coverThumb"><img src="<?php echo $pathEvent . $eventReview_thumbnailCover ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></div>						
+	    					</div>
+	    					<div  class="small-10 columns ">
+	    					    <div class="row ">							
+	    						<div  class="small-12 columns ">
+	    						    <div class="sottotitle grey-dark"><?php echo $eventReview_title ?></div>
+	    						</div>	
+	    					    </div>	
+	    					    <div class="row">						
+	    						<div  class="small-12 columns ">
+	    						    <div class="note grey"><?php echo $views['EventReview']['RATING']; ?></div>
+	    						</div>
+	    					    </div>
+	    					    <div class="row ">						
+	    						<div  class="small-12 columns ">
+								<?php
+								for ($index = 0; $index < 5; $index++) {
+								    if ($index <= $eventReview_rating) {
+									echo '<a class="icon-propriety _star-orange"></a>';
+								    } else {
+									echo '<a class="icon-propriety _star-grey"></a>';
+								    }
+								}
+								?>
+	    						</div>
+	    					    </div>													
+	    					</div>											
+	    				    </div>
 	    				</a>						
 	    				<div class="row " style=" margin-top:10px;">						
 	    				    <div  class="small-12 columns ">

@@ -52,9 +52,6 @@ if (is_null($collaboratorsBox->error)) {
                                         case 'VENUE':
                                             $defaultThum = DEFTHUMBVENUE;
                                             break;
-                                        case 'SPOTTER':
-                                            $defaultThum = DEFTHUMBSPOTTER;
-                                            break;
                                     }
                                     if ($i % 2 == 0) {
                                         ?> <div class="row">  <?php } ?>
@@ -107,9 +104,6 @@ if (is_null($collaboratorsBox->error)) {
                                             break;
                                         case 'VENUE':
                                             $defaultThum = DEFTHUMBVENUE;
-                                            break;
-                                        case 'SPOTTER':
-                                            $defaultThum = DEFTHUMBSPOTTER;
                                             break;
                                     }
                                     $pathPicture = USERS_DIR . $value->getObjectId() . '/images/profilepicturethumb/';

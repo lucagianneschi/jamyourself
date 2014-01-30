@@ -35,6 +35,6 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         <div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span><?php echo $views['mandatory_fields']; ?></div>
     </div>	
     <div  class="small-6 columns" >
-        <input type="button" name="uploadAlbum02-next" id="uploadAlbum02-next" class="buttonNext" value="Next" style="float: right;"/>
+        <input type="button" name="uploadAlbum02-next" id="uploadAlbum02-next" class="buttonNext" value="<?php echo $views['NEXT']; ?>" style="float: right;"/>
     </div>	
 </div>

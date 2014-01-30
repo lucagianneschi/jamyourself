@@ -65,7 +65,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_user_username = $value->getFromUser()->getUsername();
 				    $recordReview_user_type = $value->getFromUser()->getType();
 				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnailCover();
-					$recordObjectId = $value->getRecord()->getObjectId();
+				    $recordObjectId = $value->getRecord()->getObjectId();
 				    $recordReview_title = $value->getRecord()->getTitle();
 				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
 				    #TODO
@@ -93,29 +93,26 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						    case 'VENUE':
 							$defaultThum = DEFTHUMBVENUE;
 							break;
-						    case 'SPOTTER':
-							$defaultThum = DEFTHUMBSPOTTER;
-							break;
 						}
-						$pathUser = USERS_DIR . $eventReview_user_objectId. '/images/profilepicturethumb/';
-						$pathRecord = USERS_DIR . $currentUser->getObjectId(). '/images/recordcoverthumb/';
+						$pathUser = USERS_DIR . $eventReview_user_objectId . '/images/profilepicturethumb/';
+						$pathRecord = USERS_DIR . $currentUser->getObjectId() . '/images/recordcoverthumb/';
 						?>
 						<a href="profile.php?user=<?php echo $recordReview_user_objectId ?>">	
-							<div class="row">
-							    <div  class="small-1 columns ">
-									<div class="userThumb">
-									    <img src="<?php echo $pathUser.$recordReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
-									</div>
+						    <div class="row">
+							<div  class="small-1 columns ">
+							    <div class="userThumb">
+								<img src="<?php echo $pathUser . $recordReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 							    </div>
-							    <div  class="small-5 columns">
-									<div class="text grey" style="margin-left: 20px;"><strong><?php echo $recordReview_user_username ?></strong></div>
-							    </div>
-							    <div  class="small-6 columns" style="text-align: right;">
-									<div class="note grey-light">
-									    <?php echo $recordReview_data; ?>
-									</div>
-							    </div>		
 							</div>
+							<div  class="small-5 columns">
+							    <div class="text grey" style="margin-left: 20px;"><strong><?php echo $recordReview_user_username ?></strong></div>
+							</div>
+							<div  class="small-6 columns" style="text-align: right;">
+							    <div class="note grey-light">
+								<?php echo $recordReview_data; ?>
+							    </div>
+							</div>		
+						    </div>
 						</a>	
 						<div class="row">
 						    <div  class="large-12 columns"><div class="line"></div></div>
@@ -123,37 +120,37 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						<?php
 					    }
 					    ?>
-					    <a href="record.php?record=<?php echo $recordObjectId ?>">
-		    				<div class="row">
-		    				    <div  class="small-2 columns ">
-		    						<div class="coverThumb"><img src="<?php echo $pathRecord.$recordReview_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
-		    				    </div>
-		    				    <div  class="small-10 columns ">
-			    					<div class="row ">							
-			    					    <div  class="small-12 columns ">
-			    							<div class="sottotitle grey-dark"><?php echo $recordReview_title ?></div>
-			    					    </div>	
-			    					</div>	
-			    					<div class="row">						
-			    					    <div  class="small-12 columns ">
-			    							<div class="note grey"><?php echo $views['RecordReview']['RATING']; ?></div>
-			    					    </div>
-			    					</div>
-			    					<div class="row ">						
-			    					    <div  class="small-12 columns ">
-									    <?php
-									    for ($index = 0; $index < 5; $index++) {
-										if ($index <= $recordReview_rating) {
-											    echo '<a class="icon-propriety _star-orange"></a>';
-											} else {
-											    echo '<a class="icon-propriety _star-grey"></a>';
-											}
-									    }
-									    ?>
-			    					    </div>
-			    					</div>													
-		    				    </div>
-		    				</div>
+	    				<a href="record.php?record=<?php echo $recordObjectId ?>">
+	    				    <div class="row">
+	    					<div  class="small-2 columns ">
+	    					    <div class="coverThumb"><img src="<?php echo $pathRecord . $recordReview_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
+	    					</div>
+	    					<div  class="small-10 columns ">
+	    					    <div class="row ">							
+	    						<div  class="small-12 columns ">
+	    						    <div class="sottotitle grey-dark"><?php echo $recordReview_title ?></div>
+	    						</div>	
+	    					    </div>	
+	    					    <div class="row">						
+	    						<div  class="small-12 columns ">
+	    						    <div class="note grey"><?php echo $views['RecordReview']['RATING']; ?></div>
+	    						</div>
+	    					    </div>
+	    					    <div class="row ">						
+	    						<div  class="small-12 columns ">
+								<?php
+								for ($index = 0; $index < 5; $index++) {
+								    if ($index <= $recordReview_rating) {
+									echo '<a class="icon-propriety _star-orange"></a>';
+								    } else {
+									echo '<a class="icon-propriety _star-grey"></a>';
+								    }
+								}
+								?>
+	    						</div>
+	    					    </div>													
+	    					</div>
+	    				    </div>
 	    				</a>
 	    				<div class="row " style=" margin-top:10px;">						
 	    				    <div  class="small-12 columns ">
