@@ -48,6 +48,9 @@ $css_label = (!isset($label) || $label == '') ? 'no-display' : '';
 $css_buylink = (!isset($buylink) || $buylink == '') ? 'no-display' : '';
 $css_description = (!isset($description) || $description == '') ? 'no-display' : '';
 
+
+$thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $fromUserThumbnail;
+
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
@@ -62,7 +65,7 @@ $css_description = (!isset($description) || $description == '') ? 'no-display' :
 			    <div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>">
 					<div class="small-1 columns ">
 					    <div class="icon-header">
-							<img src="<?php echo $fromUserThumbnail; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+							<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 					    </div>
 					</div>
 					<div  class="small-11 columns ">
