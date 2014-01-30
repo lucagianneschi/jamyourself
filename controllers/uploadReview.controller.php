@@ -65,15 +65,7 @@ class UploadReviewController extends REST {
                 }
             }
         } else {
-            //PER IL TEST
-            ?>
-            <a href="<?php echo VIEWS_DIR . "uploadReview.php?rewiewId=vR80iF0aI7&type=Record" ?>">Test link per Record</a>
-            <br />
-            <a href="<?php echo VIEWS_DIR . "uploadReview.php?rewiewId=FdNPf4yaxV&type=Event" ?>">Test link per Event</a>
-            <br>
-            <br>
-            <?php
-            die("Devi specificare un Id ");
+            die("Errore");
         }
     }
 
@@ -105,9 +97,9 @@ class UploadReviewController extends REST {
             $revieBox = new ReviewBox();
             $revieBox->initForUploadReviewPage($this->reviewedId, $this->reviewedClassType);
             if (!is_null($revieBox->error)) {
-                //errore @todo
+                $this->response(array('status' => $controllers['ERRORREVIEW']), 403);
             } elseif (count($revieBox->mediaInfo) == 0) {
-                // errore @todo
+                $this->response(array('status' => $controllers['ERRORREVIEW']), 403);
             } else {
                 $this->reviewed = $revieBox->mediaInfo[0];
             }
@@ -160,6 +152,7 @@ class UploadReviewController extends REST {
                     $html = $mail_files['RECORDREVIEWEMAIL'];
                     break;
             }
+            require_once CONTROLLERS_DIR."utilsController.php";
             sendMailForNotification($toUser->getObjectId(), $subject, $html);
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
