@@ -49,6 +49,7 @@ class MessageInfo {
 	public $activityId;
     public $createdAt;
     public $objectId;
+	public $read;
     public $send;
     public $text;
 	
@@ -57,10 +58,11 @@ class MessageInfo {
      * \brief	construct for the MessageInfo class
      * \param	$createdAt, $objectId, $send, $text, $title
      */
-    function __construct($activityId, $createdAt, $objectId, $send, $text) {
+    function __construct($activityId, $createdAt, $objectId, $read, $send, $text) {
     	is_null($activityId) ? $this->activityId = null : $this->activityId = $activityId;
         is_null($createdAt) ? $this->createdAt = null : $this->createdAt = $createdAt;
         is_null($objectId) ? $this->objectId = null : $this->objectId = $objectId;
+		is_null($read) ? $this->read = false : $this->read = $read;
         is_null($send) ? $this->send = 'S' : $this->send = $send;
         is_null($text) ? $this->text = null : $this->text = $text;
     }
@@ -202,8 +204,9 @@ class MessageBox {
 			                    $activityId = $value->getObjectId();						 		
 			                    $createdAt = $message->getCreatedAt();
 			                    $messageId = $message->getObjectId();
+								$read = $value->getRead();
 			                    $text = $message->getText();								
-			                    $messageInfo = new MessageInfo($activityId, $createdAt, $messageId, $send, $text);
+			                    $messageInfo = new MessageInfo($activityId, $createdAt, $messageId, $read, $send, $text);
 			                    array_push($messagesArray, $messageInfo);
 						 	}
 						 }

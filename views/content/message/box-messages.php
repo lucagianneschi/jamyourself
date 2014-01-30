@@ -56,52 +56,52 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 						<?php
 						}
 					    $risultato = array_reverse($messageBox->messageArray);
-					    foreach ($risultato as $key => $value) {
-	
-						$data = $value->createdAt->format('d F Y');
-						$dataFormato = $value->createdAt->format('j n Y');
-						$time = $value->createdAt->format('H:i');
-						
-					//	$data = ucwords(strftime("%e %B %Y", $value->createdAt->getTimestamp()));
-						$time = ucwords(strftime("%H:%M", $value->createdAt->getTimestamp()));
-						if ($data != $dataPrec) { ?>		
-						    <div class="row">
-								<div class="large-12 columns">
-								    <div class="line-date"><small><?php echo $data ?></small></div>
-								    <input type="hidden" value="<?php echo $dataFormato ?>" name="data"/>
-								</div>
-						    </div>
-						<?php
-						}
-						if ($value->send == 'S') {  ?>		
-						    <div class="row" >
-								<div class="large-8 large-offset-2 columns msg msg-mine">
-								    <p><?php echo $value->text ?></p>
-								</div>
-								<div class="large-2 hide-for-small columns">
-								    <div class="date-mine">
-										<small><?php echo $time ?></small>
-								    </div>
-								</div>
-						    </div>
-						<?php } else { ?>
-						    <div class="row">
-								<div class="large-2 hide-for-small columns">
-								    <div class="date-yours">
-										<small><?php echo $time ?></small>
-								    </div>
-								</div>
-								<div class="large-8 end columns msg msg-yours">
-								    <p><?php echo $value->text ?></p>
-								</div>
-						    </div>	                
-						<?php }
-						$dataPrec = $data;
-						?>
-						<script>
-							readMessage('<?php echo $value->activityId ?>');
-						</script>
-						<?php
+					    foreach ($risultato as $key => $value) {	
+							$data = $value->createdAt->format('d F Y');
+							$dataFormato = $value->createdAt->format('j n Y');
+							$time = $value->createdAt->format('H:i');
+							
+						//	$data = ucwords(strftime("%e %B %Y", $value->createdAt->getTimestamp()));
+							$time = ucwords(strftime("%H:%M", $value->createdAt->getTimestamp()));
+							if ($data != $dataPrec) { ?>		
+							    <div class="row">
+									<div class="large-12 columns">
+									    <div class="line-date"><small><?php echo $data ?></small></div>
+									    <input type="hidden" value="<?php echo $dataFormato ?>" name="data"/>
+									</div>
+							    </div>
+							<?php
+							}
+							if ($value->send == 'S') {  ?>		
+							    <div class="row" >
+									<div class="large-8 large-offset-2 columns msg msg-mine">
+									    <p><?php echo $value->text ?></p>
+									</div>
+									<div class="large-2 hide-for-small columns">
+									    <div class="date-mine">
+											<small><?php echo $time ?></small>
+									    </div>
+									</div>
+							    </div>
+							<?php } else { ?>
+							    <div class="row <?php echo $value->read ?>">
+									<div class="large-2 hide-for-small columns">
+									    <div class="date-yours">
+											<small><?php echo $time ?></small>
+									    </div>
+									</div>
+									<div class="large-8 end columns msg msg-yours">
+									    <p><?php echo $value->text ?></p>
+									</div>
+							    </div>	                
+							<?php }
+							$dataPrec = $data;
+							if(!$value->read){ ?>
+								<script>
+									readMessage('<?php echo $value->activityId ?>');
+								</script>
+								<?php
+							}
 					    }
 					    if (count($messageBox->messageArray) == 0) {
 						?>
