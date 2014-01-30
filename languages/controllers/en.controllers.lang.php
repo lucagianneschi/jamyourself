@@ -15,6 +15,7 @@
 
 $controllers = array(
     //GENERAL
+    'INVALIDEMAIL' => 'Invalid e-Mail',
     'NOTOUSER' => 'No toUser specified',
     'NOTOUSERTYPE' => 'No toUser type specified',
     'NOFROMUSER' => 'No fromUser specified',
@@ -31,6 +32,9 @@ $controllers = array(
     'NOMAIL' => 'Unable to send mail',
     'NODATA' => 'No data available',
     'NOEXPIRED' => 'Expired unset',
+    //SUBSCRIBE
+    'SUBSCRIPTIONOK' => 'You have been subscribed',
+    'SUBSCRIPTIONERROR' => 'An error occurred',
     //SIGNUP
     'INVALIDNEWUSER' => 'Invalid user',
     'NEWUSERCREATIONFAILED' => 'Save failed',
