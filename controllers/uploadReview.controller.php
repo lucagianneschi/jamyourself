@@ -128,7 +128,6 @@ class UploadReviewController extends REST {
             $review->setLovers(array());
             $review->setShareCounter(0);
             $review->setSong(null);
-            $review->setStatus(null);
             $review->setTags(array());
             $review->setTitle(null);
             $review->setText($reviewRequest->review);
@@ -164,7 +163,7 @@ class UploadReviewController extends REST {
                 $message = rollbackUploadReviewController($resRev->getObjectId());
                 $this->response(array('status' => $message), 503);
             }
-            $this->response(array("status" => $controllers['REWSAVED'], "id" => $resRev->getObjectId()), 200);
+            $this->response(array("status" => $controllers['REWSAVED'], "id" => $this->reviewedId), 200);
         } catch (Exception $e) {
             $this->response(array('status' => $e->getMessage()), 500);
         }
