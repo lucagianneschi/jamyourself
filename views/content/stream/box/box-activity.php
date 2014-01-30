@@ -134,7 +134,7 @@ if (is_null($streamBox->error)) {
 			    <div class="box-propriety">
 				<div class="small-7 columns ">
 				    <a class="note grey" onclick="love(this, 'Album', '<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-				    <a class="note grey" onclick="setCounter(this, 'Khlv07KRGH', 'EventReview')"><?php echo $views['COMM']; ?></a>
+				    <a class="note grey" onclick="setCounter(this, '<?php echo $value->getAlbum()->getObjectId(); ?>', 'Album')"><?php echo $views['COMM']; ?></a>
 				    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 				</div>
 				<div class="small-5 columns propriety ">			
