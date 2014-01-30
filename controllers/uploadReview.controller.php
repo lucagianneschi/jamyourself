@@ -153,7 +153,7 @@ class UploadReviewController extends REST {
                     break;
             }
             require_once CONTROLLERS_DIR . "utilsController.php";
-            sendMailForNotification($toUser->getObjectId(), $subject, $html);
+            sendMailForNotification($toUser->getEmail(), $subject, $html);
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
             if ($resRev instanceof Error) {
