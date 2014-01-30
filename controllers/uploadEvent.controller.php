@@ -196,7 +196,7 @@ class UploadEventController extends REST {
             } elseif (!isset($hours) || is_null($hours) || !(strlen($hours) > 0)) {
                 return DateTime::createFromFormat("d/m/Y", $day);
             } else {
-                return DateTime::createFromFormat("d/m/Y H:m", $day . " " . $hours);
+                return DateTime::createFromFormat("d/m/Y H:i", $day . " " . $hours);
             }
         } catch (Exception $e) {
             return null;
