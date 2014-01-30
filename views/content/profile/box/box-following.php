@@ -109,9 +109,6 @@ if (is_null($followingsBox->error)) {
 				case 'VENUE':
 				    $defaultThum = DEFTHUMBVENUE;
 				    break;
-				case 'SPOTTER':
-				    $defaultThum = DEFTHUMBSPOTTER;
-				    break;
 			    }
 			    $pathPicture = USERS_DIR . $value->getObjectId() . '/images/profilepicturethumb/';
 			    if ($i % 2 == 0) {
