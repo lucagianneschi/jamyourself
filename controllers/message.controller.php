@@ -130,8 +130,8 @@ class MessageController extends REST {
                 $this->response(array('status' => 'NOSAVEMESS'), 503);
             }
             require_once CLASSES_DIR . 'activityParse.class.php';
-            $toActivity = $this->createActivity($currentUser->getObjectId(), $toUserId, $resCmt->getObjectId(),'MESSAGESENT');
-            $fromActivity = $this->createActivity($toUserId, $currentUser->getObjectId(), $resCmt->getObjectId(),'MESSAGESENT');
+            $toActivity = $this->createActivity($currentUser->getObjectId(), $toUserId, 'P', $resCmt->getObjectId(), 'MESSAGESENT');
+            $fromActivity = $this->createActivity($toUserId, $currentUser->getObjectId(), 'A', $resCmt->getObjectId(), 'MESSAGESENT');
             $activityParse = new ActivityParse();
             $resToActivity = $activityParse->saveActivity($toActivity);
             $resFromActivity = $activityParse->saveActivity($fromActivity);
@@ -184,6 +184,7 @@ class MessageController extends REST {
             $activity->wherePointer('fromUser', '_User', $currentUser->getObjectId());
             $activity->wherePointer('toUser', '_User', $toUser);
             $activity->where('type', 'MESSAGESENT');
+            $activity->where('status', 'A');
             $activity->where('active', true);
             $conversation = $activity->getActivities();
             if ($conversation instanceof Error) {
@@ -197,7 +198,7 @@ class MessageController extends REST {
                         $this->response(array('status' => 'ERROR_DEL_MSG'), 503);
                     }
                 }
-                $this->createActivity($currentUser, null, null,'CONVERSATIONDELETED');
+                $this->createActivity($currentUser, null, 'A', null, 'CONVERSATIONDELETED', true);
                 $this->response(array($controllers['CONVERSATION_DEL']), 200);
             }
         } catch (Exception $e) {
@@ -252,7 +253,7 @@ class MessageController extends REST {
      * \brief   private function to create activity class instance
      * \param   $fromUser,$toUser
      */
-    private function createActivity($fromUser, $toUser, $message, $type) {
+    private function createActivity($fromUser, $toUser, $status, $message, $type, $read = false) {
         require_once CLASSES_DIR . 'activity.class.php';
         $activity = new Activity();
         $activity->setActive(true);
@@ -267,7 +268,7 @@ class MessageController extends REST {
         $activity->setRead(false);
         $activity->setRecord(null);
         $activity->setSong(null);
-        $activity->setStatus('P');
+        $activity->setStatus($status);
         $activity->setToUser($toUser);
         $activity->setType($type);
         $activity->setVideo(null);
