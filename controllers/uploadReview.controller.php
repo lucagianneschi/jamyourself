@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Stefano Muscas
  * \version		1.0
@@ -20,7 +21,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 require_once CLASSES_DIR . 'userParse.class.php';
-require_once CLASSES_DIR . 'recordParse.class.php';
+//require_once CLASSES_DIR . 'recordParse.class.php';
 require_once BOXES_DIR . 'review.box.php';
 require_once CONTROLLERS_DIR . 'restController.php';
 
@@ -53,15 +54,15 @@ class UploadReviewController extends REST {
             $revieBox = new ReviewBox();
             $revieBox->initForUploadReviewPage($this->reviewedId, $this->reviewedClassType);
             if (!is_null($revieBox->error)) {
-                //errore @todo
+                die("Errore");
             } elseif (is_null($revieBox->mediaInfo)) {
-                // errore @todo
+                die("Errore");
             } else {
                 $this->reviewed = $revieBox->mediaInfo[0];
                 $this->reviewedFeaturing = getRelatedUsers($this->reviewedId, "featuring", $this->reviewedClassType);
                 $this->reviewedFromUser = $this->reviewed->getFromUser();
                 if ($this->reviewedFeaturing instanceof Error) {
-                    //errore parse
+                    die("Errore");
                 }
             }
         } else {
@@ -152,7 +153,7 @@ class UploadReviewController extends REST {
                     $html = $mail_files['RECORDREVIEWEMAIL'];
                     break;
             }
-            require_once CONTROLLERS_DIR."utilsController.php";
+            require_once CONTROLLERS_DIR . "utilsController.php";
             sendMailForNotification($toUser->getObjectId(), $subject, $html);
             $commentParse = new CommentParse();
             $resRev = $commentParse->saveComment($review);
@@ -168,7 +169,7 @@ class UploadReviewController extends REST {
             $this->response(array('status' => $e->getMessage()), 500);
         }
     }
-    
+
     /**
      * \fn	saveActivityForNewReview($type, $toUser)
      * \brief   funzione per il salvataggio dell'activity connessa all'inserimento della review
@@ -200,4 +201,5 @@ class UploadReviewController extends REST {
     }
 
 }
+
 ?>
