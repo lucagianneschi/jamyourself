@@ -168,24 +168,7 @@ class UploadReviewController extends REST {
             $this->response(array('status' => $e->getMessage()), 500);
         }
     }
-
-    /**
-     * \fn	getUserEmail($objectId)
-     * \brief   funzione per il recupero della mail dell'utente a cui mandare la mail
-     * \param   $objectId dello user per il recupero della usa email
-     */
-    private function getUserEmail($objectId) {
-        require_once CLASSES_DIR . 'user.class.php';
-        require_once CLASSES_DIR . 'userParse.class.php';
-        $pUser = new UserParse();
-        $user = $pUser->getUser($objectId);
-        if ($user instanceof Error || is_null($user)) {
-            return "";
-        }
-        $email = $user->getEmail();
-        return $email;
-    }
-
+    
     /**
      * \fn	saveActivityForNewReview($type, $toUser)
      * \brief   funzione per il salvataggio dell'activity connessa all'inserimento della review
