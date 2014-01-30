@@ -13,7 +13,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale = 1.0, user-scalable = no">
-	<title>Jamyourself</title>
+	<title><?php echo HOME_TITLE; ?></title>
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="views/resources/stylesheets/normalize.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="views/resources/stylesheets/grid.css" type="text/css" media="screen">
@@ -23,7 +23,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     </head>
 
     <body>
-	<div id="logo" onclick="scrollto('top');"><img src="views/resources/images/home/logo.png" /></div>
+	<div id="logo" onclick="scrollto('top');"><img src="views/resources/images/home/logo.png"></div>
 	<div class="menu">
 	    <div class="facebook" onclick="window.open('<?php echo FACEBOOK; ?>');"></div>
 	    <div class="twitter" onclick="window.open('<?php echo TWITTER; ?>');"></div>

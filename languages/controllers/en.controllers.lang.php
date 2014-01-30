@@ -88,6 +88,10 @@ $controllers = array(
     'NOSPAM' => 'You are not authorized to send this message this reciepient',
     'ALREADYREAD' => 'Message already marked as read',
     'SBJMESSAGE' => 'You have a new message',
+    'NO_DEL' => 'No conversation for deleting',
+    'ERROR_MSG' => 'Error Retrieving messages',
+    'CONVERSATION_DEL' => 'Conversation Deleted',
+    'ERROR_DEL_MSG' => 'Error Deleting messages',
     //LOVE
     'LOVEPLUSERR' => 'Error incrementing Love',
     'LOVEMINUSERR' => 'Error decrementing Love',

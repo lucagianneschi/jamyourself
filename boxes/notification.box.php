@@ -284,7 +284,7 @@ class NotificationBox {
         $activity->where('active', true);
         $activity->setLimit($this->config->limitForEventList);
         $activity->orderByDescending('createdAt');
-        $activity->whereInclude('fromUser');
+        $activity->whereInclude('comment,fromUser');
         $activities = $activity->getActivities();
         if ($activities instanceof Error) {
             $this->errorManagement($activities->getErrorMessage());

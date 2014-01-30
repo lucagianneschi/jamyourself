@@ -13,6 +13,7 @@ var max_genre = 5;
 var json_signup_user = {};
 var uploader = null;
 
+var maxCheck = 0;
 //-------------- variabili per jcrop ----------------------//
 var type_user,
         input_x,
@@ -445,14 +446,17 @@ function step1Next(){
 	        if (id == "spotter-signup01-next") {
 	            type_user = "spotter";
 	            scheda_succ = '#spotter-signup02';
+	            maxCheck = 0;
 	        }
 	        if (id == "jammer-signup01-next") {
 	            type_user = "jammer";
 	            scheda_succ = '#jammer-signup02';
+	            maxCheck = 0;
 	        }
 	        if (id == "venue-signup01-next") {
 	            type_user = "venue";
 	            scheda_succ = '#venue-signup02';
+	            maxCheck = 0;
 	        }
 	
 	        //validation username
@@ -1442,4 +1446,16 @@ function initGeocomplete(id) {
         console.log("initGeocomplete | An error occurred - message : " + err.message);
     }
 
+}
+/*
+ * verifica numero max di checkbox
+ */
+
+function checkmax(elemento,max){
+	if (elemento.checked) {	
+		if ((maxCheck+1)==max) maxCheck+=1; 
+		else if ((maxCheck)+1>max) elemento.checked=false;
+		else maxCheck +=1;
+	}
+	else {maxCheck-=1;}
 }

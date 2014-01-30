@@ -103,7 +103,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 					<?php 
 					$index = 0;
 					foreach ($views['tag']['music'] as $key => $value) { ?>
-						<input type="checkbox" name="spotter-genre[<?php echo $index ?>]" id="spotter-genre[<?php echo $index ?>]" value="<?php echo $key ?>" class="no-display">
+						<input onclick="checkmax(this,10)" type="checkbox" name="spotter-genre[<?php echo $index ?>]" id="spotter-genre[<?php echo $index ?>]" value="<?php echo $key ?>" class="no-display">
 						<label for="spotter-genre[<?php echo $index ?>]"><?php echo $value ?></label>
 					<?php 
 					$index++;

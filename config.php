@@ -49,16 +49,16 @@ define('DEFIMAGETHUMB', DEF_IMAGES_DIR . 'defaultImageThumb.jpg');
 define('DEFVIDEOTHUMB', DEF_IMAGES_DIR . 'defaultVideoThumb.jpg');
 //BADGE
 define('BADGE_DIR', ROOT_DIR . 'views/resources/images/badge/');
-define('BADGE0',  BADGE_DIR . 'badgeDefault.png');
-define('BADGE1',  BADGE_DIR . 'badgeOldSchool.png');
-define('BADGE2',  BADGE_DIR . 'badgeWelcome.png');
-define('BADGE3',  BADGE_DIR . 'badgePub.png');
-define('BADGE4',  BADGE_DIR . 'badgeNightLife.png');
-define('BADGE5',  BADGE_DIR . 'badgeLive.png');
-define('BADGE6',  BADGE_DIR . 'badgeRock.png');
-define('BADGE7',  BADGE_DIR . 'badgeJamSession.png');
-define('BADGE8',  BADGE_DIR . 'badgeJammedIn.png');
-define('BADGE9',  BADGE_DIR . 'badgeHappyHour.png');
+define('BADGE0', BADGE_DIR . 'badgeDefault.png');
+define('BADGE1', BADGE_DIR . 'badgeOldSchool.png');
+define('BADGE2', BADGE_DIR . 'badgeWelcome.png');
+define('BADGE3', BADGE_DIR . 'badgePub.png');
+define('BADGE4', BADGE_DIR . 'badgeNightLife.png');
+define('BADGE5', BADGE_DIR . 'badgeLive.png');
+define('BADGE6', BADGE_DIR . 'badgeRock.png');
+define('BADGE7', BADGE_DIR . 'badgeJamSession.png');
+define('BADGE8', BADGE_DIR . 'badgeJammedIn.png');
+define('BADGE9', BADGE_DIR . 'badgeHappyHour.png');
 define('BADGE10', BADGE_DIR . 'badgeProducer.png');
 define('BADGE11', BADGE_DIR . 'badgeDj.png');
 define('BADGE12', BADGE_DIR . 'badgeDinner.png');
@@ -82,6 +82,9 @@ define('MIN', 1);
 define('DEFAULTQUERY', 100);
 define('PLAYLISTLIMIT', 20);
 
+//STRINGHE TITOLI PAGINA
+define('HOME_TITLE', 'Jamyourself: Meritocratic Social Music Discovering');
+
 //STRINGHE DI ERRORE
 define('LOCATIONNOTFOUND', 'Location Not Found');
 define('ONLYIFLOGGEDIN', 'Just for logged Users');
@@ -97,19 +100,24 @@ define('THUMBNAIL_IMG_SIZE', 150);
 ##################
 
 define('MAX_IMG_UPLOAD_FILE_SIZE', 6291456); //6 Mb
-define('MAX_MP3_UPLOAD_FILE_SIZE', 12582912);//12 Mb
-
+define('MAX_MP3_UPLOAD_FILE_SIZE', 12582912); //12 Mb
 #########################
 # SOCIAL NETWORK  & BLOG#
 #########################
-define('FACEBOOK', 'https://www.facebook.com/Jamyourselfcom'); 
-define('TWITTER', 'https://twitter.com/Jamyourself'); 
-define('BLOG', 'http://blog.jamyourself.com/'); 
+define('FACEBOOK', 'https://www.facebook.com/Jamyourselfcom');
+define('TWITTER', 'https://twitter.com/Jamyourself');
+define('BLOG', 'http://blog.jamyourself.com/');
+
+################
+# DEFAULT NAMES#
+################
+define('DEF_PLAY', 'Playslist');
+define('DEF_REC', 'Default Record');
+define('DEF_ALBUM', 'Default Album');
 
 ##################
 #  LOG LEVEL     #
 ##################
 
 define('DEBUG', true);
-
 ?>

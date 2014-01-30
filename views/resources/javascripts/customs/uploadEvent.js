@@ -2,7 +2,7 @@ var json_event_create = {"hours": "", "image": "", "crop": ""};
 var music = null;
 var uploader;
 //------ espressioni regolari -------------------------------
-var exp_general = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})$/;
+var exp_general = /^([a-zA-Z0-9\s\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~][""]{0,0})*([a-zA-Z0-9\xE0\xE8\xE9\xF9\xF2\xEC\x27!#$%&'()*+,-./:;<=>?[\]^_`{|}~\s][""]{0,0})$/;
 
 //-------------- variabili per jcrop ----------------------//
 var input_x,
@@ -17,6 +17,8 @@ var input_x,
         preview,
         tumbnail,
         tumbnail_pane;
+var maxCheckGenre  = 0;
+var maxCheckLocalType = 0;
 
 $(document).ready(function() {
     initJammersJSON();
@@ -442,4 +444,30 @@ function initJammersJSON() {
 function clearAll() {
     json_event_create = {"hours": "", "image": "", "crop": ""};
     $('#form-uploadEvent').reset();
+}
+
+/*
+ * verifica numero max di checkbox
+ */
+
+function checkmaxGenre(elemento,max){
+	if (elemento.checked) {	
+		if ((maxCheckGenre+1)==max) maxCheckGenre+=1; 
+		else if ((maxCheckGenre)+1>max) elemento.checked=false;
+		else maxCheckGenre +=1;
+	}
+	else {maxCheckGenre-=1;}
+}
+
+/*
+ * verifica numero max di checkbox
+ */
+
+function checkmaxLocalType(elemento,max){
+	if (elemento.checked) {	
+		if ((maxCheckLocalType+1)==max) maxCheckLocalType+=1; 
+		else if ((maxCheckLocalType)+1>max) elemento.checked=false;
+		else maxCheckLocalType +=1;
+	}
+	else {maxCheckLocalType-=1;}
 }

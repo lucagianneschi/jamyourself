@@ -107,7 +107,7 @@ $views = array(
         'PLAY' => 'Play Now',
         'ADDPLAYLIST' => 'add to playlist',
         'REMOVEPLAYLIST' => 'remove',
-        'NODATA' => 'There are no records',
+        'NODATA' => 'No songs for this record',
     ),
     'recordDetail' => array(
         'NODATA' => 'There are no songs'

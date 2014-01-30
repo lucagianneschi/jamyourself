@@ -127,6 +127,7 @@ class SignupController extends REST {
             $this->debug("signup", "create FileSystem Structure...");
             $this->createFileSystemStructure($user->getObjectId(), $user->getType());
             $this->createImageDefaultAlbum($user->getObjectId());
+            $this->createDefaultPlaylist($user->getObjectId());
             if ($user->getType() == "JAMMER") {
                 $this->createRecordDefaultAlbum($user->getObjectId());
             }
@@ -290,6 +291,24 @@ class SignupController extends REST {
     }
 
     /**
+     * \fn	createDefaultPlaylist($userId)
+     * \brief	crea playslit di default
+     * \todo
+     */
+    private function createDefaultPlaylist($userId) {
+        require_once CLASSES_DIR . 'playlist.class.php';
+        require_once CLASSES_DIR . 'playlistParse.class.php';
+        $playlist = new Playlist();
+        $playlist->setActive(true);
+        $playlist->setFromUser($userId);
+        $playlist->setName(DEF_PLAY);
+        $playlist->setSongsArray(array());
+        $playlist->setUnlimited(false);
+        $pPlaylist = PlaylistParse();
+        return $pPlaylist->savePlaylist($playlist);
+    }
+
+    /**
      * \fn	createImageDefaultAlbum($userId)
      * \brief	crea album di default
      * \todo
@@ -303,7 +322,7 @@ class SignupController extends REST {
         $album->setFromUser($userId);
         $album->setLoveCounter(0);
         $album->setShareCounter(0);
-        $album->setTitle('Default Album');
+        $album->setTitle(DEF_ALBUM);
         $pAlbum = new AlbumParse();
         return $pAlbum->saveAlbum($album);
     }
@@ -323,7 +342,7 @@ class SignupController extends REST {
         $record->setLoveCounter(0);
         $record->setReviewCounter(0);
         $record->setShareCounter(0);
-        $record->setTitle('Default Record');
+        $record->setTitle(DEF_REC);
         $record->setYear(date("Y"));
         $pRecord = new RecordParse();
         return $pRecord->saveRecord($record);
@@ -474,8 +493,7 @@ class SignupController extends REST {
                 $return[] = $val;
             }
             return $return;
-        }
-        else
+        } else
             return null;
     }
 
@@ -492,8 +510,7 @@ class SignupController extends REST {
                 array_push($return, $member->instrument);
             }
             return $return;
-        }
-        else
+        } else
             return null;
     }
 
@@ -509,8 +526,7 @@ class SignupController extends REST {
                 $return[] = $val;
             }
             return $return;
-        }
-        else
+        } else
             return null;
     }
 

@@ -81,8 +81,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    </div>
 	</div>
 
-        <label for="url"><input type="text" name="featuring" id="jammers" required pattern="">
-	    <?php echo $views['uploadEvent']['jammer_name']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_jammer']; ?></small></label>
+        <label for="url"><input type="text" name="featuring" id="jammers" pattern="">
+	    <?php echo $views['uploadEvent']['jammer_name']; ?><small class="error"><?php echo $views['uploadEvent']['valid_jammer']; ?></small></label>
 
 	<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="general" >
 	    <?php echo $views['uploadEvent']['venue_name']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_venue']; ?></small></label>
@@ -107,7 +107,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         	<?php 
         	$index = 0;
         	foreach ($views['tag']['localType'] as $key => $value) { ?>
-	        	<input type="checkbox" name="tag-localType<?php echo $index ?>" id="tag-localType<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
+	        	<input onclick="checkmaxLocalType(this,1)" type="checkbox" name="tag-localType<?php echo $index ?>" id="tag-localType<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
 	        	<label for="tag-localType<?php echo $index ?>"><?php echo $value ?></label>
         	<?php	
 			$index++; } ?>
@@ -119,7 +119,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         	<?php 
         	$index = 0;
         	foreach ($views['tag']['music'] as $key => $value) { ?>
-	        	<input type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
+	        	<input onclick="checkmaxGenre(this,1)" type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
 	        	<label for="tag-music<?php echo $index ?>"><?php echo $value ?></label>
         	<?php	
 			$index++; } ?>

@@ -100,7 +100,7 @@ if (isset($userObjectId)) {
     	    </div>	
     	    <div  class="large-4 columns" style="margin-top: 10px">
     		<a class="ico-label _flag inline" onclick="loadBoxSocial('notification', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" >
-    		    <span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span>
+    		    <!--span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span-->
     		</a>
     		<a class="ico-label _message inline" onclick="loadBoxSocial('message', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" ><span class="round alert label iconNotification <?php echo $css_msg ?>"><?php echo $message ?></span></a>
     		<a class="ico-label _calendar inline" onclick="loadBoxSocial('event', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" ><span class="round alert label iconNotification <?php echo $css_inv ?>"><?php echo $invited ?></span></a>

@@ -85,6 +85,10 @@ $controllers = array(
     'NOSPAM' => 'Non sei autorizzato ad inviare questo messaggio a questo utente',
     'ALREADYREAD' => 'Messaggio già letto',
     'SBJMESSAGE' => 'Hai un nuovo messaggio',
+    'NO_DEL' => 'No conversation for deleting',
+    'ERROR_MSG' => 'Error Retrieving messages',
+    'CONVERSATION_DEL' => 'Conversation Deleted',
+    'ERROR_DEL_MSG' => 'Error Deleting messages',
     //LOVE
     'LOVEPLUSERR' => 'Errore incrementando Love',
     'LOVEMINUSERR' => 'Error decrementando Love',
