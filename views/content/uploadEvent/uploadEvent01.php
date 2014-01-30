@@ -81,8 +81,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    </div>
 	</div>
 
-        <label for="url"><input type="text" name="featuring" id="jammers" required pattern="">
-	    <?php echo $views['uploadEvent']['jammer_name']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_jammer']; ?></small></label>
+        <label for="url"><input type="text" name="featuring" id="jammers" pattern="">
+	    <?php echo $views['uploadEvent']['jammer_name']; ?><small class="error"><?php echo $views['uploadEvent']['valid_jammer']; ?></small></label>
 
 	<label for="venueName"><input type="text" name="venueName" id="venueName" required pattern="general" >
 	    <?php echo $views['uploadEvent']['venue_name']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_venue']; ?></small></label>
