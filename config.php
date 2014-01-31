@@ -114,6 +114,8 @@ define('BLOG', 'http://blog.jamyourself.com/');
 define('DEF_PLAY', 'Playslist');
 define('DEF_REC', 'Default Record');
 define('DEF_ALBUM', 'Default Album');
+define('SUB_SBJ', 'SUBSCRIBE NUOVO UTENTE');
+define('SUB_ADD', 'info@jamyourself.com');
 
 ##################
 #  LOG LEVEL     #
