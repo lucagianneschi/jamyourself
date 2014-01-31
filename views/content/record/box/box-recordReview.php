@@ -53,7 +53,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    $review_title = $value->getTitle();
 		    $review_text = $value->getText();
 		    #TODO
-		    //$review_rating = $value->getRating();
+		    $review_rating = $value->getVote();
 		    $review_counter_love = $value->getLoveCounter();
 		    $review_counter_comment = $value->getCommentCounter();
 		    $review_counter_share = $value->getShareCounter();
