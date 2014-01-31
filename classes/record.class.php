@@ -6,15 +6,15 @@
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Record Class
- *  \details		Classe dedicata ad un album di brani musicali, pu� essere istanziata solo da Jammer
+ *  \brief		Record 
+ *  \details		Classe dedicata ad un album di brani musicali, puo' essere istanziata solo da Jammer
  *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:record">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:record">API</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Record">Descrizione della classe</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Record">API</a>
  */
 
 class Record {
