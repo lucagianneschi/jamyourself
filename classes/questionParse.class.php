@@ -11,10 +11,9 @@
  *  \par        Commenti:
  *  \warning
  *  \bug
- *  \todo
+ *  \todo	FAre API su Wiki
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:question">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:question">API</a>
+ *  <a href=" ">API</a>
  */
 
 if (!defined('ROOT_DIR'))
