@@ -1,17 +1,17 @@
 <?php
 
 /* ! \par		Info Generali:
- * \author		Luca Gianneschi
+ * \author		Stefano Muscas
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di login e logout
- * \details		effettua operazioni di login e logut utente
+ * \details		invia mail ad indirizzo predefinito per tenere elenco di subscriber
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		terminare la funzione logout e socialLogin
+ * \todo		
  *
  */
 if (!defined('ROOT_DIR'))
@@ -28,33 +28,41 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
  */
 class SubscribeController extends REST {
 
+    /**
+     * \brief	subscribe() 
+     * \details	invia mail ad indirizzo predefinito
+     */
     public function subscribe() {
-        global $controllers;
+	global $controllers;
 
-        if (!isset($this->request['email']) || is_null($this->request['email']) || strlen($this->request['email']) == 0 || !$this->checkEmail($this->request['email'])) {
-            $this->response(array("status" => $controllers['INVALIDEMAIL']), 401);
-        }
-        $subject = "Benvenuto in Jamyourself!";
-        $html = "Benvenuto in Jamyourself!";
-        require_once CONTROLLERS_DIR . "utilsController.php";
-        $res_send_email = sendMailForNotification($this->request['email'], $subject, $html);
-        if($res_send_email){
-            $this->response(array("status" => $controllers['SUBSCRIPTIONOK']), 200);            
-        }else{
-            $this->response(array("status" => $controllers['SUBSCRIPTIONERROR']), 200);            
-        }
+	if (!isset($this->request['email']) || is_null($this->request['email']) || strlen($this->request['email']) == 0 || !$this->checkEmail($this->request['email'])) {
+	    $this->response(array("status" => $controllers['INVALIDEMAIL']), 401);
+	}
+	$subject = SUB_SBJ;
+	$html = $this->request['email'];
+	require_once CONTROLLERS_DIR . "utilsController.php";
+	$res_send_email = sendMailForNotification(SUB_ADD, $subject, $html);
+	if ($res_send_email) {
+	    $this->response(array("status" => $controllers['SUBSCRIPTIONOK']), 200);
+	} else {
+	    $this->response(array("status" => $controllers['SUBSCRIPTIONERROR']), 200);
+	}
     }
-
+    
+    /**
+     * \brief	private function checkEmail($email)
+     * \details	verifica che l'indirizzo inserito sia un indirizzo valido
+     */
     private function checkEmail($email) {
-        if (strlen($email) > 50)
-            return false;
-        if (stripos($email, " ") !== false)
-            return false;
-        if (!(stripos($email, "@") !== false))
-            return false;
-        if (!(filter_var($email, FILTER_VALIDATE_EMAIL)))
-            return false;
-        return true;
+	if (strlen($email) > 50)
+	    return false;
+	if (stripos($email, " ") !== false)
+	    return false;
+	if (!(stripos($email, "@") !== false))
+	    return false;
+	if (!(filter_var($email, FILTER_VALIDATE_EMAIL)))
+	    return false;
+	return true;
     }
 
 }
