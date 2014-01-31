@@ -1,20 +1,19 @@
 <?php
 
 /* ! \par		Info Generali:
- *  \author		Daniele Caldelli
- *  \version	1.0
+ *  \author		Daniele Caldelli, Stefano Muscas
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Comment
- *  \details	Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI
+ *  \brief		CommentParse
+ *  \details		Classe dedicata a POST, REVIEW, COMMENT & MESSAGGI
  *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:comment">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:comment">API</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-CommentParse">API</a>
  */
 
 if (!defined('ROOT_DIR'))
@@ -198,7 +197,7 @@ class CommentParse {
 	    $cmt->setObjectId($res->objectId);
 	    $cmt->setActive($res->active);
 	    $cmt->setAlbum(fromParsePointer($res->album));
-        $cmt->setComment(fromParsePointer($res->comment));
+	    $cmt->setComment(fromParsePointer($res->comment));
 	    $cmt->setCommentCounter($res->commentCounter);
 	    $cmt->setCounter($res->counter);
 	    $cmt->setEvent(fromParsePointer($res->event));
