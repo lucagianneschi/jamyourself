@@ -6,15 +6,14 @@
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Image
+ *  \brief		ImageParse
  *  \details		Classe per la singola immagine caricata dall'utente
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo
+ *  \todo		Fare pagina API su wiki
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:image">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:image">API</a>
+ *  <a href=" ">API</a>
  */
 
 if (!defined('ROOT_DIR'))

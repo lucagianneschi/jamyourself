@@ -13,8 +13,8 @@
  *  \bug
  *  \todo
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:image">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:image">API</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Image">Descrizione della classe</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Image">API</a>
  */
 
 class Image {
