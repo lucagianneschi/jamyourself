@@ -6,15 +6,14 @@
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Activity
+ *  \brief		ActivityParse
  *  \details		Classe che accoglie le activities del sito
  *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:activity">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:activity">API</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-ActivityParse">API</a>
  */
 
 if (!defined('ROOT_DIR'))
