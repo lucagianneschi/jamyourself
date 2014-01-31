@@ -7,14 +7,14 @@
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Song Class
- *  \details		Classe dedicata al singolo brano, pu� essere istanziata solo da Jammer
+ *  \details		Classe dedicata al singolo brano, puo' essere istanziata solo da Jammer
  *  \par		Commenti:
  *  \warning
  *  \bug
  *  \todo
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:song">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:song">API</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Song">Descrizione della classe</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Song">API</a>
  */
 
 class Song {

@@ -6,15 +6,14 @@
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Song Class
- *  \details		Classe dedicata al singolo brano, pu� essere istanziata solo da Jammer
+ *  \brief		SongParse
+ *  \details		Classe dedicata al singolo brano, puo' essere istanziata solo da Jammer
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo
+ *  \todo		Fare API su Wiki
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:song">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:song">API</a>
+ *  <a href=" ">API</a>
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
