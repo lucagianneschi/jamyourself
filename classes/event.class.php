@@ -13,8 +13,8 @@
  *  \bug
  *  \todo		
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:event">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:event">API</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Event">Descrizione della classe</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-Event">API</a>
  */
 
 class Event {
