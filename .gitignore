@@ -4,21 +4,6 @@ nbproject/project.properties
 nbproject/project.xml
 /repository.php
 
-# media folders
-media/images/image/
-media/images/albumcover/
-media/images/albumcoverthumb/
-media/images/background/
-media/images/eventcover/
-media/images/eventcoverthumb/
-media/images/profilepicture/
-media/images/profilepicturethumb/
-media/images/recordcover/
-media/images/recordcoverthumb/
-media/songs/
-media/cache/
-media/
-
 # foundation
 config.rb
 .sass-cache/
@@ -30,6 +15,7 @@ config.rb
 /tests/optimization/
 /optimization/
 /debug/
+/tests/
 /.gitignore
 
 /.gitignore
