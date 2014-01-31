@@ -115,7 +115,7 @@ define('DEF_PLAY', 'Playslist');
 define('DEF_REC', 'Default Record');
 define('DEF_ALBUM', 'Default Album');
 define('SUB_SBJ', 'SUBSCRIBE NUOVO UTENTE');
-define('SUB_ADD', 'info@jamyourself.com');
+define('SUB_ADD', 'subscribe@jamyourself.com');
 
 ##################
 #  LOG LEVEL     #
