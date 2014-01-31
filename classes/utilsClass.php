@@ -1,19 +1,17 @@
 <?php
 
-/* ! \par Info	Generali:
+/* ! \par		Info Generali:
  *  \author		Stefano Muscas
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
- *
- *  \par	Info Classe:
- *  \brief	Utils class
- *  \details	Classe di utilità sfruttata delle classi modello per snellire il codice
- *
+ *  \copyright		Jamyourself.com 2013
+ *  \par		Info Classe:
+ *  \brief		Utils class
+ *  \details		Classe di utilità sfruttata delle classi modello per snellire il codice
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo
+ *  \todo		Fare API su Wiki
  *
  */
 
