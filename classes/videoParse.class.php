@@ -2,18 +2,17 @@
 
 /* ! \par		Info Generali:
  *  \author		Stefano Muscas
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Video Class
- *  \details	Classe che contiene i video presi da Vimeo e Youtube e segnalati dagli utenti
+ *  \brief		VideoParse
+ *  \details		Classe che contiene i video presi da Vimeo e Youtube e segnalati dagli utenti
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo
+ *  \todo		FAre API su Wiki
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:video">Descrizione della classe</a>
  *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php??id=documentazione:api:video">API</a>
  */
 
