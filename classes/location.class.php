@@ -2,19 +2,19 @@
 
 /* ! \par		Info Generali:
  *  \author		Luca Gianneschi
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
  *  \brief		Location
- *  \details	Classe che accoglie i dati di latitudine e longitudine delle citta da impostre per JAMMER  e SPOTTER
+ *  \details		Classe che accoglie i dati di latitudine e longitudine delle citta da impostre per JAMMER  e SPOTTER
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo
+ *  \todo		fare API classe
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:location">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:location">API</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-Location">Descrizione della classe</a>
+ *  <a href=" ">API</a>
  */
 
 class Location {

@@ -2,21 +2,18 @@
 
 /* ! \par		Info Generali:
  *  \author		Luca Gianneschi
- *  \version	1.0
+ *  \version		1.0
  *  \date		2013
- *  \copyright	Jamyourself.com 2013
- *
+ *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Location
- *  \details	Classe che accoglie i dati di laqtitudine e longitudine delle citta da impostre per JAMMER  e SPOTTER, non si creano nuove istanze e non si cancellano vecchie istanze. Si fanno solo le get.
- *  
+ *  \brief		LocationParse
+ *  \details		Classe che accoglie i dati di laqtitudine e longitudine delle citta da impostre per JAMMER  e SPOTTER, non si creano nuove istanze e non si cancellano vecchie istanze. Si fanno solo le get.
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo
+ *  \todo		fare API classe
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:location">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:location">API</a>
+ *  <a href=" ">API</a>
  */
 
 if (!defined('ROOT_DIR'))
