@@ -6,15 +6,14 @@
  *  \date		2013
  *  \copyright		Jamyourself.com 2013
  *  \par		Info Classe:
- *  \brief		Album
+ *  \brief		AlbumParse
  *  \details		Classe raccoglitore per immagini
  *  \par		Commenti:
  *  \warning
  *  \bug
- *  \todo
+ *  \todo		fare pagina della API su Wiki
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:album">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:album">API</a>
+ *  <a href=" ">API</a>
  */
 
 if (!defined('ROOT_DIR'))
