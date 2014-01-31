@@ -13,8 +13,8 @@
  *  \bug
  *  \todo
  *
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=definizioni:properties_classi:user">Descrizione della classe</a>
- *  <a href="http://www.socialmusicdiscovering.com/dokuwiki/doku.php?id=documentazione:api:user">API</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/Definizione-Classe:-User">Descrizione della classe</a>
+ *  <a href="https://github.com/lucagianneschi/jamyourself/wiki/API:-User">API</a>
  */
 
 class User {
