@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		utilizzo del recaptcha, usare chiavi del sito definitive, query su Location
+ * \todo		utilizzo del recaptcha, usare chiavi del sito definitive, query su Location, fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
@@ -37,9 +37,9 @@ class SignupController extends REST {
     private $userValidator;
 
     function __construct() {
-        parent::__construct();
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/signup.config.json"), false);
-        $this->userValidator = new ValidateNewUserService($this->config);
+	parent::__construct();
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/signup.config.json"), false);
+	$this->userValidator = new ValidateNewUserService($this->config);
     }
 
     /**
@@ -49,10 +49,10 @@ class SignupController extends REST {
      * \todo
      */
     public function init() {
-        session_start();
-        $_SESSION['captchaPublicKey'] = CAPTCHA_PUBLIC_KEY;
-        $_SESSION['captchaValidation'] = false;
-        $_SESSION['config'] = $this->config;
+	session_start();
+	$_SESSION['captchaPublicKey'] = CAPTCHA_PUBLIC_KEY;
+	$_SESSION['captchaValidation'] = false;
+	$_SESSION['config'] = $this->config;
     }
 
     /**
@@ -62,19 +62,19 @@ class SignupController extends REST {
      * \todo
      */
     public function signup() {
-        global $controllers;
-        try {
+	global $controllers;
+	try {
 //con captcha:
 //        if ($this->get_request_method() != "POST" || !isset($_SESSION['currentUser']) ||
 //                !isset($_SESSION['recaptcha']) || !$_SESSION['recaptcha']) {
 //            $this->response('', 406);
 //        }
 //senza captcha:
-            $this->debug("signup", "start");
-            if ($this->get_request_method() != "POST") {
-                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-            }
-            $this->debug("signup", "request => " . var_export($this->request, true));
+	    $this->debug("signup", "start");
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    }
+	    $this->debug("signup", "request => " . var_export($this->request, true));
 
 //verifico che l'utente abbia effettivamente completato il captcha
 //        if ($_SESSION['captchaValidation'] == false) {
@@ -82,98 +82,98 @@ class SignupController extends REST {
 //            $error = array('status' => "Bad Request", "msg" => "Captcha test failed");
 //            $this->response($error, 400);
 //        }
-            $userJSON = $this->request;
-            $this->userValidator->checkNewUser($userJSON);
-            if (!$this->userValidator->getIsValid()) {
-                $this->debug("signup", "validator errors => " . var_export($this->userValidator->getErrors(), true));
-                $error = array('status' => "Bad Request", "msg" => "Invalid new user", "errorList" => $this->userValidator->getErrors());
-                $this->response(array('status' => $controllers['INVALIDNEWUSER'], 'errors' => $error), 403);
-            }
-            $this->debug("signup", "validation => OK");
-            $newUser = json_decode(json_encode($userJSON), false);
-            switch ($newUser->type) {
-                case "SPOTTER" :
-                    $newUser = $this->createSpotter($newUser);
-                    break;
-                case "JAMMER" :
-                    $newUser = $this->createJammer($newUser);
-                    break;
-                case "VENUE" :
-                    $newUser = $this->createVenue($newUser);
-                    break;
-            }
-            $this->debug("signup", "newUser => " . var_export($newUser, true));
-            $this->debug("signup", "saving user on DB");
-            $pUser = new UserParse();
-            $user = $pUser->saveUser($newUser);
-            if ($user instanceof Error) {
-                $this->debug("signup", "ERROR SAVING USER => " . var_export($user, true));
-                $this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 503);
-            }
-            $this->debug("signup", "user saved => " . var_export($user, true));
-            require_once CLASSES_DIR . 'activity.class.php';
-            require_once CLASSES_DIR . 'activityParse.class.php';
-            $activity = new Activity();
-            $activity->setActive(true);
-            $activity->setFromUser($user->getObjectId());
-            $activity->setRead(true);
-            $activity->setStatus("A");
-            $activity->setType("SIGNEDUP");
-            $this->debug("signup", "saving activity on DB");
-            $pActivity = new ActivityParse();
-            $pActivity->saveActivity($activity);
-            $this->debug("signup", "activity saved => " . var_export($activity, true));
-            $_SESSION['currentUser'] = $user;
-            $this->debug("signup", "create FileSystem Structure...");
-            $this->createFileSystemStructure($user->getObjectId(), $user->getType());
-            $this->createImageDefaultAlbum($user->getObjectId());
-            $this->createDefaultPlaylist($user->getObjectId());
-            if ($user->getType() == "JAMMER") {
-                $this->createRecordDefaultAlbum($user->getObjectId());
-            }
+	    $userJSON = $this->request;
+	    $this->userValidator->checkNewUser($userJSON);
+	    if (!$this->userValidator->getIsValid()) {
+		$this->debug("signup", "validator errors => " . var_export($this->userValidator->getErrors(), true));
+		$error = array('status' => "Bad Request", "msg" => "Invalid new user", "errorList" => $this->userValidator->getErrors());
+		$this->response(array('status' => $controllers['INVALIDNEWUSER'], 'errors' => $error), 403);
+	    }
+	    $this->debug("signup", "validation => OK");
+	    $newUser = json_decode(json_encode($userJSON), false);
+	    switch ($newUser->type) {
+		case "SPOTTER" :
+		    $newUser = $this->createSpotter($newUser);
+		    break;
+		case "JAMMER" :
+		    $newUser = $this->createJammer($newUser);
+		    break;
+		case "VENUE" :
+		    $newUser = $this->createVenue($newUser);
+		    break;
+	    }
+	    $this->debug("signup", "newUser => " . var_export($newUser, true));
+	    $this->debug("signup", "saving user on DB");
+	    $pUser = new UserParse();
+	    $user = $pUser->saveUser($newUser);
+	    if ($user instanceof Error) {
+		$this->debug("signup", "ERROR SAVING USER => " . var_export($user, true));
+		$this->response(array('status' => $controllers['NEWUSERCREATIONFAILED']), 503);
+	    }
+	    $this->debug("signup", "user saved => " . var_export($user, true));
+	    require_once CLASSES_DIR . 'activity.class.php';
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activity = new Activity();
+	    $activity->setActive(true);
+	    $activity->setFromUser($user->getObjectId());
+	    $activity->setRead(true);
+	    $activity->setStatus("A");
+	    $activity->setType("SIGNEDUP");
+	    $this->debug("signup", "saving activity on DB");
+	    $pActivity = new ActivityParse();
+	    $pActivity->saveActivity($activity);
+	    $this->debug("signup", "activity saved => " . var_export($activity, true));
+	    $_SESSION['currentUser'] = $user;
+	    $this->debug("signup", "create FileSystem Structure...");
+	    $this->createFileSystemStructure($user->getObjectId(), $user->getType());
+	    $this->createImageDefaultAlbum($user->getObjectId());
+	    $this->createDefaultPlaylist($user->getObjectId());
+	    if ($user->getType() == "JAMMER") {
+		$this->createRecordDefaultAlbum($user->getObjectId());
+	    }
 
-            if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
-                $res_1 = false;
-                $res_2 = false;
-                $src_img = CACHE_DIR . $user->getProfilePicture();
-                $dest_img = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture" . DIRECTORY_SEPARATOR . $user->getProfilePicture();
-                $src_thumb = CACHE_DIR . $user->getProfileThumbnail();
-                $dest_thumb = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail();
-                $this->debug("signup", "Source image : " . $src_img);
-                $this->debug("signup", "Destination image : " . $dest_img);
-                $this->debug("signup", "Source thumbnail : " . $src_thumb);
-                $this->debug("signup", "Destination thumbnail : " . $dest_thumb);
-                //profile image
-                if (file_exists($src_img)) {
-                    $res_1 = rename($src_img, $dest_img);
-                    if ($res_1) {
-                        $this->debug("signup", "Destination image : SAVED");
-                    } else {
-                        $this->debug("signup", "Destination image : NOT SAVED - ERROR!!!");
-                    }
-                } else {
-                    $this->debug("signup", "Destination image : " . $src_img . " - FILE NOT FOUND - ERROR!!!");
-                }
-                //thumbnail
-                if (file_exists($src_thumb)) {
-                    $res_2 = rename($src_thumb, $dest_thumb);
-                    if ($res_2) {
-                        $this->debug("signup", "Destination thumbnail : SAVED");
-                    } else {
-                        $this->debug("signup", "Destination thumbnail : NOT SAVED - ERROR!!!");
-                    }
-                } else {
-                    $this->debug("signup", "Destination thumbnail : " . $src_thumb . " - FILE NOT FOUND - ERROR!!!");
-                }
-            } else {
-                $this->debug("signup", "no image or thumbnail specified for this user");
-            }
-            $this->debug("signup", "signup END => USER CREATED");
-            $this->response(array("status" => $controllers['USERCREATED']), 200);
-        } catch (Exception $e) {
-            $this->debug("signup", "Exception => " . var_export($e, true));
-            $this->response(array('status' => $e->getErrorMessage()), 503);
-        }
+	    if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
+		$res_1 = false;
+		$res_2 = false;
+		$src_img = CACHE_DIR . $user->getProfilePicture();
+		$dest_img = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture" . DIRECTORY_SEPARATOR . $user->getProfilePicture();
+		$src_thumb = CACHE_DIR . $user->getProfileThumbnail();
+		$dest_thumb = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail();
+		$this->debug("signup", "Source image : " . $src_img);
+		$this->debug("signup", "Destination image : " . $dest_img);
+		$this->debug("signup", "Source thumbnail : " . $src_thumb);
+		$this->debug("signup", "Destination thumbnail : " . $dest_thumb);
+		//profile image
+		if (file_exists($src_img)) {
+		    $res_1 = rename($src_img, $dest_img);
+		    if ($res_1) {
+			$this->debug("signup", "Destination image : SAVED");
+		    } else {
+			$this->debug("signup", "Destination image : NOT SAVED - ERROR!!!");
+		    }
+		} else {
+		    $this->debug("signup", "Destination image : " . $src_img . " - FILE NOT FOUND - ERROR!!!");
+		}
+		//thumbnail
+		if (file_exists($src_thumb)) {
+		    $res_2 = rename($src_thumb, $dest_thumb);
+		    if ($res_2) {
+			$this->debug("signup", "Destination thumbnail : SAVED");
+		    } else {
+			$this->debug("signup", "Destination thumbnail : NOT SAVED - ERROR!!!");
+		    }
+		} else {
+		    $this->debug("signup", "Destination thumbnail : " . $src_thumb . " - FILE NOT FOUND - ERROR!!!");
+		}
+	    } else {
+		$this->debug("signup", "no image or thumbnail specified for this user");
+	    }
+	    $this->debug("signup", "signup END => USER CREATED");
+	    $this->response(array("status" => $controllers['USERCREATED']), 200);
+	} catch (Exception $e) {
+	    $this->debug("signup", "Exception => " . var_export($e, true));
+	    $this->response(array('status' => $e->getErrorMessage()), 503);
+	}
     }
 
     /**
@@ -182,26 +182,26 @@ class SignupController extends REST {
      * \todo    ancora da implementare
      */
     public function recaptcha() {
-        global $controllers;
-        try {
-            if ($this->get_request_method() != "POST") {
-                $this->response(array("status" => $controllers['NOPOSTREQUEST']), 406);
-            } elseif (!isset($this->request['challengeField']) || !isset($this->request['responseField'])) {
-                $this->response(array('status' => $controllers["NOCAPTCHA"]), 403);
-            }
-            $challengeField = $this->request['challengeField'];
-            $responseField = $this->request['responseField'];
-            //da implementare
-            $resp = recaptcha_check_answer(CAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $challengeField, $responseField);
-            if ($resp->is_valid) {
-                $_SESSION['captchaValidation'] = true;
-                $this->response(array("status" => $controllers["CORRECTCAPTCHA"]), 200);
-            } else {
-                $this->response(array("status" => $controllers["WRONGRECAPTCHA"]), 403);
-            }
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getErrorMessage()), 503);
-        }
+	global $controllers;
+	try {
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array("status" => $controllers['NOPOSTREQUEST']), 406);
+	    } elseif (!isset($this->request['challengeField']) || !isset($this->request['responseField'])) {
+		$this->response(array('status' => $controllers["NOCAPTCHA"]), 403);
+	    }
+	    $challengeField = $this->request['challengeField'];
+	    $responseField = $this->request['responseField'];
+	    //da implementare
+	    $resp = recaptcha_check_answer(CAPTCHA_PRIVATE_KEY, $_SERVER["REMOTE_ADDR"], $challengeField, $responseField);
+	    if ($resp->is_valid) {
+		$_SESSION['captchaValidation'] = true;
+		$this->response(array("status" => $controllers["CORRECTCAPTCHA"]), 200);
+	    } else {
+		$this->response(array("status" => $controllers["WRONGRECAPTCHA"]), 403);
+	    }
+	} catch (Exception $e) {
+	    $this->response(array('status' => $e->getErrorMessage()), 503);
+	}
     }
 
     /**
@@ -210,25 +210,25 @@ class SignupController extends REST {
      * \todo
      */
     public function checkEmailExists() {
-        global $controllers;
-        try {
-            if ($this->get_request_method() != "POST") {
-                $this->response(array('status' => $controllers["NOPOSTREQUEST"]), 406);
-            } elseif (!isset($this->request['email'])) {
-                $this->response(array('status' => $controllers['NOMAILSPECIFIED']), 403);
-            }
-            $email = $this->request['email'];
-            $up = new UserParse();
-            $up->where("email", $email);
-            $res = $up->getCount();
-            if ($res < 1) {
-                $this->response(array("status" => $controllers["VALIDMAIL"]), 200);
-            } else {
-                $this->response(array("status" => $controllers["MAILALREADYEXISTS"]), 403);
-            }
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getErrorMessage()), 503);
-        }
+	global $controllers;
+	try {
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers["NOPOSTREQUEST"]), 406);
+	    } elseif (!isset($this->request['email'])) {
+		$this->response(array('status' => $controllers['NOMAILSPECIFIED']), 403);
+	    }
+	    $email = $this->request['email'];
+	    $up = new UserParse();
+	    $up->where("email", $email);
+	    $res = $up->getCount();
+	    if ($res < 1) {
+		$this->response(array("status" => $controllers["VALIDMAIL"]), 200);
+	    } else {
+		$this->response(array("status" => $controllers["MAILALREADYEXISTS"]), 403);
+	    }
+	} catch (Exception $e) {
+	    $this->response(array('status' => $e->getErrorMessage()), 503);
+	}
     }
 
     /**
@@ -237,25 +237,25 @@ class SignupController extends REST {
      * \todo
      */
     public function checkUsernameExists() {
-        global $controllers;
-        try {
-            if ($this->get_request_method() != "POST") {
-                $this->response(array('status' => $controllers["NOPOSTREQUEST"]), 406);
-            } elseif (!isset($this->request['username'])) {
-                $this->response(array('status' => $controllers["NOUSERNAMESPECIFIED"]), 400);
-            }
-            $username = $this->request['username'];
-            $up = new UserParse();
-            $up->where("username", $username);
-            $res = $up->getCount();
-            if ($res < 1) {
-                $this->response(array("status" => $controllers["VALIDUSERNAME"]), 200);
-            } else {
-                $this->response(array("status" => $controllers["USERNAMEALREADYEXISTS"]), 200);
-            }
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getErrorMessage()), 503);
-        }
+	global $controllers;
+	try {
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers["NOPOSTREQUEST"]), 406);
+	    } elseif (!isset($this->request['username'])) {
+		$this->response(array('status' => $controllers["NOUSERNAMESPECIFIED"]), 400);
+	    }
+	    $username = $this->request['username'];
+	    $up = new UserParse();
+	    $up->where("username", $username);
+	    $res = $up->getCount();
+	    if ($res < 1) {
+		$this->response(array("status" => $controllers["VALIDUSERNAME"]), 200);
+	    } else {
+		$this->response(array("status" => $controllers["USERNAMEALREADYEXISTS"]), 200);
+	    }
+	} catch (Exception $e) {
+	    $this->response(array('status' => $e->getErrorMessage()), 503);
+	}
     }
 
     /**
@@ -264,30 +264,30 @@ class SignupController extends REST {
      * \todo
      */
     private function createFileSystemStructure($userId, $type) {
-        try {
-            if (!is_null($userId) && strlen($userId) > 0) {
-                mkdir(USERS_DIR . $userId, 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos", 0777, true);
+	try {
+	    if (!is_null($userId) && strlen($userId) > 0) {
+		mkdir(USERS_DIR . $userId, 0777, true);
+		mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images", 0777, true);
+		mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb", 0777, true);
+		mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture", 0777, true);
+		mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover", 0777, true);
+		mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb", 0777, true);
+		mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos", 0777, true);
 
-                if ($type == "JAMMER") {
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs", 0777, true);
-                } elseif ($type == "VENUE") {
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
-                }
-            }
-        } catch (Exception $e) {
-            return false;
-        }
+		if ($type == "JAMMER") {
+		    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true);
+		    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true);
+		    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
+		    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
+		    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs", 0777, true);
+		} elseif ($type == "VENUE") {
+		    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
+		    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
+		}
+	    }
+	} catch (Exception $e) {
+	    return false;
+	}
     }
 
     /**
@@ -296,16 +296,16 @@ class SignupController extends REST {
      * \todo
      */
     private function createDefaultPlaylist($userId) {
-        require_once CLASSES_DIR . 'playlist.class.php';
-        require_once CLASSES_DIR . 'playlistParse.class.php';
-        $playlist = new Playlist();
-        $playlist->setActive(true);
-        $playlist->setFromUser($userId);
-        $playlist->setName(DEF_PLAY);
-        $playlist->setSongsArray(array());
-        $playlist->setUnlimited(false);
-        $pPlaylist = PlaylistParse();
-        return $pPlaylist->savePlaylist($playlist);
+	require_once CLASSES_DIR . 'playlist.class.php';
+	require_once CLASSES_DIR . 'playlistParse.class.php';
+	$playlist = new Playlist();
+	$playlist->setActive(true);
+	$playlist->setFromUser($userId);
+	$playlist->setName(DEF_PLAY);
+	$playlist->setSongsArray(array());
+	$playlist->setUnlimited(false);
+	$pPlaylist = PlaylistParse();
+	return $pPlaylist->savePlaylist($playlist);
     }
 
     /**
@@ -314,17 +314,17 @@ class SignupController extends REST {
      * \todo
      */
     private function createImageDefaultAlbum($userId) {
-        require_once CLASSES_DIR . 'album.class.php';
-        require_once CLASSES_DIR . 'albumParse.class.php';
-        $album = new Album();
-        $album->setActive(true);
-        $album->setCounter(0);
-        $album->setFromUser($userId);
-        $album->setLoveCounter(0);
-        $album->setShareCounter(0);
-        $album->setTitle(DEF_ALBUM);
-        $pAlbum = new AlbumParse();
-        return $pAlbum->saveAlbum($album);
+	require_once CLASSES_DIR . 'album.class.php';
+	require_once CLASSES_DIR . 'albumParse.class.php';
+	$album = new Album();
+	$album->setActive(true);
+	$album->setCounter(0);
+	$album->setFromUser($userId);
+	$album->setLoveCounter(0);
+	$album->setShareCounter(0);
+	$album->setTitle(DEF_ALBUM);
+	$pAlbum = new AlbumParse();
+	return $pAlbum->saveAlbum($album);
     }
 
     /**
@@ -333,19 +333,19 @@ class SignupController extends REST {
      * \todo
      */
     private function createRecordDefaultAlbum($userId) {
-        require_once CLASSES_DIR . 'record.class.php';
-        require_once CLASSES_DIR . 'recordParse.class.php';
-        $record = new Record();
-        $record->setActive(true);
-        $record->setDuration(0);
-        $record->setFromUser($userId);
-        $record->setLoveCounter(0);
-        $record->setReviewCounter(0);
-        $record->setShareCounter(0);
-        $record->setTitle(DEF_REC);
-        $record->setYear(date("Y"));
-        $pRecord = new RecordParse();
-        return $pRecord->saveRecord($record);
+	require_once CLASSES_DIR . 'record.class.php';
+	require_once CLASSES_DIR . 'recordParse.class.php';
+	$record = new Record();
+	$record->setActive(true);
+	$record->setDuration(0);
+	$record->setFromUser($userId);
+	$record->setLoveCounter(0);
+	$record->setReviewCounter(0);
+	$record->setShareCounter(0);
+	$record->setTitle(DEF_REC);
+	$record->setYear(date("Y"));
+	$pRecord = new RecordParse();
+	return $pRecord->saveRecord($record);
     }
 
     /**
@@ -354,36 +354,36 @@ class SignupController extends REST {
      * \todo
      */
     private function createSpotter($userJSON) {
-        $this->debug("createSpotter", "START");
-        $this->debug("createSpotter", "userJSON => " . var_export($userJSON, true));
-        if (!is_null($userJSON)) {
-            $user = new User("SPOTTER");
-            $this->setCommonValues($user, $userJSON);
-            $user->setCollaborationCounter(-1);
-            $user->setFollowersCounter(-1);
-            $user->setFollowingCounter(0);
-            $user->setFriendshipCounter(0);
-            $user->setJammerCounter(0);
-            $user->setVenueCounter(0);
-            $user->setFirstname($userJSON->firstname);
-            $user->setLastname($userJSON->lastname);
+	$this->debug("createSpotter", "START");
+	$this->debug("createSpotter", "userJSON => " . var_export($userJSON, true));
+	if (!is_null($userJSON)) {
+	    $user = new User("SPOTTER");
+	    $this->setCommonValues($user, $userJSON);
+	    $user->setCollaborationCounter(-1);
+	    $user->setFollowersCounter(-1);
+	    $user->setFollowingCounter(0);
+	    $user->setFriendshipCounter(0);
+	    $user->setJammerCounter(0);
+	    $user->setVenueCounter(0);
+	    $user->setFirstname($userJSON->firstname);
+	    $user->setLastname($userJSON->lastname);
 
-            $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
-            $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
-            $user->setCity($infoLocation['city']);
-            $user->setCountry($infoLocation['country']);
-            $user->setGeoCoding($parseGeoPoint);
+	    $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
+	    $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
+	    $user->setCity($infoLocation['city']);
+	    $user->setCountry($infoLocation['country']);
+	    $user->setGeoCoding($parseGeoPoint);
 
-            $user->setMusic($this->getMusicArray($userJSON->genre));
-            $user->setSex($userJSON->sex);
-            $birthday = json_decode(json_encode($userJSON->birthday), false);
-            if (strlen($birthday->year) > 0 && strlen($birthday->month) > 0 && strlen($birthday->day) > 0) {
-                $user->setBirthDay($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
-            }
-            $this->debug("createSpotter", "returning user => " . var_export($user, true));
-            return $user;
-        }
-        return null;
+	    $user->setMusic($this->getMusicArray($userJSON->genre));
+	    $user->setSex($userJSON->sex);
+	    $birthday = json_decode(json_encode($userJSON->birthday), false);
+	    if (strlen($birthday->year) > 0 && strlen($birthday->month) > 0 && strlen($birthday->day) > 0) {
+		$user->setBirthDay($birthday->day . "-" . $birthday->month . "-" . $birthday->year);
+	    }
+	    $this->debug("createSpotter", "returning user => " . var_export($user, true));
+	    return $user;
+	}
+	return null;
     }
 
     /**
@@ -392,30 +392,30 @@ class SignupController extends REST {
      * \todo
      */
     private function createVenue($userJSON) {
-        $this->debug("createVenue", "START");
-        $this->debug("createVenue", "userJSON => " . var_export($userJSON, true));
-        if (!is_null($userJSON)) {
-            $user = new User("VENUE");
-            $this->setCommonValues($user, $userJSON);
-            $user->setCollaborationCounter(0);
-            $user->setFollowersCounter(0);
-            $user->setFollowingCounter(-1);
-            $user->setFriendshipCounter(-1);
-            $user->setJammerCounter(0);
-            $user->setVenueCounter(0);
+	$this->debug("createVenue", "START");
+	$this->debug("createVenue", "userJSON => " . var_export($userJSON, true));
+	if (!is_null($userJSON)) {
+	    $user = new User("VENUE");
+	    $this->setCommonValues($user, $userJSON);
+	    $user->setCollaborationCounter(0);
+	    $user->setFollowersCounter(0);
+	    $user->setFollowingCounter(-1);
+	    $user->setFriendshipCounter(-1);
+	    $user->setJammerCounter(0);
+	    $user->setVenueCounter(0);
 
-            $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
-            $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
-            $user->setCity($infoLocation['city']);
-            $user->setCountry($infoLocation['country']);
-            $user->setAddress($infoLocation['formattedAddress']);
-            $user->setGeoCoding($parseGeoPoint);
+	    $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
+	    $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
+	    $user->setCity($infoLocation['city']);
+	    $user->setCountry($infoLocation['country']);
+	    $user->setAddress($infoLocation['formattedAddress']);
+	    $user->setGeoCoding($parseGeoPoint);
 
-            $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
-            $this->debug("createVenue", "returning  user => " . var_export($user, true));
-            return $user;
-        }
-        return null;
+	    $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
+	    $this->debug("createVenue", "returning  user => " . var_export($user, true));
+	    return $user;
+	}
+	return null;
     }
 
     /**
@@ -424,33 +424,33 @@ class SignupController extends REST {
      * \todo
      */
     private function createJammer($userJSON) {
-        $this->debug("createJammer", "START");
-        $this->debug("createJammer", "userJSON => " . var_export($userJSON, true));
-        if (!is_null($userJSON)) {
-            $user = new User("JAMMER");
-            $this->setCommonValues($user, $userJSON);
-            $user->setCollaborationCounter(0);
-            $user->setFollowersCounter(0);
-            $user->setFollowingCounter(-1);
-            $user->setFriendshipCounter(-1);
-            $user->setJammerCounter(0);
-            $user->setVenueCounter(0);
-            $user->setJammerType($userJSON->jammerType);
+	$this->debug("createJammer", "START");
+	$this->debug("createJammer", "userJSON => " . var_export($userJSON, true));
+	if (!is_null($userJSON)) {
+	    $user = new User("JAMMER");
+	    $this->setCommonValues($user, $userJSON);
+	    $user->setCollaborationCounter(0);
+	    $user->setFollowersCounter(0);
+	    $user->setFollowingCounter(-1);
+	    $user->setFriendshipCounter(-1);
+	    $user->setJammerCounter(0);
+	    $user->setVenueCounter(0);
+	    $user->setJammerType($userJSON->jammerType);
 
-            $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
-            $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
-            $user->setCity($infoLocation['city']);
-            $user->setCountry($infoLocation['country']);
-            $user->setGeoCoding($parseGeoPoint);
+	    $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
+	    $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
+	    $user->setCity($infoLocation['city']);
+	    $user->setCountry($infoLocation['country']);
+	    $user->setGeoCoding($parseGeoPoint);
 
-            if ($userJSON->jammerType == "band") {
-                $user->setMembers($this->getMembersArray($userJSON->members));
-            }
-            $user->setMusic($this->getMusicArray($userJSON->genre));
-            $this->debug("createJammer", "returning user => " . var_export($user, true));
-            return $user;
-        }
-        return null;
+	    if ($userJSON->jammerType == "band") {
+		$user->setMembers($this->getMembersArray($userJSON->members));
+	    }
+	    $user->setMusic($this->getMusicArray($userJSON->genre));
+	    $this->debug("createJammer", "returning user => " . var_export($user, true));
+	    return $user;
+	}
+	return null;
     }
 
     /**
@@ -459,26 +459,26 @@ class SignupController extends REST {
      * \todo
      */
     private function defineSettings($user_type, $language, $localTime, $imgProfile) {
-        $settings = array();
-        if (!is_null($user_type) && !is_null($language) && !is_null($localTime)) {
-            $common = $this->init_common_settings($language, $localTime, $imgProfile);
-            $settings = array_merge($settings, $common);
-            switch ($user_type) {
-                case "SPOTTER" :
-                    $spot = $this->init_spotter_settings($settings);
-                    $settings = array_merge($settings, $spot);
-                    break;
-                case "JAMMER" :
-                    $jam = $this->init_jammer_settings($settings);
-                    $settings = array_merge($settings, $jam);
-                    break;
-                case "VENUE" :
-                    $ven = $this->init_venue_settings($settings);
-                    $settings = array_merge($settings, $ven);
-                    break;
-            }
-        }
-        return $settings;
+	$settings = array();
+	if (!is_null($user_type) && !is_null($language) && !is_null($localTime)) {
+	    $common = $this->init_common_settings($language, $localTime, $imgProfile);
+	    $settings = array_merge($settings, $common);
+	    switch ($user_type) {
+		case "SPOTTER" :
+		    $spot = $this->init_spotter_settings($settings);
+		    $settings = array_merge($settings, $spot);
+		    break;
+		case "JAMMER" :
+		    $jam = $this->init_jammer_settings($settings);
+		    $settings = array_merge($settings, $jam);
+		    break;
+		case "VENUE" :
+		    $ven = $this->init_venue_settings($settings);
+		    $settings = array_merge($settings, $ven);
+		    break;
+	    }
+	}
+	return $settings;
     }
 
     /**
@@ -487,14 +487,15 @@ class SignupController extends REST {
      * \todo
      */
     private function getLocalTypeArray($genre) {
-        if (count($genre) > 0) {
-            $return = array();
-            foreach ($genre as $val) {
-                $return[] = $val;
-            }
-            return $return;
-        } else
-            return null;
+	if (count($genre) > 0) {
+	    $return = array();
+	    foreach ($genre as $val) {
+		$return[] = $val;
+	    }
+	    return $return;
+	}
+	else
+	    return null;
     }
 
     /**
@@ -503,15 +504,16 @@ class SignupController extends REST {
      * \todo
      */
     private function getMembersArray($members) {
-        if (count($members) > 0) {
-            $return = array();
-            foreach ($members as $member) {
-                array_push($return, $member->name);
-                array_push($return, $member->instrument);
-            }
-            return $return;
-        } else
-            return null;
+	if (count($members) > 0) {
+	    $return = array();
+	    foreach ($members as $member) {
+		array_push($return, $member->name);
+		array_push($return, $member->instrument);
+	    }
+	    return $return;
+	}
+	else
+	    return null;
     }
 
     /**
@@ -520,14 +522,15 @@ class SignupController extends REST {
      * \todo
      */
     private function getMusicArray($genre) {
-        if (count($genre) > 0) {
-            $return = array();
-            foreach ($genre as $val) {
-                $return[] = $val;
-            }
-            return $return;
-        } else
-            return null;
+	if (count($genre) > 0) {
+	    $return = array();
+	    foreach ($genre as $val) {
+		$return[] = $val;
+	    }
+	    return $return;
+	}
+	else
+	    return null;
     }
 
     /**
@@ -536,22 +539,22 @@ class SignupController extends REST {
      * \todo
      */
     private function init_common_settings($language, $localTime, $imgProfile) {
-        $settings = array();
-        $settings[0] = $language;
-        $settings[1] = $localTime; //
-        $settings[2] = $imgProfile;
-        for ($i = 3; $i <= 10; $i++) {
-            $settings[$i] = "PUBLIC";
-        }
-        $settings[11] = "YES";
-        $settings[13] = "PUBLIC";
-        for ($i = 15; $i <= 26; $i++) {
-            $settings[$i] = true;
-        }
-        for ($i = 30; $i <= 33; $i++) {
-            $settings[$i] = false;
-        }
-        return $settings;
+	$settings = array();
+	$settings[0] = $language;
+	$settings[1] = $localTime; //
+	$settings[2] = $imgProfile;
+	for ($i = 3; $i <= 10; $i++) {
+	    $settings[$i] = "PUBLIC";
+	}
+	$settings[11] = "YES";
+	$settings[13] = "PUBLIC";
+	for ($i = 15; $i <= 26; $i++) {
+	    $settings[$i] = true;
+	}
+	for ($i = 30; $i <= 33; $i++) {
+	    $settings[$i] = false;
+	}
+	return $settings;
     }
 
     /**
@@ -560,18 +563,18 @@ class SignupController extends REST {
      * \todo
      */
     private function init_spotter_settings() {
-        $settings = array();
-        $settings[12] = "FOLLOWERS";
-        $settings[14] = "YES";
-        for ($i = 27; $i <= 29; $i++) {
-            $settings[$i] = false;
-        }
-        $settings[34] = true;
-        $settings[35] = false;
-        $settings[36] = true;
-        $settings[37] = true;
-        $settings[38] = false;
-        return $settings;
+	$settings = array();
+	$settings[12] = "FOLLOWERS";
+	$settings[14] = "YES";
+	for ($i = 27; $i <= 29; $i++) {
+	    $settings[$i] = false;
+	}
+	$settings[34] = true;
+	$settings[35] = false;
+	$settings[36] = true;
+	$settings[37] = true;
+	$settings[38] = false;
+	return $settings;
     }
 
     /**
@@ -580,20 +583,20 @@ class SignupController extends REST {
      * \todo
      */
     private function init_venue_settings($settings) {
-        $settings = array();
-        $settings[12] = "FandC";
-        $settings[14] = true;
-        $settings[27] = true;
-        $settings[28] = false;
-        $settings[29] = false;
-        $settings[34] = false;
-        $settings[35] = true;
-        $settings[36] = false;
-        $settings[37] = false;
-        $settings[38] = true;
-        $settings[39] = true;
-        $settings[40] = true;
-        return $settings;
+	$settings = array();
+	$settings[12] = "FandC";
+	$settings[14] = true;
+	$settings[27] = true;
+	$settings[28] = false;
+	$settings[29] = false;
+	$settings[34] = false;
+	$settings[35] = true;
+	$settings[36] = false;
+	$settings[37] = false;
+	$settings[38] = true;
+	$settings[39] = true;
+	$settings[40] = true;
+	return $settings;
     }
 
     /**
@@ -602,24 +605,24 @@ class SignupController extends REST {
      * \todo
      */
     private function init_jammer_settings() {
-        $settings = array();
-        $settings[12] = "FandC";
-        $settings[14] = true;
-        for ($i = 27; $i <= 29; $i++) {
-            $settings[$i] = true;
-        }
-        $settings[34] = false;
-        $settings[35] = false;
-        $settings[36] = false;
-        $settings[37] = true;
-        $settings[38] = false;
-        $settings[39] = true;
-        $settings[40] = false;
-        $settings[41] = false;
-        $settings[42] = true;
-        $settings[43] = true;
-        $settings[44] = true;
-        return $settings;
+	$settings = array();
+	$settings[12] = "FandC";
+	$settings[14] = true;
+	for ($i = 27; $i <= 29; $i++) {
+	    $settings[$i] = true;
+	}
+	$settings[34] = false;
+	$settings[35] = false;
+	$settings[36] = false;
+	$settings[37] = true;
+	$settings[38] = false;
+	$settings[39] = true;
+	$settings[40] = false;
+	$settings[41] = false;
+	$settings[42] = true;
+	$settings[43] = true;
+	$settings[44] = true;
+	return $settings;
     }
 
     /**
@@ -628,40 +631,40 @@ class SignupController extends REST {
      * \todo
      */
     private function setCommonValues($user, $decoded) {
-        $user->setUsername($decoded->username);
-        $user->setEmail($decoded->email);
-        $user->setPassword($decoded->password);
-        $user->setDescription($decoded->description);
-        require_once CONTROLLERS_DIR . "utilsController.php";
-        $imgInfo = getCroppedImages($decoded);
-        $user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['picture']));
-        $user->setProfilePicture($imgInfo['picture']);
-        $user->setProfileThumbnail($imgInfo['thumbnail']);
-        if (strlen($decoded->facebook))
-            $user->setFbPage($decoded->facebook);
-        if (strlen($decoded->twitter))
-            $user->setTwitterPage($decoded->twitter);
-        if (strlen($decoded->google))
-            $user->setGooglePlusPage($decoded->google);
-        if (strlen($decoded->youtube))
-            $user->setYoutubeChannel($decoded->youtube);
-        if (strlen($decoded->web))
-            $user->setWebsite($decoded->web);
-        $user->setBadge(array());
-        $parseACL = new parseACL();
-        $parseACL->setPublicReadAccess(true);
-        $user->setACL($parseACL);
-        $user->setActive(true);
-        $user->setBackground(DEFBGD);
-        $user->setLevel(0);
-        $user->setLevelValue(1);
-        $user->setPremium(false);
+	$user->setUsername($decoded->username);
+	$user->setEmail($decoded->email);
+	$user->setPassword($decoded->password);
+	$user->setDescription($decoded->description);
+	require_once CONTROLLERS_DIR . "utilsController.php";
+	$imgInfo = getCroppedImages($decoded);
+	$user->setSettings($this->defineSettings($user->getType(), $decoded->language, $decoded->localTime, $imgInfo['picture']));
+	$user->setProfilePicture($imgInfo['picture']);
+	$user->setProfileThumbnail($imgInfo['thumbnail']);
+	if (strlen($decoded->facebook))
+	    $user->setFbPage($decoded->facebook);
+	if (strlen($decoded->twitter))
+	    $user->setTwitterPage($decoded->twitter);
+	if (strlen($decoded->google))
+	    $user->setGooglePlusPage($decoded->google);
+	if (strlen($decoded->youtube))
+	    $user->setYoutubeChannel($decoded->youtube);
+	if (strlen($decoded->web))
+	    $user->setWebsite($decoded->web);
+	$user->setBadge(array());
+	$parseACL = new parseACL();
+	$parseACL->setPublicReadAccess(true);
+	$user->setACL($parseACL);
+	$user->setActive(true);
+	$user->setBackground(DEFBGD);
+	$user->setLevel(0);
+	$user->setLevelValue(1);
+	$user->setPremium(false);
     }
 
     private function debug($function, $msg) {
-        $path = "signup.controller/";
-        $file = date("Ymd"); //today
-        debug($path, $file, $function . " | " . $msg);
+	$path = "signup.controller/";
+	$file = date("Ymd"); //today
+	debug($path, $file, $function . " | " . $msg);
     }
 
 }

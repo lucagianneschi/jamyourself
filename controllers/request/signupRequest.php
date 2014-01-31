@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Stefano Muscas
  * \version		1.0
@@ -24,15 +25,13 @@ require_once CONTROLLERS_DIR . 'signup.controller.php';
 //  
 //////////////////////////////////////////////////////////////////////////////// 
 //inizializza la sessione
-try{
-session_start();
+try {
+    session_start();
 
 // Initiiate Library
-$controller = new SignupController();
-$controller->processApi();    
-}catch(Exception $e){
+    $controller = new SignupController();
+    $controller->processApi();
+} catch (Exception $e) {
     //log di sistema
 }
-
-
 ?>

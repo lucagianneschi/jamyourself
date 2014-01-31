@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		test di funzionamento
+ * \todo		test di funzionamento, fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))

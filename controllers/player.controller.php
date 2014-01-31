@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		 
+ * \todo		 completare ed implementare
  *
  */
 if (!defined('ROOT_DIR'))

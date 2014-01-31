@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		 check numero di canzoni; check per vedere se song presente già presente nella tracklist
+ * \todo		 fare API su Wiki, controllare codice removeSong()
  *
  */
 if (!defined('ROOT_DIR'))
@@ -36,8 +36,8 @@ class PlaylistController extends REST {
      * \brief   load config file for the controller
      */
     function __construct() {
-        parent::__construct();
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/playlist.config.json"), false);
+	parent::__construct();
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/playlist.config.json"), false);
     }
 
     /**
@@ -46,55 +46,55 @@ class PlaylistController extends REST {
      * \todo    vedere se va fatto controllo su + o meno 20 valori nella relation
      */
     public function addSong() {
-        try {
-            global $controllers;
-            if ($this->get_request_method() != "POST") {
-                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-		 	} elseif (!isset($_SESSION['currentUser'])) {
-				$this->response(array('status' => $controllers['USERNOSES']), 403);
-            } elseif (!isset($this->request['songId'])) {
-                $this->response(array('status' => $controllers['NOSONGID']), 403);
-			} elseif (!isset($_SESSION['playlist'])) {
-				//creare la playlist
-			}
-            $playlistId = $_SESSION['playlist']['objectId'];
-            $songId = $this->request['songId'];
-            $currentUser = $_SESSION['currentUser'];
-            require_once CLASSES_DIR . 'playlistParse.class.php';
-            $playlistP = new PlaylistParse();
-            $playlist = $playlistP->getPlaylist($playlistId);
-            if ($playlist instanceof Error) {
-                $this->response(array('status' => $controllers['NOPLAYLIST']), 503);
-            } elseif (in_array($songId, $playlist->getSongsArray())) {
-                $this->response(array('status' => $controllers['SONGALREADYINTRACKLIST']), 503);
-            }
-			//TODO controllo sbagliato?? se l'utente e' premium non ha limiti nella playlist?
-            //if (count($playlist->getSongsArray()) >= PLAYLISTLIMIT && $currentUser->getPremium() != true) {
-            if (count($playlist->getSongsArray()) <= PLAYLISTLIMIT || $currentUser->getPremium() == true) {
-                $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
-                if ($res instanceof Error) {
-                    $this->response(array('status' => $controllers['NOADDSONGTOPLAYREL']), 503);
-                }
-                $res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $currentUser->getPremium(), $this->config->songsLimit);
-                if ($res1 instanceof Error) {
-                    $this->response(array('status' => $controllers['NOADDSONGTOPLAYARRAY']), 503);
-                }
-            } else {
-                $this->response(array('status' => $controllers['TOMANYSONGS']), 503);
-            }
-            $activity = $this->createActivity("SONGADDEDTOPLAYLIST", $currentUser->getObjectId(), $playlistId, $songId);
-            require_once CLASSES_DIR . 'activityParse.class.php';
-            $activityParse = new ActivityParse();
-            $resActivity = $activityParse->saveActivity($activity);
-            if ($resActivity instanceof Error) {
-                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-                $message = rollbackPlaylistController($playlistId, $songId, 'add', $currentUser->getPremium(), $this->config->songsLimit);
-                $this->response(array('status' => $message), 503);
-            }
-            $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
-        }
+	try {
+	    global $controllers;
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+	    } elseif (!isset($_SESSION['currentUser'])) {
+		$this->response(array('status' => $controllers['USERNOSES']), 403);
+	    } elseif (!isset($this->request['songId'])) {
+		$this->response(array('status' => $controllers['NOSONGID']), 403);
+	    } elseif (!isset($_SESSION['playlist'])) {
+		//creare la playlist
+	    }
+	    $playlistId = $_SESSION['playlist']['objectId'];
+	    $songId = $this->request['songId'];
+	    $currentUser = $_SESSION['currentUser'];
+	    require_once CLASSES_DIR . 'playlistParse.class.php';
+	    $playlistP = new PlaylistParse();
+	    $playlist = $playlistP->getPlaylist($playlistId);
+	    if ($playlist instanceof Error) {
+		$this->response(array('status' => $controllers['NOPLAYLIST']), 503);
+	    } elseif (in_array($songId, $playlist->getSongsArray())) {
+		$this->response(array('status' => $controllers['SONGALREADYINTRACKLIST']), 503);
+	    }
+	    //TODO controllo sbagliato?? se l'utente e' premium non ha limiti nella playlist?
+	    //if (count($playlist->getSongsArray()) >= PLAYLISTLIMIT && $currentUser->getPremium() != true) {
+	    if (count($playlist->getSongsArray()) <= PLAYLISTLIMIT || $currentUser->getPremium() == true) {
+		$res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'add', 'Song');
+		if ($res instanceof Error) {
+		    $this->response(array('status' => $controllers['NOADDSONGTOPLAYREL']), 503);
+		}
+		$res1 = $playlistP->addOjectIdToArray($playlistId, 'songsArray', $songId, $currentUser->getPremium(), $this->config->songsLimit);
+		if ($res1 instanceof Error) {
+		    $this->response(array('status' => $controllers['NOADDSONGTOPLAYARRAY']), 503);
+		}
+	    } else {
+		$this->response(array('status' => $controllers['TOMANYSONGS']), 503);
+	    }
+	    $activity = $this->createActivity("SONGADDEDTOPLAYLIST", $currentUser->getObjectId(), $playlistId, $songId);
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activityParse = new ActivityParse();
+	    $resActivity = $activityParse->saveActivity($activity);
+	    if ($resActivity instanceof Error) {
+		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		$message = rollbackPlaylistController($playlistId, $songId, 'add', $currentUser->getPremium(), $this->config->songsLimit);
+		$this->response(array('status' => $message), 503);
+	    }
+	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
+	} catch (Exception $e) {
+	    $this->response(array('status' => $e->getMessage()), 503);
+	}
     }
 
     /**
@@ -103,53 +103,53 @@ class PlaylistController extends REST {
      * \todo   
      */
     public function removeSong() {
-        try {
-            global $controllers;
-            if ($this->get_request_method() != "POST") {
-                $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-	   //TODO prende direttamente l'objectId dell currentUser dalla session
-      //      } elseif (!isset($this->request['currentUser'])) {
-      //          $this->response(array('status' => $controllers['USERNOSES']), 403);
-      //      } elseif (!isset($this->request['playlistId'])) {
-       //         $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
-            } elseif (!isset($this->request['songId'])) {
-                $this->response(array('status' => $controllers['NOSONGID']), 403);
-            }
-            $playlistId = $_SESSION['playlist']['objectId'];
-            $songId = $this->request['songId'];
-            $currentUser = $_SESSION['currentUser'];
-            require_once CLASSES_DIR . 'playlistParse.class.php';
-            $playlistP = new PlaylistParse();
-            $playlist = $playlistP->getPlaylist($playlistId);
-            if ($playlist instanceof Error) {
-                $this->response(array($controllers['NOPLAYLIST']), 503);
-            } elseif (!in_array($songId, $playlist->getSongsArray())) {
-                $this->response(array('status' => $controllers['ERRORCHECKINGSONGINTRACKLIST']), 503);
-            }
-            if (count($playlist->getSongsArray()) == 0) {
-                $this->response(array('status' => $controllers['NOTHINGTOREMOVE']), 503);
-            }
-            $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
-            if ($res instanceof Error) {
-                $this->response(array('status' => $controllers['NOREMOVESONGTOPLAYREL']), 503);
-            }
-            $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
-            if ($res1 instanceof Error) {
-                $this->response(array('status' => $controllers['NOREMOVESONGTOPLAYARRAY']), 503);
-            }
-            $activity = $this->createActivity("SONGREMOVEDFROMPLAYLIST", $currentUser->getObjectId(), $playlistId, $songId);
-            require_once CLASSES_DIR . 'activityParse.class.php';
-            $activityParse = new ActivityParse();
-            $resActivity = $activityParse->saveActivity($activity);
-            if ($resActivity instanceof Error) {
-                require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-                $message = rollbackPlaylistController($playlistId, $songId, 'remove', $currentUser->getPremium(), $this->config->songsLimit);
-                $this->response(array('status' => $message), 503);
-            }
-            $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
-        } catch (Exception $e) {
-            $this->response(array('status' => $e->getMessage()), 503);
-        }
+	try {
+	    global $controllers;
+	    if ($this->get_request_method() != "POST") {
+		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
+		//TODO prende direttamente l'objectId dell currentUser dalla session
+		//      } elseif (!isset($this->request['currentUser'])) {
+		//          $this->response(array('status' => $controllers['USERNOSES']), 403);
+		//      } elseif (!isset($this->request['playlistId'])) {
+		//         $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
+	    } elseif (!isset($this->request['songId'])) {
+		$this->response(array('status' => $controllers['NOSONGID']), 403);
+	    }
+	    $playlistId = $_SESSION['playlist']['objectId'];
+	    $songId = $this->request['songId'];
+	    $currentUser = $_SESSION['currentUser'];
+	    require_once CLASSES_DIR . 'playlistParse.class.php';
+	    $playlistP = new PlaylistParse();
+	    $playlist = $playlistP->getPlaylist($playlistId);
+	    if ($playlist instanceof Error) {
+		$this->response(array($controllers['NOPLAYLIST']), 503);
+	    } elseif (!in_array($songId, $playlist->getSongsArray())) {
+		$this->response(array('status' => $controllers['ERRORCHECKINGSONGINTRACKLIST']), 503);
+	    }
+	    if (count($playlist->getSongsArray()) == 0) {
+		$this->response(array('status' => $controllers['NOTHINGTOREMOVE']), 503);
+	    }
+	    $res = $playlistP->updateField($playlistId, 'songs', array($songId), true, 'remove', 'Song');
+	    if ($res instanceof Error) {
+		$this->response(array('status' => $controllers['NOREMOVESONGTOPLAYREL']), 503);
+	    }
+	    $res1 = $playlistP->removeObjectIdFromArray($playlistId, 'songsArray', $songId);
+	    if ($res1 instanceof Error) {
+		$this->response(array('status' => $controllers['NOREMOVESONGTOPLAYARRAY']), 503);
+	    }
+	    $activity = $this->createActivity("SONGREMOVEDFROMPLAYLIST", $currentUser->getObjectId(), $playlistId, $songId);
+	    require_once CLASSES_DIR . 'activityParse.class.php';
+	    $activityParse = new ActivityParse();
+	    $resActivity = $activityParse->saveActivity($activity);
+	    if ($resActivity instanceof Error) {
+		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
+		$message = rollbackPlaylistController($playlistId, $songId, 'remove', $currentUser->getPremium(), $this->config->songsLimit);
+		$this->response(array('status' => $message), 503);
+	    }
+	    $this->response(array($controllers['SONGADDEDTOPLAYLIST']), 200);
+	} catch (Exception $e) {
+	    $this->response(array('status' => $e->getMessage()), 503);
+	}
     }
 
     /**
@@ -159,25 +159,25 @@ class PlaylistController extends REST {
      * \return  $activity     
      */
     private function createActivity($type, $fromUser, $playlistId, $songId) {
-        require_once CLASSES_DIR . 'activity.class.php';
-        $activity = new Activity();
-        $activity->setActive(true);
-        $activity->setAlbum(null);
-        $activity->setComment(null);
-        $activity->setCounter(0);
-        $activity->setEvent(null);
-        $activity->setFromUser($fromUser);
-        $activity->setImage(null);
-        $activity->setPlaylist($playlistId);
-        $activity->setQuestion(null);
-        $activity->setRead(true);
-        $activity->setRecord(null);
-        $activity->setSong($songId);
-        $activity->setStatus('A');
-        $activity->setToUser(null);
-        $activity->setType($type);
-        $activity->setVideo(null);
-        return $activity;
+	require_once CLASSES_DIR . 'activity.class.php';
+	$activity = new Activity();
+	$activity->setActive(true);
+	$activity->setAlbum(null);
+	$activity->setComment(null);
+	$activity->setCounter(0);
+	$activity->setEvent(null);
+	$activity->setFromUser($fromUser);
+	$activity->setImage(null);
+	$activity->setPlaylist($playlistId);
+	$activity->setQuestion(null);
+	$activity->setRead(true);
+	$activity->setRecord(null);
+	$activity->setSong($songId);
+	$activity->setStatus('A');
+	$activity->setToUser(null);
+	$activity->setType($type);
+	$activity->setVideo(null);
+	return $activity;
     }
 
 }

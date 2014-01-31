@@ -4,14 +4,14 @@
  * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di operazioni social legate all'utente
  * \details		controller di utilities riferite alle operazioni di tipo social sulla classe utente
  * \par			Commenti:
  * \warning
  * \bug
- * \todo
+ * \todo		FAre API su Wiki; implementare
  *
  */
 if (!defined('ROOT_DIR'))

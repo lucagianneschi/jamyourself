@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
  * \version		1.0
@@ -13,7 +14,7 @@
  */
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../../');
-	
+
 require_once ROOT_DIR . 'config.php';
 require_once CONTROLLERS_DIR . 'message.controller.php';
 require_once CLASSES_DIR . 'userParse.class.php';

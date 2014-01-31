@@ -4,14 +4,14 @@
  * \author		Daniele Caldelli
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di love/unlove 
  * \details		incrementa/decrementa il loveCounter di una classe e istanza corrispondente activity
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		implementare i parametri di sessione (es currentUser)
+ * \todo		fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))

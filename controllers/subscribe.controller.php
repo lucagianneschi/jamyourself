@@ -6,12 +6,12 @@
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
- * \brief		controller di login e logout
+ * \brief		controller per subscribe, home, solo per fare BETA
  * \details		invia mail ad indirizzo predefinito per tenere elenco di subscriber
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		
+ * \todo		Fare APi su Wiki
  *
  */
 if (!defined('ROOT_DIR'))
@@ -47,7 +47,7 @@ class SubscribeController extends REST {
 	    $this->response(array("status" => $controllers['SUBSCRIPTIONERROR']), 503);
 	}
     }
-    
+
     /**
      * \brief	private function checkEmail($email)
      * \details	verifica che l'indirizzo inserito sia un indirizzo valido

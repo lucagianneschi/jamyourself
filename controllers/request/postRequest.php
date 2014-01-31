@@ -1,4 +1,5 @@
 <?php
+
 /* ! \par		Info Generali:
  * \author		Daniele Caldelli
  * \version		1.0
@@ -21,5 +22,4 @@ session_start();
 
 $controller = new PostController();
 $controller->processApi();
-
 ?>

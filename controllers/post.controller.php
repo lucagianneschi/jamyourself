@@ -4,14 +4,14 @@
  * \author		Daniele Caldelli
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller per l'azione di post
  * \details		effettua il post in bacheca di un utente, istanza della classe Comment con type P
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		implementare i parametri di sessione (es currentUser)
+ * \todo		fare API su Wiki
  *
  */
 if (!defined('ROOT_DIR'))

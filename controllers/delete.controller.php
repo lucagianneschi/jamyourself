@@ -4,14 +4,14 @@
  * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		controller di cancellazione 
  * \details		controller di cancellazione istanza di una classe
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		implementare i parametri di sessione (es currentUser)
+ * \todo		
  *
  */
 if (!defined('ROOT_DIR'))
