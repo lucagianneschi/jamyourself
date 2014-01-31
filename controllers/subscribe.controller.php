@@ -18,6 +18,7 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once CONTROLLERS_DIR . 'restController.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 
@@ -52,14 +53,6 @@ class SubscribeController extends REST {
         if (!(stripos($email, "@") !== false))
             return false;
         if (!(filter_var($email, FILTER_VALIDATE_EMAIL)))
-            return false;
-        $up = new UserParse();
-        $up->whereEqualTo("email", $email);
-        $res = $up->getCount();
-        if ($res instanceof Error) {
-            return false;
-        }
-        if ($res != 0)
             return false;
         return true;
     }

@@ -148,8 +148,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		    </p>
 		</div>
 		<div class="grid_5">
-		    <form>
-			<input placeholder="yourname@mail.com" type="mail" />
+		    <form action="javascript:subscribe()">
+			<input placeholder="yourname@mail.com" type="mail" id="mail"/>
 			<input type="submit" name="submit" value="<?php echo $views['send']; ?>" id="submit" />
 		    </form>
 		</div>
