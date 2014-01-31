@@ -38,14 +38,13 @@ class SubscribeController extends REST {
 	if (!isset($this->request['email']) || is_null($this->request['email']) || strlen($this->request['email']) == 0 || !$this->checkEmail($this->request['email'])) {
 	    $this->response(array("status" => $controllers['INVALIDEMAIL']), 401);
 	}
-	$subject = SUB_SBJ;
 	$html = $this->request['email'];
 	require_once CONTROLLERS_DIR . "utilsController.php";
-	$res_send_email = sendMailForNotification(SUB_ADD, $subject, $html);
+	$res_send_email = sendMailForNotification(SUB_ADD, SUB_SBJ, $html);
 	if ($res_send_email) {
 	    $this->response(array("status" => $controllers['SUBSCRIPTIONOK']), 200);
 	} else {
-	    $this->response(array("status" => $controllers['SUBSCRIPTIONERROR']), 200);
+	    $this->response(array("status" => $controllers['SUBSCRIPTIONERROR']), 503);
 	}
     }
     
