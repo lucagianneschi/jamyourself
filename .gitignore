@@ -3,6 +3,10 @@
 nbproject/project.properties
 nbproject/project.xml
 /repository.php
+<<<<<<< HEAD
+
+=======
+>>>>>>> e11deac2c6c6a5f16ec633306ac448753a26a20a
 # foundation
 config.rb
 .sass-cache/
