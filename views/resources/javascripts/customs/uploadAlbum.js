@@ -10,7 +10,6 @@ $(document).ready(function() {
 
     getAlbums();
     initFeaturing();
-
     //gesione button create new 
     $('#uploadAlbum-new').click(function() {
         $("#uploadAlbum01").fadeOut(100, function() {
@@ -174,6 +173,8 @@ function initImgUploader() {
                         $('#photo_img_' + elem.id).html(this.name);
                     }
                 });
+                //scroll to image list
+                $('html, body').animate({scrollTop:$('#uploadAlbum-listPhoto').position().top}, 'slow');
                 uploader.start();
             } catch (err) {
                 window.console.log("initImgUploader - FilesAdded | An error occurred - message : " + err.message);
@@ -400,7 +401,7 @@ function getCarouselElementHTML(obj) {
     return html;
 }
 function onCarouselReady() {
-    //scorrimento lista album  
+//scorrimento lista album  
     var sliderInstance = $("#uploadAlbum-listAlbumTouch").touchCarousel({
         pagingNav: false,
         snapToItems: true,
