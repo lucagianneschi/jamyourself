@@ -165,23 +165,26 @@ if (isset($userObjectId)) {
 		}
 		if ($value->type == 'M') {
 		    ?>
-			<div onclick="location.href = 'message.php?user=<?php echo $user_objectId ?>'" style="cursor: pointer">
+			<div style="cursor: pointer">
 			<?php } ?>	
 	    	    <div class="row">
 	    		<div  class="large-1 columns hide-for-small">
 	    		    <div class="icon-header">
-                                 <!-- THUMB USER-->
-                                <?php $thumbPath = USERS_DIR . $objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user_thumb; ?>
+                    <!-- THUMB USER-->
+                    <?php $thumbPath = USERS_DIR . $objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user_thumb; ?>
 	    			<img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
 	    		    </div>
 	    		</div>
 	    		<div  class="large-11 columns">
 	    		    <div class="row">
-	    			<div  class="large-8 columns" style="padding-right: 0px;">
-	    			    <label class="text grey inline"><a class="icon-small <?php echo $css_icon ?> inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span></label>									
+	    			<div onclick="location.href = 'message.php?user=<?php echo $user_objectId ?>'" class="large-8 columns" style="padding-right: 0px;">
+	    			    <label class="text grey inline"><a class="icon-small <?php echo $css_icon ?> inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span></label>
 	    			</div>
-	    			<div  class="large-4 columns " style="padding-left: 0px;">
-	    			    <label class="text grey-light inline" style="float: right !important"><?php echo $createdAd ?></label>
+                    <div  class="large-4 columns " style="padding-left: 0px;">
+	    			    <label class="text grey-light inline" style="float: right !important">
+                        <!-- TODO -->
+                        <span onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Accetta</span> | <span onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Rifiuta</span>
+                        <?php echo $createdAd ?></label>
 	    			</div>	
 	    		    </div>
 	    		</div>
