@@ -85,7 +85,7 @@ $playlistCurrentUser = array();
                             <!------------------------------------- thumbnail album ----------------------------->
                             <div id="player">	
                                 <div class="icon-header" id='header-box-thum'>
-                                    <img src="<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
+                                    <img src="<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $currentUser->getUsername(); ?>">
                                 </div>				
 
                                 <!------------------------------------- PLAYER ----------------------------->
@@ -120,7 +120,7 @@ $playlistCurrentUser = array();
                     <!------------------------------------- LOGO --------------------------------------------->
                     <div class="large-2 columns logo" id="header-box-logo">				
                         <div id="logo">
-                            <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>"><img src="resources/images/header/logo.png" border="0"></a>
+                            <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>"><img src="resources/images/header/logo.png" border="0" alt="Jamyourself: Meritocratic Social Music Discovering"></a>
                         </div>					
                     </div>
                     <!------------------------------------- SWITCH -------------------------------------------->
