@@ -120,8 +120,7 @@ $playlistCurrentUser = array();
                     <!------------------------------------- LOGO --------------------------------------------->
                     <div class="large-2 columns logo" id="header-box-logo">				
                         <div id="logo">
-                            <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>"><img src="resources/images/logo.png" border="0"></a>
-<!--                            <img src="resources/images/logo.png">-->
+                            <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>"><img src="resources/images/header/logo.png" border="0"></a>
                         </div>					
                     </div>
                     <!------------------------------------- SWITCH -------------------------------------------->
