@@ -88,7 +88,13 @@ if (is_null($eventBox->error)) {
         }
     } else {
         ?>
-        Un c'� nulla!!!
+        <div class="box">
+	        <div class="row">						
+	            <div class="small-12 columns ">
+	            	<?php echo $views['stream']['noresult'] ?>
+	            </div>
+	        </div>
+        </div>
         <?php
     }
     ?>
