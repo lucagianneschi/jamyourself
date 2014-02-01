@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		utilizzo del recaptcha, usare chiavi del sito definitive, query su Location, fare API su Wiki
+ * \todo		abilitare recaptcha lato server, query su Location, fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
