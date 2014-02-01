@@ -55,8 +55,10 @@ if ($countComment > 0) {
                             <div  class="small-1 columns ">
                                 <div class="icon-header">
                                     <!-- THUMB USER-->
-                                    <?php $thumbPath = USERS_DIR . $value->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $value->getProfileThumbnail(); ?>
-                                    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum ?>'">
+                                    <?php
+                                    $thumbPath = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail();
+                                    ?>
+                                    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
                                 </div>
                             </div>
                             <div  class="small-5 columns">
