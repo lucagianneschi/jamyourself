@@ -74,4 +74,4 @@
 <script type="text/javascript" src="resources/javascripts/customs/header.js"></script>
 
 <!----------------------------------- FAVICON ---------------------------------->
-<link rel="shortcut icon" href="resources/images/header/favicon.ico"/>
+<link rel="shortcut icon" href="resources/images/icon/favicon.ico"/>
