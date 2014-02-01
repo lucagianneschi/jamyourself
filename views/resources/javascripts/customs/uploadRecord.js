@@ -566,7 +566,12 @@ function addNewSong(id, duration, tags) {
         json_album.list.push(json_elem);
         window.console.log("Lista" + JSON.stringify(json_album.list));
         addSongToList(json_elem.title, json_elem.duration, json_elem.tags, true, id.substring(0, id.indexOf(".")));
+        //clear values
         $("#trackTitle").val("");
+        $('#tag-musicTrack').find(':checked').each(function() {
+            $(this).removeAttr('checked');
+        });
+
     } catch (err) {
         console.log("addNewSong | An error occurred - message : " + err.message);
     }
@@ -593,6 +598,8 @@ function addSongToList(title, duration, genre, isNew, id) {
 
         $("#songlist").append(html);
         $('#uploadRecord-detail').removeClass('no-display');
+        $('html, body').animate({scrollTop:$('#tr_song_list_' + id).position().top}, 'slow');
+        
     } catch (err) {
         console.log("addSongToList | An error occurred - message : " + err.message);
     }
@@ -618,16 +625,6 @@ function publishCallback(data, status) {
         }
     } catch (err) {
         console.log("publishCallback | An error occurred - message : " + err.message);
-    }
-}
-function uploaderRefresh() {
-    try {
-        if (uploader != null) {
-//        console.log("refreshing uploader");
-            uploader.refresh();
-        }
-    } catch (err) {
-        console.log("uploaderRefresh | An error occurred - message : " + err.message);
     }
 }
 
