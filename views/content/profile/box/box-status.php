@@ -16,7 +16,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 
 require_once SERVICES_DIR . 'relationChecker.service.php';
-session_start();
+//session_start();
 
 $currentUser = $_SESSION['currentUser'];
 
