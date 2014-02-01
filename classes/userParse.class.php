@@ -364,7 +364,7 @@ class UserParse {
 	    $parseUser->password = is_null($user->getPassword()) ? null : $user->getPassword();
 	    $parseUser->active = is_null($user->getActive()) ? true : $user->getActive();
 	    $parseUser->address = is_null($user->getAddress()) ? null : parse_encode_string($user->getAddress());
-	    $parseUser->background = is_null($user->getBackground()) ? DEFBGD : $user->getBackground();
+	    $parseUser->background = is_null($user->getBackground()) ? null : $user->getBackground();
 	    $parseUser->badge = is_null($user->getBadge()) ? $nullArray : $user->getBadge();
 	    $parseUser->birthDay = is_null($user->getBirthDay()) ? null : $user->getBirthDay();
 	    $parseUser->city = is_null($user->getCity()) ? null : parse_encode_string($user->getCity());
@@ -393,6 +393,8 @@ class UserParse {
 	    $parseUser->loveSongs = is_null($user->getLoveSongs()) ? null : toParseAddRelation('Song', $user->getLoveSongs());
 	    $parseUser->members = is_null($user->getMembers()) ? $nullArray : parse_encode_array($user->getMembers());
 	    $parseUser->music = is_null($user->getMusic()) ? $nullArray : $user->getMusic();
+	    $parseUser->profilePicture = is_null($user->getProfilePicture()) ? null : $user->getProfilePicture();
+	    $parseUser->profileThumbnail = is_null($user->getProfileThumbnail()) ? null : $user->getProfileThumbnail();
 	    $parseUser->premium = is_null($user->getPremium()) ? false : $user->getPremium();
 	    $parseUser->premiumExpirationDate = is_null($user->getPremiumExpirationDate()) ? null : toParseDate($user->getPremiumExpirationDate());
 	    $parseUser->settings = is_null($user->getSettings()) ? $nullArray : $user->getSettings();
@@ -403,20 +405,6 @@ class UserParse {
 	    $parseUser->website = is_null($user->getWebsite()) ? null : $user->getWebsite();
 	    $parseUser->youtubeChannel = is_null($user->getYoutubeChannel()) ? null : $user->getYoutubeChannel();
 	    $parseUser->ACL = is_null($user->getACL()) ? null : $user->getACL()->acl;
-	    if ($parseUser->data['type'] == 'SPOTTER') {
-		$defAvatar = DEFAVATARSPOTTER;
-		$defAvatarThumb = DEFTHUMBSPOTTER;
-	    } elseif ($parseUser->data['type'] == 'JAMMER') {
-		$defAvatar = DEFAVATARJAMMER;
-		$defAvatarThumb = DEFTHUMBJAMMER;
-	    } elseif ($parseUser->data['type'] == 'VENUE') {
-		$defAvatar = DEFAVATARVENUE;
-		$defAvatarThumb = DEFTHUMBVENUE;
-	    } else {
-		return throwError($e, __CLASS__, __FUNCTION__, func_get_args());
-	    }
-	    $parseUser->profilePicture = is_null($user->getProfilePicture()) ? $defAvatar : $user->getProfilePicture();
-	    $parseUser->profileThumbnail = is_null($user->getProfileThumbnail()) ? $defAvatarThumb : $user->getProfileThumbnail();
 	    if ($user->getObjectId() == '') {
 		$res = $parseUser->signup($user->getUsername(), $user->getPassword());
 		$user->setObjectId($res->objectId);
