@@ -112,7 +112,6 @@ class CropImageService {
                 return null;
         }
 
-        $source_image = imagecreatefromjpeg(CACHE_DIR . $cacheImg);
         $width = imagesx($image);
         $height = imagesy($image);
 
@@ -123,7 +122,7 @@ class CropImageService {
         $virtual_image = imagecreatetruecolor($desiredWidth, $desired_height);
 
         /* copy source image at a resized size */
-        imagecopyresampled($virtual_image, $source_image, 0, 0, 0, 0, $desiredWidth, $desired_height, $width, $height);
+        imagecopyresampled($virtual_image, $image, 0, 0, 0, 0, $desiredWidth, $desired_height, $width, $height);
 
         /* create the physical thumbnail image to its destination */
         imagejpeg($virtual_image, CACHE_DIR . $profileImgName);
