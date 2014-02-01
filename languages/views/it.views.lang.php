@@ -477,7 +477,8 @@ $views = array(
         'new_badge' => 'New Badge Earned',
         'new_level' => 'New Level Earned',
         'record_created' => 'Record Created',
-	'song_added' => 'Song Added to Record'
+		'song_added' => 'Song Added to Record',
+		'noresult' => 'Nessun Risultato',
     ),
     'uploadAlbum' => array(
         'upload' => 'Upload Photo',
