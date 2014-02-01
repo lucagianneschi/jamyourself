@@ -85,14 +85,14 @@ $playlistCurrentUser = array();
                             <!------------------------------------- thumbnail album ----------------------------->
                             <div id="player">	
                                 <div class="icon-header" id='header-box-thum'>
-                                    <img src="<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
+                                    <img src="<?php echo DEFRECORDTHUMB; ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $currentUser->getUsername(); ?>">
                                 </div>				
 
                                 <!------------------------------------- PLAYER ----------------------------->
                                 <div id="jquery_jplayer_N"></div>
                                 <div id="header-box-player">
                                     <!---------- TITLE --------->
-                                    <div class="title-player">In The Belly Of A Shark</div>
+                                    <div class="title-player"></div>
                                     <!---------- TIME MUSIC  --------->
                                     <small id="time-player" class="inline grey">00:00</small>
 
@@ -120,8 +120,7 @@ $playlistCurrentUser = array();
                     <!------------------------------------- LOGO --------------------------------------------->
                     <div class="large-2 columns logo" id="header-box-logo">				
                         <div id="logo">
-                            <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>"><img src="resources/images/logo.png" border="0"></a>
-<!--                            <img src="resources/images/logo.png">-->
+                            <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>"><img src="resources/images/header/logo.png" border="0" alt="Jamyourself: Meritocratic Social Music Discovering"></a>
                         </div>					
                     </div>
                     <!------------------------------------- SWITCH -------------------------------------------->

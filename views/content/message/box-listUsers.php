@@ -1,5 +1,4 @@
 <?php
-
 if (!isset($messageBox)) {
     if (!defined('ROOT_DIR'))
 	define('ROOT_DIR', '../../../');
@@ -9,7 +8,7 @@ if (!isset($messageBox)) {
     require_once BOXES_DIR . 'message.box.php';
     require_once SERVICES_DIR . 'lang.service.php';
     require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-	   
+
     $messageBox = new MessageBox();
     $messageBox->initForUserList();
     $cssNewMessage = "no-display";
@@ -18,7 +17,6 @@ if (!isset($messageBox)) {
 foreach ($messageBox->userInfoArray as $key => $value) {
     $tumb = "";
     switch ($value->userInfo->type) {
-
 	case 'SPOTTER':
 	    $tumb = DEFTHUMBSPOTTER;
 	    break;
@@ -29,7 +27,6 @@ foreach ($messageBox->userInfoArray as $key => $value) {
 	    $tumb = DEFTHUMBVENUE;
 	    break;
 	default:
-
 	    break;
     }
     $readCss = '';
@@ -46,31 +43,31 @@ foreach ($messageBox->userInfoArray as $key => $value) {
         <div class="unread <?php echo $readCss ?>"></div>
         <div class="delete" onClick="deleteMsg('<?php echo $key ?>')"></div>
         <div class="box-msg" onClick="showMsg('<?php echo $key ?>')">
-	    	<div class="row">
-	    	    <div class="small-2 columns ">
-	    		<div class="icon-header">
-	    		    <img src="<?php echo $value->userInfo->thumbnail ?>" onerror="this.src='<?php echo $tumb ?>'">
-	    		    <input type="hidden" name="type" value="<?php echo $value->userInfo->type ?>"/>
-	    		</div>
-	    	    </div>
-	    	    <div class="small-10 columns" style="padding-top: 8px;">
-	    		<div id="a1to" class="text grey-dark breakOffTest"><?php echo $value->userInfo->username ?></div>
-	    	    </div>		
-	    	</div>
+    	<div class="row">
+    	    <div class="small-2 columns ">
+    		<div class="icon-header">
+    		    <img src="<?php echo $value->userInfo->thumbnail; ?>" onerror="this.src='<?php echo $tumb; ?>'" alt="<?php echo $value->userInfo->username; ?>">
+    		    <input type="hidden" name="type" value="<?php echo $value->userInfo->type ?>"/>
+    		</div>
+    	    </div>
+    	    <div class="small-10 columns" style="padding-top: 8px;">
+    		<div id="a1to" class="text grey-dark breakOffTest"><?php echo $value->userInfo->username ?></div>
+    	    </div>		
+    	</div>
         </div>
     </div>
-    
 
-<?php
+
+    <?php
 }
 /*
-if (count($messageBox->userInfoArray) >= LIMITLISTMSG && count($messageBox->userInfoArray) > 0) {
-    ?>  
+  if (count($messageBox->userInfoArray) >= LIMITLISTMSG && count($messageBox->userInfoArray) > 0) {
+  ?>
 
-    <div class="box-other" onclick="viewOtherListMsg('<?php echo $user ?>',<?php echo $limit ?>,<?php echo ($limit + $skip) ?>)">
-        <a><?php echo $views['message']['view_other']; ?></a>
-    </div>
-    <?php
-}*/
+  <div class="box-other" onclick="viewOtherListMsg('<?php echo $user ?>',<?php echo $limit ?>,<?php echo ($limit + $skip) ?>)">
+  <a><?php echo $views['message']['view_other']; ?></a>
+  </div>
+  <?php
+  } */
 ?>
 <div id='userTmp'></div>

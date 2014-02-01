@@ -149,10 +149,8 @@ class MessageController extends REST {
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    require_once CONTROLLERS_DIR . 'utilsController.php';
 	    $userParse = new UserParse();
-	    $user = $userParse->getUser($toUserObjectId);
-	    #TODO
-	    //$address = $user->getEmail();
-	    $address = 'alesandro.ghilarducci@gmail.com';
+	    $user = $userParse->getUser($toUserId);
+	    $address = $user->getEmail();
 	    $subject = $controllers['SBJMESSAGE'];
 	    $html = $mail_files['MESSAGEEMAIL'];
 	    sendMailForNotification($address, $subject, $html);
@@ -265,7 +263,7 @@ class MessageController extends REST {
 	$activity->setImage(null);
 	$activity->setPlaylist(null);
 	$activity->setQuestion(null);
-	$activity->setRead(false);
+	$activity->setRead($read);
 	$activity->setRecord(null);
 	$activity->setSong(null);
 	$activity->setStatus($status);

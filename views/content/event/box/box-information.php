@@ -46,7 +46,7 @@ $thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DI
 			<div class="row" id="user_<?php echo $fromUserObjectId ?>">
 			    <div class="small-1 columns ">
 				<div class="icon-header" onclick="location.href = 'profile.php?user=<?php echo $fromUserObjectId; ?>'">
-				    <img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+				    <img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $fromUserUsername ?>">
 				</div>
 			    </div>
 			    <div  class="small-11 columns ">

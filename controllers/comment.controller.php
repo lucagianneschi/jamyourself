@@ -178,9 +178,7 @@ class CommentController extends REST {
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userParse = new UserParse();
 	    $user = $userParse->getUser($toUserObjectId);
-	    #TODO
-	    //$address = $user->getEmail();
-	    $address = 'alesandro.ghilarducci@gmail.com';
+	    $address = $user->getEmail();
 	    $subject = $controllers['SBJCOMMENT'];
 	    $html = $mail_files['COMMENTEMAIL'];
 	    sendMailForNotification($address, $subject, $html);

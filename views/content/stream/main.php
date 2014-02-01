@@ -15,7 +15,7 @@ require_once ROOT_DIR . 'config.php';
                         <div class="row welcome-stream">
                             <div class="small-12 columns">
                                 <div class="welcome-stream">
-                                    <img src="resources/images/stream/<?php echo $currentUser->getType(); ?>.png" />
+                                    <img src="resources/images/stream/<?php echo $currentUser->getType(); ?>.png" alt="<?php echo $currentUser->getUsername(); ?>"/>
                                     <h3><?php echo $views['stream']['welcome']; ?> <?php echo $currentUser->getType(); ?>!</h3>
                                     <div id="box-post"></div>
                                     <script type="text/javascript">
@@ -310,8 +310,11 @@ require_once ROOT_DIR . 'config.php';
                                 $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
                             }
                         }).done(function(message, status, xhr) {
+                        	
                             //spinner.hide();
                             $("#result").html(message);
+                            
+                        	
                             //plugin scorrimento box
                             //rsi_record = slideReview('recordSlide');
                             //plugin share
@@ -348,32 +351,11 @@ require_once ROOT_DIR . 'config.php';
 
                 <!-- RESULT -->
 
-                <div id="result" class="no-display"></div>
+                <div id="result" class="no-display" style="margin-bottom: 30px;"></div>
 
                 <script>
 
-                    function discover(what) {
-                        $('.discover-button').removeClass('discover-button-active');
-                        var elID = "#search";
-                        $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
-                        switch (what)
-                        {
-                            case 'music':
-                                $("#discoverEvent").slideUp(function() {
-                                    $("#discoverMusic").slideToggle('slow');
-                                });
-                                $("#discover").html('Discover new Music!');
-                                $('#btn-music').addClass('discover-button-active');
-                                break;
-                            case 'event':
-                                $("#discoverMusic").slideUp(function() {
-                                    $("#discoverEvent").slideToggle('slow');
-                                });
-                                $("#discover").html('Discover Events!');
-                                $('#btn-event').addClass('discover-button-active');
-                                break;
-                        }
-                    }
+                    
                     /*
                      function result() {
                      $("#result").slideToggle('slow');
@@ -383,14 +365,7 @@ require_once ROOT_DIR . 'config.php';
                      $("#scroll-profile").mCustomScrollbar("scrollTo",elID);
                      }
                      */
-                    function hideResult() {
-                        $("#result").slideToggle('slow');
-                        $("#search").slideToggle('slow');
-                        $("#discover").html('What are you looking for?');
-                        var elID = "#search";
-                        $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
-
-                    }
+                    
 
                 </script>
 

@@ -39,8 +39,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 					<label for="signup-typeUser-spotter">
 					    <input name="signup-typeUser" type="radio" id="signup-typeUser-spotter" class="no-display">
 					    <span class="custom radio">
-						<img src="resources/images/signup/spotter.png" class="img-grey "/>
-						<img src="resources/images/signup/spotter-select.png" class="img-white no-display"/>	
+						<img src="resources/images/signup/spotter.png" class="img-grey " alt/>
+						<img src="resources/images/signup/spotter-select.png" class="img-white no-display" alt/>	
 						<h3><?php echo $views['signup']['spotter']; ?></h3>
 						<div class="text"><?php echo $views['signup']['spotter_slogan']; ?></div>
 					    </span> 
@@ -49,8 +49,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 				    <div  class="small-4 columns">
 					<label for="signup-typeUser-jammer">
 					    <input name="signup-typeUser" type="radio" id="signup-typeUser-jammer" class="no-display"><span class="custom radio"></span>
-					    <img src="resources/images/signup/jammer.png" class="img-grey"/>
-					    <img src="resources/images/signup/jammer-select.png" class="no-display img-white"/>	 
+					    <img src="resources/images/signup/jammer.png" class="img-grey" alt/>
+					    <img src="resources/images/signup/jammer-select.png" class="no-display img-white" alt/>	 
 					    <h3><?php echo $views['signup']['jammer']; ?></h3>
 					    <div class="text"><?php echo $views['signup']['jammer_slogan']; ?></div>
 					</label>		
@@ -58,8 +58,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 				    <div  class="small-4 columns">
 					<label for="signup-typeUser-venue">
 					    <input name="signup-typeUser" type="radio" id="signup-typeUser-venue" class="no-display"><span class="custom radio"></span>
-					    <img src="resources/images/signup/venue.png" class="img-grey"/> 
-					    <img src="resources/images/signup/venue-select.png" class="no-display img-white"/>
+					    <img src="resources/images/signup/venue.png" class="img-grey" alt/> 
+					    <img src="resources/images/signup/venue-select.png" class="no-display img-white" alt/>
 					    <h3><?php echo $views['signup']['venue']; ?></h3>
 					    <div class="text"><?php echo $views['signup']['venue_slogan']; ?></div>
 					</label>		

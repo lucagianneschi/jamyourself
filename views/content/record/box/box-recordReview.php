@@ -76,11 +76,11 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				    <div class="userThumb">
 	    					<!-- THUMB USER-->
 						    <?php $thumbPath = USERS_DIR . $review_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $review_user_thumbnail; ?>
-	    					<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'">
+	    					<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'" alt ="<?php echo $review_user_username; ?>">
 	    				    </div>
 	    				</div>
 	    				<div  class="small-5 columns">
-	    				    <div class="text grey" style="margin-left: 20px; margin-bottom: 0px !important;"><strong><?php echo $review_user_username ?></strong></div>
+	    				    <div class="text grey" style="margin-left: 20px; margin-bottom: 0px !important;"><strong><?php echo $review_user_username; ?></strong></div>
 	    				    <small class="orange" style="margin-left: 20px;"><?php echo $review_user_type; ?></small>
 	    				</div>
 	    				<div  class="small-6 columns propriety">
