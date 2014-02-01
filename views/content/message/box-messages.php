@@ -9,24 +9,24 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
-	$user = $_POST['user'];
-	$type = $_POST['type'];
+    $user = $_POST['user'];
+    $type = $_POST['type'];
     ?>
     <script>
-    	autoComplete('#newMsg input#to');
+        autoComplete('#newMsg input#to');
     </script>
     <div id="newMsg">
-	   	<h5><?php echo $views['message']['write_message']; ?></h5>
-	    <label for="to"><small class="error"><?php echo $views['message']['valid_user']; ?></small></label>
-	    <input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" required>
-	    <textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
-	    <br><br>
-	    <div class="row">
-		    <div class="large-12">
-		    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendNewMessage('newMsg','<?php echo $user ?>',null)">
-		    </div>
-		</div>
-	</div>
+        <h5><?php echo $views['message']['write_message']; ?></h5>
+        <label for="to"><small class="error"><?php echo $views['message']['valid_user']; ?></small></label>
+        <input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" required>
+        <textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
+        <br><br>
+        <div class="row">
+    	<div class="large-12">
+    	    <input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendNewMessage('newMsg', '<?php echo $user ?>', null)">
+    	</div>
+        </div>
+    </div>
     <?php
 } else {
     $limit = (int) $_POST['limit'];
@@ -41,147 +41,156 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 	    $dataPrec = '';
 	    if (count($messageBox->messageArray) > 0) {
 		?>		
-	<div id="userMsg" >
-		<div class="row">
-		    <div class="large-12 columns ">
-				<div id="chat">
-				    <div class="row">
-						<div class="large-12 columns ">
-						<?php if (count($messageBox->messageArray) == $limit) { ?>
-			    		    <div class="row">
-				    			<div class="large-12 columns">
-				    			    <div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit + $skip ?>)"><small><?php echo $views['message']['other_messages']; ?></small></div>
-				    			</div>
-			    		    </div>
-						<?php
-						}
-					    $risultato = array_reverse($messageBox->messageArray);
-					    foreach ($risultato as $key => $value) {	
-							$data = $value->createdAt->format('d F Y');
-							$dataFormato = $value->createdAt->format('j n Y');
-							$time = $value->createdAt->format('H:i');
-							
-						//	$data = ucwords(strftime("%e %B %Y", $value->createdAt->getTimestamp()));
-							$time = ucwords(strftime("%H:%M", $value->createdAt->getTimestamp()));
-							if ($data != $dataPrec) { ?>		
-							    <div class="row">
-									<div class="large-12 columns">
-									    <div class="line-date"><small><?php echo $data ?></small></div>
-									    <input type="hidden" value="<?php echo $dataFormato ?>" name="data"/>
-									</div>
-							    </div>
-							<?php
-							}
-							if ($value->send == 'S') {  ?>		
-							    <div class="row" >
-									<div class="large-8 large-offset-2 columns msg msg-mine">
-									    <p><?php echo $value->text ?></p>
-									</div>
-									<div class="large-2 hide-for-small columns">
-									    <div class="date-mine">
-											<small><?php echo $time ?></small>
-									    </div>
-									</div>
-							    </div>
-							<?php } else { ?>
-							    <div class="row <?php echo $value->read ?>">
-									<div class="large-2 hide-for-small columns">
-									    <div class="date-yours">
-											<small><?php echo $time ?></small>
-									    </div>
-									</div>
-									<div class="large-8 end columns msg msg-yours">
-									    <p><?php echo $value->text ?></p>
-									</div>
-							    </div>	                
-							<?php }
-							$dataPrec = $data;
-							if(!$value->read){ ?>
-								<script>
-									readMessage('<?php echo $value->activityId ?>');
-								</script>
-								<?php
-							}
-					    }
-					    if (count($messageBox->messageArray) == 0) {
-						?>
-			    		    <div class="row">
-				    			<div class="large-2 hide-for-small columns">
-				    			    <div class="date-yours">
-				    					<small></small>
-				    			    </div>
-				    			</div>	                	
-				    			<div class="small-8 columns msg msg-yours">
-				    			    <p><?php echo $views['message']['no_messages']; ?></p>
-				    			</div>
-				    			<div class="large-2 hide-for-small columns">
-				    			    <div class="date-yours">
-				    					<small></small>
-				    			    </div>
-				    			</div>
-			    		    </div>	
-						<?php }   ?>
-						<div id="msgTmp"></div>
+		<div id="userMsg" >
+		    <div class="row">
+			<div class="large-12 columns ">
+			    <div id="chat">
+				<div class="row">
+				    <div class="large-12 columns ">
+					<?php if (count($messageBox->messageArray) == $limit) { ?>
+		    			<div class="row">
+		    			    <div class="large-12 columns">
+		    				<div class="line-date otherMessage" onclick="loadBoxMessages('<?php echo $user ?>',<?php echo $limit ?>,<?php echo $limit + $skip ?>)"><small><?php echo $views['message']['other_messages']; ?></small></div>
+		    			    </div>
+		    			</div>
+					    <?php
+					}
+					$risultato = array_reverse($messageBox->messageArray);
+					foreach ($risultato as $key => $value) {
+					    $data = $value->createdAt->format('d F Y');
+					    $dataFormato = $value->createdAt->format('j n Y');
+					    $time = $value->createdAt->format('H:i');
+
+					    //	$data = ucwords(strftime("%e %B %Y", $value->createdAt->getTimestamp()));
+					    $time = ucwords(strftime("%H:%M", $value->createdAt->getTimestamp()));
+					    if ($data != $dataPrec) {
+						?>		
+						<div class="row">
+						    <div class="large-12 columns">
+							<div class="line-date"><small><?php echo $data ?></small></div>
+							<input type="hidden" value="<?php echo $dataFormato ?>" name="data"/>
+						    </div>
 						</div>
+						<?php
+					    }
+					    if ($value->send == 'S') {
+						?>		
+						<div class="row" >
+						    <div class="large-8 large-offset-2 columns msg msg-mine">
+							<p><?php echo $value->text ?></p>
+						    </div>
+						    <div class="large-2 hide-for-small columns">
+							<div class="date-mine">
+							    <small><?php echo $time ?></small>
+							</div>
+						    </div>
+						</div>
+					    <?php } else { ?>
+						<div class="row <?php echo $value->read ?>">
+						    <div class="large-2 hide-for-small columns">
+							<div class="date-yours">
+							    <small><?php echo $time ?></small>
+							</div>
+						    </div>
+						    <div class="large-8 end columns msg msg-yours">
+							<p><?php echo $value->text ?></p>
+						    </div>
+						</div>	                
+						<?php
+					    }
+					    $dataPrec = $data;
+					    if (!$value->read) {
+						?>
+						<script>
+			    readMessage('<?php echo $value->activityId ?>');
+						</script>
+						<?php
+					    }
+					}
+					if (count($messageBox->messageArray) == 0) {
+					    ?>
+		    			<div class="row">
+		    			    <div class="large-2 hide-for-small columns">
+		    				<div class="date-yours">
+		    				    <small></small>
+		    				</div>
+		    			    </div>	                	
+		    			    <div class="small-8 columns msg msg-yours">
+		    				<p><?php echo $views['message']['no_messages']; ?></p>
+		    			    </div>
+		    			    <div class="large-2 hide-for-small columns">
+		    				<div class="date-yours">
+		    				    <small></small>
+		    				</div>
+		    			    </div>
+		    			</div>	
+					<?php } ?>
+					<div id="msgTmp"></div>
 				    </div>
-				</div>			
+				</div>
+			    </div>			
+			</div>
 		    </div>
+		    <?php if ($skip == 0) { ?>
+		        <textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
+		        <br><br>
+		        <div class="row">
+		    	<div class="large-12">		    	
+		    	    <input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('userMsg', '<?php echo $user ?>', null)">
+		    	</div>
+		        </div>
+		    <?php } ?>
 		</div>
-		<?php if($skip == 0){?>
-		<textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
-	    <br><br>
-	    <div class="row">
-		    <div class="large-12">		    	
-		    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendMessage('userMsg','<?php echo $user ?>',null)">
-		    </div>
-		</div>
-		<?php } ?>
-	</div>
-	    <?php } else {
-    	// ARRAY LISTA MESSAGGI VUOTO -> DEVO INVIARE UN MESS DA UN NUOVO UTENTE 
-    	require_once BOXES_DIR . 'userInfo.box.php';
-    	$user = $_POST['user'];
+		<?php
+	    } else {
+		// ARRAY LISTA MESSAGGI VUOTO -> DEVO INVIARE UN MESS DA UN NUOVO UTENTE 
+		require_once BOXES_DIR . 'userInfo.box.php';
+		$user = $_POST['user'];
 		$userInfoBox = new UserInfoBox();
 		$userInfoBox->init($user);
-		if (is_null($userInfoBox->error)  ) {
-			$toUser = $userInfoBox->user;
-			$toUsername = $toUser->getUsername();
-			$toType = $toUser->getType();
-			if (session_id() == '') session_start();
-			$currentUser = $_SESSION['currentUser'];
-			$fromType = $currentUser->getType();
-			
+		if (is_null($userInfoBox->error)) {
+		    $toUser = $userInfoBox->user;
+		    $toUsername = $toUser->getUsername();
+		    $toType = $toUser->getType();
+		    if (session_id() == '')
+			session_start();
+		    $currentUser = $_SESSION['currentUser'];
+		    $fromType = $currentUser->getType();
+
 //			if($fromType == 'SPOTTER' || ($fromType != 'SPOTTER' && $toType != 'SPOTTER')){
-			if(!is_null($toType)){
-		?>
-		<div id="newMsgUser" >
-			<h5><?php echo $views['message']['write_message']; ?></h5>	
-			<input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" value="<?php echo $toUsername ?>" disabled>
-			<textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
-		    <br><br>
-		    <div class="row">
-			    <div class="large-12">
-			    	<input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendNewMessage('newMsgUser','<?php echo $user ?>','<?php echo $toType ?>')">
+		    if (!is_null($toType)) {
+			?>
+			<div id="newMsgUser" >
+			    <h5><?php echo $views['message']['write_message']; ?></h5>	
+			    <input id="to" type="text" placeholder="<?php echo $views['message']['to'] ?>" value="<?php echo $toUsername ?>" disabled>
+			    <textarea id="textNewMessage" placeholder="<?php echo $views['message']['message'] ?>"></textarea>
+			    <br><br>
+			    <div class="row">
+				<div class="large-12">
+				    <input type="button" class="buttonNext" value="<?php echo $views['message']['send'] ?>" id="sendMessage" onclick="btSendNewMessage('newMsgUser', '<?php echo $user ?>', '<?php echo $toType ?>')">
+				</div>
 			    </div>
 			</div>
-		</div>
-		<?php  }else{ ?>
-	    
-		<div class="row">
-			<div class="large-12 columns">
-			    <div class="line-date"><small><?php echo $views['message']['ERROR2']?></small></div>
-			</div>
-	    </div>	
-		<?php }}else{ ?>
-    	
-    	<div class="row">
-			<div class="large-12 columns">
-			    <div class="line-date"><small><?php echo $views['message']['ERROR1']?></small></div>
-			</div>
-	    </div>
-    	<?php }
-			}
+		    <?php } else { ?>
+
+			<div class="row">
+			    <div class="large-12 columns">
+				<div class="line-date"><small><?php echo $views['message']['ERROR2'] ?></small></div>
+			    </div>
+			</div>	
+		    <?php }
+		} else {
+		    ?>
+
+		    <div class="row">
+		        <div class="large-12 columns">
+		    	<div class="line-date"><small><?php echo $views['message']['ERROR1'] ?></small></div>
+		        </div>
+		    </div>
+		    <?php
 		}
+	    }
+	}
     }
 }
 ?>
