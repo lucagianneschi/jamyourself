@@ -41,7 +41,7 @@ if (is_null($eventBox->error)) {
                                 $pathPictureThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail();
                                 ?>
                                 <?php ?>
-                                <img src="<?php echo $pathPictureThumb; ?>" onerror="this.src='<?php echo $defThumb; ?>'">
+                                <img src="<?php echo $pathPictureThumb; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getFromUser()->getUsername(); ?>">
                             </div>
                         </div>
                         <div class="small-5 columns">
@@ -88,7 +88,13 @@ if (is_null($eventBox->error)) {
         }
     } else {
         ?>
-        Un c'� nulla!!!
+        <div class="box">
+	        <div class="row">						
+	            <div class="small-12 columns ">
+	            	<?php echo $views['stream']['noresult'] ?>
+	            </div>
+	        </div>
+        </div>
         <?php
     }
     ?>

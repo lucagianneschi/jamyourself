@@ -19,7 +19,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                 <div  class="small-3 columns signup-box-avatar">									
                     <div class="signup-image">
                         <div id="spotter_uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane">
-                            <img src="resources/images/signup/spotter.png" id="spotter_uploadImage_tumbnail" name="spotter_uploadImage_tumbnail"/>
+                            <img src="resources/images/signup/spotter.png" id="spotter_uploadImage_tumbnail" name="spotter_uploadImage_tumbnail" alt/>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                             <div class="row">							
                                 <div  class="small-10 small-centered columns align-center spotter_uploadImage_box-preview">
                                     <div id="spotter_uploadImage_preview_box">
-                                        <img src="" id="spotter_uploadImage_preview"/>
+                                        <img src="" id="spotter_uploadImage_preview" alt/>
                                         <input type="hidden" id="spotter_x" name="spotter_x" value="0"/>
                                         <input type="hidden" id="spotter_y" name="spotter_y" value="0"/>
                                         <input type="hidden" id="spotter_w" name="spotter_w" value="100"/>

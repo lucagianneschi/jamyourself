@@ -52,7 +52,7 @@ if ($invitedsCounter > 0) {
                                 <div class="icon-header">
                                     <!-- THUMB USER-->
                                     <?php $thumbPath = USERS_DIR . $value->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $value->getProfileThumbnail(); ?>
-                                    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+                                    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?>">
                                 </div>
                             </div>
                             <div  class="small-9 columns ">

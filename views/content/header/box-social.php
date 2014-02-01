@@ -172,7 +172,7 @@ if (isset($userObjectId)) {
 	    		    <div class="icon-header">
                     <!-- THUMB USER-->
                     <?php $thumbPath = USERS_DIR . $objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user_thumb; ?>
-	    			<img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+	    			<img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $user_username; ?>">
 	    		    </div>
 	    		</div>
 	    		<div  class="large-11 columns">

@@ -40,6 +40,6 @@ $pathImage = USERS_DIR . $event->getFromUser()->getObjectId() . DIRECTORY_SEPARA
 
 <div class="row">
     <div class="large-12 columns">
-	<img class="background" src="<?php echo $pathImage; ?>"  onerror="this.src='<?php echo DEFEVENTIMAGE; ?>'" >						
+	<img class="background" src="<?php echo $pathImage; ?>"  onerror="this.src='<?php echo DEFEVENTIMAGE; ?>'" alt ="<?php echo $title; ?> " >						
     </div>
 </div> 
