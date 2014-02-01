@@ -242,7 +242,7 @@ class AlbumParse {
 	    $parseObject->active = is_null($album->getActive()) ? true : $album->getActive();
 	    $parseObject->commentCounter = is_null($album->getCommentCounter()) ? 0 : $album->getCommentCounter();
 	    $parseObject->counter = is_null($album->getCounter()) ? 0 : $album->getCounter();
-	    $parseObject->cover = is_null($album->getCover()) ? DEFALBUMCOVER : $album->getCover();
+	    $parseObject->cover = is_null($album->getCover()) ? null : $album->getCover();
 	    $parseObject->description = is_null($album->getDescription()) ? null : parse_encode_string($album->getDescription());
 	    $parseObject->featuring = is_null($album->getFeaturing()) ? null : toParseAddRelation('_User', $album->getFeaturing());
 	    $parseObject->fromUser = toParsePointer('_User', $album->getFromUser());
@@ -253,7 +253,7 @@ class AlbumParse {
 	    $parseObject->lovers = is_null($album->getLovers()) ? $nullArray : $album->getLovers();
 	    $parseObject->shareCounter = is_null($album->getShareCounter()) ? 0 : $album->getShareCounter();
 	    $parseObject->tags = is_null($album->getTags()) ? $nullArray : parse_encode_array($album->getTags());
-	    $parseObject->thumbnailCover = is_null($album->getThumbnailCover()) ? DEFALBUMTHUMB : $album->getThumbnailCover();
+	    $parseObject->thumbnailCover = is_null($album->getThumbnailCover()) ? null : $album->getThumbnailCover();
 	    $parseObject->title = is_null($album->getTitle()) ? null : parse_encode_string($album->getTitle());
 	    $parseObject->ACL = is_null($album->getACL()) ? toParseDefaultACL() : toParseACL($album->getACL());
 	    if ($album->getObjectId() == '') {

@@ -250,7 +250,7 @@ class RecordParse {
 	    $parseObject->city = is_null($record->getCity()) ? null : parse_decode_string($record->getCity());
 	    $parseObject->commentCounter = is_null($record->getCommentCounter()) ? 0 : $record->getCommentCounter();
 	    $parseObject->counter = is_null($record->getCounter()) ? 0 : $record->getCounter();
-	    $parseObject->cover = is_null($record->getCover()) ? DEFRECORDCOVER : $record->getCover();
+	    $parseObject->cover = is_null($record->getCover()) ? null : $record->getCover();
 	    $parseObject->description = is_null($record->getDescription()) ? null : parse_decode_string($record->getDescription());
 	    $parseObject->duration = is_null($record->getDuration()) ? 0 : $record->getDuration();
 	    $parseObject->featuring = is_null($record->getFeaturing()) ? null : toParseAddRelation('_User', $record->getFeaturing());
@@ -263,7 +263,7 @@ class RecordParse {
 	    $parseObject->reviewCounter = is_null($record->getReviewCounter()) ? 0 : $record->getReviewCounter();
 	    $parseObject->shareCounter = is_null($record->getShareCounter()) ? 0 : $record->getShareCounter();
 	    $parseObject->songCounter = is_null($record->getSongCounter()) ? 0 : $record->getSongCounter();
-	    $parseObject->thumbnailCover = is_null($record->getThumbnailCover()) ? DEFRECORDTHUMB : $record->getThumbnailCover();
+	    $parseObject->thumbnailCover = is_null($record->getThumbnailCover()) ? null : $record->getThumbnailCover();
 	    $parseObject->title = is_null($record->getTitle()) ? null : parse_decode_string($record->getTitle());
 	    $parseObject->tracklist = is_null($record->getTracklist()) ? null : toParseAddRelation('Song', $record->getTracklist());
 	    $parseObject->year = is_null($record->getYear()) ? null : $record->getYear();
