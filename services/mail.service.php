@@ -22,18 +22,17 @@ require_once SERVICES_DIR . 'mail/class.phpmailer.php';
 
 function mailService() {
     $mail = new PHPMailer;
-    $mail->isSMTP();
-    $mail->Host = 'smtp.gmail.com';	
-    $mail->SMTPAuth = true;
-    $mail->Port = 465;
-    $mail->Username = 'jamyourself@gmail.com';      #TODO SMTP account username di Jam
-    $mail->Password = 'jam351610';	 #TODO SMTP account password di Jam
-    $mail->SMTPSecure = true;
-    $mail->From = 'info@jamyourself.com';
-    $mail->FromName = 'Jamyourself: Meritocratic Social Music Network';
-    $mail->addReplyTo('info@jamyourself.com', 'Jamyourself: Meritocratic Social Music Network'); 
-    $mail->isHTML(true);
-    return $mail;
+	$mail->isSMTP();
+	$mail->Host     	= 'smtp.jamyourself.com';
+	$mail->SMTPAuth 	= true;
+	$mail->Username 	= 'info@jamyourself.com';
+	$mail->Password 	= 'jam361510';
+	$mail->SMTPSecure 	= 'tls';
+	$mail->From     	= 'noreply@jamyourself.com';
+	$mail->FromName 	= 'Jamyourself: Meritocratic Social Music Network';
+	$mail->addReplyTo('noreply@jamyourself.com', 'Jamyourself: Meritocratic Social Music Network');
+	$mail->isHTML(true);
+	return $mail;
 }
 
 ?>
