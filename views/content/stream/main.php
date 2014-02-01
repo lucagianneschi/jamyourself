@@ -174,9 +174,9 @@ require_once ROOT_DIR . 'config.php';
                                     }
                                 }
 
-                                function initGeocomplete() {
+                                function initGeocomplete(box) {
                                     try {
-                                        $("#location").geocomplete()
+                                        $(box).geocomplete()
                                                 .bind("geocode:result", function(event, result) {
                                                     json_data.location = getCompleteLocationInfo(result);
                                                     /*
@@ -196,7 +196,7 @@ require_once ROOT_DIR . 'config.php';
                                 }
 
                                 $(document).ready(function() {
-                                    initGeocomplete();
+                                    initGeocomplete("#location");                                    
                                 });
                             </script>
 
@@ -204,14 +204,14 @@ require_once ROOT_DIR . 'config.php';
                             <div class="box" id="discoverEvent" style="display: none;">
                                 <div class="row formBlack">
                                     <div class="large-12 columns">
-                                        <form action="" method="POST" name="discoverEvent" id="" novalidate="novalidate">
+                                        <form action="javascript:return false;" method="POST" name="discoverEvent" id="" novalidate="novalidate">
 
                                             <div class="row">
                                                 <div class="large-8 columns" style="margin-bottom: 25px;">
                                                     <label for="eventTitle" class="error">
                                                         <input type="text" name="eventTitle" id="eventTitle" pattern="" data-invalid="">
                                                         <?php echo $views['stream']['search_city']; ?>
-                                                    </label>
+                                                    </label>                                                    
                                                 </div>
 
                                                 <div class="large-4 columns">
@@ -258,7 +258,7 @@ require_once ROOT_DIR . 'config.php';
                                                     <!--<div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span> Mandatory fields</div>-->
                                                 </div>	
                                                 <div class="small-6 columns">
-                                                    <input type="submit" name="" id="" class="buttonNext" value="<?php echo $views['stream']['search']; ?>" style="float: right;" onclick="result()" />
+                                                    <input type="submit" name="" id="" class="buttonNext" value="<?php echo $views['stream']['search']; ?>" style="float: right;" onclick="loadBoxResultEvent()" />
                                                 </div>	
                                             </div>
 
@@ -290,7 +290,6 @@ require_once ROOT_DIR . 'config.php';
                     var tags = new Array();
                     function loadBoxResultEvent() {
                         json_data.genre = getGenre();
-                        json_data.tags = getTags();
                         json_data.latitude = json_data.location.latitude;
                         json_data.longitude = json_data.location.longitude;
                         json_data.city = json_data.location.city;
@@ -307,7 +306,7 @@ require_once ROOT_DIR . 'config.php';
                                 $("#search").slideToggle('slow');
                                 $("#discover").html('Here you are!');
                                 var elID = "#result";
-                                $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
+                                $("#scroll-profile").mCustomScrollbar("scrollTo", elID); 
                             }
                         }).done(function(message, status, xhr) {
                         	
@@ -346,7 +345,11 @@ require_once ROOT_DIR . 'config.php';
                         } catch (err) {
                             window.console.log("getTags | An error occurred - message : " + err.message);
                         }
-                    }
+                    }					
+                    $(document).ready(function() {
+                        initGeocomplete("#eventTitle"); 
+                        getCalendar();                                   
+                    });
                 </script>
 
                 <!-- RESULT -->
