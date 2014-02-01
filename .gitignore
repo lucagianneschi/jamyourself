@@ -13,6 +13,7 @@ config.rb
 /users/
 /loader.php
 /tests/optimization/
+/tests/
 /optimization/
 /debug/
 /tests/

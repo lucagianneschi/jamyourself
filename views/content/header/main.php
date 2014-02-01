@@ -92,7 +92,7 @@ $playlistCurrentUser = array();
                                 <div id="jquery_jplayer_N"></div>
                                 <div id="header-box-player">
                                     <!---------- TITLE --------->
-                                    <div class="title-player">In The Belly Of A Shark</div>
+                                    <div class="title-player"></div>
                                     <!---------- TIME MUSIC  --------->
                                     <small id="time-player" class="inline grey">00:00</small>
 
