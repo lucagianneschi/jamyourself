@@ -15,28 +15,28 @@ require_once ROOT_DIR . 'config.php';
                         <div class="row welcome-stream">
                             <div class="small-12 columns">
                                 <div class="welcome-stream">
-                                    <img src="resources/images/stream/<?php echo $currentUser->getType(); ?>.png" />
+                                    <img src="resources/images/stream/<?php echo $currentUser->getType(); ?>.png" alt="<?php echo $currentUser->getUsername(); ?>"/>
                                     <h3><?php echo $views['stream']['welcome']; ?> <?php echo $currentUser->getType(); ?>!</h3>
                                     <div id="box-post"></div>
                                     <script type="text/javascript">
-                                        function loadBoxPost() {
-                                            $.ajax({
-                                                type: "POST",
-                                                url: "content/stream/box/box-post.php",
-                                                beforeSend: function(xhr) {
-                                                    console.log('Sono partito box-post');
-                                                    //goSpinnerBox('#box-record', 'record');
-                                                }
-                                            }).done(function(message, status, xhr) {
-                                                $("#box-post").html(message);
-                                                //plugin scorrimento box
-                                                //rsi_record = slideReview('recordSlide');
-                                                code = xhr.status;
-                                                console.log("Code: " + code + " | Message: <omitted because too large>");
-                                            }).fail(function(xhr) {
-                                                console.log("Error: " + $.parseJSON(xhr));
-                                            });
-                                        }
+					function loadBoxPost() {
+					    $.ajax({
+						type: "POST",
+						url: "content/stream/box/box-post.php",
+						beforeSend: function(xhr) {
+						    console.log('Sono partito box-post');
+						    //goSpinnerBox('#box-record', 'record');
+						}
+					    }).done(function(message, status, xhr) {
+						$("#box-post").html(message);
+						//plugin scorrimento box
+						//rsi_record = slideReview('recordSlide');
+						code = xhr.status;
+						console.log("Code: " + code + " | Message: <omitted because too large>");
+					    }).fail(function(xhr) {
+						console.log("Error: " + $.parseJSON(xhr));
+					    });
+					}
                                     </script>
                                 </div>
                             </div>	
@@ -62,7 +62,7 @@ require_once ROOT_DIR . 'config.php';
                                                 <div class="large-12 columns" style="margin-bottom: 25px;">
                                                     <label for="location" class="error">
                                                         <input type="text" name="location" id="location" pattern="" data-invalid="">
-                                                        <?php echo $views['stream']['search_city']; ?>
+							<?php echo $views['stream']['search_city']; ?>
                                                     </label>
                                                 </div>
                                             </div>
@@ -114,90 +114,90 @@ require_once ROOT_DIR . 'config.php';
                                 </div>
                             </div>
                             <script type="text/javascript">
-                                var json_data = {};
-                                json_data.location = {};
-                                var genres = new Array();
+					var json_data = {};
+					json_data.location = {};
+					var genres = new Array();
 
-                                function loadBoxResultRecord() {
-                                    json_data.genre = getGenre();
-                                    json_data.latitude = json_data.location.latitude;
-                                    json_data.longitude = json_data.location.longitude;
-                                    json_data.city = json_data.location.city;
-                                    json_data.country = json_data.location.country;
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "content/stream/box/box-resultRecord.php",
-                                        data: json_data,
-                                        beforeSend: function(xhr) {
-                                            //spinner.show();
-                                            console.log('Sono partito box-resultRecord');
-                                            //goSpinnerBox('#box-record','record');
-                                            $("#result").slideToggle('slow');
-                                            $("#search").slideToggle('slow');
-                                            $("#discover").html('Here you are!');
-                                            var elID = "#result";
-                                            $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
-                                        }
-                                    }).done(function(message, status, xhr) {
-                                        //spinner.hide();
-                                        $("#result").html(message);
-                                        //plugin scorrimento box
-                                        //rsi_record = slideReview('recordSlide');
-                                        //plugin share
-                                        //addthis.init();
-                                        //addthis.toolbox(".addthis_toolbox");
-                                        //adatta pagina per scroll
-                                        //hcento();
-                                        code = xhr.status;
-                                        //console.log("Code: " + code + " | Message: " + message);
-                                        console.log("Code: " + code + " | Message: <omitted because too large>");
-                                    }).fail(function(xhr) {
-                                        //spinner.hide();
-                                        console.log("Error: " + $.parseJSON(xhr));
-                                        //message = $.parseJSON(xhr.responseText).status;
-                                        //code = xhr.status;
-                                        //console.log("Code: " + code + " | Message: " + message);
-                                    });
-                                }
+					function loadBoxResultRecord() {
+					    json_data.genre = getGenre();
+					    json_data.latitude = json_data.location.latitude;
+					    json_data.longitude = json_data.location.longitude;
+					    json_data.city = json_data.location.city;
+					    json_data.country = json_data.location.country;
+					    $.ajax({
+						type: "POST",
+						url: "content/stream/box/box-resultRecord.php",
+						data: json_data,
+						beforeSend: function(xhr) {
+						    //spinner.show();
+						    console.log('Sono partito box-resultRecord');
+						    //goSpinnerBox('#box-record','record');
+						    $("#result").slideToggle('slow');
+						    $("#search").slideToggle('slow');
+						    $("#discover").html('Here you are!');
+						    var elID = "#result";
+						    $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
+						}
+					    }).done(function(message, status, xhr) {
+						//spinner.hide();
+						$("#result").html(message);
+						//plugin scorrimento box
+						//rsi_record = slideReview('recordSlide');
+						//plugin share
+						//addthis.init();
+						//addthis.toolbox(".addthis_toolbox");
+						//adatta pagina per scroll
+						//hcento();
+						code = xhr.status;
+						//console.log("Code: " + code + " | Message: " + message);
+						console.log("Code: " + code + " | Message: <omitted because too large>");
+					    }).fail(function(xhr) {
+						//spinner.hide();
+						console.log("Error: " + $.parseJSON(xhr));
+						//message = $.parseJSON(xhr.responseText).status;
+						//code = xhr.status;
+						//console.log("Code: " + code + " | Message: " + message);
+					    });
+					}
 
-                                function getGenre() {
-                                    genres = new Array();
-                                    try {
-                                        $.each($("#tag-music :checkbox"), function() {
-                                            if ($(this).is(":checked")) {
-                                                genres.push($(this).val());
-                                            }
-                                        });
-                                        return genres;
-                                    } catch (err) {
-                                        window.console.log("getGenre | An error occurred - message : " + err.message);
-                                    }
-                                }
+					function getGenre() {
+					    genres = new Array();
+					    try {
+						$.each($("#tag-music :checkbox"), function() {
+						    if ($(this).is(":checked")) {
+							genres.push($(this).val());
+						    }
+						});
+						return genres;
+					    } catch (err) {
+						window.console.log("getGenre | An error occurred - message : " + err.message);
+					    }
+					}
 
-                                function initGeocomplete() {
-                                    try {
-                                        $("#location").geocomplete()
-                                                .bind("geocode:result", function(event, result) {
-                                                    json_data.location = getCompleteLocationInfo(result);
-                                                    /*
-                                                     json_data.location = prepareLocationObj(result);
-                                                     var complTest = getCompleteLocationInfo(json_data.location);
-                                                     */
-                                                })
-                                                .bind("geocode:error", function(event, status) {
-                                                    json_data.location = null;
-                                                })
-                                                .bind("geocode:multiple", function(event, results) {
-                                                    json_data.location = getCompleteLocationInfo(results[0]);
-                                                });
-                                    } catch (err) {
-                                        console.log("initGeocomplete | An error occurred - message : " + err.message);
-                                    }
-                                }
+					function initGeocomplete() {
+					    try {
+						$("#location").geocomplete()
+							.bind("geocode:result", function(event, result) {
+						    json_data.location = getCompleteLocationInfo(result);
+						    /*
+						     json_data.location = prepareLocationObj(result);
+						     var complTest = getCompleteLocationInfo(json_data.location);
+						     */
+						})
+							.bind("geocode:error", function(event, status) {
+						    json_data.location = null;
+						})
+							.bind("geocode:multiple", function(event, results) {
+						    json_data.location = getCompleteLocationInfo(results[0]);
+						});
+					    } catch (err) {
+						console.log("initGeocomplete | An error occurred - message : " + err.message);
+					    }
+					}
 
-                                $(document).ready(function() {
-                                    initGeocomplete();
-                                });
+					$(document).ready(function() {
+					    initGeocomplete();
+					});
                             </script>
 
                             <!-- Search by Event -->
@@ -210,7 +210,7 @@ require_once ROOT_DIR . 'config.php';
                                                 <div class="large-8 columns" style="margin-bottom: 25px;">
                                                     <label for="eventTitle" class="error">
                                                         <input type="text" name="eventTitle" id="eventTitle" pattern="" data-invalid="">
-                                                        <?php echo $views['stream']['search_city']; ?>
+							<?php echo $views['stream']['search_city']; ?>
                                                     </label>
                                                 </div>
 
@@ -284,66 +284,66 @@ require_once ROOT_DIR . 'config.php';
 
                 </div>
                 <script type="text/javascript">
-                    var json_data = {};
-                    json_data.location = {};
-                    var genres = new Array();
-                    var tags = new Array();
-                    function loadBoxResultEvent() {
-                        json_data.genre = getGenre();
-                        json_data.tags = getTags();
-                        json_data.latitude = json_data.location.latitude;
-                        json_data.longitude = json_data.location.longitude;
-                        json_data.city = json_data.location.city;
-                        json_data.country = json_data.location.country;
-                        $.ajax({
-                            type: "POST",
-                            url: "content/stream/box/box-resultEvent.php",
-                            data: json_data,
-                            beforeSend: function(xhr) {
-                                //spinner.show();
-                                console.log('Sono partito box-resultEvent');
-                                //goSpinnerBox('#box-record','record');
-                                $("#result").slideToggle('slow');
-                                $("#search").slideToggle('slow');
-                                $("#discover").html('Here you are!');
-                                var elID = "#result";
-                                $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
-                            }
-                        }).done(function(message, status, xhr) {
-                            //spinner.hide();
-                            $("#result").html(message);
-                            //plugin scorrimento box
-                            //rsi_record = slideReview('recordSlide');
-                            //plugin share
-                            //addthis.init();
-                            //addthis.toolbox(".addthis_toolbox");
-                            //adatta pagina per scroll
-                            //hcento();
-                            code = xhr.status;
-                            //console.log("Code: " + code + " | Message: " + message);
-                            console.log("Code: " + code + " | Message: <omitted because too large>");
-                        }).fail(function(xhr) {
-                            //spinner.hide();
-                            console.log("Error: " + $.parseJSON(xhr));
-                            //message = $.parseJSON(xhr.responseText).status;
-                            //code = xhr.status;
-                            //console.log("Code: " + code + " | Message: " + message);
-                        });
-                    }
+					var json_data = {};
+					json_data.location = {};
+					var genres = new Array();
+					var tags = new Array();
+					function loadBoxResultEvent() {
+					    json_data.genre = getGenre();
+					    json_data.tags = getTags();
+					    json_data.latitude = json_data.location.latitude;
+					    json_data.longitude = json_data.location.longitude;
+					    json_data.city = json_data.location.city;
+					    json_data.country = json_data.location.country;
+					    $.ajax({
+						type: "POST",
+						url: "content/stream/box/box-resultEvent.php",
+						data: json_data,
+						beforeSend: function(xhr) {
+						    //spinner.show();
+						    console.log('Sono partito box-resultEvent');
+						    //goSpinnerBox('#box-record','record');
+						    $("#result").slideToggle('slow');
+						    $("#search").slideToggle('slow');
+						    $("#discover").html('Here you are!');
+						    var elID = "#result";
+						    $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
+						}
+					    }).done(function(message, status, xhr) {
+						//spinner.hide();
+						$("#result").html(message);
+						//plugin scorrimento box
+						//rsi_record = slideReview('recordSlide');
+						//plugin share
+						//addthis.init();
+						//addthis.toolbox(".addthis_toolbox");
+						//adatta pagina per scroll
+						//hcento();
+						code = xhr.status;
+						//console.log("Code: " + code + " | Message: " + message);
+						console.log("Code: " + code + " | Message: <omitted because too large>");
+					    }).fail(function(xhr) {
+						//spinner.hide();
+						console.log("Error: " + $.parseJSON(xhr));
+						//message = $.parseJSON(xhr.responseText).status;
+						//code = xhr.status;
+						//console.log("Code: " + code + " | Message: " + message);
+					    });
+					}
 
-                    function getTags() {
-                        tags = new Array();
-                        try {
-                            $.each($("#tag-event :checkbox"), function() {
-                                if ($(this).is(":checked")) {
-                                    tags.push($(this).val());
-                                }
-                            });
-                            return genres;
-                        } catch (err) {
-                            window.console.log("getTags | An error occurred - message : " + err.message);
-                        }
-                    }
+					function getTags() {
+					    tags = new Array();
+					    try {
+						$.each($("#tag-event :checkbox"), function() {
+						    if ($(this).is(":checked")) {
+							tags.push($(this).val());
+						    }
+						});
+						return genres;
+					    } catch (err) {
+						window.console.log("getTags | An error occurred - message : " + err.message);
+					    }
+					}
                 </script>
 
                 <!-- RESULT -->
@@ -352,45 +352,45 @@ require_once ROOT_DIR . 'config.php';
 
                 <script>
 
-                    function discover(what) {
-                        $('.discover-button').removeClass('discover-button-active');
-                        var elID = "#search";
-                        $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
-                        switch (what)
-                        {
-                            case 'music':
-                                $("#discoverEvent").slideUp(function() {
-                                    $("#discoverMusic").slideToggle('slow');
-                                });
-                                $("#discover").html('Discover new Music!');
-                                $('#btn-music').addClass('discover-button-active');
-                                break;
-                            case 'event':
-                                $("#discoverMusic").slideUp(function() {
-                                    $("#discoverEvent").slideToggle('slow');
-                                });
-                                $("#discover").html('Discover Events!');
-                                $('#btn-event').addClass('discover-button-active');
-                                break;
-                        }
-                    }
-                    /*
-                     function result() {
-                     $("#result").slideToggle('slow');
-                     $("#search").slideToggle('slow');
-                     $("#discover").html('Here you are!');
-                     var elID="#result";
-                     $("#scroll-profile").mCustomScrollbar("scrollTo",elID);
-                     }
-                     */
-                    function hideResult() {
-                        $("#result").slideToggle('slow');
-                        $("#search").slideToggle('slow');
-                        $("#discover").html('What are you looking for?');
-                        var elID = "#search";
-                        $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
+		    function discover(what) {
+			$('.discover-button').removeClass('discover-button-active');
+			var elID = "#search";
+			$("#scroll-profile").mCustomScrollbar("scrollTo", elID);
+			switch (what)
+			{
+			    case 'music':
+				$("#discoverEvent").slideUp(function() {
+				    $("#discoverMusic").slideToggle('slow');
+				});
+				$("#discover").html('Discover new Music!');
+				$('#btn-music').addClass('discover-button-active');
+				break;
+			    case 'event':
+				$("#discoverMusic").slideUp(function() {
+				    $("#discoverEvent").slideToggle('slow');
+				});
+				$("#discover").html('Discover Events!');
+				$('#btn-event').addClass('discover-button-active');
+				break;
+			}
+		    }
+		    /*
+		     function result() {
+		     $("#result").slideToggle('slow');
+		     $("#search").slideToggle('slow');
+		     $("#discover").html('Here you are!');
+		     var elID="#result";
+		     $("#scroll-profile").mCustomScrollbar("scrollTo",elID);
+		     }
+		     */
+		    function hideResult() {
+			$("#result").slideToggle('slow');
+			$("#search").slideToggle('slow');
+			$("#discover").html('What are you looking for?');
+			var elID = "#search";
+			$("#scroll-profile").mCustomScrollbar("scrollTo", elID);
 
-                    }
+		    }
 
                 </script>
 
@@ -409,24 +409,24 @@ require_once ROOT_DIR . 'config.php';
 
                 <div id="box-activity"></div>
                 <script type="text/javascript">
-                    function loadBoxActivity() {
-                        $.ajax({
-                            type: "POST",
-                            url: "content/stream/box/box-activity.php",
-                            beforeSend: function(xhr) {
-                                console.log('Sono partito box-activity');
-                                //goSpinnerBox('#box-record', 'record');
-                            }
-                        }).done(function(message, status, xhr) {
-                            $("#box-activity").html(message);
-                            //plugin scorrimento box
-                            //rsi_record = slideReview('recordSlide');
-                            code = xhr.status;
-                            console.log("Code: " + code + " | Message: <omitted because too large>");
-                        }).fail(function(xhr) {
-                            console.log("Error: " + $.parseJSON(xhr));
-                        });
-                    }
+		    function loadBoxActivity() {
+			$.ajax({
+			    type: "POST",
+			    url: "content/stream/box/box-activity.php",
+			    beforeSend: function(xhr) {
+				console.log('Sono partito box-activity');
+				//goSpinnerBox('#box-record', 'record');
+			    }
+			}).done(function(message, status, xhr) {
+			    $("#box-activity").html(message);
+			    //plugin scorrimento box
+			    //rsi_record = slideReview('recordSlide');
+			    code = xhr.status;
+			    console.log("Code: " + code + " | Message: <omitted because too large>");
+			}).fail(function(xhr) {
+			    console.log("Error: " + $.parseJSON(xhr));
+			});
+		    }
                 </script>
 
             </div>			
