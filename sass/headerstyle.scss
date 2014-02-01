@@ -8,6 +8,11 @@
   
 }
 
+#header-hide{ 
+  background:$grey-superdark;
+  padding: 25px 0;
+}
+
 .header{
  margin-bottom:5px; 
  margin-top:5px;
@@ -37,9 +42,16 @@
 }
 
 #header-social{
-	background-color: $white !important;
+	//background-color: $white !important;
 }
 
+
+/*----- NOTIFICATION -----*/
+
+.notification-item {
+	padding: 8px 0 5px 0;
+	border-bottom: $grey-dark 1px solid;
+}
 
 
 /*----- PLAYER -----*/

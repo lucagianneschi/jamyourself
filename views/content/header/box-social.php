@@ -99,9 +99,9 @@ if (isset($userObjectId)) {
     		<h3 class="inline"><?php echo $views['header']['social']['TITLE'] ?></h3>
     	    </div>	
     	    <div  class="large-4 columns" style="margin-top: 10px">
-    		<a class="ico-label _flag inline" onclick="loadBoxSocial('notification', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" >
-    		    <!--span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span-->
-    		</a>
+    		<!--a class="ico-label _flag inline" onclick="loadBoxSocial('notification', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" >
+    		    <span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span>
+    		</a-->
     		<a class="ico-label _message inline" onclick="loadBoxSocial('message', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" ><span class="round alert label iconNotification <?php echo $css_msg ?>"><?php echo $message ?></span></a>
     		<a class="ico-label _calendar inline" onclick="loadBoxSocial('event', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" ><span class="round alert label iconNotification <?php echo $css_inv ?>"><?php echo $invited ?></span></a>
     		<a class="ico-label _friend inline"  onclick="loadBoxSocial('relation', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" ><span class="round alert label iconNotification <?php echo $css_rel ?>"><?php echo $relation ?></span></a>
@@ -166,66 +166,69 @@ if (isset($userObjectId)) {
 		if ($value->type == 'M') {
 		    ?>
 			<div style="cursor: pointer">
-			<?php } ?>	
-	    	    <div class="row">
-	    		<div  class="large-1 columns hide-for-small">
-	    		    <div class="icon-header">
-                    <!-- THUMB USER-->
-                    <?php $thumbPath = USERS_DIR . $objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user_thumb; ?>
-	    			<img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $user_username; ?>">
-	    		    </div>
-	    		</div>
-	    		<div  class="large-11 columns">
-	    		    <div class="row">
-	    			<div onclick="location.href = 'message.php?user=<?php echo $user_objectId ?>'" class="large-8 columns" style="padding-right: 0px;">
-	    			    <label class="text grey inline"><a class="icon-small <?php echo $css_icon ?> inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span></label>
+			    <div class="notification-item" onclick="location.href = 'message.php?user=<?php echo $user_objectId ?>'" style="cursor: pointer">
+			    <?php } ?>	
+	    		<div class="row">
+	    		    <div  class="large-1 columns hide-for-small">
+	    			<div class="icon-header">
+	    			    <!-- THUMB USER-->
+					<?php $thumbPath = USERS_DIR . $objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user_thumb; ?>
+	    			    <img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $user_username; ?>">
 	    			</div>
-                    <div  class="large-4 columns " style="padding-left: 0px;">
-	    			    <label class="text grey-light inline" style="float: right !important">
-                        <!-- TODO -->
-                        <span onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Accetta</span> | <span onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Rifiuta</span>
-                        <?php echo $createdAd ?></label>
-	    			</div>	
 	    		    </div>
-	    		</div>
-	    	    </div>
-			<?php if ($value->type == 'M') { ?>
-			</div>	
-		    <?php } ?>
+	    		    <div  class="large-11 columns">
+	    			<div class="row">
+	    			    <div onclick="location.href = 'message.php?user=<?php echo $user_objectId ?>'" class="large-8 columns" style="padding-right: 0px;">
+	    				<label class="text grey inline"><a class="icon-small <?php echo $css_icon ?> inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span></label>
+	    			    </div>
+	    			    <div  class="large-4 columns " style="padding-left: 0px;">
+	    				<label class="text grey-light inline" style="float: right !important">
+	    				    <!-- TODO -->
+	    				    <span onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Accetta</span> | <span onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Rifiuta</span>
+						<?php echo $createdAd ?></label>
+	    				<div  class="large-4 columns " style="padding-left: 0px;">
+	    				    <label class="note grey-light inline" style="float: right !important"><?php echo $createdAd ?></label>
+	    				</div>	
+	    			    </div>
+	    			</div>
+	    		    </div>
+				<?php if ($value->type == 'M') { ?>
+				</div>	
+			    <?php } ?>
 
-	    	<div class="row">
-	    	    <div  class="large-12 columns"><div class="line"></div></div>
-	    	</div>
+	    		<!--div class="row">
+	    		    <div  class="large-12 columns"><div class="line"></div></div>
+	    		</div-->
 
-		    <?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
-		}
-		$index++;
+			    <?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
+			}
+			$index++;
+		    }
+		    ?>
+		    <!------------------------------------ fine notification ------------------------------------------->
+
+		<?php }
+		?>
+
+    	</div>	
+
+	    <?php if (count($detailNotification->notificationArray) == 0) { ?>
+		<div class"row">
+		     <div  class="large-12 columns"><?php echo $views['header']['social']['NODATA'] ?></div>
+		</div>	
+
+		<?php
+	    } else {
+		?>
+		<div class"row">
+		     <div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK'] ?></strong> </a></div>
+		    <div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other ?></strong> </a></div>			
+		</div>
+		<script>
+	    //	rsi_not.updateSliderSize(true);
+		</script>
+
+		<?php
 	    }
-	    ?>
-	    <!------------------------------------ fine notification ------------------------------------------->
-
-	<?php }
-	?>
-
-    </div>	
-
-    <?php if (count($detailNotification->notificationArray) == 0) { ?>
-	<div class"row">
-	     <div  class="large-12 columns"><?php echo $views['header']['social']['NODATA'] ?></div>
-	</div>	
-
-	<?php
-    } else {
-	?>
-	<div class"row">
-	     <div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK'] ?></strong> </a></div>
-	    <div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other ?></strong> </a></div>			
-	</div>
-	<script>
-	//	rsi_not.updateSliderSize(true);
-	</script>
-
-	<?php
-    }
-}
-?>	
+	}
+	?>	
