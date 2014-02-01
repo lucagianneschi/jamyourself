@@ -37,7 +37,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         	$index = 0;
         	foreach ($views['tag']['music'] as $key => $value) { ?>
 				<input type="checkbox" name="tag-musicTrack<?php echo $index ?>" id="tag-musicTrack<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">					
-				<label for="tag-musicTrack<?php echo $index ?>"><?php echo $value ?></label>	
+				<label for="tag-musicTrack<?php echo $index ?>" id="<?php echo $key ?>"><?php echo $value ?></label>	
 			<?php 
 			$index++; } ?>
 	</div>
