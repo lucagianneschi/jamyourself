@@ -19,7 +19,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                     <div class="row signup-box-image">
                         <div  class="small-3 columns signup-box-avatar">									
                             <div class="signup-image">
-                                <div id="jammer_uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane"><img src="resources/images/signup/jammer.png" id="jammer_uploadImage_tumbnail" name="jammer_uploadImage_tumbnail"/></div>
+                                <div id="jammer_uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane"><img src="resources/images/signup/jammer.png" id="jammer_uploadImage_tumbnail" name="jammer_uploadImage_tumbnail" alt/></div>
                             </div>
                         </div>
                         <div  class="small-9 columns signup-box-avatar-text">							        						
@@ -42,7 +42,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                                     <div class="row">							
                                         <div  class="small-10 small-centered columns align-center jammer_uploadImage_box-preview">
                                             <div id="jammer_uploadImage_preview_box">
-                                                <img src="" id="jammer_uploadImage_preview"/>
+                                                <img src="" id="jammer_uploadImage_preview" alt/>
                                                 <input type="hidden" id="jammer_x" name="jammer_x" value="0"/>
                                                 <input type="hidden" id="jammer_y" name="jammer_y" value="0"/>
                                                 <input type="hidden" id="jammer_w" name="jammer_w" value="100"/>
