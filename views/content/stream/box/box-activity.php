@@ -76,7 +76,7 @@ if (is_null($streamBox->error)) {
 				?>
 				<!--THUMB FROMUSER-->
 				<?php $pathPictureThumbFromUser = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'profilepicturethumb' . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail(); ?>
-				<img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo $defaultThumb; ?>'">
+				<img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo $defaultThumb; ?>'" alt="<?php echo $value->getFromUser()->getUsername(); ?>">
 			    </div>
 			</div>
 			<div class="small-5 columns">
@@ -121,7 +121,7 @@ if (is_null($streamBox->error)) {
 						    <ul class="small-block-grid-3 small-block-grid-2 ">
 							<!-- THUMBNAIL ALBUM -->
 							<?php $pathAlbumThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos" . DIRECTORY_SEPARATOR . $value->getAlbum()->getThumbnailCover(); ?>
-							<li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathAlbumThumb; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'"></a></li>
+							<li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathAlbumThumb; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" alt></a></li>
 						    </ul>
 						</div>
 					    </div>
@@ -175,14 +175,11 @@ if (is_null($streamBox->error)) {
 							    case 'VENUE':
 								$defThumb = DEFTHUMBVENUE;
 								break;
-							    case 'SPOTTER':
-								$defThumb = DEFTHUMBSPOTTER;
-								break;
 							}
 							?>
 							<!--THUMB TOUSER-->
 							<?php $pathPictureThumbToUser = USERS_DIR . $value->getToUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'profilepicturethumb' . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail(); ?>
-							<img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'">
+							<img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getToUser()->getUsername(); ?>">
 						    </div>
 						</div>
 						<div class="small-9 columns ">
@@ -398,7 +395,7 @@ if (is_null($streamBox->error)) {
 						<li>
 						    <!-- THUMBNAIL EVENT -->
 						    <?php $pathEventThumb = USERS_DIR . $value->getEvent()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getEvent()->getThumbnail(); ?>
-						    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a>
+						    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a>
 						</li>
 					    </ul>
 					</div>
@@ -501,7 +498,7 @@ if (is_null($streamBox->error)) {
 						<li>
 						    <!-- THUMBNAIL RECORD -->
 						    <?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
-						    <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a>
+						    <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alr="<?php echo $value->getRecord()->getTitle(); ?>"></a>
 						</li>
 					    </ul>
 					</div>
@@ -560,7 +557,7 @@ if (is_null($streamBox->error)) {
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
 						<!-- THUMBNAIL RECORD -->
 						<?php $pathRecordThumb = USERS_DIR . $value->getRecord()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
-						<li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getComment()->getRecord(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></li>
+						<li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getComment()->getRecord(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getRecord()->getTitle(); ?>"></a></li>
 					    </ul>
 					</div>
 				    </div>
@@ -669,7 +666,7 @@ if (is_null($streamBox->error)) {
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
 						<!-- THUMBNAIL EVENT -->
 						<?php $pathEventThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getEvent()->getThumbnail(); ?>
-						<li><a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a></li>
+						<li><a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a></li>
 					    </ul>
 					</div>
 				    </div>
@@ -717,7 +714,7 @@ if (is_null($streamBox->error)) {
 						    <div class="icon-header">
 							<!--THUMB TOUSER-->
 							<?php $pathPictureThumbToUser = USERS_DIR . $value->getToUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'profilepicturethumb' . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail(); ?>
-							<img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'">
+							<img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getToUser()->getUsername(); ?>">
 						    </div>
 						</div>
 						<div class="small-9 columns ">
@@ -754,7 +751,7 @@ if (is_null($streamBox->error)) {
 						    <div class="icon-header">
 							<!--THUMB TOUSER-->
 							<?php $pathPictureThumbToUser = USERS_DIR . $value->getToUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'profilepicturethumb' . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail(); ?>
-							<img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'">
+							<img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getToUser()->getUsername(); ?>">
 						    </div>
 						</div>
 						<div class="small-9 columns ">
@@ -798,7 +795,7 @@ if (is_null($streamBox->error)) {
 						<li>
 						    <!--THUMB Image-->
 						    <?php $pathImageThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'photos' . DIRECTORY_SEPARATOR . $value->getImage()->getThumbnail(); ?>
-						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'"></a>
+						    <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'" alt></a>
 						</li>
 					    </ul>
 					</div>
@@ -852,7 +849,7 @@ if (is_null($streamBox->error)) {
 					    <ul class="small-block-grid-3 small-block-grid-2 ">
 						<!--THUMB Image-->
 						<?php $pathImageThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . 'photos' . DIRECTORY_SEPARATOR . $value->getImage()->getThumbnail(); ?>
-						<li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'"></a></li>
+						<li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'" alt></a></li>
 					    </ul>
 					</div>
 				    </div>
@@ -991,7 +988,7 @@ if (is_null($streamBox->error)) {
 				    <div class="small-2 columns ">
 					<!-- THUMBNAIL EVENT -->
 					<?php $pathEventThumb = USERS_DIR . $value->getEvent()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getEvent()->getThumbnail(); ?>
-					<div class="coverThumb"><a href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a></div>
+					<div class="coverThumb"><a href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a></div>
 				    </div>
 				    <div class="small-10 columns ">
 					<div class="row ">							
@@ -1071,7 +1068,7 @@ if (is_null($streamBox->error)) {
 				    <div class="small-2 columns "
 					 <!-- THUMBNAIL EVENT -->
 					 <?php $pathRecordThumb = USERS_DIR . $value->getRecord()->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getRecord()->getThumbnailCover(); ?>
-					 <div class="coverThumb"><a href="record.php?record=<?php echo $pathRecordThumb; ?>"><img src="<?php echo $value->getRecord()->getThumbnailCover(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>
+					 <div class="coverThumb"><a href="record.php?record=<?php echo $pathRecordThumb; ?>"><img src="<?php echo $value->getRecord()->getThumbnailCover(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getRecord()->getTitle(); ?>"></a></div>
 				    </div>
 				    <div class="small-10 columns ">
 					<div class="row ">							

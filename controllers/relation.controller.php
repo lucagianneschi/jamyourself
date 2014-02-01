@@ -176,7 +176,7 @@ class RelationController extends REST {
 	    }
 
 	    #TODO
-	    sendMailForNotification('ghilarducci.alessandro@gmail.com'/* $toUser->getEmail() */, $controllers['SBJOK'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
+	    sendMailForNotification($toUser->getEmail(), $controllers['SBJOK'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
 	    $this->response(array($controllers['RELACCEPTED']), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 503);
@@ -446,7 +446,7 @@ class RelationController extends REST {
 	    }
 
 	    #TODO
-	    sendMailForNotification('ghilarducci.alessandro@gmail.com'/* $toUser->getEmail() */, $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
+	    sendMailForNotification($toUser->getEmail(), $controllers['SBJ'], file_get_contents(STDHTML_DIR . $HTMLFile)); //devi prima richiamare lo user
 	    debug('', 'debug.txt', '6');
 	    $this->response(array($controllers['RELSAVED']), 200);
 	} catch (Exception $e) {

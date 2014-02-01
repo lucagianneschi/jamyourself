@@ -42,7 +42,13 @@ if (is_null($eventBox->error)) {
 	        <?php } ?>
 	    </div>
 		<div class="royalSlider rsMinW>" id="resultSlide">					
-		<?php foreach ($events as $key => $value) { 
+		<?php foreach ($events as $key => $value) {
+			$strgenre = '';
+			$space = '';
+			foreach ($value->getGenre() as $genre) {
+			    $strgenre = $strgenre . $space . $views['tag']['localType'][$genre];
+			    $space = ', ';
+			} 
     	if ($index % 3 == 0) { ?><div class="rsContent"> <?php } ?>
             <div id="<?php echo $value->getObjectId(); ?>">
                 <div class="box ">
@@ -81,7 +87,7 @@ if (is_null($eventBox->error)) {
 	                                            <div class="row ">							
 	                                                <div class="small-12 columns ">
 	                                                    <h5><?php echo $value->getTitle(); ?></h5>
-	                                                    <h6><?php echo $value->getGenre(); ?></h6>
+	                                                    <h6><?php echo $strgenre; ?></h6>
 	                                                </div>	
 	                                            </div>	
 	                                            <div class="row">						

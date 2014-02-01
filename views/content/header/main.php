@@ -120,7 +120,9 @@ $playlistCurrentUser = array();
                     <!------------------------------------- LOGO --------------------------------------------->
                     <div class="large-2 columns logo" id="header-box-logo">				
                         <div id="logo">
-                            <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>"><img src="resources/images/header/logo.png" border="0" alt="Jamyourself: Meritocratic Social Music Discovering"></a>
+                            <!--a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>"-->
+                            <img src="resources/images/header/logo.png" border="0" alt="Jamyourself: Meritocratic Social Music Discovering">
+                            <!--/a-->
                         </div>					
                     </div>
                     <!------------------------------------- SWITCH -------------------------------------------->
@@ -154,6 +156,7 @@ $playlistCurrentUser = array();
                                         <div class="header inline" style="float: right;">
                                             <!--a class="ico-label _flag inline" onclick="headerShow()" ><span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span></a-->
                                              <a class="ico-label _flag inline" onclick="headerShow()" ></a>
+                                             <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>" class="ico-label _stream inline"></a>
                                             <a class="ico-label _setting inline"></a>
                                         </div>
                                     </div>

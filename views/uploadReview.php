@@ -3,12 +3,10 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 //ini_set( "display_errors", 0);
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'mantainance.service.php';
+require_once SERVICES_DIR . 'session.service.php';
 require_once CONTROLLERS_DIR . 'uploadReview.controller.php';
 
-session_start();
-if (!isset($_SESSION['currentUser'])) {
-    header('Location: login.php');
-} else {
 $currentUser = $_SESSION['currentUser'];
 $uploadReviewController = new UploadReviewController();
 $uploadReviewController->init();
@@ -65,4 +63,4 @@ if($authorObjectId == $currentUser->getObjectId()){
     </body>
 
 </html>
-<?php }} ?>
+<?php } ?>

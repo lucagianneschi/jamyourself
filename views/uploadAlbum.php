@@ -3,10 +3,10 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once CLASSES_DIR . 'userParse.class.php';
+require_once SERVICES_DIR . 'mantainance.service.php';
+require_once SERVICES_DIR . 'session.service.php';
 require_once CONTROLLERS_DIR . 'uploadAlbum.controller.php';
 
-session_start();
 $uploadAlbumController = new UploadAlbumController();
 $uploadAlbumController->init();
 ?>
