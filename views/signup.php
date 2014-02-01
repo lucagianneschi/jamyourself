@@ -3,6 +3,8 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'mantainance.service.php';
+require_once SERVICES_DIR . 'session.service.php';
 require_once CONTROLLERS_DIR . 'signup.controller.php';
 require_once SERVICES_DIR . 'recaptcha.service.php';
 

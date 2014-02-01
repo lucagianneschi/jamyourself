@@ -3,12 +3,11 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'mantainance.service.php';
+require_once SERVICES_DIR . 'session.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-require_once CLASSES_DIR . 'userParse.class.php';
 
-session_start();
-if(isset($_SESSION['currentUser'])){
 $currentUser = $_SESSION['currentUser'];
 
 //esempio: objectId dell'utente a cui si vuole vedere il profilo 
@@ -48,9 +47,3 @@ $user = $_GET['user'];
     </body>
 
 </html>
-<?php
-}else{
-header('Location: login.php');        
-}
-
-?>

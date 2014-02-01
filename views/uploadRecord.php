@@ -3,8 +3,9 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'mantainance.service.php';
+require_once SERVICES_DIR . 'session.service.php';
 require_once CONTROLLERS_DIR . 'uploadRecord.controller.php';
-session_start();
 
 $uploadRecordController = new UploadRecordController();
 $uploadRecordController->init();
@@ -42,9 +43,9 @@ $uploadRecordController->init();
         ?>	
 
         <!-------------------------- SCRIPT --------------------------->
-<?php
-require_once(VIEWS_DIR . "content/general/script.php");
-?>
+        <?php
+        require_once(VIEWS_DIR . "content/general/script.php");
+        ?>
     </body>
 
 </html>
