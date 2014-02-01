@@ -65,10 +65,6 @@
 <script src="resources/javascripts/plugins/jquery/jquery-1.8.3.min.js"></script>
 <script src="resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>	
 
-
-
-
-
 <!----------------------------------- PLAYLIST ---------------------------------->
 
 <link href="resources/stylesheets/plugins/jplayer/jplayer.pink.flag.css" rel="stylesheet" type="text/css" />
@@ -76,3 +72,6 @@
 <script type="text/javascript" src="resources/javascripts/plugins/jplayer/jplayer.playlist.min.js"></script>
 
 <script type="text/javascript" src="resources/javascripts/customs/header.js"></script>
+
+<!----------------------------------- FAVICON ---------------------------------->
+<link rel="shortcut icon" href="resources/images/header/favicon.ico"/>
