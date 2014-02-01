@@ -184,7 +184,8 @@ if (isset($userObjectId)) {
 	    			    <div  class="large-4 columns " style="padding-left: 0px;">
 	    				<label class="text grey-light inline" style="float: right !important">
 	    				    <!-- TODO -->
-	    				    <span onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Accetta</span> | <span onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Rifiuta</span>
+	    				    <span class="relationConfirm accept" onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Accetta</span>
+							<span class="relationConfirm decline"onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Rifiuta</span>
 						<?php echo $createdAd ?></label>
 	    				<div  class="large-4 columns " style="padding-left: 0px;">
 	    				    <label class="note grey-light inline" style="float: right !important"><?php echo $createdAd ?></label>
