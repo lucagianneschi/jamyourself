@@ -549,7 +549,6 @@ function getTagsMusicTrack() {
         $.each($("#tag-musicTrack :checkbox"), function() {
 
             if ($(this).is(":checked")) {
-                var index = parseInt($(this).val());
                 tags.push($(this).val());
             }
         });
@@ -579,7 +578,13 @@ function addSongToList(title, duration, genre, isNew, id) {
         html += '<tr id="tr_song_list_' + id + '">';
         html += '<td class="title _note-button">' + title + '</td>';
         html += '<td class="time">' + duration + '</td>';
-        html += '<td class="genre">' + genre + '</td>';
+        var genreList = genre.split(",")
+        var translatedGenreList = new Array();
+        for(var c = 0; c<genreList.length; c++){
+           translatedGenreList.push(($("#"+genreList[c])).html()); 
+        }
+        
+        html += '<td class="genre">' + translatedGenreList.join() + '</td>';
         if (isNew) {
             html += '<td class="delete _delete-button" onClick="javascript:removeSongFromList(\'' + id + '\')"></tdr>';
         } else {
