@@ -38,7 +38,6 @@ $css_description = (!isset($description) || $description == '') ? 'no-display' :
 
 
 $thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $fromUserThumbnail;
-
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
@@ -49,17 +48,17 @@ $thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DI
 		<!--------------------------------- ABOUT ---------------------------------------------------->
 		<p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['media']['Information']['CONTENT1_RECORD'] ?></a></p>
 		<div class="content" data-section-content>
-			<a href="profile.php?user=<?php echo $fromUserObjectId ?>">
-			    <div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>">
-					<div class="small-1 columns ">
-					    <div class="icon-header">
-							<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo DEFTHUMBJAMMER; ?>'">
-					    </div>
-					</div>
-					<div  class="small-11 columns ">
-					    <div class="text white breakOffTest"><strong><?php echo $fromUserUsername ?></strong></div>
-					</div>		
+		    <a href="profile.php?user=<?php echo $fromUserObjectId ?>">
+			<div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>">
+			    <div class="small-1 columns ">
+				<div class="icon-header">
+				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo DEFTHUMBJAMMER; ?>'" alt ="<?php echo $fromUserUsername; ?> ">
+				</div>
 			    </div>
+			    <div  class="small-11 columns ">
+				<div class="text white breakOffTest"><strong><?php echo $fromUserUsername ?></strong></div>
+			    </div>		
+			</div>
 		    </a>
 
 		</div>	
