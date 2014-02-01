@@ -19,12 +19,11 @@ $lat = $_POST['latitude'];
 $lon = $_POST['longitude'];
 $city = $_POST['city'];
 $country = $_POST['country'];
-$tags = $_POST['tags'];
 $genre = $_POST['genre'];
 $eventDate = $_POST['eventDate'];
 
 $eventBox = new EventBox();
-$eventBox->initForStream($lat, $long, $city, $country, $tags, $genre, $eventDate);
+$eventBox->initForStream($lat, $long, $city, $country, $genre, $eventDate);
 if (is_null($eventBox->error)) {
     $events = $eventBox->eventArray;
     $index = 0;
@@ -68,14 +67,14 @@ if (is_null($eventBox->error)) {
 	                        </div>
 	                    </div>
                     </a>
-                    <a href="record.php?record=<?php echo $value->getObjectId() ?>">
+                    <a href="event.php?event=<?php echo $value->getObjectId() ?>">
 	                    <div class="row">
 	                        <div class="small-12 columns box-detail">
 	                            <div class="row ">
 	                                <div class="small-12 columns">
 	                                    <div class="row">
 	                                        <div class="small-2 columns ">
-	                                            <?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getThumbnailCover(); ?>
+	                                            <?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getThumbnail(); ?>
 	                                            <div class="coverThumb"><img src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
 	                                        </div>
 	                                        <div class="small-10 columns ">
