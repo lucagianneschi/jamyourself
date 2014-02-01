@@ -3,8 +3,6 @@
 nbproject/project.properties
 nbproject/project.xml
 /repository.php
-
-
 # foundation
 config.rb
 .sass-cache/
@@ -17,6 +15,7 @@ config.rb
 /tests/
 /optimization/
 /debug/
+/tests/
 /.gitignore
 
 /.gitignore

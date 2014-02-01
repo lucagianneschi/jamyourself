@@ -47,6 +47,6 @@ foreach ($arrayGenre as $key => $value) {
 
 <div class="row">
     <div class="large-12 columns">
-	<img class="background" src="<?php echo $pathCoverRecord.$image; ?>"  onerror="this.src='<?php echo DEFRECORDCOVER; ?>'" >						
+	<img class="background" src="<?php echo $pathCoverRecord.$image; ?>"  onerror="this.src='<?php echo DEFRECORDCOVER; ?>'" alt ="<?php echo $title; ?> " >						
     </div>
 </div> 
