@@ -29,3 +29,14 @@ function hideResult() {
     $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
 
 }
+
+function getCalendar() {
+    try {
+        $("#date").datepicker({
+            dateFormat: "dd/mm/yy",
+            altFormat: "dd/mm/yy"
+        });
+    } catch (err) {
+        window.console.error("getCalendar | An error occurred - message : " + err.message);
+    }
+}
