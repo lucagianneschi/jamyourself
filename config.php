@@ -2,6 +2,11 @@
 
 require_once 'path.php';
 
+####################
+# MANTAINANCE MORE #
+####################
+define('MANTAINANCE_MODE', 0);
+
 ##################
 # GENERIC FOLDER #
 ##################
