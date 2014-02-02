@@ -322,4 +322,10 @@ p {
 	text-align: center;
 }
 
+.comment-btn-loader{
+	background-repeat: no-repeat !important;
+   background-image: url(../images/icon/btn-loader.gif) !important;
+   background-position: center center !important;  
+}
+
 
