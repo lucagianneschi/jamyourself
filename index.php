@@ -18,6 +18,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<link rel="stylesheet" href="views/resources/stylesheets/normalize.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="views/resources/stylesheets/grid.css" type="text/css" media="screen">
 	<link rel="stylesheet" href="views/resources/stylesheets/home.css" type="text/css" media="screen">
+	<!----------------- colorbox ---------------------------->
+	<link rel="stylesheet" href="views/resources/stylesheets/plugins/colorbox/colorbox.css"></link>
 	<!-- <link rel="stylesheet" href="css/style.min.css" type="text/css" media="screen"> -->
 	<!--[if IE]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     </head>
@@ -30,9 +32,22 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<!--<div class="blog" onclick="window.open('<?php echo BLOG; ?>')" ><?php echo $views['home']['blog']; ?></div>-->
 	    <div class="blog"><?php echo $views['home']['blog']; ?></div>
 	    <div class="subscribe" onclick="scrollto('subscribe');"><?php echo $views['home']['subscribe']; ?></div>
-	    <div class="login"><?php echo $views['home']['login']; ?></div>
+	    <div class="login"><a class="loginLB" href="#login_content"><?php echo $views['home']['login']; ?></a></div>
+	    
 	</div>
-
+	<div style="display: none">
+		<div id="login_content">
+			<div id="title">LOGIN</div>
+			<form action="javascript:access($('#user').val(), $('#pass').val(), 'login', null)">
+				<div class="loginInput">
+					<input type="text" id="user" placeholder="username" /><br />
+					<input type="password" id="pass" placeholder="password" /><br />
+					<input type="submit" value="Login" style="width: 205px;"/>
+				</div>				
+				
+			</form>
+		</div>
+	</div>
 	<div id="top" class="slide top" data-stellar-background-ratio="0.7">
 	    <div class="container clearfix">
 
@@ -173,6 +188,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<script type="text/javascript" src="views/resources/javascripts/plugins/jquery/waypoints.min.js"></script>
 	<script type="text/javascript" src="views/resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="views/resources/javascripts/customs/home.js"></script>
+	<!----------- colorbox // lightbox foto ---------------------------------------------------->
+	<script type="text/javascript" src="views/resources/javascripts/plugins/colorbox/jquery.colorbox.js"></script>
 	<script>
 	    function scrollto(id)
 	    {
@@ -189,8 +206,12 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		    //$("#logo").animate({ top: "0" }, 800 );
 		    $("#logo").fadeIn();
 		}
+		
 
 	    });
+	    $(document).ready(function() {
+			$(".loginLB").colorbox({inline:true, width:"30%"});
+		});
 	</script>
 
     </body>
