@@ -29,7 +29,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<div class="menu">
 	    <div class="facebook" onclick="window.open('<?php echo FACEBOOK; ?>');"></div>
 	    <div class="twitter" onclick="window.open('<?php echo TWITTER; ?>');"></div>
-	<!--<div class="blog" onclick="window.open('<?php echo BLOG; ?>')" ><?php echo $views['home']['blog']; ?></div>-->
+        <!-- div class="blog" onclick="window.open('<?php echo BLOG; ?>')" ><?php echo $views['home']['blog']; ?></div -->
 	    <div class="subscribe" onclick="scrollto('subscribe');"><?php echo $views['home']['subscribe']; ?></div>
 	    <div class="login"><a class="loginLB" href="#login_content"><?php echo $views['home']['login']; ?></a></div>
 
@@ -187,6 +187,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<script type="text/javascript" src="views/resources/javascripts/plugins/jquery/waypoints.min.js"></script>
 	<script type="text/javascript" src="views/resources/javascripts/plugins/jquery/jquery.easing.1.3.js"></script>
 	<script type="text/javascript" src="views/resources/javascripts/customs/home.js"></script>
+    <script type="text/javascript" src="views/resources/javascripts/customs/access.js"></script>
 	<!----------- colorbox // lightbox foto ---------------------------------------------------->
 	<script type="text/javascript" src="views/resources/javascripts/plugins/colorbox/jquery.colorbox.js"></script>
 	<script>

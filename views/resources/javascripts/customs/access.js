@@ -11,21 +11,20 @@ function access(usernameOrEmail, password, opType, userId) {
 	$.ajax({
 		type: "POST",
 		url: "../controllers/request/accessRequest.php",
-		data: json_access
+		data: json_access,
+        beforeSend: function(){
+        	
+        }
 	})
 	.done(function(response, status, xhr) {
 		message = $.parseJSON(xhr.responseText).status;
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);
-                
-                //redirect per il login
-                if($("#from").val()!=undefined){
-                    var url = $("#from").val();
-                    console.log("reloading prev page: " + url);
-                    $(location).attr('href',url);
-                }else{
-                    location.reload();
-                }
+        if (opType === 'login') {
+            location.href = 'views/stream.php';
+        } else if (opType === 'logout') {
+            location.href = 'stream.php';
+        }
 	})
 	.fail(function(xhr) {
 		message = $.parseJSON(xhr.responseText).status;
