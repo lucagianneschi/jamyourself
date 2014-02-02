@@ -107,11 +107,6 @@ class PlaylistController extends REST {
 	    global $controllers;
 	    if ($this->get_request_method() != "POST") {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
-		//TODO prende direttamente l'objectId dell currentUser dalla session
-		//      } elseif (!isset($this->request['currentUser'])) {
-		//          $this->response(array('status' => $controllers['USERNOSES']), 403);
-		//      } elseif (!isset($this->request['playlistId'])) {
-		//         $this->response(array('status' => $controllers['NOPLAYLISTID']), 403);
 	    } elseif (!isset($this->request['songId'])) {
 		$this->response(array('status' => $controllers['NOSONGID']), 403);
 	    }

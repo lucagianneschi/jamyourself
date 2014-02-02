@@ -246,7 +246,7 @@ class EventParse {
 	    $parseObject->featuring = is_null($event->getFeaturing()) ? null : toParseAddRelation('_User', $event->getFeaturing());
 	    $parseObject->fromUser = toParsePointer('_User', $event->getFromUser());
 	    $parseObject->genre = is_null($event->getGenre()) ? $nullArray : parse_encode_array($event->getGenre());
-	    $parseObject->image = is_null($event->getImage()) ? DEFEVENTIMAGE : $event->getImage();
+	    $parseObject->image = is_null($event->getImage()) ? null : $event->getImage();
 	    $parseObject->invited = is_null($event->getInvited()) ? null : toParseAddRelation('_User', $event->getInvited());
 	    $parseObject->location = is_null($event->getLocation()) ? null : toParseGeoPoint($event->getLocation());
 	    $parseObject->locationName = is_null($event->getLocationName()) ? null : parse_encode_string($event->getLocationName());
@@ -256,7 +256,7 @@ class EventParse {
 	    $parseObject->shareCounter = is_null($event->getShareCounter()) ? 0 : $event->getShareCounter();
 	    $parseObject->refused = is_null($event->getRefused()) ? null : toParseAddRelation('_User', $event->getRefused());
 	    $parseObject->tags = is_null($event->getTags()) ? $nullArray : parse_encode_array($event->getTags());
-	    $parseObject->thumbnail = is_null($event->getThumbnail()) ? DEFEVENTTHUMB : $event->getThumbnail();
+	    $parseObject->thumbnail = is_null($event->getThumbnail()) ? null : $event->getThumbnail();
 	    $parseObject->title = is_null($event->getTitle()) ? null : parse_encode_string($event->getTitle());
 	    $parseObject->ACL = is_null($event->getACL()) ? toParseDefaultACL() : toParseACL($event->getACL());
 	    if ($event->getObjectId() == '') {

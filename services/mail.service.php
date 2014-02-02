@@ -29,8 +29,8 @@ function mailService() {
 	$mail->Password 	= 'jam361510';
 	$mail->SMTPSecure 	= 'tls';
 	$mail->From     	= 'noreply@jamyourself.com';
-	$mail->FromName 	= 'Jamyourself: Meritocratic Social Music Network';
-	$mail->addReplyTo('noreply@jamyourself.com', 'Jamyourself: Meritocratic Social Music Network');
+	$mail->FromName 	= 'Jamyourself';
+	$mail->addReplyTo('noreply@jamyourself.com', 'Jamyourself');
 	$mail->isHTML(true);
 	return $mail;
 }

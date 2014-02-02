@@ -234,14 +234,14 @@ class ImageParse {
 	    $parseObject->counter = is_null($image->getCounter()) ? 0 : $image->getCounter();
 	    $parseObject->description = is_null($image->getDescription()) ? null : parse_encode_string($image->getDescription());
 	    $parseObject->featuring = is_null($image->getFeaturing()) ? null : toParseAddRelation('_User', $image->getFeaturing());
-	    $parseObject->filePath = is_null($image->getFilePath()) ? DEFIMAGE : $image->getFilePath();
+	    $parseObject->filePath = is_null($image->getFilePath()) ? null : $image->getFilePath();
 	    $parseObject->fromUser = toParsePointer('_User', $image->getFromUser());
 	    $parseObject->location = is_null($image->getLocation()) ? null : toParseGeoPoint($image->getLocation());
 	    $parseObject->loveCounter = is_null($image->getLoveCounter()) ? 0 : $image->getLoveCounter();
 	    $parseObject->lovers = is_null($image->getLovers()) ? $nullArray : $image->getLovers();
 	    $parseObject->shareCounter = is_null($image->getShareCounter()) ? 0 : $image->getShareCounter();
 	    $parseObject->tags = is_null($image->getTags()) ? $nullArray : parse_encode_array($image->getTags());
-	    $parseObject->thumbnail = is_null($image->getThumbnail()) ? DEFIMAGETHUMB : $image->getThumbnail();
+	    $parseObject->thumbnail = is_null($image->getThumbnail()) ? null : $image->getThumbnail();
 	    $parseObject->ACL = is_null($image->getACL()) ? toParseDefaultACL() : toParseACL($image->getACL());
 	    if ($image->getObjectId() == '') {
 		$res = $parseObject->save();

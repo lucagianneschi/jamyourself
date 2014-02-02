@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		utilizzo del recaptcha, usare chiavi del sito definitive, query su Location, fare API su Wiki
+ * \todo		abilitare recaptcha lato server, query su Location, fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
@@ -27,9 +27,8 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 
-//Domain Name:	socialmusicdiscovering.com
-define("CAPTCHA_PUBLIC_KEY", "6LfMnNcSAAAAABls9QS4oPvL86A0RzstkhSFWKud");
-define("CAPTCHA_PRIVATE_KEY", "6LfMnNcSAAAAAKYZCjSxFXMpTTYeclVzAsuke0Vu");
+define("CAPTCHA_PUBLIC_KEY", "6Lei6NYSAAAAAENpHWBBkHtd0ZbfAdRAtKMcvlaQ");
+define("CAPTCHA_PRIVATE_KEY", "6Lei6NYSAAAAAOXsGrRhJxUqdFGt03jcqaABdJMn");
 
 class SignupController extends REST {
 
