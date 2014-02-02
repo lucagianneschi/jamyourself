@@ -93,14 +93,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    			    <div id='eventReview_<?php echo $eventReview_objectId ?>'>	
 					    <?php
 					    if ($type != "SPOTTER") {
-						switch ($eventReview_user_type) {
-						    case 'JAMMER':
-							$defaultThum = DEFTHUMBJAMMER;
-							break;
-						    case 'VENUE':
-							$defaultThum = DEFTHUMBVENUE;
-							break;
-						}
+						
 						$pathUser = USERS_DIR . $eventReview_user_objectId . '/images/profilepicturethumb/';
 						$pathEvent = USERS_DIR . $currentUser->getObjectId() . '/images/eventcoverthumb/';
 						?>
@@ -108,7 +101,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 						    <div class="row">
 							<div  class="small-1 columns ">
 							    <div class="userThumb">
-								<img src="<?php echo $pathUser . $eventReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+								<img src="<?php echo $pathUser . $eventReview_user_thumbnail ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'">
 							    </div>
 							</div>
 							<div  class="small-5 columns">
