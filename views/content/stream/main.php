@@ -174,30 +174,7 @@ require_once ROOT_DIR . 'config.php';
                                     }
                                 }
 
-                                function initGeocomplete(box) {
-                                    try {
-                                        $(box).geocomplete()
-                                                .bind("geocode:result", function(event, result) {
-                                                    json_data.location = getCompleteLocationInfo(result);
-                                                    /*
-                                                     json_data.location = prepareLocationObj(result);
-                                                     var complTest = getCompleteLocationInfo(json_data.location);
-                                                     */
-                                                })
-                                                .bind("geocode:error", function(event, status) {
-                                                    json_data.location = null;
-                                                })
-                                                .bind("geocode:multiple", function(event, results) {
-                                                    json_data.location = getCompleteLocationInfo(results[0]);
-                                                });
-                                    } catch (err) {
-                                        console.log("initGeocomplete | An error occurred - message : " + err.message);
-                                    }
-                                }
-
-                                $(document).ready(function() {
-                                    initGeocomplete("#location");                                    
-                                });
+                                
                             </script>
 
                             <!-- Search by Event -->
@@ -215,7 +192,7 @@ require_once ROOT_DIR . 'config.php';
                                                 </div>
 
                                                 <div class="large-4 columns">
-                                                    <input type="text" name="date" id="date" pattern="" class="hasDatepicker">
+                                                    <input type="text" name="date" id="date">
                                                     <label for="date"><?php echo $views['stream']['date']; ?></label>
                                                 </div>	
 
@@ -287,13 +264,15 @@ require_once ROOT_DIR . 'config.php';
                     var json_data = {};
                     json_data.location = {};
                     var genres = new Array();
-                    var tags = new Array();
                     function loadBoxResultEvent() {
-                        json_data.genre = getGenre();
+                    	
+                        json_data.tags = getTags();
                         json_data.latitude = json_data.location.latitude;
                         json_data.longitude = json_data.location.longitude;
                         json_data.city = json_data.location.city;
                         json_data.country = json_data.location.country;
+                        json_data.eventDate = $('#date').val();
+                        
                         $.ajax({
                             type: "POST",
                             url: "content/stream/box/box-resultEvent.php",
@@ -312,8 +291,7 @@ require_once ROOT_DIR . 'config.php';
                         	
                             //spinner.hide();
                             $("#result").html(message);
-                            
-                        	
+                           
                             //plugin scorrimento box
                             //rsi_record = slideReview('recordSlide');
                             //plugin share
@@ -346,10 +324,7 @@ require_once ROOT_DIR . 'config.php';
                             window.console.log("getTags | An error occurred - message : " + err.message);
                         }
                     }					
-                    $(document).ready(function() {
-                        initGeocomplete("#eventTitle"); 
-                        getCalendar();                                   
-                    });
+                   
                 </script>
 
                 <!-- RESULT -->
