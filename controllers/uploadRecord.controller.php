@@ -373,11 +373,11 @@ class UploadRecordController extends REST {
     }
 
     /**
-     * \fn	createActivity($fromUser, $recordId, $type = 'RECORDUPLOADED', $songId = null)
+     * \fn	createActivity($fromUser, $recordId, $type = 'RECORDCREATED', $songId = null)
      * \brief   funzione per creazione activity per questo controller
      * \param   $fromUser, $recordId, $type = 'RECORDUPLOADED', $songId = null
      */
-    private function createActivity($fromUser, $recordId, $type = 'RECORDUPLOADED', $songId = null) {
+    private function createActivity($fromUser, $recordId, $type = 'RECORDCREATED', $songId = null) {
 	require_once CLASSES_DIR . 'activity.class.php';
 	require_once CLASSES_DIR . 'activityParse.class.php';
 	$activity = new Activity();
