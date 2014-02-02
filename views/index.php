@@ -30,23 +30,22 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <div class="facebook" onclick="window.open('<?php echo FACEBOOK; ?>');"></div>
 	    <div class="twitter" onclick="window.open('<?php echo TWITTER; ?>');"></div>
 	<!--<div class="blog" onclick="window.open('<?php echo BLOG; ?>')" ><?php echo $views['home']['blog']; ?></div>-->
-	    <div class="blog"><?php echo $views['home']['blog']; ?></div>
 	    <div class="subscribe" onclick="scrollto('subscribe');"><?php echo $views['home']['subscribe']; ?></div>
 	    <div class="login"><a class="loginLB" href="#login_content"><?php echo $views['home']['login']; ?></a></div>
-	    
+
 	</div>
 	<div style="display: none">
-		<div id="login_content">
-			<div id="title">LOGIN</div>
-			<form action="javascript:access($('#user').val(), $('#pass').val(), 'login', null)">
-				<div class="loginInput">
-					<input type="text" id="user" placeholder="username" /><br />
-					<input type="password" id="pass" placeholder="password" /><br />
-					<input type="submit" value="Login" style="width: 205px;"/>
-				</div>				
-				
-			</form>
-		</div>
+	    <div id="login_content">
+		<div id="title">LOGIN</div>
+		<form action="javascript:access($('#user').val(), $('#pass').val(), 'login', null)">
+		    <div class="loginInput">
+			<input type="text" id="user" placeholder="username" /><br />
+			<input type="password" id="pass" placeholder="password" /><br />
+			<input type="submit" value="Login" style="width: 205px;"/>
+		    </div>				
+
+		</form>
+	    </div>
 	</div>
 	<div id="top" class="slide top" data-stellar-background-ratio="0.7">
 	    <div class="container clearfix">
@@ -206,12 +205,12 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		    //$("#logo").animate({ top: "0" }, 800 );
 		    $("#logo").fadeIn();
 		}
-		
+
 
 	    });
 	    $(document).ready(function() {
-			$(".loginLB").colorbox({inline:true, width:"30%"});
-		});
+		$(".loginLB").colorbox({inline: true, width: "30%"});
+	    });
 	</script>
 
     </body>
