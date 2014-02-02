@@ -83,26 +83,26 @@ class PlaylistBox {
 		$songs = $song->getSongs();
 		//order the song by the songsArray property
 		foreach (current($playlists)->getSongsArray() as $value) {
-		    $unOrderedSongsID = array();
-		    foreach ($songs as $song) {
-			$id = $song->getObjectId();
-			array_push($id, $unOrderedSongsID);
-		    }
-		    $toEliminate = array_diff($value, $unOrderedSongsID);
-		    foreach ($toEliminate as $id) {
-			$index = array_search($id, $value);
-			unset($value[$index]);
-			array_merge($value);
-			$pPlaylist = new PlaylistParse();
-			$updatedPlayslist = $pPlaylist->updateField(current($playlists)->getObjectId(), 'songs', $id, true, 'remove', 'Song');
-		    }
-		    $pPlaylistArray = new PlaylistParse();
-		    $updatedPlayslist = $pPlaylistArray->updateField(current($playlists)->getObjectId(), 'songsArray', $value);
-		    if ($updatedPlayslist instanceof Error) {
-			$this->error = null;
-			$this->tracklist = array();
-			return;
-		    }
+//		    $unOrderedSongsID = array();
+//		    foreach ($songs as $song) {
+//			$id = $song->getObjectId();
+//			array_push($id, $unOrderedSongsID);
+//		    }
+//		    $toEliminate = array_diff($value, $unOrderedSongsID);
+//		    foreach ($toEliminate as $id) {
+//			$index = array_search($id, $value);
+//			unset($value[$index]);
+//			array_merge($value);
+//			$pPlaylist = new PlaylistParse();
+//			$updatedPlayslist = $pPlaylist->updateField(current($playlists)->getObjectId(), 'songs', $id, true, 'remove', 'Song');
+//		    }
+//		    $pPlaylistArray = new PlaylistParse();
+//		    $updatedPlayslist = $pPlaylistArray->updateField(current($playlists)->getObjectId(), 'songsArray', $value);
+//		    if ($updatedPlayslist instanceof Error) {
+//			$this->error = null;
+//			$this->tracklist = array();
+//			return;
+//		    }
 		    $orderSongs[$value] = $songs[$value];
 		}
 		if ($songs instanceof Error) {
