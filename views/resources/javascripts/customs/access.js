@@ -13,7 +13,8 @@ function access(usernameOrEmail, password, opType, userId) {
 		url: "../controllers/request/accessRequest.php",
 		data: json_access,
         beforeSend: function(){
-        	
+        	$('#login').val('');
+        	$('#login').addClass('comment-btn-loader');
         }
 	})
 	.done(function(response, status, xhr) {
@@ -27,6 +28,8 @@ function access(usernameOrEmail, password, opType, userId) {
         }
 	})
 	.fail(function(xhr) {
+		$('#login').val('Error');
+        $('#login').removeClass('comment-btn-loader');
 		message = $.parseJSON(xhr.responseText).status;
 		code = xhr.status;
 		console.log("Code: " + code + " | Message: " + message);

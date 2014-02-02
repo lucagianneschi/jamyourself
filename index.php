@@ -36,15 +36,14 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	</div>
 	<div style="display: none">
 	    <div id="login_content">
-		<div id="title">LOGIN</div>
-		<form action="javascript:access($('#user').val(), $('#pass').val(), 'login', null)">
-		    <div class="loginInput">
-			<input type="text" id="user" placeholder="username" /><br />
-			<input type="password" id="pass" placeholder="password" /><br />
-			<input type="submit" value="Login" style="width: 205px;"/>
-		    </div>				
-
-		</form>
+			<div id="title">LOGIN</div>
+			<form action="javascript:access($('#user').val(), $('#pass').val(), 'login', null)">
+			    <div class="loginInput">
+					<input type="text" id="user" placeholder="username" /><br />
+					<input type="password" id="pass" placeholder="password" /><br />
+					<input type="submit" id="login" value="Login" style="width: 205px;"/>
+			    </div>	
+			</form>
 	    </div>
 	</div>
 	<div id="top" class="slide top" data-stellar-background-ratio="0.7">
