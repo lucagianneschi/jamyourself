@@ -4,14 +4,14 @@
  * \author		Luca Gianneschi
  * \version		1.0
  * \date		2013
- * \copyright	Jamyourself.com 2013
+ * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
  * \brief		box caricamento playlist utente
  * \details		Recupera la playlist utente
  * \par			Commenti:
  * \warning
  * \bug
- * \todo	    comprendere i profili premium, uso whereInclude	
+ * \todo		comprendere i profili premium
  *
  */
 
@@ -71,35 +71,55 @@ class PlaylistBox {
 	    return;
 	} else {
 	    foreach ($playlists as $playlist) {
-			require_once CLASSES_DIR . 'song.class.php';
-			require_once CLASSES_DIR . 'songParse.class.php';
-			$this->name = $playlist->getName();
-			$this->objectId = $playlist->getObjectId();
-			$song = new SongParse();
-			$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
-			$song->where('active', true);
-			$song->setLimit($this->config->limitForTracklist);
-			$song->whereInclude('fromUser,record');
-			$songs = $song->getSongs();
-            //order the song by the songsArray property
-            foreach(current($playlists)->getSongsArray() as $value) {
-                $orderSongs[$value] = $songs[$value];
-            }
-            if ($songs instanceof Error) {
-			    $this->errorManagement($songs->getErrorMessage());
-			    return;
-			} elseif (is_null($orderSongs)) {
-			    $this->error = null;
-			    $this->tracklist = array();
-			    return;
-			} else {
-			    foreach ($orderSongs as $song) {
-				if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
-				    array_push($tracklist, $song);
-			    }
-			    $this->error = null;
-			    $this->tracklist = $tracklist;
-			}
+		require_once CLASSES_DIR . 'song.class.php';
+		require_once CLASSES_DIR . 'songParse.class.php';
+		$this->name = $playlist->getName();
+		$this->objectId = $playlist->getObjectId();
+		$song = new SongParse();
+		$song->whereRelatedTo('songs', 'Playlist', $playlist->getObjectId());
+		$song->where('active', true);
+		$song->setLimit($this->config->limitForTracklist);
+		$song->whereInclude('fromUser,record');
+		$songs = $song->getSongs();
+		//order the song by the songsArray property
+		foreach (current($playlists)->getSongsArray() as $value) {
+		    $unOrderedSongsID = array();
+		    foreach ($songs as $song) {
+			$id = $song->getObjectId();
+			array_push($id, $unOrderedSongsID);
+		    }
+		    $toEliminate = array_diff($value, $unOrderedSongsID);
+		    foreach ($toEliminate as $id) {
+			$index = array_search($id, $value);
+			unset($value[$index]);
+			array_merge($value);
+			$pPlaylist = new PlaylistParse();
+			$updatedPlayslist = $pPlaylist->updateField(current($playlists)->getObjectId(), 'songs', $id, true, 'remove', 'Song');
+		    }
+		    $pPlaylistArray = new PlaylistParse();
+		    $updatedPlayslist = $pPlaylistArray->updateField(current($playlists)->getObjectId(), 'songsArray', $value);
+		    if ($updatedPlayslist instanceof Error) {
+			$this->error = null;
+			$this->tracklist = array();
+			return;
+		    }
+		    $orderSongs[$value] = $songs[$value];
+		}
+		if ($songs instanceof Error) {
+		    $this->errorManagement($songs->getErrorMessage());
+		    return;
+		} elseif (is_null($orderSongs)) {
+		    $this->error = null;
+		    $this->tracklist = array();
+		    return;
+		} else {
+		    foreach ($orderSongs as $song) {
+			if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
+			    array_push($tracklist, $song);
+		    }
+		    $this->error = null;
+		    $this->tracklist = $tracklist;
+		}
 	    }
 	}
     }
