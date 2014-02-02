@@ -160,7 +160,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		<div class="grid_5">
 		    <h2><?php echo $views['home']['subscribe_lc']; ?></h2>
 		    <p><?php echo $views['home']['private_beta1']; ?><br><?php echo $views['home']['private_beta2']; ?><br>
-			<a href="#"><?php echo $views['home']['key']; ?></a>
+			<!--a href="#"><?php echo $views['home']['key']; ?></a-->
 		    </p>
 		</div>
 		<div class="grid_5">
