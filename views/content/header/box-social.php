@@ -180,7 +180,9 @@ if (isset($userObjectId)) {
 	    			<div  class="large-8 columns" style="padding-right: 0px;">
 	    			    <label class="text grey inline"><a class="icon-small <?php echo $css_icon ?> inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span></label>									
 	    			</div>
+	    			
 	    			<div  class="large-4 columns " style="padding-left: 0px;">
+	    				<a class="orange" onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Accetta</a> | <a class="orange" onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Rifiuta</a>
 	    			    <label class="note grey-light inline" style="float: right !important"><?php echo $createdAd ?></label>
 	    			</div>	
 	    		    </div>
