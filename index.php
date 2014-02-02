@@ -46,9 +46,12 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 			</form>
 	    </div>
 	</div>
+	<div id="private-beta">
+	    	<img src="views/resources/images/home/privatebeta.png" alt ="Private Beta">
+		</div>
 	<div id="top" class="slide top" data-stellar-background-ratio="0.7">
-	    <div class="container clearfix">
-
+		
+	    <div class="container clearfix">		
 		<div class="grid_12">
 		    <img src="views/resources/images/home/logo-big.png" alt ="Jamyourself: Meritocratic Social Music Discovering">
 		    <h1><?php echo $views['home']['stand_out']; ?></h1>
