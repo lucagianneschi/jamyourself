@@ -36,6 +36,7 @@ $controllers = array(
     'SUBSCRIPTIONOK' => 'Sei stato iscritto correttamente',
     'SUBSCRIPTIONERROR' => 'Errore durante la sottoscrizione',
     //SIGNUP
+    'NOCAPTCHAVALIDATION' => 'Captcha non valido o non presente',
     'INVALIDNEWUSER' => 'Utente non valido',
     'NEWUSERCREATIONFAILED' => 'Salvataggio fallito',
     'USERCREATED' => 'Utente creato con successo',
