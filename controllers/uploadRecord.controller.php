@@ -54,14 +54,6 @@ class UploadRecordController extends REST {
 	    header('Location: login.php?from=uploadRecord.php');
 	    exit;
 	}
-
-//        $currentUser = $_SESSION['currentUser'];
-//caching dell'array dei featuring: tolto per velocizzare la pagina, verra' chiamato
-//in maniera asincrona
-//        $_SESSION['currentUserFeaturingArray'] = $this->getFeaturingArray();
-//        $recordBox = new RecordBox();
-//        $recordBox->initForUploadRecordPage($currentUser->getObjectId());
-//        $this->viewRecordList = $recordBox->recordArray;
     }
 
     /**
@@ -224,9 +216,7 @@ class UploadRecordController extends REST {
 			$song->setTitle($element->title);
 			$savedSong = $pSong->saveSong($song);
 			if ($savedSong instanceof Error) {
-			    //errore: inserire una rollback per la cancellazione di tutti gli mp3? 
-			    //come gestire?
-			    //idea: salvo una lista degli mp3 il cui salvataggio e' fallito
+			    //errore
 			    $songErrorList[] = $element;
 			    //decremento il contatore
 			    $position--;
@@ -416,13 +406,6 @@ class UploadRecordController extends REST {
 		if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover")) {
 		    //se la cartella non esiste la creo
 		    if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true)) {
-			return false;
-		    }
-		}
-		//creazione cartella delle thumbnail del record                
-		if (!is_dir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb")) {
-		    //se la cartella non esiste la creao
-		    if (!mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true)) {
 			return false;
 		    }
 		}
