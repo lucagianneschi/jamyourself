@@ -50,7 +50,41 @@
 
 .notification-item {
 	padding: 8px 0 5px 0;
-	border-bottom: $grey-dark 1px solid;
+	border-bottom: $grey-dark 1px solid;	
+	
+}
+
+.btn-confirm {
+		width:45%;
+		height:25px;
+		line-height: 25px;
+		display: block;
+		font-size: 14px;
+		text-align: center;
+		margin-top: 7px;
+		float: right;
+		color: #FFF;
+		@include transition-property(all);
+		@include transition-duration(300ms);
+}
+
+.accept {
+	background: $orange;
+	&:hover {
+		background: darken($orange, 5);
+		color: #FFF;
+	}
+}
+.decline {
+	background: $grey;
+	&:hover {
+		background: $grey-dark;
+		color: #FFF;
+	}
+}
+
+.notification-note {
+	margin-top: 4px;
 }
 
 

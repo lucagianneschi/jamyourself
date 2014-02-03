@@ -177,11 +177,15 @@ if (isset($userObjectId)) {
 	    		</div>
 	    		<div  class="large-11 columns">
 	    		    <div class="row">
-	    			<div  class="large-8 columns" style="padding-right: 0px;">
-	    			    <label class="text grey inline"><a class="icon-small <?php echo $css_icon ?> inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span></label>									
+	    			<div  class="large-7 columns" style="padding-right: 0px;">
+	    			    <a class="icon-small <?php echo $css_icon ?> text grey inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span>
+	    			    <br>									
+	    				<span class="note grey-light inline notification-note"><?php echo $createdAd ?></span>
 	    			</div>
-	    			<div  class="large-4 columns " style="padding-left: 0px;">
-	    			    <label class="note grey-light inline" style="float: right !important"><?php echo $createdAd ?></label>
+	    			
+	    			<div  class="large-5 columns " style="text-align: right;">
+						<a class="btn-confirm decline" onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Rifiuta</a>
+						<a class="btn-confirm accept" onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Accetta</a>&nbsp;&nbsp;
 	    			</div>	
 	    		    </div>
 	    		</div>

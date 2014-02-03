@@ -52,20 +52,66 @@
   border-bottom: #303030 1px solid;
 }
 
+/* line 57, ../sass/headerstyle.scss */
+.btn-confirm {
+  width: 45%;
+  height: 25px;
+  line-height: 25px;
+  display: block;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 7px;
+  float: right;
+  color: #FFF;
+  -webkit-transition-property: all;
+  -moz-transition-property: all;
+  -o-transition-property: all;
+  transition-property: all;
+  -webkit-transition-duration: 300ms;
+  -moz-transition-duration: 300ms;
+  -o-transition-duration: 300ms;
+  transition-duration: 300ms;
+}
+
+/* line 71, ../sass/headerstyle.scss */
+.accept {
+  background: #ff7505;
+}
+/* line 73, ../sass/headerstyle.scss */
+.accept:hover {
+  background: #eb6900;
+  color: #FFF;
+}
+
+/* line 78, ../sass/headerstyle.scss */
+.decline {
+  background: #787878;
+}
+/* line 80, ../sass/headerstyle.scss */
+.decline:hover {
+  background: #303030;
+  color: #FFF;
+}
+
+/* line 86, ../sass/headerstyle.scss */
+.notification-note {
+  margin-top: 4px;
+}
+
 /*----- PLAYER -----*/
-/* line 59, ../sass/headerstyle.scss */
+/* line 93, ../sass/headerstyle.scss */
 .title-player {
   font-size: 14px;
   color: #f3f3f3;
   padding-bottom: 8px;
 }
 
-/* line 66, ../sass/headerstyle.scss */
+/* line 100, ../sass/headerstyle.scss */
 .inline {
   float: left;
 }
 
-/* line 73, ../sass/headerstyle.scss */
+/* line 107, ../sass/headerstyle.scss */
 #bar-player {
   width: 157px;
   height: 5px;
@@ -76,7 +122,7 @@
   z-index: 1;
 }
 
-/* line 83, ../sass/headerstyle.scss */
+/* line 117, ../sass/headerstyle.scss */
 #playhead-player {
   position: absolute;
   height: 10px;
@@ -87,7 +133,7 @@
   z-index: 3;
 }
 
-/* line 93, ../sass/headerstyle.scss */
+/* line 127, ../sass/headerstyle.scss */
 #statusbar-player {
   position: absolute;
   height: 5px;
@@ -98,7 +144,7 @@
   z-index: 2;
 }
 
-/* line 104, ../sass/headerstyle.scss */
+/* line 138, ../sass/headerstyle.scss */
 .icon-player {
   width: 10px;
   height: 10px;
@@ -111,20 +157,20 @@
   -o-transition-property: background-position;
   transition-property: background-position;
 }
-/* line 112, ../sass/headerstyle.scss */
+/* line 146, ../sass/headerstyle.scss */
 .icon-player:hover {
   background-position: bottom;
 }
 
 /*----- END PLAYER -----*/
-/* line 120, ../sass/headerstyle.scss */
+/* line 154, ../sass/headerstyle.scss */
 #logo {
   position: relative;
   z-index: 998;
   margin-top: -45px;
 }
 
-/* line 128, ../sass/headerstyle.scss */
+/* line 162, ../sass/headerstyle.scss */
 .logo {
   height: 5px;
   padding-left: 0 !important;
@@ -132,13 +178,13 @@
   top: -10px !important;
 }
 
-/* line 141, ../sass/headerstyle.scss */
+/* line 175, ../sass/headerstyle.scss */
 .search_form {
   width: 235px !important;
   margin: 0px !important;
 }
 
-/* line 146, ../sass/headerstyle.scss */
+/* line 180, ../sass/headerstyle.scss */
 .search {
   color: #787878 !important;
   font-size: 14px !important;
@@ -154,7 +200,7 @@
   background: url(../images/icon/search.png) no-repeat 8px 6px !important;
 }
 
-/* line 157, ../sass/headerstyle.scss */
+/* line 191, ../sass/headerstyle.scss */
 .search-small {
   color: #787878 !important;
   font-size: 14px !important;
@@ -170,18 +216,18 @@
   background: url(../images/icon/search.png) no-repeat 8px 6px !important;
 }
 
-/* line 169, ../sass/headerstyle.scss */
+/* line 203, ../sass/headerstyle.scss */
 ._menu {
   background-image: url(../images/icon/menu.png);
 }
 
-/* line 172, ../sass/headerstyle.scss */
+/* line 206, ../sass/headerstyle.scss */
 #header-btn-notify {
   padding: 0px;
   float: right;
 }
 
-/* line 179, ../sass/headerstyle.scss */
+/* line 213, ../sass/headerstyle.scss */
 #add {
   position: absolute;
   right: 11px;
@@ -193,7 +239,7 @@
   box-shadow: 0px 12px 8px -8px #303030;
 }
 
-/* line 186, ../sass/headerstyle.scss */
+/* line 220, ../sass/headerstyle.scss */
 .add-btn {
   cursor: pointer;
   background-color: #ff7505;
@@ -212,33 +258,33 @@
   -o-transition-duration: 300ms;
   transition-duration: 300ms;
 }
-/* line 197, ../sass/headerstyle.scss */
+/* line 231, ../sass/headerstyle.scss */
 .add-btn:hover {
   background-color: #eb6900;
 }
 
-/* line 203, ../sass/headerstyle.scss */
+/* line 237, ../sass/headerstyle.scss */
 header .track {
   padding-top: 5px;
   padding-right: 15px;
   border-top: 1px solid #303030 !important;
 }
-/* line 208, ../sass/headerstyle.scss */
+/* line 242, ../sass/headerstyle.scss */
 header .track .album-single-propriety {
   border-top: none !important;
   padding-top: 0px !important;
   padding-left: 15px;
   padding-right: 15px;
 }
-/* line 214, ../sass/headerstyle.scss */
+/* line 248, ../sass/headerstyle.scss */
 header .track ._play-large {
   margin-bottom: 5px !important;
 }
-/* line 217, ../sass/headerstyle.scss */
+/* line 251, ../sass/headerstyle.scss */
 header .track:hover {
   border-top: 2px solid #ff7505 !important;
 }
-/* line 218, ../sass/headerstyle.scss */
+/* line 252, ../sass/headerstyle.scss */
 header .track:hover .songTitle {
   color: #f3f3f3 !important;
 }

@@ -14,16 +14,21 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'event.box.php';
+require_once CLASSES_DIR . 'utilsClass.php';
 
 $lat = $_POST['latitude'];
 $lon = $_POST['longitude'];
 $city = $_POST['city'];
 $country = $_POST['country'];
-$genre = $_POST['genre'];
+$tags = $_POST['tags'];
 $eventDate = $_POST['eventDate'];
 
+if(!is_null($eventDate) && $eventDate != '')
+	$data = toParseDate(DateTime::createFromFormat("d/m/Y", $eventDate));
+
 $eventBox = new EventBox();
-$eventBox->initForStream($lat, $long, $city, $country, $genre, $eventDate);
+$eventBox->initForStream($lat, $lon, $city, $country, $tags, $data);
+
 if (is_null($eventBox->error)) {
     $events = $eventBox->eventArray;
     $index = 0;
@@ -41,8 +46,9 @@ if (is_null($eventBox->error)) {
 		        </div>
 	        <?php } ?>
 	    </div>
-		<div class="royalSlider rsMinW>" id="resultSlide">					
-		<?php foreach ($events as $key => $value) {
+		<div class="royalSlider rsMinW" id="resultSlide">					
+		<?php 
+		foreach ($events as $key => $value) {
 			$strgenre = '';
 			$space = '';
 			foreach ($value->getGenre() as $genre) {
@@ -80,7 +86,7 @@ if (is_null($eventBox->error)) {
 	                                <div class="small-12 columns">
 	                                    <div class="row">
 	                                        <div class="small-2 columns ">
-	                                            <?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb" . DIRECTORY_SEPARATOR . $value->getThumbnail(); ?>
+	                                            <?php $pathRecordThumb = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb" . DIRECTORY_SEPARATOR . $value->getThumbnail(); ?>
 	                                            <div class="coverThumb"><img src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
 	                                        </div>
 	                                        <div class="small-10 columns ">

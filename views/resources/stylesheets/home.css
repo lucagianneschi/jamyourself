@@ -24,7 +24,11 @@ a:visited {
 }
 
 
-
+#private-beta {
+ position: fixed;
+ right:0; bottom: 0;
+ z-index: 9;
+}
 
 
 /* Navigation */
@@ -320,6 +324,12 @@ p {
 
 #login_content .loginInput{
 	text-align: center;
+}
+
+.comment-btn-loader{
+	background-repeat: no-repeat !important;
+   background-image: url(../images/icon/btn-loader.gif) !important;
+   background-position: center center !important;  
 }
 
 
