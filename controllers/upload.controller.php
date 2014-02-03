@@ -137,9 +137,6 @@ class UploadController extends REST {
 	    }
 
 // settings
-	    $targetDir = $this->config->targetDir;
-
-//commentare per produzione
 	    $targetDir = CACHE_DIR;
 // creao la directory di destinazione se non esiste
 	    if (!file_exists($targetDir)) {
