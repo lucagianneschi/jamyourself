@@ -36,6 +36,7 @@ $controllers = array(
     'SUBSCRIPTIONOK' => 'You have been subscribed',
     'SUBSCRIPTIONERROR' => 'An error occurred',
     //SIGNUP
+    'NOCAPTCHAVALIDATION' => 'No Captcha or invalid Captcha',    
     'INVALIDNEWUSER' => 'Invalid user',
     'NEWUSERCREATIONFAILED' => 'Save failed',
     'USERCREATED' => 'User created with success',
