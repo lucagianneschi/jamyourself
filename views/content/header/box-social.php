@@ -5,7 +5,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-
+require_once SERVICES_DIR . 'fileManager.service.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 if (session_id() == '')
     session_start();
@@ -81,7 +81,7 @@ if (isset($userObjectId)) {
 		break;
 	}
     } catch (Exception $e) {
-
+	
     }
     ?>
     <!---------------------------------------- HEADER HIDE SOCIAL ----------------------------------->
@@ -170,8 +170,11 @@ if (isset($userObjectId)) {
 	    	    <div class="row">
 	    		<div  class="large-1 columns hide-for-small">
 	    		    <div class="icon-header">
-                                 <!-- THUMB USER-->
-                                <?php $thumbPath = USERS_DIR . $objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user_thumb; ?>
+	    			<!-- THUMB USER-->
+				    <?php
+				    $fileManagerService = new FileManagerService();
+				    $thumbPath = $fileManagerService->getEventPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				    ?>
 	    			<img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $user_username; ?>">
 	    		    </div>
 	    		</div>
@@ -180,12 +183,12 @@ if (isset($userObjectId)) {
 	    			<div  class="large-7 columns" style="padding-right: 0px;">
 	    			    <a class="icon-small <?php echo $css_icon ?> text grey inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span>
 	    			    <br>									
-	    				<span class="note grey-light inline notification-note"><?php echo $createdAd ?></span>
+	    			    <span class="note grey-light inline notification-note"><?php echo $createdAd ?></span>
 	    			</div>
-	    			
+
 	    			<div  class="large-5 columns " style="text-align: right;">
-						<a class="btn-confirm decline" onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Rifiuta</a>
-						<a class="btn-confirm accept" onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Accetta</a>&nbsp;&nbsp;
+	    			    <a class="btn-confirm decline" onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');"><?php echo $views['header']['decline'] ?></a>
+	    			    <a class="btn-confirm accept" onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');"><?php echo $views['header']['accept'] ?></a>&nbsp;&nbsp;
 	    			</div>	
 	    		    </div>
 	    		</div>
