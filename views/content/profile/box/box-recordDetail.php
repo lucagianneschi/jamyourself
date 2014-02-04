@@ -70,8 +70,7 @@ if (is_array($songs) && count($songs) > 0) {
 		<div class="row">
 		    <div class="small-9 columns ">					
 			<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getObjectId(); ?>', '<?php echo $pathCover ?>')"><?php echo $indice + 1; ?>. <span class="songTitle"><?php echo $value->getTitle(); ?></span></a>
-			<!--input type="hidden" name="song" value="<?php echo $pathSong . $value->getFilePath() ?>" /-->
-			<input type="hidden" name="song" value="<?php echo $pathSong . $value->getFilePath(); ?>" />
+			<input type="hidden" name="song" value="<?php echo $fileManagerService->getSongURL($userId, $value->getFilePath()); ?>" />
 		    </div>					
 		    <div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">					
 			<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['ADDPLAYLIST']; ?></a>
