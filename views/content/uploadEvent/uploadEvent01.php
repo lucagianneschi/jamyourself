@@ -108,7 +108,8 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     		<input onclick="checkmaxLocalType(this, 1)" type="checkbox" name="tag-localType<?php echo $index ?>" id="tag-localType<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
     		<label for="tag-localType<?php echo $index ?>"><?php echo $value ?></label>
 		    <?php $index++;
-		} ?>
+		}
+		?>
 	    </div>
         </div>
         <div class="row" style="margin-top: 30px">
@@ -120,8 +121,9 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		    ?>
     		<input onclick="checkmaxGenre(this, 1)" type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
     		<label for="tag-music<?php echo $index ?>"><?php echo $value ?></label>
-    <?php $index++;
-} ?>
+		    <?php $index++;
+		}
+		?>
 	    </div>
 	</div>
     </div>
