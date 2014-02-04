@@ -1,20 +1,23 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of fileManager
  *
  * @author Stefano
  */
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../');
+
+require_once ROOT_DIR . 'config.php';
+
 class FileManagerService {
 
     private $access = 0777; //diritti di lettura/scrittura
+    private $usersFolder = "users";
     private $imagesFolder = "images"; //diritti di lettura/scrittura
     private $songsFolder = "songs"; //diritti di lettura/scrittura
+    private $photosFolder = "photos"; //diritti di lettura/scrittura
+    private $eventsPhotosFolder = "events"; //diritti di lettura/scrittura
+    private $recordsPhotosFolder = "records"; //diritti di lettura/scrittura
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //
@@ -22,258 +25,186 @@ class FileManagerService {
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-    public function createCompleteFSForAlbums($userId, $type) {
-        $this->createAlbumsDir($userId, $type);
-        $this->createDefaultAlbumDir($userId);
-        if ($type == "JAMMER") {
-            $this->createEventCoverDir($userId);
-            $this->createEventCoverThumbnailDir($userId);
-            $this->createAlbumCoverDir($userId);
-            $this->createAlbumCoverThumbnailDir($userId);
-            $this->createRecordCoverDir($userId);
-            $this->createRecordCoverThumbnailDir($userId);
-        } else if ($type == "VENUE") {
-            $this->createEventCoverDir($userId);
-            $this->createEventCoverThumbnailDir($userId);
-        }
-    }
-
-    public function createCompleteFSForRecords($userId) {
-        $this->createRecordsDir($userId);
-        $this->createDefaultRecordDir($userId);
-    }
-
-    public function createCompleteFS($userId, $type) {
-        try {
-            if (!is_null($userId) && strlen($userId) > 0) {
-                $this->createUserDir($userId);
-                $this->createCompleteFSForAlbums($userId, $type);
-                if ($type == "JAMMER") {
-                    $this->createCompleteFSForRecord();
-                }
-            }
-        } catch (Exception $e) {
-            return false;
-        }
-    }
-
     public function createUserDir($userId) {
         return mkdir(USERS_DIR . $userId, $this->access, true);
     }
 
-    public function createAlbumsDir($userId) {
+    public function createImagesDir($userId) {
         return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder, $this->access, true);
     }
 
-    public function createDefaultAlbumDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . "default", $this->access, true);
+    public function createPhotoDir($userId) {
+        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder, $this->access, true);
     }
 
-    public function createRecordsDir($userId) {
+    public function createEventPhotoDir($userId) {
+        return mkdir(USERS_DIR . $this->usersFolder . DIRECTORY_SEPARATOR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder, $this->access, true);
+    }
+
+    public function createRecordPhotoDir($userId) {
+        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder, $this->access, true);
+    }
+
+    public function createSongsDir($userId) {
         return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder, $this->access, true);
     }
 
-    public function createDefaultRecordDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder . DIRECTORY_SEPARATOR . "default", $this->access, true);
+    ////////////////////////////////////////////////////////////////////////////////////////
+//
+//      GETTERS
+//
+////////////////////////////////////////////////////////////////////////////////////////
+
+    public function getPhotoURL($userId, $photoId) {
+        $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder . DIRECTORY_SEPARATOR . $photoId;
+        $url = $this->getServerDir() . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->photosFolder . "/" . $photoId;
+
+        if (file_exists($path))
+            return $url;
+        else
+            return "";
     }
 
-    public function createAlbumCoverDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . "albumcover", $this->access, true);
+    public function getPhotoPath($userId, $photoId) {
+        $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder . DIRECTORY_SEPARATOR . $photoId;
+        if (file_exists($path))
+            return $path;
+        else
+            return "";
     }
 
-    public function createAlbumCoverThumbnailDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . "albumcoverthumb", $this->access, true);
+    public function getSongURL($userId, $songId) {
+        $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder . DIRECTORY_SEPARATOR . $songId;
+        $url = $this->getServerDir() . "/" . $this->usersFolder . "/" . $userId . "/" . $this->songsFolder . "/" . $songId;
+
+        if (file_exists($path))
+            return $url;
+        else
+            return "";
     }
 
-    public function createEventCoverDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . "eventcover", $this->access, true);
+    public function getSongPath($userId, $songId) {
+        $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder . DIRECTORY_SEPARATOR . $songId;
+        if (file_exists($path))
+            return $path;
+        else
+            return "";
     }
 
-    public function createEventCoverThumbnailDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . "eventcoverthumb", $this->access, true);
+    public function getEventPhotoPath($userId, $photoId) {
+        $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
+        if (file_exists($path))
+            return $path;
+        else
+            return "";
     }
 
-    public function createProfileCoverDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . "profilepicture", $this->access, true);
+    public function getEventPhotoURL($userId, $photoId) {
+        $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
+        $url = $this->getServerDir() . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->eventsPhotosFolder . "/" . $photoId;
+        if (file_exists($path))
+            return $url;
+        else
+            return "";
     }
 
-    public function createProfileCoverThumbnailDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . "profilepicturethumb", $this->access, true);
+    public function getRecordPhotoPath($userId, $photoId) {
+        $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
+        if (file_exists($path))
+            return $path;
+        else
+            return "";
     }
 
-    public function createRecordCoverDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . "recordcover", $this->access, true);
-    }
+    public function getRecordPhotoURL($userId, $photoId) {
+        $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
+        $url = $this->getServerDir() . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->recordsPhotosFolder . "/" . $photoId;
 
-    public function createRecordCoverThumbnailDir($userId) {
-        return mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . "recordcoverthumb", $this->access, true);
+        if (file_exists($path))
+            return $url;
+        else
+            return "";
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //
-//      Sezione check cartelle
+//      SAVERS
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-    private function checkAlbumsDir($userId) {
-        if (!file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder)) {
-            return $this->createAlbumsDir($userId);
-        } else {
-            return true;
-        }
+
+    public function savePhoto($userId, $photoId) {
+        
     }
 
-    private function checkRecordsDir($userId) {
-        if (!file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder)) {
-            return $this->createRecordsDir($userId);
-        } else {
-            return true;
-        }
+    public function saveEventPhtoto($userId, $photoId) {
+        
     }
+
+    public function saveRecordPhoto($userId, $photoId) {
+        
+    }
+
+    public function saveMp3($userId, $recordId, $songId) {
+        
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////
+//
+//      CHECKERS
+//
+////////////////////////////////////////////////////////////////////////////////////////
 
     private function checkUserDir($userId) {
-        if (!file_exists(USERS_DIR . $userId)) {
+        if (file_exists(USERS_DIR . $userId))
+            return true;
+        else {
             return $this->createUserDir($userId);
-        } else {
-            return true;
         }
     }
 
-    public function checkDefaultAlbumDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "default";
-        if ($this->checkAlbumsDir($userId) && !file_exists($filename)) {
-            return $this->createDefaultAlbumDir($userId);
-        } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
+    private function checkSongsDir($userId) {
+        if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder))
             return true;
-        }
+        else
+            return $this->createSongsDir($userId);
     }
 
-    public function checkDefaultRecordDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs" . DIRECTORY_SEPARATOR . "default";
-        if ($this->checkRecordsDir($userId) && !file_exists($filename)) {
-            return $this->createDefaultAlbumDir($userId);
-        } else if ($this->checkRecordsDir($userId) && file_exists($filename)) {
+    public function checkPhotoDir($userId) {
+        if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->photosFolder))
             return true;
-        }
+        else
+            return $this->createPhotoDir($userId);
     }
 
-    public function checkAlbumCoverDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover";
-        if ($this->checkAlbumsDir($userId) && !file_exists($filename)) {
-            return $this->createAlbumCoverDir($userId);
-        } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
+    public function checkEventPhtotoDir($userId) {
+        if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder))
             return true;
-        }
+        else
+            return $this->createEventPhotoDir($userId);
     }
 
-    public function checkAlbumCoverThumbnailDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb";
-        if ($this->checkAlbumsDir($userId) && !file_exists($filename)) {
-            return $this->createAlbumCoverThumbnailDir($userId);
-        } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
+    public function checkRecordPhotoDir($userId) {
+        if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder))
             return true;
-        }
-    }
-
-    public function checkEventCoverDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover";
-        if ($this->checkAlbumsDir($userId) && !file_exists($filename)) {
-            return $this->createEventCoverDir($userId);
-        } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
-            return true;
-        }
-    }
-
-    public function checkEventCoverThumbnailDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb";
-        if ($this->checkAlbumsDir($userId) && !file_exists($filename)) {
-            return $this->createEventCoverThumbnailDir($userId);
-        } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
-            return true;
-        }
-    }
-
-    public function checkProfileCoverDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture";
-        if ($this->checkAlbumsDir($userId) && !file_exists($filename)) {
-            return $this->createProfileCoverDir($userId);
-        } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
-            return true;
-        }
-    }
-
-    public function checkProfileCoverThumbnailDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb";
-        if ($this->checkAlbumsDir($userId) && !file_exists($filename)) {
-            return $this->createProfileCoverThumbnailDir($userId);
-        } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
-            return true;
-        }
-    }
-
-    public function checkRecordCoverDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover";
-        if ($this->checkAlbumsDir($userId) && !file_exists($filename)) {
-            return $this->createRecordCoverDir($userId);
-        } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
-            return true;
-        }
-    }
-
-    public function checkRecordCoverThumbnailDir($userId) {
-        $filename = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb";
-        if ($this->checkAlbumsDir($userId) && !file_exists($filename)) {
-            return $this->createRecordCoverThumbnailDir($userId);
-        } else if ($this->checkAlbumsDir($userId) && file_exists($filename)) {
-            return true;
-        }
+        else
+            return $this->createRecordPhotoDir($userId);
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////
 //
-//      Sezione aggiunta file
+//      UTILS
 //
-////////////////////////////////////////////////////////////////////////////////////////
-
-    public function addRecordDir($userId) {
-        
-    }
-
-    public function addAlbumDir($userId) {
-        
-    }
-
-    public function addImageFileToAlbum($userId, $album, $cachedFile) {
-        
-    }
-
-    public function addSongFileToRecord($userId, $recordId, $cachedFile) {
-        
-    }
-
-    public function removeRecordDir($userId, $recordId) {
-        
-    }
-
-    public function removeAlbumDir($userId, $albumId) {
-        
-    }
-
-    public function removeImageFileFromAlbum($userId, $recordId, $fileName) {
-        
-    }
-
-    public function removeSongFileFromRecord($userId, $recordId, $fileName) {
-        
-    }
-
-    public function cleanUpCacheDirectory() {
-        $files = glob(CACHE_DIR ."*");
-        foreach ($files as $file) {
-            if (is_file($file) && time() - filemtime($file) >= 2 * 24 * 60 * 60) { // 2 days
-                unlink($file);
-            }
-        }
+////////////////////////////////////////////////////////////////////////////////////////    
+    private function getServerDir() {
+        $server = $this->getServerDir();
+        $path = pathinfo($_SERVER['PHP_SELF']);
+        $userDir = "users";
+        $str = $server . $path['dirname'];
+        if ($str{strlen($server . $path['dirname']) - 1} == "/")
+            return $str . $userDir;
+        else
+            return $str . "/" . $userDir;
     }
 
 }
