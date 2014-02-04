@@ -143,19 +143,36 @@ class FileManagerService {
 
 
     public function savePhoto($userId, $photoId) {
+        $src = CACHE_DIR.$photoId;
+        $dest = USERS_DIR.$userId.DIRECTORY_SEPARATOR.$this->imagesFolder.DIRECTORY_SEPARATOR.$this->photosFolder.DIRECTORY_SEPARATOR.$photoId;
+        if(file_exists($src) && $this->checkPhotoDir($userId)){
+            return rename($dest, $src);
+        }
         
     }
 
     public function saveEventPhtoto($userId, $photoId) {
-        
+        $src = CACHE_DIR.$photoId;
+        $dest = USERS_DIR.$userId.DIRECTORY_SEPARATOR.$this->imagesFolder.DIRECTORY_SEPARATOR.$this->eventsPhotosFolder.DIRECTORY_SEPARATOR.$photoId;
+        if(file_exists($src) && $this->checkEventPhtotoDir($userId)){
+            return rename($dest, $src);
+        }        
     }
 
     public function saveRecordPhoto($userId, $photoId) {
-        
+        $src = CACHE_DIR.$photoId;
+        $dest = USERS_DIR.$userId.DIRECTORY_SEPARATOR.$this->imagesFolder.DIRECTORY_SEPARATOR.$this->recordsPhotosFolder.DIRECTORY_SEPARATOR.$photoId;
+        if(file_exists($src) && $this->checkRecordPhotoDir($userId)){
+            return rename($dest, $src);
+        }         
     }
 
-    public function saveMp3($userId, $recordId, $songId) {
-        
+    public function saveSong($userId,$songId) {
+        $src = CACHE_DIR.$songId;
+        $dest = USERS_DIR.$userId.DIRECTORY_SEPARATOR.$this->songsFolder.DIRECTORY_SEPARATOR.$songId;
+        if(file_exists($src) && $this->checkSongsDir($userId)){
+            return rename($dest, $src);
+        }          
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////
