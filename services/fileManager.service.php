@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Description of fileManager
  *
@@ -57,73 +58,81 @@ class FileManagerService {
 
     public function getPhotoURL($userId, $photoId) {
         $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder . DIRECTORY_SEPARATOR . $photoId;
-        $url = $this->getServerDir() .  $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->photosFolder . "/" . $photoId;
+        $url = SERVER_NAME . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->photosFolder . "/" . $photoId;
 
-        if (file_exists($path))
+        if (file_exists($path)) {
             return $url;
-        else
+        } else {
             return "";
+        }
     }
 
     public function getPhotoPath($userId, $photoId) {
         $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->photosFolder . DIRECTORY_SEPARATOR . $photoId;
-        if (file_exists($path))
+        if (file_exists($path)) {
             return $path;
-        else
+        } else {
             return "";
+        }
     }
 
     public function getSongURL($userId, $songId) {
         $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder . DIRECTORY_SEPARATOR . $songId;
-        $url = $this->getServerDir() .  $this->usersFolder . "/" . $userId . "/" . $this->songsFolder . "/" . $songId;
+        $url = SERVER_NAME . "/" . $this->usersFolder . "/" . $userId . "/" . $this->songsFolder . "/" . $songId;
 
-        if (file_exists($path))
+        if (file_exists($path)) {
             return $url;
-        else
+        } else {
             return "";
+        }
     }
 
     public function getSongPath($userId, $songId) {
         $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->songsFolder . DIRECTORY_SEPARATOR . $songId;
-        if (file_exists($path))
+        if (file_exists($path)) {
             return $path;
-        else
+        } else {
             return "";
+        }
     }
 
     public function getEventPhotoPath($userId, $photoId) {
         $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
-        if (file_exists($path))
+        if (file_exists($path)) {
             return $path;
-        else
+        } else {
             return "";
+        }
     }
 
     public function getEventPhotoURL($userId, $photoId) {
         $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
-        $url = $this->getServerDir() .  $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->eventsPhotosFolder . "/" . $photoId;
-        if (file_exists($path))
+        $url = SERVER_NAME . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->eventsPhotosFolder . "/" . $photoId;
+        if (file_exists($path)) {
             return $url;
-        else
+        } else {
             return "";
+        }
     }
 
     public function getRecordPhotoPath($userId, $photoId) {
         $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
-        if (file_exists($path))
+        if (file_exists($path)) {
             return $path;
-        else
+        } else {
             return "";
+        }
     }
 
     public function getRecordPhotoURL($userId, $photoId) {
         $path = USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->imagesFolder . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder . DIRECTORY_SEPARATOR . $photoId;
-        $url = $this->getServerDir() .  $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->recordsPhotosFolder . "/" . $photoId;
+        $url = SERVER_NAME . "/" . $this->usersFolder . "/" . $userId . "/" . $this->imagesFolder . "/" . $this->recordsPhotosFolder . "/" . $photoId;
 
-        if (file_exists($path))
+        if (file_exists($path)) {
             return $url;
-        else
+        } else {
             return "";
+        }
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -170,42 +179,27 @@ class FileManagerService {
             return $this->createSongsDir($userId);
     }
 
-    public function checkPhotoDir($userId) {
+    private function checkPhotoDir($userId) {
         if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->photosFolder))
             return true;
         else
             return $this->createPhotoDir($userId);
     }
 
-    public function checkEventPhtotoDir($userId) {
+    private function checkEventPhtotoDir($userId) {
         if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->eventsPhotosFolder))
             return true;
         else
             return $this->createEventPhotoDir($userId);
     }
 
-    public function checkRecordPhotoDir($userId) {
+    private function checkRecordPhotoDir($userId) {
         if (file_exists(USERS_DIR . $userId . DIRECTORY_SEPARATOR . $this->recordsPhotosFolder))
             return true;
         else
             return $this->createRecordPhotoDir($userId);
     }
-
-////////////////////////////////////////////////////////////////////////////////////////
-//
-//      UTILS
-//
-////////////////////////////////////////////////////////////////////////////////////////    
-    private function getServerDir() {
-        $server = $this->getServerDir();
-        $path = pathinfo($_SERVER['PHP_SELF']);
-        $str = $server . $path['dirname'];
-        if ($str{strlen($server . $path['dirname']) - 1} == "/")
-            return $str;
-        else
-            return $str . "/";
-    }
-
+    
 }
 
 ?>
