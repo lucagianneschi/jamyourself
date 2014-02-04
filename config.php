@@ -10,6 +10,7 @@ define('MANTAINANCE_MODE', 0);
 ##################
 # GENERIC FOLDER #
 ##################
+define('SERVER_NAME', 'www.jamyourself.com');
 define('BOXES_DIR', ROOT_DIR . 'boxes/');
 define('CLASSES_DIR', ROOT_DIR . 'classes/');
 define('CONFIG_DIR', ROOT_DIR . 'config/');
