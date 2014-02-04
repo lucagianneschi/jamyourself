@@ -173,7 +173,7 @@ if (isset($userObjectId)) {
 	    			<!-- THUMB USER-->
 				    <?php
 				    $fileManagerService = new FileManagerService();
-				    $thumbPath = $fileManagerService->getEventPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				    $thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
 				    ?>
 	    			<img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $user_username; ?>">
 	    		    </div>
@@ -193,12 +193,12 @@ if (isset($userObjectId)) {
 	    		    </div>
 	    		</div>
 	    	    </div>
-			<?php if ($value->type == 'M') { ?>
+		    <?php if ($value->type == 'M') { ?>
 			</div>	
-		    <?php } ?>
+	    <?php } ?>
 
 
-		    <?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
+		<?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
 		}
 		$index++;
 	    }
