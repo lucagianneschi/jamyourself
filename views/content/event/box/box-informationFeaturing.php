@@ -16,6 +16,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'utilsBox.php';
 
 $objectId = $_POST['objectId'];
@@ -40,18 +41,18 @@ if ($featuringsCounter > 0) {
 		    case 'VENUE':
 			$defaultThum = DEFTHUMBVENUE;
 			break;
-		    case 'SPOTTER':
-			$defaultThum = DEFTHUMBSPOTTER;
-			break;
 		}
 		?>
 		<div  class="small-6 columns">
-		    <div class="box-membre" onclick="location.href='profile.php?user=<?php echo $value->getObjectId(); ?>'">
+		    <div class="box-membre" onclick="location.href = 'profile.php?user=<?php echo $value->getObjectId(); ?>'">
 			<div class="row " id="featuring_<?php echo $value->getObjectId(); ?>">
 			    <div  class="small-3 columns ">
 				<div class="icon-header">
-                                    <!-- THUMB USER-->
-                                            <?php $thumbPath = USERS_DIR . $value->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $value->getProfileThumbnail(); ?>
+				    <!-- THUMB USER-->
+				    <?php
+				    $fileManagerService = new FileManagerService();
+				    $thumbPath = $fileManagerService->getEventPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				    ?>
 				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?> ">
 				</div>
 			    </div>
