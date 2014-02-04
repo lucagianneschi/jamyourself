@@ -47,7 +47,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    </div>
 	</div>
 	<div id="private-beta">
-	    	<img src="views/resources/images/home/privatebeta.png" alt ="Private Beta">
+	    	<img src="views/resources/images/home/privatebeta.png" alt ="Private Beta" style="margin-bottom: -7px;">
 		</div>
 	<div id="top" class="slide top" data-stellar-background-ratio="0.7">
 		
