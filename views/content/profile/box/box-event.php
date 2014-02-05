@@ -128,7 +128,7 @@ if (is_null($eventBox->error)) {
 	    			<div class="box-element" id='<?php echo $event_objectId ?>'>
 	    			    <div class="row">
 	    				<div class="small-4 columns" >
-	    				    <img class="eventcover" src="<?php echo $pathCoverEvent; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB ?>'">
+	    				    <img class="eventcover" src="<?php echo $pathCoverEvent; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB ?>'" alt="<?php echo $event_title ?>">
 	    				</div>
 	    				<div class="small-8 columns" style="min-height: 130px;">
 						<?php

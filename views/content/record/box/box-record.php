@@ -55,7 +55,6 @@ if (isset($_SESSION['currentUser']))
                     }
                     $fileManagerService = new FileManagerService();
                     $pathCoverRecord = $fileManagerService->getRecordPhotoPath($userId, $value->getRecord()->getThumbnailCover());
-                    $pathCoverRecord = USERS_DIR . $userId . '/images/recordcoverthumb/';
                     $pathSong = $fileManagerService->getSongPath($userId, $value->getFilePath());
                     $song = json_encode(array(
                         'objectId' => $value->getObjectId(),
