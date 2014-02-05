@@ -84,7 +84,7 @@ if (is_null($albumBox->error)) {
 					<div class="row" style="margin-left: 0px; margin-right: 0px;">
 					<?php } ?>	
 	    			    <div class="small-6 columns box-coveralbum <?php echo $album_objectId; ?>" onclick="loadBoxAlbumDetail('<?php echo $_POST['objectId'] ?>', '<?php echo $album_objectId; ?>',<?php echo $album_imageCounter; ?>, 30, 0)">
-	    				<img class="albumcover" src="<?php echo $pathCoverAlbum; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" />  
+	    				<img class="albumcover" src="<?php echo $pathCoverAlbum; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" alt="<?php echo $album_title; ?>"/>  
 	    				<div class="text white breakOffTest"><?php echo $album_title; ?></div>
 	    				<div class="row">
 	    				    <div class="small-5 columns ">

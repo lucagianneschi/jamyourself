@@ -53,7 +53,7 @@ if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
 	    </div>
 	    <-div class="row">
 		<div  class="large-12 columns">
-		    <img src="./resources/images/status/popolarity.png"/> 	
+		    <img src="./resources/images/status/popolarity.png" alt/> 	
 		</div>
 	    </div>		
 	</div-->
@@ -70,7 +70,7 @@ if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
 		    foreach ($badge as $value) {
 			?>
 			<li class="touchcarousel-item">			    	
-			    <div data-tooltip class="item-block has-tip tip-left" title="<?php echo $views['status'][$value]; ?>"><img src="<?php echo constant($value); ?>" /></div>
+			    <div data-tooltip class="item-block has-tip tip-left" title="<?php echo $views['status'][$value]; ?>"><img src="<?php echo constant($value); ?>" alt/></div>
 			</li>
 		    <?php }
 		    ?>
@@ -81,7 +81,7 @@ if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
 		    for ($i = 0; $i < $noBadge; $i++) {
 			?>
 			<li class="touchcarousel-item">
-			    <div class="item-block has-tip tip-left"><img src="<?php echo BADGE0 ?>" /></div>
+                            <div class="item-block has-tip tip-left"><img src="<?php echo BADGE0 ?>" alt/></div>
 			</li>
 
 		    <?php

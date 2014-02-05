@@ -104,7 +104,7 @@ if (is_null($recordBox->error)) {
 	    			<div class="row">
 	    			    <div class="small-4 columns">
 	    				<a href="record.php?record=<?php echo $record_objectId ?>">
-	    				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['objectId'], $record_thumbnailCover); ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;">
+	    				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['objectId'], $record_thumbnailCover); ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $record_title ?>">
 	    				</a>
 	    			    </div>
 	    			    <div class="small-8 columns" style="height: 134px;">						
@@ -189,7 +189,7 @@ if (is_null($recordBox->error)) {
 			<div class="row">
 			    <div class="small-4 columns">
 				<a href="record.php?record=<?php echo $recordSingle_objectId; ?>">
-				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['objectId'], $recordSingle_thumbnailCover); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;">
+				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['objectId'], $recordSingle_thumbnailCover); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $recordSingle_title ?>">
 				</a>
 			    </div>
 			    <div class="small-8 columns">						

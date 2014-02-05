@@ -95,7 +95,7 @@ if (is_null($eventBox->error)) {
                                                         <?php
                                                         $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromUser()->getObjectId(), $value->getThumbnail());
                                                         ?>
-                                                        <div class="coverThumb"><img src="<?php echo  $pathEventThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
+                                                        <div class="coverThumb"><img src="<?php echo  $pathEventThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getTitle(); ?>"></div>						
                                                     </div>
                                                     <div class="small-10 columns ">
                                                         <div class="row ">							

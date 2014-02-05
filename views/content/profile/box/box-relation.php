@@ -61,7 +61,7 @@ if ($arrayRelation instanceof Error) {
 			<div class="row">
 			    <div  class="small-3 columns hide-for-medium-down">
 				<div class="icon-header">
-				    <img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+				    <img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 				</div>
 			    </div>
 			    <div  class="small-9 columns">

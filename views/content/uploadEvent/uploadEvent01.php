@@ -21,7 +21,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
             <div  class="small-3 columns" id="tumbnail-pane">
 		<div class="thumbnail-box">
 		    <div id="uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane">
-			<img id="uploadImage_tumbnail" name="uploadImage_tumbnail"/>
+			<img id="uploadImage_tumbnail" name="uploadImage_tumbnail" alt/>
 		    </div>
 		</div>
             </div>
@@ -44,7 +44,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                     <div class="row">							
                         <div  class="small-10 small-centered columns align-center">
 			    <div id="uploadImage_preview_box">
-				<img src="" id="spotter_uploadImage_preview"/>
+				<img src="" id="spotter_uploadImage_preview" alt/>
 				<input type="hidden" id="spotter_x" name="crop_x" value="0">
 				<input type="hidden" id="spotter_y" name="crop_y" value="0">
 				<input type="hidden" id="spotter_w" name="crop_w" value="100">

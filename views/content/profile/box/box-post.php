@@ -49,7 +49,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
     		</div>
     		<div class="row">
     		    <div  class="large-12 columns ">
-    			<div id="post-error" onClick="postError()"><img src="./resources/images/error/error-post.png" /></div>
+                        <div id="post-error" onClick="postError()"><img src="./resources/images/error/error-post.png" alt/></div>
     		    </div>
     		</div>
 		    <?php
@@ -91,7 +91,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 	    			    <div class="row  line" style="padding-bottom: 10px !important;padding-right: 20px !important;">
 	    				<div  class="small-1 columns ">
 	    				    <div class="icon-header">
-	    					<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+	    					<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $post_fromUser_username; ?>">
 	    				    </div>
 	    				</div>
 	    				<div  class="small-5 columns" style="padding-left: 20px;">

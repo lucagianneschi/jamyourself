@@ -19,7 +19,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
             <div  class="small-3 columns" id="tumbnail-pane" >
                 <div class="signup-image">
                     <div id="uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane">
-                        <img id="uploadImage_tumbnail" name="uploadImage_tumbnail"/>
+                        <img id="uploadImage_tumbnail" name="uploadImage_tumbnail" alt/>
                     </div>
                 </div>
             </div>

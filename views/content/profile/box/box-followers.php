@@ -44,7 +44,7 @@ if (is_null($followersBox->error)) {
 	    				    <div class="row " id="followers_<?php echo $value->getObjectId(); ?>">
 	    					<div  class="small-3 columns ">
 	    					    <div class="icon-header">
-	    						<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'">
+	    						<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'" alt="<?php echo $value->getUsername(); ?>">
 	    					    </div>
 	    					</div>
 	    					<div  class="small-9 columns ">

@@ -54,7 +54,7 @@ if ($_GET["type"] == 'Record') {
 						<div class="row">
 						    <div class="small-3 columns ">							    						
 							<div class="coverThumb" style="cursor: pointer">
-							    <img src="<?php $elReviewedThumb; ?>" onerror="this.src='<?php echo $defThumb ?>'">
+							    <img src="<?php $elReviewedThumb; ?>" onerror="this.src='<?php echo $defThumb ?>'" alt>
 							</div>
 						    </div>						
 						    <div class="small-9 columns ">
@@ -146,7 +146,7 @@ if ($_GET["type"] == 'Record') {
 								<div class="row">
 								    <div class="small-2 columns">
 									<div class="icon-header">
-									    <img src="<?php $fileManagerService->getPhotoPath($authorObjectId, $authorThumbnail); ?>" onerror="this.src='<?php echo DEFAVATARSPOTTER; ?>'">
+                                                                            <img src="<?php $fileManagerService->getPhotoPath($authorObjectId, $authorThumbnail); ?>" onerror="this.src='<?php echo DEFAVATARSPOTTER; ?>'" alt>
 									</div>
 								    </div>
 								    <div class="small-10 columns ">
@@ -185,7 +185,7 @@ if ($_GET["type"] == 'Record') {
 									<div class="row">
 									    <div class="small-2 columns ">
 										<div class="icon-header">
-										    <img src="<?php $fileManagerService->getPhotoPath($featuringUserId, $featuringThumbnail); ?>" onerror="this.src='<?php echo $defaultThum ?>'">
+										    <img src="<?php $fileManagerService->getPhotoPath($featuringUserId, $featuringThumbnail); ?>" onerror="this.src='<?php echo $defaultThum ?>'" alt>
 										</div>
 									    </div>
 									    <div class="small-10 columns">

@@ -58,7 +58,7 @@ $pathBackground = $fileManagerService->getPhotoPath($user->getObjectId(), $user-
 
 <div class="row">
     <div class="large-12 columns">
-	<img class="background" src="<?php echo $pathBackground; ?>"  onerror="this.src='<?php echo DEFBGD; ?>'" >
-	<img class="picture" src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultImage; ?>'" width="150" height="150">							
+        <img class="background" src="<?php echo $pathBackground; ?>"  onerror="this.src='<?php echo DEFBGD; ?>'" alt="">
+	<img class="picture" src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultImage; ?>'" width="150" height="150" alt="<?php echo $user->getUsername(); ?>">							
     </div>
 </div> 

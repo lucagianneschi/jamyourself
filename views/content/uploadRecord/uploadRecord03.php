@@ -17,7 +17,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	<label for="trackTitle"><?php echo $views['uploadRecord']['song_title']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadRecord']['valid_title']; ?></small></label>
 	<div class="row upload-box">
 	    <div  class="small-3 columns">
-		<img class="thumbnail" src="resources/images/uploadRecord/note.jpg" id="tumbnail" name="tumbnail" style="height: 99px !important;"/>
+                <img class="thumbnail" src="resources/images/uploadRecord/note.jpg" id="tumbnail" name="tumbnail" style="height: 99px !important;" alt/>
 	    </div>
 	    <div  class="small-9 columns">        						
 		<a  class="text orange" id ="uploader_mp3_button"><?php echo $views['uploadRecord']['mp3_upload']; ?></a>

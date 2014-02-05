@@ -66,7 +66,7 @@ if (is_null($collaboratorsBox->error)) {
 								$fileManagerService = new FileManagerService();
 								$thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
 								?>
-								<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+								<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 							    </div>
 							</div>
 							<div  class="small-9 columns ">
@@ -122,7 +122,7 @@ if (is_null($collaboratorsBox->error)) {
 								$fileManagerService1 = new FileManagerService();
 								$thumbPath1 = $fileManagerService1->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
 								?>
-								<img src="<?php echo $thumbPath1; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+								<img src="<?php echo $thumbPath1; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 							    </div>
 							</div>
 							<div  class="small-9 columns ">

@@ -53,7 +53,7 @@ if (is_null($friendsBox->error)) {
 	    				    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 	    					<div  class="small-3 columns ">
 	    					    <div class="icon-header">
-	    						<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+	    						<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 	    					    </div>
 	    					</div>
 	    					<div  class="small-9 columns ">

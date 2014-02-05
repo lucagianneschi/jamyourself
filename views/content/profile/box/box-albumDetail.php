@@ -48,7 +48,7 @@ $fileManagerService = new FileManagerService();
 	$thumbImage = $value->getThumbnail();
 	?>
         <!------------------------------ THUMBNAIL ---------------------------------->
-        <li><a class="photo-colorbox-group" href="#<?php echo $value->getObjectId(); ?>"><img class="photo" src="<?php echo $fileManagerService->getPhotoPath($objectId, $value->getThumbnail()); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'"></a></li>
+        <li><a class="photo-colorbox-group" href="#<?php echo $value->getObjectId(); ?>"><img class="photo" src="<?php echo $fileManagerService->getPhotoPath($objectId, $value->getThumbnail()); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt></a></li>
 
     <?php } ?>
 </ul>
@@ -84,7 +84,7 @@ $fileManagerService = new FileManagerService();
     	<div id="<?php echo $value->getObjectId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($objectId, $value->getFilePath()); ?>">
     	    <div class="row " style="max-width: none;">
     		<div class="large-12 columns lightbox-photo-box">
-    		    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $pathImage . $value->getFilePath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'"/></div>
+                    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $pathImage . $value->getFilePath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt/></div>
     		    <div class="row">
     			<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
     		    </div>

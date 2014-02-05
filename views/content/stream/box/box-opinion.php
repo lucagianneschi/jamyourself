@@ -119,7 +119,7 @@ if ($countComment > 0) {
         </div>
         <div class="row">
             <div  class="large-12 columns ">
-                <div class="comment-error" onClick="postError()"><img src="./resources/images/error/error-post.png" /></div>
+                <div class="comment-error" onClick="postError()"><img src="./resources/images/error/error-post.png" alt/></div>
             </div>
         </div>
     </div>
