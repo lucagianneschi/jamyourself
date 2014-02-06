@@ -11,7 +11,7 @@
  * \par			Commenti:
  * \warning
  * \bug
- * \todo		abilitare recaptcha lato server, query su Location, fare API su Wiki
+ * \todo		query su Location, fare API su Wiki
  */
 
 if (!defined('ROOT_DIR'))
@@ -26,6 +26,7 @@ require_once SERVICES_DIR . 'recaptcha.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 define("CAPTCHA_PUBLIC_KEY", "6Lei6NYSAAAAAENpHWBBkHtd0ZbfAdRAtKMcvlaQ");
 define("CAPTCHA_PRIVATE_KEY", "6Lei6NYSAAAAAOXsGrRhJxUqdFGt03jcqaABdJMn");
@@ -70,8 +71,7 @@ class SignupController extends REST {
                 $this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
             }
             $this->debug("signup", "request => " . var_export($this->request, true));
-
-//verifico che l'utente abbia effettivamente completato il captcha
+            //verifico che l'utente abbia effettivamente completato il captcha
             if (!isset($_SESSION['SignupCaptchaValidation']) || is_null($_SESSION['SignupCaptchaValidation']) || $_SESSION['SignupCaptchaValidation'] == false) {
                 // If invalid inputs "Bad Request" status message and reason
                 $this->response(array('status' => $controllers['NOCAPTCHAVALIDATION']), 401);
@@ -127,19 +127,18 @@ class SignupController extends REST {
             if ($user->getType() == "JAMMER") {
                 $this->createRecordDefaultAlbum($user->getObjectId());
             }
-
             if (!is_null($user->getProfileThumbnail()) && strlen($user->getProfileThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
                 $res_1 = false;
                 $res_2 = false;
                 $src_img = CACHE_DIR . $user->getProfilePicture();
-                $dest_img = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture" . DIRECTORY_SEPARATOR . $user->getProfilePicture();
                 $src_thumb = CACHE_DIR . $user->getProfileThumbnail();
-                $dest_thumb = USERS_DIR . $user->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user->getProfileThumbnail();
+                $fileManager = new FileManagerService();
+                $dest_img =  $fileManager->getPhotoPath($user->getObjectId(), $user->getProfilePicture());
+                $dest_thumb = $fileManager->getPhotoPath($user->getObjectId(), $user->getProfileThumbnail());
                 $this->debug("signup", "Source image : " . $src_img);
                 $this->debug("signup", "Destination image : " . $dest_img);
                 $this->debug("signup", "Source thumbnail : " . $src_thumb);
                 $this->debug("signup", "Destination thumbnail : " . $dest_thumb);
-                //profile image
                 if (file_exists($src_img)) {
                     $res_1 = rename($src_img, $dest_img);
                     if ($res_1) {
@@ -150,7 +149,6 @@ class SignupController extends REST {
                 } else {
                     $this->debug("signup", "Destination image : " . $src_img . " - FILE NOT FOUND - ERROR!!!");
                 }
-                //thumbnail
                 if (file_exists($src_thumb)) {
                     $res_2 = rename($src_thumb, $dest_thumb);
                     if ($res_2) {
@@ -267,24 +265,15 @@ class SignupController extends REST {
      */
     private function createFileSystemStructure($userId, $type) {
         try {
+            $fileManager = new FileManagerService();
             if (!is_null($userId) && strlen($userId) > 0) {
-                mkdir(USERS_DIR . $userId, 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicture", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcover", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "albumcoverthumb", 0777, true);
-                mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "photos", 0777, true);
-
+                $fileManager->createPhotoDir($userId);
                 if ($type == "JAMMER") {
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcover", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "recordcoverthumb", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "songs", 0777, true);
+                    $fileManager->createSongsDir($userId);
+                    $fileManager->createRecordPhotoDir($userId);
+                    $fileManager->createEventPhotoDir($userId);
                 } elseif ($type == "VENUE") {
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb", 0777, true);
-                    mkdir(USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover", 0777, true);
+                    $fileManager->createEventPhotoDir($userId);
                 }
             }
         } catch (Exception $e) {
@@ -369,13 +358,11 @@ class SignupController extends REST {
             $user->setVenueCounter(0);
             $user->setFirstname($userJSON->firstname);
             $user->setLastname($userJSON->lastname);
-
             $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
             $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
             $user->setCity($infoLocation['city']);
             $user->setCountry($infoLocation['country']);
             $user->setGeoCoding($parseGeoPoint);
-
             $user->setMusic($this->getMusicArray($userJSON->genre));
             $user->setSex($userJSON->sex);
             $birthday = json_decode(json_encode($userJSON->birthday), false);
@@ -405,14 +392,12 @@ class SignupController extends REST {
             $user->setFriendshipCounter(-1);
             $user->setJammerCounter(0);
             $user->setVenueCounter(0);
-
             $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
             $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
             $user->setCity($infoLocation['city']);
             $user->setCountry($infoLocation['country']);
             $user->setAddress($infoLocation['formattedAddress']);
             $user->setGeoCoding($parseGeoPoint);
-
             $user->setLocalType($this->getLocalTypeArray($userJSON->genre));
             $this->debug("createVenue", "returning  user => " . var_export($user, true));
             return $user;
@@ -438,13 +423,11 @@ class SignupController extends REST {
             $user->setJammerCounter(0);
             $user->setVenueCounter(0);
             $user->setJammerType($userJSON->jammerType);
-
             $infoLocation = GeocoderService::getCompleteLocationInfo($userJSON->city);
             $parseGeoPoint = new parseGeoPoint($infoLocation["latitude"], $infoLocation["longitude"]);
             $user->setCity($infoLocation['city']);
             $user->setCountry($infoLocation['country']);
             $user->setGeoCoding($parseGeoPoint);
-
             if ($userJSON->jammerType == "band") {
                 $user->setMembers($this->getMembersArray($userJSON->members));
             }
@@ -495,8 +478,7 @@ class SignupController extends REST {
                 $return[] = $val;
             }
             return $return;
-        }
-        else
+        } else
             return null;
     }
 
@@ -513,8 +495,7 @@ class SignupController extends REST {
                 array_push($return, $member->instrument);
             }
             return $return;
-        }
-        else
+        } else
             return null;
     }
 
@@ -530,8 +511,7 @@ class SignupController extends REST {
                 $return[] = $val;
             }
             return $return;
-        }
-        else
+        } else
             return null;
     }
 
@@ -543,7 +523,7 @@ class SignupController extends REST {
     private function init_common_settings($language, $localTime, $imgProfile) {
         $settings = array();
         $settings[0] = $language;
-        $settings[1] = $localTime; //
+        $settings[1] = $localTime; 
         $settings[2] = $imgProfile;
         for ($i = 3; $i <= 10; $i++) {
             $settings[$i] = "PUBLIC";
