@@ -1122,7 +1122,7 @@ if (is_null($streamBox->error)) {
 			    <div class="small-12 columns ">
 				<div class="text grey">
 				    <?php
-				    echo strlen($value->getComment()->getText()) <= 25 ? $value->getComment()->getText() : substr($value->getComment()->getText(), 0, 25) . ' ...';
+				    echo $value->getComment()->getText();
 				    ?>
 				</div>
 			    </div>
