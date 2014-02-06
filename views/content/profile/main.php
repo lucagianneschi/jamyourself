@@ -465,7 +465,7 @@ require_once ROOT_DIR . 'config.php';
 		</div>
     </div>
     <div id="box-relation">
-    	<div id="modalRelation" class="reveal-modal small"></div>
+    	<div id="modalRelation" class="reveal-modal medium"></div>
     </div>
     <script type="text/javascript">
     //$objectId, 'following', '_User', false, $this->config->followings, 0
