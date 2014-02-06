@@ -22,6 +22,11 @@ require_once CLASSES_DIR . 'userParse.class.php';
 
 if (session_id() == '') session_start();
 
+if (!isset($_SESSION['currentUser']) && basename($_SERVER['PHP_SELF']) != 'index.php') {
+	header('Location: ' . ROOT_DIR . 'index.php');
+} elseif (isset($_SESSION['currentUser']) && basename($_SERVER['PHP_SELF']) == 'index.php') {
+	header('Location: ' . VIEWS_DIR . 'stream.php');
+}
 if (!isset($_SESSION['currentUser'])) {
     header('Location: ' . ROOT_DIR . 'index.php');
 }

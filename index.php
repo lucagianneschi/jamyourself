@@ -4,6 +4,8 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'mantainance.service.php';
+require_once SERVICES_DIR . 'session.service.php';
 ?>
 <!DOCTYPE HTML>
 <!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
