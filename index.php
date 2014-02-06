@@ -215,6 +215,10 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    });
 	    $(document).ready(function() {
 		$(".loginLB").colorbox({inline: true, width: "30%"});
+		<?php 
+		if(isset($_GET['login'])){ ?> 
+			$(".loginLB").colorbox({inline: true, width: "30%", open: true}); 
+		<?php } ?>
 	    });
 	</script>
 
