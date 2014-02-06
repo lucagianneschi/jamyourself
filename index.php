@@ -2,6 +2,8 @@
 if (!defined('ROOT_DIR'))
     define('ROOT_DIR', './');
 require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'mantainance.service.php';
+require_once SERVICES_DIR . 'session.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 ?>
@@ -213,6 +215,10 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    });
 	    $(document).ready(function() {
 		$(".loginLB").colorbox({inline: true, width: "30%"});
+		<?php 
+		if(isset($_GET['login'])){ ?> 
+			$(".loginLB").colorbox({inline: true, width: "30%", open: true}); 
+		<?php } ?>
 	    });
 	</script>
 

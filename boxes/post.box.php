@@ -37,7 +37,47 @@ class PostBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-        $this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/post.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/post.config.json"), false);
+    }
+
+    /**
+     * \fn	init($objectId)
+     * \brief	Init PostBox instance for Personal Page
+     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
+     * \return	postBox
+     * \todo
+     */
+    public function init($objectId, $limit = null, $skip = null) {
+	$info = array();
+	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
+	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
+	$post = new CommentParse();
+	$post->whereOr($value);
+	$post->where('type', 'P');
+	$post->where('active', true);
+	$post->whereInclude('fromUser');
+	$post->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitForPersonalPage);
+	$post->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
+	$post->orderByDescending('createdAt');
+	$posts = $post->getComments();
+	if ($posts instanceof Error) {
+	    $this->config = null;
+	    $this->error = $posts->getErrorMessage();
+	    $this->postArray = array();
+	    return;
+	} elseif (is_null($posts)) {
+	    $this->config = null;
+	    $this->error = null;
+	    $this->postArray = array();
+	    return;
+	} else {
+	    foreach ($posts as $post) {
+		if (!is_null($post->getFromUser()))
+		    array_push($info, $post);
+	    }
+	    $this->error = null;
+	    $this->postArray = $info;
+	}
     }
 
     /**
@@ -47,37 +87,34 @@ class PostBox {
      * \return	postBox
      * \todo
      */
-    public function init($objectId, $limit = null, $skip = null) {
-        $info = array();
-        $value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
-            array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
-        $post = new CommentParse();
-        $post->whereOr($value);
-        $post->where('type', 'P');
-        $post->where('active', true);
-        $post->whereInclude('fromUser');
-        $post->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitForPersonalPage);
-        $post->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-        $post->orderByDescending('createdAt');
-        $posts = $post->getComments();
-        if ($posts instanceof Error) {
-            $this->config = null;
-            $this->error = $posts->getErrorMessage();
-            $this->postArray = array();
-            return;
-        } elseif (is_null($posts)) {
-            $this->config = null;
-            $this->error = null;
-            $this->postArray = array();
-            return;
-        } else {
-            foreach ($posts as $post) {
-                if (!is_null($post->getFromUser()))
-                    array_push($info, $post);
-            }
-            $this->error = null;
-            $this->postArray = $info;
-        }
+    public function initForStream($objectId, $limit) {
+	$info = array();
+	$post = new CommentParse();
+	$post->wherePointer('toUser', '_User', $objectId);
+	$post->wherePointer('fromUser', '_User', $objectId);
+	$post->where('type', 'P');
+	$post->where('active', true);
+	$post->setLimit($limit);
+	$post->orderByDescending('createdAt');
+	$posts = $post->getComments();
+	if ($posts instanceof Error) {
+	    $this->config = null;
+	    $this->error = $posts->getErrorMessage();
+	    $this->postArray = array();
+	    return;
+	} elseif (is_null($posts)) {
+	    $this->config = null;
+	    $this->error = null;
+	    $this->postArray = array();
+	    return;
+	} else {
+	    foreach ($posts as $post) {
+		if (!is_null($post->getFromUser()))
+		    array_push($info, $post);
+	    }
+	    $this->error = null;
+	    $this->postArray = $info;
+	}
     }
 
 }
