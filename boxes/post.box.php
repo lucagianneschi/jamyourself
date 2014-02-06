@@ -49,10 +49,8 @@ class PostBox {
      */
     public function init($objectId, $limit = null, $skip = null) {
 	$info = array();
-	$value = array(array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)),
-	    array('toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $objectId)));
 	$post = new CommentParse();
-	$post->whereOr($value);
+	$post->wherePointer('toUser', '_User', $objectId);
 	$post->where('type', 'P');
 	$post->where('active', true);
 	$post->whereInclude('fromUser');
