@@ -204,64 +204,6 @@ class NotificationBox {
     }
 
     /**
-     * \fn	init($objectId,$type)
-     * \brief	Init NotificationBox instance
-     * \param	$objectId
-     * \param	$type
-     * \return	infoBox
-     * \todo    prendere il type dalla sessione
-     */
-    public function initForCounter($type) {
-	$this->notificationArray = null;
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$activity0 = new ActivityParse();
-	$activity0->wherePointer('toUser', '_User', $currentUserId);
-	$activity0->where('type', 'INVITED');
-	$activity0->where('read', false);
-	$activity0->where('status', 'P');
-	$activity0->where('active', true);
-	$this->invitationCounter = $activity0->getCount();
-	$activity1 = new ActivityParse();
-	$activity1->wherePointer('toUser', '_User', $currentUserId);
-	$activity1->where('type', 'MESSAGESENT');
-	$activity1->where('status', 'P');
-	$activity1->where('read', false);
-	$activity1->where('active', true);
-	$this->error = null;
-	$this->messageCounter = $activity1->getCount();
-	if ($type == 'SPOTTER') {
-	    $activity2 = new ActivityParse();
-	    $activity2->wherePointer('toUser', '_User', $currentUserId);
-	    $activity2->where('type', 'FRIENDSHIPREQUEST');
-	    $activity2->where('status', 'P');
-	    $activity2->where('read', false);
-	    $activity2->where('active', true);
-	    $this->error = null;
-	    $this->relationCounter = $activity2->getCount();
-	} else {
-	    $activity2 = new ActivityParse();
-	    $activity2->wherePointer('toUser', '_User', $currentUserId);
-	    $activity2->where('type', 'COLLABORATIONREQUEST');
-	    $activity2->where('status', 'P');
-	    $activity2->where('read', false);
-	    $activity2->where('active', true);
-	    $collaborationNumber = $activity2->getCount();
-	    $activity3 = new ActivityParse();
-	    $activity3->wherePointer('toUser', '_User', $currentUserId);
-	    $activity3->where('type', 'FOLLOWING');
-	    $activity3->where('read', false);
-	    $activity3->where('active', true);
-	    $newFollowing = $activity3->getCount();
-	    $this->error = null;
-	    $this->relationCounter = $newFollowing + $collaborationNumber;
-	}
-    }
-
-    /**
      * \fn	initForMessageList($type)
      * \brief	Init NotificationBox instance for message list
      * \param	$type
