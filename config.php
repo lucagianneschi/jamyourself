@@ -9,7 +9,7 @@
  *  \brief      basic config file 
  *  \warning
  *  \bug
- *  \todo       keep the file update
+ *  \todo       keep this file up to date
  */
 
 require_once 'path.php';
