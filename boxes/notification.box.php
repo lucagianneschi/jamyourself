@@ -148,6 +148,67 @@ class InvitedCounterBox {
 }
 
 /**
+ * \brief	MessageListBox
+ * \details	class for querying messages for header
+ */
+class MessageListBox {
+
+    public $error;
+    public $messages;
+
+    /**
+     * \fn	init()
+     * \brief	Init MessageListBox instance
+     * \return	messageListBox
+     */
+    public function init() {
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    return;
+	}
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', '_User', $currentUserId);
+	$activity->where('type', 'MESSAGESENT');
+	$activity->where('read', false);
+	$activity->where('status', 'P');
+	$activity->where('active', true);
+	$activity->setLimit($this->config->limitForEventList);
+	$activity->orderByDescending('createdAt');
+	$activity->whereInclude('comment,fromUser');
+	$activities = $activity->getActivities();
+	if ($activities instanceof Error) {
+	    $this->error = $activities->getErrorMessage();
+	    $this->messages = array();
+	    return;
+	} elseif (is_null($activities)) {
+	    $this->error = null;
+	    $this->messages = array();
+	    return;
+	} else {
+	    foreach ($activities as $act) {
+		if (!is_null($act->getFromUser())) {
+		    $createdAt = $act->getCreatedAt();
+		    $relationId = $act->getFromUser()->getObjectId();
+		    $thumbnail = $act->getFromUser()->getProfileThumbnail();
+		    $type = $act->getFromUser()->getType();
+		    $username = $act->getFromUser()->getUsername();
+		    $fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
+		    $relationType = 'M';
+		    $text = $boxes['MESSAGEFORLIST'];
+		    $relatedId = is_null($act->getComment()) ? $boxes['404'] : $act->getComment()->getObjectId();
+		    $notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
+		    array_push($relationArray, $notificationInfo);
+		}
+	    }
+	}
+	$this->error = null;
+	$this->notificationArray = $relationArray;
+    }
+
+}
+
+/**
  * \brief	MessageCounterBox 
  * \details	counter for activity MESSAGESENT
  */
@@ -239,8 +300,6 @@ class NotificationForDetailedList {
     }
 
 }
-
-
 
 /**
  * \brief	NotificationBox class 
@@ -341,57 +400,6 @@ class NotificationBox {
 	$this->notificationArray = $notificationArray;
     }
 
-
-    /**
-     * \fn	initForMessageList()
-     * \brief	Init NotificationBox instancef for relation list
-     * \param	$objectId
-     * \param	$type
-     * \return	infoBox
-     */
-    public function initForMessageList() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$relationArray = array();
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	$activity->where('type', 'MESSAGESENT');
-	$activity->where('read', false);
-	$activity->where('status', 'P');
-	$activity->where('active', true);
-	$activity->setLimit($this->config->limitForEventList);
-	$activity->orderByDescending('createdAt');
-	$activity->whereInclude('comment,fromUser');
-	$activities = $activity->getActivities();
-	if ($activities instanceof Error) {
-	    $this->errorManagement($activities->getErrorMessage());
-	    return;
-	} elseif (is_null($activities)) {
-	    $this->errorManagement();
-	    return;
-	} else {
-	    foreach ($activities as $act) {
-		if (!is_null($act->getFromUser())) {
-		    $createdAt = $act->getCreatedAt();
-		    $relationId = $act->getFromUser()->getObjectId();
-		    $thumbnail = $act->getFromUser()->getProfileThumbnail();
-		    $type = $act->getFromUser()->getType();
-		    $username = $act->getFromUser()->getUsername();
-		    $fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
-		    $relationType = 'M';
-		    $text = $boxes['MESSAGEFORLIST'];
-		    $relatedId = is_null($act->getComment()) ? $boxes['404'] : $act->getComment()->getObjectId();
-		    $notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
-		    array_push($relationArray, $notificationInfo);
-		}
-	    }
-	}
-	$this->error = null;
-	$this->notificationArray = $relationArray;
-    }
 
     /**
      * \fn	initForRelationList($objectId,$type)
