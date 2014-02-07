@@ -30,7 +30,6 @@ require_once CLASSES_DIR . 'activityParse.class.php';
 class InvitedBoxCounter {
 
     public $counter;
-    public $error;
 
     /**
      * \fn	init()
@@ -61,7 +60,6 @@ class InvitedBoxCounter {
 class MessageBoxCounter {
 
     public $counter;
-    public $error;
 
     /**
      * \fn	init()
@@ -85,9 +83,40 @@ class MessageBoxCounter {
 
 }
 
+/**
+ * \brief	RelationBoxCounter 
+ * \details	counter for activity FRIENDSHIPREQUEST, COLLABORATIONREQUEST & FOLLOWING
+ */
+class RelationBoxCounter {
 
+    public $counter;
 
+    /**
+     * \fn	init()
+     * \brief	Init MessageBoxCounter instance
+     * \return	messageBoxCounter
+     */
+    public function init($type) {
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    return;
+	}
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', '_User', $currentUserId);
+	if ($type == 'SPOTTER') {
+	    $activity->where('type', 'FRIENDSHIPREQUEST');
+	} else {
+	    $value = array(array('fromUser' => 'COLLABORATIONREQUEST'), array('fromUser' => 'FOLLOWING'));
+	    $activity->whereOr($value);
+	}
+	$activity->where('status', 'P');
+	$activity->where('read', false);
+	$activity->where('active', true);
+	$this->counter = $activity->getCount();
+    }
 
+}
 
 /**
  * \brief	NotificationForDetailedList 
