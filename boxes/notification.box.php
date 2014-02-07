@@ -24,6 +24,42 @@ require_once CLASSES_DIR . 'activity.class.php';
 require_once CLASSES_DIR . 'activityParse.class.php';
 
 /**
+ * \brief	ActionsBoxCounter 
+ * \details	counter for activity INVITED
+ * \todo	inserire nella whereOr le activity corrette
+ */
+class ActionsBoxCounter {
+
+    public $counter;
+
+    /**
+     * \fn	init()
+     * \brief	Init ActionsBoxCounter instance
+     * \return	actionsBoxCounter
+     */
+    public function init($type) {
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    return;
+	}
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', '_User', $currentUserId);
+	if ($type == 'SPOTTER') {
+	    $value = array(array('fromUser' => 'COLLABORATIONREQUEST'), array('fromUser' => 'FOLLOWING'));
+	} else {
+	    $value = array(array('fromUser' => 'COLLABORATIONREQUEST'), array('fromUser' => 'FOLLOWING'));
+	    $activity->whereOr($value);
+	}
+	$activity->where('status', 'P');
+	$activity->where('read', false);
+	$activity->where('active', true);
+	$this->counter = $activity->getCount();
+    }
+
+}
+
+/**
  * \brief	InvitedBoxCounter 
  * \details	counter for activity INVITED
  */
