@@ -237,6 +237,70 @@ class MessageCounterBox {
 }
 
 /**
+ * \brief	RelationListBox
+ * \details	class for querying relations for header
+ */
+class RelationListBox {
+
+    public $error;
+    public $relations;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
+    }
+
+    /**
+     * \fn	init()
+     * \brief	Init RelationListBox instance
+     * \return	relationListBox 
+     */
+    public function init($type) {
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    return;
+	}
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', '_User', $currentUserId);
+	if ($type == 'SPOTTER') {
+	    $activity->where('type', 'FRIENDSHIPREQUEST');
+	} else {
+	    $activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
+	    $activity->whereOr($activityTypes);
+	}
+	$activity->where('read', false);
+	$activity->where('status', 'P');
+	$activity->where('active', true);
+	$activity->setLimit($this->config->limitForRelationList);
+	$activity->orderByDescending('createdAt');
+	$activity->whereInclude('fromUser');
+	$activities = $activity->getActivities();
+	if ($activities instanceof Error) {
+	    $this->error = $activities->getErrorMessage();
+	    $this->relations = array();
+	    return;
+	} elseif (is_null($activities)) {
+	    $this->error = null;
+	    $this->relations = array();
+	    return;
+	} else {
+	    $this->error = null;
+	    $relations = array();
+	    foreach ($activities as $act)
+		if (!is_null($act->getFromUser())) {
+		    array_push($relations, $act);
+		}
+	}
+	$this->relations = $relations;
+    }
+
+}
+
+/**
  * \brief	RelationCounterBox
  * \details	counter for activity FRIENDSHIPREQUEST, COLLABORATIONREQUEST & FOLLOWING
  */
@@ -397,7 +461,6 @@ class NotificationBox {
 	$this->error = null;
 	$this->notificationArray = $notificationArray;
     }
-
 
     /**
      * \fn	initForRelationList($objectId,$type)
