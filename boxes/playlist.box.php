@@ -2,7 +2,7 @@
 
 /* ! \par		Info Generali:
  * \author		Luca Gianneschi
- * \version		1.0
+ * \version		0.2
  * \date		2013
  * \copyright		Jamyourself.com 2013
  * \par			Info Classe:
@@ -20,6 +20,59 @@ if (!defined('ROOT_DIR'))
 
 require_once ROOT_DIR . 'config.php';
 require_once BOXES_DIR . 'utilsBox.php';
+
+/**
+ * \brief	PlaylistInfoBox class 
+ * \details	box to display user's playlist info in each page of the website 
+ */
+class PlaylistInfoBox {
+
+    public $config;
+    public $error;
+    public $playlists;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/playlist.config.json"), false);
+    }
+
+    /**
+     * \fn	init()
+     * \brief	Init PlaylistInfoBox instance
+     * \return	playlistInfoBox
+     */
+    public function init() {
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    return;
+	}
+	require_once CLASSES_DIR . 'playlist.class.php';
+	require_once CLASSES_DIR . 'playlistParse.class.php';
+	$playlist = new PlaylistParse();
+	$playlist->wherePointer('fromUser', '_User', $currentUserId);
+	$playlist->where('active', true);
+	$playlist->orderByDescending('createdAt');
+	$playlist->setLimit($this->config->limitForPlaylist);
+	$playlists = $playlist->getPlaylists();
+	if ($playlists instanceof Error) {
+	    $this->error = $playlists->getErrorMessage();
+	    $this->playlists = array();
+	    return;
+	} elseif (is_null($playlists)) {
+	    $this->error = null;
+	    $this->playlists = array();
+	    return;
+	} else {
+	    $this->error = null;
+	    $this->playlists = $playlists;
+	}
+    }
+
+}
 
 /**
  * \brief	PlaylistBox class 
