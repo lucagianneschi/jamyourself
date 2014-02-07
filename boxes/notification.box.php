@@ -183,6 +183,64 @@ class NotificationForDetailedList {
 }
 
 /**
+ * \class   EventList
+ * \brief   class for list of events in header
+ */
+class EventList {
+
+    public $error;
+    public $events;
+
+    /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
+    }
+
+    /**
+     * \fn	init()
+     * \brief	class for quering events for header
+     */
+    public function init() {
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    return;
+	}
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', '_User', $currentUserId);
+	$activity->where('type', 'INVITED');
+	$activity->where('read', false);
+	$activity->where('status', 'P');
+	$activity->where('active', true);
+	$activity->setLimit($this->config->limitForMessageList);
+	$activity->orderByDescending('createdAt');
+	$activity->whereInclude('fromUser,event');
+	$activities = $activity->getActivities();
+	if ($activities instanceof Error) {
+	    $this->error = $activities->getErrorMessage();
+	    $this->events = array();
+	    return;
+	} elseif (is_null($activities)) {
+	    $this->error = null;
+	    $this->events = array();
+	    return;
+	} else {
+	    $this->error = null;
+	    $events = array();
+	    foreach ($activities as $act)
+		if (!is_null($act->getFromUser()) && !is_null($act->getEvent())) {
+		    array_push($events, $act);
+		}
+	}
+	$this->events = $events;
+    }
+
+}
+
+/**
  * \brief	NotificationBox class 
  * \details	box class to pass info to the view for the notification
  */
@@ -281,59 +339,6 @@ class NotificationBox {
 	$this->notificationArray = $notificationArray;
     }
 
-    /**
-     * \fn	initForRelationList($type)
-     * \brief	Init NotificationBox instancef for relation list
-     * \param	$objectId
-     * \param	$type
-     * \return	infoBox
-     */
-    public function initForEventList() {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$this->invitationCounter = null;
-	$this->messageCounter = null;
-	$this->relationCounter = null;
-	$relationArray = array();
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	$activity->where('type', 'INVITED');
-	$activity->where('read', false);
-	$activity->where('status', 'P');
-	$activity->where('active', true);
-	$activity->setLimit($this->config->limitForMessageList);
-	$activity->orderByDescending('createdAt');
-	$activity->whereInclude('fromUser,event');
-	$activities = $activity->getActivities();
-	if ($activities instanceof Error) {
-	    $this->errorManagement($activities->getErrorMessage());
-	    return;
-	} elseif (is_null($activities)) {
-	    $this->errorManagement();
-	    return;
-	} else {
-	    foreach ($activities as $act) {
-		if (!is_null($act->getFromUser()) && !is_null($act->getEvent())) {
-		    $createdAt = $act->getCreatedAt();
-		    $relationId = $act->getFromUser()->getObjectId();
-		    $thumbnail = $act->getFromUser()->getProfileThumbnail();
-		    $userType = $act->getFromUser()->getType();
-		    $username = $act->getFromUser()->getUsername();
-		    $fromUserInfo = new UserInfo($relationId, $thumbnail, $userType, $username);
-		    $relationType = 'E';
-		    $text = $boxes['EVENTFORLIST'];
-		    $relatedId = is_null($act->getEvent()) ? $boxes['404'] : $act->getEvent()->getObjectId();
-		    $notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
-		    array_push($relationArray, $notificationInfo);
-		}
-	    }
-	}
-	$this->error = null;
-	$this->notificationArray = $relationArray;
-    }
 
     /**
      * \fn	initForMessageList()
