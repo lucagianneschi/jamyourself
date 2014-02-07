@@ -335,33 +335,6 @@ class RelationCounterBox {
 
 }
 
-/**
- * \brief	NotificationForDetailedList 
- * \details	contains info for detailed list to be displayed in the header 
- */
-class NotificationForDetailedList {
-
-    public $createdAt;
-    public $fromUserInfo;
-    public $objectId;
-    public $text;
-    public $type;
-
-    /**
-     * \fn	__construct($createdAt, $fromUserInfo, $objectId, $text, $type)
-     * \brief	construct for NotificationForDetailedList
-     * \param	$createdAt, $fromUserInfo, $objectId, $text, $type
-     * \return	infoBox
-     */
-    function __construct($createdAt, $fromUserInfo, $objectId, $text, $type) {
-	is_null($createdAt) ? $this->createdAt = null : $this->createdAt = $createdAt;
-	is_null($fromUserInfo) ? $this->fromUserInfo = null : $this->fromUserInfo = $fromUserInfo;
-	is_null($objectId) ? $this->objectId = null : $this->objectId = $objectId;
-	is_null($text) ? $this->text = null : $this->text = $text;
-	is_null($type) ? $this->type = 'D' : $this->type = $type;
-    }
-
-}
 
 /**
  * \brief	NotificationBox class 
@@ -462,7 +435,8 @@ class NotificationBox {
 	$this->notificationArray = $notificationArray;
     }
 
-    /**
+    
+/**
      * \fn	function errorManagement($errorMessage)
      * \brief	set values in case of error or nothing to send to the view
      * \param	$errorMessafe
@@ -476,7 +450,6 @@ class NotificationBox {
 	$this->notificationArray = array();
 	$this->relationCounter = null;
     }
-
 }
 
 ?>
