@@ -463,62 +463,6 @@ class NotificationBox {
     }
 
     /**
-     * \fn	initForRelationList($objectId,$type)
-     * \brief	Init NotificationBox instancef for relation list
-     * \param	$type
-     * \return	infoBox
-     * \todo    prendere il type dalla sessione
-     */
-    public function initForRelationList($type) {
-	$currentUserId = sessionChecker();
-	if (is_null($currentUserId)) {
-	    $this->errorManagement(ONLYIFLOGGEDIN);
-	    return;
-	}
-	$relationArray = array();
-	$activity = new ActivityParse();
-	$activity->wherePointer('toUser', '_User', $currentUserId);
-	if ($type == 'SPOTTER') {
-	    $activity->where('type', 'FRIENDSHIPREQUEST');
-	} else {
-	    $activityTypes = array(array('type' => 'COLLABORATIONREQUEST'), array('type' => 'FOLLOWING'));
-	    $activity->whereOr($activityTypes);
-	}
-	$activity->where('read', false);
-	$activity->where('status', 'P');
-	$activity->where('active', true);
-	$activity->setLimit($this->config->limitForRelationList);
-	$activity->orderByDescending('createdAt');
-	$activity->whereInclude('fromUser');
-	$activities = $activity->getActivities();
-	if ($activities instanceof Error) {
-	    $this->errorManagement($activities->getErrorMessage());
-	    return;
-	} elseif (is_null($activities)) {
-	    $this->errorManagement();
-	    return;
-	} else {
-	    foreach ($activities as $act) {
-		if (!is_null($act->getFromUser())) {
-		    $createdAt = $act->getCreatedAt();
-		    $relationId = $act->getFromUser()->getObjectId();
-		    $thumbnail = $act->getFromUser()->getProfileThumbnail();
-		    $type = $act->getFromUser()->getType();
-		    $username = $act->getFromUser()->getUsername();
-		    $fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
-		    $relationType = 'R';
-		    $text = ($type == 'SPOTTER') ? $boxes['FRIENDSHIPFORLIST'] : ($act->getType() == 'COLLABORATIONREQUEST') ? $boxes['COLLABORATIONFORLIST'] : $boxes['FOLLOWINGFORLIST'];
-		    $relatedId = $act->getObjectId();
-		    $notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
-		    array_push($relationArray, $notificationInfo);
-		}
-	    }
-	}
-	$this->error = null;
-	$this->notificationArray = $relationArray;
-    }
-
-    /**
      * \fn	function errorManagement($errorMessage)
      * \brief	set values in case of error or nothing to send to the view
      * \param	$errorMessafe
