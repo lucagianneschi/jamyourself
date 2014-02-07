@@ -55,6 +55,41 @@ class InvitedBoxCounter {
 }
 
 /**
+ * \brief	MessageBoxCounter 
+ * \details	counter for activity MESSAGESENT
+ */
+class MessageBoxCounter {
+
+    public $counter;
+    public $error;
+
+    /**
+     * \fn	init()
+     * \brief	Init MessageBoxCounter instance
+     * \return	messageBoxCounter
+     */
+    public function init() {
+	$currentUserId = sessionChecker();
+	if (is_null($currentUserId)) {
+	    $this->errorManagement(ONLYIFLOGGEDIN);
+	    return;
+	}
+	$activity = new ActivityParse();
+	$activity->wherePointer('toUser', '_User', $currentUserId);
+	$activity->where('type', 'MESSAGESENT');
+	$activity->where('status', 'P');
+	$activity->where('read', false);
+	$activity->where('active', true);
+	$this->counter = $activity->getCount();
+    }
+
+}
+
+
+
+
+
+/**
  * \brief	NotificationForDetailedList 
  * \details	contains info for detailed list to be displayed in the header 
  */
