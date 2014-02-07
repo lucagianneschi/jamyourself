@@ -157,6 +157,14 @@ class MessageListBox {
     public $messages;
 
     /**
+     * \fn	__construct()
+     * \brief	class construct to import config file
+     */
+    function __construct() {
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
+    }
+
+    /**
      * \fn	init()
      * \brief	Init MessageListBox instance
      * \return	messageListBox
