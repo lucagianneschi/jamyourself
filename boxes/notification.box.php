@@ -186,24 +186,14 @@ class MessageListBox {
 	    $this->messages = array();
 	    return;
 	} else {
-	    foreach ($activities as $act) {
-		if (!is_null($act->getFromUser())) {
-		    $createdAt = $act->getCreatedAt();
-		    $relationId = $act->getFromUser()->getObjectId();
-		    $thumbnail = $act->getFromUser()->getProfileThumbnail();
-		    $type = $act->getFromUser()->getType();
-		    $username = $act->getFromUser()->getUsername();
-		    $fromUserInfo = new UserInfo($relationId, $thumbnail, $type, $username);
-		    $relationType = 'M';
-		    $text = $boxes['MESSAGEFORLIST'];
-		    $relatedId = is_null($act->getComment()) ? $boxes['404'] : $act->getComment()->getObjectId();
-		    $notificationInfo = new NotificationForDetailedList($createdAt, $fromUserInfo, $relatedId, $text, $relationType);
-		    array_push($relationArray, $notificationInfo);
+	    $this->error = null;
+	    $messages = array();
+	    foreach ($activities as $act)
+		if (!is_null($act->getFromUser()) && !is_null($act->getComment())) {
+		    array_push($messages, $act);
 		}
-	    }
 	}
-	$this->error = null;
-	$this->notificationArray = $relationArray;
+	$this->messages = $messages;
     }
 
 }
