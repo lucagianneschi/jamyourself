@@ -9,19 +9,20 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'playlist.box.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
-$playlist = new PlaylistBox();
-$playlist->init();
-
-$currentUser = $_SESSION['currentUser'];
+$playlistInfoBox = new PlaylistInfoBox();
+$playlistInfoBox->init();
 
 #TODO
 //decidere come gestire i possibili errori
-if (count($playlist->tracklist) == 0 && is_null($playlist->error)) {
-    // echo 'Playlist vuota';
-} elseif (!is_null($playlist->error)) {
-    echo $playlist->error;
+if (!is_null($playlistInfoBox->error)) {
+    echo $playlistInfoBox->error;
+} elseif (count($playlistInfoBox->playlists) == 0) {
+    echo 'Vuota';
 }
-$_SESSION['playlist']['objectId'] = $playlist->objectId;
+$playlists = $playlistInfoBox->playlists;
+$playlist = $playlists[0];
+$currentUser = $_SESSION['currentUser'];
+$_SESSION['playlist']['objectId'] = $playlist->getObjectId();
 $_SESSION['playlist']['songs'] = array();
 ?>
 
@@ -98,7 +99,14 @@ $_SESSION['playlist']['songs'] = array();
 <div class="row">
     <div  class="small-12 columns">					
 	<?php
-	if (count($playlist->tracklist) > 0) {
+	$playlistSonglistBox = new PlaylistSongBox();
+	$playlistSonglistBox->init($playlist->getObjectId(), $playlist->getSongsArray());
+	if (is_null($playlistSonglistBox->error)) {
+	    echo $playlistSonglistBox->error;
+	} elseif (count($playlistSonglistBox->tracklist) == 0) {
+	    echo 'Vuota';
+	}
+	if (count($playlistSonglistBox->tracklist) > 0) {
 	    $index = 0;
 	    foreach ($playlist->tracklist as $key => $value) {
 		$objectId = $value->getObjectId();
@@ -140,13 +148,13 @@ $_SESSION['playlist']['songs'] = array();
 			    mp3: "<?php echo $fileManagerService->getSongPath($author_objectId, $value->getFilePath()) ?>",
 			    love: "<?php echo $value->getLoveCounter() ?>",
 			    share: "<?php echo $value->getShareCounter() ?>",
-			    pathCover: "<?php echo $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnailCover()) ?>",
+			    pathCover: "<?php echo $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnailCover()) ?>"
 			});
 			var index = '<?php echo $index ?>';
-			if (index == '0') {
+			if (index === '0') {
 			    $('.title-player').html("<?php echo $title ?>");
 			    $('#duration-player').html("<?php echo $hoursminsandsecs ?>");
-			    $('#header-box-thum img').attr('src', "<?php echo $pathCover . $value->getRecord()->getThumbnailCover() ?>");
+			    $('#header-box-thum img').attr('src', "<?php echo $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnailCover()); ?>");
 			}
 		    });
 
@@ -191,7 +199,7 @@ $_SESSION['playlist']['songs'] = array();
 	?>
     </div>
 </div>
-<?php if (count($playlist->tracklist) == 0 && is_null($playlist->error)) { ?>
+<?php if (count($playlistSonglistBox->tracklist) == 0 && is_null($playlistSonglistBox->error)) { ?>
     <div class="row">
         <div  class="small-12 columns hide-for-small">
     	<div class="text grey"><?php echo $views['recordDetail']['NODATA'] ?></div>    	
