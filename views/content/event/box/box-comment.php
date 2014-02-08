@@ -12,6 +12,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'comment.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 session_start();
@@ -38,8 +39,8 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 
     		<div class="row  ">
     		    <div  class="large-12 columns ">
-    			  <form action="" class="box-write" onsubmit="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>');
-    				    return false;">
+    			<form action="" class="box-write" onsubmit="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>');
+    				return false;">
     			    <div class="">
     				<div class="row  ">
     				    <div  class="small-9 columns ">
@@ -100,7 +101,10 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div  class="small-1 columns ">
 	    				    <div class="icon-header">
 	    					<!-- THUMB USER-->
-						    <?php $thumbPath = USERS_DIR . $comment_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $comment_user_thumbnail; ?>
+						    <?php
+						    $fileManagerService = new FileManagerService();
+						    $thumbPath = $fileManagerService->getPhotoPath($comment_user_objectId, $comment_user_thumbnail);
+						    ?>
 	    					<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $comment_user_username; ?> ">
 	    				    </div>
 	    				</div>
@@ -114,7 +118,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 	    				</div>
 	    				<div  class="small-6 columns propriety">
 	    				    <div class="note grey-light">
-						    <?php echo $comment_data; ?>
+						<?php echo $comment_data; ?>
 	    				    </div>
 	    				</div>
 	    			    </div>
@@ -124,7 +128,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div class="row ">
 	    				    <div  class="small-12 columns ">
 	    					<div class="text grey" style="padding-top: 10px;">
-							<?php echo $comment_text; ?>	
+	    <?php echo $comment_text; ?>	
 	    					</div>
 	    				    </div>
 	    				</div>

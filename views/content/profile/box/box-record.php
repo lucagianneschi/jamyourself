@@ -17,6 +17,7 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'record.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 if (session_id() == '')
     session_start();
 
@@ -28,8 +29,8 @@ if (is_null($recordBox->error)) {
 	$currentUser = $_SESSION['currentUser'];
     $records = $recordBox->recordArray;
     $recordCounter = count($records);
-	
-	$pathCoverRecord = USERS_DIR . $_POST['objectId'] . '/images/recordcoverthumb/';
+
+    $fileManagerService = new FileManagerService();
     ?>
     <!----------------------------------------- PLAYER ALBUM ----------------------------------------------->
     <script>
@@ -60,20 +61,19 @@ if (is_null($recordBox->error)) {
     	</div>	
     	<!---------------------------- LISTA ALBUM --------------------------------------------->
     	<div class="box" id="record-list">
-    	    
+
 		<?php
 		if ($recordCounter > 0) {
 		    $index = 0;
 		    ?>
 		    <div class="row">
-	    		<div class="large-12 columns" style="border-bottom: 1px solid #303030;margin-bottom: 10px;">
-	    		    <div class="text white" style="padding: 10px;"><?php echo $views['record']['LIST']; ?></div>
-	    		</div>
-    	    </div>
+			<div class="large-12 columns" style="border-bottom: 1px solid #303030;margin-bottom: 10px;">
+			    <div class="text white" style="padding: 10px;"><?php echo $views['record']['LIST']; ?></div>
+			</div>
+		    </div>
 		    <div id="recordSlide" class="royalSlider rsMinW">
 			<!---------------------------- PRIMO ALBUM ----------------------------------------------->					
 			<?php
-			
 			foreach ($records as $key => $value) {
 			    if ($index % 3 == 0) {
 				?><div class="rsContent">	<?php
@@ -83,12 +83,10 @@ if (is_null($recordBox->error)) {
 			    $record_title = $value->getTitle();
 			    $record_data = $value->getYear();
 			    $record_songCounter = $value->getSongCounter();
-
 			    $record_love = $value->getLoveCounter();
 			    $record_comment = $value->getCommentCounter();
 			    $record_share = $value->getShareCounter();
 			    $record_review = $value->getReviewCounter();
-
 			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 				$css_love = '_love orange';
 				$text_love = $views['UNLOVE'];
@@ -96,25 +94,25 @@ if (is_null($recordBox->error)) {
 				$css_love = '_unlove grey';
 				$text_love = $views['LOVE'];
 			    }
-				$textData = '';
-				if(!is_null($record_data) && $record_data != ''){
-					$textData = $views['record']['RECORDED'];
-				}
+			    $textData = '';
+			    if (!is_null($record_data) && $record_data != '') {
+				$textData = $views['record']['RECORDED'];
+			    }
 			    ?>
 	    		    <div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>" >
 	    			<!------------------ CODICE ALBUM: $record_objectId - inserire anche nel paramatro della funzione albumSelect ------------------------------------>
 	    			<div class="row">
 	    			    <div class="small-4 columns">
-	    			    	<a href="record.php?record=<?php echo $record_objectId ?>">
-	    						<img src="<?php echo $pathCoverRecord.$record_thumbnailCover ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;">
-	    			    	</a>
+	    				<a href="record.php?record=<?php echo $record_objectId ?>">
+	    				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['objectId'], $record_thumbnailCover); ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $record_title ?>">
+	    				</a>
 	    			    </div>
 	    			    <div class="small-8 columns" style="height: 134px;">						
 	    				<div class="row">
 	    				    <div class="large-12 columns">
-	    				    	<a href="record.php?record=<?php echo $record_objectId ?>">
-	    							<div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
-	    				    	</a>
+	    					<a href="record.php?record=<?php echo $record_objectId ?>">
+	    					    <div class="sottotitle white breakOffTest" ><?php echo $record_title ?></div>
+	    					</a>
 	    				    </div>
 	    				</div>
 	    				<div class="row">
@@ -124,7 +122,7 @@ if (is_null($recordBox->error)) {
 	    				</div>
 	    				<div class="row">
 	    				    <div class="small-5 columns">
-	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $_POST['objectId'] ?>','<?php echo $record_objectId ?>','<?php echo $pathCoverRecord.$record_thumbnailCover ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
+	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $_POST['objectId'] ?>', '<?php echo $record_objectId ?>', '<?php echo $pathCoverRecord . $record_thumbnailCover ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
 	    				    </div>
 	    				    <div class="small-7 columns" style="position: absolute;bottom: 0px;right: 0px;">
 	    					<div class="row propriety">
@@ -141,19 +139,19 @@ if (is_null($recordBox->error)) {
 
 	    			</div>
 	    		    </div>			
-			    <?php if (($index + 1) % 3 == 0 || $recordCounter == ($index + 1)) { ?> </div> <?php
+				<?php if (($index + 1) % 3 == 0 || $recordCounter == ($index + 1)) { ?> </div> <?php
 			    }
 			    $index++;
 			}
 			?>
 		    </div>
 
-    <?php } else { ?>
+		<?php } else { ?>
 		    <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
 			<div  class="large-12 columns"><p class="grey"><?php echo $views['record']['NODATA'] ?></p></div>
 		    </div>
 
-	    <?php } ?>		
+		<?php } ?>		
     	</div>	
 
     	<!---------------------------- ALBUM SINGOLO --------------------------------------------->
@@ -164,14 +162,11 @@ if (is_null($recordBox->error)) {
 		$recordSingle_title = $value->getTitle();
 		$recordSingle_data = $value->getYear();
 		$recordSinle_songCounter = $value->getSongCounter();
-
 		$recordSingle_fromUser_objectId = $value->getFromUser();
-
 		$recordSingle_love = $value->getLoveCounter();
 		$recordSingle_comment = $value->getCommentCounter();
 		$recordSingle_share = $value->getShareCounter();
 		$recordSingle_review = $value->getReviewCounter();
-
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 		    $recordSingle_css_love = '_love orange';
 		    $recordSingle_text_love = $views['UNLOVE'];
@@ -180,13 +175,11 @@ if (is_null($recordBox->error)) {
 		    $recordSingle_text_love = $views['LOVE'];
 		}
 		$textData = '';
-		if(!is_null($recordSingle_data) && $recordSingle_data != ''){
-			$textData = $views['record']['RECORDED'];
+		if (!is_null($recordSingle_data) && $recordSingle_data != '') {
+		    $textData = $views['record']['RECORDED'];
 		}
-		
 		?>
 		<div class="box no-display <?php echo $recordSingle_objectId ?>" >
-
 		    <div class="row" onclick="recordSelectNext('<?php echo $recordSingle_objectId ?>')">
 			<div class="large-12 columns" style="border-bottom: 1px solid #303030;padding-bottom: 5px;">					
 			    <a class="ico-label _back_page text white" onclick="loadBoxRecord()"><?php echo $views['BACK']; ?></a>
@@ -195,16 +188,16 @@ if (is_null($recordBox->error)) {
 		    <div class="box-info-element">
 			<div class="row">
 			    <div class="small-4 columns">
-			    	<a href="record.php?record=<?php echo $recordSingle_objectId ?>">
-						<img src="<?php echo $pathCoverRecord.$recordSingle_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;">
-			    	</a>
+				<a href="record.php?record=<?php echo $recordSingle_objectId; ?>">
+				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['objectId'], $recordSingle_thumbnailCover); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $recordSingle_title ?>">
+				</a>
 			    </div>
 			    <div class="small-8 columns">						
 				<div class="row">
 				    <div class="large-12 colums">
-				    	<a href="record.php?record=<?php echo $recordSingle_objectId ?>">
-							<div class="sottotitle white breakOffTest"><?php echo $recordSingle_title ?></div>
-						</a>
+					<a href="record.php?record=<?php echo $recordSingle_objectId ?>">
+					    <div class="sottotitle white breakOffTest"><?php echo $recordSingle_title ?></div>
+					</a>
 				    </div>
 				</div>				
 				<div class="row">
@@ -219,44 +212,44 @@ if (is_null($recordBox->error)) {
 			<!------------------------------- RECORD DETAIL ------------------------------------------>
 			<div class="box-recordDetail"></div>
 			<script type="text/javascript">
-			    function loadBoxRecordDetail(userId,objectId,pathCover) {
-					var json_data = {};
-					json_data.userId = userId;
-					json_data.objectId = objectId;
-					json_data.username = '<?php echo $_POST['username'] ?>';
-					json_data.pathCover = pathCover;
-					$.ajax({
-					    type: "POST",
-					    url: "content/profile/box/box-recordDetail.php",
-					    data: json_data,
-					    beforeSend: function(xhr) {
-						//spinner.show();
-						$("#profile-Record #record-list").fadeOut(100, function() {
-						    $('#profile-Record .' + objectId).fadeIn(100);
-						    goSpinnerBox("." + objectId + " .box-recordDetail", '');
-						});
-						console.log('Sono partito box-recordDetail');
-			
-					    }
-					}).done(function(message, status, xhr) {
-			
-					    $("." + objectId + " .box-recordDetail").html(message);
-					    code = xhr.status;
-					    //console.log("Code: " + code + " | Message: " + message);
-					    //gestione visualizzazione box detail
-					    addthis.init();
-					    addthis.toolbox(".addthis_toolbox");
-					    rsi_record.updateSliderSize(true);
-			
-					    console.log("Code: " + code + " | Message: <omitted because too large>");
-					}).fail(function(xhr) {
-					    //spinner.hide();
-					    console.log("Error: " + $.parseJSON(xhr));
-					    //message = $.parseJSON(xhr.responseText).status;
-					    //code = xhr.status;
-					    //console.log("Code: " + code + " | Message: " + message);
-					});
-			    }
+	    function loadBoxRecordDetail(userId, objectId, pathCover) {
+		var json_data = {};
+		json_data.userId = userId;
+		json_data.objectId = objectId;
+		json_data.username = '<?php echo $_POST['username'] ?>';
+		json_data.pathCover = pathCover;
+		$.ajax({
+		    type: "POST",
+		    url: "content/profile/box/box-recordDetail.php",
+		    data: json_data,
+		    beforeSend: function(xhr) {
+			//spinner.show();
+			$("#profile-Record #record-list").fadeOut(100, function() {
+			    $('#profile-Record .' + objectId).fadeIn(100);
+			    goSpinnerBox("." + objectId + " .box-recordDetail", '');
+			});
+			console.log('Sono partito box-recordDetail');
+
+		    }
+		}).done(function(message, status, xhr) {
+
+		    $("." + objectId + " .box-recordDetail").html(message);
+		    code = xhr.status;
+		    //console.log("Code: " + code + " | Message: " + message);
+		    //gestione visualizzazione box detail
+		    addthis.init();
+		    addthis.toolbox(".addthis_toolbox");
+		    rsi_record.updateSliderSize(true);
+
+		    console.log("Code: " + code + " | Message: <omitted because too large>");
+		}).fail(function(xhr) {
+		    //spinner.hide();
+		    console.log("Error: " + $.parseJSON(xhr));
+		    //message = $.parseJSON(xhr.responseText).status;
+		    //code = xhr.status;
+		    //console.log("Code: " + code + " | Message: " + message);
+		});
+	    }
 			</script>
 			<!------------------------------- FINE RECORD DETAIL ------------------------------------->
 			<div class="row album-single-propriety">

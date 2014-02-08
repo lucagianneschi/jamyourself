@@ -13,18 +13,16 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 </div>
 <div class="row formBlack-body">
     <div  class="small-6 columns">
-
 	<input type="text" name="trackTitle" id="trackTitle" pattern="" required/>
 	<label for="trackTitle"><?php echo $views['uploadRecord']['song_title']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadRecord']['valid_title']; ?></small></label>
-
 	<div class="row upload-box">
 	    <div  class="small-3 columns">
-			<img class="thumbnail" src="resources/images/uploadRecord/note.jpg" id="tumbnail" name="tumbnail" style="height: 99px !important;"/>
+                <img class="thumbnail" src="resources/images/uploadRecord/note.jpg" id="tumbnail" name="tumbnail" style="height: 99px !important;" alt/>
 	    </div>
 	    <div  class="small-9 columns">        						
-			<a  class="text orange" id ="uploader_mp3_button"><?php echo $views['uploadRecord']['mp3_upload']; ?></a>
-			<a  class="text grey no-display" id="uploaderError"><?php echo $views['uploadRecord']['uploadError']; ?></a>
-			<div id="progressbar" style="left: -44px"></div>										
+		<a  class="text orange" id ="uploader_mp3_button"><?php echo $views['uploadRecord']['mp3_upload']; ?></a>
+		<a  class="text grey no-display" id="uploaderError"><?php echo $views['uploadRecord']['uploadError']; ?></a>
+		<div id="progressbar" style="left: -44px"></div>										
 	    </div>	
 	</div>
 	<input type="text" name="trackFeaturing" id="trackFeaturing">
@@ -33,13 +31,15 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     <div  class="small-6 columns">
 	<label id='labelmusicTrack' style="padding-bottom: 0px !important;"><?php echo $views['uploadRecord']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadRecord']['enter_genre']; ?></small></label>		
 	<div id="tag-musicTrack">
-		<?php 
-        	$index = 0;
-        	foreach ($views['tag']['music'] as $key => $value) { ?>
-				<input type="checkbox" name="tag-musicTrack<?php echo $index ?>" id="tag-musicTrack<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">					
-				<label for="tag-musicTrack<?php echo $index ?>" id="<?php echo $key ?>"><?php echo $value ?></label>	
-			<?php 
-			$index++; } ?>
+	    <?php
+	    $index = 0;
+	    foreach ($views['tag']['music'] as $key => $value) {
+		?>
+    	    <input type="checkbox" name="tag-musicTrack<?php echo $index ?>" id="tag-musicTrack<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">					
+    	    <label for="tag-musicTrack<?php echo $index ?>" id="<?php echo $key ?>"><?php echo $value ?></label>	
+		<?php $index++;
+	    }
+	    ?>
 	</div>
     </div>	
 </div>

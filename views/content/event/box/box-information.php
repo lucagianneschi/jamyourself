@@ -9,6 +9,11 @@
  * box chiamato tramite load con:
  * data: array conente infomazoini di tipo userInfo, 
  */
+if (!defined('ROOT_DIR'))
+    define('ROOT_DIR', '../../../../');
+
+require_once ROOT_DIR . 'config.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $objectId = $event->getObjectId();
 $city = $event->getCity();
@@ -26,12 +31,9 @@ switch ($event->getFromUser()->getType()) {
     case 'VENUE':
 	$defaultThum = DEFTHUMBVENUE;
 	break;
-    case 'SPOTTER':
-	$defaultThum = DEFTHUMBSPOTTER;
-	break;
 }
-
-$thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $fromUserThumbnail;
+$fileManagerService = new FileManagerService();
+$thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumbnail);
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">

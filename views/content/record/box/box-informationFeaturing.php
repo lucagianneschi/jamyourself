@@ -19,6 +19,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $objectId = $_POST['objectId'];
 $featurings = getRelatedUsers($objectId, 'featuring', 'Record', false, 10, 0);
@@ -28,45 +29,45 @@ if ($featuringsCounter > 0) {
     ?>
 
     <p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT2']; ?></a></p>
-
     <div class="content" data-section-content>
         <div class="row">
-	    <?php
-	    $totalView = $featuringsCounter > 4 ? 4 : $featuringsCounter;
-	    $i = 1;
-	    foreach ($featurings as $key => $value) {
-		$defaultThum = $value->getType() == 'JAMMER' ? DEFTHUMBJAMMER : DEFTHUMBVENUE;
-		$pathPicture = USERS_DIR . $value->getObjectId() . '/images/profilepicturethumb/';
-		?>
-		<div  class="small-6 columns">
-		    <a href="profile.php?user=<?php echo $value->getObjectId(); ?> ">
-			<div class="box-membre">
-			    <div class="row ">
-				<div  class="small-3 columns ">
-				    <div class="icon-header">
-					<img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?> ">
-				    </div>
-				</div>
-				<div  class="small-9 columns ">
-				    <div class="text white breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
-				    <small class="orange"><?php echo $value->getType(); ?></small>
-				</div>		
-			    </div>
-			</div>
-		    </a>
-		</div>
-		<?php
-		if ($i % 2 == 0) {
-		    ?>
-	        </div>
-	        <div class="row">
-		    <?php
-		}
-		if ($i == $totalView)
-		    break;
-		$i++;
-	    }
-	    ?>
+            <?php
+            $totalView = $featuringsCounter > 4 ? 4 : $featuringsCounter;
+            $i = 1;
+            foreach ($featurings as $key => $value) {
+                $defaultThum = $value->getType() == 'JAMMER' ? DEFTHUMBJAMMER : DEFTHUMBVENUE;
+                $fileManagerService = new FileManagerService();
+                $pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+                ?>
+                <div  class="small-6 columns">
+                    <a href="profile.php?user=<?php echo $value->getObjectId(); ?> ">
+                        <div class="box-membre">
+                            <div class="row ">
+                                <div  class="small-3 columns ">
+                                    <div class="icon-header">
+                                        <img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?> ">
+                                    </div>
+                                </div>
+                                <div  class="small-9 columns ">
+                                    <div class="text white breakOffTest"><strong><?php echo $value->getUsername(); ?></strong></div>
+                                    <small class="orange"><?php echo $value->getType(); ?></small>
+                                </div>		
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <?php
+                if ($i % 2 == 0) {
+                    ?>
+                </div>
+                <div class="row">
+                    <?php
+                }
+                if ($i == $totalView)
+                    break;
+                $i++;
+            }
+            ?>
         </div>
     </div>
 

@@ -17,11 +17,10 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $objectId = $record->getObjectId();
-
 $city = $record->getCity();
-
 $year = $record->getYear();
 $label = $record->getLabel();
 $buylink = $record->getBuylink();
@@ -36,8 +35,8 @@ $css_label = (!isset($label) || $label == '') ? 'no-display' : '';
 $css_buylink = (!isset($buylink) || $buylink == '') ? 'no-display' : '';
 $css_description = (!isset($description) || $description == '') ? 'no-display' : '';
 
-
-$thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $fromUserThumbnail;
+$fileManagerService = new FileManagerService();
+$thumbPath =  $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumbnail);
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">

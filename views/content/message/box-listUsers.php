@@ -8,6 +8,7 @@ if (!isset($messageBox)) {
     require_once BOXES_DIR . 'message.box.php';
     require_once SERVICES_DIR . 'lang.service.php';
     require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+    require_once SERVICES_DIR . 'fileManager.service.php';
 
     $messageBox = new MessageBox();
     $messageBox->initForUserList();
@@ -46,7 +47,11 @@ foreach ($messageBox->userInfoArray as $key => $value) {
     	<div class="row">
     	    <div class="small-2 columns ">
     		<div class="icon-header">
-    		    <img src="<?php echo $value->userInfo->thumbnail; ?>" onerror="this.src='<?php echo $tumb; ?>'" alt="<?php echo $value->userInfo->username; ?>">
+			<?php
+			$fileManagerService = new FileManagerService();
+			$thumbPath = $fileManagerService->getPhotoPath($value->userInfo->objectId, $value->userInfo->thumbnail);
+			?>
+    		    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $tumb; ?>'" alt="<?php echo $value->userInfo->username; ?>">
     		    <input type="hidden" name="type" value="<?php echo $value->userInfo->type ?>"/>
     		</div>
     	    </div>

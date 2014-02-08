@@ -16,9 +16,9 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'relation.box.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $followingCounter = $_POST['followingCounter'];
-
 $followingsBox = new FollowingsBox();
 $followingsBox->init($_POST['objectId']);
 
@@ -57,7 +57,8 @@ if (is_null($followingsBox->error)) {
 				    $defaultThum = DEFTHUMBVENUE;
 				    break;
 			    }
-			    $pathPicture = USERS_DIR . $value->getObjectId() . '/images/profilepicturethumb/';
+			    $fileManagerService = new FileManagerService();
+			    $pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
 			    if ($i % 2 == 0) {
 				?> <div class="row">  <?php }
 			    ?>	
@@ -67,7 +68,7 @@ if (is_null($followingsBox->error)) {
 					    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 						<div  class="small-3 columns ">
 						    <div class="icon-header">
-							<img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+							<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 						    </div>
 						</div>
 						<div  class="small-9 columns ">
@@ -77,7 +78,7 @@ if (is_null($followingsBox->error)) {
 					</div>
 				    </a>
 				</div>
-			    <?php if (($i + 1) % 2 == 0 || count($venuesFollowings) == ($i + 1)) { ?>  </div>  <?php
+				<?php if (($i + 1) % 2 == 0 || count($venuesFollowings) == ($i + 1)) { ?>  </div>  <?php
 			    }
 			    $i++;
 			    if ($i == 4)
@@ -87,10 +88,10 @@ if (is_null($followingsBox->error)) {
 	    	    <div class="row">
 	    		<div  class="large-12 columns"><div class="line"></div></div>
 	    	    </div>
-	    <?php
-	}
-	if ($jammersFollowingsCounter > 0) {
-	    ?>
+			<?php
+		    }
+		    if ($jammersFollowingsCounter > 0) {
+			?>
 
 	    	    <!------------------------------------------ JAMMER ----------------------------------->
 	    	    <div class="row">
@@ -110,7 +111,8 @@ if (is_null($followingsBox->error)) {
 				    $defaultThum = DEFTHUMBVENUE;
 				    break;
 			    }
-			    $pathPicture = USERS_DIR . $value->getObjectId() . '/images/profilepicturethumb/';
+			    $fileManagerService = new FileManagerService();
+			    $pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
 			    if ($i % 2 == 0) {
 				?> <div class="row">  <?php } ?>
 
@@ -120,7 +122,7 @@ if (is_null($followingsBox->error)) {
 					    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
 						<div  class="small-3 columns ">
 						    <div class="icon-header">
-							<img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+							<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 						    </div>
 						</div>
 						<div  class="small-9 columns ">
@@ -130,7 +132,7 @@ if (is_null($followingsBox->error)) {
 					</div>
 				    </a>
 				</div>
-			    <?php if (($i + 1) % 2 == 0 || count($jammersFollowings) == ($i + 1)) { ?>  </div>  <?php
+				<?php if (($i + 1) % 2 == 0 || count($jammersFollowings) == ($i + 1)) { ?>  </div>  <?php
 			    }
 			    $i++;
 			    if ($i == 4)
@@ -139,7 +141,7 @@ if (is_null($followingsBox->error)) {
 			?>
 
 
-		    <?php
+			<?php
 		    }
 		} else {
 		    ?>	
@@ -148,9 +150,9 @@ if (is_null($followingsBox->error)) {
 			    <p class="grey"><?php echo $views['following']['NODATA']; ?></p>
 			</div>
 		    </div>
-	<?php
-    }
-    ?>
+		    <?php
+		}
+		?>
     	</div>
         </div>
     </div>

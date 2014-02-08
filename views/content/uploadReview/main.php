@@ -5,13 +5,15 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
-$pathCoverEvent = USERS_DIR . $authorObjectId . '/images/eventcoverthumb/';
+$fileManagerService = new FileManagerService();
 
 if ($_GET["type"] == 'Record') {
     $link = 'record.php?record=' . $_GET["rewiewId"];
-    $pathCoverEvent = USERS_DIR . $authorObjectId . '/images/recordcoverthumb/';
+    $elReviewedThumb = $fileManagerService->getRecordPhotoPath($authorObjectId, $thumbnail);
     $tags = explode(',', $tagGenere);
+    $defThumb = DEFRECORDTHUMB;
     foreach ($tags as $key => $value) {
 	if ($key == 0)
 	    $stringGenre = $views['tag']['music'][$value];
@@ -20,7 +22,8 @@ if ($_GET["type"] == 'Record') {
     }
 } else {
     $link = 'event.php?event=' . $_GET["rewiewId"];
-    $pathCoverEvent = USERS_DIR . $authorObjectId . '/images/eventcoverthumb/';
+    $elReviewedThumb = $fileManagerService->getEventPhotoPath($authorObjectId, $thumbnail);
+    $defThumb = DEFEVENTTHUMB;
     foreach ($tagGenere as $key => $value) {
 	$stringGenre = $stringGenre . $space . $views['tag']['localType'][$value];
 	$space = ', ';
@@ -51,13 +54,13 @@ if ($_GET["type"] == 'Record') {
 						<div class="row">
 						    <div class="small-3 columns ">							    						
 							<div class="coverThumb" style="cursor: pointer">
-							    <img src="<?php echo $pathCoverEvent . $thumbnail ?>" onerror="this.src='<?php echo DEFEVENTTHUMB ?>'">
+							    <img src="<?php $elReviewedThumb; ?>" onerror="this.src='<?php echo $defThumb ?>'" alt>
 							</div>
 						    </div>						
 						    <div class="small-9 columns ">
 							<div class="row ">							
 							    <div class="small-12 columns ">
-								<a href="record.php?record=<?php echo $_GET["rewiewId"] ?>"><div class="sottotitle grey-dark"><?php echo $title ?></div></a>
+								<a href="record.php?record=<?php echo $_GET["rewiewId"] ?>"><div class="sottotitle grey-dark"><?php echo $title; ?></div></a>
 								<a class="ico-label _tag inline text grey"><?php echo $stringGenre ?></a>
 							    </div>		
 							</div>	
@@ -133,7 +136,6 @@ if ($_GET["type"] == 'Record') {
                                                 </div>
                                             </div-->
 					</div>
-					<?php $pathAuthor = USERS_DIR . $authorObjectId . '/images/profilepicturethumb/'; ?>
 					<div class="row ">
 					    <div class="large-12 columns ">
 						<div class="text orange"><?php echo $views['uploadReview']['performed']; ?></div>
@@ -144,7 +146,7 @@ if ($_GET["type"] == 'Record') {
 								<div class="row">
 								    <div class="small-2 columns">
 									<div class="icon-header">
-									    <img src="<?php echo $pathAuthor . $authorThumbnail ?>" onerror="this.src='<?php echo DEFAVATARSPOTTER; ?>'">
+                                                                            <img src="<?php $fileManagerService->getPhotoPath($authorObjectId, $authorThumbnail); ?>" onerror="this.src='<?php echo DEFAVATARSPOTTER; ?>'" alt>
 									</div>
 								    </div>
 								    <div class="small-10 columns ">
@@ -177,14 +179,13 @@ if ($_GET["type"] == 'Record') {
 								$featuringThumbnail = $featuringUser->getProfileThumbnail();
 								$featuringUsername = $featuringUser->getUsername();
 								$featuringUserId = $featuringUser->getObjectId();
-								$pathfeaturingUserId = USERS_DIR . $featuringUserId . '/images/profilepicturethumb/';
 								?>
 								<a href="profile.php?user=<?php echo $featuringUserId ?>">
 								    <div class="box-membre" id="<?php echo $featuringUserId ?>">
 									<div class="row">
 									    <div class="small-2 columns ">
 										<div class="icon-header">
-										    <img src="<?php echo $pathfeaturingUserId . $featuringThumbnail ?>" onerror="this.src='<?php echo $defaultThum ?>'">
+										    <img src="<?php $fileManagerService->getPhotoPath($featuringUserId, $featuringThumbnail); ?>" onerror="this.src='<?php echo $defaultThum ?>'" alt>
 										</div>
 									    </div>
 									    <div class="small-10 columns">
