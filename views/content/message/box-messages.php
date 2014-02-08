@@ -60,8 +60,6 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 					    $data = $value->createdAt->format('d F Y');
 					    $dataFormato = $value->createdAt->format('j n Y');
 					    $time = $value->createdAt->format('H:i');
-
-					    //	$data = ucwords(strftime("%e %B %Y", $value->createdAt->getTimestamp()));
 					    $time = ucwords(strftime("%H:%M", $value->createdAt->getTimestamp()));
 					    if ($data != $dataPrec) {
 						?>		
@@ -178,7 +176,8 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 				<div class="line-date"><small><?php echo $views['message']['ERROR2'] ?></small></div>
 			    </div>
 			</div>	
-		    <?php }
+		    <?php
+		    }
 		} else {
 		    ?>
 

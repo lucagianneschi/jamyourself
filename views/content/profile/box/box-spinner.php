@@ -11,13 +11,14 @@ $boxArray = array();
 
 $boxArray = explode(" ", $box);
 
-$title = array(); 
+$title = array();
 
 foreach ($boxArray as $key => $value) {
-	if(count($title) == 0) $title = $views[$value];
-	else{
-		$title = $title[$value];
-	}
+    if (count($title) == 0)
+	$title = $views[$value];
+    else {
+	$title = $title[$value];
+    }
 }
 
 

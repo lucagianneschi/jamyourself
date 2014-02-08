@@ -6,6 +6,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'comment.box.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $objectId = $_POST['objectId'];
 $toUser = $_POST['toUser'];
@@ -54,8 +55,10 @@ if ($countComment > 0) {
                         <div class="row">
                             <div  class="small-1 columns ">
                                 <div class="icon-header">
-                                    <!-- THUMB USER-->
-                                    <?php $thumbPath = USERS_DIR . $value->getFromUser()->getObjectId() . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $value->getFromUser()->getProfileThumbnail(); ?>
+                                    <!-- THUMB USER--><?php
+                                    $fileManagerService = new FileManagerService();
+                                    $thumbPath = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getProfileThumbnail());
+                                    ?>
                                     <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum ?>'" alt ="<?php echo $value->getFromUser()->getUsername(); ?> ">
                                 </div>
                             </div>

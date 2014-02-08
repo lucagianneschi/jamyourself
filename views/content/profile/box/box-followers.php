@@ -12,9 +12,9 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'relation.box.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $followersCounter = $_POST['followersCounter'];
-
 $followersBox = new FollowersBox();
 $followersBox->init($_POST['objectId']);
 
@@ -35,7 +35,8 @@ if (is_null($followersBox->error)) {
 				if ($i % 2 == 0) {
 				    ?> <div class="row">  <?php
 				}
-				$pathPicture = USERS_DIR . $value->getObjectId() . '/images/profilepicturethumb/';
+				$fileManagerService = new FileManagerService();
+				$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
 				?>
 	    			<div  class="small-6 columns">
 	    			    <a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
@@ -43,7 +44,7 @@ if (is_null($followersBox->error)) {
 	    				    <div class="row " id="followers_<?php echo $value->getObjectId(); ?>">
 	    					<div  class="small-3 columns ">
 	    					    <div class="icon-header">
-	    						<img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'">
+	    						<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'" alt="<?php echo $value->getUsername(); ?>">
 	    					    </div>
 	    					</div>
 	    					<div  class="small-9 columns ">
@@ -53,18 +54,18 @@ if (is_null($followersBox->error)) {
 	    				</div>
 	    			    </a>
 	    			</div>
-				<?php if (($i + 1) % 2 == 0 || count($followers) == ($i + 1)) { ?>  </div>  <?php
+				    <?php if (($i + 1) % 2 == 0 || count($followers) == ($i + 1)) { ?>  </div>  <?php
 				}
 				$i++;
 			    }
 			    ?>
-    <?php } else { ?>	
+			<?php } else { ?>	
 			    <div class="row  ">
 				<div  class="large-12 columns ">
 				    <p class="grey"><?php echo $views['followers']['NODATA']; ?></p>
 				</div>
 			    </div>
-    <?php } ?>	
+			<?php } ?>	
     		</div>	
     	    </div>
     	</div>

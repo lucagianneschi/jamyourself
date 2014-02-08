@@ -25,6 +25,7 @@ require_once LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang
 require_once CONTROLLERS_DIR . 'restController.php';
 require_once CONTROLLERS_DIR . 'utilsController.php';
 require_once BOXES_DIR . "utilsBox.php";
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 /**
  * \brief	UploadEventController class 
@@ -93,7 +94,7 @@ class UploadEventController extends REST {
 	    if (is_null($eventDate)) {
 		$this->response(array('status' => $controllers['NOEVENTDATE']), 400);
 	    }
-	    $event->setEventDate($eventDate); //tipo Date su parse
+	    $event->setEventDate($eventDate); 
 	    if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
 		$event->setFeaturing($this->request['jammers']);
 	    }
@@ -124,25 +125,13 @@ class UploadEventController extends REST {
 	    if ($eventSave instanceof Error) {
 		$this->response(array("status" => $controllers['EVENTCREATEERROR']), 503);
 	    }
-	    //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE                
-
-	    $dirThumbnailDest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcoverthumb";
-	    $dirCoverDest = USERS_DIR . $userId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "eventcover";
-	    $thumbSrc = $eventSave->getThumbnail();
-	    $imageSrc = $eventSave->getImage();
+	    $fileManager = new FileManagerService();
+	    $thumbSrc = $fileManager->getEventPhotoPath($userId, $eventSave->getThumbnail());
+            $imageSrc = $fileManager->getEventPhotoPath($userId, $eventSave->getImage());
 	    if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
-		//creo le cartelle se non esistono (per sicurezza)
-		if (!file_exists($dirThumbnailDest)) {
-		    mkdir($dirThumbnailDest, 0777, true);
-		}
-		if (!file_exists($dirCoverDest)) {
-		    mkdir($dirCoverDest, 0777, true);
-		}
-		//sposto i file
-		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $thumbSrc, $dirThumbnailDest . DIRECTORY_SEPARATOR . $thumbSrc);
-		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $imageSrc, $dirCoverDest . DIRECTORY_SEPARATOR . $imageSrc);
+		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getThumbnail(), $thumbSrc);
+		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getImage(),$imageSrc );
 	    }
-
 	    unset($_SESSION['currentUserFeaturingArray']);
 	    $activity = $this->createActivity($userId, $eventSave->getObjectId());
 	    require_once CLASSES_DIR . 'activityParse.class.php';
@@ -232,7 +221,6 @@ class UploadEventController extends REST {
 		$currentUserFeaturingArray = getFeaturingArray();
 		$_SESSION['currentUserFeaturingArray'] = $currentUserFeaturingArray;
 	    }
-
 	    if (!is_null($filter)) {
 		require_once CONTROLLERS_DIR . 'utilsController.php';
 		echo json_encode(filterFeaturingByValue($currentUserFeaturingArray, $filter));
