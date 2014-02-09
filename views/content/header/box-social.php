@@ -193,12 +193,12 @@ if (isset($userObjectId)) {
 	    		    </div>
 	    		</div>
 	    	    </div>
-		    <?php if ($value->type == 'M') { ?>
+			<?php if ($value->type == 'M') { ?>
 			</div>	
-	    <?php } ?>
+		    <?php } ?>
 
 
-		<?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
+		    <?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
 		}
 		$index++;
 	    }

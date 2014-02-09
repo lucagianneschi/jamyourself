@@ -73,14 +73,16 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	    <div class="row" >
 		<div  class="small-12 columns">
 		    <div class="signup-genre">
-				<?php 
-					$index = 0;
-					foreach ($views['tag']['localType'] as $key => $value) { ?>
-						<input onclick="checkmax(this,5)" type="checkbox" name="venue-genre[<?php echo $index ?>]" id="venue-genre[<?php echo $index ?>]" value="<?php echo $key ?>" class="no-display">
-						<label for="venue-genre[<?php echo $index ?>]"><?php echo $value ?></label>
-					<?php 
-					$index++;
-					} ?>
+			<?php
+			$index = 0;
+			foreach ($views['tag']['localType'] as $key => $value) {
+			    ?>
+    			<input onclick="checkmax(this, 5)" type="checkbox" name="venue-genre[<?php echo $index ?>]" id="venue-genre[<?php echo $index ?>]" value="<?php echo $key ?>" class="no-display">
+    			<label for="venue-genre[<?php echo $index ?>]"><?php echo $value ?></label>
+			    <?php
+			    $index++;
+			}
+			?>
 		    </div>
 		</div>	
 	    </div>		

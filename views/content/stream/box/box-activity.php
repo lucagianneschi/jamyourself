@@ -54,7 +54,7 @@ if (is_null($streamBox->error)) {
 
     <?php
     foreach ($activities as $key => $value) {
-    debug('', 'debug.txt', $value->getType());
+	debug('', 'debug.txt', $value->getType());
 	?>
 	<div id="<?php echo $value->getObjectId(); ?>">
 	    <div class="box">
@@ -294,7 +294,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $value->getImage()->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
+			    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $value->getImage()->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			
@@ -457,7 +457,7 @@ if (is_null($streamBox->error)) {
 		    <div class="box-propriety">
 			<div class="small-7 columns ">
 			    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'Comment', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
+			    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'Comment', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 			    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
 			</div>
 			<div class="small-5 columns propriety ">			

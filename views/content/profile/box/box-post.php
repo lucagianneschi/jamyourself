@@ -34,8 +34,8 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 
     		<div class="row  ">
     		    <div  class="large-12 columns ">
-    			<form action="" class="box-write" onsubmit="sendPost('<?php echo $_POST['objectId']; ?>', $('#post').val());
-    				return false;">    			    
+    			  <form action="" class="box-write" onsubmit="sendPost('<?php echo $_POST['objectId']; ?>', $('#post').val());
+    				  return false;">    			    
     			    <div class="row">
     				<div class="small-9 columns ">
     				    <input id="post" type="text" class="post inline" placeholder="<?php echo $views['post']['write']; ?>" />
@@ -49,7 +49,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
     		</div>
     		<div class="row">
     		    <div  class="large-12 columns ">
-                        <div id="post-error" onClick="postError()"><img src="./resources/images/error/error-post.png" alt/></div>
+    			<div id="post-error" onClick="postError()"><img src="./resources/images/error/error-post.png" alt/></div>
     		    </div>
     		</div>
 		    <?php

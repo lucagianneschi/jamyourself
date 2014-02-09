@@ -17,7 +17,7 @@ $boxes = array(
     'EVENTFORLIST' => 'invited you to an event',
     'FRIENDSHIPFORLIST' => 'want to be your friend',
     'COLLABORATIONFORLIST' => 'want to collaborate with you',
-    'FOLLOWINGFORLIST'=> 'is now following you',
-    '404' =>'Object not found'
+    'FOLLOWINGFORLIST' => 'is now following you',
+    '404' => 'Object not found'
 );
 ?>

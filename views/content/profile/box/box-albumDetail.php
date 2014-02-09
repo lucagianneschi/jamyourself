@@ -84,7 +84,7 @@ $fileManagerService = new FileManagerService();
     	<div id="<?php echo $value->getObjectId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($objectId, $value->getFilePath()); ?>">
     	    <div class="row " style="max-width: none;">
     		<div class="large-12 columns lightbox-photo-box">
-                    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $pathImage . $value->getFilePath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt/></div>
+    		    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $pathImage . $value->getFilePath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt/></div>
     		    <div class="row">
     			<div  class="large-12 columns" style="padding-top: 15px;padding-bottom: 15px"><div class="line"></div></div>
     		    </div>
@@ -144,7 +144,7 @@ $fileManagerService = new FileManagerService();
     			<div class="hover_menu">
     			    <div class="addthis_toolbox addthis_default_style"
     				 addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&objectId=&imgPath=<?php echo $value->getFilePath(); ?>"
-    				 addThis:title="<?php //echo $paramsImage['title'];     ?>"
+    				 addThis:title="<?php //echo $paramsImage['title'];       ?>"
     				 onclick="addShare('<?php echo $objectIdUser; ?>', 'Image', '<?php echo $value->getObjectId(); ?>')">
     				<a class="addthis_button_twitter"></a>
     				<a class="addthis_button_facebook"></a>

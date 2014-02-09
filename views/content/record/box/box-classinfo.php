@@ -26,9 +26,9 @@ $stringGenre = '';
 
 foreach ($arrayGenre as $key => $value) {
     if ($key == 0)
-        $stringGenre = $views['tag']['music'][$value];
+	$stringGenre = $views['tag']['music'][$value];
     else
-        $stringGenre = $stringGenre . ', ' . $views['tag']['music'][$value];
+	$stringGenre = $stringGenre . ', ' . $views['tag']['music'][$value];
 }
 //$stringGenre = $views['tag']['music'][$arrayGenre[0]];
 ?>

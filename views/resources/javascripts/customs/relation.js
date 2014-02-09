@@ -4,20 +4,21 @@ function sendRelation(toUser) {
     json_relation.request = 'sendRelation';
 
     $.ajax({
-        type: "POST",
-        url: "../../../controllers/request/relationRequest.php",
-        data: json_relation,
-        beforeSend: function(xhr) {}
+	type: "POST",
+	url: "../../../controllers/request/relationRequest.php",
+	data: json_relation,
+	beforeSend: function(xhr) {
+	}
     })
-    .done(function(message, status, xhr) {
-        //status = success
-        code = xhr.status;
-        console.log("Code: " + code + " | Message: " + message);
+	    .done(function(message, status, xhr) {
+	//status = success
+	code = xhr.status;
+	console.log("Code: " + code + " | Message: " + message);
     })
-    .fail(function(xhr) {
-        message = $.parseJSON(xhr.responseText).status;
-        code = xhr.status;
-        console.log("Code: " + code + " | Message: " + message);
+	    .fail(function(xhr) {
+	message = $.parseJSON(xhr.responseText).status;
+	code = xhr.status;
+	console.log("Code: " + code + " | Message: " + message);
     });
 }
 
@@ -27,20 +28,21 @@ function declineRelation(objectId) {
     json_relation.request = 'declineRelation';
 
     $.ajax({
-        type: "POST",
-        url: "../../../controllers/request/relationRequest.php",
-        data: json_relation,
-        beforeSend: function(xhr) {}
+	type: "POST",
+	url: "../../../controllers/request/relationRequest.php",
+	data: json_relation,
+	beforeSend: function(xhr) {
+	}
     })
-    .done(function(message, status, xhr) {
-        //status = success
-        code = xhr.status;
-        console.log("Code: " + code + " | Message: " + message);
+	    .done(function(message, status, xhr) {
+	//status = success
+	code = xhr.status;
+	console.log("Code: " + code + " | Message: " + message);
     })
-    .fail(function(xhr) {
-        message = $.parseJSON(xhr.responseText).status;
-        code = xhr.status;
-        console.log("Code: " + code + " | Message: " + message);
+	    .fail(function(xhr) {
+	message = $.parseJSON(xhr.responseText).status;
+	code = xhr.status;
+	console.log("Code: " + code + " | Message: " + message);
     });
 }
 
@@ -51,20 +53,21 @@ function acceptRelation(objectId, toUserId) {
     json_relation.request = 'acceptRelation';
 
     $.ajax({
-        type: "POST",
-        url: "../../../controllers/request/relationRequest.php",
-        data: json_relation,
-        beforeSend: function(xhr) {}
+	type: "POST",
+	url: "../../../controllers/request/relationRequest.php",
+	data: json_relation,
+	beforeSend: function(xhr) {
+	}
     })
-    .done(function(message, status, xhr) {
-        //status = success
-        code = xhr.status;
-        console.log("Code: " + code + " | Message: " + message);
+	    .done(function(message, status, xhr) {
+	//status = success
+	code = xhr.status;
+	console.log("Code: " + code + " | Message: " + message);
     })
-    .fail(function(xhr) {
-        message = $.parseJSON(xhr.responseText).status;
-        code = xhr.status;
-        console.log("Code: " + code + " | Message: " + message);
+	    .fail(function(xhr) {
+	message = $.parseJSON(xhr.responseText).status;
+	code = xhr.status;
+	console.log("Code: " + code + " | Message: " + message);
     });
 }
 
@@ -75,19 +78,20 @@ function removeRelation(objectId, toUserId) {
     json_relation.request = 'removeRelation';
 
     $.ajax({
-        type: "POST",
-        url: "../../../controllers/request/relationRequest.php",
-        data: json_relation,
-        beforeSend: function(xhr) {}
+	type: "POST",
+	url: "../../../controllers/request/relationRequest.php",
+	data: json_relation,
+	beforeSend: function(xhr) {
+	}
     })
-    .done(function(message, status, xhr) {
-        //status = success
-        code = xhr.status;
-        console.log("Code: " + code + " | Message: " + message);
+	    .done(function(message, status, xhr) {
+	//status = success
+	code = xhr.status;
+	console.log("Code: " + code + " | Message: " + message);
     })
-    .fail(function(xhr) {
-        message = $.parseJSON(xhr.responseText).status;
-        code = xhr.status;
-        console.log("Code: " + code + " | Message: " + message);
+	    .fail(function(xhr) {
+	message = $.parseJSON(xhr.responseText).status;
+	code = xhr.status;
+	console.log("Code: " + code + " | Message: " + message);
     });
 }

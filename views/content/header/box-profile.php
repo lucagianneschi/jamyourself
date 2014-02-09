@@ -198,10 +198,10 @@ $_SESSION['playlist']['songs'] = array();
         </div>	
     </div>
     <script>
-    	    $(document).ready(function() {
-    		$('.title-player').html("<?php echo $views['header']['song'] ?>");
-    //	 	$('#player').addClass('no-display');
-    //	 	$('#noPlaylist').removeClass('no-display');
-    	    });
+    		$(document).ready(function() {
+    		    $('.title-player').html("<?php echo $views['header']['song'] ?>");
+    		    //	 	$('#player').addClass('no-display');
+    		    //	 	$('#noPlaylist').removeClass('no-display');
+    		});
     </script>
 <?php } ?>

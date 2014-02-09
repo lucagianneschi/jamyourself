@@ -38,8 +38,8 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 
     		<div class="row  ">
     		    <div  class="large-12 columns ">
-    			<form action="" class="box-write" onsubmit="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>');
-    				return false;">
+    			  <form action="" class="box-write" onsubmit="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>');
+    				  return false;">
     			    <div class="">
     				<div class="row  ">
     				    <div  class="small-9 columns ">
@@ -117,7 +117,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 	    				</div>
 	    				<div  class="small-6 columns propriety">
 	    				    <div class="note grey-light">
-						<?php echo $comment_data; ?>
+						    <?php echo $comment_data; ?>
 	    				    </div>
 	    				</div>
 	    			    </div>
@@ -127,7 +127,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div class="row ">
 	    				    <div  class="small-12 columns ">
 	    					<div class="text grey" style="padding-top: 10px;">
-	    <?php echo $comment_text; ?>	
+							<?php echo $comment_text; ?>	
 	    					</div>
 	    				    </div>
 	    				</div>

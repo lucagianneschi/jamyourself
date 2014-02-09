@@ -212,44 +212,44 @@ if (is_null($recordBox->error)) {
 			<!------------------------------- RECORD DETAIL ------------------------------------------>
 			<div class="box-recordDetail"></div>
 			<script type="text/javascript">
-	    function loadBoxRecordDetail(userId, objectId, pathCover) {
-		var json_data = {};
-		json_data.userId = userId;
-		json_data.objectId = objectId;
-		json_data.username = '<?php echo $_POST['username'] ?>';
-		json_data.pathCover = pathCover;
-		$.ajax({
-		    type: "POST",
-		    url: "content/profile/box/box-recordDetail.php",
-		    data: json_data,
-		    beforeSend: function(xhr) {
-			//spinner.show();
-			$("#profile-Record #record-list").fadeOut(100, function() {
-			    $('#profile-Record .' + objectId).fadeIn(100);
-			    goSpinnerBox("." + objectId + " .box-recordDetail", '');
-			});
-			console.log('Sono partito box-recordDetail');
+	function loadBoxRecordDetail(userId, objectId, pathCover) {
+	    var json_data = {};
+	    json_data.userId = userId;
+	    json_data.objectId = objectId;
+	    json_data.username = '<?php echo $_POST['username'] ?>';
+	    json_data.pathCover = pathCover;
+	    $.ajax({
+		type: "POST",
+		url: "content/profile/box/box-recordDetail.php",
+		data: json_data,
+		beforeSend: function(xhr) {
+		    //spinner.show();
+		    $("#profile-Record #record-list").fadeOut(100, function() {
+			$('#profile-Record .' + objectId).fadeIn(100);
+			goSpinnerBox("." + objectId + " .box-recordDetail", '');
+		    });
+		    console.log('Sono partito box-recordDetail');
 
-		    }
-		}).done(function(message, status, xhr) {
+		}
+	    }).done(function(message, status, xhr) {
 
-		    $("." + objectId + " .box-recordDetail").html(message);
-		    code = xhr.status;
-		    //console.log("Code: " + code + " | Message: " + message);
-		    //gestione visualizzazione box detail
-		    addthis.init();
-		    addthis.toolbox(".addthis_toolbox");
-		    rsi_record.updateSliderSize(true);
+		$("." + objectId + " .box-recordDetail").html(message);
+		code = xhr.status;
+		//console.log("Code: " + code + " | Message: " + message);
+		//gestione visualizzazione box detail
+		addthis.init();
+		addthis.toolbox(".addthis_toolbox");
+		rsi_record.updateSliderSize(true);
 
-		    console.log("Code: " + code + " | Message: <omitted because too large>");
-		}).fail(function(xhr) {
-		    //spinner.hide();
-		    console.log("Error: " + $.parseJSON(xhr));
-		    //message = $.parseJSON(xhr.responseText).status;
-		    //code = xhr.status;
-		    //console.log("Code: " + code + " | Message: " + message);
-		});
-	    }
+		console.log("Code: " + code + " | Message: <omitted because too large>");
+	    }).fail(function(xhr) {
+		//spinner.hide();
+		console.log("Error: " + $.parseJSON(xhr));
+		//message = $.parseJSON(xhr.responseText).status;
+		//code = xhr.status;
+		//console.log("Code: " + code + " | Message: " + message);
+	    });
+	}
 			</script>
 			<!------------------------------- FINE RECORD DETAIL ------------------------------------->
 			<div class="row album-single-propriety">

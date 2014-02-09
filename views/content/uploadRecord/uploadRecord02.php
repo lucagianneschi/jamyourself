@@ -102,8 +102,10 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		    ?>
     		<input type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
     		<label for="tag-music<?php echo $index ?>"><?php echo $value ?></label>	
-		    <?php $index++;
-		} ?>
+		    <?php
+		    $index++;
+		}
+		?>
 	    </div>
 	</div>
     </div>

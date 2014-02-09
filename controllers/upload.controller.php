@@ -32,10 +32,10 @@ class UploadController extends REST {
 		$this->debug("uploadImage", "targetDir does not exists.. creating.");
 		@mkdir($targetDir);
 	    }
-            
-            if(!file_exists(USERS_DIR)){
-               @mkdir(USERS_DIR); 
-            }
+
+	    if (!file_exists(USERS_DIR)) {
+		@mkdir(USERS_DIR);
+	    }
 
 // recupero il nome del file
 	    if (isset($_REQUEST["name"])) {
@@ -142,10 +142,10 @@ class UploadController extends REST {
 	    if (!file_exists($targetDir)) {
 		@mkdir($targetDir);
 	    }
-            
-            if(!file_exists(USERS_DIR)){
-               @mkdir(USERS_DIR); 
-            }
+
+	    if (!file_exists(USERS_DIR)) {
+		@mkdir(USERS_DIR);
+	    }
 
 // recupero l'estensione del file
 	    if (isset($_REQUEST["name"])) {

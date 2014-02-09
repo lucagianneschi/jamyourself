@@ -473,8 +473,8 @@ class UploadRecordController extends REST {
 	    }
 	    $returnInfo = array();
 	    foreach ($songsList as $song) {
-	    // info utili
-	    // mi serve: titolo, durata, lista generi, id
+		// info utili
+		// mi serve: titolo, durata, lista generi, id
 		$seconds = $song->getDuration();
 		$hours = floor($seconds / 3600);
 		$mins = floor(($seconds - ($hours * 3600)) / 60);

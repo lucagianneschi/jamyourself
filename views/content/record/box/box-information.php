@@ -36,7 +36,7 @@ $css_buylink = (!isset($buylink) || $buylink == '') ? 'no-display' : '';
 $css_description = (!isset($description) || $description == '') ? 'no-display' : '';
 
 $fileManagerService = new FileManagerService();
-$thumbPath =  $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumbnail);
+$thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumbnail);
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">

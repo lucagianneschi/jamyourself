@@ -18,6 +18,6 @@ $boxes = array(
     'FRIENDSHIPFORLIST' => 'vuole essere tuo amico',
     'COLLABORATIONFORLIST' => 'vuole collaborare con te',
     'FOLLOWINGFORLIST' => 'ti sta seguendo',
-    '404' =>'Oggetto non trovato'
+    '404' => 'Oggetto non trovato'
 );
 ?>

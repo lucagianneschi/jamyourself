@@ -106,13 +106,13 @@ if (is_null($albumBox->error)) {
 				}
 				?>							
 			</div>
-    <?php } else { ?>
+		    <?php } else { ?>
 			<div class="row  ">
 			    <div  class="large-12 columns ">
 				<p class="grey"><?php echo $views['album']['nodata']; ?></p>
 			    </div>
 			</div>
-    <?php } ?>		
+		    <?php } ?>		
     	    </div>
     	</div>
     	<!----------------------------------------- ALBUM PHOTO SINGLE ------------------------------>	

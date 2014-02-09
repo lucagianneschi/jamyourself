@@ -36,7 +36,7 @@ $controllers = array(
     'SUBSCRIPTIONOK' => 'You have been subscribed',
     'SUBSCRIPTIONERROR' => 'An error occurred',
     //SIGNUP
-    'NOCAPTCHAVALIDATION' => 'No Captcha or invalid Captcha',    
+    'NOCAPTCHAVALIDATION' => 'No Captcha or invalid Captcha',
     'INVALIDNEWUSER' => 'Invalid user',
     'NEWUSERCREATIONFAILED' => 'Save failed',
     'USERCREATED' => 'User created with success',
@@ -247,7 +247,7 @@ $controllers = array(
     'ALBUMNOTSAVED' => 'Album creation failed',
     'ALBUMSAVENOIMGSAVED' => 'Album saved, but no image saved',
     'ALBUMSAVEDWITHERRORS' => 'Album saved, but some image throw errors',
-    'ALBUMSAVED' => 'Album created with success',   
+    'ALBUMSAVED' => 'Album created with success',
     'NOALBUMID' => 'No albumId specified',
     'NOALBUMIMAGES' => 'No image loaded',
     'NOALBUMFOUNDED' => 'Album not found',

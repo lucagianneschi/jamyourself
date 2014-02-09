@@ -156,7 +156,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
     		    <div class="row">
     			<div  class="large-12 columns"><div class="line"></div></div>
     		    </div>
-			<?php }
+		    <?php }
 		    ?>
 		    <!------------------ BOX SPOTTER LAST LISTERING AND ATTENGING EVENT ------------>
 		    <?php

@@ -17,20 +17,20 @@ $currentUser = $_SESSION['currentUser'];
     <head>
         <title>Jamyourself</title>
         <!-------------------------- METADATI --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
+	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
     </head>
     <body>
         <!-------------------------- HEADER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
+	<?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
         <!-------------------------- BODY --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/stream/main.php'); ?>
+	<?php require_once(VIEWS_DIR . 'content/stream/main.php'); ?>
         <!-------------------------- FOOTER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
+	<?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
         <!-------------------------- SCRIPT --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
+	<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
         <script>
-            loadBoxPost();
-            loadBoxActivity();
+	    loadBoxPost();
+	    loadBoxActivity();
         </script>
     </body>
 </html>

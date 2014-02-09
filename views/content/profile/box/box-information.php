@@ -92,36 +92,37 @@ function noDisplay($dato) {
 		<section>
 		    <p class="title" data-section-title><a href="#"><?php echo $views['information']['content2']; ?></a></p>
 		    <div class="content" data-section-content>
-			
-			    <?php
-			    $i = 0;
-			    foreach ($user->getMembers() as $key => $value) {
-					if($i % 2 == 0){ ?> <div class="row"> <?php }
-					?>
+
+			<?php
+			$i = 0;
+			foreach ($user->getMembers() as $key => $value) {
+			    if ($i % 2 == 0) {
+				?> <div class="row"> <?php }
+			    ?>
 	    		    <div class="small-6 columns">
-		    			<div class="box-membre">
-		    			    <span class="text white"><?php echo $value->name; ?></span></br>
-		    			    <span class="note grey"><?php echo $value->instrument; ?></span>
-		    			</div>
+	    			<div class="box-membre">
+	    			    <span class="text white"><?php echo $value->name; ?></span></br>
+	    			    <span class="note grey"><?php echo $value->instrument; ?></span>
+	    			</div>
 	    		    </div>		
 
-			    	<?php
-			   		if (($i+1) % 2 == 0 || ($i+1) == count($user->getMembers())) { ?> </div>  <?php }
-					$i++;
+				<?php if (($i + 1) % 2 == 0 || ($i + 1) == count($user->getMembers())) { ?> </div>  <?php
 			    }
-			    ?>				
-			</div>
+			    $i++;
+			}
+			?>				
+		    </div>
 		</section>
-			    <?php
-			}
-		    }
-		    // su utente e' tipo venue allora viene mostrato il section del map
-		    if ($type == 'VENUE') {
-			if ($user->getGeoCoding() instanceof parseGeoPoint) {
-			    $lat = $user->getGeoCoding()->lat;
-			    $lng = $user->getGeoCoding()->long;
-			}
-			?>
+		<?php
+	    }
+	}
+	// su utente e' tipo venue allora viene mostrato il section del map
+	if ($type == 'VENUE') {
+	    if ($user->getGeoCoding() instanceof parseGeoPoint) {
+		$lat = $user->getGeoCoding()->lat;
+		$lng = $user->getGeoCoding()->long;
+	    }
+	    ?>
     	<!--------------------------------------- MAP --------------------------------------->
     	<section id="profile_map_venue" > 
     	    <p class="title" data-section-title onclick="viewMap('<?php echo $lat ?>', '<?php echo $lng ?>')"><a href="#"><?php echo $views['information']['content3']; ?></a></p>
@@ -138,9 +139,9 @@ function noDisplay($dato) {
     		</div-->				 	
     	    </div>
     	</section>
-    <?php
-}
-?>	
+	    <?php
+	}
+	?>	
     </div>
 </div>
 </div>

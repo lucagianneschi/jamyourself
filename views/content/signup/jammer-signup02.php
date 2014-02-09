@@ -118,10 +118,10 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                     <div class="row jammer-componentInstrument1-singup02">
                         <div  class="small-12 columns">
                             <select id="jammer_componentInstrument1">
-                            	<option name="jammer-componentInstrument1" id="jammer-componentInstrument1" value="Accordion">Accordion</option>
-                            	<?php foreach ($views['tag']['instruments'] as $key => $value) { ?>
-									<option name="jammer-componentInstrument1" id="jammer-componentInstrument1" value="<?php echo $key ?>"><?php echo $value ?></option>
-								<?php } ?>																
+				<option name="jammer-componentInstrument1" id="jammer-componentInstrument1" value="Accordion">Accordion</option>
+				<?php foreach ($views['tag']['instruments'] as $key => $value) { ?>
+    				<option name="jammer-componentInstrument1" id="jammer-componentInstrument1" value="<?php echo $key ?>"><?php echo $value ?></option>
+				<?php } ?>																
                             </select>							
                             <label for="jammer-componentInstrument1" ><?php echo $views['signup']['instrument']; ?><small class="error"><?php echo $views['signup']['valid_instrument']; ?></small></label>
                         </div>							
@@ -129,15 +129,15 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                     <div class="row jammer-componentInstrument2-singup02" >
                         <div  class="small-12 columns">									
                             <select id="jammer_componentInstrument2">
-                            	<?php foreach ($views['tag']['instruments'] as $key => $value) { ?>
-									<option name="jammer-componentInstrument2" id="jammer-componentInstrument2" value="<?php echo $key ?>"><?php echo $value ?></option>
-								<?php } ?>																
+				<?php foreach ($views['tag']['instruments'] as $key => $value) { ?>
+    				<option name="jammer-componentInstrument2" id="jammer-componentInstrument2" value="<?php echo $key ?>"><?php echo $value ?></option>
+				<?php } ?>																
                             </select>								
                             <label for="jammer-componentInstrument2" ><?php echo $views['signup']['instrument']; ?><small class="error"><?php echo $views['signup']['valid_instrument']; ?></small></label>
                         </div>							
                     </div>
                     <div id="addComponentInstrument">
-						
+
                     </div>
                 </div>		
             </div>

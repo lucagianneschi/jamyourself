@@ -35,7 +35,7 @@ if ($arrayRelation instanceof Error) {
 
     <div class="grey "><?php echo $views[$rel]['nodata'] ?></div>
 
-<?php
+    <?php
 } else {
     $count = count($arrayRelation);
     $index = 0;
@@ -72,7 +72,7 @@ if ($arrayRelation instanceof Error) {
 		    </div>
 		</a>
 	    </div>		
-	<?php if (($index + 1) % 3 == 0 || $count == $index + 1) { ?> </div> <?php
+	    <?php if (($index + 1) % 3 == 0 || $count == $index + 1) { ?> </div> <?php
 	}
 
 	$index++;

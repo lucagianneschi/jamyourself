@@ -81,10 +81,10 @@ if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
 		    for ($i = 0; $i < $noBadge; $i++) {
 			?>
 			<li class="touchcarousel-item">
-                            <div class="item-block has-tip tip-left"><img src="<?php echo BADGE0 ?>" alt/></div>
+			    <div class="item-block has-tip tip-left"><img src="<?php echo BADGE0 ?>" alt/></div>
 			</li>
 
-		    <?php
+			<?php
 		    }
 		}
 		?>        
@@ -94,24 +94,24 @@ if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
     <div class="row <?php echo $type . ' ' . $currentUserType ?>" >
 	<div  class="large-12 columns"><div class="line"></div></div>
     </div>
-<?php if ($currentUser != $objectId) { ?>
+    <?php if ($currentUser != $objectId) { ?>
         <div class="row">
     	<div  class="large-12 columns">
     	    <div class="status-button">
     		<a href="message.php?user=<?php echo $objectId ?>" class="button bg-grey <?php echo $css_message ?>"><div class="icon-button _message_status"> <?php echo $views['status']['sendmsg']; ?></div></a>
 		    <?php if ($currentUserType == "SPOTTER" && $type == "SPOTTER") { ?>
 			<a href="#" class="button bg-orange"><div class="icon-button _friend_status <?php echo $css_relation ?>"><?php echo $views['status']['addfriend']; ?></div></a>
-			    <?php } elseif (($currentUserType == "JAMMER" || $currentUserType == "VENUE") && ($type == "JAMMER" || $type == "VENUE")) { ?>
+		    <?php } elseif (($currentUserType == "JAMMER" || $currentUserType == "VENUE") && ($type == "JAMMER" || $type == "VENUE")) { ?>
 			<a href="#" class="button bg-orange <?php echo $css_relation ?>" onclick="sendRelation('<?php echo $objectId ?>');">
 			    <div class="icon-button _follower_status">
-			<?php echo $views['status']['coll']; ?>
+				<?php echo $views['status']['coll']; ?>
 			    </div>
 			</a>
-			<?php } elseif ($currentUserType == "SPOTTER" && ($type == "JAMMER" || $type == "VENUE")) { ?>
+		    <?php } elseif ($currentUserType == "SPOTTER" && ($type == "JAMMER" || $type == "VENUE")) { ?>
 			<a href="#" class="button bg-orange <?php echo $css_relation ?>"><div class="icon-button _follower_status"><?php echo $views['status']['foll']; ?></div></a>    	
-    <?php } ?>
+			<?php } ?>
     	    </div>
     	</div>
         </div>
-<?php } ?>
+    <?php } ?>
 </div> 
