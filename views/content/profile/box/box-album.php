@@ -74,7 +74,7 @@ if (is_null($albumBox->error)) {
 				    $text_love = $views['unlove'];
 				} else {
 				    $css_love = '_unlove grey';
-				    $text_love = $views['LOVE'];
+				    $text_love = $views['love'];
 				}
 				?> 
 				<?php if ($index % 4 == 0) { ?> <div class="rsContent">	<?php
@@ -130,7 +130,7 @@ if (is_null($albumBox->error)) {
 		    $text_love = $views['unlove'];
 		} else {
 		    $css_love = '_unlove grey';
-		    $text_love = $views['LOVE'];
+		    $text_love = $views['love'];
 		}
 		?>
 		<div class="profile-singleAlbum">

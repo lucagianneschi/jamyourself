@@ -69,7 +69,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 				$text_love = $views['unlove'];
 			    } else {
 				$css_love = '_unlove grey';
-				$text_love = $views['LOVE'];
+				$text_love = $views['love'];
 			    }
 			    switch ($post_fromUser_type) {
 				case 'JAMMER':

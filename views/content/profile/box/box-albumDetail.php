@@ -78,7 +78,7 @@ $fileManagerService = new FileManagerService();
 		$text_love = $views['unlove'];
 	    } else {
 		$css_love = '_unlove grey';
-		$text_love = $views['LOVE'];
+		$text_love = $views['love'];
 	    }
 	    ?>				 	
     	<div id="<?php echo $value->getObjectId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($objectId, $value->getFilePath()); ?>">

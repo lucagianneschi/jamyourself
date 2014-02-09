@@ -80,7 +80,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                         $text_love = $views['unlove'];
                                     } else {
                                         $css_love = '_unlove grey';
-                                        $text_love = $views['LOVE'];
+                                        $text_love = $views['love'];
                                     }
                                     ?>
                                     <div  class="rsContent">	
