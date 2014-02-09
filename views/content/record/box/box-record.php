@@ -30,7 +30,7 @@ if (isset($_SESSION['currentUser']))
 <div class="row" id="profile-Record">
     <div class="large-12 columns">
         <div class="row">
-            <div  class="small-12 columns"><h3><?php echo $views['media']['Record']['tracklist'] ?></h3></div>        
+            <div  class="small-12 columns"><h3><?php echo $views['media']['record']['tracklist'] ?></h3></div>        
         </div> 
         <!---------------------------- ALBUM SINGOLO --------------------------------------------->       
         <div class="box" style="padding: 0px !important;">                
