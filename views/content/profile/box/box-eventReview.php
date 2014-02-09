@@ -42,10 +42,10 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                         ?>
                         <div class="row">					
                             <div  class="small-9 columns">
-                                <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'EventReview')"><?php echo $views['prev']; ?> </a>
+                                <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'eventReview')"><?php echo $views['prev']; ?> </a>
                             </div>
                             <div  class="small-3 columns">
-                                <a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'EventReview')"><?php echo $views['next']; ?> </a>
+                                <a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'eventReview')"><?php echo $views['next']; ?> </a>
                             </div>
                         </div>
                         <?php
@@ -170,8 +170,8 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                             <div class="row recordReview-propriety">
                                                 <div class="box-propriety">
                                                     <div class="small-7 columns ">
-                                                        <a class="note grey" onclick="love(this, 'Comment', '<?php echo $eventReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love ?></a>
-                                                        <a class="note grey" onclick="loadBoxOpinion('<?php echo $eventReview_objectId; ?>', '<?php echo $eventReview_user_objectId; ?>', 'Comment', '#social-EventReview .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
+                                                        <a class="note grey" onclick="love(this, 'comment', '<?php echo $eventReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love ?></a>
+                                                        <a class="note grey" onclick="loadBoxOpinion('<?php echo $eventReview_objectId; ?>', '<?php echo $eventReview_user_objectId; ?>', 'comment', '#social-EventReview .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
                                                         <a class="note grey" onclick="share(this, '<?php echo $eventReview_objectId; ?>', 'social-EventReview')"><?php echo $views['share']; ?></a>
                                                     </div>
                                                     <div class="small-5 columns propriety ">					

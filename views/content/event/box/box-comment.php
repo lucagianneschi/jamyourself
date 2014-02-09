@@ -32,7 +32,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     ?>
     <div class="row" id="social-Comment <?php echo $objectId; ?>">
         <div  class="large-12 columns">
-    	<h3><?php echo $views['media']['Comment']['title']; ?></h3>
+    	<h3><?php echo $views['media']['comment']['title']; ?></h3>
     	<div class="row ">
     	    <div  class="large-12 columns ">
 

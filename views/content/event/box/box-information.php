@@ -42,7 +42,7 @@ $thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumb
 	<div class="section-container accordion" data-section="accordion">
 	    <section class="active" >
 		<!--------------------------------- ABOUT ---------------------------------------------------->
-		<p class="title" data-section-title onclick="removeMap();"><a href="#"><?php echo $views['media']['Information']['CONTENT1_EVENT'] ?></a></p>
+		<p class="title" data-section-title onclick="removeMap();"><a href="#"><?php echo $views['media']['information']['content1_event'] ?></a></p>
 		<div class="content" data-section-content>
 		    <a href="profile.php?user=<?php echo $fromUserObjectId ?>">
 			<div class="row" id="user_<?php echo $fromUserObjectId ?>">

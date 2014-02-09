@@ -17,7 +17,7 @@ $views = array(
     'back' => 'Back to List',
     'love' => 'Love',
     'unlove' => 'Unlove',
-    'comm' => 'Comment',
+    'comm' => 'comment',
     'share' => 'Share',
     'review' => 'Review',
     'close' => 'Close',
@@ -89,7 +89,7 @@ $views = array(
         'nodata' => 'There are no Friends'
     ),
     'information' => array(
-        'title' => 'Information',
+        'title' => 'information',
         'content1' => 'About',
         'content2' => 'Members',
         'content3' => 'Map',
@@ -104,7 +104,7 @@ $views = array(
         'title' => 'Music',
         'list' => 'Album List',
         'recorded' => 'Recorded',
-        'PLAY' => 'Play Now',
+        'play' => 'Play Now',
         'addplaylist' => 'add to playlist',
         'removeplaylist' => 'remove',
         'nodata' => 'No songs for this record',
@@ -184,21 +184,21 @@ $views = array(
         'key' => 'I received a Key'
     ),
     'media' => array(
-        'VIEW' => 'View all',
-        'ADDREVIEW' => 'Add a review',
-        'Information' => array(
-            'title' => 'Information',
-            'CONTENT1_EVENT' => 'Hosted by',
-            'CONTENT1_RECORD' => 'Performed by',
-            'CONTENT2' => 'Featuring',
-            'CONTENT3' => 'Map',
-            'CONTENT4' => 'Attending',
-            'CONTENT5' => 'Invited'
+        'view' => 'View all',
+        'addreview' => 'Add a review',
+        'information' => array(
+            'title' => 'information',
+            'content1_event' => 'Hosted by',
+            'content1_record' => 'Performed by',
+            'content2' => 'Featuring',
+            'content3' => 'Map',
+            'content4' => 'Attending',
+            'content5' => 'Invited'
         ),
-        'Comment' => array(
-            'title' => 'Comment'
+        'comment' => array(
+            'title' => 'comment'
         ),
-        'Record' => array(
+        'record' => array(
             'title' => 'Tracklist',
             'other' => 'Other ',
             'comment' => ' Comment',
@@ -209,7 +209,7 @@ $views = array(
             'title' => 'Reviews',
             'review' => ' Review'
         ),
-        'EventReview' => array(
+        'eventReview' => array(
             'title' => 'Reviews'
         ),
     ),
@@ -352,8 +352,8 @@ $views = array(
         'to' => 'To:',
         'message' => 'Message',
         'send' => 'Send',
-        'ERROR1' => 'Error',
-        'ERROR2' => "You can't send message at this user"
+        'error1' => 'Error',
+        'error2' => "You can't send message at this user"
     ),
     'signup' => array(
         'enrollment' => 'Enrollment',

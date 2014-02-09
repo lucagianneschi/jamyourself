@@ -26,7 +26,7 @@ $attendeesCounter = count($attendees);
 if ($attendeesCounter > 0) {
     ?>
 
-    <p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT4']; ?> <span>[<?php echo $attendeesCounter ?>]</span></a></p>
+    <p class="title" data-section-title><a href="#"><?php echo $views['media']['information']['content4']; ?> <span>[<?php echo $attendeesCounter ?>]</span></a></p>
 
     <div class="content" data-section-content>
         <div class="row">

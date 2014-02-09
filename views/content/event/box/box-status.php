@@ -60,7 +60,7 @@ if (strtoupper($currentUser->getType()) == 'SPOTTER') {
         <div  class="large-12 columns">
             <div class="status-button">
                 <a href="uploadReview.php?rewiewId=<?php echo $event->getObjectId() ?>&type=Event" class="button bg-orange">
-                    <div class="icon-button _follower_status"><?php echo $views['media']['ADDREVIEW']; ?></div>
+                    <div class="icon-button _follower_status"><?php echo $views['media']['addreview']; ?></div>
                 </a>
             </div>
         </div>
