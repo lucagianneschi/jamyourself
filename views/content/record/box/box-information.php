@@ -41,7 +41,7 @@ $thumbPath =  $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThum
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
     <div class="large-12 columns">
-	<h3><?php echo $views['information']['TITLE']; ?></h3>		
+	<h3><?php echo $views['information']['title']; ?></h3>		
 	<div class="section-container accordion" data-section="accordion">
 	    <section class="active" >
 		<!--------------------------------- ABOUT ---------------------------------------------------->

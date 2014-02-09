@@ -85,67 +85,67 @@ $views = array(
         'nodata' => 'You are not following anyone'//non richiamato
     ),
     'friends' => array(
-        'TITLE' => 'Friends',
-        'NODATA' => 'There are no Friends'
+        'title' => 'Friends',
+        'nodata' => 'There are no Friends'
     ),
     'information' => array(
-        'TITLE' => 'Information',
-        'CONTENT1' => 'About',
-        'CONTENT2' => 'Members',
-        'CONTENT3' => 'Map',
-        'CONTENT3_DIRECTION' => 'Get direction'
+        'title' => 'Information',
+        'content1' => 'About',
+        'content2' => 'Members',
+        'content3' => 'Map',
+        'content3_direction' => 'Get direction'
     ),
     'post' => array(
-        'TITLE' => 'Post',
+        'title' => 'Post',
         'WRITE' => 'Write a post',
-        'NODATA' => 'There are no Posts'
+        'nodata' => 'There are no Posts'
     ),
     'record' => array(
-        'TITLE' => 'Music',
+        'title' => 'Music',
         'LIST' => 'Album List',
         'RECORDED' => 'Recorded',
         'PLAY' => 'Play Now',
         'ADDPLAYLIST' => 'add to playlist',
         'REMOVEPLAYLIST' => 'remove',
-        'NODATA' => 'No songs for this record',
+        'nodata' => 'No songs for this record',
     ),
     'recordDetail' => array(
-        'NODATA' => 'There are no songs'
+        'nodata' => 'There are no songs'
     ),
     'RecordReview' => array(
-        'TITLE' => 'Album Reviews',
+        'title' => 'Album Reviews',
         'RATING' => 'Rating',
         'READ' => 'Read',
-        'NODATA' => 'There are no reviews'
+        'nodata' => 'There are no reviews'
     ),
     'status' => array(
         'SENDMSG' => 'Send Message',
         'ADDFRIEND' => 'Add Friend',
         'COLL' => 'Collaborate',
         'FOLL' => 'Follow',
-        'BADGE1' => 'Old School',
-        'BADGE2' => 'Welcome',
-        'BADGE3' => 'Pub',
-        'BADGE4' => 'Night Life',
-        'BADGE5' => 'Live',
-        'BADGE6' => 'Rock',
-        'BADGE7' => 'Jam Session',
-        'BADGE8' => 'Jammed In',
-        'BADGE9' => 'Happy Hour',
-        'BADGE10' => 'Producer',
-        'BADGE11' => 'Dj',
-        'BADGE12' => 'Dinner',
-        'BADGE13' => 'Contest',
-        'BADGE14' => 'Dance',
-        'BADGE15' => 'Electro',
-        'BADGE16' => 'Pop',
-        'BADGE17' => 'Metal',
-        'BADGE18' => 'Jazz',
-        'BADGE19' => 'In Demand',
-        'BADGE20' => 'Team Up',
-        'BADGE21' => 'Photographer',
-        'BADGE22' => 'Pr',
-        'BADGE23' => 'Journalist',
+        'badge1' => 'Old School',
+        'badge2' => 'Welcome',
+        'badge3' => 'Pub',
+        'badge4' => 'Night Life',
+        'badge5' => 'Live',
+        'badge6' => 'Rock',
+        'badge7' => 'Jam Session',
+        'badge8' => 'Jammed In',
+        'badge9' => 'Happy Hour',
+        'badge10' => 'Producer',
+        'badge11' => 'Dj',
+        'badge12' => 'Dinner',
+        'badge13' => 'Contest',
+        'badge14' => 'Dance',
+        'badge15' => 'Electro',
+        'badge16' => 'Pop',
+        'badge17' => 'Metal',
+        'badge18' => 'Jazz',
+        'badge19' => 'In Demand',
+        'badge20' => 'Team Up',
+        'badge21' => 'Photographer',
+        'badge22' => 'Pr',
+        'badge23' => 'Journalist',
     ),
     'home' => array(
         'blog' => 'BLOG',
@@ -187,7 +187,7 @@ $views = array(
         'VIEW' => 'View all',
         'ADDREVIEW' => 'Add a review',
         'Information' => array(
-            'TITLE' => 'Information',
+            'title' => 'Information',
             'CONTENT1_EVENT' => 'Hosted by',
             'CONTENT1_RECORD' => 'Performed by',
             'CONTENT2' => 'Featuring',
@@ -199,18 +199,18 @@ $views = array(
             'title' => 'Comment'
         ),
         'Record' => array(
-            'TITLE' => 'Tracklist',
+            'title' => 'Tracklist',
             'other' => 'Other ',
             'comment' => ' Comment',
             'buy' => 'Buy album at',
             'tracklist' => 'Tracklist'
         ),
         'RecordReview' => array(
-            'TITLE' => 'Reviews',
+            'title' => 'Reviews',
             'review' => ' Review'
         ),
         'EventReview' => array(
-            'TITLE' => 'Reviews'
+            'title' => 'Reviews'
         ),
     ),
     'header' => array(
@@ -224,15 +224,15 @@ $views = array(
             'social' => 'Social'
         ),
         'profile' => array(
-            'TITLE' => 'Now Playing',
+            'title' => 'Now Playing',
         ),
         'social' => array(
-            'TITLE' => 'Notifications',
+            'title' => 'Notifications',
             'MESSAGE_MARK' => 'mark as read',
             'MESSAGE_EVENT' => 'view all events',
             'MESSAGE_MSG' => 'go to page of messages',
             'MESSAGE_RELATION' => 'view all requests',
-            'NODATA' => 'There are no Notifications'
+            'nodata' => 'There are no Notifications'
         ),
         'player' => array(
             'play' => 'play',

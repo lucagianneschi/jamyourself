@@ -30,7 +30,7 @@ $_SESSION['playlist']['songs'] = array();
 	<h3><?php echo $playlist->name; ?></h3>
 	<div class="row">
 	    <div  class="large-6 columns">
-			<!--div class="text white" style="margin-bottom: 15px;"><?php echo $views['header']['profile']['TITLE'] ?></div-->    		
+			<!--div class="text white" style="margin-bottom: 15px;"><?php echo $views['header']['profile']['title'] ?></div-->    		
 	    </div>	
 	</div>
     </div>	
@@ -194,7 +194,7 @@ $_SESSION['playlist']['songs'] = array();
 <?php if (count($playlist->tracklist) == 0 && is_null($playlist->error)) { ?>
     <div class="row">
         <div  class="small-12 columns hide-for-small">
-    	<div class="text grey"><?php echo $views['recordDetail']['NODATA'] ?></div>    	
+    	<div class="text grey"><?php echo $views['recordDetail']['nodata'] ?></div>    	
         </div>	
     </div>
     <script>

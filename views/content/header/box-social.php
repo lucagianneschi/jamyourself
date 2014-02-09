@@ -96,7 +96,7 @@ if (isset($userObjectId)) {
         <div  class="large-12 columns" style="margin-bottom: 29px">
     	<div class="row">
     	    <div  class="large-4 columns hide-for-small">	
-    		<h3 class="inline"><?php echo $views['header']['social']['TITLE'] ?></h3>
+    		<h3 class="inline"><?php echo $views['header']['social']['title'] ?></h3>
     	    </div>	
     	    <div  class="large-4 columns" style="margin-top: 10px">
     		<!--a class="ico-label _flag inline" onclick="loadBoxSocial('notification', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" >
@@ -212,7 +212,7 @@ if (isset($userObjectId)) {
 
     <?php if (count($detailNotification->notificationArray) == 0) { ?>
 	<div class"row">
-	     <div  class="large-12 columns"><?php echo $views['header']['social']['NODATA'] ?></div>
+	     <div  class="large-12 columns"><?php echo $views['header']['social']['nodata'] ?></div>
 	</div>	
 
 	<?php

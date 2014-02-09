@@ -33,7 +33,7 @@ if ($arrayRelation instanceof Error) {
 <?php } elseif (is_null($arrayRelation) || count($arrayRelation) == 0) {
     ?>
 
-    <div class="grey "><?php echo $views[$rel]['NODATA'] ?></div>
+    <div class="grey "><?php echo $views[$rel]['nodata'] ?></div>
 
 <?php
 } else {

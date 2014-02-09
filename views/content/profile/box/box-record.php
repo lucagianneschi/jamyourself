@@ -40,7 +40,7 @@ if (is_null($recordBox->error)) {
         <div class="large-12 columns">
     	<div class="row">
     	    <div  class="small-5 columns">
-    		<h3><?php echo $views['record']['TITLE']; ?></h3>
+    		<h3><?php echo $views['record']['title']; ?></h3>
     	    </div>	
     	    <div  class="small-7 columns align-right">
 		    <?php
@@ -148,7 +148,7 @@ if (is_null($recordBox->error)) {
 
 		<?php } else { ?>
 		    <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
-			<div  class="large-12 columns"><p class="grey"><?php echo $views['record']['NODATA'] ?></p></div>
+			<div  class="large-12 columns"><p class="grey"><?php echo $views['record']['nodata'] ?></p></div>
 		    </div>
 
 		<?php } ?>		

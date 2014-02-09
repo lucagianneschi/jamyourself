@@ -106,7 +106,7 @@ if (isset($_SESSION['currentUser']))
                     <div  class="large-12 columns ">
                         <div class="box">                                                
                             <div class="row">
-                                <div  class="large-12 columns"><p class="grey"><?php echo $views['record']['NODATA']; ?></p></div>
+                                <div  class="large-12 columns"><p class="grey"><?php echo $views['record']['nodata']; ?></p></div>
                             </div>
                         </div>
                     </div>

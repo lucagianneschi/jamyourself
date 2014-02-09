@@ -283,7 +283,7 @@ class UploadAlbumController extends REST {
 	    $albumId = $this->request['albumId'];
 	    $imagesList = imagelistGenerator($albumId);
 	    if ($imagesList instanceof Error) {
-		$this->response(array("status" => $controllers['NODATA']), 200);
+		$this->response(array("status" => $controllers['nodata']), 200);
 	    } elseif (is_null($imagesList) || count($imagesList) == 0) {
 		$this->response(array("status" => $controllers['NOIMAGEFORALBUM'], "imageList" => null, "count" => 0), 200);
 	    }

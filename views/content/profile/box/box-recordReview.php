@@ -33,7 +33,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
         <div  class="large-12 columns">	
             <div class="row">
                 <div  class="small-5 columns">
-                    <h3><?php echo $views['RecordReview']['TITLE']; ?></h3>
+                    <h3><?php echo $views['RecordReview']['title']; ?></h3>
                 </div>	
                 <div  class="small-7 columns align-right">
                     <?php
@@ -189,7 +189,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                 ?>
                                 <div  class="rsContent">	
                                     <div class="row">
-                                        <div  class="large-12 columns grey"><?php echo $views['RecordReview']['NODATA']; ?></div>
+                                        <div  class="large-12 columns grey"><?php echo $views['RecordReview']['nodata']; ?></div>
                                     </div>
                                 </div>			
                                 <?php

@@ -115,7 +115,7 @@ if (is_array($songs) && count($songs) > 0) {
 }else {
     ?>
     <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
-        <div  class="large-12 columns"><p class="grey"><?php echo $views['recordDetail']['NODATA'] ?></p></div>
+        <div  class="large-12 columns"><p class="grey"><?php echo $views['recordDetail']['nodata'] ?></p></div>
     </div>
     <?php
 }

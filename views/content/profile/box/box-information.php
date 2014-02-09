@@ -36,11 +36,11 @@ function noDisplay($dato) {
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
     <div class="large-12 columns">
-	<h3><?php echo $views['information']['TITLE']; ?></h3>		
+	<h3><?php echo $views['information']['title']; ?></h3>		
 	<div class="section-container accordion" data-section="accordion">
 	    <section class="active" >
 		<!--------------------------------- ABOUT ---------------------------------------------------->
-		<p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['information']['CONTENT1']; ?></a></p>
+		<p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['information']['content1']; ?></a></p>
 		<?php echo $information_description; ?>
 		<p class="text grey"><?php echo $user->getDescription(); ?></p> 
 	</div>
@@ -90,7 +90,7 @@ function noDisplay($dato) {
 	    if (is_array($user->getMembers()) && count($user->getMembers()) > 0) {
 		?>
 		<section>
-		    <p class="title" data-section-title><a href="#"><?php echo $views['information']['CONTENT2']; ?></a></p>
+		    <p class="title" data-section-title><a href="#"><?php echo $views['information']['content2']; ?></a></p>
 		    <div class="content" data-section-content>
 			
 			    <?php
@@ -124,7 +124,7 @@ function noDisplay($dato) {
 			?>
     	<!--------------------------------------- MAP --------------------------------------->
     	<section id="profile_map_venue" > 
-    	    <p class="title" data-section-title onclick="viewMap('<?php echo $lat ?>', '<?php echo $lng ?>')"><a href="#"><?php echo $views['information']['CONTENT3']; ?></a></p>
+    	    <p class="title" data-section-title onclick="viewMap('<?php echo $lat ?>', '<?php echo $lng ?>')"><a href="#"><?php echo $views['information']['content3']; ?></a></p>
     	    <div class="content" data-section-content>
     		<div class="row">
     		    <div class="small-12 columns">     					  	
@@ -133,7 +133,7 @@ function noDisplay($dato) {
     		</div>
     		<!--div class="row">
     		    <div class="small-12 columns ">
-    			<a class="ico-label _pin white " onclick="getDirectionMap()"><?php echo $views['information']['CONTENT3_DIRECTION']; ?></a> 
+    			<a class="ico-label _pin white " onclick="getDirectionMap()"><?php echo $views['information']['content3_direction']; ?></a> 
     		    </div>
     		</div-->				 	
     	    </div>

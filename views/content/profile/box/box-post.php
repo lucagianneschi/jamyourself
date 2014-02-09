@@ -27,7 +27,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
     <!------------------------------------- Post ------------------------------------>
     <div class="row" id="social-Post" style='margin-bottom: 40px;'>
         <div  class="large-12 columns">
-    	<h3><?php echo $views['post']['TITLE'] ?></h3>
+    	<h3><?php echo $views['post']['title'] ?></h3>
 
     	<div class="row ">
     	    <div  class="large-12 columns ">
@@ -144,7 +144,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 			<div class="box">
 			    <div class="row">
 				<div  class="large-12 columns ">
-				    <p class="grey"><?php echo $views['post']['NODATA']; ?></p>
+				    <p class="grey"><?php echo $views['post']['nodata']; ?></p>
 				</div>
 			    </div>
 			</div>

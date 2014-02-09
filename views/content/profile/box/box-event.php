@@ -209,7 +209,7 @@ if (is_null($eventBox->error)) {
 		} else {
 		    ?>
 		    <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
-			<div  class="large-12 columns"><p class="grey"><?php echo $views['event']['NODATA'] ?></p></div>
+			<div  class="large-12 columns"><p class="grey"><?php echo $views['event']['nodata'] ?></p></div>
 		    </div>
 		    <?php
 		}
