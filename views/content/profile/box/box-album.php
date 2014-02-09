@@ -35,7 +35,7 @@ if (is_null($albumBox->error)) {
         <div class="large-12 columns ">
     	<div class="row">
     	    <div  class="large-5 columns">
-    		<h3><?php echo $views['album']['TITLE']; ?></h3>
+    		<h3><?php echo $views['album']['title']; ?></h3>
     	    </div>	
     	    <div  class="large-7 columns align-right" id="albumBottonSlide">
 		    <?php if ($albumCounter > 4) { ?>
@@ -88,7 +88,7 @@ if (is_null($albumBox->error)) {
 	    				<div class="text white breakOffTest"><?php echo $album_title; ?></div>
 	    				<div class="row">
 	    				    <div class="small-5 columns ">
-	    					<a class="note grey"><?php echo $album_imageCounter; ?> <?php echo $views['album']['PHOTO']; ?></a>								
+	    					<a class="note grey"><?php echo $album_imageCounter; ?> <?php echo $views['album']['photos']; ?></a>								
 	    				    </div>
 	    				    <div class="small-7 columns propriety ">					
 	    					<a class="icon-propriety <?php echo $css_love ?>"><?php echo $album_love; ?></a>
@@ -109,7 +109,7 @@ if (is_null($albumBox->error)) {
     <?php } else { ?>
 			<div class="row  ">
 			    <div  class="large-12 columns ">
-				<p class="grey"><?php echo $views['album']['NODATA']; ?></p>
+				<p class="grey"><?php echo $views['album']['nodata']; ?></p>
 			    </div>
 			</div>
     <?php } ?>		

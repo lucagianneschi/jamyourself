@@ -62,7 +62,7 @@ $fileManagerService = new FileManagerService();
 <?php if (count($albumDetail->imageArray) == 0) { ?>
     <div class="row  ">
         <div  class="large-12 columns ">
-    	<p class="grey"><?php echo $views['album']['NODATA']; ?></p>
+    	<p class="grey"><?php echo $views['album']['nodata']; ?></p>
         </div>
     </div>
 

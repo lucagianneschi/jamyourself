@@ -53,22 +53,22 @@ $views = array(
         'nofoll' => 'There are no following'
     ),
     'album' => array(
-        'TITLE' => 'Photography',
-        'PHOTO' => 'photos',
-        'NODATA' => 'There are no Photo'
+        'title' => 'Photography',
+        'photos' => 'photos',
+        'nodata' => 'There are no Photos'
     ),
     'collaboration' => array(
-        'TITLE' => 'Collaboration',
-        'NODATA' => 'There are no Collaboration'
+        'title' => 'Collaboration',
+        'nodata' => 'There are no Collaborations'
     ),
     'comment' => array(
         'write' => 'Write a comment',
-        'nodata' => 'There are no Comment'
+        'nodata' => 'There are no Comments'
     ),
     'event' => array(
         'TITLE' => 'Event',
-        'CALENDAR' => 'Add to Calendar',
-        'NODATA' => 'There are no Events'
+        'CALENDAR' => 'Add to Calendar',//non richiamato
+        'NODATA' => 'There are no Events'//non richiamato
     ),
     'EventReview' => array(
         'title' => 'Event Reviews',

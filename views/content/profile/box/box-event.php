@@ -34,7 +34,7 @@ if (is_null($eventBox->error)) {
         <div class="large-12 columns ">	
     	<div class="row">
     	    <div  class="small-5 columns">
-    		<h3><?php echo $views['event']['TITLE']; ?> </h3>
+    		<h3><?php echo $views['event']['title']; ?> </h3>
     	    </div>	
     	    <div  class="small-7 columns align-right">
 		    <?php
