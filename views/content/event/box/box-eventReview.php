@@ -177,7 +177,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    <div  class="large-12 columns ">
 			<div class="box">
 			    <div class="row">
-				<div class="large-12 columns"><p class="grey"><?php echo $views['EventReview']['nodata']; ?></p></div>
+				<div class="large-12 columns"><p class="grey"><?php echo $views['eventReview']['nodata']; ?></p></div>
 			    </div>
 			</div>
 		    </div>

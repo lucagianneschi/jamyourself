@@ -66,23 +66,23 @@ $views = array(
         'nodata' => 'There are no Comments'
     ),
     'event' => array(
-        'TITLE' => 'Event',
-        'CALENDAR' => 'Add to Calendar',//non richiamato
-        'NODATA' => 'There are no Events'//non richiamato
+        'title' => 'Event',
+        'calendar' => 'Add to Calendar',//non richiamato
+        'nodata' => 'There are no Events'//non richiamato
     ),
-    'EventReview' => array(
+    'eventReview' => array(
         'title' => 'Event Reviews',
-        'RATING' => 'Rating',
-        'READ' => 'Read',
+        'rating' => 'Rating',
+        'read' => 'Read',
         'nodata' => 'There are no reviews'
     ),
     'followers' => array(
-        'TITLE' => 'Followers',
-        'NODATA' => 'There are no Followers'
+        'title' => 'Followers',
+        'nodata' => 'There are no Followers'
     ),
     'following' => array(
-        'TITLE' => 'Following',
-        'NODATA' => 'There are no Following'
+        'title' => 'Following',//non richiamato
+        'nodata' => 'You are not following anyone'//non richiamato
     ),
     'friends' => array(
         'TITLE' => 'Friends',
