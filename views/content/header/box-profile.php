@@ -113,9 +113,7 @@ $_SESSION['playlist']['songs'] = array();
 		$author_name = $value->getFromUser()->getUsername();
 		$author_objectId = $value->getFromUser()->getObjectId();
 		$title = $value->getTitle();
-		$loveCounter = $value->getLoveCounter();
-		$shareCounter = $value->getShareCounter();
-		$recordObjectId = $value->getRecord()->getObjectId();
+		//$recordObjectId = $value->getRecord()->getObjectId();
 		$fileManagerService = new FileManagerService();
 		array_push($_SESSION['playlist']['songs'], $objectId);
 		if ($value->getDuration() >= 3600)
