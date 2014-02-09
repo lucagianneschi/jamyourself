@@ -75,10 +75,10 @@ $fileManagerService = new FileManagerService();
 	    if (isset($_SESSION['currentUser']) &&
 		    (is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers()))) {
 		$css_love = '_love orange';
-		$text_love = $views['UNLOVE'];
+		$text_love = $views['unlove'];
 	    } else {
 		$css_love = '_unlove grey';
-		$text_love = $views['LOVE'];
+		$text_love = $views['love'];
 	    }
 	    ?>				 	
     	<div id="<?php echo $value->getObjectId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($objectId, $value->getFilePath()); ?>">
@@ -92,7 +92,7 @@ $fileManagerService = new FileManagerService();
     			<div  class="small-6 columns">
     			    <a class="note grey " onclick="love(this, 'Image', '<?php echo $value->getObjectId(); ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
     			    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-    			    <a class="note grey" onclick="share(this, '<?php echo $value->getObjectId(); ?>', 'profile-Image')"><?php echo $views['SHARE']; ?></a>
+    			    <a class="note grey" onclick="share(this, '<?php echo $value->getObjectId(); ?>', 'profile-Image')"><?php echo $views['share']; ?></a>
     			</div>
     			<div  class="small-6 columns propriety">
     			    <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getLoveCounter(); ?></a>

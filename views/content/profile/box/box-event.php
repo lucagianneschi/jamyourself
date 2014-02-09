@@ -117,10 +117,10 @@ if (is_null($eventBox->error)) {
 			    $pathCoverEvent = $fileManagerService->getEventPhotoPath($_POST['objectId'], $event_thumbnail);
 			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 				$css_love = '_love orange';
-				$text_love = $views['UNLOVE'];
+				$text_love = $views['unlove'];
 			    } else {
 				$css_love = '_unlove grey';
-				$text_love = $views['LOVE'];
+				$text_love = $views['love'];
 			    }
 			    ?>
 	    		    <!----------------------------------- SINGLE Event ------------------------------------>
@@ -182,7 +182,7 @@ if (is_null($eventBox->error)) {
 	    						<a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['CALENDAR'] ?></a>	
 	    						<a class="note grey " onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $text_love ?></a>
 	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['COMM'] ?></a>
-	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['SHARE'] ?></a>
+	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['share'] ?></a>
 	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['REVIEW'] ?></a>	
 	    					    </div>
 	    					    <div class="small-5 columns propriety " style="position: absolute;bottom: 0px;right: 0px;">					

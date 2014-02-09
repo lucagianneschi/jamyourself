@@ -6,10 +6,10 @@
 
 if (in_array($currentUser->getObjectId(), $event->getLovers())) {
     $css_love = '_love orange';
-    $text_love = $views['UNLOVE'];
+    $text_love = $views['unlove'];
 } else {
     $css_love = '_unlove grey';
-    $text_love = $views['LOVE'];
+    $text_love = $views['love'];
 }
 ?>
 <div id="social-status">
@@ -38,7 +38,7 @@ if (in_array($currentUser->getObjectId(), $event->getLovers())) {
 	    <div class="small-7 columns ">
 		<a class="note grey" onclick="love(this, 'Event', '<?php echo $event->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>');"><?php echo $text_love; ?></a>
 		<a class="note grey" onclick="setCounter()"><?php echo $views['COMM']; ?></a>
-		<a class="note grey" onclick="share()"><?php echo $views['SHARE']; ?></a>
+		<a class="note grey" onclick="share()"><?php echo $views['share']; ?></a>
 	    </div>
 	    <div class="small-5 columns propriety ">					
 		<a class="icon-propriety <?php echo $css_love; ?>"><?php echo $event->getLoveCounter(); ?></a>

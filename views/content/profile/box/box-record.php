@@ -89,10 +89,10 @@ if (is_null($recordBox->error)) {
 			    $record_review = $value->getReviewCounter();
 			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 				$css_love = '_love orange';
-				$text_love = $views['UNLOVE'];
+				$text_love = $views['unlove'];
 			    } else {
 				$css_love = '_unlove grey';
-				$text_love = $views['LOVE'];
+				$text_love = $views['love'];
 			    }
 			    $textData = '';
 			    if (!is_null($record_data) && $record_data != '') {
@@ -169,10 +169,10 @@ if (is_null($recordBox->error)) {
 		$recordSingle_review = $value->getReviewCounter();
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 		    $recordSingle_css_love = '_love orange';
-		    $recordSingle_text_love = $views['UNLOVE'];
+		    $recordSingle_text_love = $views['unlove'];
 		} else {
 		    $recordSingle_css_love = '_unlove grey';
-		    $recordSingle_text_love = $views['LOVE'];
+		    $recordSingle_text_love = $views['love'];
 		}
 		$textData = '';
 		if (!is_null($recordSingle_data) && $recordSingle_data != '') {
@@ -257,7 +257,7 @@ if (is_null($recordBox->error)) {
 				<div class="small-6 columns ">
 				    <a class="note white" onclick="love(this, 'Record', '<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>')"><?php echo $recordSingle_text_love; ?></a>
 				    <a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>', 'Record', '.<?php echo $recordSingle_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-				    <a class="note white" onclick="share(this, '<?php echo $recordSingle_objectId ?>', 'profile-Record')"><?php echo $views['SHARE']; ?></a>
+				    <a class="note white" onclick="share(this, '<?php echo $recordSingle_objectId ?>', 'profile-Record')"><?php echo $views['share']; ?></a>
 				    <a class="note white" onclick="location.href = 'uploadReview.php?rewiewId=<?php echo $recordSingle_objectId ?>&type=Record'"><?php echo $views['REVIEW']; ?></a>	
 				</div>
 				<div class="small-6 columns propriety ">					

@@ -101,10 +101,10 @@ if (is_null($streamBox->error)) {
                     case 'ALBUMCREATED':
                         if (is_array($value->getAlbum()->getLovers()) && in_array($currentUser->getObjectId(), $value->getAlbum()->getLovers())) {
                             $css_love = '_love orange';
-                            $text_love = $views['UNLOVE'];
+                            $text_love = $views['unlove'];
                         } else {
                             $css_love = '_unlove grey';
-                            $text_love = $views['LOVE'];
+                            $text_love = $views['love'];
                         }
                         ?>
                         <div class="row line">
@@ -140,7 +140,7 @@ if (is_null($streamBox->error)) {
                                 <div class="small-7 columns ">
                                     <a class="note grey" onclick="love(this, 'Album', '<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                                     <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $value->getAlbum()->getFromUser()->getObjectId(); ?>', 'Album', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                                    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                                    <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">			
                                     <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getAlbum()->getLoveCounter(); ?></a>
@@ -208,10 +208,10 @@ if (is_null($streamBox->error)) {
             case 'COMMENTEDONALBUM':
                 if (is_array($value->getAlbum()->getLovers()) && in_array($currentUser->getObjectId(), $value->getAlbum()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -249,7 +249,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Album', '<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $value->getAlbum()->getFromUser()->getObjectId(); ?>', 'Album', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getAlbum()->getLoveCounter(); ?></a>
@@ -267,10 +267,10 @@ if (is_null($streamBox->error)) {
             case 'COMMENTEDONIMAGE':
                 if (is_array($value->getImage()->getLovers()) && in_array($currentUser->getObjectId(), $value->getImage()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -308,7 +308,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $value->getImage()->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getImage()->getLoveCounter(); ?></a>
@@ -326,10 +326,10 @@ if (is_null($streamBox->error)) {
             case 'COMMENTEDONEVENT':
                 if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getObjectId(), $value->getEvent()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -367,7 +367,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getObjectId(); ?>', 'Event', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getEvent()->getLoveCounter(); ?></a>
@@ -385,10 +385,10 @@ if (is_null($streamBox->error)) {
             case 'COMMENTEDONEVENTREVIEW':
                 if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getObjectId(), $value->getComment()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -430,7 +430,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'EventReview', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getComment()->getLoveCounter(); ?></a>
@@ -448,10 +448,10 @@ if (is_null($streamBox->error)) {
             case 'COMMENTEDONPOST':
                 if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getObjectId(), $value->getComment()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -477,7 +477,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'Comment', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getComment()->getLoveCounter(); ?></a>
@@ -495,10 +495,10 @@ if (is_null($streamBox->error)) {
             case 'COMMENTEDONRECORD':
                 if (is_array($value->getRecord()->getLovers()) && in_array($currentUser->getObjectId(), $value->getRecord()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -536,7 +536,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $value->getRecord()->getFromUser()->getObjectId(); ?>', 'Record', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getRecord()->getLoveCounter(); ?></a>
@@ -554,10 +554,10 @@ if (is_null($streamBox->error)) {
             case 'COMMENTEDONRECORDREVIEW':
                 if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getObjectId(), $value->getComment()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -597,7 +597,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'RecordReview', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getComment()->getLoveCounter(); ?></a>
@@ -615,10 +615,10 @@ if (is_null($streamBox->error)) {
             case 'COMMENTEDONVIDEO':
                 if (is_array($value->getVideo()->getLovers()) && in_array($currentUser->getObjectId(), $value->getVideo()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -652,7 +652,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Video', '<?php echo $value->getVideo()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getVideo()->getObjectId(); ?>', '<?php echo $value->getVideo()->getFromUser()->getObjectId(); ?>', 'Video', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getVideo()->getLoveCounter(); ?></a>
@@ -670,10 +670,10 @@ if (is_null($streamBox->error)) {
             case 'EVENTCREATED':
                 if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getObjectId(), $value->getEvent()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -709,7 +709,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getObjectId(); ?>', 'Event', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getEvent()->getLoveCounter(); ?></a>
@@ -807,10 +807,10 @@ if (is_null($streamBox->error)) {
             case 'IMAGEADDEDTOALBUM':
                 if (is_array($value->getImage()->getLovers()) && in_array($currentUser->getObjectId(), $value->getImage()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -848,7 +848,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $value->getImage()->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getImage()->getLoveCounter(); ?></a>
@@ -866,10 +866,10 @@ if (is_null($streamBox->error)) {
             case 'IMAGEUPLOADED':
                 if (is_array($value->getImage()->getLovers()) && in_array($currentUser->getObjectId(), $value->getImage()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -904,7 +904,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $value->getImage()->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getImage()->getLoveCounter(); ?></a>
@@ -922,10 +922,10 @@ if (is_null($streamBox->error)) {
             case 'INVITED':
                 if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getObjectId(), $value->getEvent()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -963,7 +963,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getObjectId(); ?>', 'Event', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getEvent()->getLoveCounter(); ?></a>
@@ -1013,10 +1013,10 @@ if (is_null($streamBox->error)) {
             case 'NEWEVENTREVIEW':
                 if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getObjectId(), $value->getEvent()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row  line">
@@ -1058,7 +1058,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getObjectId(); ?>', 'Event', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getEvent()->getLoveCounter(); ?></a>
@@ -1096,10 +1096,10 @@ if (is_null($streamBox->error)) {
             case 'NEWRECORDREVIEW':
                 if (is_array($value->getRecord()->getLovers()) && in_array($currentUser->getObjectId(), $value->getRecord()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row  line">
@@ -1141,7 +1141,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $value->getRecord()->getFromUser()->getObjectId(); ?>', 'RecordReview', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getRecord()->getLoveCounter(); ?></a>
@@ -1159,10 +1159,10 @@ if (is_null($streamBox->error)) {
             case 'POSTED':
                 if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getObjectId(), $value->getComment()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -1183,7 +1183,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'Comment', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getComment()->getLoveCounter(); ?></a>
@@ -1201,10 +1201,10 @@ if (is_null($streamBox->error)) {
             case 'RECORDCREATED':
                 if (is_array($value->getRecord()->getLovers()) && in_array($currentUser->getObjectId(), $value->getRecord()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -1242,7 +1242,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $value->getRecord()->getFromUser()->getObjectId(); ?>', 'Record', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getRecord()->getLoveCounter(); ?></a>
@@ -1267,10 +1267,10 @@ if (is_null($streamBox->error)) {
             case 'SONGAADDEDTORECORD':
                 if (is_array($value->getSong()->getLovers()) && in_array($currentUser->getObjectId(), $value->getSong()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -1306,7 +1306,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $value->getSong()->getFromUser()->getObjectId(); ?>', 'Song', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getSong()->getLoveCounter(); ?></a>
@@ -1324,10 +1324,10 @@ if (is_null($streamBox->error)) {
             case 'SONGUPLOADED':
                 if (is_array($value->getSong()->getLovers()) && in_array($currentUser->getObjectId(), $value->getSong()->getLovers())) {
                     $css_love = '_love orange';
-                    $text_love = $views['UNLOVE'];
+                    $text_love = $views['unlove'];
                 } else {
                     $css_love = '_unlove grey';
-                    $text_love = $views['LOVE'];
+                    $text_love = $views['love'];
                 }
                 ?>
                 <div class="row line">
@@ -1370,7 +1370,7 @@ if (is_null($streamBox->error)) {
                         <div class="small-7 columns ">
                             <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                             <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $value->getSong()->getFromUser()->getObjectId(); ?>', 'Song', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+                            <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['share']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
                             <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getSong()->getLoveCounter(); ?></a>

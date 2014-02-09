@@ -65,17 +65,17 @@ if (isset($userObjectId)) {
 	    case 'message':
 		$detailNotification->initForMessageList();
 		$numNot = $message;
-		$other = $views['header']['social']['MESSAGE_MSG'];
+		$other = $views['header']['social']['message_msg'];
 		break;
 	    case 'event':
 		$detailNotification->initForEventList();
 		$numNot = $invited;
-		$other = $views['header']['social']['MESSAGE_EVENT'];
+		$other = $views['header']['social']['message_event'];
 		break;
 	    case 'relation':
 		$detailNotification->initForRelationList($userType);
 		$numNot = $relation;
-		$other = $views['header']['social']['MESSAGE_RELATION'];
+		$other = $views['header']['social']['message_realation'];
 		break;
 	    default:
 		break;
@@ -96,7 +96,7 @@ if (isset($userObjectId)) {
         <div  class="large-12 columns" style="margin-bottom: 29px">
     	<div class="row">
     	    <div  class="large-4 columns hide-for-small">	
-    		<h3 class="inline"><?php echo $views['header']['social']['TITLE'] ?></h3>
+    		<h3 class="inline"><?php echo $views['header']['social']['title'] ?></h3>
     	    </div>	
     	    <div  class="large-4 columns" style="margin-top: 10px">
     		<!--a class="ico-label _flag inline" onclick="loadBoxSocial('notification', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" >
@@ -212,14 +212,14 @@ if (isset($userObjectId)) {
 
     <?php if (count($detailNotification->notificationArray) == 0) { ?>
 	<div class"row">
-	     <div  class="large-12 columns"><?php echo $views['header']['social']['NODATA'] ?></div>
+	     <div  class="large-12 columns"><?php echo $views['header']['social']['nodata'] ?></div>
 	</div>	
 
 	<?php
     } else {
 	?>
 	<div class"row">
-	     <div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK'] ?></strong> </a></div>
+	     <div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['message_mark'] ?></strong> </a></div>
 	    <div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other ?></strong> </a></div>			
 	</div>
 	<script>

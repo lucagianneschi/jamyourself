@@ -76,10 +76,10 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 
                             if (in_array($currentUser->getObjectId(), $value->getLovers())) {
                                 $css_love = '_love orange';
-                                $text_love = $views['UNLOVE'];
+                                $text_love = $views['unlove'];
                             } else {
                                 $css_love = '_unlove grey';
-                                $text_love = $views['LOVE'];
+                                $text_love = $views['love'];
                             }
                             switch ($comment_user_type) {
                                 case 'JAMMER':

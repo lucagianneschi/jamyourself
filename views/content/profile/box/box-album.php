@@ -71,10 +71,10 @@ if (is_null($albumBox->error)) {
 				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['objectId'], album_thumbnailCover);
 				if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 				    $css_love = '_love orange';
-				    $text_love = $views['UNLOVE'];
+				    $text_love = $views['unlove'];
 				} else {
 				    $css_love = '_unlove grey';
-				    $text_love = $views['LOVE'];
+				    $text_love = $views['love'];
 				}
 				?> 
 				<?php if ($index % 4 == 0) { ?> <div class="rsContent">	<?php
@@ -127,10 +127,10 @@ if (is_null($albumBox->error)) {
 		$album_share = $value->getShareCounter();
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 		    $css_love = '_love orange';
-		    $text_love = $views['UNLOVE'];
+		    $text_love = $views['unlove'];
 		} else {
 		    $css_love = '_unlove grey';
-		    $text_love = $views['LOVE'];
+		    $text_love = $views['love'];
 		}
 		?>
 		<div class="profile-singleAlbum">
@@ -205,7 +205,7 @@ if (is_null($albumBox->error)) {
 				    <div class="small-6 columns">
 					<a class="note grey" onclick="love(this, 'Album', '<?php echo $album_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
 					<a class="note grey" onclick="loadBoxOpinion('<?php echo $album_objectId; ?>', '<?php echo $album_user_objectId; ?>', 'Album', '#<?php echo $album_objectId; ?> .albumOpinion.box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-					<a class="note grey" onclick="share(this, '<?php echo $album_objectId; ?>', 'profile-singleAlbum')"><?php echo $views['SHARE']; ?></a>
+					<a class="note grey" onclick="share(this, '<?php echo $album_objectId; ?>', 'profile-singleAlbum')"><?php echo $views['share']; ?></a>
 				    </div>
 				    <div class="small-6 columns propriety ">					
 					<a class="icon-propriety <?php echo $css_love ?>"><?php echo $album_love; ?></a>
