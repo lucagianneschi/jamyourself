@@ -32,8 +32,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     ?>
     <div class="row" id="social-Comment <?php echo $objectId; ?>">
         <div  class="large-12 columns">
-    	<h3><?php echo $views['media']['Comment']['TITLE']; ?></h3>
-
+    	<h3><?php echo $views['media']['Comment']['title']; ?></h3>
     	<div class="row ">
     	    <div  class="large-12 columns ">
 
@@ -44,10 +43,10 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     			    <div class="">
     				<div class="row  ">
     				    <div  class="small-9 columns ">
-    					<input id="commentEvent_<?php echo $objectId; ?>" type="text" class="comment inline" placeholder="<?php echo $views['comment']['WRITE']; ?>" />
+    					<input id="commentEvent_<?php echo $objectId; ?>" type="text" class="comment inline" placeholder="<?php echo $views['comment']['write']; ?>" />
     				    </div>
     				    <div  class="small-3 columns ">
-    					<input type="button" class="post-button inline" value="<?php echo $views['COMM']; ?>" onclick="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>')"/>
+    					<input type="button" class="post-button inline" value="<?php echo $views['comm']; ?>" onclick="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>')"/>
     				    </div>
     				</div>
     			    </div>
@@ -87,10 +86,10 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 			    }
 			    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
 				$css_love = '_love orange';
-				$text_love = $views['UNLOVE'];
+				$text_love = $views['unlove'];
 			    } else {
 				$css_love = '_unlove grey';
-				$text_love = $views['LOVE'];
+				$text_love = $views['love'];
 			    }
 			    ?>				
 	    		<div id='<?php echo $comment_objectId; ?>'>
@@ -172,7 +171,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 			<div class="box">	
 			    <div class="row">
 				<div  class="large-12 columns ">
-				    <p class="grey"><?php echo $views['comment']['NODATA']; ?></p>
+				    <p class="grey"><?php echo $views['comment']['nodata']; ?></p>
 				</div>
 			    </div>
 			</div>

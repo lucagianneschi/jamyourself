@@ -94,7 +94,7 @@ if ($countComment > 0) {
         } else {
             ?>
             <div class="box-singole-comment">
-                <div class="row"><div  class="large-12 columns"><p class="grey"><?php echo $views['comment']['NODATA']; ?></p></div></div>
+                <div class="row"><div  class="large-12 columns"><p class="grey"><?php echo $views['comment']['nodata']; ?></p></div></div>
             </div>
             <?php
         }
@@ -106,7 +106,7 @@ if ($countComment > 0) {
                     <div class="">
                         <div class="row  ">
                             <div  class="small-9 columns ">
-                                <input id="comment<?php echo $class . '_' . $objectId; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['WRITE']; ?>" />
+                                <input id="comment<?php echo $class . '_' . $objectId; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['write']; ?>" />
                             </div>
                             <div  class="small-3 columns ">
                                 <input type="button" class="comment-button inline comment-btn" value="Comment" onclick="sendOpinion('<?php echo $toUser; ?>', $('#comment<?php echo $class . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', 10, 0)" />

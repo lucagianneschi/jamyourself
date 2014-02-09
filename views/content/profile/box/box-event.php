@@ -42,10 +42,10 @@ if (is_null($eventBox->error)) {
 			?>
 			<div class="row">					
 			    <div  class="small-9 columns">
-				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'event')"><?php echo $views['PREV']; ?> </a>
+				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'event')"><?php echo $views['prev']; ?> </a>
 			    </div>
 			    <div  class="small-3 columns">
-				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'event')"><?php echo $views['NEXT']; ?> </a>
+				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'event')"><?php echo $views['next']; ?> </a>
 			    </div>
 			</div>
 			<?php
@@ -117,10 +117,10 @@ if (is_null($eventBox->error)) {
 			    $pathCoverEvent = $fileManagerService->getEventPhotoPath($_POST['objectId'], $event_thumbnail);
 			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 				$css_love = '_love orange';
-				$text_love = $views['UNLOVE'];
+				$text_love = $views['unlove'];
 			    } else {
 				$css_love = '_unlove grey';
-				$text_love = $views['LOVE'];
+				$text_love = $views['love'];
 			    }
 			    ?>
 	    		    <!----------------------------------- SINGLE Event ------------------------------------>

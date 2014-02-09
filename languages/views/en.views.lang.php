@@ -12,16 +12,16 @@
  *  \todo      messaggio riga 279  
  */
 $views = array(
-    'PREV' => 'Previous',
-    'NEXT' => 'Next',
-    'BACK' => 'Back to List',
-    'LOVE' => 'Love',
-    'UNLOVE' => 'Unlove',
-    'COMM' => 'Comment',
-    'SHARE' => 'Share',
-    'REVIEW' => 'Review',
-    'CLOSE' => 'Close',
-    'VIEWALL' => 'View All',
+    'prev' => 'Previous',
+    'next' => 'Next',
+    'back' => 'Back to List',
+    'love' => 'Love',
+    'unlove' => 'Unlove',
+    'comm' => 'Comment',
+    'share' => 'Share',
+    'review' => 'Review',
+    'close' => 'Close',
+    'viewall' => 'View All',
     'post_button' => 'Post',
     'send' => 'Send',
     'publish' => 'Publish',
@@ -62,8 +62,8 @@ $views = array(
         'NODATA' => 'There are no Collaboration'
     ),
     'comment' => array(
-        'WRITE' => 'Write a comment',
-        'NODATA' => 'There are no Comment'
+        'write' => 'Write a comment',
+        'nodata' => 'There are no Comment'
     ),
     'event' => array(
         'TITLE' => 'Event',
@@ -71,10 +71,10 @@ $views = array(
         'NODATA' => 'There are no Events'
     ),
     'EventReview' => array(
-        'TITLE' => 'Event Reviews',
+        'title' => 'Event Reviews',
         'RATING' => 'Rating',
         'READ' => 'Read',
-        'NODATA' => 'There are no reviews'
+        'nodata' => 'There are no reviews'
     ),
     'followers' => array(
         'TITLE' => 'Followers',
@@ -196,7 +196,7 @@ $views = array(
             'CONTENT5' => 'Invited'
         ),
         'Comment' => array(
-            'TITLE' => 'Comment'
+            'title' => 'Comment'
         ),
         'Record' => array(
             'TITLE' => 'Tracklist',

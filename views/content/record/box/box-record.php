@@ -85,8 +85,8 @@ if (isset($_SESSION['currentUser']))
                                 <div class="row track-propriety" >
                                     <div class="box-propriety album-single-propriety">
                                         <div class="small-5 columns ">
-                                            <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE']; ?></a>
-                                            <!--a class="note white" onclick="setCounter(this, '<?php echo $record_objectId ?>', 'Song')"><?php echo $views['SHARE']; ?></a-->        
+                                            <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['love']; ?></a>
+                                            <!--a class="note white" onclick="setCounter(this, '<?php echo $record_objectId ?>', 'Song')"><?php echo $views['share']; ?></a-->        
                                         </div>
                                         <div class="small-5 columns propriety ">                                        
                                             <a class="icon-propriety _unlove grey" ><?php echo $value->getLoveCounter() ?></a>

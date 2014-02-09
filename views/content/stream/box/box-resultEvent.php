@@ -41,10 +41,10 @@ if (is_null($eventBox->error)) {
             </div>
             <?php if (count($events) > 3) { ?>					
                 <div  class="small-5 columns">
-                    <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="resultSlidePrev(this)"><?php echo $views['PREV']; ?></a>
+                    <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="resultSlidePrev(this)"><?php echo $views['prev']; ?></a>
                 </div>
                 <div  class="small-2 columns">
-                    <a class="slide-button-next _nextPage" onclick="resultSlideNext(this)"><?php echo $views['NEXT']; ?></a>
+                    <a class="slide-button-next _nextPage" onclick="resultSlideNext(this)"><?php echo $views['next']; ?></a>
                 </div>
             <?php } ?>
         </div>

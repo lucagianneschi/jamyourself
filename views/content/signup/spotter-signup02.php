@@ -119,7 +119,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         </div>	
         <div  class="small-8 columns">
             <input type="button" name="spotter-signup02-back" id="spotter-signup02-back" class="signup-button-back" value="<?php echo $views['go_back']; ?>"/>
-            <input type="button" name="spotter-signup02-next" id="spotter-signup02-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
+            <input type="button" name="spotter-signup02-next" id="spotter-signup02-next" class="signup-button" value="<?php echo $views['next']; ?>"/>
         </div>	
     </div>	
 

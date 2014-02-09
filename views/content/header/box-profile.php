@@ -125,10 +125,10 @@ $_SESSION['playlist']['songs'] = array();
 		));
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 		    $track_css_love = '_love orange';
-		    $track_text_love = $views['UNLOVE'];
+		    $track_text_love = $views['unlove'];
 		} else {
 		    $track_css_love = '_unlove grey';
-		    $track_text_love = $views['LOVE'];
+		    $track_text_love = $views['love'];
 		}
 		?>				
 		<script>
@@ -172,7 +172,7 @@ $_SESSION['playlist']['songs'] = array();
 				<div class="box-propriety album-single-propriety">
 				    <div class="small-6 columns ">
 					<a class="note white" onclick="love(this, 'Song', '<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser(); ?>')"><?php echo $track_text_love; ?></a>
-					<!--a class="note white" onclick="share()"><?php echo $views['SHARE']; ?></a-->
+					<!--a class="note white" onclick="share()"><?php echo $views['share']; ?></a-->
 				    </div>
 				    <div class="small-6 columns propriety ">					
 					<a class="icon-propriety <?php echo $track_css_love ?>" ><?php echo $value->getLoveCounter(); ?></a>

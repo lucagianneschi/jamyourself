@@ -71,9 +71,9 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	</div>	
 	<div  class="small-8 small-offset-1 columns">
 	    <input type="button" name="signup01-back" id="signup01-back" class="signup-button-back" value="<?php echo $views['go_back']; ?>"/>
-	    <input type="button" name="spotter-signup01-next" id="spotter-signup01-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
-	    <input type="button" name="jammer-signup01-next" id="jammer-signup01-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
-	    <input type="button" name="venue-signup01-next" id="venue-signup01-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
+	    <input type="button" name="spotter-signup01-next" id="spotter-signup01-next" class="signup-button" value="<?php echo $views['next']; ?>"/>
+	    <input type="button" name="jammer-signup01-next" id="jammer-signup01-next" class="signup-button" value="<?php echo $views['next']; ?>"/>
+	    <input type="button" name="venue-signup01-next" id="venue-signup01-next" class="signup-button" value="<?php echo $views['next']; ?>"/>
 
 	</div>	
     </div>
