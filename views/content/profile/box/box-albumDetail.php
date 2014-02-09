@@ -92,7 +92,7 @@ $pathImage = USERS_DIR . $userId . '/images/photos/'.$objectId.'/';
 	    		    <div class="row" style="margin-bottom: 10px">
 		    			<div  class="small-6 columns">
 		    			    <a class="note grey " onclick="love(this, 'Image', '<?php echo $value->getObjectId(); ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
-		    			    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+		    			    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 		    			    <a class="note grey" onclick="share(this, '<?php echo $value->getObjectId(); ?>', 'profile-Image')"><?php echo $views['SHARE']; ?></a>
 		    			</div>
 		    			<div  class="small-6 columns propriety">

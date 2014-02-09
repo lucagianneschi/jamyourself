@@ -34,7 +34,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
         <div  class="large-12 columns">
     	<div class="row">
     	    <div  class="large-12 columns">
-    		<h3><?php echo $views['media']['EventReview']['TITLE']; ?></h3>
+    		<h3><?php echo $views['media']['EventReview']['title']; ?></h3>
     	    </div>			
     	</div>	
 
@@ -133,8 +133,8 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div class="text grey cropText inline" style="line-height: 18px !important;">
 						<?php echo $review_text; ?>
 	    				</div>
-	    				<a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'eventReview_<?php echo $i ?>', '<?php echo $review_text ?>');"><?php echo $views['VIEWALL']; ?></strong></a>
-	    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'eventReview_<?php echo $i ?>', '<?php echo $review_text ?>');"><?php echo $views['CLOSE']; ?></strong></a>
+	    				<a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'eventReview_<?php echo $i ?>', '<?php echo $review_text ?>');"><?php echo $views['viewall']; ?></strong></a>
+	    				<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'eventReview_<?php echo $i ?>', '<?php echo $review_text ?>');"><?php echo $views['close']; ?></strong></a>
 	    			    </div>
 	    			</div>
 	    			<div class="row">
@@ -146,7 +146,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    			    <div class="box-propriety">
 	    				<div class="small-6 columns ">
 	    				    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $review_objectId; ?>', '<?php echo $review_user_objectId; ?>', 'Comment', '#social-EventReview-<?php echo $review_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $review_objectId; ?>', '<?php echo $review_user_objectId; ?>', 'Comment', '#social-EventReview-<?php echo $review_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 	    				    <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','EventReview')"><?php echo $views['SHARE']; ?></a -->
 	    				</div>
 	    				<div class="small-6 columns propriety ">
@@ -186,7 +186,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    <div  class="large-12 columns ">
 			<div class="box">
 			    <div class="row">
-				<div class="large-12 columns"><p class="grey"><?php echo $views['EventReview']['NODATA']; ?></p></div>
+				<div class="large-12 columns"><p class="grey"><?php echo $views['EventReview']['nodata']; ?></p></div>
 			    </div>
 			</div>
 		    </div>

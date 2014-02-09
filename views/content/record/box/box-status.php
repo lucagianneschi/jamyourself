@@ -50,7 +50,7 @@ if (is_array($record->getLovers()) && in_array($currentUser->getObjectId(), $rec
 	<div class="box-propriety">
 	    <div class="small-7 columns ">
 		<a class="note grey" onclick="love(this, 'Event', '<?php echo $record->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>');"><?php echo $text_love; ?></a>
-		<a class="note grey" onclick="setCounter()"><?php echo $views['COMM']; ?></a>
+		<a class="note grey" onclick="setCounter()"><?php echo $views['comm']; ?></a>
 		<a class="note grey" onclick="share()"><?php echo $views['SHARE']; ?></a>
 	    </div>
 	    <div class="small-5 columns propriety ">					

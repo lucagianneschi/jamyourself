@@ -170,7 +170,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				    <div class="box-propriety">
 	    					<div class="small-7 columns ">
 	    					    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $eventReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love ?></a>
-	    					    <a class="note grey" onclick="loadBoxOpinion('<?php echo $eventReview_objectId; ?>', '<?php echo $eventReview_user_objectId; ?>', 'Comment', '#social-EventReview .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+	    					    <a class="note grey" onclick="loadBoxOpinion('<?php echo $eventReview_objectId; ?>', '<?php echo $eventReview_user_objectId; ?>', 'Comment', '#social-EventReview .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 	    					    <a class="note grey" onclick="share(this, '<?php echo $eventReview_objectId; ?>', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
 	    					</div>
 	    					<div class="small-5 columns propriety ">					
@@ -188,7 +188,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				?>
 				<div  class="rsContent">	
 				    <div class="row">
-					<div  class="large-12 columns grey"><?php echo $views['EventReview']['NODATA']; ?></div>
+					<div  class="large-12 columns grey"><?php echo $views['EventReview']['nodata']; ?></div>
 				    </div>
 				</div>
 				<?php

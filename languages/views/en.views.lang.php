@@ -17,11 +17,11 @@ $views = array(
     'BACK' => 'Back to List',
     'LOVE' => 'Love',
     'UNLOVE' => 'Unlove',
-    'COMM' => 'Comment',
+    'comm' => 'Comment',
     'SHARE' => 'Share',
     'REVIEW' => 'Review',
-    'CLOSE' => 'Close',
-    'VIEWALL' => 'View All',
+    'close' => 'Close',
+    'viewall' => 'View All',
     'post_button' => 'Post',
     'send' => 'Send',
     'publish' => 'Publish',
@@ -62,8 +62,8 @@ $views = array(
         'NODATA' => 'There are no Collaboration'
     ),
     'comment' => array(
-        'WRITE' => 'Write a comment',
-        'NODATA' => 'There are no Comment'
+        'write' => 'Write a comment',
+        'nodata' => 'There are no Comment'
     ),
     'event' => array(
         'TITLE' => 'Event',
@@ -71,10 +71,10 @@ $views = array(
         'NODATA' => 'There are no Events'
     ),
     'EventReview' => array(
-        'TITLE' => 'Event Reviews',
+        'title' => 'Event Reviews',
         'RATING' => 'Rating',
         'READ' => 'Read',
-        'NODATA' => 'There are no reviews'
+        'nodata' => 'There are no reviews'
     ),
     'followers' => array(
         'TITLE' => 'Followers',
@@ -196,7 +196,7 @@ $views = array(
             'CONTENT5' => 'Invited'
         ),
         'Comment' => array(
-            'TITLE' => 'Comment'
+            'title' => 'Comment'
         ),
         'Record' => array(
             'TITLE' => 'Tracklist',

@@ -43,10 +43,10 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                                 <div class="">
                                     <div class="row  ">
                                         <div  class="small-9 columns ">
-                                            <input id="commentRecord_<?php echo $objectId; ?>" type="text" class="comment inline" placeholder="<?php echo $views['comment']['WRITE']; ?>" />
+                                            <input id="commentRecord_<?php echo $objectId; ?>" type="text" class="comment inline" placeholder="<?php echo $views['comment']['write']; ?>" />
                                         </div>
                                         <div  class="small-3 columns ">
-                                            <input type="button" class="post-button inline" value="<?php echo $views['COMM']; ?>" onclick="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentRecord_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Record', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>')"/>
+                                            <input type="button" class="post-button inline" value="<?php echo $views['comm']; ?>" onclick="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentRecord_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Record', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>')"/>
                                         </div>
                                     </div>
                                 </div>
@@ -170,7 +170,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
                         <div class="box">	
                             <div class="row">
                                 <div  class="large-12 columns ">
-                                    <p class="grey"><?php echo $views['comment']['NODATA']; ?></p>
+                                    <p class="grey"><?php echo $views['comment']['nodata']; ?></p>
                                 </div>
                             </div>
                         </div>

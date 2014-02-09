@@ -263,7 +263,7 @@ if (is_null($recordBox->error)) {
 			    <div class="box-propriety">
 				<div class="small-6 columns ">
 				    <a class="note white" onclick="love(this, 'Record', '<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>')"><?php echo $recordSingle_text_love; ?></a>
-				    <a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>', 'Record', '.<?php echo $recordSingle_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+				    <a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>', 'Record', '.<?php echo $recordSingle_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 				    <a class="note white" onclick="share(this, '<?php echo $recordSingle_objectId ?>', 'profile-Record')"><?php echo $views['SHARE']; ?></a>
 				    <a class="note white" onclick="location.href = 'uploadReview.php?rewiewId=<?php echo $recordSingle_objectId ?>&type=Record'"><?php echo $views['REVIEW']; ?></a>	
 				</div>

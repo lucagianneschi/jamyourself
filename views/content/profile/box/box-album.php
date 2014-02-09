@@ -200,7 +200,7 @@ if (is_null($albumBox->error)) {
 							<div class="box-propriety">
 							    <div class="small-6 columns">
 									<a class="note grey" onclick="love(this, 'Album', '<?php echo $album_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
-									<a class="note grey" onclick="loadBoxOpinion('<?php echo $album_objectId; ?>', '<?php echo $album_user_objectId; ?>', 'Album', '#<?php echo $album_objectId; ?> .albumOpinion.box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+									<a class="note grey" onclick="loadBoxOpinion('<?php echo $album_objectId; ?>', '<?php echo $album_user_objectId; ?>', 'Album', '#<?php echo $album_objectId; ?> .albumOpinion.box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 									<a class="note grey" onclick="share(this, '<?php echo $album_objectId; ?>', 'profile-singleAlbum')"><?php echo $views['SHARE']; ?></a>
 							    </div>
 							    <div class="small-6 columns propriety ">					
