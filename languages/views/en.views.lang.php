@@ -77,12 +77,12 @@ $views = array(
         'nodata' => 'There are no reviews'
     ),
     'followers' => array(
-        'TITLE' => 'Followers',
-        'NODATA' => 'There are no Followers'
+        'title' => 'Followers',
+        'nodata' => 'There are no Followers'
     ),
     'following' => array(
-        'TITLE' => 'Following',//non richiamato
-        'NODATA' => 'You are not following anyone'//non richiamato
+        'title' => 'Following',//non richiamato
+        'nodata' => 'You are not following anyone'//non richiamato
     ),
     'friends' => array(
         'TITLE' => 'Friends',

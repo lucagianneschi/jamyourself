@@ -12,14 +12,14 @@
  *  \todo
  */
 $views = array(
-    'PREV' => 'Previous',
-    'NEXT' => 'Next',
-    'BACK' => 'Back to List',
-    'LOVE' => 'Love',
-    'UNLOVE' => 'Unlove',
+    'prev' => 'Previous',
+    'next' => 'Next',
+    'back' => 'Back to List',
+    'love' => 'Love',
+    'unlove' => 'Unlove',
     'comm' => 'Comment',
-    'SHARE' => 'Share',
-    'REVIEW' => 'Review',
+    'share' => 'Share',
+    'review' => 'Review',
     'close' => 'Close',
     'viewall' => 'View All',
     'post_button' => 'Post',
