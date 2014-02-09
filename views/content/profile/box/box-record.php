@@ -68,7 +68,7 @@ if (is_null($recordBox->error)) {
 		    ?>
 		    <div class="row">
 			<div class="large-12 columns" style="border-bottom: 1px solid #303030;margin-bottom: 10px;">
-			    <div class="text white" style="padding: 10px;"><?php echo $views['record']['LIST']; ?></div>
+			    <div class="text white" style="padding: 10px;"><?php echo $views['record']['list']; ?></div>
 			</div>
 		    </div>
 		    <div id="recordSlide" class="royalSlider rsMinW">
@@ -96,7 +96,7 @@ if (is_null($recordBox->error)) {
 			    }
 			    $textData = '';
 			    if (!is_null($record_data) && $record_data != '') {
-				$textData = $views['record']['RECORDED'];
+				$textData = $views['record']['recorded'];
 			    }
 			    ?>
 	    		    <div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>" >
@@ -176,7 +176,7 @@ if (is_null($recordBox->error)) {
 		}
 		$textData = '';
 		if (!is_null($recordSingle_data) && $recordSingle_data != '') {
-		    $textData = $views['record']['RECORDED'];
+		    $textData = $views['record']['recorded'];
 		}
 		?>
 		<div class="box no-display <?php echo $recordSingle_objectId ?>" >

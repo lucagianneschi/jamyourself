@@ -102,7 +102,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                             </div>								
                                             <div class="row ">						
                                                 <div  class="small-12 columns ">
-                                                    <div class="note grey"><?php echo $views['RecordReview']['RATING']; ?>
+                                                    <div class="note grey"><?php echo $views['recordReview']['rating']; ?>
                                                         <?php
                                                         for ($i = 1; $i <= 5; $i++) {
                                                             if ($review_rating >= $i) {
@@ -137,7 +137,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                             <div class="small-6 columns ">
                                                 <a class="note grey " onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                                                 <a class="note grey" onclick="loadBoxOpinion('<?php echo $review_objectId; ?>', '<?php echo $review_user_objectId; ?>', 'Comment', '#social-RecordReview-<?php echo $review_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
-                                            <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','RecordReview')"><?php echo $views['share']; ?></a -->
+                                            <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','recordReview')"><?php echo $views['share']; ?></a -->
                                             </div>
                                             <div class="small-6 columns propriety ">					
                                                 <a class="icon-propriety <?php echo $css_love; ?>"><?php echo $review_counter_love; ?></a>
@@ -176,7 +176,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                     <div  class="large-12 columns ">
                         <div class="box">						
                             <div class="row">
-                                <div  class="large-12 columns"><p class="grey"><?php echo $views['RecordReview']['nodata']; ?></p></div>
+                                <div  class="large-12 columns"><p class="grey"><?php echo $views['recordReview']['nodata']; ?></p></div>
                             </div>
                         </div>
                     </div>

@@ -33,7 +33,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
         <div  class="large-12 columns">	
             <div class="row">
                 <div  class="small-5 columns">
-                    <h3><?php echo $views['RecordReview']['title']; ?></h3>
+                    <h3><?php echo $views['recordReview']['title']; ?></h3>
                 </div>	
                 <div  class="small-7 columns align-right">
                     <?php
@@ -41,10 +41,10 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                         ?>
                         <div class="row">					
                             <div  class="small-9 columns">
-                                <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'RecordReview')"><?php echo $views['prev']; ?> </a>
+                                <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'recordReview')"><?php echo $views['prev']; ?> </a>
                             </div>
                             <div  class="small-3 columns">
-                                <a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'RecordReview')"><?php echo $views['next']; ?> </a>
+                                <a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'recordReview')"><?php echo $views['next']; ?> </a>
                             </div>
                         </div>
                         <?php
@@ -135,7 +135,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                                         </div>	
                                                         <div class="row">						
                                                             <div  class="small-12 columns ">
-                                                                <div class="note grey"><?php echo $views['RecordReview']['RATING']; ?></div>
+                                                                <div class="note grey"><?php echo $views['recordReview']['rating']; ?></div>
                                                             </div>
                                                         </div>
                                                         <div class="row ">						
@@ -189,7 +189,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                 ?>
                                 <div  class="rsContent">	
                                     <div class="row">
-                                        <div  class="large-12 columns grey"><?php echo $views['RecordReview']['nodata']; ?></div>
+                                        <div  class="large-12 columns grey"><?php echo $views['recordReview']['nodata']; ?></div>
                                     </div>
                                 </div>			
                                 <?php

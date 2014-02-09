@@ -220,7 +220,7 @@ require_once ROOT_DIR . 'config.php';
 				    async: true,
 				    beforeSend: function(xhr) {
 					//spinner.show();
-					goSpinnerBox('#box-recordReview', 'RecordReview');
+					goSpinnerBox('#box-recordReview', 'recordReview');
 					console.log('Sono partito box-recordReview');
 				    }
 				}).done(function(message, status, xhr) {

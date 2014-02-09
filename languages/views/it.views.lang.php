@@ -97,13 +97,13 @@ $views = array(
     ),
     'post' => array(
         'title' => 'Post',
-        'WRITE' => 'Write a post',
+        'write' => 'Write a post',
         'nodata' => 'There are no Post'
     ),
     'record' => array(
         'title' => 'Music',
-        'LIST' => 'Album List',
-        'RECORDED' => 'Recorded',
+        'list' => 'Album List',
+        'recorded' => 'Recorded',
         'PLAY' => 'Play Now',
         'ADDPLAYLIST' => 'add to playlist',
         'REMOVEPLAYLIST' => 'remove',
@@ -112,9 +112,9 @@ $views = array(
     'recordDetail' => array(
         'nodata' => 'There are no songs'
     ),
-    'RecordReview' => array(
+    'recordReview' => array(
         'title' => 'Album Reviews',
-        'RATING' => 'Rating',
+        'rating' => 'Rating',
         'READ' => 'Read',
         'nodata' => 'There are no reviews'
     ),
@@ -205,7 +205,7 @@ $views = array(
             'buy' => 'Buy album at',
             'tracklist' => 'Tracklist'
         ),
-        'RecordReview' => array(
+        'recordReview' => array(
             'title' => 'Reviews',
             'review' => ' Review'
         ),
