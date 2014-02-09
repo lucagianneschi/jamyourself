@@ -137,7 +137,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                             <div class="small-6 columns ">
                                                 <a class="note grey " onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
                                                 <a class="note grey" onclick="loadBoxOpinion('<?php echo $review_objectId; ?>', '<?php echo $review_user_objectId; ?>', 'Comment', '#social-RecordReview-<?php echo $review_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-                                            <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','RecordReview')"><?php echo $views['SHARE']; ?></a -->
+                                            <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','RecordReview')"><?php echo $views['share']; ?></a -->
                                             </div>
                                             <div class="small-6 columns propriety ">					
                                                 <a class="icon-propriety <?php echo $css_love; ?>"><?php echo $review_counter_love; ?></a>
