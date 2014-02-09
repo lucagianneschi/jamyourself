@@ -170,7 +170,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                                 <div class="box-propriety">
                                                     <div class="small-6 columns ">
                                                         <a class="note grey" onclick="love(this, 'Comment', '<?php echo $recordReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
-                                                        <a class="note grey" onclick="loadBoxOpinion('<?php echo $recordReview_objectId; ?>', '<?php echo $recordReview_user_objectId; ?>', 'Comment', '#social-RecordReview .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                                                        <a class="note grey" onclick="loadBoxOpinion('<?php echo $recordReview_objectId; ?>', '<?php echo $recordReview_user_objectId; ?>', 'Comment', '#social-RecordReview .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
                                                         <a class="note grey" onclick="share(this, '<?php echo $recordReview_objectId; ?>', 'social-RecordReview')"><?php echo $views['share']; ?></a>
                                                     </div>
                                                     <div class="small-6 columns propriety ">					
