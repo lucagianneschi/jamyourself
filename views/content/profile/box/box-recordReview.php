@@ -41,10 +41,10 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                         ?>
                         <div class="row">					
                             <div  class="small-9 columns">
-                                <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'RecordReview')"><?php echo $views['PREV']; ?> </a>
+                                <a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'RecordReview')"><?php echo $views['prev']; ?> </a>
                             </div>
                             <div  class="small-3 columns">
-                                <a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'RecordReview')"><?php echo $views['NEXT']; ?> </a>
+                                <a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'RecordReview')"><?php echo $views['next']; ?> </a>
                             </div>
                         </div>
                         <?php
