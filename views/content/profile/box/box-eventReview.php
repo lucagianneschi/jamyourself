@@ -84,7 +84,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                     $eventReview_share = $value->getShareCounter();
                                     if (in_array($currentUser->getObjectId(), $value->getLovers())) {
                                         $css_love = '_love orange';
-                                        $text_love = $views['UNLOVE'];
+                                        $text_love = $views['unlove'];
                                     } else {
                                         $css_love = '_unlove grey';
                                         $text_love = $views['LOVE'];

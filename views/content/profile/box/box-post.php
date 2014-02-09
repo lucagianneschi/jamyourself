@@ -66,7 +66,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 			    $post_commentCounter = $value->getCommentCounter();
 			    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
 				$css_love = '_love orange';
-				$text_love = $views['UNLOVE'];
+				$text_love = $views['unlove'];
 			    } else {
 				$css_love = '_unlove grey';
 				$text_love = $views['LOVE'];

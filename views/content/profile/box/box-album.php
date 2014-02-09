@@ -71,7 +71,7 @@ if (is_null($albumBox->error)) {
 				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['objectId'], album_thumbnailCover);
 				if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 				    $css_love = '_love orange';
-				    $text_love = $views['UNLOVE'];
+				    $text_love = $views['unlove'];
 				} else {
 				    $css_love = '_unlove grey';
 				    $text_love = $views['LOVE'];
@@ -127,7 +127,7 @@ if (is_null($albumBox->error)) {
 		$album_share = $value->getShareCounter();
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 		    $css_love = '_love orange';
-		    $text_love = $views['UNLOVE'];
+		    $text_love = $views['unlove'];
 		} else {
 		    $css_love = '_unlove grey';
 		    $text_love = $views['LOVE'];

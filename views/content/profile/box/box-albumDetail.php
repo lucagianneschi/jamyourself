@@ -75,7 +75,7 @@ $fileManagerService = new FileManagerService();
 	    if (isset($_SESSION['currentUser']) &&
 		    (is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers()))) {
 		$css_love = '_love orange';
-		$text_love = $views['UNLOVE'];
+		$text_love = $views['unlove'];
 	    } else {
 		$css_love = '_unlove grey';
 		$text_love = $views['LOVE'];
