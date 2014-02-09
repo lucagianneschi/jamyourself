@@ -122,8 +122,8 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                                             <div class="text grey cropText inline" style="line-height: 18px !important;">
             <?php echo $review_text ?>									
                                             </div>
-                                            <a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['VIEWALL']; ?></strong></a>
-                                            <a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['CLOSE']; ?></strong></a>
+                                            <a href="#" class="orange no-display viewText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['viewall']; ?></strong></a>
+                                            <a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $i ?>', '<?php echo $review_text ?>')"><?php echo $views['close']; ?></strong></a>
                                         </div>
                                     </div>					
 
@@ -165,7 +165,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
                         <?php
                         $nextToShow = ($reviewCounter - $limit > $reviewToShow) ? $reviewToShow : ($reviewCounter - $limit);
                         ?>
-                        <div class="text" onClick="loadBoxRecordReview(<?php echo $limit + $reviewToShow; ?>, 0);"><?php echo $views['Record']['other']; ?><?php echo $nextToShow; ?> <?php echo $views['REVIEW']; ?></div>
+                        <div class="text" onClick="loadBoxRecordReview(<?php echo $limit + $reviewToShow; ?>, 0);"><?php echo $views['Record']['other']; ?><?php echo $nextToShow; ?> <?php echo $views['review']; ?></div>
                     </div>	
                 </div>
                 <?php
