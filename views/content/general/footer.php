@@ -12,7 +12,7 @@ if (isset($_SESSION['currentUser'])) {
 	<div class="row">
 
 	    <div class="large-2 columns hide-for-small" onclick="footerShow()">
-		<div class="user grey"><?php echo $views['FOOTER']['STAYTUNEDON']; ?></div>
+		<div class="user grey"><?php echo $views['footer']['staytunedon']; ?></div>
 	    </div>
 	    <div class="large-5 small-6 columns" onclick="footerShow()">
 		<a class="ico-label _facebook"></a>
@@ -40,34 +40,34 @@ if (isset($_SESSION['currentUser'])) {
 		<br>	
 		<div class="row">
 		    <div class="small-3 columns">
-			<h5><?php echo $views['FOOTER']['ABOUTJAM']; ?></h5>
-			<a href="#"><?php echo $views['FOOTER']['ABOUTUS']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['VIRTUALTOUR']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['CAREER']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['TERMSCONDITION']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['LICENSES']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['PRINCINGPOLICY']; ?></a><br>
+			<h5><?php echo $views['footer']['aboutjam']; ?></h5>
+			<a href="#"><?php echo $views['footer']['aboutus']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['virtualtour']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['CAREER']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['term_cond']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['licenses']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['pricing']; ?></a><br>
 		    </div>
 		    <div class="small-3 columns">
-			<h5><?php echo $views['FOOTER']['SUPPORT']; ?></h5>
-			<a href="#"><?php echo $views['FOOTER']['GUIDE']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['FAQ']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['PLUGIN']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['REFOUNDPOLICY']; ?></a><br>
+			<h5><?php echo $views['footer']['support']; ?></h5>
+			<a href="#"><?php echo $views['footer']['guide']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['faq']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['plugin']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['refpolicy']; ?></a><br>
 		    </div>	
 		    <div class="small-3 columns">
-			<h5><?php echo $views['FOOTER']['RESOURCES']; ?></h5>							
-			<a href="#"><?php echo $views['FOOTER']['API']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['MOBILE']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['LOGOSBADGE']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['PRESRESOURCES']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['ADVRESOURCES']; ?></a><br>
+			<h5><?php echo $views['footer']['resources']; ?></h5>							
+			<a href="#"><?php echo $views['footer']['api']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['mobile']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['logos_badge']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['pressres']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['advres']; ?></a><br>
 		    </div>	
 		    <div class="small-3 columns">
-			<h5><?php echo $views['FOOTER']['CONTACT']; ?></h5>
-			<a href="#"><?php echo $views['FOOTER']['REPORTABUSE']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['WRITEUS']; ?></a><br>
-			<a href="#"><?php echo $views['FOOTER']['NEWSLETTER']; ?></a>
+			<h5><?php echo $views['footer']['contact']; ?></h5>
+			<a href="#"><?php echo $views['footer']['abuse']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['writeus']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['newsletter']; ?></a>
 		    </div>		
 		</div>
 

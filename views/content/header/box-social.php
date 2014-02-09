@@ -65,17 +65,17 @@ if (isset($userObjectId)) {
 	    case 'message':
 		$detailNotification->initForMessageList();
 		$numNot = $message;
-		$other = $views['header']['social']['MESSAGE_MSG'];
+		$other = $views['header']['social']['message_msg'];
 		break;
 	    case 'event':
 		$detailNotification->initForEventList();
 		$numNot = $invited;
-		$other = $views['header']['social']['MESSAGE_EVENT'];
+		$other = $views['header']['social']['message_event'];
 		break;
 	    case 'relation':
 		$detailNotification->initForRelationList($userType);
 		$numNot = $relation;
-		$other = $views['header']['social']['MESSAGE_RELATION'];
+		$other = $views['header']['social']['message_relation'];
 		break;
 	    default:
 		break;
@@ -219,7 +219,7 @@ if (isset($userObjectId)) {
     } else {
 	?>
 	<div class"row">
-	     <div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK'] ?></strong> </a></div>
+	     <div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['message_mark'] ?></strong> </a></div>
 	    <div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other ?></strong> </a></div>			
 	</div>
 	<script>
