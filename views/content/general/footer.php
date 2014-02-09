@@ -43,7 +43,7 @@ if (isset($_SESSION['currentUser'])) {
 			<h5><?php echo $views['footer']['aboutjam']; ?></h5>
 			<a href="#"><?php echo $views['footer']['aboutus']; ?></a><br>
 			<a href="#"><?php echo $views['footer']['virtualtour']; ?></a><br>
-			<a href="#"><?php echo $views['footer']['CAREER']; ?></a><br>
+			<a href="#"><?php echo $views['footer']['career']; ?></a><br>
 			<a href="#"><?php echo $views['footer']['term_cond']; ?></a><br>
 			<a href="#"><?php echo $views['footer']['licenses']; ?></a><br>
 			<a href="#"><?php echo $views['footer']['pricing']; ?></a><br>

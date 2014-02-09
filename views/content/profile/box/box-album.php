@@ -138,7 +138,7 @@ if (is_null($albumBox->error)) {
 			<div class="box" >
 			    <div class="row box-album" style="border-bottom: 1px solid #303030;margin-bottom: 20px;">
 				<div class="large-12 columns" >					
-				    <a class="ico-label _back_page text white" style="margin-bottom: 10px;" onclick="loadBoxAlbum()"><?php echo $views['BACK']; ?></a>
+				    <a class="ico-label _back_page text white" style="margin-bottom: 10px;" onclick="loadBoxAlbum()"><?php echo $views['back']; ?></a>
 				</div>
 			    </div>	
 			    <!----------------------------------------- ALBUM DETAIL--------------------------->			

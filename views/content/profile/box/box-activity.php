@@ -98,7 +98,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					<div  class="small-9 columns box-info">
 					    <div class="sottotitle grey-dark"><?php echo $dataActivityRecord['title'] ?></div>
 					    <div class="text grey"><?php echo $views['activity']['recorded']; ?> <?php echo $dataActivityRecord['year'] ?></div>
-					    <a class="ico-label _play-large text "><?php echo $views['activity']['VIEWALBUM']; ?></a>									
+					    <a class="ico-label _play-large text "><?php echo $views['activity']['viewalbum']; ?></a>									
 					</div>									
 				    </div>
 				    <?php
@@ -176,7 +176,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 	    				<div  class="small-9 columns box-info">
 	    				    <div class="sottotitle grey-dark"><?php echo $value->getRecord()->getTitle(); ?></div>
 	    				    <div class="text grey"><?php echo $views['activity']['recorded']; ?> <?php echo $value->getSong()->getTitle(); ?></div>
-	    				    <a class="ico-label _play-large text "><?php echo $views['activity']['VIEWALBUM']; ?></a>			
+	    				    <a class="ico-label _play-large text "><?php echo $views['activity']['viewalbum']; ?></a>			
 	    				</div>									
 	    			    </div>
 					<?php
