@@ -28,7 +28,7 @@ $featuringsCounter = count($featurings);
 if ($featuringsCounter > 0) {
     ?>
 
-    <p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['content2']; ?></a></p>
+    <p class="title" data-section-title><a href="#"><?php echo $views['media']['information']['content2']; ?></a></p>
     <div class="content" data-section-content>
         <div class="row">
             <?php
