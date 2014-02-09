@@ -75,8 +75,8 @@ if (isset($_SESSION['currentUser']))
                                         <input type="hidden" name="song" value="<?php echo $pathSong . $value->getFilePath(); ?>" />
                                     </div>
                                     <div class="small-3 columns track-propriety align-right" style="padding-right: 20px;">                                        
-                                        <a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['ADDPLAYLIST']; ?></a>
-                                        <a class="icon-propriety _remove-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['REMOVEPLAYLIST']; ?></a>
+                                        <a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['addplaylist']; ?></a>
+                                        <a class="icon-propriety _remove-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['removeplaylist']; ?></a>
                                     </div>
                                     <div class="small-3 columns track-nopropriety align-right" style="padding-right: 20px;">
                                         <a class="icon-propriety "><?php echo $hoursminsandsecs ?></a>        

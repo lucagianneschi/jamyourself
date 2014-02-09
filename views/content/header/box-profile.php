@@ -162,7 +162,7 @@ $_SESSION['playlist']['songs'] = array();
 				    <input type="hidden" name="index" value="<?php echo $index ?>" />
 				</div>					
 				<div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">	
-				    <a class="icon-propriety _remove-small note orange" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['REMOVEPLAYLIST']; ?></a>											
+				    <a class="icon-propriety _remove-small note orange" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['removeplaylist']; ?></a>											
 				</div>
 				<div class="small-3 columns track-nopropriety align-right" style="padding-right: 15px;">
 				    <a class="icon-propriety "><?php echo $hoursminsandsecs ?></a>	
