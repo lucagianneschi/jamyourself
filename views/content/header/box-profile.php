@@ -199,7 +199,7 @@ $_SESSION['playlist']['songs'] = array();
     </div>
     <script>
     	    $(document).ready(function() {
-    		$('.title-player').html("<?php echo $views['header']['SONG'] ?>");
+    		$('.title-player').html("<?php echo $views['header']['song'] ?>");
     //	 	$('#player').addClass('no-display');
     //	 	$('#noPlaylist').removeClass('no-display');
     	    });

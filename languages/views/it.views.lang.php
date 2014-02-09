@@ -214,11 +214,11 @@ $views = array(
         ),
     ),
     'header' => array(
-        'OPTADD1' => 'Carica la tua musica',
-        'OPTADD2' => 'Carica un evento',
-        'OPTADD3' => 'Carica le tue foto',
-        'SEARCH' => 'Cerca persone, musica o eventi',
-        'SONG' => 'Aggiungi brani alla tua playlist',
+        'optadd1' => 'Carica la tua musica',
+        'optadd2' => 'Carica un evento',
+        'optadd3' => 'Carica le tue foto',
+        'search' => 'Cerca persone, musica o eventi',
+        'song' => 'Aggiungi brani alla tua playlist',
 	'accept' => 'Accept',
 	'decline' => 'Decline',
         'radio' => array(

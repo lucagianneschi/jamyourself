@@ -114,7 +114,7 @@ $playlistCurrentUser = array();
                                     </div>			
                                 </div>
                             </div>		
-                            <div class="no-display" id="noPlaylist"><?php echo $views['header']['SONG'] ?></div>
+                            <div class="no-display" id="noPlaylist"><?php echo $views['header']['song'] ?></div>
                         </div>			
                     </div>
                     <!------------------------------------- LOGO --------------------------------------------->
@@ -145,7 +145,7 @@ $playlistCurrentUser = array();
                                         <div class="header inline">
                                             <!---------------------------- SEARCH ------------------------------------>						
                                             <form class="inline" action="">
-                                                <span><input id='header-btn-search' name='header-btn-search' type="search" class="search" placeholder="<?php echo $views['header']['SEARCH'] ?>"></span>
+                                                <span><input id='header-btn-search' name='header-btn-search' type="search" class="search" placeholder="<?php echo $views['header']['search'] ?>"></span>
                                                 <!-- <span><input type="search" class="search-small show-for-small" placeholder="Cerca "></span> -->
                                             </form>
                                         </div>	
@@ -170,9 +170,9 @@ $playlistCurrentUser = array();
                 <div id="add" style="display: none;">
                     <div class="row">
                         <div class="large-12 columns">
-                            <div class="add-btn" onclick="location.href = 'uploadRecord.php'"><?php echo $views['header']['OPTADD1'] ?></div>
-                            <div class="add-btn" onclick="location.href = 'uploadEvent.php'"><?php echo $views['header']['OPTADD2'] ?></div>
-                            <div class="add-btn" onclick="location.href = 'uploadAlbum.php'"><?php echo $views['header']['OPTADD3'] ?></div>
+                            <div class="add-btn" onclick="location.href = 'uploadRecord.php'"><?php echo $views['header']['optadd1'] ?></div>
+                            <div class="add-btn" onclick="location.href = 'uploadEvent.php'"><?php echo $views['header']['optadd2'] ?></div>
+                            <div class="add-btn" onclick="location.href = 'uploadAlbum.php'"><?php echo $views['header']['optadd3'] ?></div>
                         </div>
                     </div>
                 </div>

@@ -214,11 +214,11 @@ $views = array(
         ),
     ),
     'header' => array(
-        'OPTADD1' => 'Upload your music',
-        'OPTADD2' => 'Create Event',
-        'OPTADD3' => 'Upload Photo',
-        'SEARCH' => 'Search people, music or events',
-        'SONG' => 'Start adding songs to your playlist',
+        'optadd1' => 'Upload your music',
+        'optadd2' => 'Create Event',
+        'optadd3' => 'Upload Photo',
+        'search' => 'Search people, music or events',
+        'song' => 'Start adding songs to your playlist',
         'radio' => array(
             'profile' => 'Profile',
             'social' => 'Social'
