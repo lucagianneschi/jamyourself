@@ -48,27 +48,43 @@ function executionTime($start, $end) {
 }
 
 /**
- * \fn		string parse_decode_string($string)
+ * \fn		string decode_string($string)
  * \brief	The function returns a string read from Parse that can be interpreted by the user
  * \param	$string 	represent the string from Parse to decode
  * \return	string		the decoded string
  */
-function parse_decode_string($string) {
+function decode_string($string) {
     $string = html_entity_decode($string, ENT_QUOTES, 'UTF-8');
     $decodedString = preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
     return $decodedString;
 }
 
 /**
- * \fn		string parse_encode_string($string)
+ * \fn		string encode_string($string)
  * \brief	The function returns a string that can be saved to Parse
  * \param	$string 	represent the string to be saved
  * \return	string		the string encoded for Parse
  */
-function parse_encode_string($string) {
+function encode_string($string) {
     $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
     $string = str_replace(array("\r\n", "\r", "\n"), "<br />", $string);
     return $string;
 }
 
+/**
+ * \fn		sessionChecker()
+ * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
+ * \return	string $currentUserId;
+ */
+function sessionChecker() {
+    if (session_id() == '')
+	session_start();
+    $sessionExist = session_id() === '' ? FALSE : TRUE;
+    $currentUserId = null;
+    if ($sessionExist == TRUE && isset($_SESSION['currentUser'])) {
+	$currentUser = $_SESSION['currentUser'];
+	$currentUserId = $currentUser->getObjectId();
+    }
+    return $currentUserId;
+}
 ?>
