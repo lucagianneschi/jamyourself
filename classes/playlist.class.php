@@ -24,23 +24,21 @@ class Playlist {
     private $fromUser;
     private $name;
     private $songs;
-    private $songsArray;
     private $unlimited;
     private $createdAt;
     private $updatedAt;
-    private $ACL;
 
     /**
-     * \fn		string getObjectId()
+     * \fn	int getObjectId()
      * \brief	Return the objectId value
-     * \return	string
+     * \return	int
      */
     public function getObjectId() {
 	return $this->objectId;
     }
 
     /**
-     * \fn		BOOL getActive()
+     * \fn	BOOL getActive()
      * \brief	Return the active value
      * \return	BOOL
      */
@@ -49,16 +47,16 @@ class Playlist {
     }
 
     /**
-     * \fn		string getFromUser()
+     * \fn	getFromUser()
      * \brief	Return the objectId value for the fromUser
-     * \return	string
+     * \return	int
      */
     public function getFromUser() {
 	return $this->fromUser;
     }
 
     /**
-     * \fn		string getName()
+     * \fn	string getName()
      * \brief	Return the name value for playlist
      * \return	string
      */
@@ -67,25 +65,16 @@ class Playlist {
     }
 
     /**
-     * \fn	array getSongs()
+     * \fn	getSongs()
      * \brief	Return an array of object of istances of the Song class
-     * \return	array
+     * \return	int
      */
     public function getSongs() {
 	return $this->songs;
     }
 
     /**
-     * \fn	array getSongsArray()
-     * \brief	Return an array of objectId of istances of the Song class
-     * \return	array
-     */
-    public function getSongsArray() {
-	return $this->songsArray;
-    }
-
-    /**
-     * \fn		BOOL getUnlimited()
+     * \fn	BOOL getUnlimited()
      * \brief	Return the unlimited value (YES just for premium account)
      * \return	BOOL
      */
@@ -94,7 +83,7 @@ class Playlist {
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
+     * \fn	DateTime getCreatedAt()
      * \brief	Return the Playlist creation date
      * \return	DateTime
      */
@@ -103,7 +92,7 @@ class Playlist {
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
+     * \fn	DateTime getUpdatedAt()
      * \brief	Return the Playlist modification date
      * \return	DateTime
      */
@@ -112,16 +101,7 @@ class Playlist {
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the Playlist ACL 
-     * \return	parseACL
-     */
-    public function getACL() {
-	return $this->ACL;
-    }
-
-    /**
-     * \fn		void setObjectId($objectId)
+     * \fn	void setObjectId($objectId)
      * \brief	Sets the objectId value
      * \param	string
      */
@@ -130,7 +110,7 @@ class Playlist {
     }
 
     /**
-     * \fn		void setActive($active)
+     * \fn	void setActive($active)
      * \brief	Sets the active value
      * \param	BOOL
      */
@@ -139,16 +119,16 @@ class Playlist {
     }
 
     /**
-     * \fn		void setFromUser($fromUser))
-     * \brief	Sets the fromUser value,pointer to ParseUser
-     * \param	string
+     * \fn	void setFromUser($fromUser))
+     * \brief	Sets the fromUser value
+     * \param	int
      */
     public function setFromUser($fromUser) {
 	$this->fromUser = $fromUser;
     }
 
     /**
-     * \fn		void  setName($name)
+     * \fn	void  setName($name)
      * \brief	Sets the name for the playlist
      * \param	string
      */
@@ -157,25 +137,16 @@ class Playlist {
     }
 
     /**
-     * \fn		void setSongs($songs)
+     * \fn	void setSongs($songs)
      * \brief	Sets the songs value,array of pointer to Song
-     * \param	array
+     * \param	int
      */
     public function setSongs($songs) {
 	$this->songs = $songs;
     }
 
     /**
-     * \fn		void setSongs($songs)
-     * \brief	Sets the songs value,array of pointer to Song
-     * \param	array
-     */
-    public function setSongsArray($songsArray) {
-	$this->songsArray = $songsArray;
-    }
-
-    /**
-     * \fn		void setUnlimited($unlimited)
+     * \fn	void setUnlimited($unlimited)
      * \brief	Sets the unlimited value
      * \param	BOOL
      */
@@ -202,16 +173,7 @@ class Playlist {
     }
 
     /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Playlist ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
-
-    /**
-     * \fn		string __toString()
+     * \fn	string __toString()
      * \brief	Return a printable string representing the Playlist object
      * \return	string
      */
@@ -225,24 +187,7 @@ class Playlist {
 	}
 	$string.= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	$string.= '[name] => ' . $this->getName() . '<br />';
-	if (count($this->getSongs()) != 0) {
-	    foreach ($this->getSongs() as $song) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[songs] => ' . $song . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[songs] => NULL<br />';
-	}
-	if (count($this->getSongsArray()) != 0) {
-	    foreach ($this->getSongsArray() as $songId) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[songId] => ' . $songId . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[songId] => NULL<br />';
-	}
+	$string .= '[songs] => ' . $this->getSongs() . '<br />';
 	if ($this->getUnlimited() === null) {
 	    $string .= '[unlimited] => NULL<br />';
 	} else {
@@ -257,20 +202,6 @@ class Playlist {
 	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	} else {
 	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
 	}
 	return $string;
     }
