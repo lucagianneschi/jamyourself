@@ -115,10 +115,10 @@ class UploadRecordController extends REST {
 	    }
 	    $filemanager = new FileManagerService();
 	    $imageSrc = $filemanager->getRecordPhotoPath($userId, $savedRecord->getCover());
-	    $thumbSrc = $filemanager->getRecordPhotoPath($userId, $savedRecord->getThumbnailCover());
+	    $thumbSrc = $filemanager->getRecordPhotoPath($userId, $savedRecord->getThumbnail());
 	    //SPOSTO LE IMMAGINI NELLE RISPETTIVE CARTELLE         
 	    if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
-		rename(CACHE_DIR . $savedRecord->getThumbnailCover(), $thumbSrc);
+		rename(CACHE_DIR . $savedRecord->getThumbnail(), $thumbSrc);
 		rename(CACHE_DIR . $savedRecord->getCover(), $imageSrc);
 	    }
 	    unset($_SESSION['currentUserFeaturingArray']);
@@ -521,7 +521,7 @@ class UploadRecordController extends REST {
 	    if (is_null($recordBox->error) && count($recordBox->recordArray) > 0) {
 		foreach ($recordBox->recordArray as $record) {
 		    $retObj = array();
-		    $retObj["thumbnail"] = $fileManager->getRecordPhotoURL($currentUser->getObjectId(), $record->getThumbnailCover());
+		    $retObj["thumbnail"] = $fileManager->getRecordPhotoURL($currentUser->getObjectId(), $record->getThumbnail());
 		    $retObj["title"] = $record->getTitle();
 		    $retObj["songs"] = $record->getSongCounter();
 		    $retObj["recordId"] = $record->getObjectId();

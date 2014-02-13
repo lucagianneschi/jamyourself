@@ -124,7 +124,7 @@ if (is_null($streamBox->error)) {
                                                         <!-- THUMBNAIL ALBUM -->
                                                         <?php
                                                         $fileManagerService = new FileManagerService();
-                                                        $pathAlbumThumb = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getAlbum()->getThumbnailCover());
+                                                        $pathAlbumThumb = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getAlbum()->getThumbnail());
                                                         ?>
                                                         <li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathAlbumThumb; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" alt></a></li>
                                                     </ul>
@@ -232,7 +232,7 @@ if (is_null($streamBox->error)) {
                                                     <!-- THUMBNAIL ALBUM -->
                                                     <?php
                                                     $fileManagerService = new FileManagerService();
-                                                    $pathAlbumThumb = $fileManagerService->getPhotoPath($value->getAlbum()->getFromUser()->getObjectId(), $value->getAlbum()->getThumbnailCover());
+                                                    $pathAlbumThumb = $fileManagerService->getPhotoPath($value->getAlbum()->getFromUser()->getObjectId(), $value->getAlbum()->getThumbnail());
                                                     ?>
                                                     <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathAlbumThumb; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" alt="<?php echo $value->getAlbum()->getTitle(); ?>"></a>
                                                 </li>
@@ -519,7 +519,7 @@ if (is_null($streamBox->error)) {
                                                     <!-- THUMBNAIL RECORD -->
                                                     <?php
                                                     $fileManagerService = new FileManagerService();
-                                                    $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getRecord()->getThumbnailCover());
+                                                    $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
                                                     ?>
                                                     <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alr="<?php echo $value->getRecord()->getTitle(); ?>"></a>
                                                 </li>
@@ -581,7 +581,7 @@ if (is_null($streamBox->error)) {
                                                 <!-- THUMBNAIL RECORD -->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getRecord()->getFromUser()->getObjectId(), $value->getRecord()->getThumbnailCover());
+                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getRecord()->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
                                                 ?>
                                                 <li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getComment()->getRecord(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getRecord()->getTitle(); ?>"></a></li>
                                             </ul>
@@ -693,7 +693,7 @@ if (is_null($streamBox->error)) {
                                                 <!-- THUMBNAIL EVENT -->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromUser()->getObjectId(), $value->getEvent()->getThumbnailCover());
+                                                $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromUser()->getObjectId(), $value->getEvent()->getThumbnail());
                                                 ?>
                                                 <li><a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a></li>
                                             </ul>
@@ -1116,9 +1116,9 @@ if (is_null($streamBox->error)) {
                                          <!-- THUMBNAIL EVENT -->
                                          <?php
                                          $fileManagerService = new FileManagerService();
-                                         $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getRecord()->getFromUser()->getObjectId(), $value->getRecord()->getThumbnailCover());
+                                         $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getRecord()->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
                                          ?>
-                                         <div class="coverThumb"><a href="record.php?record=<?php echo $pathRecordThumb; ?>"><img src="<?php echo $value->getRecord()->getThumbnailCover(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getRecord()->getTitle(); ?>"></a></div>
+                                         <div class="coverThumb"><a href="record.php?record=<?php echo $pathRecordThumb; ?>"><img src="<?php echo $value->getRecord()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getRecord()->getTitle(); ?>"></a></div>
                                     </div>
                                     <div class="small-10 columns ">
                                         <div class="row ">							
@@ -1224,7 +1224,7 @@ if (is_null($streamBox->error)) {
                                                 <!-- THUMBNAIL RECORD -->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getRecord()->getThumbnailCover());
+                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
                                                 ?>
                                                 <li>
                                                     <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a>
@@ -1290,7 +1290,7 @@ if (is_null($streamBox->error)) {
                                                 <!-- THUMBNAIL RECORD -->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getRecord()->getThumbnailCover());
+                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
                                                 ?>
                                                 <li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></li>
                                             </ul>
@@ -1343,7 +1343,7 @@ if (is_null($streamBox->error)) {
                                     <!-- THUMBNAIL RECORD -->
                                     <?php
                                     $fileManagerService = new FileManagerService();
-                                    $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getSong()->getRecord()->getThumbnailCover());
+                                    $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getSong()->getRecord()->getThumbnail());
                                     ?>
                                     <div class="small-2 columns">
                                         <div class="coverThumb"><a href="record.php?record=<?php echo $value->getSong()->getRecord()->getObjectId(); ?>"><img src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>

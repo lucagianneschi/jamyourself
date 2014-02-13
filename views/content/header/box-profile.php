@@ -121,7 +121,7 @@ $_SESSION['playlist']['songs'] = array();
 		    'mp3' => $fileManagerService->getSongPath($author_objectId, $value->getFilePath()),
 		    'love' => $value->getLoveCounter(),
 		    'share' => $value->getShareCounter(),
-		    'pathCover' => $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnailCover())
+		    'pathCover' => $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail())
 		));
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 		    $track_css_love = '_love orange';
@@ -140,13 +140,13 @@ $_SESSION['playlist']['songs'] = array();
 			    mp3: "<?php echo $fileManagerService->getSongPath($author_objectId, $value->getFilePath()) ?>",
 			    love: "<?php echo $value->getLoveCounter() ?>",
 			    share: "<?php echo $value->getShareCounter() ?>",
-			    pathCover: "<?php echo $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnailCover()) ?>",
+			    pathCover: "<?php echo $fileManagerService->getRecordPhotoPath($author_objectId, $value->getRecord()->getThumbnail()) ?>",
 			});
 			var index = '<?php echo $index ?>';
 			if (index == '0') {
 			    $('.title-player').html("<?php echo $title ?>");
 			    $('#duration-player').html("<?php echo $hoursminsandsecs ?>");
-			    $('#header-box-thum img').attr('src', "<?php echo $pathCover . $value->getRecord()->getThumbnailCover() ?>");
+			    $('#header-box-thum img').attr('src', "<?php echo $pathCover . $value->getRecord()->getThumbnail() ?>");
 			}
 		    });
 

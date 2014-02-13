@@ -431,7 +431,7 @@ class UploadAlbumController extends REST {
 	if (is_null($albumBox->error) && count($albumBox->albumArray) > 0) {
 	    foreach ($albumBox->albumArray as $album) {
 		$retObj = array();
-		$retObj["thumbnail"] = $this->getAlbumThumbnailURL(sessionChecker(), $album->getThumbnailCover());
+		$retObj["thumbnail"] = $this->getAlbumThumbnailURL(sessionChecker(), $album->getThumbnail());
 		$retObj["title"] = $album->getTitle();
 		$retObj["images"] = $album->getImageCounter();
 		$retObj["albumId"] = $album->getObjectId();

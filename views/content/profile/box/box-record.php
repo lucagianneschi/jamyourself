@@ -78,7 +78,7 @@ if (is_null($recordBox->error)) {
 			    if ($index % 3 == 0) {
 				?><div class="rsContent">	<?php
 			    }
-			    $record_thumbnailCover = $value->getThumbnailCover();
+			    $record_thumbnailCover = $value->getThumbnail();
 			    $record_objectId = $value->getObjectId();
 			    $record_title = $value->getTitle();
 			    $record_data = $value->getYear();
@@ -157,7 +157,7 @@ if (is_null($recordBox->error)) {
     	<!---------------------------- ALBUM SINGOLO --------------------------------------------->
 	    <?php
 	    foreach ($records as $key => $value) {
-		$recordSingle_thumbnailCover = $value->getThumbnailCover();
+		$recordSingle_thumbnailCover = $value->getThumbnail();
 		$recordSingle_objectId = $value->getObjectId();
 		$recordSingle_title = $value->getTitle();
 		$recordSingle_data = $value->getYear();

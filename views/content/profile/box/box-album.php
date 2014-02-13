@@ -61,7 +61,7 @@ if (is_null($albumBox->error)) {
 			<div class="box royalSlider rsMinW" id="albumSlide">						
 			    <?php
 			    foreach ($albums as $key => $value) {
-				$album_thumbnailCover = $value->getThumbnailCover();
+				$album_thumbnailCover = $value->getThumbnail();
 				$album_objectId = $value->getObjectId();
 				$album_title = $value->getTitle();
 				$album_imageCounter = $value->getImageCounter();

@@ -171,7 +171,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					?>
 	    			    <div class="row " id="activity_<?php $value->getObjectId(); ?>">								
 	    				<div  class="small-3 columns ">
-	    				    <img class="album-thumb" src="../media/<?php echo $value->getRecord()->getThumbnailCover(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
+	    				    <img class="album-thumb" src="../media/<?php echo $value->getRecord()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'">
 	    				</div>
 	    				<div  class="small-9 columns box-info">
 	    				    <div class="sottotitle grey-dark"><?php echo $value->getRecord()->getTitle(); ?></div>

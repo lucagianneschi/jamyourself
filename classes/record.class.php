@@ -218,11 +218,11 @@ class Record {
     }
 
     /**
-     * \fn		string getThumbnailCover()
+     * \fn		string getThumbnail()
      * \brief	Return the thumbnailCover (path file) value
      * \return	string
      */
-    public function getThumbnailCover() {
+    public function getThumbnail() {
 	return $this->thumbnailCover;
     }
 

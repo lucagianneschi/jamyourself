@@ -17,7 +17,7 @@ $thumbnail = "";
 switch ($uploadReviewController->reviewedClassType) {
     case "Record":
 	$tagGenere = $uploadReviewController->reviewed->getGenre();
-	$thumbnail = $uploadReviewController->reviewed->getThumbnailCover();
+	$thumbnail = $uploadReviewController->reviewed->getThumbnail();
 	break;
     case "Event" :
 	$tagGenere = implode(",", $uploadReviewController->reviewed->getTags());

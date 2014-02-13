@@ -65,7 +65,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
 				    $recordReview_user_username = $value->getFromUser()->getUsername();
 				    $recordReview_user_type = $value->getFromUser()->getType();
-				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnailCover();
+				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnail();
 				    $recordObjectId = $value->getRecord()->getObjectId();
 				    $recordReview_title = $value->getRecord()->getTitle();
 				    $recordReview_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));

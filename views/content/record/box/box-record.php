@@ -54,7 +54,7 @@ if (isset($_SESSION['currentUser']))
 			$css_removePlayList = 'no-display';
 		    }
 		    $fileManagerService = new FileManagerService();
-		    $pathCoverRecord = $fileManagerService->getRecordPhotoPath($userId, $value->getRecord()->getThumbnailCover());
+		    $pathCoverRecord = $fileManagerService->getRecordPhotoPath($userId, $value->getRecord()->getThumbnail());
 		    $pathSong = $fileManagerService->getSongPath($userId, $value->getFilePath());
 		    $song = json_encode(array(
 			'objectId' => $value->getObjectId(),
