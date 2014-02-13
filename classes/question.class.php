@@ -29,7 +29,6 @@ class Question {
     private $text;
     private $createdAt;
     private $updatedAt;
-    private $ACL;
 
     /**
      * \fn		string getObjectId()
@@ -122,15 +121,6 @@ class Question {
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the Question ACL 
-     * \return	parseACL
-     */
-    public function getACL() {
-	return $this->ACL;
-    }
-
-    /**
      * \fn		void setObjectId($objectId)
      * \brief	Sets the objectId value
      * \param	string
@@ -220,14 +210,6 @@ class Question {
 	$this->updatedAt = $updatedAt;
     }
 
-    /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Question ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
 
     /**
      * \fn		string __toString()
@@ -253,20 +235,6 @@ class Question {
 	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	} else {
 	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
 	}
 	return $string;
     }
