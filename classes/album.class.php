@@ -291,7 +291,7 @@ class Album {
     }
 
     /**
-     * \fn	void setLocation($location)
+     * \fn	void setLongitude($longitude)
      * \brief	Sets the longitude value
      * \param	$longitude
      */
@@ -382,6 +382,8 @@ class Album {
 	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	$string .= '[image] => ' . $this->getImage() . '<br />';
 	$string .= '[imageCounter] => ' . $this->getImageCounter() . '<br />';
+	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
+	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 	$string .= '[tags] => ' . $this->getTags() . '<br />';
