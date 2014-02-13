@@ -22,23 +22,23 @@ class Location {
     private $objectId;
     private $city;
     private $country;
-    private $geoPoint;
+    private $latitude;
     private $locId;
+    private $longitude;
     private $createdAt;
     private $updatedAt;
-    private $ACL;
 
     /**
-     * \fn		string getObjectId()
+     * \fn	int getObjectId()
      * \brief	Return the objectId value
-     * \return	string
+     * \return	int
      */
     public function getObjectId() {
 	return $this->objectId;
     }
 
     /**
-     * \fn		string getCity()
+     * \fn	string getCity()
      * \brief	Return the city value
      * \return	string
      */
@@ -47,7 +47,7 @@ class Location {
     }
 
     /**
-     * \fn		string getCountry()
+     * \fn	string getCountry()
      * \brief	Return the country value
      * \return	string
      */
@@ -56,25 +56,34 @@ class Location {
     }
 
     /**
-     * \fn		string getGeopoint()
-     * \brief	Return the geoPoint value
-     * \return	parseGeopoint
+     * \fn	getLatitude()
+     * \brief	Return the latitude value
+     * \return	latitude
      */
-    public function getGeopoint() {
-	return $this->geoPoint;
+    public function getLatitude() {
+	return $this->latitude;
     }
 
     /**
-     * \fn		string getLocId()
-     * \brief	Return the locId value
-     * \return	string
+     * \fn	getLocId()
+     * \brief	Return the locId
+     * \return	locId
      */
     public function getLocId() {
 	return $this->locId;
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
+     * \fn	getLongitude()
+     * \brief	Return the longitude value
+     * \return	long
+     */
+    public function getLongitude() {
+	return $this->longitude;
+    }
+
+    /**
+     * \fn	DateTime getCreatedAt()
      * \brief	Return the Location creation date
      * \return	DateTime
      */
@@ -83,7 +92,7 @@ class Location {
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
+     * \fn	DateTime getUpdatedAt()
      * \brief	Return the Location modification date
      * \return	DateTime
      */
@@ -92,25 +101,16 @@ class Location {
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the Location ACL 
-     * \return	parseACL
-     */
-    public function getACL() {
-	return $this->ACL;
-    }
-
-    /**
-     * \fn		void setObjectId($objectId)
+     * \fn	void setObjectId($objectId)
      * \brief	Sets the objectId value
-     * \param	string
+     * \param	int
      */
     public function setObjectId($objectId) {
 	$this->objectId = $objectId;
     }
 
     /**
-     * \fn		void setCity($city)
+     * \fn	void setCity($city)
      * \brief	Sets the city value
      * \param	string
      */
@@ -119,7 +119,7 @@ class Location {
     }
 
     /**
-     * \fn		void setCountry($country)
+     * \fn	void setCountry($country)
      * \brief	Sets the country value
      * \param	string
      */
@@ -128,16 +128,16 @@ class Location {
     }
 
     /**
-     * \fn		void setGeoPoint($geoPoint)
-     * \brief	Sets the geoPoint value
-     * \param	parsegeopoint
+     * \fn	void setLatitude($latitude)
+     * \brief	Sets the latitude value
+     * \param	$longitude
      */
-    public function setGeoPoint($geoPoint) {
-	$this->geoPoint = $geoPoint;
+    public function setLatitude($latitude) {
+	$this->latitude = $latitude;
     }
 
     /**
-     * \fn		void setLocId($locId)
+     * \fn	void setLocId($locId)
      * \brief	Sets the locId value
      * \param	string
      */
@@ -146,7 +146,16 @@ class Location {
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
+     * \fn	void setLongitude($longitude)
+     * \brief	Sets the longitude value
+     * \param	$longitude
+     */
+    public function setLongitude($longitude) {
+	$this->longitude = $longitude;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
      * \brief	Sets the Location creation date
      * \param	DateTime
      */
@@ -155,7 +164,7 @@ class Location {
     }
 
     /**
-     * \fn		void setUpdatedAt($updatedAt)
+     * \fn	void setUpdatedAt($updatedAt)
      * \brief	Sets the Location modification date
      * \param	DateTime
      */
@@ -164,30 +173,18 @@ class Location {
     }
 
     /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Location ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
-
-    /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Location ACL
-     * \param	parseACL
+     * \fn	string __toString()
+     * \brief	Return a printable string representing the Location object
+     * \return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId ] => ' . $this->objectId . '<br />';
+	$string .= '[objectId] => ' . $this->objectId . '<br />';
 	$string .= '[city] => ' . $this->city . '<br />';
 	$string .= '[country] => ' . $this->country . '<br />';
-	if (($geopoint = $this->getGeoPoint()) != null) {
-	    $string .= '[location] => ' . $geopoint->location['latitude'] . ', ' . $geopoint->location['longitude'] . '<br />';
-	} else {
-	    $string .= '[location] => NULL<br />';
-	}
+	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[locId] => ' . $this->locId . '<br />';
+	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	if ($this->getCreatedAt() != null) {
 	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
 	} else {
@@ -197,20 +194,6 @@ class Location {
 	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	} else {
 	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
 	}
 	return $string;
     }
