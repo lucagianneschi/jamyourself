@@ -489,61 +489,25 @@ class Comment {
 	} else {
 	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 	}
-	if ($this->getAlbum() != null) {
-	    $string .= '[album] => ' . $this->getAlbum() . '<br />';
-	} else {
-	    $string .= '[album] => NULL<br />';
-	}
-	if ($this->getComment() != null) {
-	    $string .= '[comment] => ' . $this->getComment() . '<br />';
-	} else {
-	    $string .= '[comment] => NULL<br />';
-	}
+	$string .= '[album] => ' . $this->getAlbum() . '<br />';
+	$string .= '[comment] => ' . $this->getComment() . '<br />';
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
-	if ($this->getEvent() != null) {
-	    $string .= '[event] => ' . $this->getEvent() . '<br />';
-	} else {
-	    $string .= '[event] => NULL<br />';
-	}
-	if ($this->getFromUser() != null) {
-	    $string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
-	} else {
-	    $string .= '[fromUser] => NULL<br />';
-	}
-	if ($this->getImage() != null) {
-	    $string .= '[image] => ' . $this->getImage() . '<br />';
-	} else {
-	    $string .= '[image] => NULL<br />';
-	}
+	$string .= '[event] => ' . $this->getEvent() . '<br />';
+	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	$string .= '[image] => ' . $this->getImage() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-	if ($this->getRecord() != null) {
-	    $string .= '[record] => ' . $this->getRecord() . '<br />';
-	} else {
-	    $string .= '[record] => NULL<br />';
-	}
+	$string .= '[record] => ' . $this->getRecord() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	if ($this->getSong() != null) {
-	    $string .= '[song] => ' . $this->getSong() . '<br />';
-	} else {
-	    $string .= '[song] => NULL<br />';
-	}
+	$string .= '[song] => ' . $this->getSong() . '<br />';
 	$string .= '[tags] => ' . $this->getTags() . '<br />';
 	$string .= '[text] => ' . $this->getText() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
-	if ($this->getToUser() != null) {
-	    $string .= '[toUser] => ' . $this->getToUser() . '<br />';
-	} else {
-	    $string .= '[toUser] => NULL<br />';
-	}
+	$string .= '[toUser] => ' . $this->getToUser() . '<br />';
 	$string .= '[type] => ' . $this->getType() . '<br />';
-	if ($this->getVideo() != null) {
-	    $string .= '[video] => ' . $this->getVideo() . '<br />';
-	} else {
-	    $string .= '[video] => NULL<br />';
-	}
+	$string .= '[video] => ' . $this->getVideo() . '<br />';
 	$string .= '[vote] => ' . $this->getVote() . '<br />';
 	if ($this->getCreatedAt() != null) {
 	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
