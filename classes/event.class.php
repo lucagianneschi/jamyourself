@@ -2,7 +2,7 @@
 
 /* ! \par	    Info Generali:
  *  \author	    Maria Laura Fresu
- *  \version	    1.0
+ *  \version	    0.3
  *  \date	    2013
  *  \copyright	    Jamyourself.com 2013
  *  \par Info	    Classe:
@@ -21,43 +21,42 @@ class Event {
 
     private $objectId;
     private $active;
-    private $attendee;
     private $address;
+    private $attendeeCounter;
     private $city;
+    private $cancelledCounter;
     private $commentCounter;
     private $counter;
     private $description;
     private $eventDate;
-    private $featuring;
     private $fromUser;
     private $genre;
     private $image;
-    private $invited;
-    private $location;
+    private $invitedCounter;
+    private $latitude;
+    private $longitude;
     private $locationName;
     private $loveCounter;
-    private $lovers;
-    private $refused;
     private $reviewCounter;
+    private $refusedCounter;
     private $shareCounter;
     private $tags;
     private $thumbnail;
     private $title;
     private $createdAt;
     private $updatedAt;
-    private $ACL;
 
     /**
-     * \fn		string getObjectId()
+     * \fn	getObjectId()
      * \brief	Return the objectId value
-     * \return	string
+     * \return	int
      */
     public function getObjectId() {
 	return $this->objectId;
     }
 
     /**
-     * \fn		BOOL getActive()
+     * \fn	BOOL getActive()
      * \brief	Return the active value
      * \return	BOOL
      */
@@ -66,7 +65,7 @@ class Event {
     }
 
     /**
-     * \fn		string getAddress()
+     * \fn	getAddress()
      * \brief	Return the address value
      * \return	string
      */
@@ -75,16 +74,25 @@ class Event {
     }
 
     /**
-     * \fn		array getAttendee()
-     * \brief	Return an array of objectId of istances of _User class who area attendee to the event
-     * \return	array
+     * \fn	getAttendeeCounter()
+     * \brief	Return the number of attendees value
+     * \return	string
      */
-    public function getAttendee() {
-	return $this->attendee;
+    public function getAttendeeCounter() {
+	return $this->attendeeCounter;
     }
 
     /**
-     * \fn		string getCity()
+     * \fn	getCancelledCounter()
+     * \brief	Return the number of attendees value
+     * \return	string
+     */
+    public function getCancelledCounter() {
+	return $this->cancelledCounter;
+    }
+
+    /**
+     * \fn	getCity()
      * \brief	Return the city value
      * \return	string
      */
@@ -93,7 +101,7 @@ class Event {
     }
 
     /**
-     * \fn		int getCommentCounter()
+     * \fn	int getCommentCounter()
      * \brief	Return the comment counter value (number of comments)
      * \return	int
      */
@@ -102,7 +110,7 @@ class Event {
     }
 
     /**
-     * \fn		int getCounter()
+     * \fn	int getCounter()
      * \brief	Return the counter value
      * \return	int
      */
@@ -111,7 +119,7 @@ class Event {
     }
 
     /**
-     * \fn		string getDescription()
+     * \fn	string getDescription()
      * \brief	Return the description value
      * \return	string
      */
@@ -120,7 +128,7 @@ class Event {
     }
 
     /**
-     * \fn		DateTime getEventDate()
+     * \fn	DateTime getEventDate()
      * \brief	Return the Event Date 
      * \return	DateTime
      */
@@ -129,17 +137,7 @@ class Event {
     }
 
     /**
-     * *
-     * \fn		array getFeaturing()
-     * \brief	Return the featuring value, array of objectId to _User istances
-     * \return	array
-     */
-    public function getFeaturing() {
-	return $this->featuring;
-    }
-
-    /**
-     * \fn		string getFromUser()
+     * \fn	string getFromUser()
      * \brief	Return the objectId value for the fromUser
      * \return	string
      */
@@ -166,25 +164,34 @@ class Event {
     }
 
     /**
-     * \fn		array getInvited()
-     * \brief	Return the invited value, array of objectId to _User istances
-     * \return	array
+     * \fn	getInvitedCounter()
+     * \brief	Return the number of invited value
+     * \return	string
      */
-    public function getInvited() {
-	return $this->invited;
+    public function getInvitedCounter() {
+	return $this->invitedCounter;
     }
 
     /**
-     * \fn		geopoint getLocation()
-     * \brief	Return the location  value
-     * \return	geopoint
+     * \fn	getLatitude()
+     * \brief	Return the latitude value
+     * \return	latitude
      */
-    public function getLocation() {
-	return $this->location;
+    public function getLatitude() {
+	return $this->latitude;
     }
 
     /**
-     * \fn		string getLocationName()
+     * \fn	getLongitude()
+     * \brief	Return the longitude value
+     * \return	long
+     */
+    public function getLongitude() {
+	return $this->longitude;
+    }
+
+    /**
+     * \fn	string getLocationName()
      * \brief	Return the name of the location
      * \return	string
      */
@@ -193,7 +200,7 @@ class Event {
     }
 
     /**
-     * \fn		int getLoveCounter()
+     * \fn	int getLoveCounter()
      * \brief	Return the int value of loveCounter, counting the love action on the event
      * \return	int
      */
@@ -202,16 +209,16 @@ class Event {
     }
 
     /**
-     * \fn		array  getLovers()
-     * \brief	Return the lovers value, array of objectId to istances of the _User, people ho love the event
+     * \fn	getRefusedCounter()
+     * \brief	Return the number of attendees value
      * \return	string
      */
-    public function getLovers() {
-	return $this->lovers;
+    public function getRefusedCounter() {
+	return $this->refusedCounter;
     }
 
     /**
-     * \fn		int getReviewCounter()
+     * \fn	int getReviewCounter()
      * \brief	Return the review counter value (number of review)
      * \return	int
      */
@@ -220,7 +227,7 @@ class Event {
     }
 
     /**
-     * \fn		int getShareCounter()
+     * \fn	int getShareCounter()
      * \brief	Return the counter for sharing action
      * \return	int
      */
@@ -229,25 +236,16 @@ class Event {
     }
 
     /**
-     * \fn		array  getRefused()
-     * \brief	Return the refuse value, array of objectId to istances of the _User, people will not attend the event
-     * \return	string
-     */
-    public function getRefused() {
-	return $this->refused;
-    }
-
-    /**
-     * \fn		array getTags()
+     * \fn	array getTags()
      * \brief	Return the tags value, array of string to categorize the event
-     * \return	array
+     * \return	int
      */
     public function getTags() {
 	return $this->tags;
     }
 
     /**
-     * \fn		string getThumbnail()
+     * \fn	string getThumbnail()
      * \brief	Return the thumbnail value
      * \return	string
      */
@@ -256,7 +254,7 @@ class Event {
     }
 
     /**
-     * \fn		string getTitle()
+     * \fn	string getTitle()
      * \brief	Return the title value
      * \return	string
      */
@@ -265,7 +263,7 @@ class Event {
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
+     * \fn	DateTime getCreatedAt()
      * \brief	Return the Event creation date
      * \return	DateTime
      */
@@ -274,7 +272,7 @@ class Event {
     }
 
     /**
-     * \fn		DateTime getUpdatedAt()
+     * \fn	DateTime getUpdatedAt()
      * \brief	Return the Event modification date
      * \return	DateTime
      */
@@ -283,16 +281,7 @@ class Event {
     }
 
     /**
-     * \fn		parseACL getACL()
-     * \brief	Return the parseACL object representing the Event ACL 
-     * \return	parseACL
-     */
-    public function getACL() {
-	return $this->ACL;
-    }
-
-    /**
-     * \fn		void setObjectId($objectId)
+     * \fn	void setObjectId($objectId)
      * \brief	Sets the objectId value
      * \param	string
      */
@@ -301,7 +290,7 @@ class Event {
     }
 
     /**
-     * \fn		void setActive($active)
+     * \fn	void setActive($active)
      * \brief	Sets the active value
      * \param	BOOL
      */
@@ -319,16 +308,25 @@ class Event {
     }
 
     /**
-     * \fn		void setAttendee($attendee)
-     * \brief	Sets the attendee value,array of pointer to ParseUser
-     * \param	array
+     * \fn	void setAttendeeCounter($attendeeCounter)
+     * \brief	Sets the attendeeCounter value
+     * \param	int
      */
-    public function setAttendee($attendee) {
-	$this->attendee = $attendee;
+    public function setAttendeeCounter($attendeeCounter) {
+	$this->attendeeCounter = $attendeeCounter;
     }
 
     /**
-     * \fn		void setCity($city)
+     * \fn	void setCancelledCounter($cancelledCounter)
+     * \brief	Sets the cancelledCounter value
+     * \param	int
+     */
+    public function setCancelledCounter($cancelledCounter) {
+	$this->cancelledCounter = $cancelledCounter;
+    }
+
+    /**
+     * \fn	void setCity($city)
      * \brief	Sets the city value
      * \param	string
      */
@@ -337,7 +335,7 @@ class Event {
     }
 
     /**
-     * \fn		void setCommentCounter($commentCounter)
+     * \fn	void setCommentCounter($commentCounter)
      * \brief	Sets the commnetCounter value
      * \param	int
      */
@@ -355,7 +353,7 @@ class Event {
     }
 
     /**
-     * \fn		void setDescription($description)
+     * \fn	void setDescription($description)
      * \brief	Sets the description value
      * \param	string
      */
@@ -373,18 +371,9 @@ class Event {
     }
 
     /**
-     * \fn		void setFeaturing($featuring)
-     * \brief	Sets the featuring value,array of pointer to ParseUser
-     * \param	array
-     */
-    public function setFeaturing($featuring) {
-	$this->featuring = $featuring;
-    }
-
-    /**
-     * \fn		void setFromUser($fromUser))
+     * \fn	void setFromUser($fromUser))
      * \brief	Sets the fromUser value,pointer to ParseUser
-     * \param	string
+     * \param	int
      */
     public function setFromUser($fromUser) {
 	$this->fromUser = $fromUser;
@@ -393,41 +382,50 @@ class Event {
     /**
      * \fn	void setGenre($genre)
      * \brief	Sets the genre value, array for genres
-     * \param	array
+     * \param	int
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
     }
 
     /**
-     * \fn		void setImage($image)
+     * \fn	void setImage($image)
      * \brief	Sets the image value, path file to cover
-     * \param	string
+     * \param	int
      */
     public function setImage($image) {
 	$this->image = $image;
     }
 
     /**
-     * \fn		void setInvited($invited)
-     * \brief	Sets the invited value,array of pointer to ParseUser
-     * \param	array
+     * \fn	setInvitedCounter($invitedCounter)
+     * \brief	Sets the invitedCounter value
+     * \param	int
      */
-    public function setInvited($invited) {
-	$this->invited = $invited;
+    public function setInvitedCounter($invitedCounter) {
+	$this->invitedCounter = $invitedCounter;
     }
 
     /**
-     * \fn		void setLocation($location)
-     * \brief	Sets the location value
-     * \param	parseGeopoint
+     * \fn	void setLatitude($latitude)
+     * \brief	Sets the latitude value
+     * \param	$longitude
      */
-    public function setLocation($location) {
-	$this->location = $location;
+    public function setLatitude($latitude) {
+	$this->latitude = $latitude;
     }
 
     /**
-     * \fn		void setLocationName($locationName)
+     * \fn	void setLongitude($longitude)
+     * \brief	Sets the longitude value
+     * \param	$longitude
+     */
+    public function setLongitude($longitude) {
+	$this->longitude = $longitude;
+    }
+
+    /**
+     * \fn	void setLocationName($locationName)
      * \brief	Sets the locationName value
      * \param	string
      */
@@ -436,7 +434,7 @@ class Event {
     }
 
     /**
-     * \fn		void setLoveCounter($loveCounter)
+     * \fn	void setLoveCounter($loveCounter)
      * \brief	Sets the loveCounter value
      * \param	int
      */
@@ -445,16 +443,16 @@ class Event {
     }
 
     /**
-     * \fn		void setLovers($lovers)
-     * \brief	Sets the lovers value,array of pointer to ParseUser
-     * \param	array
+     * \fn	void  setRefusedCounter($refusedCounter)
+     * \brief	Sets the refusedCounter value
+     * \param	int
      */
-    public function setLovers($lovers) {
-	$this->lovers = $lovers;
+    public function setRefusedCounter($refusedCounter) {
+	$this->refusedCounter = $refusedCounter;
     }
 
     /**
-     * \fn		void setReviewCounter($reviewCounter)
+     * \fn	void setReviewCounter($reviewCounter)
      * \brief	Sets the reviewCounter value
      * \param	int
      */
@@ -463,7 +461,7 @@ class Event {
     }
 
     /**
-     * \fn		void setCounter($shareCounter)
+     * \fn	void setCounter($shareCounter)
      * \brief	Sets the shareCounter value
      * \param	int
      */
@@ -472,25 +470,16 @@ class Event {
     }
 
     /**
-     * \fn		void setRefused($refused)
-     * \brief	Sets the refused value,array of pointer to ParseUser
-     * \param	array
-     */
-    public function setRefused($refused) {
-	$this->refused = $refused;
-    }
-
-    /**
-     * \fn		void setTags($tags)
-     * \brief	Sets the tags value,array of strings
-     * \param	array
+     * \fn	void setTags($tags)
+     * \brief	Sets the tags value
+     * \param	int
      */
     public function setTags($tags) {
 	$this->tags = $tags;
     }
 
     /**
-     * \fn		void setThumbnail($thumbnail)
+     * \fn	void setThumbnail($thumbnail)
      * \brief	Sets the thumbnail value
      * \param	string
      */
@@ -499,7 +488,7 @@ class Event {
     }
 
     /**
-     * \fn		void setTitle($title)
+     * \fn	void setTitle($title)
      * \brief	Sets the title value
      * \param	string
      */
@@ -508,7 +497,7 @@ class Event {
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
+     * \fn	void setCreatedAt($createdAt)
      * \brief	Sets the Event creation date
      * \param	DateTime
      */
@@ -517,7 +506,7 @@ class Event {
     }
 
     /**
-     * \fn		void setUpdatedAt($updatedAt)
+     * \fn	void setUpdatedAt($updatedAt)
      * \brief	Sets the Event modification date
      * \param	DateTime
      */
@@ -526,16 +515,7 @@ class Event {
     }
 
     /**
-     * \fn		void setACL($ACL)
-     * \brief	Sets the parseACL object representing the Event ACL
-     * \param	parseACL
-     */
-    public function setACL($ACL) {
-	$this->ACL = $ACL;
-    }
-
-    /**
-     * \fn		string __toString()
+     * \fn	string __toString()
      * \brief	Return a printable string representing the Event object
      * \return	string
      */
@@ -548,15 +528,8 @@ class Event {
 	    $this->getActive() ? $string .= '[active] => 1<br />' : $string .= '[active] => 0<br />';
 	}
 	$string .= '[address] => ' . $this->getAddress() . '<br />';
-	if (count($this->getAttendee()) != 0) {
-	    foreach ($this->getAttendee() as $attendee) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[attendee] => ' . $attendee . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[attendee] => NULL<br />';
-	}
+	$string .= '[attendeeCounter] => ' . $this->getAttendeeCounter() . '<br />';
+	$string .= '[cancelledCounter] => ' . $this->getCancelledCounter() . '<br />';
 	$string .= '[city] => ' . $this->getCity() . '<br />';
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
@@ -566,79 +539,18 @@ class Event {
 	} else {
 	    $string .= '[eventDate] => NULL<br />';
 	}
-	if ($this->getFeaturing() != 0) {
-	    foreach ($this->getFeaturing() as $featuring) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[featuring] => ' . $featuring . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[featuring] => NULL<br />';
-	}
-	if ($this->getFromUser() != null) {
-	    $string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
-	} else {
-	    $string .= '[fromUser] => NULL<br />';
-	}
-	if ($this->getGenre() != 0) {
-	    foreach ($this->getGenre() as $genre) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[tags] => ' . $genre . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[tags] => NULL<br />';
-	}
-	if ($this->getImage() != null) {
-	    $string .= '[image] => ' . $this->getImage() . '<br />';
-	} else {
-	    $string .= '[image] => NULL<br />';
-	}
-	if ($this->getInvited() != 0) {
-	    foreach ($this->getInvited() as $invited) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[invited] => ' . $invited . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[invited] => NULL<br />';
-	}
-	if (($geopoint = $this->getLocation()) != null) {
-	    $string .= '[location] => ' . $geopoint->location['latitude'] . ', ' . $geopoint->location['longitude'] . '<br />';
-	} else {
-	    $string .= '[location] => NULL<br />';
-	}
+	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	$string .= '[tags] => ' . $this->getGenre() . '<br />';
+	$string .= '[image] => ' . $this->getImage() . '<br />';
+	$string .= '[attendeeCounter] => ' . $this->getInvitedCounter() . '<br />';
+	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
+	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[locationName] => ' . $this->getLocationName() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-	if ($this->getLovers() != 0) {
-	    foreach ($this->getLovers() as $lovers) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[lovers] => ' . $lovers . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[lovers] => NULL<br />';
-	}
-	if ($this->getRefused() != 0) {
-	    foreach ($this->getRefused() as $refused) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[refused] => ' . $refused . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[refused] => NULL<br />';
-	}
 	$string .= '[reviewCounter] => ' . $this->getReviewCounter() . '<br />';
+	$string .= '[refusedCounter] => ' . $this->getRefusedCounter() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	if ($this->getTags() != 0) {
-	    foreach ($this->getTags() as $tags) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[tags] => ' . $tags . '<br />';
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[tags] => NULL<br />';
-	}
+	$string .= '[tags] => ' . $this->getTags() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	if ($this->getCreatedAt() != null) {
@@ -650,20 +562,6 @@ class Event {
 	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	} else {
 	    $string .= '[updatedAt] => NULL<br />';
-	}
-	if ($this->getACL() != null) {
-	    foreach ($this->getACL()->acl as $key => $acl) {
-		$string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		$string .= '[ACL] => ' . $key . '<br />';
-		foreach ($acl as $access => $value) {
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-		    $string .= '[access] => ' . $access . ' -> ' . $value . '<br />';
-		}
-	    }
-	} else {
-	    $string .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
-	    $string .= '[ACL] => NULL<br />';
 	}
 	return $string;
     }
