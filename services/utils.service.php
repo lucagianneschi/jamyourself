@@ -72,6 +72,28 @@ function encode_string($string) {
 }
 
 /**
+ * \fn	    sendMailForNotification($address, $subject, $html)
+ * \brief   invia mail ad utente
+ * \param   $address, $subject, $html
+ * \todo    testare
+ */
+function sendMailForNotification($address, $subject, $html) {
+    global $controllers;
+    require_once SERVICES_DIR . 'mail.service.php';
+    $mail = mailService();
+    $mail->AddAddress($address);
+    $mail->Subject = $subject;
+    $mail->MsgHTML($html);
+    $resMail = $mail->Send();
+    if ($resMail instanceof phpmailerException) {
+	$this->response(array('status' => $controllers['NOMAIL']), 403);
+    }
+    $mail->SmtpClose();
+    unset($mail);
+    return true;
+}
+
+/**
  * \fn		sessionChecker()
  * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
  * \return	string $currentUserId;

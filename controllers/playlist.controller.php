@@ -37,7 +37,7 @@ class PlaylistController extends REST {
      */
     function __construct() {
 	parent::__construct();
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/playlist.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "playlistController.config.json"), false);
     }
 
     /**

@@ -35,7 +35,7 @@ class CommentController extends REST {
 
     function __construct() {
 	parent::__construct();
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/comment.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "commentController.config.json"), false);
     }
 
     /**

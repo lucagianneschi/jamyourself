@@ -33,7 +33,7 @@ class SearchController extends REST {
 
     function __construct() {
 	parent::__construct();
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "controllers/search.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "searchController.config.json"), false);
     }
 
     /**
