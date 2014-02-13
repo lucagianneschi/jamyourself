@@ -38,7 +38,7 @@ foreach ($user->getMusic() as $key => $value) {
 $userinfo_pin = $city == '' ? '' : '_pin';
 $userinfo_note = $music == '' ? '' : '_note';
 $fileManagerService = new FileManagerService();
-$pathPicture = $fileManagerService->getPhotoPath($user->getObjectId(), $user->getProfilePicture());
+$pathPicture = $fileManagerService->getPhotoPath($user->getObjectId(), $user->getAvatar());
 $pathBackground = $fileManagerService->getPhotoPath($user->getObjectId(), $user->getBackground());
 ?>
 <div class="row" id="profile-userInfo">
