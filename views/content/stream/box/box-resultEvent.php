@@ -14,7 +14,6 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'event.box.php';
-require_once CLASSES_DIR . 'utilsClass.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
 $lat = $_POST['latitude'];
@@ -25,7 +24,7 @@ $tags = $_POST['tags'];
 $eventDate = $_POST['eventDate'];
 
 if (!is_null($eventDate) && $eventDate != '')
-    $data = toParseDate(DateTime::createFromFormat("d/m/Y", $eventDate));
+    //$data = toParseDate(DateTime::createFromFormat("d/m/Y", $eventDate));
 
 $eventBox = new EventBox();
 $eventBox->initForStream($lat, $lon, $city, $country, $tags, $data);

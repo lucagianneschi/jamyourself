@@ -25,7 +25,7 @@ function dynamicLoading($className) {
     require_once SERVICES_DIR . 'debug.service.php';
     require_once SERVICES_DIR . 'lang.service.php';
     if (strpos($className, 'Parse') !== false) {
-	$utils = CLASSES_DIR . 'utilsClass.php';
+	
 	$languageFile = LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 	$classFile = CLASSES_DIR . lcfirst($className) . '.class.php';
     } elseif (strpos($className, 'Box') !== false) {
@@ -37,7 +37,7 @@ function dynamicLoading($className) {
 	$languageFile = LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 	$classFile = CONTROLLERS_DIR . lcfirst(strtolower(str_replace('Controller', "", $className))) . '.controller.php';
     } else {
-	$utils = CLASSES_DIR . 'utilsClass.php';
+
 	$languageFile = LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 	$classFile = CLASSES_DIR . strtolower($className) . '.class.php';
     }
