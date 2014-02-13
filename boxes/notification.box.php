@@ -120,7 +120,7 @@ class EventListBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "notificationBox.config.json"), false);
     }
 
     /**
@@ -238,7 +238,7 @@ class MessageListBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "notificationBox.config.json"), false);
     }
 
     /**
@@ -332,7 +332,7 @@ class RelationListBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/notification.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "notificationBox.config.json"), false);
     }
 
     /**

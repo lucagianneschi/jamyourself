@@ -37,7 +37,7 @@ class PostBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/post.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "postBox.config.json"), false);
     }
 
     /**

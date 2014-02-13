@@ -86,7 +86,7 @@ class MessageBox {
      * \brief	class construct to import config file
      */
     function __construct() {
-	$this->config = json_decode(file_get_contents(CONFIG_DIR . "boxes/message.config.json"), false);
+	$this->config = json_decode(file_get_contents(CONFIG_DIR . "messageBox.config.json"), false);
     }
 
     /**
