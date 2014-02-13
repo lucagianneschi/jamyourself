@@ -25,6 +25,8 @@ class Album {
     private $counter;
     private $cover;
     private $description;
+    private $fromUser;
+    private $image;
     private $imageCounter;
     private $latitude;
     private $longitude;
@@ -88,6 +90,24 @@ class Album {
      */
     public function getDescription() {
 	return $this->description;
+    }
+
+    /**
+     * \fn	getFromUser()
+     * \brief	Return the objectId value for the fromUser
+     * \return	int
+     */
+    public function getFromUser() {
+	return $this->fromUser;
+    }
+
+    /**
+     * \fn	getImage()
+     * \brief	Return the id 
+     * \return	int
+     */
+    public function getImage() {
+	return $this->image;
     }
 
     /**
@@ -235,6 +255,24 @@ class Album {
     }
 
     /**
+     * \fn	setFromUser($fromUser))
+     * \brief	Sets the fromUser value, int id
+     * \param	int
+     */
+    public function setFromUser($fromUser) {
+	$this->fromUser = $fromUser;
+    }
+
+    /**
+     * \fn	setImage($image)
+     * \brief	Sets the image id
+     * \param	int
+     */
+    public function setImage($image) {
+	$this->image = $image;
+    }
+
+    /**
      * \fn	void setImageCounter($imageCounter)
      * \brief	Sets the imagetCounter value
      * \param	int
@@ -341,6 +379,8 @@ class Album {
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
+	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
+	$string .= '[image] => ' . $this->getImage() . '<br />';
 	$string .= '[imageCounter] => ' . $this->getImageCounter() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
