@@ -14,31 +14,32 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $title = $record->getTitle();
 $genre = $record->getGenre();
-$image = $record->getCover();
 $fromUserObjectId = $record->getFromUser()->getObjectId();
-
-$pathCoverRecord = USERS_DIR . $fromUserObjectId . '/images/recordcover/';
-
+$fileManagerService = new FileManagerService();
+$pathCoverRecord = $fileManagerService->getRecordPhotoPath($fromUserObjectId, $record->getCover());
 $arrayGenre = explode(",", $genre);
 $stringGenre = '';
 
 foreach ($arrayGenre as $key => $value) {
-	if($key == 0) $stringGenre = $views['tag']['music'][$value];
-	else $stringGenre = $stringGenre.', '.$views['tag']['music'][$value];
+    if ($key == 0)
+	$stringGenre = $views['tag']['music'][$value];
+    else
+	$stringGenre = $stringGenre . ', ' . $views['tag']['music'][$value];
 }
 //$stringGenre = $views['tag']['music'][$arrayGenre[0]];
 ?>
 <div class="row" id="profile-userInfo">
     <div class="large-12 columns">
-	<h2><?php echo $title ?></h2>			
-	<div class="row">
-	    <div class="small-12 columns">				
-		<a class="ico-label _tag"><?php echo $stringGenre ?></a>
-	    </div>				
-	</div>		
+        <h2><?php echo $title ?></h2>			
+        <div class="row">
+            <div class="small-12 columns">				
+                <a class="ico-label _tag"><?php echo $stringGenre ?></a>
+            </div>				
+        </div>		
     </div>
 </div>
 <div class="row">
@@ -47,6 +48,6 @@ foreach ($arrayGenre as $key => $value) {
 
 <div class="row">
     <div class="large-12 columns">
-	<img class="background" src="<?php echo $pathCoverRecord.$image; ?>"  onerror="this.src='<?php echo DEFRECORDCOVER; ?>'" alt ="<?php echo $title; ?> " >						
+        <img class="background" src="<?php echo $pathCoverRecord; ?>"  onerror="this.src='<?php echo DEFRECORDCOVER; ?>'" alt ="<?php echo $title; ?> " >						
     </div>
 </div> 

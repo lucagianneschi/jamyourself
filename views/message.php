@@ -12,7 +12,6 @@ $currentUser = $_SESSION['currentUser'];
 
 //esempio: objectId dell'utente a cui si vuole vedere il profilo 
 $user = $_GET['user'];
-
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
@@ -22,10 +21,10 @@ $user = $_GET['user'];
 
         <title>Jamyourself</title>
         <!-------------------------- METADATI --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
-        
+	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
+
         <style>
-                
+
         </style>
 
     </head>
@@ -33,16 +32,16 @@ $user = $_GET['user'];
     <body>
 
         <!-------------------------- HEADER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
+	<?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
 
         <!-------------------------- BODY --------------------------->      
-        <?php require_once(VIEWS_DIR . 'content/message/main.php'); ?>
-        
+	<?php require_once(VIEWS_DIR . 'content/message/main.php'); ?>
+
         <!-------------------------- FOOTER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>        
+	<?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>        
 
         <!-------------------------- SCRIPT --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
+	<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
 
     </body>
 

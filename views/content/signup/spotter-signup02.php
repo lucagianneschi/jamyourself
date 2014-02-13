@@ -100,14 +100,16 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
             <div class="row" >
                 <div  class="small-12 columns">
                     <div class="signup-genre">
-					<?php 
-					$index = 0;
-					foreach ($views['tag']['music'] as $key => $value) { ?>
-						<input onclick="checkmax(this,10)" type="checkbox" name="spotter-genre[<?php echo $index ?>]" id="spotter-genre[<?php echo $index ?>]" value="<?php echo $key ?>" class="no-display">
-						<label for="spotter-genre[<?php echo $index ?>]"><?php echo $value ?></label>
-					<?php 
-					$index++;
-					} ?>
+			<?php
+			$index = 0;
+			foreach ($views['tag']['music'] as $key => $value) {
+			    ?>
+    			<input onclick="checkmax(this, 10)" type="checkbox" name="spotter-genre[<?php echo $index ?>]" id="spotter-genre[<?php echo $index ?>]" value="<?php echo $key ?>" class="no-display">
+    			<label for="spotter-genre[<?php echo $index ?>]"><?php echo $value ?></label>
+			    <?php
+			    $index++;
+			}
+			?>
                     </div>
                 </div>	
             </div>
@@ -119,7 +121,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         </div>	
         <div  class="small-8 columns">
             <input type="button" name="spotter-signup02-back" id="spotter-signup02-back" class="signup-button-back" value="<?php echo $views['go_back']; ?>"/>
-            <input type="button" name="spotter-signup02-next" id="spotter-signup02-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
+            <input type="button" name="spotter-signup02-next" id="spotter-signup02-next" class="signup-button" value="<?php echo $views['next']; ?>"/>
         </div>	
     </div>	
 

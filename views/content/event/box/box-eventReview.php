@@ -12,6 +12,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'review.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 session_start();
@@ -34,7 +35,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
         <div  class="large-12 columns">
     	<div class="row">
     	    <div  class="large-12 columns">
-    		<h3><?php echo $views['media']['EventReview']['title']; ?></h3>
+    		<h3><?php echo $views['media']['eventReview']['title']; ?></h3>
     	    </div>			
     	</div>	
 
@@ -44,7 +45,6 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    if ($reviewCounter > 0) {
 		$indice = 1;
 		foreach ($reviews as $key => $value) {
-		    // dati utente che ha generato la review 
 		    $review_user_objectId = $value->getFromUser()->getObjectId();
 		    $review_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
 		    $review_user_username = $value->getFromUser()->getUsername();
@@ -53,28 +53,16 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    $review_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
 		    $review_title = $value->getTitle();
 		    $review_text = $value->getText();
-		    #TODO
 		    $review_rating = $value->getVote();
 		    $review_counter_love = $value->getLoveCounter();
 		    $review_counter_comment = $value->getCommentCounter();
 		    $review_counter_share = $value->getShareCounter();
-		    switch ($review_user_type) {
-			case 'JAMMER':
-			    $defaultThum = DEFTHUMBJAMMER;
-			    break;
-			case 'VENUE':
-			    $defaultThum = DEFTHUMBVENUE;
-			    break;
-			case 'SPOTTER':
-			    $defaultThum = DEFTHUMBSPOTTER;
-			    break;
-		    }
 		    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
 			$css_love = '_love orange';
-			$text_love = $views['UNLOVE'];
+			$text_love = $views['unlove'];
 		    } else {
 			$css_love = '_unlove grey';
-			$text_love = $views['LOVE'];
+			$text_love = $views['love'];
 		    }
 		    ?>
 	    	<div class="row" id="social-EventReview-<?php echo $review_objectId; ?>">
@@ -86,8 +74,11 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div  class="small-1 columns ">
 	    				    <div class="userThumb">
 	    					<!-- THUMB USER-->
-						    <?php $thumbPath = USERS_DIR . $review_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $review_user_thumbnail; ?>
-	    					<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $review_user_username; ?> ">
+						    <?php
+						    $fileManagerService = new FileManagerService();
+						    $thumbPath = $fileManagerService->getPhotoPath($review_user_objectId, $review_user_thumbnail);
+						    ?>
+	    					<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'" alt ="<?php echo $review_user_username; ?> ">
 	    				    </div>
 	    				</div>
 	    				<div  class="small-5 columns">
@@ -147,7 +138,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div class="small-6 columns ">
 	    				    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
 	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $review_objectId; ?>', '<?php echo $review_user_objectId; ?>', 'Comment', '#social-EventReview-<?php echo $review_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
-	    				    <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','EventReview')"><?php echo $views['SHARE']; ?></a -->
+	    				    <!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','EventReview')"><?php echo $views['share']; ?></a -->
 	    				</div>
 	    				<div class="small-6 columns propriety ">
 	    				    <a class="icon-propriety <?php echo $css_love; ?>" ><?php echo $review_counter_love; ?></a>
@@ -186,7 +177,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    <div  class="large-12 columns ">
 			<div class="box">
 			    <div class="row">
-				<div class="large-12 columns"><p class="grey"><?php echo $views['EventReview']['nodata']; ?></p></div>
+				<div class="large-12 columns"><p class="grey"><?php echo $views['eventReview']['nodata']; ?></p></div>
 			    </div>
 			</div>
 		    </div>

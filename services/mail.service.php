@@ -22,17 +22,17 @@ require_once SERVICES_DIR . 'mail/class.phpmailer.php';
 
 function mailService() {
     $mail = new PHPMailer;
-	$mail->isSMTP();
-	$mail->Host     	= 'smtp.jamyourself.com';
-	$mail->SMTPAuth 	= true;
-	$mail->Username 	= 'info@jamyourself.com';
-	$mail->Password 	= 'jam361510';
-	$mail->SMTPSecure 	= 'tls';
-	$mail->From     	= 'noreply@jamyourself.com';
-	$mail->FromName 	= 'Jamyourself';
-	$mail->addReplyTo('noreply@jamyourself.com', 'Jamyourself');
-	$mail->isHTML(true);
-	return $mail;
+    $mail->isSMTP();
+    $mail->Host = 'smtp.jamyourself.com';
+    $mail->SMTPAuth = true;
+    $mail->Username = 'info@jamyourself.com';
+    $mail->Password = 'jam361510';
+    $mail->SMTPSecure = 'tls';
+    $mail->From = 'noreply@jamyourself.com';
+    $mail->FromName = 'Jamyourself';
+    $mail->addReplyTo('noreply@jamyourself.com', 'Jamyourself');
+    $mail->isHTML(true);
+    return $mail;
 }
 
 ?>

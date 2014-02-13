@@ -60,8 +60,6 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 					    $data = $value->createdAt->format('d F Y');
 					    $dataFormato = $value->createdAt->format('j n Y');
 					    $time = $value->createdAt->format('H:i');
-
-					    //	$data = ucwords(strftime("%e %B %Y", $value->createdAt->getTimestamp()));
 					    $time = ucwords(strftime("%H:%M", $value->createdAt->getTimestamp()));
 					    if ($data != $dataPrec) {
 						?>		
@@ -102,7 +100,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 					    if (!$value->read) {
 						?>
 						<script>
-			    readMessage('<?php echo $value->activityId ?>');
+			readMessage('<?php echo $value->activityId ?>');
 						</script>
 						<?php
 					    }
@@ -175,16 +173,17 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 
 			<div class="row">
 			    <div class="large-12 columns">
-				<div class="line-date"><small><?php echo $views['message']['ERROR2'] ?></small></div>
+				<div class="line-date"><small><?php echo $views['message']['error2'] ?></small></div>
 			    </div>
 			</div>	
-		    <?php }
+			<?php
+		    }
 		} else {
 		    ?>
 
 		    <div class="row">
 		        <div class="large-12 columns">
-		    	<div class="line-date"><small><?php echo $views['message']['ERROR1'] ?></small></div>
+		    	<div class="line-date"><small><?php echo $views['message']['error1'] ?></small></div>
 		        </div>
 		    </div>
 		    <?php

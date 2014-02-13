@@ -16,6 +16,7 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'review.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
 $objectId = $_POST['objectId'];
@@ -33,7 +34,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
         <div  class="large-12 columns">
     	<div class="row">
     	    <div  class="large-5 columns">
-    		<h3><?php echo $views['EventReview']['TITLE']; ?></h3>
+    		<h3><?php echo $views['eventReview']['title']; ?></h3>
     	    </div>	
     	    <div  class="large-7 columns align-right">
 		    <?php
@@ -41,10 +42,10 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 			?>
 			<div class="row">					
 			    <div  class="small-9 columns">
-				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'EventReview')"><?php echo $views['PREV']; ?> </a>
+				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'eventReview')"><?php echo $views['prev']; ?> </a>
 			    </div>
 			    <div  class="small-3 columns">
-				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'EventReview')"><?php echo $views['NEXT']; ?> </a>
+				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'eventReview')"><?php echo $views['next']; ?> </a>
 			    </div>
 			</div>
 			<?php
@@ -83,25 +84,25 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $eventReview_share = $value->getShareCounter();
 				    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
 					$css_love = '_love orange';
-					$text_love = $views['UNLOVE'];
+					$text_love = $views['unlove'];
 				    } else {
 					$css_love = '_unlove grey';
-					$text_love = $views['LOVE'];
+					$text_love = $views['love'];
 				    }
 				    ?>
 	    			<div  class="rsContent">	
 	    			    <div id='eventReview_<?php echo $eventReview_objectId ?>'>	
 					    <?php
 					    if ($type != "SPOTTER") {
-						
-						$pathUser = USERS_DIR . $eventReview_user_objectId . '/images/profilepicturethumb/';
-						$pathEvent = USERS_DIR . $currentUser->getObjectId() . '/images/eventcoverthumb/';
+						$fileManagerService = new FileManagerService();
+						$pathUser = $fileManagerService->getPhotoPath($eventReview_user_objectId, $eventReview_user_thumbnail);
+						$pathEvent = $fileManagerService->getEventPhotoPath($currentUser->getObjectId(), $eventReview_thumbnailCover);
 						?>
 						<a href="profile.php?user=<?php echo $eventReview_user_objectId ?>">
 						    <div class="row">
 							<div  class="small-1 columns ">
 							    <div class="userThumb">
-								<img src="<?php echo $pathUser . $eventReview_user_thumbnail ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'">
+								<img src="<?php echo $pathUser; ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'" alt="<?php echo $eventReview_user_username; ?>">
 							    </div>
 							</div>
 							<div  class="small-5 columns">
@@ -123,7 +124,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				<a href="event.php?event=<?php echo $eventReview_objectId ?>" >
 	    				    <div class="row">
 	    					<div  class="small-2 columns ">
-	    					    <div class="coverThumb"><img src="<?php echo $pathEvent . $eventReview_thumbnailCover ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></div>						
+	    					    <div class="coverThumb"><img src="<?php echo $pathEvent; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $eventReview_title; ?>"></div>						
 	    					</div>
 	    					<div  class="small-10 columns ">
 	    					    <div class="row ">							
@@ -133,7 +134,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    					    </div>	
 	    					    <div class="row">						
 	    						<div  class="small-12 columns ">
-	    						    <div class="note grey"><?php echo $views['EventReview']['RATING']; ?></div>
+	    						    <div class="note grey"><?php echo $views['eventReview']['rating']; ?></div>
 	    						</div>
 	    					    </div>
 	    					    <div class="row ">						
@@ -169,9 +170,9 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div class="row recordReview-propriety">
 	    				    <div class="box-propriety">
 	    					<div class="small-7 columns ">
-	    					    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $eventReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love ?></a>
-	    					    <a class="note grey" onclick="loadBoxOpinion('<?php echo $eventReview_objectId; ?>', '<?php echo $eventReview_user_objectId; ?>', 'Comment', '#social-EventReview .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
-	    					    <a class="note grey" onclick="share(this, '<?php echo $eventReview_objectId; ?>', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
+	    					    <a class="note grey" onclick="love(this, 'comment', '<?php echo $eventReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love ?></a>
+	    					    <a class="note grey" onclick="loadBoxOpinion('<?php echo $eventReview_objectId; ?>', '<?php echo $eventReview_user_objectId; ?>', 'comment', '#social-EventReview .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
+	    					    <a class="note grey" onclick="share(this, '<?php echo $eventReview_objectId; ?>', 'social-EventReview')"><?php echo $views['share']; ?></a>
 	    					</div>
 	    					<div class="small-5 columns propriety ">					
 	    					    <a class="icon-propriety <?php echo $css_love ?>" ><?php echo $eventReview_love ?></a>
@@ -188,7 +189,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				?>
 				<div  class="rsContent">	
 				    <div class="row">
-					<div  class="large-12 columns grey"><?php echo $views['EventReview']['nodata']; ?></div>
+					<div  class="large-12 columns grey"><?php echo $views['eventReview']['nodata']; ?></div>
 				    </div>
 				</div>
 				<?php

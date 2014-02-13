@@ -15,6 +15,7 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'review.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
 $objectId = $_POST['objectId'];
@@ -32,7 +33,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
         <div  class="large-12 columns">	
     	<div class="row">
     	    <div  class="small-5 columns">
-    		<h3><?php echo $views['RecordReview']['TITLE']; ?></h3>
+    		<h3><?php echo $views['recordReview']['title']; ?></h3>
     	    </div>	
     	    <div  class="small-7 columns align-right">
 		    <?php
@@ -40,10 +41,10 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 			?>
 			<div class="row">					
 			    <div  class="small-9 columns">
-				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'RecordReview')"><?php echo $views['PREV']; ?> </a>
+				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'recordReview')"><?php echo $views['prev']; ?> </a>
 			    </div>
 			    <div  class="small-3 columns">
-				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'RecordReview')"><?php echo $views['NEXT']; ?> </a>
+				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'recordReview')"><?php echo $views['next']; ?> </a>
 			    </div>
 			</div>
 			<?php
@@ -76,10 +77,10 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $recordReview_share = $value->getShareCounter();
 				    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
 					$css_love = '_love orange';
-					$text_love = $views['UNLOVE'];
+					$text_love = $views['unlove'];
 				    } else {
 					$css_love = '_unlove grey';
-					$text_love = $views['LOVE'];
+					$text_love = $views['love'];
 				    }
 				    ?>
 	    			<div  class="rsContent">	
@@ -94,14 +95,15 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 							$defaultThum = DEFTHUMBVENUE;
 							break;
 						}
-						$pathUser = USERS_DIR . $eventReview_user_objectId . '/images/profilepicturethumb/';
-						$pathRecord = USERS_DIR . $currentUser->getObjectId() . '/images/recordcoverthumb/';
+						$fileManagerService = new FileManagerService();
+						$pathUser = $fileManagerService->getPhotoPath($eventReview_user_objectId, $recordReview_user_thumbnail);
+						$pathRecord = $fileManagerService->getPhotoPath($currentUser->getObjectId(), $recordReview_thumbnailCover);
 						?>
 						<a href="profile.php?user=<?php echo $recordReview_user_objectId ?>">	
 						    <div class="row">
 							<div  class="small-1 columns ">
 							    <div class="userThumb">
-								<img src="<?php echo $pathUser . $recordReview_user_thumbnail ?>" onerror="this.src='<?php echo $defaultThum; ?>'">
+								<img src="<?php echo $pathUser; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $recordReview_user_username; ?>">
 							    </div>
 							</div>
 							<div  class="small-5 columns">
@@ -123,7 +125,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    				<a href="record.php?record=<?php echo $recordObjectId ?>">
 	    				    <div class="row">
 	    					<div  class="small-2 columns ">
-	    					    <div class="coverThumb"><img src="<?php echo $pathRecord . $recordReview_thumbnailCover ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></div>						
+	    					    <div class="coverThumb"><img src="<?php echo $pathRecord; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $recordReview_title; ?>"></div>						
 	    					</div>
 	    					<div  class="small-10 columns ">
 	    					    <div class="row ">							
@@ -133,7 +135,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    					    </div>	
 	    					    <div class="row">						
 	    						<div  class="small-12 columns ">
-	    						    <div class="note grey"><?php echo $views['RecordReview']['RATING']; ?></div>
+	    						    <div class="note grey"><?php echo $views['recordReview']['rating']; ?></div>
 	    						</div>
 	    					    </div>
 	    					    <div class="row ">						
@@ -161,7 +163,6 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    					<a href="#" class="orange no-display closeText"><strong onclick="toggleText(this, 'recordReview_<?php echo $recordReview_objectId ?>', '<?php echo $recordReview_text ?>')">Close</strong></a>
 	    				    </div>
 	    				</div>	
-
 	    				<div class="row">
 	    				    <div  class="large-12 columns"><div class="line"></div></div>
 	    				</div>
@@ -170,7 +171,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    					<div class="small-6 columns ">
 	    					    <a class="note grey" onclick="love(this, 'Comment', '<?php echo $recordReview_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
 	    					    <a class="note grey" onclick="loadBoxOpinion('<?php echo $recordReview_objectId; ?>', '<?php echo $recordReview_user_objectId; ?>', 'Comment', '#social-RecordReview .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
-	    					    <a class="note grey" onclick="share(this, '<?php echo $recordReview_objectId; ?>', 'social-RecordReview')"><?php echo $views['SHARE']; ?></a>
+	    					    <a class="note grey" onclick="share(this, '<?php echo $recordReview_objectId; ?>', 'social-RecordReview')"><?php echo $views['share']; ?></a>
 	    					</div>
 	    					<div class="small-6 columns propriety ">					
 	    					    <a class="icon-propriety <?php echo $css_love; ?>" ><?php echo $recordReview_love ?></a>
@@ -188,7 +189,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				?>
 				<div  class="rsContent">	
 				    <div class="row">
-					<div  class="large-12 columns grey"><?php echo $views['RecordReview']['NODATA']; ?></div>
+					<div  class="large-12 columns grey"><?php echo $views['recordReview']['nodata']; ?></div>
 				    </div>
 				</div>			
 				<?php
@@ -200,7 +201,6 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
     		<div class="box-opinion no-display"></div>
     	    </div>
     	</div>
-
     	<!---------------------------------------- SHARE ---------------------------------------------------->
     	<!-- AddThis Button BEGIN -->		
     	<div class="addthis_toolbox">   

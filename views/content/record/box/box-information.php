@@ -17,11 +17,10 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $objectId = $record->getObjectId();
-
 $city = $record->getCity();
-
 $year = $record->getYear();
 $label = $record->getLabel();
 $buylink = $record->getBuylink();
@@ -36,17 +35,17 @@ $css_label = (!isset($label) || $label == '') ? 'no-display' : '';
 $css_buylink = (!isset($buylink) || $buylink == '') ? 'no-display' : '';
 $css_description = (!isset($description) || $description == '') ? 'no-display' : '';
 
-
-$thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $fromUserThumbnail;
+$fileManagerService = new FileManagerService();
+$thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumbnail);
 ?>
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
     <div class="large-12 columns">
-	<h3><?php echo $views['information']['TITLE']; ?></h3>		
+	<h3><?php echo $views['information']['title']; ?></h3>		
 	<div class="section-container accordion" data-section="accordion">
 	    <section class="active" >
 		<!--------------------------------- ABOUT ---------------------------------------------------->
-		<p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['media']['Information']['CONTENT1_RECORD'] ?></a></p>
+		<p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['media']['information']['content1_record'] ?></a></p>
 		<div class="content" data-section-content>
 		    <a href="profile.php?user=<?php echo $fromUserObjectId ?>">
 			<div class="row " style="cursor: pointer" id="user_<?php echo $fromUserObjectId; ?>">
@@ -83,7 +82,7 @@ $thumbPath = USERS_DIR . $fromUserObjectId . DIRECTORY_SEPARATOR . "images" . DI
 		<div class="content <?php echo $css_buylink ?>" data-section-content>
 		    <div class="row">
 			<div class="small-12 columns">
-			    <div class="text orange"><span class="white"><?php echo $views['media']['Record']['buy']; ?></span> <a class="orange" href="<?php echo $buylink; ?>"><?php echo $buylink; ?></a></div>		    								    					
+			    <div class="text orange"><span class="white"><?php echo $views['media']['record']['buy']; ?></span> <a class="orange" href="<?php echo $buylink; ?>"><?php echo $buylink; ?></a></div>		    								    					
 			</div>
 		    </div> 
 		</div>

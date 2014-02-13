@@ -77,7 +77,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 <!------------------------------------- Activities ------------------------------------>
 <div class="row" id="social-activity">
     <div  class="large-12 columns">
-	<h3><?php echo $views['activity']['TITLE']; ?></h3>
+	<h3><?php echo $views['activity']['title']; ?></h3>
 	<div class="row  ">
 	    <div  class="large-12 columns ">
 		<div class="box">
@@ -87,7 +87,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 			?>	
     		    <div class="row box-singleActivity">
     			<div  class="large-12 columns ">
-    			    <div class="text orange"><?php echo $views['activity']['LASTALBUM']; ?></div>
+    			    <div class="text orange"><?php echo $views['activity']['lastalbum']; ?></div>
 				<?php
 				if (isset($dataActivityRecord['objectId']) && $dataActivityRecord['objectId'] != '') {
 				    ?>	
@@ -97,8 +97,8 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 					</div>
 					<div  class="small-9 columns box-info">
 					    <div class="sottotitle grey-dark"><?php echo $dataActivityRecord['title'] ?></div>
-					    <div class="text grey"><?php echo $views['activity']['RECORDED']; ?> <?php echo $dataActivityRecord['year'] ?></div>
-					    <a class="ico-label _play-large text "><?php echo $views['activity']['VIEWALBUM']; ?></a>									
+					    <div class="text grey"><?php echo $views['activity']['recorded']; ?> <?php echo $dataActivityRecord['year'] ?></div>
+					    <a class="ico-label _play-large text "><?php echo $views['activity']['viewalbum']; ?></a>									
 					</div>									
 				    </div>
 				    <?php
@@ -106,7 +106,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<div  class="small-12 columns ">
-					    <div class="text grey-dark"><?php echo $views['activity']['NORECORD']; ?></div>	
+					    <div class="text grey-dark"><?php echo $views['activity']['norecord']; ?></div>	
 					</div>	
 				    </div>						
 				    <?php
@@ -126,7 +126,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 			?>
     		    <div class="row box-singleActivity">
     			<div  class="large-12 columns ">
-    			    <div class="text orange"><?php echo $views['activity']['LASTEVENT']; ?></div>
+    			    <div class="text orange"><?php echo $views['activity']['lastevent']; ?></div>
 				<?php
 				if (isset($dataActivityEvent['objectId']) && $dataActivityEvent['objectId'] != '') {
 				    ?>
@@ -145,7 +145,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<div  class="small-12 columns ">
-					    <div class="text grey-dark"><?php echo $views['activity']['NOEVENT']; ?></div>	
+					    <div class="text grey-dark"><?php echo $views['activity']['noevent']; ?></div>	
 					</div>	
 				    </div>		
 				    <?php
@@ -156,7 +156,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
     		    <div class="row">
     			<div  class="large-12 columns"><div class="line"></div></div>
     		    </div>
-			<?php }
+		    <?php }
 		    ?>
 		    <!------------------ BOX SPOTTER LAST LISTERING AND ATTENGING EVENT ------------>
 		    <?php
@@ -164,7 +164,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 			?>
     		    <div class="row box-singleActivity">
     			<div  class="large-12 columns ">
-    			    <div class="text orange"><?php echo $views['activity']['LASTLISTERING']; ?></div>
+    			    <div class="text orange"><?php echo $views['activity']['lastlistening']; ?></div>
 				<?php
 				if (count($activitiesRecord) > 0) {
 				    foreach ($activitiesRecord as $key => $value) {
@@ -175,8 +175,8 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 	    				</div>
 	    				<div  class="small-9 columns box-info">
 	    				    <div class="sottotitle grey-dark"><?php echo $value->getRecord()->getTitle(); ?></div>
-	    				    <div class="text grey"><?php echo $views['activity']['RECORDED']; ?> <?php echo $value->getSong()->getTitle(); ?></div>
-	    				    <a class="ico-label _play-large text "><?php echo $views['activity']['VIEWALBUM']; ?></a>			
+	    				    <div class="text grey"><?php echo $views['activity']['recorded']; ?> <?php echo $value->getSong()->getTitle(); ?></div>
+	    				    <a class="ico-label _play-large text "><?php echo $views['activity']['viewalbum']; ?></a>			
 	    				</div>									
 	    			    </div>
 					<?php
@@ -185,7 +185,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<div  class="small-12 columns ">
-					    <div class="text grey-dark"><?php echo $views['activity']['NORECORD']; ?></div>	
+					    <div class="text grey-dark"><?php echo $views['activity']['norecord']; ?></div>	
 					</div>	
 				    </div>						
 				    <?php
@@ -199,7 +199,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
     		    <!--------------------------------------- event ---------------------------------------->
     		    <div class="row box-singleActivity">
     			<div  class="large-12 columns ">
-    			    <div class="text orange"><?php echo $views['activity']['ATTEVENT']; ?></div>
+    			    <div class="text orange"><?php echo $views['activity']['attevent']; ?></div>
 				<?php
 				if (count($activitiesEvent) > 0) {
 				    foreach ($activitiesEvent as $key => $value) {
@@ -220,7 +220,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<div  class="small-12 columns ">
-					    <div class="text grey-dark"><?php echo $views['activity']['NOEVENT']; ?></div>	
+					    <div class="text grey-dark"><?php echo $views['activity']['noevent']; ?></div>	
 					</div>	
 				    </div>		
 				    <?php
@@ -237,7 +237,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 		    <!--------------------------------- LAST PHOTO --------------------->					
 		    <div class="row  ">
 			<div  class="large-12 columns ">
-			    <div class="text orange"><?php echo $views['activity']['LASTPHOTO']; ?></div>
+			    <div class="text orange"><?php echo $views['activity']['lastphoto']; ?></div>
 			    <?php
 			    if (count($albums) > 0) {
 				foreach ($albums as $key => $value) {
@@ -245,7 +245,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    <div class="row " style="margin-bottom: 10px;">
 					<div  class="small-12 columns ">
 					    <span class="text grey-dark" style="cursor:pointer"><?php echo $value->getTitle(); ?></span>
-					    <span class="text grey"> - <?php echo $value->getImageCounter(); ?> <?php echo $views['activity']['PHOTOS']; ?> </span>
+					    <span class="text grey"> - <?php echo $value->getImageCounter(); ?> <?php echo $views['activity']['photos']; ?> </span>
 					</div>
 				    </div>
 				    <div class="row ">
@@ -272,7 +272,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				?>
     			    <div class="row">
     				<div  class="small-12 columns ">
-    				    <div class="text grey-dark"><?php echo $views['activity']['NOPHOTO']; ?></div>	
+    				    <div class="text grey-dark"><?php echo $views['activity']['nophoto']; ?></div>	
     				</div>	
     			    </div>		
 				<?php
@@ -290,7 +290,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
     		    <!-------------------------- jammersCollaborators ------------------------->
     		    <div class="row ">
     			<div  class="large-12 columns ">
-    			    <div class="text orange"><?php echo $views['activity']['LASTJAMMER']; ?></div>
+    			    <div class="text orange"><?php echo $views['activity']['lastjammer']; ?></div>
 				<?php
 				if (isset($dataActivityRelation['jammersCollaborators' . '0']) && $dataActivityRelation['jammersCollaborators' . '0'] != NULL) {
 				    ?>
@@ -363,7 +363,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<div  class="small-12 columns ">
-					    <div class="text grey-dark"><?php echo $views['activity']['NOCOLL']; ?></div>	
+					    <div class="text grey-dark"><?php echo $views['activity']['nocoll']; ?></div>	
 					</div>	
 				    </div>		
 				    <?php
@@ -374,7 +374,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
     		    <!-------------------------- venuesCollaborators ------------------------->
     		    <div class="row ">
     			<div  class="large-12 columns ">
-    			    <div class="text orange"><?php echo $views['activity']['LASTVENUE']; ?></div>
+    			    <div class="text orange"><?php echo $views['activity']['lastvenue']; ?></div>
 				<?php
 				if (isset($dataActivityRelation['venuesCollaborators' . '0']) && $dataActivityRelation['venuesCollaborators' . '0'] != NULL) {
 				    ?>
@@ -447,7 +447,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<div  class="small-12 columns ">
-					    <div class="text grey-dark"><?php echo $views['activity']['NOCOLL']; ?></div>	
+					    <div class="text grey-dark"><?php echo $views['activity']['nocoll']; ?></div>	
 					</div>	
 				    </div>		
 				    <?php
@@ -462,7 +462,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
     		    <!-------------------------- friendship ------------------------->
     		    <div class="row ">
     			<div  class="large-12 columns ">
-    			    <div class="text orange"><?php echo $views['activity']['LASTFRIENDS']; ?></div>
+    			    <div class="text orange"><?php echo $views['activity']['lastfriends']; ?></div>
 				<?php
 				if (isset($dataActivityRelation['friendship' . '0']) && $dataActivityRelation['friendship' . '0'] != NULL) {
 				    ?>
@@ -533,7 +533,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<div  class="small-12 columns ">
-					    <div class="text grey-dark"><?php echo $views['activity']['NOFRIENDS']; ?></div>	
+					    <div class="text grey-dark"><?php echo $views['activity']['nofriends']; ?></div>	
 					</div>	
 				    </div>		
 				    <?php
@@ -544,7 +544,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
     		    <!-------------------------- following ------------------------->
     		    <div class="row ">
     			<div  class="large-12 columns ">
-    			    <div class="text orange"><?php echo $views['activity']['NOFOLL']; ?></div>
+    			    <div class="text orange"><?php echo $views['activity']['nofoll']; ?></div>
 				<?php
 				if (isset($dataActivityRelation['following' . '0']) && $dataActivityRelation['following' . '0'] != NULL) {
 				    ?>
@@ -617,7 +617,7 @@ if (isset($data['eventInfo']['objectId']) && $data['eventInfo']['objectId'] != '
 				    ?>
 				    <div class="row">
 					<div  class="small-12 columns ">
-					    <div class="text grey-dark"><?php echo $views['activity']['NOFOLL']; ?></div>	
+					    <div class="text grey-dark"><?php echo $views['activity']['nofoll']; ?></div>	
 					</div>	
 				    </div>		
 				    <?php

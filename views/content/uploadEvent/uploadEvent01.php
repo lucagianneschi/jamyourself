@@ -16,15 +16,12 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     <div  class="small-6 columns">
         <label for="eventTitle"><input type="text" name="eventTitle" id="eventTitle" required pattern="general">
 	    <?php echo $views['uploadEvent']['event_title']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_title']; ?></small></label>
-
-
-
 	<!--------------------------- UPLOAD IMAGE -------------------------------->
         <div class="row upload-box">
             <div  class="small-3 columns" id="tumbnail-pane">
 		<div class="thumbnail-box">
 		    <div id="uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane">
-			<img id="uploadImage_tumbnail" name="uploadImage_tumbnail"/>
+			<img id="uploadImage_tumbnail" name="uploadImage_tumbnail" alt/>
 		    </div>
 		</div>
             </div>
@@ -47,7 +44,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                     <div class="row">							
                         <div  class="small-10 small-centered columns align-center">
 			    <div id="uploadImage_preview_box">
-				<img src="" id="spotter_uploadImage_preview"/>
+				<img src="" id="spotter_uploadImage_preview" alt/>
 				<input type="hidden" id="spotter_x" name="crop_x" value="0">
 				<input type="hidden" id="spotter_y" name="crop_y" value="0">
 				<input type="hidden" id="spotter_w" name="crop_w" value="100">
@@ -97,34 +94,40 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     </div>
 
     <div  class="small-6 columns">
-		<div class="row">
-        <label for="description"><?php echo $views['uploadEvent']['description']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_description']; ?></small>		
-	    <textarea name="description"  pattern="general" id="description"  maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea></label>		
-		</div>
-		<div class="row">
-        <label style="padding-bottom: 0px !important;" id="label-tag-localType"><?php echo $views['uploadEvent']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre']; ?></small></label>		
-        <div id="tag-localType">
-        	<?php 
-        	$index = 0;
-        	foreach ($views['tag']['localType'] as $key => $value) { ?>
-	        	<input onclick="checkmaxLocalType(this,1)" type="checkbox" name="tag-localType<?php echo $index ?>" id="tag-localType<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
-	        	<label for="tag-localType<?php echo $index ?>"><?php echo $value ?></label>
-        	<?php	
-			$index++; } ?>
-        </div>
+	<div class="row">
+	    <label for="description"><?php echo $views['uploadEvent']['description']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['valid_description']; ?></small>		
+		<textarea name="description"  pattern="general" id="description"  maxlength="200" rows="100" required style="height: 155px; margin-bottom: 30px !important;"></textarea></label>		
+	</div>
+	<div class="row">
+	    <label style="padding-bottom: 0px !important;" id="label-tag-localType"><?php echo $views['uploadEvent']['select_genre']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre']; ?></small></label>		
+	    <div id="tag-localType">
+		<?php
+		$index = 0;
+		foreach ($views['tag']['localType'] as $key => $value) {
+		    ?>
+    		<input onclick="checkmaxLocalType(this, 1)" type="checkbox" name="tag-localType<?php echo $index ?>" id="tag-localType<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
+    		<label for="tag-localType<?php echo $index ?>"><?php echo $value ?></label>
+		    <?php
+		    $index++;
+		}
+		?>
+	    </div>
         </div>
         <div class="row" style="margin-top: 30px">
-        <label style="padding-bottom: 0px !important;" id="label-tag-music"><?php echo $views['uploadEvent']['select_genre_music']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre_music']; ?></small></label>		
-        <div id="tag-music">
-        	<?php 
-        	$index = 0;
-        	foreach ($views['tag']['music'] as $key => $value) { ?>
-	        	<input onclick="checkmaxGenre(this,1)" type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
-	        	<label for="tag-music<?php echo $index ?>"><?php echo $value ?></label>
-        	<?php	
-			$index++; } ?>
-        </div>
-		</div>
+	    <label style="padding-bottom: 0px !important;" id="label-tag-music"><?php echo $views['uploadEvent']['select_genre_music']; ?><span class="orange">*</span><small class="error"><?php echo $views['uploadEvent']['enter_genre_music']; ?></small></label>		
+	    <div id="tag-music">
+		<?php
+		$index = 0;
+		foreach ($views['tag']['music'] as $key => $value) {
+		    ?>
+    		<input onclick="checkmaxGenre(this, 1)" type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
+    		<label for="tag-music<?php echo $index ?>"><?php echo $value ?></label>
+		    <?php
+		    $index++;
+		}
+		?>
+	    </div>
+	</div>
     </div>
 
 </div>

@@ -16,51 +16,50 @@ $tagGenere = "";
 $thumbnail = "";
 switch ($uploadReviewController->reviewedClassType) {
     case "Record":
-        $tagGenere = $uploadReviewController->reviewed->getGenre();
-        $thumbnail = $uploadReviewController->reviewed->getThumbnailCover();
-        break;
+	$tagGenere = $uploadReviewController->reviewed->getGenre();
+	$thumbnail = $uploadReviewController->reviewed->getThumbnailCover();
+	break;
     case "Event" :
-        $tagGenere = implode("," ,$uploadReviewController->reviewed->getTags());
-        $thumbnail = $uploadReviewController->reviewed->getThumbnail();
-        break;
+	$tagGenere = implode(",", $uploadReviewController->reviewed->getTags());
+	$thumbnail = $uploadReviewController->reviewed->getThumbnail();
+	break;
 }
 $rating = "3";
 $authorObjectId = $uploadReviewController->reviewedFromUser->getObjectId();
 $authorThumbnail = $uploadReviewController->reviewedFromUser->getProfileThumbnail();
 $author = $uploadReviewController->reviewedFromUser->getUsername();
 
-if($authorObjectId == $currentUser->getObjectId()){
+if ($authorObjectId == $currentUser->getObjectId()) {
     header('Location: stream.php');
 } else {
-  
-?>
-<!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
+    ?>
+    <!DOCTYPE html>
+    <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
+    <!--[if gt IE 8]><!--><html class="no-js" lang="en" ><!--<![endif]-->
 
-    <head>
+        <head>
 
-        <title>Jamyourself</title>
-        <!-------------------------- METADATI --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
+    	<title>Jamyourself</title>
+    	<!-------------------------- METADATI --------------------------->
+	    <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
 
-    </head>
+        </head>
 
-    <body>
+        <body>
 
-        <!-------------------------- HEADER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
+    	<!-------------------------- HEADER --------------------------->
+	    <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
 
-        <!-------------------------- BODY --------------------------->
-        <div class="body-content">
-            <?php require_once(VIEWS_DIR . 'content/uploadReview/main.php'); ?>
-        </div>
-        <!-------------------------- FOOTER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
+    	<!-------------------------- BODY --------------------------->
+    	<div class="body-content">
+		<?php require_once(VIEWS_DIR . 'content/uploadReview/main.php'); ?>
+    	</div>
+    	<!-------------------------- FOOTER --------------------------->
+	    <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
 
-        <!-------------------------- SCRIPT --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
-    </body>
+    	<!-------------------------- SCRIPT --------------------------->
+	    <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
+        </body>
 
-</html>
+    </html>
 <?php } ?>

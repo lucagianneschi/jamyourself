@@ -1,99 +1,99 @@
 <?php
 
-class parseObject extends parseRestClient{
-	public $_includes = array();
-	private $_className = '';
+class parseObject extends parseRestClient {
 
-	public function __construct($class=''){
-		if($class != ''){
-			$this->_className = $class;
-		}
-		else{
-			$this->throwError('include the className when creating a parseObject');
-		}
+    public $_includes = array();
+    private $_className = '';
 
-		parent::__construct();
+    public function __construct($class = '') {
+	if ($class != '') {
+	    $this->_className = $class;
+	} else {
+	    $this->throwError('include the className when creating a parseObject');
 	}
 
-	public function __set($name,$value){
-		if($name != '_className'){
-			$this->data[$name] = $value;
-		}
-	}
+	parent::__construct();
+    }
 
-	public function save(){
-		if(count($this->data) > 0 && $this->_className != ''){
-			$request = $this->request(array(
-				'method' => 'POST',
-				'requestUrl' => 'classes/'.$this->_className,
-				'data' => $this->data,
-			));
-			return $request;
-		}
+    public function __set($name, $value) {
+	if ($name != '_className') {
+	    $this->data[$name] = $value;
 	}
+    }
 
-	public function get($id){
-		if($this->_className != '' || !empty($id)){
-			$request = $this->request(array(
-				'method' => 'GET',
-				'requestUrl' => 'classes/'.$this->_className.'/'.$id
-			));
-			
-			if(!empty($this->_includes)){
-				$request['include'] = implode(',', $this->_includes);
-			}
-			
-			return $request;
-		}
+    public function save() {
+	if (count($this->data) > 0 && $this->_className != '') {
+	    $request = $this->request(array(
+		'method' => 'POST',
+		'requestUrl' => 'classes/' . $this->_className,
+		'data' => $this->data,
+	    ));
+	    return $request;
 	}
+    }
 
-	public function update($id){
-		if($this->_className != '' || !empty($id)){
-			$request = $this->request(array(
-				'method' => 'PUT',
-				'requestUrl' => 'classes/'.$this->_className.'/'.$id,
-				'data' => $this->data,
-			));
+    public function get($id) {
+	if ($this->_className != '' || !empty($id)) {
+	    $request = $this->request(array(
+		'method' => 'GET',
+		'requestUrl' => 'classes/' . $this->_className . '/' . $id
+	    ));
 
-			return $request;
-		}
-	}
+	    if (!empty($this->_includes)) {
+		$request['include'] = implode(',', $this->_includes);
+	    }
 
-	public function increment($field,$amount){
-		$this->data[$field] = $this->dataType('increment', $amount);
+	    return $request;
 	}
+    }
 
-	public function decrement($id){
-		$this->data[$field] = $this->dataType('decrement', $amount);
-	}
+    public function update($id) {
+	if ($this->_className != '' || !empty($id)) {
+	    $request = $this->request(array(
+		'method' => 'PUT',
+		'requestUrl' => 'classes/' . $this->_className . '/' . $id,
+		'data' => $this->data,
+	    ));
 
+	    return $request;
+	}
+    }
 
-	public function delete($id){
-		if($this->_className != '' || !empty($id)){
-			$request = $this->request(array(
-				'method' => 'DELETE',
-				'requestUrl' => 'classes/'.$this->_className.'/'.$id
-			));
+    public function increment($field, $amount) {
+	$this->data[$field] = $this->dataType('increment', $amount);
+    }
 
-			return $request;
-		}		
-	}
+    public function decrement($id) {
+	$this->data[$field] = $this->dataType('decrement', $amount);
+    }
 
-	public function addInclude($name){
-		$this->_includes[] = $name;
+    public function delete($id) {
+	if ($this->_className != '' || !empty($id)) {
+	    $request = $this->request(array(
+		'method' => 'DELETE',
+		'requestUrl' => 'classes/' . $this->_className . '/' . $id
+	    ));
+
+	    return $request;
 	}
-	
-	public function addArray($field, $value) {
-		$this->data[$field] = $this->dataType('add', $value);
-	}
-	
-	public function addUniqueArray($field, $value) {
-		$this->data[$field] = $this->dataType('addUnique', $value);
-	}
-	
-	public function removeArray($field, $value) {
-		$this->data[$field] = $this->dataType('remove', $value);
-	}
+    }
+
+    public function addInclude($name) {
+	$this->_includes[] = $name;
+    }
+
+    public function addArray($field, $value) {
+	$this->data[$field] = $this->dataType('add', $value);
+    }
+
+    public function addUniqueArray($field, $value) {
+	$this->data[$field] = $this->dataType('addUnique', $value);
+    }
+
+    public function removeArray($field, $value) {
+	$this->data[$field] = $this->dataType('remove', $value);
+    }
+
 }
 
 ?>

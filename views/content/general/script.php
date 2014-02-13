@@ -88,72 +88,72 @@
 <?php
 switch (basename($_SERVER['PHP_SELF'])) {
     case "signup.php":
-        ?>
-        <!-- recatpcha -->
-        <script src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script> 
-        <script type="text/javascript" src="resources/javascripts/customs/signup.js"></script>
-        <?php
-        break;
+	?>
+	<!-- recatpcha -->
+	<script src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script> 
+	<script type="text/javascript" src="resources/javascripts/customs/signup.js"></script>
+	<?php
+	break;
     case "login.php":
-        ?>
+	?>
 
-        <?php
-        break;
+	<?php
+	break;
     case "profile.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/opinion.js"></script>
-        <?php
-        break;
+	?>
+	<script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/opinion.js"></script>
+	<?php
+	break;
     case "stream.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/stream.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/opinion.js"></script>
-        <?php
-        break;
+	?>
+	<script type="text/javascript" src="resources/javascripts/customs/stream.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/post.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/opinion.js"></script>
+	<?php
+	break;
     case "event.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/opinion.js"></script>
-        <?php
-        break;
+	?>
+	<script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/opinion.js"></script>
+	<?php
+	break;
     case "record.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
-        <script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
-        <?php
-        break;
+	?>
+	<script type="text/javascript" src="resources/javascripts/customs/profile.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/love.js"></script>
+	<script type="text/javascript" src="resources/javascripts/customs/comment.js"></script>
+	<?php
+	break;
     case "message.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/message.js"></script>
-        <?php
-        break;
+	?>
+	<script type="text/javascript" src="resources/javascripts/customs/message.js"></script>
+	<?php
+	break;
     case "uploadRecord.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/uploadRecord.js"></script>
-        <?php
-        break;
+	?>
+	<script type="text/javascript" src="resources/javascripts/customs/uploadRecord.js"></script>
+	<?php
+	break;
     case "uploadReview.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/uploadReview.js"></script>
-        <?php
-        break;
+	?>
+	<script type="text/javascript" src="resources/javascripts/customs/uploadReview.js"></script>
+	<?php
+	break;
     case "uploadEvent.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/uploadEvent.js"></script>
-        <?php
-        break;
+	?>
+	<script type="text/javascript" src="resources/javascripts/customs/uploadEvent.js"></script>
+	<?php
+	break;
     case "uploadAlbum.php":
-        ?>
-        <script type="text/javascript" src="resources/javascripts/customs/uploadAlbum.js"></script>
-        <?php
-        break;
+	?>
+	<script type="text/javascript" src="resources/javascripts/customs/uploadAlbum.js"></script>
+	<?php
+	break;
 }
 ?>

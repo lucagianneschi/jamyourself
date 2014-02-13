@@ -14,6 +14,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $city = $user->getCity();
 switch ($user->getType()) {
@@ -36,12 +37,9 @@ foreach ($user->getMusic() as $key => $value) {
 
 $userinfo_pin = $city == '' ? '' : '_pin';
 $userinfo_note = $music == '' ? '' : '_note';
-
-$pathPicture = USERS_DIR . $user->getObjectId(). '/images/profilepicture/';
-$pathBackground = USERS_DIR . $user->getObjectId(). '/images/background/';
-
-
-
+$fileManagerService = new FileManagerService();
+$pathPicture = $fileManagerService->getPhotoPath($user->getObjectId(), $user->getProfilePicture());
+$pathBackground = $fileManagerService->getPhotoPath($user->getObjectId(), $user->getBackground());
 ?>
 <div class="row" id="profile-userInfo">
     <div class="large-12 columns">
@@ -60,7 +58,7 @@ $pathBackground = USERS_DIR . $user->getObjectId(). '/images/background/';
 
 <div class="row">
     <div class="large-12 columns">
-	<img class="background" src="<?php echo $pathBackground.$user->getBackground(); ?>"  onerror="this.src='<?php echo DEFBGD; ?>'" >
-	<img class="picture" src="<?php echo $pathPicture.$user->getProfilePicture(); ?>" onerror="this.src='<?php echo $defaultImage; ?>'" width="150" height="150">							
+        <img class="background" src="<?php echo $pathBackground; ?>"  onerror="this.src='<?php echo DEFBGD; ?>'" alt="">
+	<img class="picture" src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultImage; ?>'" width="150" height="150" alt="<?php echo $user->getUsername(); ?>">							
     </div>
 </div> 

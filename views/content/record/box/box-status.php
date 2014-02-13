@@ -14,10 +14,10 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 if (is_array($record->getLovers()) && in_array($currentUser->getObjectId(), $record->getLovers())) {
     $css_love = '_love orange';
-    $text_love = $views['UNLOVE'];
+    $text_love = $views['unlove'];
 } else {
     $css_love = '_unlove grey';
-    $text_love = $views['LOVE'];
+    $text_love = $views['love'];
 }
 ?>
 <!------------------------------------------- STATUS ----------------------------------->
@@ -51,7 +51,7 @@ if (is_array($record->getLovers()) && in_array($currentUser->getObjectId(), $rec
 	    <div class="small-7 columns ">
 		<a class="note grey" onclick="love(this, 'Event', '<?php echo $record->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>');"><?php echo $text_love; ?></a>
 		<a class="note grey" onclick="setCounter()"><?php echo $views['comm']; ?></a>
-		<a class="note grey" onclick="share()"><?php echo $views['SHARE']; ?></a>
+		<a class="note grey" onclick="share()"><?php echo $views['share']; ?></a>
 	    </div>
 	    <div class="small-5 columns propriety ">					
 		<a class="icon-propriety <?php echo $css_love; ?>"><?php echo $record->getLoveCounter(); ?></a>
@@ -69,7 +69,7 @@ if (is_array($record->getLovers()) && in_array($currentUser->getObjectId(), $rec
     <div class="row ">
         <div  class="large-12 columns">
     	<div class="status-button">
-    	    <a href='uploadReview.php?rewiewId=<?php echo $record->getObjectId() ?>&type=Record' class="button bg-orange" ><div class="icon-button _follower_status"><?php echo $views['media']['ADDREVIEW'] ?></div></a>
+    	    <a href='uploadReview.php?rewiewId=<?php echo $record->getObjectId() ?>&type=Record' class="button bg-orange" ><div class="icon-button _follower_status"><?php echo $views['media']['addreview'] ?></div></a>
     	</div>
         </div>
     </div>

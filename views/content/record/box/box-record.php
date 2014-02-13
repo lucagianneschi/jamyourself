@@ -17,6 +17,7 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
 require_once CLASSES_DIR . 'userParse.class.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 if (session_id() == '')
     session_start();
@@ -28,11 +29,11 @@ if (isset($_SESSION['currentUser']))
 <!----------------------------------------- PLAYER ALBUM ----------------------------------------------->
 <div class="row" id="profile-Record">
     <div class="large-12 columns">
-	<div class="row">
-	    <div  class="small-12 columns"><h3><?php echo $views['media']['Record']['tracklist'] ?></h3></div>        
-	</div> 
-	<!---------------------------- ALBUM SINGOLO --------------------------------------------->       
-	<div class="box" style="padding: 0px !important;">                
+        <div class="row">
+            <div  class="small-12 columns"><h3><?php echo $views['media']['record']['tracklist'] ?></h3></div>        
+        </div> 
+        <!---------------------------- ALBUM SINGOLO --------------------------------------------->       
+        <div class="box" style="padding: 0px !important;">                
 	    <?php
 	    if (count($tracklist) > 0) {
 		foreach ($tracklist as $key => $value) {
@@ -52,29 +53,30 @@ if (isset($_SESSION['currentUser']))
 		    } else {
 			$css_removePlayList = 'no-display';
 		    }
-			$pathCoverRecord = USERS_DIR . $userId . '/images/recordcoverthumb/';
-		    $pathSong= USERS_DIR . $userId . '/songs/'.$_POST['objectId'].'/';
-			$song = json_encode(array(
-			    'objectId' => $value->getObjectId(),
-			    'title' => $value->getTitle(),
-			    'artist' => $_POST['username'],
-			    'mp3' => $pathSong.$value->getFilePath(),
-			    'love' => $value->getLoveCounter(),
-			    'share' => $value->getShareCounter(),
-			    'pathCover' => $pathCoverRecord
-			));
+		    $fileManagerService = new FileManagerService();
+		    $pathCoverRecord = $fileManagerService->getRecordPhotoPath($userId, $value->getRecord()->getThumbnailCover());
+		    $pathSong = $fileManagerService->getSongPath($userId, $value->getFilePath());
+		    $song = json_encode(array(
+			'objectId' => $value->getObjectId(),
+			'title' => $value->getTitle(),
+			'artist' => $_POST['username'],
+			'mp3' => $pathSong,
+			'love' => $value->getLoveCounter(),
+			'share' => $value->getShareCounter(),
+			'pathCover' => $pathCoverRecord
+		    ));
 		    ?>
 		    <div class="row" id="<?php echo $value->getObjectId() ?>"> <!------------------ CODICE TRACCIA: track01  ------------------------------------>
 			<div class="small-12 columns ">
 			    <div class="track">
 				<div class="row">
 				    <div class="small-9 columns ">                                        
-						<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getObjectId(); ?>','<?php echo $pathCoverRecord ?>')"><span class="songTitle"><?php echo $record_title ?></span></a>
-						<input type="hidden" name="song" value="<?php echo $pathSong.$value->getFilePath(); ?>" />
+					<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getObjectId(); ?>', '<?php echo $pathCoverRecord ?>')"><span class="songTitle"><?php echo $record_title ?></span></a>
+					<input type="hidden" name="song" value="<?php echo $pathSong . $value->getFilePath(); ?>" />
 				    </div>
 				    <div class="small-3 columns track-propriety align-right" style="padding-right: 20px;">                                        
-					<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['ADDPLAYLIST']; ?></a>
-					<a class="icon-propriety _remove-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['REMOVEPLAYLIST']; ?></a>
+					<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['addplaylist']; ?></a>
+					<a class="icon-propriety _remove-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['removeplaylist']; ?></a>
 				    </div>
 				    <div class="small-3 columns track-nopropriety align-right" style="padding-right: 20px;">
 					<a class="icon-propriety "><?php echo $hoursminsandsecs ?></a>        
@@ -83,8 +85,8 @@ if (isset($_SESSION['currentUser']))
 				<div class="row track-propriety" >
 				    <div class="box-propriety album-single-propriety">
 					<div class="small-5 columns ">
-					    <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['LOVE']; ?></a>
-					    <!--a class="note white" onclick="setCounter(this, '<?php echo $record_objectId ?>', 'Song')"><?php echo $views['SHARE']; ?></a-->        
+					    <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['love']; ?></a>
+					    <!--a class="note white" onclick="setCounter(this, '<?php echo $record_objectId ?>', 'Song')"><?php echo $views['share']; ?></a-->        
 					</div>
 					<div class="small-5 columns propriety ">                                        
 					    <a class="icon-propriety _unlove grey" ><?php echo $value->getLoveCounter() ?></a>
@@ -96,7 +98,7 @@ if (isset($_SESSION['currentUser']))
 			</div>
 		    </div>
 
-		<?php
+		    <?php
 		}
 	    } else {
 		?>        
@@ -104,19 +106,19 @@ if (isset($_SESSION['currentUser']))
     		<div  class="large-12 columns ">
     		    <div class="box">                                                
     			<div class="row">
-    			    <div  class="large-12 columns"><p class="grey"><?php echo $views['record']['NODATA']; ?></p></div>
+    			    <div  class="large-12 columns"><p class="grey"><?php echo $views['record']['nodata']; ?></p></div>
     			</div>
     		    </div>
     		</div>
     	    </div>
-<?php } ?>
-	    <div class="box-comment no-display"></div>
+	    <?php } ?>
+            <div class="box-comment no-display"></div>
 
-	</div>
+        </div>
 
-<?php // }    ?>
+	<?php // }    ?>
 
-	<!---------------------------------------- comment ------------------------------------------------->
-	<div class="box-comment no-display"></div>
+        <!---------------------------------------- comment ------------------------------------------------->
+        <div class="box-comment no-display"></div>
     </div>
 </div>

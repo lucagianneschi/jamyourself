@@ -19,7 +19,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
             <div  class="small-3 columns" id="tumbnail-pane" >
                 <div class="signup-image">
                     <div id="uploadImage_tumbnail-pane" class="uploadImage_tumbnail-pane">
-                        <img id="uploadImage_tumbnail" name="uploadImage_tumbnail"/>
+                        <img id="uploadImage_tumbnail" name="uploadImage_tumbnail" alt/>
                     </div>
                 </div>
             </div>
@@ -41,9 +41,9 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     <div  class="small-5 columns">
         <div class="note grey-light" style="padding-top: 50px;"><span class="orange">* </span><?php echo $views['mandatory_fields']; ?></div>
     </div>	
-<!--    <div  class="small-7 columns" >
-        <a type="button" name="uploadAlbum03-next" id="uploadAlbum03-next" class="buttonOrange _check-button sottotitle" style="padding-right: 50px;"/>Ok</a>
-    </div>	-->
+    <!--    <div  class="small-7 columns" >
+	    <a type="button" name="uploadAlbum03-next" id="uploadAlbum03-next" class="buttonOrange _check-button sottotitle" style="padding-right: 50px;"/>Ok</a>
+	</div>	-->
 </div>
 <div id="uploadAlbum-listPhoto">
     <div class="row" style="margin-top: 40px">

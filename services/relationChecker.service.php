@@ -33,8 +33,8 @@ function relationChecker($currentUserId, $currentUserType, $toUserId, $toUserTyp
 	$type = ($toUserType == 'SPOTTER') ? 'FOLLOWING' : 'COLLABORATIONREQUEST';
     }
     $compoundQuery = array(
-    array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId), 'toUser' =>   array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $toUserId)), 'className' => 'Activity'), 'key' => 'objectId'))),
-    array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $toUserId), 'toUser' =>   array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)), 'className' => 'Activity'), 'key' => 'objectId'))));
+	array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $toUserId)), 'className' => 'Activity'), 'key' => 'objectId'))),
+	array('objectId' => array('$select' => array('query' => array('where' => array('fromUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $toUserId), 'toUser' => array('__type' => 'Pointer', 'className' => '_User', 'objectId' => $currentUserId)), 'className' => 'Activity'), 'key' => 'objectId'))));
     $relationActivity = new ActivityParse();
     $relationActivity->whereOr($compoundQuery);
     $relationActivity->where('active', true);

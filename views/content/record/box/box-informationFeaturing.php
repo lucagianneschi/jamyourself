@@ -19,6 +19,7 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'utilsBox.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 
 $objectId = $_POST['objectId'];
 $featurings = getRelatedUsers($objectId, 'featuring', 'Record', false, 10, 0);
@@ -27,8 +28,7 @@ $featuringsCounter = count($featurings);
 if ($featuringsCounter > 0) {
     ?>
 
-    <p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT2']; ?></a></p>
-
+    <p class="title" data-section-title><a href="#"><?php echo $views['media']['information']['content2']; ?></a></p>
     <div class="content" data-section-content>
         <div class="row">
 	    <?php
@@ -36,7 +36,8 @@ if ($featuringsCounter > 0) {
 	    $i = 1;
 	    foreach ($featurings as $key => $value) {
 		$defaultThum = $value->getType() == 'JAMMER' ? DEFTHUMBJAMMER : DEFTHUMBVENUE;
-		$pathPicture = USERS_DIR . $value->getObjectId() . '/images/profilepicturethumb/';
+		$fileManagerService = new FileManagerService();
+		$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
 		?>
 		<div  class="small-6 columns">
 		    <a href="profile.php?user=<?php echo $value->getObjectId(); ?> ">

@@ -5,7 +5,7 @@ if (!defined('ROOT_DIR'))
 require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
-
+require_once SERVICES_DIR . 'fileManager.service.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 if (session_id() == '')
     session_start();
@@ -65,23 +65,23 @@ if (isset($userObjectId)) {
 	    case 'message':
 		$detailNotification->initForMessageList();
 		$numNot = $message;
-		$other = $views['header']['social']['MESSAGE_MSG'];
+		$other = $views['header']['social']['message_msg'];
 		break;
 	    case 'event':
 		$detailNotification->initForEventList();
 		$numNot = $invited;
-		$other = $views['header']['social']['MESSAGE_EVENT'];
+		$other = $views['header']['social']['message_event'];
 		break;
 	    case 'relation':
 		$detailNotification->initForRelationList($userType);
 		$numNot = $relation;
-		$other = $views['header']['social']['MESSAGE_RELATION'];
+		$other = $views['header']['social']['message_relation'];
 		break;
 	    default:
 		break;
 	}
     } catch (Exception $e) {
-
+	
     }
     ?>
     <!---------------------------------------- HEADER HIDE SOCIAL ----------------------------------->
@@ -96,7 +96,7 @@ if (isset($userObjectId)) {
         <div  class="large-12 columns" style="margin-bottom: 29px">
     	<div class="row">
     	    <div  class="large-4 columns hide-for-small">	
-    		<h3 class="inline"><?php echo $views['header']['social']['TITLE'] ?></h3>
+    		<h3 class="inline"><?php echo $views['header']['social']['title'] ?></h3>
     	    </div>	
     	    <div  class="large-4 columns" style="margin-top: 10px">
     		<!--a class="ico-label _flag inline" onclick="loadBoxSocial('notification', '<?php echo $userObjectId ?>', '<?php echo $userType ?>')" >
@@ -170,8 +170,11 @@ if (isset($userObjectId)) {
 	    	    <div class="row">
 	    		<div  class="large-1 columns hide-for-small">
 	    		    <div class="icon-header">
-                                 <!-- THUMB USER-->
-                                <?php $thumbPath = USERS_DIR . $objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $user_thumb; ?>
+	    			<!-- THUMB USER-->
+				    <?php
+				    $fileManagerService = new FileManagerService();
+				    $thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				    ?>
 	    			<img src="<?php echo $thumbPath ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $user_username; ?>">
 	    		    </div>
 	    		</div>
@@ -180,12 +183,12 @@ if (isset($userObjectId)) {
 	    			<div  class="large-7 columns" style="padding-right: 0px;">
 	    			    <a class="icon-small <?php echo $css_icon ?> text grey inline"></a><strong id="<?php echo $user_objectId ?>"><?php echo $user_username ?></strong><span id="<?php echo $objectId ?>"> <?php echo $text ?></span>
 	    			    <br>									
-	    				<span class="note grey-light inline notification-note"><?php echo $createdAd ?></span>
+	    			    <span class="note grey-light inline notification-note"><?php echo $createdAd ?></span>
 	    			</div>
-	    			
+
 	    			<div  class="large-5 columns " style="text-align: right;">
-						<a class="btn-confirm decline" onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Rifiuta</a>
-						<a class="btn-confirm accept" onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');">Accetta</a>&nbsp;&nbsp;
+	    			    <a class="btn-confirm decline" onclick="declineRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');"><?php echo $views['header']['decline'] ?></a>
+	    			    <a class="btn-confirm accept" onclick="acceptRelation('<?php echo $objectId; ?>', '<?php echo $user_objectId; ?>');"><?php echo $views['header']['accept'] ?></a>&nbsp;&nbsp;
 	    			</div>	
 	    		    </div>
 	    		</div>
@@ -209,14 +212,14 @@ if (isset($userObjectId)) {
 
     <?php if (count($detailNotification->notificationArray) == 0) { ?>
 	<div class"row">
-	     <div  class="large-12 columns"><?php echo $views['header']['social']['NODATA'] ?></div>
+	     <div  class="large-12 columns"><?php echo $views['header']['social']['nodata'] ?></div>
 	</div>	
 
 	<?php
     } else {
 	?>
 	<div class"row">
-	     <div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['MESSAGE_MARK'] ?></strong> </a></div>
+	     <div  class="large-6 columns" style="padding: 0px;"><a href="#" class="note orange"><strong><?php echo $views['header']['social']['message_mark'] ?></strong> </a></div>
 	    <div  class="large-6 columns" style="text-align: right;padding: 0px;"><a href="#" class="note orange"><strong><?php echo $other ?></strong> </a></div>			
 	</div>
 	<script>

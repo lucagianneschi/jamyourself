@@ -8,341 +8,342 @@ class parseQuery extends parseRestClient {
     private $_order = array();
     private $_query = array();
     private $_include = array();
-    
+
     public function __construct($class = '') {
-        if ($class == 'users' || $class == 'installation') {
-            $this->_requestUrl = $class;
-        } elseif ($class != '') {
-            $this->_requestUrl = 'classes/' . $class;
-        } else {
-            $this->throwError('include the className when creating a parseQuery');
-        }
-        parent::__construct();
-        }
-        
-        public function find() {
-        if (empty($this->_query)) {
-            $request = $this->request(array(
-            'method' => 'GET',
-            'requestUrl' => $this->_requestUrl
-            ));
-            return $request;
-        } else {
-            $urlParams = array(
-            'where' => json_encode($this->_query)
-            );
-            if (!empty($this->_include)) {
-                $urlParams['include'] = implode(',', $this->_include);
-            }
-            if (!empty($this->_order)) {
-                $urlParams['order'] = implode(',', $this->_order);
-            }
-            if (!empty($this->_limit) || $this->_limit == 0) {
-                $urlParams['limit'] = $this->_limit;
-            }
-            if (!empty($this->_skip)) {
-                $urlParams['skip'] = $this->_skip;
-            }
-            if ($this->_count == 1) {
-                $urlParams['count'] = '1';
-                $urlParams['limit'] = '0';
-            }
-        
-            $request = $this->request(array(
-            'method' => 'GET',
-            'requestUrl' => $this->_requestUrl,
-            'urlParams' => $urlParams,
-            ));
-        
-            return $request;
-        }
+	if ($class == 'users' || $class == 'installation') {
+	    $this->_requestUrl = $class;
+	} elseif ($class != '') {
+	    $this->_requestUrl = 'classes/' . $class;
+	} else {
+	    $this->throwError('include the className when creating a parseQuery');
+	}
+	parent::__construct();
     }
-    
+
+    public function find() {
+	if (empty($this->_query)) {
+	    $request = $this->request(array(
+		'method' => 'GET',
+		'requestUrl' => $this->_requestUrl
+	    ));
+	    return $request;
+	} else {
+	    $urlParams = array(
+		'where' => json_encode($this->_query)
+	    );
+	    if (!empty($this->_include)) {
+		$urlParams['include'] = implode(',', $this->_include);
+	    }
+	    if (!empty($this->_order)) {
+		$urlParams['order'] = implode(',', $this->_order);
+	    }
+	    if (!empty($this->_limit) || $this->_limit == 0) {
+		$urlParams['limit'] = $this->_limit;
+	    }
+	    if (!empty($this->_skip)) {
+		$urlParams['skip'] = $this->_skip;
+	    }
+	    if ($this->_count == 1) {
+		$urlParams['count'] = '1';
+		$urlParams['limit'] = '0';
+	    }
+
+	    $request = $this->request(array(
+		'method' => 'GET',
+		'requestUrl' => $this->_requestUrl,
+		'urlParams' => $urlParams,
+	    ));
+
+	    return $request;
+	}
+    }
+
     //setting this to 1 by default since you'd typically only call this function if you were wanting to turn it on
     public function setCount($bool = 1) {
-        if (is_bool($bool)) {
-            $this->_count = $bool;
-        } else {
-            $this->throwError('setCount requires a boolean paremeter');
-        }
+	if (is_bool($bool)) {
+	    $this->_count = $bool;
+	} else {
+	    $this->throwError('setCount requires a boolean paremeter');
+	}
     }
-    
+
     public function getCount() {
-        $this->_count = 1;
-        $this->_limit = 0;
-        return $this->find();
+	$this->_count = 1;
+	$this->_limit = 0;
+	return $this->find();
     }
-    
+
     public function setLimit($int) {
-        if ($int >= 1 && $int <= 1000) {
-            $this->_limit = $int;
-        } else {
-            $this->throwError('parse requires the limit parameter be between 1 and 1000');
-        }
+	if ($int >= 1 && $int <= 1000) {
+	    $this->_limit = $int;
+	} else {
+	    $this->throwError('parse requires the limit parameter be between 1 and 1000');
+	}
     }
-    
+
     public function setSkip($int) {
-        $this->_skip = $int;
+	$this->_skip = $int;
     }
-    
+
     public function orderBy($field) {
-        if (!empty($field)) {
-            $this->_order[] = $field;
-        }
+	if (!empty($field)) {
+	    $this->_order[] = $field;
+	}
     }
-    
+
     public function orderByAscending($value) {
-        if (is_string($value)) {
-            $this->_order[] = $value;
-        } else {
-            $this->throwError('the order parameter on a query must be a string');
-        }
+	if (is_string($value)) {
+	    $this->_order[] = $value;
+	} else {
+	    $this->throwError('the order parameter on a query must be a string');
+	}
     }
-    
+
     public function orderByDescending($value) {
-        if (is_string($value)) {
-            $this->_order[] = '-' . $value;
-        } else {
-            $this->throwError('the order parameter on parseQuery must be a string');
-        }
+	if (is_string($value)) {
+	    $this->_order[] = '-' . $value;
+	} else {
+	    $this->throwError('the order parameter on parseQuery must be a string');
+	}
     }
-    
+
     public function whereInclude($value) {
-        if (is_string($value)) {
-            $this->_include[] = $value;
-        } else {
-            $this->throwError('the include parameter on parseQuery must be a string');
-        }
-        }
-        
-        public function where($key, $value) {
-        $this->whereEqualTo($key, $value);
+	if (is_string($value)) {
+	    $this->_include[] = $value;
+	} else {
+	    $this->throwError('the include parameter on parseQuery must be a string');
+	}
     }
-    
+
+    public function where($key, $value) {
+	$this->whereEqualTo($key, $value);
+    }
+
     public function whereEqualTo($key, $value) {
-        if (isset($key) && isset($value)) {
-            $this->_query[$key] = $value;
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    $this->_query[$key] = $value;
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereNotEqualTo($key, $value) {
-        if (isset($key) && isset($value)) {
-            $this->_query[$key] = array(
-            '$ne' => $value
-            );
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    $this->_query[$key] = array(
+		'$ne' => $value
+	    );
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereGreaterThan($key, $value) {
-        if (isset($key) && isset($value)) {
-            $this->_query[$key] = array(
-            '$gt' => $value
-            );
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    $this->_query[$key] = array(
+		'$gt' => $value
+	    );
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereLessThan($key, $value) {
-        if (isset($key) && isset($value)) {
-            $this->_query[$key] = array(
-            '$lt' => $value
-            );
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    $this->_query[$key] = array(
+		'$lt' => $value
+	    );
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereGreaterThanOrEqualTo($key, $value) {
-        if (isset($key) && isset($value)) {
-            $this->_query[$key] = array(
-            '$gte' => $value
-            );
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    $this->_query[$key] = array(
+		'$gte' => $value
+	    );
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereLessThanOrEqualTo($key, $value) {
-        if (isset($key) && isset($value)) {
-            $this->_query[$key] = array(
-            '$lte' => $value
-            );
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    $this->_query[$key] = array(
+		'$lte' => $value
+	    );
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereAll($key, $value) {
-        if (isset($key) && isset($value)) {
-            if (is_array($value)) {
-            $this->_query[$key] = array(
-                '$all' => $value
-            );
-            } else {
-            $this->throwError('$value must be an array to check through');
-            }
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    if (is_array($value)) {
+		$this->_query[$key] = array(
+		    '$all' => $value
+		);
+	    } else {
+		$this->throwError('$value must be an array to check through');
+	    }
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereContainedIn($key, $value) {
-        if (isset($key) && isset($value)) {
-            if (is_array($value)) {
-            $this->_query[$key] = array(
-                '$in' => $value
-            );
-            } else {
-            $this->throwError('$value must be an array to check through');
-            }
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    if (is_array($value)) {
+		$this->_query[$key] = array(
+		    '$in' => $value
+		);
+	    } else {
+		$this->throwError('$value must be an array to check through');
+	    }
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereNotContainedIn($key, $value) {
-        if (isset($key) && isset($value)) {
-            if (is_array($value)) {
-            $this->_query[$key] = array(
-                '$nin' => $value
-            );
-            } else {
-            $this->throwError('$value must be an array to check through');
-            }
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    if (is_array($value)) {
+		$this->_query[$key] = array(
+		    '$nin' => $value
+		);
+	    } else {
+		$this->throwError('$value must be an array to check through');
+	    }
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereExists($key) {
-        if (isset($key)) {
-            $this->_query[$key] = array(
-            '$exists' => true
-            );
-        }
+	if (isset($key)) {
+	    $this->_query[$key] = array(
+		'$exists' => true
+	    );
+	}
     }
-    
+
     public function whereDoesNotExist($key) {
-        if (isset($key)) {
-            $this->_query[$key] = array(
-            '$exists' => false
-            );
-        }
+	if (isset($key)) {
+	    $this->_query[$key] = array(
+		'$exists' => false
+	    );
+	}
     }
-    
+
     public function whereRegex($key, $value, $options = '') {
-        if (isset($key) && isset($value)) {
-            $this->_query[$key] = array(
-            '$regex' => $value
-            );
-        
-            if (!empty($options)) {
-            $this->_query[$key]['options'] = $options;
-            }
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($value)) {
+	    $this->_query[$key] = array(
+		'$regex' => $value
+	    );
+
+	    if (!empty($options)) {
+		$this->_query[$key]['options'] = $options;
+	    }
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function wherePointer($key, $className, $objectId) {
-        if (isset($key) && isset($className)) {
-            $this->_query[$key] = $this->dataType('pointer', array($className, $objectId));
-        } else {
-            $this->throwError('the $key and $className parameters must be set when setting a "where" pointer query method');
-        }
+	if (isset($key) && isset($className)) {
+	    $this->_query[$key] = $this->dataType('pointer', array($className, $objectId));
+	} else {
+	    $this->throwError('the $key and $className parameters must be set when setting a "where" pointer query method');
+	}
     }
-    
+
     public function whereInQuery($key, $className, $inQuery) {
-        if (isset($key) && isset($className)) {
-            $this->_query[$key] = array(
-            '$inQuery' => array(
-                'where' => $inQuery,
-                'className' => $className)
-            );
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($className)) {
+	    $this->_query[$key] = array(
+		'$inQuery' => array(
+		    'where' => $inQuery,
+		    'className' => $className)
+	    );
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereNotInQuery($key, $className, $inQuery) {
-        if (isset($key) && isset($className)) {
-            $this->_query[$key] = array(
-            '$notInQuery' => array(
-                'where' => $inQuery,
-                'className' => $className)
-            );
-        } else {
-            $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($className)) {
+	    $this->_query[$key] = array(
+		'$notInQuery' => array(
+		    'where' => $inQuery,
+		    'className' => $className)
+	    );
+	} else {
+	    $this->throwError('the $key and $value parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     /**
-    * Example - to find users with a particular role id
-    * ES: per trovare gli Utenti in relazione con un Album, dove
-    * nella tabella album abbiamo una colonna "userRelation"
-    * la query si fa su : $query->parseQuery('_User);
-    * $query->whereRelatedTo('users', '_Role', $roleId);
-    * 
-    * @param type $key = nome colonna del tipo relazione
-    * @param type $className = classe di cui si cerca la relazione
-    * @param type $objectId = id dell'oggetto di cui si cercano le relazioni
-    */
+     * Example - to find users with a particular role id
+     * ES: per trovare gli Utenti in relazione con un Album, dove
+     * nella tabella album abbiamo una colonna "userRelation"
+     * la query si fa su : $query->parseQuery('_User);
+     * $query->whereRelatedTo('users', '_Role', $roleId);
+     * 
+     * @param type $key = nome colonna del tipo relazione
+     * @param type $className = classe di cui si cerca la relazione
+     * @param type $objectId = id dell'oggetto di cui si cercano le relazioni
+     */
     public function whereRelatedTo($key, $className, $objectId) {
-        if (isset($key) && isset($className) && isset($objectId)) {
-            if ($className === 'Role')
-            $className = '_Role';
-            if ($className === 'User')
-            $className = '_User';
-            $pointer = $this->dataType('pointer', array($className, $objectId));
-            $this->_query['$relatedTo'] = $this->dataType('relatedTo', array($pointer, $key));
-        } else {
-            $this->throwError('the $key and $classname and $objectId parameters must be set when setting a "whereRelatedTo" query method');
-        }
+	if (isset($key) && isset($className) && isset($objectId)) {
+	    if ($className === 'Role')
+		$className = '_Role';
+	    if ($className === 'User')
+		$className = '_User';
+	    $pointer = $this->dataType('pointer', array($className, $objectId));
+	    $this->_query['$relatedTo'] = $this->dataType('relatedTo', array($pointer, $key));
+	} else {
+	    $this->throwError('the $key and $classname and $objectId parameters must be set when setting a "whereRelatedTo" query method');
+	}
     }
-    
+
     public function whereSelect($key, $query) {
-        if (isset($key) && isset($query)) {
-            $this->_query[$key] = array(
-            '$select' => $query
-            );
-        } else {
-            $this->throwError('the $key and $query parameters must be set when setting a "where" query method');
-        }
+	if (isset($key) && isset($query)) {
+	    $this->_query[$key] = array(
+		'$select' => $query
+	    );
+	} else {
+	    $this->throwError('the $key and $query parameters must be set when setting a "where" query method');
+	}
     }
-    
+
     public function whereNearSphere($key, $latitude, $longitude, $distance = null, $distanceType = null) {
-        if (isset($key) && isset($latitude) && isset($longitude)) {
-            if (isset($distance) && isset($distanceType)) {
-                if (in_array($distanceType, array('km', 'mi'))) {
-                    if ($distanceType == 'km') {
-                        $query = array(
-                        '$nearSphere' => $this->dataType('geopoint', array($latitude, $longitude)),
-                        '$maxDistanceInKilometers' => $distance
-                        );
-                    } else {
-                        $query = array(
-                        '$nearSphere' => $this->dataType('geopoint', array($latitude, $longitude)),
-                        '$maxDistanceInMiles' => $distance
-                        );
-                    }
-                } else {
-                    $this->throwError('the $distanceType parameter must be set to "km" or "mi" when setting a "where" nearSphere query method');
-                }
-            } else {
-                $query = array(
-                '$nearSphere' => $this->dataType('geopoint', array($latitude, $longitude))
-                );
-            }
-            $this->_query[$key] = $query;            
-        } else {
-            $this->throwError('the $key, $latitude and $longitude parameters must be set when setting a "where" nearSphere query method');
-        }
+	if (isset($key) && isset($latitude) && isset($longitude)) {
+	    if (isset($distance) && isset($distanceType)) {
+		if (in_array($distanceType, array('km', 'mi'))) {
+		    if ($distanceType == 'km') {
+			$query = array(
+			    '$nearSphere' => $this->dataType('geopoint', array($latitude, $longitude)),
+			    '$maxDistanceInKilometers' => $distance
+			);
+		    } else {
+			$query = array(
+			    '$nearSphere' => $this->dataType('geopoint', array($latitude, $longitude)),
+			    '$maxDistanceInMiles' => $distance
+			);
+		    }
+		} else {
+		    $this->throwError('the $distanceType parameter must be set to "km" or "mi" when setting a "where" nearSphere query method');
+		}
+	    } else {
+		$query = array(
+		    '$nearSphere' => $this->dataType('geopoint', array($latitude, $longitude))
+		);
+	    }
+	    $this->_query[$key] = $query;
+	} else {
+	    $this->throwError('the $key, $latitude and $longitude parameters must be set when setting a "where" nearSphere query method');
+	}
     }
 
 }
+
 ?>

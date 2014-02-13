@@ -12,6 +12,7 @@ require_once ROOT_DIR . 'config.php';
 require_once SERVICES_DIR . 'debug.service.php';
 require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
+require_once SERVICES_DIR . 'fileManager.service.php';
 require_once BOXES_DIR . 'comment.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 session_start();
@@ -31,14 +32,14 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
     ?>
     <div class="row" id="social-Comment <?php echo $objectId; ?>">
         <div  class="large-12 columns">
-    	<h3><?php echo $views['media']['Comment']['title']; ?></h3>
+    	<h3><?php echo $views['media']['comment']['title']; ?></h3>
     	<div class="row ">
     	    <div  class="large-12 columns ">
 
     		<div class="row  ">
     		    <div  class="large-12 columns ">
     			  <form action="" class="box-write" onsubmit="sendComment('<?php echo $fromUserObjectId; ?>', $('#commentEvent_<?php echo $objectId; ?>').val(), '<?php echo $objectId; ?>', 'Event', 'box-comment', '<?php echo $limit; ?>', '<?php echo $skip; ?>');
-    				    return false;">
+    				  return false;">
     			    <div class="">
     				<div class="row  ">
     				    <div  class="small-9 columns ">
@@ -85,10 +86,10 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 			    }
 			    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
 				$css_love = '_love orange';
-				$text_love = $views['UNLOVE'];
+				$text_love = $views['unlove'];
 			    } else {
 				$css_love = '_unlove grey';
-				$text_love = $views['LOVE'];
+				$text_love = $views['love'];
 			    }
 			    ?>				
 	    		<div id='<?php echo $comment_objectId; ?>'>
@@ -99,7 +100,10 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 	    				<div  class="small-1 columns ">
 	    				    <div class="icon-header">
 	    					<!-- THUMB USER-->
-						    <?php $thumbPath = USERS_DIR . $comment_user_objectId . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR . "profilepicturethumb" . DIRECTORY_SEPARATOR . $comment_user_thumbnail; ?>
+						    <?php
+						    $fileManagerService = new FileManagerService();
+						    $thumbPath = $fileManagerService->getPhotoPath($comment_user_objectId, $comment_user_thumbnail);
+						    ?>
 	    					<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $comment_user_username; ?> ">
 	    				    </div>
 	    				</div>
