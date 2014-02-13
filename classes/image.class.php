@@ -343,7 +343,7 @@ class Image {
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	$string .= '[tag] => ' . $this->getTags() . '<br />';
+	$string .= '[tags] => ' . $this->getTags() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	if ($this->getCreatedAt() != null) {
 	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
