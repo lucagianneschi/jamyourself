@@ -127,13 +127,13 @@ class SignupController extends REST {
 	    if ($user->getType() == "JAMMER") {
 		$this->createRecordDefaultAlbum($user->getObjectId());
 	    }
-	    if (!is_null($user->getThumbnail()) && strlen($user->getThumbnail()) > 0 && strlen($user->getProfilePicture()) && !is_null($user->getProfilePicture())) {
+	    if (!is_null($user->getThumbnail()) && strlen($user->getThumbnail()) > 0 && strlen($user->getAvatar()) && !is_null($user->getAvatar())) {
 		$res_1 = false;
 		$res_2 = false;
-		$src_img = CACHE_DIR . $user->getProfilePicture();
+		$src_img = CACHE_DIR . $user->getAvatar();
 		$src_thumb = CACHE_DIR . $user->getThumbnail();
 		$fileManager = new FileManagerService();
-		$dest_img = $fileManager->getPhotoPath($user->getObjectId(), $user->getProfilePicture());
+		$dest_img = $fileManager->getPhotoPath($user->getObjectId(), $user->getAvatar());
 		$dest_thumb = $fileManager->getPhotoPath($user->getObjectId(), $user->getThumbnail());
 		$this->debug("signup", "Source image : " . $src_img);
 		$this->debug("signup", "Destination image : " . $dest_img);
