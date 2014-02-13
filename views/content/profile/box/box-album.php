@@ -35,16 +35,16 @@ if (is_null($albumBox->error)) {
         <div class="large-12 columns ">
     	<div class="row">
     	    <div  class="large-5 columns">
-    		<h3><?php echo $views['album']['TITLE']; ?></h3>
+    		<h3><?php echo $views['album']['title']; ?></h3>
     	    </div>	
     	    <div  class="large-7 columns align-right" id="albumBottonSlide">
 		    <?php if ($albumCounter > 4) { ?>
 			<div class="row">					
 			    <div  class="small-9 columns">
-				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'album')"><?php echo $views['PREV']; ?> </a>
+				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'album')"><?php echo $views['prev']; ?> </a>
 			    </div>
 			    <div  class="small-3 columns">
-				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'album')"><?php echo $views['NEXT']; ?> </a>
+				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'album')"><?php echo $views['next']; ?> </a>
 			    </div>
 			</div>		 		
 		    <?php } ?>
@@ -71,10 +71,10 @@ if (is_null($albumBox->error)) {
 				$pathCoverAlbum = $fileManagerService->getPhotoPath($_POST['objectId'], album_thumbnailCover);
 				if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 				    $css_love = '_love orange';
-				    $text_love = $views['UNLOVE'];
+				    $text_love = $views['unlove'];
 				} else {
 				    $css_love = '_unlove grey';
-				    $text_love = $views['LOVE'];
+				    $text_love = $views['love'];
 				}
 				?> 
 				<?php if ($index % 4 == 0) { ?> <div class="rsContent">	<?php
@@ -88,7 +88,7 @@ if (is_null($albumBox->error)) {
 	    				<div class="text white breakOffTest"><?php echo $album_title; ?></div>
 	    				<div class="row">
 	    				    <div class="small-5 columns ">
-	    					<a class="note grey"><?php echo $album_imageCounter; ?> <?php echo $views['album']['PHOTO']; ?></a>								
+	    					<a class="note grey"><?php echo $album_imageCounter; ?> <?php echo $views['album']['photos']; ?></a>								
 	    				    </div>
 	    				    <div class="small-7 columns propriety ">					
 	    					<a class="icon-propriety <?php echo $css_love ?>"><?php echo $album_love; ?></a>
@@ -106,13 +106,13 @@ if (is_null($albumBox->error)) {
 				}
 				?>							
 			</div>
-    <?php } else { ?>
+		    <?php } else { ?>
 			<div class="row  ">
 			    <div  class="large-12 columns ">
-				<p class="grey"><?php echo $views['album']['NODATA']; ?></p>
+				<p class="grey"><?php echo $views['album']['nodata']; ?></p>
 			    </div>
 			</div>
-    <?php } ?>		
+		    <?php } ?>		
     	    </div>
     	</div>
     	<!----------------------------------------- ALBUM PHOTO SINGLE ------------------------------>	
@@ -127,10 +127,10 @@ if (is_null($albumBox->error)) {
 		$album_share = $value->getShareCounter();
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 		    $css_love = '_love orange';
-		    $text_love = $views['UNLOVE'];
+		    $text_love = $views['unlove'];
 		} else {
 		    $css_love = '_unlove grey';
-		    $text_love = $views['LOVE'];
+		    $text_love = $views['love'];
 		}
 		?>
 		<div class="profile-singleAlbum">
@@ -138,7 +138,7 @@ if (is_null($albumBox->error)) {
 			<div class="box" >
 			    <div class="row box-album" style="border-bottom: 1px solid #303030;margin-bottom: 20px;">
 				<div class="large-12 columns" >					
-				    <a class="ico-label _back_page text white" style="margin-bottom: 10px;" onclick="loadBoxAlbum()"><?php echo $views['BACK']; ?></a>
+				    <a class="ico-label _back_page text white" style="margin-bottom: 10px;" onclick="loadBoxAlbum()"><?php echo $views['back']; ?></a>
 				</div>
 			    </div>	
 			    <!----------------------------------------- ALBUM DETAIL--------------------------->			
@@ -204,8 +204,8 @@ if (is_null($albumBox->error)) {
 				<div class="box-propriety">
 				    <div class="small-6 columns">
 					<a class="note grey" onclick="love(this, 'Album', '<?php echo $album_objectId; ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
-					<a class="note grey" onclick="loadBoxOpinion('<?php echo $album_objectId; ?>', '<?php echo $album_user_objectId; ?>', 'Album', '#<?php echo $album_objectId; ?> .albumOpinion.box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
-					<a class="note grey" onclick="share(this, '<?php echo $album_objectId; ?>', 'profile-singleAlbum')"><?php echo $views['SHARE']; ?></a>
+					<a class="note grey" onclick="loadBoxOpinion('<?php echo $album_objectId; ?>', '<?php echo $album_user_objectId; ?>', 'Album', '#<?php echo $album_objectId; ?> .albumOpinion.box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
+					<a class="note grey" onclick="share(this, '<?php echo $album_objectId; ?>', 'profile-singleAlbum')"><?php echo $views['share']; ?></a>
 				    </div>
 				    <div class="small-6 columns propriety ">					
 					<a class="icon-propriety <?php echo $css_love ?>"><?php echo $album_love; ?></a>

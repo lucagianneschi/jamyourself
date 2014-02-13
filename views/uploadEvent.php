@@ -18,24 +18,24 @@ $uploadEventController->init();
 
         <title>Jamyourself</title>
         <!-------------------------- METADATI --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
+	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
 
     </head>
 
     <body>
 
         <!-------------------------- HEADER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
+	<?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
 
         <!-------------------------- BODY --------------------------->
         <div class="body-content">
-            <?php require_once(VIEWS_DIR . 'content/uploadEvent/main.php'); ?>
+	    <?php require_once(VIEWS_DIR . 'content/uploadEvent/main.php'); ?>
         </div>
         <!-------------------------- FOOTER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
+	<?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
 
         <!-------------------------- SCRIPT --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
+	<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
     </body>
 
 </html>

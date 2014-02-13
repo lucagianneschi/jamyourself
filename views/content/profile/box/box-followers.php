@@ -23,7 +23,7 @@ if (is_null($followersBox->error)) {
     ?>
     <div class="row" id="social-followers">
         <div  class="large-12 columns">
-    	<h3 style="cursor: pointer" onclick="loadBoxRelation('followers', 21, 0,<?php echo $followersCounter; ?>)"><?php echo $views['followers']['TITLE']; ?> <span class="orange">[<?php echo $followersCounter ?>]</span></h3>
+    	<h3 style="cursor: pointer" onclick="loadBoxRelation('followers', 21, 0,<?php echo $followersCounter; ?>)"><?php echo $views['followers']['title']; ?> <span class="orange">[<?php echo $followersCounter ?>]</span></h3>
     	<div class="row  ">
     	    <div  class="large-12 columns ">
     		<div class="box">					
@@ -62,7 +62,7 @@ if (is_null($followersBox->error)) {
 			<?php } else { ?>	
 			    <div class="row  ">
 				<div  class="large-12 columns ">
-				    <p class="grey"><?php echo $views['followers']['NODATA']; ?></p>
+				    <p class="grey"><?php echo $views['followers']['nodata']; ?></p>
 				</div>
 			    </div>
 			<?php } ?>	

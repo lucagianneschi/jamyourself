@@ -1,142 +1,142 @@
 @import url(http://fonts.googleapis.com/css?family=Titillium+Web:400,300);
 
 body {
-	font-family: 'Titillium Web', sans-serif;
-	font-weight: 300;
-	font-size: 1em;
-	color: #8a8683;
-	background-color:#232323;
+    font-family: 'Titillium Web', sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+    color: #8a8683;
+    background-color:#232323;
 }
 img {
-	max-width: 100%;
+    max-width: 100%;
 }
 a:link {
-	color: #CCC;
-	text-decoration: none;
+    color: #CCC;
+    text-decoration: none;
 }
 a:hover {
-	color: #FF7505;
-	text-decoration: none;
+    color: #FF7505;
+    text-decoration: none;
 }
 a:visited {
-	color: #CCC;
-	text-decoration: none;
+    color: #CCC;
+    text-decoration: none;
 }
 
 
 #private-beta {
- position: fixed;
- right:0; bottom: 0;
- z-index: 9;
+    position: fixed;
+    right:0; bottom: 0;
+    z-index: 9;
 }
 
 
 /* Navigation */
 
 .menu {
-	position:fixed;
-	top:0px;
-	height:auto;
-	width:100%; 
-	background-color:#1C1C1C;
-	z-index:100;
+    position:fixed;
+    top:0px;
+    height:auto;
+    width:100%; 
+    background-color:#1C1C1C;
+    z-index:100;
 }
 
 .menu div {
-	height:60px;
-	width: 40px;
-	float: left;
-	background-position: center center;
-	background-repeat: no-repeat;
-	color: #CCC;
-	line-height: 60px;
-	cursor:pointer;
+    height:60px;
+    width: 40px;
+    float: left;
+    background-position: center center;
+    background-repeat: no-repeat;
+    color: #CCC;
+    line-height: 60px;
+    cursor:pointer;
 }
 
 .menu div:hover {
-	color: #FFF;
+    color: #FFF;
 }
 
 .facebook {
-	background-image: url(../images/home/fb.png);
-	margin-left: 25px;
+    background-image: url(../images/home/fb.png);
+    margin-left: 25px;
 }
 
 .facebook:hover {
-	background-image: url(../images/home/fb-hover.png);
-	margin-left: 25px;
+    background-image: url(../images/home/fb-hover.png);
+    margin-left: 25px;
 }
 
 .twitter {
-	background-image: url(../images/home/tw.png);
+    background-image: url(../images/home/tw.png);
 }
 
 .twitter:hover {
-	background-image: url(../images/home/tw-hover.png);
+    background-image: url(../images/home/tw-hover.png);
 }
 
 .blog, .login {
-	width: 100px !important;
-	text-align: center;
+    width: 100px !important;
+    text-align: center;
 }
 
 .login, .subscribe {
-	float: right !important;
+    float: right !important;
 }
 
 .subscribe {
-	width: 120px !important;
-	background-color: #FF7505;
-	color: #FFF !important;
-	text-align: center;
+    width: 120px !important;
+    background-color: #FF7505;
+    color: #FFF !important;
+    text-align: center;
 }
 
 .subscribe:hover {
-	background-color: #da6629 !important;
+    background-color: #da6629 !important;
 }
 
 #subscribe {
-	padding: 85px 0 150px 0;
+    padding: 85px 0 150px 0;
 }
 
 .footer {
-	background:#1C1C1C !important;
-	padding: 65px 0;
+    background:#1C1C1C !important;
+    padding: 65px 0;
 }
 
 form{
-	margin-top: 45px;
+    margin-top: 45px;
 }
 input {
-	height: 20px;
-	padding: 15px 15px;
-	background-color: #444;
-	color: #FFF !important;
-	border: none;
-	margin: 0;
+    height: 20px;
+    padding: 15px 15px;
+    background-color: #444;
+    color: #FFF !important;
+    border: none;
+    margin: 0;
 }
 input[type=mail] {
-	width: 65%;
+    width: 65%;
 }
 input[type=mail]:focus {
-	background-color: #333;
+    background-color: #333;
 }
 input[type=submit] {
-	width: 20%;
-	background-color: #FF7505;
-	color: #FFF !important;
-	text-align: center;
-	height: 50px;
+    width: 20%;
+    background-color: #FF7505;
+    color: #FFF !important;
+    text-align: center;
+    height: 50px;
 }
 
 #logo {
-	width:100%;
-	position:fixed;
-	height:1px;
-	text-align: center;
-	z-index: 999;
-	cursor: pointer;
-	display: none;
+    width:100%;
+    position:fixed;
+    height:1px;
+    text-align: center;
+    z-index: 999;
+    cursor: pointer;
+    display: none;
 }
 
 
@@ -144,192 +144,192 @@ input[type=submit] {
 /* General Slides */ 
 
 .slide{
-	background-attachment: fixed;
-	background: url(../images/home/dot2.png);
-	width:100%;
-	height:auto;
-	position: relative;
-	padding:0 0;
+    background-attachment: fixed;
+    background: url(../images/home/dot2.png);
+    width:100%;
+    height:auto;
+    position: relative;
+    padding:0 0;
 }
 
 .top {
-	padding: 120px 0px 50px 0px;
-	background: url(../images/home/dot.png);
-	text-align: center;
+    padding: 120px 0px 50px 0px;
+    background: url(../images/home/dot.png);
+    text-align: center;
 }
 
 .spot-slide {
-	padding:45px 0 25px 0;
-	background:#FF7505 url(../images/home/dot3.png);
-	text-align: center;
+    padding:45px 0 25px 0;
+    background:#FF7505 url(../images/home/dot3.png);
+    text-align: center;
 }
 
 .spot-slide h2, .spot-slide p {
-	color:#FFF;
+    color:#FFF;
 }
 
 .spot-link {
-	padding:45px 0 35px 0;
-	text-align: center;
+    padding:45px 0 35px 0;
+    text-align: center;
 }
 
 .spot {
-	cursor:pointer;
+    cursor:pointer;
 }
 
 .spot:hover h2 {
-	cursor:pointer;
-	color:#FFF;
+    cursor:pointer;
+    color:#FFF;
 }
 
 .jam-user {
-	text-align: center;
+    text-align: center;
 }
 .slide-img {
-	height: 350px;
-	background-size:cover;
-	background-repeat:no-repeat;
+    height: 350px;
+    background-size:cover;
+    background-repeat:no-repeat;
 }
 
 h1 {
-	font-size: 44px;
-	line-height: 48px;
-	font-weight: 400;
-	color:#FFF;
-	margin-top:55px;
-	margin-bottom: 10px;
+    font-size: 44px;
+    line-height: 48px;
+    font-weight: 400;
+    color:#FFF;
+    margin-top:55px;
+    margin-bottom: 10px;
 }
 h2 {
-	font-size: 27px;
-	line-height: 36px;
-	font-weight: 300;
-	color:#FF7505;
+    font-size: 27px;
+    line-height: 36px;
+    font-weight: 300;
+    color:#FF7505;
 }
 
 p {
-	margin-top: 5px;
+    margin-top: 5px;
 }
 
 
 /* Tablet */
 @media screen and (max-width: 1024px) {
 
-#logo {
+    #logo {
 	width: 100%;
 	text-align: center;
-}
+    }
 
-#nav {
+    #nav {
 	width:100%;
 	text-align:center;
 	margin:10px 0;
-}
+    }
 
-.navigation{
+    .navigation{
 	width: 100%;
 	float:center;
 	list-style: none;
 	margin: 0;
 	padding:0;
-}
+    }
 
-.navigation li{
+    .navigation li{
 	float: left;
 	width:25%;
 	padding:0;
-}
+    }
 
-.slide{
+    .slide{
 	background-attachment: fixed;
 	width:100%;
 	position: relative;
-}
+    }
 
 }
 
 /* Mobile */
 @media screen and (max-width: 480px) {
 
-#logo {
+    #logo {
 	width: 100%;
 	text-align: center;
-}
+    }
 
-.menu div {
+    .menu div {
 	width: 35px;
-}
+    }
 
-.menu div:hover {
+    .menu div:hover {
 	color: #FFF;
-}
+    }
 
-.facebook {
+    .facebook {
 	margin-left: 5px;
-}
+    }
 
-.blog, .login {
+    .blog, .login {
 	width: 80px !important;
-}
+    }
 
-.subscribe {
+    .subscribe {
 	width: 100px !important;
-}
+    }
 
-.slide{
+    .slide{
 	background-attachment: fixed;
 	width:100%;
 	position: relative;
-}
+    }
 
-.slide-img {
+    .slide-img {
 	height: 100px;
 	background-size:contain;
 	background-repeat:no-repeat;
-}
+    }
 
 
 
 }
 #cboxLoadedContent{
-	background: #000 !important;
-	
+    background: #000 !important;
+
 }
 
 
 #login_content{
-	height: 300px;	
-	
-		
+    height: 300px;	
+
+
 }
 
 #login_content input{
-	border: 1px solid #444;
-	margin-bottom: 15px !important;
-	
+    border: 1px solid #444;
+    margin-bottom: 15px !important;
+
 }
 
 #login_content input:focus{ 
-	border: 1px solid #444;
+    border: 1px solid #444;
 }
 
 #login_content form{
-	margin-top: 20px;
+    margin-top: 20px;
 }
 
 #login_content #title{
-	text-align: left;
-	font-size: 30px;
-	margin-left: 95px;
+    text-align: left;
+    font-size: 30px;
+    margin-left: 95px;
 }
 
 #login_content .loginInput{
-	text-align: center;
+    text-align: center;
 }
 
 .comment-btn-loader{
-	background-repeat: no-repeat !important;
-   background-image: url(../images/icon/btn-loader.gif) !important;
-   background-position: center center !important;  
+    background-repeat: no-repeat !important;
+    background-image: url(../images/icon/btn-loader.gif) !important;
+    background-position: center center !important;  
 }
 
 

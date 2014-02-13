@@ -22,5 +22,4 @@ require_once ROOT_DIR . 'config.php';
 if (MANTAINANCE_MODE) {
     header('Location: ' . VIEWS_DIR . 'mantainance.php');
 }
-
 ?>

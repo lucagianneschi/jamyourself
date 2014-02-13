@@ -31,7 +31,7 @@ $_SESSION['playlist']['songs'] = array();
 	<h3><?php echo $playlist->name; ?></h3>
 	<div class="row">
 	    <div  class="large-6 columns">
-			<!--div class="text white" style="margin-bottom: 15px;"><?php echo $views['header']['profile']['TITLE'] ?></div-->    		
+			<!--div class="text white" style="margin-bottom: 15px;"><?php echo $views['header']['profile']['title'] ?></div-->    		
 	    </div>	
 	</div>
     </div>	
@@ -133,10 +133,10 @@ $_SESSION['playlist']['songs'] = array();
 		));
 		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 		    $track_css_love = '_love orange';
-		    $track_text_love = $views['UNLOVE'];
+		    $track_text_love = $views['unlove'];
 		} else {
 		    $track_css_love = '_unlove grey';
-		    $track_text_love = $views['LOVE'];
+		    $track_text_love = $views['love'];
 		}
 		?>				
 		<script>
@@ -170,7 +170,7 @@ $_SESSION['playlist']['songs'] = array();
 				    <input type="hidden" name="index" value="<?php echo $index ?>" />
 				</div>					
 				<div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">	
-				    <a class="icon-propriety _remove-small note orange" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['REMOVEPLAYLIST']; ?></a>											
+				    <a class="icon-propriety _remove-small note orange" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['removeplaylist']; ?></a>											
 				</div>
 				<div class="small-3 columns track-nopropriety align-right" style="padding-right: 15px;">
 				    <a class="icon-propriety "><?php echo $hoursminsandsecs ?></a>	
@@ -180,7 +180,7 @@ $_SESSION['playlist']['songs'] = array();
 				<div class="box-propriety album-single-propriety">
 				    <div class="small-6 columns ">
 					<a class="note white" onclick="love(this, 'Song', '<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser(); ?>')"><?php echo $track_text_love; ?></a>
-					<!--a class="note white" onclick="share()"><?php echo $views['SHARE']; ?></a-->
+					<!--a class="note white" onclick="share()"><?php echo $views['share']; ?></a-->
 				    </div>
 				    <div class="small-6 columns propriety ">					
 					<a class="icon-propriety <?php echo $track_css_love ?>" ><?php echo $value->getLoveCounter(); ?></a>
@@ -202,14 +202,14 @@ $_SESSION['playlist']['songs'] = array();
 <?php if (count($playlistSonglistBox->tracklist) == 0 && is_null($playlistSonglistBox->error)) { ?>
     <div class="row">
         <div  class="small-12 columns hide-for-small">
-    	<div class="text grey"><?php echo $views['recordDetail']['NODATA'] ?></div>    	
+    	<div class="text grey"><?php echo $views['recordDetail']['nodata'] ?></div>    	
         </div>	
     </div>
     <script>
-    	    $(document).ready(function() {
-    		$('.title-player').html("<?php echo $views['header']['SONG'] ?>");
-    //	 	$('#player').addClass('no-display');
-    //	 	$('#noPlaylist').removeClass('no-display');
-    	    });
+    		$(document).ready(function() {
+    		    $('.title-player').html("<?php echo $views['header']['song'] ?>");
+    		    //	 	$('#player').addClass('no-display');
+    		    //	 	$('#noPlaylist').removeClass('no-display');
+    		});
     </script>
 <?php } ?>

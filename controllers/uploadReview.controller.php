@@ -108,7 +108,7 @@ class UploadReviewController extends REST {
 	    if (!in_array($this->reviewedClassType, $allowedForReview)) {
 		$this->response(array("status" => $controllers['CLASSTYPEKO']), 406);
 	    } elseif ($this->reviewed instanceof Error || is_null($this->reviewed)) {
-		$this->response(array("status" => $controllers['NODATA']), 406);
+		$this->response(array("status" => $controllers['nodata']), 406);
 	    }
 	    $toUser = $this->reviewed->getFromUser();
 	    if ($toUser->getObjectId() == $currentUser->getObjectId()) {

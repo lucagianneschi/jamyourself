@@ -102,8 +102,10 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		    ?>
     		<input type="checkbox" name="tag-music<?php echo $index ?>" id="tag-music<?php echo $index ?>" value="<?php echo $key ?>" class="no-display">
     		<label for="tag-music<?php echo $index ?>"><?php echo $value ?></label>	
-		    <?php $index++;
-		} ?>
+		    <?php
+		    $index++;
+		}
+		?>
 	    </div>
 	</div>
     </div>
@@ -115,6 +117,6 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
     </div>	
     <div  class="small-10 columns" >
 	<input type="button" name="uploadRecord02-back" id="uploadRecord02-back" class="buttonBlack" value="<?php echo $views['go_back']; ?>"/>
-        <input type="button" name="uploadRecord02-next" id="uploadRecord02-next" class="buttonNext" value="<?php echo $views['NEXT']; ?>" style="float: right;"/>
+        <input type="button" name="uploadRecord02-next" id="uploadRecord02-next" class="buttonNext" value="<?php echo $views['next']; ?>" style="float: right;"/>
     </div>	
 </div>

@@ -60,7 +60,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 		    <div id="signup01-captcha" >		 
 
 		    </div>
-		     <label for="signup01-captcha" id="valid-captcha"><small class="error"><?php echo $views['signup']['valid_captcha']; ?></small></label>		
+		    <label for="signup01-captcha" id="valid-captcha"><small class="error"><?php echo $views['signup']['valid_captcha']; ?></small></label>		
 		</div>	
 	    </div>
 	</div>			
@@ -71,14 +71,14 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 	</div>	
 	<div  class="small-8 small-offset-1 columns">
 	    <input type="button" name="signup01-back" id="signup01-back" class="signup-button-back" value="<?php echo $views['go_back']; ?>"/>
-	    <input type="button" name="spotter-signup01-next" id="spotter-signup01-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
-	    <input type="button" name="jammer-signup01-next" id="jammer-signup01-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
-	    <input type="button" name="venue-signup01-next" id="venue-signup01-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
+	    <input type="button" name="spotter-signup01-next" id="spotter-signup01-next" class="signup-button" value="<?php echo $views['next']; ?>"/>
+	    <input type="button" name="jammer-signup01-next" id="jammer-signup01-next" class="signup-button" value="<?php echo $views['next']; ?>"/>
+	    <input type="button" name="venue-signup01-next" id="venue-signup01-next" class="signup-button" value="<?php echo $views['next']; ?>"/>
 
 	</div>	
     </div>
     <!------------------- messaggi di errori sui campi --------------------->
-    <input type="hidden" id="error_field1" value="<?php echo $views['signup']['error_field1']?>"/>
-    <input type="hidden" id="error_field2" value="<?php echo $views['signup']['error_field2']?>"/>
-    <input type="hidden" id="error_field3" value="<?php echo $views['signup']['error_field3']?>"/>		
+    <input type="hidden" id="error_field1" value="<?php echo $views['signup']['error_field1'] ?>"/>
+    <input type="hidden" id="error_field2" value="<?php echo $views['signup']['error_field2'] ?>"/>
+    <input type="hidden" id="error_field3" value="<?php echo $views['signup']['error_field3'] ?>"/>		
 </div>

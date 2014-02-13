@@ -1,670 +1,670 @@
 /* classi generiche */
 /* line 6, ../sass/style.scss */
 html {
-  -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* line 10, ../sass/style.scss */
 .no-display {
-  display: none;
+    display: none;
 }
 
 /* line 11, ../sass/style.scss */
 .inline-display {
-  display: inline;
+    display: inline;
 }
 
 /* line 15, ../sass/style.scss */
 body {
-  overflow-y: scroll !important;
+    overflow-y: scroll !important;
 }
 /* line 16, ../sass/style.scss */
 body h2 {
-  color: #f3f3f3;
-  margin-bottom: 0px;
+    color: #f3f3f3;
+    margin-bottom: 0px;
 }
 /* line 17, ../sass/style.scss */
 body h3 {
-  color: #787878;
-  margin-bottom: 5px;
+    color: #787878;
+    margin-bottom: 5px;
 }
 
 /* line 22, ../sass/style.scss */
 .sottotitle {
-  font-size: 17px !important;
+    font-size: 17px !important;
 }
 
 /* line 26, ../sass/style.scss */
 .text {
-  font-size: 14px !important;
+    font-size: 14px !important;
 }
 
 /* line 30, ../sass/style.scss */
 label.text {
-  font-weight: normal  !important;
-  margin-bottom: 5px !important;
+    font-weight: normal  !important;
+    margin-bottom: 5px !important;
 }
 
 /* line 35, ../sass/style.scss */
 .line {
-  border-bottom: 1px solid #787878;
-  margin-bottom: 5px !important;
+    border-bottom: 1px solid #787878;
+    margin-bottom: 5px !important;
 }
 
 /* line 40, ../sass/style.scss */
 .align-right {
-  text-align: right !important;
+    text-align: right !important;
 }
 
 /* line 44, ../sass/style.scss */
 .note {
-  font-size: 11px !important;
+    font-size: 11px !important;
 }
 
 /* line 48, ../sass/style.scss */
 .white {
-  color: #f3f3f3 !important;
+    color: #f3f3f3 !important;
 }
 
 /* line 51, ../sass/style.scss */
 .orange {
-  color: #ff7505 !important;
+    color: #ff7505 !important;
 }
 
 /* line 54, ../sass/style.scss */
 .grey {
-  color: #787878 !important;
+    color: #787878 !important;
 }
 
 /* line 57, ../sass/style.scss */
 .grey-dark {
-  color: #303030 !important;
+    color: #303030 !important;
 }
 
 /* line 61, ../sass/style.scss */
 .grey-light {
-  color: #d8d8d8 !important;
+    color: #d8d8d8 !important;
 }
 
 /* line 65, ../sass/style.scss */
 .red {
-  color: #ed1c24 !important;
+    color: #ed1c24 !important;
 }
 
 /* line 71, ../sass/style.scss */
 .bg-double {
-  background-color: #f3f3f3;
-  height: auto;
-  background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMwMzAzMCIvPjxzdG9wIG9mZnNldD0iNDkuNiUiIHN0b3AtY29sb3I9IiMzMDMwMzAiLz48c3RvcCBvZmZzZXQ9IjQ5LjYlIiBzdG9wLWNvbG9yPSIjZjNmM2YzIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjNmM2YzIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g');
-  background-size: 100%;
-  background-image: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #303030), color-stop(49.6%, #303030), color-stop(49.6%, #f3f3f3), color-stop(100%, #f3f3f3));
-  background-image: -webkit-linear-gradient(left, #303030 0%, #303030 49.6%, #f3f3f3 49.6%, #f3f3f3 100%);
-  background-image: -moz-linear-gradient(left, #303030 0%, #303030 49.6%, #f3f3f3 49.6%, #f3f3f3 100%);
-  background-image: -o-linear-gradient(left, #303030 0%, #303030 49.6%, #f3f3f3 49.6%, #f3f3f3 100%);
-  background-image: linear-gradient(left, #303030 0%, #303030 49.6%, #f3f3f3 49.6%, #f3f3f3 100%);
-  overflow: hidden;
+    background-color: #f3f3f3;
+    height: auto;
+    background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iNTAlIiB4Mj0iMTAwJSIgeTI9IjUwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMwMzAzMCIvPjxzdG9wIG9mZnNldD0iNDkuNiUiIHN0b3AtY29sb3I9IiMzMDMwMzAiLz48c3RvcCBvZmZzZXQ9IjQ5LjYlIiBzdG9wLWNvbG9yPSIjZjNmM2YzIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZjNmM2YzIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmFkKSIgLz48L3N2Zz4g');
+    background-size: 100%;
+    background-image: -webkit-gradient(linear, 0% 50%, 100% 50%, color-stop(0%, #303030), color-stop(49.6%, #303030), color-stop(49.6%, #f3f3f3), color-stop(100%, #f3f3f3));
+    background-image: -webkit-linear-gradient(left, #303030 0%, #303030 49.6%, #f3f3f3 49.6%, #f3f3f3 100%);
+    background-image: -moz-linear-gradient(left, #303030 0%, #303030 49.6%, #f3f3f3 49.6%, #f3f3f3 100%);
+    background-image: -o-linear-gradient(left, #303030 0%, #303030 49.6%, #f3f3f3 49.6%, #f3f3f3 100%);
+    background-image: linear-gradient(left, #303030 0%, #303030 49.6%, #f3f3f3 49.6%, #f3f3f3 100%);
+    overflow: hidden;
 }
 
 /* line 83, ../sass/style.scss */
 .bg-black {
-  background: #1c1c1c;
-  height: 100%;
+    background: #1c1c1c;
+    height: 100%;
 }
 
 /* line 88, ../sass/style.scss */
 .bg-grey-dark {
-  background-color: #303030 !important;
-  height: 100%;
+    background-color: #303030 !important;
+    height: 100%;
 }
 
 /* line 93, ../sass/style.scss */
 .bg-white {
-  background-color: #f3f3f3 !important;
-  height: 100%;
+    background-color: #f3f3f3 !important;
+    height: 100%;
 }
 
 /* line 98, ../sass/style.scss */
 .profile-style {
-  background-color: #f3f3f3;
+    background-color: #f3f3f3;
 }
 
 /* line 103, ../sass/style.scss */
 .content p {
-  font-size: 14px;
-  line-height: 120%;
+    font-size: 14px;
+    line-height: 120%;
 }
 
 /* line 107, ../sass/style.scss */
 .content {
-  border-bottom: 1px solid #303030;
+    border-bottom: 1px solid #303030;
 }
 
 /* line 115, ../sass/style.scss */
 a.ico-label {
-  word-wrap: break-word !important;
-  width: auto;
-  height: 30px;
-  float: left;
-  font-size: 13px;
-  color: #787878;
-  line-height: 30px;
-  margin-right: 1px;
-  padding: 0 0px 0 30px;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-position: left bottom;
-  -webkit-transition-property: background-position, color;
-  -moz-transition-property: background-position, color;
-  -o-transition-property: background-position, color;
-  transition-property: background-position, color;
-  -webkit-transition-duration: 250ms;
-  -moz-transition-duration: 250ms;
-  -o-transition-duration: 250ms;
-  transition-duration: 250ms;
+    word-wrap: break-word !important;
+    width: auto;
+    height: 30px;
+    float: left;
+    font-size: 13px;
+    color: #787878;
+    line-height: 30px;
+    margin-right: 1px;
+    padding: 0 0px 0 30px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: left bottom;
+    -webkit-transition-property: background-position, color;
+    -moz-transition-property: background-position, color;
+    -o-transition-property: background-position, color;
+    transition-property: background-position, color;
+    -webkit-transition-duration: 250ms;
+    -moz-transition-duration: 250ms;
+    -o-transition-duration: 250ms;
+    transition-duration: 250ms;
 }
 /* line 130, ../sass/style.scss */
 a.ico-label:hover {
-  background-position: left top;
-  color: #787878;
+    background-position: left top;
+    color: #787878;
 }
 
 /* line 135, ../sass/style.scss */
 a.ico-label-btn {
-  background-color: #787878;
-  padding: 0 12px 0 30px;
-  -webkit-transition-property: background-color;
-  -moz-transition-property: background-color;
-  -o-transition-property: background-color;
-  transition-property: background-color;
-  -webkit-transition-duration: 250ms;
-  -moz-transition-duration: 250ms;
-  -o-transition-duration: 250ms;
-  transition-duration: 250ms;
+    background-color: #787878;
+    padding: 0 12px 0 30px;
+    -webkit-transition-property: background-color;
+    -moz-transition-property: background-color;
+    -o-transition-property: background-color;
+    transition-property: background-color;
+    -webkit-transition-duration: 250ms;
+    -moz-transition-duration: 250ms;
+    -o-transition-duration: 250ms;
+    transition-duration: 250ms;
 }
 /* line 140, ../sass/style.scss */
 a.ico-label-btn:hover {
-  background-color: #787878;
+    background-color: #787878;
 }
 
 /* line 145, ../sass/style.scss */
 a.icon-block {
-  word-wrap: break-word !important;
-  width: auto;
-  height: 30px;
-  float: right;
-  font-size: 13px;
-  color: #787878;
-  margin-top: 15px !important;
-  line-height: 30px;
-  margin-right: 1px;
-  padding: 0 0px 0 30px;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-position: left top;
-  -webkit-transition-property: background-position;
-  -moz-transition-property: background-position;
-  -o-transition-property: background-position;
-  transition-property: background-position;
+    word-wrap: break-word !important;
+    width: auto;
+    height: 30px;
+    float: right;
+    font-size: 13px;
+    color: #787878;
+    margin-top: 15px !important;
+    line-height: 30px;
+    margin-right: 1px;
+    padding: 0 0px 0 30px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: left top;
+    -webkit-transition-property: background-position;
+    -moz-transition-property: background-position;
+    -o-transition-property: background-position;
+    transition-property: background-position;
 }
 /* line 160, ../sass/style.scss */
 a.icon-block:hover {
-  background-position: left bottom;
+    background-position: left bottom;
 }
 
 /* line 167, ../sass/style.scss */
 .add {
-  width: 43px;
-  height: 43px;
-  background-color: #ff7505;
-  float: left;
-  cursor: pointer;
+    width: 43px;
+    height: 43px;
+    background-color: #ff7505;
+    float: left;
+    cursor: pointer;
 }
 /* line 173, ../sass/style.scss */
 .add:hover {
-  background-color: #c95600;
+    background-color: #c95600;
 }
 
 /* line 178, ../sass/style.scss */
 .icon-small {
-  width: 15px;
-  height: 15px;
-  margin-right: 5px !important;
+    width: 15px;
+    height: 15px;
+    margin-right: 5px !important;
 }
 
 /* line 186, ../sass/style.scss */
 .iconNotification {
-  left: -15px;
-  top: -13px;
-  background-color: #ff7505 !important;
+    left: -15px;
+    top: -13px;
+    background-color: #ff7505 !important;
 }
 
 /* line 194, ../sass/style.scss */
 .royalSlider {
-  width: auto !important;
+    width: auto !important;
 }
 
 /* line 197, ../sass/style.scss */
 .royalSlider.rsDefault {
-  background: none !important;
+    background: none !important;
 }
 
 /* line 200, ../sass/style.scss */
 .rsDefault .rsOverflow {
-  background: none !important;
+    background: none !important;
 }
 
 /* line 204, ../sass/style.scss */
 .rsDefault .rsSlide {
-  background: none !important;
+    background: none !important;
 }
 
 /* line 208, ../sass/style.scss */
 .slide-button-next {
-  word-wrap: break-word !important;
-  width: auto;
-  height: 30px;
-  float: right;
-  font-size: 13px;
-  color: #787878;
-  line-height: 30px;
-  margin-right: 1px;
-  cursor: pointer;
-  top: 5px !important;
-  margin-top: 15px !important;
-  padding: 0px 30px 0px 0px !important;
-  background-repeat: no-repeat;
-  background-position: right top;
+    word-wrap: break-word !important;
+    width: auto;
+    height: 30px;
+    float: right;
+    font-size: 13px;
+    color: #787878;
+    line-height: 30px;
+    margin-right: 1px;
+    cursor: pointer;
+    top: 5px !important;
+    margin-top: 15px !important;
+    padding: 0px 30px 0px 0px !important;
+    background-repeat: no-repeat;
+    background-position: right top;
 }
 /* line 223, ../sass/style.scss */
 .slide-button-next:hover {
-  background-position: right bottom;
-  color: #ff7505;
+    background-position: right bottom;
+    color: #ff7505;
 }
 
 /* line 229, ../sass/style.scss */
 .slide-button-next-disabled {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
-  opacity: 0.3;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+    opacity: 0.3;
 }
 /* line 231, ../sass/style.scss */
 .slide-button-next-disabled:hover {
-  color: #787878;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
-  opacity: 0.3;
-  cursor: default;
-  background-position: right top !important;
+    color: #787878;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+    opacity: 0.3;
+    cursor: default;
+    background-position: right top !important;
 }
 
 /* line 239, ../sass/style.scss */
 .slide-button-prev {
-  word-wrap: break-word !important;
-  width: auto;
-  height: 30px;
-  float: right;
-  font-size: 13px;
-  color: #787878;
-  margin-top: 15px !important;
-  line-height: 30px;
-  margin-right: 1px;
-  padding: 0 0px 0 30px;
-  cursor: pointer;
-  background-repeat: no-repeat;
-  background-position: left top;
-  -webkit-transition-property: background-position;
-  -moz-transition-property: background-position;
-  -o-transition-property: background-position;
-  transition-property: background-position;
+    word-wrap: break-word !important;
+    width: auto;
+    height: 30px;
+    float: right;
+    font-size: 13px;
+    color: #787878;
+    margin-top: 15px !important;
+    line-height: 30px;
+    margin-right: 1px;
+    padding: 0 0px 0 30px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+    background-position: left top;
+    -webkit-transition-property: background-position;
+    -moz-transition-property: background-position;
+    -o-transition-property: background-position;
+    transition-property: background-position;
 }
 /* line 254, ../sass/style.scss */
 .slide-button-prev:hover {
-  background-position: left bottom;
-  color: #ff7505;
+    background-position: left bottom;
+    color: #ff7505;
 }
 
 /* line 259, ../sass/style.scss */
 .slide-button-prev-disabled {
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
-  opacity: 0.3;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+    opacity: 0.3;
 }
 /* line 261, ../sass/style.scss */
 .slide-button-prev-disabled:hover {
-  color: #787878;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
-  opacity: 0.3;
-  cursor: default;
-  background-position: left top !important;
+    color: #787878;
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=30);
+    opacity: 0.3;
+    cursor: default;
+    background-position: left top !important;
 }
 
 /* line 270, ../sass/style.scss */
 .br-widget {
-  height: 24px;
+    height: 24px;
 }
 
 /* line 274, ../sass/style.scss */
 .br-widget a {
-  background: url("../images/icon/double-icone/rating.png");
-  width: 24px;
-  height: 24px;
-  display: block;
-  float: left;
+    background: url("../images/icon/double-icone/rating.png");
+    width: 24px;
+    height: 24px;
+    display: block;
+    float: left;
 }
 
 /* line 284, ../sass/style.scss */
 .br-widget a:hover,
 .br-widget a.br-active,
 .br-widget a.br-selected {
-  background-position: 0 24px;
+    background-position: 0 24px;
 }
 
 /* line 290, ../sass/style.scss */
 #error_page {
-  background-color: #232323 !important;
-  height: 700px;
+    background-color: #232323 !important;
+    height: 700px;
 }
 /* line 293, ../sass/style.scss */
 #error_page body {
-  background-color: #232323 !important;
+    background-color: #232323 !important;
 }
 
 /* line 302, ../sass/style.scss */
 ._back_page {
-  background-image: url(../images/icon/double-icone/back_page.png);
+    background-image: url(../images/icon/double-icone/back_page.png);
 }
 
 /* line 303, ../sass/style.scss */
 ._calendar {
-  background-image: url(../images/icon/double-icone/calendar.png);
+    background-image: url(../images/icon/double-icone/calendar.png);
 }
 
 /* line 304, ../sass/style.scss */
 ._check {
-  background-image: url(../images/icon/double-icone/check.png);
+    background-image: url(../images/icon/double-icone/check.png);
 }
 
 /* line 305, ../sass/style.scss */
 ._compass {
-  background-image: url(../images/icon/double-icone/compass.png);
+    background-image: url(../images/icon/double-icone/compass.png);
 }
 
 /* line 306, ../sass/style.scss */
 ._facebook {
-  background-image: url(../images/icon/double-icone/facebook.png);
+    background-image: url(../images/icon/double-icone/facebook.png);
 }
 
 /* line 307, ../sass/style.scss */
 ._facebook-double {
-  background-image: url(../images/icon/double-icone/facebook-double.png);
+    background-image: url(../images/icon/double-icone/facebook-double.png);
 }
 
 /* line 308, ../sass/style.scss */
 ._flag {
-  background-image: url(../images/icon/double-icone/flag.png);
+    background-image: url(../images/icon/double-icone/flag.png);
 }
 
 /* line 309, ../sass/style.scss */
 ._friend {
-  background-image: url(../images/icon/double-icone/friend.png);
+    background-image: url(../images/icon/double-icone/friend.png);
 }
 
 /* line 310, ../sass/style.scss */
 ._google {
-  background-image: url(../images/icon/double-icone/google.png);
+    background-image: url(../images/icon/double-icone/google.png);
 }
 
 /* line 311, ../sass/style.scss */
 ._google-double {
-  background-image: url(../images/icon/double-icone/google-double.png);
+    background-image: url(../images/icon/double-icone/google-double.png);
 }
 
 /* line 312, ../sass/style.scss */
 ._message {
-  background-image: url(../images/icon/double-icone/message.png);
+    background-image: url(../images/icon/double-icone/message.png);
 }
 
 /* line 313, ../sass/style.scss */
 ._nextPage {
-  background-image: url(../images/icon/double-icone/nextPage.png);
+    background-image: url(../images/icon/double-icone/nextPage.png);
 }
 
 /* line 314, ../sass/style.scss */
 ._note {
-  background-image: url(../images/icon/double-icone/note.png);
+    background-image: url(../images/icon/double-icone/note.png);
 }
 
 /* line 315, ../sass/style.scss */
 ._note-white {
-  background-image: url(../images/icon/double-icone/note-white.png);
+    background-image: url(../images/icon/double-icone/note-white.png);
 }
 
 /* line 316, ../sass/style.scss */
 ._notify {
-  background-image: url(../images/icon/double-icone/notify.png);
+    background-image: url(../images/icon/double-icone/notify.png);
 }
 
 /* line 317, ../sass/style.scss */
 ._off {
-  background-image: url(../images/icon/double-icone/off.png);
+    background-image: url(../images/icon/double-icone/off.png);
 }
 
 /* line 318, ../sass/style.scss */
 ._pin {
-  background-image: url(../images/icon/double-icone/pin.png);
+    background-image: url(../images/icon/double-icone/pin.png);
 }
 
 /* line 319, ../sass/style.scss */
 ._pin-white {
-  background-image: url(../images/icon/double-icone/pin-white.png);
+    background-image: url(../images/icon/double-icone/pin-white.png);
 }
 
 /* line 320, ../sass/style.scss */
 ._play-large {
-  background-image: url(../images/icon/double-icone/play.png);
+    background-image: url(../images/icon/double-icone/play.png);
 }
 
 /* line 321, ../sass/style.scss */
 ._play_white {
-  background-image: url(../images/icon/double-icone/play_white.png);
+    background-image: url(../images/icon/double-icone/play_white.png);
 }
 
 /* line 322, ../sass/style.scss */
 ._prevPage {
-  background-image: url(../images/icon/double-icone/prevPage.png);
+    background-image: url(../images/icon/double-icone/prevPage.png);
 }
 
 /* line 323, ../sass/style.scss */
 ._setting {
-  background-image: url(../images/icon/double-icone/setting.png);
+    background-image: url(../images/icon/double-icone/setting.png);
 }
 
 /* line 324, ../sass/style.scss */
 ._stream {
-  background-image: url(../images/icon/double-icone/stream.png);
+    background-image: url(../images/icon/double-icone/stream.png);
 }
 
 /* line 325, ../sass/style.scss */
 ._twitter {
-  background-image: url(../images/icon/double-icone/twitter.png);
+    background-image: url(../images/icon/double-icone/twitter.png);
 }
 
 /* line 326, ../sass/style.scss */
 ._twitter-double {
-  background-image: url(../images/icon/double-icone/twitter-double.png);
+    background-image: url(../images/icon/double-icone/twitter-double.png);
 }
 
 /* line 327, ../sass/style.scss */
 ._web {
-  background-image: url(../images/icon/double-icone/web.png);
+    background-image: url(../images/icon/double-icone/web.png);
 }
 
 /* line 328, ../sass/style.scss */
 ._web-double {
-  background-image: url(../images/icon/double-icone/web-double.png);
+    background-image: url(../images/icon/double-icone/web-double.png);
 }
 
 /* line 329, ../sass/style.scss */
 ._youtube {
-  background-image: url(../images/icon/double-icone/youtube.png);
+    background-image: url(../images/icon/double-icone/youtube.png);
 }
 
 /* line 330, ../sass/style.scss */
 ._youtube-double {
-  background-image: url(../images/icon/double-icone/youtube-double.png);
+    background-image: url(../images/icon/double-icone/youtube-double.png);
 }
 
 /* line 331, ../sass/style.scss */
 ._tag {
-  background-image: url(../images/icon/double-icone/tag.png);
+    background-image: url(../images/icon/double-icone/tag.png);
 }
 
 /* line 335, ../sass/style.scss */
 ._add {
-  background-image: url(../images/icon/add.png);
+    background-image: url(../images/icon/add.png);
 }
 
 /* line 338, ../sass/style.scss */
 ._check-button {
-  background-image: url(../images/icon/button/check.png);
+    background-image: url(../images/icon/button/check.png);
 }
 
 /* line 339, ../sass/style.scss */
 ._note-button {
-  background-image: url(../images/icon/button/note.png);
+    background-image: url(../images/icon/button/note.png);
 }
 
 /* line 340, ../sass/style.scss */
 ._delete-button {
-  background-image: url(../images/icon/button/delete.png);
+    background-image: url(../images/icon/button/delete.png);
 }
 
 /* line 344, ../sass/style.scss */
 ._back {
-  background-image: url(../images/icon/musicplayer/back.png);
+    background-image: url(../images/icon/musicplayer/back.png);
 }
 
 /* line 345, ../sass/style.scss */
 ._pause {
-  background-image: url(../images/icon/musicplayer/pause.png);
+    background-image: url(../images/icon/musicplayer/pause.png);
 }
 
 /* line 346, ../sass/style.scss */
 ._next {
-  background-image: url(../images/icon/musicplayer/next.png);
+    background-image: url(../images/icon/musicplayer/next.png);
 }
 
 /* line 347, ../sass/style.scss */
 ._play {
-  background-image: url(../images/icon/musicplayer/play.png);
+    background-image: url(../images/icon/musicplayer/play.png);
 }
 
 /* line 350, ../sass/style.scss */
 ._message-small {
-  background-image: url(../images/icon/small/message-small.png);
+    background-image: url(../images/icon/small/message-small.png);
 }
 
 /* line 351, ../sass/style.scss */
 ._calendar-small {
-  background-image: url(../images/icon/small/calendar-small.png);
+    background-image: url(../images/icon/small/calendar-small.png);
 }
 
 /* line 352, ../sass/style.scss */
 ._compass-small {
-  background-image: url(../images/icon/small/compass-small.png);
+    background-image: url(../images/icon/small/compass-small.png);
 }
 
 /* line 353, ../sass/style.scss */
 ._love {
-  background-image: url(../images/icon/small/love.png);
+    background-image: url(../images/icon/small/love.png);
 }
 
 /* line 354, ../sass/style.scss */
 ._unlove {
-  background-image: url(../images/icon/small/unlove.png);
+    background-image: url(../images/icon/small/unlove.png);
 }
 
 /* line 355, ../sass/style.scss */
 ._comment {
-  background-image: url(../images/icon/small/comment.png);
+    background-image: url(../images/icon/small/comment.png);
 }
 
 /* line 356, ../sass/style.scss */
 ._share {
-  background-image: url(../images/icon/small/share.png);
+    background-image: url(../images/icon/small/share.png);
 }
 
 /* line 357, ../sass/style.scss */
 ._review {
-  background-image: url(../images/icon/small/review.png);
+    background-image: url(../images/icon/small/review.png);
 }
 
 /* line 358, ../sass/style.scss */
 ._menu-small {
-  background-image: url(../images/icon/small/menu-small.png);
+    background-image: url(../images/icon/small/menu-small.png);
 }
 
 /* line 359, ../sass/style.scss */
 ._remove-small {
-  background-image: url(../images/icon/small/remove-small.png);
+    background-image: url(../images/icon/small/remove-small.png);
 }
 
 /* line 360, ../sass/style.scss */
 ._star-orange {
-  background-image: url(../images/icon/small/star-orange.png);
+    background-image: url(../images/icon/small/star-orange.png);
 }
 
 /* line 361, ../sass/style.scss */
 ._star-grey {
-  background-image: url(../images/icon/small/star-grey.png);
+    background-image: url(../images/icon/small/star-grey.png);
 }
 
 /* line 362, ../sass/style.scss */
 ._star-orange-big {
-  background-image: url(../images/icon/small/star-orange-big.png);
-  width: 20px !important;
-  height: 20px !important;
-  display: block !important;
-  float: left !important;
+    background-image: url(../images/icon/small/star-orange-big.png);
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+    float: left !important;
 }
 
 /* line 363, ../sass/style.scss */
 ._star-grey-big {
-  background-image: url(../images/icon/small/star-grey-big.png);
-  width: 20px !important;
-  height: 20px !important;
-  display: block !important;
-  float: left !important;
+    background-image: url(../images/icon/small/star-grey-big.png);
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+    float: left !important;
 }
 
 /* line 364, ../sass/style.scss */
 ._user-small {
-  background-image: url(../images/icon/small/user-small.png);
+    background-image: url(../images/icon/small/user-small.png);
 }
 
 /* line 367, ../sass/style.scss */
 ._target1 {
-  background-image: url(../images/icon/achievement/target1.png);
+    background-image: url(../images/icon/achievement/target1.png);
 }
 
 /* line 368, ../sass/style.scss */
 ._target2 {
-  background-image: url(../images/icon/achievement/target2.png);
+    background-image: url(../images/icon/achievement/target2.png);
 }
 
 /* line 369, ../sass/style.scss */
 ._target3 {
-  background-image: url(../images/icon/achievement/target3.png);
+    background-image: url(../images/icon/achievement/target3.png);
 }
 
 /* line 372, ../sass/style.scss */
 ._message_status {
-  background-image: url(../images/icon/status/message.png);
+    background-image: url(../images/icon/status/message.png);
 }
 
 /* line 373, ../sass/style.scss */
 ._follower_status {
-  background-image: url(../images/icon/status/follower.png);
+    background-image: url(../images/icon/status/follower.png);
 }
 
 /* line 374, ../sass/style.scss */
 ._friend_status {
-  background-image: url(../images/icon/status/friend.png);
+    background-image: url(../images/icon/status/friend.png);
 }

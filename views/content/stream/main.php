@@ -19,24 +19,24 @@ require_once ROOT_DIR . 'config.php';
                                     <h3><?php echo $views['stream']['welcome']; ?> <?php echo $currentUser->getType(); ?>!</h3>
                                     <div id="box-post"></div>
                                     <script type="text/javascript">
-                                        function loadBoxPost() {
-                                            $.ajax({
-                                                type: "POST",
-                                                url: "content/stream/box/box-post.php",
-                                                beforeSend: function(xhr) {
-                                                    console.log('Sono partito box-post');
-                                                    //goSpinnerBox('#box-record', 'record');
-                                                }
-                                            }).done(function(message, status, xhr) {
-                                                $("#box-post").html(message);
-                                                //plugin scorrimento box
-                                                //rsi_record = slideReview('recordSlide');
-                                                code = xhr.status;
-                                                console.log("Code: " + code + " | Message: <omitted because too large>");
-                                            }).fail(function(xhr) {
-                                                console.log("Error: " + $.parseJSON(xhr));
-                                            });
-                                        }
+					function loadBoxPost() {
+					    $.ajax({
+						type: "POST",
+						url: "content/stream/box/box-post.php",
+						beforeSend: function(xhr) {
+						    console.log('Sono partito box-post');
+						    //goSpinnerBox('#box-record', 'record');
+						}
+					    }).done(function(message, status, xhr) {
+						$("#box-post").html(message);
+						//plugin scorrimento box
+						//rsi_record = slideReview('recordSlide');
+						code = xhr.status;
+						console.log("Code: " + code + " | Message: <omitted because too large>");
+					    }).fail(function(xhr) {
+						console.log("Error: " + $.parseJSON(xhr));
+					    });
+					}
                                     </script>
                                 </div>
                             </div>	
@@ -62,7 +62,7 @@ require_once ROOT_DIR . 'config.php';
                                                 <div class="large-12 columns" style="margin-bottom: 25px;">
                                                     <label for="location" class="error">
                                                         <input type="text" name="location" id="location" pattern="" data-invalid="">
-                                                        <?php echo $views['stream']['search_city']; ?>
+							<?php echo $views['stream']['search_city']; ?>
                                                     </label>
                                                 </div>
                                             </div>
@@ -114,67 +114,67 @@ require_once ROOT_DIR . 'config.php';
                                 </div>
                             </div>
                             <script type="text/javascript">
-                                var json_data = {};
-                                json_data.location = {};
-                                var genres = new Array();
+					var json_data = {};
+					json_data.location = {};
+					var genres = new Array();
 
-                                function loadBoxResultRecord() {
-                                    json_data.genre = getGenre();
-                                    json_data.latitude = json_data.location.latitude;
-                                    json_data.longitude = json_data.location.longitude;
-                                    json_data.city = json_data.location.city;
-                                    json_data.country = json_data.location.country;
-                                    $.ajax({
-                                        type: "POST",
-                                        url: "content/stream/box/box-resultRecord.php",
-                                        data: json_data,
-                                        beforeSend: function(xhr) {
-                                            //spinner.show();
-                                            console.log('Sono partito box-resultRecord');
-                                            //goSpinnerBox('#box-record','record');
-                                            $("#result").slideToggle('slow');
-                                            $("#search").slideToggle('slow');
-                                            $("#discover").html('Here you are!');
-                                            var elID = "#result";
-                                            $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
-                                        }
-                                    }).done(function(message, status, xhr) {
-                                        //spinner.hide();
-                                        $("#result").html(message);
-                                        //plugin scorrimento box
-                                        //rsi_record = slideReview('recordSlide');
-                                        //plugin share
-                                        //addthis.init();
-                                        //addthis.toolbox(".addthis_toolbox");
-                                        //adatta pagina per scroll
-                                        //hcento();
-                                        code = xhr.status;
-                                        //console.log("Code: " + code + " | Message: " + message);
-                                        console.log("Code: " + code + " | Message: <omitted because too large>");
-                                    }).fail(function(xhr) {
-                                        //spinner.hide();
-                                        console.log("Error: " + $.parseJSON(xhr));
-                                        //message = $.parseJSON(xhr.responseText).status;
-                                        //code = xhr.status;
-                                        //console.log("Code: " + code + " | Message: " + message);
-                                    });
-                                }
+					function loadBoxResultRecord() {
+					    json_data.genre = getGenre();
+					    json_data.latitude = json_data.location.latitude;
+					    json_data.longitude = json_data.location.longitude;
+					    json_data.city = json_data.location.city;
+					    json_data.country = json_data.location.country;
+					    $.ajax({
+						type: "POST",
+						url: "content/stream/box/box-resultRecord.php",
+						data: json_data,
+						beforeSend: function(xhr) {
+						    //spinner.show();
+						    console.log('Sono partito box-resultRecord');
+						    //goSpinnerBox('#box-record','record');
+						    $("#result").slideToggle('slow');
+						    $("#search").slideToggle('slow');
+						    $("#discover").html('Here you are!');
+						    var elID = "#result";
+						    $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
+						}
+					    }).done(function(message, status, xhr) {
+						//spinner.hide();
+						$("#result").html(message);
+						//plugin scorrimento box
+						//rsi_record = slideReview('recordSlide');
+						//plugin share
+						//addthis.init();
+						//addthis.toolbox(".addthis_toolbox");
+						//adatta pagina per scroll
+						//hcento();
+						code = xhr.status;
+						//console.log("Code: " + code + " | Message: " + message);
+						console.log("Code: " + code + " | Message: <omitted because too large>");
+					    }).fail(function(xhr) {
+						//spinner.hide();
+						console.log("Error: " + $.parseJSON(xhr));
+						//message = $.parseJSON(xhr.responseText).status;
+						//code = xhr.status;
+						//console.log("Code: " + code + " | Message: " + message);
+					    });
+					}
 
-                                function getGenre() {
-                                    genres = new Array();
-                                    try {
-                                        $.each($("#tag-music :checkbox"), function() {
-                                            if ($(this).is(":checked")) {
-                                                genres.push($(this).val());
-                                            }
-                                        });
-                                        return genres;
-                                    } catch (err) {
-                                        window.console.log("getGenre | An error occurred - message : " + err.message);
-                                    }
-                                }
+					function getGenre() {
+					    genres = new Array();
+					    try {
+						$.each($("#tag-music :checkbox"), function() {
+						    if ($(this).is(":checked")) {
+							genres.push($(this).val());
+						    }
+						});
+						return genres;
+					    } catch (err) {
+						window.console.log("getGenre | An error occurred - message : " + err.message);
+					    }
+					}
 
-                                
+
                             </script>
 
                             <!-- Search by Event -->
@@ -187,7 +187,7 @@ require_once ROOT_DIR . 'config.php';
                                                 <div class="large-8 columns" style="margin-bottom: 25px;">
                                                     <label for="eventTitle" class="error">
                                                         <input type="text" name="eventTitle" id="eventTitle" pattern="" data-invalid="">
-                                                        <?php echo $views['stream']['search_city']; ?>
+							<?php echo $views['stream']['search_city']; ?>
                                                     </label>                                                    
                                                 </div>
 
@@ -261,70 +261,70 @@ require_once ROOT_DIR . 'config.php';
 
                 </div>
                 <script type="text/javascript">
-                    var json_data = {};
-                    json_data.location = {};
-                    var genres = new Array();
-                    function loadBoxResultEvent() {
-                    	
-                        json_data.tags = getTags();
-                        json_data.latitude = json_data.location.latitude;
-                        json_data.longitude = json_data.location.longitude;
-                        json_data.city = json_data.location.city;
-                        json_data.country = json_data.location.country;
-                        json_data.eventDate = $('#date').val();
-                        
-                        $.ajax({
-                            type: "POST",
-                            url: "content/stream/box/box-resultEvent.php",
-                            data: json_data,
-                            beforeSend: function(xhr) {
-                                //spinner.show();
-                                console.log('Sono partito box-resultEvent');
-                                //goSpinnerBox('#box-record','record');
-                                $("#result").slideToggle('slow');
-                                $("#search").slideToggle('slow');
-                                $("#discover").html('Here you are!');
-                                var elID = "#result";
-                                $("#scroll-profile").mCustomScrollbar("scrollTo", elID); 
-                            }
-                        }).done(function(message, status, xhr) {
-                        	
-                            //spinner.hide();
-                            $("#result").html(message);
-                           
-                            //plugin scorrimento box
-                            //rsi_record = slideReview('recordSlide');
-                            //plugin share
-                            //addthis.init();
-                            //addthis.toolbox(".addthis_toolbox");
-                            //adatta pagina per scroll
-                            //hcento();
-                            code = xhr.status;
-                            //console.log("Code: " + code + " | Message: " + message);
-                            console.log("Code: " + code + " | Message: <omitted because too large>");
-                        }).fail(function(xhr) {
-                            //spinner.hide();
-                            console.log("Error: " + $.parseJSON(xhr));
-                            //message = $.parseJSON(xhr.responseText).status;
-                            //code = xhr.status;
-                            //console.log("Code: " + code + " | Message: " + message);
-                        });
-                    }
+					var json_data = {};
+					json_data.location = {};
+					var genres = new Array();
+					function loadBoxResultEvent() {
 
-                    function getTags() {
-                        tags = new Array();
-                        try {
-                            $.each($("#tag-event :checkbox"), function() {
-                                if ($(this).is(":checked")) {
-                                    tags.push($(this).val());
-                                }
-                            });
-                            return genres;
-                        } catch (err) {
-                            window.console.log("getTags | An error occurred - message : " + err.message);
-                        }
-                    }					
-                   
+					    json_data.tags = getTags();
+					    json_data.latitude = json_data.location.latitude;
+					    json_data.longitude = json_data.location.longitude;
+					    json_data.city = json_data.location.city;
+					    json_data.country = json_data.location.country;
+					    json_data.eventDate = $('#date').val();
+
+					    $.ajax({
+						type: "POST",
+						url: "content/stream/box/box-resultEvent.php",
+						data: json_data,
+						beforeSend: function(xhr) {
+						    //spinner.show();
+						    console.log('Sono partito box-resultEvent');
+						    //goSpinnerBox('#box-record','record');
+						    $("#result").slideToggle('slow');
+						    $("#search").slideToggle('slow');
+						    $("#discover").html('Here you are!');
+						    var elID = "#result";
+						    $("#scroll-profile").mCustomScrollbar("scrollTo", elID);
+						}
+					    }).done(function(message, status, xhr) {
+
+						//spinner.hide();
+						$("#result").html(message);
+
+						//plugin scorrimento box
+						//rsi_record = slideReview('recordSlide');
+						//plugin share
+						//addthis.init();
+						//addthis.toolbox(".addthis_toolbox");
+						//adatta pagina per scroll
+						//hcento();
+						code = xhr.status;
+						//console.log("Code: " + code + " | Message: " + message);
+						console.log("Code: " + code + " | Message: <omitted because too large>");
+					    }).fail(function(xhr) {
+						//spinner.hide();
+						console.log("Error: " + $.parseJSON(xhr));
+						//message = $.parseJSON(xhr.responseText).status;
+						//code = xhr.status;
+						//console.log("Code: " + code + " | Message: " + message);
+					    });
+					}
+
+					function getTags() {
+					    tags = new Array();
+					    try {
+						$.each($("#tag-event :checkbox"), function() {
+						    if ($(this).is(":checked")) {
+							tags.push($(this).val());
+						    }
+						});
+						return genres;
+					    } catch (err) {
+						window.console.log("getTags | An error occurred - message : " + err.message);
+					    }
+					}
+
                 </script>
 
                 <!-- RESULT -->
@@ -333,17 +333,17 @@ require_once ROOT_DIR . 'config.php';
 
                 <script>
 
-                    
-                    /*
-                     function result() {
-                     $("#result").slideToggle('slow');
-                     $("#search").slideToggle('slow');
-                     $("#discover").html('Here you are!');
-                     var elID="#result";
-                     $("#scroll-profile").mCustomScrollbar("scrollTo",elID);
-                     }
-                     */
-                    
+
+		    /*
+		     function result() {
+		     $("#result").slideToggle('slow');
+		     $("#search").slideToggle('slow');
+		     $("#discover").html('Here you are!');
+		     var elID="#result";
+		     $("#scroll-profile").mCustomScrollbar("scrollTo",elID);
+		     }
+		     */
+
 
                 </script>
 
@@ -362,72 +362,72 @@ require_once ROOT_DIR . 'config.php';
 
                 <div id="box-activity"></div>
                 <script type="text/javascript">
-                    function loadBoxActivity() {
-                        $.ajax({
-                            type: "POST",
-                            url: "content/stream/box/box-activity.php",
-                            beforeSend: function(xhr) {
-                                console.log('Sono partito box-activity');
-                                //goSpinnerBox('#box-record', 'record');
-                            }
-                        }).done(function(message, status, xhr) {
-                            $("#box-activity").html(message);
-                            //plugin scorrimento box
-                            //rsi_record = slideReview('recordSlide');
-                            code = xhr.status;
-                            console.log("Code: " + code + " | Message: <omitted because too large>");
-                        }).fail(function(xhr) {
-                            console.log("Error: " + $.parseJSON(xhr));
-                        });
-                    }
+		    function loadBoxActivity() {
+			$.ajax({
+			    type: "POST",
+			    url: "content/stream/box/box-activity.php",
+			    beforeSend: function(xhr) {
+				console.log('Sono partito box-activity');
+				//goSpinnerBox('#box-record', 'record');
+			    }
+			}).done(function(message, status, xhr) {
+			    $("#box-activity").html(message);
+			    //plugin scorrimento box
+			    //rsi_record = slideReview('recordSlide');
+			    code = xhr.status;
+			    console.log("Code: " + code + " | Message: <omitted because too large>");
+			}).fail(function(xhr) {
+			    console.log("Error: " + $.parseJSON(xhr));
+			});
+		    }
                 </script>
                 <script type="text/javascript">
-                    function loadBoxOpinion(objectId, toUser, classBox, box, limit, skip) {
-                        if ($(box).hasClass('no-display')) {
-                            var json_data = {};
-                            json_data.objectId = objectId;
-                            json_data.toUser = toUser;
-                            json_data.classBox = classBox;
-                            json_data.box = box;
-                            json_data.limit = limit;
-                            json_data.skip = skip;
-                            $.ajax({
-                            type: "POST",
-                            url: "content/stream/box/box-opinion.php",
-                            data: json_data,
-                            async: true,
-                            beforeSend: function(xhr) {
-                                //spinner.show();											
-                                //goSpinnerBox(box, '');
-                                console.log('Sono partito loadBoxOpinion(' + objectId + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
-                            }
-                            })
-                                .done(function(message, status, xhr) {
-                            //spinner.hide();
-                            $(box).html(message);
-                            $(box).prev().addClass('box-commentSpace');
-                            $(box).removeClass('no-display');
-                            if (classBox == 'Image') {
-                                $("#cboxLoadedContent").mCustomScrollbar("update");
-                                //	hcento();
-                            }
+		    function loadBoxOpinion(objectId, toUser, classBox, box, limit, skip) {
+			if ($(box).hasClass('no-display')) {
+			    var json_data = {};
+			    json_data.objectId = objectId;
+			    json_data.toUser = toUser;
+			    json_data.classBox = classBox;
+			    json_data.box = box;
+			    json_data.limit = limit;
+			    json_data.skip = skip;
+			    $.ajax({
+				type: "POST",
+				url: "content/stream/box/box-opinion.php",
+				data: json_data,
+				async: true,
+				beforeSend: function(xhr) {
+				    //spinner.show();											
+				    //goSpinnerBox(box, '');
+				    console.log('Sono partito loadBoxOpinion(' + objectId + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
+				}
+			    })
+				    .done(function(message, status, xhr) {
+				//spinner.hide();
+				$(box).html(message);
+				$(box).prev().addClass('box-commentSpace');
+				$(box).removeClass('no-display');
+				if (classBox == 'Image') {
+				    $("#cboxLoadedContent").mCustomScrollbar("update");
+				    //	hcento();
+				}
 
-                            code = xhr.status;
-                            //console.log("Code: " + code + " | Message: " + message);
-                            console.log("Code: " + code + " | Message: <omitted because too large>");
-                            })
-                                .fail(function(xhr) {
-                            //spinner.hide();
-                            //console.log('ERRORE=>'+richiesta+' '+stato+' '+errori);
-                            message = $.parseJSON(xhr.responseText).status;
-                            code = xhr.status;
-                            console.log("Code: " + code + " | Message: " + message);
-                            });
-                        } else {
-                            $(box).prev().removeClass('box-commentSpace');
-                            $(box).addClass('no-display');
-                        }
-                    }
+				code = xhr.status;
+				//console.log("Code: " + code + " | Message: " + message);
+				console.log("Code: " + code + " | Message: <omitted because too large>");
+			    })
+				    .fail(function(xhr) {
+				//spinner.hide();
+				//console.log('ERRORE=>'+richiesta+' '+stato+' '+errori);
+				message = $.parseJSON(xhr.responseText).status;
+				code = xhr.status;
+				console.log("Code: " + code + " | Message: " + message);
+			    });
+			} else {
+			    $(box).prev().removeClass('box-commentSpace');
+			    $(box).addClass('no-display');
+			}
+		    }
                 </script>
             </div>			
         </div>

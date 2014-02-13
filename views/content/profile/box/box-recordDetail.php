@@ -36,10 +36,10 @@ if (is_array($songs) && count($songs) > 0) {
     foreach ($songs as $key => $value) {
 	if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
 	    $track_css_love = '_love orange';
-	    $track_text_love = $views['UNLOVE'];
+	    $track_text_love = $views['unlove'];
 	} else {
 	    $track_css_love = '_unlove grey';
-	    $track_text_love = $views['LOVE'];
+	    $track_text_love = $views['love'];
 	}
 	$css_addPlayList = "";
 	$css_removePlayList = "";
@@ -73,8 +73,8 @@ if (is_array($songs) && count($songs) > 0) {
 			<input type="hidden" name="song" value="<?php echo $fileManagerService->getSongURL($userId, $value->getFilePath()); ?>" />
 		    </div>					
 		    <div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">					
-			<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['ADDPLAYLIST']; ?></a>
-			<a class="icon-propriety _remove-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['REMOVEPLAYLIST']; ?></a>											
+			<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['addplaylist']; ?></a>
+			<a class="icon-propriety _remove-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['removeplaylist']; ?></a>											
 		    </div>
 		    <div class="small-3 columns track-nopropriety align-right" style="padding-right: 15px;">
 			<a class="icon-propriety "><?php echo $hoursminsandsecs ?></a>	
@@ -84,7 +84,7 @@ if (is_array($songs) && count($songs) > 0) {
 		    <div class="box-propriety album-single-propriety">
 			<div class="small-6 columns ">
 			    <a class="note white" onclick="love(this, 'Song', '<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser(); ?>')"><?php echo $track_text_love; ?></a>
-			    <!--a class="note white" onclick="share()"><?php echo $views['SHARE']; ?></a-->
+			    <!--a class="note white" onclick="share()"><?php echo $views['share']; ?></a-->
 			</div>
 			<div class="small-6 columns propriety ">					
 			    <a class="icon-propriety <?php echo $track_css_love ?>" ><?php echo $value->getLoveCounter(); ?></a>
@@ -115,7 +115,7 @@ if (is_array($songs) && count($songs) > 0) {
 }else {
     ?>
     <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
-        <div  class="large-12 columns"><p class="grey"><?php echo $views['recordDetail']['NODATA'] ?></p></div>
+        <div  class="large-12 columns"><p class="grey"><?php echo $views['recordDetail']['nodata'] ?></p></div>
     </div>
     <?php
 }

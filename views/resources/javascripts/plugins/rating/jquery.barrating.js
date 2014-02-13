@@ -9,303 +9,301 @@
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
  */
-(function ($) {
+(function($) {
     var BarRating, root, hasTouch;
     root = typeof window !== "undefined" && window !== null ? window : global;
     hasTouch = 'ontouchstart' in root;
 
-    root.BarRating = BarRating = (function () {
+    root.BarRating = BarRating = (function() {
 
-        function BarRating() {
-            this.show = function () {
-                var $this = $(this.elem),
-                    $widget,
-                    $all,
-                    userOptions = this.options,
-                    nextAllorPreviousAll,
-                    initialOption,
-                    clickEvent = hasTouch ? 'touchstart' : 'click';
+	function BarRating() {
+	    this.show = function() {
+		var $this = $(this.elem),
+			$widget,
+			$all,
+			userOptions = this.options,
+			nextAllorPreviousAll,
+			initialOption,
+			clickEvent = hasTouch ? 'touchstart' : 'click';
 
-                // run only once
-                if (!$this.data('barrating')) {
+		// run only once
+		if (!$this.data('barrating')) {
 
-                    if (userOptions.initialRating) {
-                        initialOption = $('option[value="' + userOptions.initialRating  + '"]', $this);
-                    } else {
-                        initialOption = $('option:selected', $this);
-                    }
+		    if (userOptions.initialRating) {
+			initialOption = $('option[value="' + userOptions.initialRating + '"]', $this);
+		    } else {
+			initialOption = $('option:selected', $this);
+		    }
 
-                    $this.data('barrating', {
+		    $this.data('barrating', {
+			// initial rating based on the OPTION value
+			currentRatingValue: initialOption.val(),
+			currentRatingText: initialOption.text(),
+			// rating will be restored by calling destroy method
+			originalRatingValue: initialOption.val(),
+			originalRatingText: initialOption.text()
 
-                        // initial rating based on the OPTION value
-                        currentRatingValue:initialOption.val(),
-                        currentRatingText:initialOption.text(),
+		    });
 
-                        // rating will be restored by calling destroy method
-                        originalRatingValue:initialOption.val(),
-                        originalRatingText:initialOption.text()
+		    $widget = $('<div />', {'class': 'br-widget'}).insertAfter($this);
 
-                    });   
+		    // create A elements that will replace OPTIONs
+		    $this.find('option').each(function() {
+			var val, text, $a, $span;
 
-                    $widget = $('<div />', { 'class':'br-widget' }).insertAfter($this);
+			val = $(this).val();
 
-                    // create A elements that will replace OPTIONs
-                    $this.find('option').each(function () {
-                        var val, text, $a, $span;
+			// create ratings - but only if val is defined
+			if (val) {
+			    text = $(this).text();
+			    $a = $('<a />', {href: '#', 'data-rating-value': val, 'data-rating-text': text});
+			    $span = $('<span />', {text: (userOptions.showValues) ? text : ''});
 
-                        val = $(this).val();
+			    $widget.append($a.append($span));
+			}
 
-                        // create ratings - but only if val is defined
-                        if (val) {
-                            text = $(this).text();
-                            $a = $('<a />', { href:'#', 'data-rating-value':val, 'data-rating-text':text });
-                            $span = $('<span />', { text:(userOptions.showValues) ? text : '' });
+		    });
 
-                            $widget.append($a.append($span));
-                        }
+		    // append .br-current-rating div to the widget
+		    if (userOptions.showSelectedRating) {
+			$widget.append($('<div />', {text: '', 'class': 'br-current-rating'}));
+		    }
 
-                    });
+		    // first OPTION empty - allow deselecting of ratings
+		    $this.data('barrating').deselectable = (!$this.find('option:first').val()) ? true : false;
 
-                    // append .br-current-rating div to the widget
-                    if (userOptions.showSelectedRating) {
-                        $widget.append($('<div />', { text:'', 'class':'br-current-rating' }));
-                    }
+		    // use different jQuery function depending on the 'reverse' setting
+		    if (userOptions.reverse) {
+			nextAllorPreviousAll = 'nextAll';
+		    } else {
+			nextAllorPreviousAll = 'prevAll';
+		    }
 
-                    // first OPTION empty - allow deselecting of ratings
-                    $this.data('barrating').deselectable = (!$this.find('option:first').val()) ? true : false;
+		    // additional classes for the widget
+		    if (userOptions.reverse) {
+			$widget.addClass('br-reverse');
+		    }
 
-                    // use different jQuery function depending on the 'reverse' setting
-                    if (userOptions.reverse) {                        
-                        nextAllorPreviousAll = 'nextAll';
-                    } else {
-                        nextAllorPreviousAll = 'prevAll';
-                    }
+		    if (userOptions.readonly) {
+			$widget.addClass('br-readonly');
+		    }
 
-                    // additional classes for the widget
-                    if (userOptions.reverse) {
-                        $widget.addClass('br-reverse');
-                    }
+		    // rating change event
+		    $widget.on('ratingchange',
+			    function(event, value, text) {
 
-                    if (userOptions.readonly) {
-                        $widget.addClass('br-readonly');
-                    }
+				// value or text undefined?
+				value = value ? value : $this.data('barrating').currentRatingValue;
+				text = text ? text : $this.data('barrating').currentRatingText;
 
-                    // rating change event
-                    $widget.on('ratingchange',
-                        function (event, value, text) {
+				// change selected OPTION in the select box (now hidden)
+				$this.find('option[value="' + value + '"]').prop('selected', true);
 
-                            // value or text undefined?
-                            value = value ? value : $this.data('barrating').currentRatingValue;
-                            text = text ? text : $this.data('barrating').currentRatingText;
+				// update .br-current-rating div
+				if (userOptions.showSelectedRating) {
+				    $(this).find('.br-current-rating').text(text);
+				}
 
-                            // change selected OPTION in the select box (now hidden)
-                            $this.find('option[value="' + value + '"]').prop('selected', true);
+			    }).trigger('ratingchange');
 
-                            // update .br-current-rating div
-                            if (userOptions.showSelectedRating) { 
-                                $(this).find('.br-current-rating').text(text);
-                            }
+		    // update rating event
+		    $widget.on('updaterating',
+			    function(event) {
 
-                        }).trigger('ratingchange');
+				// add classes
+				$(this).find('a[data-rating-value="' + $this.data('barrating').currentRatingValue + '"]')
+					.addClass('br-selected br-current')[nextAllorPreviousAll]()
+					.addClass('br-selected');
 
-                    // update rating event
-                    $widget.on('updaterating',
-                        function (event) {
+			    }).trigger('updaterating');
 
-                            // add classes
-                            $(this).find('a[data-rating-value="' + $this.data('barrating').currentRatingValue + '"]')
-                                .addClass('br-selected br-current')[nextAllorPreviousAll]()
-                                .addClass('br-selected');
+		    $all = $widget.find('a');
 
-                        }).trigger('updaterating');
+		    // make sure click event doesn't cause trouble on touch devices
+		    // do not react to click events if rating is read-only
+		    if (hasTouch || userOptions.readonly) {
+			$all.on('click', function(event) {
+			    event.preventDefault();
+			});
+		    }
 
-                    $all = $widget.find('a');
+		    // add interactions
+		    if (!userOptions.readonly) {
 
-                    // make sure click event doesn't cause trouble on touch devices
-                    // do not react to click events if rating is read-only
-                    if (hasTouch || userOptions.readonly) {
-                        $all.on('click', function (event) {
-                            event.preventDefault();
-                        });
-                    }
+			$all.on(clickEvent, function(event) {
+			    var $a = $(this),
+				    value,
+				    text;
 
-                    // add interactions
-                    if (!userOptions.readonly) {
+			    event.preventDefault();
 
-                        $all.on(clickEvent, function (event) {
-                            var $a = $(this),
-                                value,
-                                text;
+			    $all.removeClass('br-active br-selected');
+			    $a.addClass('br-selected')[nextAllorPreviousAll]()
+				    .addClass('br-selected');
 
-                            event.preventDefault();
+			    value = $a.attr('data-rating-value');
+			    text = $a.attr('data-rating-text');
 
-                            $all.removeClass('br-active br-selected');
-                            $a.addClass('br-selected')[nextAllorPreviousAll]()
-                                .addClass('br-selected');
+			    // is current and deselectable?
+			    if ($a.hasClass('br-current') && $this.data('barrating').deselectable) {
+				$a.removeClass('br-selected br-current')[nextAllorPreviousAll]()
+					.removeClass('br-selected br-current');
+				value = '', text = '';
+			    } else {
+				$all.removeClass('br-current');
+				$a.addClass('br-current')
+			    }
 
-                            value = $a.attr('data-rating-value');
-                            text = $a.attr('data-rating-text');
+			    // remember selected rating
+			    $this.data('barrating').currentRatingValue = value;
+			    $this.data('barrating').currentRatingText = text;
 
-                            // is current and deselectable?
-                            if ($a.hasClass('br-current') && $this.data('barrating').deselectable) {
-                                $a.removeClass('br-selected br-current')[nextAllorPreviousAll]()
-                                    .removeClass('br-selected br-current');
-                                value = '', text = '';
-                            } else {
-                                $all.removeClass('br-current');
-                                $a.addClass('br-current')
-                            }
+			    $widget.trigger('ratingchange');
 
-                            // remember selected rating
-                            $this.data('barrating').currentRatingValue = value;
-                            $this.data('barrating').currentRatingText = text;
+			    // onSelect callback
+			    userOptions.onSelect.call(
+				    this,
+				    $this.data('barrating').currentRatingValue,
+				    $this.data('barrating').currentRatingText
+				    );
 
-                            $widget.trigger('ratingchange');
+			    return false;
 
-                            // onSelect callback
-                            userOptions.onSelect.call(
-                                this,
-                                $this.data('barrating').currentRatingValue,
-                                $this.data('barrating').currentRatingText
-                            );
+			});
 
-                            return false;
+			// attach mouseenter/mouseleave event handlers
+			if (!hasTouch) {
 
-                        });
+			    $all.on({
+				mouseenter: function() {
+				    var $a = $(this);
 
-                        // attach mouseenter/mouseleave event handlers
-                        if (!hasTouch) {
+				    $all.removeClass('br-active').removeClass('br-selected');
+				    $a.addClass('br-active')[nextAllorPreviousAll]()
+					    .addClass('br-active');
 
-                            $all.on({
-                                mouseenter:function () {
-                                    var $a = $(this);
+				    $widget.trigger('ratingchange',
+					    [$a.attr('data-rating-value'), $a.attr('data-rating-text')]
+					    );
+				}
+			    });
 
-                                    $all.removeClass('br-active').removeClass('br-selected');
-                                    $a.addClass('br-active')[nextAllorPreviousAll]()
-                                        .addClass('br-active');
+			    $widget.on({
+				mouseleave: function() {
+				    $all.removeClass('br-active');
+				    $widget
+					    .trigger('ratingchange')
+					    .trigger('updaterating');
+				}
+			    });
+			}
 
-                                    $widget.trigger('ratingchange',
-                                        [$a.attr('data-rating-value'), $a.attr('data-rating-text')]
-                                    );
-                                }
-                            });
+		    }
 
-                            $widget.on({
-                                mouseleave:function () {
-                                    $all.removeClass('br-active');
-                                    $widget
-                                        .trigger('ratingchange')
-                                        .trigger('updaterating');
-                                }
-                            });
-                        }
+		    // hide the select box
+		    $this.hide();
+		}
+	    }
+	    this.clear = function() {
+		var $this = $(this.elem);
+		var $widget = $this.next('.br-widget');
 
-                    }
+		// attempt to clear the rating
+		if ($widget && $this.data('barrating')) {
 
-                    // hide the select box
-                    $this.hide();
-                }
-            }
-            this.clear = function () {
-                var $this = $(this.elem);
-                var $widget = $this.next('.br-widget');
+		    $widget.find('a').removeClass('br-selected br-current');
 
-                // attempt to clear the rating
-                if ($widget && $this.data('barrating')) {
+		    // restore original data
+		    $this.data('barrating').currentRatingValue = $this.data('barrating').originalRatingValue;
+		    $this.data('barrating').currentRatingText = $this.data('barrating').originalRatingText;
 
-                    $widget.find('a').removeClass('br-selected br-current');
+		    $widget
+			    .trigger('ratingchange')
+			    .trigger('updaterating');
 
-                    // restore original data
-                    $this.data('barrating').currentRatingValue = $this.data('barrating').originalRatingValue;
-                    $this.data('barrating').currentRatingText = $this.data('barrating').originalRatingText;
+		    // onClear callback
+		    this.options.onClear.call(
+			    this,
+			    $this.data('barrating').currentRatingValue,
+			    $this.data('barrating').currentRatingText
+			    );
+		}
+	    }
+	    this.destroy = function() {
+		var $this = $(this.elem);
+		var $widget = $this.next('.br-widget');
 
-                    $widget
-                        .trigger('ratingchange')
-                        .trigger('updaterating');
+		// attempt to destroy the widget
+		if ($widget && $this.data('barrating')) {
+		    var value = $this.data('barrating').currentRatingValue;
+		    var text = $this.data('barrating').currentRatingText;
 
-                    // onClear callback
-                    this.options.onClear.call(
-                        this,
-                        $this.data('barrating').currentRatingValue,
-                        $this.data('barrating').currentRatingText
-                    );
-                }
-            }            
-            this.destroy = function () {
-                var $this = $(this.elem);
-                var $widget = $this.next('.br-widget');
+		    $this.removeData('barrating');
 
-                // attempt to destroy the widget
-                if ($widget && $this.data('barrating')) {
-                    var value = $this.data('barrating').currentRatingValue;
-                    var text = $this.data('barrating').currentRatingText;
+		    $widget.off().remove();
 
-                    $this.removeData('barrating');
+		    // show the select box
+		    $this.show();
 
-                    $widget.off().remove();
+		    // onDestroy callback
+		    this.options.onDestroy.call(
+			    this,
+			    value,
+			    text
+			    );
+		}
+	    }
+	}
 
-                    // show the select box
-                    $this.show();
+	BarRating.prototype.init = function(options, elem) {
+	    var self;
+	    self = this;
+	    self.elem = elem;
 
-                    // onDestroy callback
-                    this.options.onDestroy.call(
-                        this,
-                        value,
-                        text
-                    );
-                }
-            }
-        }
+	    return self.options = $.extend({}, $.fn.barrating.defaults, options);
+	};
 
-        BarRating.prototype.init = function (options, elem) {
-            var self;
-            self = this;
-            self.elem = elem;
-
-            return self.options = $.extend({}, $.fn.barrating.defaults, options);
-        };
-
-        return BarRating;
+	return BarRating;
 
     })();
 
-    $.fn.barrating = function (method, options) {
-        return this.each(function () {
-            var plugin = new BarRating();
+    $.fn.barrating = function(method, options) {
+	return this.each(function() {
+	    var plugin = new BarRating();
 
-            // plugin works with select fields
-            if (!$(this).is('select')) {
-                $.error('Sorry, this plugin only works with select fields.');
-            }
+	    // plugin works with select fields
+	    if (!$(this).is('select')) {
+		$.error('Sorry, this plugin only works with select fields.');
+	    }
 
-            // method supplied
-            if (plugin.hasOwnProperty(method)) {
-                plugin.init(options, this);
-                return plugin[method]();
+	    // method supplied
+	    if (plugin.hasOwnProperty(method)) {
+		plugin.init(options, this);
+		return plugin[method]();
 
-            // no method supplied or only options supplied
-            } else if (typeof method === 'object' || !method) {
-                options = method;
-                plugin.init(options, this);
-                return plugin.show();
+		// no method supplied or only options supplied
+	    } else if (typeof method === 'object' || !method) {
+		options = method;
+		plugin.init(options, this);
+		return plugin.show();
 
-            } else {
-                $.error('Method ' + method + ' does not exist on jQuery.barrating');
-            }
+	    } else {
+		$.error('Method ' + method + ' does not exist on jQuery.barrating');
+	    }
 
-        });
+	});
     };
     return $.fn.barrating.defaults = {
-        initialRating:null, // initial rating
-        showValues:false, // display rating values on the bars?
-        showSelectedRating:true, // append a div with a rating to the widget?
-        reverse:false, // reverse the rating?
-        readonly:false, // make the rating ready-only?
-        onSelect:function (value, text) {
-        }, // callback fired when a rating is selected
-        onClear:function (value, text) {
-        }, // callback fired when a rating is cleared      
-        onDestroy:function (value, text) {
-        } // callback fired when a widget is destroyed
+	initialRating: null, // initial rating
+	showValues: false, // display rating values on the bars?
+	showSelectedRating: true, // append a div with a rating to the widget?
+	reverse: false, // reverse the rating?
+	readonly: false, // make the rating ready-only?
+	onSelect: function(value, text) {
+	}, // callback fired when a rating is selected
+	onClear: function(value, text) {
+	}, // callback fired when a rating is cleared      
+	onDestroy: function(value, text) {
+	} // callback fired when a widget is destroyed
     };
 })(jQuery);

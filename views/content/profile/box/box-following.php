@@ -34,7 +34,7 @@ if (is_null($followingsBox->error)) {
     <!----------------------------------- FOLLOWING -------------------------------------------------->
     <div class="row" id="profile-following">
         <div class="large-12 columns ">
-    	<h3 style="cursor: pointer" onclick="loadBoxRelation('following', 21, 0,<?php echo $followingCounter; ?>)"><?php echo $views['following']['TITLE']; ?><span class="orange"> [<?php echo $followingCounter; ?>]</span></h3>
+    	<h3 style="cursor: pointer" onclick="loadBoxRelation('following', 21, 0,<?php echo $followingCounter; ?>)"><?php echo $views['following']['title']; ?><span class="orange"> [<?php echo $followingCounter; ?>]</span></h3>
     	<div class="box" id="following-list">
 		<?php
 		if ($totFollowings > 0) {
@@ -147,7 +147,7 @@ if (is_null($followingsBox->error)) {
 		    ?>	
 		    <div class="row  ">
 			<div  class="large-12 columns ">
-			    <p class="grey"><?php echo $views['following']['NODATA']; ?></p>
+			    <p class="grey"><?php echo $views['following']['nodata']; ?></p>
 			</div>
 		    </div>
 		    <?php

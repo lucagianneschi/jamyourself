@@ -15,58 +15,58 @@
 *
 \******************************************************/
 .touchcarousel.grey-blue .arrow-icon {	
-	background-image: url('sprite.png');
-	background-repeat: no-repeat;
-	width: 11px;
-	height: 19px;	
-	margin-top: -9px;
+    background-image: url('sprite.png');
+    background-repeat: no-repeat;
+    width: 11px;
+    height: 19px;	
+    margin-top: -9px;
 }
 .touchcarousel.grey-blue .arrow-holder {
-	width: 19px;
-	height: 100%;
-	-moz-opacity: 1;	
-	-webkit-opacity: 1;	
-	opacity: 1;	
+    width: 19px;
+    height: 100%;
+    -moz-opacity: 1;	
+    -webkit-opacity: 1;	
+    opacity: 1;	
 }
 .touchcarousel.grey-blue .arrow-holder.left {
-	left: -20px;
+    left: -20px;
 }
 .touchcarousel.grey-blue .arrow-holder.right {	
-	right: -20px;
+    right: -20px;
 }
 
 .touchcarousel.grey-blue .arrow-icon.left {
-	left: 0;
-	background-position: -6px -15px;
+    left: 0;
+    background-position: -6px -15px;
 }
 .touchcarousel.grey-blue .arrow-icon.right {
-	right: 0;
-	background-position: -186px -15px;
+    right: 0;
+    background-position: -186px -15px;
 }
 .touchcarousel.grey-blue .arrow-holder:hover .arrow-icon.left {
-	background-position: -36px -15px;
+    background-position: -36px -15px;
 }
 .touchcarousel.grey-blue .arrow-holder:hover .arrow-icon.right {
-	background-position: -156px -15px;
+    background-position: -156px -15px;
 }
 .touchcarousel.grey-blue .arrow-holder.disabled .arrow-icon.left {
-	background-position: -66px -15px;
+    background-position: -66px -15px;
 }
 .touchcarousel.grey-blue .arrow-holder.disabled .arrow-icon.right {
-	background-position: -126px -15px;
+    background-position: -126px -15px;
 }
 .touchcarousel.grey-blue .arrow-holder:hover {
-	-moz-opacity: 1;	
-	-webkit-opacity: 1;	
-	opacity: 1;	
+    -moz-opacity: 1;	
+    -webkit-opacity: 1;	
+    opacity: 1;	
 }
 .touchcarousel.grey-blue .arrow-holder:active .arrow-icon {
-	margin-top: -8px;
+    margin-top: -8px;
 }
 .touchcarousel.grey-blue .arrow-holder.disabled {
-	-moz-opacity: 1;	
-	-webkit-opacity: 1;	
-	opacity: 1;	
+    -moz-opacity: 1;	
+    -webkit-opacity: 1;	
+    opacity: 1;	
 }
 
 /******************************************************\
@@ -76,22 +76,22 @@
 \******************************************************/
 
 .touchcarousel.grey-blue .tc-paging-item {
-	background: url('sprite.png') no-repeat -95px -4px;
-	
-	width: 16px;
-	height: 16px;	
-	
-	-moz-opacity: 0.8;	
-	-webkit-opacity: 0.8;	
-	opacity: 0.8;	
+    background: url('sprite.png') no-repeat -95px -4px;
+
+    width: 16px;
+    height: 16px;	
+
+    -moz-opacity: 0.8;	
+    -webkit-opacity: 0.8;	
+    opacity: 0.8;	
 }
 .touchcarousel.grey-blue .tc-paging-item.current {	
-	background: url('sprite.png') no-repeat -95px -22px;
+    background: url('sprite.png') no-repeat -95px -22px;
 }
 .touchcarousel.grey-blue .tc-paging-item:hover {		
-	-moz-opacity: 1;	
-	-webkit-opacity: 1;	
-	opacity: 1;		
+    -moz-opacity: 1;	
+    -webkit-opacity: 1;	
+    opacity: 1;		
 }
 
 

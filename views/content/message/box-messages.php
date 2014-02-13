@@ -100,7 +100,7 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 					    if (!$value->read) {
 						?>
 						<script>
-			    readMessage('<?php echo $value->activityId ?>');
+			readMessage('<?php echo $value->activityId ?>');
 						</script>
 						<?php
 					    }
@@ -173,17 +173,17 @@ if (isset($_POST['user']) && $_POST['user'] == 'newmessage') {
 
 			<div class="row">
 			    <div class="large-12 columns">
-				<div class="line-date"><small><?php echo $views['message']['ERROR2'] ?></small></div>
+				<div class="line-date"><small><?php echo $views['message']['error2'] ?></small></div>
 			    </div>
 			</div>	
-		    <?php
+			<?php
 		    }
 		} else {
 		    ?>
 
 		    <div class="row">
 		        <div class="large-12 columns">
-		    	<div class="line-date"><small><?php echo $views['message']['ERROR1'] ?></small></div>
+		    	<div class="line-date"><small><?php echo $views['message']['error1'] ?></small></div>
 		        </div>
 		    </div>
 		    <?php

@@ -27,7 +27,7 @@ if (is_null($collaboratorsBox->error)) {
     <!------------------------------------- Collaboration ------------------------------------>
     <div class="row" id="social-collaboration">
         <div  class="large-12 columns">
-    	<h3 style="cursor: pointer" onclick="loadBoxRelation('collaboration', 21, 0,<?php echo $totCollaborators; ?>)"><?php echo $views['collaboration']['TITLE']; ?> <span class="orange">[<?php echo $totCollaborators ?>]</span></h3>
+    	<h3 style="cursor: pointer" onclick="loadBoxRelation('collaboration', 21, 0,<?php echo $totCollaborators; ?>)"><?php echo $views['collaboration']['title']; ?> <span class="orange">[<?php echo $totCollaborators ?>]</span></h3>
     	<div class="row  ">
     	    <div  class="large-12 columns ">
     		<div class="box">
@@ -146,7 +146,7 @@ if (is_null($collaboratorsBox->error)) {
 			    ?>	
 			    <div class="row  ">
 				<div  class="large-12 columns ">
-				    <p class="grey"><?php echo $views['collaboration']['NODATA']; ?></p>
+				    <p class="grey"><?php echo $views['collaboration']['nodata']; ?></p>
 				</div>
 			    </div>
 			    <?php
