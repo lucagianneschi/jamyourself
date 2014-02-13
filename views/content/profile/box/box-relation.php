@@ -52,7 +52,7 @@ if ($arrayRelation instanceof Error) {
 		break;
 	}
 	$fileManagerService = new FileManagerService();
-	$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+	$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
 	if ($index % 3 == 0) {
 	    ?> <div class="row">	<?php } ?>
 	    <div class="small-4 columns">
@@ -61,7 +61,7 @@ if ($arrayRelation instanceof Error) {
 			<div class="row">
 			    <div  class="small-3 columns hide-for-medium-down">
 				<div class="icon-header">
-				    <img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
+				    <img src="<?php echo $pathPicture . $value->getThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 				</div>
 			    </div>
 			    <div  class="small-9 columns">

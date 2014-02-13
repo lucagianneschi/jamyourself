@@ -62,7 +62,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				foreach ($reviews as $key => $value) {
 				    $recordReview_objectId = $value->getObjectId();
 				    $recordReview_user_objectId = $value->getFromUser()->getObjectId();
-				    $recordReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
+				    $recordReview_user_thumbnail = $value->getFromUser()->getThumbnail();
 				    $recordReview_user_username = $value->getFromUser()->getUsername();
 				    $recordReview_user_type = $value->getFromUser()->getType();
 				    $recordReview_thumbnailCover = $value->getRecord()->getThumbnail();

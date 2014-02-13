@@ -46,7 +46,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		$indice = 1;
 		foreach ($reviews as $key => $value) {
 		    $review_user_objectId = $value->getFromUser()->getObjectId();
-		    $review_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
+		    $review_user_thumbnail = $value->getFromUser()->getThumbnail();
 		    $review_user_username = $value->getFromUser()->getUsername();
 		    $review_user_type = $value->getFromUser()->getType();
 		    $review_objectId = $value->getObjectId();

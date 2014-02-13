@@ -58,7 +58,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 			    $post_objectId = $value->getObjectId();
 			    $post_createdAt = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
 			    $post_fromUser_objectId = $value->getFromUser()->getObjectId();
-			    $post_fromUser_profileThumbnail = $value->getFromUser()->getProfileThumbnail();
+			    $post_fromUser_profileThumbnail = $value->getFromUser()->getThumbnail();
 			    $post_fromUser_username = $value->getFromUser()->getUsername();
 			    $post_fromUser_type = $value->getFromUser()->getType();
 			    $post_text = $value->getText();

@@ -54,7 +54,7 @@ if ($attendeesCounter > 0) {
 				    <!-- THUMB USER-->
 				    <?php
 				    $fileManagerService = new FileManagerService();
-				    $thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				    $thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
 				    ?>
 				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?>">
 				</div>

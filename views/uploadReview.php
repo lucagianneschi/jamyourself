@@ -26,7 +26,7 @@ switch ($uploadReviewController->reviewedClassType) {
 }
 $rating = "3";
 $authorObjectId = $uploadReviewController->reviewedFromUser->getObjectId();
-$authorThumbnail = $uploadReviewController->reviewedFromUser->getProfileThumbnail();
+$authorThumbnail = $uploadReviewController->reviewedFromUser->getThumbnail();
 $author = $uploadReviewController->reviewedFromUser->getUsername();
 
 if ($authorObjectId == $currentUser->getObjectId()) {

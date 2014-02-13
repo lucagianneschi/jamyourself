@@ -64,7 +64,7 @@ if (is_null($collaboratorsBox->error)) {
 								<!-- THUMB USER-->
 								<?php
 								$fileManagerService = new FileManagerService();
-								$thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+								$thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
 								?>
 								<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 							    </div>
@@ -120,7 +120,7 @@ if (is_null($collaboratorsBox->error)) {
 							    <div class="icon-header">
 								<?php
 								$fileManagerService1 = new FileManagerService();
-								$thumbPath1 = $fileManagerService1->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+								$thumbPath1 = $fileManagerService1->getPhotoPath($value->getObjectId(), $value->getThumbnail());
 								?>
 								<img src="<?php echo $thumbPath1; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 							    </div>

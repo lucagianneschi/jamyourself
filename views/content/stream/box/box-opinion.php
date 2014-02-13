@@ -58,7 +58,7 @@ if ($countComment > 0) {
 				    <!-- THUMB USER-->
 				    <?php
 				    $fileManagerService = new FileManagerService();
-				    $thumbPath = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getProfileThumbnail());
+				    $thumbPath = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getThumbnail());
 				    ?>
 				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getFromUser()->getUsername(); ?>">
 				</div>

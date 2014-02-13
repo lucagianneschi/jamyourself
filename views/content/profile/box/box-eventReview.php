@@ -63,12 +63,12 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 				    $eventReview_objectId = $value->getObjectId();
 				    if ($type == 'SPOTTER') {
 					$eventReview_user_objectId = $value->getEvent()->getFromUser()->getObjectId();
-					$eventReview_user_thumbnail = $value->getEvent()->getFromUser()->getProfileThumbnail();
+					$eventReview_user_thumbnail = $value->getEvent()->getFromUser()->getThumbnail();
 					$eventReview_user_username = $value->getEvent()->getFromUser()->getUsername();
 					$eventReview_user_type = $value->getEvent()->getFromUser()->getType();
 				    } else {
 					$eventReview_user_objectId = $value->getFromUser()->getObjectId();
-					$eventReview_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
+					$eventReview_user_thumbnail = $value->getFromUser()->getThumbnail();
 					$eventReview_user_username = $value->getFromUser()->getUsername();
 					$eventReview_user_type = $value->getFromUser()->getType();
 				    }

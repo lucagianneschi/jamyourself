@@ -76,7 +76,7 @@ if (is_null($streamBox->error)) {
                                 <!--THUMB FROMUSER-->
                                 <?php
                                 $fileManagerService = new FileManagerService();
-                                $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getProfileThumbnail());
+                                $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getThumbnail());
                                 ?>
                                 <img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo $defaultThumb; ?>'" alt="<?php echo $value->getFromUser()->getUsername(); ?>">
                             </div>
@@ -184,7 +184,7 @@ if (is_null($streamBox->error)) {
                                                         ?>
                                                         <?php
                                                         $fileManagerService = new FileManagerService();
-                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getObjectId(), $value->getFromUser()->getProfileThumbnail());
+                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getObjectId(), $value->getFromUser()->getThumbnail());
                                                         ?>
                                                         <!--THUMB TOUSER-->
                                                         <img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getToUser()->getUsername(); ?>">
@@ -744,7 +744,7 @@ if (is_null($streamBox->error)) {
                                                         <!--THUMB TOUSER-->
                                                         <?php
                                                         $fileManagerService = new FileManagerService();
-                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getObjectId(), $value->getToUser()->getProfileThumbnail());
+                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getObjectId(), $value->getToUser()->getThumbnail());
                                                         ?>
                                                         <img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getToUser()->getUsername(); ?>">
                                                     </div>
@@ -784,7 +784,7 @@ if (is_null($streamBox->error)) {
                                                         <!--THUMB TOUSER-->
                                                         <?php
                                                         $fileManagerService = new FileManagerService();
-                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getObjectId(), $value->getToUser()->getProfileThumbnail());
+                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getObjectId(), $value->getToUser()->getThumbnail());
                                                         ?>
                                                         <img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getToUser()->getUsername(); ?>">
                                                     </div>

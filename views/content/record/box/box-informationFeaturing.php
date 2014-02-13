@@ -37,7 +37,7 @@ if ($featuringsCounter > 0) {
 	    foreach ($featurings as $key => $value) {
 		$defaultThum = $value->getType() == 'JAMMER' ? DEFTHUMBJAMMER : DEFTHUMBVENUE;
 		$fileManagerService = new FileManagerService();
-		$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+		$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
 		?>
 		<div  class="small-6 columns">
 		    <a href="profile.php?user=<?php echo $value->getObjectId(); ?> ">
@@ -45,7 +45,7 @@ if ($featuringsCounter > 0) {
 			    <div class="row ">
 				<div  class="small-3 columns ">
 				    <div class="icon-header">
-					<img src="<?php echo $pathPicture . $value->getProfileThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?> ">
+					<img src="<?php echo $pathPicture . $value->getThumbnail(); ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?> ">
 				    </div>
 				</div>
 				<div  class="small-9 columns ">

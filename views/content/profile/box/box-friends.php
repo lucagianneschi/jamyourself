@@ -43,7 +43,7 @@ if (is_null($friendsBox->error)) {
 					break;
 				}
 				$fileManagerService = new FileManagerService();
-				$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
 				if ($i % 2 == 0) {
 				    ?> <div class="row">  <?php } ?>
 

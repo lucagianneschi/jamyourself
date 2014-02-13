@@ -26,7 +26,7 @@ $label = $record->getLabel();
 $buylink = $record->getBuylink();
 $description = $record->getDescription();
 $fromUserObjectId = $record->getFromUser()->getObjectId();
-$fromUserThumbnail = $record->getFromUser()->getProfileThumbnail();
+$fromUserThumbnail = $record->getFromUser()->getThumbnail();
 $fromUserUsername = $record->getfromUser()->getUsername();
 
 $css_city = (!isset($city) || $city == '') ? 'no-display' : '';

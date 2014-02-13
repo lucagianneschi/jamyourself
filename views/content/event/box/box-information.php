@@ -22,7 +22,7 @@ $eventDate = $event->getEventDate()->format('l j F Y - H:i');
 $lat = $event->getLocation()->lat;
 $lon = $event->getLocation()->long;
 $fromUserObjectId = $event->getFromUser()->getObjectId();
-$fromUserThumbnail = $event->getFromUser()->getProfileThumbnail();
+$fromUserThumbnail = $event->getFromUser()->getThumbnail();
 $fromUserUsername = $event->getFromUser()->getUsername();
 switch ($event->getFromUser()->getType()) {
     case 'JAMMER':

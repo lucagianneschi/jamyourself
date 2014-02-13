@@ -68,7 +68,7 @@ if (is_null($eventBox->error)) {
 	    				<!--THUMB FROMUSER-->
 					    <?php
 					    $fileManagerService = new FileManagerService();
-					    $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getProfileThumbnail());
+					    $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getThumbnail());
 					    ?>
 	    				<img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo DEFAVATARJAMMER; ?>'" alt="<?php echo $value->getFromUser()->getUsername(); ?>">
 	    			    </div>

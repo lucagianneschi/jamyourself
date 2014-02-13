@@ -36,7 +36,7 @@ if (is_null($followersBox->error)) {
 				    ?> <div class="row">  <?php
 				}
 				$fileManagerService = new FileManagerService();
-				$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
+				$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
 				?>
 	    			<div  class="small-6 columns">
 	    			    <a href="profile.php?user=<?php echo $value->getObjectId(); ?>">

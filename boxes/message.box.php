@@ -129,7 +129,7 @@ class MessageBox {
 		    if (($send == 'S' && $act->getComment()->getFromUser() == $act->getFromUser()->getObjectId()) || ($send == 'R' && $act->getComment()->getToUser() == $act->getFromUser()->getObjectId())) {
 			$user = ($act->getFromUser()->getObjectId() == $currentUserId) ? $act->getToUser() : $act->getFromUser();
 			$userId = $user->getObjectId();
-			$thumbnail = $user->getProfileThumbnail();
+			$thumbnail = $user->getThumbnail();
 			$type = $user->getType();
 			$username = $user->getUsername();
 			$userInfo = new UserInfo($userId, $thumbnail, $type, $username);

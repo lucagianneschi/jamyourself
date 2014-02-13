@@ -62,7 +62,7 @@ if (is_null($commentBox->error) || isset($_SESSION['currentUser'])) {
 			$indice = 1;
 			foreach ($comments as $key => $value) {
 			    $comment_user_objectId = $value->getFromUser()->getObjectId();
-			    $comment_user_thumbnail = $value->getFromUser()->getProfileThumbnail();
+			    $comment_user_thumbnail = $value->getFromUser()->getThumbnail();
 			    $comment_user_username = $value->getFromUser()->getUsername();
 			    $comment_user_type = $value->getFromUser()->getType();
 			    $comment_objectId = $value->getObjectId();
