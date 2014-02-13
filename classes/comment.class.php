@@ -128,7 +128,7 @@ class Comment {
     /**
      * \fn	getLatitude()
      * \brief	Return the latitude value
-     * \return	long
+     * \return	latitude
      */
     public function getLatitude() {
 	return $this->latitude;
