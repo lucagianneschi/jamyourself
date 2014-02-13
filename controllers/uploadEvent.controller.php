@@ -94,7 +94,7 @@ class UploadEventController extends REST {
 	    if (is_null($eventDate)) {
 		$this->response(array('status' => $controllers['NOEVENTDATE']), 400);
 	    }
-	    $event->setEventDate($eventDate); 
+	    $event->setEventDate($eventDate);
 	    if (!isset($this->request['jammers']) || is_null($this->request['jammers']) || !is_array($this->request['jammers']) || !(count($this->request['jammers']) > 0)) {
 		$event->setFeaturing($this->request['jammers']);
 	    }
@@ -127,10 +127,10 @@ class UploadEventController extends REST {
 	    }
 	    $fileManager = new FileManagerService();
 	    $thumbSrc = $fileManager->getEventPhotoPath($userId, $eventSave->getThumbnail());
-            $imageSrc = $fileManager->getEventPhotoPath($userId, $eventSave->getImage());
+	    $imageSrc = $fileManager->getEventPhotoPath($userId, $eventSave->getImage());
 	    if (!is_null($thumbSrc) && (strlen($thumbSrc) > 0) && !is_null($imageSrc) && (strlen($imageSrc) > 0)) {
 		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getThumbnail(), $thumbSrc);
-		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getImage(),$imageSrc );
+		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getImage(), $imageSrc);
 	    }
 	    unset($_SESSION['currentUserFeaturingArray']);
 	    $activity = $this->createActivity($userId, $eventSave->getObjectId());

@@ -150,19 +150,19 @@ function getRelatedUsers($objectId, $field, $className, $all = false, $limit = M
  */
 function findLocationCoordinates($city = null, $coutry = null) {
     if (is_null($city) && is_null($coutry)) {
-        return null;
+	return null;
     } else {
-        require_once CLASSES_DIR . 'location.class.php';
-        require_once CLASSES_DIR . 'locationParse.class.php';
-        $location = new LocationParse();
-        if (!is_null($city)) {
-            $location->where('city', $city);
-        }
-        if (!is_null($coutry)) {
-            $location->where('country', $coutry);
-        }
-        $location->setLimit(MIN);
-        return $location->getLocations();
+	require_once CLASSES_DIR . 'location.class.php';
+	require_once CLASSES_DIR . 'locationParse.class.php';
+	$location = new LocationParse();
+	if (!is_null($city)) {
+	    $location->where('city', $city);
+	}
+	if (!is_null($coutry)) {
+	    $location->where('country', $coutry);
+	}
+	$location->setLimit(MIN);
+	return $location->getLocations();
     }
 }
 

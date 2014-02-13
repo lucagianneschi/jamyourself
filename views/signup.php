@@ -13,7 +13,6 @@ $sc->init();
 
 //recupero la chiave pubblica del captcha dalla sessione
 $captchaPublicKey = $_SESSION['captchaPublicKey'];
-
 ?>
 <!DOCTYPE html>
 <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->
@@ -23,25 +22,25 @@ $captchaPublicKey = $_SESSION['captchaPublicKey'];
 
         <title>Jamyourself</title>
         <!-------------------------- METADATI --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
+	<?php require_once(VIEWS_DIR . "content/general/meta.php"); ?>
 	<!--	<script type="text/javascript" src="resources/javascripts/customs/signup.js"></script> -->
     </head>
 
     <body>
 
         <!-------------------------- HEADER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
+	<?php require_once(VIEWS_DIR . 'content/header/main.php'); ?>
 
         <!-------------------------- BODY --------------------------->
         <div class="body-content">
-            <?php require_once(VIEWS_DIR . 'content/signup/signup-main.php'); ?>
+	    <?php require_once(VIEWS_DIR . 'content/signup/signup-main.php'); ?>
         </div>
         <!-------------------------- FOOTER --------------------------->
-        <?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
+	<?php require_once(VIEWS_DIR . 'content/general/footer.php'); ?>	
 
         <!-------------------------- SCRIPT --------------------------->
-        <?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
-       
+	<?php require_once(VIEWS_DIR . "content/general/script.php"); ?>
+
     </body>
 
 </html>

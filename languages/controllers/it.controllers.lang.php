@@ -30,7 +30,7 @@ $controllers = array(
     'USERNOTFOUND' => 'User non trovato',
     'NOSESSIONTOKEN' => 'SessionToken non definito',
     'NOMAIL' => 'Impossibile inviare mail',
-    'NODATA' => 'Nessun dato disponibile',
+    'nodata' => 'Nessun dato disponibile',
     'NOEXPIRED' => 'Expired non impostato',
     //SUBSCRIBE
     'SUBSCRIPTIONOK' => 'Sei stato iscritto correttamente',

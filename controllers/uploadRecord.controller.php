@@ -467,14 +467,14 @@ class UploadRecordController extends REST {
 	    $recordId = $this->request['recordId'];
 	    $songsList = tracklistGenerator($recordId);
 	    if ($songsList instanceof Error) {
-		$this->response(array("status" => $controllers['NODATA']), 200);
+		$this->response(array("status" => $controllers['nodata']), 200);
 	    } elseif (is_null($songsList) || count($songsList) == 0) {
 		$this->response(array("status" => $controllers['NOSONGFORRECORD'], "songList" => null, "count" => 0), 200);
 	    }
 	    $returnInfo = array();
 	    foreach ($songsList as $song) {
-	    // info utili
-	    // mi serve: titolo, durata, lista generi, id
+		// info utili
+		// mi serve: titolo, durata, lista generi, id
 		$seconds = $song->getDuration();
 		$hours = floor($seconds / 3600);
 		$mins = floor(($seconds - ($hours * 3600)) / 60);

@@ -38,11 +38,11 @@ $thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumb
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
     <div class="large-12 columns">
-	<h3><?php echo $views['information']['TITLE']; ?></h3>		
+	<h3><?php echo $views['information']['title']; ?></h3>		
 	<div class="section-container accordion" data-section="accordion">
 	    <section class="active" >
 		<!--------------------------------- ABOUT ---------------------------------------------------->
-		<p class="title" data-section-title onclick="removeMap();"><a href="#"><?php echo $views['media']['Information']['CONTENT1_EVENT'] ?></a></p>
+		<p class="title" data-section-title onclick="removeMap();"><a href="#"><?php echo $views['media']['information']['content1_event'] ?></a></p>
 		<div class="content" data-section-content>
 		    <a href="profile.php?user=<?php echo $fromUserObjectId ?>">
 			<div class="row" id="user_<?php echo $fromUserObjectId ?>">
@@ -107,7 +107,7 @@ $thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumb
 	    </script>
 
 	    <section id="profile_map_venue" > 
-		<p class="title" data-section-title onclick="viewMap('<?php echo $lat; ?>', '<?php echo $lon; ?>')"><a href="#"><?php echo $views['information']['CONTENT3']; ?></a></p>
+		<p class="title" data-section-title onclick="viewMap('<?php echo $lat; ?>', '<?php echo $lon; ?>')"><a href="#"><?php echo $views['information']['content3']; ?></a></p>
 		<div class="content" data-section-content>
 		    <div class="row">
 			<div class="small-12 columns">     					  	
@@ -116,7 +116,7 @@ $thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumb
 		    </div>
 		    <div class="row">
 			<!-- div class="small-12 columns" >
-			    <a class="ico-label _pin white " onclick="getDirectionMap()"><?php echo $views['information']['CONTENT3_DIRECTION']; ?></a> 
+			    <a class="ico-label _pin white " onclick="getDirectionMap()"><?php echo $views['information']['content3_direction']; ?></a> 
 			</div -->
 		    </div>				 	
 		</div>

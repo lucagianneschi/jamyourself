@@ -1,9 +1,9 @@
 {
     "targetDir": "./filesTestupload",
-    "cleanUpTargetDir":true,
-    "maxFileAge":18000,
-    "timeLimit":300,
+    "cleanUpTargetDir": true,
+    "maxFileAge": 18000,
+    "timeLimit": 300,
     "maxImgWidth": 700,
-    "maxImgHeight": 300        
-            
+    "maxImgHeight": 300
+
 }

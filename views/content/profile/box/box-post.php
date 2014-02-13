@@ -27,18 +27,18 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
     <!------------------------------------- Post ------------------------------------>
     <div class="row" id="social-Post" style='margin-bottom: 40px;'>
         <div  class="large-12 columns">
-    	<h3><?php echo $views['post']['TITLE'] ?></h3>
+    	<h3><?php echo $views['post']['title'] ?></h3>
 
     	<div class="row ">
     	    <div  class="large-12 columns ">
 
     		<div class="row  ">
     		    <div  class="large-12 columns ">
-    			<form action="" class="box-write" onsubmit="sendPost('<?php echo $_POST['objectId']; ?>', $('#post').val());
-    				return false;">    			    
+    			  <form action="" class="box-write" onsubmit="sendPost('<?php echo $_POST['objectId']; ?>', $('#post').val());
+    				  return false;">    			    
     			    <div class="row">
     				<div class="small-9 columns ">
-    				    <input id="post" type="text" class="post inline" placeholder="<?php echo $views['post']['WRITE']; ?>" />
+    				    <input id="post" type="text" class="post inline" placeholder="<?php echo $views['post']['write']; ?>" />
     				</div>
     				<div class="small-3 columns ">
     				    <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('<?php echo $_POST['objectId']; ?>', $('#post').val())" />
@@ -49,7 +49,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
     		</div>
     		<div class="row">
     		    <div  class="large-12 columns ">
-                        <div id="post-error" onClick="postError()"><img src="./resources/images/error/error-post.png" alt/></div>
+    			<div id="post-error" onClick="postError()"><img src="./resources/images/error/error-post.png" alt/></div>
     		    </div>
     		</div>
 		    <?php
@@ -125,7 +125,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 	    			    <div class="box-propriety">
 	    				<div class="small-5 columns ">
 	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $post_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $post_objectId; ?>', '<?php echo $post_fromUser_objectId; ?>', 'Comment', '#<?php echo $post_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $post_objectId; ?>', '<?php echo $post_fromUser_objectId; ?>', 'Comment', '#<?php echo $post_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 	    				</div>
 	    				<div class="small-5 columns propriety ">
 	    				    <a class="icon-propriety <?php echo $css_love ?>"><?php echo $post_loveCounter; ?></a>
@@ -144,7 +144,7 @@ if (is_null($postBox->error) || isset($_SESSION['currentUser'])) {
 			<div class="box">
 			    <div class="row">
 				<div  class="large-12 columns ">
-				    <p class="grey"><?php echo $views['post']['NODATA']; ?></p>
+				    <p class="grey"><?php echo $views['post']['nodata']; ?></p>
 				</div>
 			    </div>
 			</div>

@@ -69,12 +69,12 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
                         <div  class="small-12 columns">									
                             <input type="text" name="venue-city" id="venue-city" pattern="description" required/>								
                             <label for="venue-city" style="padding-bottom: 0px !important;"><?php echo $views['signup']['address']; ?><span class="orange">*</span><small class="error"><?php echo $views['signup']['valid_address']; ?></small></label>
-                        	<a href="#" data-reveal-id="venue-myModal" class="location-reveal text grey"><?php echo $views['signup']['localization_question']; ?></a>
-                    		<div id="venue-myModal" class="reveal-modal">
-		                        <h3><?php echo $views['signup']['localization_question']; ?></h3>					 
-		                        <p class="grey"><?php echo $views['signup']['localization_answer']; ?></p>
-		                        <a class="close-reveal-modal">&#215;</a>
-		                    </div>
+			    <a href="#" data-reveal-id="venue-myModal" class="location-reveal text grey"><?php echo $views['signup']['localization_question']; ?></a>
+			    <div id="venue-myModal" class="reveal-modal">
+				<h3><?php echo $views['signup']['localization_question']; ?></h3>					 
+				<p class="grey"><?php echo $views['signup']['localization_answer']; ?></p>
+				<a class="close-reveal-modal">&#215;</a>
+			    </div>
                         </div>							
                     </div>	
                 </div>
@@ -89,7 +89,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
         </div>	
         <div  class="small-8 columns">
             <input type="button" name="venue-signup02-back" id="venue-signup02-back" class="signup-button-back" value="<?php echo $views['go_back']; ?>"/>
-            <input type="button" name="venue-signup02-next" id="venue-signup02-next" class="signup-button" value="<?php echo $views['NEXT']; ?>"/>
+            <input type="button" name="venue-signup02-next" id="venue-signup02-next" class="signup-button" value="<?php echo $views['next']; ?>"/>
         </div>	
     </div>
 </div>

@@ -40,7 +40,7 @@ if (is_null($recordBox->error)) {
         <div class="large-12 columns">
     	<div class="row">
     	    <div  class="small-5 columns">
-    		<h3><?php echo $views['record']['TITLE']; ?></h3>
+    		<h3><?php echo $views['record']['title']; ?></h3>
     	    </div>	
     	    <div  class="small-7 columns align-right">
 		    <?php
@@ -48,10 +48,10 @@ if (is_null($recordBox->error)) {
 			?>
 			<div class="row">					
 			    <div  class="small-9 columns">
-				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'record')"><?php echo $views['PREV']; ?> </a>
+				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'record')"><?php echo $views['prev']; ?> </a>
 			    </div>
 			    <div  class="small-3 columns">
-				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'record')"><?php echo $views['NEXT']; ?> </a>
+				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'record')"><?php echo $views['next']; ?> </a>
 			    </div>
 			</div>
 			<?php
@@ -68,7 +68,7 @@ if (is_null($recordBox->error)) {
 		    ?>
 		    <div class="row">
 			<div class="large-12 columns" style="border-bottom: 1px solid #303030;margin-bottom: 10px;">
-			    <div class="text white" style="padding: 10px;"><?php echo $views['record']['LIST']; ?></div>
+			    <div class="text white" style="padding: 10px;"><?php echo $views['record']['list']; ?></div>
 			</div>
 		    </div>
 		    <div id="recordSlide" class="royalSlider rsMinW">
@@ -96,7 +96,7 @@ if (is_null($recordBox->error)) {
 			    }
 			    $textData = '';
 			    if (!is_null($record_data) && $record_data != '') {
-				$textData = $views['record']['RECORDED'];
+				$textData = $views['record']['recorded'];
 			    }
 			    ?>
 	    		    <div id="<?php echo $record_objectId ?>" class="box-element <?php echo 'record_' . $record_objectId; ?>" >
@@ -148,7 +148,7 @@ if (is_null($recordBox->error)) {
 
 		<?php } else { ?>
 		    <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
-			<div  class="large-12 columns"><p class="grey"><?php echo $views['record']['NODATA'] ?></p></div>
+			<div  class="large-12 columns"><p class="grey"><?php echo $views['record']['nodata'] ?></p></div>
 		    </div>
 
 		<?php } ?>		
@@ -176,13 +176,13 @@ if (is_null($recordBox->error)) {
 		}
 		$textData = '';
 		if (!is_null($recordSingle_data) && $recordSingle_data != '') {
-		    $textData = $views['record']['RECORDED'];
+		    $textData = $views['record']['recorded'];
 		}
 		?>
 		<div class="box no-display <?php echo $recordSingle_objectId ?>" >
 		    <div class="row" onclick="recordSelectNext('<?php echo $recordSingle_objectId ?>')">
 			<div class="large-12 columns" style="border-bottom: 1px solid #303030;padding-bottom: 5px;">					
-			    <a class="ico-label _back_page text white" onclick="loadBoxRecord()"><?php echo $views['BACK']; ?></a>
+			    <a class="ico-label _back_page text white" onclick="loadBoxRecord()"><?php echo $views['next']; ?></a>
 			</div>
 		    </div>
 		    <div class="box-info-element">
@@ -212,53 +212,53 @@ if (is_null($recordBox->error)) {
 			<!------------------------------- RECORD DETAIL ------------------------------------------>
 			<div class="box-recordDetail"></div>
 			<script type="text/javascript">
-	    function loadBoxRecordDetail(userId, objectId, pathCover) {
-		var json_data = {};
-		json_data.userId = userId;
-		json_data.objectId = objectId;
-		json_data.username = '<?php echo $_POST['username'] ?>';
-		json_data.pathCover = pathCover;
-		$.ajax({
-		    type: "POST",
-		    url: "content/profile/box/box-recordDetail.php",
-		    data: json_data,
-		    beforeSend: function(xhr) {
-			//spinner.show();
-			$("#profile-Record #record-list").fadeOut(100, function() {
-			    $('#profile-Record .' + objectId).fadeIn(100);
-			    goSpinnerBox("." + objectId + " .box-recordDetail", '');
-			});
-			console.log('Sono partito box-recordDetail');
+	function loadBoxRecordDetail(userId, objectId, pathCover) {
+	    var json_data = {};
+	    json_data.userId = userId;
+	    json_data.objectId = objectId;
+	    json_data.username = '<?php echo $_POST['username'] ?>';
+	    json_data.pathCover = pathCover;
+	    $.ajax({
+		type: "POST",
+		url: "content/profile/box/box-recordDetail.php",
+		data: json_data,
+		beforeSend: function(xhr) {
+		    //spinner.show();
+		    $("#profile-Record #record-list").fadeOut(100, function() {
+			$('#profile-Record .' + objectId).fadeIn(100);
+			goSpinnerBox("." + objectId + " .box-recordDetail", '');
+		    });
+		    console.log('Sono partito box-recordDetail');
 
-		    }
-		}).done(function(message, status, xhr) {
+		}
+	    }).done(function(message, status, xhr) {
 
-		    $("." + objectId + " .box-recordDetail").html(message);
-		    code = xhr.status;
-		    //console.log("Code: " + code + " | Message: " + message);
-		    //gestione visualizzazione box detail
-		    addthis.init();
-		    addthis.toolbox(".addthis_toolbox");
-		    rsi_record.updateSliderSize(true);
+		$("." + objectId + " .box-recordDetail").html(message);
+		code = xhr.status;
+		//console.log("Code: " + code + " | Message: " + message);
+		//gestione visualizzazione box detail
+		addthis.init();
+		addthis.toolbox(".addthis_toolbox");
+		rsi_record.updateSliderSize(true);
 
-		    console.log("Code: " + code + " | Message: <omitted because too large>");
-		}).fail(function(xhr) {
-		    //spinner.hide();
-		    console.log("Error: " + $.parseJSON(xhr));
-		    //message = $.parseJSON(xhr.responseText).status;
-		    //code = xhr.status;
-		    //console.log("Code: " + code + " | Message: " + message);
-		});
-	    }
+		console.log("Code: " + code + " | Message: <omitted because too large>");
+	    }).fail(function(xhr) {
+		//spinner.hide();
+		console.log("Error: " + $.parseJSON(xhr));
+		//message = $.parseJSON(xhr.responseText).status;
+		//code = xhr.status;
+		//console.log("Code: " + code + " | Message: " + message);
+	    });
+	}
 			</script>
 			<!------------------------------- FINE RECORD DETAIL ------------------------------------->
 			<div class="row album-single-propriety">
 			    <div class="box-propriety">
 				<div class="small-6 columns ">
 				    <a class="note white" onclick="love(this, 'Record', '<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>')"><?php echo $recordSingle_text_love; ?></a>
-				    <a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>', 'Record', '.<?php echo $recordSingle_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+				    <a class="note white" onclick="loadBoxOpinion('<?php echo $recordSingle_objectId; ?>', '<?php echo $recordSingle_fromUser_objectId; ?>', 'Record', '.<?php echo $recordSingle_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 				    <a class="note white" onclick="share(this, '<?php echo $recordSingle_objectId ?>', 'profile-Record')"><?php echo $views['share']; ?></a>
-				    <a class="note white" onclick="location.href = 'uploadReview.php?rewiewId=<?php echo $recordSingle_objectId ?>&type=Record'"><?php echo $views['REVIEW']; ?></a>	
+				    <a class="note white" onclick="location.href = 'uploadReview.php?rewiewId=<?php echo $recordSingle_objectId ?>&type=Record'"><?php echo $views['review']; ?></a>	
 				</div>
 				<div class="small-6 columns propriety ">					
 				    <a class="icon-propriety <?php echo $recordSingle_css_love ?>" ><?php echo $recordSingle_love ?></a>

@@ -75,7 +75,7 @@ if (isset($userObjectId)) {
 	    case 'relation':
 		$detailNotification->initForRelationList($userType);
 		$numNot = $relation;
-		$other = $views['header']['social']['message_realation'];
+		$other = $views['header']['social']['message_relation'];
 		break;
 	    default:
 		break;
@@ -193,12 +193,12 @@ if (isset($userObjectId)) {
 	    		    </div>
 	    		</div>
 	    	    </div>
-		    <?php if ($value->type == 'M') { ?>
+			<?php if ($value->type == 'M') { ?>
 			</div>	
-	    <?php } ?>
+		    <?php } ?>
 
 
-		<?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
+		    <?php if (($index + 1) % 4 == 0 || count($detailNotification->notificationArray) == ($index + 1)) { ?> </div> <?php
 		}
 		$index++;
 	    }

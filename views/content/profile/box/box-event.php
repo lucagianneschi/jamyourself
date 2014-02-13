@@ -34,7 +34,7 @@ if (is_null($eventBox->error)) {
         <div class="large-12 columns ">	
     	<div class="row">
     	    <div  class="small-5 columns">
-    		<h3><?php echo $views['event']['TITLE']; ?> </h3>
+    		<h3><?php echo $views['event']['title']; ?> </h3>
     	    </div>	
     	    <div  class="small-7 columns align-right">
 		    <?php
@@ -42,10 +42,10 @@ if (is_null($eventBox->error)) {
 			?>
 			<div class="row">					
 			    <div  class="small-9 columns">
-				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'event')"><?php echo $views['PREV']; ?> </a>
+				<a class="slide-button-prev _prevPage slide-button-prev-disabled" onclick="royalSlidePrev(this, 'event')"><?php echo $views['prev']; ?> </a>
 			    </div>
 			    <div  class="small-3 columns">
-				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'event')"><?php echo $views['NEXT']; ?> </a>
+				<a class="slide-button-next _nextPage" onclick="royalSlideNext(this, 'event')"><?php echo $views['next']; ?> </a>
 			    </div>
 			</div>
 			<?php
@@ -179,11 +179,11 @@ if (is_null($eventBox->error)) {
 	    				    <div class="row">
 	    					<div class="box-propriety ">					
 	    					    <div class="small-7 columns no-display">
-	    						<a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['CALENDAR'] ?></a>	
+	    						<a class="icon-propriety _menu-small note orange "> <?php echo $views['event']['calendar'] ?></a>	
 	    						<a class="note grey " onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $text_love ?></a>
-	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['COMM'] ?></a>
+	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['comm'] ?></a>
 	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['share'] ?></a>
-	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['REVIEW'] ?></a>	
+	    						<a class="note grey" onclick="setCounter(this, '<?php echo $event_objectId; ?>', 'Event')"><?php echo $views['review'] ?></a>	
 	    					    </div>
 	    					    <div class="small-5 columns propriety " style="position: absolute;bottom: 0px;right: 0px;">					
 	    						<a class="icon-propriety <?php echo $css_love ?>"><?php echo $event_love ?></a>
@@ -209,7 +209,7 @@ if (is_null($eventBox->error)) {
 		} else {
 		    ?>
 		    <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
-			<div  class="large-12 columns"><p class="grey"><?php echo $views['event']['NODATA'] ?></p></div>
+			<div  class="large-12 columns"><p class="grey"><?php echo $views['event']['nodata'] ?></p></div>
 		    </div>
 		    <?php
 		}

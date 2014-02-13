@@ -73,8 +73,8 @@ if (is_array($songs) && count($songs) > 0) {
 			<input type="hidden" name="song" value="<?php echo $fileManagerService->getSongURL($userId, $value->getFilePath()); ?>" />
 		    </div>					
 		    <div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">					
-			<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['ADDPLAYLIST']; ?></a>
-			<a class="icon-propriety _remove-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['REMOVEPLAYLIST']; ?></a>											
+			<a class="icon-propriety _menu-small note orange <?php echo $css_addPlayList ?>" onclick='playlist(this, "add",<?php echo $song ?>)'> <?php echo $views['record']['addplaylist']; ?></a>
+			<a class="icon-propriety _remove-small note orange <?php echo $css_removePlayList ?>" onclick='playlist(this, "remove",<?php echo $song; ?>)'> <?php echo $views['record']['removeplaylist']; ?></a>											
 		    </div>
 		    <div class="small-3 columns track-nopropriety align-right" style="padding-right: 15px;">
 			<a class="icon-propriety "><?php echo $hoursminsandsecs ?></a>	
@@ -115,7 +115,7 @@ if (is_array($songs) && count($songs) > 0) {
 }else {
     ?>
     <div class="row" style="padding-left: 20px !important; padding-top: 20px !important;}">
-        <div  class="large-12 columns"><p class="grey"><?php echo $views['recordDetail']['NODATA'] ?></p></div>
+        <div  class="large-12 columns"><p class="grey"><?php echo $views['recordDetail']['nodata'] ?></p></div>
     </div>
     <?php
 }

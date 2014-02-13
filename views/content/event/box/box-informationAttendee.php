@@ -26,7 +26,7 @@ $attendeesCounter = count($attendees);
 if ($attendeesCounter > 0) {
     ?>
 
-    <p class="title" data-section-title><a href="#"><?php echo $views['media']['Information']['CONTENT4']; ?> <span>[<?php echo $attendeesCounter ?>]</span></a></p>
+    <p class="title" data-section-title><a href="#"><?php echo $views['media']['information']['content4']; ?> <span>[<?php echo $attendeesCounter ?>]</span></a></p>
 
     <div class="content" data-section-content>
         <div class="row">
@@ -52,7 +52,8 @@ if ($attendeesCounter > 0) {
 			    <div  class="small-3 columns ">
 				<div class="icon-header">
 				    <!-- THUMB USER-->
-				    <?php $fileManagerService = new FileManagerService();
+				    <?php
+				    $fileManagerService = new FileManagerService();
 				    $thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getProfileThumbnail());
 				    ?>
 				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt ="<?php echo $value->getUsername(); ?>">

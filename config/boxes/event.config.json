@@ -1,4 +1,4 @@
 {
-    "distanceLimitForEvent" : 200,
-    "limitEventForTimeline" : 10
+    "distanceLimitForEvent": 200,
+    "limitEventForTimeline": 10
 }

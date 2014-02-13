@@ -36,11 +36,11 @@ function noDisplay($dato) {
 <!--------- INFORMATION --------------------->
 <div class="row" id="profile-information">
     <div class="large-12 columns">
-	<h3><?php echo $views['information']['TITLE']; ?></h3>		
+	<h3><?php echo $views['information']['title']; ?></h3>		
 	<div class="section-container accordion" data-section="accordion">
 	    <section class="active" >
 		<!--------------------------------- ABOUT ---------------------------------------------------->
-		<p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['information']['CONTENT1']; ?></a></p>
+		<p class="title" data-section-title onclick="removeMap()"><a href="#"><?php echo $views['information']['content1']; ?></a></p>
 		<?php echo $information_description; ?>
 		<p class="text grey"><?php echo $user->getDescription(); ?></p> 
 	</div>
@@ -90,41 +90,42 @@ function noDisplay($dato) {
 	    if (is_array($user->getMembers()) && count($user->getMembers()) > 0) {
 		?>
 		<section>
-		    <p class="title" data-section-title><a href="#"><?php echo $views['information']['CONTENT2']; ?></a></p>
+		    <p class="title" data-section-title><a href="#"><?php echo $views['information']['content2']; ?></a></p>
 		    <div class="content" data-section-content>
-			
-			    <?php
-			    $i = 0;
-			    foreach ($user->getMembers() as $key => $value) {
-					if($i % 2 == 0){ ?> <div class="row"> <?php }
-					?>
+
+			<?php
+			$i = 0;
+			foreach ($user->getMembers() as $key => $value) {
+			    if ($i % 2 == 0) {
+				?> <div class="row"> <?php }
+			    ?>
 	    		    <div class="small-6 columns">
-		    			<div class="box-membre">
-		    			    <span class="text white"><?php echo $value->name; ?></span></br>
-		    			    <span class="note grey"><?php echo $value->instrument; ?></span>
-		    			</div>
+	    			<div class="box-membre">
+	    			    <span class="text white"><?php echo $value->name; ?></span></br>
+	    			    <span class="note grey"><?php echo $value->instrument; ?></span>
+	    			</div>
 	    		    </div>		
 
-			    	<?php
-			   		if (($i+1) % 2 == 0 || ($i+1) == count($user->getMembers())) { ?> </div>  <?php }
-					$i++;
+				<?php if (($i + 1) % 2 == 0 || ($i + 1) == count($user->getMembers())) { ?> </div>  <?php
 			    }
-			    ?>				
-			</div>
+			    $i++;
+			}
+			?>				
+		    </div>
 		</section>
-			    <?php
-			}
-		    }
-		    // su utente e' tipo venue allora viene mostrato il section del map
-		    if ($type == 'VENUE') {
-			if ($user->getGeoCoding() instanceof parseGeoPoint) {
-			    $lat = $user->getGeoCoding()->lat;
-			    $lng = $user->getGeoCoding()->long;
-			}
-			?>
+		<?php
+	    }
+	}
+	// su utente e' tipo venue allora viene mostrato il section del map
+	if ($type == 'VENUE') {
+	    if ($user->getGeoCoding() instanceof parseGeoPoint) {
+		$lat = $user->getGeoCoding()->lat;
+		$lng = $user->getGeoCoding()->long;
+	    }
+	    ?>
     	<!--------------------------------------- MAP --------------------------------------->
     	<section id="profile_map_venue" > 
-    	    <p class="title" data-section-title onclick="viewMap('<?php echo $lat ?>', '<?php echo $lng ?>')"><a href="#"><?php echo $views['information']['CONTENT3']; ?></a></p>
+    	    <p class="title" data-section-title onclick="viewMap('<?php echo $lat ?>', '<?php echo $lng ?>')"><a href="#"><?php echo $views['information']['content3']; ?></a></p>
     	    <div class="content" data-section-content>
     		<div class="row">
     		    <div class="small-12 columns">     					  	
@@ -133,14 +134,14 @@ function noDisplay($dato) {
     		</div>
     		<!--div class="row">
     		    <div class="small-12 columns ">
-    			<a class="ico-label _pin white " onclick="getDirectionMap()"><?php echo $views['information']['CONTENT3_DIRECTION']; ?></a> 
+    			<a class="ico-label _pin white " onclick="getDirectionMap()"><?php echo $views['information']['content3_direction']; ?></a> 
     		    </div>
     		</div-->				 	
     	    </div>
     	</section>
-    <?php
-}
-?>	
+	    <?php
+	}
+	?>	
     </div>
 </div>
 </div>
