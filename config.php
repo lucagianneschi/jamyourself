@@ -55,11 +55,6 @@ define('DEBUG_DIR', ROOT_DIR . 'debug/');
  */
 define('LANGUAGES_DIR', ROOT_DIR . 'languages/');
 
-/** \def ('PARSE_DIR', ROOT_DIR . 'parse/')
- *  Define the parse libraty directory
- */
-define('PARSE_DIR', ROOT_DIR . 'parse/');
-
 /** \def ('SERVICES_DIR', ROOT_DIR . 'services/');
  *  Define the services directory, php files for cleaner code
  */
