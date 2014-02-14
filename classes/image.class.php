@@ -20,6 +20,8 @@
 class Image {
 
     private $objectId;
+    private $createdAt;
+    private $updatedAt;
     private $active;
     private $album;
     private $commentCounter;
@@ -33,8 +35,6 @@ class Image {
     private $shareCounter;
     private $tags;
     private $thumbnail;
-    private $createdAt;
-    private $updatedAt;
 
     /**
      * \fn	int getObjectId()
@@ -43,6 +43,24 @@ class Image {
      */
     public function getObjectId() {
 	return $this->objectId;
+    }
+
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Image creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Image modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
     }
 
     /**
@@ -163,30 +181,30 @@ class Image {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
-     * \brief	Return the Image creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Image modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
      * \fn	void setObjectId($objectId)
      * \brief	Sets the objectId value
      * \param	int
      */
     public function setObjectId($objectId) {
 	$this->objectId = $objectId;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Image creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Image modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -307,24 +325,6 @@ class Image {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Image creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Image modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Image object
      * \return	string
@@ -332,6 +332,8 @@ class Image {
     public function __toString() {
 	$string = '';
 	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[album] => ' . $this->getAlbum() . '<br />';
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
@@ -345,16 +347,6 @@ class Image {
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 	$string .= '[tags] => ' . $this->getTags() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

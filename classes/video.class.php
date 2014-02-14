@@ -20,6 +20,8 @@
 class Video {
 
     private $objectId;
+    private $createdAt;
+    private $updatedAt;
     private $active;
     private $author;
     private $counter;
@@ -32,8 +34,6 @@ class Video {
     private $thumbnail;
     private $title;
     private $URL;
-    private $createdAt;
-    private $updatedAt;
 
     /**
      * \fn	int getObjectId()
@@ -42,6 +42,24 @@ class Video {
      */
     public function getObjectId() {
 	return $this->objectId;
+    }
+
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Video creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Video modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
     }
 
     /**
@@ -153,30 +171,30 @@ class Video {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
-     * \brief	Return the Video creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Video modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
      * \fn	void setObjectId($objectId)
      * \brief	Sets the objectId value
      * \param	int
      */
     public function setObjectId($objectId) {
 	$this->objectId = $objectId;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Video creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Video modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -288,24 +306,6 @@ class Video {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Video creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Video modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Video object
      * \return	string
@@ -313,6 +313,8 @@ class Video {
     public function __toString() {
 	$string = '';
 	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[author] => ' . $this->getAuthor() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
@@ -325,16 +327,6 @@ class Video {
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	$string .= '[URL] => ' . $this->getURL() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

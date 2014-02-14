@@ -20,6 +20,8 @@
 class Album {
 
     private $objectId;
+    private $createdAt;
+    private $updatedAt;
     private $active;
     private $commentCounter;
     private $counter;
@@ -35,8 +37,6 @@ class Album {
     private $tags;
     private $thumbnail;
     private $title;
-    private $createdAt;
-    private $updatedAt;
 
     /**
      * \fn	getObjectId()
@@ -45,6 +45,24 @@ class Album {
      */
     public function getObjectId() {
 	return $this->objectId;
+    }
+
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Album creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Album modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
     }
 
     /**
@@ -103,7 +121,7 @@ class Album {
 
     /**
      * \fn	getImage()
-     * \brief	Return the id 
+     * \brief	Return the id
      * \return	int
      */
     public function getImage() {
@@ -166,7 +184,7 @@ class Album {
 
     /**
      * \fn	getThumbnail()
-     * \brief	Return the thumbnail value 
+     * \brief	Return the thumbnail value
      * \return	string
      */
     public function getThumbnail() {
@@ -183,30 +201,30 @@ class Album {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
-     * \brief	Return the Album creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Album modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
      * \fn	void setObjectId($objectId)
      * \brief	Sets the objectId value
      * \param	string
      */
     public function setObjectId($objectId) {
 	$this->objectId = $objectId;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Album creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn		void setUpdatedAt($updatedAt)
+     * \brief	Sets the Album modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -345,24 +363,6 @@ class Album {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Album creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn		void setUpdatedAt($updatedAt)
-     * \brief	Sets the Album modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
      * \fn		string __toString()
      * \brief	Return a printable string representing the Album object
      * \return	string
@@ -370,6 +370,8 @@ class Album {
     public function __toString() {
 	$string = '';
 	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
@@ -385,16 +387,6 @@ class Album {
 	$string .= '[tags] => ' . $this->getTags() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 
