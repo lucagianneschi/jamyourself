@@ -126,15 +126,15 @@ class Image {
 	return $this->loveCounter;
     }
 
-        /**
+    /**
      * \fn	string getPath()
      * \brief	Return the path value
      * \return	string
      */
     public function getPath() {
-	return $this->pathath;
+	return $this->path;
     }
-    
+
     /**
      * \fn	int getShareCounter()
      * \brief	Return the counter for sharing action
@@ -270,7 +270,7 @@ class Image {
 	$this->loveCounter = $loveCounter;
     }
 
-        /**
+    /**
      * \fn	void setpath($pPath)
      * \brief	Sets the path value
      * \param	string
@@ -278,7 +278,7 @@ class Image {
     public function setPath($path) {
 	$this->path = $path;
     }
-    
+
     /**
      * \fn	void setCounter($shareCounter)
      * \brief	Sets the shareCounter value
