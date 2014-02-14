@@ -25,11 +25,11 @@ class Image {
     private $commentCounter;
     private $counter;
     private $description;
-    private $filePath;
     private $fromUser;
     private $latitude;
     private $longitude;
     private $loveCounter;
+    private $path;
     private $shareCounter;
     private $tags;
     private $thumbnail;
@@ -91,15 +91,6 @@ class Image {
     }
 
     /**
-     * \fn	string getFilePath()
-     * \brief	Return the filePath value, file path
-     * \return	string
-     */
-    public function getFilePath() {
-	return $this->filePath;
-    }
-
-    /**
      * \fn	int getFromUser()
      * \brief	Return the objectId value for the fromUser
      * \return	int
@@ -135,6 +126,15 @@ class Image {
 	return $this->loveCounter;
     }
 
+        /**
+     * \fn	string getPath()
+     * \brief	Return the path value
+     * \return	string
+     */
+    public function getPath() {
+	return $this->pathath;
+    }
+    
     /**
      * \fn	int getShareCounter()
      * \brief	Return the counter for sharing action
@@ -235,15 +235,6 @@ class Image {
     }
 
     /**
-     * \fn	void setFilePath($filePath)
-     * \brief	Sets the filePath value
-     * \param	string
-     */
-    public function setFilePath($filePath) {
-	$this->filePath = $filePath;
-    }
-
-    /**
      * \fn	void setFromUser($fromUser))
      * \brief	Sets the fromUser value
      * \param	int
@@ -279,6 +270,15 @@ class Image {
 	$this->loveCounter = $loveCounter;
     }
 
+        /**
+     * \fn	void setpath($pPath)
+     * \brief	Sets the path value
+     * \param	string
+     */
+    public function setPath($path) {
+	$this->path = $path;
+    }
+    
     /**
      * \fn	void setCounter($shareCounter)
      * \brief	Sets the shareCounter value
@@ -337,11 +337,11 @@ class Image {
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
-	$string .= '[filePath] => ' . $this->getFilePath() . '<br />';
 	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
+	$string .= '[path] => ' . $this->getPath() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 	$string .= '[tags] => ' . $this->getTags() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
