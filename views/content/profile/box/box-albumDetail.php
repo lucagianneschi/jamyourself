@@ -2,7 +2,7 @@
 /*
  * box album detail
  * box chiamato tramite load con:
- * data: {data: data, typeUser: objectId}
+ * data: {data: data, typeUser: id}
  * 
  * box per tutti gli utenti
  */
@@ -21,7 +21,7 @@ require_once BOXES_DIR . 'album.box.php';
 require_once CLASSES_DIR . 'userParse.class.php';
 
 $userId = $_POST['userId'];
-$objectId = $_POST['objectId'];
+$id = $_POST['id'];
 $countImage = $_POST['countImage'];
 $limit = intval($_POST['limit']);
 $skip = intval($_POST['skip']);
@@ -32,7 +32,7 @@ if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
 
 $albumDetail = new AlbumBox();
-$albumDetail->initForDetail($objectId, $limit, $skip);
+$albumDetail->initForDetail($id, $limit, $skip);
 
 $css_other = 'no-display';
 $other = 0;
@@ -48,14 +48,14 @@ $fileManagerService = new FileManagerService();
 	$thumbImage = $value->getThumbnail();
 	?>
         <!------------------------------ THUMBNAIL ---------------------------------->
-        <li><a class="photo-colorbox-group" href="#<?php echo $value->getObjectId(); ?>"><img class="photo" src="<?php echo $fileManagerService->getPhotoPath($objectId, $value->getThumbnail()); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt></a></li>
+        <li><a class="photo-colorbox-group" href="#<?php echo $value->getId(); ?>"><img class="photo" src="<?php echo $fileManagerService->getPhotoPath($id, $value->getThumbnail()); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt></a></li>
 
     <?php } ?>
 </ul>
 
 <div class="row">
     <div class="small-12 columns">
-	<a class="text orange otherObject <?php echo $css_other; ?>" onclick="loadBoxAlbumDetail('<?php echo $objectId ?>',<?php echo $countImage ?>, 30,<?php echo $limit + $skip ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['other']; ?><span><?php echo $other; ?></span><?php echo $views['PHOTOS']; ?></a>	
+	<a class="text orange otherObject <?php echo $css_other; ?>" onclick="loadBoxAlbumDetail('<?php echo $id ?>',<?php echo $countImage ?>, 30,<?php echo $limit + $skip ?>)" style="padding-bottom: 15px;float: right;"><?php echo $views['other']; ?><span><?php echo $other; ?></span><?php echo $views['PHOTOS']; ?></a>	
     </div>
 </div>
 <div class='spinnerDetail'></div>
@@ -73,7 +73,7 @@ $fileManagerService = new FileManagerService();
 	<?php
 	foreach ($albumDetail->imageArray as $key => $value) {
 	    if (isset($_SESSION['currentUser']) &&
-		    (is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers()))) {
+		    (is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers()))) {
 		$css_love = '_love orange';
 		$text_love = $views['unlove'];
 	    } else {
@@ -81,7 +81,7 @@ $fileManagerService = new FileManagerService();
 		$text_love = $views['love'];
 	    }
 	    ?>				 	
-    	<div id="<?php echo $value->getObjectId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($objectId, $value->getFilePath()); ?>">
+    	<div id="<?php echo $value->getId(); ?>" class="lightbox-photo <?php echo $fileManagerService->getPhotoPath($id, $value->getFilePath()); ?>">
     	    <div class="row " style="max-width: none;">
     		<div class="large-12 columns lightbox-photo-box">
     		    <div class="album-photo-box" onclick="nextLightBox()"><img class="album-photo"  src="<?php echo $pathImage . $value->getFilePath(); ?>" onerror="this.src='<?php echo DEFIMAGE; ?>'" alt/></div>
@@ -90,9 +90,9 @@ $fileManagerService = new FileManagerService();
     		    </div>
     		    <div class="row" style="margin-bottom: 10px">
     			<div  class="small-6 columns">
-    			    <a class="note grey " onclick="love(this, 'Image', '<?php echo $value->getObjectId(); ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
-    			    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
-    			    <a class="note grey" onclick="share(this, '<?php echo $value->getObjectId(); ?>', 'profile-Image')"><?php echo $views['share']; ?></a>
+    			    <a class="note grey " onclick="love(this, 'Image', '<?php echo $value->getId(); ?>', '<?php echo $objectIdUser; ?>')"><?php echo $text_love; ?></a>
+    			    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getId(); ?>', '<?php echo $value->getFromUser()->getId(); ?>', 'Image', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
+    			    <a class="note grey" onclick="share(this, '<?php echo $value->getId(); ?>', 'profile-Image')"><?php echo $views['share']; ?></a>
     			</div>
     			<div  class="small-6 columns propriety">
     			    <a class="icon-propriety <?php echo $css_love ?>"><?php echo $value->getLoveCounter(); ?></a>
@@ -143,9 +143,9 @@ $fileManagerService = new FileManagerService();
     		    <div class="addthis_toolbox">
     			<div class="hover_menu">
     			    <div class="addthis_toolbox addthis_default_style"
-    				 addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&objectId=&imgPath=<?php echo $value->getFilePath(); ?>"
+    				 addThis:url="http://www.socialmusicdiscovering.com/views/share.php?classType=Image&id=&imgPath=<?php echo $value->getFilePath(); ?>"
     				 addThis:title="<?php //echo $paramsImage['title'];       ?>"
-    				 onclick="addShare('<?php echo $objectIdUser; ?>', 'Image', '<?php echo $value->getObjectId(); ?>')">
+    				 onclick="addShare('<?php echo $objectIdUser; ?>', 'Image', '<?php echo $value->getId(); ?>')">
     				<a class="addthis_button_twitter"></a>
     				<a class="addthis_button_facebook"></a>
     				<a class="addthis_button_google_plusone_share"></a>

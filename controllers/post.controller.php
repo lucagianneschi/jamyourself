@@ -76,7 +76,7 @@ class PostController extends REST {
 	    $cmt->setCommentCounter(0);
 	    $cmt->setCounter(0);
 	    $cmt->setEvent(null);
-	    $cmt->setFromUser($fromUser->getObjectId());
+	    $cmt->setFromUser($fromUser->getId());
 	    $cmt->setImage(null);
 	    $cmt->setLocation(null);
 	    $cmt->setLoveCounter(0);
@@ -101,10 +101,10 @@ class PostController extends REST {
 		$activity = new Activity();
 		$activity->setActive(true);
 		$activity->setAlbum(null);
-		$activity->setComment($resCmt->getObjectId());
+		$activity->setComment($resCmt->getId());
 		$activity->setCounter(0);
 		$activity->setEvent(null);
-		$activity->setFromUser($fromUser->getObjectId());
+		$activity->setFromUser($fromUser->getId());
 		$activity->setImage(null);
 		$activity->setPlaylist(null);
 		$activity->setQuestion(null);
@@ -119,7 +119,7 @@ class PostController extends REST {
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error) {
 		    require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		    $message = rollbackPostController($resCmt->getObjectId());
+		    $message = rollbackPostController($resCmt->getId());
 		    $this->response(array('status' => $message), 503);
 		}
 	    }

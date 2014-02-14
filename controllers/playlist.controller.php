@@ -57,7 +57,7 @@ class PlaylistController extends REST {
 	    } elseif (!isset($_SESSION['playlist'])) {
 		//creare la playlist
 	    }
-	    $playlistId = $_SESSION['playlist']['objectId'];
+	    $playlistId = $_SESSION['playlist']['id'];
 	    $songId = $this->request['songId'];
 	    $currentUser = $_SESSION['currentUser'];
 	    require_once CLASSES_DIR . 'playlistParse.class.php';
@@ -82,7 +82,7 @@ class PlaylistController extends REST {
 	    } else {
 		$this->response(array('status' => $controllers['TOMANYSONGS']), 503);
 	    }
-	    $activity = $this->createActivity("SONGADDEDTOPLAYLIST", $currentUser->getObjectId(), $playlistId, $songId);
+	    $activity = $this->createActivity("SONGADDEDTOPLAYLIST", $currentUser->getId(), $playlistId, $songId);
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);
@@ -110,7 +110,7 @@ class PlaylistController extends REST {
 	    } elseif (!isset($this->request['songId'])) {
 		$this->response(array('status' => $controllers['NOSONGID']), 403);
 	    }
-	    $playlistId = $_SESSION['playlist']['objectId'];
+	    $playlistId = $_SESSION['playlist']['id'];
 	    $songId = $this->request['songId'];
 	    $currentUser = $_SESSION['currentUser'];
 	    require_once CLASSES_DIR . 'playlistParse.class.php';
@@ -132,7 +132,7 @@ class PlaylistController extends REST {
 	    if ($res1 instanceof Error) {
 		$this->response(array('status' => $controllers['NOREMOVESONGTOPLAYARRAY']), 503);
 	    }
-	    $activity = $this->createActivity("SONGREMOVEDFROMPLAYLIST", $currentUser->getObjectId(), $playlistId, $songId);
+	    $activity = $this->createActivity("SONGREMOVEDFROMPLAYLIST", $currentUser->getId(), $playlistId, $songId);
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);

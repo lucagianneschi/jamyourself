@@ -1,7 +1,7 @@
 <?php
 /* box per gli album musicali
  * box chiamato tramite ajax con:
- * data: {currentUser: objectId},
+ * data: {currentUser: id},
  * data-type: html,
  * type: POST o GET
  *
@@ -22,7 +22,7 @@ if (session_id() == '')
     session_start();
 
 $recordBox = new RecordBox();
-$recordBox->initForPersonalPage($_POST['objectId']);
+$recordBox->initForPersonalPage($_POST['id']);
 
 if (is_null($recordBox->error)) {
     if (isset($_SESSION['currentUser']))
@@ -79,7 +79,7 @@ if (is_null($recordBox->error)) {
 				?><div class="rsContent">	<?php
 			    }
 			    $record_thumbnailCover = $value->getThumbnail();
-			    $record_objectId = $value->getObjectId();
+			    $record_objectId = $value->getId();
 			    $record_title = $value->getTitle();
 			    $record_data = $value->getYear();
 			    $record_songCounter = $value->getSongCounter();
@@ -87,7 +87,7 @@ if (is_null($recordBox->error)) {
 			    $record_comment = $value->getCommentCounter();
 			    $record_share = $value->getShareCounter();
 			    $record_review = $value->getReviewCounter();
-			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {
@@ -104,7 +104,7 @@ if (is_null($recordBox->error)) {
 	    			<div class="row">
 	    			    <div class="small-4 columns">
 	    				<a href="record.php?record=<?php echo $record_objectId ?>">
-	    				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['objectId'], $record_thumbnailCover); ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $record_title ?>">
+	    				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['id'], $record_thumbnailCover); ?>"  onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $record_title ?>">
 	    				</a>
 	    			    </div>
 	    			    <div class="small-8 columns" style="height: 134px;">						
@@ -122,7 +122,7 @@ if (is_null($recordBox->error)) {
 	    				</div>
 	    				<div class="row">
 	    				    <div class="small-5 columns">
-	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $_POST['objectId'] ?>', '<?php echo $record_objectId ?>', '<?php echo $pathCoverRecord . $record_thumbnailCover ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
+	    					<div class="play_now"><a class="ico-label _play_white white" onclick="loadBoxRecordDetail('<?php echo $_POST['id'] ?>', '<?php echo $record_objectId ?>', '<?php echo $pathCoverRecord . $record_thumbnailCover ?>')"><?php echo $views['record']['PLAY']; ?></a></div>
 	    				    </div>
 	    				    <div class="small-7 columns" style="position: absolute;bottom: 0px;right: 0px;">
 	    					<div class="row propriety">
@@ -158,7 +158,7 @@ if (is_null($recordBox->error)) {
 	    <?php
 	    foreach ($records as $key => $value) {
 		$recordSingle_thumbnailCover = $value->getThumbnail();
-		$recordSingle_objectId = $value->getObjectId();
+		$recordSingle_objectId = $value->getId();
 		$recordSingle_title = $value->getTitle();
 		$recordSingle_data = $value->getYear();
 		$recordSinle_songCounter = $value->getSongCounter();
@@ -167,7 +167,7 @@ if (is_null($recordBox->error)) {
 		$recordSingle_comment = $value->getCommentCounter();
 		$recordSingle_share = $value->getShareCounter();
 		$recordSingle_review = $value->getReviewCounter();
-		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+		if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 		    $recordSingle_css_love = '_love orange';
 		    $recordSingle_text_love = $views['unlove'];
 		} else {
@@ -189,7 +189,7 @@ if (is_null($recordBox->error)) {
 			<div class="row">
 			    <div class="small-4 columns">
 				<a href="record.php?record=<?php echo $recordSingle_objectId; ?>">
-				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['objectId'], $recordSingle_thumbnailCover); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $recordSingle_title ?>">
+				    <img src="<?php echo $fileManagerService->getRecordPhotoPath($_POST['id'], $recordSingle_thumbnailCover); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" style="padding-bottom: 5px;" alt="<?php echo $recordSingle_title ?>">
 				</a>
 			    </div>
 			    <div class="small-8 columns">						
@@ -212,10 +212,10 @@ if (is_null($recordBox->error)) {
 			<!------------------------------- RECORD DETAIL ------------------------------------------>
 			<div class="box-recordDetail"></div>
 			<script type="text/javascript">
-	function loadBoxRecordDetail(userId, objectId, pathCover) {
+	function loadBoxRecordDetail(userId, id, pathCover) {
 	    var json_data = {};
 	    json_data.userId = userId;
-	    json_data.objectId = objectId;
+	    json_data.id = id;
 	    json_data.username = '<?php echo $_POST['username'] ?>';
 	    json_data.pathCover = pathCover;
 	    $.ajax({
@@ -225,15 +225,15 @@ if (is_null($recordBox->error)) {
 		beforeSend: function(xhr) {
 		    //spinner.show();
 		    $("#profile-Record #record-list").fadeOut(100, function() {
-			$('#profile-Record .' + objectId).fadeIn(100);
-			goSpinnerBox("." + objectId + " .box-recordDetail", '');
+			$('#profile-Record .' + id).fadeIn(100);
+			goSpinnerBox("." + id + " .box-recordDetail", '');
 		    });
 		    console.log('Sono partito box-recordDetail');
 
 		}
 	    }).done(function(message, status, xhr) {
 
-		$("." + objectId + " .box-recordDetail").html(message);
+		$("." + id + " .box-recordDetail").html(message);
 		code = xhr.status;
 		//console.log("Code: " + code + " | Message: " + message);
 		//gestione visualizzazione box detail

@@ -19,7 +19,7 @@
 
 class Location {
 
-    private $objectId;
+    private $id;
     private $createdAt;
     private $updatedAt;
     private $city;
@@ -29,12 +29,12 @@ class Location {
     private $longitude;
 
     /**
-     * \fn	int getObjectId()
-     * \brief	Return the objectId value
+     * \fn	int getId()
+     * \brief	Return the id value
      * \return	int
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
     }
 
     /**
@@ -101,12 +101,12 @@ class Location {
     }
 
     /**
-     * \fn	void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn	void setId($id)
+     * \brief	Sets the id value
      * \param	int
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
@@ -179,7 +179,7 @@ class Location {
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->objectId . '<br />';
+	$string .= '[id] => ' . $this->id . '<br />';
 	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[city] => ' . $this->city . '<br />';

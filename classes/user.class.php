@@ -19,7 +19,7 @@
 
 class User {
 
-    private $objectId;
+    private $id;
     private $createdAt;
     private $updatedAt;
     private $password;
@@ -75,12 +75,12 @@ class User {
     }
 
     /**
-     * \fn	int getObjectId()
-     * \brief	Return the objectId value
+     * \fn	int getId()
+     * \brief	Return the id value
      * \return	string
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
     }
 
     /**
@@ -426,12 +426,12 @@ class User {
     }
 
     /**
-     * \fn		void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn		void setId($id)
+     * \brief	Sets the id value
      * \param	string
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
@@ -670,7 +670,7 @@ class User {
 
     /**
      * \fn		void setMembers($members)
-     * \brief	Sets an array of objectId of the User related with the User
+     * \brief	Sets an array of id of the User related with the User
      * \param	array
      */
     public function setMembers($members) {
@@ -792,7 +792,7 @@ class User {
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
 	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';

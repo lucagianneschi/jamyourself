@@ -10,13 +10,13 @@ require_once SERVICES_DIR . 'debug.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'record.box.php';
 
-$objectId = '';
+$id = '';
 if (isset($_GET['record']))
-    $objectId = $_GET['record'];
+    $id = $_GET['record'];
 $recordBox = new RecordBox();
-$recordBox->initForMediaPage($objectId);
+$recordBox->initForMediaPage($id);
 if (is_null($recordBox->error) && !empty($recordBox->recordArray)) {
-    $record = $recordBox->recordArray[$objectId];
+    $record = $recordBox->recordArray[$id];
     ?>
     <!DOCTYPE html>
     <!--[if IE 8]><html class="no-js lt-ie9" lang="en" ><![endif]-->

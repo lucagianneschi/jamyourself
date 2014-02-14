@@ -22,9 +22,9 @@ function sendRelation(toUser) {
     });
 }
 
-function declineRelation(objectId) {
+function declineRelation(id) {
     var json_relation = {};
-    json_relation.objectId = objectId;
+    json_relation.id = id;
     json_relation.request = 'declineRelation';
 
     $.ajax({
@@ -46,9 +46,9 @@ function declineRelation(objectId) {
     });
 }
 
-function acceptRelation(objectId, toUserId) {
+function acceptRelation(id, toUserId) {
     var json_relation = {};
-    json_relation.objectId = objectId;
+    json_relation.id = id;
     json_relation.toUserId = toUserId;
     json_relation.request = 'acceptRelation';
 
@@ -71,9 +71,9 @@ function acceptRelation(objectId, toUserId) {
     });
 }
 
-function removeRelation(objectId, toUserId) {
+function removeRelation(id, toUserId) {
     var json_relation = {};
-    json_relation.objectId = objectId;
+    json_relation.id = id;
     json_relation.toUserId = toUserId;
     json_relation.request = 'removeRelation';
 

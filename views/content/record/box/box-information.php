@@ -19,13 +19,13 @@ require_once SERVICES_DIR . 'lang.service.php';
 require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
-$objectId = $record->getObjectId();
+$id = $record->getId();
 $city = $record->getCity();
 $year = $record->getYear();
 $label = $record->getLabel();
 $buylink = $record->getBuylink();
 $description = $record->getDescription();
-$fromUserObjectId = $record->getFromUser()->getObjectId();
+$fromUserObjectId = $record->getFromUser()->getId();
 $fromUserThumbnail = $record->getFromUser()->getThumbnail();
 $fromUserUsername = $record->getfromUser()->getUsername();
 
@@ -97,7 +97,7 @@ $thumbPath = $fileManagerService->getPhotoPath($fromUserObjectId, $fromUserThumb
 	    <script type="text/javascript">
 		    function loadBoxInformationFeaturing() {
 			var json_data = {};
-			json_data.objectId = '<?php echo $objectId; ?>';
+			json_data.id = '<?php echo $id; ?>';
 			$.ajax({
 			    type: "POST",
 			    url: "content/record/box/box-informationFeaturing.php",

@@ -40,7 +40,7 @@ if (is_null($streamBox->error)) {
                             <input id="post" type="text" class="post inline" placeholder="<?php echo $views['stream']['spread_world']; ?>">
                         </div>
                         <div class="small-3 columns ">
-                            <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('<?php echo $currentUser->getObjectId(); ?>', $('#post').val())">
+                            <input type="button" id="button-post" class="post-button inline" value="<?php echo $views['post_button']; ?>" onclick="sendPost('<?php echo $currentUser->getId(); ?>', $('#post').val())">
                         </div>
                     </div>
                 </div>
@@ -54,9 +54,9 @@ if (is_null($streamBox->error)) {
     foreach ($activities as $key => $value) {
         debug('', 'debug.txt', $value->getType());
         ?>
-        <div id="<?php echo $value->getObjectId(); ?>">
+        <div id="<?php echo $value->getId(); ?>">
             <div class="box">
-                <a href="profile.php?user=<?php echo $value->getFromUser()->getObjectId(); ?>">
+                <a href="profile.php?user=<?php echo $value->getFromUser()->getId(); ?>">
                     <div class="row line">
                         <div class="small-1 columns ">
                             <div class="icon-header">
@@ -76,7 +76,7 @@ if (is_null($streamBox->error)) {
                                 <!--THUMB FROMUSER-->
                                 <?php
                                 $fileManagerService = new FileManagerService();
-                                $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getThumbnail());
+                                $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getId(), $value->getFromUser()->getThumbnail());
                                 ?>
                                 <img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo $defaultThumb; ?>'" alt="<?php echo $value->getFromUser()->getUsername(); ?>">
                             </div>
@@ -99,7 +99,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 switch ($value->getType()) {
                     case 'ALBUMCREATED':
-                        if (is_array($value->getAlbum()->getLovers()) && in_array($currentUser->getObjectId(), $value->getAlbum()->getLovers())) {
+                        if (is_array($value->getAlbum()->getLovers()) && in_array($currentUser->getId(), $value->getAlbum()->getLovers())) {
                             $css_love = '_love orange';
                             $text_love = $views['UNLOVE'];
                         } else {
@@ -124,7 +124,7 @@ if (is_null($streamBox->error)) {
                                                         <!-- THUMBNAIL ALBUM -->
                                                         <?php
                                                         $fileManagerService = new FileManagerService();
-                                                        $pathAlbumThumb = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getAlbum()->getThumbnail());
+                                                        $pathAlbumThumb = $fileManagerService->getPhotoPath($value->getFromUser()->getId(), $value->getAlbum()->getThumbnail());
                                                         ?>
                                                         <li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathAlbumThumb; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" alt></a></li>
                                                     </ul>
@@ -138,8 +138,8 @@ if (is_null($streamBox->error)) {
                         <div class="row">
                             <div class="box-propriety">
                                 <div class="small-7 columns ">
-                                    <a class="note grey" onclick="love(this, 'Album', '<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                                    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $value->getAlbum()->getFromUser()->getObjectId(); ?>', 'Album', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                                    <a class="note grey" onclick="love(this, 'Album', '<?php echo $value->getAlbum()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                                    <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getAlbum()->getId(); ?>', '<?php echo $value->getAlbum()->getFromUser()->getId(); ?>', 'Album', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                                     <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                                 </div>
                                 <div class="small-5 columns propriety ">			
@@ -184,7 +184,7 @@ if (is_null($streamBox->error)) {
                                                         ?>
                                                         <?php
                                                         $fileManagerService = new FileManagerService();
-                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getObjectId(), $value->getFromUser()->getThumbnail());
+                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getId(), $value->getFromUser()->getThumbnail());
                                                         ?>
                                                         <!--THUMB TOUSER-->
                                                         <img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getToUser()->getUsername(); ?>">
@@ -206,7 +206,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'COMMENTEDONALBUM':
-                if (is_array($value->getAlbum()->getLovers()) && in_array($currentUser->getObjectId(), $value->getAlbum()->getLovers())) {
+                if (is_array($value->getAlbum()->getLovers()) && in_array($currentUser->getId(), $value->getAlbum()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -232,7 +232,7 @@ if (is_null($streamBox->error)) {
                                                     <!-- THUMBNAIL ALBUM -->
                                                     <?php
                                                     $fileManagerService = new FileManagerService();
-                                                    $pathAlbumThumb = $fileManagerService->getPhotoPath($value->getAlbum()->getFromUser()->getObjectId(), $value->getAlbum()->getThumbnail());
+                                                    $pathAlbumThumb = $fileManagerService->getPhotoPath($value->getAlbum()->getFromUser()->getId(), $value->getAlbum()->getThumbnail());
                                                     ?>
                                                     <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathAlbumThumb; ?>" onerror="this.src='<?php echo DEFALBUMTHUMB; ?>'" alt="<?php echo $value->getAlbum()->getTitle(); ?>"></a>
                                                 </li>
@@ -247,8 +247,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Album', '<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getAlbum()->getObjectId(); ?>', '<?php echo $value->getAlbum()->getFromUser()->getObjectId(); ?>', 'Album', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Album', '<?php echo $value->getAlbum()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getAlbum()->getId(); ?>', '<?php echo $value->getAlbum()->getFromUser()->getId(); ?>', 'Album', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -265,7 +265,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'COMMENTEDONIMAGE':
-                if (is_array($value->getImage()->getLovers()) && in_array($currentUser->getObjectId(), $value->getImage()->getLovers())) {
+                if (is_array($value->getImage()->getLovers()) && in_array($currentUser->getId(), $value->getImage()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -291,7 +291,7 @@ if (is_null($streamBox->error)) {
                                                     <!-- THUMBNAIL IMAGE -->
                                                     <?php
                                                     $fileManagerService = new FileManagerService();
-                                                    $pathImageThumb = $fileManagerService->getPhotoPath($value->getImage()->getFromUser()->getObjectId(), $value->getImage()->getThumbnail());
+                                                    $pathImageThumb = $fileManagerService->getPhotoPath($value->getImage()->getFromUser()->getId(), $value->getImage()->getThumbnail());
                                                     ?>
                                                     <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'" alt></a>
                                                 </li>
@@ -306,8 +306,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $value->getImage()->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getId(); ?>', '<?php echo $value->getImage()->getFromUser()->getId(); ?>', 'Image', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -324,7 +324,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'COMMENTEDONEVENT':
-                if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getObjectId(), $value->getEvent()->getLovers())) {
+                if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getId(), $value->getEvent()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -350,9 +350,9 @@ if (is_null($streamBox->error)) {
                                                     <!-- THUMBNAIL EVENT -->
                                                     <?php
                                                     $fileManagerService = new FileManagerService();
-                                                    $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getEvent()->getFromUser()->getObjectId(), $value->getEvent()->getThumbnail());
+                                                    $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getEvent()->getFromUser()->getId(), $value->getEvent()->getThumbnail());
                                                     ?>
-                                                    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a>
+                                                    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -365,8 +365,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getObjectId(); ?>', 'Event', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getId(); ?>', 'Event', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -383,7 +383,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'COMMENTEDONEVENTREVIEW':
-                if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getObjectId(), $value->getComment()->getLovers())) {
+                if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getId(), $value->getComment()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -413,9 +413,9 @@ if (is_null($streamBox->error)) {
                                                     <!-- THUMBNAIL EVENT -->
                                                     <?php
                                                     $fileManagerService = new FileManagerService();
-                                                    $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getEvent()->getFromUser()->getObjectId(), $value->getEvent()->getThumbnail());
+                                                    $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getEvent()->getFromUser()->getId(), $value->getEvent()->getThumbnail());
                                                     ?>
-                                                    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a>
+                                                    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -428,8 +428,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'EventReview', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getId(); ?>', '<?php echo $value->getComment()->getFromUser()->getId(); ?>', 'EventReview', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -446,7 +446,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'COMMENTEDONPOST':
-                if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getObjectId(), $value->getComment()->getLovers())) {
+                if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getId(), $value->getComment()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -475,8 +475,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'Comment', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getId(); ?>', '<?php echo $value->getComment()->getFromUser()->getId(); ?>', 'Comment', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -493,7 +493,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'COMMENTEDONRECORD':
-                if (is_array($value->getRecord()->getLovers()) && in_array($currentUser->getObjectId(), $value->getRecord()->getLovers())) {
+                if (is_array($value->getRecord()->getLovers()) && in_array($currentUser->getId(), $value->getRecord()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -519,9 +519,9 @@ if (is_null($streamBox->error)) {
                                                     <!-- THUMBNAIL RECORD -->
                                                     <?php
                                                     $fileManagerService = new FileManagerService();
-                                                    $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
+                                                    $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getId(), $value->getRecord()->getThumbnail());
                                                     ?>
-                                                    <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alr="<?php echo $value->getRecord()->getTitle(); ?>"></a>
+                                                    <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alr="<?php echo $value->getRecord()->getTitle(); ?>"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -534,8 +534,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $value->getRecord()->getFromUser()->getObjectId(); ?>', 'Record', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getRecord()->getId(); ?>', '<?php echo $value->getRecord()->getFromUser()->getId(); ?>', 'Record', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -552,7 +552,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'COMMENTEDONRECORDREVIEW':
-                if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getObjectId(), $value->getComment()->getLovers())) {
+                if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getId(), $value->getComment()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -581,7 +581,7 @@ if (is_null($streamBox->error)) {
                                                 <!-- THUMBNAIL RECORD -->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getRecord()->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
+                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getRecord()->getFromUser()->getId(), $value->getRecord()->getThumbnail());
                                                 ?>
                                                 <li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getComment()->getRecord(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getRecord()->getTitle(); ?>"></a></li>
                                             </ul>
@@ -595,8 +595,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'RecordReview', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getId(); ?>', '<?php echo $value->getComment()->getFromUser()->getId(); ?>', 'RecordReview', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -613,7 +613,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'COMMENTEDONVIDEO':
-                if (is_array($value->getVideo()->getLovers()) && in_array($currentUser->getObjectId(), $value->getVideo()->getLovers())) {
+                if (is_array($value->getVideo()->getLovers()) && in_array($currentUser->getId(), $value->getVideo()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -650,8 +650,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Video', '<?php echo $value->getVideo()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getVideo()->getObjectId(); ?>', '<?php echo $value->getVideo()->getFromUser()->getObjectId(); ?>', 'Video', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Video', '<?php echo $value->getVideo()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getVideo()->getId(); ?>', '<?php echo $value->getVideo()->getFromUser()->getId(); ?>', 'Video', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -668,7 +668,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'EVENTCREATED':
-                if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getObjectId(), $value->getEvent()->getLovers())) {
+                if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getId(), $value->getEvent()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -693,9 +693,9 @@ if (is_null($streamBox->error)) {
                                                 <!-- THUMBNAIL EVENT -->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromUser()->getObjectId(), $value->getEvent()->getThumbnail());
+                                                $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromUser()->getId(), $value->getEvent()->getThumbnail());
                                                 ?>
-                                                <li><a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a></li>
+                                                <li><a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -707,8 +707,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getObjectId(); ?>', 'Event', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getId(); ?>', 'Event', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -744,7 +744,7 @@ if (is_null($streamBox->error)) {
                                                         <!--THUMB TOUSER-->
                                                         <?php
                                                         $fileManagerService = new FileManagerService();
-                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getObjectId(), $value->getToUser()->getThumbnail());
+                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getId(), $value->getToUser()->getThumbnail());
                                                         ?>
                                                         <img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getToUser()->getUsername(); ?>">
                                                     </div>
@@ -784,7 +784,7 @@ if (is_null($streamBox->error)) {
                                                         <!--THUMB TOUSER-->
                                                         <?php
                                                         $fileManagerService = new FileManagerService();
-                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getObjectId(), $value->getToUser()->getThumbnail());
+                                                        $pathPictureThumbToUser = $fileManagerService->getPhotoPath($value->getToUser()->getId(), $value->getToUser()->getThumbnail());
                                                         ?>
                                                         <img src="<?php echo $pathPictureThumbToUser; ?>" onerror="this.src='<?php echo $defThumb; ?>'" alt="<?php echo $value->getToUser()->getUsername(); ?>">
                                                     </div>
@@ -805,7 +805,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'IMAGEADDEDTOALBUM':
-                if (is_array($value->getImage()->getLovers()) && in_array($currentUser->getObjectId(), $value->getImage()->getLovers())) {
+                if (is_array($value->getImage()->getLovers()) && in_array($currentUser->getId(), $value->getImage()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -831,7 +831,7 @@ if (is_null($streamBox->error)) {
                                                     <!--THUMB Image-->
                                                     <?php
                                                     $fileManagerService = new FileManagerService();
-                                                    $pathImageThumb = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getImage()->getThumbnail());
+                                                    $pathImageThumb = $fileManagerService->getPhotoPath($value->getFromUser()->getId(), $value->getImage()->getThumbnail());
                                                     ?>
                                                     <a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'" alt></a>
                                                 </li>
@@ -846,8 +846,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $value->getImage()->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getId(); ?>', '<?php echo $value->getImage()->getFromUser()->getId(); ?>', 'Image', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -864,7 +864,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'IMAGEUPLOADED':
-                if (is_array($value->getImage()->getLovers()) && in_array($currentUser->getObjectId(), $value->getImage()->getLovers())) {
+                if (is_array($value->getImage()->getLovers()) && in_array($currentUser->getId(), $value->getImage()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -888,7 +888,7 @@ if (is_null($streamBox->error)) {
                                                 <!--THUMB Image-->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathImageThumb = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getImage()->getThumbnail());
+                                                $pathImageThumb = $fileManagerService->getPhotoPath($value->getFromUser()->getId(), $value->getImage()->getThumbnail());
                                                 ?>
                                                 <li><a class="photo-colorbox-group cboxElement" href="#"><img class="photo" src="<?php echo $pathImageThumb; ?>" onerror="this.src='<?php echo DEFIMAGETHUMB; ?>'" alt></a></li>
                                             </ul>
@@ -902,8 +902,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getObjectId(); ?>', '<?php echo $value->getImage()->getFromUser()->getObjectId(); ?>', 'Image', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Image', '<?php echo $value->getImage()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getImage()->getId(); ?>', '<?php echo $value->getImage()->getFromUser()->getId(); ?>', 'Image', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -920,7 +920,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'INVITED':
-                if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getObjectId(), $value->getEvent()->getLovers())) {
+                if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getId(), $value->getEvent()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -945,10 +945,10 @@ if (is_null($streamBox->error)) {
                                                 <!-- THUMBNAIL EVENT -->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getEvent()->getFromUser()->getObjectId(), $value->getEvent()->getThumbnail());
+                                                $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getEvent()->getFromUser()->getId(), $value->getEvent()->getThumbnail());
                                                 ?>
                                                 <li>
-                                                    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a>
+                                                    <a class="photo-colorbox-group cboxElement" href="event.php?event=<?php echo $value->getEvent()->getId(); ?>"><img class="photo" src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -961,8 +961,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getObjectId(); ?>', 'Event', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getId(); ?>', 'Event', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -1011,7 +1011,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'NEWEVENTREVIEW':
-                if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getObjectId(), $value->getEvent()->getLovers())) {
+                if (is_array($value->getEvent()->getLovers()) && in_array($currentUser->getId(), $value->getEvent()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -1033,9 +1033,9 @@ if (is_null($streamBox->error)) {
                                         <!-- THUMBNAIL EVENT -->
                                         <?php
                                         $fileManagerService = new FileManagerService();
-                                        $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getEvent()->getFromUser()->getObjectId(), $value->getEvent()->getThumbnail());
+                                        $pathEventThumb = $fileManagerService->getEventPhotoPath($value->getEvent()->getFromUser()->getId(), $value->getEvent()->getThumbnail());
                                         ?>
-                                        <div class="coverThumb"><a href="event.php?event=<?php echo $value->getEvent()->getObjectId(); ?>"><img src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a></div>
+                                        <div class="coverThumb"><a href="event.php?event=<?php echo $value->getEvent()->getId(); ?>"><img src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFEVENTTHUMB; ?>'" alt="<?php echo $value->getEvent()->getTitle(); ?>"></a></div>
                                     </div>
                                     <div class="small-10 columns ">
                                         <div class="row ">							
@@ -1056,8 +1056,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getObjectId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getObjectId(); ?>', 'Event', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Event', '<?php echo $value->getEvent()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getEvent()->getId(); ?>', '<?php echo $value->getEvent()->getFromUser()->getId(); ?>', 'Event', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -1094,7 +1094,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'NEWRECORDREVIEW':
-                if (is_array($value->getRecord()->getLovers()) && in_array($currentUser->getObjectId(), $value->getRecord()->getLovers())) {
+                if (is_array($value->getRecord()->getLovers()) && in_array($currentUser->getId(), $value->getRecord()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -1116,7 +1116,7 @@ if (is_null($streamBox->error)) {
                                          <!-- THUMBNAIL EVENT -->
                                          <?php
                                          $fileManagerService = new FileManagerService();
-                                         $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getRecord()->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
+                                         $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getRecord()->getFromUser()->getId(), $value->getRecord()->getThumbnail());
                                          ?>
                                          <div class="coverThumb"><a href="record.php?record=<?php echo $pathRecordThumb; ?>"><img src="<?php echo $value->getRecord()->getThumbnail(); ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getRecord()->getTitle(); ?>"></a></div>
                                     </div>
@@ -1139,8 +1139,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $value->getRecord()->getFromUser()->getObjectId(); ?>', 'RecordReview', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getRecord()->getId(); ?>', '<?php echo $value->getRecord()->getFromUser()->getId(); ?>', 'RecordReview', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -1157,7 +1157,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'POSTED':
-                if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getObjectId(), $value->getComment()->getLovers())) {
+                if (is_array($value->getComment()->getLovers()) && in_array($currentUser->getId(), $value->getComment()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -1181,8 +1181,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getObjectId(); ?>', '<?php echo $value->getComment()->getFromUser()->getObjectId(); ?>', 'Comment', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Comment', '<?php echo $value->getComment()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getComment()->getId(); ?>', '<?php echo $value->getComment()->getFromUser()->getId(); ?>', 'Comment', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -1199,7 +1199,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'RECORDCREATED':
-                if (is_array($value->getRecord()->getLovers()) && in_array($currentUser->getObjectId(), $value->getRecord()->getLovers())) {
+                if (is_array($value->getRecord()->getLovers()) && in_array($currentUser->getId(), $value->getRecord()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -1224,10 +1224,10 @@ if (is_null($streamBox->error)) {
                                                 <!-- THUMBNAIL RECORD -->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
+                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getId(), $value->getRecord()->getThumbnail());
                                                 ?>
                                                 <li>
-                                                    <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getObjectId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a>
+                                                    <a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getRecord()->getId(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -1240,8 +1240,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getRecord()->getObjectId(); ?>', '<?php echo $value->getRecord()->getFromUser()->getObjectId(); ?>', 'Record', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Record', '<?php echo $value->getRecord()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getRecord()->getId(); ?>', '<?php echo $value->getRecord()->getFromUser()->getId(); ?>', 'Record', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -1265,7 +1265,7 @@ if (is_null($streamBox->error)) {
               break;
              */
             case 'SONGAADDEDTORECORD':
-                if (is_array($value->getSong()->getLovers()) && in_array($currentUser->getObjectId(), $value->getSong()->getLovers())) {
+                if (is_array($value->getSong()->getLovers()) && in_array($currentUser->getId(), $value->getSong()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -1290,7 +1290,7 @@ if (is_null($streamBox->error)) {
                                                 <!-- THUMBNAIL RECORD -->
                                                 <?php
                                                 $fileManagerService = new FileManagerService();
-                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getRecord()->getThumbnail());
+                                                $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getId(), $value->getRecord()->getThumbnail());
                                                 ?>
                                                 <li><a class="photo-colorbox-group cboxElement" href="record.php?record=<?php echo $value->getSong()->getRecord(); ?>"><img class="photo" src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></li>
                                             </ul>
@@ -1304,8 +1304,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $value->getSong()->getFromUser()->getObjectId(); ?>', 'Song', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getSong()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getSong()->getId(); ?>', '<?php echo $value->getSong()->getFromUser()->getId(); ?>', 'Song', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			
@@ -1322,7 +1322,7 @@ if (is_null($streamBox->error)) {
                 <?php
                 break;
             case 'SONGUPLOADED':
-                if (is_array($value->getSong()->getLovers()) && in_array($currentUser->getObjectId(), $value->getSong()->getLovers())) {
+                if (is_array($value->getSong()->getLovers()) && in_array($currentUser->getId(), $value->getSong()->getLovers())) {
                     $css_love = '_love orange';
                     $text_love = $views['UNLOVE'];
                 } else {
@@ -1343,10 +1343,10 @@ if (is_null($streamBox->error)) {
                                     <!-- THUMBNAIL RECORD -->
                                     <?php
                                     $fileManagerService = new FileManagerService();
-                                    $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getObjectId(), $value->getSong()->getRecord()->getThumbnail());
+                                    $pathRecordThumb = $fileManagerService->getRecordPhotoPath($value->getFromUser()->getId(), $value->getSong()->getRecord()->getThumbnail());
                                     ?>
                                     <div class="small-2 columns">
-                                        <div class="coverThumb"><a href="record.php?record=<?php echo $value->getSong()->getRecord()->getObjectId(); ?>"><img src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>
+                                        <div class="coverThumb"><a href="record.php?record=<?php echo $value->getSong()->getRecord()->getId(); ?>"><img src="<?php echo $pathRecordThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'"></a></div>
                                     </div>
                                     <div class="small-10 columns">
                                         <div class="row">							
@@ -1368,8 +1368,8 @@ if (is_null($streamBox->error)) {
                 <div class="row">
                     <div class="box-propriety">
                         <div class="small-7 columns ">
-                            <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
-                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getSong()->getObjectId(); ?>', '<?php echo $value->getSong()->getFromUser()->getObjectId(); ?>', 'Song', '#<?php echo $value->getObjectId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
+                            <a class="note grey" onclick="love(this, 'Song', '<?php echo $value->getSong()->getId(); ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
+                            <a class="note grey" onclick="loadBoxOpinion('<?php echo $value->getSong()->getId(); ?>', '<?php echo $value->getSong()->getFromUser()->getId(); ?>', 'Song', '#<?php echo $value->getId(); ?> .box-opinion', 10, 0)"><?php echo $views['COMM']; ?></a>
                             <a class="note grey" onclick="share(this, 'Khlv07KRGH', 'social-EventReview')"><?php echo $views['SHARE']; ?></a>
                         </div>
                         <div class="small-5 columns propriety ">			

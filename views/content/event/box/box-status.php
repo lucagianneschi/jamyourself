@@ -4,7 +4,7 @@
  * data: {data,typeCurrentUser}, 
  */
 
-if (in_array($currentUser->getObjectId(), $event->getLovers())) {
+if (in_array($currentUser->getId(), $event->getLovers())) {
     $css_love = '_love orange';
     $text_love = $views['unlove'];
 } else {
@@ -36,7 +36,7 @@ if (in_array($currentUser->getObjectId(), $event->getLovers())) {
     <div class="row recordReview-propriety">
 	<div class="box-propriety">
 	    <div class="small-7 columns ">
-		<a class="note grey" onclick="love(this, 'Event', '<?php echo $event->getObjectId(); ?>', '<?php echo $currentUser->getObjectId(); ?>');"><?php echo $text_love; ?></a>
+		<a class="note grey" onclick="love(this, 'Event', '<?php echo $event->getId(); ?>', '<?php echo $currentUser->getId(); ?>');"><?php echo $text_love; ?></a>
 		<a class="note grey" onclick="setCounter()"><?php echo $views['comm']; ?></a>
 		<a class="note grey" onclick="share()"><?php echo $views['share']; ?></a>
 	    </div>
@@ -59,7 +59,7 @@ if (strtoupper($currentUser->getType()) == 'SPOTTER') {
     <div class="row ">
         <div  class="large-12 columns">
     	<div class="status-button">
-    	    <a href="uploadReview.php?rewiewId=<?php echo $event->getObjectId() ?>&type=Event" class="button bg-orange">
+    	    <a href="uploadReview.php?rewiewId=<?php echo $event->getId() ?>&type=Event" class="button bg-orange">
     		<div class="icon-button _follower_status"><?php echo $views['media']['addreview']; ?></div>
     	    </a>
     	</div>

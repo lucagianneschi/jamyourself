@@ -111,7 +111,7 @@ class UploadReviewController extends REST {
 		$this->response(array("status" => $controllers['nodata']), 406);
 	    }
 	    $toUser = $this->reviewed->getFromUser();
-	    if ($toUser->getObjectId() == $currentUser->getObjectId()) {
+	    if ($toUser->getId() == $currentUser->getId()) {
 		$this->response(array("status" => $controllers['NOSELFREVIEW']), 403);
 	    }
 	    require_once CLASSES_DIR . 'comment.class.php';
@@ -120,7 +120,7 @@ class UploadReviewController extends REST {
 	    $review->setActive(true);
 	    $review->setAlbum(null);
 	    $review->setCounter(0);
-	    $review->setFromUser($currentUser->getObjectId());
+	    $review->setFromUser($currentUser->getId());
 	    $review->setImage(null);
 	    $review->setLocation(null);
 	    $review->setLoveCounter(0);
@@ -130,7 +130,7 @@ class UploadReviewController extends REST {
 	    $review->setTags(array());
 	    $review->setTitle(null);
 	    $review->setText($reviewRequest->review);
-	    $review->setToUser($toUser->getObjectId());
+	    $review->setToUser($toUser->getId());
 	    $review->setVideo(null);
 	    $review->setVote($rating);
 	    switch ($this->reviewedClassType) {
@@ -157,9 +157,9 @@ class UploadReviewController extends REST {
 	    $resRev = $commentParse->saveComment($review);
 	    if ($resRev instanceof Error) {
 		$this->response(array("status" => $controllers['NOSAVEDREVIEW']), 503);
-	    } elseif ($this->saveActivityForNewReview($type, $toUser->getObjectId()) instanceof Error) {
+	    } elseif ($this->saveActivityForNewReview($type, $toUser->getId()) instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackUploadReviewController($resRev->getObjectId());
+		$message = rollbackUploadReviewController($resRev->getId());
 		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array("status" => $controllers['REWSAVED'], "id" => $this->reviewedId), 200);
@@ -181,17 +181,17 @@ class UploadReviewController extends REST {
 	$activity = new Activity();
 	$activity->setActive(true);
 	$activity->setCounter(0);
-	$activity->setFromUser($currentUser->getObjectId());
+	$activity->setFromUser($currentUser->getId());
 	$activity->setRead(false);
 	$activity->setStatus('A');
 	$activity->setType($type);
 	$activity->setToUser($toUser);
 	if ($type == "NEWEVENTREVIEW") {
-	    $activity->setEvent($this->reviewed->getObjectId());
+	    $activity->setEvent($this->reviewed->getId());
 	    $activity->setRecord(null);
 	} else {
 	    $activity->setEvent(null);
-	    $activity->setRecord($this->reviewed->getObjectId());
+	    $activity->setRecord($this->reviewed->getId());
 	}
 	$activityParse = new ActivityParse();
 	$resActivity = $activityParse->saveActivity($activity);

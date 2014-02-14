@@ -25,11 +25,11 @@ switch ($uploadReviewController->reviewedClassType) {
 	break;
 }
 $rating = "3";
-$authorObjectId = $uploadReviewController->reviewedFromUser->getObjectId();
+$authorObjectId = $uploadReviewController->reviewedFromUser->getId();
 $authorThumbnail = $uploadReviewController->reviewedFromUser->getThumbnail();
 $author = $uploadReviewController->reviewedFromUser->getUsername();
 
-if ($authorObjectId == $currentUser->getObjectId()) {
+if ($authorObjectId == $currentUser->getId()) {
     header('Location: stream.php');
 } else {
     ?>

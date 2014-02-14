@@ -16,7 +16,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $followersCounter = $_POST['followersCounter'];
 $followersBox = new FollowersBox();
-$followersBox->init($_POST['objectId']);
+$followersBox->init($_POST['id']);
 
 if (is_null($followersBox->error)) {
     $followers = $followersBox->followersArray;
@@ -36,12 +36,12 @@ if (is_null($followersBox->error)) {
 				    ?> <div class="row">  <?php
 				}
 				$fileManagerService = new FileManagerService();
-				$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
+				$pathPicture = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 				?>
 	    			<div  class="small-6 columns">
-	    			    <a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+	    			    <a href="profile.php?user=<?php echo $value->getId(); ?>">
 	    				<div class="box-membre">
-	    				    <div class="row " id="followers_<?php echo $value->getObjectId(); ?>">
+	    				    <div class="row " id="followers_<?php echo $value->getId(); ?>">
 	    					<div  class="small-3 columns ">
 	    					    <div class="icon-header">
 	    						<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo DEFTHUMBSPOTTER; ?>'" alt="<?php echo $value->getUsername(); ?>">

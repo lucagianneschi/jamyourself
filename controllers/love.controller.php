@@ -52,7 +52,7 @@ class LoveController extends REST {
 	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
 	    if (!isset($this->request['classType'])) {
 		$this->response(array('status' => 'NOCLASSTYPE'), 400);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => 'NOOBJECTID'), 400);
 	    } elseif (!in_array($this->request['classType'], $classTypeAdmitted)) {
 		$this->response(array('status' => 'CLASSTYPEKO'), 400);
@@ -65,18 +65,18 @@ class LoveController extends REST {
 
 	    //recupero i parametri
 	    $classType = $this->request['classType'];
-	    $objectId = $this->request['objectId'];
+	    $id = $this->request['id'];
 	    $toUserObjectId = $this->request['objectIdUser'];
 
 	    //controllo se non ho già lovvato
-	    if ($this->isLoved($fromUser->getObjectId(), $objectId, $classType)) {
+	    if ($this->isLoved($fromUser->getId(), $id, $classType)) {
 		$this->response(array('status' => 'ALREADYLOVED'), 500);
 	    }
 
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setCounter(0);
-	    $activity->setFromUser($fromUser->getObjectId());
+	    $activity->setFromUser($fromUser->getId());
 	    $activity->setQuestion(null);
 	    $activity->setRead(false);
 	    $activity->setStatus("A");
@@ -85,54 +85,54 @@ class LoveController extends REST {
 		case 'Album':
 		    require_once CLASSES_DIR . 'albumParse.class.php';
 		    $albumParse = new AlbumParse();
-		    $res = $albumParse->incrementAlbum($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setAlbum($objectId);
+		    $res = $albumParse->incrementAlbum($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setAlbum($id);
 		    $activity->setType("LOVEDALBUM");
 		    break;
 		case 'Comment':
 		    require_once CLASSES_DIR . 'commentParse.class.php';
 		    $commentParse = new CommentParse();
-		    $res = $commentParse->incrementComment($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setComment($objectId);
+		    $res = $commentParse->incrementComment($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setComment($id);
 		    $activity->setType("LOVEDCOMMENT");
 		    break;
 		case 'Event':
 		    require_once CLASSES_DIR . 'eventParse.class.php';
 		    $eventParse = new EventParse();
-		    $res = $eventParse->incrementEvent($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setEvent($objectId);
+		    $res = $eventParse->incrementEvent($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setEvent($id);
 		    $activity->setType("LOVEDEVENT");
 		    break;
 		case 'Image':
 		    require_once CLASSES_DIR . 'imageParse.class.php';
 		    $imageParse = new ImageParse();
-		    $res = $imageParse->incrementImage($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setImage($objectId);
+		    $res = $imageParse->incrementImage($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setImage($id);
 		    $activity->setType("LOVEDIMAGE");
 		    break;
 		case 'Record':
 		    require_once CLASSES_DIR . 'recordParse.class.php';
 		    $recordParse = new RecordParse();
-		    $res = $recordParse->incrementRecord($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setRecord($objectId);
+		    $res = $recordParse->incrementRecord($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setRecord($id);
 		    $activity->setType("LOVEDRECORD");
 		    break;
 		case 'Song':
 		    require_once CLASSES_DIR . 'songParse.class.php';
 		    $songParse = new SongParse();
-		    $res = $songParse->incrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		    $res = $songParse->incrementSong($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
 		    require_once CLASSES_DIR . 'userParse.class.php';
 		    $userParse = new UserParse();
-		    $userParse->updateField($fromUser->getObjectId(), 'loveSongs', array($objectId), true, 'add', 'Song');
-		    $activity->setSong($objectId);
+		    $userParse->updateField($fromUser->getId(), 'loveSongs', array($id), true, 'add', 'Song');
+		    $activity->setSong($id);
 		    $activity->setType("LOVEDSONG");
 		    break;
 		case 'Video':
 		    require_once CLASSES_DIR . 'videoParse.class.php';
 		    $videoParse = new VideoParse();
-		    $res = $videoParse->incrementVideo($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		    $res = $videoParse->incrementVideo($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
 		    $activity->setType("LOVEDVIDEO");
-		    $activity->setVideo($objectId);
+		    $activity->setVideo($id);
 		    break;
 	    }
 	    if ($res instanceof Error) {
@@ -142,7 +142,7 @@ class LoveController extends REST {
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error) {
 		    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-		    $message = rollbackLoveController($classType, $objectId, 'decrement', $fromUser);
+		    $message = rollbackLoveController($classType, $id, 'decrement', $fromUser);
 		    $this->response(array('status' => $message), 503);
 		}
 	    }
@@ -172,7 +172,7 @@ class LoveController extends REST {
 	    $classTypeAdmitted = array('Album', 'Comment', 'Event', 'Image', 'Record', 'Song', 'Video');
 	    if (!isset($this->request['classType'])) {
 		$this->response(array('status' => 'NOCLASSTYPE'), 400);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => 'NOOBJECTID'), 400);
 	    } elseif (!in_array($this->request['classType'], $classTypeAdmitted)) {
 		$this->response(array('status' => 'CLASSTYPEKO'), 400);
@@ -185,21 +185,21 @@ class LoveController extends REST {
 
 	    //recupero i parametri
 	    $classType = $this->request['classType'];
-	    $objectId = $this->request['objectId'];
+	    $id = $this->request['id'];
 	    $toUserObjectId = $this->request['objectIdUser'];
 
 	    #TODO
 	    //devo farmi passare questo per poter avere la notifica
 	    //$toUser = $this->request['toUser'];
 	    //controllo se non ho già lovvato
-	    if (!$this->isLoved($fromUser->getObjectId(), $objectId, $classType)) {
+	    if (!$this->isLoved($fromUser->getId(), $id, $classType)) {
 		$this->response(array('status' => 'NOLOVE'), 400);
 	    }
 
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setCounter(0);
-	    $activity->setFromUser($fromUser->getObjectId());
+	    $activity->setFromUser($fromUser->getId());
 	    $activity->setQuestion(null);
 	    $activity->setRead(true);
 	    $activity->setStatus("A");
@@ -208,54 +208,54 @@ class LoveController extends REST {
 		case 'Album':
 		    require_once CLASSES_DIR . 'albumParse.class.php';
 		    $albumParse = new AlbumParse();
-		    $res = $albumParse->decrementAlbum($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setAlbum($objectId);
+		    $res = $albumParse->decrementAlbum($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setAlbum($id);
 		    $activity->setType("UNLOVEDALBUM");
 		    break;
 		case 'Comment':
 		    require_once CLASSES_DIR . 'commentParse.class.php';
 		    $commentParse = new CommentParse();
-		    $res = $commentParse->decrementComment($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setComment($objectId);
+		    $res = $commentParse->decrementComment($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setComment($id);
 		    $activity->setType("UNLOVEDCOMMENT");
 		    break;
 		case 'Event':
 		    require_once CLASSES_DIR . 'eventParse.class.php';
 		    $eventParse = new EventParse();
-		    $res = $eventParse->decrementEvent($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setEvent($objectId);
+		    $res = $eventParse->decrementEvent($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setEvent($id);
 		    $activity->setType("UNLOVEDEVENT");
 		    break;
 		case 'Image':
 		    require_once CLASSES_DIR . 'imageParse.class.php';
 		    $imageParse = new ImageParse();
-		    $res = $imageParse->decrementImage($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setImage($objectId);
+		    $res = $imageParse->decrementImage($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setImage($id);
 		    $activity->setType("UNLOVEDIMAGE");
 		    break;
 		case 'Record':
 		    require_once CLASSES_DIR . 'recordParse.class.php';
 		    $recordParse = new RecordParse();
-		    $res = $recordParse->decrementRecord($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
-		    $activity->setRecord($objectId);
+		    $res = $recordParse->decrementRecord($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
+		    $activity->setRecord($id);
 		    $activity->setType("UNLOVEDRECORD");
 		    break;
 		case 'Song':
 		    require_once CLASSES_DIR . 'songParse.class.php';
 		    $songParse = new SongParse();
-		    $res = $songParse->decrementSong($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		    $res = $songParse->decrementSong($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
 		    require_once CLASSES_DIR . 'userParse.class.php';
 		    $userParse = new UserParse();
-		    $userParse->updateField($fromUser->getObjectId(), 'loveSongs', array($objectId), true, 'remove', 'Song');
-		    $activity->setSong($objectId);
+		    $userParse->updateField($fromUser->getId(), 'loveSongs', array($id), true, 'remove', 'Song');
+		    $activity->setSong($id);
 		    $activity->setType("UNLOVEDSONG");
 		    break;
 		case 'Video':
 		    require_once CLASSES_DIR . 'videoParse.class.php';
 		    $videoParse = new VideoParse();
-		    $res = $videoParse->decrementVideo($objectId, 'loveCounter', 1, true, 'lovers', array($fromUser->getObjectId()));
+		    $res = $videoParse->decrementVideo($id, 'loveCounter', 1, true, 'lovers', array($fromUser->getId()));
 		    $activity->setType("UNLOVEDVIDEO");
-		    $activity->setVideo($objectId);
+		    $activity->setVideo($id);
 		    break;
 	    }
 	    if ($res instanceof Error) {
@@ -265,7 +265,7 @@ class LoveController extends REST {
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error) {
 		    require_once CONTROLLERS_DIR . 'rollBack.controller.php';
-		    $message = rollbackLoveController($classType, $objectId, 'increment', $fromUser);
+		    $message = rollbackLoveController($classType, $id, 'increment', $fromUser);
 		    $this->response(array('status' => $message), 503);
 		}
 	    }
@@ -275,42 +275,42 @@ class LoveController extends REST {
 	}
     }
 
-    private function isLoved($objectIdUser, $objectId, $classType) {
+    private function isLoved($objectIdUser, $id, $classType) {
 	switch ($classType) {
 	    case 'Album':
 		require_once CLASSES_DIR . 'albumParse.class.php';
 		$albumParse = new AlbumParse();
-		$res = $albumParse->getAlbum($objectId);
+		$res = $albumParse->getAlbum($id);
 		break;
 	    case 'Comment':
 		require_once CLASSES_DIR . 'commentParse.class.php';
 		$commentParse = new CommentParse();
-		$res = $commentParse->getComment($objectId);
+		$res = $commentParse->getComment($id);
 		break;
 	    case 'Event':
 		require_once CLASSES_DIR . 'eventParse.class.php';
 		$eventParse = new EventParse();
-		$res = $eventParse->getEvent($objectId);
+		$res = $eventParse->getEvent($id);
 		break;
 	    case 'Image':
 		require_once CLASSES_DIR . 'imageParse.class.php';
 		$imageParse = new ImageParse();
-		$res = $imageParse->getImage($objectId);
+		$res = $imageParse->getImage($id);
 		break;
 	    case 'Record':
 		require_once CLASSES_DIR . 'recordParse.class.php';
 		$recordParse = new RecordParse();
-		$res = $recordParse->getRecord($objectId);
+		$res = $recordParse->getRecord($id);
 		break;
 	    case 'Song':
 		require_once CLASSES_DIR . 'songParse.class.php';
 		$songParse = new SongParse();
-		$res = $songParse->getSong($objectId);
+		$res = $songParse->getSong($id);
 		break;
 	    case 'Video':
 		require_once CLASSES_DIR . 'videoParse.class.php';
 		$videoParse = new VideoParse();
-		$res = $videoParse->getVideo($objectId);
+		$res = $videoParse->getVideo($id);
 		break;
 	}
 	$loved = in_array($objectIdUser, $res->getLovers()) ? true : false;

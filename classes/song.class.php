@@ -19,7 +19,7 @@
 
 class Song {
 
-    private $objectId;
+    private $id;
     private $createdAt;
     private $updatedAt;
     private $active;
@@ -38,12 +38,12 @@ class Song {
     private $title;
 
     /**
-     * \fn	int getObjectId()
-     * \brief	Return the objectId value
+     * \fn	int getId()
+     * \brief	Return the id value
      * \return	string
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class Song {
     }
 
     /**
-     * \fn	BOOL getObjectId()
+     * \fn	BOOL getId()
      * \brief	Return the active value
      * \return	BOOL
      */
@@ -102,7 +102,7 @@ class Song {
 
     /**
      * \fn	int getFromUser()
-     * \brief	Return the objectId value for the fromUser
+     * \brief	Return the id value for the fromUser
      * \return	int
      */
     public function getFromUser() {
@@ -165,7 +165,7 @@ class Song {
 
     /**
      * \fn	int getRecord()
-     * \brief	Return the record value,string of the objectId of the related record
+     * \brief	Return the record value,string of the id of the related record
      * \return	int
      */
     public function getRecord() {
@@ -191,12 +191,12 @@ class Song {
     }
 
     /**
-     * \fn	void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn	void setId($id)
+     * \brief	Sets the id value
      * \param	int
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
@@ -255,7 +255,7 @@ class Song {
 
     /**
      * \fn	void setFromUser($fromUser)
-     * \brief	Sets the fromUser objectId  value
+     * \brief	Sets the fromUser id  value
      * \param	string
      */
     public function setFromUser($fromUser) {
@@ -318,7 +318,7 @@ class Song {
 
     /**
      * \fn	void setRecord($record) 
-     * \brief	Sets the record objectId value
+     * \brief	Sets the record id value
      * \param	int
      */
     public function setRecord($record) {
@@ -350,7 +350,7 @@ class Song {
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
 	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';

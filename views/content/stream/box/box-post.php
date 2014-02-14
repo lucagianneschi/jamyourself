@@ -21,7 +21,7 @@ if (session_id() == '')
 
 $currentUser = $_SESSION['currentUser'];
 $postBox = new PostBox();
-$postBox->initForStream($currentUser->getObjectId(), 1);
+$postBox->initForStream($currentUser->getId(), 1);
 $posts = $postBox->postArray;
 if (count($posts) == 0) {
     ?>
@@ -31,7 +31,7 @@ if (count($posts) == 0) {
 } else {
     $post = current($posts);
     ?>
-    <div id='<?php echo $post->getObjectId(); ?>'>
+    <div id='<?php echo $post->getId(); ?>'>
         <br /><br />
         <p class="grey"><?php echo $views['stream']['last_post']; ?></p>
         <h5 style="margin-top:0"><?php echo $post->getText(); ?></h5>

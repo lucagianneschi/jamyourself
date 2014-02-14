@@ -1,8 +1,8 @@
-function sendComment(toUser, comment, objectId, classType, box, limit, skip) {
+function sendComment(toUser, comment, id, classType, box, limit, skip) {
     var json_comment = {};
     json_comment.toUser = toUser;
     json_comment.comment = comment;
-    json_comment.objectId = objectId;
+    json_comment.id = id;
     json_comment.classType = classType;
     json_comment.request = 'comment';
 

@@ -23,16 +23,16 @@ $currentUser = $_SESSION['currentUser'];
 $level = $user->getLevel();
 $levelValue = $user->getLevelValue();
 $type = $user->getType();
-$objectId = $user->getObjectId();
+$id = $user->getId();
 
 $currentUserType = $currentUser->getType();
-$currentUser = $currentUser->getObjectId();
+$currentUser = $currentUser->getId();
 $badge = $user->getBadge();
 $noBadge = 10 - count($badge);
 
 $css_message = '';
 $css_relation = 'no-display';
-if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
+if (!relationChecker($currentUser, $currentUserType, $id, $type)) {
     $css_message = 'no-display';
     $css_relation = '';
 }
@@ -94,15 +94,15 @@ if (!relationChecker($currentUser, $currentUserType, $objectId, $type)) {
     <div class="row <?php echo $type . ' ' . $currentUserType ?>" >
 	<div  class="large-12 columns"><div class="line"></div></div>
     </div>
-    <?php if ($currentUser != $objectId) { ?>
+    <?php if ($currentUser != $id) { ?>
         <div class="row">
     	<div  class="large-12 columns">
     	    <div class="status-button">
-    		<a href="message.php?user=<?php echo $objectId ?>" class="button bg-grey <?php echo $css_message ?>"><div class="icon-button _message_status"> <?php echo $views['status']['sendmsg']; ?></div></a>
+    		<a href="message.php?user=<?php echo $id ?>" class="button bg-grey <?php echo $css_message ?>"><div class="icon-button _message_status"> <?php echo $views['status']['sendmsg']; ?></div></a>
 		    <?php if ($currentUserType == "SPOTTER" && $type == "SPOTTER") { ?>
 			<a href="#" class="button bg-orange"><div class="icon-button _friend_status <?php echo $css_relation ?>"><?php echo $views['status']['addfriend']; ?></div></a>
 		    <?php } elseif (($currentUserType == "JAMMER" || $currentUserType == "VENUE") && ($type == "JAMMER" || $type == "VENUE")) { ?>
-			<a href="#" class="button bg-orange <?php echo $css_relation ?>" onclick="sendRelation('<?php echo $objectId ?>');">
+			<a href="#" class="button bg-orange <?php echo $css_relation ?>" onclick="sendRelation('<?php echo $id ?>');">
 			    <div class="icon-button _follower_status">
 				<?php echo $views['status']['coll']; ?>
 			    </div>

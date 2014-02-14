@@ -53,7 +53,7 @@ class PlayerController extends REST {
 	    if ($song instanceof Error) {
 		$this->response(array('status' => $controllers['ERRORSONGINFO']), 503);
 	    }
-	    $activity = $this->createActivity($currentUser->getObjectId(), $song->getRecord(), $songId);
+	    $activity = $this->createActivity($currentUser->getId(), $song->getRecord(), $songId);
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $resActivity = $activityParse->saveActivity($activity);

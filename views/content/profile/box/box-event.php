@@ -20,7 +20,7 @@ if (session_id() == '')
     session_start();
 
 $eventBox = new EventBox();
-$eventBox->initForPersonalPage($_POST['objectId']);
+$eventBox->initForPersonalPage($_POST['id']);
 
 $typeUser = $_POST['typeUser'];
 
@@ -67,7 +67,7 @@ if (is_null($eventBox->error)) {
 				?><div class="rsContent">	<?php
 			    }
 			    $event_thumbnail = $value->getThumbnail();
-			    $event_objectId = $value->getObjectId();
+			    $event_objectId = $value->getId();
 			    $event_locationName = $value->getLocationName();
 			    $event_title = $value->getTitle();
 			    $event_featuring = "";
@@ -114,8 +114,8 @@ if (is_null($eventBox->error)) {
 			    $event_comment = $value->getCommentCounter();
 			    $event_review = $value->getReviewCounter();
 			    $event_share = $value->getShareCounter();
-			    $pathCoverEvent = $fileManagerService->getEventPhotoPath($_POST['objectId'], $event_thumbnail);
-			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+			    $pathCoverEvent = $fileManagerService->getEventPhotoPath($_POST['id'], $event_thumbnail);
+			    if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 				$css_love = '_love orange';
 				$text_love = $views['unlove'];
 			    } else {

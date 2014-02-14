@@ -19,7 +19,7 @@
 
 class Record {
 
-    private $objectId;
+    private $id;
     private $createdAt;
     private $updatedAt;
     private $active;
@@ -45,12 +45,12 @@ class Record {
     private $year;
 
     /**
-     * \fn	int getObjectId()
-     * \brief	Return the objectId value
+     * \fn	int getId()
+     * \brief	Return the id value
      * \return	int
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
     }
 
     /**
@@ -72,7 +72,7 @@ class Record {
     }
 
     /**
-     * \fn	BOOL getObjectId()
+     * \fn	BOOL getId()
      * \brief	Return the active value
      * \return	BOOL
      */
@@ -145,7 +145,7 @@ class Record {
 
     /**
      * \fn	int getFromUser()
-     * \brief	Return the objectId value for the fromUser
+     * \brief	Return the id value for the fromUser
      * \return	int
      */
     public function getFromUser() {
@@ -261,12 +261,12 @@ class Record {
     }
 
     /**
-     * \fn	void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn	void setId($id)
+     * \brief	Sets the id value
      * \param	int
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
@@ -361,7 +361,7 @@ class Record {
 
     /**
      * \fn	void setFromUser($fromUser)
-     * \brief	Sets the fromUser objectId  value
+     * \brief	Sets the fromUser id  value
      * \param	int
      */
     public function setFromUser($fromUser) {
@@ -483,7 +483,7 @@ class Record {
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
 	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';

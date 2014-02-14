@@ -83,7 +83,7 @@ class UploadEventController extends REST {
 		$this->response(array('status' => $controllers['NOEVENTADDRESS']), 400);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $userId = $currentUser->getObjectId();
+	    $userId = $currentUser->getId();
 	    require_once CLASSES_DIR . 'event.class.php';
 	    $event = new Event();
 	    $event->setActive(true);
@@ -133,16 +133,16 @@ class UploadEventController extends REST {
 		rename(CACHE_DIR . DIRECTORY_SEPARATOR . $eventSave->getImage(), $imageSrc);
 	    }
 	    unset($_SESSION['currentUserFeaturingArray']);
-	    $activity = $this->createActivity($userId, $eventSave->getObjectId());
+	    $activity = $this->createActivity($userId, $eventSave->getId());
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityP = new ActivityParse();
 	    $activitySave = $activityP->saveActivity($activity);
 	    if ($activitySave instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackUploadEventController($eventSave->getObjectId());
+		$message = rollbackUploadEventController($eventSave->getId());
 		$this->response(array('status' => $message), 503);
 	    }
-	    $this->response(array('status' => $controllers['EVENTCREATED'], "id" => $eventSave->getObjectId()), 200);
+	    $this->response(array('status' => $controllers['EVENTCREATED'], "id" => $eventSave->getId()), 200);
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
 	}

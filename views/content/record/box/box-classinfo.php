@@ -18,7 +18,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $title = $record->getTitle();
 $genre = $record->getGenre();
-$fromUserObjectId = $record->getFromUser()->getObjectId();
+$fromUserObjectId = $record->getFromUser()->getId();
 $fileManagerService = new FileManagerService();
 $pathCoverRecord = $fileManagerService->getRecordPhotoPath($fromUserObjectId, $record->getCover());
 $arrayGenre = explode(",", $genre);

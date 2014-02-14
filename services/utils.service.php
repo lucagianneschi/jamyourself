@@ -95,7 +95,7 @@ function sendMailForNotification($address, $subject, $html) {
 
 /**
  * \fn		sessionChecker()
- * \brief	The function returns a string wiht the objectId of the user in session, if there's no user return a invalid ID used (valid for the code)
+ * \brief	The function returns a string wiht the id of the user in session, if there's no user return a invalid ID used (valid for the code)
  * \return	string $currentUserId;
  */
 function sessionChecker() {
@@ -105,7 +105,7 @@ function sessionChecker() {
     $currentUserId = null;
     if ($sessionExist == TRUE && isset($_SESSION['currentUser'])) {
 	$currentUser = $_SESSION['currentUser'];
-	$currentUserId = $currentUser->getObjectId();
+	$currentUserId = $currentUser->getId();
     }
     return $currentUserId;
 }

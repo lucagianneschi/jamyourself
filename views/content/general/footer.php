@@ -1,10 +1,10 @@
 <?php
 $username = '';
-$objectId = '';
+$id = '';
 if (isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $username = $currentUser->getUsername();
-    $objectId = $currentUser->getObjectId();
+    $id = $currentUser->getId();
 }
 ?>
 <footer id="footer" >
@@ -28,7 +28,7 @@ if (isset($_SESSION['currentUser'])) {
 			<a class="ico-label _off" onclick="access(null, null, 'logout', null)"></a>
 		    </div>
 		    <div class="large-11 columns hide-for-small align-right" style="padding: 0px">						
-			<div class="user"><a class="user" onclick="location.href = 'profile.php?user=<?php echo $objectId ?>'"><?php echo $username; ?></a></div>									
+			<div class="user"><a class="user" onclick="location.href = 'profile.php?user=<?php echo $id ?>'"><?php echo $username; ?></a></div>									
 		    </div>		
 		</div>						
 	    </div>

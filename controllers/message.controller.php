@@ -52,24 +52,24 @@ class MessageController extends REST {
 		$this->response(array('status' => $controllers['NOPOSTREQUEST']), 405);
 	    } elseif (!isset($_SESSION['currentUser'])) {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    }
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $objectId = $this->request['objectId'];
+	    $id = $this->request['id'];
 	    $activityP = new ActivityParse();
-	    $activity = $activityP->getActivity($objectId);
+	    $activity = $activityP->getActivity($id);
 	    if ($activity instanceof Error) {
 		$this->response(array('status' => $controllers['NOACTFORREADMESS']), 503);
 	    } elseif ($activity->getRead() != false) {
 		$this->response(array('status' => $controllers['ALREADYREAD']), 503);
 	    } else {
-		$res = $activityP->updateField($objectId, 'read', true);
-		$res1 = $activityP->updateField($objectId, 'status', 'A');
+		$res = $activityP->updateField($id, 'read', true);
+		$res1 = $activityP->updateField($id, 'status', 'A');
 	    }
 	    if ($res instanceof Error || $res1 instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($objectId, 'readMessage');
+		$message = rollbackMessageController($id, 'readMessage');
 		$this->response(array('status' => $message), 503);
 	    }
 	    $this->response(array($controllers['MESSAGEREAD']), 200);
@@ -100,7 +100,7 @@ class MessageController extends REST {
 	    $currentUser = $_SESSION['currentUser'];
 	    $toUserId = $this->request['toUser'];
 	    $toUserType = $this->request['toUserType'];
-	    if (!relationChecker($currentUser->getObjectId(), $currentUser->getType(), $toUserId, $toUserType)) {
+	    if (!relationChecker($currentUser->getId(), $currentUser->getType(), $toUserId, $toUserType)) {
 		$this->response(array('status' => $controllers['NOSPAM']), 401);
 	    }
 	    $text = $this->request['message'];
@@ -112,7 +112,7 @@ class MessageController extends REST {
 	    $message = new Comment();
 	    $message->setActive(true);
 	    $message->setCommentCounter(0);
-	    $message->setFromUser($currentUser->getObjectId());
+	    $message->setFromUser($currentUser->getId());
 	    $message->setLocation(null);
 	    $message->setLoveCounter(0);
 	    $message->setLovers(array());
@@ -130,19 +130,19 @@ class MessageController extends REST {
 		$this->response(array('status' => 'NOSAVEMESS'), 503);
 	    }
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $toActivity = $this->createActivity($currentUser->getObjectId(), $toUserId, 'P', $resCmt->getObjectId(), 'MESSAGESENT');
-	    $fromActivity = $this->createActivity($toUserId, $currentUser->getObjectId(), 'A', $resCmt->getObjectId(), 'MESSAGESENT');
+	    $toActivity = $this->createActivity($currentUser->getId(), $toUserId, 'P', $resCmt->getId(), 'MESSAGESENT');
+	    $fromActivity = $this->createActivity($toUserId, $currentUser->getId(), 'A', $resCmt->getId(), 'MESSAGESENT');
 	    $activityParse = new ActivityParse();
 	    $resToActivity = $activityParse->saveActivity($toActivity);
 	    $resFromActivity = $activityParse->saveActivity($fromActivity);
 	    if ($resToActivity instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
+		$message = rollbackMessageController($resCmt->getId(), 'sendMessage');
 		$this->response(array('status' => $message), 503);
 	    }
 	    if ($resFromActivity instanceof Error) {
 		require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		$message = rollbackMessageController($resCmt->getObjectId(), 'sendMessage');
+		$message = rollbackMessageController($resCmt->getId(), 'sendMessage');
 		$this->response(array('status' => $message), 503);
 	    }
 	    global $mail_files;
@@ -163,7 +163,7 @@ class MessageController extends REST {
     /**
      * \fn	createActivity($fromUser,$toUser)
      * \brief   private function to delete activity class instance
-     * \param   $objectId
+     * \param   $id
      */
     public function deleteConversation() {
 	global $controllers;
@@ -179,7 +179,7 @@ class MessageController extends REST {
 	    $toUser = $this->request['toUser'];
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new ActivityParse();
-	    $activity->wherePointer('fromUser', '_User', $currentUser->getObjectId());
+	    $activity->wherePointer('fromUser', '_User', $currentUser->getId());
 	    $activity->wherePointer('toUser', '_User', $toUser);
 	    $activity->where('type', 'MESSAGESENT');
 	    $activity->where('status', 'A');
@@ -191,7 +191,7 @@ class MessageController extends REST {
 		$this->response(array('status' => 'NO_DEL'), 503);
 	    } else {
 		foreach ($conversation as $message) {
-		    $statusUpdate = $activity->updateField($message->getObjectId(), 'status', 'D');
+		    $statusUpdate = $activity->updateField($message->getId(), 'status', 'D');
 		    if ($statusUpdate instanceof Error) {
 			$this->response(array('status' => 'ERROR_DEL_MSG'), 503);
 		    }

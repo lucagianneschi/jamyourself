@@ -26,7 +26,7 @@ require_once ROOT_DIR . 'config.php';
 function checkUserInEventRelation($userId, $eventId, $field) {
     require_once CLASSES_DIR . 'eventParse.class.php';
     $eventP = new EventParse();
-    $eventP->where('objectId', $eventId);
+    $eventP->where('id', $eventId);
     $eventP->where('active', true);
     $eventP->whereRelatedTo($field, '_User', $userId);
     $check = $eventP->getCount();

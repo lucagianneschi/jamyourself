@@ -111,7 +111,7 @@ class SignupController extends REST {
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activity = new Activity();
 	    $activity->setActive(true);
-	    $activity->setFromUser($user->getObjectId());
+	    $activity->setFromUser($user->getId());
 	    $activity->setRead(true);
 	    $activity->setStatus("A");
 	    $activity->setType("SIGNEDUP");
@@ -121,11 +121,11 @@ class SignupController extends REST {
 	    $this->debug("signup", "activity saved => " . var_export($activity, true));
 	    $_SESSION['currentUser'] = $user;
 	    $this->debug("signup", "create FileSystem Structure...");
-	    $this->createFileSystemStructure($user->getObjectId(), $user->getType());
-	    $this->createImageDefaultAlbum($user->getObjectId());
-	    $this->createDefaultPlaylist($user->getObjectId());
+	    $this->createFileSystemStructure($user->getId(), $user->getType());
+	    $this->createImageDefaultAlbum($user->getId());
+	    $this->createDefaultPlaylist($user->getId());
 	    if ($user->getType() == "JAMMER") {
-		$this->createRecordDefaultAlbum($user->getObjectId());
+		$this->createRecordDefaultAlbum($user->getId());
 	    }
 	    if (!is_null($user->getThumbnail()) && strlen($user->getThumbnail()) > 0 && strlen($user->getAvatar()) && !is_null($user->getAvatar())) {
 		$res_1 = false;
@@ -133,8 +133,8 @@ class SignupController extends REST {
 		$src_img = CACHE_DIR . $user->getAvatar();
 		$src_thumb = CACHE_DIR . $user->getThumbnail();
 		$fileManager = new FileManagerService();
-		$dest_img = $fileManager->getPhotoPath($user->getObjectId(), $user->getAvatar());
-		$dest_thumb = $fileManager->getPhotoPath($user->getObjectId(), $user->getThumbnail());
+		$dest_img = $fileManager->getPhotoPath($user->getId(), $user->getAvatar());
+		$dest_thumb = $fileManager->getPhotoPath($user->getId(), $user->getThumbnail());
 		$this->debug("signup", "Source image : " . $src_img);
 		$this->debug("signup", "Destination image : " . $dest_img);
 		$this->debug("signup", "Source thumbnail : " . $src_thumb);

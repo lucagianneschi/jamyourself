@@ -15,7 +15,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 require_once SERVICES_DIR . 'debug.service.php';
 
 $collaboratorsBox = new CollaboratorsBox();
-$collaboratorsBox->init($_POST['objectId']);
+$collaboratorsBox->init($_POST['id']);
 
 if (is_null($collaboratorsBox->error)) {
     $venuesCollaborators = $collaboratorsBox->venueArray;
@@ -56,15 +56,15 @@ if (is_null($collaboratorsBox->error)) {
 				    if ($i % 2 == 0) {
 					?> <div class="row">  <?php } ?>
 					<div  class="small-6 columns">
-					    <a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+					    <a href="profile.php?user=<?php echo $value->getId(); ?>">
 						<div class="box-membre">
-						    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+						    <div class="row " id="collaborator_<?php echo $value->getId(); ?>">
 							<div  class="small-3 columns ">
 							    <div class="icon-header">
 								<!-- THUMB USER-->
 								<?php
 								$fileManagerService = new FileManagerService();
-								$thumbPath = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
+								$thumbPath = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 								?>
 								<img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 							    </div>
@@ -113,14 +113,14 @@ if (is_null($collaboratorsBox->error)) {
 					?> <div class="row">  <?php }
 				    ?>
 					<div  class="small-6 columns">
-					    <a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+					    <a href="profile.php?user=<?php echo $value->getId(); ?>">
 						<div class="box-membre">
-						    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+						    <div class="row " id="collaborator_<?php echo $value->getId(); ?>">
 							<div  class="small-3 columns ">
 							    <div class="icon-header">
 								<?php
 								$fileManagerService1 = new FileManagerService();
-								$thumbPath1 = $fileManagerService1->getPhotoPath($value->getObjectId(), $value->getThumbnail());
+								$thumbPath1 = $fileManagerService1->getPhotoPath($value->getId(), $value->getThumbnail());
 								?>
 								<img src="<?php echo $thumbPath1; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
 							    </div>

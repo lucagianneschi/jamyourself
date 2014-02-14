@@ -1,6 +1,6 @@
-function sendPost(objectId, post) {
+function sendPost(id, post) {
     var json_post = {};
-    json_post.toUser = objectId;
+    json_post.toUser = id;
     json_post.post = post;
     json_post.request = 'post';
 

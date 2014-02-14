@@ -45,7 +45,7 @@ class SocialController extends REST {
 
 	    if (!isset($this->request['classType'])) {
 		$this->response(array('status' => $controllers['NOCLASSTYPE']), 403);
-	    } elseif (!isset($this->request['objectId'])) {
+	    } elseif (!isset($this->request['id'])) {
 		$this->response(array('status' => $controllers['NOOBJECTID']), 403);
 	    } elseif (!isset($this->request['toUser'])) {
 		$this->response(array('status' => $controllers['NOTOUSER']), 403);
@@ -55,16 +55,16 @@ class SocialController extends REST {
 	    $fromUser = $_SESSION['currentUser'];
 
 	    $classType = $this->request['classType'];
-	    $objectId = $this->request['objectId'];
+	    $id = $this->request['id'];
 	    $toUserObjectId = $this->request['toUser'];
 
 	    require_once CLASSES_DIR . 'activity.class.php';
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $read = $fromUser->getObjectId() == $toUserObjectId ? true : false;
+	    $read = $fromUser->getId() == $toUserObjectId ? true : false;
 	    $activity = new Activity();
 	    $activity->setActive(true);
 	    $activity->setCounter(0);
-	    $activity->setFromUser($fromUser->getObjectId());
+	    $activity->setFromUser($fromUser->getId());
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
 	    $activity->setRead($read);
@@ -74,50 +74,50 @@ class SocialController extends REST {
 		case 'Album':
 		    require_once CLASSES_DIR . 'albumParse.class.php';
 		    $albumParse = new AlbumParse();
-		    $res = $albumParse->incrementAlbum($objectId, 'shareCounter', 1);
-		    $activity->setAlbum($objectId);
+		    $res = $albumParse->incrementAlbum($id, 'shareCounter', 1);
+		    $activity->setAlbum($id);
 		    $activity->setType('SHAREDALBUM');
 		    break;
 		case 'AlbumReview':
 		    require_once CLASSES_DIR . 'commentParse.class.php';
 		    $commentParse = new CommentParse();
-		    $res = $commentParse->incrementComment($objectId, 'shareCounter', 1);
-		    $activity->setComment($objectId);
+		    $res = $commentParse->incrementComment($id, 'shareCounter', 1);
+		    $activity->setComment($id);
 		    $activity->setType('SHAREDALBUMREVIEW');
 		    break;
 		case 'Event':
 		    require_once CLASSES_DIR . 'eventParse.class.php';
 		    $eventParse = new EventParse();
-		    $res = $eventParse->incrementEvent($objectId, 'shareCounter', 1);
-		    $activity->setEvent($objectId);
+		    $res = $eventParse->incrementEvent($id, 'shareCounter', 1);
+		    $activity->setEvent($id);
 		    $activity->setType('SHAREDEVENT');
 		    break;
 		case 'EventReview':
 		    require_once CLASSES_DIR . 'commentParse.class.php';
 		    $commentParse = new CommentParse();
-		    $res = $commentParse->incrementComment($objectId, 'shareCounter', 1);
-		    $activity->setComment($objectId);
+		    $res = $commentParse->incrementComment($id, 'shareCounter', 1);
+		    $activity->setComment($id);
 		    $activity->setType('SHAREDEVENTREVIEW');
 		    break;
 		case 'Image':
 		    require_once CLASSES_DIR . 'imageParse.class.php';
 		    $imageParse = new ImageParse();
-		    $res = $imageParse->incrementImage($objectId, 'shareCounter', 1);
-		    $activity->setImage($objectId);
+		    $res = $imageParse->incrementImage($id, 'shareCounter', 1);
+		    $activity->setImage($id);
 		    $activity->setType('SHAREDIMAGE');
 		    break;
 		case 'Record':
 		    require_once CLASSES_DIR . 'recordParse.class.php';
 		    $recordParse = new RecordParse();
-		    $res = $recordParse->incrementRecord($objectId, 'shareCounter', 1);
-		    $activity->setRecord($objectId);
+		    $res = $recordParse->incrementRecord($id, 'shareCounter', 1);
+		    $activity->setRecord($id);
 		    $activity->setType('SHAREDRECORD');
 		    break;
 		case 'Song':
 		    require_once CLASSES_DIR . 'songParse.class.php';
 		    $songParse = new SongParse();
-		    $res = $songParse->incrementSong($objectId, 'shareCounter', 1);
-		    $activity->setSong($objectId);
+		    $res = $songParse->incrementSong($id, 'shareCounter', 1);
+		    $activity->setSong($id);
 		    $activity->setType('SHAREDSONG');
 		    break;
 	    }
@@ -128,7 +128,7 @@ class SocialController extends REST {
 		$resActivity = $activityParse->saveActivity($activity);
 		if ($resActivity instanceof Error) {
 		    require_once CONTROLLERS_DIR . 'rollBackUtils.php';
-		    $message = rollbackSocialController($classType, $objectId);
+		    $message = rollbackSocialController($classType, $id);
 		    $this->response(array('status' => $message), 503);
 		}
 	    }
@@ -192,7 +192,7 @@ class SocialController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setFromUser($currentUser->getId());
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
@@ -266,7 +266,7 @@ class SocialController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setFromUser($currentUser->getId());
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
@@ -328,7 +328,7 @@ class SocialController extends REST {
 	    $activity->setComment(null);
 	    $activity->setCounter(0);
 	    $activity->setEvent(null);
-	    $activity->setFromUser($currentUser->getObjectId());
+	    $activity->setFromUser($currentUser->getId());
 	    $activity->setImage(null);
 	    $activity->setPlaylist(null);
 	    $activity->setQuestion(null);
