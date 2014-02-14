@@ -19,8 +19,6 @@ if (!defined('ROOT_DIR'))
     define('ROOT_DIR', '../');
 
 require_once ROOT_DIR . 'config.php';
-require_once CLASSES_DIR . 'comment.class.php';
-require_once CLASSES_DIR . 'commentParse.class.php';
 
 /**
  * \brief	PostBox class 
@@ -48,34 +46,9 @@ class PostBox {
      * \todo
      */
     public function init($objectId, $limit = null, $skip = null) {
-	$info = array();
-	$post = new CommentParse();
-	$post->wherePointer('toUser', '_User', $objectId);
-	$post->where('type', 'P');
-	$post->where('active', true);
-	$post->whereInclude('fromUser');
-	$post->setLimit((!is_null($limit) && is_int($limit) && $limit >= MIN && MAX >= $limit) ? $limit : $this->config->limitForPersonalPage);
-	$post->setSkip((!is_null($skip) && is_int($skip) && $skip >= 0) ? $skip : 0);
-	$post->orderByDescending('createdAt');
-	$posts = $post->getComments();
-	if ($posts instanceof Error) {
-	    $this->config = null;
-	    $this->error = $posts->getErrorMessage();
-	    $this->postArray = array();
-	    return;
-	} elseif (is_null($posts)) {
-	    $this->config = null;
-	    $this->error = null;
-	    $this->postArray = array();
-	    return;
-	} else {
-	    foreach ($posts as $post) {
-		if (!is_null($post->getFromUser()))
-		    array_push($info, $post);
-	    }
-	    $this->error = null;
-	    $this->postArray = $info;
-	}
+	$this->config = null;
+	$this->error = null;
+	$this->postArray = array();
     }
 
     /**
@@ -86,33 +59,9 @@ class PostBox {
      * \todo
      */
     public function initForStream($objectId, $limit) {
-	$info = array();
-	$post = new CommentParse();
-	$post->wherePointer('toUser', '_User', $objectId);
-	$post->wherePointer('fromUser', '_User', $objectId);
-	$post->where('type', 'P');
-	$post->where('active', true);
-	$post->setLimit($limit);
-	$post->orderByDescending('createdAt');
-	$posts = $post->getComments();
-	if ($posts instanceof Error) {
-	    $this->config = null;
-	    $this->error = $posts->getErrorMessage();
-	    $this->postArray = array();
-	    return;
-	} elseif (is_null($posts)) {
-	    $this->config = null;
-	    $this->error = null;
-	    $this->postArray = array();
-	    return;
-	} else {
-	    foreach ($posts as $post) {
-		if (!is_null($post->getFromUser()))
-		    array_push($info, $post);
-	    }
-	    $this->error = null;
-	    $this->postArray = $info;
-	}
+	$this->config = null;
+	$this->error = null;
+	$this->postArray = array();
     }
 
 }

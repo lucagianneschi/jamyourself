@@ -44,30 +44,11 @@ class PlaylistInfoBox {
      * \return	playlistInfoBox
      */
     public function init() {
+	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
-	}
-	require_once CLASSES_DIR . 'playlist.class.php';
-	require_once CLASSES_DIR . 'playlistParse.class.php';
-	$playlist = new PlaylistParse();
-	$playlist->wherePointer('fromUser', '_User', $currentUserId);
-	$playlist->where('active', true);
-	$playlist->orderByDescending('createdAt');
-	$playlist->setLimit($this->config->limitForPlaylist);
-	$playlists = $playlist->getPlaylists();
-	if ($playlists instanceof Error) {
-	    $this->error = $playlists->getErrorMessage();
-	    $this->playlists = array();
-	    return;
-	} elseif (is_null($playlists)) {
-	    $this->error = null;
-	    $this->playlists = array();
-	    return;
-	} else {
-	    $this->error = null;
-	    $this->playlists = $playlists;
 	}
     }
 
@@ -97,44 +78,11 @@ class PlaylistSongBox {
      * \return	playlistSongBox
      */
     public function init($playlistId, $sonsArray) {
+	require_once SERVICES_DIR . 'utils.service.php';
 	$currentUserId = sessionChecker();
 	if (is_null($currentUserId)) {
 	    $this->errorManagement(ONLYIFLOGGEDIN);
 	    return;
-	}
-	require_once CLASSES_DIR . 'song.class.php';
-	require_once CLASSES_DIR . 'songParse.class.php';
-	$song = new SongParse();
-	$song->whereRelatedTo('songs', 'Playlist', $playlistId);
-	$song->where('active', true);
-	$song->setLimit($this->config->limitForTracklist);
-	$song->whereInclude('fromUser,record');
-	$songs = $song->getSongs();
-	if ($songs instanceof Error) {
-	    $this->error = $songs->getErrorMessage();
-	    $this->tracklist = array();
-	    return;
-	} elseif (is_null($songs)) {
-	    $this->error = null;
-	    $this->tracklist = array();
-	    return;
-	} else {
-	    foreach ($sonsArray as $value) {
-		$orderSongs[$value] = $songs[$value];
-	    }
-	    if (is_null($orderSongs)) {
-		$this->error = null;
-		$this->tracklist = array();
-		return;
-	    } else {
-		$tracklist = array();
-		$this->error = null;
-		foreach ($orderSongs as $song) {
-		    if (!is_null($song->getFromUser()) && !is_null($song->getRecord()))
-			array_push($tracklist, $song);
-		}
-	    }
-	    $this->tracklist = $tracklist;
 	}
     }
 
