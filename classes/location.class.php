@@ -19,22 +19,40 @@
 
 class Location {
 
-    private $objectId;
+    private $id;
+    private $createdAt;
+    private $updatedAt;
     private $city;
     private $country;
     private $latitude;
     private $locId;
     private $longitude;
-    private $createdAt;
-    private $updatedAt;
 
     /**
-     * \fn	int getObjectId()
-     * \brief	Return the objectId value
+     * \fn	int getId()
+     * \brief	Return the id value
      * \return	int
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
+    }
+
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Location creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Location modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
     }
 
     /**
@@ -83,30 +101,30 @@ class Location {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
-     * \brief	Return the Location creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Location modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
-     * \fn	void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn	void setId($id)
+     * \brief	Sets the id value
      * \param	int
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Location creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Location modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -155,46 +173,20 @@ class Location {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Location creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Location modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Location object
      * \return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->objectId . '<br />';
+	$string .= '[id] => ' . $this->id . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[city] => ' . $this->city . '<br />';
 	$string .= '[country] => ' . $this->country . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[locId] => ' . $this->locId . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

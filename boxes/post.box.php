@@ -39,26 +39,26 @@ class PostBox {
     }
 
     /**
-     * \fn	init($objectId)
+     * \fn	init($id)
      * \brief	Init PostBox instance for Personal Page
-     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
+     * \param	$id for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
      * \return	postBox
      * \todo
      */
-    public function init($objectId, $limit = null, $skip = null) {
+    public function init($id, $limit = null, $skip = null) {
 	$this->config = null;
 	$this->error = null;
 	$this->postArray = array();
     }
 
     /**
-     * \fn	initForPersonalPage($objectId, $limit, $skip, $currentUserId)
+     * \fn	initForPersonalPage($id, $limit, $skip, $currentUserId)
      * \brief	Init PostBox instance for Personal Page
-     * \param	$objectId for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
+     * \param	$id for user that owns the page,$limit number of objects to retreive, $skip number of objects to skip, $currentUserId
      * \return	postBox
      * \todo
      */
-    public function initForStream($objectId, $limit) {
+    public function initForStream($id, $limit) {
 	$this->config = null;
 	$this->error = null;
 	$this->postArray = array();

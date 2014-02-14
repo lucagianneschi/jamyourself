@@ -81,7 +81,7 @@ class UploadAlbumController extends REST {
 		$this->response(array('status' => $controllers['NOALBUMIMAGES']), 406);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $this->debug("createAlbum", "currentUserId : " . $currentUser->getObjectId(), null);
+	    $this->debug("createAlbum", "currentUserId : " . $currentUser->getId(), null);
 	    $album = new Album();
 	    $album->setActive(true);
 	    $album->setCommentCounter(0);
@@ -91,7 +91,7 @@ class UploadAlbumController extends REST {
 	    if (isset($this->request['featuring']) && is_array($this->request['featuring']) && count($this->request['featuring']) > 0) {
 		$album->setFeaturing($this->request['featuring']);
 	    }
-	    $album->setFromUser($currentUser->getObjectId());
+	    $album->setFromUser($currentUser->getId());
 	    $album->setImageCounter(0);
 	    if (isset($this->request['city']) && !is_null($this->request['city'])) {
 		$infoLocation = GeocoderService::getCompleteLocationInfo($this->request['city']);
@@ -101,7 +101,7 @@ class UploadAlbumController extends REST {
 	    $album->setLoveCounter(0);
 	    $album->setLovers(array());
 	    $album->setShareCounter(0);
-	    $album->setTags(array());
+	    $album->setTag(array());
 	    $album->setThumbnailCover(DEFALBUMTHUMB);
 	    $album->setTitle($this->request['albumTitle']);
 	    $albumParse = new AlbumParse();
@@ -112,17 +112,17 @@ class UploadAlbumController extends REST {
 		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array('status' => $controllers['ALBUMNOTSAVED']), 407);
 	    }
-	    $albumId = $albumSaved->getObjectId();
-	    $this->debug("createAlbum", "saving album SAVED  with objectId : " . $albumId, null);
+	    $albumId = $albumSaved->getId();
+	    $this->debug("createAlbum", "saving album SAVED  with id : " . $albumId, null);
 	    $this->debug("createAlbum", "creating activity for album...", null);
-	    $resActivity = $this->createActivity($currentUser->getObjectId(), $albumId);
+	    $resActivity = $this->createActivity($currentUser->getId(), $albumId);
 	    if ($resActivity instanceof Error) {
 		$this->debug("createAlbum", "creating activity for album... ERROR => ", $resActivity);
 		rollbackUploadAlbumController($albumId, "Album");
 		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
 		$this->response(array("status" => $controllers['ALBUMNOTSAVED']), 409);
 	    }
-	    $this->debug("createAlbum", "creating activity for album... OK - activityId => " . $resActivity->getObjectId(), null);
+	    $this->debug("createAlbum", "creating activity for album... OK - activityId => " . $resActivity->getId(), null);
 	    $this->debug("createAlbum", "foreach saving images - start here", null);
 	    $errorImages = $this->saveImagesList($this->request['images'], $albumId, $currentUser);
 
@@ -130,17 +130,17 @@ class UploadAlbumController extends REST {
 		//nessuna immagine salvata, ma album creato
 		$this->debug("createAlbum", "inside foreach | - END - result => " . $controllers['ALBUMSAVENOIMGSAVED'], null);
 		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
-		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumSaved->getObjectId()), 200);
+		$this->response(array("status" => $controllers['ALBUMSAVENOIMGSAVED'], "id" => $albumSaved->getId()), 200);
 	    } elseif (count($errorImages) > 0) {
 		//immagini salvate, ma non tutte....
 		$this->debug("createAlbum", "inside foreach | - END - result => " . $controllers['ALBUMSAVEDWITHERRORS'] . " | errorImages => ", $errorImages);
 		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
-		$this->response(array("status" => $controllers['ALBUMSAVEDWITHERRORS'], "id" => $albumSaved->getObjectId()), 200);
+		$this->response(array("status" => $controllers['ALBUMSAVEDWITHERRORS'], "id" => $albumSaved->getId()), 200);
 	    } else {
 		//tutto OK
 		$this->debug("createAlbum", "inside foreach | - END - result => " . $controllers['ALBUMSAVED'], null);
 		$this->debug("createAlbum", "RETURN ---------------------------------------------------------------------------------------", null);
-		$this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $albumSaved->getObjectId()), 200);
+		$this->response(array("status" => $controllers['ALBUMSAVED'], "id" => $albumSaved->getId()), 200);
 	    }
 	} catch (Exception $e) {
 	    $this->response(array('status' => $e->getMessage()), 500);
@@ -291,7 +291,7 @@ class UploadAlbumController extends REST {
 	    foreach ($imagesList as $image) {
 // info utili
 // mi serve: id, src, 
-		$returnInfo[] = json_encode(array("id" => $image->getObjectId(), "src" => $image->getFilePath()));
+		$returnInfo[] = json_encode(array("id" => $image->getId(), "src" => $image->getFilePath()));
 	    }
 	    $this->response(array("status" => $controllers['COUNTALBUMOK'], "imageList" => $returnInfo, "count" => count($imagesList)), 200);
 	} catch (Exception $e) {
@@ -312,7 +312,7 @@ class UploadAlbumController extends REST {
 		return null;
 	    } else {
 		$this->debug("saveImage", "moving file...", null);
-		$imgMoved = $this->moveFile($currentUser->getObjectId(), $albumId, $imgInfo['src']);
+		$imgMoved = $this->moveFile($currentUser->getId(), $albumId, $imgInfo['src']);
 		$this->debug("saveImage", "moving file... result => ", $imgMoved);
 		$image = new Image();
 		$image->setActive(true);
@@ -326,12 +326,12 @@ class UploadAlbumController extends REST {
 		    $image->setFeaturing(null);
 		}
 		$image->setFilePath($imgMoved['image']);
-		$image->setFromUser($currentUser->getObjectId());
+		$image->setFromUser($currentUser->getId());
 		$image->setLocation(null);
 		$image->setLoveCounter(0);
 		$image->setLovers(array());
 		$image->setShareCounter(0);
-		$image->setTags(null);
+		$image->setTag(null);
 		$image->setThumbnail($imgMoved['thumbnail']);
 		$pImage = new ImageParse();
 		$this->debug("saveImage", "RETURN --------------------------------------------------------------", null);
@@ -355,7 +355,7 @@ class UploadAlbumController extends REST {
 	    }
 	    //creo l'activity specifica 
 	    require_once CLASSES_DIR . 'activityParse.class.php';
-	    $resActivity = $this->createActivity($currentUser->getObjectId(), $albumId, "IMAGEADDEDTOALBUM", $imageId);
+	    $resActivity = $this->createActivity($currentUser->getId(), $albumId, "IMAGEADDEDTOALBUM", $imageId);
 	    if ($resActivity instanceof Error) {
 		$this->debug("addImageToAlbum", " return ----------------------------------", null);
 		return $resActivity;
@@ -434,7 +434,7 @@ class UploadAlbumController extends REST {
 		$retObj["thumbnail"] = $this->getAlbumThumbnailURL(sessionChecker(), $album->getThumbnail());
 		$retObj["title"] = $album->getTitle();
 		$retObj["images"] = $album->getImageCounter();
-		$retObj["albumId"] = $album->getObjectId();
+		$retObj["albumId"] = $album->getId();
 		$albumList[] = $retObj;
 	    }
 	}
@@ -472,7 +472,7 @@ class UploadAlbumController extends REST {
 		    //se l'immagine è quella scelta come cover:
 		    if ($image['isCover'] == "true") {
 			$this->debug("saveImagesList", "inside foreach | SETTING AS COVER", null);
-			$copyImagesInfo = $this->createAlbumCoverFiles($currentUser->getObjectId(), $albumId, $resImage->getFilePath(), $resImage->getThumbnail());
+			$copyImagesInfo = $this->createAlbumCoverFiles($currentUser->getId(), $albumId, $resImage->getFilePath(), $resImage->getThumbnail());
 			$this->debug("saveImagesList", "inside foreach | SETTING AS COVER - updating DB FOR cover params: albumId => updateField(" . $albumId . ", cover," . $copyImagesInfo["cover"] . ")", null);
 			$albumParseUpdate = new AlbumParse();
 			$resUpdateCover = $albumParseUpdate->updateField($albumId, "cover", $resImage->getFilePath());
@@ -495,7 +495,7 @@ class UploadAlbumController extends REST {
 		    if ($resRelation instanceof Error || $resRelation instanceof Exception || is_null($resRelation)) {
 			array_push($errorImages, $image);
 			$this->debug("saveImagesList", "inside foreach | - updating DB FOR relation... paramms = albumSavedId => " . $albumId . " , imageId => " . $resImage->getObjectid() . " .... !!! ERROR !!!! | resRelation => ", $resRelation);
-			rollbackUploadAlbumController($resImage->getObjectId(), "Image");
+			rollbackUploadAlbumController($resImage->getId(), "Image");
 			continue;
 		    }
 		    $this->debug("saveImagesList", "inside foreach | - updating DB FOR relation... paramms = albumSavedId => " . $albumId . " , imageId => " . $resImage->getObjectid() . " .... OK", null);

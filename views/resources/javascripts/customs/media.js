@@ -75,22 +75,22 @@ function toggleText(_this, box, text) {
  * Funzione per gestire i counters (love, comment, share e review)
  * 
  */
-function setCounterMedia(_this, objectId, fromUserObjectId, classbox) {
+function setCounterMedia(_this, id, fromUserObjectId, classbox) {
     typeOpt = $(_this).text();
 
     switch (typeOpt) {
 	case 'Comment':
 	    var idBox = '';
 	    if (classbox == 'RecordReview' || classbox == 'EventReview') {
-		idBox = '#social-' + classbox + '-' + objectId;
+		idBox = '#social-' + classbox + '-' + id;
 		classObject = 'Comment';
 	    }
 
 	    if ($(idBox + ' .box-comment').hasClass('no-display')) {
 		$(idBox + ' .box-comment').removeClass('no-display');
 		$(idBox + ' .box').addClass('box-commentSpace');
-		console.log('Comment ' + classbox + ' ' + objectId);
-		callBoxMedia.objectId = objectId;
+		console.log('Comment ' + classbox + ' ' + id);
+		callBoxMedia.id = id;
 		callBoxMedia.fromUserObjectId = fromUserObjectId;
 		callBoxMedia.classBox = classbox;
 		callBoxMedia.load('commentReview');

@@ -18,13 +18,13 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 session_start();
 
 $currentUser = $_SESSION['currentUser'];
-$objectId = $_POST['objectId'];
+$id = $_POST['id'];
 $limit = $_POST['limit'];
 $skip = $_POST['skip'];
 $reviewToShow = 3;
 
 $reviewBox = new ReviewBox();
-$reviewBox->initForMediaPage($objectId, 'Record', $limit, $skip);
+$reviewBox->initForMediaPage($id, 'Record', $limit, $skip);
 if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
     $currentUser = $_SESSION['currentUser'];
     $reviews = $reviewBox->reviewArray;
@@ -43,11 +43,11 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    if ($reviewCounter > 0) {
 		$indice = 1;
 		foreach ($reviews as $key => $value) {
-		    $review_user_objectId = $value->getFromUser()->getObjectId();
+		    $review_user_objectId = $value->getFromUser()->getId();
 		    $review_user_thumbnail = $value->getFromUser()->getThumbnail();
 		    $review_user_username = $value->getFromUser()->getUsername();
 		    $review_user_type = $value->getFromUser()->getType();
-		    $review_objectId = $value->getObjectId();
+		    $review_objectId = $value->getId();
 		    $review_data = ucwords(strftime("%A %d %B %Y - %H:%M", $value->getCreatedAt()->getTimestamp()));
 		    $review_title = $value->getTitle();
 		    $review_text = $value->getText();
@@ -55,7 +55,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 		    $review_counter_love = $value->getLoveCounter();
 		    $review_counter_comment = $value->getCommentCounter();
 		    $review_counter_share = $value->getShareCounter();
-		    if (in_array($currentUser->getObjectId(), $value->getLovers())) {
+		    if (in_array($currentUser->getId(), $value->getLovers())) {
 			$css_love = '_love orange';
 			$text_love = $views['unlove'];
 		    } else {
@@ -135,7 +135,7 @@ if (is_null($reviewBox->error) || isset($_SESSION['currentUser'])) {
 	    			<div class="row recordReview-propriety">
 	    			    <div class="box-propriety">
 	    				<div class="small-6 columns ">
-	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $text_love; ?></a>
+	    				    <a class="note grey " onclick="love(this, 'Comment', '<?php echo $review_objectId; ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $text_love; ?></a>
 	    				    <a class="note grey" onclick="loadBoxOpinion('<?php echo $review_objectId; ?>', '<?php echo $review_user_objectId; ?>', 'Comment', '#social-RecordReview-<?php echo $review_objectId; ?> .box-opinion', 10, 0)"><?php echo $views['comm']; ?></a>
 	    				<!-- a class="note grey" onclick="setCounter(this,'<?php echo $review_objectId; ?>','recordReview')"><?php echo $views['share']; ?></a -->
 	    				</div>

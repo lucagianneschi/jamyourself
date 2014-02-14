@@ -6,9 +6,9 @@ require_once ROOT_DIR . 'config.php';
 require_once VIEWS_DIR . 'utilities/share.php';
 
 $classType = $_GET['classType'];
-$objectId = $_GET['objectId'];
+$id = $_GET['id'];
 $imgPath = $_GET['imgPath'];
-$params = getShareParameters($classType, $objectId, $imgPath);
+$params = getShareParameters($classType, $id, $imgPath);
 ?>
 <!DOCTYPE html>
 <html>

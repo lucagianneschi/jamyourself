@@ -19,7 +19,9 @@
 
 class Song {
 
-    private $objectId;
+    private $id;
+    private $createdAt;
+    private $updatedAt;
     private $active;
     private $commentCounter;
     private $counter;
@@ -34,20 +36,36 @@ class Song {
     private $record;
     private $shareCounter;
     private $title;
-    private $createdAt;
-    private $updatedAt;
 
     /**
-     * \fn	int getObjectId()
-     * \brief	Return the objectId value
+     * \fn	int getId()
+     * \brief	Return the id value
      * \return	string
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
     }
 
     /**
-     * \fn	BOOL getObjectId()
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Song creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Song modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
+    }
+
+    /**
+     * \fn	BOOL getId()
      * \brief	Return the active value
      * \return	BOOL
      */
@@ -84,7 +102,7 @@ class Song {
 
     /**
      * \fn	int getFromUser()
-     * \brief	Return the objectId value for the fromUser
+     * \brief	Return the id value for the fromUser
      * \return	int
      */
     public function getFromUser() {
@@ -147,7 +165,7 @@ class Song {
 
     /**
      * \fn	int getRecord()
-     * \brief	Return the record value,string of the objectId of the related record
+     * \brief	Return the record value,string of the id of the related record
      * \return	int
      */
     public function getRecord() {
@@ -173,30 +191,30 @@ class Song {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
-     * \brief	Return the Song creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Song modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
-     * \fn	void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn	void setId($id)
+     * \brief	Sets the id value
      * \param	int
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Song creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Song modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -237,7 +255,7 @@ class Song {
 
     /**
      * \fn	void setFromUser($fromUser)
-     * \brief	Sets the fromUser objectId  value
+     * \brief	Sets the fromUser id  value
      * \param	string
      */
     public function setFromUser($fromUser) {
@@ -300,7 +318,7 @@ class Song {
 
     /**
      * \fn	void setRecord($record) 
-     * \brief	Sets the record objectId value
+     * \brief	Sets the record id value
      * \param	int
      */
     public function setRecord($record) {
@@ -326,31 +344,15 @@ class Song {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Song creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Song modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Song object
      * \return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
@@ -365,16 +367,6 @@ class Song {
 	$string .= '[record] => ' . $this->getRecord() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

@@ -75,14 +75,14 @@ class AccessController extends REST {
 	    if ($resLogin instanceof Error) {
 		$this->response(array('status' => $resLogin->getErrorMessage()), 406);
 	    }
-	    $activity = $this->createActivity('LOGGEDIN', $resLogin->getObjectId());
+	    $activity = $this->createActivity('LOGGEDIN', $resLogin->getId());
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $activityParse->saveActivity($activity);
 	    $_SESSION['currentUser'] = $resLogin;
 	    require_once BOXES_DIR . 'notification.box.php';
 	    $notificationBox = new NotificationBox();
-	    $notificationBox->initForCounter($resLogin->getObjectId(), $resLogin->getType());
+	    $notificationBox->initForCounter($resLogin->getId(), $resLogin->getType());
 	    $_SESSION['invitationCounter'] = $notificationBox->invitationCounter;
 	    $_SESSION['messageCounter'] = $notificationBox->messageCounter;
 	    $_SESSION['relationCounter'] = $notificationBox->relationCounter;
@@ -106,7 +106,7 @@ class AccessController extends REST {
 		$this->response(array('status' => $controllers['USERNOSES']), 403);
 	    }
 	    $currentUser = $_SESSION['currentUser'];
-	    $currentUserId = $currentUser->getObjectId();
+	    $currentUserId = $currentUser->getId();
 	    session_unset();
 	    session_destroy();
 	    $activity = $this->createActivity('LOGGEDOUT', $currentUserId);

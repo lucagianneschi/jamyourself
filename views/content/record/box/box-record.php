@@ -1,7 +1,7 @@
 <?php
 /* box per gli album musicali
  * box chiamato tramite ajax con:
- * data: {currentUser: objectId},
+ * data: {currentUser: id},
  * data-type: html,
  * type: POST o GET
  *
@@ -22,7 +22,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 if (session_id() == '')
     session_start();
 $userId = $_POST['userId'];
-$tracklist = tracklistGenerator($_POST['objectId']);
+$tracklist = tracklistGenerator($_POST['id']);
 if (isset($_SESSION['currentUser']))
     $currentUser = $_SESSION['currentUser'];
 ?>
@@ -37,7 +37,7 @@ if (isset($_SESSION['currentUser']))
 	    <?php
 	    if (count($tracklist) > 0) {
 		foreach ($tracklist as $key => $value) {
-		    $record_objectId = $value->getObjectId();
+		    $record_objectId = $value->getId();
 		    $record_title = $value->getTitle();
 		    $record_duration = $value->getDuration();
 
@@ -48,7 +48,7 @@ if (isset($_SESSION['currentUser']))
 
 		    $css_addPlayList = "";
 		    $css_removePlayList = "";
-		    if (is_array($_SESSION['playlist']['songs']) && in_array($value->getObjectId(), $_SESSION['playlist']['songs'])) {
+		    if (is_array($_SESSION['playlist']['songs']) && in_array($value->getId(), $_SESSION['playlist']['songs'])) {
 			$css_addPlayList = 'no-display';
 		    } else {
 			$css_removePlayList = 'no-display';
@@ -57,7 +57,7 @@ if (isset($_SESSION['currentUser']))
 		    $pathCoverRecord = $fileManagerService->getRecordPhotoPath($userId, $value->getRecord()->getThumbnail());
 		    $pathSong = $fileManagerService->getSongPath($userId, $value->getFilePath());
 		    $song = json_encode(array(
-			'objectId' => $value->getObjectId(),
+			'id' => $value->getId(),
 			'title' => $value->getTitle(),
 			'artist' => $_POST['username'],
 			'mp3' => $pathSong,
@@ -66,12 +66,12 @@ if (isset($_SESSION['currentUser']))
 			'pathCover' => $pathCoverRecord
 		    ));
 		    ?>
-		    <div class="row" id="<?php echo $value->getObjectId() ?>"> <!------------------ CODICE TRACCIA: track01  ------------------------------------>
+		    <div class="row" id="<?php echo $value->getId() ?>"> <!------------------ CODICE TRACCIA: track01  ------------------------------------>
 			<div class="small-12 columns ">
 			    <div class="track">
 				<div class="row">
 				    <div class="small-9 columns ">                                        
-					<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getObjectId(); ?>', '<?php echo $pathCoverRecord ?>')"><span class="songTitle"><?php echo $record_title ?></span></a>
+					<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getId(); ?>', '<?php echo $pathCoverRecord ?>')"><span class="songTitle"><?php echo $record_title ?></span></a>
 					<input type="hidden" name="song" value="<?php echo $pathSong . $value->getFilePath(); ?>" />
 				    </div>
 				    <div class="small-3 columns track-propriety align-right" style="padding-right: 20px;">                                        
@@ -85,7 +85,7 @@ if (isset($_SESSION['currentUser']))
 				<div class="row track-propriety" >
 				    <div class="box-propriety album-single-propriety">
 					<div class="small-5 columns ">
-					    <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUser->getObjectId(); ?>')"><?php echo $views['love']; ?></a>
+					    <a class="note white" onclick="love(this, 'Song', '<?php echo $record_objectId ?>', '<?php echo $currentUser->getId(); ?>')"><?php echo $views['love']; ?></a>
 					    <!--a class="note white" onclick="setCounter(this, '<?php echo $record_objectId ?>', 'Song')"><?php echo $views['share']; ?></a-->        
 					</div>
 					<div class="small-5 columns propriety ">                                        

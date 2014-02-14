@@ -10,7 +10,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 
 $currentUser = $_SESSION['currentUser'];
 
-//esempio: objectId dell'utente a cui si vuole vedere il profilo 
+//esempio: id dell'utente a cui si vuole vedere il profilo 
 $user = $_GET['user'];
 ?>
 <!DOCTYPE html>

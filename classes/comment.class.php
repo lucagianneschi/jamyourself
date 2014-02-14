@@ -19,7 +19,9 @@
 
 class Comment {
 
-    private $objectId;
+    private $id;
+    private $createdAt;
+    private $updatedAt;
     private $active;
     private $album;
     private $comment;
@@ -34,23 +36,39 @@ class Comment {
     private $record;
     private $shareCounter;
     private $song;
-    private $tags;
+    private $tag;
     private $title;
     private $text;
     private $toUser;
     private $type;
     private $video;
     private $vote;
-    private $createdAt;
-    private $updatedAt;
 
     /**
-     * \fn	getObjectId()
-     * \brief	Return the objectId value
+     * \fn	getId()
+     * \brief	Return the id value
      * \return	int
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
+    }
+
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Comment creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Comment modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
     }
 
     /**
@@ -64,7 +82,7 @@ class Comment {
 
     /**
      * \fn	getAlbum()
-     * \brief	Return the int value objectId to album
+     * \brief	Return the int value id to album
      * \return	int
      */
     public function getAlbum() {
@@ -73,7 +91,7 @@ class Comment {
 
     /**
      * \fn	getComment()
-     * \brief	Return the related comment objectId
+     * \brief	Return the related comment id
      * \return	int
      */
     public function getComment() {
@@ -100,7 +118,7 @@ class Comment {
 
     /**
      * \fn	getEvent()
-     * \brief	Return the related event objectId
+     * \brief	Return the related event id
      * \return	int
      */
     public function getEvent() {
@@ -109,7 +127,7 @@ class Comment {
 
     /**
      * \fn	getFromUser()
-     * \brief	Return the objectId value for the fromUser
+     * \brief	Return the id value for the fromUser
      * \return	int
      */
     public function getFromUser() {
@@ -118,7 +136,7 @@ class Comment {
 
     /**
      * \fn	getImage()
-     * \brief	Return the related image objectId
+     * \brief	Return the related image id
      * \return	int
      */
     public function getImage() {
@@ -154,7 +172,7 @@ class Comment {
 
     /**
      * \fn	getRecord()
-     * \brief	Return the record value objectId
+     * \brief	Return the record value id
      * \return	string
      */
     public function getRecord() {
@@ -172,7 +190,7 @@ class Comment {
 
     /**
      * \fn	getSong()
-     * \brief	Return the song value objectId
+     * \brief	Return the song value id
      * \return	int
      */
     public function getSong() {
@@ -180,11 +198,11 @@ class Comment {
     }
 
     /**
-     * \fn	getTags()
+     * \fn	getTag()
      * \brief	Return the tags value
      * \return	int
      */
-    public function getTags() {
+    public function getTag() {
 	return $this->tags;
     }
 
@@ -208,7 +226,7 @@ class Comment {
 
     /**
      * \fn	getToUser()
-     * \brief	Return the toUser value, objectId
+     * \brief	Return the toUser value, id
      * \return	int
      */
     public function getToUser() {
@@ -226,7 +244,7 @@ class Comment {
 
     /**
      * \fn	getVideo()
-     * \brief	Return the video value objectId
+     * \brief	Return the video value id
      * \return	string
      */
     public function getVideo() {
@@ -243,30 +261,30 @@ class Comment {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
-     * \brief	Return the Comment creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Comment modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
-     * \fn	void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn	void setId($id)
+     * \brief	Sets the id value
      * \param	int
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
+    }
+
+    /**
+     * \fn		void setCreatedAt($createdAt)
+     * \brief	Sets the Comment creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn		void setUpdatedAt($updatedAt)
+     * \brief	Sets the Comment modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -316,7 +334,7 @@ class Comment {
 
     /**
      * \fn	void setEvent($event)
-     * \brief	Sets the event objectId value
+     * \brief	Sets the event id value
      * \param	int
      */
     public function setEvent($event) {
@@ -334,7 +352,7 @@ class Comment {
 
     /**
      * \fn	void setImage($image)
-     * \brief	Sets the image objectId value
+     * \brief	Sets the image id value
      * \param	int
      */
     public function setImage($image) {
@@ -370,7 +388,7 @@ class Comment {
 
     /**
      * \fn	void setRecord($record)
-     * \brief	Sets the record objectId value
+     * \brief	Sets the record id value
      * \param	int
      */
     public function setRecord($record) {
@@ -388,7 +406,7 @@ class Comment {
 
     /**
      * \fn	void setSong($song)
-     * \brief	Sets the song objectId value
+     * \brief	Sets the song id value
      * \param	int
      */
     public function setSong($song) {
@@ -396,12 +414,12 @@ class Comment {
     }
 
     /**
-     * \fn	void setTags($tags)
+     * \fn	void setTag($tag)
      * \brief	Sets the tags value
      * \param	int
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tags = $tag;
     }
 
     /**
@@ -424,7 +442,7 @@ class Comment {
 
     /**
      * \fn	void setToUser($toUser)
-     * \brief	Sets the toUser objectId value
+     * \brief	Sets the toUser id value
      * \param	int
      */
     public function setToUser($toUser) {
@@ -433,7 +451,7 @@ class Comment {
 
     /**
      * \fn	void setType($type)
-     * \brief	Sets the type objectId value
+     * \brief	Sets the type id value
      * \param	string
      */
     public function setType($type) {
@@ -442,7 +460,7 @@ class Comment {
 
     /**
      * \fn	void setVideo($video)
-     * \brief	Sets the video objectId value
+     * \brief	Sets the video id value
      * \param	int
      */
     public function setVideo($video) {
@@ -459,31 +477,15 @@ class Comment {
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
-     * \brief	Sets the Comment creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn		void setUpdatedAt($updatedAt)
-     * \brief	Sets the Comment modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Comment object
      * \return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[album] => ' . $this->getAlbum() . '<br />';
 	$string .= '[comment] => ' . $this->getComment() . '<br />';
@@ -498,23 +500,13 @@ class Comment {
 	$string .= '[record] => ' . $this->getRecord() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 	$string .= '[song] => ' . $this->getSong() . '<br />';
-	$string .= '[tags] => ' . $this->getTags() . '<br />';
+	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[text] => ' . $this->getText() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	$string .= '[toUser] => ' . $this->getToUser() . '<br />';
 	$string .= '[type] => ' . $this->getType() . '<br />';
 	$string .= '[video] => ' . $this->getVideo() . '<br />';
 	$string .= '[vote] => ' . $this->getVote() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

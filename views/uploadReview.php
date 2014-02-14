@@ -20,16 +20,16 @@ switch ($uploadReviewController->reviewedClassType) {
 	$thumbnail = $uploadReviewController->reviewed->getThumbnail();
 	break;
     case "Event" :
-	$tagGenere = implode(",", $uploadReviewController->reviewed->getTags());
+	$tagGenere = implode(",", $uploadReviewController->reviewed->getTag());
 	$thumbnail = $uploadReviewController->reviewed->getThumbnail();
 	break;
 }
 $rating = "3";
-$authorObjectId = $uploadReviewController->reviewedFromUser->getObjectId();
+$authorObjectId = $uploadReviewController->reviewedFromUser->getId();
 $authorThumbnail = $uploadReviewController->reviewedFromUser->getThumbnail();
 $author = $uploadReviewController->reviewedFromUser->getUsername();
 
-if ($authorObjectId == $currentUser->getObjectId()) {
+if ($authorObjectId == $currentUser->getId()) {
     header('Location: stream.php');
 } else {
     ?>

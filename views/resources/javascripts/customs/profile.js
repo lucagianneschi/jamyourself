@@ -87,7 +87,7 @@ function toggleText(_this, box, text) {
  * Funzione per gestire i counters (love, comment, share e review)
  * 
  */
-function setCounter(_this, objectId, classbox) {
+function setCounter(_this, id, classbox) {
     typeOpt = $(_this).text();
     switch (typeOpt) {
 	/* si pu� eliminare perch� implementato dentro love.js, ma mantenuto per adesso per backup
@@ -125,7 +125,7 @@ function setCounter(_this, objectId, classbox) {
 		classObject = 'Album'
 	    }
 	    if (classbox == 'Image' || classbox == 'Post') {
-		idBox = '#' + objectId;
+		idBox = '#' + id;
 		if (classbox == 'Post')
 		    classObject = 'Comment';
 		else
@@ -135,8 +135,8 @@ function setCounter(_this, objectId, classbox) {
 	    if ($(idBox + ' .box-comment').hasClass('no-display')) {
 		$(idBox + ' .box-comment').removeClass('no-display');
 		$(idBox + ' .box').addClass('box-commentSpace');
-		console.log(objectId + ' ' + classbox);
-		callBox.objectId = objectId;
+		console.log(id + ' ' + classbox);
+		callBox.id = id;
 		callBox.classObject = classObject;
 		callBox.classBox = classbox;
 		callBox.load('comment');
@@ -180,7 +180,7 @@ function recordSelectSingle(recordId, objectIdCurrentUser) {
 	$('.' + recordId).fadeIn(100);
 	addthis.init();
 	addthis.toolbox(".addthis_toolbox");
-	callBox.objectId = recordId;
+	callBox.id = recordId;
 	callBox.limit = 50;
 	callBox.load('recordDetail');
     });
@@ -202,15 +202,15 @@ function recordSelectNext(recordId) {
 
 
 //visualizza foto di singolo album e nasconde lista album
-function albumSelectSingle(objectId, num) {
+function albumSelectSingle(id, num) {
     var limit = 12;
     var skip = 0;
     //effettua transizione se ci sono foto all'interno dell'album
     if (num > 0) {
 	$("#albumSlide").fadeOut(100, function() {
-	    $('#' + objectId).fadeIn(100);
-	    if (!$('#' + objectId + ' .photo-colorbox-group').length) {
-		callBox.objectId = objectId;
+	    $('#' + id).fadeIn(100);
+	    if (!$('#' + id + ' .photo-colorbox-group').length) {
+		callBox.id = id;
 		callBox.limit = limit;
 		callBox.skip = skip;
 		callBox.numerDetail = num;
@@ -221,8 +221,8 @@ function albumSelectSingle(objectId, num) {
 
 }
 //nasconde foto singolo album e visualizza lista album
-function albumSelectNext(objectId) {
-    $('#' + objectId).fadeOut(100, function() {
+function albumSelectNext(id) {
+    $('#' + id).fadeOut(100, function() {
 	$('.profile-singleAlbum .box-comment').addClass('no-display');
 	$('.profile-singleAlbum  .box').removeClass('box-commentSpace');
 	$('#albumSlide').fadeIn(100);

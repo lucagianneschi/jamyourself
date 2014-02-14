@@ -19,7 +19,9 @@
 
 class Question {
 
-    private $objectId;
+    private $id;
+    private $createdAt;
+    private $updatedAt;
     private $answer;
     private $mailFrom;
     private $mailTo;
@@ -27,16 +29,32 @@ class Question {
     private $replied;
     private $subject;
     private $text;
-    private $createdAt;
-    private $updatedAt;
 
     /**
-     * \fn		string getObjectId()
-     * \brief	Return the objectId value
+     * \fn		string getId()
+     * \brief	Return the id value
      * \return	string
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
+    }
+
+    /**
+     * \fn		DateTime getCreatedAt()
+     * \brief	Return the Question creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn		DateTime getUpdatedAt()
+     * \brief	Return the Question modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
     }
 
     /**
@@ -103,30 +121,30 @@ class Question {
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
-     * \brief	Return the Question creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn		DateTime getUpdatedAt()
-     * \brief	Return the Question modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
-     * \fn		void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn		void setId($id)
+     * \brief	Sets the id value
      * \param	string
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
+    }
+
+    /**
+     * \fn		void setCreatedAt($createdAt)
+     * \brief	Sets the Question creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn		void setUpdatedAt($updatedAt)
+     * \brief	Sets the Question modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -193,32 +211,15 @@ class Question {
     }
 
     /**
-     * \fn		void setCreatedAt($createdAt)
-     * \brief	Sets the Question creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn		void setUpdatedAt($updatedAt)
-     * \brief	Sets the Question modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-
-    /**
      * \fn		string __toString()
      * \brief	Return a printable string representing the Question object
      * \return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[answer] => ' . $this->getAnswer() . '<br />';
 	$string .= '[mailFrom] => ' . $this->getMailFrom() . '<br />';
 	$string .= '[mailTo] => ' . $this->getMailTo() . '<br />';
@@ -226,16 +227,6 @@ class Question {
 	$string .= '[replied] => ' . $this->getReplied() . '<br />';
 	$string .= '[subject] => ' . $this->getSubject() . '<br />';
 	$string .= '[text] => ' . $this->getText() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

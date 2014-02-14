@@ -20,7 +20,7 @@ window.fbAsyncInit = function() {
     fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-function userUtilities(objectId, opType, email, setting, sessionToken, socialNetworkType) {
+function userUtilities(id, opType, email, setting, sessionToken, socialNetworkType) {
     var json_userUtilities = {};
 
     if (opType === 'linkUser') {

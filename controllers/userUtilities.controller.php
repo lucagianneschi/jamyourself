@@ -78,7 +78,7 @@ class UserUtilitiesController extends REST {
 	    if ($user instanceof Error) {
 		$this->response(array('status' => $controllers['USERNOTFOUNDFORPASSRESET']), 503);
 	    }
-	    $activity = $this->createActivity('PASSWORDRESETREQUEST', $user->getObjectId());
+	    $activity = $this->createActivity('PASSWORDRESETREQUEST', $user->getId());
 	    require_once CLASSES_DIR . 'activityParse.class.php';
 	    $activityParse = new ActivityParse();
 	    $res = $activityParse->saveActivity($activity);
@@ -110,11 +110,11 @@ class UserUtilitiesController extends REST {
 	    $settings = $this->request['setting'];
 	    require_once CLASSES_DIR . 'userParse.class.php';
 	    $userP = new UserParse();
-	    $res = $userP->updateField($currentUser->getObjectId(), 'settings', array($settings));
+	    $res = $userP->updateField($currentUser->getId(), 'settings', array($settings));
 	    if ($res instanceof Error) {
 		$this->response(array('status' => $controllers['NOSETTINGUPDATE']), 503);
 	    }
-	    $activity = $this->createActivity("USERSETTINGSUPDATED", $currentUser->getObjectId());
+	    $activity = $this->createActivity("USERSETTINGSUPDATED", $currentUser->getId());
 	    $activityParse = new ActivityParse();
 	    $resAct = $activityParse->saveActivity($activity);
 	    if ($resAct instanceof Error) {

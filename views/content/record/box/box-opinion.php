@@ -8,7 +8,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'comment.box.php';
 require_once SERVICES_DIR . 'fileManager.service.php';
 
-$objectId = $_POST['objectId'];
+$id = $_POST['id'];
 $toUser = $_POST['toUser'];
 $class = $_POST['classBox'];
 $box = $_POST['box'];
@@ -16,7 +16,7 @@ $limit = (int) $_POST['limit'];
 $skip = (int) $_POST['skip'];
 
 $comment = new CommentBox();
-$comment->init($objectId, $class, $limit, $skip);
+$comment->init($id, $class, $limit, $skip);
 $countComment = count($comment->commentArray);
 
 if ($countComment > 0) {
@@ -57,7 +57,7 @@ if ($countComment > 0) {
 				<div class="icon-header">
 				    <!-- THUMB USER--><?php
 				    $fileManagerService = new FileManagerService();
-				    $thumbPath = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getThumbnail());
+				    $thumbPath = $fileManagerService->getPhotoPath($value->getFromUser()->getId(), $value->getFromUser()->getThumbnail());
 				    ?>
 				    <img src="<?php echo $thumbPath; ?>" onerror="this.src='<?php echo $defaultThum ?>'" alt ="<?php echo $value->getFromUser()->getUsername(); ?> ">
 				</div>
@@ -101,15 +101,15 @@ if ($countComment > 0) {
 	?>
         <div class="row  ">
             <div  class="large-12 columns ">
-		<form action="" class="box-write" onsubmit="sendOpinion('<?php echo $toUser; ?>', $('#comment<?php echo $class . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', '10', 0);
+		<form action="" class="box-write" onsubmit="sendOpinion('<?php echo $toUser; ?>', $('#comment<?php echo $class . '_' . $id; ?>').val(), '<?php echo $id; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', '10', 0);
 			  return false;">
                     <div class="">
                         <div class="row  ">
                             <div  class="small-9 columns ">
-                                <input id="comment<?php echo $class . '_' . $objectId; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['write']; ?>" />
+                                <input id="comment<?php echo $class . '_' . $id; ?>" type="text" class="post inline" placeholder="<?php echo $views['comment']['write']; ?>" />
                             </div>
                             <div  class="small-3 columns ">
-                                <input type="button" class="comment-button inline comment-btn" value="<?php echo $views['comm']; ?>" onclick="sendOpinion('<?php echo $toUser; ?>', $('#comment<?php echo $class . '_' . $objectId; ?>').val(), '<?php echo $objectId; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', 10, 0)" />
+                                <input type="button" class="comment-button inline comment-btn" value="<?php echo $views['comm']; ?>" onclick="sendOpinion('<?php echo $toUser; ?>', $('#comment<?php echo $class . '_' . $id; ?>').val(), '<?php echo $id; ?>', '<?php echo $class; ?>', '<?php echo $box; ?>', 10, 0)" />
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,7 @@
 <?php
 /* box per gli dettagli album record
  * box chiamato tramite ajax con:
- * data: {currentUser: objectId},
+ * data: {currentUser: id},
  * data-type: html,
  * type: POST o GET
  *
@@ -22,7 +22,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 if (session_id() == '')
     session_start();
 
-$recordObjectId = $_POST['objectId'];
+$recordObjectId = $_POST['id'];
 $songs = tracklistGenerator($recordObjectId);
 $pathCover = $_POST['pathCover'];
 $userId = $_POST['userId'];
@@ -34,7 +34,7 @@ if (isset($_SESSION['currentUser']))
 $indice = 0;
 if (is_array($songs) && count($songs) > 0) {
     foreach ($songs as $key => $value) {
-	if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getObjectId(), $value->getLovers())) {
+	if (isset($_SESSION['currentUser']) && is_array($value->getLovers()) && in_array($currentUser->getId(), $value->getLovers())) {
 	    $track_css_love = '_love orange';
 	    $track_text_love = $views['unlove'];
 	} else {
@@ -43,13 +43,13 @@ if (is_array($songs) && count($songs) > 0) {
 	}
 	$css_addPlayList = "";
 	$css_removePlayList = "";
-	if (is_array($_SESSION['playlist']['songs']) && in_array($value->getObjectId(), $_SESSION['playlist']['songs'])) {
+	if (is_array($_SESSION['playlist']['songs']) && in_array($value->getId(), $_SESSION['playlist']['songs'])) {
 	    $css_addPlayList = 'no-display';
 	} else {
 	    $css_removePlayList = 'no-display';
 	}
 	$song = json_encode(array(
-	    'objectId' => $value->getObjectId(),
+	    'id' => $value->getId(),
 	    'title' => $value->getTitle(),
 	    'artist' => $_POST['username'],
 	    'mp3' => $fileManagerService->getSongURL($userId, $value->getFilePath()),
@@ -63,13 +63,13 @@ if (is_array($songs) && count($songs) > 0) {
 	else
 	    $hoursminsandsecs = date('i:s', $value->getDuration());
 	?>
-	<div class="row  track" id="<?php echo $value->getObjectId(); ?>">
+	<div class="row  track" id="<?php echo $value->getId(); ?>">
 	    <!------------------ DETTAGLIO TRACCIA ------------------------------------>			
 	    <div class="small-12 columns ">	
 
 		<div class="row">
 		    <div class="small-9 columns ">					
-			<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getObjectId(); ?>', '<?php echo $pathCover ?>')"><?php echo $indice + 1; ?>. <span class="songTitle"><?php echo $value->getTitle(); ?></span></a>
+			<a class="ico-label _play-large text breakOffTest jpPlay" onclick="playSong('<?php echo $value->getId(); ?>', '<?php echo $pathCover ?>')"><?php echo $indice + 1; ?>. <span class="songTitle"><?php echo $value->getTitle(); ?></span></a>
 			<input type="hidden" name="song" value="<?php echo $fileManagerService->getSongURL($userId, $value->getFilePath()); ?>" />
 		    </div>					
 		    <div class="small-3 columns track-propriety align-right" style="padding-right: 15px;">					
@@ -83,7 +83,7 @@ if (is_array($songs) && count($songs) > 0) {
 		<div class="row track-propriety" >
 		    <div class="box-propriety album-single-propriety">
 			<div class="small-6 columns ">
-			    <a class="note white" onclick="love(this, 'Song', '<?php echo $value->getObjectId(); ?>', '<?php echo $value->getFromUser(); ?>')"><?php echo $track_text_love; ?></a>
+			    <a class="note white" onclick="love(this, 'Song', '<?php echo $value->getId(); ?>', '<?php echo $value->getFromUser(); ?>')"><?php echo $track_text_love; ?></a>
 			    <!--a class="note white" onclick="share()"><?php echo $views['share']; ?></a-->
 			</div>
 			<div class="small-6 columns propriety ">					

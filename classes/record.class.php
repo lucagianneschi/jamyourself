@@ -19,7 +19,9 @@
 
 class Record {
 
-    private $objectId;
+    private $id;
+    private $createdAt;
+    private $updatedAt;
     private $active;
     private $buyLink;
     private $city;
@@ -41,20 +43,36 @@ class Record {
     private $title;
     private $tracklist;
     private $year;
-    private $createdAt;
-    private $updatedAt;
 
     /**
-     * \fn	int getObjectId()
-     * \brief	Return the objectId value
+     * \fn	int getId()
+     * \brief	Return the id value
      * \return	int
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
     }
 
     /**
-     * \fn	BOOL getObjectId()
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Record creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Record modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
+    }
+
+    /**
+     * \fn	BOOL getId()
      * \brief	Return the active value
      * \return	BOOL
      */
@@ -127,7 +145,7 @@ class Record {
 
     /**
      * \fn	int getFromUser()
-     * \brief	Return the objectId value for the fromUser
+     * \brief	Return the id value for the fromUser
      * \return	int
      */
     public function getFromUser() {
@@ -243,30 +261,30 @@ class Record {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
-     * \brief	Return the Record creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Record modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
-     * \fn	void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn	void setId($id)
+     * \brief	Sets the id value
      * \param	int
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Song creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Song modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -343,7 +361,7 @@ class Record {
 
     /**
      * \fn	void setFromUser($fromUser)
-     * \brief	Sets the fromUser objectId  value
+     * \brief	Sets the fromUser id  value
      * \param	int
      */
     public function setFromUser($fromUser) {
@@ -459,31 +477,15 @@ class Record {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Song creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Song modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Record object
      * \return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[buyLink] => ' . $this->getBuyLink() . '<br/>';
 	$string .= '[city] => ' . $this->getCity() . '<br />';
@@ -505,16 +507,6 @@ class Record {
 	$string .= '[title] .= > ' . $this->getTitle() . '<br/>';
 	$string .= '[tracklist] => ' . $this->getTracklist() . '<br />';
 	$string .= '[year] .= > ' . $this->getYear() . '<br/>';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

@@ -19,7 +19,9 @@
 
 class Event {
 
-    private $objectId;
+    private $id;
+    private $createdAt;
+    private $updatedAt;
     private $active;
     private $address;
     private $attendeeCounter;
@@ -40,19 +42,35 @@ class Event {
     private $reviewCounter;
     private $refusedCounter;
     private $shareCounter;
-    private $tags;
+    private $tag;
     private $thumbnail;
     private $title;
-    private $createdAt;
-    private $updatedAt;
 
     /**
-     * \fn	getObjectId()
-     * \brief	Return the objectId value
+     * \fn	getId()
+     * \brief	Return the id value
      * \return	int
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
+    }
+
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Event creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Event modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
     }
 
     /**
@@ -117,7 +135,7 @@ class Event {
     public function getCounter() {
 	return $this->counter;
     }
-    
+
     /**
      * \fn	getCover()
      * \brief	Return the city value
@@ -126,7 +144,7 @@ class Event {
     public function getCover() {
 	return $this->cover;
     }
-    
+
     /**
      * \fn	string getDescription()
      * \brief	Return the description value
@@ -147,7 +165,7 @@ class Event {
 
     /**
      * \fn	string getFromUser()
-     * \brief	Return the objectId value for the fromUser
+     * \brief	Return the id value for the fromUser
      * \return	string
      */
     public function getFromUser() {
@@ -236,11 +254,11 @@ class Event {
     }
 
     /**
-     * \fn	array getTags()
+     * \fn	array getTag()
      * \brief	Return the tags value, array of string to categorize the event
      * \return	int
      */
-    public function getTags() {
+    public function getTag() {
 	return $this->tags;
     }
 
@@ -263,30 +281,30 @@ class Event {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
-     * \brief	Return the Event creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Event modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
-     * \fn	void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn	void setId($id)
+     * \brief	Sets the id value
      * \param	string
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Event creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Event modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -351,8 +369,8 @@ class Event {
     public function setCounter($counter) {
 	$this->counter = $counter;
     }
-    
-        /**
+
+    /**
      * \fn	void setCover($cover)
      * \brief	Sets the cover value
      * \param	string
@@ -470,12 +488,12 @@ class Event {
     }
 
     /**
-     * \fn	void setTags($tags)
+     * \fn	void setTag($tag)
      * \brief	Sets the tags value
      * \param	int
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tags = $tag;
     }
 
     /**
@@ -497,31 +515,15 @@ class Event {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Event creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Event modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Event object
      * \return	string
      */
     function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[address] => ' . $this->getAddress() . '<br />';
 	$string .= '[attendeeCounter] => ' . $this->getAttendeeCounter() . '<br />';
@@ -531,11 +533,7 @@ class Event {
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
-	if ($this->getEventDate() != null) {
-	    $string .= '[eventDate] => ' . $this->getEventDate()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[eventDate] => NULL<br />';
-	}
+	$string .= '[eventDate] => ' . $this->getEventDate()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	$string .= '[tags] => ' . $this->getGenre() . '<br />';
 	$string .= '[attendeeCounter] => ' . $this->getInvitedCounter() . '<br />';
@@ -546,19 +544,9 @@ class Event {
 	$string .= '[reviewCounter] => ' . $this->getReviewCounter() . '<br />';
 	$string .= '[refusedCounter] => ' . $this->getRefusedCounter() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTags() . '<br />';
+	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

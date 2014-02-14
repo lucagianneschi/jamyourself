@@ -19,7 +19,9 @@
 
 class Video {
 
-    private $objectId;
+    private $id;
+    private $createdAt;
+    private $updatedAt;
     private $active;
     private $author;
     private $counter;
@@ -28,20 +30,36 @@ class Video {
     private $duration;
     private $fromUser;
     private $loveCounter;
-    private $tags;
+    private $tag;
     private $thumbnail;
     private $title;
     private $URL;
-    private $createdAt;
-    private $updatedAt;
 
     /**
-     * \fn	int getObjectId()
-     * \brief	Return the objectId value
+     * \fn	int getId()
+     * \brief	Return the id value
      * \return	int
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
+    }
+
+    /**
+     * \fn	DateTime getCreatedAt()
+     * \brief	Return the Video creation date
+     * \return	DateTime
+     */
+    public function getCreatedAt() {
+	return $this->createdAt;
+    }
+
+    /**
+     * \fn	DateTime getUpdatedAt()
+     * \brief	Return the Video modification date
+     * \return	DateTime
+     */
+    public function getUpdatedAt() {
+	return $this->updatedAt;
     }
 
     /**
@@ -100,7 +118,7 @@ class Video {
 
     /**
      * \fn	int getFromUser()
-     * \brief	Return the objectId value for the fromUser
+     * \brief	Return the id value for the fromUser
      * \return	int
      */
     public function getFromUser() {
@@ -117,11 +135,11 @@ class Video {
     }
 
     /**
-     * \fn	int getTags()
+     * \fn	int getTag()
      * \brief	Return the tags value, array of string to categorize the video
      * \return	int
      */
-    public function getTags() {
+    public function getTag() {
 	return $this->tags;
     }
 
@@ -153,30 +171,30 @@ class Video {
     }
 
     /**
-     * \fn	DateTime getCreatedAt()
-     * \brief	Return the Video creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn	DateTime getUpdatedAt()
-     * \brief	Return the Video modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
-     * \fn	void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn	void setId($id)
+     * \brief	Sets the id value
      * \param	int
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
+    }
+
+    /**
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the Video creation date
+     * \param	DateTime
+     */
+    public function setCreatedAt($createdAt) {
+	$this->createdAt = $createdAt;
+    }
+
+    /**
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the Video modification date
+     * \param	DateTime
+     */
+    public function setUpdatedAt($updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
@@ -252,12 +270,12 @@ class Video {
     }
 
     /**
-     * \fn	void setTags($tags)
+     * \fn	void setTag($tag)
      * \brief	Sets the tags value,array of strings
      * \param	int
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tags = $tag;
     }
 
     /**
@@ -288,31 +306,15 @@ class Video {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the Video creation date
-     * \param	DateTime
-     */
-    public function setCreatedAt($createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
-     * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the Video modification date
-     * \param	DateTime
-     */
-    public function setUpdatedAt($updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the Video object
      * \return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[author] => ' . $this->getAuthor() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
@@ -321,20 +323,10 @@ class Video {
 	$string .= '[duration] => ' . $this->getDuration() . '<br />';
 	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTags() . '<br />';
+	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	$string .= '[URL] => ' . $this->getURL() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

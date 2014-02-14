@@ -16,7 +16,7 @@ $playlistCurrentUser = array();
 	<?php
 	if (isset($_SESSION['currentUser'])) {
 	    $currentUser = $_SESSION['currentUser'];
-	    $userObjectId = $currentUser->getObjectId();
+	    $userObjectId = $currentUser->getId();
 	    $userType = $currentUser->getType();
 	    ?>
     	<script>
@@ -33,7 +33,7 @@ $playlistCurrentUser = array();
     	    <script type="text/javascript">
     		function loadBoxPlayList() {
     		    var json_data = {};
-    		    json_data.objectId = '<?php ?>';
+    		    json_data.id = '<?php ?>';
     		    $.ajax({
     			type: "POST",
     			url: "content/header/box-profile.php",
@@ -120,7 +120,7 @@ $playlistCurrentUser = array();
                     <!------------------------------------- LOGO --------------------------------------------->
                     <div class="large-2 columns logo" id="header-box-logo">				
                         <div id="logo">
-                            <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>"><img src="resources/images/header/logo.png" border="0" alt="Jamyourself: Meritocratic Social Music Discovering"></a>
+                            <a href="stream.php?user=<?php echo $currentUser->getId(); ?>"><img src="resources/images/header/logo.png" border="0" alt="Jamyourself: Meritocratic Social Music Discovering"></a>
                         </div>					
                     </div>
                     <!------------------------------------- SWITCH -------------------------------------------->
@@ -154,7 +154,7 @@ $playlistCurrentUser = array();
                                         <div class="header inline" style="float: right;">
                                             <!--a class="ico-label _flag inline" onclick="headerShow()" ><span class="round alert label iconNotification <?php echo $css_not ?>"><?php echo $totNotification ?></span></a-->
 					    <a class="ico-label _flag inline" onclick="headerShow()" ></a>
-					    <a href="stream.php?user=<?php echo $currentUser->getObjectId(); ?>" class="ico-label _stream inline"></a>
+					    <a href="stream.php?user=<?php echo $currentUser->getId(); ?>" class="ico-label _stream inline"></a>
                                             <a class="ico-label _setting inline"></a>
                                         </div>
                                     </div>

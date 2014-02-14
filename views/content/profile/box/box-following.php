@@ -1,7 +1,7 @@
 <?php
 /* box per elenco following
  * box chiamato tramite ajax con:
- * data: {user: objectId}, 
+ * data: {user: id}, 
  * data-type: html,
  * type: POST o GET
  * 
@@ -20,7 +20,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $followingCounter = $_POST['followingCounter'];
 $followingsBox = new FollowingsBox();
-$followingsBox->init($_POST['objectId']);
+$followingsBox->init($_POST['id']);
 
 if (is_null($followingsBox->error)) {
     $venuesFollowings = $followingsBox->venueArray;
@@ -58,14 +58,14 @@ if (is_null($followingsBox->error)) {
 				    break;
 			    }
 			    $fileManagerService = new FileManagerService();
-			    $pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
+			    $pathPicture = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 			    if ($i % 2 == 0) {
 				?> <div class="row">  <?php }
 			    ?>	
 				<div  class="small-6 columns">
-				    <a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+				    <a href="profile.php?user=<?php echo $value->getId(); ?>">
 					<div class="box-membre">
-					    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+					    <div class="row " id="collaborator_<?php echo $value->getId(); ?>">
 						<div  class="small-3 columns ">
 						    <div class="icon-header">
 							<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">
@@ -112,14 +112,14 @@ if (is_null($followingsBox->error)) {
 				    break;
 			    }
 			    $fileManagerService = new FileManagerService();
-			    $pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
+			    $pathPicture = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 			    if ($i % 2 == 0) {
 				?> <div class="row">  <?php } ?>
 
 				<div  class="small-6 columns">
-				    <a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+				    <a href="profile.php?user=<?php echo $value->getId(); ?>">
 					<div class="box-membre">
-					    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+					    <div class="row " id="collaborator_<?php echo $value->getId(); ?>">
 						<div  class="small-3 columns ">
 						    <div class="icon-header">
 							<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">

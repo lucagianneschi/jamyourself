@@ -58,16 +58,16 @@ if (is_null($eventBox->error)) {
 		}
 		if ($index % 3 == 0) {
 		    ?><div class="rsContent"> <?php } ?>
-	    	<div id="<?php echo $value->getObjectId(); ?>">
+	    	<div id="<?php echo $value->getId(); ?>">
 	    	    <div class="box ">
-	    		<a href="profile.php?user=<?php echo $value->getFromUser()->getObjectId() ?>">
+	    		<a href="profile.php?user=<?php echo $value->getFromUser()->getId() ?>">
 	    		    <div class="row line">
 	    			<div class="small-1 columns ">
 	    			    <div class="icon-header">
 	    				<!--THUMB FROMUSER-->
 					    <?php
 					    $fileManagerService = new FileManagerService();
-					    $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getObjectId(), $value->getFromUser()->getThumbnail());
+					    $pathPictureThumbFromUser = $fileManagerService->getPhotoPath($value->getFromUser()->getId(), $value->getFromUser()->getThumbnail());
 					    ?>
 	    				<img src="<?php echo $pathPictureThumbFromUser; ?>" onerror="this.src='<?php echo DEFAVATARJAMMER; ?>'" alt="<?php echo $value->getFromUser()->getUsername(); ?>">
 	    			    </div>
@@ -84,7 +84,7 @@ if (is_null($eventBox->error)) {
 	    			</div>
 	    		    </div>
 	    		</a>
-	    		<a href="event.php?event=<?php echo $value->getObjectId() ?>">
+	    		<a href="event.php?event=<?php echo $value->getId() ?>">
 	    		    <div class="row">
 	    			<div class="small-12 columns box-detail">
 	    			    <div class="row ">
@@ -92,7 +92,7 @@ if (is_null($eventBox->error)) {
 	    				    <div class="row">
 	    					<div class="small-2 columns ">
 							<?php
-							$pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromUser()->getObjectId(), $value->getThumbnail());
+							$pathEventThumb = $fileManagerService->getEventPhotoPath($value->getFromUser()->getId(), $value->getThumbnail());
 							?>
 	    					    <div class="coverThumb"><img src="<?php echo $pathEventThumb; ?>" onerror="this.src='<?php echo DEFRECORDTHUMB; ?>'" alt="<?php echo $value->getTitle(); ?>"></div>						
 	    					</div>

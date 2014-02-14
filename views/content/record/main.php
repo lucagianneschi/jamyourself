@@ -15,7 +15,7 @@
 		    <script type="text/javascript">
 			function loadBoxRecord() {
 			    var json_data = {};
-			    json_data.objectId = '<?php echo $objectId; ?>';
+			    json_data.id = '<?php echo $id; ?>';
 			    json_data.userId = '<?php echo $fromUserObjectId ?>';
 			    $.ajax({
 				type: "POST",
@@ -58,7 +58,7 @@
 		    <script type="text/javascript">
 			function loadBoxRecordReview(limit, skip) {
 			    var json_data = {};
-			    json_data.objectId = '<?php echo $objectId; ?>';
+			    json_data.id = '<?php echo $id; ?>';
 			    json_data.limit = limit;
 			    json_data.skip = skip;
 			    $.ajax({
@@ -89,8 +89,8 @@
 		    <script type="text/javascript">
 			function loadBoxComment(limit, skip) {
 			    var json_data = {};
-			    json_data.objectId = '<?php echo $objectId; ?>';
-			    json_data.fromUserObjectId = '<?php echo $record->getFromUser()->getObjectId(); ?>';
+			    json_data.id = '<?php echo $id; ?>';
+			    json_data.fromUserObjectId = '<?php echo $record->getFromUser()->getId(); ?>';
 			    json_data.limit = limit;
 			    json_data.skip = skip;
 			    $.ajax({
@@ -121,12 +121,12 @@
 
 		    </script>
 		    <script type="text/javascript">
-			function loadBoxOpinion(objectId, toUser, classBox, box, limit, skip) {
+			function loadBoxOpinion(id, toUser, classBox, box, limit, skip) {
 
 			    if ($(box).hasClass('no-display')) {
 
 				var json_data = {};
-				json_data.objectId = objectId;
+				json_data.id = id;
 				json_data.toUser = toUser;
 				json_data.classBox = classBox;
 				json_data.box = box;
@@ -138,7 +138,7 @@
 				    data: json_data,
 				    beforeSend: function(xhr) {
 					//spinner.show();
-					console.log('Sono partito loadBoxOpinion(' + objectId + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
+					console.log('Sono partito loadBoxOpinion(' + id + ', ' + toUser + ', ' + classBox + ', ' + box + ', ' + limit + ', ' + skip + ')');
 				    }
 				})
 					.done(function(message, status, xhr) {

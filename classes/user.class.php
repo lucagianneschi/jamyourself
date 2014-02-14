@@ -19,10 +19,10 @@
 
 class User {
 
-    private $objectId;
-    private $username;
+    private $id;
+    private $createdAt;
+    private $updatedAt;
     private $password;
-    private $emailVerified;
     private $active;
     private $address;
     private $avatar;
@@ -54,11 +54,10 @@ class User {
     private $sex;
     private $twitterPage;
     private $type;
+    private $username;
     private $venueCounter;
     private $website;
     private $youtubeChannel;
-    private $createdAt;
-    private $updatedAt;
 
     /**
      * \fn	void __construct($type)
@@ -76,40 +75,30 @@ class User {
     }
 
     /**
-     * \fn	int getObjectId()
-     * \brief	Return the objectId value
+     * \fn	int getId()
+     * \brief	Return the id value
      * \return	string
      */
-    public function getObjectId() {
-	return $this->objectId;
+    public function getId() {
+	return $this->id;
     }
 
     /**
-     * \fn		string getUsername()
-     * \brief	Return the username of the User
-     * \return	string
+     * \fn		DateTime getCreatedAt()
+     * \brief	Return the User creation date
+     * \return	DateTime
      */
-    public function getUsername() {
-	return $this->username;
+    public function getCreatedAt() {
+	return $this->createdAt;
     }
 
     /**
-     * \fn		string getPassword()
-     * \brief	Return the password of the User
-     * \return	string
+     * \fn		DateTime getUpdatedAt()
+     * \brief	Return the User modification date
+     * \return	DateTime
      */
-    public function getPassword() {
-	return $this->password;
-    }
-
-    /**
-     * \fn		string getEmailVerified()
-     * \brief	Return the email verification of the User
-     * \return	string
-     * \warning	the function is not used yet
-     */
-    public function getEmailVerified() {
-	return $this->emailVerified;
+    public function getUpdatedAt() {
+	return $this->updatedAt;
     }
 
     /**
@@ -329,6 +318,15 @@ class User {
     }
 
     /**
+     * \fn	string getPassword()
+     * \brief	Return the password of the User
+     * \return	string
+     */
+    public function getPassword() {
+	return $this->password;
+    }
+
+    /**
      * \fn		boolean getPremium()
      * \brief	Return if the User has a Premium account
      * \return	boolean
@@ -392,6 +390,15 @@ class User {
     }
 
     /**
+     * \fn		string getUsername()
+     * \brief	Return the username of the User
+     * \return	string
+     */
+    public function getUsername() {
+	return $this->username;
+    }
+
+    /**
      * \fn		number getVenueCounter()
      * \brief	Return venue counter, number of venue in collaboration
      * \return	number
@@ -419,58 +426,30 @@ class User {
     }
 
     /**
-     * \fn		DateTime getCreatedAt()
-     * \brief	Return the User creation date
-     * \return	DateTime
-     */
-    public function getCreatedAt() {
-	return $this->createdAt;
-    }
-
-    /**
-     * \fn		DateTime getUpdatedAt()
-     * \brief	Return the User modification date
-     * \return	DateTime
-     */
-    public function getUpdatedAt() {
-	return $this->updatedAt;
-    }
-
-    /**
-     * \fn		void setObjectId($objectId)
-     * \brief	Sets the objectId value
+     * \fn		void setId($id)
+     * \brief	Sets the id value
      * \param	string
      */
-    public function setObjectId($objectId) {
-	$this->objectId = $objectId;
+    public function setId($id) {
+	$this->id = $id;
     }
 
     /**
-     * \fn		void setUsername($username)
-     * \brief	Sets the username value of the User
-     * \param	string
+     * \fn	void setCreatedAt($createdAt)
+     * \brief	Sets the User creation date
+     * \param	DateTime
      */
-    public function setUsername($username) {
-	$this->username = $username;
+    public function setUpdatedAt(DateTime $updatedAt) {
+	$this->updatedAt = $updatedAt;
     }
 
     /**
-     * \fn		void setPassword($password)
-     * \brief	Sets the password value of the User
-     * \param	string
+     * \fn	void setUpdatedAt($updatedAt)
+     * \brief	Sets the User modification date
+     * \param	DateTime
      */
-    public function setPassword($password) {
-	$this->password = $password;
-    }
-
-    /**
-     * \fn		void setEmailVerified($emailVerified)
-     * \brief	Sets the email verification of the User
-     * \param	string
-     * \warning	the function is not used yet
-     */
-    public function setEmailVerified($emailVerified) {
-	$this->emailVerified = $emailVerified;
+    public function setCreatedAt(DateTime $createdAt) {
+	$this->createdAt = $createdAt;
     }
 
     /**
@@ -691,11 +670,20 @@ class User {
 
     /**
      * \fn		void setMembers($members)
-     * \brief	Sets an array of objectId of the User related with the User
+     * \brief	Sets an array of id of the User related with the User
      * \param	array
      */
     public function setMembers($members) {
 	$this->members = $members;
+    }
+
+    /**
+     * \fn		void setPassword($password)
+     * \brief	Sets the password value of the User
+     * \param	string
+     */
+    public function setPassword($password) {
+	$this->password = $password;
     }
 
     /**
@@ -762,6 +750,15 @@ class User {
     }
 
     /**
+     * \fn		void setUsername($username)
+     * \brief	Sets the username value of the User
+     * \param	string
+     */
+    public function setUsername($username) {
+	$this->username = $username;
+    }
+
+    /**
      * \fn	void setVenueCounter($venueCounter)
      * \brief	Sets the venue counter 
      * \param	number
@@ -789,34 +786,15 @@ class User {
     }
 
     /**
-     * \fn	void setCreatedAt($createdAt)
-     * \brief	Sets the User creation date
-     * \param	DateTime
-     */
-    public function setUpdatedAt(DateTime $updatedAt) {
-	$this->updatedAt = $updatedAt;
-    }
-
-    /**
-     * \fn	void setUpdatedAt($updatedAt)
-     * \brief	Sets the User modification date
-     * \param	DateTime
-     */
-    public function setCreatedAt(DateTime $createdAt) {
-	$this->createdAt = $createdAt;
-    }
-
-    /**
      * \fn	string __toString()
      * \brief	Return a printable string representing the User object
      * \return	string
      */
     public function __toString() {
 	$string = '';
-	$string .= '[objectId] => ' . $this->getObjectId() . '<br />';
-	$string .= '[username] => ' . $this->getUsername() . '<br />';
-	$string .= '[password] => ' . $this->getPassword() . '<br />';
-	$string .= '[emailVerified] => ' . $this->getEmailVerified() . '<br />';
+	$string .= '[id] => ' . $this->getId() . '<br />';
+	$string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
+	$string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[address] => ' . $this->getAddress() . '<br />';
 	$string .= '[avatar] => ' . $this->getAvatar() . '<br />';
@@ -841,6 +819,7 @@ class User {
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[level] => ' . $this->getLevel() . '<br />';
 	$string .= '[levelValue] => ' . $this->getLevelValue() . '<br />';
+	$string .= '[password] => ' . $this->getPassword() . '<br />';
 	$string .= '[premium] => ' . $this->getPremium() . '<br />';
 	if ($this->getPremiumExpirationDate() != null) {
 	    $string .= '[premiumExpirationDate] => ' . $this->getPremiumExpirationDate()->format('d-m-Y H:i:s') . '<br />';
@@ -852,19 +831,10 @@ class User {
 	$string .= '[sex] => ' . $this->getSex() . '<br />';
 	$string .= '[twitterPage] => ' . $this->getTwitterPage() . '<br />';
 	$string .= '[type] => ' . $this->getType() . '<br />';
+	$string .= '[username] => ' . $this->getUsername() . '<br />';
 	$string .= '[venueCounter] => ' . $this->getVenueCounter() . '<br />';
 	$string .= '[website] => ' . $this->getWebsite() . '<br />';
 	$string .= '[youtubeChannel] => ' . $this->getYoutubeChannel() . '<br />';
-	if ($this->getCreatedAt() != null) {
-	    $string .= '[createdAt] => ' . $this->getCreatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[createdAt] => NULL<br />';
-	}
-	if ($this->getUpdatedAt() != null) {
-	    $string .= '[updatedAt] => ' . $this->getUpdatedAt()->format('d-m-Y H:i:s') . '<br />';
-	} else {
-	    $string .= '[updatedAt] => NULL<br />';
-	}
 	return $string;
     }
 

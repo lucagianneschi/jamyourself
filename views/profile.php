@@ -11,7 +11,7 @@ require_once LANGUAGES_DIR . 'views/' . getLanguage() . '.views.lang.php';
 require_once BOXES_DIR . 'userInfo.box.php';
 
 $currentUser = $_SESSION['currentUser'];
-$userObjectId = $currentUser->getObjectId();
+$userObjectId = $currentUser->getId();
 
 if (isset($_GET['user'])) {
     $userObjectId = $_GET['user'];

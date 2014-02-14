@@ -16,7 +16,7 @@ require_once SERVICES_DIR . 'fileManager.service.php';
 
 $friendshipCounter = $_POST['friendshipCounter'];
 $friendsBox = new FriendsBox();
-$friendsBox->init($_POST['objectId']);
+$friendsBox->init($_POST['id']);
 
 if (is_null($friendsBox->error)) {
     $friends = $friendsBox->friendsArray;
@@ -43,14 +43,14 @@ if (is_null($friendsBox->error)) {
 					break;
 				}
 				$fileManagerService = new FileManagerService();
-				$pathPicture = $fileManagerService->getPhotoPath($value->getObjectId(), $value->getThumbnail());
+				$pathPicture = $fileManagerService->getPhotoPath($value->getId(), $value->getThumbnail());
 				if ($i % 2 == 0) {
 				    ?> <div class="row">  <?php } ?>
 
 	    			<div  class="small-6 columns">
-	    			    <a href="profile.php?user=<?php echo $value->getObjectId(); ?>">
+	    			    <a href="profile.php?user=<?php echo $value->getId(); ?>">
 	    				<div class="box-membre">
-	    				    <div class="row " id="collaborator_<?php echo $value->getObjectId(); ?>">
+	    				    <div class="row " id="collaborator_<?php echo $value->getId(); ?>">
 	    					<div  class="small-3 columns ">
 	    					    <div class="icon-header">
 	    						<img src="<?php echo $pathPicture; ?>" onerror="this.src='<?php echo $defaultThum; ?>'" alt="<?php echo $value->getUsername(); ?>">

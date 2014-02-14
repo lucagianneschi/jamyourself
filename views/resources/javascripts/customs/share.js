@@ -12,11 +12,11 @@ var addthis_share = {
     }
 }
 
-function addShare(toUser, classType, objectId) {
+function addShare(toUser, classType, id) {
     var json_share = {};
     json_share.toUser = toUser;
     json_share.classType = classType;
-    json_share.objectId = objectId;
+    json_share.id = id;
     json_share.request = 'addShare';
 
     $.ajax({
