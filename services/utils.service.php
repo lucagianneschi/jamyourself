@@ -49,8 +49,8 @@ function executionTime($start, $end) {
 
 /**
  * \fn		string decode_string($string)
- * \brief	The function returns a string read from Parse that can be interpreted by the user
- * \param	$string 	represent the string from Parse to decode
+ * \brief	The function returns a string read from DB that can be interpreted by the user
+ * \param	$string 	represent the string from DB to decode
  * \return	string		the decoded string
  */
 function decode_string($string) {
@@ -61,9 +61,9 @@ function decode_string($string) {
 
 /**
  * \fn		string encode_string($string)
- * \brief	The function returns a string that can be saved to Parse
+ * \brief	The function returns a string that can be saved to DB
  * \param	$string 	represent the string to be saved
- * \return	string		the string encoded for Parse
+ * \return	string		the string encoded for DB
  */
 function encode_string($string) {
     $string = htmlentities($string, ENT_QUOTES, 'UTF-8');
