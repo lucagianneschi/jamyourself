@@ -127,7 +127,7 @@ class UploadReviewController extends REST {
 	    $review->setLovers(array());
 	    $review->setShareCounter(0);
 	    $review->setSong(null);
-	    $review->setTags(array());
+	    $review->setTag(array());
 	    $review->setTitle(null);
 	    $review->setText($reviewRequest->review);
 	    $review->setToUser($toUser->getId());

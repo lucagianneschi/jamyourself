@@ -101,7 +101,7 @@ class UploadAlbumController extends REST {
 	    $album->setLoveCounter(0);
 	    $album->setLovers(array());
 	    $album->setShareCounter(0);
-	    $album->setTags(array());
+	    $album->setTag(array());
 	    $album->setThumbnailCover(DEFALBUMTHUMB);
 	    $album->setTitle($this->request['albumTitle']);
 	    $albumParse = new AlbumParse();
@@ -331,7 +331,7 @@ class UploadAlbumController extends REST {
 		$image->setLoveCounter(0);
 		$image->setLovers(array());
 		$image->setShareCounter(0);
-		$image->setTags(null);
+		$image->setTag(null);
 		$image->setThumbnail($imgMoved['thumbnail']);
 		$pImage = new ImageParse();
 		$this->debug("saveImage", "RETURN --------------------------------------------------------------", null);

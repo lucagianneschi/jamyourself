@@ -36,7 +36,7 @@ class Comment {
     private $record;
     private $shareCounter;
     private $song;
-    private $tags;
+    private $tag;
     private $title;
     private $text;
     private $toUser;
@@ -198,11 +198,11 @@ class Comment {
     }
 
     /**
-     * \fn	getTags()
+     * \fn	getTag()
      * \brief	Return the tags value
      * \return	int
      */
-    public function getTags() {
+    public function getTag() {
 	return $this->tags;
     }
 
@@ -414,12 +414,12 @@ class Comment {
     }
 
     /**
-     * \fn	void setTags($tags)
+     * \fn	void setTag($tag)
      * \brief	Sets the tags value
      * \param	int
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tags = $tag;
     }
 
     /**
@@ -500,7 +500,7 @@ class Comment {
 	$string .= '[record] => ' . $this->getRecord() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
 	$string .= '[song] => ' . $this->getSong() . '<br />';
-	$string .= '[tags] => ' . $this->getTags() . '<br />';
+	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[text] => ' . $this->getText() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	$string .= '[toUser] => ' . $this->getToUser() . '<br />';

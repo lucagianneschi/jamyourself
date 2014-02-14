@@ -34,7 +34,7 @@ class Album {
     private $longitude;
     private $loveCounter;
     private $shareCounter;
-    private $tags;
+    private $tag;
     private $thumbnail;
     private $title;
 
@@ -174,11 +174,11 @@ class Album {
     }
 
     /**
-     * \fn	getTags()
+     * \fn	getTag()
      * \brief	Return the tags value, array of string to categorize the album
      * \return	int
      */
-    public function getTags() {
+    public function getTag() {
 	return $this->tags;
     }
 
@@ -336,12 +336,12 @@ class Album {
     }
 
     /**
-     * \fn	void setTags($tags)
+     * \fn	void setTag($tag)
      * \brief	Sets the tags value,array of strings
      * \param	array
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tags = $tag;
     }
 
     /**
@@ -384,7 +384,7 @@ class Album {
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTags() . '<br />';
+	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	return $string;

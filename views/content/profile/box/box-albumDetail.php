@@ -121,8 +121,8 @@ $fileManagerService = new FileManagerService();
 				    <?php
 				}
 				$tag = "";
-				if (is_array($value->getTags())) {
-				    foreach ($value->getTags() as $key => $value) {
+				if (is_array($value->getTag())) {
+				    foreach ($value->getTag() as $key => $value) {
 					$tag = $tag + ' ' + $value;
 				    }
 				    ?>

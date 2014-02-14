@@ -33,7 +33,7 @@ class Image {
     private $loveCounter;
     private $path;
     private $shareCounter;
-    private $tags;
+    private $tag;
     private $thumbnail;
 
     /**
@@ -163,11 +163,11 @@ class Image {
     }
 
     /**
-     * \fn	getTags()
+     * \fn	getTag()
      * \brief	Return the tags value
      * \return	int
      */
-    public function getTags() {
+    public function getTag() {
 	return $this->tags;
     }
 
@@ -307,12 +307,12 @@ class Image {
     }
 
     /**
-     * \fn	void setTags($tags)
+     * \fn	void setTag($tag)
      * \brief	Sets the tags value
      * \param	int
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tags = $tag;
     }
 
     /**
@@ -345,7 +345,7 @@ class Image {
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
 	$string .= '[path] => ' . $this->getPath() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTags() . '<br />';
+	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	return $string;
     }

@@ -30,7 +30,7 @@ class Video {
     private $duration;
     private $fromUser;
     private $loveCounter;
-    private $tags;
+    private $tag;
     private $thumbnail;
     private $title;
     private $URL;
@@ -135,11 +135,11 @@ class Video {
     }
 
     /**
-     * \fn	int getTags()
+     * \fn	int getTag()
      * \brief	Return the tags value, array of string to categorize the video
      * \return	int
      */
-    public function getTags() {
+    public function getTag() {
 	return $this->tags;
     }
 
@@ -270,12 +270,12 @@ class Video {
     }
 
     /**
-     * \fn	void setTags($tags)
+     * \fn	void setTag($tag)
      * \brief	Sets the tags value,array of strings
      * \param	int
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tags = $tag;
     }
 
     /**
@@ -323,7 +323,7 @@ class Video {
 	$string .= '[duration] => ' . $this->getDuration() . '<br />';
 	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTags() . '<br />';
+	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	$string .= '[URL] => ' . $this->getURL() . '<br />';

@@ -82,7 +82,7 @@ class CommentController extends REST {
 	    $cmt->setLoveCounter(0);
 	    $cmt->setLovers(array());
 	    $cmt->setShareCounter(0);
-	    $cmt->setTags(array());
+	    $cmt->setTag(array());
 	    $cmt->setTitle(null);
 	    $cmt->setText($comment);
 	    $cmt->setToUser($toUserObjectId);

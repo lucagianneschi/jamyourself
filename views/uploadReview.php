@@ -20,7 +20,7 @@ switch ($uploadReviewController->reviewedClassType) {
 	$thumbnail = $uploadReviewController->reviewed->getThumbnail();
 	break;
     case "Event" :
-	$tagGenere = implode(",", $uploadReviewController->reviewed->getTags());
+	$tagGenere = implode(",", $uploadReviewController->reviewed->getTag());
 	$thumbnail = $uploadReviewController->reviewed->getThumbnail();
 	break;
 }

@@ -42,7 +42,7 @@ class Event {
     private $reviewCounter;
     private $refusedCounter;
     private $shareCounter;
-    private $tags;
+    private $tag;
     private $thumbnail;
     private $title;
 
@@ -254,11 +254,11 @@ class Event {
     }
 
     /**
-     * \fn	array getTags()
+     * \fn	array getTag()
      * \brief	Return the tags value, array of string to categorize the event
      * \return	int
      */
-    public function getTags() {
+    public function getTag() {
 	return $this->tags;
     }
 
@@ -488,12 +488,12 @@ class Event {
     }
 
     /**
-     * \fn	void setTags($tags)
+     * \fn	void setTag($tag)
      * \brief	Sets the tags value
      * \param	int
      */
-    public function setTags($tags) {
-	$this->tags = $tags;
+    public function setTag($tag) {
+	$this->tags = $tag;
     }
 
     /**
@@ -544,7 +544,7 @@ class Event {
 	$string .= '[reviewCounter] => ' . $this->getReviewCounter() . '<br />';
 	$string .= '[refusedCounter] => ' . $this->getRefusedCounter() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTags() . '<br />';
+	$string .= '[tags] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	return $string;

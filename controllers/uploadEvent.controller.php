@@ -116,7 +116,7 @@ class UploadEventController extends REST {
 	    $event->setRefused(null);
 	    $event->setReviewCounter(0);
 	    $event->setShareCounter(0);
-	    $event->setTags($this->request['tags']);
+	    $event->setTag($this->request['tags']);
 	    $event->setGenre($this->request['music']);
 	    $event->setTitle($this->request['title']);
 	    require_once CLASSES_DIR . 'eventParse.class.php';

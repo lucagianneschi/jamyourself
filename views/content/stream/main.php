@@ -266,7 +266,7 @@ require_once ROOT_DIR . 'config.php';
 					var genres = new Array();
 					function loadBoxResultEvent() {
 
-					    json_data.tags = getTags();
+					    json_data.tags = getTag();
 					    json_data.latitude = json_data.location.latitude;
 					    json_data.longitude = json_data.location.longitude;
 					    json_data.city = json_data.location.city;
@@ -311,7 +311,7 @@ require_once ROOT_DIR . 'config.php';
 					    });
 					}
 
-					function getTags() {
+					function getTag() {
 					    tags = new Array();
 					    try {
 						$.each($("#tag-event :checkbox"), function() {
