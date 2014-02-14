@@ -24,6 +24,7 @@ class Event {
     private $address;
     private $attendeeCounter;
     private $city;
+    private $cover;
     private $cancelledCounter;
     private $commentCounter;
     private $counter;
@@ -31,7 +32,6 @@ class Event {
     private $eventDate;
     private $fromUser;
     private $genre;
-    private $image;
     private $invitedCounter;
     private $latitude;
     private $longitude;
@@ -117,7 +117,16 @@ class Event {
     public function getCounter() {
 	return $this->counter;
     }
-
+    
+    /**
+     * \fn	getCover()
+     * \brief	Return the city value
+     * \return	string
+     */
+    public function getCover() {
+	return $this->cover;
+    }
+    
     /**
      * \fn	string getDescription()
      * \brief	Return the description value
@@ -152,15 +161,6 @@ class Event {
      */
     public function getGenre() {
 	return $this->genre;
-    }
-
-    /**
-     * \fn		string getImage()
-     * \brief	Return the path file string for the cover of the event
-     * \return	string
-     */
-    public function getImage() {
-	return $this->image;
     }
 
     /**
@@ -351,6 +351,15 @@ class Event {
     public function setCounter($counter) {
 	$this->counter = $counter;
     }
+    
+        /**
+     * \fn	void setCover($cover)
+     * \brief	Sets the cover value
+     * \param	string
+     */
+    public function setCover($cover) {
+	$this->cover = $cover;
+    }
 
     /**
      * \fn	void setDescription($description)
@@ -386,15 +395,6 @@ class Event {
      */
     public function setGenre($genre) {
 	$this->genre = $genre;
-    }
-
-    /**
-     * \fn	void setImage($image)
-     * \brief	Sets the image value, path file to cover
-     * \param	int
-     */
-    public function setImage($image) {
-	$this->image = $image;
     }
 
     /**
@@ -529,6 +529,7 @@ class Event {
 	$string .= '[city] => ' . $this->getCity() . '<br />';
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
+	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	if ($this->getEventDate() != null) {
 	    $string .= '[eventDate] => ' . $this->getEventDate()->format('d-m-Y H:i:s') . '<br />';
@@ -537,7 +538,6 @@ class Event {
 	}
 	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	$string .= '[tags] => ' . $this->getGenre() . '<br />';
-	$string .= '[image] => ' . $this->getImage() . '<br />';
 	$string .= '[attendeeCounter] => ' . $this->getInvitedCounter() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
