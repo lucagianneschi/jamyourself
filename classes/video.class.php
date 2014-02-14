@@ -23,6 +23,7 @@ class Video {
     private $active;
     private $author;
     private $counter;
+    private $cover;
     private $description;
     private $duration;
     private $fromUser;
@@ -68,6 +69,15 @@ class Video {
      */
     public function getCounter() {
 	return $this->counter;
+    }
+
+    /**
+     * \fn	string getCover()
+     * \brief	Return the cover (path file) value
+     * \return	string
+     */
+    public function getCover() {
+	return $this->cover;
     }
 
     /**
@@ -197,6 +207,15 @@ class Video {
     }
 
     /**
+     * \fn	void setCover($cover))
+     * \brief	Sets the cover value
+     * \param	string
+     */
+    public function setCover($cover) {
+	$this->cover = $cover;
+    }
+
+    /**
      * \fn	void setDescription($description)
      * \brief	Sets the description value
      * \param	string
@@ -297,6 +316,7 @@ class Video {
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[author] => ' . $this->getAuthor() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
+	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$string .= '[duration] => ' . $this->getDuration() . '<br />';
 	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';

@@ -23,6 +23,7 @@ class Playlist {
     private $active;
     private $fromUser;
     private $name;
+    private $songCounter;
     private $songs;
     private $unlimited;
     private $createdAt;
@@ -62,6 +63,15 @@ class Playlist {
      */
     public function getName() {
 	return $this->name;
+    }
+
+    /**
+     * \fn	int getSongCounter()
+     * \brief	Return the song counter value (number of songs)
+     * \return	int
+     */
+    public function getSongCounter() {
+	return $this->songCounter;
     }
 
     /**
@@ -137,6 +147,15 @@ class Playlist {
     }
 
     /**
+     * \fn	void  setSongCounter($songCounter)
+     * \brief	Sets the songCounter value
+     * \param	int
+     */
+    public function setSongCounter($songCounter) {
+	$this->songCounter = $songCounter;
+    }
+
+    /**
      * \fn	void setSongs($songs)
      * \brief	Sets the songs value,array of pointer to Song
      * \param	int
@@ -183,6 +202,7 @@ class Playlist {
 	$string .= '[active] => ' . $this->getActive() . '<br />';
 	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	$string .= '[name] => ' . $this->getName() . '<br />';
+	$string .= '[songCounter] => ' . $this->getSongCounter() . '<br />';
 	$string .= '[songs] => ' . $this->getSongs() . '<br />';
 	$string .= '[unlimited] => ' . $this->getUnlimited() . '<br />';
 	if ($this->getCreatedAt() != null) {
