@@ -84,21 +84,21 @@ class Playlist {
     }
 
     /**
-     * \fn	int getsongs()
-     * \brief	Return the song counter value (number of songs)
-     * \return	int
-     */
-    public function getSongs() {
-	return $this->songs;
-    }
-
-    /**
      * \fn	int getsongcounter()
      * \brief	Return the song counter value (number of songs)
      * \return	int
      */
     public function getSongcounter() {
 	return $this->songcounter;
+    }
+
+    /**
+     * \fn	int getsongs()
+     * \brief	Return the song counter value (number of songs)
+     * \return	int
+     */
+    public function getSongs() {
+	return $this->songs;
     }
 
     /**
