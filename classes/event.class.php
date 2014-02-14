@@ -25,11 +25,11 @@ class Event {
     private $active;
     private $address;
     private $attendeecounter;
-    private $city;
-    private $cover;
     private $cancelledcounter;
+    private $city;
     private $commentcounter;
     private $counter;
+    private $cover;
     private $description;
     private $eventdate;
     private $fromuser;

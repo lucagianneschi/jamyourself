@@ -28,8 +28,8 @@ class Album {
     private $cover;
     private $description;
     private $fromuser;
-    private $image;
     private $imagecounter;
+    private $images;
     private $latitude;
     private $longitude;
     private $lovecounter;
@@ -120,21 +120,21 @@ class Album {
     }
 
     /**
-     * \fn	getImage()
-     * \brief	Return the id
-     * \return	int
-     */
-    public function getImage() {
-	return $this->image;
-    }
-
-    /**
      * \fn	int getImagecounter()
      * \brief	Return the image counter value (number of images)
      * \return	int
      */
     public function getImagecounter() {
 	return $this->imagecounter;
+    }
+
+    /**
+     * \fn	int getImages()
+     * \brief	Return the array of images
+     * \return	int
+     */
+    public function getImages() {
+	return $this->images;
     }
 
     /**
@@ -282,21 +282,21 @@ class Album {
     }
 
     /**
-     * \fn	setImage($image)
-     * \brief	Sets the image id
-     * \param	int
-     */
-    public function setImage($image) {
-	$this->image = $image;
-    }
-
-    /**
      * \fn	void setImagecounter($imagecounter)
      * \brief	Sets the imagetCounter value
      * \param	int
      */
     public function setImagecounter($imagecounter) {
 	$this->imagecounter = $imagecounter;
+    }
+
+    /**
+     * \fn	void setImages($images)
+     * \brief	Sets the images value
+     * \param	array
+     */
+    public function setImages($images) {
+	$this->images = $images;
     }
 
     /**
@@ -378,13 +378,13 @@ class Album {
 	$string .= '[cover] => ' . $this->getCover() . '<br />';
 	$string .= '[description] => ' . $this->getDescription() . '<br />';
 	$string .= '[fromuser] => ' . $this->getFromuser() . '<br />';
-	$string .= '[image] => ' . $this->getImage() . '<br />';
 	$string .= '[imagecounter] => ' . $this->getImagecounter() . '<br />';
+	$string .= '[images] => ' . $this->getImages() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[lovecounter] => ' . $this->getLovecounter() . '<br />';
 	$string .= '[sharecounter] => ' . $this->getSharecounter() . '<br />';
-	$string .= '[tags] => ' . $this->getTag() . '<br />';
+	$string .= '[tag] => ' . $this->getTag() . '<br />';
 	$string .= '[thumbnail] => ' . $this->getThumbnail() . '<br />';
 	$string .= '[title] => ' . $this->getTitle() . '<br />';
 	return $string;
