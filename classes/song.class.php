@@ -24,12 +24,12 @@ class Song {
     private $commentCounter;
     private $counter;
     private $duration;
-    private $filePath;
     private $fromUser;
     private $genre;
     private $latitude;
     private $longitude;
     private $loveCounter;
+    private $path;
     private $position;
     private $record;
     private $shareCounter;
@@ -83,15 +83,6 @@ class Song {
     }
 
     /**
-     * \fn	string getFilePath()
-     * \brief	Return the filePath value,path of the mp3 file
-     * \return	string
-     */
-    public function getFilePath() {
-	return $this->filePath;
-    }
-
-    /**
      * \fn	int getFromUser()
      * \brief	Return the objectId value for the fromUser
      * \return	int
@@ -134,6 +125,15 @@ class Song {
      */
     public function getLoveCounter() {
 	return $this->loveCounter;
+    }
+
+    /**
+     * \fn	string getPath()
+     * \brief	Return the path value
+     * \return	string
+     */
+    public function getPath() {
+	return $this->pathath;
     }
 
     /**
@@ -236,15 +236,6 @@ class Song {
     }
 
     /**
-     * \fn	void setFilePath($filePath)
-     * \brief	Sets the filePath  value
-     * \param	string
-     */
-    public function setFilePath($filePath) {
-	$this->filePath = $filePath;
-    }
-
-    /**
      * \fn	void setFromUser($fromUser)
      * \brief	Sets the fromUser objectId  value
      * \param	string
@@ -287,6 +278,15 @@ class Song {
      */
     public function setLoveCounter($loveCounter) {
 	$this->loveCounter = $loveCounter;
+    }
+
+    /**
+     * \fn	void setpath($pPath)
+     * \brief	Sets the path value
+     * \param	string
+     */
+    public function setPath($path) {
+	$this->path = $path;
     }
 
     /**
@@ -355,12 +355,12 @@ class Song {
 	$string .= '[commentCounter] => ' . $this->getCommentCounter() . '<br />';
 	$string .= '[counter] => ' . $this->getCounter() . '<br />';
 	$string .= '[duration] => ' . $this->getDuration() . '<br />';
-	$string .= '[filePath] => ' . $this->getFilePath() . '<br />';
 	$string .= '[fromUser] => ' . $this->getFromUser() . '<br />';
 	$string .= '[genre] => ' . $this->getGenre() . '<br />';
 	$string .= '[latitude] => ' . $this->getLatitude() . '<br />';
 	$string .= '[longitude] => ' . $this->getLongitude() . '<br />';
 	$string .= '[loveCounter] => ' . $this->getLoveCounter() . '<br />';
+	$string .= '[path] => ' . $this->getPath() . '<br />';
 	$string .= '[position] => ' . $this->getPosition() . '<br />';
 	$string .= '[record] => ' . $this->getRecord() . '<br />';
 	$string .= '[shareCounter] => ' . $this->getShareCounter() . '<br />';
