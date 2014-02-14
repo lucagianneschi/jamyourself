@@ -21,24 +21,15 @@ spl_autoload_register(null, false);
 spl_autoload_extensions('.php, .class.php, .box.php, .controller.php, .classes.lang.php, .boxes.lang.php, .controllers.lang.php');
 
 function dynamicLoading($className) {
-    
     require_once SERVICES_DIR . 'debug.service.php';
     require_once SERVICES_DIR . 'lang.service.php';
-    if (strpos($className, 'Parse') !== false) {
-	
-	$languageFile = LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
-	$classFile = CLASSES_DIR . lcfirst($className) . '.class.php';
-    } elseif (strpos($className, 'Box') !== false) {
-	$utils = BOXES_DIR . 'utilsBox.php';
-	$languageFile = LANGUAGES_DIR . 'boxes/' . getLanguage() . '.boxes.lang.php';
+ if (strpos($className, 'Box') !== false) {
 	$classFile = BOXES_DIR . lcfirst(strtolower(str_replace('Box', "", $className))) . '.box.php';
     } elseif (strpos($className, 'Controller') !== false) {
 	$utils = CONTROLLERS_DIR . 'utilsController.php';
 	$languageFile = LANGUAGES_DIR . 'controllers/' . getLanguage() . '.controllers.lang.php';
 	$classFile = CONTROLLERS_DIR . lcfirst(strtolower(str_replace('Controller', "", $className))) . '.controller.php';
     } else {
-
-	$languageFile = LANGUAGES_DIR . 'classes/' . getLanguage() . '.classes.lang.php';
 	$classFile = CLASSES_DIR . strtolower($className) . '.class.php';
     }
     if (!is_readable($utils) || !is_readable($languageFile) || !is_readable($classFile)) {
